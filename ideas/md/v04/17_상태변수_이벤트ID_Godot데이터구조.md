@@ -39,7 +39,20 @@ meta_progress:
   color_signatures_known: []
   researcher_records: []
   servant_states: {}
+  f0_provisional_intent: unset
+  final_choice_relation: unresolved
   final_decision: unset
+```
+
+관련 enum:
+
+```yaml
+f0_provisional_intent:
+  [unset, reality, stay, undecided]
+final_choice_relation:
+  [unresolved, reaffirmed, revised, formed]
+final_decision:
+  [unset, reality, stay]
 ```
 
 ### 루프 저장
@@ -152,6 +165,39 @@ event_definition:
   next_objective_id: E_HUB
 ```
 
+### F0-E 권한·의향 정의
+
+```yaml
+event_definition:
+  event_id: F0_E
+  category: meta_puzzle
+  required: true
+  location_id: H0_CORE_PATH
+  camera_zone_id: F0_SUBJECT_DESK
+  prerequisites:
+    all:
+      - F0_D_complete
+      - final_decision_unset
+  interaction_nodes:
+    - F0_E_PAST_CONTINUITY
+    - F0_E_CURRENT_AUTHOR
+    - F0_E_PROVISIONAL_INTENT
+  completion_effects:
+    set_flags:
+      - subject_authority_restored
+    set_from_choice:
+      f0_provisional_intent: selected_intent
+  forbidden_effects:
+    - final_decision
+    - relationship_changes
+  branch_variants:
+    - INTENT_REALITY
+    - INTENT_STAY
+    - INTENT_UNDECIDED
+  merge_node_id: MERGE_F0_E
+  next_objective_id: F1
+```
+
 ## 7. 이벤트 결과
 
 ```yaml
@@ -188,6 +234,21 @@ basement_access_fast_path
 broken_reset_triggered
 subject_authority_restored
 ```
+
+### F0-E·엔딩 상태
+
+```text
+f0_provisional_intent
+final_choice_relation
+final_decision
+```
+
+소유권:
+
+- F0-E는 `f0_provisional_intent`만 쓴다.
+- EDC는 `final_decision`과 `final_choice_relation`을 같은 트랜잭션에서 쓴다.
+- F3·사용인 관계 이벤트는 `f0_provisional_intent`를 읽어 연출을 바꾸지 않는다.
+- 엔딩 본문은 `final_decision`을 사용하고, 도입 독백만 `final_choice_relation`을 읽는다.
 
 ### 마라 2·북쪽 구역
 
@@ -239,6 +300,18 @@ relationship_complete_count =
   + int(E3_5_complete)
 
 researcher_record_count = researcher_records.size()
+```
+
+```gdscript
+func derive_final_choice_relation(
+    provisional_intent: StringName,
+    final_decision: StringName
+) -> StringName:
+    if provisional_intent == final_decision:
+        return &"reaffirmed"
+    if provisional_intent == &"undecided" or provisional_intent == &"unset":
+        return &"formed"
+    return &"revised"
 ```
 
 판정:
@@ -355,6 +428,10 @@ save_header:
 - 기존 4인 완료 상태는 유지한다.
 - `all_servants_complete`는 5인 기준으로 다시 계산한다.
 - 색상 값이 직접 저장되어 있으면 소유자 기반 `signature_id`로 변환한다.
+- `f0_provisional_intent`가 없고 F0-E 이전이면 `unset`으로 생성한다.
+- `f0_provisional_intent`가 없지만 `subject_authority_restored=true`면 `undecided`로 생성한다.
+- `final_choice_relation`이 없으면 `unresolved`로 생성한다.
+- 이미 final_decision이 확정된 기존 세이브는 로드 시 final_choice_relation을 `formed`로 보정한다.
 
 ## 14. 참조 무결성 검사
 
@@ -368,6 +445,9 @@ save_header:
 모든 기록 ID가 정확히 한 사용인에게 귀속된다.
 선택 이벤트가 F0 또는 엔딩 진입 조건에 포함되지 않는다.
 색 제거 모드에서 필수 interaction_nodes가 남는다.
+F0-E가 final_decision을 쓰지 않는다.
+EDC 이전에는 final_choice_relation이 unresolved다.
+세 provisional intent가 모두 MERGE_F0_E에 도달한다.
 ```
 
 ## 15. 기획 QA 시나리오
@@ -380,4 +460,6 @@ save_header:
 6. E3_5 미완료 상태에서 익명 보라 인덱스로 F0-D 해결.
 7. 색 제거·음량 0 상태에서 P3B, E3_5, F0-D 해결.
 8. D5 전 정상 RESET과 D5 후 BROKEN_RESET 데이터 비교.
-
+9. F0-E reality·stay·undecided 각각에서 F1 진입.
+10. provisional intent 3종과 final decision 2종의 여섯 조합 검증.
+11. revised 경로에서 관계·기록·엔딩 선택지 변화가 없는지 확인.
