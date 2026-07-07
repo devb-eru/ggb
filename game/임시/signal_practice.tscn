@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://dvyxrnl76ak4v"]
+
+[ext_resource type="Script" uid="uid://c5aljjpdw4o8o" path="res://next_button.gd" id="1_pcqjb"]
+[ext_resource type="Script" uid="uid://clftxskqtmi41" path="res://previous_button.gd" id="2_pwt65"]
+[ext_resource type="Texture2D" uid="uid://c6wmbd6bd3vmy" path="res://background1.png" id="3_pwt65"]
+[ext_resource type="Script" uid="uid://bgylb5rwmdvd4" path="res://background.gd" id="4_pwt65"]
+[ext_resource type="Texture2D" uid="uid://bgn70a2mqx6hj" path="res://drawer_close.png" id="5_aytpw"]
+[ext_resource type="Script" uid="uid://d23h7a7bkueyx" path="res://drawer.gd" id="5_d6q1j"]
+[ext_resource type="Script" uid="uid://bxes3ggcjjwxn" path="res://key.gd" id="6_e66js"]
+[ext_resource type="Texture2D" uid="uid://dq0pemqu0wjo6" path="res://key.png" id="7_7lhbw"]
+[ext_resource type="Texture2D" uid="uid://cpalahu3ge61r" path="res://lock.png" id="7_tjar1"]
+
+[node name="main" type="Node2D" unique_id=1043276281]
+
+[node name="next_button" type="Button" parent="." unique_id=391170264]
+offset_left = 1053.0
+offset_top = 227.0
+offset_right = 1135.0
+offset_bottom = 280.0
+text = "다음 장면
+"
+script = ExtResource("1_pcqjb")
+
+[node name="previous_button" type="Button" parent="." unique_id=33456371]
+offset_left = 22.0
+offset_top = 237.0
+offset_right = 106.0
+offset_bottom = 285.0
+text = "이전 장면"
+script = ExtResource("2_pwt65")
+
+[node name="background" type="Sprite2D" parent="." unique_id=787155839]
+show_behind_parent = true
+position = Vector2(569.75, 275.4375)
+scale = Vector2(0.5665563, 0.8096211)
+texture = ExtResource("3_pwt65")
+script = ExtResource("4_pwt65")
+
+[node name="inventory" type="Sprite2D" parent="." unique_id=1468452358]
+scale = Vector2(137, 137)
+
+[node name="ColorRect" type="ColorRect" parent="inventory" unique_id=1081194146]
+offset_left = 0.9927007
+offset_top = 4.007299
+offset_right = 7.2919707
+offset_bottom = 4.7372255
+color = Color(0, 0, 0, 1)
+
+[node name="drawer" type="Button" parent="." unique_id=517371057]
+offset_left = 161.0
+offset_top = 360.0
+offset_right = 1679.0
+offset_bottom = 1041.0
+scale = Vector2(0.11258278, 0.2395988)
+icon = ExtResource("5_aytpw")
+script = ExtResource("5_d6q1j")
+
+[node name="key" type="Button" parent="." unique_id=1176217638]
+offset_left = 237.0
+offset_top = 467.0
+offset_right = 1755.0
+offset_bottom = 1148.0
+scale = Vector2(0.03278147, 0.06500743)
+icon = ExtResource("7_7lhbw")
+script = ExtResource("6_e66js")
+
+[node name="lock" type="Sprite2D" parent="." unique_id=1863954905]
+position = Vector2(871.00006, 427)
+scale = Vector2(0.08973512, 0.17570578)
+texture = ExtResource("7_tjar1")
+
+[connection signal="button_down" from="next_button" to="next_button" method="_on_button_down"]
+[connection signal="button_down" from="previous_button" to="previous_button" method="_on_button_down"]
+[connection signal="button_down" from="drawer" to="drawer" method="_on_button_down"]
+[connection signal="button_down" from="key" to="key" method="_on_button_down"]
