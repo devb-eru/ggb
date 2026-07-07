@@ -17,4 +17,14 @@
 /_qa_gdd_v03
 /_qa_gdd_v03_r2
 /__pycache__
+
+# Godot local cache and platform build files
+/game/.godot/
+/game/android/
+
+# Local build/export outputs
+/builds/*
+!/builds/.gitkeep
+/exports/*
+!/exports/.gitkeep
 /~$B_게임기획서_v0.2.docx
