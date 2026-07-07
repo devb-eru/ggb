@@ -19,7 +19,7 @@
 /__pycache__
 
 # Godot local cache and platform build files
-/game/.godot/
+# /game/.godot/
 /game/android/
 
 # Local build/export outputs
