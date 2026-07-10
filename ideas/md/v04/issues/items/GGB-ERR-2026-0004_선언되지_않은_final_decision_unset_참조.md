@@ -5,7 +5,7 @@
 | 필드 | 값 |
 | --- | --- |
 | 심각도 | 중간 |
-| 상태 | OPEN |
+| 상태 | VERIFIED |
 | 영역 | F0-E 선행 조건 |
 | 발생 문서 | [17 Godot 데이터](../../17_상태변수_이벤트ID_Godot데이터구조.md) |
 | 검증 ID | `QA-ERR-0004-REF` |
@@ -24,16 +24,19 @@ final_decision == unset
 
 ## 해결 체크리스트
 
-- [ ] 가상 플래그 제거.
-- [ ] prerequisite 스키마에 enum 비교 연산 지원.
-- [ ] 선언되지 않은 플래그 정적 검사 추가.
+- [x] 가상 플래그 제거.
+- [x] prerequisite 스키마에 enum 비교 연산 지원.
+- [x] 선언되지 않은 플래그 정적 검사 추가.
 
 ## 해결 증거
 
-아직 없음.
+- `17`의 F0-E 선행 조건을 `state_equals: final_decision: unset`으로 변경.
+- `rg "final_decision_unset"` 검사 결과, 활성 기획 문서에는 참조가 남지 않음.
+- `final_decision` enum은 기존 상태 소유권에 유지된다.
 
 ## 변경 이력
 
 | 날짜 | 이전 상태 | 새 상태 | 변경 문서 | 근거 |
 | --- | --- | --- | --- | --- |
 | - | - | OPEN | - | 최초 개별 파일 분리 |
+| 2026-07-07 | OPEN | VERIFIED | `17` | `QA-ERR-0004-REF` 통과 |
