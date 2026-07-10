@@ -34,6 +34,7 @@ meta_progress:
   notebook_persistence_confirmed: false
   journal_stage: 0
   knowledge_flags: []
+  knowledge_entries: {}
   validated_puzzle_steps: {}
   shortcut_flags: []
   color_signatures_known: []
@@ -68,6 +69,10 @@ loop_state:
   servant_locations: {}
   intervention_budget: {}
   pending_reactions: []
+  b2_attention_level: 0
+  b2_edgar_entry_used: false
+  b2_hide_discovered: false
+  b2_caught_once: false
 ```
 
 ### 파열 상태
@@ -82,6 +87,32 @@ fracture_state:
 ```
 
 정상 RESET은 `loop_state`만 초기화한다. `broken_reset_triggered` 이후에는 S3 기준 템플릿으로 `loop_state`를 재생성한다.
+
+## 3.1 정보 상태 생애주기
+
+`knowledge_entries`는 단순 bool이 아니라 출처와 확신 단계를 가진다.
+
+```yaml
+knowledge_entry:
+  knowledge_id: KN_J1_POST_COMPLETION_GAP
+  state: observed
+  source_event_id: J1
+  first_loop: 2
+  confidence: 2
+  notebook_entry_id: NOTE_J1_GAP
+```
+
+상태 enum:
+
+| state | 의미 | 예시 |
+| --- | --- | --- |
+| `unknown` | 아직 관찰하지 않음 | C5 전 외부 거주 가능성 |
+| `observed` | 현상·문구를 봄 | J1 잉크점, C2 총량 |
+| `hypothesized` | 플레이어 수첩에서 가설화 | 시계 역할, 거울 방향 의심 |
+| `verified` | 퍼즐·환경으로 검증 | B3 역할, C3 순서 |
+| `authenticated` | 시스템 로그나 F1로 인증 | C5 진단, F1 아버지 원본 |
+
+숏컷과 메인 게이트는 `verified` 이상만 요구한다. 단, C5 진단처럼 시스템 패널에서 나온 사실은 즉시 `authenticated`가 될 수 있다.
 
 ## 4. 사용인 상태
 
@@ -175,9 +206,10 @@ event_definition:
   location_id: H0_CORE_PATH
   camera_zone_id: F0_SUBJECT_DESK
   prerequisites:
-    all:
+    all_flags:
       - F0_D_complete
-      - final_decision_unset
+    state_equals:
+      final_decision: unset
   interaction_nodes:
     - F0_E_PAST_CONTINUITY
     - F0_E_CURRENT_AUTHOR
@@ -196,6 +228,94 @@ event_definition:
     - INTENT_UNDECIDED
   merge_node_id: MERGE_F0_E
   next_objective_id: F1
+```
+
+### 정보·일지 데이터 계약
+
+```yaml
+event_definition:
+  event_id: B2
+  category: information_access
+  required: true
+  location_id: M1_LIBRARY_INNER
+  loop_state:
+    b2_attention_level: 0
+    b2_edgar_entry_used: false
+    b2_hide_discovered: false
+    b2_caught_once: false
+  persistent_outputs:
+    optional:
+      - library_inner_pressure_seen
+      - library_service_alcove_known
+  fail_policy: no_fail
+  merge_node_id: J1
+```
+
+```yaml
+event_definition:
+  event_id: J4
+  category: journal_restoration
+  required: true
+  location_id: M1_LIBRARY_INNER
+  prerequisites:
+    all_flags:
+      - E2_INTRO_complete
+    player_choice:
+      - E_HUB_end_investigation
+  variant_by:
+    researcher_record_count:
+      0..1: J4_BASE
+      2..4: J4_EXPANDED
+      5: J4_FULL
+  completion_effects:
+    set:
+      journal_stage: 4
+  next_check: E3_4_complete
+  fail_policy: local_retry
+```
+
+```yaml
+event_definition:
+  event_id: F1
+  category: authenticated_record
+  required: true
+  location_id: H0_CORE_RECORDS
+  prerequisites:
+    all_flags:
+      - subject_authority_restored
+  completion_effects:
+    authenticate_sources:
+      - J1
+      - J2
+      - J3
+      - J4
+    set_flags:
+      - father_final_record_seen
+  forbidden_effects:
+    - final_decision
+    - relationship_changes
+  next_objective_id: J5
+```
+
+```yaml
+event_definition:
+  event_id: J5
+  category: journal_restoration
+  required: true
+  location_id: H0_CORE_RECORDS
+  prerequisites:
+    all_flags:
+      - father_final_record_seen
+  completion_effects:
+    set:
+      journal_stage: 5
+    set_flags:
+      - current_choice_authority_confirmed
+  forbidden_effects:
+    - final_decision
+    - f0_provisional_intent
+  output_text_marker: "FINAL DECISION: UNSET"
+  next_objective_id: F2
 ```
 
 ## 7. 이벤트 결과
@@ -226,6 +346,9 @@ event_result:
 P3B_complete
 notebook_persistence_confirmed
 servant_schedule_known
+library_inner_pressure_seen
+library_service_alcove_known
+c5_info_complete
 clock_network_layout_solved
 thirteenth_bell_known
 mirror_tracing_acquired
@@ -233,6 +356,8 @@ basement_overlay_solved
 basement_access_fast_path
 broken_reset_triggered
 subject_authority_restored
+father_final_record_seen
+current_choice_authority_confirmed
 ```
 
 ### F0-E·엔딩 상태
