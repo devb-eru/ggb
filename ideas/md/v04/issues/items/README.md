@@ -4,7 +4,7 @@
 
 | ID | 상태 | 제목 |
 | --- | --- | --- |
-| [`GGB-CNF-2026-0001`](GGB-CNF-2026-0001_J4와_E3_4M_선행_순서_충돌.md) | OPEN | J4와 E3_4M 선행 순서 충돌 |
+| [`GGB-CNF-2026-0001`](GGB-CNF-2026-0001_J4와_E3_4M_선행_순서_충돌.md) | VERIFIED | J4와 E3_4M 선행 순서 충돌 |
 | [`GGB-CNF-2026-0002`](GGB-CNF-2026-0002_D5_이후_휴식과_S3_재생성_충돌.md) | OPEN | D5 이후 휴식과 S3 재생성 충돌 |
 | [`GGB-CNF-2026-0003`](GGB-CNF-2026-0003_SYS_COMMIT_SYS_MEMORY_처리_순서_충돌.md) | OPEN | SYS_COMMIT·SYS_MEMORY 처리 순서 충돌 |
 | [`GGB-CNF-2026-0004`](GGB-CNF-2026-0004_관계_결산_HIGH_ALL_판정_충돌.md) | OPEN | 관계 결산 HIGH·ALL 판정 충돌 |
@@ -18,7 +18,7 @@
 | [`GGB-ERR-2026-0001`](GGB-ERR-2026-0001_마라_2_병합_분리_결과_저장_효과_누락.md) | OPEN | 마라 2 병합·분리 결과 저장 효과 누락 |
 | [`GGB-ERR-2026-0002`](GGB-ERR-2026-0002_리셋_트랜잭션_복구_상태_스키마_누락.md) | OPEN | 리셋 트랜잭션 복구 상태 스키마 누락 |
 | [`GGB-ERR-2026-0003`](GGB-ERR-2026-0003_실패_기록_숏컷_재개_스키마_누락.md) | OPEN | 실패 기록·숏컷 재개 스키마 누락 |
-| [`GGB-ERR-2026-0004`](GGB-ERR-2026-0004_선언되지_않은_final_decision_unset_참조.md) | OPEN | 선언되지 않은 final_decision_unset 참조 |
+| [`GGB-ERR-2026-0004`](GGB-ERR-2026-0004_선언되지_않은_final_decision_unset_참조.md) | VERIFIED | 선언되지 않은 final_decision_unset 참조 |
 | [`GGB-ERR-2026-0005`](GGB-ERR-2026-0005_all_servants_complete_캐시_갱신_규칙_누락.md) | OPEN | all_servants_complete 캐시 갱신 규칙 누락 |
 | [`GGB-ERR-2026-0006`](GGB-ERR-2026-0006_E3_5_이리스_관계_데이터_계약_불완전.md) | OPEN | E3_5·이리스 관계 데이터 계약 불완전 |
 | [`GGB-ERR-2026-0007`](GGB-ERR-2026-0007_00_README_18_통합_문서의_구식_표기.md) | OPEN | 00·README·18 통합 문서의 구식 표기 |
