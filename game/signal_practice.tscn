@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://dvyxrnl76ak4v"]
 
-[ext_resource type="Script" uid="uid://c5aljjpdw4o8o" path="res://next_button.gd" id="1_pcqjb"]
-[ext_resource type="Script" uid="uid://clftxskqtmi41" path="res://previous_button.gd" id="2_pwt65"]
+[ext_resource type="Script" uid="uid://drsjcwhyakxqn" path="res://next_button.gd" id="1_pcqjb"]
+[ext_resource type="Script" uid="uid://c6bixmjpjqpbp" path="res://previous_button.gd" id="2_pwt65"]
 [ext_resource type="Texture2D" uid="uid://c6wmbd6bd3vmy" path="res://background1.png" id="3_pwt65"]
-[ext_resource type="Script" uid="uid://bgylb5rwmdvd4" path="res://background.gd" id="4_pwt65"]
+[ext_resource type="Script" uid="uid://lowfmf7ga5ou" path="res://background.gd" id="4_pwt65"]
 [ext_resource type="Texture2D" uid="uid://bgn70a2mqx6hj" path="res://drawer_close.png" id="5_aytpw"]
-[ext_resource type="Script" uid="uid://d23h7a7bkueyx" path="res://drawer.gd" id="5_d6q1j"]
-[ext_resource type="Script" uid="uid://bxes3ggcjjwxn" path="res://key.gd" id="6_e66js"]
+[ext_resource type="Script" uid="uid://sxfciniojmhs" path="res://drawer.gd" id="5_d6q1j"]
+[ext_resource type="Script" uid="uid://bhq8iyw7utiqp" path="res://key.gd" id="6_e66js"]
 [ext_resource type="Texture2D" uid="uid://dq0pemqu0wjo6" path="res://key.png" id="7_7lhbw"]
 [ext_resource type="Texture2D" uid="uid://cpalahu3ge61r" path="res://lock.png" id="7_tjar1"]
 
