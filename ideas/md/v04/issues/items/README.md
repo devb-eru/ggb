@@ -5,10 +5,10 @@
 | ID | 상태 | 제목 |
 | --- | --- | --- |
 | [`GGB-CNF-2026-0001`](GGB-CNF-2026-0001_J4와_E3_4M_선행_순서_충돌.md) | VERIFIED | J4와 E3_4M 선행 순서 충돌 |
-| [`GGB-CNF-2026-0002`](GGB-CNF-2026-0002_D5_이후_휴식과_S3_재생성_충돌.md) | OPEN | D5 이후 휴식과 S3 재생성 충돌 |
+| [`GGB-CNF-2026-0002`](GGB-CNF-2026-0002_D5_이후_휴식과_S3_재생성_충돌.md) | VERIFIED | D5 이후 휴식과 S3 재생성 충돌 |
 | [`GGB-CNF-2026-0003`](GGB-CNF-2026-0003_SYS_COMMIT_SYS_MEMORY_처리_순서_충돌.md) | OPEN | SYS_COMMIT·SYS_MEMORY 처리 순서 충돌 |
 | [`GGB-CNF-2026-0004`](GGB-CNF-2026-0004_관계_결산_HIGH_ALL_판정_충돌.md) | OPEN | 관계 결산 HIGH·ALL 판정 충돌 |
-| [`GGB-CNF-2026-0005`](GGB-CNF-2026-0005_검은_거울_E3_5_공간_ID_충돌.md) | OPEN | 검은 거울·E3_5 공간 ID 충돌 |
+| [`GGB-CNF-2026-0005`](GGB-CNF-2026-0005_검은_거울_E3_5_공간_ID_충돌.md) | VERIFIED | 검은 거울·E3_5 공간 ID 충돌 |
 | [`GGB-CNF-2026-0006`](GGB-CNF-2026-0006_위장_필터_상태의_반대_극성_변수_충돌.md) | OPEN | 위장 필터 상태의 반대 극성 변수 충돌 |
 
 ## 오류
