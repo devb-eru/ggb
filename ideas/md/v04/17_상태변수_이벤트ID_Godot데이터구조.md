@@ -12,7 +12,8 @@
 | 인물 반응 | `인물_구간번호` | `MARA2_S1`, `EDGAR_S3` |
 | 엔딩 반응 | `인물_ED_분기` | `MARA2_ED_REALITY` |
 | 색 이벤트 | `CLR-번호` | `CLR-04` |
-| 북쪽 구역 | `NORTH_ARCHIVE_기능` | `NORTH_ARCHIVE_COLOR_ROOM` |
+| 북쪽 기록 콘텐츠·전환 | `NORTH_ARCHIVE_기능` | `NORTH_ARCHIVE_PORTRAIT_LABEL` |
+| `location_id` | 지도 레지스트리의 층·공간 ID | `M1_COLOR_ROOM_ENTRY`, `H0_COLOR_SEPARATION` |
 | 기록 | `REC_인물` | `REC_MARA2` |
 | 오브젝트 | `OBJ_공간_명칭_번호` | `OBJ_ARCHIVE_PORTRAIT_01` |
 | 텍스트 | `TXT_이벤트_분기` | `TXT_MARA2_S1_ASK` |
@@ -69,6 +70,7 @@ loop_state:
   servant_locations: {}
   intervention_budget: {}
   pending_reactions: []
+  protagonist_fatigue: 0
   b2_attention_level: 0
   b2_edgar_entry_used: false
   b2_hide_discovered: false
@@ -79,14 +81,27 @@ loop_state:
 
 ```yaml
 fracture_state:
-  broken_reset_triggered: false
+  broken_reset_triggered: false # BROKEN_RESET_ONCE 완료 여부
   camouflage_filter_enabled: true
   fracture_sleep_complete: false
   relationship_hub_open: false
   e5_locked_in: false
 ```
 
-정상 RESET은 `loop_state`만 초기화한다. `broken_reset_triggered` 이후에는 S3 기준 템플릿으로 `loop_state`를 재생성한다.
+정상 RESET은 D5 이전에만 `loop_state`를 S0으로 초기화한다. `BROKEN_RESET` 이벤트는 `broken_reset_triggered=false`일 때 `BROKEN_RESET_ONCE`를 실행해 S3를 한 번 생성하고, 완료 직후 이 값을 `true`로 바꾼다. 이후 휴식은 `POST_BROKEN_REST`로만 라우팅하며 현재 `loop_state`의 공간·수리 상태를 재생성하거나 초기화하지 않는다.
+
+```yaml
+fracture_transition:
+  event_id: BROKEN_RESET
+  action_id: BROKEN_RESET_ONCE
+  guard: broken_reset_triggered == false
+  trigger: FRACTURE_SLEEP completion
+  effects:
+    - create_world_phase_S3_once
+    - set_broken_reset_triggered_true
+    - set_fracture_sleep_complete_true
+    - run_SYS_SYNC_once
+```
 
 ## 3.1 정보 상태 생애주기
 
@@ -177,7 +192,10 @@ event_definition:
   event_id: E3_5
   category: servant_core
   required: false
-  location_id: NORTH_ARCHIVE_COLOR_ROOM
+  entry_location_id: M1_COLOR_ROOM_ENTRY
+  location_ids:
+    - H0_COLOR_SEPARATION
+    - H0_PERSONALITY_ARCHIVE
   time_rule: flexible
   prerequisites:
     all: [E2_INTRO_complete]
@@ -194,6 +212,28 @@ event_definition:
   hint_track_id: HINT_E3_5
   color_signature_ids: [purple_archive]
   next_objective_id: E_HUB
+```
+
+### E6 코어 접근 정의
+
+```yaml
+event_definition:
+  event_id: E6
+  category: space_unlock
+  required: true
+  location_id: H0_CLOCK_MACHINE
+  time_rule: flexible
+  prerequisites:
+    state_at_least:
+      journal_stage: 4
+    all_flags: [e5_locked_in]
+    any_flags: [E3_4_complete, edgar_minimum_access]
+  completion_effects:
+    unlock_locations: [H0_CORE_PATH]
+    set_flags: [core_path_open]
+  fail_policy: none
+  irreversible_after_complete: true
+  next_objective_id: F0_A
 ```
 
 ### F0-E 권한·의향 정의
@@ -348,14 +388,18 @@ notebook_persistence_confirmed
 servant_schedule_known
 library_inner_pressure_seen
 library_service_alcove_known
+library_link_fast_path
 c5_info_complete
+color_room_entry_inspectable
 clock_network_layout_solved
 thirteenth_bell_known
 mirror_tracing_acquired
 basement_overlay_solved
 basement_access_fast_path
 broken_reset_triggered
+fracture_sleep_complete
 subject_authority_restored
+core_path_open
 father_final_record_seen
 current_choice_authority_confirmed
 ```
@@ -377,19 +421,17 @@ final_decision
 
 ### 마라 2·북쪽 구역
 
-```text
-NORTH_ARCHIVE_HALL_open
-NORTH_ARCHIVE_PORTRAIT_ROOM_open
-NORTH_ARCHIVE_LIBRARY_LATCH_open
-NORTH_ARCHIVE_COLOR_ROOM_inspectable
-NORTH_ARCHIVE_COLOR_ROOM_open
-NORTH_ARCHIVE_PERSONALITY_ARCHIVE_open
-mara2_archive_index_known
-MARA2_S1_seen
-MARA2_S2_seen
-E3_5_complete
-mara2_name_written
-```
+| 항목 | 저장 방식 | 생성·해제 조건 |
+| --- | --- | --- |
+| 기록 회랑·초상화 보관실 접근 | `P3B_complete`로 파생 | 프롤로그 P3B 완료 |
+| 내실 연결 숏컷 | `library_link_fast_path` 영구 저장 | J1 뒤 내부 걸쇠 해제 |
+| 색분해실 외부 조사 | `color_room_entry_inspectable` 영구 저장 | C5_INFO 완료 |
+| `H0_COLOR_SEPARATION` 접근 | `broken_reset_triggered && !e5_locked_in` 파생 | BROKEN_RESET 뒤 E_HUB의 마라 2 목적지 |
+| `H0_PERSONALITY_ARCHIVE` 문 | E3_5 로컬 `object_states` | 보라 체크섬 확인 뒤 현재 사건 안에서만 개방 |
+| 메인 진행 대체 | `mara2_archive_index_known` 영구 저장 | E2_INTRO의 익명 보라 인덱스 |
+| 관계 결과 | `E3_5_complete`, `mara2_name_written`, `archive_resolution` 영구 저장 | E3_5·MARA2_FU 완료 |
+
+`NORTH_ARCHIVE_*`는 콘텐츠·전환·텍스트 ID에만 쓴다. 위치 ID로는 사용하지 않으며, E3_5의 실제 장면 로드는 위 표의 `M1_*`·`H0_*` 값만 사용한다.
 
 ### 관계·결산
 
@@ -496,12 +538,19 @@ res://
 
 ```mermaid
 flowchart TD
-    S["수면 확인"] --> C{"broken_reset_triggered?"}
-    C -- "아니오" --> N["S0 기준 loop_state 생성"]
-    C -- "예" --> B["S3 기준 loop_state 생성"]
+    S["수면 확인"] --> F{"FINAL_SLEEP_LOCK?"}
+    F -- "예" --> L["수면 비활성·EDC 유지"]
+    F -- "아니오" --> B{"broken_reset_triggered?"}
+    B -- "예" --> R["POST_BROKEN_REST<br/>시간·피로만 전환"]
+    B -- "아니오" --> C{"camouflage_filter_disabled?"}
+    C -- "예" --> FS["FRACTURE_SLEEP"]
+    FS --> BR["BROKEN_RESET 이벤트"]
+    BR --> O["BROKEN_RESET_ONCE<br/>S3 1회 생성"]
+    C -- "아니오" --> N["S0 기준 NORMAL_RESET"]
     N --> P["영구 정보·관계 재결합"]
-    B --> P
-    P --> V["파생값·참조 검증"]
+    O --> P
+    R --> V["파생값·참조 검증"]
+    P --> V
     V --> M["같은 또는 다른 아침 로드"]
 ```
 
@@ -512,12 +561,18 @@ flowchart TD
 3. S0 템플릿으로 새 루프를 만든다.
 4. 영구 숏컷과 수첩 정보를 다시 적용한다.
 
-파열 리셋:
+BROKEN_RESET 단발 전환:
 
-1. `broken_reset_triggered`를 확인한다.
-2. S3 손상 템플릿으로 새 루프를 만든다.
-3. 고딕 필터는 재적용하지 않는다.
-4. E구간 관계 허브와 완료된 장치 상태를 복구한다.
+1. `BROKEN_RESET`은 `broken_reset_triggered=false`일 때만 호출한다.
+2. `BROKEN_RESET_ONCE`가 S3 손상 템플릿을 생성하고 `world_phase=S3`을 기록한다.
+3. 고딕 필터는 재적용하지 않고 `broken_reset_triggered=true`, `fracture_sleep_complete=true`를 커밋한다.
+4. SYS_SYNC가 E구간 관계 허브와 완료된 장치 상태를 한 번 재결합한다.
+
+POST_BROKEN_REST:
+
+1. `broken_reset_triggered=true`이면 이 경로만 허용한다.
+2. `time_segment`와 `protagonist_fatigue`만 갱신한다.
+3. `world_phase`, `object_states`, 사용인 위치, E3 수리 결과, 관계 상태는 유지한다.
 
 ## 12. 개입 예산
 
