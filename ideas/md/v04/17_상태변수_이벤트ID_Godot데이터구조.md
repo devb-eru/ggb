@@ -57,7 +57,13 @@ final_choice_relation:
   [unresolved, reaffirmed, revised, formed]
 final_decision:
   [unset, reality, stay]
+iris_confession_state:
+  type: StringName
+  enum: [inferred_only, denied, withheld, indirect, direct_private, public]
+  storage: derived_read_only
 ```
+
+`iris_confession_state`는 enum 계약에는 포함되지만 `meta_progress`나 사용인 상태에 직렬화하지 않는다.
 
 ### 루프 저장
 
@@ -226,6 +232,7 @@ archive_resolution: none | merged | separated
 - `core_event_complete`는 짧은 반응으로 설정하지 않는다.
 - 기록 획득과 핵심 이벤트 완료는 같은 트랜잭션으로 저장한다.
 - 핵심 이벤트 완료 뒤 저장 실패가 발생하면 둘 다 롤백한다.
+- 이리스 고백 상태는 `servants.IRIS.confession_state`에 저장하지 않고 §8의 전역 계산 프로퍼티로만 제공한다.
 
 ## 5. 색상 서명
 
@@ -267,9 +274,79 @@ event_definition:
     - H0_PERSONALITY_ARCHIVE
   time_rule: flexible
   prerequisites:
-    all: [E2_INTRO_complete]
+    all: [E2_INTRO_complete, broken_reset_triggered]
     none: [E3_5_complete, e5_locked_in]
-  interaction_nodes: []
+  interaction_nodes:
+    - node_id: E3_5_ENTRY
+      node_type: transition
+      location_id: M1_COLOR_ROOM_ENTRY
+      next_node_id: E3_5_SOURCE_SPLIT
+    - node_id: E3_5_SOURCE_SPLIT
+      node_type: puzzle
+      location_id: H0_COLOR_SEPARATION
+      validated_step: mara2_sources_separated
+      next_node_id: E3_5_PURPLE_OVERLAY
+    - node_id: E3_5_PURPLE_OVERLAY
+      node_type: puzzle
+      location_id: H0_COLOR_SEPARATION
+      validated_step: mara2_purple_channel_separated
+      next_node_id: E3_5_CHECKSUM_GAPS
+    - node_id: E3_5_CHECKSUM_GAPS
+      node_type: puzzle
+      location_id: H0_COLOR_SEPARATION
+      validated_step: mara2_checksum_gaps_found
+      next_node_id: E3_5_ARCHIVE_TRANSFER
+    - node_id: E3_5_ARCHIVE_TRANSFER
+      node_type: transition
+      location_id: H0_PERSONALITY_ARCHIVE
+      requires_step: mara2_checksum_gaps_found
+      next_node_id: E3_5_DISTRIBUTED_BACKUP
+    - node_id: E3_5_DISTRIBUTED_BACKUP
+      node_type: investigation
+      location_id: H0_PERSONALITY_ARCHIVE
+      validated_step: mara2_distributed_backup_found
+      next_node_id: E3_5_SELF_SACRIFICE_DIALOGUE
+    - node_id: E3_5_SELF_SACRIFICE_DIALOGUE
+      node_type: dialogue
+      location_id: H0_PERSONALITY_ARCHIVE
+      next_node_id: E3_5_RELATIONSHIP_CHOICE
+    - node_id: E3_5_RELATIONSHIP_CHOICE
+      node_type: choice
+      location_id: H0_PERSONALITY_ARCHIVE
+      choice_id: selected_resolution
+      next_by_choice:
+        merged: E3_5_MERGED
+        separated: E3_5_SEPARATED
+    - node_id: E3_5_MERGED
+      node_type: branch_result
+      location_id: H0_PERSONALITY_ARCHIVE
+      next_node_id: E3_5_COMPLETION
+    - node_id: E3_5_SEPARATED
+      node_type: branch_result
+      location_id: H0_PERSONALITY_ARCHIVE
+      next_node_id: E3_5_COMPLETION
+    - node_id: E3_5_COMPLETION
+      node_type: atomic_commit
+      location_id: H0_PERSONALITY_ARCHIVE
+      atomic_group_id: E3_5_COMPLETION
+      next_node_id: E3_5_RETURN
+    - node_id: E3_5_RETURN
+      node_type: transition
+      location_id: H0_PERSONALITY_ARCHIVE
+      next_node_id: E_HUB
+  resume_policy:
+    checkpoint_store: validated_puzzle_steps.E3_5
+    exit_target_before_choice_confirmation: E_HUB
+    resume_at: first_unvalidated_node
+    resume_when_puzzle_solved: E3_5_SELF_SACRIFICE_DIALOGUE
+    clear_checkpoint_on_completion: true
+  derived_event_state:
+    E3_5_puzzle_solved:
+      all_validated_steps:
+        - mara2_sources_separated
+        - mara2_purple_channel_separated
+        - mara2_checksum_gaps_found
+        - mara2_distributed_backup_found
   completion_effects:
     atomic_group_id: E3_5_COMPLETION
     require_choice: selected_resolution
@@ -293,9 +370,14 @@ event_definition:
     add_knowledge: [mara2_self_sacrifice_known]
     add_signatures: [purple_archive]
   branch_variants:
-    merged: E3_5_MERGED
-    separated: E3_5_SEPARATED
-  merge_node_id: E_HUB
+    merged:
+      variant_id: E3_5_MERGED
+      next_node_id: E3_5_COMPLETION
+    separated:
+      variant_id: E3_5_SEPARATED
+      next_node_id: E3_5_COMPLETION
+  merge_node_id: E3_5_COMPLETION
+  return_node_id: E3_5_RETURN
   fail_policy: local_retry
   hint_track_id: HINT_E3_5
   color_signature_ids: [purple_archive]
@@ -588,6 +670,7 @@ E3_4_complete
 E3_5_complete
 edgar_minimum_access
 all_servants_complete
+iris_confession_state
 J4_BASE_complete
 J4_EXPANDED_complete
 J4_FULL_complete
@@ -607,6 +690,39 @@ var all_servants_complete: bool:
             and E3_5_complete
         )
 ```
+
+`iris_confession_state`도 저장하거나 캐시하지 않는 읽기 전용 `StringName` 계산 프로퍼티다. E3_2 완료 직후뿐 아니라 F2·엔딩 등 모든 소비 시점에 현재 완료 플래그와 이리스 관계 수치를 다시 읽는다.
+
+```gdscript
+func derive_iris_confession_state() -> StringName:
+    if all_servants_complete:
+        return &"public"
+    if not E3_2_complete:
+        return &"inferred_only"
+    if servants.IRIS.bond >= 4:
+        return &"direct_private"
+    if servants.IRIS.bond >= 2:
+        return &"indirect"
+    if servants.IRIS.alert >= 4:
+        return &"denied"
+    return &"withheld"
+
+var iris_confession_state: StringName:
+    get:
+        return derive_iris_confession_state()
+```
+
+```yaml
+iris_confession_consumers:
+  - reaction_id: IRIS_F2
+    read_from: GameState.iris_confession_state
+  - reaction_id: IRIS_ED_REALITY
+    read_from: GameState.iris_confession_state
+  - reaction_id: IRIS_ED_STAY
+    read_from: GameState.iris_confession_state
+```
+
+세 소비자는 같은 여섯 variant ID를 사용한다. F2의 `settlement_tier`와 엔딩의 `final_decision`은 대사 맥락만 고르며 고백 상태를 쓰거나 덮어쓰지 않는다.
 
 ## 9. 파생값
 
@@ -813,7 +929,7 @@ save_header:
 
 마이그레이션 원칙:
 
-`schema_version=6`는 E3_5 병합·분리 선택을 완료 묶음과 원자적으로 저장한다. 버전 5의 실패·숏컷 스키마를 유지하며, 버전 5 이하는 아래 규칙으로 한 번 변환한 뒤 저장한다.
+`schema_version=6`는 E3_5 병합·분리 선택을 완료 묶음과 원자적으로 저장한다. 이리스 고백 상태는 새 직렬화 필드가 아닌 계산 프로퍼티이므로 이번 계약 보완으로 버전을 올리지 않는다. 버전 5의 실패·숏컷 스키마를 유지하며, 버전 5 이하는 아래 규칙으로 한 번 변환한 뒤 저장한다.
 
 - 없는 마라 2 상태는 기본값으로 생성한다.
 - 기존 4인 완료 상태는 유지한다.
@@ -828,6 +944,7 @@ save_header:
 - 구식 `route_snapshot`에 active 실패 ID가 없으면 source event로 active 기록을 찾아 연결하고, 찾지 못하면 스냅숏을 폐기해 안전 진입점을 다시 계산한다.
 - `E3_5_complete=true`인데 `archive_resolution=none`인 구식 세이브는 저장된 E3_5 `outcome_id`로 merged·separated를 복원한다.
 - `outcome_id`도 없으면 값을 추정하지 않는다. gameplay 진입 전에 `E3_5_RESOLUTION_RECOVERY` 선택만 다시 보여 주고, 기존 관계·기록 효과를 재적용하지 않은 채 `archive_resolution`만 보수한다.
+- 구식 또는 실험 세이브에 `servants.IRIS.confession_state`가 있으면 값은 읽지 않고 제거한다. 로드 직후 현재 E3 플래그·IRIS bond·alert에서 `iris_confession_state`를 계산한다.
 
 ## 14. 참조 무결성 검사
 
@@ -847,8 +964,12 @@ EDC 이전에는 final_choice_relation이 unresolved다.
 source event마다 active failure가 최대 하나다.
 resolved·superseded failure는 ROUTE 조건을 충족하지 않는다.
 route_snapshot과 shortcut_resume의 active_failure_id가 실제 active 기록을 가리킨다.
+E3_5_ENTRY부터 E3_5_RETURN까지 모든 next_node_id가 존재하고 E_HUB에 도달한다.
+E3_5_MERGED와 E3_5_SEPARATED가 E3_5_COMPLETION 하나로 합류한다.
 E3_5 완료 묶음의 다섯 불변 상태가 모두 일치한다.
 MARA2_ED_REALITY와 MARA2_ED_STAY가 같은 archive_resolution을 읽는다.
+iris_confession_state가 정확히 여섯 값 중 하나이며 저장 필드가 아니다.
+IRIS_F2, IRIS_ED_REALITY, IRIS_ED_STAY가 모두 GameState.iris_confession_state를 읽는다.
 ```
 
 ## 15. 기획 QA 시나리오
@@ -870,3 +991,7 @@ MARA2_ED_REALITY와 MARA2_ED_STAY가 같은 archive_resolution을 읽는다.
 15. E3_5 merged 선택을 저장·로드한 뒤 두 엔딩에서 merged 반응과 이름 작성 overlay 확인.
 16. E3_5 separated 선택을 저장·로드한 뒤 두 엔딩에서 separated 반응과 이름 미작성 상태 확인.
 17. E3_5_COMPLETION 각 쓰기 단계에서 강제 종료해 전부 롤백 또는 전부 완료되는지 확인.
+18. E3_5_ENTRY에서 각 퍼즐 노드·두 선택 결과·완료 묶음을 거쳐 E_HUB에 복귀하는지 확인.
+19. E3_5 중도 이탈·로드에서 첫 미검증 노드 또는 E3_5_SELF_SACRIFICE_DIALOGUE로 재개하고 완료 효과가 미리 적용되지 않는지 확인.
+20. 이리스 판정의 여섯 경계 조합에서 `inferred_only`, `denied`, `withheld`, `indirect`, `direct_private`, `public`을 각각 확인.
+21. 같은 세이브에서 IRIS_F2·IRIS_ED_REALITY·IRIS_ED_STAY가 동일 상태를 읽고, 마지막 핵심 관계 완료 직후 캐시 없이 `public`으로 바뀌는지 확인.
