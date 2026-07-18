@@ -23,12 +23,22 @@ M1 기획 기준선 완료
 | 07-19 | `GGB-CNF-2026-0004` HIGH·ALL 판정 통일 | `gatam` | `beru` 검토 | 관계 결산 정의 일치 | `DONE` 07-18 조기 완료 |
 | 07-20 | `GGB-ERR-2026-0002` 리셋 복구 스키마 | `beru` | `niik` | 단계별 재개·멱등 조건 정의 | `DONE` 07-18 조기 완료 |
 | 07-20 | `GGB-ERR-2026-0005` 전원 완료 파생 상태 | `beru` | `gatam` | 실시간·로드 후 갱신 정의 | `DONE` 07-18 조기 완료 |
-| 07-21 | `GGB-ERR-2026-0003` 실패·숏컷 재개 스키마 | `beru` | `niik` | B/C/D 재개 데이터 정의 | `NEXT` |
-| 07-21~22 | P1 회귀 검사와 문서 동기화 | `gatam` | `beru`, `niik` | P1 전부 `VERIFIED` 또는 허용된 `DEFERRED` | `IN_PROGRESS` |
-| 07-22 | M1 연장 게이트 | `beru` | 각 팀장 | P1이 하나라도 남으면 07-30으로 변경 | `SCHEDULED` |
-| 07-23 | P2·P3 처리 또는 근거 있는 보류, M1 승인 | `beru` | `gatam`, `niik` | M1 DoD 충족 | `SCHEDULED` |
+| 07-21 | `GGB-ERR-2026-0003` 실패·숏컷 재개 스키마 | `beru` | `niik` | B/C/D 재개 데이터 정의 | `DONE` 07-18 조기 완료 |
+| 07-21~22 | P1 회귀 검사와 문서 동기화 | `gatam` | `beru`, `niik` | P1 전부 `VERIFIED` 또는 허용된 `DEFERRED` | `DONE` 07-18 조기 완료 |
+| 07-22 | M1 연장 게이트 | `beru` | 각 팀장 | P1이 하나라도 남으면 07-30으로 변경 | `PASS` P1 잔여 0건 |
+| 07-23 | P2·P3 처리 또는 근거 있는 보류, M1 승인 | `beru` | `gatam`, `niik` | M1 DoD 충족 | `IN_PROGRESS` |
 
 P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다. 7월 23일에 무리하게 모두 완료하지 않고 개발을 막지 않는 항목은 재검토 조건과 후속 마일스톤을 기록해 `DEFERRED`할 수 있다.
+
+### M1 잔여 작업 실행안
+
+| 목표일 | 작업 | 담당·검토 | 종료 조건 |
+| --- | --- | --- | --- |
+| 07-19 | `GGB-ERR-2026-0001` 마라 2 병합·분리 저장 효과 | `beru`·`gatam` | 선택 결과와 후속 대사·엔딩 반응이 저장·로드 후 동일 |
+| 07-20 | `GGB-ERR-2026-0006` E3_5·이리스 데이터 계약 | `beru`·`gatam` | ERR-0001 결과 스키마를 E3_5와 이리스 판정이 동일하게 참조 |
+| 07-21 | `GGB-CNF-2026-0006` 위장 필터 변수 극성 | `beru`·`niik` | enabled/disabled 중 하나의 정본 변수와 마이그레이션 확정 |
+| 07-22 | `GGB-ERR-2026-0007` 통합 문서 구식 표기 제거 | `gatam`·`beru` | `00`, `README`, `18`과 상세 문서 정적 검사 통과 |
+| 07-23 | M1 전체 회귀·승인 | `beru`·각 팀장 | OPEN 0 또는 근거·재검토일이 있는 DEFERRED, 링크·상태·용어 검사 PASS |
 
 ## 3. 2단계: 협업 시스템 구현
 
@@ -93,7 +103,7 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 
 - 편집 원본 보관소는 Google Drive를 사용한다. 공유 폴더 생성과 권한 설정은 `GGB-WRK-2026-0002`에서 수행한다.
 - `#git-updates` webhook은 GitHub Actions secret `DISCORD_GIT_UPDATES_WEBHOOK`으로 등록 완료했다.
-- GitHub CLI 로그인은 완료했다. GitHub Project 생성 전에 인증 범위에 `project` 권한을 추가해야 한다.
+- GitHub Project #1 생성과 `project` 권한 추가를 완료했다. 현재 임시 제목과 필드·뷰 구성은 M1 뒤 `GGB-WRK-2026-0001`에서 정식화한다.
 
 ## 6. 완료 판정
 

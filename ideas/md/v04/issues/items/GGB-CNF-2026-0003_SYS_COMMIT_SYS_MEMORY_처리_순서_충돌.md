@@ -16,7 +16,7 @@
 | 기준 문서 | [07 루프·영구 정보·숏컷](../../07_이벤트상세_02_루프_영구정보_숏컷.md) |
 | 영향 문서 | [02 루프 시스템](../../02_루프_관계_기억_색상서명시스템.md), [17 Godot 데이터 구조](../../17_상태변수_이벤트ID_Godot데이터구조.md) |
 | 해결 담당 영역 | 저장·복구 |
-| 검증 ID | `QA-CNF-0003-ORDER`, `QA-CNF-0003-CRASH` |
+| 검증 ID | `QA-CNF-0003-ORDER`, `QA-CNF-0003-CRASH`, `QA-CNF-0003-PHASE` |
 
 ## 문제
 
@@ -52,6 +52,7 @@ resolution_summary: "정상 리셋을 SYS_COMMIT → SYS_MEMORY → NORMAL_RESET
 verification_ids:
   - QA-CNF-0003-ORDER
   - QA-CNF-0003-CRASH
+  - QA-CNF-0003-PHASE
 verified_on: 2026-07-18
 ```
 
@@ -64,3 +65,4 @@ verified_on: 2026-07-18
 | 2026-07-18 | OPEN·READY | IN_PROGRESS | `02`, `17` | 영향 문서 동기화 착수 |
 | 2026-07-18 | IN_PROGRESS | RESOLVED | `02`, `17` | 순서·폐기 장벽·재개 계약 반영 |
 | 2026-07-18 | RESOLVED | VERIFIED·DONE | `02`, `17` | `QA-CNF-0003-ORDER`, `QA-CNF-0003-CRASH` 통과 |
+| 2026-07-18 | VERIFIED | VERIFIED·DONE | `07`, `17` | 잔여 phase enum을 상세 정본과 동기화하고 `QA-CNF-0003-PHASE` 재검증 |

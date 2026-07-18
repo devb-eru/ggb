@@ -17,7 +17,7 @@
 | --- | --- | --- | --- |
 | [`GGB-ERR-2026-0001`](GGB-ERR-2026-0001_마라_2_병합_분리_결과_저장_효과_누락.md) | OPEN | READY | 마라 2 병합·분리 결과 저장 효과 누락 |
 | [`GGB-ERR-2026-0002`](GGB-ERR-2026-0002_리셋_트랜잭션_복구_상태_스키마_누락.md) | VERIFIED | DONE | 리셋 트랜잭션 복구 상태 스키마 누락 |
-| [`GGB-ERR-2026-0003`](GGB-ERR-2026-0003_실패_기록_숏컷_재개_스키마_누락.md) | OPEN | READY | 실패 기록·숏컷 재개 스키마 누락 |
+| [`GGB-ERR-2026-0003`](GGB-ERR-2026-0003_실패_기록_숏컷_재개_스키마_누락.md) | VERIFIED | DONE | 실패 기록·숏컷 재개 스키마 누락 |
 | [`GGB-ERR-2026-0004`](GGB-ERR-2026-0004_선언되지_않은_final_decision_unset_참조.md) | VERIFIED | DONE | 선언되지 않은 final_decision_unset 참조 |
 | [`GGB-ERR-2026-0005`](GGB-ERR-2026-0005_all_servants_complete_캐시_갱신_규칙_누락.md) | VERIFIED | DONE | all_servants_complete 캐시 갱신 규칙 누락 |
 | [`GGB-ERR-2026-0006`](GGB-ERR-2026-0006_E3_5_이리스_관계_데이터_계약_불완전.md) | OPEN | BLOCKED | E3_5·이리스 관계 데이터 계약 불완전 |

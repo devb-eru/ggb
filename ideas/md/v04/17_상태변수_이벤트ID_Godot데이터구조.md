@@ -37,7 +37,8 @@ meta_progress:
   knowledge_flags: []
   knowledge_entries: {}
   validated_puzzle_steps: {}
-  shortcut_flags: []
+  failure_records: {}
+  persistent_shortcut_flags: []
   color_signatures_known: []
   researcher_records: []
   servant_states: {}
@@ -75,6 +76,9 @@ loop_state:
   b2_edgar_entry_used: false
   b2_hide_discovered: false
   b2_caught_once: false
+  current_hard_failure_event_id: null
+  route_snapshot: null
+  shortcut_resume: null
 ```
 
 ### 파열 상태
@@ -128,6 +132,70 @@ knowledge_entry:
 | `authenticated` | 시스템 로그나 F1로 인증 | C5 진단, F1 아버지 원본 |
 
 숏컷과 메인 게이트는 `verified` 이상만 요구한다. 단, C5 진단처럼 시스템 패널에서 나온 사실은 즉시 `authenticated`가 될 수 있다.
+
+## 3.2 실패 기록·ROUTE·숏컷 재개
+
+영구 실패 이력과 현재 루프의 물리 잠금은 분리한다.
+
+```yaml
+failure_records:
+  FAIL_C4_L0004_01:
+    source_event_id: C4
+    status: active
+    observed_result_id: C4_COATING_HARDENED
+    validated_steps:
+      - c3_ratio_5_1_2
+      - c3_order_water_stabilizer_concentrate
+    invalidated_steps:
+      - c4_trace_segment_03
+    first_loop: 4
+    last_loop: 4
+    occurrence_count: 1
+    supersedes: null
+    resolved_by_event_id: null
+    resolved_loop: null
+```
+
+`failure_id`는 `FAIL_<SOURCE>_L<LOOP>_<SEQ>` 형식의 고유 ID다. 상태 enum은 `active | resolved | superseded`다.
+
+- HARD FAILURE가 발생하면 해당 `source_event_id`의 active 기록을 하나만 유지한다.
+- 같은 정보의 반복 실패는 새 기록을 만들지 않고 `last_loop`, `occurrence_count`를 갱신한다.
+- 더 구체적인 검증 정보가 생기면 이전 기록을 `superseded`로 바꾸고 새 active 기록의 `supersedes`에 이전 ID를 쓴다.
+- B3-B·C4·D1 성공 시 같은 source의 모든 active 기록을 `resolved`로 바꾸고 해결 이벤트·루프를 기록한다.
+- `*_hard_failure_seen` 플래그는 과거 열람·통계용이다. ROUTE와 숏컷 진입은 active 실패 기록만 읽는다.
+
+현재 루프의 물리 잠금은 `loop_state.current_hard_failure_event_id`에 source event ID만 기록한다. NORMAL_RESET 때 이 값과 잠긴 오브젝트는 초기화하지만 `meta_progress.failure_records`는 유지한다.
+
+```yaml
+route_snapshot:
+  snapshot_id: ROUTE_RESET_0004
+  reset_transaction_id: RESET_0004
+  loop_index: 4
+  selected_entry: ENTRY_CSHORT
+  active_failure_id: FAIL_C4_L0004_01
+  reason_flags: [journal_stage_2, active_failure_C4]
+  consumed: false
+```
+
+```yaml
+shortcut_resume:
+  shortcut_id: CSHORT
+  active_failure_id: FAIL_C4_L0004_01
+  completed_beats: [C2_COMPACT, C2_1_COMPACT]
+  interrupted_at: CSHORT_MATERIAL_HANDOFF
+  interrupted_by: MARA2_S2
+  resume_target: MERGE_C3
+```
+
+| 숏컷 | 영구 유지 | 루프 재생성 | `resume_target` |
+| --- | --- | --- | --- |
+| BSHORT | B3-A 탁본 조립 결과, verified 역할, 실패 위상 범주 | 실제 탁본 세트·역할 카드·다이얼 | `MERGE_B3` |
+| CSHORT | C3 비율·순서, C4 verified 구간·실패 지점 | 재료 계량·세정제 실제 재제조 | `MERGE_C3` |
+| DSHORT | D0-A 중첩, verified 축, 미확정 축 목록 | 물리 축 위치·압력핀 | `MERGE_D1` |
+
+ROUTE 스냅숏을 불러올 때 `active_failure_id`가 여전히 active인지 다시 확인한다. 이미 resolved·superseded면 스냅숏과 `shortcut_resume`을 폐기하고 현재 J단계의 안전한 기본 진입점으로 다시 계산한다. 성공 처리 시 현재 실패 ID와 같은 숏컷 재개 상태를 함께 지워 과거 ROUTE가 다시 열리지 않게 한다.
+
+`persistent_shortcut_flags`에는 일과 압축과 공간 이동처럼 영구 해금되는 숏컷만 넣는다. BSHORT·CSHORT·DSHORT의 사용 가능 여부는 J단계·verified 정보·active 실패 기록에서 매번 계산하며 별도 bool로 저장하지 않는다.
 
 ## 4. 사용인 상태
 
@@ -552,7 +620,7 @@ res://
 ```yaml
 reset_state:
   transaction_id: ""
-  phase: none
+  phase: idle
   player_commit_complete: false
   memory_commit_complete: false
   physical_reset_complete: false
@@ -562,11 +630,13 @@ reset_state:
 `phase` enum:
 
 ```text
-none
+idle
+sleep_confirmed
 player_committed
 memory_committed
-physical_reset
-route_ready
+physical_reset_complete
+morning_loaded
+route_selected
 complete
 ```
 
@@ -574,11 +644,13 @@ complete
 
 | 저장 상태 | 재개 위치 | 중복 방지 규칙 |
 | --- | --- | --- |
-| `none` | `SYS_COMMIT` | 새 `transaction_id`를 한 번만 발급 |
+| `idle` | `NORMAL_SLEEP` 확인 대기 | 활성 transaction 없음 |
+| `sleep_confirmed` | `SYS_COMMIT` | 새 `transaction_id`를 한 번만 발급 |
 | `player_committed` | `SYS_MEMORY` | 완료된 플레이어 영구 효과를 다시 적용하지 않음 |
 | `memory_committed` | `NORMAL_RESET` | 두 완료 플래그가 모두 참일 때만 물리 상태 폐기 |
-| `physical_reset` | 아침 월드 생성 | 폐기 단계를 다시 실행하지 않음 |
-| `route_ready` | ROUTE 판정 | 기존 `route_snapshot_id` 재사용 |
+| `physical_reset_complete` | MORNING 로드 | 폐기 단계를 다시 실행하지 않음 |
+| `morning_loaded` | ROUTE 판정 | 기존 아침 월드 재사용 |
+| `route_selected` | 선택한 진입점 로드 | 기존 `route_snapshot_id` 재사용 |
 | `complete` | 완료된 아침 유지 | 같은 transaction 요청은 no-op |
 
 각 영구 효과와 잔류 기억에는 적용한 `transaction_id`를 기록한다. 저장 중 종료 후 같은 ID로 재개해도 완료 플래그가 참인 단계와 이미 적용된 효과는 건너뛴다.
@@ -656,13 +728,15 @@ intervention_budget:
 
 ```yaml
 save_header:
-  schema_version: 4
+  schema_version: 5
   game_version: "0.4-design"
   timestamp: ""
   checksum: ""
 ```
 
 마이그레이션 원칙:
+
+`schema_version=5`는 영구 `failure_records`, `current_hard_failure_event_id`, `route_snapshot`, `shortcut_resume`을 도입한다. 버전 4 이하는 아래 규칙으로 한 번 변환한 뒤 저장한다.
 
 - 없는 마라 2 상태는 기본값으로 생성한다.
 - 기존 4인 완료 상태는 유지한다.
@@ -672,6 +746,9 @@ save_header:
 - `f0_provisional_intent`가 없지만 `subject_authority_restored=true`면 `undecided`로 생성한다.
 - `final_choice_relation`이 없으면 `unresolved`로 생성한다.
 - 이미 final_decision이 확정된 기존 세이브는 로드 시 final_choice_relation을 `formed`로 보정한다.
+- 구식 `hard_failure_id`가 있으면 `current_hard_failure_event_id`로 옮긴다. 해당 퍼즐의 성공 플래그가 없을 때만 검증 단계가 빈 legacy active 실패 기록을 생성한다.
+- 성공 플래그가 이미 있는 source의 legacy active 기록은 로드 즉시 resolved로 보정한다.
+- 구식 `route_snapshot`에 active 실패 ID가 없으면 source event로 active 기록을 찾아 연결하고, 찾지 못하면 스냅숏을 폐기해 안전 진입점을 다시 계산한다.
 
 ## 14. 참조 무결성 검사
 
@@ -688,6 +765,9 @@ save_header:
 F0-E가 final_decision을 쓰지 않는다.
 EDC 이전에는 final_choice_relation이 unresolved다.
 세 provisional intent가 모두 MERGE_F0_E에 도달한다.
+source event마다 active failure가 최대 하나다.
+resolved·superseded failure는 ROUTE 조건을 충족하지 않는다.
+route_snapshot과 shortcut_resume의 active_failure_id가 실제 active 기록을 가리킨다.
 ```
 
 ## 15. 기획 QA 시나리오
@@ -703,3 +783,6 @@ EDC 이전에는 final_choice_relation이 unresolved다.
 9. F0-E reality·stay·undecided 각각에서 F1 진입.
 10. provisional intent 3종과 final decision 2종의 여섯 조합 검증.
 11. revised 경로에서 관계·기록·엔딩 선택지 변화가 없는지 확인.
+12. B3-B 실패→BSHORT 중단·로드→MERGE_B3 재개→성공 뒤 BSHORT 미노출.
+13. C4 실패→CSHORT에서 재료 재확보·C3 재제조→성공 뒤 C4 기록 resolved.
+14. D1 실패→DSHORT에서 verified 축만 재현→성공 뒤 지하 숏컷 해금·DSHORT 미노출.
