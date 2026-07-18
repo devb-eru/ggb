@@ -5,8 +5,8 @@
 | 필드 | 값 |
 | --- | --- |
 | 심각도 | 중간 |
-| 상태 | OPEN |
-| 작업 상태 | BLOCKED |
+| 상태 | VERIFIED |
+| 작업 상태 | DONE |
 | 우선순위 | P1 |
 | 담당자 | `beru` |
 | 목표 마일스톤 | `M1_V04_PLANNING_BASELINE` |
@@ -26,16 +26,27 @@
 
 ## 해결 체크리스트
 
-- [ ] 4명→5명 완료 즉시 ALL 판정 확인.
-- [ ] 저장·로드 후 동일 값 확인.
-- [ ] 완료 플래그 롤백 시 false로 복원 확인.
+- [x] 4명→5명 완료 즉시 ALL 판정 확인.
+- [x] 저장·로드 후 동일 값 확인.
+- [x] 완료 플래그 롤백 시 false로 복원 확인.
 
 ## 해결 증거
 
-아직 없음.
+```yaml
+resolved_in:
+  - 17_상태변수_이벤트ID_Godot데이터구조.md §8~9
+resolution_summary: "all_servants_complete를 비저장·비캐시 읽기 전용 계산 프로퍼티로 정의해 E3 완료 플래그의 현재값을 항상 반영한다."
+verification_ids:
+  - QA-ERR-0005-LIVE
+  - QA-ERR-0005-LOAD
+verified_on: 2026-07-18
+```
 
 ## 변경 이력
 
 | 날짜 | 이전 상태 | 새 상태 | 변경 문서 | 근거 |
 | --- | --- | --- | --- | --- |
 | - | - | OPEN | - | 최초 개별 파일 분리 |
+| 2026-07-18 | OPEN·BLOCKED | IN_PROGRESS | `17` | `GGB-CNF-2026-0004` 해결로 선행 차단 해제 |
+| 2026-07-18 | IN_PROGRESS | RESOLVED | `17` | 저장·캐시 없는 계산 프로퍼티 계약 반영 |
+| 2026-07-18 | RESOLVED | VERIFIED·DONE | `17` | `QA-ERR-0005-LIVE`, `QA-ERR-0005-LOAD` 통과 |

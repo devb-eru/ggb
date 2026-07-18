@@ -449,11 +449,18 @@ J4_FULL_complete
 settlement_tier
 ```
 
-`all_servants_complete`는 직접 저장하지 않고 로드 시 재계산한 뒤 캐시한다.
+`all_servants_complete`는 저장하거나 캐시하지 않는 읽기 전용 계산 프로퍼티다. E3 완료 플래그가 바뀌면 다음 조회부터 즉시 새 값이 반영된다.
 
-```text
-all_servants_complete =
-  E3_1 && E3_2 && E3_3 && E3_4 && E3_5
+```gdscript
+var all_servants_complete: bool:
+    get:
+        return (
+            E3_1_complete
+            and E3_2_complete
+            and E3_3_complete
+            and E3_4_complete
+            and E3_5_complete
+        )
 ```
 
 ## 9. 파생값
@@ -490,9 +497,13 @@ records 5    → J4_FULL
 
 core complete 0..1 → LOW
 core complete 2..3 → MID
-core complete 4..5 → HIGH
-core complete 5    → all_servants_complete
+core complete 4    → HIGH
+core complete 5    → ALL
+
+all_servants_complete = (core complete == 5)
 ```
+
+`settlement_tier`는 `LOW | MID | HIGH | ALL` enum이며, `all_servants_complete`와 별도 파생값이다. 후자는 전원 완료 전용 장면·대사를 여는 기능 플래그로만 사용한다.
 
 연구원 기록 수는 메인 게이트가 아니다.
 
@@ -536,6 +547,43 @@ res://
 
 ## 11. 리셋 처리 순서
 
+정상 리셋은 아래 복구 상태를 세이브 루트에 둔다.
+
+```yaml
+reset_state:
+  transaction_id: ""
+  phase: none
+  player_commit_complete: false
+  memory_commit_complete: false
+  physical_reset_complete: false
+  route_snapshot_id: null
+```
+
+`phase` enum:
+
+```text
+none
+player_committed
+memory_committed
+physical_reset
+route_ready
+complete
+```
+
+재개 규칙:
+
+| 저장 상태 | 재개 위치 | 중복 방지 규칙 |
+| --- | --- | --- |
+| `none` | `SYS_COMMIT` | 새 `transaction_id`를 한 번만 발급 |
+| `player_committed` | `SYS_MEMORY` | 완료된 플레이어 영구 효과를 다시 적용하지 않음 |
+| `memory_committed` | `NORMAL_RESET` | 두 완료 플래그가 모두 참일 때만 물리 상태 폐기 |
+| `physical_reset` | 아침 월드 생성 | 폐기 단계를 다시 실행하지 않음 |
+| `route_ready` | ROUTE 판정 | 기존 `route_snapshot_id` 재사용 |
+| `complete` | 완료된 아침 유지 | 같은 transaction 요청은 no-op |
+
+각 영구 효과와 잔류 기억에는 적용한 `transaction_id`를 기록한다. 저장 중 종료 후 같은 ID로 재개해도 완료 플래그가 참인 단계와 이미 적용된 효과는 건너뛴다.
+각 단계는 결과와 다음 `phase`를 같은 원자적 저장으로 확정한 뒤 진행한다. 완료 플래그와 `phase`가 어긋나면 완료 플래그가 가리키는 마지막 안전 단계로 되돌려 재개한다.
+
 ```mermaid
 flowchart TD
     S["수면 확인"] --> F{"FINAL_SLEEP_LOCK?"}
@@ -546,7 +594,9 @@ flowchart TD
     C -- "예" --> FS["FRACTURE_SLEEP"]
     FS --> BR["BROKEN_RESET 이벤트"]
     BR --> O["BROKEN_RESET_ONCE<br/>S3 1회 생성"]
-    C -- "아니오" --> N["S0 기준 NORMAL_RESET"]
+    C -- "아니오" --> SC["SYS_COMMIT<br/>플레이어 영구 상태"]
+    SC --> SM["SYS_MEMORY<br/>잔류 기억"]
+    SM --> N["NORMAL_RESET<br/>S0 기준 물리 상태 재생성"]
     N --> P["영구 정보·관계 재결합"]
     O --> P
     R --> V["파생값·참조 검증"]
@@ -556,10 +606,20 @@ flowchart TD
 
 정상 리셋:
 
-1. 현재 루프 결과 중 영구 획득분을 커밋한다.
-2. 인벤토리·물리 오브젝트·시간대를 폐기한다.
-3. S0 템플릿으로 새 루프를 만든다.
-4. 영구 숏컷과 수첩 정보를 다시 적용한다.
+1. `reset_state` transaction을 생성하거나 미완료 transaction을 재개한다.
+2. `SYS_COMMIT`으로 플레이어 영구 획득분을 커밋한다.
+3. `SYS_MEMORY`로 사용인 잔류 기억을 압축·커밋한다.
+4. 두 완료 플래그가 모두 참인 경우에만 인벤토리·물리 오브젝트·시간대를 폐기한다.
+5. S0 템플릿으로 새 루프를 만들고 `route_snapshot_id`를 기록한다.
+6. 영구 숏컷·수첩·관계를 다시 적용한 뒤 ROUTE를 판정한다.
+
+강제 종료 회귀 경로:
+
+1. transaction 생성 직후 종료하면 `SYS_COMMIT`부터 재개한다.
+2. `SYS_COMMIT` 직후 종료하면 플레이어 효과를 중복 적용하지 않고 `SYS_MEMORY`부터 재개한다.
+3. `SYS_MEMORY` 직후 종료하면 잔류 기억을 중복 생성하지 않고 `NORMAL_RESET`부터 재개한다.
+4. 물리 상태 폐기 직후 종료하면 폐기를 반복하지 않고 같은 `route_snapshot_id`로 아침 생성을 재개한다.
+5. ROUTE 스냅숏 생성 직후 종료하면 새 스냅숏을 만들지 않고 기존 판정을 재사용한다.
 
 BROKEN_RESET 단발 전환:
 
@@ -636,7 +696,7 @@ EDC 이전에는 final_choice_relation이 unresolved다.
 2. 마라 2만 완료 후 J4_BASE와 LOW 결산.
 3. 임의 3명 완료 후 J4_EXPANDED와 MID 결산.
 4. 임의 4명 완료 후 J4_EXPANDED와 HIGH 결산.
-5. 5명 완료 후 J4_FULL, `all_servants_complete`, 추가 장면.
+5. 5명 완료 후 J4_FULL, ALL, `all_servants_complete`, 추가 장면.
 6. E3_5 미완료 상태에서 익명 보라 인덱스로 F0-D 해결.
 7. 색 제거·음량 0 상태에서 P3B, E3_5, F0-D 해결.
 8. D5 전 정상 RESET과 D5 후 BROKEN_RESET 데이터 비교.

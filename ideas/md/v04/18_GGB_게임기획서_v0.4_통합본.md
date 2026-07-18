@@ -251,8 +251,10 @@ P3B 이름표
 | --- | --- |
 | 0~1 | LOW |
 | 2~3 | MID |
-| 4~5 | HIGH |
-| 5 | `all_servants_complete` 추가 장면 |
+| 4 | HIGH |
+| 5 | ALL |
+
+`all_servants_complete`는 `settlement_tier`와 별도로 다섯 핵심 관계 완료 상태에서 계산하며, ALL 전용 추가 장면을 연다.
 
 연구원 기록:
 

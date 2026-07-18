@@ -5,8 +5,8 @@
 | 필드 | 값 |
 | --- | --- |
 | 심각도 | 높음 |
-| 상태 | OPEN |
-| 작업 상태 | READY |
+| 상태 | VERIFIED |
+| 작업 상태 | DONE |
 | 우선순위 | P1 |
 | 담당자 | `beru` |
 | 목표 마일스톤 | `M1_V04_PLANNING_BASELINE` |
@@ -37,14 +37,23 @@ NORMAL_SLEEP
 
 ## 해결 체크리스트
 
-- [ ] `02` 처리 순서 교정.
-- [ ] `17`에 단계별 재개 상태 추가.
-- [ ] 동일 transaction ID의 중복 적용 방지.
-- [ ] SYS_COMMIT·SYS_MEMORY 각각의 실패 복구 검증.
+- [x] `02` 처리 순서 교정.
+- [x] `17`에 단계별 재개 상태 추가.
+- [x] 동일 transaction ID의 중복 적용 방지.
+- [x] SYS_COMMIT·SYS_MEMORY 각각의 실패 복구 검증.
 
 ## 해결 증거
 
-아직 없음.
+```yaml
+resolved_in:
+  - 02_루프_관계_기억_색상서명시스템.md §4, §7.2~7.3
+  - 17_상태변수_이벤트ID_Godot데이터구조.md §11
+resolution_summary: "정상 리셋을 SYS_COMMIT → SYS_MEMORY → NORMAL_RESET 순으로 통일하고, 두 커밋 완료 전 물리 상태 폐기를 금지했다."
+verification_ids:
+  - QA-CNF-0003-ORDER
+  - QA-CNF-0003-CRASH
+verified_on: 2026-07-18
+```
 
 ## 변경 이력
 
@@ -52,3 +61,6 @@ NORMAL_SLEEP
 | --- | --- | --- | --- | --- |
 | - | - | OPEN | - | 최초 개별 파일 분리 |
 | 2026-07-18 | OPEN·BLOCKED | OPEN·READY | - | `GGB-DEC-2026-0001` 권장안 A 승인 |
+| 2026-07-18 | OPEN·READY | IN_PROGRESS | `02`, `17` | 영향 문서 동기화 착수 |
+| 2026-07-18 | IN_PROGRESS | RESOLVED | `02`, `17` | 순서·폐기 장벽·재개 계약 반영 |
+| 2026-07-18 | RESOLVED | VERIFIED·DONE | `02`, `17` | `QA-CNF-0003-ORDER`, `QA-CNF-0003-CRASH` 통과 |
