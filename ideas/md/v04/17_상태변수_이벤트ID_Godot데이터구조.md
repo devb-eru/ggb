@@ -57,6 +57,8 @@ final_choice_relation:
   [unresolved, reaffirmed, revised, formed]
 final_decision:
   [unset, reality, stay]
+camouflage_filter_state:
+  [ACTIVE, DISABLED, BROKEN]
 iris_confession_state:
   type: StringName
   enum: [inferred_only, denied, withheld, indirect, direct_private, public]
@@ -93,26 +95,41 @@ loop_state:
 ```yaml
 fracture_state:
   broken_reset_triggered: false # BROKEN_RESET_ONCE 완료 여부
-  camouflage_filter_enabled: true
+  camouflage_filter_state: ACTIVE
   fracture_sleep_complete: false
   relationship_hub_open: false
   e5_locked_in: false
 ```
 
-정상 RESET은 D5 이전에만 `loop_state`를 S0으로 초기화한다. `BROKEN_RESET` 이벤트는 `broken_reset_triggered=false`일 때 `BROKEN_RESET_ONCE`를 실행해 S3를 한 번 생성하고, 완료 직후 이 값을 `true`로 바꾼다. 이후 휴식은 `POST_BROKEN_REST`로만 라우팅하며 현재 `loop_state`의 공간·수리 상태를 재생성하거나 초기화하지 않는다.
+정상 RESET은 `camouflage_filter_state=ACTIVE`인 D5 이전에만 `loop_state`를 S0으로 초기화한다. D5 완료는 상태를 `DISABLED`로 바꾸고 다음 수면을 `FRACTURE_SLEEP`로 보낸다. `BROKEN_RESET` 이벤트는 `DISABLED && broken_reset_triggered=false`일 때 `BROKEN_RESET_ONCE`를 실행해 S3를 한 번 생성하고, 완료 묶음에서 필터 상태를 `BROKEN`, 단발 플래그를 `true`로 함께 바꾼다. 이후 휴식은 `POST_BROKEN_REST`로만 라우팅하며 현재 `loop_state`의 공간·수리 상태를 재생성하거나 초기화하지 않는다.
 
 ```yaml
 fracture_transition:
   event_id: BROKEN_RESET
   action_id: BROKEN_RESET_ONCE
-  guard: broken_reset_triggered == false
+  atomic_group_id: BROKEN_RESET_COMPLETION
+  guard:
+    all:
+      - camouflage_filter_state == DISABLED
+      - broken_reset_triggered == false
   trigger: FRACTURE_SLEEP completion
   effects:
     - create_world_phase_S3_once
+    - set_camouflage_filter_state_BROKEN
     - set_broken_reset_triggered_true
     - set_fracture_sleep_complete_true
     - run_SYS_SYNC_once
 ```
+
+| 현재 | 사건 | 다음 | 허용되는 수면 |
+| --- | --- | --- | --- |
+| `ACTIVE` | D5 이전 | `ACTIVE` | `NORMAL_SLEEP` |
+| `ACTIVE` | D5 완료 | `DISABLED` | `FRACTURE_SLEEP` |
+| `DISABLED` | D6·FRACTURE_SLEEP | `DISABLED` | `BROKEN_RESET` |
+| `DISABLED` | `BROKEN_RESET_COMPLETION` | `BROKEN` | `POST_BROKEN_REST` |
+| `BROKEN` | 이후 휴식 | `BROKEN` | `POST_BROKEN_REST` |
+
+`camouflage_filter_state=BROKEN ⇔ broken_reset_triggered=true`를 저장 불변식으로 검사한다. `DISABLED`는 D5 완료와 BROKEN_RESET 완료 사이에서만 허용한다.
 
 ## 3.1 정보 상태 생애주기
 
@@ -853,13 +870,12 @@ complete
 flowchart TD
     S["수면 확인"] --> F{"FINAL_SLEEP_LOCK?"}
     F -- "예" --> L["수면 비활성·EDC 유지"]
-    F -- "아니오" --> B{"broken_reset_triggered?"}
-    B -- "예" --> R["POST_BROKEN_REST<br/>시간·피로만 전환"]
-    B -- "아니오" --> C{"camouflage_filter_disabled?"}
-    C -- "예" --> FS["FRACTURE_SLEEP"]
+    F -- "아니오" --> C{"camouflage_filter_state"}
+    C -- "BROKEN" --> R["POST_BROKEN_REST<br/>시간·피로만 전환"]
+    C -- "DISABLED" --> FS["FRACTURE_SLEEP"]
     FS --> BR["BROKEN_RESET 이벤트"]
     BR --> O["BROKEN_RESET_ONCE<br/>S3 1회 생성"]
-    C -- "아니오" --> SC["SYS_COMMIT<br/>플레이어 영구 상태"]
+    C -- "ACTIVE" --> SC["SYS_COMMIT<br/>플레이어 영구 상태"]
     SC --> SM["SYS_MEMORY<br/>잔류 기억"]
     SM --> N["NORMAL_RESET<br/>S0 기준 물리 상태 재생성"]
     N --> P["영구 정보·관계 재결합"]
@@ -921,7 +937,7 @@ intervention_budget:
 
 ```yaml
 save_header:
-  schema_version: 6
+  schema_version: 7
   game_version: "0.4-design"
   timestamp: ""
   checksum: ""
@@ -929,7 +945,13 @@ save_header:
 
 마이그레이션 원칙:
 
-`schema_version=6`는 E3_5 병합·분리 선택을 완료 묶음과 원자적으로 저장한다. 이리스 고백 상태는 새 직렬화 필드가 아닌 계산 프로퍼티이므로 이번 계약 보완으로 버전을 올리지 않는다. 버전 5의 실패·숏컷 스키마를 유지하며, 버전 5 이하는 아래 규칙으로 한 번 변환한 뒤 저장한다.
+`schema_version=7`은 반대 극성 위장 필터 bool을 `camouflage_filter_state` 단일 enum으로 교체한다. 버전 6의 E3_5 원자 저장과 버전 5의 실패·숏컷 스키마를 유지하며, 버전 6 이하는 아래 규칙으로 한 번 변환한 뒤 저장한다.
+
+- `broken_reset_triggered=true` 또는 `fracture_sleep_complete=true`면 legacy 필터 bool과 무관하게 `camouflage_filter_state=BROKEN`으로 변환한다.
+- 그 외에 `D5_complete=true`, `camouflage_filter_disabled=true`, `camouflage_filter_enabled=false` 중 하나라도 참이면 `DISABLED`로 변환한다.
+- 위 진행 근거가 없으면 `ACTIVE`로 변환한다.
+- 두 legacy bool이 모순되면 더 진행된 상태를 보존하는 `BROKEN > DISABLED > ACTIVE` 우선순위를 적용하고 `MIGRATION_CAMOUFLAGE_POLARITY_CONFLICT` 경고를 한 번 남긴다.
+- 변환 성공 뒤 `camouflage_filter_enabled`, `camouflage_filter_disabled` 키를 제거하고 enum 하나만 저장한다.
 
 - 없는 마라 2 상태는 기본값으로 생성한다.
 - 기존 4인 완료 상태는 유지한다.
@@ -964,6 +986,10 @@ EDC 이전에는 final_choice_relation이 unresolved다.
 source event마다 active failure가 최대 하나다.
 resolved·superseded failure는 ROUTE 조건을 충족하지 않는다.
 route_snapshot과 shortcut_resume의 active_failure_id가 실제 active 기록을 가리킨다.
+camouflage_filter_state가 ACTIVE, DISABLED, BROKEN 중 하나다.
+camouflage_filter_enabled와 camouflage_filter_disabled가 저장·가드·라우터에 남아 있지 않다.
+camouflage_filter_state == BROKEN ⇔ broken_reset_triggered == true다.
+DISABLED에서만 BROKEN_RESET_ONCE를 시작하고 BROKEN_RESET_COMPLETION이 필터 상태·S3·완료 플래그를 원자적으로 확정한다.
 E3_5_ENTRY부터 E3_5_RETURN까지 모든 next_node_id가 존재하고 E_HUB에 도달한다.
 E3_5_MERGED와 E3_5_SEPARATED가 E3_5_COMPLETION 하나로 합류한다.
 E3_5 완료 묶음의 다섯 불변 상태가 모두 일치한다.
@@ -995,3 +1021,6 @@ IRIS_F2, IRIS_ED_REALITY, IRIS_ED_STAY가 모두 GameState.iris_confession_state
 19. E3_5 중도 이탈·로드에서 첫 미검증 노드 또는 E3_5_SELF_SACRIFICE_DIALOGUE로 재개하고 완료 효과가 미리 적용되지 않는지 확인.
 20. 이리스 판정의 여섯 경계 조합에서 `inferred_only`, `denied`, `withheld`, `indirect`, `direct_private`, `public`을 각각 확인.
 21. 같은 세이브에서 IRIS_F2·IRIS_ED_REALITY·IRIS_ED_STAY가 동일 상태를 읽고, 마지막 핵심 관계 완료 직후 캐시 없이 `public`으로 바뀌는지 확인.
+22. 새 게임에서 `ACTIVE → D5 → DISABLED → FRACTURE_SLEEP → BROKEN_RESET_COMPLETION → BROKEN` 순서를 확인.
+23. D5 완료 저장과 BROKEN_RESET_COMPLETION의 각 쓰기 단계에서 강제 종료해 상태 enum과 완료 플래그가 함께 롤백 또는 완료되는지 확인.
+24. legacy bool의 정상·반대 극성·누락 조합과 기존 D5·BROKEN_RESET 진행값을 스키마 7로 옮겨 `BROKEN > DISABLED > ACTIVE` 결과와 키 제거를 확인.

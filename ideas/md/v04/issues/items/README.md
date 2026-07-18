@@ -9,7 +9,7 @@
 | [`GGB-CNF-2026-0003`](GGB-CNF-2026-0003_SYS_COMMIT_SYS_MEMORY_처리_순서_충돌.md) | VERIFIED | DONE | SYS_COMMIT·SYS_MEMORY 처리 순서 충돌 |
 | [`GGB-CNF-2026-0004`](GGB-CNF-2026-0004_관계_결산_HIGH_ALL_판정_충돌.md) | VERIFIED | DONE | 관계 결산 HIGH·ALL 판정 충돌 |
 | [`GGB-CNF-2026-0005`](GGB-CNF-2026-0005_검은_거울_E3_5_공간_ID_충돌.md) | VERIFIED | DONE | 검은 거울·E3_5 공간 ID 충돌 |
-| [`GGB-CNF-2026-0006`](GGB-CNF-2026-0006_위장_필터_상태의_반대_극성_변수_충돌.md) | OPEN | READY | 위장 필터 상태의 반대 극성 변수 충돌 |
+| [`GGB-CNF-2026-0006`](GGB-CNF-2026-0006_위장_필터_상태의_반대_극성_변수_충돌.md) | VERIFIED | DONE | 위장 필터 상태의 반대 극성 변수 충돌 |
 
 ## 오류
 
@@ -21,7 +21,7 @@
 | [`GGB-ERR-2026-0004`](GGB-ERR-2026-0004_선언되지_않은_final_decision_unset_참조.md) | VERIFIED | DONE | 선언되지 않은 final_decision_unset 참조 |
 | [`GGB-ERR-2026-0005`](GGB-ERR-2026-0005_all_servants_complete_캐시_갱신_규칙_누락.md) | VERIFIED | DONE | all_servants_complete 캐시 갱신 규칙 누락 |
 | [`GGB-ERR-2026-0006`](GGB-ERR-2026-0006_E3_5_이리스_관계_데이터_계약_불완전.md) | VERIFIED | DONE | E3_5·이리스 관계 데이터 계약 불완전 |
-| [`GGB-ERR-2026-0007`](GGB-ERR-2026-0007_00_README_18_통합_문서의_구식_표기.md) | OPEN | BLOCKED | 00·README·18 통합 문서의 구식 표기 |
+| [`GGB-ERR-2026-0007`](GGB-ERR-2026-0007_00_README_18_통합_문서의_구식_표기.md) | OPEN | READY | 00·README·18 통합 문서의 구식 표기 |
 
 ## 관리
 
