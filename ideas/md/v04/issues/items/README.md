@@ -22,6 +22,7 @@
 | [`GGB-ERR-2026-0005`](GGB-ERR-2026-0005_all_servants_complete_캐시_갱신_규칙_누락.md) | VERIFIED | DONE | all_servants_complete 캐시 갱신 규칙 누락 |
 | [`GGB-ERR-2026-0006`](GGB-ERR-2026-0006_E3_5_이리스_관계_데이터_계약_불완전.md) | VERIFIED | DONE | E3_5·이리스 관계 데이터 계약 불완전 |
 | [`GGB-ERR-2026-0007`](GGB-ERR-2026-0007_00_README_18_통합_문서의_구식_표기.md) | OPEN | READY | 00·README·18 통합 문서의 구식 표기 |
+| [`GGB-ERR-2026-0008`](GGB-ERR-2026-0008_E1_필수_조사_수와_대상_수_불일치.md) | VERIFIED | DONE | E1 필수 조사 수와 대상 수 불일치 |
 
 ## 관리
 
