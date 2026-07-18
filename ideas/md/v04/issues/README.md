@@ -42,11 +42,11 @@ issues/
 | 전체 이슈 집계와 탐색 | `충돌오류_레지스트리.md` |
 | 현재 이슈 상태와 해결 계획 | `items/`의 ID별 파일 |
 | 자동·수동 검사 결과 | `validation/` |
-| 결정 기록 | `decisions/` |
+| 결정 기록 | [`docs/decisions/`](../../../../docs/decisions/) |
 | 해결 전 원본 보고서 | `archive/` |
 | 상태 집계용 데이터가 필요할 경우 | `data/` |
 
-`validation`, `decisions`, `data` 폴더는 실제 문서가 생길 때 생성한다.
+`validation`, `data` 폴더는 실제 문서가 생길 때 생성한다. 결정 기록은 프로젝트 공통 규칙과 ID를 사용하기 위해 `docs/decisions/`에서 중앙 관리한다.
 
 ## 4. 상태 확인
 
@@ -67,6 +67,8 @@ OPEN
 - `VERIFIED`: 검증 완료.
 - `BLOCKED`, `DEFERRED`, `WONT_FIX`: 별도 사유 기록 필요.
 
+위 상태는 문제 해결 상태다. 실제 수행 흐름은 [프로젝트 운영 기준](../../../../docs/project_operations.md)의 `BACKLOG`, `READY`, `IN_PROGRESS`, `REVIEW`, `BLOCKED`, `DONE`을 별도 `작업 상태` 필드로 사용한다.
+
 ## 5. 관리 규칙
 
 1. 충돌은 `GGB-CNF-YYYY-NNNN` ID를 사용한다.
@@ -80,6 +82,9 @@ OPEN
 9. 개별 파일 상태를 바꾸면 레지스트리 대시보드도 같은 상태로 갱신한다.
 10. 기준 문서를 먼저 수정하고 `00`, v04 `README`, `18`은 마지막에 동기화한다.
 11. 과거 보고서는 `archive/`에서 읽기 전용 기록으로 보존한다.
+12. 모든 개별 항목에 `작업 상태`, `담당자`, `목표 마일스톤`을 기록한다.
+13. `IN_PROGRESS` 전에는 담당자와 목표 마일스톤을 실제 값으로 지정한다.
+14. 중요한 기준 선택은 `GGB-DEC`로 기록하고 관련 이슈에 연결한다.
 
 ## 6. v0.4 본문으로 돌아가기
 
