@@ -21,5 +21,7 @@
 | [`GGB-DEC-2026-0003`](GGB-DEC-2026-0003_데모_상점_페이지_운영.md) | ACCEPTED | 데모 상점 페이지 운영 | 2026-07-18 | 없음 |
 | [`GGB-DEC-2026-0004`](GGB-DEC-2026-0004_Next_Fest_데모_공개_범위.md) | ACCEPTED | Next Fest 데모 공개 범위 | 2026-07-18 | 없음 |
 | [`GGB-DEC-2026-0005`](GGB-DEC-2026-0005_Next_Fest_후_정식_1_0_출시.md) | ACCEPTED | Next Fest 후 정식 1.0 출시 | 2026-07-18 | 없음 |
+| [`GGB-DEC-2026-0006`](GGB-DEC-2026-0006_대화_기록_영속화.md) | ACCEPTED | 대화 기록 영속화 | 2026-07-18 | 없음 |
+| [`GGB-DEC-2026-0007`](GGB-DEC-2026-0007_GitHub_Discord_운영_분리.md) | ACCEPTED | GitHub·Discord 운영 분리 | 2026-07-18 | 없음 |
 
 상세 기준은 [프로젝트 운영 기준](../project_operations.md#10-결정-기록)을 따른다.

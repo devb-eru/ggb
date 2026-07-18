@@ -28,6 +28,8 @@
 | 공개 데모 범위 | `docs/demo_definition.md` | 2장 데모의 콘텐츠·품질·플랫폼 기준 |
 | 완성본 범위 | `docs/full_game_definition.md` | 프롤로그~4장·엔딩의 콘텐츠·품질·출시 기준 |
 | Steam 출시 준비 | `docs/steam_release_plan.md` | 계정, 상점, 심사, Next Fest, 출시 게이트 |
+| Discord 운영 | `docs/discord_operations.md` | Git 알림, 회의, 에셋 접수, 일정 표시 기준 |
+| 다음 작업 계획 | `docs/next_work_plan.md` | 기획 기준선 이후 협업 시스템 구현 순서 |
 | 회의 일정 | 외부 캘린더 | 참석 일정과 리마인더 관리 |
 | 대화·알림 | Discord | 결정과 작업의 기준 정보로 사용하지 않음 |
 
