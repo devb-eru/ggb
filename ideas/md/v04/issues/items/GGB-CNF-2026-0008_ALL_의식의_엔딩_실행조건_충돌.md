@@ -56,15 +56,18 @@ EDC_FINAL_DECISION
 
 ```yaml
 resolved_in:
-  - 14_이벤트상세_09_엔딩.md §2 전체 엔딩 구조
-  - 14_이벤트상세_09_엔딩.md §3.5 원자 커밋
-  - 14_이벤트상세_09_엔딩.md §6 ED_ALL_CEREMONY
-resolution_summary: ALL 장면을 EDC 확정 후 자동 재생되는 조건부 비차단 의식으로 분리했다.
+  - 03_전체이벤트흐름도.md 엔딩 구간
+  - 04_전체이벤트리스트_상태표.md §15
+  - 13_이벤트상세_08_파열_전환_결산.md EDC 인계
+  - 14_이벤트상세_09_엔딩.md §2·§3.5·§6
+  - 16_색상연출_UI_접근성규칙.md 엔딩 접근성
+  - 17_상태변수_이벤트ID_Godot데이터구조.md 엔딩 라우터·저장 정의
+resolution_summary: ALL 장면을 EDC 확정 후 자동 재생되는 조건부 비차단 의식으로 분리하고 흐름·상태·저장·접근성 계약을 동기화했다.
 verification_ids:
   - QA-CNF-0008-GATE
   - QA-CNF-0008-COMMIT
   - QA-CNF-0008-RESUME
-verified_on: 2026-07-19
+verified_on: 2026-07-24
 ```
 
 ## 검증 결과

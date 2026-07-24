@@ -12,6 +12,7 @@
 | [`GGB-CNF-2026-0006`](GGB-CNF-2026-0006_위장_필터_상태의_반대_극성_변수_충돌.md) | VERIFIED | DONE | 위장 필터 상태의 반대 극성 변수 충돌 |
 | [`GGB-CNF-2026-0007`](GGB-CNF-2026-0007_FINAL_SLEEP_LOCK_발생_시점_충돌.md) | VERIFIED | DONE | FINAL_SLEEP_LOCK 발생 시점 충돌 |
 | [`GGB-CNF-2026-0008`](GGB-CNF-2026-0008_ALL_의식의_엔딩_실행조건_충돌.md) | VERIFIED | DONE | ALL 의식의 엔딩 실행 조건 충돌 |
+| [`GGB-CNF-2026-0009`](GGB-CNF-2026-0009_S4_코어와_잔류_엔딩_상태_ID_충돌.md) | VERIFIED | DONE | S4 코어와 잔류 엔딩 상태 ID 충돌 |
 
 ## 오류
 

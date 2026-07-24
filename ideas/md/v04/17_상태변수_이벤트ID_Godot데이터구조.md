@@ -61,6 +61,19 @@ meta_progress:
   F3_complete: false
 ```
 
+본편 슬롯과 분리된 프로필 저장:
+
+```yaml
+ending_meta:
+  reality_seen: false
+  stay_seen: false
+  any_ending_seen: false
+  gallery_unlocked: false
+  chapter_select_unlocked: false
+```
+
+`ending_meta`는 `SAVE_F3_COMPLETE` 사본을 불러 다른 선택을 확인해도 유지한다. 본편 상태 롤백으로 엔딩 열람 기록을 지우지 않는다.
+
 관련 enum:
 
 ```yaml
@@ -80,6 +93,14 @@ iris_season_image:
   type: StringName
   enum: [unset, spring, summer, autumn, winter]
   storage: persistent
+ending_branch:
+  type: StringName
+  enum: [unset, reality, stay]
+  storage: ending_run
+ending_appearance_mode:
+  type: StringName
+  enum: [unset, layered, contextual]
+  storage: ending_run
 core_event_lifecycle:
   type: StringName
   enum: [locked, available, in_progress, choice_pending, completed, superseded]
@@ -170,6 +191,29 @@ fracture_transition:
 | `BROKEN` | `F3_ENTRY` | `BROKEN` | 없음 (`FINAL_SLEEP_LOCK`) |
 
 `camouflage_filter_state=BROKEN ⇔ broken_reset_triggered=true`를 저장 불변식으로 검사한다. `DISABLED`는 D5 완료와 BROKEN_RESET 완료 사이에서만 허용한다. `final_sleep_lock=true`는 세계 상태 enum을 바꾸지 않고 `NORMAL_SLEEP`, `FRACTURE_SLEEP`, `POST_BROKEN_REST` 진입만 차단한다. 조사·저장·F3 재확인·EDC 취소 복귀는 허용한다.
+
+### 엔딩 실행 상태
+
+```yaml
+ending_run:
+  branch_committed: false
+  branch_id: unset
+  current_node_id: null
+  completed_nodes: []
+  required_interactions_seen: []
+  optional_interactions_seen: []
+  all_ceremony_seen: false
+  ending_appearance_mode: unset
+  credits_started: false
+  credits_completed: false
+```
+
+- EDC 커밋 전에는 `branch_committed=false`, `branch_id=unset`이다.
+- `completed_nodes`, `required_interactions_seen`, `optional_interactions_seen`은 중복 없는 `Set[StringName]`으로 직렬화한다.
+- `completed_nodes`에는 EDR·EDS 사건 노드 ID만, 두 interaction Set에는 해당 노드 안의 오브젝트·하위 상호작용 ID만 저장한다.
+- `ending_appearance_mode`는 잔류 화면 표시만 바꾸며 최종 결정·관계·메타 해금에 사용하지 않는다.
+- `world_phase=S4`는 F구간 코어, `world_phase=S5`는 잔류 엔딩의 `S5_STABILIZED_FRACTURE`다.
+- 현실 엔딩은 저택 `world_phase`를 바꾸는 대신 `R0_*` 현실 장면으로 전환한다.
 
 ## 3.1 정보 상태 생애주기
 
@@ -977,12 +1021,138 @@ event_definition:
   confirmation_transaction:
     reality:
       set: {final_decision: reality, final_choice_relation: derived_relation}
-      next_event_id: ED_REALITY
+      set_ending_run: {branch_committed: true, branch_id: reality}
     stay:
       set: {final_decision: stay, final_choice_relation: derived_relation}
-      next_event_id: ED_STAY
+      set_ending_run: {branch_committed: true, branch_id: stay}
+  write_save_point: SAVE_ENDING_BRANCH
+  post_commit_route:
+    when_all_servants_complete: ED_ALL_CEREMONY
+    otherwise:
+      reality: EDR_ENTRY
+      stay: EDS_ENTRY
   atomic_group_id: EDC_FINAL_DECISION
 ```
+
+```yaml
+event_definition:
+  event_id: ED_ALL_CEREMONY
+  category: conditional_nonblocking
+  auto_dispatch_when_guard: true
+  required_for_ending_success: false
+  prerequisites:
+    all:
+      - all_servants_complete == true
+      - ending_run.branch_committed == true
+  completion_effects:
+    set_ending_run:
+      all_ceremony_seen: true
+  next_by_branch:
+    reality: EDR_ENTRY
+    stay: EDS_ENTRY
+  forbidden_effects:
+    - final_decision
+    - final_choice_relation
+    - relationship_changes
+    - ending_success
+```
+
+### 엔딩 노드·저장 정의
+
+```yaml
+ending_definitions:
+  ED_REALITY:
+    entry: EDR_ENTRY
+    required_sequence:
+      - EDR_ARCHIVE_STATUS
+      - EDR_FAREWELL
+      - EDR_DISCONNECT
+      - EDR_WAKE_BODY
+      - EDR_BODY_CHECK
+      - EDR_FIELD_NOTEBOOK
+      - EDR_EXIT_PANEL
+      - EDR_AIRLOCK_CONFIRM
+      - EDR_SURFACE_THRESHOLD
+      - EDR_FINAL_FRAME
+    optional_nodes:
+      - EDR_FACILITY_FREE_LOOK
+      - EDR_DISTANT_SIGNAL
+  ED_STAY:
+    entry: EDS_ENTRY
+    required_sequence:
+      - EDS_STABILIZE
+      - EDS_MEMORY_CHARTER
+      - EDS_APPEARANCE_CONTROL
+      - EDS_AUTONOMY_CHARTER
+      - EDS_CENTRAL_HALL
+      - EDS_DINING_ROOM
+      - EDS_TABLE_OBJECTS
+      - EDS_FINAL_FRAME
+    optional_interactions:
+      EDS_CENTRAL_HALL:
+        - OBJ_STAY_CLOCK
+        - OBJ_STAY_SCHEDULE
+        - OBJ_STAY_FRONT_DOOR
+        - OBJ_STAY_CARPET
+        - OBJ_STAY_CALL_CORD
+      EDS_TABLE_OBJECTS:
+        - OBJ_STAY_STAIN
+        - OBJ_STAY_TEA
+        - OBJ_STAY_SEASON_WINDOW
+        - OBJ_STAY_PORTRAIT_LABEL
+        - OBJ_STAY_RAPIER
+    required_interactions:
+      EDS_TABLE_OBJECTS:
+        - OBJ_STAY_NOTEBOOK
+
+node_requirements:
+  EDR_BODY_CHECK:
+    allowed:
+      - OBJ_REALITY_HAND
+      - OBJ_REALITY_BREATH_MONITOR
+      - OBJ_REALITY_RESTRAINT
+    required_unique_count: 2
+  EDR_FIELD_NOTEBOOK:
+    parent_object_id: OBJ_REALITY_FIELD_NOTEBOOK
+    required:
+      - FIELD_NOTEBOOK_COVER
+      - FIELD_NOTEBOOK_FIRST_72_HOURS
+  EDR_EXIT_PANEL:
+    parent_object_id: OBJ_REALITY_EXIT_PANEL
+    required:
+      - EXIT_STATUS_POWER
+      - EXIT_STATUS_AIR
+      - EXIT_STATUS_MANUAL_RELEASE
+```
+
+```yaml
+ending_save_points:
+  SAVE_ENDING_BRANCH:
+    write_after: EDC_FINAL_DECISION
+    restore: ED_ALL_CEREMONY_or_branch_entry
+  SAVE_ENDING_NODE:
+    write_after: each_required_node_or_optional_interaction
+    restore: first_incomplete_required_node
+  SAVE_ENDING_COMPLETE:
+    write_after: ending_final_frame_and_meta_commit
+    restore: branch_credits
+```
+
+`ENDING_META_COMMIT`은 마지막 화면 뒤, 크레딧 전에 실행한다. `reality_seen` 또는 `stay_seen`, `any_ending_seen`, `gallery_unlocked`, `chapter_select_unlocked`을 프로필 저장에 원자 커밋한 뒤 해당 크레딧으로 이동한다.
+
+```yaml
+ending_meta_routes:
+  reality:
+    final_frame: EDR_FINAL_FRAME
+    commit: ENDING_META_COMMIT
+    credits: CREDITS_REALITY
+  stay:
+    final_frame: EDS_FINAL_FRAME
+    commit: ENDING_META_COMMIT
+    credits: CREDITS_STAY
+```
+
+`CREDITS_REALITY`와 `CREDITS_STAY`는 분기별 표시 리소스 ID다. 둘 다 `SAVE_ENDING_COMPLETE`가 확인된 뒤에만 시작하며, 재관람 스킵 여부는 `ending_meta`를 읽되 본편 상태를 다시 쓰지 않는다.
 
 ## 7. 이벤트 결과
 
@@ -1149,6 +1319,19 @@ ending_reaction:
 
 두 엔딩은 같은 저장 필드를 읽고 대사만 다르게 출력한다. `archive_resolution=none`인데 `E3_5_complete=true`인 상태는 엔딩 fallback으로 숨기지 않고 저장 무결성 오류로 처리한다.
 
+### 사용인 5인 엔딩 반응 라우팅
+
+```yaml
+ending_owner_reactions:
+  EDGAR: [EDGAR_ED_REALITY, EDGAR_ED_STAY]
+  MARA1: [MARA1_ED_REALITY, MARA1_ED_STAY]
+  LUCA: [LUCA_ED_REALITY, LUCA_ED_STAY]
+  IRIS: [IRIS_ED_REALITY, IRIS_ED_STAY]
+  MARA2: [MARA2_ED_REALITY, MARA2_ED_STAY]
+```
+
+각 반응은 `settlement_tier → owner core_event_complete → owner outcome → bond·alert 연기 강도 → 특수 overlay` 순으로 합성한다. `SERVANT_ED_*`는 폐기된 기획 별칭이며 `.tres`, 저장, 대기열, 이벤트 이력에서 금지한다.
+
 ## 8. 주요 플래그
 
 ### 진행
@@ -1201,6 +1384,21 @@ F2는 위 다섯 지식을 한 장면 안에서 모두 `verified`로 만든다. 
 f0_provisional_intent
 final_choice_relation
 final_decision
+ending_run.branch_committed
+ending_run.branch_id
+ending_run.current_node_id
+ending_run.completed_nodes
+ending_run.required_interactions_seen
+ending_run.optional_interactions_seen
+ending_run.all_ceremony_seen
+ending_run.ending_appearance_mode
+ending_run.credits_started
+ending_run.credits_completed
+ending_meta.reality_seen
+ending_meta.stay_seen
+ending_meta.any_ending_seen
+ending_meta.gallery_unlocked
+ending_meta.chapter_select_unlocked
 ```
 
 소유권:
@@ -1210,6 +1408,9 @@ final_decision
 - F2·F3·사용인 관계 이벤트는 `f0_provisional_intent`를 읽어 연출을 바꾸지 않는다.
 - F3 진입은 `final_sleep_lock`만 쓰고, F3 완료는 `F3_complete`와 `SAVE_F3_COMPLETE`만 쓴다.
 - 엔딩 본문은 `final_decision`을 사용하고, 도입 독백만 `final_choice_relation`을 읽는다.
+- EDC 커밋은 `ending_run.branch_committed`, `branch_id`, `SAVE_ENDING_BRANCH`를 같은 원자 그룹에서 쓴다.
+- ALL 의식과 에필로그는 이미 확정된 `branch_id`를 읽을 뿐 `final_decision`을 다시 쓰지 않는다.
+- `ENDING_META_COMMIT`만 본편 슬롯 밖의 `ending_meta`를 쓴다.
 
 ### 마라 2·북쪽 구역
 
@@ -1354,6 +1555,7 @@ res://
 │  ├─ game_state.gd
 │  ├─ event_bus.gd
 │  ├─ reaction_router.gd
+│  ├─ ending_router.gd
 │  ├─ save_manager.gd
 │  └─ accessibility_settings.gd
 ├─ data/
@@ -1372,6 +1574,8 @@ res://
    ├─ event_history_entry.gd
    ├─ short_reaction_definition.gd
    ├─ pending_reaction.gd
+   ├─ ending_run_state.gd
+   ├─ ending_meta.gd
    ├─ color_signature.gd
    ├─ servant_state.gd
    └─ object_reaction.gd
@@ -1384,6 +1588,7 @@ res://
 | `GameState` | 영구·루프·파열 상태와 파생값 |
 | `EventBus` | 이벤트 시작·완료·실패 신호 |
 | `ReactionRouter` | 짧은 반응 우선순위, 중복 제거, 대기·소비·superseded 처리 |
+| `EndingRouter` | EDC 커밋 뒤 ALL 의식·EDR·EDS 노드·메타 커밋 라우팅 |
 | `SaveManager` | 트랜잭션 저장, 버전 마이그레이션 |
 | `AccessibilitySettings` | 색·문양·음향·글리치 표시 |
 | `EventDefinition` | 선행 조건과 결과 데이터 |
@@ -1510,7 +1715,7 @@ intervention_budget:
 
 ```yaml
 save_header:
-  schema_version: 10
+  schema_version: 11
   game_version: "0.4-design"
   timestamp: ""
   checksum: ""
@@ -1518,7 +1723,21 @@ save_header:
 
 마이그레이션 원칙:
 
-`schema_version=10`은 D6 이중 수면 경로, E1·F3 고유 상호작용 집합, F2 필수 지식, F3 진입 시 `FINAL_SLEEP_LOCK`, `SAVE_F3_COMPLETE`를 추가한다. 버전 9의 E3 공통 `event_history`, 버전 8의 짧은 반응 상태, 버전 7의 `camouflage_filter_state`, 버전 6의 E3_5 원자 저장, 버전 5의 실패·숏컷 스키마를 유지한다. 버전 9 이하는 기존 단계별 변환을 적용한 뒤 아래 v10 규칙으로 한 번 더 변환해 저장한다.
+`schema_version=11`은 엔딩 실행 상태, EDR·EDS 노드 저장, 현실·잔류 엔딩 위치, 프로필 `ending_meta`, `world_phase=S5`를 추가한다. 버전 10의 D6·E1·F2·F3 계약과 이전 스키마를 모두 유지한다. 버전 10 이하는 기존 단계별 변환을 적용한 뒤 아래 v11 규칙으로 한 번 더 변환해 저장한다.
+
+v11 추가 변환:
+
+- `ending_run`이 없으면 기본 구조를 생성한다.
+- `final_decision=unset`이면 `branch_committed=false`, `branch_id=unset`으로 둔다.
+- `final_decision=reality|stay`인데 엔딩 완료 이력이 없으면 해당 `branch_id`와 `branch_committed=true`를 복원하고 `SAVE_ENDING_BRANCH`를 생성한다.
+- 구식 엔딩 진행 노드가 있으면 EDR·EDS 대응표로 변환한다. 대응할 수 없는 노드는 해당 분기의 ENTRY로 안전 복귀하며 관계·선택을 재적용하지 않는다.
+- 구식 `ED_REALITY_LOW|MID|HIGH|ALL`, `ED_STAY_LOW|MID|HIGH|ALL`은 이벤트 ID로 보존하지 않는다. `settlement_tier`를 현재 E3 완료 플래그에서 재계산하고 부모 분기 ENTRY로 변환한다.
+- `SERVANT_ED_REALITY_*`, `SERVANT_ED_STAY_*`는 저장·대기열에서 제거하고 owner별 10개 반응 ID로 다시 라우팅한다.
+- 잔류 엔딩의 구식 `world_phase=S4` 진행 이력은 코어 F구간과 구분할 수 있는 `final_decision=stay` 또는 EDS 이력이 있을 때만 S5로 변환한다.
+- `ending_appearance_mode`가 없으면 S5 진입 전 `unset`, S5 진행 중이면 `contextual`로 생성한다.
+- 프로필 `ending_meta`가 없으면 완료된 크레딧·엔딩 이력에서 seen 값을 복원한다. 불명확하면 false를 유지한다.
+- `completed_nodes`는 현재 분기의 EDR·EDS 노드 ID만 남기고 중복을 제거한다.
+- `required_interactions_seen`, `optional_interactions_seen`은 현재 분기에서 허용한 오브젝트·하위 상호작용 ID만 남기고 중복을 제거한다.
 
 v10 추가 변환:
 
@@ -1616,6 +1835,16 @@ F3 interaction_nodes가 세 개이며 required_unique_count가 3이다.
 F3는 f0_provisional_intent를 읽지 않고 final_decision·final_choice_relation을 쓰지 않는다.
 F3_complete이면 SAVE_F3_COMPLETE가 존재하고 EDC가 열려 있다.
 EDC 취소는 F3_COMPLETION으로 돌아가며 final_sleep_lock을 해제하지 않는다.
+S4는 코어 상태, S5는 안정화 잔류 상태이며 같은 값으로 직렬화되지 않는다.
+EDC_FINAL_DECISION이 final_decision·final_choice_relation·ending_run 분기·SAVE_ENDING_BRANCH를 원자 저장한다.
+ED_ALL_CEREMONY는 EDC 커밋 뒤에만 실행되고 엔딩 성공·관계 상태를 쓰지 않는다.
+all_servants_complete=false여도 선택한 EDR_ENTRY 또는 EDS_ENTRY에 도달한다.
+EDR_BODY_CHECK의 허용 대상은 3개, required_unique_count는 2다.
+EDR_FIELD_NOTEBOOK은 시뮬레이션 수첩과 다른 object_id를 사용한다.
+EDS_APPEARANCE_CONTROL의 두 값이 분기·관계·메타 결과를 바꾸지 않는다.
+모든 required ending node 완료 뒤에만 FINAL_FRAME이 열리고 선택 노드는 필수 Set에 포함되지 않는다.
+ENDING_META_COMMIT이 크레딧보다 먼저 실행된다.
+SERVANT_ED_* 그룹 ID가 이벤트 리소스·저장·대기열에 남아 있지 않다.
 ```
 
 ## 15. 기획 QA 시나리오
@@ -1666,3 +1895,13 @@ EDC 취소는 F3_COMPLETION으로 돌아가며 final_sleep_lock을 해제하지 
 44. F3 세 오브젝트를 서로 다른 순서로 확인해도 균형 요약과 SAVE_F3_COMPLETE가 동일한지 확인.
 45. EDC를 취소한 뒤 F3_COMPLETION으로 돌아오며 수면 잠금과 미확정 final_decision이 유지되는지 확인.
 46. schema 9의 F3 진행 중·F3 완료·EDC 대기 세이브를 schema 10으로 옮겨 final_sleep_lock과 복구 지점이 올바르게 생성되는지 확인.
+47. EDC reality·stay 커밋 각 쓰기 단계에서 강제 종료해 final_decision·관계·ending_run·SAVE_ENDING_BRANCH가 전부 롤백 또는 완료되는지 확인.
+48. 관계 완료 0명과 5명에서 각각 두 분기를 확정해 ALL 의식의 생략·삽입과 ENTRY 합류를 확인.
+49. ALL 의식 수동 필기·자동 필기·중단 재개가 같은 확정 분기와 결과를 유지하는지 확인.
+50. 현실 신체 대상 3종 중 임의 2종으로 EDR_BODY_CHECK를 완료하고 반복 클릭이 고유 수를 늘리지 않는지 확인.
+51. 현실 수첩 최소·전체 열람 경로에서 진행 결과가 같고 SUBJECT_HANDOFF_PAGE만 물리 출력으로 취급되는지 확인.
+52. 현실 선택 조사를 전부 생략해도 EDR_FINAL_FRAME·ENDING_META_COMMIT·CREDITS_REALITY에 도달하는지 확인.
+53. 잔류 layered·contextual을 반복 전환해도 final_decision·관계·메타가 변하지 않는지 확인.
+54. 잔류 중앙홀·식탁 선택 조사를 생략해도 수첩 필수 반응 뒤 EDS_FINAL_FRAME에 도달하는지 확인.
+55. 마지막 화면 뒤 종료해 seen 메타가 보존되고 해당 크레딧에서 재개되는지 확인.
+56. schema 10의 확정 전·확정 후·구형 등급 엔딩 세이브를 schema 11로 변환해 분기·S4/S5·노드 Set을 확인.
