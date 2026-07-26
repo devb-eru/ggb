@@ -30,6 +30,7 @@
 | [`GGB-ERR-2026-0008`](GGB-ERR-2026-0008_E1_필수_조사_수와_대상_수_불일치.md) | VERIFIED | DONE | E1 필수 조사 수와 대상 수 불일치 |
 | [`GGB-ERR-2026-0009`](GGB-ERR-2026-0009_현실_수첩의_출처와_물리_연속성_누락.md) | VERIFIED | DONE | 현실 수첩의 출처와 물리 연속성 누락 |
 | [`GGB-ERR-2026-0010`](GGB-ERR-2026-0010_공통_오브젝트_ID와_반응_저장_계약_누락.md) | VERIFIED | DONE | 공통 오브젝트 ID와 반응 저장 계약 누락 |
+| [`GGB-ERR-2026-0011`](GGB-ERR-2026-0011_Windows_PC_플랫폼_확정_후_미확정_표기_잔존.md) | VERIFIED | DONE | Windows PC 플랫폼 확정 후 미확정 표기 잔존 |
 
 ## 관리
 

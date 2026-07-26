@@ -1,5 +1,7 @@
 # GGB v0.4 상태 변수·이벤트 ID·Godot 데이터 구조
 
+> 대상 런타임: Windows PC 데스크톱 / Godot
+
 ## 1. 목적
 
 본 문서는 기획 데이터를 Godot으로 이전할 때 필요한 식별자, 상태 소유권, 저장 범위를 정의한다. 프로토타입 코드는 작성하지 않지만 데이터 계약은 v0.4에서 고정한다.
@@ -1557,11 +1559,15 @@ res://
 │  ├─ reaction_router.gd
 │  ├─ ending_router.gd
 │  ├─ save_manager.gd
-│  └─ accessibility_settings.gd
+│  ├─ accessibility_settings.gd
+│  └─ visual_state_resolver.gd
 ├─ data/
 │  ├─ events/
 │  ├─ dialogue/
 │  ├─ color_signatures/
+│  ├─ avatar_visual_profiles/
+│  ├─ world_phase_visual_profiles/
+│  ├─ accessibility/
 │  ├─ object_reactions/
 │  └─ maps/
 ├─ scenes/
@@ -1577,6 +1583,9 @@ res://
    ├─ ending_run_state.gd
    ├─ ending_meta.gd
    ├─ color_signature.gd
+   ├─ avatar_visual_profile.gd
+   ├─ world_phase_visual_profile.gd
+   ├─ accessible_ui_descriptor.gd
    ├─ servant_state.gd
    └─ object_reaction.gd
 ```
@@ -1590,7 +1599,11 @@ res://
 | `ReactionRouter` | 짧은 반응 우선순위, 중복 제거, 대기·소비·superseded 처리 |
 | `EndingRouter` | EDC 커밋 뒤 ALL 의식·EDR·EDS 노드·메타 커밋 라우팅 |
 | `SaveManager` | 트랜잭션 저장, 버전 마이그레이션 |
-| `AccessibilitySettings` | 색·문양·음향·글리치 표시 |
+| `AccessibilitySettings` | Windows 창·DPI, 색·문양·자막·입력·글리치 표시 프로필 |
+| `VisualStateResolver` | 세계 단계·아바타·서명·이벤트·접근성·포커스 표현 합성 |
+| `AvatarVisualProfile` | 대표색·실루엣·종족 특징·소품·단계별 외형 |
+| `WorldPhaseVisualProfile` | S0~S5·R0 환경 보정과 감각 효과 상한 |
+| `AccessibleUIDescriptor` | UI의 이름·역할·상태·설명·행동·live region |
 | `EventDefinition` | 선행 조건과 결과 데이터 |
 | `EventHistoryEntry` | 핵심 관계 생명주기, outcome, 완료 트랜잭션, 관계 적용 이력 |
 | `ShortReactionDefinition` | 초회 조건, 대기열 정책, 선택별 관계·영구 결과 |
@@ -1736,7 +1749,7 @@ v12 추가 변환:
 - `per_state_seen` 항목은 `(reaction_id, world_phase, object_state)` 구조로 정규화한다.
 - `loop_counts`는 세이브 복구 편의용이며 NORMAL_RESET 마이그레이션 시 빈 맵으로 만든다.
 - 엔딩 required·optional Set에 등록되지 않은 오브젝트 ID는 제거하고 `MIGRATION_ENDING_OBJECT_UNKNOWN` 경고를 남긴다.
-- `object_accessibility`가 없으면 프로필 접근성 설정에서 파생한 기본 구조를 생성한다. 표시 설정은 진행 상태를 바꾸지 않는다.
+- 구형 schema 12 프로필에 `object_accessibility`가 없으면 당시 기본 구조를 생성한 뒤 §17.3에 따라 접근성 프로필 v1으로 이관한다. 표시 설정은 진행 상태를 바꾸지 않는다.
 
 v11 추가 변환:
 
@@ -2019,17 +2032,22 @@ ending_run:
   required_interactions_seen: []
   optional_interactions_seen: []
 
-profile:
-  object_accessibility:
-    large_hotspots: false
-    show_role_labels: true
-    show_first_repeat_labels: false
-    overlap_picker: true
-    color_signature_mode: color_pattern_label
-    sensory_subtitles: true
-    reduce_glitch: false
-    reduce_motion: false
-    repeat_audio_reduction: true
+user_profile:
+  accessibility_profile_version: 1
+  accessibility_settings:
+    signatures:
+      mode: color_pattern_label
+    subtitles:
+      sensory: true
+      repeat_audio_reduction: true
+    motion:
+      reduce_glitch: false
+      reduce_motion: false
+    interaction:
+      large_hotspots: false
+      show_role_labels: true
+      show_first_repeat_labels: false
+      overlap_picker: true
 ```
 
 - `persistent_seen`은 `reaction_id` Set이다.
@@ -2037,6 +2055,7 @@ profile:
 - `loop_counts`는 NORMAL_RESET에서 비우고 POST_BROKEN_REST에서는 유지한다.
 - ending Set은 일반 반응 이력과 합치지 않는다.
 - `pending_reaction_id`는 자동 대사 큐와 별도다. 시스템 확인 또는 오브젝트 표현 지연만 저장한다.
+- 오브젝트별 접근성 표현은 `user_profile.accessibility_settings`를 읽고 `accessibility_cue_ids`로 필요한 대체만 추가한다. 별도 `profile.object_accessibility` 복사본을 만들지 않는다.
 
 ### 16.5 상태 쓰기 검증
 
@@ -2127,3 +2146,322 @@ var allowed_actions: Array[StringName]
 - 저장·로드 뒤 관계 이벤트에 복귀하면 접촉 전에 동의를 다시 확인한다.
 - 시스템 확인창도 직렬화하지 않고 확인 전 안정 상태로 복귀한다.
 - 짧은 반응 대기열은 새 구조를 만들지 않고 기존 `PendingReaction`의 `event_id`, `source_event_id`, `location_id`, `status`, `expires_at_event_id`를 사용한다.
+
+## 17. Windows 시각·UI·접근성 데이터 계약
+
+### 17.1 저장 경계
+
+진행 세이브와 사용자 표시 프로필을 분리한다.
+
+```yaml
+save_header:
+  schema_version: 12
+
+user_profile:
+  accessibility_profile_version: 1
+  accessibility_settings: {}
+```
+
+- `schema_version=12`는 사건·관계·오브젝트 반응 진행 데이터의 최신 버전으로 유지한다.
+- `accessibility_profile_version=1`은 Windows 창·DPI·자막·색상·입력·모션 설정만 관리한다.
+- 접근성 프로필을 삭제·초기화해도 진행 세이브의 퍼즐, 관계, 기록, 엔딩 상태는 바뀌지 않는다.
+- 세이브 슬롯을 바꿔도 같은 Windows 사용자 프로필을 기본 사용한다.
+- 슬롯별 힌트 공개 단계와 퍼즐 검증 부분은 계속 진행 세이브에 둔다.
+
+### 17.2 `AccessibilitySettings`
+
+```gdscript
+class_name AccessibilitySettings
+extends Resource
+
+@export var profile_version: int = 1
+
+# Display
+@export_enum("borderless", "windowed", "fullscreen")
+var window_mode: StringName = &"borderless"
+@export_range(0.9, 2.2, 0.05) var ui_scale: float = 1.0
+@export_range(1.0, 2.0, 0.05) var text_scale: float = 1.0
+@export_range(1.0, 2.0, 0.25) var cursor_scale: float = 1.0
+@export var high_contrast_ui: bool = false
+
+# Signature presentation
+@export_enum("color_pattern_label", "high_contrast", "pattern_label", "custom")
+var color_signature_mode: StringName = &"color_pattern_label"
+@export_range(0.5, 2.0, 0.1) var pattern_strength: float = 1.0
+@export var custom_signature_colors: Dictionary = {}
+
+# Subtitles and reading
+@export var dialogue_subtitles: bool = true
+@export var sensory_subtitles: bool = true
+@export var speaker_labels: bool = true
+@export var directional_labels: bool = true
+@export var repeat_audio_reduction: bool = true
+@export var screen_narration: bool = false
+@export_range(0.5, 2.0, 0.1) var reading_speed: float = 1.0
+@export var simplify_loop_summary: bool = false
+
+# Motion
+@export var reduce_motion: bool = false
+@export var reduce_glitch: bool = false
+@export var photosensitivity_protection: bool = true
+@export_range(0.0, 1.0, 0.05) var camera_shake: float = 1.0
+
+# Interaction
+@export var large_hotspots: bool = false
+@export var overlap_picker: bool = true
+@export var show_role_labels: bool = true
+@export var show_first_repeat_labels: bool = false
+@export var hold_as_toggle: bool = false
+@export var keyboard_role_order: bool = true
+```
+
+불변식:
+
+```text
+AccessibilitySettings
+∩ progression writes
+= empty
+```
+
+`custom_signature_colors` 키는 등록된 `signature_id`, 값은 표시용 색이다. 사용자 색을 `hue_id`, `owner_id`, 퍼즐 입력값으로 역변환하지 않는다.
+
+문서·직렬화 YAML은 `display`, `signatures`, `subtitles`, `motion`, `interaction`, `reading`으로 묶어 읽기 쉽게 표시할 수 있다. Godot `AccessibilitySettings` 리소스에서는 위 코드처럼 고유한 평면 프로퍼티명으로 로드하며, 각 그룹은 다음처럼 매핑한다.
+
+```text
+signatures.mode → color_signature_mode
+subtitles.sensory → sensory_subtitles
+subtitles.repeat_audio_reduction → repeat_audio_reduction
+motion.reduce_glitch → reduce_glitch
+interaction.large_hotspots → large_hotspots
+```
+
+### 17.3 구형 `object_accessibility` 이관
+
+schema 12의 기존 프로필에 `object_accessibility`만 있으면 최초 로드 때 다음처럼 접근성 프로필 v1로 옮긴다.
+
+| 구형 필드 | v1 필드 |
+| --- | --- |
+| `large_hotspots` | `large_hotspots` |
+| `show_role_labels` | `show_role_labels` |
+| `show_first_repeat_labels` | `show_first_repeat_labels` |
+| `overlap_picker` | `overlap_picker` |
+| `color_signature_mode` | `color_signature_mode` |
+| `sensory_subtitles` | `sensory_subtitles` |
+| `reduce_glitch` | `reduce_glitch` |
+| `reduce_motion` | `reduce_motion` |
+| `repeat_audio_reduction` | `repeat_audio_reduction` |
+
+- 없는 필드는 문서 16 기본값으로 생성한다.
+- 범위를 벗어난 배율·흔들림 값은 허용 범위로 clamp한다.
+- 등록되지 않은 사용자 색 키는 버리고 경고 로그만 남긴다.
+- 이관 완료 뒤 진행 세이브의 `schema_version`을 올리지 않는다.
+- 구형 키는 한 번의 프로필 저장 뒤 제거한다.
+
+### 17.4 `AvatarVisualProfile`
+
+```gdscript
+class_name AvatarVisualProfile
+extends Resource
+
+@export var owner_id: StringName
+@export var avatar_palette_id: StringName
+@export var silhouette_id: StringName
+@export var species_feature_ids: Array[StringName]
+@export var prop_ids: Array[StringName]
+@export var grayscale_cue_ids: Array[StringName]
+@export var phase_variant_ids: Dictionary
+@export var forbidden_semantic_color_ids: Array[StringName]
+```
+
+기본 레지스트리:
+
+| owner_id | avatar_palette_id | silhouette_id | 핵심 단서 |
+| --- | --- | --- | --- |
+| `EDGAR` | `avatar_edgar_blue` | `dragon_vertical` | 긴 뿔·용 꼬리·레이피어 |
+| `MARA1` | `avatar_mara1_orange_red` | `fox_mechanic_wide` | 큰 여우 꼬리·스패너·넓은 자세 |
+| `LUCA` | `avatar_luca_black_lime` | `mouse_compact` | 둥근 쥐 귀·모은 손·찻잔 |
+| `IRIS` | `avatar_iris_platinum_yellow` | `plastic_angel_curve` | 플라스틱 날개·후광·꽃가위 |
+| `MARA2` | `avatar_mara2_purple` | `bat_archive_frame` | 뾰족한 귀·망토형 날개·이름표 |
+
+- 아바타 팔레트와 `ColorSignature.hex_tokens`는 별도 리소스다.
+- `grayscale_cue_ids`는 128px 회색 실루엣 QA에 사용한다.
+- `phase_variant_ids` 키는 `S0`, `S1`, `S2`, `S3`, `S4`, `S5`, `R0` 중 존재하는 단계만 가진다.
+- 마라 2 외형 연령과 주인공 외형은 미확정이므로 수치 필드로 고정하지 않는다.
+
+권장 경로:
+
+```text
+res://data/avatar_visual_profiles/avatar_edgar.tres
+res://data/avatar_visual_profiles/avatar_mara1.tres
+res://data/avatar_visual_profiles/avatar_luca.tres
+res://data/avatar_visual_profiles/avatar_iris.tres
+res://data/avatar_visual_profiles/avatar_mara2.tres
+```
+
+### 17.5 `WorldPhaseVisualProfile`
+
+```gdscript
+class_name WorldPhaseVisualProfile
+extends Resource
+
+@export var phase_id: StringName
+@export var environment_grade_id: StringName
+@export_range(0.0, 8.0, 0.5) var max_signature_offset_px: float = 0.0
+@export_range(0, 3) var max_frame_delay: int = 0
+@export_range(0.0, 4.0, 0.5) var max_camera_shake_px: float = 0.0
+@export_range(0.0, 0.4, 0.05) var max_camera_shake_seconds: float = 0.0
+@export var allow_scanline: bool = false
+@export var reduced_motion_variant_id: StringName
+@export var reduced_glitch_variant_id: StringName
+```
+
+단계 상한:
+
+| phase_id | 잔상 | 프레임 지연 | 흔들림 | 비고 |
+| --- | ---: | ---: | ---: | --- |
+| `S0` | 0px | 0 | 0px | 고딕 위장 |
+| `S1` | 2px | 1 | 0px | 반복 인지 |
+| `S2` | 4px | 2 | 2px·0.2초 이하 | 진단 누수 |
+| `S3` | 8px | 3 | 4px·0.4초 1회 이하 | 파열 |
+| `S4` | 4px | 1 | 0px | 코어 |
+| `S5` | 2px | 0 | 0px | 안정화 파열 |
+| `R0` | 0px | 0 | 0px | 현실 |
+
+전체 화면 점멸은 어떤 프로필에도 허용하지 않는다. `photosensitivity_protection=true`이면 국소 고대비 전환도 점진 마스크로 대체한다.
+
+### 17.6 `AccessibleUIDescriptor`
+
+```gdscript
+class_name AccessibleUIDescriptor
+extends Resource
+
+@export var accessible_name: String
+@export_enum("button", "tab", "list", "list_item", "dialog", "text", "slider")
+var role: StringName
+@export var state: StringName
+@export var description: String
+@export var action_label: String
+@export_enum("off", "polite", "assertive")
+var live_region: StringName = &"off"
+@export var focus_order_group: StringName
+```
+
+화면 읽기 순서:
+
+```text
+영역명
+→ 대상명
+→ 역할
+→ 상태
+→ 설명
+→ 가능한 행동
+```
+
+- `accessible_name`에 색 이름만 쓰지 않는다.
+- tooltip-only 필수 정보를 금지한다.
+- 상태 변경은 바뀐 부분만 live region에 알린다.
+- 메뉴가 열려 있으면 환경 감각 자막은 `polite` 대기열로 보낸다.
+- Windows 화면 읽기 백엔드가 미지원인 빌드도 동일 문자열을 시각 UI·게임 내부 낭독 계층에서 사용할 수 있어야 한다.
+
+### 17.7 `VisualStateResolver`
+
+```gdscript
+func resolve_visual_state(ctx: VisualContext) -> ResolvedVisualState:
+    var result := world_phase_profiles.get_base(ctx.world_phase)
+    result.apply_avatar(avatar_profiles.get(ctx.owner_id))
+    result.apply_signature(color_signatures.get(ctx.signature_id))
+    result.apply_event_overlay(ctx.event_overlay_id)
+    result.apply_accessibility(accessibility_settings)
+    result.apply_focus(ctx.interaction_state)
+    return result
+```
+
+합성 순서는 고정한다.
+
+```text
+월드 단계
+→ 아바타 대표 외형
+→ 데이터 서명
+→ 사건별 일시 오버레이
+→ 접근성 대체
+→ UI focus·interaction state
+```
+
+- resolver는 `bond`, `alert`, `world_phase`, `signature_id`를 읽기만 한다.
+- 관계 상태는 색을 바꾸지 않고 동기화·자세·소품 전달 variant만 선택한다.
+- 접근성 적용 뒤에도 owner 문양·라벨·기능 상태를 제거하지 않는다.
+- 사건 오버레이 종료 시 재질값을 직접 남기지 않고 프로필 결과를 다시 계산한다.
+- 해상도·설정 변경으로 이벤트 컨트롤러를 재실행하지 않는다.
+
+### 17.8 `HotspotAccessibilityAdapter`
+
+```gdscript
+class_name HotspotAccessibilityAdapter
+extends Node
+
+const BASE_TARGET := Vector2(44.0, 44.0)
+const LARGE_TARGET := Vector2(56.0, 56.0)
+
+func get_minimum_target_size() -> Vector2:
+    return LARGE_TARGET if settings.large_hotspots else BASE_TARGET
+```
+
+- 수치는 1920×1080 기준 논리 px다.
+- Windows DPI와 게임 UI 배율은 렌더링 단계에서 적용하고 hit shape 논리 크기는 줄이지 않는다.
+- 시각 스프라이트와 hit shape를 분리한다.
+- 겹침 목록은 `interaction_role` 우선순위를 표시하되 첫 항목을 자동 실행하지 않는다.
+- `consent_scope`가 없는 `SERVANT_OBJ_*`는 후보 목록에 넣지 않는다.
+- 마우스 hover와 키보드 focus를 별도 필드로 관리한다.
+
+### 17.9 Windows 입력·창 생명 주기
+
+```yaml
+windows_runtime:
+  base_resolution: [1920, 1080]
+  minimum_layout: [1280, 720]
+  world_aspect_ratio: "16:9"
+  pause_on_focus_lost: true
+  preserve_pending_input: true
+  resolution_revert_seconds: 15
+```
+
+- 21:9 이상에서 월드 카메라는 16:9 밖의 핫스폿을 등록하지 않는다.
+- `Alt+Tab`·최소화·포커스 상실 시 대사 자동 진행과 미확정 입력을 멈춘다.
+- 복귀 시 현재 대사·퍼즐 단계·키보드 focus를 복원한다.
+- EDC 커밋 중 종료 요청은 기존 원자 커밋 완료 또는 롤백 뒤 처리한다.
+- 팝업은 포커스를 내부에 가두고 닫을 때 원래 object_id로 돌려준다.
+- 마우스 이동만으로 keyboard focus를 바꾸지 않는다.
+- 입력 재지정 충돌은 `교체`, `둘 다 사용`, `취소`를 제공한다.
+
+### 17.10 설정 상속
+
+```text
+AccessibilitySettings 전역값
+→ location·puzzle UI 기본값
+→ ObjectReaction.accessibility_cue_ids
+→ 장면의 안전한 일시 강화
+```
+
+- 하위 리소스는 접근성 단서를 추가로 강화할 수 있으나 전역에서 켠 대체를 끌 수 없다.
+- `ObjectReaction.accessibility_cue_ids`는 어떤 대체를 표시할지 지정하며 사용자 설정값을 직접 수정하지 않는다.
+- 필수 퍼즐은 색 제거·음량 0·모션 최소를 동시에 적용해도 유효 interaction node를 유지한다.
+- 사용자 설정은 `writes`·`forbidden_writes` 검사 대상이 아니며 진행 writer에 전달하지 않는다.
+
+### 17.11 QA 시나리오
+
+67. `AccessibilitySettings`를 삭제한 뒤 기본 프로필 v1을 생성하고 진행 세이브가 유지되는지 확인.
+68. 구형 `object_accessibility` 9개 필드를 프로필 v1으로 옮기고 진행 `schema_version=12`가 유지되는지 확인.
+69. 사용자 지정 서명색 5개를 같은 색으로 설정해도 `signature_id`와 퍼즐 결과가 같은지 확인.
+70. 1280×720, 1920×1080, 2560×1440, 3840×2160과 Windows 표시 배율 100~200%에서 UI 잘림을 검사.
+71. 21:9에서 16:9 밖의 월드 핫스폿과 이벤트 미리 노출이 없는지 확인.
+72. 마우스 hover와 키보드 focus가 다른 상태에서 각 입력 장치의 명시적 확정만 소비되는지 확인.
+73. UI·글자·커서 200%와 큰 핫스폿을 동시에 켜도 팝업·퍼즐·EDC를 완료하는지 확인.
+74. 색 제거·음량 0·글리치 0·모션 감소로 P3B, C5, E3_5, D5, F0-D와 두 엔딩을 완료하는지 확인.
+75. `Alt+Tab`을 대화·퍼즐·D5 HOLD·관계 선택·EDC에서 수행해 자동 제출이 없는지 확인.
+76. `VisualStateResolver` 호출 전후 진행 상태의 직렬화 결과가 같은지 확인.
+77. 관계 LOW~ALL에서 색상값은 같고 동기화·자세·소품 variant만 바뀌는지 확인.
+78. `consent_scope`가 없는 servant body 대상이 키보드 순회·겹침 목록에 나타나지 않는지 확인.
+79. 접근성 프로필이 손상되었을 때 기본값으로 복구하고 세이브·엔딩 메타를 보존하는지 확인.
+80. 해상도 변경 확인을 취소하거나 15초 동안 응답하지 않으면 이전 표시 설정으로 복구하는지 확인.
+81. 화면 읽기 문자열에서 색만으로 된 이름·tooltip-only 필수 정보가 없는지 검사.
+82. 기본 입력과 모든 보조 입력이 같은 event ID·outcome·관계·엔딩 결과를 생성하는지 비교.
