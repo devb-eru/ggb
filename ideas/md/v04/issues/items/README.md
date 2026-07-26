@@ -13,6 +13,7 @@
 | [`GGB-CNF-2026-0007`](GGB-CNF-2026-0007_FINAL_SLEEP_LOCK_발생_시점_충돌.md) | VERIFIED | DONE | FINAL_SLEEP_LOCK 발생 시점 충돌 |
 | [`GGB-CNF-2026-0008`](GGB-CNF-2026-0008_ALL_의식의_엔딩_실행조건_충돌.md) | VERIFIED | DONE | ALL 의식의 엔딩 실행 조건 충돌 |
 | [`GGB-CNF-2026-0009`](GGB-CNF-2026-0009_S4_코어와_잔류_엔딩_상태_ID_충돌.md) | VERIFIED | DONE | S4 코어와 잔류 엔딩 상태 ID 충돌 |
+| [`GGB-CNF-2026-0010`](GGB-CNF-2026-0010_D5_이후_첫_수면과_후속_휴식_라우터_충돌.md) | VERIFIED | DONE | D5 이후 첫 수면과 후속 휴식 라우터 충돌 |
 
 ## 오류
 
@@ -27,6 +28,7 @@
 | [`GGB-ERR-2026-0007`](GGB-ERR-2026-0007_00_README_18_통합_문서의_구식_표기.md) | VERIFIED | DONE | 00·README·18 통합 문서의 구식 표기 |
 | [`GGB-ERR-2026-0008`](GGB-ERR-2026-0008_E1_필수_조사_수와_대상_수_불일치.md) | VERIFIED | DONE | E1 필수 조사 수와 대상 수 불일치 |
 | [`GGB-ERR-2026-0009`](GGB-ERR-2026-0009_현실_수첩의_출처와_물리_연속성_누락.md) | VERIFIED | DONE | 현실 수첩의 출처와 물리 연속성 누락 |
+| [`GGB-ERR-2026-0010`](GGB-ERR-2026-0010_공통_오브젝트_ID와_반응_저장_계약_누락.md) | VERIFIED | DONE | 공통 오브젝트 ID와 반응 저장 계약 누락 |
 
 ## 관리
 

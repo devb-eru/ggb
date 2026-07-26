@@ -1715,7 +1715,7 @@ intervention_budget:
 
 ```yaml
 save_header:
-  schema_version: 11
+  schema_version: 12
   game_version: "0.4-design"
   timestamp: ""
   checksum: ""
@@ -1723,7 +1723,20 @@ save_header:
 
 마이그레이션 원칙:
 
-`schema_version=11`은 엔딩 실행 상태, EDR·EDS 노드 저장, 현실·잔류 엔딩 위치, 프로필 `ending_meta`, `world_phase=S5`를 추가한다. 버전 10의 D6·E1·F2·F3 계약과 이전 스키마를 모두 유지한다. 버전 10 이하는 기존 단계별 변환을 적용한 뒤 아래 v11 규칙으로 한 번 더 변환해 저장한다.
+`schema_version=12`는 공통 오브젝트 반응 리소스, 첫·반복 조사 수명 주기, canonical 오브젝트 레지스트리와 접근성 표시 설정을 추가한다. 버전 11의 엔딩 실행 상태와 이전 스키마를 모두 유지한다. 버전 11 이하는 기존 단계별 변환을 순서대로 적용한 뒤 아래 v12 규칙으로 한 번 더 변환해 저장한다.
+
+v12 추가 변환:
+
+- `object_reaction_memory`가 없으면 빈 `persistent_seen`, `per_state_seen` Set을 생성한다.
+- `object_reaction_runtime`은 로드 중인 world phase를 기준으로 빈 `loop_counts`, `last_reaction_by_object`, `pending_reaction_id`를 생성한다.
+- E1·F3·EDR·EDS의 기존 interaction Set은 해당 사건 저장에 그대로 남긴다. 이를 일반 `persistent_seen`으로 복제하지 않는다.
+- 구식 시뮬레이션 수첩 오브젝트 ID가 있으면 `OBJ_SUBJECT_NOTEBOOK_SIM`으로, 현실 수첩은 `OBJ_REALITY_FIELD_NOTEBOOK`으로 분리한다.
+- 비정식 초상화 예제 ID는 위치에 따라 `OBJ_HALL_FAMILY_PORTRAIT` 또는 `OBJ_ARCHIVE_PORTRAIT_01`로 바꾼다. 위치를 알 수 없으면 반응 이력만 폐기하고 진행 플래그는 보존한다.
+- 구식 첫 조사 bool은 대응 `reaction_id`가 명확한 경우에만 `persistent_seen`으로 옮긴다. 불명확한 경우 첫 문구 재생을 허용하되 정보·관계 보상을 재적용하지 않는다.
+- `per_state_seen` 항목은 `(reaction_id, world_phase, object_state)` 구조로 정규화한다.
+- `loop_counts`는 세이브 복구 편의용이며 NORMAL_RESET 마이그레이션 시 빈 맵으로 만든다.
+- 엔딩 required·optional Set에 등록되지 않은 오브젝트 ID는 제거하고 `MIGRATION_ENDING_OBJECT_UNKNOWN` 경고를 남긴다.
+- `object_accessibility`가 없으면 프로필 접근성 설정에서 파생한 기본 구조를 생성한다. 표시 설정은 진행 상태를 바꾸지 않는다.
 
 v11 추가 변환:
 
@@ -1905,3 +1918,212 @@ SERVANT_ED_* 그룹 ID가 이벤트 리소스·저장·대기열에 남아 있�
 54. 잔류 중앙홀·식탁 선택 조사를 생략해도 수첩 필수 반응 뒤 EDS_FINAL_FRAME에 도달하는지 확인.
 55. 마지막 화면 뒤 종료해 seen 메타가 보존되고 해당 크레딧에서 재개되는지 확인.
 56. schema 10의 확정 전·확정 후·구형 등급 엔딩 세이브를 schema 11로 변환해 분기·S4/S5·노드 Set을 확인.
+
+## 16. 공통 오브젝트 반응 데이터 구조
+
+### 16.1 enum
+
+```gdscript
+enum InteractionRole {
+    SYSTEM_GATE,
+    MAIN_PUZZLE,
+    INFO_RECORD,
+    NAVIGATION_LOCK,
+    AMBIENT,
+    RELATION_OVERLAY,
+    ENDING_REQUIRED,
+    ENDING_OPTIONAL,
+}
+
+enum ReactionPersistence {
+    PER_CLICK,
+    PER_LOOP,
+    PER_STATE,
+    PERSISTENT,
+    ENDING_RUN,
+}
+```
+
+### 16.2 `ObjectReaction` 리소스
+
+```gdscript
+class_name ObjectReaction
+extends Resource
+
+@export var reaction_id: StringName
+@export var object_id: StringName
+@export var location_id: StringName
+@export var interaction_role: InteractionRole
+@export var world_phase: StringName
+@export var story_phase: StringName
+@export var event_context: StringName
+@export var required_object_state: StringName
+@export var required_knowledge: StringName
+@export var prerequisite_flags: Array[StringName]
+@export_range(0, 100) var priority: int = 10
+@export var first_text_id: StringName
+@export var repeat_text_id: StringName
+@export var sensory_profile_id: StringName
+@export var sensory_audio_id: StringName
+@export var color_signature_ids: Array[StringName]
+@export var accessibility_cue_ids: Array[StringName]
+@export var notebook_entry_id: StringName
+@export var persistence: ReactionPersistence
+@export var writes: Array[StringName]
+@export var forbidden_writes: Array[StringName]
+@export var fallback_reaction_id: StringName
+```
+
+권장 리소스 경로:
+
+```text
+res://data/objects/object_registry.tres
+res://data/object_reactions/{location_id}/{reaction_id}.tres
+res://data/object_reactions/ending/{reaction_id}.tres
+res://data/accessibility/object_accessibility_defaults.tres
+```
+
+### 16.3 반응 선택기
+
+```gdscript
+func resolve_object_reaction(ctx: InteractionContext) -> ObjectReaction:
+    var candidates := registry.get_reactions(ctx.object_id)
+    candidates = candidates.filter(func(r):
+        return r.matches_event_context(ctx.event_context)
+            and r.matches_object_state(ctx.object_state)
+            and r.matches_world_phase(ctx.world_phase)
+            and r.matches_knowledge(ctx.knowledge_state)
+            and r.matches_owner_overlay(ctx.owner_overlay)
+    )
+    candidates.sort_custom(_priority_then_specificity)
+    return candidates.front() if not candidates.is_empty() else registry.fallback(ctx.object_id)
+```
+
+동률이면 `event_context > object_state > world_phase > knowledge_state > owner_overlay > visit_state > fallback`의 구체성 순서를 적용한다. 선택된 반응 하나만 상태 writer를 호출하며 입력은 한 번만 소비한다.
+
+### 16.4 저장 상태
+
+```yaml
+meta_progress:
+  object_reaction_memory:
+    persistent_seen: []
+    per_state_seen: []
+
+loop_state:
+  object_reaction_runtime:
+    loop_counts: {}
+    last_reaction_by_object: {}
+    pending_reaction_id: null
+
+ending_run:
+  required_interactions_seen: []
+  optional_interactions_seen: []
+
+profile:
+  object_accessibility:
+    large_hotspots: false
+    show_role_labels: true
+    show_first_repeat_labels: false
+    overlap_picker: true
+    color_signature_mode: color_pattern_label
+    sensory_subtitles: true
+    reduce_glitch: false
+    reduce_motion: false
+    repeat_audio_reduction: true
+```
+
+- `persistent_seen`은 `reaction_id` Set이다.
+- `per_state_seen`은 `reaction_id|world_phase|object_state` 키 Set이다.
+- `loop_counts`는 NORMAL_RESET에서 비우고 POST_BROKEN_REST에서는 유지한다.
+- ending Set은 일반 반응 이력과 합치지 않는다.
+- `pending_reaction_id`는 자동 대사 큐와 별도다. 시스템 확인 또는 오브젝트 표현 지연만 저장한다.
+
+### 16.5 상태 쓰기 검증
+
+```gdscript
+const COMMON_FORBIDDEN_WRITES := {
+    &"bond": true,
+    &"alert": true,
+    &"core_event_complete": true,
+    &"researcher_record_acquired": true,
+    &"final_decision": true,
+    &"puzzle_result": true,
+}
+
+func validate_reaction_writes(reaction: ObjectReaction) -> PackedStringArray:
+    var errors := PackedStringArray()
+    for key in reaction.writes:
+        if reaction.forbidden_writes.has(key) or COMMON_FORBIDDEN_WRITES.has(key):
+            errors.append("%s writes forbidden key %s" % [reaction.reaction_id, key])
+    return errors
+```
+
+`MAIN_PUZZLE`·`SYSTEM_GATE` 오브젝트는 직접 상태를 쓰지 않고 권한이 있는 이벤트 컨트롤러에 명령을 전달한다. `INFO_RECORD`만 명시된 knowledge·수첩 항목을 쓸 수 있다.
+
+### 16.6 canonical object registry
+
+| 그룹 | object_id |
+| --- | --- |
+| 침실·휴식 | `OBJ_BEDROOM_BED`, `OBJ_BEDROOM_WINDOW`, `OBJ_BEDROOM_MIRROR`, `OBJ_BEDROOM_CALL_CORD`, `OBJ_SUBJECT_NOTEBOOK_SIM`, `OBJ_EMERGENCY_REST_CAPSULE` |
+| 중앙홀·복도 | `OBJ_HALL_FAMILY_PORTRAIT`, `OBJ_HALL_WALLPAPER`, `OBJ_HALL_CALL_CORD` |
+| 서재 | `OBJ_LIBRARY_OUTER_SHELVES`, `OBJ_LIBRARY_INNER_SHELVES`, `OBJ_LIBRARY_JOURNAL`, `OBJ_LIBRARY_JOURNAL_DESK`, `OBJ_LIBRARY_SERVICE_ALCOVE`, `OBJ_LIBRARY_PORTRAIT_LATCH`, `OBJ_LIBRARY_INDEX_DRAWERS`, `OBJ_LIBRARY_RECORD_CLOCK`, `OBJ_LIBRARY_MAP_FLOOR` |
+| 주방·식당 | `OBJ_KITCHEN_TEA_SET`, `OBJ_DINING_TABLE`, `OBJ_KITCHEN_LIFE_PIPE` |
+| 온실 | `OBJ_GREENHOUSE_DOOR`, `OBJ_GREENHOUSE_PLANTER` |
+| 거울·지하 | `OBJ_MIRROR_BLACK`, `OBJ_BASEMENT_AXIS_DEVICE` |
+| 북쪽 기록 | `OBJ_ARCHIVE_NAMEPLATES`, `OBJ_ARCHIVE_PORTRAIT_01`, `OBJ_COLOR_SEPARATOR_PANEL`, `OBJ_PERSONALITY_ARCHIVE_TERMINAL` |
+| 코어 | `OBJ_CORE_WAKE_DEVICE`, `OBJ_CORE_LOOP_STABILIZER`, `OBJ_CORE_NOTEBOOK_TERMINAL` |
+| 현실 필수 | `OBJ_REALITY_HAND`, `OBJ_REALITY_BREATH_MONITOR`, `OBJ_REALITY_RESTRAINT`, `OBJ_REALITY_FIELD_NOTEBOOK`, `OBJ_REALITY_EXIT_PANEL` |
+| 현실 선택 | `OBJ_REALITY_CAPSULE_GLASS`, `OBJ_REALITY_EMPTY_STAND`, `OBJ_REALITY_TOOLBOX`, `OBJ_REALITY_DRY_PLANTER`, `OBJ_REALITY_NAME_WALL`, `OBJ_REALITY_DISTANT_SIGNAL` |
+| 잔류 헌장 | `OBJ_STAY_MEMORY_CHARTER`, `OBJ_STAY_APPEARANCE_CONTROL`, `OBJ_STAY_AUTONOMY_CHARTER` |
+| 잔류 중앙홀 | `OBJ_STAY_CLOCK`, `OBJ_STAY_SCHEDULE`, `OBJ_STAY_FRONT_DOOR`, `OBJ_STAY_CARPET`, `OBJ_STAY_CALL_CORD`, `OBJ_STAY_NOTEBOOK` |
+| 잔류 식당·인물 | `OBJ_STAY_STAIN`, `OBJ_STAY_TEA`, `OBJ_STAY_SEASON_WINDOW`, `OBJ_STAY_PORTRAIT_LABEL`, `OBJ_STAY_RAPIER` |
+| 사용인 신체 | `SERVANT_OBJ_EDGAR_LOCK_PORT`, `SERVANT_OBJ_MARA1_MAINTENANCE_PORT`, `SERVANT_OBJ_LUCA_BIO_PORT`, `SERVANT_OBJ_IRIS_SENSOR_MEMBRANE`, `SERVANT_OBJ_MARA2_ARCHIVE_PORT` |
+
+레지스트리 항목은 최소 `object_id`, 기본 `location_id`, `default_role`, `fallback_reaction_id`, `hotspot_profile_id`를 가진다. servant object는 `owner_id`와 `requires_consent=true`를 추가한다.
+
+### 16.7 런타임 서비스
+
+| 서비스 | 책임 |
+| --- | --- |
+| `ObjectRegistry` | canonical object와 기본 위치·역할 로드 |
+| `ObjectReactionResolver` | 상태 축·우선순위·fallback 판정 |
+| `InteractionRouter` | 입력 1회 소비와 이벤트 컨트롤러 전달 |
+| `ObjectReactionMemory` | first·repeat·per-state 이력 |
+| `HotspotAccessibilityAdapter` | 타깃 크기·역할 라벨·겹침 목록 |
+| `ReactionWriteValidator` | 금지 쓰기 정적·런타임 검사 |
+
+### 16.8 추가 QA 시나리오
+
+57. canonical object registry에 57개 `OBJ_*`와 5개 `SERVANT_OBJ_*`가 중복 없이 존재하는지 확인.
+58. 모든 `ObjectReaction.object_id`가 registry에 있고 `location_id`가 문서 05 레지스트리에 존재하는지 확인.
+59. 각 오브젝트에 정확히 하나의 fallback 반응이 있고 fallback 순환 참조가 없는지 확인.
+60. AMBIENT·RELATION_OVERLAY 반응의 `writes`에 공통 금지 키가 없는지 확인.
+61. NORMAL_RESET 뒤 `loop_counts`만 비워지고 persistent·per-state 이력이 규칙대로 보존되는지 확인.
+62. BROKEN_RESET_ONCE 뒤 S3 첫 반응이 열리고 POST_BROKEN_REST 뒤에는 반복 반응으로 유지되는지 확인.
+63. 활성 퍼즐과 배경 반응이 겹칠 때 퍼즐 writer 하나만 호출되는지 확인.
+64. servant object가 유효한 `consent_scope` 없이 포커스·키보드 순회에 나타나지 않는지 확인.
+65. required·optional 엔딩 Set과 일반 반응 이력을 교차 저장하지 않는지 확인.
+66. schema 11 세이브를 schema 12로 변환해 분기·관계·정보 보상 재적용 없이 첫·반복 반응 상태를 생성하는지 확인.
+
+### 16.9 일시적 동의·확인 상태
+
+`consent_scope`와 시스템 확인창은 저장하지 않는 일시적 상호작용 컨텍스트다.
+
+```gdscript
+class_name ConsentScope
+extends RefCounted
+
+var owner_id: StringName
+var object_id: StringName
+var event_id: StringName
+var purpose: StringName
+var granted: bool
+var reversible: bool
+var allowed_actions: Array[StringName]
+```
+
+- `InteractionContext.active_consent_scope`가 현재 servant object와 일치할 때만 핫스폿을 등록한다.
+- 이벤트 종료·공간 이탈·중단 시 scope를 폐기한다.
+- 저장·로드 뒤 관계 이벤트에 복귀하면 접촉 전에 동의를 다시 확인한다.
+- 시스템 확인창도 직렬화하지 않고 확인 전 안정 상태로 복귀한다.
+- 짧은 반응 대기열은 새 구조를 만들지 않고 기존 `PendingReaction`의 `event_id`, `source_event_id`, `location_id`, `status`, `expires_at_event_id`를 사용한다.
