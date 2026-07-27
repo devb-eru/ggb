@@ -33,6 +33,7 @@
 | [`GGB-ERR-2026-0010`](GGB-ERR-2026-0010_공통_오브젝트_ID와_반응_저장_계약_누락.md) | VERIFIED | DONE | 공통 오브젝트 ID와 반응 저장 계약 누락 |
 | [`GGB-ERR-2026-0011`](GGB-ERR-2026-0011_Windows_PC_플랫폼_확정_후_미확정_표기_잔존.md) | VERIFIED | DONE | Windows PC 플랫폼 확정 후 미확정 표기 잔존 |
 | [`GGB-ERR-2026-0012`](GGB-ERR-2026-0012_Set_StringName_직렬화_표현_오류.md) | VERIFIED | DONE | Set StringName 직렬화 표현 오류 |
+| [`GGB-ERR-2026-0013`](GGB-ERR-2026-0013_검증_기준일과_최신_동기화_날짜_불일치.md) | VERIFIED | DONE | 검증 기준일과 최신 동기화 날짜 불일치 |
 
 ## 관리
 

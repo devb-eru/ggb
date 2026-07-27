@@ -3563,7 +3563,7 @@ UI hover·focus
 | `QA-17-SET-01` | `Set[StringName]` 구현 지시 | 비지원 사실 설명 외 사용 0건 | PASS |
 | `QA-17-SAVE-01` | 진행·엔딩 메타·접근성 프로필 경계 | schema 12·profile v1 각각 분리 | PASS |
 | `QA-17-OBJECT-01` | object reaction 상태 소유권 | memory는 meta, runtime은 loop에 단일 배치 | PASS |
-| `QA-17-ISSUE-01` | issues 집계 | CNF 12·ERR 12, 총 24건 VERIFIED·DONE | PASS |
+| `QA-17-ISSUE-01` | issues 집계 | CNF 12·ERR 13, 총 25건 VERIFIED·DONE | PASS |
 | `QA-17-SYNC-01` | §32 후속 문서 상태 | 대상 9개 모두 `완료` | PASS |
 | `QA-17-SYNC-02` | 정본 버전·저장 경계 동기화 | Godot 4.7·schema 12·profile v1·`.tres`/JSON 분리 일치 | PASS |
 | `QA-17-SYNC-03` | 구식 현행 구현 표기 검색 | `Godot 예정`·현행 schema 10·Set 구현 지시 잔존 없음. schema 8~11은 migration 이력에서만 사용 | PASS |
