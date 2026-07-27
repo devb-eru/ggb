@@ -27,6 +27,7 @@ GGB는 포인트 앤 클릭 어드벤처 게임 프로젝트의 작업 저장소
 - 다음 작업 계획: [`docs/next_work_plan.md`](docs/next_work_plan.md)
 - Discord 알림·회의·에셋 접수: [`docs/discord_operations.md`](docs/discord_operations.md)
 - 마일스톤과 외부 일정: [`docs/milestones.md`](docs/milestones.md)
+- M1 v0.4 기준선 검토 기록: [`docs/milestone_reviews/M1_V04_PLANNING_BASELINE.md`](docs/milestone_reviews/M1_V04_PLANNING_BASELINE.md)
 - 공개 데모 완료 기준: [`docs/demo_definition.md`](docs/demo_definition.md)
 - 완성본 범위와 출시 게이트: [`docs/full_game_definition.md`](docs/full_game_definition.md)
 - Steamworks·Next Fest 준비: [`docs/steam_release_plan.md`](docs/steam_release_plan.md)

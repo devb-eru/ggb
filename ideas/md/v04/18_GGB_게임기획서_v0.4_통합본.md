@@ -409,7 +409,7 @@ F1은 J1~J4의 출처를 인증하고, J5는 `FINAL DECISION: UNSET`을 유지�
 - `GameState`: 영구·루프·파열·리셋 트랜잭션·엔딩 실행 상태와 파생 getter.
 - `EventManager`: 사건 Resource 조회, node 실행, 시작·완료·거부 신호 소유.
 - `StateWriter`: 선언된 state path의 타입·권한·불변식을 검사하고 원자 커밋.
-- `ResetCoordinator`: SYS_COMMIT→SYS_MEMORY→RESET→ROUTE 재개를 조정.
+- `ResetCoordinator`: SYS_COMMIT→SYS_MEMORY→NORMAL_RESET→ROUTE 재개를 조정.
 - `EventDefinition`: 선행 조건, node graph, 결과, 실패·재개 정책을 데이터로 정의.
 - `ColorSignature`: 색이 아니라 소유자 기반 식별.
 - `AvatarVisualProfile`: 대표색, 실루엣, 종족 특징, 소품과 단계별 외형.
@@ -481,7 +481,7 @@ F1은 J1~J4의 출처를 인증하고, J5는 `FINAL DECISION: UNSET`을 유지�
 | 관계 overlay | 다섯 사용인의 신체 포트 | 동의 범위 안에서 outcome별 설명 |
 | 엔딩 조사 | 현실·S5 오브젝트 | required·optional 후속 이야기 |
 
-### RESET
+### 리셋·휴식 상태
 
 - NORMAL_RESET은 옮긴 물건과 손상·조합 같은 물리 상태, 현재 루프 반복 횟수를 아침 스냅샷으로 되돌린다.
 - 수첩 지식, 실패 정보, 사용인의 기억, persistent·per-state 첫 조사 이력은 유지한다.
@@ -1211,7 +1211,7 @@ flowchart TB
 
 | 항목 | 내용 |
 | --- | --- |
-| 시작 상태 | S0→S1, 첫 RESET 경험 |
+| 시작 상태 | S0→S1, 첫 NORMAL_RESET 경험 |
 | 플레이 목표 | 자기 기록의 영속성과 저택 시계망의 비정상 확인 |
 | 핵심 사건 | A1·A2·B1·B2·J1·B3·B4·J2 |
 | 주요 실패 | B3-B 봉인핀 파손 |
@@ -1824,7 +1824,7 @@ S5 안정화
 
 | 헌장 | 보장 |
 | --- | --- |
-| 기억 원칙 | RESET·감금·현실 지식을 삭제하지 않음 |
+| 기억 원칙 | 루프 리셋·감금·현실 지식을 삭제하지 않음 |
 | 가역 외형 | `layered`·`contextual` 표시를 언제든 변경 |
 | 자율성 | 사용인은 역할 명령이 아닌 자기 이름으로 거부·제안 가능 |
 
@@ -2142,7 +2142,7 @@ main 손상 시 backup의 마지막 완전한 transaction을 복구한다. 둘 �
 | 이벤트·상태 | `04` | ID·필수성·입출력 |
 | 공간 | `05`, `10` | location·잠금·동선 |
 | 튜토리얼 | `06` | P1~P6 |
-| 리셋·숏컷 | `07` | RESET·ROUTE·재개 |
+| 리셋·숏컷 | `07` | NORMAL_RESET·ROUTE·재개 |
 | 퍼즐 | `08` | 정답·힌트·실패 |
 | 정보·일지 | `09` | J1~J5·knowledge |
 | 짧은 반응 | `11` | 반응 ID·우선순위 |
