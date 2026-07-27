@@ -1,10 +1,10 @@
 # GGB v0.4 상태 변수·이벤트 ID·Godot 데이터 구조
 
-> 대상 런타임: Windows PC 데스크톱 / Godot
+> 대상 런타임: Windows PC 데스크톱 / Godot 4.7 계열
 
 ## 1. 목적
 
-본 문서는 기획 데이터를 Godot으로 이전할 때 필요한 식별자, 상태 소유권, 저장 범위를 정의한다. 프로토타입 코드는 작성하지 않지만 데이터 계약은 v0.4에서 고정한다.
+본 문서는 기획 데이터를 Godot으로 이전할 때 필요한 식별자, 상태 소유권, 저장 범위를 정의한다. 프로토타입 코드는 작성하지 않지만 데이터 계약은 v0.4에서 고정한다. GDScript 조각은 컴파일 대상 구현물이 아니라 클래스·필드·호출 경계를 전달하는 인터페이스 명세다.
 
 ## 2. ID 규칙
 
@@ -49,6 +49,9 @@ meta_progress:
   color_signatures_known: []
   researcher_records: []
   servant_states: {}
+  object_reaction_memory:
+    persistent_seen: []
+    per_state_seen: []
   mara2_name_written: false
   mara2_name_attention_seen: false
   mara2_archive_index_known: false
@@ -134,6 +137,10 @@ loop_state:
   current_hard_failure_event_id: null
   route_snapshot: null
   shortcut_resume: null
+  object_reaction_runtime:
+    loop_counts: {}
+    last_reaction_by_object: {}
+    pending_reaction_id: null
 ```
 
 `pending_reactions` 원소:
@@ -211,7 +218,7 @@ ending_run:
 ```
 
 - EDC 커밋 전에는 `branch_committed=false`, `branch_id=unset`이다.
-- `completed_nodes`, `required_interactions_seen`, `optional_interactions_seen`은 중복 없는 `Set[StringName]`으로 직렬화한다.
+- `completed_nodes`, `required_interactions_seen`, `optional_interactions_seen`은 논리적으로 집합이다. Godot 4.7 런타임과 저장 파일에서는 중복을 제거하고 정렬한 `Array[StringName]`·문자열 배열로 직렬화한다.
 - `completed_nodes`에는 EDR·EDS 사건 노드 ID만, 두 interaction Set에는 해당 노드 안의 오브젝트·하위 상호작용 ID만 저장한다.
 - `ending_appearance_mode`는 잔류 화면 표시만 바꾸며 최종 결정·관계·메타 해금에 사용하지 않는다.
 - `world_phase=S4`는 F구간 코어, `world_phase=S5`는 잔류 엔딩의 `S5_STABILIZED_FRACTURE`다.
@@ -1439,7 +1446,7 @@ ending_meta.chapter_select_unlocked
 | `iris_season_image` | StringName=`unset` | IRIS_S2 계절 선택 | E3_2 대사·감각 연출 | 금지 |
 | `mara2_name_written` | bool=false | MARA2_FU `write_name` | 마라 2 두 엔딩 오버레이 | 금지 |
 
-`short_events_seen`은 사용인별 `Set[StringName]`이며 초회 완료만 저장한다. 반복 한 줄 반응은 이 Set을 읽지만 새 관계 변화나 영구 상태를 쓰지 않는다.
+`short_events_seen`은 사용인별 논리 집합이며 초회 완료만 저장한다. Godot 4.7에서는 중복 없는 `Array[StringName]`으로 보유하고 저장 직전에 사전순 정렬한다. 반복 한 줄 반응은 이 배열을 집합처럼 조회하지만 새 관계 변화나 영구 상태를 쓰지 않는다.
 
 ### 관계·결산
 
@@ -1553,41 +1560,63 @@ all_servants_complete = (core complete == 5)
 
 ```text
 res://
-├─ autoload/
-│  ├─ game_state.gd
-│  ├─ event_bus.gd
-│  ├─ reaction_router.gd
-│  ├─ ending_router.gd
-│  ├─ save_manager.gd
-│  ├─ accessibility_settings.gd
-│  └─ visual_state_resolver.gd
+├─ scripts/
+│  ├─ autoload/
+│  │  ├─ game_state.gd
+│  │  ├─ event_manager.gd
+│  │  ├─ save_manager.gd
+│  │  └─ accessibility_profile_manager.gd
+│  ├─ systems/
+│  │  ├─ state_writer.gd
+│  │  ├─ reset_coordinator.gd
+│  │  ├─ reaction_router.gd
+│  │  ├─ ending_router.gd
+│  │  ├─ visual_state_resolver.gd
+│  │  └─ data_contract_validator.gd
+│  ├─ data_types/
+│  │  ├─ meta_progress.gd
+│  │  ├─ loop_state.gd
+│  │  ├─ fracture_state.gd
+│  │  ├─ reset_state.gd
+│  │  ├─ ending_run_state.gd
+│  │  ├─ ending_meta.gd
+│  │  ├─ accessibility_settings.gd
+│  │  ├─ typed_state_value.gd
+│  │  ├─ event_definition.gd
+│  │  ├─ event_node_definition.gd
+│  │  ├─ condition_group.gd
+│  │  ├─ state_predicate.gd
+│  │  ├─ state_write.gd
+│  │  ├─ state_path_registry.gd
+│  │  ├─ event_history_entry.gd
+│  │  ├─ short_reaction_definition.gd
+│  │  ├─ pending_reaction.gd
+│  │  ├─ servant_state.gd
+│  │  ├─ object_reaction.gd
+│  │  ├─ color_signature.gd
+│  │  ├─ avatar_visual_profile.gd
+│  │  ├─ world_phase_visual_profile.gd
+│  │  └─ accessible_ui_descriptor.gd
+│  ├─ interactables/
+│  └─ ui/
 ├─ data/
 │  ├─ events/
 │  ├─ dialogue/
+│  ├─ puzzles/
+│  ├─ states/
 │  ├─ color_signatures/
 │  ├─ avatar_visual_profiles/
 │  ├─ world_phase_visual_profiles/
 │  ├─ accessibility/
 │  ├─ object_reactions/
-│  └─ maps/
+│  ├─ maps/
+│  └─ registries/
 ├─ scenes/
-│  ├─ locations/
-│  ├─ puzzles/
+│  ├─ main/
+│  ├─ rooms/
 │  ├─ ui/
-│  └─ endings/
-└─ resources/
-   ├─ event_definition.gd
-   ├─ event_history_entry.gd
-   ├─ short_reaction_definition.gd
-   ├─ pending_reaction.gd
-   ├─ ending_run_state.gd
-   ├─ ending_meta.gd
-   ├─ color_signature.gd
-   ├─ avatar_visual_profile.gd
-   ├─ world_phase_visual_profile.gd
-   ├─ accessible_ui_descriptor.gd
-   ├─ servant_state.gd
-   └─ object_reaction.gd
+│  └─ events/
+└─ assets/
 ```
 
 책임:
@@ -1595,12 +1624,15 @@ res://
 | 구성 | 책임 |
 | --- | --- |
 | `GameState` | 영구·루프·파열 상태와 파생값 |
-| `EventBus` | 이벤트 시작·완료·실패 신호 |
+| `EventManager` | 이벤트 정의 조회, 실행 생명주기와 시작·완료·실패 신호 소유 |
+| `StateWriter` | 선언된 상태 경로에 대한 검증된 단일·원자 쓰기 |
+| `ResetCoordinator` | SYS_COMMIT→SYS_MEMORY→물리 초기화→ROUTE 재개 조정 |
 | `ReactionRouter` | 짧은 반응 우선순위, 중복 제거, 대기·소비·superseded 처리 |
 | `EndingRouter` | EDC 커밋 뒤 ALL 의식·EDR·EDS 노드·메타 커밋 라우팅 |
 | `SaveManager` | 트랜잭션 저장, 버전 마이그레이션 |
-| `AccessibilitySettings` | Windows 창·DPI, 색·문양·자막·입력·글리치 표시 프로필 |
+| `AccessibilityProfileManager` | Windows 창·DPI, 색·문양·자막·입력·글리치 표시 프로필 로드·저장 |
 | `VisualStateResolver` | 세계 단계·아바타·서명·이벤트·접근성·포커스 표현 합성 |
+| `DataContractValidator` | ID·참조·타입·writer 권한·저장 불변식 정적 검사 |
 | `AvatarVisualProfile` | 대표색·실루엣·종족 특징·소품·단계별 외형 |
 | `WorldPhaseVisualProfile` | S0~S5·R0 환경 보정과 감각 효과 상한 |
 | `AccessibleUIDescriptor` | UI의 이름·역할·상태·설명·행동·live region |
@@ -1729,20 +1761,26 @@ intervention_budget:
 ```yaml
 save_header:
   schema_version: 12
-  game_version: "0.4-design"
-  timestamp: ""
+  content_version: "v0.4"
+  engine_version: "4.7"
+  slot_id: ""
+  save_point_id: null
+  transaction_id: ""
+  created_at_utc: 0
+  updated_at_utc: 0
+  checksum_algorithm: sha256
   checksum: ""
 ```
 
 마이그레이션 원칙:
 
-`schema_version=12`는 공통 오브젝트 반응 리소스, 첫·반복 조사 수명 주기, canonical 오브젝트 레지스트리와 접근성 표시 설정을 추가한다. 버전 11의 엔딩 실행 상태와 이전 스키마를 모두 유지한다. 버전 11 이하는 기존 단계별 변환을 순서대로 적용한 뒤 아래 v12 규칙으로 한 번 더 변환해 저장한다.
+`schema_version=12`는 공통 오브젝트 반응 리소스, 첫·반복 조사 수명 주기와 canonical 오브젝트 레지스트리를 추가한다. 접근성 표시 설정은 진행 schema와 분리된 profile v1으로 관리한다. 버전 11의 엔딩 실행 상태와 이전 스키마를 모두 유지한다. 버전 11 이하는 기존 단계별 변환을 순서대로 적용한 뒤 아래 v12 규칙으로 한 번 더 변환해 저장한다.
 
 v12 추가 변환:
 
-- `object_reaction_memory`가 없으면 빈 `persistent_seen`, `per_state_seen` Set을 생성한다.
+- `object_reaction_memory`가 없으면 빈 `persistent_seen`, `per_state_seen` 논리 집합을 생성하고 중복 없는 문자열 배열로 저장한다.
 - `object_reaction_runtime`은 로드 중인 world phase를 기준으로 빈 `loop_counts`, `last_reaction_by_object`, `pending_reaction_id`를 생성한다.
-- E1·F3·EDR·EDS의 기존 interaction Set은 해당 사건 저장에 그대로 남긴다. 이를 일반 `persistent_seen`으로 복제하지 않는다.
+- E1·F3·EDR·EDS의 기존 interaction 논리 집합은 해당 사건 저장에 그대로 남긴다. 이를 일반 `persistent_seen`으로 복제하지 않는다.
 - 구식 시뮬레이션 수첩 오브젝트 ID가 있으면 `OBJ_SUBJECT_NOTEBOOK_SIM`으로, 현실 수첩은 `OBJ_REALITY_FIELD_NOTEBOOK`으로 분리한다.
 - 비정식 초상화 예제 ID는 위치에 따라 `OBJ_HALL_FAMILY_PORTRAIT` 또는 `OBJ_ARCHIVE_PORTRAIT_01`로 바꾼다. 위치를 알 수 없으면 반응 이력만 폐기하고 진행 플래그는 보존한다.
 - 구식 첫 조사 bool은 대응 `reaction_id`가 명확한 경우에만 `persistent_seen`으로 옮긴다. 불명확한 경우 첫 문구 재생을 허용하되 정보·관계 보상을 재적용하지 않는다.
@@ -1930,7 +1968,7 @@ SERVANT_ED_* 그룹 ID가 이벤트 리소스·저장·대기열에 남아 있�
 53. 잔류 layered·contextual을 반복 전환해도 final_decision·관계·메타가 변하지 않는지 확인.
 54. 잔류 중앙홀·식탁 선택 조사를 생략해도 수첩 필수 반응 뒤 EDS_FINAL_FRAME에 도달하는지 확인.
 55. 마지막 화면 뒤 종료해 seen 메타가 보존되고 해당 크레딧에서 재개되는지 확인.
-56. schema 10의 확정 전·확정 후·구형 등급 엔딩 세이브를 schema 11로 변환해 분기·S4/S5·노드 Set을 확인.
+56. schema 10의 확정 전·확정 후·구형 등급 엔딩 세이브를 schema 11로 변환해 분기·S4/S5·노드 논리 집합 배열을 확인.
 
 ## 16. 공통 오브젝트 반응 데이터 구조
 
@@ -2050,10 +2088,10 @@ user_profile:
       overlap_picker: true
 ```
 
-- `persistent_seen`은 `reaction_id` Set이다.
-- `per_state_seen`은 `reaction_id|world_phase|object_state` 키 Set이다.
+- `persistent_seen`은 `reaction_id` 논리 집합 배열이다.
+- `per_state_seen`은 `reaction_id|world_phase|object_state` 키의 논리 집합 배열이다.
 - `loop_counts`는 NORMAL_RESET에서 비우고 POST_BROKEN_REST에서는 유지한다.
-- ending Set은 일반 반응 이력과 합치지 않는다.
+- 엔딩 상호작용 논리 집합 배열은 일반 반응 이력과 합치지 않는다.
 - `pending_reaction_id`는 자동 대사 큐와 별도다. 시스템 확인 또는 오브젝트 표현 지연만 저장한다.
 - 오브젝트별 접근성 표현은 `user_profile.accessibility_settings`를 읽고 `accessibility_cue_ids`로 필요한 대체만 추가한다. 별도 `profile.object_accessibility` 복사본을 만들지 않는다.
 
@@ -2169,6 +2207,8 @@ user_profile:
 - 슬롯별 힌트 공개 단계와 퍼즐 검증 부분은 계속 진행 세이브에 둔다.
 
 ### 17.2 `AccessibilitySettings`
+
+`AccessibilitySettings`는 사용자 설정값을 담는 데이터 Resource다. 로드·저장·기본값 복구·profile migration은 `AccessibilityProfileManager`가 담당한다.
 
 ```gdscript
 class_name AccessibilitySettings
@@ -2465,3 +2505,1069 @@ AccessibilitySettings 전역값
 80. 해상도 변경 확인을 취소하거나 15초 동안 응답하지 않으면 이전 표시 설정으로 복구하는지 확인.
 81. 화면 읽기 문자열에서 색만으로 된 이름·tooltip-only 필수 정보가 없는지 검사.
 82. 기본 입력과 모든 보조 입력이 같은 event ID·outcome·관계·엔딩 결과를 생성하는지 비교.
+
+## 18. 구현 계약의 정본과 데이터 경계
+
+### 18.1 문서별 정본 우선순위
+
+같은 필드가 여러 문서에 나타날 때 다음 우선순위를 사용한다. 우선순위가 낮은 문서는 요약·사용 예이며 새로운 값을 만들지 않는다.
+
+| 영역 | 정본 | 본 문서의 책임 |
+| --- | --- | --- |
+| 사건 ID·필수 여부·입출력 | `04_전체이벤트리스트_상태표.md` | Godot 타입과 실행 구조로 변환 |
+| 공간·연결·잠금 | `05_공간구성지도_및_동선.md` | `location_id` 참조와 접근 검사 |
+| 메인 퍼즐 정답·검증 단계 | `08_이벤트상세_03_메인퍼즐.md` | checkpoint·writer·resume 계약 |
+| 정보·일지 생명주기 | `09_이벤트상세_04_정보조사_일지복원.md` | knowledge·journal 저장 구조 |
+| 짧은 반응 | `11_이벤트상세_06_사용인짧은반응.md` | queue·seen·만료 구조 |
+| 핵심 관계 | `12_이벤트상세_07_사용인핵심관계.md` | 관계 트랜잭션·outcome 구조 |
+| 파열·F구간·결산 | `13_이벤트상세_08_파열_전환_결산.md` | 상태 머신·저장 지점 |
+| 엔딩 노드·메타 | `14_이벤트상세_09_엔딩.md` | ending_run·profile 커밋 |
+| 공통 오브젝트 | `15_이벤트상세_10_공통오브젝트반응.md` | canonical registry·resolver |
+| 시각·UI·접근성 수치 | `16_색상연출_UI_접근성규칙.md` | Resource·프로필 직렬화 |
+| 타입·저장·실행·검증 | 본 문서 | 구현 데이터 계약의 최종 기준 |
+
+충돌 시 낮은 우선순위 문서를 자동으로 덮어쓰지 않는다. `issues/`에 ID를 발급하고 기준 문서의 결정을 먼저 반영한 뒤 파생 문서를 동기화한다.
+
+### 18.2 세 데이터 계층
+
+```text
+기획 원본 Markdown
+→ 저작 데이터 Resource
+→ 사용자 저장 JSON
+```
+
+| 계층 | 경로 | 형식 | 수정 주체 | 런타임 쓰기 |
+| --- | --- | --- | --- | --- |
+| 기획 원본 | `ideas/md/v04/` | Markdown·Mermaid·YAML 예시 | 기획자 | 금지 |
+| 저작 데이터 | `res://data/` | Godot `.tres` 중심 | 제작자·검증 도구 | 금지 |
+| 게임 코드 | `res://scripts/` | GDScript | 프로그래머 | 코드만 |
+| 진행 슬롯 | `user://saves/` | JSON | `SaveManager` | 허용 |
+| 프로필 | `user://profile/` | JSON | 전용 profile writer | 허용 |
+| 로그·복구 | `user://logs/`, `user://recovery/` | JSONL·JSON | 검증·복구 서비스 | 허용 |
+
+- 기획 Markdown을 게임이 직접 파싱하지 않는다.
+- 사건·퍼즐·오브젝트·색상 정의는 `.tres`를 기본 정본으로 사용한다.
+- 진행·프로필 저장에는 `ResourceSaver` 결과를 사용하지 않고 사람이 복구 가능한 JSON을 사용한다.
+- 대량 표 데이터가 임시 JSON·CSV로 제작되더라도 빌드 전 `.tres` 또는 정식 registry로 변환하고 같은 검증기를 통과해야 한다.
+- 저장 JSON에는 장면 경로와 NodePath를 넣지 않는다. 안정된 ID만 기록한다.
+
+### 18.3 읽기·쓰기 분리
+
+```mermaid
+flowchart LR
+    DEF["정적 Resource<br/>Event·Object·Puzzle"] --> EM["EventManager"]
+    GS["GameState<br/>읽기 전용 snapshot"] --> EM
+    EM --> SW["StateWriter<br/>검증된 쓰기"]
+    SW --> GS
+    GS --> SM["SaveManager"]
+    SM --> SAVE["진행 JSON"]
+    AP["AccessibilityProfileManager"] --> PROFILE["프로필 JSON"]
+    PROFILE --> AP
+    AP --> VR["VisualStateResolver"]
+    GS --> VR
+```
+
+- resolver·UI·대사·연출 코드는 `GameState`를 직접 수정하지 않는다.
+- 모든 진행 쓰기는 `StateWriter`를 거친다.
+- 접근성·창 설정은 진행 writer를 거치지 않는다.
+- `SaveManager`는 상태를 결정하지 않고 확정된 snapshot만 직렬화한다.
+
+## 19. ID·파일명·상태 경로 계약
+
+### 19.1 기획 ID와 데이터 ID
+
+기획 문서에서는 읽기 쉬운 하이픈을 허용하고 구현 데이터에서는 대문자 underscore를 사용한다.
+
+| 기획 ID | 데이터 ID | 파일명 |
+| --- | --- | --- |
+| `B3-A` | `B3_A` | `event_b3_a.tres` |
+| `C2-1` | `C2_1` | `event_c2_1.tres` |
+| `F0-D` | `F0_D` | `event_f0_d.tres` |
+| `CLR-04` | `CLR_04` | `color_stage_clr_04.tres` |
+
+정규화는 저작 도구에서 한 번만 수행한다. 런타임에서 하이픈·underscore 두 형태를 동시에 검색하지 않는다.
+
+```gdscript
+static func planning_id_to_data_id(planning_id: String) -> StringName:
+    return StringName(planning_id.to_upper().replace("-", "_"))
+```
+
+위 함수는 import·검증용이다. 저장 파일에는 정규화된 데이터 ID만 기록한다.
+
+### 19.2 ID 네임스페이스
+
+| 분류 | 형식 | 예 | 저장 가능 위치 |
+| --- | --- | --- | --- |
+| 사건 | `[A-Z][A-Z0-9_]*` | `E3_5`, `MARA2_S2` | history·queue·save point |
+| 사건 노드 | `사건_기능` | `E3_5_CHECKSUM_GAPS` | runtime·checkpoint |
+| 조건 노드 | `CHK_*` | `CHK_E1_REQUIRED_COUNT` | 실행 이력 금지 |
+| 시스템 동작 | `SYS_*` | `SYS_MEMORY`, `SYS_SYNC` | transaction history |
+| 공간 | `[MRHB][0-9]_*` 또는 `R0_*` | `M1_LIBRARY_INNER` | state·registry |
+| 오브젝트 | `OBJ_*` | `OBJ_SUBJECT_NOTEBOOK_SIM` | registry·interaction |
+| 사용인 오브젝트 | `SERVANT_OBJ_*` | `SERVANT_OBJ_EDGAR` | consent registry |
+| 지식 | `KN_*` | `KN_E1_RESET_DID_NOT_RESTORE` | knowledge entries |
+| 기록 | `REC_*` | `REC_MARA2` | researcher records |
+| 텍스트 | `TXT_*` | `TXT_MARA2_S1_ASK` | Resource 참조만 |
+| 저장 지점 | `SAVE_*` | `SAVE_F3_COMPLETE` | slot manifest |
+| 색상 단계 | `CLR_*` | `CLR_04` | event·visual history |
+| 서명 | 소문자 snake_case | `purple_archive` | signature registry |
+
+`EDGAR_B2`, `SERVANT_ED_*`, 구식 등급별 엔딩 ID는 문서 별칭이다. registry·queue·save·history에 들어가면 정적 검사 실패다.
+
+### 19.3 상태 경로와 GDScript 접근자
+
+기획 플래그 ID는 기존 문서 호환성을 위해 `D5_complete`처럼 사건 ID를 보존할 수 있다. GDScript 프로퍼티와 함수는 snake_case를 사용한다.
+
+```text
+저장 키: meta_progress.flags["D5_complete"]
+접근자: GameState.is_event_complete(&"D5")
+금지: GameState.D5_complete = true
+```
+
+| 목적 | 허용 | 금지 |
+| --- | --- | --- |
+| 사건 완료 | `flags["E3_5_complete"]` | 임의 bool 프로퍼티 추가 |
+| 중첩 상태 | `servant_states["MARA2"].bond` | `"MARA2.bond"` 문자열 분해 |
+| 파열 상태 | `fracture_state.camouflage_filter_state` | 반대 극성 bool 두 개 |
+| 선택 결과 | `event_history["E3_5"].outcome_id` | 대사 이력에서 역추정 |
+| 파생값 | getter에서 계산 | 저장·캐시 후 수동 갱신 |
+
+상태 경로는 점 표기 문자열로 저작할 수 있으나, 로드 시 `StatePathRegistry`가 토큰화하고 타입을 확인한다.
+
+### 19.4 ID 레지스트리 최소 항목
+
+```yaml
+id_registry_entry:
+  id: E3_5
+  category: event
+  source_document: "12"
+  resource_path: res://data/events/e/e3_5.tres
+  deprecated: false
+  replacement_id: null
+```
+
+- 같은 ID는 전역에서 하나의 category만 가진다.
+- 폐기 ID는 삭제하지 않고 `deprecated=true`와 `replacement_id`를 남긴다.
+- replacement 연쇄는 한 단계만 허용한다. 순환·다단 별칭은 빌드 오류다.
+- 텍스트 ID의 실제 문장은 dialogue registry가 소유하며 사건 Resource에 문장을 직접 넣지 않는다.
+
+## 20. Godot 4.7 타입·직렬화 규칙
+
+### 20.1 타입 대응표
+
+| 논리 타입 | Godot 4.7 런타임 | JSON | 규칙 |
+| --- | --- | --- | --- |
+| ID | `StringName` | string | 빈 문자열 금지 |
+| 선택적 ID | `StringName` 또는 빈 값 | string 또는 null | 필드별 방식 고정 |
+| bool | `bool` | boolean | 숫자 0·1 변환 금지 |
+| 정수 | `int` | number | 소수 입력 거부 |
+| 실수 | `float` | number | NaN·Infinity 금지 |
+| enum | `StringName` | string | registry 허용값 검사 |
+| 순서 목록 | `Array[StringName]` | array | 순서 보존 |
+| 논리 집합 | `Array[StringName]` | sorted unique array | 중복 제거·사전순 저장 |
+| 레코드 맵 | `Dictionary` | object | 키 타입·값 schema 검사 |
+| 정적 정의 | `Resource` | 저장하지 않음 | `.tres` |
+| 색 | `Color` | `#RRGGBBAA` | 진행 판정 금지 |
+| 시간 | `int` Unix UTC | integer | 표시 시 로컬 변환 |
+
+### 20.2 논리 집합 어댑터
+
+Godot 4.7에는 `Set[StringName]` 내장 타입이 없다. 문서에서 “Set”이라 부른 값은 다음 계약으로 구현한다.
+
+```gdscript
+static func normalize_id_set(values: Array[StringName]) -> Array[StringName]:
+    var seen: Dictionary = {}
+    for value in values:
+        if value != StringName():
+            seen[value] = true
+    var normalized: Array[StringName] = []
+    normalized.assign(seen.keys())
+    normalized.sort()
+    return normalized
+```
+
+- 추가는 `append`가 아니라 `add_unique_id()`를 사용한다.
+- 삭제 후에도 저장 직전 정규화한다.
+- 순서는 연출·우선순위 판정에 사용하지 않는다.
+- 순서가 필요한 `interaction_nodes`, `completed_beats`는 일반 배열이며 정렬하지 않는다.
+- 로드 중 중복을 발견하면 제거하고 `SAVE_DUPLICATE_SET_VALUE` 경고를 남긴다.
+
+### 20.3 null·unset·빈 문자열
+
+| 의미 | 표현 |
+| --- | --- |
+| 아직 선택하지 않음 | enum `unset` |
+| 관계 판정 전 | enum `unresolved` |
+| 대상 자체가 없음 | JSON `null` |
+| 빈 ID | 사용 금지 |
+| 빈 표시 문구 | `""` 허용 |
+
+`unset`과 `null`을 같은 값으로 취급하지 않는다. `final_decision=unset`은 유효한 미확정 상태고, `current_node_id=null`은 실행 중인 노드가 없다는 뜻이다.
+
+### 20.4 결정적 JSON
+
+체크섬과 diff 안정성을 위해 다음 순서를 지킨다.
+
+1. schema에 정의된 루트 순서로 object를 구성한다.
+2. Dictionary 키를 사전순으로 정렬한다.
+3. 논리 집합 배열을 정규화한다.
+4. 런타임 전용 캐시를 제거한다.
+5. UTF-8, LF, 들여쓰기 2칸으로 JSON을 생성한다.
+6. `checksum` 필드를 빈 문자열로 둔 payload의 SHA-256을 계산한다.
+7. checksum을 기록하고 임시 파일에 쓴다.
+
+JSON key 순서는 게임 의미에 영향을 주지 않지만 같은 상태가 같은 checksum을 만들도록 고정한다.
+
+## 21. 전체 저장 루트와 상태 사전
+
+### 21.1 진행 슬롯 루트
+
+```yaml
+save_document:
+  header:
+    schema_version: 12
+    content_version: "v0.4"
+    engine_version: "4.7"
+    slot_id: "slot_01"
+    save_point_id: SAVE_D5_COMPLETE
+    transaction_id: SAVE_TX_000042
+    created_at_utc: 0
+    updated_at_utc: 0
+    checksum_algorithm: sha256
+    checksum: ""
+  state:
+    meta_progress: {}
+    loop_state: {}
+    fracture_state: {}
+    reset_state: {}
+    ending_run: {}
+  recovery:
+    active_atomic_group_id: null
+    last_complete_transaction_id: null
+    pending_migration_from: null
+```
+
+`object_reaction_memory`는 `meta_progress` 안에, `object_reaction_runtime`은 `loop_state` 안에 둔다. `ending_meta`와 `AccessibilitySettings`는 진행 슬롯에 넣지 않는다.
+
+### 21.2 상태 루트 소유권
+
+| 루트 | 생명주기 | 주요 writer | NORMAL_RESET | 새 게임 |
+| --- | --- | --- | --- | --- |
+| `meta_progress` | 슬롯 영구 | `StateWriter` | 유지 | 초기화 |
+| `loop_state` | 현재 루프 | `StateWriter`, `ResetCoordinator` | 물리 부분 초기화 | 초기화 |
+| `fracture_state` | 슬롯 영구 | 파열 원자 사건 | 유지 | 초기화 |
+| `reset_state` | 트랜잭션 | `ResetCoordinator` | 재개 후 idle | 초기화 |
+| `ending_run` | 엔딩 실행 | `EndingRouter` | 해당 없음 | 초기화 |
+| `ending_meta` | 사용자 프로필 | `EndingMetaWriter` | 영향 없음 | 유지 |
+| `accessibility_settings` | 사용자 프로필 | `AccessibilityProfileManager` | 영향 없음 | 유지 |
+
+### 21.3 핵심 필드 사전
+
+| 상태 경로 | 타입·기본값 | writer | 읽는 시스템 | 불변식 |
+| --- | --- | --- | --- | --- |
+| `meta_progress.journal_stage` | int=0, 0..5 | 일지 완료 사건 | ROUTE·J4·F0 | 단계 역행 금지 |
+| `meta_progress.knowledge_entries` | Dictionary={} | 조사·인증 사건 | 퍼즐·대사·F2 | 허용 상태만 |
+| `meta_progress.validated_puzzle_steps` | Dictionary={} | PuzzleController | resume·hint | 허용 step ID만 |
+| `meta_progress.event_history` | Dictionary={} | EventManager | 관계·결산·엔딩 | lifecycle·outcome 일치 |
+| `meta_progress.failure_records` | Dictionary={} | PuzzleController | ROUTE·숏컷 | source별 active 최대 1 |
+| `meta_progress.servant_states` | Dictionary={} | 관계 사건 | 대사·결산·엔딩 | bond·alert 0..5 |
+| `meta_progress.object_reaction_memory` | Dictionary={} | ObjectReactionResolver | 조사 문구·방문 판정 | logical set 정규화 |
+| `meta_progress.f0_provisional_intent` | enum=unset | F0_E | F1·엔딩 관계 계산 | 최종 결정 게이트 금지 |
+| `meta_progress.final_decision` | enum=unset | EDC 전용 | EndingRouter | EDC 전 변경 금지 |
+| `loop_state.world_phase` | enum=S0 | Reset·fracture·ending | 공간·시각·반응 | S4·S5 구분 |
+| `loop_state.object_states` | Dictionary={} | 상호작용·퍼즐 | 장면·반응 | registry object만 |
+| `loop_state.object_reaction_runtime` | Dictionary={} | ObjectReactionResolver | 당일 반복·지연 표현 | NORMAL_RESET 초기화 |
+| `loop_state.pending_reactions` | Array=[] | ReactionRouter | 짧은 반응 | event_id unique |
+| `fracture_state.camouflage_filter_state` | enum=ACTIVE | D5·BROKEN_RESET | sleep·visual | BROKEN iff trigger |
+| `fracture_state.final_sleep_lock` | bool=false | F3_ENTRY | sleep router | EDC 취소로 해제 금지 |
+| `ending_run.branch_id` | enum=unset | EDC transaction | EndingRouter | committed와 동치 |
+| `ending_run.completed_nodes` | logical set=[] | EndingRouter | resume | 현재 분기 node만 |
+| `reset_state.phase` | enum=idle | ResetCoordinator | boot recovery | 단방향 전이 |
+
+### 21.4 파생값
+
+다음 값은 저장하지 않는다.
+
+```text
+researcher_record_count
+core_complete_count
+settlement_tier
+all_servants_complete
+journal_variant
+iris_confession_state
+final_choice_relation_preview
+available_shortcuts
+next_unvalidated_event_node
+```
+
+- 저장된 원본 상태에서 호출 시마다 계산한다.
+- UI가 요청한 파생값도 상태 변경 신호를 발생시키지 않는다.
+- 성능상 캐시가 필요하면 한 프레임 범위의 로컬 캐시만 허용하고 세이브·Resource에 넣지 않는다.
+
+## 22. 저작 Resource 공통 구조
+
+### 22.1 `TypedStateValue`
+
+Godot Inspector와 `.tres`에서 임의 `Variant`의 의도를 잃지 않도록 조건값과 쓰기값은 tagged value로 저장한다.
+
+```gdscript
+class_name TypedStateValue
+extends Resource
+
+@export_enum(
+    "null", "bool", "int", "float", "string_name",
+    "string", "string_name_array"
+) var value_type: StringName = &"null"
+@export var bool_value: bool = false
+@export var int_value: int = 0
+@export var float_value: float = 0.0
+@export var string_name_value: StringName
+@export var string_value: String = ""
+@export var string_name_array_value: Array[StringName] = []
+```
+
+- `value_type`에 대응하는 필드 하나만 읽는다.
+- 사용하지 않는 필드에 값이 있어도 판정에 사용하지 않으며 validator가 warning을 낸다.
+- enum 값은 `string_name`으로 저장하고 StatePathRegistry의 허용값을 추가 검사한다.
+- 중첩 record 전체를 한 번에 쓰지 않고 `merge_record` operation과 명시적 하위 경로를 사용한다.
+
+### 22.2 `ConditionGroup`
+
+```gdscript
+class_name ConditionGroup
+extends Resource
+
+@export_enum("all", "any", "none") var mode: StringName = &"all"
+@export var predicates: Array[StatePredicate] = []
+@export var children: Array[ConditionGroup] = []
+```
+
+```gdscript
+class_name StatePredicate
+extends Resource
+
+@export var state_path: StringName
+@export_enum(
+    "equals", "not_equals", "contains", "not_contains",
+    "gte", "lte", "is_true", "is_false", "exists"
+) var operator: StringName
+@export var expected_value: TypedStateValue
+```
+
+- 한 predicate는 하나의 상태 경로만 읽는다.
+- `final_decision`, 관계값, 접근성 설정을 필수 퍼즐 정답 조건으로 사용하는 predicate를 금지한다.
+- 존재하지 않는 경로는 false가 아니라 validation error다.
+- `none`은 모든 하위 조건이 false일 때만 true다.
+
+### 22.3 `StateWrite`
+
+```gdscript
+class_name StateWrite
+extends Resource
+
+@export var state_path: StringName
+@export_enum(
+    "set", "increment", "append_unique", "remove",
+    "merge_record", "clear", "derive_from_choice"
+) var operation: StringName
+@export var value: TypedStateValue
+@export var choice_key: StringName
+@export var allowed_previous_values: Array[TypedStateValue] = []
+```
+
+writer 검증 순서:
+
+1. `state_path`가 registry에 있는지 확인.
+2. 사건 category가 해당 경로를 쓸 권한이 있는지 확인.
+3. 입력 타입과 범위를 확인.
+4. `allowed_previous_values`를 확인.
+5. 메모리 snapshot에 적용.
+6. 모든 불변식을 검사.
+7. 단일 또는 atomic group 단위로 확정.
+
+### 22.4 `EventNodeDefinition`
+
+```gdscript
+class_name EventNodeDefinition
+extends Resource
+
+@export var node_id: StringName
+@export var node_type: StringName
+@export var location_id: StringName
+@export var prerequisites: ConditionGroup
+@export var interaction_ids: Array[StringName] = []
+@export var text_ids: Array[StringName] = []
+@export var writes: Array[StateWrite] = []
+@export var next_node_id: StringName
+@export var next_by_choice: Dictionary = {}
+@export var checkpoint_policy: StringName = &"none"
+@export var cancel_target_id: StringName
+```
+
+`node_type` 허용값:
+
+```text
+entry
+investigation
+dialogue
+puzzle
+choice
+branch_result
+transition
+atomic_commit
+merge
+return
+```
+
+### 22.5 `EventDefinition`
+
+```gdscript
+class_name EventDefinition
+extends Resource
+
+@export var event_id: StringName
+@export var category: StringName
+@export var required_mode: StringName
+@export var owner_id: StringName
+@export var location_ids: Array[StringName] = []
+@export var prerequisites: ConditionGroup
+@export var entry_node_id: StringName
+@export var nodes: Array[EventNodeDefinition] = []
+@export var completion_group_id: StringName
+@export var fail_policy: StringName
+@export var resume_policy: StringName
+@export var hint_track_id: StringName
+@export var forbidden_write_paths: Array[StringName] = []
+@export var content_tags: Array[StringName] = []
+```
+
+| 필드 | 허용값·규칙 |
+| --- | --- |
+| `category` | main, journal, puzzle, servant_short, servant_core, object, system, ending |
+| `required_mode` | required, optional, conditional_required, nonblocking_bonus |
+| `fail_policy` | none, local_retry, hard_failure_then_reset, atomic_rollback |
+| `resume_policy` | restart_event, first_unvalidated_node, saved_node, no_resume |
+| `owner_id` | 개인 사건만 설정, 없으면 빈 ID |
+| `entry_node_id` | nodes 안에 정확히 하나 존재 |
+| `completion_group_id` | 영구 효과가 둘 이상이면 필수 |
+
+### 22.6 사건 정의 예: E3_5
+
+```yaml
+event_definition:
+  event_id: E3_5
+  category: servant_core
+  required_mode: optional
+  owner_id: MARA2
+  location_ids:
+    - M1_COLOR_ROOM_ENTRY
+    - H0_COLOR_SEPARATION
+    - H0_PERSONALITY_ARCHIVE
+  entry_node_id: E3_5_ENTRY
+  completion_group_id: E3_5_COMPLETION
+  fail_policy: local_retry
+  resume_policy: first_unvalidated_node
+  forbidden_write_paths:
+    - meta_progress.final_decision
+    - fracture_state.final_sleep_lock
+    - ending_run.branch_id
+```
+
+기존 §6의 E3_5 노드·결과·관계 수치가 실제 Resource의 세부 정본이다. 이 절은 공통 클래스에 매핑하는 방법만 정의한다.
+
+## 23. 사건 실행·트랜잭션 생명주기
+
+### 23.1 런타임 상태와 영구 lifecycle 분리
+
+런타임 실행 상태:
+
+```text
+idle
+→ eligible
+→ queued
+→ running
+→ choice_pending
+→ commit_pending
+→ completed
+```
+
+보조 종료:
+
+```text
+running → cancelled
+running → suspended
+commit_pending → rolled_back
+```
+
+핵심 관계의 영구 lifecycle은 기존 enum `locked | available | in_progress | choice_pending | completed | superseded`를 유지한다. `cancelled`, `suspended`, `rolled_back`은 runtime 상태이며 `event_history.lifecycle`에 영구 저장하지 않는다.
+
+### 23.2 원자 커밋 요청
+
+```yaml
+atomic_commit_request:
+  atomic_group_id: E3_5_COMPLETION
+  transaction_id: TX_E3_5_000001
+  source_event_id: E3_5
+  source_node_id: E3_5_COMPLETION
+  expected_state_revision: 144
+  writes: []
+  save_point_id: null
+  status: prepared
+```
+
+상태:
+
+```text
+prepared → validated → applied → persisted → complete
+                   ↘ rejected
+                   ↘ rolled_back
+```
+
+- `expected_state_revision`이 현재 revision과 다르면 재검증 전까지 적용하지 않는다.
+- `applied` 뒤 저장 실패 시 메모리 snapshot을 이전 revision으로 롤백한다.
+- 같은 `transaction_id`가 `complete`면 재요청은 no-op다.
+- 같은 `atomic_group_id`라도 서로 다른 완료 시도에는 새 transaction ID를 사용한다.
+- 완료 트랜잭션은 관계 delta, 기록, 플래그, history를 한 번에 쓴다.
+
+### 23.3 writer 권한표
+
+| 사건 category | 허용 루트 | 대표 금지 |
+| --- | --- | --- |
+| `main` | meta, loop, fracture 중 선언 경로 | profile 직접 쓰기 |
+| `journal` | journal, knowledge, notebook | 관계·최종 결정 |
+| `puzzle` | validated steps, failure, object state | 엔딩 메타 |
+| `servant_short` | short seen, 제한된 bond·alert, 대기열 | core complete·record |
+| `servant_core` | event history, servant, record, knowledge | final decision |
+| `object` | reaction memory, 허용 object state | 관계·결산·엔딩 |
+| `system` | 명시된 transaction·reset 경로 | 대사 선택 결과 창작 |
+| `ending` | ending_run, final decision, ending_meta 전용 단계 | 이전 퍼즐 정답 변경 |
+
+### 23.4 취소·이탈·강제 종료
+
+| 시점 | 취소 결과 | 저장 |
+| --- | --- | --- |
+| entry 확인 전 | 이전 자유 조사로 복귀 | 없음 |
+| 조사·대화 중 | checkpoint 정책에 따라 복귀 | 영구 효과 없음 |
+| 선택 UI 미확정 | 선택 폐기, 같은 노드 재개 | 없음 |
+| `commit_pending` | 입력 잠금, 완료 또는 롤백 | transaction journal |
+| commit 완료 뒤 | 취소 불가, 다음 노드 | 자동 저장 |
+| 애플리케이션 종료 | 마지막 완전한 transaction에서 재개 | `.bak` 보존 |
+
+## 24. 저장 슬롯·프로필·복구 파일
+
+### 24.1 권장 파일 구조
+
+```text
+user://
+├─ saves/
+│  ├─ slot_01/
+│  │  ├─ progress.json
+│  │  ├─ progress.bak.json
+│  │  ├─ progress.tmp.json
+│  │  └─ f3_reselect.json
+│  └─ slot_02/
+│     └─ ...
+├─ profile/
+│  ├─ ending_meta.json
+│  ├─ accessibility.json
+│  └─ input_map.json
+├─ recovery/
+│  └─ transaction_journal.json
+└─ logs/
+   ├─ migration.jsonl
+   └─ validation.jsonl
+```
+
+- 슬롯 수는 UI 기획에서 정하며 데이터 구조는 임의 `slot_id`를 지원한다.
+- `f3_reselect.json`은 `SAVE_F3_COMPLETE`의 편의 사본이며 메인 진행을 자동 덮어쓰지 않는다.
+- 프로필 파일을 삭제해도 진행 슬롯은 로드할 수 있어야 한다.
+- 접근성 프로필 손상은 기본값 복구 대상이고 본편 슬롯 손상으로 처리하지 않는다.
+
+프로필 wrapper:
+
+```yaml
+ending_meta_document:
+  ending_meta_profile_version: 1
+  ending_meta:
+    reality_seen: false
+    stay_seen: false
+    any_ending_seen: false
+    gallery_unlocked: false
+    chapter_select_unlocked: false
+
+accessibility_document:
+  accessibility_profile_version: 1
+  accessibility_settings: {}
+```
+
+### 24.2 저장 지점 정책
+
+| 저장 지점 | 종류 | 생성 조건 | 재개 |
+| --- | --- | --- | --- |
+| `SAVE_D4_COMPLETE` | 자동 | D4 완료 | D5_ENTRY |
+| `SAVE_D5_COMPLETE` | 자동 | D5 원자 완료 | D6_FREE_INSPECTION |
+| `SAVE_FRACTURE_CONFIRMED` | 자동 | 수면 경로 확정 | FRACTURE_SLEEP |
+| `SAVE_BROKEN_RESET_COMPLETE` | 자동 | S3·BROKEN 확정 | E1_ENTRY |
+| `SAVE_E2_COMPLETE` | 자동 | 관계 허브 개방 | E_HUB |
+| `SAVE_J4_COMPLETE` | 자동 | J4 확정 | E3_4 또는 E3_4M |
+| `SAVE_E5_COMPLETE` | 자동 | E5 완료 | E6 전 자유 조사 |
+| `SAVE_F2_COMPLETE` | 자동 | F2 필수 사실 완료 | F3_ENTRY |
+| `SAVE_F3_COMPLETE` | 자동+수동 재선택 기준 | F3 3종 조사 완료 | F3_COMPLETION |
+| `SAVE_ENDING_BRANCH` | 원자 자동 | EDC 최종 커밋 | 확정 분기 ENTRY |
+| `SAVE_ENDING_NODE` | 자동 | 엔딩 노드 갱신 | 첫 미완료 필수 노드 |
+| `SAVE_ENDING_COMPLETE` | 자동 | 메타 커밋 뒤 | 크레딧 |
+
+F0는 A~E 단계 완료마다 일반 자동 저장한다. 퍼즐 입력 도중 임의 수동 저장을 제공하지 않으며 현재 checkpoint만 저장한다.
+
+### 24.3 안전 저장 순서
+
+```mermaid
+flowchart TD
+    S0["GameState snapshot 고정"] --> S1["schema·불변식 검사"]
+    S1 --> S2["결정적 JSON 생성·checksum 계산"]
+    S2 --> S3["progress.tmp.json 기록"]
+    S3 --> S4["tmp 재로드·checksum 검증"]
+    S4 --> S5["기존 progress를 bak으로 교체"]
+    S5 --> S6["tmp를 progress로 교체"]
+    S6 --> S7["transaction complete 기록"]
+```
+
+- tmp 검증 전 기존 progress를 삭제하지 않는다.
+- `progress`가 손상되면 `.bak`을 검사하고 가장 최신의 완전한 transaction을 복구한다.
+- 둘 다 손상되면 자동 추정으로 진행을 만들지 않고 복구 화면을 연다.
+- 복구 화면은 손상 슬롯 보존, 백업 로드, 새 슬롯 시작을 제공한다.
+- 저장 실패가 접근성 설정 실패와 동시에 발생해도 두 writer는 서로 롤백시키지 않는다.
+
+### 24.4 checksum 범위
+
+checksum에는 `header.checksum`을 제외한 진행 문서 전체가 들어간다. 파일명, Windows 사용자 경로, 표시 언어는 포함하지 않는다. checksum은 우발적 손상 탐지용이며 보안·부정행위 방지 수단으로 사용하지 않는다.
+
+## 25. 리셋·체크포인트·숏컷 재개 상세 계약
+
+### 25.1 정상 리셋 보존 행렬
+
+| 데이터 | SYS_COMMIT | SYS_MEMORY | NORMAL_RESET | MORNING |
+| --- | --- | --- | --- | --- |
+| 수첩·지식 | snapshot | 영구 반영 | 유지 | ROUTE 읽기 |
+| 관계·잔류 기억 | snapshot | 영구 반영 | 유지 | 대사 변형 |
+| 실패 기록 | snapshot | 영구 반영 | 유지 | 숏컷 계산 |
+| pending reaction | snapshot | 이관 결정 | pending만 이관 | 안전 구간 예약 |
+| inventory | 읽기 | 영구 항목만 분리 | 당일 항목 제거 | 초기 지급 |
+| object state | 읽기 | 영구 변화만 분리 | 물리 상태 초기화 | 장면 적용 |
+| intervention budget | 없음 | 없음 | 기본값 재생성 | 사용인별 적용 |
+
+### 25.2 checkpoint 레코드
+
+```yaml
+event_checkpoint:
+  event_id: E3_5
+  checkpoint_version: 1
+  validated_steps:
+    - mara2_sources_separated
+    - mara2_purple_channel_separated
+  current_node_id: E3_5_CHECKSUM_GAPS
+  local_choices: {}
+  local_inventory_refs: []
+  state_revision: 118
+  safe_resume_node_id: E3_5_CHECKSUM_GAPS
+```
+
+- 영구 보상과 관계 변화는 checkpoint에 넣지 않는다.
+- 비가역 선택은 completion transaction 전에는 `local_choices`에만 둔다.
+- Resource가 바뀌어 node ID가 사라지면 첫 미검증 validated step의 소유 노드로 복귀한다.
+- 안전한 대응 노드도 없으면 사건 entry로 돌아가되 이미 검증된 step은 유지한다.
+
+### 25.3 숏컷 재개 판정
+
+```text
+active failure 존재
+AND 요구 journal stage 충족
+AND 필요한 knowledge가 verified 이상
+AND 해당 성공 플래그 없음
+→ 숏컷 후보
+```
+
+후보가 둘 이상이면 현재 목표와 가장 가까운 사건을 제안하되 플레이어가 ROUTE에서 선택한다. 랜덤 선택하지 않는다.
+
+```gdscript
+func derive_resume_node(event_id: StringName) -> StringName:
+    var definition := event_registry.get_event(event_id)
+    var checkpoint := game_state.get_checkpoint(event_id)
+    for node in definition.nodes:
+        if node.has_validated_step() and not checkpoint.has_step(node.validated_step):
+            return node.node_id
+    return definition.completion_node_id
+```
+
+### 25.4 D5 이후 재개
+
+- `BROKEN_RESET_ONCE` 이전 강제 종료는 `DISABLED` 상태와 FRACTURE_SLEEP 확인 지점으로 복귀한다.
+- 완료 transaction이 있으면 S3를 다시 생성하지 않는다.
+- E1 이후 POST_BROKEN_REST는 checkpoint·오브젝트 수리·사용인 위치를 초기화하지 않는다.
+- F3_ENTRY 이후 어떤 재개 경로에서도 `final_sleep_lock=true`를 유지한다.
+
+## 26. 런타임 서비스와 신호 계약
+
+### 26.1 Autoload와 일반 시스템 구분
+
+| 서비스 | 권장 배치 | 전역 상태 | 비고 |
+| --- | --- | --- | --- |
+| `GameState` | autoload | 보유 | 상태 snapshot·파생 getter |
+| `EventManager` | autoload | 현재 사건 ID만 | EventBus 역할 포함 |
+| `SaveManager` | autoload | 저장 작업 상태 | 진행 슬롯만 |
+| `AccessibilityProfileManager` | autoload | 사용자 설정 | 진행 상태와 분리 |
+| `StateWriter` | systems | 없음 | GameState가 소유 |
+| `ResetCoordinator` | systems | transaction runtime | EventManager가 호출 |
+| `ReactionRouter` | systems | 없음 | queue를 읽고 write 요청 생성 |
+| `EndingRouter` | systems | 없음 | ending_run 라우팅 |
+| `VisualStateResolver` | systems | 없음 | 순수 표현 합성 |
+| `DataContractValidator` | editor/build tool | 없음 | 런타임 필수 아님 |
+
+`EventBus`를 별도 autoload로 두지 않는다. 사건 신호는 `EventManager`가 소유해 시작·완료 순서와 상태 revision을 함께 보장한다.
+
+### 26.2 공통 신호
+
+```gdscript
+signal event_requested(event_id: StringName, source_id: StringName)
+signal event_started(event_id: StringName, node_id: StringName, state_revision: int)
+signal event_node_changed(event_id: StringName, node_id: StringName)
+signal event_suspended(event_id: StringName, resume_node_id: StringName)
+signal event_completed(event_id: StringName, outcome_id: StringName, transaction_id: StringName)
+signal event_rejected(event_id: StringName, error_ids: PackedStringArray)
+signal state_committed(revision: int, changed_paths: PackedStringArray)
+signal save_completed(slot_id: StringName, save_point_id: StringName)
+signal save_failed(slot_id: StringName, error_id: StringName)
+```
+
+- 신호 payload에 전체 mutable Dictionary를 넘기지 않는다.
+- signal 수신자가 같은 프레임에 직접 진행 상태를 쓰지 않는다.
+- UI는 `event_rejected`를 실패 엔딩처럼 표시하지 않고 입력·조건 오류로 처리한다.
+- `state_committed` 뒤 resolver와 UI가 새 snapshot을 읽는다.
+
+### 26.3 입력 한 번·writer 한 번
+
+한 번의 명시적 confirm은 최대 한 사건 노드와 한 writer 요청만 소비한다.
+
+```text
+InputRouter
+→ InteractionRouter
+→ EventManager
+→ StateWriter
+```
+
+- hover와 focus 변화는 confirm이 아니다.
+- 겹침 목록 선택은 대상 확정만 하며 즉시 두 번째 행동을 실행하지 않는다.
+- `Alt+Tab` 복귀 입력을 confirm으로 전달하지 않는다.
+- 대사 skip, 퍼즐 confirm, EDC confirm은 서로 다른 action ID를 사용한다.
+
+## 27. 정적 데이터 배치와 registry
+
+### 27.1 권장 `res://data` 구조
+
+```text
+res://data/
+├─ events/
+│  ├─ p/
+│  ├─ a_to_d/
+│  ├─ e/
+│  ├─ f/
+│  ├─ endings/
+│  ├─ servant_short/
+│  └─ system/
+├─ dialogue/
+│  ├─ edgar/
+│  ├─ mara1/
+│  ├─ luca/
+│  ├─ iris/
+│  ├─ mara2/
+│  └─ system/
+├─ puzzles/
+├─ states/
+├─ maps/
+├─ object_reactions/
+├─ color_signatures/
+├─ avatar_visual_profiles/
+├─ world_phase_visual_profiles/
+├─ accessibility/
+└─ registries/
+   ├─ event_registry.tres
+   ├─ state_path_registry.tres
+   ├─ location_registry.tres
+   ├─ object_registry.tres
+   ├─ text_registry.tres
+   ├─ signature_registry.tres
+   └─ save_point_registry.tres
+```
+
+### 27.2 registry 의존성
+
+```mermaid
+flowchart TD
+    ER["event_registry"] --> SR["state_path_registry"]
+    ER --> LR["location_registry"]
+    ER --> TR["text_registry"]
+    ER --> PR["puzzle definitions"]
+    OR["object_registry"] --> LR
+    OR --> RR["object reaction registry"]
+    RR --> TR
+    RR --> SIG["signature_registry"]
+    VIS["visual profiles"] --> SIG
+    SAVE["save point registry"] --> ER
+```
+
+- registry 로드 실패는 누락 항목을 조용히 건너뛰지 않는다.
+- 선택 콘텐츠 하나의 리소스 오류로 전체 부팅을 막을 필요가 없으면 해당 사건을 비활성화하고 명시적 개발 오류를 남긴다.
+- 필수 사건·필수 오브젝트·필수 save point 오류는 빌드 차단이다.
+
+### 27.3 Resource 파일 규칙
+
+- 파일명은 소문자 snake_case다.
+- 하나의 실행 event ID는 기본적으로 하나의 최상위 `.tres`를 가진다.
+- 큰 사건의 node는 subresource로 두거나 `event_id/node_id.tres`로 나눌 수 있으나 두 방식을 혼용하지 않는다.
+- 대사 본문을 EventDefinition에 중복 저장하지 않는다.
+- `.tres`에 절대 Windows 경로를 넣지 않는다.
+- 외부 ID는 `StringName`, 플레이어 표시 문장은 `String`을 사용한다.
+
+## 28. 마이그레이션 파이프라인과 복구 정책
+
+### 28.1 단계별 실행
+
+```text
+파일 읽기
+→ JSON 문법 검사
+→ header 최소 필드 검사
+→ checksum 검사
+→ 원본 schema 판정
+→ vN→vN+1 순차 변환
+→ 현재 schema 검증
+→ 불변식 복구 또는 사용자 확인
+→ 새 transaction으로 저장
+```
+
+- 중간 버전을 건너뛰지 않는다.
+- 각 migrator는 같은 입력에 같은 출력을 내는 순수 변환이어야 한다.
+- migrator 실행 중 진행 보상을 새로 지급하지 않는다.
+- 결과를 추정할 수 없는 관계 선택·E3_5 resolution은 전용 recovery UI로 보수한다.
+
+### 28.2 migration 결과
+
+| 결과 | 처리 |
+| --- | --- |
+| `MIGRATED` | 새 schema로 저장 |
+| `MIGRATED_WITH_WARNINGS` | 경고 로그·새 schema 저장 |
+| `NEEDS_PLAYER_RECOVERY` | 원본 보존·복구 UI |
+| `UNSUPPORTED_FUTURE_SCHEMA` | 읽기 금지·파일 보존 |
+| `CORRUPTED` | backup 검사 |
+| `FAILED` | 원본·tmp 보존·진단 ID 표시 |
+
+### 28.3 로그 레코드
+
+```yaml
+migration_log:
+  timestamp_utc: 0
+  slot_id: slot_01
+  from_schema: 10
+  to_schema: 12
+  result: MIGRATED_WITH_WARNINGS
+  warning_ids:
+    - MIGRATION_ENDING_OBJECT_UNKNOWN
+  source_checksum: ""
+  result_checksum: ""
+```
+
+로그에는 대사 본문, 사용자 이름, Windows 경로를 기록하지 않는다.
+
+### 28.4 profile migration 분리
+
+진행 `schema_version=12`, 접근성 `accessibility_profile_version=1`, 엔딩 메타 `ending_meta_profile_version=1`은 서로 독립적으로 올린다. 한 프로필의 migration 실패로 다른 파일의 version을 되돌리지 않는다.
+
+## 29. 정적 검증기 명세
+
+### 29.1 검사 단계
+
+| 단계 | 입력 | 대표 검사 | 실패 수준 |
+| --- | --- | --- | --- |
+| `ID_SCAN` | 모든 registry | 중복·금지 별칭·형식 | error |
+| `REFERENCE_SCAN` | Resource graph | event·node·location·text·object 참조 | error |
+| `TYPE_SCAN` | state write | 타입·enum·범위 | error |
+| `OWNERSHIP_SCAN` | writer table | category별 금지 쓰기 | error |
+| `FLOW_SCAN` | event graph | 도달 불가·무한 순환·merge 누락 | error |
+| `SAVE_SCAN` | save point | 안전 node·필수 상태 | error |
+| `A11Y_SCAN` | 필수 상호작용 | 비색상·키보드 대체 | error |
+| `CONTENT_SCAN` | 선택 사건 | 필수 게이트 오염 | error |
+| `STYLE_SCAN` | 파일명·라벨 | snake_case·표시명 | warning |
+
+### 29.2 오류 형식
+
+```text
+[ERROR][GGB-DATA-REF-001]
+resource=res://data/events/e/event_e3_5.tres
+field=nodes[3].next_node_id
+value=E3_5_UNKNOWN
+message=등록되지 않은 사건 노드입니다.
+```
+
+- 오류 ID는 문서 충돌 ID와 구분해 `GGB-DATA-*`를 사용한다.
+- 같은 원인의 여러 파일 오류는 하나의 issue와 여러 validation record로 묶을 수 있다.
+- 필수 Resource error가 하나라도 있으면 export를 차단한다.
+
+### 29.3 필수 불변식 묶음
+
+```text
+INV-RESET-01:
+  camouflage_filter_state == BROKEN
+  iff broken_reset_triggered == true
+
+INV-E3-COMPLETE-01:
+  E3_X_complete
+  == REC_OWNER acquired
+  == servant core_event_complete
+  == servant researcher_record_acquired
+  == event_history.lifecycle completed
+
+INV-ENDING-01:
+  ending_run.branch_committed
+  iff branch_id in [reality, stay]
+  iff final_decision == branch_id
+
+INV-SET-01:
+  logical set arrays contain no duplicates
+
+INV-PROFILE-01:
+  accessibility changes do not alter progress checksum payload
+```
+
+### 29.4 검증 명령 인계안
+
+프로토타입 범위에는 포함하지 않지만 구현 시 다음 editor/headless 작업을 권장한다.
+
+```text
+validate_data_contract
+validate_event_graphs
+validate_save_fixtures
+validate_accessibility_routes
+```
+
+각 작업은 0이 아닌 오류 수가 있으면 실패 exit code를 반환해야 한다.
+
+## 30. 저장·사건 테스트 fixture
+
+### 30.1 최소 fixture 세트
+
+| fixture ID | 상태 | 목적 |
+| --- | --- | --- |
+| `FIX_NEW_GAME` | S0·J0·관계 0 | 기본값 |
+| `FIX_RESET_B_FAIL` | B3 active failure | BSHORT |
+| `FIX_RESET_C_FAIL` | C4 active failure | CSHORT |
+| `FIX_RESET_D_FAIL` | D1 active failure | DSHORT |
+| `FIX_D5_DISABLED` | D5 완료·첫 파열 수면 전 | DISABLED |
+| `FIX_S3_BROKEN` | BROKEN_RESET 완료 | 단발 전환 |
+| `FIX_E_HUB_ZERO` | 관계 0명 | 최소 진행 |
+| `FIX_E_HUB_ALL` | 관계 5명 | ALL |
+| `FIX_E3_5_MERGED` | merged 완료 | 양 엔딩 반응 |
+| `FIX_E3_5_SEPARATED` | separated 완료 | 양 엔딩 반응 |
+| `FIX_F0_INTENT_3` | provisional 3종 | 비구속 의향 |
+| `FIX_F3_UNDECIDED` | F3 완료·결정 전 | 중립 저장 |
+| `FIX_END_REALITY` | reality branch | 현실 에필로그 |
+| `FIX_END_STAY` | stay branch | S5 에필로그 |
+| `FIX_LEGACY_V9` | schema 9 | 순차 migration |
+| `FIX_CORRUPTED_PRIMARY` | progress 손상·bak 정상 | 복구 |
+
+### 30.2 동치 검증
+
+```text
+Resource 정의 로드
+→ fixture 로드
+→ 사건 실행
+→ 저장
+→ 애플리케이션 재시작 가정
+→ 재로드
+→ 파생값 재계산
+→ 예상 snapshot 비교
+```
+
+비교에서 제외:
+
+```text
+updated_at_utc
+transaction_id
+checksum
+한 프레임 캐시
+UI hover·focus
+오디오 재생 위치
+```
+
+## 31. 구현 인계 체크리스트
+
+### 31.1 데이터 제작 전
+
+- [ ] Godot 4.7 계열을 사용한다.
+- [ ] `res://scripts/*`, `res://data/*`, `res://scenes/*` 경로를 따른다.
+- [ ] 기획 ID와 데이터 ID 정규화표를 확정한다.
+- [ ] 모든 state path를 registry에 등록한다.
+- [ ] 모든 enum의 기본값과 허용값을 등록한다.
+
+### 31.2 사건 제작 전
+
+- [ ] EventDefinition과 node graph가 정적 검사를 통과한다.
+- [ ] 모든 write가 category 권한 안에 있다.
+- [ ] 영구 효과가 둘 이상이면 atomic group이 있다.
+- [ ] 취소·실패·중단·재개 지점이 있다.
+- [ ] 선택 사건이 F0·엔딩 선택을 막지 않는다.
+
+### 31.3 저장 구현 전
+
+- [ ] 진행·엔딩 메타·접근성 프로필 파일이 분리되어 있다.
+- [ ] logical set 배열이 정렬·중복 제거된다.
+- [ ] tmp→검증→bak→교체 순서가 구현된다.
+- [ ] checksum 범위가 결정적이다.
+- [ ] future schema와 손상 파일을 덮어쓰지 않는다.
+- [ ] migration fixture가 원본과 결과 checksum을 보존한다.
+
+### 31.4 Windows 검증 전
+
+- [ ] focus 상실 중 미확정 선택이 제출되지 않는다.
+- [ ] 화면·입력 설정이 진행 checksum을 바꾸지 않는다.
+- [ ] 키보드만으로 필수 event node에 도달한다.
+- [ ] 1280×720·UI 200%에서도 확인·취소가 보인다.
+- [ ] 색 제거·음량 0에서도 signature·퍼즐 판정이 유지된다.
+
+## 32. 본 상세화의 후속 동기화 대상
+
+본 문서 상세화는 기존 사건 내용이나 schema version을 바꾸지 않는다. 2026-07-27에 아래 파생 문서의 후속 동기화를 모두 완료했다.
+
+| 대상 | 후속 반영 내용 | 우선순위 | 현재 상태 |
+| --- | --- | --- | --- |
+| `docs/data_contract.md` | `.tres` 저작 데이터·JSON 사용자 저장 분리 | P1 | 완료 |
+| `docs/godot_conventions.md` | `scripts/data_types`, systems·autoload 책임 분리 | P1 | 완료 |
+| `00_v04_문서목록_및_확정사항.md` | Godot 4.7·schema 12·profile v1·정본 계층 요약 | P2 | 완료 |
+| `README.md` | 구현 인계 읽기 경로와 저장 경계 | P2 | 완료 |
+| `04_전체이벤트리스트_상태표.md` | 기획 ID→데이터 ID·logical set·save registry 참조 | P2 | 완료 |
+| `12_이벤트상세_07_사용인핵심관계.md` | E3 원자 완료·E3_4M 예외의 현행 progress schema 12 참조 | P2 | 완료 |
+| `13_이벤트상세_08_파열_전환_결산.md` | save point·atomic transaction·복구 계약 | P3 | 완료 |
+| `14_이벤트상세_09_엔딩.md` | 진행 슬롯·profile·F3 재선택 파일 경계 | P3 | 완료 |
+| `18_GGB_게임기획서_v0.4_통합본.md` | 서비스·저장·검증·복구 요약 | P3 | 완료 |
+
+후속 문서는 본 절의 요약 범위만 소유한다. 타입·writer·직렬화·migration의 상세 정본은 계속 본 문서다.
+
+## 33. 본 상세화 검증 결과
+
+검증 기준일: 2026-07-27.
+
+| 검증 ID | 검사 | 결과 | 상태 |
+| --- | --- | --- | --- |
+| `QA-17-STRUCT-01` | H1·§1~§33 구조 | H1 1개, 신규 구현 계약 절 존재 | PASS |
+| `QA-17-FENCE-01` | Markdown 코드 펜스 | 248개, 짝 일치 | PASS |
+| `QA-17-LINK-01` | 본문·신규 이슈 상대 링크 | 누락 대상 없음 | PASS |
+| `QA-17-PATH-01` | 구식 `res://autoload`, `res://resources`, `scenes/locations` | 정본 경로 지시 0건 | PASS |
+| `QA-17-SET-01` | `Set[StringName]` 구현 지시 | 비지원 사실 설명 외 사용 0건 | PASS |
+| `QA-17-SAVE-01` | 진행·엔딩 메타·접근성 프로필 경계 | schema 12·profile v1 각각 분리 | PASS |
+| `QA-17-OBJECT-01` | object reaction 상태 소유권 | memory는 meta, runtime은 loop에 단일 배치 | PASS |
+| `QA-17-ISSUE-01` | issues 집계 | CNF 12·ERR 12, 총 24건 VERIFIED·DONE | PASS |
+| `QA-17-SYNC-01` | §32 후속 문서 상태 | 대상 9개 모두 `완료` | PASS |
+| `QA-17-SYNC-02` | 정본 버전·저장 경계 동기화 | Godot 4.7·schema 12·profile v1·`.tres`/JSON 분리 일치 | PASS |
+| `QA-17-SYNC-03` | 구식 현행 구현 표기 검색 | `Godot 예정`·현행 schema 10·Set 구현 지시 잔존 없음. schema 8~11은 migration 이력에서만 사용 | PASS |
+| `QA-17-SYNC-04` | 변경 문서 Markdown 구조 | 상대 링크 누락·코드 펜스 불일치 없음 | PASS |
+| `QA-17-DIFF-01` | Git whitespace 검사 | 오류 없음 | PASS |
+
+Mermaid는 노드·펜스의 텍스트 구조까지만 검사했다. 실제 Godot Resource 로드, GDScript 컴파일, save fixture 실행은 프로토타입 범위가 아니므로 구현 단계의 headless 검사로 넘긴다. 이번 후속 동기화 검사는 문서 17과 §32의 파생 문서 및 공통 계약 사이 정적 일치까지 포함한다.

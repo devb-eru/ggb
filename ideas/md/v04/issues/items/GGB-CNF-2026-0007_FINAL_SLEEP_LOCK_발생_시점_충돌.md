@@ -56,7 +56,7 @@ resolved_in:
   - 04_전체이벤트리스트_상태표.md F3·FINAL_SLEEP_LOCK·final_sleep_lock
   - 13_이벤트상세_08_파열_전환_결산.md §2.1, §13, §20
   - 14_이벤트상세_09_엔딩.md §2
-  - 17_상태변수_이벤트ID_Godot데이터구조.md F3·EDC 정의, schema 10
+  - 17_상태변수_이벤트ID_Godot데이터구조.md F3·EDC 정의, progress schema 12
 resolution_summary: "F3 진입에서 수면만 잠그고, 장치 3종 완료에서 F3_complete·SAVE_F3_COMPLETE·EDC 개방을 처리하도록 분리했다. EDC 취소는 잠금을 유지한 채 F3 완료 지점으로 돌아간다."
 verification_ids:
   - QA-CNF-0007-ENTRY

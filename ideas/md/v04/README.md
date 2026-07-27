@@ -131,6 +131,8 @@ README
 → 05 공간
 → 16 UI
 → 17 데이터 구조
+→ docs/data_contract
+→ docs/godot_conventions
 ```
 
 ## 5. 핵심 확정사항
@@ -298,3 +300,50 @@ README
 | 저장 | 진행 schema 12, 접근성 프로필 v1 분리 |
 
 Windows 최소 지원 버전과 하드웨어 사양은 실제 빌드 성능 검증 뒤 확정한다. 플랫폼 확정 자체를 다시 미확정으로 돌리지 않는다.
+
+## 13. Godot 4.7 데이터·저장 기준
+
+### 정본과 형식
+
+| 대상 | 정본·형식 |
+| --- | --- |
+| 사건·퍼즐·서사 | `ideas/md/v04/` Markdown |
+| 타입·상태·writer·저장 | [문서 17](17_상태변수_이벤트ID_Godot데이터구조.md) |
+| Godot 저작 데이터 | `game/data/`의 `.tres` |
+| 진행 저장 | `user://saves/{slot_id}/` JSON |
+| 사용자 프로필 | `user://profile/` JSON |
+
+게임은 Markdown을 직접 파싱하지 않는다. 자세한 개발 경로는 [데이터 계약](../../../docs/data_contract.md)과 [Godot 규칙](../../../docs/godot_conventions.md)을 따른다.
+
+### 저장 버전
+
+```text
+progress.schema_version = 12
+accessibility.accessibility_profile_version = 1
+ending_meta.ending_meta_profile_version = 1
+```
+
+진행·접근성·엔딩 메타는 독립 파일과 독립 migration을 사용한다. 진행 슬롯은 tmp 기록·checksum 검증·backup 보존 뒤 교체한다.
+
+### 실행 책임
+
+```text
+입력
+→ EventManager
+→ StateWriter
+→ GameState revision
+→ SaveManager
+```
+
+- UI·대사·VisualStateResolver는 진행 상태를 직접 쓰지 않는다.
+- 관계·파열·EDC처럼 여러 영구 효과가 있는 사건은 원자 그룹으로 커밋한다.
+- `EventBus`를 별도 autoload로 중복 등록하지 않는다.
+- Router는 상태를 읽어 경로를 정하고 writer 요청만 만든다.
+
+### 타입과 검증
+
+- ID·enum은 `StringName`.
+- 논리 집합은 중복 없는 `Array[StringName]`, JSON에서는 정렬된 문자열 배열.
+- 순서가 의미인 사건 노드·퍼즐 단계는 정렬하지 않는다.
+- 필수 Resource의 ID·참조·writer·graph·save point 오류는 export 차단 대상이다.
+- 문서 단계의 GDScript는 프로토타입이 아니라 구현 인터페이스 명세다.

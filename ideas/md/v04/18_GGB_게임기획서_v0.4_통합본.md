@@ -6,7 +6,7 @@
 | --- | --- |
 | 프로젝트 | GGB(가칭) |
 | 장르 | 심리 서사형 포인트 앤 클릭 어드벤처 |
-| 플랫폼·엔진 | Windows PC 데스크톱 / Godot 예정 |
+| 플랫폼·엔진 | Windows PC 데스크톱 / Godot 4.7 계열 |
 | 플레이 구조 | 유연한 시간제, D5 이전 `NORMAL_RESET`, 파열 이후 상태 보존, 영구 정보, 관계 선택 |
 | 핵심 정서 | 심리적 불안, 감각적 이질감, 보호와 감금의 양가성 |
 | 버전 범위 | 기획 상세화. 프로토타입·DOCX 제외 |
@@ -404,20 +404,26 @@ F1은 J1~J4의 출처를 인증하고, J5는 `FINAL DECISION: UNSET`을 유지�
 
 ## 19. Godot 구현 전제
 
-- `GameState`: 영구/루프/파열 상태 분리.
-- `EventDefinition`: 선행 조건과 결과를 데이터로 정의.
+- `GameState`: 영구·루프·파열·리셋 트랜잭션·엔딩 실행 상태와 파생 getter.
+- `EventManager`: 사건 Resource 조회, node 실행, 시작·완료·거부 신호 소유.
+- `StateWriter`: 선언된 state path의 타입·권한·불변식을 검사하고 원자 커밋.
+- `ResetCoordinator`: SYS_COMMIT→SYS_MEMORY→RESET→ROUTE 재개를 조정.
+- `EventDefinition`: 선행 조건, node graph, 결과, 실패·재개 정책을 데이터로 정의.
 - `ColorSignature`: 색이 아니라 소유자 기반 식별.
 - `AvatarVisualProfile`: 대표색, 실루엣, 종족 특징, 소품과 단계별 외형.
 - `WorldPhaseVisualProfile`: S0~S5·R0 환경 보정과 감각 효과 상한.
 - `VisualStateResolver`: 월드→아바타→서명→사건→접근성→포커스 순서로 표현 합성.
-- `AccessibilitySettings`: Windows 창·DPI·자막·입력·모션 설정을 진행 세이브와 분리.
+- `AccessibilitySettings`: Windows 창·DPI·자막·입력·모션 값 Resource.
+- `AccessibilityProfileManager`: 접근성 profile v1 로드·저장·기본값 복구.
 - `AccessibleUIDescriptor`: 이름·역할·상태·설명·행동·live region.
 - `ObjectReaction`: 월드 상태별 조사 반응.
-- `SaveManager`: 핵심 이벤트 완료와 기록 획득을 트랜잭션 저장하고, F3 세 오브젝트 완료 뒤 `SAVE_F3_COMPLETE`를 써서 EDC 취소 시 같은 지점으로 복귀.
+- `SaveManager`: tmp·checksum·backup·migration과 안전 재개.
 - `EndingRouter`: EDC 커밋 뒤 ALL 의식, EDR·EDS 노드, 마지막 메타 커밋과 크레딧을 라우팅.
-- `ending_run`: 확정 분기·현재 노드·필수/선택 상호작용 Set을 본편 슬롯에 저장.
+- `ending_run`: 확정 분기·현재 노드·필수/선택 상호작용 논리 집합을 본편 슬롯에 저장.
 - `ending_meta`: 두 엔딩 seen·갤러리·챕터 선택을 프로필 저장.
-- 진행 저장은 `schema_version=12`, 표시·접근성 설정은 `accessibility_profile_version=1`.
+- 진행 저장은 `schema_version=12`, 표시·접근성은 `accessibility_profile_version=1`, 엔딩 메타는 `ending_meta_profile_version=1`.
+
+정적 사건·퍼즐·오브젝트·시각 데이터는 `game/data/`의 `.tres`, 사용자 진행과 프로필은 `user://`의 JSON으로 분리한다. UI·대사·resolver는 진행 상태를 직접 쓰지 않으며 `EventManager → StateWriter → GameState revision → SaveManager` 경계를 따른다.
 
 세부 계약은 [상태·데이터 구조](17_상태변수_이벤트ID_Godot데이터구조.md)를 따른다.
 
@@ -493,3 +499,82 @@ F1은 J1~J4의 출처를 인증하고, J5는 `FINAL DECISION: UNSET`을 유지�
 모든 owner 색에는 문양·선 패턴·라벨·음향 자막이 병행된다. 핫스폿은 1920×1080 기준 최소 44×44 논리 px이며 큰 타깃 56×56 논리 px을 지원한다. Godot에서는 `ObjectRegistry`, `ObjectReactionResolver`, `InteractionRouter`, `ObjectReactionMemory`, `HotspotAccessibilityAdapter`로 책임을 분리한다. 진행 저장은 schema 12, Windows 표시·접근성 설정은 별도 프로필 v1을 사용한다.
 
 상세 기준은 [문서 15](15_이벤트상세_10_공통오브젝트반응.md), canonical ID와 구현 구조는 [문서 17](17_상태변수_이벤트ID_Godot데이터구조.md)을 따른다.
+
+## 23. Godot 4.7 데이터·저장 인계 요약
+
+### 데이터 계층
+
+```text
+ideas/md/v04 기획 Markdown
+→ game/data 저작 Resource
+→ user:// 사용자 JSON
+```
+
+- 게임은 Markdown을 직접 읽지 않는다.
+- 사건·퍼즐·대사·오브젝트·색상·시각 정의는 읽기 전용 `.tres`.
+- 진행·접근성·입력·엔딩 메타는 변경 가능한 JSON.
+- 사용자 저장에는 scene path나 NodePath 대신 ID를 기록한다.
+
+### 프로젝트 구조
+
+```text
+game/
+├─ scenes/main·rooms·ui·events
+├─ scripts/autoload·systems·data_types·interactables·ui
+├─ data/events·dialogue·puzzles·states·maps·registries
+└─ assets/
+```
+
+Autoload는 전역 상태·사건·저장·프로필 소유자에 한정한다. `ReactionRouter`, `EndingRouter`, `VisualStateResolver`는 일반 system이며 GameState를 직접 수정하지 않는다. `EventBus`를 EventManager와 별도 전역 서비스로 중복 등록하지 않는다.
+
+### 사건 실행
+
+```text
+InputRouter
+→ InteractionRouter
+→ EventManager
+→ StateWriter
+→ GameState revision
+→ SaveManager
+```
+
+| 데이터 | 계약 |
+| --- | --- |
+| 조건 | `ConditionGroup`과 선언된 state path |
+| 사건 노드 | entry·investigation·dialogue·puzzle·choice·commit·return |
+| 상태 쓰기 | category별 허용 writer |
+| 영구 완료 | atomic group |
+| 중도 재개 | 첫 미검증 node 또는 안전 save point |
+| 논리 집합 | 중복 없는 `Array[StringName]`, JSON 사전순 정렬 |
+
+### 저장과 복구
+
+```text
+user://saves/{slot_id}/progress.json
+user://saves/{slot_id}/progress.bak.json
+user://saves/{slot_id}/progress.tmp.json
+user://saves/{slot_id}/f3_reselect.json
+user://profile/accessibility.json
+user://profile/ending_meta.json
+```
+
+1. 상태 snapshot과 불변식을 검사한다.
+2. 결정적 JSON과 SHA-256 checksum을 만든다.
+3. tmp를 기록하고 다시 검증한다.
+4. 기존 main을 backup으로 보존한다.
+5. tmp를 main으로 교체한다.
+
+main이 손상되면 backup의 마지막 완전한 transaction을 확인한다. 둘 다 손상되면 관계·선택을 추정하지 않고 복구 화면을 제공한다. 접근성 profile 손상은 본편 progress 손상으로 취급하지 않는다.
+
+### 필수 검증
+
+- event·node·state·location·object·text·signature ID 참조.
+- category별 writer 금지 상태.
+- entry→completion→return graph 도달성.
+- D5·BROKEN_RESET·E3·J4·F3·EDC 원자성.
+- schema 9~12와 profile v1 migration fixture.
+- logical set 중복·빈 ID·결정적 저장.
+- 색 제거·음량 0·모션 최소·키보드 전용 전체 경로.
+- 1280×720·UI 200%·포커스 상실 재개.
+
+구현 세부는 [문서 17](17_상태변수_이벤트ID_Godot데이터구조.md), 프로젝트 경로는 [`docs/godot_conventions.md`](../../../docs/godot_conventions.md), 데이터 형식은 [`docs/data_contract.md`](../../../docs/data_contract.md)를 따른다.

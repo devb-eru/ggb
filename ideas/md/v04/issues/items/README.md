@@ -15,6 +15,7 @@
 | [`GGB-CNF-2026-0009`](GGB-CNF-2026-0009_S4_코어와_잔류_엔딩_상태_ID_충돌.md) | VERIFIED | DONE | S4 코어와 잔류 엔딩 상태 ID 충돌 |
 | [`GGB-CNF-2026-0010`](GGB-CNF-2026-0010_D5_이후_첫_수면과_후속_휴식_라우터_충돌.md) | VERIFIED | DONE | D5 이후 첫 수면과 후속 휴식 라우터 충돌 |
 | [`GGB-CNF-2026-0011`](GGB-CNF-2026-0011_아바타_대표색과_데이터_서명_면적_규칙_충돌.md) | VERIFIED | DONE | 아바타 대표색과 데이터 서명 면적 규칙 충돌 |
+| [`GGB-CNF-2026-0012`](GGB-CNF-2026-0012_Godot_디렉터리와_서비스_책임_규칙_충돌.md) | VERIFIED | DONE | Godot 디렉터리와 서비스 책임 규칙 충돌 |
 
 ## 오류
 
@@ -31,6 +32,7 @@
 | [`GGB-ERR-2026-0009`](GGB-ERR-2026-0009_현실_수첩의_출처와_물리_연속성_누락.md) | VERIFIED | DONE | 현실 수첩의 출처와 물리 연속성 누락 |
 | [`GGB-ERR-2026-0010`](GGB-ERR-2026-0010_공통_오브젝트_ID와_반응_저장_계약_누락.md) | VERIFIED | DONE | 공통 오브젝트 ID와 반응 저장 계약 누락 |
 | [`GGB-ERR-2026-0011`](GGB-ERR-2026-0011_Windows_PC_플랫폼_확정_후_미확정_표기_잔존.md) | VERIFIED | DONE | Windows PC 플랫폼 확정 후 미확정 표기 잔존 |
+| [`GGB-ERR-2026-0012`](GGB-ERR-2026-0012_Set_StringName_직렬화_표현_오류.md) | VERIFIED | DONE | Set StringName 직렬화 표현 오류 |
 
 ## 관리
 
