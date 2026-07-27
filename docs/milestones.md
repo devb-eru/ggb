@@ -4,7 +4,8 @@
 
 | ID | 마일스톤 | 상태 | 내부 목표일 | 완료 기준 요약 |
 | --- | --- | --- | --- | --- |
-| `M1_V04_PLANNING_BASELINE` | v0.4 기획 기준선 확정 | REVIEW | 2026-07-23, 검토 시작 2026-07-27 | 객관적 완료 조건 통과, 팀 검토와 `main` 병합 대기 |
+| `M1_V04_PLANNING_BASELINE` | v0.4 기획 기준선 확정 | REVIEW | 2026-07-23, 검토 시작 2026-07-27 | PR #14 병합·`niik` 승인 완료, `gatam` 검토 기록 대기 |
+| `OPS_01_COLLABORATION_BASELINE` | 협업 시스템 운영 기준선 | IN_PROGRESS | 2026-08-04 | GitHub Project, Discord 알림, 회의 안건과 운영 리허설 |
 | `STEAM_01_ONBOARDING` | Steamworks 가입·기본 AppID | PLANNED | 2026-08-14 | 계약 주체, 은행·세금 정보, 수수료, AppID 완료 |
 | `STEAM_02_STORE_PUBLIC` | 기본 게임 Coming Soon 공개 | PLANNED | 2026-10-30 | 한·영 상점과 심사 완료, 찜하기 시작 |
 | `M2_DEMO_COMPLETE` | 2장 공개 데모 완성 | PLANNED | 2026-11-20 | 2~3.5시간, 공개 품질, 임시 리소스 20% 이하 |
@@ -36,7 +37,7 @@ Steam 행사 시각과 제출일은 [Steamworks February 2027 Next Fest 안내](
 - [x] `game/data`로 옮길 데이터 계약과 변경 범위가 확정되어 있다.
 - [x] 개발을 막지 않는 후속 기획은 별도 작업으로 분리되어 있다.
 
-객관적 완료 조건과 정적 회귀 검사는 모두 통과했다. 세부 근거와 사람 검토 역할은 [M1 검토 기록](milestone_reviews/M1_V04_PLANNING_BASELINE.md)에 둔다. `gatam`·`niik` 검토와 `develop → main` 병합이 끝나면 상태를 `COMPLETE`로 전환한다.
+객관적 완료 조건과 정적 회귀 검사는 모두 통과했다. 세부 근거와 사람 검토 역할은 [M1 검토 기록](milestone_reviews/M1_V04_PLANNING_BASELINE.md)에 둔다. PR #14는 `main`에 병합됐고 `niik` 승인을 확인했다. `gatam`의 Discord 검토 결과가 PR에 기록되면 상태를 `COMPLETE`로 전환한다.
 
 목표일을 넘겨도 범위를 숨기거나 검증 없이 완료 처리하지 않는다. 연장 시 남은 `P1`, 책임자, 예상 완료일과 영향 범위를 함께 기록한다.
 

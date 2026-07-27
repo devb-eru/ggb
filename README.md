@@ -24,6 +24,7 @@ GGB는 포인트 앤 클릭 어드벤처 게임 프로젝트의 작업 저장소
 작업 상태, 담당자, 완료 조건, 의사결정 기록은 [`docs/project_operations.md`](docs/project_operations.md)를 기준으로 관리합니다. 새 작업과 결정은 [`docs/templates/`](docs/templates/)의 템플릿을 사용합니다.
 
 - 프로젝트 역할: [`docs/project_roles.md`](docs/project_roles.md)
+- GitHub Issue·Project 운영: [`docs/github_project.md`](docs/github_project.md)
 - 다음 작업 계획: [`docs/next_work_plan.md`](docs/next_work_plan.md)
 - Discord 알림·회의·에셋 접수: [`docs/discord_operations.md`](docs/discord_operations.md)
 - 마일스톤과 외부 일정: [`docs/milestones.md`](docs/milestones.md)

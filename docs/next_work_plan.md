@@ -42,23 +42,28 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 
 ## 3. 2단계: 협업 시스템 구현
 
-| ID | 가장 빠른 날짜 | 작업 | 책임자 | 선행 | 완료 조건 |
-| --- | --- | --- | --- | --- | --- |
-| `GGB-WRK-2026-0001` | 07-29 | GitHub Issue·Project 기반선 | `beru` | M1 병합 | 상태·우선순위·담당·마일스톤·차단 필드와 기본 뷰 생성 |
-| `GGB-WRK-2026-0002` | 07-30 | Discord 에셋 접수·보관 흐름 | `beru` | 외부 원본 보관소 선택 | `#asset-intake`에서 제작자·작업 ID·전달일·보관 위치 추적 |
-| `GGB-WRK-2026-0003` | 07-31 | GitHub→Discord 선별 알림 | `beru` | WRK-0001, webhook secret | 중요 사건 실시간·일반 변경 21:30 요약 |
-| `GGB-WRK-2026-0004` | 08-01 | 작업 현황 대시보드 | `beru` | WRK-0001 | 담당자·마일스톤·차단·지연·검토 대기 뷰 제공 |
-| `GGB-WRK-2026-0005` | 08-02 | GitHub 일정·Discord 회의 연결 | `beru` | WRK-0001, Discord 권한 | GitHub 마감 정본과 Discord 금요일 회의 이벤트 연결 |
-| `GGB-WRK-2026-0006` | 08-03 | 오늘의 회의 안건 생성 | `beru` | WRK-0003~0005 | 금요일 21:30에 기한 임박·BLOCKED·REVIEW를 Discord에 요약 |
-| `GGB-WRK-2026-0007` | 08-04 | 운영 리허설 | `gatam` | WRK-0001~0006 | 가상 작업 1건을 등록→알림→회의→완료까지 통과 |
+| ID | 가장 빠른 날짜 | 작업 | 책임자 | 선행 | 완료 조건 | 상태 |
+| --- | --- | --- | --- | --- | --- | --- |
+| [`GGB-WRK-2026-0001`](https://github.com/devb-eru/ggb/issues/15) | 07-27 | GitHub Issue·Project 기반선 | `beru` | M1 병합 | 상태·우선순위·담당·마일스톤·차단 필드와 기본 뷰 생성 | `REVIEW` |
+| `GGB-WRK-2026-0002` | 07-30 | Discord 에셋 접수·보관 흐름 | `beru` | 외부 원본 보관소 선택 | `#asset-intake`에서 제작자·작업 ID·전달일·보관 위치 추적 | `PLANNED` |
+| `GGB-WRK-2026-0003` | 07-31 | GitHub→Discord 선별 알림 | `beru` | WRK-0001, webhook secret | 중요 사건 실시간·일반 변경 21:30 요약 | `PLANNED` |
+| `GGB-WRK-2026-0004` | 08-01 | 작업 현황 대시보드 | `beru` | WRK-0001 | 담당자·마일스톤·차단·지연·검토 대기 뷰 제공 | `PLANNED` |
+| `GGB-WRK-2026-0005` | 08-02 | GitHub 일정·Discord 회의 연결 | `beru` | WRK-0001, Discord 권한 | GitHub 마감 정본과 Discord 금요일 회의 이벤트 연결 | `PLANNED` |
+| `GGB-WRK-2026-0006` | 08-03 | 오늘의 회의 안건 생성 | `beru` | WRK-0003~0005 | 금요일 21:30에 기한 임박·BLOCKED·REVIEW를 Discord에 요약 | `PLANNED` |
+| `GGB-WRK-2026-0007` | 08-04 | 운영 리허설 | `gatam` | WRK-0001~0006 | 가상 작업 1건을 등록→알림→회의→완료까지 통과 | `PLANNED` |
 
 ### GitHub Project 기본 뷰
 
-- `오늘`: 오늘 시작·마감, `P0/P1`, 담당자별 현재 작업.
-- `차단`: `BLOCKED`, 차단 원인, 차단 기간, 해제 책임자.
-- `검토`: `REVIEW`, 검토자, 제출 시각, 검증 근거.
-- `마일스톤`: M1, 데모, 완성본, Steamworks, Next Fest.
-- `팀별`: 기획, 아트, 사운드, 개발, QA, 릴리즈.
+[GGB Production](https://github.com/users/devb-eru/projects/1)에 다음 뷰와 필터를 구성했다.
+
+- `전체`: 모든 Project 항목.
+- `오늘`: `IN_PROGRESS`, `READY`, `BLOCKED`, `REVIEW`.
+- `차단`: `BLOCKED`.
+- `검토`: `REVIEW`.
+- `마일스톤`: GitHub Milestone이 있는 항목.
+- `팀별`: 담당 팀이 지정된 항목.
+
+필드와 등록 절차는 [GitHub Issue·Project 운영](github_project.md)을 따른다. 목표일·P0/P1·장기 검토를 결합한 대시보드 고도화는 `GGB-WRK-2026-0004`에서 진행한다.
 
 ### Discord 기본 알림 정책
 
@@ -103,7 +108,7 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 
 - 편집 원본 보관소는 Google Drive를 사용한다. 공유 폴더 생성과 권한 설정은 `GGB-WRK-2026-0002`에서 수행한다.
 - `#git-updates` webhook은 GitHub Actions secret `DISCORD_GIT_UPDATES_WEBHOOK`으로 등록 완료했다.
-- GitHub Project #1 생성과 `project` 권한 추가를 완료했다. 현재 임시 제목과 필드·뷰 구성은 M1 뒤 `GGB-WRK-2026-0001`에서 정식화한다.
+- GitHub Project #1을 `GGB Production`으로 정식화하고 저장소 연결, 필드 22개, 기본 뷰 6개와 첫 Issue #15를 구성했다. `GGB-WRK-2026-0001`은 문서 PR 검토 뒤 종료한다.
 
 ## 6. 완료 판정
 

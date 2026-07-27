@@ -21,7 +21,7 @@
 | 기획·서사·이벤트 규칙 | `ideas/md/v04/` | 사람이 읽는 기획 정본 |
 | 충돌·기획 오류 | `ideas/md/v04/issues/items/` | `GGB-CNF`, `GGB-ERR`의 해결 상태와 증거 |
 | 구현 데이터·코드 | `game/` | 게임이 실제로 읽거나 실행하는 내용 |
-| 작업 흐름 | 현재는 작업 문서, 향후 GitHub Issue/Project | GitHub 연동 전까지 본 문서의 필드를 사용 |
+| 작업 흐름 | [GitHub Issue·Project](github_project.md) | [GGB Production](https://github.com/users/devb-eru/projects/1)의 상태·담당·일정이 정본 |
 | 중요 결정 | `docs/decisions/` | `GGB-DEC` 기록 |
 | 역할 | `docs/project_roles.md` | 프로젝트 관리자와 영역 책임 |
 | 마일스톤 | `docs/milestones.md` | 결과물 범위, 완료 조건, 목표일 |
@@ -29,7 +29,7 @@
 | 완성본 범위 | `docs/full_game_definition.md` | 프롤로그~4장·엔딩의 콘텐츠·품질·출시 기준 |
 | Steam 출시 준비 | `docs/steam_release_plan.md` | 계정, 상점, 심사, Next Fest, 출시 게이트 |
 | Discord 운영 | `docs/discord_operations.md` | Git 알림, 회의, 에셋 접수, 일정 표시 기준 |
-| 다음 작업 계획 | `docs/next_work_plan.md` | 기획 기준선 이후 협업 시스템 구현 순서 |
+| 다음 작업 계획 | `docs/next_work_plan.md` | 협업 시스템 구현 순서와 선행 관계 |
 | 회의 일정 | 외부 캘린더 | 참석 일정과 리마인더 관리 |
 | 대화·알림 | Discord | 결정과 작업의 기준 정보로 사용하지 않음 |
 
@@ -225,11 +225,13 @@ PROPOSED → ACCEPTED → SUPERSEDED
 
 ## 12. 현재 적용 범위
 
-이번 기반 정리에서는 다음을 적용한다.
+2026-07-27부터 다음을 적용한다.
 
 - 공통 작업 상태와 필드 정의.
-- 일반 작업과 결정 기록 템플릿 제공.
-- 기존 13개 `GGB-CNF/ERR`에 작업 상태, 담당자, 목표 마일스톤 추가.
+- 일반 작업과 결정 기록 템플릿.
+- [GGB Production](https://github.com/users/devb-eru/projects/1)의 상태 6종, 운영 필드와 기본 뷰 6종.
+- GitHub 계정과 실제 담당자 분리.
+- Issue #15부터 GitHub Issue·Project를 작업 정본으로 사용.
 - 저장소 진입 문서와 기여 규칙에서 본 운영 기준 연결.
 
-GitHub Issue/Project 동기화, Discord 알림, 회의 안건 자동 생성, 자동 검증은 후속 단계에서 이 필드를 기준으로 구현한다.
+세부 필드·뷰와 등록 절차는 [GitHub Issue·Project 운영](github_project.md)을 따른다. Discord 알림, 회의 안건 자동 생성과 자동 검증은 후속 단계에서 이 필드를 읽어 구현한다.
