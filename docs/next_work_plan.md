@@ -13,7 +13,7 @@ M1 기획 기준선 검토·병합
 → 오늘의 회의 안건 자동 생성
 ```
 
-2026-07-27 현재 M1의 객관적 완료 조건과 정적 회귀 검사는 통과했으며 팀 검토와 `main` 병합만 남아 있다. 2단계는 병합 다음 날 시작하고, 아래 날짜는 7월 28일 병합을 가정한 가장 빠른 일정이다.
+2026-07-27에 M1의 객관적 완료 조건, 정적 회귀 검사, `niik`·`gatam` 검토와 `main` 병합을 모두 확인했다. GitHub Project 기반선을 완료하고 같은 날 2단계 에셋 접수 흐름을 시작했다.
 
 ## 2. 1단계: M1 v0.4 기획 기준선
 
@@ -26,7 +26,7 @@ M1 기획 기준선 검토·병합
 | 07-21 | `GGB-ERR-2026-0003` 실패·숏컷 재개 스키마 | `beru` | `niik` | B/C/D 재개 데이터 정의 | `DONE` 07-18 조기 완료 |
 | 07-21~22 | P1 회귀 검사와 문서 동기화 | `gatam` | `beru`, `niik` | P1 전부 `VERIFIED` 또는 허용된 `DEFERRED` | `DONE` 07-18 조기 완료 |
 | 07-22 | M1 연장 게이트 | `beru` | 각 팀장 | P1이 하나라도 남으면 07-30으로 변경 | `PASS` P1 잔여 0건 |
-| 07-23~27 | P2·P3 처리, 전체 회귀, M1 검토 전환 | `beru` | `gatam`, `niik` | M1 DoD 충족, 검토 PR 생성 | `REVIEW` |
+| 07-23~27 | P2·P3 처리, 전체 회귀, M1 검토·병합 | `beru` | `gatam`, `niik` | M1 DoD 충족, 팀 승인과 `main` 병합 | `DONE` 07-27 |
 
 P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다. 7월 23일에 무리하게 모두 완료하지 않고 개발을 막지 않는 항목은 재검토 조건과 후속 마일스톤을 기록해 `DEFERRED`할 수 있다.
 
@@ -38,14 +38,14 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 | 07-20 | `GGB-ERR-2026-0006` E3_5·이리스 데이터 계약 | `beru`·`gatam` | `DONE` 07-18 조기 완료; E3_5 노드와 이리스 6상태를 F2·두 엔딩이 동일하게 참조 |
 | 07-21 | `GGB-CNF-2026-0006` 위장 필터 변수 극성 | `beru`·`niik` | `DONE` 07-18 조기 완료; ACTIVE·DISABLED·BROKEN 단일 enum과 schema 7 마이그레이션 확정 |
 | 07-22~27 | `GGB-ERR-2026-0007` 통합 문서 구식 표기 제거 | `gatam`·`beru` | `DONE`; `00`, `README`, `18` 역할·용어·링크 재검증 통과 |
-| 07-27~28 | M1 전체 회귀·승인 | `beru`·각 팀장 | `REVIEW`; OPEN 0, 25/25 VERIFIED/DONE, Markdown 72개 정적 검사 PASS, 팀 검토·병합 대기 |
+| 07-27 | M1 전체 회귀·승인 | `beru`·각 팀장 | `DONE`; OPEN 0, 25/25 VERIFIED/DONE, Markdown 정적 검사 PASS, PR #14 병합과 팀 승인 기록 |
 
 ## 3. 2단계: 협업 시스템 구현
 
 | ID | 가장 빠른 날짜 | 작업 | 책임자 | 선행 | 완료 조건 | 상태 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [`GGB-WRK-2026-0001`](https://github.com/devb-eru/ggb/issues/15) | 07-27 | GitHub Issue·Project 기반선 | `beru` | M1 병합 | 상태·우선순위·담당·마일스톤·차단 필드와 기본 뷰 생성 | `REVIEW` |
-| `GGB-WRK-2026-0002` | 07-30 | Discord 에셋 접수·보관 흐름 | `beru` | 외부 원본 보관소 선택 | `#asset-intake`에서 제작자·작업 ID·전달일·보관 위치 추적 | `PLANNED` |
+| [`GGB-WRK-2026-0001`](https://github.com/devb-eru/ggb/issues/15) | 07-27 | GitHub Issue·Project 기반선 | `beru` | M1 병합 | 상태·우선순위·담당·마일스톤·차단 필드와 기본 뷰 생성 | `DONE` |
+| [`GGB-WRK-2026-0002`](https://github.com/devb-eru/ggb/issues/17) | 07-27 | Discord 에셋 접수·보관 흐름 | `beru` | WRK-0001, Google Drive | `#asset-intake`에서 제작자·작업 ID·전달일·보관 위치 추적 | `BLOCKED`: 팀 Drive 권한 확인 |
 | `GGB-WRK-2026-0003` | 07-31 | GitHub→Discord 선별 알림 | `beru` | WRK-0001, webhook secret | 중요 사건 실시간·일반 변경 21:30 요약 | `PLANNED` |
 | `GGB-WRK-2026-0004` | 08-01 | 작업 현황 대시보드 | `beru` | WRK-0001 | 담당자·마일스톤·차단·지연·검토 대기 뷰 제공 | `PLANNED` |
 | `GGB-WRK-2026-0005` | 08-02 | GitHub 일정·Discord 회의 연결 | `beru` | WRK-0001, Discord 권한 | GitHub 마감 정본과 Discord 금요일 회의 이벤트 연결 | `PLANNED` |
@@ -106,9 +106,9 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 
 확인된 준비 상태:
 
-- 편집 원본 보관소는 Google Drive를 사용한다. 공유 폴더 생성과 권한 설정은 `GGB-WRK-2026-0002`에서 수행한다.
+- 편집 원본 보관소 [Google Drive `GGB/Assets`](https://drive.google.com/drive/folders/1S8S8CSfpfO2ToszpAbSRaJqGgNRAqVoD)와 단계 폴더 5개를 생성했다. 팀별 공유 권한 확인은 `GGB-WRK-2026-0002`의 남은 게이트다.
 - `#git-updates` webhook은 GitHub Actions secret `DISCORD_GIT_UPDATES_WEBHOOK`으로 등록 완료했다.
-- GitHub Project #1을 `GGB Production`으로 정식화하고 저장소 연결, 필드 22개, 기본 뷰 6개와 첫 Issue #15를 구성했다. `GGB-WRK-2026-0001`은 문서 PR 검토 뒤 종료한다.
+- GitHub Project #1을 `GGB Production`으로 정식화하고 저장소 연결, 필드 22개, 기본 뷰 6개와 첫 Issue #15를 구성했다. PR #16 병합 뒤 `GGB-WRK-2026-0001`을 종료했다.
 
 ## 6. 완료 판정
 
