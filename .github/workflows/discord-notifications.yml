@@ -11,6 +11,7 @@ on:
       - ready_for_review
       - review_requested
       - closed
+      - synchronize
   pull_request_review:
     types:
       - submitted
@@ -96,20 +97,39 @@ jobs:
           ref: ${{ (github.event_name == 'pull_request' || github.event_name == 'pull_request_review') && github.event.pull_request.base.sha || github.event_name == 'push' && github.sha || github.event.repository.default_branch }}
           persist-credentials: false
 
+      - name: Check trusted notification implementation
+        id: notification-code
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [[ -f scripts/discord_notifications.mjs ]]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          elif [[ "$EVENT_NAME" == "pull_request" || "$EVENT_NAME" == "pull_request_review" ]]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "### Discord immediate" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo '최초 도입 PR이라 대상 브랜치에 신뢰된 알림 코드가 없어 안전하게 건너뜁니다.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Trusted notification implementation is missing.' >&2
+            exit 1
+          fi
+
       - name: Set up Node.js
+        if: steps.notification-code.outputs.available == 'true'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "24"
 
       - name: Send selected event
-        if: github.event_name != 'workflow_dispatch'
+        if: steps.notification-code.outputs.available == 'true' && github.event_name != 'workflow_dispatch'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_GIT_UPDATES_WEBHOOK }}
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/discord_notifications.mjs event
 
       - name: Run smoke test
-        if: github.event_name == 'workflow_dispatch'
+        if: steps.notification-code.outputs.available == 'true' && github.event_name == 'workflow_dispatch'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_GIT_UPDATES_WEBHOOK }}
           DRY_RUN: ${{ inputs.dry_run }}

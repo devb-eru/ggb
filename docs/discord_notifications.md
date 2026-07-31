@@ -55,6 +55,7 @@ GitHub Issue·Project·PR의 중요한 변화만 Discord `#git-updates`에 전�
 ## 5. 안전장치와 실패 처리
 
 - PR 알림은 같은 저장소의 사람 PR만 처리하고 외부 fork와 Dependabot PR은 제외한다. webhook secret을 쓰는 단계는 PR 코드가 아닌 대상 브랜치의 신뢰된 commit을 checkout한다.
+- 알림 코드를 처음 도입하는 PR은 대상 브랜치에 신뢰된 스크립트가 아직 없으므로 PR 알림만 안전하게 건너뛴다. PR head 코드에 webhook secret을 넘겨 자체 알림하게 하지 않는다.
 - 릴리스·배포·Issue·마일스톤·CI 이벤트도 이벤트 대상 ref 대신 기본 브랜치의 알림 코드를 실행한다.
 - 알림에는 PR·Issue 본문, review 본문, diff, 로그, 이메일과 secret을 포함하지 않는다.
 - Discord `allowed_mentions`를 비우고 `@everyone`, `@here`, 사용자·역할 mention 표현을 무력화한다.
