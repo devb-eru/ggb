@@ -4,8 +4,9 @@
 
 ```text
 work_id: GGB-WRK-YYYY-NNNN
+request_id: REQ-ART-YYYY-NNNN | REQ-AUD-YYYY-NNNN | REQ-CNT-YYYY-NNNN | beru_pending
 contributor:
-asset_type: art | audio | ui | source
+asset_type: art | audio | ui | content | source
 version: v001
 usage:
 deliverable:
@@ -21,6 +22,7 @@ notes:
 
 ```text
 status: RECEIVED | NEEDS_INFO
+request_id:
 github_issue:
 drive_url:
 checked:

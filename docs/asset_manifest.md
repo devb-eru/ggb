@@ -5,6 +5,7 @@
 | 항목 | 기준 |
 | --- | --- |
 | 기계 판독 manifest | [`asset_manifest.csv`](asset_manifest.csv) |
+| 제작 의뢰·배치 대장 | [`requests/`](requests/) |
 | 접수·보관 흐름 | [`asset_intake.md`](asset_intake.md) |
 | 제작 기술 규격 | [`content_pipeline_specs.md`](content_pipeline_specs.md) |
 | 외부 라이선스 정본 | [`third_party_credits.csv`](third_party_credits.csv) |
@@ -59,6 +60,8 @@ manifest 한 행은 독립적으로 검토·승인할 수 있는 **deliverable u
 
 전체 기준선은 329행이다. `store_only`를 제외한 데모 대상은 216행·315 unit, 본편 대상은 320행·419 unit이다. 현 시점에는 최종 export와 승인 근거가 없으므로 모든 행은 `PLANNED`, `is_placeholder=true`다. 이는 실제 임시 에셋 비율이 100%라는 뜻이며, 데모 완료를 주장할 수 없음을 명확히 보여 준다.
 
+2026-08-01에 `BATCH-VS01` 대표 제작 의뢰 3건을 작성했다. 아트·사운드 의뢰가 참조하는 manifest 행은 현재 `READY_FOR_ACCEPTANCE`인 요청에 포함됐을 뿐 실제 팀 수락이나 제작 시작 증거가 없으므로 계속 `PLANNED`다. 팀이 범위·담당·공수를 수락하고 실제 작업을 시작할 때만 해당 행 또는 합의한 subset의 evidence에 `request_id`를 기록하고 `WORKING`으로 전이한다.
+
 ### 3.1 담당자별 기준선
 
 | 담당자 | 전체 행 | 전체 unit | 데모 행 | 데모 unit | 주 책임 |
@@ -71,6 +74,8 @@ manifest 한 행은 독립적으로 검토·승인할 수 있는 **deliverable u
 이 수량은 제작 공수가 아니다. portrait set의 10 unit과 단일 SFX의 1 unit은 같은 시간이 들지 않으며, 수정 횟수·통합·접근성 변형도 아직 계측되지 않았다. 특히 `210`의 데모 242 unit을 일정상 완료 가능하다고 간주해서는 안 된다. 아트 구성원 `nana`에게 배정된 행이 0인 상태 역시 의도된 무배정인지 단순 기준선 생성 결과인지 capacity 입력 때 확인하고, 실제 책임을 나눌 때 owner·reviewer를 함께 갱신한다.
 
 `M2_DEMO_COMPLETE` 일정을 확정하기 전에 배경+overlay, 캐릭터 portrait/pose, 오브젝트 상태, UI, puzzle art, BGM·환경음·SFX에서 대표 샘플을 최소 1개씩 제작·검토·통합한다. 각 샘플에는 순수 제작 시간, 리뷰 대기, 수정 횟수, export·통합, 접근성 대체와 승인 시간을 기록하고, 그 실측값으로 남은 manifest를 다시 산정한다.
+
+대표 샘플 범위와 승인 조건은 [REQ-ART-2026-0001](requests/REQ-ART-2026-0001_버티컬슬라이스.md), [REQ-AUD-2026-0001](requests/REQ-AUD-2026-0001_버티컬슬라이스.md)을 따른다. 요청 subset 완료는 portrait·pose·phase pack 전체 행 완료와 같지 않다.
 
 `world_overlay`는 현실 `R0_*`를 제외한 36개 시뮬레이션·시설 location에 생성했다. 실제 단계 조합은 room state matrix를 확정할 때 행을 variant별로 분해한다.
 
@@ -115,6 +120,8 @@ PLANNED
 → APPROVED
 → INTEGRATED
 ```
+
+제작 의뢰의 `READY_FOR_ACCEPTANCE`·`ACCEPTED`는 manifest 상태가 아니다. `ACCEPTED` 뒤 실제 제작 파일이나 작업 증거가 생긴 시점에 `PLANNED → WORKING`으로 바꾼다. manifest `evidence`에는 최소 `request_id`, `work_id`, Drive revision을 연결한다.
 
 - 수정 요청은 `REVIEW → WORKING`으로 되돌린다.
 - 새 버전이 대체하면 기존 행을 `REPLACED`로 두고 새 `asset_id` 또는 revision 근거를 연결한다.

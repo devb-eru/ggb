@@ -66,7 +66,7 @@ Discord 메시지만으로 작업 완료나 마감 변경을 확정하지 않는
 
 ## 5. 에셋 접수
 
-세부 절차, Drive 폴더와 권한 기준은 [에셋 접수·보관 운영](asset_intake.md)을 따른다. `#asset-intake`에서는 [접수 메시지 템플릿](templates/asset_intake_message.md)을 사용한다.
+제작 전 범위와 승인 기준은 [팀별 제작 의뢰](requests/README.md)에서 먼저 합의한다. 세부 납품 절차, Drive 폴더와 권한 기준은 [에셋 접수·보관 운영](asset_intake.md)을 따른다. `#asset-intake`에서는 원 `request_id`를 포함한 [접수 메시지 템플릿](templates/asset_intake_message.md)을 사용한다.
 
 ```text
 work_id: GGB-WRK-YYYY-NNNN

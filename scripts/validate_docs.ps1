@@ -199,6 +199,7 @@ $requiredColumns = @(
 )
 $allowedStatuses = @("PLANNED", "WORKING", "REVIEW", "APPROVED", "INTEGRATED", "REPLACED", "CUT")
 $allowedScopes = @("demo_full", "full_only", "store_only")
+$assetIds = @{}
 
 if (-not (Test-Path -LiteralPath $manifestPath)) {
     Add-ValidationError "ASSET_MANIFEST" "docs/asset_manifest.csv" "file is missing"
@@ -212,7 +213,6 @@ else {
         }
     }
 
-    $assetIds = @{}
     foreach ($row in $manifest) {
         if ([string]::IsNullOrWhiteSpace($row.asset_id)) {
             Add-ValidationError "ASSET_ID" "docs/asset_manifest.csv" "blank asset_id"
@@ -246,6 +246,132 @@ else {
             $row.evidence -notmatch "(?:^|[;,\s])rights_ref=RIGHTS-\d{4}-\d{4}(?:$|[;,\s])"
         ) {
             Add-ValidationError "ASSET_RIGHTS" "docs/asset_manifest.csv" "$($row.asset_id) requires rights_ref=RIGHTS-YYYY-NNNN"
+        }
+    }
+}
+
+$requestRegisterPath = Join-Path $repoRoot "docs/requests/request_register.csv"
+$requestRequiredColumns = @(
+    "request_id", "team", "batch_id", "title", "build_scope", "priority",
+    "status", "owner", "reviewer", "target_milestone", "source_ids",
+    "asset_ids", "brief_path", "depends_on", "acceptance_gate", "evidence"
+)
+$requestAllowedTeams = @("ART", "AUD", "CNT")
+$requestAllowedScopes = @("vertical_slice", "demo_remainder", "full_only")
+$requestAllowedStatuses = @(
+    "PLANNED", "DRAFT", "READY_FOR_ACCEPTANCE", "ACCEPTED", "IN_PROGRESS",
+    "REVIEW", "APPROVED", "INTEGRATED", "CHANGES_REQUESTED", "CANCELLED"
+)
+$requestIds = @{}
+
+if (-not (Test-Path -LiteralPath $requestRegisterPath)) {
+    Add-ValidationError "REQUEST_REGISTER" "docs/requests/request_register.csv" "file is missing"
+}
+else {
+    $requests = @(Import-Csv -LiteralPath $requestRegisterPath -Encoding utf8)
+    $requestHeaders = if ($requests.Count -gt 0) { $requests[0].PSObject.Properties.Name } else { @() }
+    foreach ($column in $requestRequiredColumns) {
+        if ($column -notin $requestHeaders) {
+            Add-ValidationError "REQUEST_COLUMN" "docs/requests/request_register.csv" $column
+        }
+    }
+
+    foreach ($row in $requests) {
+        if ($row.request_id -notmatch '^REQ-(ART|AUD|CNT)-\d{4}-\d{4}$') {
+            Add-ValidationError "REQUEST_ID" "docs/requests/request_register.csv" $row.request_id
+            continue
+        }
+        $idTeam = $Matches[1]
+        if ($requestIds.ContainsKey($row.request_id)) {
+            Add-ValidationError "REQUEST_DUP" "docs/requests/request_register.csv" $row.request_id
+        }
+        else {
+            $requestIds[$row.request_id] = $true
+        }
+        if ($row.team -notin $requestAllowedTeams -or $row.team -ne $idTeam) {
+            Add-ValidationError "REQUEST_TEAM" "docs/requests/request_register.csv" "$($row.request_id)=$($row.team)"
+        }
+        if ($row.build_scope -notin $requestAllowedScopes) {
+            Add-ValidationError "REQUEST_SCOPE" "docs/requests/request_register.csv" "$($row.request_id)=$($row.build_scope)"
+        }
+        if ($row.status -notin $requestAllowedStatuses) {
+            Add-ValidationError "REQUEST_STATUS" "docs/requests/request_register.csv" "$($row.request_id)=$($row.status)"
+        }
+        if ([string]::IsNullOrWhiteSpace($row.owner) -or [string]::IsNullOrWhiteSpace($row.reviewer)) {
+            Add-ValidationError "REQUEST_OWNER" "docs/requests/request_register.csv" $row.request_id
+        }
+        if ([string]::IsNullOrWhiteSpace($row.source_ids)) {
+            Add-ValidationError "REQUEST_SOURCE" "docs/requests/request_register.csv" $row.request_id
+        }
+
+        if ($row.team -in @("ART", "AUD")) {
+            if ([string]::IsNullOrWhiteSpace($row.asset_ids)) {
+                if ($row.status -ne "PLANNED") {
+                    Add-ValidationError "REQUEST_ASSET" "docs/requests/request_register.csv" "$($row.request_id) has no asset_ids"
+                }
+            }
+            else {
+                foreach ($assetId in $row.asset_ids.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries)) {
+                    $trimmedAssetId = $assetId.Trim()
+                    if (-not $assetIds.ContainsKey($trimmedAssetId)) {
+                        Add-ValidationError "REQUEST_ASSET" "docs/requests/request_register.csv" "$($row.request_id) references $trimmedAssetId"
+                    }
+                }
+            }
+        }
+
+        if ($row.status -eq "READY_FOR_ACCEPTANCE") {
+            if ([string]::IsNullOrWhiteSpace($row.brief_path) -or $row.brief_path -eq "TBD") {
+                Add-ValidationError "REQUEST_BRIEF" "docs/requests/request_register.csv" "$($row.request_id) has no brief_path"
+                continue
+            }
+            $briefPath = Join-Path $repoRoot $row.brief_path
+            if (-not (Test-Path -LiteralPath $briefPath -PathType Leaf)) {
+                Add-ValidationError "REQUEST_BRIEF" "docs/requests/request_register.csv" "$($row.request_id) missing $($row.brief_path)"
+                continue
+            }
+            $briefText = [System.IO.File]::ReadAllText($briefPath, $utf8)
+            if ($briefText -notmatch "(?m)^# $([regex]::Escape($row.request_id)):") {
+                Add-ValidationError "REQUEST_BRIEF_ID" $row.brief_path $row.request_id
+            }
+            $requestFieldPattern = "(?m)^\| request_id \| \x60$([regex]::Escape($row.request_id))\x60 \|$"
+            if ($briefText -notmatch $requestFieldPattern) {
+                Add-ValidationError "REQUEST_BRIEF_ID" $row.brief_path "request_id field=$($row.request_id)"
+            }
+            if ($briefText -notmatch [regex]::Escape($row.status)) {
+                Add-ValidationError "REQUEST_BRIEF_STATUS" $row.brief_path $row.status
+            }
+            if ($row.evidence -notmatch '(?:^|[;,\s])request_revision=\d+(?:$|[;,\s])') {
+                Add-ValidationError "REQUEST_REVISION" "docs/requests/request_register.csv" $row.request_id
+            }
+            if ([string]::IsNullOrWhiteSpace($row.acceptance_gate) -or $row.acceptance_gate -eq "TBD") {
+                Add-ValidationError "REQUEST_ACCEPTANCE" "docs/requests/request_register.csv" $row.request_id
+            }
+
+            $requiredBriefTerms = switch ($row.team) {
+                "ART" { @("asset_id", "location_id", "\uC0C1\uD0DC", "\uC811\uADFC\uC131", "\uB0A9\uD488") }
+                "AUD" { @("\uC6A9\uB3C4", "\uAE38\uC774", "\uC545\uAE30\u00B7\uC74C\uC0C9", "\uBC18\uBCF5 \uC5EC\uBD80", "sensory_caption_id") }
+                "CNT" { @("trigger", "source_event_id", "speaker_id", "state_reads", "state_writes", "repeat_policy") }
+            }
+            foreach ($term in $requiredBriefTerms) {
+                if ($briefText -notmatch $term) {
+                    Add-ValidationError "REQUEST_BRIEF_FIELD" $row.brief_path $term
+                }
+            }
+            foreach ($sourceId in $row.source_ids.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries)) {
+                $trimmedSourceId = $sourceId.Trim()
+                if ($briefText -notmatch [regex]::Escape($trimmedSourceId)) {
+                    Add-ValidationError "REQUEST_BRIEF_SOURCE" $row.brief_path $trimmedSourceId
+                }
+            }
+            if ($row.team -in @("ART", "AUD")) {
+                foreach ($assetId in $row.asset_ids.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries)) {
+                    $trimmedAssetId = $assetId.Trim()
+                    if ($briefText -notmatch [regex]::Escape($trimmedAssetId)) {
+                        Add-ValidationError "REQUEST_BRIEF_ASSET" $row.brief_path $trimmedAssetId
+                    }
+                }
+            }
         }
     }
 }
@@ -387,6 +513,9 @@ Write-Host "Decision IDs: $($decisionIds.Count)"
 Write-Host "Issue IDs: $issueCount (CNF $cnfCount, ERR $errCount)"
 if (Test-Path -LiteralPath $manifestPath) {
     Write-Host "Asset rows: $((Import-Csv -LiteralPath $manifestPath -Encoding utf8).Count)"
+}
+if (Test-Path -LiteralPath $requestRegisterPath) {
+    Write-Host "Request IDs: $($requestIds.Count)"
 }
 
 if ($errors.Count -gt 0) {

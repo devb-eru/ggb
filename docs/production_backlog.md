@@ -42,8 +42,8 @@
 | `PB-013` | P1 | 마우스·키보드·접근성 최소 경로 | 개발·QA | PB-010 | IMPLEMENTATION_NOT_STARTED | 미등록 |
 | `PB-014` | P1 | 한국어·영어 저작·검수 파이프라인 | 기획·QA | PB-001 | DESIGN_READY | 미등록 |
 | `PB-015` | P1 | 재현 가능한 문서·데이터·빌드 검증 | 개발·QA | PB-010 | IMPLEMENTATION_NOT_STARTED | 미등록 |
-| `PB-016` | P1 | 대표 에셋 샘플 배치와 역할별 처리량 기준선 | 아트·사운드·개발·PM | PB-002, PB-004, PB-007 | NEEDS_TEAM_INPUT | 미등록 |
-| `PB-017` | P1 | 버티컬 슬라이스 문자열 정본·분량·번역 처리량 기준선 | 기획·현지화·QA | PB-006, PB-014 | CONTENT_NOT_STARTED | 미등록 |
+| `PB-016` | P1 | 대표 에셋 샘플 배치와 역할별 처리량 기준선 | 아트·사운드·개발·PM | PB-002, PB-004, PB-007 | REQUEST_READY_TEAM_INPUT_PENDING | `REQ-ART-2026-0001`, `REQ-AUD-2026-0001`; Issue 미등록 |
+| `PB-017` | P1 | 버티컬 슬라이스 문자열 정본·분량·번역 처리량 기준선 | 기획·현지화·QA | PB-006, PB-014 | REQUEST_READY_CONTENT_NOT_STARTED | `REQ-CNT-2026-0001`; Issue 미등록 |
 | `PB-020` | P2 | 프롤로그·1장 알파 | 전 영역 | PB-011 재산정 | NOT_READY | 미등록 |
 | `PB-021` | P2 | 데모 compact/extended 편집 비교 | 기획·QA | PB-011 | NOT_READY | 미등록 |
 | `PB-022` | P2 | 데모 기능 완료·콘텐츠 락 | 전 영역 | PB-020, PB-021 | NOT_READY | 미등록 |

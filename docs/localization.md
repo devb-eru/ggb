@@ -164,11 +164,14 @@ localization_entry:
 | --- | --- | --- |
 | canonical 문자열 파일 | NOT_CREATED | 추적 가능한 UTF-8 CSV 또는 Translation Resource |
 | 발급된 runtime `line_id` | 0건 검증됨 | 중복 없는 registry 검사 결과 |
+| 버티컬 슬라이스 원문 의뢰 | READY_FOR_ACCEPTANCE | [REQ-CNT-2026-0001](requests/REQ-CNT-2026-0001_버티컬슬라이스.md) 팀 수락·skeleton CSV |
 | 한국어 원문 분량 | UNKNOWN | 사건별 문자열·단어 수 |
 | 영어 번역 분량 | UNKNOWN | 번역 대상 단어 수와 상태 집계 |
 | 폰트·fallback | CANDIDATE_NOT_LOCKED | 라이선스·글리프·200% capture |
 
 Markdown에 있는 예시 대사 수를 실제 제작 완료량으로 세지 않는다. 먼저 `PROD_01_VERTICAL_SLICE` 범위의 UI, 대사, 독백, 수첩, 힌트, 시스템 오류를 전부 한 정본에 옮겨 다음 값을 계측한다.
+
+`REQ-CNT-2026-0001`의 `content_item_id`와 `draft_id`는 제작·검토용 추적자이며 runtime `line_id`가 아니다. 한국어 의미와 상태 조건을 승인한 뒤에만 `TXT_*`, `DLG_*`, `UI_*`, `SYS_*`를 발급한다.
 
 - 유형별 string 수와 한국어·영어 단어 수.
 - 화자별 대사 수와 선택·관계·경계 단계 variant 수.

@@ -2,7 +2,7 @@
 
 ## 1. 목적과 우선순위
 
-본 문서는 `docs/asset_manifest.csv`의 deliverable을 실제 제작·검토 가능한 단위로 만드는 기술 규격이다. 감정·색·공간 의미는 `ideas/md/v04/`를 따르고, 해상도·레이어·파일·오디오 cue·승인 형식은 본 문서를 따른다.
+본 문서는 `docs/asset_manifest.csv`의 deliverable을 실제 제작·검토 가능한 단위로 만드는 기술 규격이다. 감정·색·공간 의미는 `ideas/md/v04/`를 따르고, 해상도·레이어·파일·오디오 cue·승인 형식은 본 문서를 따른다. 제작자는 [팀별 제작 의뢰](requests/README.md)에서 지정한 subset·사용 장면·승인 조건을 확인하고, 완료물을 [에셋 접수 절차](asset_intake.md)로 전달한다.
 
 우선순위:
 
@@ -188,25 +188,28 @@ Master
 
 | cue group | world state | 기능 |
 | --- | --- | --- |
+| `BGM_TITLE` | title | 저택의 주제 제시, 엔딩 가치 선취 금지 |
 | `BGM_S0_ROUTINE` | S0 | 정갈한 일상, 완전 해결감 금지 |
-| `BGM_S1_RESIDUE` | S1 | 반복 잔향 |
+| `BGM_S1_SUSPICION` | S1 | 반복 잔향 |
 | `BGM_S2_LEAK` | S2 | 고딕·기계 layer 교차 |
-| `BGM_D5_RUPTURE` | D5 | 전환, 광과민 대체와 timing 공유 |
-| `BGM_S3_BUFFER` | E_HUB | 불안은 유지하되 카운트다운처럼 들리지 않음 |
-| `BGM_E5_SETTLEMENT` | E5 | LOW~ALL 동일 주제, 편성만 변화 |
-| `BGM_F0_CORE` | F0~F3 | 메타퍼즐·선택 중립 |
-| `BGM_ED_REALITY` | 현실 | 희망 승리 fanfare 금지 |
-| `BGM_ED_STAY` | 잔류 | 안락한 굿엔딩 cadence 금지 |
+| `BGM_D5_BREAK` | D5 | 전환, 광과민 대체와 timing 공유 |
+| `BGM_S3_FRACTURE` | E_HUB | 불안은 유지하되 카운트다운처럼 들리지 않음 |
+| `BGM_S3_FRACTURE` + `E5_SETTLEMENT` variant | E5 | 같은 asset의 LOW~ALL 편곡 variant; 편성만 변화 |
+| `BGM_S4_CORE` | F0~F3 | 메타퍼즐·선택 중립 |
+| `BGM_R0_REALITY` | 현실 | 희망 승리 fanfare 금지 |
+| `BGM_S5_STAY` | 잔류 | 안락한 굿엔딩 cadence 금지 |
 | `BGM_CREDITS` | 공통 | 두 엔딩 공통 주제 회수 |
 
 일반 fade는 1.0~2.5초, 방 ambient는 0.3~1.0초를 시작값으로 사용한다. D5와 EDC는 event marker를 사용하되 프레임률에 종속하지 않는다.
+
+`E5_SETTLEMENT`는 현재 `BGM_S3_FRACTURE`의 편곡·stem variant다. 독립 loop와 별도 승인 단위가 필요하다고 실측되면 새 manifest 행을 발급하고 임의 파일명만 늘리지 않는다.
 
 ## 10. cue registry 계약
 
 ```yaml
 audio_cue:
   audio_id: SFX_MARA2_ARCHIVE_TRILL
-  asset_id: AUD_SIGNATURE_MARA2
+  asset_id: AUD_SIG_MARA2
   source_event_ids: [P3B, MARA2_S1, E3_5, F0_D]
   bus: Signature
   priority: required_information
@@ -223,6 +226,7 @@ audio_cue:
 
 ### 아트
 
+- `request_id`와 수락된 asset subset.
 - master 링크·revision.
 - runtime export와 import 설정.
 - 1080p 기본, 720p, 4K, 200% UI screenshot.
@@ -232,6 +236,7 @@ audio_cue:
 
 ### 오디오
 
+- `request_id`와 수락된 cue subset.
 - master·runtime 파일.
 - waveform, loop point, peak·loudness 측정.
 - in-engine 녹화 또는 capture.

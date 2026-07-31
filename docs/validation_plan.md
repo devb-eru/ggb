@@ -50,6 +50,18 @@
 
 역사 기록인 `ideas/md/v04/issues/`와 검토 보고서는 구식 표기 검사에서 제외한다. 해당 파일의 과거 근거를 현재 계약으로 오인하지 않는다.
 
+### 4.1 제작 의뢰 데이터
+
+`scripts/validate_docs.ps1`은 `docs/requests/request_register.csv`와 발행 준비 의뢰서를 함께 검사한다.
+
+- `REQ-ART-*`, `REQ-AUD-*`, `REQ-CNT-*` ID 형식·중복·team 일치.
+- 상태·배치 범위·담당·검토자와 source ID 존재.
+- `READY_FOR_ACCEPTANCE`의 상세 brief 경로·본문 ID·revision·수락 게이트.
+- 아트·사운드 의뢰의 모든 `asset_id`가 `asset_manifest.csv`에 존재하는지 여부.
+- 팀별 핵심 필드: 아트의 상태·접근성·납품, 사운드의 용도·길이·음색·loop·자막, 콘텐츠의 trigger·상태 읽기·쓰기·반복 정책.
+
+검증 통과는 팀이 범위를 수락했거나 실제 제작이 시작됐다는 뜻이 아니다. 상태 전이는 팀 회신과 제작 증거로 별도 확인한다.
+
 ## 5. 후속 단계 계약
 
 ### V1 Godot import
