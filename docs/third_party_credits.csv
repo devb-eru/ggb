@@ -1,0 +1,3 @@
+license_id,item_name,item_type,asset_ids,source_url,license_name,required_attribution,modifications,status,evidence
+INTERNAL,GGB original project materials,project,"",internal,All Rights Reserved,"",ongoing,POLICY_READY_SIGNATURES_PENDING,"LICENSE; docs/contributor_rights.md; rights_ref=PENDING"
+GODOT_ENGINE,Godot Engine,runtime,"",https://godotengine.org/license/,MIT,"Godot copyright notice and MIT license statement",export_template,PLANNED_RELEASE_ATTRIBUTION,"official license URL verified 2026-07-31; exact exported build notices pending"

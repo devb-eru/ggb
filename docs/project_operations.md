@@ -25,8 +25,21 @@
 | 중요 결정 | `docs/decisions/` | `GGB-DEC` 기록 |
 | 역할 | `docs/project_roles.md` | 프로젝트 관리자와 영역 책임 |
 | 마일스톤 | `docs/milestones.md` | 결과물 범위, 완료 조건, 목표일 |
+| 공통 제품 계약 | `docs/product_contract.md` | 플랫폼, 빌드 경계, 입력, 접근성, 저장 UX |
 | 공개 데모 범위 | `docs/demo_definition.md` | 2장 데모의 콘텐츠·품질·플랫폼 기준 |
 | 완성본 범위 | `docs/full_game_definition.md` | 프롤로그~4장·엔딩의 콘텐츠·품질·출시 기준 |
+| 현지화 | `docs/localization.md` | locale, 문자열, 말투, 번역·검수·락 기준 |
+| 메타 UI·인벤토리 | `docs/meta_ui_flow.md` | 타이틀, 슬롯, 설정, 대화 기록, 조작 흐름 |
+| 성능·renderer | `docs/technical_performance_budget.md` | Windows 계측 예산, renderer 선택과 합격선 |
+| 타깃·플레이테스트 | `docs/player_experience_and_playtest.md` | 대상 플레이어, 표본, 지표와 의사결정 규칙 |
+| 콘텐츠 고지 | `docs/content_advisory.md` | 민감 장면, 상점·첫 실행 고지와 연출 한계 |
+| 에셋 BOM | `docs/asset_manifest.csv`, `docs/asset_manifest.md` | 에셋 수량, 빌드 범위, 승인·라이선스 상태 |
+| 제작 규격 | `docs/content_pipeline_specs.md` | 아트·애니메이션·오디오 원본·export·검수 규칙 |
+| 창작 잠금 | `docs/creative_lock_schedule.md` | 이름·연령·palette·renderer·가격 결정 게이트 |
+| 출시 기능표 | `docs/release_feature_matrix.md` | 1.0 필수·제외·조건부 기능과 법적 준비 |
+| 기여자 권리 증거 | `docs/contributor_rights.md` | 내부 제작물의 상업 이용 근거·비공개 서명 참조·배포 게이트 |
+| 제작 전환 백로그 | `docs/production_backlog.md` | 구현 전 작업 분해, 선행 관계와 외부 차단 |
+| 검증 단계 | `docs/validation_plan.md` | 문서·데이터·저장·빌드 검증과 CI 승격 조건 |
 | Steam 출시 준비 | `docs/steam_release_plan.md` | 계정, 상점, 심사, Next Fest, 출시 게이트 |
 | Discord 운영 | `docs/discord_operations.md` | Git 알림, 회의, 에셋 접수, 일정 표시 기준 |
 | 편집 원본 | [Google Drive `GGB/Assets`](https://drive.google.com/drive/folders/1S8S8CSfpfO2ToszpAbSRaJqGgNRAqVoD) | 대용량 source의 단계별 보관 위치 |

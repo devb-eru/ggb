@@ -1,6 +1,6 @@
 # Data Contract
 
-이 문서는 기획 문서, Godot 저작 데이터, 사용자 저장 데이터 사이의 연결 규칙이다. 세부 타입·상태·사건·저장 계약은 [`ideas/md/v04/17_상태변수_이벤트ID_Godot데이터구조.md`](../ideas/md/v04/17_상태변수_이벤트ID_Godot데이터구조.md)를 따른다.
+이 문서는 기획 문서, Godot 저작 데이터, 사용자 저장 데이터 사이의 연결 규칙이다. 제품에 노출되는 저장·재개 약속은 [제품 계약](product_contract.md), 세부 타입·상태·사건 계약은 [`ideas/md/v04/17_상태변수_이벤트ID_Godot데이터구조.md`](../ideas/md/v04/17_상태변수_이벤트ID_Godot데이터구조.md)를 따른다. 저장 헤더나 생명 주기가 충돌하면 최신 `GGB-DEC`와 제품 계약을 우선하고 문서 17을 같은 변경 단위로 동기화한다.
 
 ## 1. Source Of Truth
 
@@ -13,6 +13,7 @@
 | 계층 | 경로 | 형식 | 책임 |
 | --- | --- | --- | --- |
 | 기획 원본 | `ideas/md/v04/` | Markdown·Mermaid·YAML 예시 | 사람이 읽는 사건·퍼즐·서사 정본 |
+| 제품 계약 | `docs/product_contract.md` | Markdown | 빌드·입력·접근성·저장 UX 정본 |
 | 구현 계약 | `ideas/md/v04/17_*.md` | Markdown | 타입·writer·저장·검증 정본 |
 | 저작 데이터 | `game/data/` | `.tres` 중심 | 게임이 읽는 정적 사건·대사·퍼즐·registry |
 | 게임 코드 | `game/scripts/` | GDScript | Resource 실행·상태 쓰기·저장 |
@@ -96,6 +97,7 @@ JSON·CSV를 임시 저작 형식으로 사용할 수 있으나 빌드 전 정�
 
 - 방·오브젝트 위치·당일 도구는 물리 리셋 대상이다.
 - 수첩 지식·일지·실패 정보·관계·잔류 기억은 영구 유지한다.
+- 확인한 대화 기록은 `meta_progress.dialogue_history`에 두고 모든 세계 리셋에서 유지한다.
 - D5 뒤 첫 수면만 S3를 생성하며 이후 휴식은 현재 물리 상태를 보존한다.
 - 파생값은 저장하지 않고 원본 상태에서 다시 계산한다.
 - UI·resolver·대사 코드는 진행 상태를 직접 쓰지 않는다.
@@ -144,10 +146,79 @@ user://profile/input_map.json
 버전:
 
 ```text
-progress.schema_version = 12
+progress.schema_version = 1
+progress.design_revision = "v0.4-state-r12"
 accessibility.accessibility_profile_version = 1
 ending_meta.ending_meta_profile_version = 1
 ```
+
+첫 팀·외부 배포 저장 형식은 `schema_version=1`에서 시작한다. 기존 기획 문서의 schema 12는 런타임 이관 번호가 아니라 열두 번째 상태 모델 개정이며 `design_revision`으로만 추적한다. 실제 배포한 저장 형식이 바뀔 때만 `schema_version`을 올리고 입력·출력 fixture를 보존한다.
+
+진행 헤더 최소 계약:
+
+```yaml
+save_header:
+  schema_version: 1
+  design_revision: "v0.4-state-r12"
+  game_version: "0.0.0-dev"
+  build_id: "local-dev"
+  build_flavor: "demo"
+  content_revision: "unlocked"
+  content_boundary_id: "SAVE_J1_COMPLETE"
+  source_app_id: "local"
+  engine_version: "4.7"
+  slot_id: "slot_01"
+  save_point_id: "SAVE_J1_COMPLETE"
+  transaction_id: "SAVE_TX_000001"
+  created_at_utc: 0
+  updated_at_utc: 0
+  checksum_algorithm: "sha256"
+  checksum: ""
+```
+
+`design_revision`이나 `engine_version` 하나만으로 호환을 허용하지 않는다. 최소한 `schema_version`, `build_flavor`, `content_boundary_id`, `source_app_id`와 checksum을 함께 판정한다.
+
+### 7.1 대화 기록
+
+[GGB-DEC-2026-0006](decisions/GGB-DEC-2026-0006_대화_기록_영속화.md)에 따라 대화 기록은 진행 슬롯에 명시적으로 저장한다.
+
+```yaml
+meta_progress:
+  dialogue_history:
+    next_sequence: 1
+    entries:
+      - sequence: 0
+        line_id: DLG_EDGAR_B1_001
+        speaker_id: SERVANT_EDGAR
+        choice_id: null
+        viewed_locale: ko-KR
+        event_id: B1
+        viewed_at_utc: 0
+        retention: normal
+```
+
+규칙:
+
+- 문장 본문은 저장하지 않고 현재 locale의 `line_id`로 다시 표시한다.
+- `sequence`는 슬롯 안에서 단조 증가하며 정렬 의미를 가진다.
+- NORMAL_RESET, BROKEN_RESET, 불러오기와 언어 변경에서 유지한다.
+- 새 게임, 슬롯 삭제 또는 호환 불가 초기화에서만 제거한다.
+- 기본 최대 2,000개 항목이며 `retention=protected`는 자동 제거하지 않는다.
+- `protected`는 일지 복원, 최종 선택, 핵심 관계 outcome처럼 진행 판단에 필요한 대사에만 사용한다.
+- 아직 보지 않은 line이나 후속 선택지는 기록에 생성하지 않는다.
+
+### 7.2 초기 저장 지점
+
+| ID | 생성 조건 | 안전 재개점 |
+| --- | --- | --- |
+| `SAVE_P6_COMPLETE` | 첫 취침 확정 | NORMAL_RESET 진입 |
+| `SAVE_NORMAL_RESET_COMPLETE` | 각 정상 리셋 transaction 완료 | 같은 아침 ROUTE |
+| `SAVE_A2_COMPLETE` | 수첩 표시 지속 확인 | B1 진입 |
+| `SAVE_J1_COMPLETE` | J1 원자 완료 | B3 준비 |
+| `SAVE_J2_COMPLETE` | J2 원자 완료 | 다음 정상 리셋 |
+| `SAVE_J3_COMPLETE` | J3 원자 완료 | D0 진입 |
+
+동일 ID의 저장을 반복 생성할 수 있지만 최신 완전 transaction만 현재 진행으로 승격한다. 세계 리셋 도중의 중간 상태를 안전 지점으로 표시하지 않는다.
 
 안전 저장 순서:
 
@@ -172,6 +243,9 @@ ending_meta.ending_meta_profile_version = 1
 - 논리 집합 배열에 중복·빈 ID가 없다.
 - 필수 사건 graph가 entry에서 completion·return까지 도달한다.
 - 모든 save point가 안전한 resume node를 가진다.
+- 저장 헤더의 flavor·경계가 허용 event registry와 일치한다.
+- 대화 기록의 `sequence`가 중복되지 않고 모든 `line_id`, `speaker_id`, `choice_id`가 등록되어 있다.
+- 한국어·영어의 placeholder 집합과 타입이 같다.
 - 색·음향·모션을 제거해도 필수 상호작용이 남는다.
 - 진행 설정 변경 전후 진행 checksum payload가 같다.
 

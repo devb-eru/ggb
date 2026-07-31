@@ -77,6 +77,7 @@ usage: 사용 장면·이벤트·화면
 deliverable: 필요한 원본·출력물
 source_or_export: source | export | both
 license: original | external_with_terms
+rights_evidence_id: RIGHTS-YYYY-NNNN | beru_pending
 drive_url: beru_pending | Google Drive 작업 폴더
 requires: 선행 작업·폰트·플러그인
 notes: 수정 주의사항

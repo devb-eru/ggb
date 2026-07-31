@@ -11,6 +11,7 @@ usage:
 deliverable:
 source_or_export: source | export | both
 license: original | external_with_terms
+rights_evidence_id: RIGHTS-YYYY-NNNN | beru_pending
 drive_url: beru_pending | https://drive.google.com/...
 requires:
 notes:

@@ -8,7 +8,7 @@ Godot 프로젝트 루트는 `game/`이며 엔진은 Godot 4.7 계열을 사용�
 game/project.godot
 ```
 
-Windows PC 데스크톱이 목표 실행 환경이다. 최소 Windows 버전과 하드웨어 사양은 실제 빌드 검증 뒤 확정한다.
+Windows 10/11 64-bit PC 데스크톱이 목표 실행 환경이다. 최소·권장 하드웨어 사양은 실제 빌드 검증 뒤 확정한다.
 
 ## 2. Folder Roles
 

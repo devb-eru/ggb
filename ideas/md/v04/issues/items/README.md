@@ -16,6 +16,11 @@
 | [`GGB-CNF-2026-0010`](GGB-CNF-2026-0010_D5_이후_첫_수면과_후속_휴식_라우터_충돌.md) | VERIFIED | DONE | D5 이후 첫 수면과 후속 휴식 라우터 충돌 |
 | [`GGB-CNF-2026-0011`](GGB-CNF-2026-0011_아바타_대표색과_데이터_서명_면적_규칙_충돌.md) | VERIFIED | DONE | 아바타 대표색과 데이터 서명 면적 규칙 충돌 |
 | [`GGB-CNF-2026-0012`](GGB-CNF-2026-0012_Godot_디렉터리와_서비스_책임_규칙_충돌.md) | VERIFIED | DONE | Godot 디렉터리와 서비스 책임 규칙 충돌 |
+| [`GGB-CNF-2026-0013`](GGB-CNF-2026-0013_런타임_저장_버전과_상태모델_개정번호_충돌.md) | VERIFIED | DONE | 런타임 저장 버전과 상태 모델 개정번호 충돌 |
+| [`GGB-CNF-2026-0014`](GGB-CNF-2026-0014_1.0_입력범위와_컨트롤러_진동_대체_충돌.md) | VERIFIED | DONE | 1.0 입력 범위와 컨트롤러 진동 대체 충돌 |
+| [`GGB-CNF-2026-0015`](GGB-CNF-2026-0015_권장_관계_완료_인원_충돌.md) | VERIFIED | DONE | 권장 관계 완료 인원 충돌 |
+| [`GGB-CNF-2026-0016`](GGB-CNF-2026-0016_데모_임시_에셋_비율_산식_충돌.md) | VERIFIED | DONE | 데모 임시 에셋 비율 산식 충돌 |
+| [`GGB-CNF-2026-0017`](GGB-CNF-2026-0017_D5_데모_스팅어와_본편_재개_경계_충돌.md) | VERIFIED | DONE | D5 데모 스팅어와 본편 재개 경계 충돌 |
 
 ## 오류
 
@@ -34,6 +39,10 @@
 | [`GGB-ERR-2026-0011`](GGB-ERR-2026-0011_Windows_PC_플랫폼_확정_후_미확정_표기_잔존.md) | VERIFIED | DONE | Windows PC 플랫폼 확정 후 미확정 표기 잔존 |
 | [`GGB-ERR-2026-0012`](GGB-ERR-2026-0012_Set_StringName_직렬화_표현_오류.md) | VERIFIED | DONE | Set StringName 직렬화 표현 오류 |
 | [`GGB-ERR-2026-0013`](GGB-ERR-2026-0013_검증_기준일과_최신_동기화_날짜_불일치.md) | VERIFIED | DONE | 검증 기준일과 최신 동기화 날짜 불일치 |
+| [`GGB-ERR-2026-0014`](GGB-ERR-2026-0014_엔딩_에필로그_목표시간_불일치.md) | VERIFIED | DONE | 엔딩 에필로그 목표시간 불일치 |
+| [`GGB-ERR-2026-0015`](GGB-ERR-2026-0015_J4_확인창_placeholder_계약_누락.md) | VERIFIED | DONE | J4 확인창 placeholder 계약 누락 |
+| [`GGB-ERR-2026-0016`](GGB-ERR-2026-0016_F2_필수_지식_수량_구식_표기.md) | VERIFIED | DONE | F2 필수 지식 수량 구식 표기 |
+| [`GGB-ERR-2026-0017`](GGB-ERR-2026-0017_플레이타임_합산과_관계경로_예산_불일치.md) | VERIFIED | DONE | 플레이타임 합산과 관계 경로 예산 불일치 |
 
 ## 관리
 

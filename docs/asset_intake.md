@@ -73,6 +73,7 @@ license/   외부 폰트·브러시·샘플·플러그인의 사용 조건
 - `deliverable`: 필요한 source와 export 목록.
 - `source_or_export`: 전달 파일의 성격.
 - `license`: 자체 제작 또는 외부 자산의 사용 조건.
+- `rights_evidence_id`: 내부 제작자 허락 또는 계약의 비공개 기록을 가리키는 `RIGHTS-YYYY-NNNN`. 실제 개인정보·서명은 공개 저장소에 넣지 않음.
 - `drive_url`: 작업 폴더 URL. 최초 Discord 첨부라면 `beru_pending`.
 
 `beru`는 필수값과 파일을 확인한 뒤 같은 스레드에 `RECEIVED` 또는 `NEEDS_INFO`로 회신한다. `RECEIVED` 회신에는 Drive 작업 폴더와 GitHub Issue URL을 포함한다.
@@ -95,7 +96,7 @@ Discord 회신은 알림이고 GitHub Project 상태가 정본이다. 폴더 이
 
 1. 제작 팀장은 source가 다시 편집 가능한지, export가 요구 규격을 충족하는지 확인한다.
 2. `gatam` 또는 지정 QA는 사용 장면, 언어, 잘림·루프·가독성 등 작업별 완료 조건을 확인한다.
-3. `beru`는 파일 출처와 라이선스, 이름, 버전, Drive 위치를 확인한다.
+3. `beru`는 파일 출처와 라이선스, `rights_evidence_id`, 이름, 버전, Drive 위치를 확인한다.
 4. 게임이 직접 읽는 최종 export만 Git 또는 Git LFS에 반영한다.
 5. 관련 commit·PR·QA 결과를 GitHub Project `검증 근거`에 기록한다.
 6. 승인 source는 `30_APPROVED`에 유지하고 교체된 버전만 `90_ARCHIVE`로 이동한다.

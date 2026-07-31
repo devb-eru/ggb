@@ -30,9 +30,9 @@ issues/
 │  ├─ README.md
 │  ├─ GGB-CNF-2026-0001_제목.md
 │  ├─ ...
-│  ├─ GGB-CNF-2026-0012_제목.md
-│  ├─ GGB-ERR-2026-0012_제목.md
-│  └─ GGB-ERR-2026-0013_제목.md
+│  ├─ GGB-CNF-2026-0017_제목.md
+│  ├─ GGB-ERR-2026-0015_제목.md
+│  └─ GGB-ERR-2026-0017_제목.md
 └─ archive/
    └─ 초기_검토보고서.md
 ```
