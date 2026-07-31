@@ -18,6 +18,10 @@
 /_qa_gdd_v03_r2
 /__pycache__
 
+# Editor and interrupted-write temporary files
+*.tmp
+*.tmp.*
+
 # Godot local cache and platform build files
 /game/.godot/
 /game/android/

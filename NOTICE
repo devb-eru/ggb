@@ -1,0 +1,9 @@
+GGB project notice
+
+Copyright (c) 2026 GGB project contributors. All rights reserved.
+
+This repository may contain third-party components or assets governed by
+separate licenses. Their inclusion does not change the proprietary status of
+the original GGB project material. The authoritative third-party registry is
+docs/third_party_credits.csv, with release-facing notices reproduced in
+THIRD_PARTY_NOTICES.md.

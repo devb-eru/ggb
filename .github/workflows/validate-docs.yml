@@ -1,0 +1,23 @@
+name: Validate docs and planning data
+
+on:
+  pull_request:
+  push:
+    branches:
+      - develop
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate-docs:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate Markdown, decisions, and asset manifest
+        shell: pwsh
+        run: ./scripts/validate_docs.ps1

@@ -42,6 +42,7 @@ meta_progress:
   journal_stage: 0
   knowledge_flags: []
   knowledge_entries: {}
+  narrative_memory_anchors: {}
   validated_puzzle_steps: {}
   event_history: {}
   failure_records: {}
@@ -939,6 +940,7 @@ event_definition:
   required_knowledge:
     - KN_F2_PROMISED_FUTURE_BODIES
     - KN_F2_RESEARCHERS_CONVERTED
+    - KN_F2_RELEASE_NOT_CURRENTLY_EXECUTABLE
     - KN_F2_FORCED_SUBJECT_ACTIVATION
     - KN_F2_EXTERNAL_SURVIVAL_UNCERTAIN
     - KN_F2_FINAL_AUTHORITY_BELONGS_TO_SUBJECT
@@ -948,7 +950,7 @@ event_definition:
     node_id: F2_MANDATORY_RECAP
     behavior: recap_missing_facts_without_choice_or_failure
   completion_guard:
-    verified_knowledge_count: 5
+    verified_knowledge_count: 6
   completion_effects:
     set_flags: [F2_complete]
     next_objective_id: F3_ENTRY
@@ -1380,12 +1382,35 @@ F3_complete
 | --- | --- | --- | --- |
 | `KN_E1_RESET_DID_NOT_RESTORE` | E1 고유 오브젝트 3개 확인 | `verified` | 잠든 뒤 세계가 복구되지 않았음을 주인공이 직접 확인 |
 | `KN_F2_PROMISED_FUTURE_BODIES` | F2 | `verified` | 연구원들이 미래의 새 신체를 약속받음 |
-| `KN_F2_RESEARCHERS_CONVERTED` | F2 | `verified` | 동의 범위를 벗어나 인격 데이터로 전환됨 |
+| `KN_F2_RESEARCHERS_CONVERTED` | F2 | `verified` | 동의 범위를 벗어나 생체 신경 코어·인격 프로세스 결합 상태로 전환됨 |
+| `KN_F2_RELEASE_NOT_CURRENTLY_EXECUTABLE` | F2 | `verified` | 원래 신체와 이전 모듈이 없고 현재 분리는 인격 소실 위험 때문에 실행할 수 없음 |
 | `KN_F2_FORCED_SUBJECT_ACTIVATION` | F2 | `verified` | 사용인들이 주인공을 강제로 시뮬레이션에 연결함 |
 | `KN_F2_EXTERNAL_SURVIVAL_UNCERTAIN` | F2 | `verified` | 바깥 생존 가능성은 보장도 부정도 할 수 없음 |
 | `KN_F2_FINAL_AUTHORITY_BELONGS_TO_SUBJECT` | F2 | `verified` | 최종 결정 권한이 주인공에게 귀속됨 |
 
-F2는 위 다섯 지식을 한 장면 안에서 모두 `verified`로 만든다. 누락 시 `F2_MANDATORY_RECAP`이 빠진 사실만 다시 제시하며 실패·관계 변화·엔딩 편향을 발생시키지 않는다.
+F2는 위 여섯 `KN_F2_*` 지식을 한 장면 안에서 모두 `verified`로 만든다. 누락 시 `F2_MANDATORY_RECAP`이 빠진 사실만 다시 제시하며 실패·관계 변화·엔딩 편향을 발생시키지 않는다.
+
+### 아버지 기억 닻
+
+```yaml
+narrative_memory_chain:
+  chain_id: father_choice_chain
+  stage: none | sensory_fragment | episodic_fragment | complete
+  entries:
+    - MEM_FATHER_TEA_HAND_FRAGMENT
+    - MEM_FATHER_DRAWN_DOOR_FRAGMENT
+    - MEM_FATHER_CHOICE_PROMISE_COMPLETE
+```
+
+| memory_id | writer | 단계 | 필수 의미 |
+| --- | --- | --- | --- |
+| `MEM_FATHER_TEA_HAND_FRAGMENT` | P4 | sensory_fragment | 몸이 기억하는 찻잔 손잡이 습관 |
+| `MEM_FATHER_DRAWN_DOOR_FRAGMENT` | J3 | episodic_fragment | 함께 그린 문과 끊긴 선택 문장 |
+| `MEM_FATHER_CHOICE_PROMISE_COMPLETE` | F1 | complete | 정보 공개 뒤 주인공이 정하게 하겠다는 약속과 실패 |
+
+- P4와 J3는 퍼즐 정답, 관계값, 엔딩 포커스를 바꾸지 않는다.
+- 오래된 저장에서 앞 단계가 누락된 채 뒤 단계가 있으면 로드 마이그레이션이 앞 단계를 `implied_seen`으로 채우고 현재 단계를 유지한다.
+- F1 재생은 `father_choice_chain=complete`를 쓰되 기억 장면을 엔딩 권고 문구로 사용하지 않는다.
 
 ### F0-E·엔딩 상태
 
@@ -1570,6 +1595,7 @@ res://
 │  │  ├─ state_writer.gd
 │  │  ├─ reset_coordinator.gd
 │  │  ├─ reaction_router.gd
+│  │  ├─ dialogue_history_writer.gd
 │  │  ├─ ending_router.gd
 │  │  ├─ visual_state_resolver.gd
 │  │  └─ data_contract_validator.gd
@@ -1589,6 +1615,7 @@ res://
 │  │  ├─ state_write.gd
 │  │  ├─ state_path_registry.gd
 │  │  ├─ event_history_entry.gd
+│  │  ├─ dialogue_history_entry.gd
 │  │  ├─ short_reaction_definition.gd
 │  │  ├─ pending_reaction.gd
 │  │  ├─ servant_state.gd
@@ -1628,6 +1655,7 @@ res://
 | `StateWriter` | 선언된 상태 경로에 대한 검증된 단일·원자 쓰기 |
 | `ResetCoordinator` | SYS_COMMIT→SYS_MEMORY→물리 초기화→ROUTE 재개 조정 |
 | `ReactionRouter` | 짧은 반응 우선순위, 중복 제거, 대기·소비·superseded 처리 |
+| `DialogueHistoryWriter` | 실제 표시한 line·choice를 순서대로 append하고 보관 한도 적용 |
 | `EndingRouter` | EDC 커밋 뒤 ALL 의식·EDR·EDS 노드·메타 커밋 라우팅 |
 | `SaveManager` | 트랜잭션 저장, 버전 마이그레이션 |
 | `AccessibilityProfileManager` | Windows 창·DPI, 색·문양·자막·입력·글리치 표시 프로필 로드·저장 |
@@ -1760,8 +1788,14 @@ intervention_budget:
 
 ```yaml
 save_header:
-  schema_version: 12
-  content_version: "v0.4"
+  schema_version: 1
+  design_revision: "v0.4-state-r12"
+  game_version: "0.0.0-dev"
+  build_id: "local-dev"
+  build_flavor: "demo"
+  content_revision: "unlocked"
+  content_boundary_id: null
+  source_app_id: "local"
   engine_version: "4.7"
   slot_id: ""
   save_point_id: null
@@ -1772,13 +1806,16 @@ save_header:
   checksum: ""
 ```
 
-마이그레이션 원칙:
+버전 원칙:
 
-`schema_version=12`는 공통 오브젝트 반응 리소스, 첫·반복 조사 수명 주기와 canonical 오브젝트 레지스트리를 추가한다. 접근성 표시 설정은 진행 schema와 분리된 profile v1으로 관리한다. 버전 11의 엔딩 실행 상태와 이전 스키마를 모두 유지한다. 버전 11 이하는 기존 단계별 변환을 순서대로 적용한 뒤 아래 v12 규칙으로 한 번 더 변환해 저장한다.
+첫 팀·외부 배포 런타임 저장은 `schema_version=1`로 시작한다. 문서가 누적해 온 schema 1~12는 실행 파일 형식이 아니라 **상태 모델 설계 개정 이력**이며, 최신 상태는 `design_revision=v0.4-state-r12`로 추적한다. 따라서 아래 r12·r11·r10·r9 메모를 실제 런타임 migration 코드로 구현하지 않는다.
 
-v12 추가 변환:
+실제 배포 뒤 직렬화 구조가 바뀔 때만 `schema_version`을 올리고 이전 입력 fixture, 기대 출력, 실패·롤백 경로를 보존한다. 같은 schema 안의 정적 콘텐츠 변경은 `content_revision`, 데모·본편 경계는 `build_flavor`와 `content_boundary_id`로 판정한다. 상세 제품 계약은 [제품 계약](../../../docs/product_contract.md)과 `GGB-DEC-2026-0011`을 따른다.
+
+state model r12에 통합된 필드 메모:
 
 - `object_reaction_memory`가 없으면 빈 `persistent_seen`, `per_state_seen` 논리 집합을 생성하고 중복 없는 문자열 배열로 저장한다.
+- `narrative_memory_anchors`가 없으면 완료 이력에서 보수적으로 재구성한다. `F1_complete`면 `MEM_FATHER_CHOICE_PROMISE_COMPLETE=complete`, `journal_stage>=3`이면 `MEM_FATHER_DRAWN_DOOR_FRAGMENT=episodic_fragment`, `P4_complete`면 `MEM_FATHER_TEA_HAND_FRAGMENT=sensory_fragment`를 부여하며 충족하지 않은 항목은 만들지 않는다.
 - `object_reaction_runtime`은 로드 중인 world phase를 기준으로 빈 `loop_counts`, `last_reaction_by_object`, `pending_reaction_id`를 생성한다.
 - E1·F3·EDR·EDS의 기존 interaction 논리 집합은 해당 사건 저장에 그대로 남긴다. 이를 일반 `persistent_seen`으로 복제하지 않는다.
 - 구식 시뮬레이션 수첩 오브젝트 ID가 있으면 `OBJ_SUBJECT_NOTEBOOK_SIM`으로, 현실 수첩은 `OBJ_REALITY_FIELD_NOTEBOOK`으로 분리한다.
@@ -1787,9 +1824,9 @@ v12 추가 변환:
 - `per_state_seen` 항목은 `(reaction_id, world_phase, object_state)` 구조로 정규화한다.
 - `loop_counts`는 세이브 복구 편의용이며 NORMAL_RESET 마이그레이션 시 빈 맵으로 만든다.
 - 엔딩 required·optional Set에 등록되지 않은 오브젝트 ID는 제거하고 `MIGRATION_ENDING_OBJECT_UNKNOWN` 경고를 남긴다.
-- 구형 schema 12 프로필에 `object_accessibility`가 없으면 당시 기본 구조를 생성한 뒤 §17.3에 따라 접근성 프로필 v1으로 이관한다. 표시 설정은 진행 상태를 바꾸지 않는다.
+- 배포 전 내부 fixture에 `object_accessibility`가 있으면 §17.3의 접근성 프로필 v1 변환 시험에만 사용한다. 정식 진행 schema migration으로 배포하지 않는다.
 
-v11 추가 변환:
+state model r11에 통합된 필드 메모:
 
 - `ending_run`이 없으면 기본 구조를 생성한다.
 - `final_decision=unset`이면 `branch_committed=false`, `branch_id=unset`으로 둔다.
@@ -1803,19 +1840,19 @@ v11 추가 변환:
 - `completed_nodes`는 현재 분기의 EDR·EDS 노드 ID만 남기고 중복을 제거한다.
 - `required_interactions_seen`, `optional_interactions_seen`은 현재 분기에서 허용한 오브젝트·하위 상호작용 ID만 남기고 중복을 제거한다.
 
-v10 추가 변환:
+state model r10에 통합된 필드 메모:
 
 - `D5_complete`, `E1_complete`, `E1_all_objects_seen`, `F2_complete`, `F3_complete`, `final_sleep_lock`이 없으면 false로 생성한다.
 - 구식 진행 이력에 D5 완료가 있으면 `D5_complete=true`를 복원한다. `broken_reset_triggered=true`만으로 E1 완료를 추정하지 않는다.
 - `E1_complete=true`인데 `KN_E1_RESET_DID_NOT_RESTORE`가 없으면 E1 완료 이력을 출처로 `verified` 지식을 생성한다. 네 번째 오브젝트 확인은 추정하지 않으므로 `E1_all_objects_seen=false`를 유지한다.
-- `F2_complete=true`인 구식 세이브는 F2 완료 이력을 출처로 다섯 필수 지식을 모두 `verified`로 생성한다. F2가 완료되지 않았으면 이전 대사 이력만으로 일부 사실을 추정하지 않는다.
+- `F2_complete=true`인 pre-release 상태 예시는 F2 완료 이력을 출처로 여섯 필수 지식을 모두 `verified`로 생성한다. F2가 완료되지 않았으면 이전 대사 이력만으로 일부 사실을 추정하지 않는다.
 - `F3_complete=true`, `final_decision!=unset`, 활성 사건이 F3·EDC, 또는 현재 목표가 F3·EDC 중 하나면 `final_sleep_lock=true`로 복원한다. 그 외에는 false를 유지한다.
 - `F3_complete=true`인 구식 세이브는 `SAVE_F3_COMPLETE` 복구 지점을 생성한다. `final_decision=unset`이면 F3 완료 지점에서 EDC를 다시 열고, 이미 결정되었다면 해당 엔딩으로 라우팅한다.
 - `e1_unique_interactions`, `f3_unique_interactions`는 완료된 세부 상호작용 이력이 있을 때만 복원한다. 이력이 없고 사건도 미완료라면 빈 집합으로 두어 해당 조사만 다시 수행하게 한다.
 - E1 또는 F3가 완료됐지만 세부 집합 이력이 없으면 완료 플래그를 우선한다. 각각 요구 개수를 충족한 `legacy_completion` 표식을 넣고 완료 보상을 재적용하지 않는다.
 - 최종 잠금은 F3 완료가 아니라 F3 진입에서 시작한다. 마이그레이션으로 F3 내부에 복귀한 세이브도 수면 명령을 차단하지만 조사·저장·EDC 취소는 허용한다.
 
-v9 이하 기존 변환:
+state model r9 이하에서 통합된 필드 메모:
 
 - E3_X 완료 플래그와 REC_OWNER, 사용인 핵심 완료·기록 획득이 모두 있으면 `event_history.E3_X.lifecycle=completed`를 생성한다.
 - 저장된 outcome이 허용값이면 그대로 이관하고 `relationship_delta_applied=true`로 둔다.
@@ -1892,7 +1929,7 @@ iris_season_image가 unset, spring, summer, autumn, winter 중 하나다.
 MARA2_FU의 세 선택이 모두 F0 준비 흐름으로 합류하며 write_name만 mara2_name_written을 쓴다.
 E1 interaction_nodes가 네 개이며 서로 다른 object_id를 사용하고 required_unique_count가 3이다.
 E1_complete이면 KN_E1_RESET_DID_NOT_RESTORE가 verified다.
-F2_complete이면 다섯 required_knowledge가 모두 verified다.
+F2_complete이면 여섯 required_knowledge가 모두 verified다.
 F2_MANDATORY_RECAP은 누락 지식만 보수하며 실패·관계·final_decision을 쓰지 않는다.
 F3_ENTRY는 final_sleep_lock=true를 쓰고 F3 완료 전에도 수면 명령을 차단한다.
 F3 interaction_nodes가 세 개이며 required_unique_count가 3이다.
@@ -1936,20 +1973,20 @@ SERVANT_ED_* 그룹 ID가 이벤트 리소스·저장·대기열에 남아 있�
 21. 같은 세이브에서 IRIS_F2·IRIS_ED_REALITY·IRIS_ED_STAY가 동일 상태를 읽고, 마지막 핵심 관계 완료 직후 캐시 없이 `public`으로 바뀌는지 확인.
 22. 새 게임에서 `ACTIVE → D5 → DISABLED → FRACTURE_SLEEP → BROKEN_RESET_COMPLETION → BROKEN` 순서를 확인.
 23. D5 완료 저장과 BROKEN_RESET_COMPLETION의 각 쓰기 단계에서 강제 종료해 상태 enum과 완료 플래그가 함께 롤백 또는 완료되는지 확인.
-24. legacy bool의 정상·반대 극성·누락 조합과 기존 D5·BROKEN_RESET 진행값을 스키마 10으로 옮겨 `BROKEN > DISABLED > ACTIVE` 결과와 키 제거를 확인.
+24. state model r9 이전 legacy bool의 정상·반대 극성·누락 조합과 기존 D5·BROKEN_RESET 예시를 최초 runtime schema 1로 정규화해 `BROKEN > DISABLED > ACTIVE` 결과와 구식 키 제거를 확인.
 25. MARA2_S1의 세 선택에서 `mara2_name_attention_seen`은 이름표 위치를 정확히 지적한 경우에만 true가 되는지 확인.
 26. MARA2_S2를 건너뛴 뒤 E2_INTRO 익명 인덱스로 진행해도 `mara2_archive_index_known=false`가 유지되는지 확인.
 27. IRIS_S2 네 계절을 각각 저장·로드하고 E3_2가 같은 `iris_season_image`를 읽되 정답·결산에는 영향이 없는지 확인.
 28. MARA2_FU의 write_name·say_name·joke에서 각각 이름 기록/bond 결과가 다르고 세 경로 모두 E6·F0에 도달하는지 확인.
 29. 짧은 반응을 대기열에 둔 채 NORMAL_RESET하고 초회 반응이 보존되며, 확인 뒤 같은 ID가 다시 예약되지 않는지 확인.
-30. legacy `MARA2_FU_seen`, 문자열 대기열, `EDGAR_B2_seen`을 스키마 10으로 변환해 실제 이벤트 이력만 남는지 확인.
+30. pre-release state model의 legacy `MARA2_FU_seen`, 문자열 대기열, `EDGAR_B2_seen` 예시를 runtime schema 1로 정규화해 실제 이벤트 이력만 남는지 확인.
 31. E3_1~E3_4의 두 outcome을 각각 완료해 정확한 bond·alert와 event_history가 한 번만 적용되는지 확인.
 32. E3_2 `external_truth`는 bond +2·alert 0, `shelter_projection`은 bond 0·alert +1인지 확인.
 33. E3_4 두 outcome 모두 기술 결과 `CHOICE=SUBJECT`를 유지하는지 확인.
 34. J4 확인을 취소하면 E_HUB와 모든 E3 체크포인트가 유지되는지 확인.
 35. E3_4 미완료로 J4를 확정하면 E3_4가 superseded되고 E3_4M만 실행되며 기록·관계·완료 수가 늘지 않는지 확인.
 36. E3_4 완료 뒤 J4를 확정하면 E3_4M 없이 E5로 이어지는지 확인.
-37. schema 8의 완료 E3를 schema 9 변환 뒤 schema 10으로 옮길 때 outcome이 없으면 복구 선택이 outcome만 보수하고 관계 수치를 재적용하지 않는지 확인.
+37. state model r8의 완료 E3 예시를 현행 r12·runtime schema 1 fixture로 정규화할 때 outcome이 없으면 복구 선택이 outcome만 보수하고 관계 수치를 재적용하지 않는지 확인.
 38. 완료 트랜잭션 각 쓰기 단계에서 강제 종료해 플래그·기록·사용인 상태·event_history가 전부 롤백 또는 전부 완료되는지 확인.
 39. D6에서 침실 침대와 서비스 척추 비상 캡슐을 각각 선택해 같은 FRACTURE_SLEEP로 합류하며 취소 시 자유 조사로 돌아가는지 확인.
 40. E1 네 오브젝트 중 임의 세 개로 완료하고 네 번째는 보너스만 주며, 같은 오브젝트 반복이 고유 수를 늘리지 않는지 확인.
@@ -1958,7 +1995,7 @@ SERVANT_ED_* 그룹 ID가 이벤트 리소스·저장·대기열에 남아 있�
 43. F3에 진입하자마자 수면이 잠기고 세 오브젝트 확인 전에는 EDC가 열리지 않는지 확인.
 44. F3 세 오브젝트를 서로 다른 순서로 확인해도 균형 요약과 SAVE_F3_COMPLETE가 동일한지 확인.
 45. EDC를 취소한 뒤 F3_COMPLETION으로 돌아오며 수면 잠금과 미확정 final_decision이 유지되는지 확인.
-46. schema 9의 F3 진행 중·F3 완료·EDC 대기 세이브를 schema 10으로 옮겨 final_sleep_lock과 복구 지점이 올바르게 생성되는지 확인.
+46. state model r9의 F3 진행 중·F3 완료·EDC 대기 예시를 현행 r12·runtime schema 1 fixture로 정규화해 final_sleep_lock과 복구 지점이 올바르게 생성되는지 확인.
 47. EDC reality·stay 커밋 각 쓰기 단계에서 강제 종료해 final_decision·관계·ending_run·SAVE_ENDING_BRANCH가 전부 롤백 또는 완료되는지 확인.
 48. 관계 완료 0명과 5명에서 각각 두 분기를 확정해 ALL 의식의 생략·삽입과 ENTRY 합류를 확인.
 49. ALL 의식 수동 필기·자동 필기·중단 재개가 같은 확정 분기와 결과를 유지하는지 확인.
@@ -1968,7 +2005,7 @@ SERVANT_ED_* 그룹 ID가 이벤트 리소스·저장·대기열에 남아 있�
 53. 잔류 layered·contextual을 반복 전환해도 final_decision·관계·메타가 변하지 않는지 확인.
 54. 잔류 중앙홀·식탁 선택 조사를 생략해도 수첩 필수 반응 뒤 EDS_FINAL_FRAME에 도달하는지 확인.
 55. 마지막 화면 뒤 종료해 seen 메타가 보존되고 해당 크레딧에서 재개되는지 확인.
-56. schema 10의 확정 전·확정 후·구형 등급 엔딩 세이브를 schema 11로 변환해 분기·S4/S5·노드 논리 집합 배열을 확인.
+56. state model r10의 확정 전·확정 후·구형 등급 엔딩 예시를 현행 r12·runtime schema 1 fixture로 정규화해 분기·S4/S5·노드 논리 집합 배열을 확인.
 
 ## 16. 공통 오브젝트 반응 데이터 구조
 
@@ -2160,7 +2197,7 @@ func validate_reaction_writes(reaction: ObjectReaction) -> PackedStringArray:
 63. 활성 퍼즐과 배경 반응이 겹칠 때 퍼즐 writer 하나만 호출되는지 확인.
 64. servant object가 유효한 `consent_scope` 없이 포커스·키보드 순회에 나타나지 않는지 확인.
 65. required·optional 엔딩 Set과 일반 반응 이력을 교차 저장하지 않는지 확인.
-66. schema 11 세이브를 schema 12로 변환해 분기·관계·정보 보상 재적용 없이 첫·반복 반응 상태를 생성하는지 확인.
+66. 최초 `schema_version=1` fixture가 state model r12의 첫·반복 반응 필드를 모두 가지며 존재하지 않는 pre-release migration을 호출하지 않는지 확인.
 
 ### 16.9 일시적 동의·확인 상태
 
@@ -2193,14 +2230,15 @@ var allowed_actions: Array[StringName]
 
 ```yaml
 save_header:
-  schema_version: 12
+  schema_version: 1
+  design_revision: "v0.4-state-r12"
 
 user_profile:
   accessibility_profile_version: 1
   accessibility_settings: {}
 ```
 
-- `schema_version=12`는 사건·관계·오브젝트 반응 진행 데이터의 최신 버전으로 유지한다.
+- `schema_version=1`은 첫 배포 런타임 저장 형식이다. `design_revision=v0.4-state-r12`는 사건·관계·오브젝트 반응 상태 모델의 기획 개정을 추적한다.
 - `accessibility_profile_version=1`은 Windows 창·DPI·자막·색상·입력·모션 설정만 관리한다.
 - 접근성 프로필을 삭제·초기화해도 진행 세이브의 퍼즐, 관계, 기록, 엔딩 상태는 바뀌지 않는다.
 - 세이브 슬롯을 바꿔도 같은 Windows 사용자 프로필을 기본 사용한다.
@@ -2277,7 +2315,7 @@ interaction.large_hotspots → large_hotspots
 
 ### 17.3 구형 `object_accessibility` 이관
 
-schema 12의 기존 프로필에 `object_accessibility`만 있으면 최초 로드 때 다음처럼 접근성 프로필 v1로 옮긴다.
+배포 전 내부 state model r12 fixture에 `object_accessibility`만 있으면 접근성 프로필 변환 시험에서 다음처럼 profile v1로 옮긴다. 이 경로는 사용자 세이브 migration 지원으로 간주하지 않는다.
 
 | 구형 필드 | v1 필드 |
 | --- | --- |
@@ -2294,7 +2332,7 @@ schema 12의 기존 프로필에 `object_accessibility`만 있으면 최초 로�
 - 없는 필드는 문서 16 기본값으로 생성한다.
 - 범위를 벗어난 배율·흔들림 값은 허용 범위로 clamp한다.
 - 등록되지 않은 사용자 색 키는 버리고 경고 로그만 남긴다.
-- 이관 완료 뒤 진행 세이브의 `schema_version`을 올리지 않는다.
+- 이관 완료 뒤 진행 세이브의 `schema_version`은 1을 유지한다.
 - 구형 키는 한 번의 프로필 저장 뒤 제거한다.
 
 ### 17.4 `AvatarVisualProfile`
@@ -2490,7 +2528,7 @@ AccessibilitySettings 전역값
 ### 17.11 QA 시나리오
 
 67. `AccessibilitySettings`를 삭제한 뒤 기본 프로필 v1을 생성하고 진행 세이브가 유지되는지 확인.
-68. 구형 `object_accessibility` 9개 필드를 프로필 v1으로 옮기고 진행 `schema_version=12`가 유지되는지 확인.
+68. 내부 r12 fixture의 `object_accessibility` 9개 필드를 프로필 v1으로 옮기고 진행 `schema_version=1`이 유지되는지 확인.
 69. 사용자 지정 서명색 5개를 같은 색으로 설정해도 `signature_id`와 퍼즐 결과가 같은지 확인.
 70. 1280×720, 1920×1080, 2560×1440, 3840×2160과 Windows 표시 배율 100~200%에서 UI 잘림을 검사.
 71. 21:9에서 16:9 밖의 월드 핫스폿과 이벤트 미리 노출이 없는지 확인.
@@ -2725,8 +2763,14 @@ JSON key 순서는 게임 의미에 영향을 주지 않지만 같은 상태가 
 ```yaml
 save_document:
   header:
-    schema_version: 12
-    content_version: "v0.4"
+    schema_version: 1
+    design_revision: "v0.4-state-r12"
+    game_version: "0.0.0-dev"
+    build_id: "local-dev"
+    build_flavor: "demo"
+    content_revision: "unlocked"
+    content_boundary_id: SAVE_D5_COMPLETE
+    source_app_id: "local"
     engine_version: "4.7"
     slot_id: "slot_01"
     save_point_id: SAVE_D5_COMPLETE
@@ -2767,11 +2811,13 @@ save_document:
 | --- | --- | --- | --- | --- |
 | `meta_progress.journal_stage` | int=0, 0..5 | 일지 완료 사건 | ROUTE·J4·F0 | 단계 역행 금지 |
 | `meta_progress.knowledge_entries` | Dictionary={} | 조사·인증 사건 | 퍼즐·대사·F2 | 허용 상태만 |
+| `meta_progress.narrative_memory_anchors` | Dictionary={} | P4·J3·F1 | 독백·F1 기억 합성 | 체인 단계 역행 금지 |
 | `meta_progress.validated_puzzle_steps` | Dictionary={} | PuzzleController | resume·hint | 허용 step ID만 |
 | `meta_progress.event_history` | Dictionary={} | EventManager | 관계·결산·엔딩 | lifecycle·outcome 일치 |
 | `meta_progress.failure_records` | Dictionary={} | PuzzleController | ROUTE·숏컷 | source별 active 최대 1 |
 | `meta_progress.servant_states` | Dictionary={} | 관계 사건 | 대사·결산·엔딩 | bond·alert 0..5 |
 | `meta_progress.object_reaction_memory` | Dictionary={} | ObjectReactionResolver | 조사 문구·방문 판정 | logical set 정규화 |
+| `meta_progress.dialogue_history` | Dictionary={} | DialogueHistoryWriter | 대화 기록 UI·현지화 | sequence unique·등록 ID만 |
 | `meta_progress.f0_provisional_intent` | enum=unset | F0_E | F1·엔딩 관계 계산 | 최종 결정 게이트 금지 |
 | `meta_progress.final_decision` | enum=unset | EDC 전용 | EndingRouter | EDC 전 변경 금지 |
 | `loop_state.world_phase` | enum=S0 | Reset·fracture·ending | 공간·시각·반응 | S4·S5 구분 |
@@ -2792,6 +2838,8 @@ save_document:
 researcher_record_count
 core_complete_count
 settlement_tier
+relationship_seed_count
+e_hub_stability_window_active
 all_servants_complete
 journal_variant
 iris_confession_state
@@ -2800,9 +2848,53 @@ available_shortcuts
 next_unvalidated_event_node
 ```
 
+- `relationship_seed_count`는 다섯 사용인의 `short_events_seen`에 `EDGAR_S1`, `MARA1_S1`, `LUCA_S1`, `IRIS_S1`, `MARA2_S1`이 각각 존재하는지 세어 계산한다. 같은 ID의 재생은 중복 집계하지 않는다.
+- `e_hub_stability_window_active = fracture_state.relationship_hub_open AND fracture_state.e5_locked_in == false AND meta_progress.F3_complete == false`다.
 - 저장된 원본 상태에서 호출 시마다 계산한다.
 - UI가 요청한 파생값도 상태 변경 신호를 발생시키지 않는다.
 - 성능상 캐시가 필요하면 한 프레임 범위의 로컬 캐시만 허용하고 세이브·Resource에 넣지 않는다.
+
+### 21.5 대화 기록 상태
+
+`GGB-DEC-2026-0006`의 대화 기록 영속화를 다음 슬롯 데이터로 구현한다.
+
+```yaml
+meta_progress:
+  dialogue_history:
+    next_sequence: 1
+    entries:
+      - sequence: 0
+        line_id: DLG_EDGAR_B1_001
+        speaker_id: SERVANT_EDGAR
+        choice_id: null
+        viewed_locale: ko-KR
+        event_id: B1
+        viewed_at_utc: 0
+        retention: normal
+```
+
+| 필드 | 타입·기본값 | 규칙 |
+| --- | --- | --- |
+| `next_sequence` | int=0 | append 뒤 1 증가, 감소·재사용 금지 |
+| `sequence` | int | 슬롯 안에서 유일하며 표시 순서의 정본 |
+| `line_id` | StringName | 등록된 `DLG_*`, `TXT_*`, `SYS_*`만 |
+| `speaker_id` | StringName | 등록된 사용인, `SUBJECT`, `SYSTEM`만 |
+| `choice_id` | StringName 또는 null | 실제 선택한 보기만 저장 |
+| `viewed_locale` | StringName | 최초 열람 locale, 현재 표시 언어와 달라도 됨 |
+| `event_id` | StringName | 대사가 발생한 사건, 공통 시스템 문구는 빈 값 허용 |
+| `viewed_at_utc` | int | 정렬 근거가 아니라 지원·감사용 보조 정보 |
+| `retention` | enum | `normal`, `protected` |
+
+규칙:
+
+- 저장 본문에는 번역 문자열을 넣지 않고 현재 locale의 `line_id`를 해석한다.
+- NORMAL_RESET, BROKEN_RESET, POST_BROKEN_REST와 불러오기는 기록을 지우지 않는다.
+- 새 게임, 슬롯 삭제 또는 호환 불가 초기화만 기록을 제거한다.
+- 기본 최대 2,000개다. 초과하면 가장 오래된 `normal`부터 제거한다.
+- 일지 복원, 핵심 관계 outcome, F3 확인과 최종 선택 대사는 `protected`로 지정한다.
+- 같은 대사가 반복돼도 실제 재생되었다면 새 `sequence`로 append한다.
+- 아직 확인하지 않은 대사, 선택하지 않은 보기와 미래 번역문은 생성하지 않는다.
+- `DialogueHistoryWriter`만 append·prune할 수 있고 일반 UI는 읽기 전용이다.
 
 ## 22. 저작 Resource 공통 구조
 
@@ -3078,7 +3170,7 @@ user://
    └─ validation.jsonl
 ```
 
-- 슬롯 수는 UI 기획에서 정하며 데이터 구조는 임의 `slot_id`를 지원한다.
+- 제품 UI는 진행 슬롯 3개를 제공한다. 데이터 구조는 향후 확장을 위해 임의 `slot_id`를 계속 지원한다.
 - `f3_reselect.json`은 `SAVE_F3_COMPLETE`의 편의 사본이며 메인 진행을 자동 덮어쓰지 않는다.
 - 프로필 파일을 삭제해도 진행 슬롯은 로드할 수 있어야 한다.
 - 접근성 프로필 손상은 기본값 복구 대상이고 본편 슬롯 손상으로 처리하지 않는다.
@@ -3104,8 +3196,14 @@ accessibility_document:
 
 | 저장 지점 | 종류 | 생성 조건 | 재개 |
 | --- | --- | --- | --- |
+| `SAVE_P6_COMPLETE` | 자동 | 첫 취침 선택 확정 | NORMAL_RESET 진입 |
+| `SAVE_NORMAL_RESET_COMPLETE` | 자동·반복 | 각 정상 리셋 원자 완료 | 같은 아침 ROUTE |
+| `SAVE_A2_COMPLETE` | 자동 | 수첩 표시 유지 확인 | B1_ENTRY |
+| `SAVE_J1_COMPLETE` | 자동 | J1 원자 완료 | B3_PREPARE |
+| `SAVE_J2_COMPLETE` | 자동 | J2 원자 완료 | 다음 NORMAL_RESET |
+| `SAVE_J3_COMPLETE` | 자동 | J3 원자 완료 | D0_ENTRY |
 | `SAVE_D4_COMPLETE` | 자동 | D4 완료 | D5_ENTRY |
-| `SAVE_D5_COMPLETE` | 자동 | D5 원자 완료 | D6_FREE_INSPECTION |
+| `SAVE_D5_COMPLETE` | 자동 | D5 원자 완료 | demo: `DEMO_END_SCREEN`; full·승인된 import: `D6_FREE_INSPECTION` |
 | `SAVE_FRACTURE_CONFIRMED` | 자동 | 수면 경로 확정 | FRACTURE_SLEEP |
 | `SAVE_BROKEN_RESET_COMPLETE` | 자동 | S3·BROKEN 확정 | E1_ENTRY |
 | `SAVE_E2_COMPLETE` | 자동 | 관계 허브 개방 | E_HUB |
@@ -3201,6 +3299,9 @@ func derive_resume_node(event_id: StringName) -> StringName:
 
 ### 25.4 D5 이후 재개
 
+- `build_flavor=demo`의 `SAVE_D5_COMPLETE`는 `DEMO_END_SCREEN`으로만 재개하며 D6 Resource를 실행 registry에 넣지 않는다.
+- `build_flavor=full`에서 직접 생성했거나 승인된 데모 import로 변환한 `SAVE_D5_COMPLETE`만 `D6_FREE_INSPECTION`으로 재개한다.
+- import는 데모 원본을 수정하지 않고 새 본편 슬롯의 flavor·source·경계 검증과 재로드에 성공한 뒤 resume route를 변환한다.
 - `BROKEN_RESET_ONCE` 이전 강제 종료는 `DISABLED` 상태와 FRACTURE_SLEEP 확인 지점으로 복귀한다.
 - 완료 transaction이 있으면 S3를 다시 생성하지 않는다.
 - E1 이후 POST_BROKEN_REST는 checkpoint·오브젝트 수리·사용인 위치를 초기화하지 않는다.
@@ -3219,6 +3320,7 @@ func derive_resume_node(event_id: StringName) -> StringName:
 | `StateWriter` | systems | 없음 | GameState가 소유 |
 | `ResetCoordinator` | systems | transaction runtime | EventManager가 호출 |
 | `ReactionRouter` | systems | 없음 | queue를 읽고 write 요청 생성 |
+| `DialogueHistoryWriter` | systems | 없음 | 표시 완료 신호를 받아 StateWriter에 append 요청 |
 | `EndingRouter` | systems | 없음 | ending_run 라우팅 |
 | `VisualStateResolver` | systems | 없음 | 순수 표현 합성 |
 | `DataContractValidator` | editor/build tool | 없음 | 런타임 필수 아님 |
@@ -3344,6 +3446,7 @@ flowchart TD
 → 새 transaction으로 저장
 ```
 
+- 이 파이프라인은 첫 배포 저장 형식 뒤 `runtime schema 2` 이상이 실제로 도입될 때부터 사용한다. 최초 출시의 `schema_version=1`은 migrator 없이 현재 schema 검증부터 수행한다.
 - 중간 버전을 건너뛰지 않는다.
 - 각 migrator는 같은 입력에 같은 출력을 내는 순수 변환이어야 한다.
 - migrator 실행 중 진행 보상을 새로 지급하지 않는다.
@@ -3366,8 +3469,8 @@ flowchart TD
 migration_log:
   timestamp_utc: 0
   slot_id: slot_01
-  from_schema: 10
-  to_schema: 12
+  from_schema: 1
+  to_schema: 2
   result: MIGRATED_WITH_WARNINGS
   warning_ids:
     - MIGRATION_ENDING_OBJECT_UNKNOWN
@@ -3375,11 +3478,13 @@ migration_log:
   result_checksum: ""
 ```
 
+위 예시는 향후 `runtime schema 2`가 실제 배포될 때의 형식이다. 현재 최초 배포 계약에는 진행 schema migration 로그가 발생하지 않는다.
+
 로그에는 대사 본문, 사용자 이름, Windows 경로를 기록하지 않는다.
 
 ### 28.4 profile migration 분리
 
-진행 `schema_version=12`, 접근성 `accessibility_profile_version=1`, 엔딩 메타 `ending_meta_profile_version=1`은 서로 독립적으로 올린다. 한 프로필의 migration 실패로 다른 파일의 version을 되돌리지 않는다.
+진행 `schema_version=1`, 접근성 `accessibility_profile_version=1`, 엔딩 메타 `ending_meta_profile_version=1`은 서로 독립적으로 올린다. 한 프로필의 migration 실패로 다른 파일의 version을 되돌리지 않는다. 상태 모델 개정은 `design_revision=v0.4-state-r12`로 별도 추적한다.
 
 ## 29. 정적 검증기 명세
 
@@ -3470,7 +3575,7 @@ validate_accessibility_routes
 | `FIX_F3_UNDECIDED` | F3 완료·결정 전 | 중립 저장 |
 | `FIX_END_REALITY` | reality branch | 현실 에필로그 |
 | `FIX_END_STAY` | stay branch | S5 에필로그 |
-| `FIX_LEGACY_V9` | schema 9 | 순차 migration |
+| `FIX_PRE_RELEASE_R9` | state model r9 예시 | 최초 schema 1 정규화 검증. 배포 migration 아님 |
 | `FIX_CORRUPTED_PRIMARY` | progress 손상·bak 정상 | 복구 |
 
 ### 30.2 동치 검증
@@ -3540,10 +3645,10 @@ UI hover·focus
 | --- | --- | --- | --- |
 | `docs/data_contract.md` | `.tres` 저작 데이터·JSON 사용자 저장 분리 | P1 | 완료 |
 | `docs/godot_conventions.md` | `scripts/data_types`, systems·autoload 책임 분리 | P1 | 완료 |
-| `00_v04_문서목록_및_확정사항.md` | Godot 4.7·schema 12·profile v1·정본 계층 요약 | P2 | 완료 |
+| `00_v04_문서목록_및_확정사항.md` | Godot 4.7·runtime schema 1·state r12·profile v1·정본 계층 요약 | P2 | 완료 |
 | `README.md` | 구현 인계 읽기 경로와 저장 경계 | P2 | 완료 |
 | `04_전체이벤트리스트_상태표.md` | 기획 ID→데이터 ID·logical set·save registry 참조 | P2 | 완료 |
-| `12_이벤트상세_07_사용인핵심관계.md` | E3 원자 완료·E3_4M 예외의 현행 progress schema 12 참조 | P2 | 완료 |
+| `12_이벤트상세_07_사용인핵심관계.md` | E3 원자 완료·E3_4M 예외의 현행 runtime schema 1·state r12 참조 | P2 | 완료 |
 | `13_이벤트상세_08_파열_전환_결산.md` | save point·atomic transaction·복구 계약 | P3 | 완료 |
 | `14_이벤트상세_09_엔딩.md` | 진행 슬롯·profile·F3 재선택 파일 경계 | P3 | 완료 |
 | `18_GGB_게임기획서_v0.4_통합본.md` | 서비스·저장·검증·복구 요약 | P3 | 완료 |
@@ -3552,7 +3657,7 @@ UI hover·focus
 
 ## 33. 본 상세화 검증 결과
 
-검증 기준일: 2026-07-27.
+검증 기준일: 2026-07-31.
 
 | 검증 ID | 검사 | 결과 | 상태 |
 | --- | --- | --- | --- |
@@ -3561,12 +3666,12 @@ UI hover·focus
 | `QA-17-LINK-01` | 본문·신규 이슈 상대 링크 | 누락 대상 없음 | PASS |
 | `QA-17-PATH-01` | 구식 `res://autoload`, `res://resources`, `scenes/locations` | 정본 경로 지시 0건 | PASS |
 | `QA-17-SET-01` | `Set[StringName]` 구현 지시 | 비지원 사실 설명 외 사용 0건 | PASS |
-| `QA-17-SAVE-01` | 진행·엔딩 메타·접근성 프로필 경계 | schema 12·profile v1 각각 분리 | PASS |
+| `QA-17-SAVE-01` | 진행·엔딩 메타·접근성 프로필 경계 | runtime schema 1·state r12·profile v1 각각 분리 | PASS |
 | `QA-17-OBJECT-01` | object reaction 상태 소유권 | memory는 meta, runtime은 loop에 단일 배치 | PASS |
-| `QA-17-ISSUE-01` | issues 집계 | CNF 12·ERR 13, 총 25건 VERIFIED·DONE | PASS |
+| `QA-17-ISSUE-01` | issues 집계 | CNF 17·ERR 17, 총 34건 VERIFIED·DONE | PASS |
 | `QA-17-SYNC-01` | §32 후속 문서 상태 | 대상 9개 모두 `완료` | PASS |
-| `QA-17-SYNC-02` | 정본 버전·저장 경계 동기화 | Godot 4.7·schema 12·profile v1·`.tres`/JSON 분리 일치 | PASS |
-| `QA-17-SYNC-03` | 구식 현행 구현 표기 검색 | `Godot 예정`·현행 schema 10·Set 구현 지시 잔존 없음. schema 8~11은 migration 이력에서만 사용 | PASS |
+| `QA-17-SYNC-02` | 정본 버전·저장 경계 동기화 | Godot 4.7·runtime schema 1·state r12·profile v1·`.tres`/JSON 분리 일치 | PASS |
+| `QA-17-SYNC-03` | 구식 현행 구현 표기 검색 | `Godot 예정`·runtime schema 1 외 현행 지시·Set 구현 지시 잔존 없음. r8~r11은 pre-release 상태 모델 이력으로만 사용 | PASS |
 | `QA-17-SYNC-04` | 변경 문서 Markdown 구조 | 상대 링크 누락·코드 펜스 불일치 없음 | PASS |
 | `QA-17-DIFF-01` | Git whitespace 검사 | 오류 없음 | PASS |
 

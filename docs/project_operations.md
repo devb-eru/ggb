@@ -21,15 +21,30 @@
 | 기획·서사·이벤트 규칙 | `ideas/md/v04/` | 사람이 읽는 기획 정본 |
 | 충돌·기획 오류 | `ideas/md/v04/issues/items/` | `GGB-CNF`, `GGB-ERR`의 해결 상태와 증거 |
 | 구현 데이터·코드 | `game/` | 게임이 실제로 읽거나 실행하는 내용 |
-| 작업 흐름 | 현재는 작업 문서, 향후 GitHub Issue/Project | GitHub 연동 전까지 본 문서의 필드를 사용 |
+| 작업 흐름 | [GitHub Issue·Project](github_project.md) | [GGB Production](https://github.com/users/devb-eru/projects/1)의 상태·담당·일정이 정본 |
 | 중요 결정 | `docs/decisions/` | `GGB-DEC` 기록 |
 | 역할 | `docs/project_roles.md` | 프로젝트 관리자와 영역 책임 |
 | 마일스톤 | `docs/milestones.md` | 결과물 범위, 완료 조건, 목표일 |
+| 공통 제품 계약 | `docs/product_contract.md` | 플랫폼, 빌드 경계, 입력, 접근성, 저장 UX |
 | 공개 데모 범위 | `docs/demo_definition.md` | 2장 데모의 콘텐츠·품질·플랫폼 기준 |
 | 완성본 범위 | `docs/full_game_definition.md` | 프롤로그~4장·엔딩의 콘텐츠·품질·출시 기준 |
+| 현지화 | `docs/localization.md` | locale, 문자열, 말투, 번역·검수·락 기준 |
+| 메타 UI·인벤토리 | `docs/meta_ui_flow.md` | 타이틀, 슬롯, 설정, 대화 기록, 조작 흐름 |
+| 성능·renderer | `docs/technical_performance_budget.md` | Windows 계측 예산, renderer 선택과 합격선 |
+| 타깃·플레이테스트 | `docs/player_experience_and_playtest.md` | 대상 플레이어, 표본, 지표와 의사결정 규칙 |
+| 콘텐츠 고지 | `docs/content_advisory.md` | 민감 장면, 상점·첫 실행 고지와 연출 한계 |
+| 에셋 BOM | `docs/asset_manifest.csv`, `docs/asset_manifest.md` | 에셋 수량, 빌드 범위, 승인·라이선스 상태 |
+| 제작 규격 | `docs/content_pipeline_specs.md` | 아트·애니메이션·오디오 원본·export·검수 규칙 |
+| 창작 잠금 | `docs/creative_lock_schedule.md` | 이름·연령·palette·renderer·가격 결정 게이트 |
+| 출시 기능표 | `docs/release_feature_matrix.md` | 1.0 필수·제외·조건부 기능과 법적 준비 |
+| 기여자 권리 증거 | `docs/contributor_rights.md` | 내부 제작물의 상업 이용 근거·비공개 서명 참조·배포 게이트 |
+| 제작 전환 백로그 | `docs/production_backlog.md` | 구현 전 작업 분해, 선행 관계와 외부 차단 |
+| 검증 단계 | `docs/validation_plan.md` | 문서·데이터·저장·빌드 검증과 CI 승격 조건 |
 | Steam 출시 준비 | `docs/steam_release_plan.md` | 계정, 상점, 심사, Next Fest, 출시 게이트 |
 | Discord 운영 | `docs/discord_operations.md` | Git 알림, 회의, 에셋 접수, 일정 표시 기준 |
-| 다음 작업 계획 | `docs/next_work_plan.md` | 기획 기준선 이후 협업 시스템 구현 순서 |
+| 편집 원본 | [Google Drive `GGB/Assets`](https://drive.google.com/drive/folders/1S8S8CSfpfO2ToszpAbSRaJqGgNRAqVoD) | 대용량 source의 단계별 보관 위치 |
+| 에셋 접수 | `docs/asset_intake.md` | Discord 전달, Drive 이동, 검토·승인·보관 기준 |
+| 다음 작업 계획 | `docs/next_work_plan.md` | 협업 시스템 구현 순서와 선행 관계 |
 | 회의 일정 | 외부 캘린더 | 참석 일정과 리마인더 관리 |
 | 대화·알림 | Discord | 결정과 작업의 기준 정보로 사용하지 않음 |
 
@@ -225,11 +240,13 @@ PROPOSED → ACCEPTED → SUPERSEDED
 
 ## 12. 현재 적용 범위
 
-이번 기반 정리에서는 다음을 적용한다.
+2026-07-27부터 다음을 적용한다.
 
 - 공통 작업 상태와 필드 정의.
-- 일반 작업과 결정 기록 템플릿 제공.
-- 기존 13개 `GGB-CNF/ERR`에 작업 상태, 담당자, 목표 마일스톤 추가.
+- 일반 작업과 결정 기록 템플릿.
+- [GGB Production](https://github.com/users/devb-eru/projects/1)의 상태 6종, 운영 필드와 기본 뷰 6종.
+- GitHub 계정과 실제 담당자 분리.
+- Issue #15부터 GitHub Issue·Project를 작업 정본으로 사용.
 - 저장소 진입 문서와 기여 규칙에서 본 운영 기준 연결.
 
-GitHub Issue/Project 동기화, Discord 알림, 회의 안건 자동 생성, 자동 검증은 후속 단계에서 이 필드를 기준으로 구현한다.
+세부 필드·뷰와 등록 절차는 [GitHub Issue·Project 운영](github_project.md)을 따른다. 편집 원본은 [에셋 접수·보관 운영](asset_intake.md)에 따라 Drive에 보관한다. Discord 알림, 회의 안건 자동 생성과 자동 검증은 후속 단계에서 이 필드를 읽어 구현한다.

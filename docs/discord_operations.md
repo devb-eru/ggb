@@ -11,7 +11,7 @@ GitHub Issue·Project
 └─ 금요일 회의 안건 생성
 
 Discord #asset-intake
-└─ beru 검수 → Git/LFS 또는 외부 원본 보관소
+└─ beru 검수 → Google Drive 편집 원본 → Git/LFS 승인 export
 ```
 
 Discord 메시지만으로 작업 완료나 마감 변경을 확정하지 않는다. 회의나 채팅에서 결정한 내용은 관련 GitHub 작업 또는 `GGB-DEC`에 반영한다.
@@ -41,7 +41,7 @@ Discord 메시지만으로 작업 완료나 마감 변경을 확정하지 않는
 - 단순 라벨·설명 수정.
 - 반복되는 봇 갱신과 일반 댓글.
 
-일반 변경은 매일 21:30 KST에 한 번 요약한다. 회의가 있는 금요일 요약은 주간 회의 안건으로 대체한다. 알림 구현은 필터링 가능한 GitHub Actions와 Discord webhook을 기본안으로 사용한다.
+일반 변경은 매일 21:30 KST에 한 번 요약한다. 현재 금요일에도 요약을 보내며, `GGB-WRK-2026-0006`의 회의 안건 자동 생성이 활성화되면 금요일 요약을 주간 회의 안건으로 대체한다. 구현·secret·검증 절차는 [GitHub→Discord 선별 알림 운영](discord_notifications.md)을 따른다.
 
 ## 4. 정기 회의
 
@@ -66,7 +66,7 @@ Discord 메시지만으로 작업 완료나 마감 변경을 확정하지 않는
 
 ## 5. 에셋 접수
 
-`#asset-intake` 메시지는 다음 형식을 사용한다.
+제작 전 범위와 승인 기준은 [팀별 제작 의뢰](requests/README.md)에서 먼저 합의한다. 세부 납품 절차, Drive 폴더와 권한 기준은 [에셋 접수·보관 운영](asset_intake.md)을 따른다. `#asset-intake`에서는 원 `request_id`를 포함한 [접수 메시지 템플릿](templates/asset_intake_message.md)을 사용한다.
 
 ```text
 work_id: GGB-WRK-YYYY-NNNN
@@ -74,14 +74,20 @@ contributor: 실제 제작자
 asset_type: art | audio | ui | source
 version: v001
 usage: 사용 장면·이벤트·화면
-source_or_export: source | export
-notes: 라이선스·폰트·플러그인·수정 주의사항
+deliverable: 필요한 원본·출력물
+source_or_export: source | export | both
+license: original | external_with_terms
+rights_evidence_id: RIGHTS-YYYY-NNNN | beru_pending
+drive_url: beru_pending | Google Drive 작업 폴더
+requires: 선행 작업·폰트·플러그인
+notes: 수정 주의사항
 ```
 
 - 게임에서 직접 쓰는 최종 파일은 Git LFS 추적 여부를 확인하고 저장소에 넣는다.
-- PSD, 원본 음원, 편집 프로젝트 등 대용량 원본은 외부 공유 드라이브에 보관한다.
+- PSD, 원본 음원, 편집 프로젝트 등 대용량 원본은 [Google Drive `GGB/Assets`](https://drive.google.com/drive/folders/1S8S8CSfpfO2ToszpAbSRaJqGgNRAqVoD)에 보관한다.
 - Discord 첨부는 전달 수단이며 유일한 원본 보관본으로 취급하지 않는다.
 - `beru`가 저장 위치와 반영 commit/PR을 원 메시지 또는 작업 항목에 회신한다.
+- 반려 파일은 기존 버전을 덮어쓰지 않고 버전을 올려 `10_WORKING`으로 되돌린다.
 
 ## 6. 일정 운영
 
