@@ -22,6 +22,7 @@
 | 충돌·기획 오류 | `ideas/md/v04/issues/items/` | `GGB-CNF`, `GGB-ERR`의 해결 상태와 증거 |
 | 구현 데이터·코드 | `game/` | 게임이 실제로 읽거나 실행하는 내용 |
 | 작업 흐름 | [GitHub Issue·Project](github_project.md) | [GGB Production](https://github.com/users/devb-eru/projects/1)의 상태·담당·일정이 정본 |
+| 작업 현황 출력 | [작업 현황 대시보드](work_status_dashboard.md) | Project 정본을 담당자·팀·마일스톤·차단·지연·검토 관점으로 표시 |
 | 중요 결정 | `docs/decisions/` | `GGB-DEC` 기록 |
 | 역할 | `docs/project_roles.md` | 프로젝트 관리자와 영역 책임 |
 | 마일스톤 | `docs/milestones.md` | 결과물 범위, 완료 조건, 목표일 |
@@ -244,7 +245,7 @@ PROPOSED → ACCEPTED → SUPERSEDED
 
 - 공통 작업 상태와 필드 정의.
 - 일반 작업과 결정 기록 템플릿.
-- [GGB Production](https://github.com/users/devb-eru/projects/1)의 상태 6종, 운영 필드와 기본 뷰 6종.
+- [GGB Production](https://github.com/users/devb-eru/projects/1)의 상태 6종, 운영 필드와 작업 현황 뷰 8종.
 - GitHub 계정과 실제 담당자 분리.
 - Issue #15부터 GitHub Issue·Project를 작업 정본으로 사용.
 - 저장소 진입 문서와 기여 규칙에서 본 운영 기준 연결.
