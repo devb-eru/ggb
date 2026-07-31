@@ -62,8 +62,8 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 | ID | 가장 빠른 날짜 | 작업 | 책임자 | 선행 | 완료 조건 | 상태 |
 | --- | --- | --- | --- | --- | --- | --- |
 | [`GGB-WRK-2026-0001`](https://github.com/devb-eru/ggb/issues/15) | 07-27 | GitHub Issue·Project 기반선 | `beru` | M1 병합 | 상태·우선순위·담당·마일스톤·차단 필드와 기본 뷰 생성 | `DONE` |
-| [`GGB-WRK-2026-0002`](https://github.com/devb-eru/ggb/issues/17) | 07-27 | Discord 에셋 접수·보관 흐름 | `beru` | WRK-0001, Google Drive | `#asset-intake`에서 제작자·작업 ID·전달일·보관 위치 추적 | `BLOCKED`: 팀 Drive 권한 확인 |
-| `GGB-WRK-2026-0003` | 07-31 | GitHub→Discord 선별 알림 | `beru` | WRK-0001, webhook secret | 중요 사건 실시간·일반 변경 21:30 요약 | `PLANNED` |
+| [`GGB-WRK-2026-0002`](https://github.com/devb-eru/ggb/issues/17) | 07-27 | Discord 에셋 접수·보관 흐름 | `beru` | WRK-0001, Google Drive | `#asset-intake`에서 제작자·작업 ID·전달일·보관 위치 추적 | `DONE` 08-01: 권한·업로드·핀·PR #18 병합 확인 |
+| [`GGB-WRK-2026-0003`](https://github.com/devb-eru/ggb/issues/19) | 07-31 | GitHub→Discord 선별 알림 | `beru` | WRK-0001, webhook secret | 중요 사건 실시간·일반 변경 21:30 요약 | `IN_PROGRESS`: 코드·테스트 구현, Project 읽기 secret과 Actions 실제 전송 검증 대기 |
 | `GGB-WRK-2026-0004` | 08-01 | 작업 현황 대시보드 | `beru` | WRK-0001 | 담당자·마일스톤·차단·지연·검토 대기 뷰 제공 | `PLANNED` |
 | `GGB-WRK-2026-0005` | 08-02 | GitHub 일정·Discord 회의 연결 | `beru` | WRK-0001, Discord 권한 | GitHub 마감 정본과 Discord 금요일 회의 이벤트 연결 | `PLANNED` |
 | `GGB-WRK-2026-0006` | 08-03 | 오늘의 회의 안건 생성 | `beru` | WRK-0003~0005 | 금요일 21:30에 기한 임박·BLOCKED·REVIEW를 Discord에 요약 | `PLANNED` |
@@ -123,8 +123,9 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 
 확인된 준비 상태:
 
-- 편집 원본 보관소 [Google Drive `GGB/Assets`](https://drive.google.com/drive/folders/1S8S8CSfpfO2ToszpAbSRaJqGgNRAqVoD)와 단계 폴더 5개를 생성했다. 팀별 공유 권한 확인은 `GGB-WRK-2026-0002`의 남은 게이트다.
+- 편집 원본 보관소 [Google Drive `GGB/Assets`](https://drive.google.com/drive/folders/1S8S8CSfpfO2ToszpAbSRaJqGgNRAqVoD)와 단계 폴더 5개를 생성했다. 2026-08-01에 팀 권한·시험 업로드·Discord 핀과 PR #18 병합을 확인하고 `GGB-WRK-2026-0002`를 종료했다.
 - `#git-updates` webhook은 GitHub Actions secret `DISCORD_GIT_UPDATES_WEBHOOK`으로 등록 완료했다.
+- 개인 `GGB Production` Project의 중요 상태 감시에는 `read:project`만 가진 `PROJECTS_READ_TOKEN` 등록이 남아 있다. 토큰 없이도 저장소 이벤트와 일일 요약은 동작한다.
 - GitHub Project #1을 `GGB Production`으로 정식화하고 저장소 연결, 필드 22개, 기본 뷰 6개와 첫 Issue #15를 구성했다. PR #16 병합 뒤 `GGB-WRK-2026-0001`을 종료했다.
 
 ## 7. 완료 판정

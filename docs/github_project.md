@@ -86,3 +86,7 @@ Issue 본문의 작업 정보는 등록 시점의 설명이다. 이후 상태·�
 - Issue #15의 Assignee·Milestone·Status·P1·OPS·beru·운영·날짜 필드.
 
 Discord 자동 알림, 에셋 접수, 일정·회의 연결과 운영 리허설은 `GGB-WRK-2026-0002~0007`에서 이어서 검증한다.
+
+## 8. Discord 중요 상태 감시
+
+개인 소유 `GGB Production` Project의 `BLOCKED`·`P0/P1` 진입은 저장소 이벤트가 아니라 5분 읽기 조회로 감시한다. `PROJECTS_READ_TOKEN`은 `read:project`만 가진 repository secret으로 보관하고 Project 값을 수정하는 데 사용하지 않는다. 상세 활성화·실패 처리와 테스트는 [GitHub→Discord 선별 알림 운영](discord_notifications.md)을 따른다.

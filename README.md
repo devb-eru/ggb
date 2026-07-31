@@ -47,6 +47,7 @@ GGB는 포인트 앤 클릭 어드벤처 게임 프로젝트의 작업 저장소
 - 메타 UI·인벤토리 계약: [`docs/meta_ui_flow.md`](docs/meta_ui_flow.md)
 - 타깃 플레이어·플레이테스트: [`docs/player_experience_and_playtest.md`](docs/player_experience_and_playtest.md)
 - Discord 알림·회의·에셋 접수: [`docs/discord_operations.md`](docs/discord_operations.md)
+- GitHub→Discord 선별 알림 구현·검증: [`docs/discord_notifications.md`](docs/discord_notifications.md)
 - 에셋 접수·Google Drive 보관: [`docs/asset_intake.md`](docs/asset_intake.md)
 - 마일스톤과 외부 일정: [`docs/milestones.md`](docs/milestones.md)
 - 공통 제품 계약: [`docs/product_contract.md`](docs/product_contract.md)

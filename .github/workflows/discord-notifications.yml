@@ -1,0 +1,235 @@
+name: Discord GitHub notifications
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - review_requested
+      - closed
+      - synchronize
+  pull_request_review:
+    types:
+      - submitted
+  issues:
+    types:
+      - labeled
+  milestone:
+    types:
+      - created
+      - opened
+      - closed
+      - edited
+      - deleted
+  release:
+    types:
+      - published
+  deployment_status:
+  workflow_run:
+    workflows:
+      - Validate docs and planning data
+    types:
+      - completed
+  schedule:
+    - cron: "30 21 * * *"
+      timezone: Asia/Seoul
+    - cron: "2-57/5 * * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 실행할 알림 경로
+        required: true
+        default: smoke
+        type: choice
+        options:
+          - smoke
+          - digest
+          - project
+      dry_run:
+        description: Discord에 보내지 않고 Actions 요약만 확인
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: discord-notifications-${{ github.event_name }}-${{ github.event.schedule || inputs.mode || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out notification changes without credentials
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+
+      - name: Run notification unit tests
+        run: node --test scripts/discord_notifications.test.mjs
+
+  immediate:
+    if: >-
+      github.event_name != 'schedule' &&
+      (github.event_name != 'workflow_dispatch' || inputs.mode == 'smoke') &&
+      ((github.event_name != 'pull_request' && github.event_name != 'pull_request_review') ||
+       (github.event.pull_request.head.repo.full_name == github.repository &&
+        github.event.pull_request.user.login != 'dependabot[bot]'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out trusted notification code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ (github.event_name == 'pull_request' || github.event_name == 'pull_request_review') && github.event.pull_request.base.sha || github.event_name == 'push' && github.sha || github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - name: Check trusted notification implementation
+        id: notification-code
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [[ -f scripts/discord_notifications.mjs ]]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          elif [[ "$EVENT_NAME" == "pull_request" || "$EVENT_NAME" == "pull_request_review" ]]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "### Discord immediate" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo '최초 도입 PR이라 대상 브랜치에 신뢰된 알림 코드가 없어 안전하게 건너뜁니다.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Trusted notification implementation is missing.' >&2
+            exit 1
+          fi
+
+      - name: Set up Node.js
+        if: steps.notification-code.outputs.available == 'true'
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+
+      - name: Send selected event
+        if: steps.notification-code.outputs.available == 'true' && github.event_name != 'workflow_dispatch'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_GIT_UPDATES_WEBHOOK }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/discord_notifications.mjs event
+
+      - name: Run smoke test
+        if: steps.notification-code.outputs.available == 'true' && github.event_name == 'workflow_dispatch'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_GIT_UPDATES_WEBHOOK }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: node scripts/discord_notifications.mjs smoke
+
+  daily-digest:
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '30 21 * * *') ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'digest')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+
+      - name: Build and send 24-hour digest
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_GIT_UPDATES_WEBHOOK }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/discord_notifications.mjs digest
+
+  project-watch:
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '2-57/5 * * * *') ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'project')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: discord-notifications-project-watch
+      cancel-in-progress: false
+    env:
+      PROJECT_STATE_PATH: ${{ github.workspace }}/.discord-state/ggb-discord-project-state.json
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+
+      - name: Check Project token
+        id: project-token
+        env:
+          PROJECTS_READ_TOKEN: ${{ secrets.PROJECTS_READ_TOKEN }}
+        shell: bash
+        run: |
+          if [[ -n "$PROJECTS_READ_TOKEN" ]]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "### Discord Project 감시" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo 'PROJECTS_READ_TOKEN이 없어 Project 감시만 건너뜁니다.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Restore previous Project state
+        if: steps.project-token.outputs.available == 'true'
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ${{ env.PROJECT_STATE_PATH }}
+          key: discord-project-state-${{ github.run_id }}
+          restore-keys: |
+            discord-project-state-
+
+      - name: Scan Project changes
+        id: project-scan
+        if: steps.project-token.outputs.available == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_GIT_UPDATES_WEBHOOK }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          GITHUB_TOKEN: ${{ github.token }}
+          NOTIFY_BASELINE: ${{ github.event_name == 'workflow_dispatch' }}
+          PROJECTS_READ_TOKEN: ${{ secrets.PROJECTS_READ_TOKEN }}
+          PROJECT_NUMBER: "1"
+          PROJECT_OWNER: devb-eru
+          PROJECT_URL: https://github.com/users/devb-eru/projects/1
+        run: node scripts/discord_notifications.mjs project
+
+      - name: Save current Project state
+        if: >-
+          success() &&
+          steps.project-token.outputs.available == 'true' &&
+          steps.project-scan.outputs.state-changed == 'true' &&
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run == false)
+        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ${{ env.PROJECT_STATE_PATH }}
+          key: discord-project-state-${{ github.run_id }}
