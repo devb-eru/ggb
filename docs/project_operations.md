@@ -29,6 +29,8 @@
 | 완성본 범위 | `docs/full_game_definition.md` | 프롤로그~4장·엔딩의 콘텐츠·품질·출시 기준 |
 | Steam 출시 준비 | `docs/steam_release_plan.md` | 계정, 상점, 심사, Next Fest, 출시 게이트 |
 | Discord 운영 | `docs/discord_operations.md` | Git 알림, 회의, 에셋 접수, 일정 표시 기준 |
+| 편집 원본 | [Google Drive `GGB/Assets`](https://drive.google.com/drive/folders/1S8S8CSfpfO2ToszpAbSRaJqGgNRAqVoD) | 대용량 source의 단계별 보관 위치 |
+| 에셋 접수 | `docs/asset_intake.md` | Discord 전달, Drive 이동, 검토·승인·보관 기준 |
 | 다음 작업 계획 | `docs/next_work_plan.md` | 협업 시스템 구현 순서와 선행 관계 |
 | 회의 일정 | 외부 캘린더 | 참석 일정과 리마인더 관리 |
 | 대화·알림 | Discord | 결정과 작업의 기준 정보로 사용하지 않음 |
@@ -234,4 +236,4 @@ PROPOSED → ACCEPTED → SUPERSEDED
 - Issue #15부터 GitHub Issue·Project를 작업 정본으로 사용.
 - 저장소 진입 문서와 기여 규칙에서 본 운영 기준 연결.
 
-세부 필드·뷰와 등록 절차는 [GitHub Issue·Project 운영](github_project.md)을 따른다. Discord 알림, 회의 안건 자동 생성과 자동 검증은 후속 단계에서 이 필드를 읽어 구현한다.
+세부 필드·뷰와 등록 절차는 [GitHub Issue·Project 운영](github_project.md)을 따른다. 편집 원본은 [에셋 접수·보관 운영](asset_intake.md)에 따라 Drive에 보관한다. Discord 알림, 회의 안건 자동 생성과 자동 검증은 후속 단계에서 이 필드를 읽어 구현한다.
