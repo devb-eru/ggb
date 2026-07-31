@@ -27,6 +27,7 @@ GGB는 포인트 앤 클릭 어드벤처 게임 프로젝트의 작업 저장소
 - GitHub Issue·Project 운영: [`docs/github_project.md`](docs/github_project.md)
 - 다음 작업 계획: [`docs/next_work_plan.md`](docs/next_work_plan.md)
 - Discord 알림·회의·에셋 접수: [`docs/discord_operations.md`](docs/discord_operations.md)
+- GitHub→Discord 선별 알림 구현·검증: [`docs/discord_notifications.md`](docs/discord_notifications.md)
 - 에셋 접수·Google Drive 보관: [`docs/asset_intake.md`](docs/asset_intake.md)
 - 마일스톤과 외부 일정: [`docs/milestones.md`](docs/milestones.md)
 - M1 v0.4 기준선 검토 기록: [`docs/milestone_reviews/M1_V04_PLANNING_BASELINE.md`](docs/milestone_reviews/M1_V04_PLANNING_BASELINE.md)
