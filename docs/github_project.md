@@ -40,18 +40,20 @@ Issue 본문의 작업 정보는 등록 시점의 설명이다. 이후 상태·�
 
 `Title`, `Assignees`, `Labels`, `Milestone`, `Repository`, `Linked pull requests`, `Reviewers`, `Parent issue`, `Sub-issues progress`, `Created`, `Updated`, `Closed`는 GitHub 기본 필드를 그대로 사용한다.
 
-## 4. 기본 뷰
+## 4. 작업 현황 뷰
 
-| 뷰 | 저장 필터 | 목적 |
-| --- | --- | --- |
-| `전체` | 없음 | Project의 모든 항목 |
-| `오늘` | `status:IN_PROGRESS,READY,BLOCKED,REVIEW` | 지금 행동이 필요한 활성 작업 |
-| `차단` | `status:BLOCKED` | 차단 원인과 해제 조건 확인 |
-| `검토` | `status:REVIEW` | 검토 대기와 검증 근거 확인 |
-| `마일스톤` | `has:milestone` | 일정 기준선에 연결된 작업 |
-| `팀별` | `has:"담당 팀"` | 실제 담당 팀이 지정된 작업 |
+| 뷰 | 레이아웃 | 저장 필터 | 그룹·정렬 | 목적 |
+| --- | --- | --- | --- | --- |
+| `전체` | Table | 없음 | 수동 | 모든 항목과 운영 필드 점검 |
+| `활성` | Table | `status:IN_PROGRESS,READY,BLOCKED,REVIEW` | 우선순위 오름차순 | 지금 행동이 필요한 작업 확인 |
+| `차단` | Table | `status:BLOCKED` | 목표일 오름차순 | 차단 원인과 해제 조건 확인 |
+| `검토 대기` | Table | `status:REVIEW` | `Updated` 오름차순 | 오래 멈춘 검토 후보와 검증 근거 확인 |
+| `마일스톤` | Roadmap | `status:BACKLOG,READY,IN_PROGRESS,REVIEW,BLOCKED has:milestone` | Milestone 그룹 | 시작일·목표일과 일정 기준선 확인 |
+| `팀별` | Table | `status:READY,IN_PROGRESS,REVIEW,BLOCKED` | `담당 팀` 그룹 | 팀 간 전달과 빈 팀 값 확인 |
+| `담당자` | Table | `status:READY,IN_PROGRESS,REVIEW,BLOCKED` | `실제 담당자` 그룹 | 개인별 활성 작업과 담당 누락 확인 |
+| `지연` | Table | `status:READY,IN_PROGRESS,REVIEW,BLOCKED "목표일":<@today` | 목표일 오름차순 | 목표일을 지난 활성 작업 확인 |
 
-그룹화·차트·지연 표시 등 대시보드 고도화는 `GGB-WRK-2026-0004`에서 수행한다.
+표시 필드, 운영 순서와 지표의 한계는 [작업 현황 대시보드](work_status_dashboard.md)를 따른다. 기존 `오늘`은 날짜 조건 없이 모든 활성 상태를 표시했으므로 `활성`으로 이름을 바꿨다.
 
 ## 5. GitHub 계정이 없는 팀원
 
@@ -77,13 +79,20 @@ Issue 본문의 작업 정보는 등록 시점의 설명이다. 이후 상태·�
 
 ## 7. 기준선 검증
 
-2026-07-27에 다음을 확인했다.
+2026-07-27에 다음 기준선을 확인했다.
 
 - Project 제목·설명·저장소 연결.
 - 필드 22개와 상태 6종.
 - 주요 마일스톤 13개.
 - 필터가 저장된 기본 뷰 6개.
 - Issue #15의 Assignee·Milestone·Status·P1·OPS·beru·운영·날짜 필드.
+
+2026-08-01에 `GGB-WRK-2026-0004`로 다음 대시보드 구성을 확인했다.
+
+- 기본 뷰를 `전체`, `활성`, `차단`, `검토 대기`, `마일스톤`, `팀별`, `담당자`, `지연` 8개로 확장.
+- 활성·차단·검토·지연 필터와 우선순위·목표일·Updated 정렬.
+- `마일스톤` Roadmap의 시작일·목표일과 Milestone 그룹.
+- `팀별`·`담당자` 그룹 및 상태별 필수 운영 필드 표시.
 
 Discord 자동 알림, 에셋 접수, 일정·회의 연결과 운영 리허설은 `GGB-WRK-2026-0002~0007`에서 이어서 검증한다.
 

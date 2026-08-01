@@ -26,7 +26,7 @@ GitHub Issue·Project·PR의 중요한 변화만 Discord `#git-updates`에 전�
 | Secret | 권한 | 상태·용도 |
 | --- | --- | --- |
 | `DISCORD_GIT_UPDATES_WEBHOOK` | Discord `#git-updates` webhook URL | 등록 완료. 모든 실제 전송에 필요 |
-| `PROJECTS_READ_TOKEN` | `devb-eru`의 classic PAT, `read:project`만 선택 | 등록 필요. 개인 Project 중요 상태 감시에만 사용 |
+| `PROJECTS_READ_TOKEN` | `devb-eru`의 classic PAT, `read:project`만 선택 | 등록 완료. 개인 Project 중요 상태 감시에만 사용 |
 
 `PROJECTS_READ_TOKEN`은 다음 기준을 따른다.
 
@@ -47,10 +47,19 @@ GitHub Issue·Project·PR의 중요한 변화만 Discord `#git-updates`에 전�
 4. `Actions → Discord GitHub notifications → Run workflow`에서 `mode=smoke`, `dry_run=true`를 실행해 payload와 로그를 확인한다.
 5. 같은 경로를 `dry_run=false`로 한 번 실행해 `#git-updates` 수신을 확인한다.
 6. `mode=project`, `dry_run=true`로 현재 `BLOCKED`·`P0/P1` 예상 목록을 먼저 확인한다.
-7. 같은 경로를 `dry_run=false`로 한 번 실행해 실제 알림을 보내고 현재 Project 상태를 기준선으로 저장한다.
-8. 다음 5분 예약 실행이 성공하고 중복 알림이 없는지 확인한다.
+7. 최초 5분 예약 실행이 기존 항목을 알리지 않고 현재 Project 상태를 기준선으로 저장하는지 확인한다.
+8. 다음 예약 실행이 캐시를 복원하고, 중요 변경이 없을 때 중복 알림을 보내지 않는지 확인한다.
 
 실제 전송 확인 결과는 `GGB-WRK-2026-0003` Issue와 Project의 `검증 근거`에 Actions 실행 URL로 남긴다.
+
+### 2026-08-01 활성화 상태
+
+- smoke dry-run과 실제 `#git-updates` 전송을 통과했다.
+- 24시간 digest dry-run을 통과했다.
+- Project dry-run에서 토큰 접근과 `BLOCKED`·`P0/P1` 매핑을 확인했다.
+- 최초 예약 Project 조회의 무알림 기준선 저장과 다음 예약 조회의 중복 없음 확인은 아직 실행 전이다.
+
+Project 실제 수동 실행은 현재 작업 제목을 Discord로 보내고 상태 캐시를 바꾸므로 생략한다. 최초 예약 실행이 기존 항목을 알리지 않고 기준선만 저장하도록 두고, 이어지는 예약 실행으로 중복이 없는지 검증한다.
 
 ## 5. 안전장치와 실패 처리
 
