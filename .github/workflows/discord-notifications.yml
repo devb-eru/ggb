@@ -35,7 +35,9 @@ on:
     types:
       - completed
   schedule:
-    - cron: "30 21 * * *"
+    - cron: "30 21 * * 0-4,6"
+      timezone: Asia/Seoul
+    - cron: "30 21 * * 5"
       timezone: Asia/Seoul
     - cron: "2-57/5 * * * *"
   workflow_dispatch:
@@ -48,6 +50,7 @@ on:
         options:
           - smoke
           - digest
+          - agenda
           - project
       dry_run:
         description: Discord에 보내지 않고 Actions 요약만 확인
@@ -137,7 +140,7 @@ jobs:
 
   daily-digest:
     if: >-
-      (github.event_name == 'schedule' && github.event.schedule == '30 21 * * *') ||
+      (github.event_name == 'schedule' && github.event.schedule == '30 21 * * 0-4,6') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'digest')
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -162,6 +165,75 @@ jobs:
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/discord_notifications.mjs digest
+
+  meeting-agenda:
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '30 21 * * 5') ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'agenda')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: discord-notifications-meeting-agenda
+      cancel-in-progress: false
+    env:
+      PROJECT_STATE_PATH: ${{ github.workspace }}/.discord-state/ggb-discord-project-state.json
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+
+      - name: Check Project token
+        id: project-token
+        env:
+          PROJECTS_READ_TOKEN: ${{ secrets.PROJECTS_READ_TOKEN }}
+        shell: bash
+        run: |
+          if [[ -n "$PROJECTS_READ_TOKEN" ]]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "### Discord 회의 안건" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo '`PROJECTS_READ_TOKEN`이 없어 회의 안건 생성을 건너뜁니다.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Restore Project state history
+        if: steps.project-token.outputs.available == 'true'
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ${{ env.PROJECT_STATE_PATH }}
+          key: discord-project-state-${{ github.run_id }}
+          restore-keys: |
+            discord-project-state-
+
+      - name: Build and send meeting agenda
+        id: meeting-agenda
+        if: steps.project-token.outputs.available == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_GIT_UPDATES_WEBHOOK }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          PROJECTS_READ_TOKEN: ${{ secrets.PROJECTS_READ_TOKEN }}
+          PROJECT_NUMBER: "1"
+          PROJECT_OWNER: devb-eru
+          PROJECT_URL: https://github.com/users/devb-eru/projects/1
+        run: node scripts/discord_notifications.mjs agenda
+
+      - name: Save refreshed Project state history
+        if: >-
+          success() &&
+          steps.project-token.outputs.available == 'true' &&
+          steps.meeting-agenda.outputs.state-changed == 'true' &&
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run == false)
+        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ${{ env.PROJECT_STATE_PATH }}
+          key: discord-project-state-${{ github.run_id }}
 
   project-watch:
     if: >-

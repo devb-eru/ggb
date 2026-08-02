@@ -66,7 +66,7 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 | [`GGB-WRK-2026-0003`](https://github.com/devb-eru/ggb/issues/19) | 07-31 | GitHub→Discord 선별 알림 | `beru` | WRK-0001, webhook secret | 중요 사건 실시간·일반 변경 21:30 요약 | `DONE` 08-02: 최초 예약 실행 기준선 저장, 다음 실행 캐시 복원·중복 없음, 예약 실행 29건 성공 확인 |
 | [`GGB-WRK-2026-0004`](https://github.com/devb-eru/ggb/issues/22) | 08-01 | 작업 현황 대시보드 | `beru` | WRK-0001 | 담당자·마일스톤·차단·지연·검토 대기 뷰 제공 | `DONE` 08-02: 저장 뷰 8개 구성, PR #23 병합과 검사 통과 확인 |
 | [`GGB-WRK-2026-0005`](https://github.com/devb-eru/ggb/issues/24) | 08-02 | GitHub 일정·Discord 회의 연결 | `beru` | WRK-0001, WRK-0003~0004, Discord 권한 | GitHub 마감 정본과 Discord 금요일 회의 이벤트 연결 | `IN_PROGRESS`: Issue·Project 등록, 기존 주간 이벤트와 `회의실` 확인, 반복 시리즈 정비·운영 문서 검증 중 |
-| `GGB-WRK-2026-0006` | 08-03 | 오늘의 회의 안건 생성 | `beru` | WRK-0003~0005 | 금요일 21:30에 기한 임박·BLOCKED·REVIEW를 Discord에 요약 | `PLANNED` |
+| [`GGB-WRK-2026-0006`](https://github.com/devb-eru/ggb/issues/26) | 08-03 | 오늘의 회의 안건 생성 | `beru` | WRK-0003~0005 | 금요일 21:30에 기한 임박·BLOCKED·REVIEW를 Discord에 요약 | `IN_PROGRESS`: Issue·Project 등록, 자동화·검증 작업 중 |
 | `GGB-WRK-2026-0007` | 08-04 | 운영 리허설 | `gatam` | WRK-0001~0006 | 가상 작업 1건을 등록→알림→회의→완료까지 통과 | `PLANNED` |
 
 ### GitHub Project 작업 현황 뷰
@@ -82,7 +82,7 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 - `담당자`: 활성 작업을 실제 담당자로 그룹화.
 - `지연`: 목표일이 지난 활성 작업.
 
-필드와 등록 절차는 [GitHub Issue·Project 운영](github_project.md), 표시 필드와 사용 순서는 [작업 현황 대시보드](work_status_dashboard.md)를 따른다. 정확한 REVIEW 진입 후 24시간 계산은 상태 변경 이력이 필요한 `GGB-WRK-2026-0006`에서 구현한다.
+필드와 등록 절차는 [GitHub Issue·Project 운영](github_project.md), 표시 필드와 사용 순서는 [작업 현황 대시보드](work_status_dashboard.md)를 따른다. 정확한 REVIEW 진입 후 24시간 계산은 Project 5분 감시 캐시에 보존한 상태 진입 시각을 사용한다.
 
 ### Discord 기본 알림 정책
 
@@ -95,10 +95,10 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 ### 오늘의 회의 안건 순서
 
 1. 오늘 결정하지 않으면 멈추는 `P0/P1`·`BLOCKED`.
-2. 48시간 안에 마감되는 작업.
+2. 다음 정기 회의 전 마감되는 작업.
 3. 검토 대기 24시간 이상인 작업.
-4. 담당자 없는 작업과 일정 초과 작업.
-5. 팀 간 전달이 필요한 아트·사운드·개발 의존성.
+4. 일정 초과 작업.
+5. 실제 담당자가 없는 작업.
 6. 결정·담당자·목표일을 회의 결과로 기록.
 
 ## 5. 병행 작업: Steam 출시 준비

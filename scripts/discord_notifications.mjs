@@ -573,7 +573,7 @@ export function buildDailyDigestMessage(digest, env = {}) {
 
 function fieldValue(item, fieldName) {
   for (const node of item.fieldValues?.nodes ?? []) {
-    if (node?.field?.name === fieldName) return node.name ?? null;
+    if (node?.field?.name === fieldName) return node.name ?? node.date ?? node.text ?? null;
   }
   return null;
 }
@@ -584,13 +584,30 @@ export function projectItemsToState(items, repo) {
     const content = item.content;
     if (!content?.url || content.repository?.nameWithOwner !== repo) continue;
     state[item.id] = {
+      number: content.number ?? null,
       title: sanitize(content.title ?? "제목 없음", 220),
       url: content.url,
       status: fieldValue(item, "Status"),
       priority: fieldValue(item, "우선순위"),
+      actualOwner: fieldValue(item, "실제 담당자"),
+      team: fieldValue(item, "담당 팀"),
+      targetDate: fieldValue(item, "목표일"),
+      blockedReason: fieldValue(item, "차단 원인"),
+      unblockCondition: fieldValue(item, "차단 해제 조건"),
     };
   }
   return state;
+}
+
+export function mergeProjectStateHistory(previous, current, now = new Date()) {
+  const statusEnteredAt = now.toISOString();
+  return Object.fromEntries(
+    Object.entries(current).map(([id, item]) => {
+      const before = previous?.[id];
+      const preserved = before?.status === item.status && before?.statusEnteredAt;
+      return [id, { ...item, statusEnteredAt: preserved || statusEnteredAt }];
+    }),
+  );
 }
 
 export function diffCriticalProjectState(previous, current) {
@@ -621,6 +638,114 @@ export function buildProjectMessage(changes, env = {}) {
   };
 }
 
+const ACTIVE_PROJECT_STATUSES = new Set(["READY", "IN_PROGRESS", "REVIEW", "BLOCKED"]);
+
+function seoulDate(date) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+}
+
+function addDays(dateValue, days) {
+  const date = new Date(`${dateValue}T00:00:00+09:00`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return seoulDate(date);
+}
+
+function nextMeetingDate(dateValue) {
+  const weekday = new Date(`${dateValue}T12:00:00Z`).getUTCDay();
+  const daysUntilFriday = weekday === 5 ? 7 : (5 - weekday + 7) % 7;
+  return addDays(dateValue, daysUntilFriday);
+}
+
+function agendaItemLine(item) {
+  const label = item.number ? `#${item.number} ${item.title}` : item.title;
+  const details = [item.status, item.priority];
+  if (item.actualOwner && item.actualOwner !== "UNASSIGNED") details.push(`담당 ${item.actualOwner}`);
+  if (item.team) details.push(`팀 ${item.team}`);
+  if (item.targetDate) details.push(`목표 ${item.targetDate}`);
+  if (item.status === "BLOCKED" && item.blockedReason) details.push(`원인 ${item.blockedReason}`);
+  if (item.status === "BLOCKED" && item.unblockCondition) details.push(`해제 ${item.unblockCondition}`);
+  return `• ${markdownLink(label, item.url)} · ${details.filter(Boolean).join(" · ")}`;
+}
+
+function takeUnseen(items, seen) {
+  return items.filter((item) => {
+    if (seen.has(item.id)) return false;
+    seen.add(item.id);
+    return true;
+  });
+}
+
+export function buildMeetingAgenda(projectState, now = new Date()) {
+  const today = seoulDate(now);
+  const followingMeetingDate = nextMeetingDate(today);
+  const reviewCutoff = now.getTime() - 24 * 60 * 60 * 1000;
+  const items = Object.entries(projectState).map(([id, item]) => ({ id, ...item }));
+  const active = items.filter((item) => ACTIVE_PROJECT_STATUSES.has(item.status));
+  const byTargetDate = (left, right) => String(left.targetDate ?? "9999-12-31")
+    .localeCompare(String(right.targetDate ?? "9999-12-31"));
+  const byPriority = (left, right) => String(left.priority ?? "P9").localeCompare(String(right.priority ?? "P9"));
+  const seen = new Set();
+
+  const criticalCandidates = active
+    .filter((item) => item.status === "BLOCKED" || new Set(["P0", "P1"]).has(item.priority))
+    .sort((left, right) => byPriority(left, right) || byTargetDate(left, right));
+  const dueCandidates = active
+    .filter((item) => item.targetDate >= today && item.targetDate <= followingMeetingDate)
+    .sort(byTargetDate);
+  const reviewCandidates = active
+    .filter((item) => item.status === "REVIEW")
+    .filter((item) => {
+      const entered = Date.parse(item.statusEnteredAt ?? "");
+      return Number.isFinite(entered) && entered <= reviewCutoff;
+    })
+    .sort((left, right) => String(left.statusEnteredAt).localeCompare(String(right.statusEnteredAt)));
+  const overdueCandidates = active
+    .filter((item) => item.targetDate && item.targetDate < today)
+    .sort(byTargetDate);
+  const missingOwnerCandidates = active
+    .filter((item) => !item.actualOwner || item.actualOwner === "UNASSIGNED")
+    .sort(byPriority);
+
+  return {
+    generatedAt: now.toISOString(),
+    today,
+    nextMeetingDate: followingMeetingDate,
+    sections: [
+      { key: "critical", name: "1. 즉시 결정 · BLOCKED/P0/P1", items: takeUnseen(criticalCandidates, seen) },
+      { key: "due", name: "2. 다음 회의 전 마감", items: takeUnseen(dueCandidates, seen) },
+      { key: "review", name: "3. REVIEW 24시간+", items: takeUnseen(reviewCandidates, seen) },
+      { key: "overdue", name: "4. 일정 초과", items: takeUnseen(overdueCandidates, seen) },
+      { key: "owner", name: "5. 실제 담당자 누락", items: takeUnseen(missingOwnerCandidates, seen) },
+    ],
+  };
+}
+
+export function buildMeetingAgendaMessage(agenda, env = {}) {
+  const projectUrl = env.PROJECT_URL ?? "https://github.com/users/devb-eru/projects/1";
+  const populated = agenda.sections.filter((section) => section.items.length > 0);
+  const fields = populated.map((section) => listField(
+    `${section.name} · ${section.items.length}`,
+    section.items,
+    agendaItemLine,
+    projectUrl,
+  ));
+  const description = populated.length > 0
+    ? `22:00 제작 회의용 자동 안건입니다. 위에서부터 처리하고, 결정·담당자·목표일은 GitHub에 반영합니다. 다음 정기 회의 기준일: ${agenda.nextMeetingDate}.`
+    : `자동 안건이 없습니다. 22:00 회의 전에 Project의 활성 작업과 새 요청만 확인하세요. 다음 정기 회의 기준일: ${agenda.nextMeetingDate}.`;
+  return {
+    title: "📋 GGB 주간 제작 회의 안건",
+    description,
+    url: projectUrl,
+    color: populated.length > 0 ? COLORS.warning : COLORS.success,
+    fields,
+  };
+}
+
 async function fetchProjectItems({ token, owner, number, fetchImpl = fetch }) {
   const query = `
     query($login: String!, $number: Int!, $after: String) {
@@ -639,6 +764,14 @@ async function fetchProjectItems({ token, owner, number, fetchImpl = fetch }) {
                   ... on ProjectV2ItemFieldSingleSelectValue {
                     name
                     field { ... on ProjectV2SingleSelectField { name } }
+                  }
+                  ... on ProjectV2ItemFieldDateValue {
+                    date
+                    field { ... on ProjectV2Field { name } }
+                  }
+                  ... on ProjectV2ItemFieldTextValue {
+                    text
+                    field { ... on ProjectV2Field { name } }
                   }
                 }
               }
@@ -752,8 +885,11 @@ export async function runCli(mode, env = process.env) {
         owner: env.PROJECT_OWNER,
         number: env.PROJECT_NUMBER,
       });
-      const current = projectItemsToState(items, env.GITHUB_REPOSITORY);
       const previous = await readJsonFile(path);
+      const current = mergeProjectStateHistory(
+        previous ?? {},
+        projectItemsToState(items, env.GITHUB_REPOSITORY),
+      );
       const baseline = previous === null;
       const changes = diffCriticalProjectState(previous ?? {}, current);
       const stateChanged = baseline
@@ -770,6 +906,38 @@ export async function runCli(mode, env = process.env) {
           : "중요 상태 변경이 없습니다.";
       console.log(note);
       await appendStepSummary(`### Discord Project 감시\n\n${note}`, env);
+      return;
+    }
+
+    case "agenda": {
+      if (!env.PROJECTS_READ_TOKEN) {
+        console.log("PROJECTS_READ_TOKEN is not configured; meeting agenda is disabled.");
+        await appendStepSummary("### Discord 회의 안건\n\n`PROJECTS_READ_TOKEN`이 없어 안전하게 건너뛰었습니다.", env);
+        return;
+      }
+      const path = env.PROJECT_STATE_PATH;
+      if (!path) throw new Error("PROJECT_STATE_PATH is required for the meeting agenda.");
+      const items = await fetchProjectItems({
+        token: env.PROJECTS_READ_TOKEN,
+        owner: env.PROJECT_OWNER,
+        number: env.PROJECT_NUMBER,
+      });
+      const previous = await readJsonFile(path);
+      const current = mergeProjectStateHistory(
+        previous ?? {},
+        projectItemsToState(items, env.GITHUB_REPOSITORY),
+      );
+      const stateChanged = previous === null
+        || JSON.stringify(Object.entries(previous).sort()) !== JSON.stringify(Object.entries(current).sort());
+      const agenda = buildMeetingAgenda(current);
+      const message = buildMeetingAgendaMessage(agenda, env);
+      const result = await sendMessage(message, env);
+      if (env.DRY_RUN !== "true" && stateChanged) await writeJsonFile(path, current);
+      await setOutput("state-changed", String(stateChanged), env);
+      const itemCount = agenda.sections.reduce((total, section) => total + section.items.length, 0);
+      const note = `${itemCount}건의 회의 안건을 ${result.dryRun ? "dry-run" : "전송"}했습니다.`;
+      console.log(note);
+      await appendStepSummary(`### Discord 회의 안건\n\n${note}`, env);
       return;
     }
 
