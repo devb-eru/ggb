@@ -5,9 +5,12 @@ import {
   buildDailyDigestMessage,
   buildDiscordPayload,
   buildImmediateMessage,
+  buildMeetingAgenda,
+  buildMeetingAgendaMessage,
   buildProjectMessage,
   collectDailyDigest,
   diffCriticalProjectState,
+  mergeProjectStateHistory,
   postDiscord,
   projectItemsToState,
   sanitize,
@@ -252,6 +255,10 @@ test("Project item extraction keeps only this repository", () => {
         nodes: [
           { name: "BLOCKED", field: { name: "Status" } },
           { name: "P1", field: { name: "우선순위" } },
+          { name: "beru", field: { name: "실제 담당자" } },
+          { name: "운영", field: { name: "담당 팀" } },
+          { date: "2026-08-03", field: { name: "목표일" } },
+          { text: "승인 대기", field: { name: "차단 원인" } },
         ],
       },
     },
@@ -265,4 +272,68 @@ test("Project item extraction keeps only this repository", () => {
   assert.deepEqual(Object.keys(state), ["one"]);
   assert.equal(state.one.status, "BLOCKED");
   assert.equal(state.one.priority, "P1");
+  assert.equal(state.one.actualOwner, "beru");
+  assert.equal(state.one.team, "운영");
+  assert.equal(state.one.targetDate, "2026-08-03");
+  assert.equal(state.one.blockedReason, "승인 대기");
+});
+
+test("Project state history preserves or resets the status entry timestamp", () => {
+  const now = new Date("2026-08-07T12:30:00Z");
+  const previous = {
+    one: { status: "READY", statusEnteredAt: "2026-08-01T00:00:00.000Z" },
+    two: { status: "IN_PROGRESS", statusEnteredAt: "2026-08-02T00:00:00.000Z" },
+  };
+  const current = {
+    one: { status: "READY", title: "Same" },
+    two: { status: "REVIEW", title: "Changed" },
+    three: { status: "REVIEW", title: "New" },
+  };
+  const merged = mergeProjectStateHistory(previous, current, now);
+  assert.equal(merged.one.statusEnteredAt, "2026-08-01T00:00:00.000Z");
+  assert.equal(merged.two.statusEnteredAt, now.toISOString());
+  assert.equal(merged.three.statusEnteredAt, now.toISOString());
+});
+
+test("meeting agenda orders categories and lists each item only once", () => {
+  const now = new Date("2026-08-07T12:30:00Z");
+  const item = (overrides) => ({
+    title: "Task",
+    url: "https://github.com/devb-eru/ggb/issues/1",
+    status: "IN_PROGRESS",
+    priority: "P2",
+    actualOwner: "beru",
+    targetDate: "2026-08-20",
+    statusEnteredAt: "2026-08-07T00:00:00.000Z",
+    ...overrides,
+  });
+  const agenda = buildMeetingAgenda({
+    critical: item({ number: 1, status: "BLOCKED", priority: "P1", actualOwner: "UNASSIGNED", targetDate: "2026-08-01" }),
+    due: item({ number: 2, targetDate: "2026-08-14" }),
+    review: item({ number: 3, status: "REVIEW", statusEnteredAt: "2026-08-06T12:29:59.000Z" }),
+    overdue: item({ number: 4, targetDate: "2026-08-06" }),
+    owner: item({ number: 5, actualOwner: "UNASSIGNED" }),
+    done: item({ number: 6, status: "DONE", priority: "P0", actualOwner: null, targetDate: "2026-08-01" }),
+  }, now);
+
+  assert.equal(agenda.nextMeetingDate, "2026-08-14");
+  assert.deepEqual(agenda.sections.map((section) => section.items.map((entry) => entry.id)), [
+    ["critical"],
+    ["due"],
+    ["review"],
+    ["overdue"],
+    ["owner"],
+  ]);
+  const ids = agenda.sections.flatMap((section) => section.items.map((entry) => entry.id));
+  assert.equal(new Set(ids).size, ids.length);
+});
+
+test("meeting agenda sends a useful message even when no automatic items exist", () => {
+  const agenda = buildMeetingAgenda({}, new Date("2026-08-07T12:30:00Z"));
+  const message = buildMeetingAgendaMessage(agenda, { PROJECT_URL: "https://github.com/users/devb-eru/projects/1" });
+  assert.equal(message.fields.length, 0);
+  assert.match(message.title, /주간 제작 회의 안건/);
+  assert.match(message.description, /자동 안건이 없습니다/);
+  assert.equal(message.url, "https://github.com/users/devb-eru/projects/1");
+  assert.equal(buildMeetingAgenda({}, new Date("2026-08-02T12:30:00Z")).nextMeetingDate, "2026-08-07");
 });
