@@ -63,9 +63,9 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 | --- | --- | --- | --- | --- | --- | --- |
 | [`GGB-WRK-2026-0001`](https://github.com/devb-eru/ggb/issues/15) | 07-27 | GitHub Issue·Project 기반선 | `beru` | M1 병합 | 상태·우선순위·담당·마일스톤·차단 필드와 기본 뷰 생성 | `DONE` |
 | [`GGB-WRK-2026-0002`](https://github.com/devb-eru/ggb/issues/17) | 07-27 | Discord 에셋 접수·보관 흐름 | `beru` | WRK-0001, Google Drive | `#asset-intake`에서 제작자·작업 ID·전달일·보관 위치 추적 | `DONE` 08-01: 권한·업로드·핀·PR #18 병합 확인 |
-| [`GGB-WRK-2026-0003`](https://github.com/devb-eru/ggb/issues/19) | 07-31 | GitHub→Discord 선별 알림 | `beru` | WRK-0001, webhook secret | 중요 사건 실시간·일반 변경 21:30 요약 | `REVIEW`: PR #20·#21 병합, 두 secret 등록, smoke 실제 전송과 digest·Project dry-run 통과. 최초 예약 기준선과 다음 예약 중복 없음 확인 대기 |
-| [`GGB-WRK-2026-0004`](https://github.com/devb-eru/ggb/issues/22) | 08-01 | 작업 현황 대시보드 | `beru` | WRK-0001 | 담당자·마일스톤·차단·지연·검토 대기 뷰 제공 | `REVIEW`: 저장 뷰 8개 구성과 운영 문서 검토 대기 |
-| `GGB-WRK-2026-0005` | 08-02 | GitHub 일정·Discord 회의 연결 | `beru` | WRK-0001, Discord 권한 | GitHub 마감 정본과 Discord 금요일 회의 이벤트 연결 | `PLANNED` |
+| [`GGB-WRK-2026-0003`](https://github.com/devb-eru/ggb/issues/19) | 07-31 | GitHub→Discord 선별 알림 | `beru` | WRK-0001, webhook secret | 중요 사건 실시간·일반 변경 21:30 요약 | `DONE` 08-02: 최초 예약 실행 기준선 저장, 다음 실행 캐시 복원·중복 없음, 예약 실행 29건 성공 확인 |
+| [`GGB-WRK-2026-0004`](https://github.com/devb-eru/ggb/issues/22) | 08-01 | 작업 현황 대시보드 | `beru` | WRK-0001 | 담당자·마일스톤·차단·지연·검토 대기 뷰 제공 | `DONE` 08-02: 저장 뷰 8개 구성, PR #23 병합과 검사 통과 확인 |
+| [`GGB-WRK-2026-0005`](https://github.com/devb-eru/ggb/issues/24) | 08-02 | GitHub 일정·Discord 회의 연결 | `beru` | WRK-0001, WRK-0003~0004, Discord 권한 | GitHub 마감 정본과 Discord 금요일 회의 이벤트 연결 | `IN_PROGRESS`: Issue·Project 등록, 기존 주간 이벤트와 `회의실` 확인, 반복 시리즈 정비·운영 문서 검증 중 |
 | `GGB-WRK-2026-0006` | 08-03 | 오늘의 회의 안건 생성 | `beru` | WRK-0003~0005 | 금요일 21:30에 기한 임박·BLOCKED·REVIEW를 Discord에 요약 | `PLANNED` |
 | `GGB-WRK-2026-0007` | 08-04 | 운영 리허설 | `gatam` | WRK-0001~0006 | 가상 작업 1건을 등록→알림→회의→완료까지 통과 | `PLANNED` |
 
@@ -127,8 +127,9 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 
 - 편집 원본 보관소 [Google Drive `GGB/Assets`](https://drive.google.com/drive/folders/1S8S8CSfpfO2ToszpAbSRaJqGgNRAqVoD)와 단계 폴더 5개를 생성했다. 2026-08-01에 팀 권한·시험 업로드·Discord 핀과 PR #18 병합을 확인하고 `GGB-WRK-2026-0002`를 종료했다.
 - `#git-updates` webhook은 GitHub Actions secret `DISCORD_GIT_UPDATES_WEBHOOK`으로 등록 완료했다.
-- 개인 `GGB Production` Project의 중요 상태 감시용 `PROJECTS_READ_TOKEN`을 등록했다. Project dry-run은 현재 중요 항목 3건을 읽었고, 최초 예약 실행의 무알림 기준선 저장과 다음 예약 실행의 중복 없음 확인이 남아 있다.
+- 개인 `GGB Production` Project의 중요 상태 감시용 `PROJECTS_READ_TOKEN`을 등록했다. Project dry-run은 중요 항목 3건을 읽었고, 2026-08-01~02 최초 예약 실행의 무알림 기준선 저장과 다음 실행의 캐시 복원·중복 없음까지 확인했다.
 - GitHub Project #1을 `GGB Production`으로 정식화하고 저장소 연결, 필드 22개와 첫 Issue #15를 구성했다. 2026-08-01에는 작업 현황 저장 뷰를 8개로 확장했다.
+- Discord 서버 `게임개발일지`의 기존 주간 이벤트와 음성 채널 `회의실`을 확인했다. `GGB-WRK-2026-0005`에서 금요일 22:00 KST 기준으로 반복 시리즈를 정비한다.
 
 ## 7. 완료 판정
 

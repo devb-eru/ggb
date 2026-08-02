@@ -46,7 +46,7 @@
 | 편집 원본 | [Google Drive `GGB/Assets`](https://drive.google.com/drive/folders/1S8S8CSfpfO2ToszpAbSRaJqGgNRAqVoD) | 대용량 source의 단계별 보관 위치 |
 | 에셋 접수 | `docs/asset_intake.md` | Discord 전달, Drive 이동, 검토·승인·보관 기준 |
 | 다음 작업 계획 | `docs/next_work_plan.md` | 협업 시스템 구현 순서와 선행 관계 |
-| 회의 일정 | 외부 캘린더 | 참석 일정과 리마인더 관리 |
+| 회의 일정 | [Discord Scheduled Event](discord_operations.md#4-정기-회의) | 정기·특별 회의 표시와 참석 리마인더 |
 | 대화·알림 | Discord | 결정과 작업의 기준 정보로 사용하지 않음 |
 
 대시보드와 Discord는 위 기준 정보를 읽어 보여주는 출력 계층으로 취급한다.

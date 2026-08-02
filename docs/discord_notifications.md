@@ -52,14 +52,16 @@ GitHub Issue·Project·PR의 중요한 변화만 Discord `#git-updates`에 전�
 
 실제 전송 확인 결과는 `GGB-WRK-2026-0003` Issue와 Project의 `검증 근거`에 Actions 실행 URL로 남긴다.
 
-### 2026-08-01 활성화 상태
+### 2026-08-02 활성화 상태
 
 - smoke dry-run과 실제 `#git-updates` 전송을 통과했다.
 - 24시간 digest dry-run을 통과했다.
 - Project dry-run에서 토큰 접근과 `BLOCKED`·`P0/P1` 매핑을 확인했다.
-- 최초 예약 Project 조회의 무알림 기준선 저장과 다음 예약 조회의 중복 없음 확인은 아직 실행 전이다.
+- [최초 예약 Project 조회](https://github.com/devb-eru/ggb/actions/runs/30663574483)가 기존 항목을 알리지 않고 기준선을 저장했다.
+- [다음 예약 조회](https://github.com/devb-eru/ggb/actions/runs/30667553868)가 캐시를 복원하고 중요 변경이 없을 때 중복 알림을 보내지 않았다.
+- 예약 실행 29건이 모두 성공했으며 [최신 확인 실행](https://github.com/devb-eru/ggb/actions/runs/30748329393)도 같은 기준선을 복원했다.
 
-Project 실제 수동 실행은 현재 작업 제목을 Discord로 보내고 상태 캐시를 바꾸므로 생략한다. 최초 예약 실행이 기존 항목을 알리지 않고 기준선만 저장하도록 두고, 이어지는 예약 실행으로 중복이 없는지 검증한다.
+Project 실제 수동 실행은 현재 작업 제목을 Discord로 보내고 상태 캐시를 바꾸므로 생략했다. 예약 실행 두 번으로 초기 기준선과 중복 억제를 검증했고, 이후 예약 실행으로 계속 감시한다.
 
 ## 5. 안전장치와 실패 처리
 
