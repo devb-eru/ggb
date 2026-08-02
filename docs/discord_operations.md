@@ -54,6 +54,27 @@ Discord 메시지만으로 작업 완료나 마감 변경을 확정하지 않는
 | 참석 | `gatam`, `niik`, `beru`, `210`, `nana`, `NOne` 전원 |
 | 안건 게시 | 금요일 21:30 KST, `#git-updates` |
 
+Discord 서버 `게임개발일지`에는 다음 Scheduled Event 하나를 주간 회의 표시용으로 유지한다.
+
+| 설정 | 값 |
+| --- | --- |
+| 이벤트명 | `GGB 주간 제작 회의` |
+| 첫 일정 | 2026-08-07 금요일 22:00 KST |
+| 반복 | 매주 금요일 |
+| 음성 채널 | `회의실` |
+| 운영 시간 | 기본 60분, 종료는 안건에 따라 유동적 |
+
+이벤트 설명은 다음 문구를 사용한다.
+
+```text
+GitHub GGB Production이 작업·담당·마감의 정본입니다.
+회의 안건은 금요일 21:30 #git-updates에서 확인합니다.
+기본 회의 시간은 60분이며, 회의 후 결정·담당자·목표일을 GitHub에 반영합니다.
+https://github.com/users/devb-eru/projects/1
+```
+
+Scheduled Event는 기존 반복 이벤트를 Discord UI에서 정비해 사용한다. incoming webhook은 `#git-updates` 메시지 게시 전용이므로 이벤트 생성·수정 권한을 맡기지 않는다. 별도 Discord bot과 토큰은 반복 이벤트를 코드로 관리해야 할 요구가 생길 때만 검토한다.
+
 회의 안건은 다음 순서로 만든다.
 
 1. 지금 결정하지 않으면 멈추는 `P0/P1`과 `BLOCKED`.
@@ -95,3 +116,8 @@ notes: 수정 주의사항
 - Discord Scheduled Event는 금요일 정기 회의와 특별 회의 표시용으로 사용한다.
 - 마감 변경은 GitHub에서 먼저 수정하고 Discord에 알린다.
 - 일정 조율 자동화는 GitHub 날짜와 Discord 알림을 연결하며 별도 캘린더에 같은 마감을 중복 입력하지 않는다.
+- 정기 회의의 일회성 연기·취소는 해당 회차만 수정하고 `#git-updates`에 알린다. 이 변경만으로 작업 목표일을 바꾸지 않는다.
+- 정기 회의 시각을 계속 바꾸려면 이 문서의 기준을 먼저 갱신하고 반복 시리즈 전체를 수정한다.
+- 특별 회의는 별도 일회성 Scheduled Event로 만들고 관련 GitHub 작업을 설명에 연결한다.
+- 회의 변경으로 작업 마감도 달라지면 GitHub 목표일을 먼저 수정한 뒤 Discord에 변경 이유를 알린다.
+- 서버·채널·이벤트 ID와 webhook·bot 토큰은 문서, Issue, PR, Discord 메시지에 기록하지 않는다.
