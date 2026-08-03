@@ -31,4 +31,9 @@
 !/builds/.gitkeep
 /exports/*
 !/exports/.gitkeep
+/outputs/
+/GGB.html
+
+# Local auxiliary worktrees
+/.worktrees/
 /~$B_게임기획서_v0.2.docx

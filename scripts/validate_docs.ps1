@@ -151,8 +151,22 @@ $cnfCount = @($issueIds.Keys | Where-Object { $_ -like "GGB-CNF-*" }).Count
 $errCount = @($issueIds.Keys | Where-Object { $_ -like "GGB-ERR-*" }).Count
 $issueCount = $issueIds.Count
 $registryText = [System.IO.File]::ReadAllText($issueIndexPaths[1], $utf8)
-$verifiedCountPattern = "(?m)^\| VERIFIED \| $cnfCount \| $errCount \| $issueCount \|$"
-if ($registryText -notmatch $verifiedCountPattern) {
+$issueStatusPattern = '(?m)^\| (OPEN|IN_PROGRESS|BLOCKED|RESOLVED|VERIFIED|DEFERRED|WONT_FIX) \| (\d+) \| (\d+) \| (\d+) \|$'
+$issueStatusRows = [regex]::Matches($registryText, $issueStatusPattern)
+$registryCnfCount = 0
+$registryErrCount = 0
+$registryIssueCount = 0
+foreach ($statusRow in $issueStatusRows) {
+    $registryCnfCount += [int]$statusRow.Groups[2].Value
+    $registryErrCount += [int]$statusRow.Groups[3].Value
+    $registryIssueCount += [int]$statusRow.Groups[4].Value
+}
+if (
+    $issueStatusRows.Count -ne 7 -or
+    $registryCnfCount -ne $cnfCount -or
+    $registryErrCount -ne $errCount -or
+    $registryIssueCount -ne $issueCount
+) {
     Add-ValidationError "ISSUE_COUNT" (Get-RepoRelativePath $issueIndexPaths[1]) "expected CNF=$cnfCount ERR=$errCount total=$issueCount"
 }
 
@@ -257,7 +271,7 @@ $requestRequiredColumns = @(
     "asset_ids", "brief_path", "depends_on", "acceptance_gate", "evidence"
 )
 $requestAllowedTeams = @("ART", "AUD", "CNT")
-$requestAllowedScopes = @("vertical_slice", "demo_remainder", "full_only")
+$requestAllowedScopes = @("vertical_slice", "demo_remainder", "full_only", "store_only")
 $requestAllowedStatuses = @(
     "PLANNED", "DRAFT", "READY_FOR_ACCEPTANCE", "ACCEPTED", "IN_PROGRESS",
     "REVIEW", "APPROVED", "INTEGRATED", "CHANGES_REQUESTED", "CANCELLED"
