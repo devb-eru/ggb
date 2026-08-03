@@ -44,6 +44,7 @@
 | [`GGB-ERR-2026-0015`](GGB-ERR-2026-0015_J4_확인창_placeholder_계약_누락.md) | VERIFIED | DONE | J4 확인창 placeholder 계약 누락 |
 | [`GGB-ERR-2026-0016`](GGB-ERR-2026-0016_F2_필수_지식_수량_구식_표기.md) | VERIFIED | DONE | F2 필수 지식 수량 구식 표기 |
 | [`GGB-ERR-2026-0017`](GGB-ERR-2026-0017_플레이타임_합산과_관계경로_예산_불일치.md) | VERIFIED | DONE | 플레이타임 합산과 관계 경로 예산 불일치 |
+| [`GGB-ERR-2026-0018`](GGB-ERR-2026-0018_프롤로그_자식상호작용_공통반응_누락.md) | VERIFIED | DONE | 프롤로그 자식 상호작용 공통 반응 누락 |
 
 ## 관리
 

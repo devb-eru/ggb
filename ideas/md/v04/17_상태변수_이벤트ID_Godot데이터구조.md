@@ -12,6 +12,7 @@
 | --- | --- | --- |
 | 메인 이벤트 | 흐름도 ID | `P3B`, `B3_B`, `E3_5`, `F0_D` |
 | 세부 상호작용 | `사건_OBJ_대상` | `E1_OBJ_BED`, `F3_OBJ_WAKE_DEVICE` |
+| 사건 전용 자식 핫스폿 | `사건_역할_대상` | `P2_TOOL_SOFT_CLOTH`, `P4_TEAPOT`, `P5_THRESHOLD` |
 | 인물 반응 | `인물_구간번호` | `MARA2_S1`, `EDGAR_S3` |
 | 비실행 기획 그룹 | 문서 전용 별칭 | `EDGAR_B2` |
 | 엔딩 반응 | `인물_ED_분기` | `MARA2_ED_REALITY` |
@@ -20,6 +21,7 @@
 | `location_id` | 지도 레지스트리의 층·공간 ID | `M1_COLOR_ROOM_ENTRY`, `H0_COLOR_SEPARATION` |
 | 기록 | `REC_인물` | `REC_MARA2` |
 | 오브젝트 | `OBJ_공간_명칭_번호` | `OBJ_ARCHIVE_PORTRAIT_01` |
+| 제작 엔티티 | `PRDOBJ_범주_명칭` | `PRDOBJ_P2_COARSE_BRUSH` |
 | 텍스트 | `TXT_이벤트_분기` | `TXT_MARA2_S1_ASK` |
 
 Godot 리소스 파일명은 소문자 snake_case를 사용한다.
@@ -125,6 +127,7 @@ loop_state:
   completed_daily_tasks: []
   inventory: []
   object_states: {}
+  event_local_states: {}
   servant_locations: {}
   intervention_budget: {}
   pending_reactions: []
@@ -141,8 +144,43 @@ loop_state:
   object_reaction_runtime:
     loop_counts: {}
     last_reaction_by_object: {}
+    last_reaction_by_interaction_part: {}
     pending_reaction_id: null
 ```
+
+프롤로그 사건 전용 자식 상태 예시:
+
+```yaml
+event_local_states:
+  P2:
+    selected_tool_id: null
+    window_states:
+      P2_WINDOW_01: dirty
+      P2_WINDOW_02: dirty
+      P2_WINDOW_03: dirty
+    invalid_overlays: {}
+    completed_window_ids: []
+    consecutive_invalid_inputs: 0
+    bird_pass_count: 0
+    bird_prompt_resolved: false
+  P3:
+    book_placements: {}
+    correctly_placed_book_ids: []
+    journal_drop_triggered: false
+  P4:
+    selected_part_id: null
+    tea_stage: empty
+    steep_timer_state: idle
+  P5:
+    unique_target_ids: []
+    notebook_choice_id: null
+```
+
+- `event_local_states`의 key는 활성 가능한 사건 ID이고 값은 해당 사건 Resource가 검증하는 Dictionary다.
+- P2·P3·P4 LOCAL RETRY는 해당 사건 하위 값만 갱신하며 다른 일과 완료와 영구 지식을 되돌리지 않는다.
+- NORMAL_RESET은 `event_local_states` 전체를 비운 뒤 해당 루프에서 필요한 사건 기본값을 다시 만든다.
+- `OBS_REPEATING_BIRD`, `journal_object_found`, `MEM_FATHER_TEA_HAND_FRAGMENT`, `weather_contradiction_seen`처럼 영구화된 정보는 이 Dictionary에 저장하지 않는다.
+- P5를 생략하면 `event_local_states.P5`를 만들 필요가 없다. 선택 사건 진입 시 지연 생성한다.
 
 `pending_reactions` 원소:
 
@@ -1636,6 +1674,7 @@ res://
 │  ├─ world_phase_visual_profiles/
 │  ├─ accessibility/
 │  ├─ object_reactions/
+│  │  └─ event_parts/
 │  ├─ maps/
 │  └─ registries/
 ├─ scenes/
@@ -2040,6 +2079,8 @@ extends Resource
 
 @export var reaction_id: StringName
 @export var object_id: StringName
+@export var interaction_part_id: StringName
+@export var production_id: StringName
 @export var location_id: StringName
 @export var interaction_role: InteractionRole
 @export var world_phase: StringName
@@ -2065,17 +2106,33 @@ extends Resource
 권장 리소스 경로:
 
 ```text
-res://data/objects/object_registry.tres
+res://data/registries/object_registry.tres
+res://data/registries/interaction_part_registry.tres
 res://data/object_reactions/{location_id}/{reaction_id}.tres
+res://data/object_reactions/event_parts/{event_id}/{reaction_id}.tres
 res://data/object_reactions/ending/{reaction_id}.tres
 res://data/accessibility/object_accessibility_defaults.tres
 ```
+
+식별 규칙:
+
+- canonical 월드 오브젝트는 `object_id`를 필수로 쓰고 `interaction_part_id`는 비울 수 있다.
+- 확대 퍼즐·튜토리얼 자식 핫스폿은 `interaction_part_id`와 `event_context`를 필수로 쓴다.
+- canonical 합성 오브젝트의 자식이면 `object_id`와 `interaction_part_id`를 함께 쓴다. 예: `OBJ_KITCHEN_TEA_SET` 아래 `P4_TEAPOT`.
+- canonical 부모가 없는 사건 전용 소품이면 `object_id=&""`로 두고 `interaction_part_id`와 `production_id`로 제작 데이터를 역추적한다. 예: `P2_TOOL_SOFT_CLOTH`.
+- `production_id`는 에셋·제작 대장 연결용이며 저장 호환 키가 아니다.
+- `interaction_part_id`는 저장된 반응 이력과 입력 라우팅에 쓰이므로 전역 유일해야 한다.
 
 ### 16.3 반응 선택기
 
 ```gdscript
 func resolve_object_reaction(ctx: InteractionContext) -> ObjectReaction:
-    var candidates := registry.get_reactions(ctx.object_id)
+    var candidates: Array[ObjectReaction] = []
+    if ctx.interaction_part_id != &"":
+        candidates = registry.get_part_reactions(ctx.interaction_part_id)
+    elif ctx.object_id != &"":
+        candidates = registry.get_reactions(ctx.object_id)
+
     candidates = candidates.filter(func(r):
         return r.matches_event_context(ctx.event_context)
             and r.matches_object_state(ctx.object_state)
@@ -2084,10 +2141,21 @@ func resolve_object_reaction(ctx: InteractionContext) -> ObjectReaction:
             and r.matches_owner_overlay(ctx.owner_overlay)
     )
     candidates.sort_custom(_priority_then_specificity)
-    return candidates.front() if not candidates.is_empty() else registry.fallback(ctx.object_id)
+    if not candidates.is_empty():
+        return candidates.front()
+
+    if ctx.interaction_part_id != &"":
+        if ctx.object_id != &"":
+            return registry.fallback(ctx.object_id)
+        return registry.fallback_part(ctx.interaction_part_id)
+    if ctx.object_id != &"":
+        return registry.fallback(ctx.object_id)
+    return null
 ```
 
 동률이면 `event_context > object_state > world_phase > knowledge_state > owner_overlay > visit_state > fallback`의 구체성 순서를 적용한다. 선택된 반응 하나만 상태 writer를 호출하며 입력은 한 번만 소비한다.
+
+`InteractionContext`는 기존 필드에 `interaction_part_id: StringName`을 추가한다. canonical 부모가 없는 자식 부품은 `object_id=&""`로 전달한다. `fallback_part()`가 null을 반환하면 해당 프레임에는 핫스폿을 열지 않으며 임의의 방 기본 문구를 재생하지 않는다.
 
 ### 16.4 저장 상태
 
@@ -2101,6 +2169,7 @@ loop_state:
   object_reaction_runtime:
     loop_counts: {}
     last_reaction_by_object: {}
+    last_reaction_by_interaction_part: {}
     pending_reaction_id: null
 
 ending_run:
@@ -2128,6 +2197,7 @@ user_profile:
 - `persistent_seen`은 `reaction_id` 논리 집합 배열이다.
 - `per_state_seen`은 `reaction_id|world_phase|object_state` 키의 논리 집합 배열이다.
 - `loop_counts`는 NORMAL_RESET에서 비우고 POST_BROKEN_REST에서는 유지한다.
+- `last_reaction_by_interaction_part`는 `interaction_part_id → reaction_id`의 루프별 캐시이며 진행 판정에 사용하지 않는다.
 - 엔딩 상호작용 논리 집합 배열은 일반 반응 이력과 합치지 않는다.
 - `pending_reaction_id`는 자동 대사 큐와 별도다. 시스템 확인 또는 오브젝트 표현 지연만 저장한다.
 - 오브젝트별 접근성 표현은 `user_profile.accessibility_settings`를 읽고 `accessibility_cue_ids`로 필요한 대체만 추가한다. 별도 `profile.object_accessibility` 복사본을 만들지 않는다.
@@ -2154,6 +2224,24 @@ func validate_reaction_writes(reaction: ObjectReaction) -> PackedStringArray:
 
 `MAIN_PUZZLE`·`SYSTEM_GATE` 오브젝트는 직접 상태를 쓰지 않고 권한이 있는 이벤트 컨트롤러에 명령을 전달한다. `INFO_RECORD`만 명시된 knowledge·수첩 항목을 쓸 수 있다.
 
+추가 식별 검증:
+
+```gdscript
+func validate_reaction_identity(reaction: ObjectReaction) -> PackedStringArray:
+    var errors := PackedStringArray()
+    if reaction.object_id == &"" and reaction.interaction_part_id == &"":
+        errors.append("reaction identity is empty: %s" % reaction.reaction_id)
+    if reaction.interaction_part_id != &"" and reaction.event_context == &"":
+        errors.append("event part has no event_context: %s" % reaction.interaction_part_id)
+    if (
+        reaction.object_id == &""
+        and reaction.interaction_part_id != &""
+        and reaction.production_id == &""
+    ):
+        errors.append("orphan event part has no production_id: %s" % reaction.interaction_part_id)
+    return errors
+```
+
 ### 16.6 canonical object registry
 
 | 그룹 | object_id |
@@ -2175,11 +2263,25 @@ func validate_reaction_writes(reaction: ObjectReaction) -> PackedStringArray:
 
 레지스트리 항목은 최소 `object_id`, 기본 `location_id`, `default_role`, `fallback_reaction_id`, `hotspot_profile_id`를 가진다. servant object는 `owner_id`와 `requires_consent=true`를 추가한다.
 
+canonical registry와 별도로 아래 프롤로그 사건 전용 part registry를 둔다.
+
+| event_context | interaction_part_id 패턴·목록 | canonical 부모 | 물리 상태 owner |
+| --- | --- | --- | --- |
+| P2 | `P2_TOOL_SOFT_CLOTH`, `P2_TOOL_COARSE_BRUSH`, `P2_TOOL_WATER_BOTTLE`, `P2_PROP_MARA1_SPANNER`, `P2_WINDOW_01`, `P2_WINDOW_02`, `P2_WINDOW_03`, `P2_OBS_REPEATING_BIRD`, `P2_PARLOR_CLOCK_PREVIEW`, `P2_PARLOR_SEATING`, `P2_PARLOR_CURTAIN`, `P2_SOUTH_DOUBLE_DOOR` | 없음 | `event_local_states.P2` |
+| P3 | `P3_BOOK_MECHANICAL_DRAWINGS`, `P3_BOOK_GREENHOUSE_FLORA`, `P3_BOOK_DINING_LEDGER`, `P3_CLASSIFICATION_SLOTS`, `P3_RETURN_SLOT`, `P3_JOURNAL_GLIMPSE` | `OBJ_LIBRARY_OUTER_SHELVES` | `event_local_states.P3` |
+| P3·B3_A | `P3_INNER_GLASS_DOOR`, `P3_OUTER_CLOCK_PREVIEW` | 없음 | lock·puzzle controller |
+| P4 | `P4_EMPTY_CUP`, `P4_HOT_WATER`, `P4_TEA_LEAVES`, `P4_MEASURING_SPOON`, `P4_STEEP_TIMER`, `P4_TEAPOT` | `OBJ_KITCHEN_TEA_SET` | `event_local_states.P4` |
+| P4_IRIS_GREETING | `P4_IRIS_HERB_BASKET` | 없음 | sub-beat controller |
+| P5 | `P5_CORRIDOR_WINDOW`, `P5_GREENHOUSE_GLASS`, `P5_THRESHOLD`, `P5_CEILING_PIPE_AUDIO`, `P5_SEASON_SIGN` | 일부 `OBJ_GREENHOUSE_DOOR` | `event_local_states.P5` |
+
+part registry 항목은 최소 `interaction_part_id`, `event_context`, `location_id`, `production_id`, `fallback_reaction_id`, `hotspot_profile_id`를 가진다. canonical 부모가 있으면 `parent_object_id`도 기록한다. 물리 퍼즐 상태는 part registry에 복제하지 않는다.
+
 ### 16.7 런타임 서비스
 
 | 서비스 | 책임 |
 | --- | --- |
 | `ObjectRegistry` | canonical object와 기본 위치·역할 로드 |
+| `InteractionPartRegistry` | 사건 전용 자식 ID와 canonical 부모·production 역참조 로드 |
 | `ObjectReactionResolver` | 상태 축·우선순위·fallback 판정 |
 | `InteractionRouter` | 입력 1회 소비와 이벤트 컨트롤러 전달 |
 | `ObjectReactionMemory` | first·repeat·per-state 이력 |
@@ -2198,6 +2300,11 @@ func validate_reaction_writes(reaction: ObjectReaction) -> PackedStringArray:
 64. servant object가 유효한 `consent_scope` 없이 포커스·키보드 순회에 나타나지 않는지 확인.
 65. required·optional 엔딩 Set과 일반 반응 이력을 교차 저장하지 않는지 확인.
 66. 최초 `schema_version=1` fixture가 state model r12의 첫·반복 반응 필드를 모두 가지며 존재하지 않는 pre-release migration을 호출하지 않는지 확인.
+67. P2~P5 `interaction_part_id`가 전역 유일하고 canonical `object_id`와 같은 문자열을 쓰지 않는지 확인.
+68. canonical 부모 없는 P2 part가 `production_id`, `event_context`, location을 모두 가지는지 확인.
+69. P3·P4·P5의 부모·자식 반응이 동시에 일치할 때 자식 한 건만 입력을 소비하는지 확인.
+70. P2 부분 완료·오답 뒤 NORMAL_RESET에서 `event_local_states.P2`가 초기화되고 `OBS_REPEATING_BIRD` 영구 지식은 유지되는지 확인.
+71. P3 외부 시계 part가 `GGB-CNF-2026-0018` 해결 전 `OBJ_LIBRARY_RECORD_CLOCK`으로 해석되지 않는지 확인.
 
 ### 16.9 일시적 동의·확인 상태
 
@@ -3387,6 +3494,7 @@ res://data/
 ├─ states/
 ├─ maps/
 ├─ object_reactions/
+│  └─ event_parts/
 ├─ color_signatures/
 ├─ avatar_visual_profiles/
 ├─ world_phase_visual_profiles/
@@ -3396,6 +3504,7 @@ res://data/
    ├─ state_path_registry.tres
    ├─ location_registry.tres
    ├─ object_registry.tres
+   ├─ interaction_part_registry.tres
    ├─ text_registry.tres
    ├─ signature_registry.tres
    └─ save_point_registry.tres
@@ -3411,6 +3520,8 @@ flowchart TD
     ER --> PR["puzzle definitions"]
     OR["object_registry"] --> LR
     OR --> RR["object reaction registry"]
+    IPR["interaction_part_registry"] --> LR
+    IPR --> RR
     RR --> TR
     RR --> SIG["signature_registry"]
     VIS["visual profiles"] --> SIG
@@ -3657,7 +3768,7 @@ UI hover·focus
 
 ## 33. 본 상세화 검증 결과
 
-검증 기준일: 2026-07-31.
+검증 기준일: 2026-08-03.
 
 | 검증 ID | 검사 | 결과 | 상태 |
 | --- | --- | --- | --- |
@@ -3668,7 +3779,7 @@ UI hover·focus
 | `QA-17-SET-01` | `Set[StringName]` 구현 지시 | 비지원 사실 설명 외 사용 0건 | PASS |
 | `QA-17-SAVE-01` | 진행·엔딩 메타·접근성 프로필 경계 | runtime schema 1·state r12·profile v1 각각 분리 | PASS |
 | `QA-17-OBJECT-01` | object reaction 상태 소유권 | memory는 meta, runtime은 loop에 단일 배치 | PASS |
-| `QA-17-ISSUE-01` | issues 집계 | CNF 17·ERR 17, 총 34건 VERIFIED·DONE | PASS |
+| `QA-17-ISSUE-01` | 해결 issues 집계 | CNF 17·ERR 18, 총 35건 VERIFIED·DONE; CNF-0018 1건 OPEN 분리 | PASS |
 | `QA-17-SYNC-01` | §32 후속 문서 상태 | 대상 9개 모두 `완료` | PASS |
 | `QA-17-SYNC-02` | 정본 버전·저장 경계 동기화 | Godot 4.7·runtime schema 1·state r12·profile v1·`.tres`/JSON 분리 일치 | PASS |
 | `QA-17-SYNC-03` | 구식 현행 구현 표기 검색 | `Godot 예정`·runtime schema 1 외 현행 지시·Set 구현 지시 잔존 없음. r8~r11은 pre-release 상태 모델 이력으로만 사용 | PASS |

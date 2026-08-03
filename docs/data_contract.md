@@ -35,6 +35,7 @@ game/data/
 ├─ states/
 ├─ maps/
 ├─ object_reactions/
+│  └─ event_parts/
 ├─ color_signatures/
 ├─ avatar_visual_profiles/
 ├─ world_phase_visual_profiles/
@@ -50,11 +51,12 @@ game/data/
 | `states/` | enum·state path·기본값 정의 |
 | `maps/` | location·연결·잠금 registry |
 | `object_reactions/` | canonical 오브젝트 상태별 반응 |
+| `object_reactions/event_parts/` | P2~P5처럼 사건 안에서만 유효한 자식 핫스폿 반응 |
 | `color_signatures/` | 다섯 인격 데이터 서명 |
 | `avatar_visual_profiles/` | 캐릭터 대표 외형 |
 | `world_phase_visual_profiles/` | S0~S5·R0 표현 상한 |
 | `accessibility/` | UI·핫스폿·표시 기본값 |
-| `registries/` | ID·상태 경로·오브젝트·텍스트·저장 지점 색인 |
+| `registries/` | ID·상태 경로·canonical 오브젝트·사건 자식 핫스폿·텍스트·저장 지점 색인 |
 
 JSON·CSV를 임시 저작 형식으로 사용할 수 있으나 빌드 전 정식 Resource 또는 registry로 변환하고 같은 검증기를 통과해야 한다.
 
@@ -73,6 +75,8 @@ JSON·CSV를 임시 저작 형식으로 사용할 수 있으나 빌드 전 정�
 - Resource·변수·저장은 정규화된 데이터 ID만 사용한다.
 - 파일명은 소문자 snake_case다.
 - `EDGAR_B2`, `SERVANT_ED_*` 같은 문서 별칭을 실행 registry에 넣지 않는다.
+- canonical 오브젝트는 `object_id`, 사건 자식 핫스폿은 전역 유일한 `interaction_part_id`로 식별한다.
+- canonical 부모가 없는 자식 핫스폿은 `event_context`, `location_id`, `production_id`를 함께 가져야 한다. `production_id`는 제작 역추적용이며 저장 키가 아니다.
 
 ### 3.2 ID 안정성
 
@@ -96,6 +100,7 @@ JSON·CSV를 임시 저작 형식으로 사용할 수 있으나 빌드 전 정�
 주요 원칙:
 
 - 방·오브젝트 위치·당일 도구는 물리 리셋 대상이다.
+- 사건 전용 도구·부분 진행은 `loop_state.event_local_states.EVENT_ID`에 두고 NORMAL_RESET에서 초기화한다.
 - 수첩 지식·일지·실패 정보·관계·잔류 기억은 영구 유지한다.
 - 확인한 대화 기록은 `meta_progress.dialogue_history`에 두고 모든 세계 리셋에서 유지한다.
 - D5 뒤 첫 수면만 S3를 생성하며 이후 휴식은 현재 물리 상태를 보존한다.
