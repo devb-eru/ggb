@@ -39,6 +39,9 @@
 - 승인 결정문의 해결된 CNF·ERR 후속 작업이 과거 `READY`·`BLOCKED` 상태로 남지 않는다.
 - 문서 17·통합본·이슈 레지스트리에 현재 검증 기준일이 함께 반영된다.
 - `asset_manifest.csv`에 필수 열, 고유 `asset_id`, 유효 상태·bool·양수 `unit_count`가 있다.
+- 마일스톤 정본은 `milestones.md`의 ID이며, 에셋·의뢰·개별 충돌/오류의 목표 마일스톤이 모두 정본에 존재한다.
+- 정본 오브젝트 ID는 `game_object_catalog.csv`에서 유일하며, 현행 계약 문서와 에셋 source가 등록되지 않은 구체 ID를 참조하지 않는다.
+- 정본 오브젝트의 `art_asset_id`가 모두 에셋 manifest에 존재한다.
 - `APPROVED` 또는 `INTEGRATED`인 내부 제작물은 `evidence`에 유효한 `rights_ref=RIGHTS-YYYY-NNNN`를 가진다. `PLANNED` placeholder에는 이를 강제하지 않는다.
 - credits registry는 고유 ID·허용 상태를 사용하고, 권리 증거가 없는 내부 제작물을 `VERIFIED`·`INCLUDED`로 표시하지 않는다.
 - Godot 프로젝트가 존재하면 credits registry에 `GODOT_ENGINE` 런타임 라이선스 계획이 존재한다.
@@ -57,6 +60,7 @@
 - `REQ-ART-*`, `REQ-AUD-*`, `REQ-CNT-*` ID 형식·중복·team 일치.
 - 상태·배치 범위·담당·검토자와 source ID 존재.
 - `READY_FOR_ACCEPTANCE`의 상세 brief 경로·본문 ID·revision·수락 게이트.
+- 의뢰 대장과 상세 brief의 목표 마일스톤·revision 일치, 목표 마일스톤의 정본 존재 여부.
 - 아트·사운드 의뢰의 모든 `asset_id`가 `asset_manifest.csv`에 존재하는지 여부.
 - 팀별 핵심 필드: 아트의 상태·접근성·납품, 사운드의 용도·길이·음색·loop·자막, 콘텐츠의 trigger·상태 읽기·쓰기·반복 정책.
 

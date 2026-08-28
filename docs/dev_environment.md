@@ -8,6 +8,19 @@
 
 Godot 프로젝트는 `game/project.godot`입니다.
 
+## Role-Specific Tooling
+
+- GitHub→Discord 알림 스크립트를 로컬에서 검증하는 운영 담당자는 Node.js 24 이상이 필요합니다.
+- 일반 Godot 콘텐츠 작업에는 Node.js가 필수는 아닙니다.
+
+운영 스크립트 검증:
+
+```bash
+node --test scripts/discord_notifications.test.mjs
+```
+
+CI는 `.github/workflows/discord-notifications.yml`에서 Node.js 24를 사용합니다. 로컬 Node.js가 없으면 이 테스트를 실행했다고 표시하지 않고 CI 결과 또는 Node.js 24가 설치된 환경의 로그를 근거로 남깁니다.
+
 ## Recommended Editor Flow
 
 1. 저장소 루트에서 최신 브랜치를 받습니다.
@@ -31,4 +44,3 @@ git lfs install
 - 배포 산출물: `exports/`
 
 두 폴더의 실제 산출물은 Git에서 제외됩니다.
-

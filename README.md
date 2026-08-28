@@ -44,6 +44,7 @@ GGB는 포인트 앤 클릭 어드벤처 게임 프로젝트의 작업 저장소
 - 기여자 권리 증거·제작물 반입 기준: [`docs/contributor_rights.md`](docs/contributor_rights.md)
 - 검증·CI 단계: [`docs/validation_plan.md`](docs/validation_plan.md)
 - 2026-07-31 전체 프로젝트 검토와 후속 상태: [`docs/project_review_2026-07-31.md`](docs/project_review_2026-07-31.md)
+- 2026-08-28 전체 프로젝트 오류·충돌 감사: [`docs/project_review_2026-08-28.md`](docs/project_review_2026-08-28.md)
 - Windows 렌더러·성능 예산: [`docs/technical_performance_budget.md`](docs/technical_performance_budget.md)
 - 메타 UI·인벤토리 계약: [`docs/meta_ui_flow.md`](docs/meta_ui_flow.md)
 - 타깃 플레이어·플레이테스트: [`docs/player_experience_and_playtest.md`](docs/player_experience_and_playtest.md)

@@ -151,10 +151,10 @@ localization_entry:
 | 게이트 | 잠그는 내용 |
 | --- | --- |
 | `VERTICAL_SLICE` | 데이터 형식, 폰트 후보, 캐릭터 말투 샘플 |
-| `DEMO_FEATURE_COMPLETE` | 데모의 모든 `line_id`와 UI 문자열 |
-| `DEMO_CONTENT_LOCK` | 한국어 원문 의미와 사건 순서 |
-| `LOCALIZATION_LOCK` | 데모 한국어·영어, 용어집, 레이아웃 |
-| `FULL_CONTENT_LOCK` | 본편 한국어·영어와 크레딧 |
+| `M2_DEMO_FEATURE_COMPLETE` | 데모의 모든 `line_id`와 UI 문자열 |
+| `M2_DEMO_COMPLETE` | 한국어 원문 의미와 사건 순서 |
+| `LOC_01_DEMO_LOCK` | 데모 한국어·영어, 용어집, 레이아웃 |
+| `FULL_00_CONTENT_LOCK` | 본편 한국어·영어와 크레딧 |
 
 정식명과 마라 1·2의 최종 이름은 데모 번역 원문 잠금 전에 결정해야 한다. 결정이 늦어지면 표시명만 치환 가능한 별도 토큰을 사용하고 대사 ID를 이름에 종속시키지 않는다.
 
@@ -179,4 +179,4 @@ Markdown에 있는 예시 대사 수를 실제 제작 완료량으로 세지 않
 - 번역·말투 검수·200% 레이아웃에 걸린 실제 시간.
 - 본편 사건 목록에서 아직 `line_id`가 없는 노드 수.
 
-이 기준선이 없으면 `DEMO_FEATURE_COMPLETE`의 문자열 동결과 번역 견적을 완료로 판정하지 않는다.
+이 기준선이 없으면 `M2_DEMO_FEATURE_COMPLETE`의 문자열 동결과 번역 견적을 완료로 판정하지 않는다.

@@ -2749,7 +2749,7 @@ static func planning_id_to_data_id(planning_id: String) -> StringName:
 | 시스템 동작 | `SYS_*` | `SYS_MEMORY`, `SYS_SYNC` | transaction history |
 | 공간 | `[MRHB][0-9]_*` 또는 `R0_*` | `M1_LIBRARY_INNER` | state·registry |
 | 오브젝트 | `OBJ_*` | `OBJ_SUBJECT_NOTEBOOK_SIM` | registry·interaction |
-| 사용인 오브젝트 | `SERVANT_OBJ_*` | `SERVANT_OBJ_EDGAR` | consent registry |
+| 사용인 오브젝트 | `SERVANT_OBJ_*` | `SERVANT_OBJ_EDGAR_LOCK_PORT` | consent registry |
 | 지식 | `KN_*` | `KN_E1_RESET_DID_NOT_RESTORE` | knowledge entries |
 | 기록 | `REC_*` | `REC_MARA2` | researcher records |
 | 텍스트 | `TXT_*` | `TXT_MARA2_S1_ASK` | Resource 참조만 |

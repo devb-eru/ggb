@@ -78,6 +78,65 @@ foreach ($file in $markdownFiles) {
     }
 }
 
+$milestonePath = Join-Path $repoRoot "docs/milestones.md"
+$milestoneIds = @{}
+if (-not (Test-Path -LiteralPath $milestonePath -PathType Leaf)) {
+    Add-ValidationError "MILESTONE_REGISTRY" "docs/milestones.md" "file is missing"
+}
+else {
+    $milestoneText = [System.IO.File]::ReadAllText($milestonePath, $utf8)
+    foreach ($match in [regex]::Matches($milestoneText, '(?m)^\| `(?<id>[A-Z][A-Z0-9_]+)` \|')) {
+        $milestoneId = $match.Groups["id"].Value
+        if ($milestoneIds.ContainsKey($milestoneId)) {
+            Add-ValidationError "MILESTONE_DUP" "docs/milestones.md" $milestoneId
+        }
+        else {
+            $milestoneIds[$milestoneId] = $true
+        }
+    }
+    if ($milestoneIds.Count -eq 0) {
+        Add-ValidationError "MILESTONE_REGISTRY" "docs/milestones.md" "no milestone IDs found"
+    }
+}
+
+$objectCatalogPath = Join-Path $repoRoot "docs/game_object_catalog.csv"
+$objectIds = @{}
+$objectRows = @()
+if (-not (Test-Path -LiteralPath $objectCatalogPath -PathType Leaf)) {
+    Add-ValidationError "OBJECT_CATALOG" "docs/game_object_catalog.csv" "file is missing"
+}
+else {
+    $objectRows = @(Import-Csv -LiteralPath $objectCatalogPath -Encoding utf8)
+    foreach ($row in $objectRows) {
+        if ($row.object_id -notmatch '^(?:OBJ|SERVANT_OBJ)_[A-Z0-9_]+$') {
+            Add-ValidationError "OBJECT_ID" "docs/game_object_catalog.csv" $row.object_id
+            continue
+        }
+        if ($objectIds.ContainsKey($row.object_id)) {
+            Add-ValidationError "OBJECT_DUP" "docs/game_object_catalog.csv" $row.object_id
+        }
+        else {
+            $objectIds[$row.object_id] = $true
+        }
+    }
+}
+
+$objectContractFiles = @(
+    Get-ChildItem -LiteralPath (Join-Path $repoRoot "docs") -File -Filter "*.md" |
+        Where-Object { $_.Name -notlike "project_review_*.md" }
+    Get-ChildItem -LiteralPath (Join-Path $repoRoot "ideas/md/v04") -File -Filter "*.md"
+)
+foreach ($file in $objectContractFiles) {
+    $text = [System.IO.File]::ReadAllText($file.FullName, $utf8)
+    foreach ($match in [regex]::Matches($text, '(?<![A-Z0-9_])(?<id>(?:SERVANT_)?OBJ_[A-Z0-9_]+)(?![A-Z0-9_*])')) {
+        $objectId = $match.Groups["id"].Value
+        if ($objectId.EndsWith("_") -or $objectIds.ContainsKey($objectId)) {
+            continue
+        }
+        Add-ValidationError "OBJECT_REF" (Get-RepoRelativePath $file.FullName) $objectId
+    }
+}
+
 $decisionIds = @{}
 $decisionRoot = Join-Path $repoRoot "docs/decisions"
 foreach ($file in Get-ChildItem -LiteralPath $decisionRoot -File -Filter "GGB-DEC-*.md") {
@@ -135,6 +194,14 @@ foreach ($file in Get-ChildItem -LiteralPath $issueRoot -File -Filter "GGB-*.md"
     }
     else {
         $issueIds[$bodyId] = $relativePath
+    }
+
+    $targetMatch = [regex]::Match($text, '(?m)^\| 목표 마일스톤 \| `(?<id>[A-Z][A-Z0-9_]+)` \|$')
+    if (-not $targetMatch.Success) {
+        Add-ValidationError "ISSUE_MILESTONE" $relativePath "target milestone is missing"
+    }
+    elseif (-not $milestoneIds.ContainsKey($targetMatch.Groups["id"].Value)) {
+        Add-ValidationError "ISSUE_MILESTONE" $relativePath $targetMatch.Groups["id"].Value
     }
 }
 
@@ -244,6 +311,9 @@ else {
         if ($row.build_scope -notin $allowedScopes) {
             Add-ValidationError "ASSET_SCOPE" "docs/asset_manifest.csv" "$($row.asset_id)=$($row.build_scope)"
         }
+        if (-not $milestoneIds.ContainsKey($row.target_milestone)) {
+            Add-ValidationError "ASSET_MILESTONE" "docs/asset_manifest.csv" "$($row.asset_id)=$($row.target_milestone)"
+        }
         if ($row.required -notin @("true", "false")) {
             Add-ValidationError "ASSET_REQUIRED" "docs/asset_manifest.csv" "$($row.asset_id)=$($row.required)"
         }
@@ -260,6 +330,18 @@ else {
             $row.evidence -notmatch "(?:^|[;,\s])rights_ref=RIGHTS-\d{4}-\d{4}(?:$|[;,\s])"
         ) {
             Add-ValidationError "ASSET_RIGHTS" "docs/asset_manifest.csv" "$($row.asset_id) requires rights_ref=RIGHTS-YYYY-NNNN"
+        }
+        if (
+            $row.source_entity_id -match '^(?:OBJ|SERVANT_OBJ)_[A-Z0-9_]+$' -and
+            -not $objectIds.ContainsKey($row.source_entity_id)
+        ) {
+            Add-ValidationError "ASSET_OBJECT_REF" "docs/asset_manifest.csv" "$($row.asset_id)=$($row.source_entity_id)"
+        }
+    }
+
+    foreach ($objectRow in $objectRows) {
+        if (-not $assetIds.ContainsKey($objectRow.art_asset_id)) {
+            Add-ValidationError "OBJECT_ASSET_REF" "docs/game_object_catalog.csv" "$($objectRow.object_id)=$($objectRow.art_asset_id)"
         }
     }
 }
@@ -311,6 +393,9 @@ else {
         if ($row.status -notin $requestAllowedStatuses) {
             Add-ValidationError "REQUEST_STATUS" "docs/requests/request_register.csv" "$($row.request_id)=$($row.status)"
         }
+        if (-not $milestoneIds.ContainsKey($row.target_milestone)) {
+            Add-ValidationError "REQUEST_MILESTONE" "docs/requests/request_register.csv" "$($row.request_id)=$($row.target_milestone)"
+        }
         if ([string]::IsNullOrWhiteSpace($row.owner) -or [string]::IsNullOrWhiteSpace($row.reviewer)) {
             Add-ValidationError "REQUEST_OWNER" "docs/requests/request_register.csv" $row.request_id
         }
@@ -355,8 +440,26 @@ else {
             if ($briefText -notmatch [regex]::Escape($row.status)) {
                 Add-ValidationError "REQUEST_BRIEF_STATUS" $row.brief_path $row.status
             }
-            if ($row.evidence -notmatch '(?:^|[;,\s])request_revision=\d+(?:$|[;,\s])') {
+            $registerRevisionMatch = [regex]::Match($row.evidence, '(?:^|[;,\s])request_revision=(?<revision>\d+)(?:$|[;,\s])')
+            if (-not $registerRevisionMatch.Success) {
                 Add-ValidationError "REQUEST_REVISION" "docs/requests/request_register.csv" $row.request_id
+            }
+            $briefRevisionMatch = [regex]::Match($briefText, '(?m)^\| (?:의뢰 개정|request revision) \| `(?<revision>\d+)` \|$')
+            if (-not $briefRevisionMatch.Success) {
+                Add-ValidationError "REQUEST_REVISION" $row.brief_path "brief revision is missing"
+            }
+            elseif (
+                $registerRevisionMatch.Success -and
+                $briefRevisionMatch.Groups["revision"].Value -ne $registerRevisionMatch.Groups["revision"].Value
+            ) {
+                Add-ValidationError "REQUEST_REVISION" $row.brief_path "register=$($registerRevisionMatch.Groups['revision'].Value) brief=$($briefRevisionMatch.Groups['revision'].Value)"
+            }
+            $briefMilestoneMatch = [regex]::Match($briefText, '(?m)^\| 목표 마일스톤 \| `(?<id>[A-Z][A-Z0-9_]+)` \|$')
+            if (-not $briefMilestoneMatch.Success) {
+                Add-ValidationError "REQUEST_BRIEF_MILESTONE" $row.brief_path "target milestone is missing"
+            }
+            elseif ($briefMilestoneMatch.Groups["id"].Value -ne $row.target_milestone) {
+                Add-ValidationError "REQUEST_BRIEF_MILESTONE" $row.brief_path "register=$($row.target_milestone) brief=$($briefMilestoneMatch.Groups['id'].Value)"
             }
             if ([string]::IsNullOrWhiteSpace($row.acceptance_gate) -or $row.acceptance_gate -eq "TBD") {
                 Add-ValidationError "REQUEST_ACCEPTANCE" "docs/requests/request_register.csv" $row.request_id
@@ -525,6 +628,8 @@ foreach ($file in Get-ChildItem -LiteralPath $gameRoot -Recurse -File) {
 Write-Host "Markdown files: $($markdownFiles.Count)"
 Write-Host "Decision IDs: $($decisionIds.Count)"
 Write-Host "Issue IDs: $issueCount (CNF $cnfCount, ERR $errCount)"
+Write-Host "Milestone IDs: $($milestoneIds.Count)"
+Write-Host "Object IDs: $($objectIds.Count)"
 if (Test-Path -LiteralPath $manifestPath) {
     Write-Host "Asset rows: $((Import-Csv -LiteralPath $manifestPath -Encoding utf8).Count)"
 }
