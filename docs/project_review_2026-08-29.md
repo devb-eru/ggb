@@ -22,7 +22,7 @@
 | `GGB-REV-2026-0044` | P2 | RESOLVED_IN_AUDIT | VS 아트 29종 전환 뒤 데모 잔여 의뢰의 28종 표기 잔존 |
 | `GGB-REV-2026-0045` | P2 | RESOLVED_IN_AUDIT | V0가 일부 Markdown을 검사하지 않음 |
 | `GGB-REV-2026-0046` | P2 | RESOLVED_IN_AUDIT | 문서 CI의 외부 Action 참조가 commit SHA로 고정되지 않음 |
-| `GGB-REV-2026-0047` | P1 | MANAGED_AT_RISK | production bootstrap 부재와 연습 씬의 기본 실행·코드 결함 |
+| `GGB-REV-2026-0047` | P1 | MANAGED_AT_RISK | bootstrap 분리·연습 코드 보수 완료, 상태·입력·저장·export 기반은 미완료 |
 | `GGB-REV-2026-0048` | P1 | MANAGED_AT_RISK | 수락 의뢰 10건의 요청별 배분·첫 검토일·착수 게이트 미확정 |
 | `GGB-REV-2026-0049` | P1 | EXTERNAL_REVERIFY | `gh` 인증 무효와 GitHub Project·Steamworks 현재 상태 미확인 |
 | `GGB-REV-2026-0050` | P1 | MANAGED_AT_RISK | 기술·운영 마일스톤과 창작 잠금의 일정 위험 지속 |
@@ -121,7 +121,7 @@ UNKNOWN=0
 **발생 위치**
 
 - 최초 감사 시 [Godot 프로젝트](../game/project.godot)의 앱 이름은 `임시`, 기본 씬은 `res://signal_practice.tscn`이었다.
-- production main scene, autoload, 사건 Resource, 저장 fixture, export preset은 없다.
+- 최초 감사 시 production main scene, autoload, 사건 Resource, 저장 fixture와 export preset이 모두 없었다.
 - 최초 감사 시 `key.gd`는 클릭 뒤 `key_clicked=1`만 쓰고 버튼을 숨기거나 비활성화하지 않았으며 인벤토리 이동도 구현하지 않았다.
 - 현재 셸에서는 Godot 실행 파일을 찾지 못해 headless import와 GDScript parse를 수행할 수 없었다.
 - [검증 계획](validation_plan.md)의 `V1~V5`는 모두 `NOT_IMPLEMENTED`다.

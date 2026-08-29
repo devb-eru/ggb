@@ -32,8 +32,8 @@ Steam 행사 시각과 제출일은 [Steamworks February 2027 Next Fest 안내](
 | --- | --- | --- | --- | --- |
 | 협업 시스템 운영 기준선 | 공개 Issue #24는 닫혔고 #26은 열려 있으며 운영 리허설 `GGB-WRK-2026-0007` 등록·완료 근거가 없다. GitHub Project custom status는 미확인이다. | `beru`·`gatam` | Project 상태 재조회, #26·운영 리허설 범위 확인 | 남은 작업·담당·실행일 합의 |
 | Steamworks 가입·기본 AppID | 계정·수수료·기본 AppID 완료 증거가 없고 정식 게임명 잠금도 경과했다. | `beru` | 민감정보를 공개하지 않고 완료 여부·차단 사유만 재확인 | Steamworks 현재 단계 확인 |
-| Godot 기술 기반선 | production main scene·autoload·저장 fixture·Windows export 증거가 없고 구현은 시작 전이다. | `beru` | 구현 capacity와 bootstrap 착수일 결정 | 개발 capacity와 최소 기반선 순서 확정 |
-| 20~30분 버티컬 슬라이스 | 기술 기반선 미착수, 팀 수락 패키지의 개별 의뢰 배분·첫 검토일 미정, AUD 팀 공수 1개월이다. | `beru`·각 팀장 | 기술·ART·AUD·CNT 통합 일정 재산정 | 기술 착수일과 요청별 배분·첫 검토일 확정 |
+| Godot 기술 기반선 | production main scene 분리와 연습 코드 보수는 시작했지만 autoload·InputMap·저장 fixture·Windows export 증거가 없다. | `beru` | `GGB-ERR-2026-0019`, `0020`, `GGB-CNF-2026-0019` 순서로 최소 기반선 구현 | 개발 capacity와 최소 기반선 완료 일정 확정 |
+| 20~30분 버티컬 슬라이스 | 기술 기반선은 bootstrap 외 미완료이고 팀 수락 패키지의 개별 의뢰 배분·첫 검토일도 미정이며 AUD 팀 공수는 1개월이다. | `beru`·각 팀장 | 기술·ART·AUD·CNT 통합 일정 재산정 | 기술 기반선 완료 계획과 요청별 배분·첫 검토일 확정 |
 | 기본 게임 Coming Soon 공개 | 게임명·태그라인 잠금이 경과했고 실제 플레이 캡처·상점 자산 제작 일정이 배분되지 않았다. | `beru`·`gatam`·`210` | 브랜딩 잠금과 상점 에셋 순서 재확인 | 이름·카피 잠금 및 ART 배분 확정 |
 
 `AT_RISK`는 실패나 취소가 아니라 현재 목표일을 신뢰할 증거가 부족하다는 뜻이다. 새 목표일은 과거 날짜를 조용히 덮어쓰지 않고 위 입력 조건이 갖춰진 변경에서 기록한다.

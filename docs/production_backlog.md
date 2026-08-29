@@ -36,7 +36,7 @@
 | `PB-007` | P1 | 아트·애니메이션·오디오 제작 규격 | 아트·사운드·개발 | PB-004 | DOC_COMPLETE | 미등록 |
 | `PB-008` | P1 | 1.0 플랫폼·Cloud·지원·라이선스 범위 | 릴리즈·개발 | PB-001 | DOC_COMPLETE | 미등록 |
 | `PB-009` | P1 | 팀 기여물 권리 증거와 비공개 서명 기록 | 프로젝트 관리·릴리즈 | PB-008 | POLICY_READY_SIGNATURES_PENDING | 미등록 |
-| `PB-010` | P1 | `TECH_01_FOUNDATION` | 개발 | PB-002, PB-003 | IMPLEMENTATION_NOT_STARTED_AT_RISK | 미등록; 목표일 경과·재산정 필요 |
+| `PB-010` | P1 | `TECH_01_FOUNDATION` | 개발 | PB-002, PB-003 | PARTIAL_IMPLEMENTATION_AT_RISK | bootstrap·연습 코드 보수 커밋 `d1fbd4e`; 상태·입력·저장·export와 목표일 재산정 필요 |
 | `PB-011` | P1 | `PROD_01_VERTICAL_SLICE` | 전 영역 | PB-010 | IMPLEMENTATION_NOT_STARTED_AT_RISK | 미등록; 기술·요청별 일정 재산정 필요 |
 | `PB-012` | P1 | 저장·리셋·복구·대화 기록 최소 경로 | 개발·QA | PB-010 | IMPLEMENTATION_NOT_STARTED | 미등록 |
 | `PB-013` | P1 | 마우스·키보드·접근성 최소 경로 | 개발·QA | PB-010 | IMPLEMENTATION_NOT_STARTED | 미등록 |

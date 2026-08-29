@@ -3768,7 +3768,7 @@ UI hover·focus
 
 ## 33. 본 상세화 검증 결과
 
-검증 기준일: 2026-08-29.
+검증 기준일: 2026-08-30.
 
 | 검증 ID | 검사 | 결과 | 상태 |
 | --- | --- | --- | --- |
@@ -3779,11 +3779,11 @@ UI hover·focus
 | `QA-17-SET-01` | `Set[StringName]` 구현 지시 | 비지원 사실 설명 외 사용 0건 | PASS |
 | `QA-17-SAVE-01` | 진행·엔딩 메타·접근성 프로필 경계 | runtime schema 1·state r12·profile v1 각각 분리 | PASS |
 | `QA-17-OBJECT-01` | object reaction 상태 소유권 | memory는 meta, runtime은 loop에 단일 배치 | PASS |
-| `QA-17-ISSUE-01` | 해결 issues 집계 | CNF 18·ERR 18, 총 36건 VERIFIED·DONE; 열린 항목 없음 | PASS |
+| `QA-17-ISSUE-01` | issues 집계 | CNF 19·ERR 21, 총 40건; VERIFIED 36·OPEN 3·DEFERRED 1 | PASS |
 | `QA-17-SYNC-01` | §32 후속 문서 상태 | 대상 9개 모두 `완료` | PASS |
 | `QA-17-SYNC-02` | 정본 버전·저장 경계 동기화 | Godot 4.7·runtime schema 1·state r12·profile v1·`.tres`/JSON 분리 일치 | PASS |
 | `QA-17-SYNC-03` | 구식 현행 구현 표기 검색 | `Godot 예정`·runtime schema 1 외 현행 지시·Set 구현 지시 잔존 없음. r8~r11은 pre-release 상태 모델 이력으로만 사용 | PASS |
 | `QA-17-SYNC-04` | 변경 문서 Markdown 구조 | 상대 링크 누락·코드 펜스 불일치 없음 | PASS |
 | `QA-17-DIFF-01` | Git whitespace 검사 | 오류 없음 | PASS |
 
-Mermaid는 노드·펜스의 텍스트 구조까지만 검사했다. 실제 Godot Resource 로드, GDScript 컴파일, save fixture 실행은 프로토타입 범위가 아니므로 구현 단계의 headless 검사로 넘긴다. 이번 후속 동기화 검사는 문서 17과 §32의 파생 문서 및 공통 계약 사이 정적 일치까지 포함한다.
+Mermaid는 노드·펜스의 텍스트 구조까지만 검사했다. 2026-08-30 코드 재감사에서 production 진입점과 `res://` 참조는 정적 검사했지만 실제 Godot Resource 로드, GDScript 컴파일, save fixture 실행은 Godot 실행 파일 부재로 수행하지 못했다. 해당 공백은 `GGB-ERR-2026-0019`와 `GGB-ERR-2026-0020`에서 추적한다.
