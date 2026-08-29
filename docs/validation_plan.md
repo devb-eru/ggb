@@ -8,7 +8,7 @@
 
 | 단계 | 실행 시점 | 현재 상태 | 범위 |
 | --- | --- | --- | --- |
-| `V0_DOCS` | 모든 PR·develop/main push | ACTIVE | UTF-8, H1, fence, 로컬 링크, 결정·이슈 ID, 에셋 manifest, 기획 계약 회귀, 임시 파일 |
+| `V0_DOCS` | 모든 PR·develop/main push | ACTIVE | UTF-8, H1, fence, 로컬 링크, 결정·이슈 ID, 에셋 manifest, 기획 계약 회귀, Godot 진입점·리소스 경로 정적 검사, 임시 파일 |
 | `V1_GODOT_IMPORT` | 기술 기반선 이후 | NOT_IMPLEMENTED | headless import, GDScript parse, Resource load |
 | `V2_DATA_CONTRACT` | 첫 사건 Resource 이후 | NOT_IMPLEMENTED | ID·state path·writer·graph·locale 참조 |
 | `V3_SAVE_FIXTURE` | 첫 배포 저장 이후 | NOT_IMPLEMENTED | save/load, checksum, backup, migration, 데모 import |
@@ -59,6 +59,9 @@ node --test scripts/discord_notifications.test.mjs
 - 현행 정본에 상태 모델 개정 번호를 런타임 schema로 오인하는 구식 표기가 다시 생기지 않는다.
 - F2 필수 지식 6종, 엔딩 9~15분, J4 의미 placeholder, 전체 플레이타임 합산, 1.0 입력 범위와 Windows 10/11 확정 범위가 구식 문구로 회귀하지 않는다.
 - `game/` 실제 파일 트리에 이름에 `tmp`가 든 중단 저장 파일이 남지 않는다.
+- `game/project.godot`은 임시 앱 이름이나 연습 씬을 기본 실행점으로 사용하지 않고, `res://scenes/main/` 아래에 존재하는 bootstrap 씬을 가리킨다.
+- `.gd`, `.tscn`, `.tres`, `project.godot`에 기록된 모든 `res://` 참조가 실제 파일을 가리킨다.
+- 격리된 `signal_practice.tscn`은 확정 입력에 `pressed`를 사용하며, 열쇠 획득은 연습용 인벤토리 기록·숨김·입력 비활성화를 함께 수행한다.
 
 역사 기록인 `ideas/md/v04/issues/`와 검토 보고서는 구식 표기 검사에서 제외한다. 해당 파일의 과거 근거를 현재 계약으로 오인하지 않는다.
 
@@ -89,6 +92,8 @@ GitHub Actions의 외부 `uses:` 참조는 tag가 아니라 40자리 commit SHA�
 - 모든 `.gd`가 parse된다.
 - main scene과 autoload 경로가 존재한다.
 - placeholder 또는 sandbox scene이 production main scene이 아니다.
+
+V0의 경로 검사는 Godot parser를 대신하지 않는다. `V1_GODOT_IMPORT`는 Godot 4.7 실행 파일로 실제 import·GDScript parse·Resource load를 통과해야만 `ACTIVE` 또는 완료로 전환한다.
 
 ### V2 데이터 계약
 

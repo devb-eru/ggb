@@ -1,13 +1,16 @@
 extends Button
 
-var drawer_list = [
+const TARGET_BACKGROUND_INDEX := 0
+const OPEN_INDEX := 0
+const CLOSED_INDEX := 1
+
+var drawer_list: Array[Texture2D] = [
 	preload("res://drawer_open.png"),
 	preload("res://drawer_close.png")
 ]
 
-var drawer_visible_index: int = 0
-var drawer_index: int = 1
-signal drawer_open_close(open_close_index: int)
+var drawer_index := CLOSED_INDEX
+signal drawer_state_changed(is_open: bool)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,18 +20,10 @@ func _ready() -> void:
 	$"../background".background_number.connect(drawer_visible)
 
 func drawer_visible(background_number: int) -> void:
-	if background_number == 0:
-		visible = true
-	else:
-		visible = false
+	visible = background_number == TARGET_BACKGROUND_INDEX
 
-func _on_button_down() -> void:
+func _on_pressed() -> void:
 	print("drawer")
-	if drawer_index == 1:
-		drawer_index = 0
-		icon = drawer_list[drawer_index]
-		drawer_open_close.emit(drawer_index)
-	else: 
-		drawer_index = 1
-		icon = drawer_list[drawer_index]
-		drawer_open_close.emit(drawer_index)
+	drawer_index = OPEN_INDEX if drawer_index == CLOSED_INDEX else CLOSED_INDEX
+	icon = drawer_list[drawer_index]
+	drawer_state_changed.emit(drawer_index == OPEN_INDEX)

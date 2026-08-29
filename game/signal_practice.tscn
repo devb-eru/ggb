@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://bhq8iyw7utiqp" path="res://key.gd" id="6_e66js"]
 [ext_resource type="Texture2D" uid="uid://dq0pemqu0wjo6" path="res://key.png" id="7_7lhbw"]
 [ext_resource type="Texture2D" uid="uid://cpalahu3ge61r" path="res://lock.png" id="7_tjar1"]
+[ext_resource type="Script" path="res://practice_inventory.gd" id="8_inventory"]
+[ext_resource type="Script" path="res://lock.gd" id="9_lock"]
 
 [node name="main" type="Node2D" unique_id=1043276281]
 
@@ -38,6 +40,7 @@ script = ExtResource("4_pwt65")
 
 [node name="inventory" type="Sprite2D" parent="." unique_id=1468452358]
 scale = Vector2(137, 137)
+script = ExtResource("8_inventory")
 
 [node name="ColorRect" type="ColorRect" parent="inventory" unique_id=1081194146]
 offset_left = 0.9927007
@@ -68,8 +71,9 @@ script = ExtResource("6_e66js")
 position = Vector2(871.00006, 427)
 scale = Vector2(0.08973512, 0.17570578)
 texture = ExtResource("7_tjar1")
+script = ExtResource("9_lock")
 
-[connection signal="button_down" from="next_button" to="next_button" method="_on_button_down"]
-[connection signal="button_down" from="previous_button" to="previous_button" method="_on_button_down"]
-[connection signal="button_down" from="drawer" to="drawer" method="_on_button_down"]
-[connection signal="button_down" from="key" to="key" method="_on_button_down"]
+[connection signal="pressed" from="next_button" to="next_button" method="_on_pressed"]
+[connection signal="pressed" from="previous_button" to="previous_button" method="_on_pressed"]
+[connection signal="pressed" from="drawer" to="drawer" method="_on_pressed"]
+[connection signal="pressed" from="key" to="key" method="_on_pressed"]

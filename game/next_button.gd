@@ -6,5 +6,5 @@ signal next_page_signal()
 func _ready() -> void:
 	pass # Replace with function body.
 
-func _on_button_down() -> void:
+func _on_pressed() -> void:
 	next_page_signal.emit()

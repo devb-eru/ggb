@@ -116,13 +116,13 @@ UNKNOWN=0
 
 ## 4. 남아 있는 운영·구현 위험
 
-### GGB-REV-2026-0047: production bootstrap 부재와 연습 씬 결함
+### GGB-REV-2026-0047: production 기반선 미완성과 연습 씬 결함
 
 **발생 위치**
 
-- [Godot 프로젝트](../game/project.godot)의 앱 이름은 `임시`, 기본 씬은 `res://signal_practice.tscn`이다.
+- 최초 감사 시 [Godot 프로젝트](../game/project.godot)의 앱 이름은 `임시`, 기본 씬은 `res://signal_practice.tscn`이었다.
 - production main scene, autoload, 사건 Resource, 저장 fixture, export preset은 없다.
-- `key.gd`는 클릭 뒤 `key_clicked=1`만 쓰고 버튼을 숨기거나 비활성화하지 않으며 인벤토리 이동도 구현하지 않았다.
+- 최초 감사 시 `key.gd`는 클릭 뒤 `key_clicked=1`만 쓰고 버튼을 숨기거나 비활성화하지 않았으며 인벤토리 이동도 구현하지 않았다.
 - 현재 셸에서는 Godot 실행 파일을 찾지 못해 headless import와 GDScript parse를 수행할 수 없었다.
 - [검증 계획](validation_plan.md)의 `V1~V5`는 모두 `NOT_IMPLEMENTED`다.
 
@@ -138,9 +138,12 @@ UNKNOWN=0
 4. 연습 코드를 보존한다면 열쇠 획득 시 `visible=false`, 입력 비활성화, 인벤토리 writer 호출과 `pressed` 기반 확정을 구현한다.
 5. Godot 4.7 headless import·parse, Windows debug export를 통과한 뒤에만 main scene과 앱 식별자를 바꾼다.
 
-**현재 통제**
+**2026-08-30 처리**
 
-[game 상태 안내](../game/README.md)에 연습 씬의 한계와 production 전환 조건을 명시했다. 구현 완료는 아직 아니다.
+- 앱 내부 표시명을 가칭 `GGB`로 바꾸고 기본 실행점을 `res://scenes/main/main.tscn`으로 분리했다.
+- 연습 씬의 배경 범위, 서랍·자물쇠 표시, 열쇠 획득·인벤토리 기록·입력 비활성화와 `pressed` 신호를 보수했다.
+- V0에 main scene과 모든 `res://` 경로, 연습 씬 입력·열쇠 획득 회귀 검사를 추가했다.
+- `GameState → EventManager → StateWriter → SaveManager`, 사건 Resource, schema 1 fixture, export preset과 Godot 실기 검증은 아직 없어 전체 상태는 `MANAGED_AT_RISK`를 유지한다.
 
 **완료 증거**
 

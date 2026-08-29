@@ -1,6 +1,6 @@
 extends Sprite2D
 
-var background_list = [ 
+var background_list: Array[Texture2D] = [
 	preload("res://background1.png"), 
 	preload("res://background2.png"), 
 	preload("res://background3.png") 
@@ -18,7 +18,7 @@ func _ready() -> void:
 	texture = background_list[background_index]
 
 func next_page() -> void:
-	if background_index < 2:
+	if background_index < background_list.size() - 1:
 		print("next page")
 		background_index += 1
 		texture = background_list[background_index]

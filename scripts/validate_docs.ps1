@@ -722,6 +722,68 @@ foreach ($root in $currentContractFiles) {
 }
 
 $gameRoot = Join-Path $repoRoot "game"
+
+$projectConfigPath = Join-Path $gameRoot "project.godot"
+if (-not (Test-Path -LiteralPath $projectConfigPath -PathType Leaf)) {
+    Add-ValidationError "GODOT_PROJECT" "game/project.godot" "file is missing"
+}
+else {
+    $projectText = [System.IO.File]::ReadAllText($projectConfigPath, $utf8)
+    $projectNameMatch = [regex]::Match($projectText, '(?m)^config/name="(?<name>[^"]+)"$')
+    if (-not $projectNameMatch.Success -or $projectNameMatch.Groups['name'].Value -eq "임시") {
+        Add-ValidationError "GODOT_APP_NAME" "game/project.godot" "use a non-placeholder internal application name"
+    }
+
+    $mainSceneMatch = [regex]::Match($projectText, '(?m)^run/main_scene="(?<path>res://[^"]+)"$')
+    if (-not $mainSceneMatch.Success) {
+        Add-ValidationError "GODOT_MAIN_SCENE" "game/project.godot" "run/main_scene is missing"
+    }
+    else {
+        $mainSceneUri = $mainSceneMatch.Groups['path'].Value
+        if ($mainSceneUri -eq "res://signal_practice.tscn" -or -not $mainSceneUri.StartsWith("res://scenes/main/")) {
+            Add-ValidationError "GODOT_MAIN_SCENE" "game/project.godot" "$mainSceneUri is not a production bootstrap path"
+        }
+        $mainScenePath = Join-Path $gameRoot $mainSceneUri.Substring(6).Replace("/", "\")
+        if (-not (Test-Path -LiteralPath $mainScenePath -PathType Leaf)) {
+            Add-ValidationError "GODOT_MAIN_SCENE" "game/project.godot" "$mainSceneUri does not exist"
+        }
+    }
+}
+
+$godotSourceFiles = Get-ChildItem -LiteralPath $gameRoot -Recurse -File |
+    Where-Object { $_.Extension -in @(".gd", ".godot", ".tscn", ".tres") }
+foreach ($file in $godotSourceFiles) {
+    $relativePath = Get-RepoRelativePath $file.FullName
+    $text = [System.IO.File]::ReadAllText($file.FullName, $utf8)
+    foreach ($match in [regex]::Matches($text, 'res://(?<path>[^"''\r\n]+)')) {
+        $resourcePath = $match.Groups['path'].Value
+        $candidate = Join-Path $gameRoot $resourcePath.Replace("/", "\")
+        if (-not (Test-Path -LiteralPath $candidate)) {
+            Add-ValidationError "GODOT_RESOURCE_REF" $relativePath "res://$resourcePath"
+        }
+    }
+}
+
+$practiceScenePath = Join-Path $gameRoot "signal_practice.tscn"
+if (Test-Path -LiteralPath $practiceScenePath -PathType Leaf) {
+    $practiceSceneText = [System.IO.File]::ReadAllText($practiceScenePath, $utf8)
+    if ($practiceSceneText -match 'signal="button_down"|method="_on_button_down"') {
+        Add-ValidationError "PRACTICE_INPUT" "game/signal_practice.tscn" "use confirmed pressed signals"
+    }
+}
+
+$practiceKeyPath = Join-Path $gameRoot "key.gd"
+if (Test-Path -LiteralPath $practiceKeyPath -PathType Leaf) {
+    $practiceKeyText = [System.IO.File]::ReadAllText($practiceKeyPath, $utf8)
+    if (
+        $practiceKeyText -match '(?<![A-Za-z0-9_])key_clicked(?![A-Za-z0-9_])' -or
+        $practiceKeyText -notmatch 'disabled\s*=\s*true' -or
+        $practiceKeyText -notmatch '\.add_item\('
+    ) {
+        Add-ValidationError "PRACTICE_KEY_ACQUIRE" "game/key.gd" "acquisition must write inventory, hide, and disable the key"
+    }
+}
+
 foreach ($file in Get-ChildItem -LiteralPath $gameRoot -Recurse -File) {
     if ($file.Name -like "*tmp*") {
         Add-ValidationError "TEMP_FILE" (Get-RepoRelativePath $file.FullName) "temporary file remains in game tree"
