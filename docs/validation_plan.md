@@ -37,7 +37,7 @@ node --test scripts/discord_notifications.test.mjs
 
 ## 4. V0 검사 계약
 
-- Markdown은 BOM 없는 strict UTF-8로 읽을 수 있다.
+- 루트 운영 문서와 `docs/`, `ideas/`, `game/`의 Markdown은 BOM 없는 strict UTF-8로 읽을 수 있다.
 - 모든 Markdown에 H1이 하나 이상 있다.
 - 코드 fence 수가 짝수다.
 - 상대 Markdown 링크 대상 파일이 존재한다.
@@ -71,7 +71,12 @@ node --test scripts/discord_notifications.test.mjs
 - `READY_FOR_ACCEPTANCE` 이후 활성 의뢰의 상세 brief 경로·본문 ID·revision·상태·수락 게이트.
 - 의뢰 대장과 상세 brief의 목표 마일스톤·revision 일치, 목표 마일스톤의 정본 존재 여부.
 - 아트·사운드 의뢰의 모든 `asset_id`가 `asset_manifest.csv`에 존재하는지 여부.
+- ART·AUD 의뢰의 `asset_id`가 서로 중복되지 않고 각 팀 소유 매니페스트 행을 빠짐없이 분할하는지 여부.
+- 전 의뢰 수락 뒤에도 배치 설명이 수락 대기로 남거나, 범위 수락을 제작 착수 게이트와 혼용하는지 여부.
+- VS 아트 요청 수가 바뀌었을 때 데모 잔여 의뢰서의 제외 수량이 같은 값인지 여부.
 - 팀별 핵심 필드: 아트의 상태·접근성·납품, 사운드의 용도·길이·음색·loop·자막, 콘텐츠의 trigger·상태 읽기·쓰기·반복 정책.
+
+GitHub Actions의 외부 `uses:` 참조는 tag가 아니라 40자리 commit SHA로 고정한다. SHA 주석의 버전명은 사람용 정보이며 실행 정본은 SHA다.
 
 검증 통과는 팀이 범위를 수락했거나 실제 제작이 시작됐다는 뜻이 아니다. 상태 전이는 팀 회신과 제작 증거로 별도 확인한다.
 

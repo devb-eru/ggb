@@ -17,6 +17,7 @@ GGB는 포인트 앤 클릭 어드벤처 게임 프로젝트의 작업 저장소
 ### 정본과 로컬 산출물
 
 - 현재 게임 기획 정본은 `ideas/md/v04/00~18`과 그 문서가 지정한 `docs/` 계약이다.
+- 현재 `game/project.godot`의 기본 실행 씬은 과거 신호·서랍 상호작용 연습용 `signal_practice.tscn`이다. production bootstrap이나 버티컬 슬라이스가 아니며, 현재 구현 상태와 교체 조건은 [`game/README.md`](game/README.md)를 따른다.
 - 루트의 v0.1~v0.3 DOCX, `_qa_gdd*`, `build_gdd.py`, `tools/`, `node_modules/`는 Git에서 제외된 과거 참고·개인 생성 환경이며 v0.4 수정 기준으로 사용하지 않는다.
 - `~$*.docx` 같은 잠금 파일은 열려 있는 문서 작업 흔적일 수 있으므로 자동 삭제하지 않는다.
 - 과거 문서를 참고해 규칙을 되살릴 때는 현행 v0.4와 결정 기록을 먼저 비교하고, 충돌하면 새 결정 또는 이슈로 처리한다.
@@ -45,6 +46,7 @@ GGB는 포인트 앤 클릭 어드벤처 게임 프로젝트의 작업 저장소
 - 검증·CI 단계: [`docs/validation_plan.md`](docs/validation_plan.md)
 - 2026-07-31 전체 프로젝트 검토와 후속 상태: [`docs/project_review_2026-07-31.md`](docs/project_review_2026-07-31.md)
 - 2026-08-28 전체 프로젝트 오류·충돌 감사: [`docs/project_review_2026-08-28.md`](docs/project_review_2026-08-28.md)
+- 2026-08-29 전체 프로젝트 재검토와 현행 미해결 위험: [`docs/project_review_2026-08-29.md`](docs/project_review_2026-08-29.md)
 - Windows 렌더러·성능 예산: [`docs/technical_performance_budget.md`](docs/technical_performance_budget.md)
 - 메타 UI·인벤토리 계약: [`docs/meta_ui_flow.md`](docs/meta_ui_flow.md)
 - 타깃 플레이어·플레이테스트: [`docs/player_experience_and_playtest.md`](docs/player_experience_and_playtest.md)

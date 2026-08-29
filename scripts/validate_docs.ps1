@@ -28,8 +28,11 @@ function Get-RepoRelativePath {
 
 $markdownRoots = @(
     (Join-Path $repoRoot "README.md"),
+    (Join-Path $repoRoot "CONTRIBUTING.md"),
+    (Join-Path $repoRoot "THIRD_PARTY_NOTICES.md"),
     (Join-Path $repoRoot "docs"),
-    (Join-Path $repoRoot "ideas")
+    (Join-Path $repoRoot "ideas"),
+    (Join-Path $repoRoot "game")
 )
 
 $markdownFiles = foreach ($root in $markdownRoots) {
@@ -464,6 +467,14 @@ else {
             if ($briefText -notmatch [regex]::Escape($row.status)) {
                 Add-ValidationError "REQUEST_BRIEF_STATUS" $row.brief_path $row.status
             }
+            if ($row.status -eq "ACCEPTED") {
+                if ($briefText -notmatch '팀 패키지의 범위 수락은 \d{4}-\d{2}-\d{2} 완료됐다') {
+                    Add-ValidationError "REQUEST_ACCEPTED_BRIEF" $row.brief_path "record package acceptance separately from allocation and production completion"
+                }
+                if ($briefText -match '(?m)^##+ (?:\d+\. )?팀 수락 조건$|^### 팀 수락$') {
+                    Add-ValidationError "REQUEST_ACCEPTED_BRIEF" $row.brief_path "unchecked allocation gates must not be labeled as pending team acceptance"
+                }
+            }
             $registerRevisionMatch = [regex]::Match($row.evidence, '(?:^|[;,\s])request_revision=(?<revision>\d+)(?:$|[;,\s])')
             if (-not $registerRevisionMatch.Success) {
                 Add-ValidationError "REQUEST_REVISION" "docs/requests/request_register.csv" $row.request_id
@@ -516,10 +527,58 @@ else {
         }
     }
 
+    # ART/AUD requests must form a disjoint, complete partition of their
+    # production manifest rows.
+    $requestedAssetOwners = @{}
+    foreach ($row in $requests | Where-Object { $_.team -in @("ART", "AUD") }) {
+        foreach ($assetId in $row.asset_ids.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries)) {
+            $trimmedAssetId = $assetId.Trim()
+            if ($requestedAssetOwners.ContainsKey($trimmedAssetId)) {
+                Add-ValidationError "REQUEST_ASSET_PARTITION" "docs/requests/request_register.csv" "$trimmedAssetId is owned by $($requestedAssetOwners[$trimmedAssetId]) and $($row.request_id)"
+            }
+            else {
+                $requestedAssetOwners[$trimmedAssetId] = $row.request_id
+            }
+        }
+    }
+    foreach ($assetRow in $manifest | Where-Object { $_.owner -in @("210", "NOne") }) {
+        if (-not $requestedAssetOwners.ContainsKey($assetRow.asset_id)) {
+            Add-ValidationError "REQUEST_ASSET_PARTITION" "docs/asset_manifest.csv" "$($assetRow.asset_id) has no ART/AUD request"
+        }
+    }
+
+    $requestReadmePath = Join-Path $repoRoot "docs/requests/README.md"
+    if (Test-Path -LiteralPath $requestReadmePath -PathType Leaf) {
+        $requestReadmeText = [System.IO.File]::ReadAllText($requestReadmePath, $utf8)
+        if (@($requests | Where-Object { $_.status -eq "ACCEPTED" }).Count -eq $requests.Count) {
+            if ($requestReadmeText -match 'VS01 실측 뒤 수락|데모 제작률 뒤 수락') {
+                Add-ValidationError "REQUEST_ACCEPTED_DOC_STATUS" "docs/requests/README.md" "all requests are ACCEPTED but a batch is still described as waiting for acceptance"
+            }
+            if ($requestReadmeText -notmatch 'ACCEPTED.{0,10}는[^\r\n]*즉시 병렬 제작한다는 뜻이 아니다') {
+                Add-ValidationError "REQUEST_START_GATE" "docs/requests/README.md" "separate scope acceptance from production start gates"
+            }
+        }
+    }
+
 
     $artVsRequest = @($requests | Where-Object { $_.request_id -eq "REQ-ART-2026-0001" })
     if ($artVsRequest.Count -ne 1 -or "ART_OBJ_LIBRARY_OUTER_CLOCK" -notin @($artVsRequest[0].asset_ids.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries))) {
         Add-ValidationError "CLOCK_ART_REQUEST" "docs/requests/request_register.csv" "REQ-ART-2026-0001 must own ART_OBJ_LIBRARY_OUTER_CLOCK"
+    }
+    if ($artVsRequest.Count -eq 1) {
+        $artVsAssetCount = @($artVsRequest[0].asset_ids.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries)).Count
+        $artDemoRequest = @($requests | Where-Object { $_.request_id -eq "REQ-ART-2026-0002" })
+        if ($artDemoRequest.Count -eq 1) {
+            $artDemoBriefPath = Join-Path $repoRoot $artDemoRequest[0].brief_path
+            if (Test-Path -LiteralPath $artDemoBriefPath -PathType Leaf) {
+                $artDemoBriefText = [System.IO.File]::ReadAllText($artDemoBriefPath, $utf8)
+                foreach ($countMatch in [regex]::Matches($artDemoBriefText, '(?:버티컬 슬라이스|VS01에서 이미 요청한) (?<count>\d+)개')) {
+                    if ([int]$countMatch.Groups['count'].Value -ne $artVsAssetCount) {
+                        Add-ValidationError "REQUEST_ART_VS_COUNT" $artDemoRequest[0].brief_path "expected VS asset count=$artVsAssetCount, found=$($countMatch.Groups['count'].Value)"
+                    }
+                }
+            }
+        }
     }
 
     $cntVsRequest = @($requests | Where-Object { $_.request_id -eq "REQ-CNT-2026-0001" })
@@ -666,6 +725,19 @@ $gameRoot = Join-Path $repoRoot "game"
 foreach ($file in Get-ChildItem -LiteralPath $gameRoot -Recurse -File) {
     if ($file.Name -like "*tmp*") {
         Add-ValidationError "TEMP_FILE" (Get-RepoRelativePath $file.FullName) "temporary file remains in game tree"
+    }
+}
+
+$workflowRoot = Join-Path $repoRoot ".github/workflows"
+if (Test-Path -LiteralPath $workflowRoot -PathType Container) {
+    foreach ($workflow in Get-ChildItem -LiteralPath $workflowRoot -File -Include "*.yml", "*.yaml") {
+        $workflowText = [System.IO.File]::ReadAllText($workflow.FullName, $utf8)
+        foreach ($usesMatch in [regex]::Matches($workflowText, '(?m)^\s*uses:\s*(?<reference>[^#\r\n]+)')) {
+            $reference = $usesMatch.Groups['reference'].Value.Trim()
+            if ($reference -notmatch '^\./' -and $reference -notmatch '@[0-9a-f]{40}$') {
+                Add-ValidationError "ACTION_REF_NOT_PINNED" (Get-RepoRelativePath $workflow.FullName) $reference
+            }
+        }
     }
 }
 

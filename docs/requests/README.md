@@ -55,10 +55,10 @@
 
 | 배치 | 범위 | 현재 운영 |
 | --- | --- | --- |
-| `BATCH-VS01` | 20~30분 버티컬 슬라이스 | ART·AUD·CNT 수락 완료, 개별 의뢰 배분·첫 검토일 재산정 대기 |
-| `BATCH-DEMO02` | 공개 데모 잔여 범위 | 상세 의뢰 완료, VS01 실측 뒤 수락 |
-| `BATCH-FULL03` | 본편 전용 범위 | 상세 의뢰 완료, 데모 제작률 뒤 수락 |
-| `BATCH-STORE04` | Steam 상점·홍보 범위 | 데모 승인본과 정식명 잠금 뒤 제작 |
+| `BATCH-VS01` | 20~30분 버티컬 슬라이스 | ART·AUD·CNT 범위 수락 완료. 개별 배분·첫 검토일과 기술 기반선 확정 뒤 착수 |
+| `BATCH-DEMO02` | 공개 데모 잔여 범위 | ART·AUD·CNT 범위 수락 완료. `VS01_*_THROUGHPUT_RECORDED` 충족 뒤 착수 |
+| `BATCH-FULL03` | 본편 전용 범위 | ART·AUD·CNT 범위 수락 완료. 데모 제작률 승인 뒤 착수 |
+| `BATCH-STORE04` | Steam 상점·홍보 범위 | ART 범위 수락 완료. Steamworks 규격 확인·정식명 잠금 뒤 착수 |
 
 버티컬 슬라이스는 정식 사건 순서를 대체하지 않는 검증용 편집 경로다. `VS01_*` 표기는 빌드 래퍼나 요청 항목이며 새 정식 이벤트 ID가 아니다. 정식 상태에는 기존 `P*`, `A*`, `B3_A`, `B3_B`, `NORMAL_RESET` 등을 사용한다.
 
@@ -91,7 +91,7 @@ VS01_OPENING_RECAP
 | `PLANNED` | 배치와 팀만 예약됨 | 불가 |
 | `DRAFT` | 의뢰 내용 작성 중 | 불가 |
 | `READY_FOR_ACCEPTANCE` | 팀이 범위·공수·담당을 검토할 수 있음 | 수락 전 불가 |
-| `ACCEPTED` | 담당·제작 범위·예상 공수가 합의됨 | 가능 |
+| `ACCEPTED` | 담당·제작 범위·팀 패키지 예상 공수가 합의됨 | `acceptance_gate`·선행 의뢰·개별 배분을 모두 충족한 항목만 가능 |
 | `IN_PROGRESS` | 제작 중 | 가능 |
 | `REVIEW` | 납품 검토 중 | 수정만 가능 |
 | `APPROVED` | 영역 검토 통과 | 통합 가능 |
@@ -109,6 +109,17 @@ estimate_hours: 0
 first_review_target: YYYY-MM-DD | PROVISIONAL
 dependencies_or_questions: []
 ```
+
+### 5.1 수락과 제작 착수
+
+`ACCEPTED`는 팀이 현재 revision의 범위와 팀 단위 공수를 수락했다는 뜻이며, 모든 배치를 즉시 병렬 제작한다는 뜻이 아니다. 실제 착수는 다음 조건을 모두 만족해야 한다.
+
+1. `request_register.csv`의 `depends_on`이 완료됐다.
+2. 같은 행의 `acceptance_gate`가 증거와 함께 충족됐다.
+3. 해당 의뢰의 세부 담당과 첫 검토일이 배분됐다.
+4. 매니페스트 대상이 실제 작업 증거와 함께 `WORKING`으로 전이됐다.
+
+현재 10개 의뢰는 모두 범위 수락 상태지만, 요청별 배분과 첫 검토일은 `REBASELINE_REQUIRED`다. 후속 배치는 각 게이트를 통과하기 전까지 제작 대기이며, `ACCEPTED`만으로 `WORKING`, `APPROVED`, `INTEGRATED`를 주장하지 않는다.
 
 ## 6. 전체 게임 전수성 현황
 
