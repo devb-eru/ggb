@@ -48,7 +48,7 @@ manifest 한 행은 독립적으로 검토·승인할 수 있는 **deliverable u
 | 묶음 | source 수 | 생성 행 | 상태 |
 | --- | ---: | ---: | --- |
 | 공간 | 39 location | 배경 39, 단계 overlay pack 36, ambient 39 | PLANNED |
-| 오브젝트 | 62 canonical object | 상태 art pack 62 | PLANNED |
+| 오브젝트 | 63 canonical object | 상태 art pack 63 | PLANNED |
 | 캐릭터 | 주인공+사용인 5명 | sheet·portrait·pose·fracture pack 24 | PLANNED |
 | 공통 UI | 13 screen/package | 13 | PLANNED |
 | 메인 퍼즐 | 14 puzzle stage | panel·VFX·audio 42 | PLANNED |
@@ -58,15 +58,15 @@ manifest 한 행은 독립적으로 검토·승인할 수 있는 **deliverable u
 | 공통 기술 자산 | font 3, shader 4 | 7 | PLANNED |
 | Steam 상점 | package 9 | 9, screenshot `unit_count=5` 포함 | PLANNED |
 
-전체 기준선은 329행이다. `store_only`를 제외한 데모 대상은 216행·315 unit, 본편 대상은 320행·419 unit이다. 현 시점에는 최종 export와 승인 근거가 없으므로 모든 행은 `PLANNED`, `is_placeholder=true`다. 이는 실제 임시 에셋 비율이 100%라는 뜻이며, 데모 완료를 주장할 수 없음을 명확히 보여 준다.
+전체 기준선은 330행이다. `store_only`를 제외한 데모 대상은 217행·316 unit, 본편 대상은 321행·420 unit이다. 현 시점에는 최종 export와 승인 근거가 없으므로 모든 행은 `PLANNED`, `is_placeholder=true`다. 이는 실제 임시 에셋 비율이 100%라는 뜻이며, 데모 완료를 주장할 수 없음을 명확히 보여 준다.
 
-2026-08-01에 `BATCH-VS01` 대표 제작 의뢰 3건을 작성했다. 아트·사운드 의뢰가 참조하는 manifest 행은 현재 `READY_FOR_ACCEPTANCE`인 요청에 포함됐을 뿐 실제 팀 수락이나 제작 시작 증거가 없으므로 계속 `PLANNED`다. 팀이 범위·담당·공수를 수락하고 실제 작업을 시작할 때만 해당 행 또는 합의한 subset의 evidence에 `request_id`를 기록하고 `WORKING`으로 전이한다.
+2026-08-01에 `BATCH-VS01` 대표 제작 의뢰 3건을 작성했고, 2026-08-29에 ART·AUD·CNT의 10개 의뢰가 모두 `ACCEPTED`로 전환됐다. ART·CNT는 팀 전체 수락 패키지 2주, AUD는 1개월의 경과 공수를 회신했으나 개별 의뢰 배분과 첫 검토일은 아직 재산정 대기다. 실제 제작 파일·작업 증거는 없으므로 manifest 행은 계속 `PLANNED`다. 실제 작업을 시작할 때만 해당 행 또는 합의한 subset의 evidence에 `request_id`를 기록하고 `WORKING`으로 전이한다.
 
 ### 3.1 담당자별 기준선
 
 | 담당자 | 전체 행 | 전체 unit | 데모 행 | 데모 unit | 주 책임 |
 | --- | ---: | ---: | ---: | ---: | --- |
-| `210` | 228 | 331 | 143 | 242 | 아트·캐릭터·배경·UI |
+| `210` | 229 | 332 | 144 | 243 | 아트·캐릭터·배경·UI |
 | `nana` | 0 | 0 | 0 | 0 | 아트 구성원, 현재 manifest 미배정 |
 | `NOne` | 97 | 97 | 69 | 69 | BGM·환경음·효과음 |
 | `beru` | 4 | 4 | 4 | 4 | shader·기술 자산 |
@@ -140,7 +140,7 @@ PLANNED
 
 ### 오브젝트
 
-- canonical object 62개를 삭제하거나 합치면 문서 04·05·15·17과 함께 갱신한다.
+- canonical object 63개를 삭제하거나 합치면 문서 04·05·15·17과 함께 갱신한다.
 - 닫힘·열림·손상·파열·완료처럼 시각적으로 다른 상태는 `unit_count`에 반영한다.
 - 색상 단서에는 문양·선 패턴·라벨 또는 감각 자막 deliverable을 함께 연결한다.
 

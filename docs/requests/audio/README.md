@@ -33,8 +33,8 @@
 | 검증 | waveform, 인게임 캡처, 저장·로드·스킵·재개, 28 voice 동시 발음 stress |
 | 증거 | 제작자·revision·license/rights·검토자·실제 제작 시간 |
 
-## 4. 열린 연결 사항
+## 4. 연결 사항
 
-- `GGB-CNF-2026-0018` 해결 전 `AUD_PUZ_B3_A`의 외부 서고 시계는 `OBJ_LIBRARY_RECORD_CLOCK`에 연결하지 않는다.
+- `AUD_PUZ_B3_A`의 외부 서고 중계 시계 재생 노드는 `OBJ_LIBRARY_OUTER_CLOCK`에만 연결한다. `OBJ_LIBRARY_RECORD_CLOCK`은 기록 내실의 에드가 진입 예고음을 소유한다.
 - 이벤트 매니페스트의 그룹형 `source_entity_id`는 부모 오디오 ID를 유지하되 실제 재생 노드는 CNT/이벤트 추적표에서 배열로 연결한다.
 - `AUD_EVT_JOURNAL_RESTORE`는 연출 묶음, `SFX_JOURNAL_RESTORE`는 짧은 결합 효과다. 퍼즐 pack과 공통 검증음도 같은 방식으로 부모/레이어 관계를 유지한다.

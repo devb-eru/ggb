@@ -59,15 +59,23 @@ P2·P3 권장 순서는 `ERR-0001 → ERR-0006 → CNF-0006 → ERR-0007`이다.
 
 ## 4. 3단계: 협업 시스템 구현
 
+```yaml
+snapshot_as_of: 2026-08-29 KST
+verified_sources: [public_github_issue_state, repository_history]
+github_project_custom_fields: REVERIFY_REQUIRED
+```
+
+아래 표는 현재 상태 정본이 아니라 위 날짜의 저장소 스냅숏이다. GitHub Project custom `Status`는 정본이지만 현재 `gh` 인증이 무효라 재조회하지 못했다. 따라서 2026-08-29에 확인한 공개 Issue OPEN/CLOSED와 Project 상태 미확인을 분리해서 적는다.
+
 | ID | 가장 빠른 날짜 | 작업 | 책임자 | 선행 | 완료 조건 | 상태 |
 | --- | --- | --- | --- | --- | --- | --- |
 | [`GGB-WRK-2026-0001`](https://github.com/devb-eru/ggb/issues/15) | 07-27 | GitHub Issue·Project 기반선 | `beru` | M1 병합 | 상태·우선순위·담당·마일스톤·차단 필드와 기본 뷰 생성 | `DONE` |
 | [`GGB-WRK-2026-0002`](https://github.com/devb-eru/ggb/issues/17) | 07-27 | Discord 에셋 접수·보관 흐름 | `beru` | WRK-0001, Google Drive | `#asset-intake`에서 제작자·작업 ID·전달일·보관 위치 추적 | `DONE` 08-01: 권한·업로드·핀·PR #18 병합 확인 |
 | [`GGB-WRK-2026-0003`](https://github.com/devb-eru/ggb/issues/19) | 07-31 | GitHub→Discord 선별 알림 | `beru` | WRK-0001, webhook secret | 중요 사건 실시간·일반 변경 21:30 요약 | `DONE` 08-02: 최초 예약 실행 기준선 저장, 다음 실행 캐시 복원·중복 없음, 예약 실행 29건 성공 확인 |
 | [`GGB-WRK-2026-0004`](https://github.com/devb-eru/ggb/issues/22) | 08-01 | 작업 현황 대시보드 | `beru` | WRK-0001 | 담당자·마일스톤·차단·지연·검토 대기 뷰 제공 | `DONE` 08-02: 저장 뷰 8개 구성, PR #23 병합과 검사 통과 확인 |
-| [`GGB-WRK-2026-0005`](https://github.com/devb-eru/ggb/issues/24) | 08-02 | GitHub 일정·Discord 회의 연결 | `beru` | WRK-0001, WRK-0003~0004, Discord 권한 | GitHub 마감 정본과 Discord 금요일 회의 이벤트 연결 | `IN_PROGRESS`: Issue·Project 등록, 기존 주간 이벤트와 `회의실` 확인, 반복 시리즈 정비·운영 문서 검증 중 |
-| [`GGB-WRK-2026-0006`](https://github.com/devb-eru/ggb/issues/26) | 08-03 | 오늘의 회의 안건 생성 | `beru` | WRK-0003~0005 | 금요일 21:30에 기한 임박·BLOCKED·REVIEW를 Discord에 요약 | `IN_PROGRESS`: Issue·Project 등록, 자동화·검증 작업 중 |
-| `GGB-WRK-2026-0007` | 08-04 | 운영 리허설 | `gatam` | WRK-0001~0006 | 가상 작업 1건을 등록→알림→회의→완료까지 통과 | `PLANNED` |
+| [`GGB-WRK-2026-0005`](https://github.com/devb-eru/ggb/issues/24) | 08-02 | GitHub 일정·Discord 회의 연결 | `beru` | WRK-0001, WRK-0003~0004, Discord 권한 | GitHub 마감 정본과 Discord 금요일 회의 이벤트 연결 | 공개 Issue `CLOSED`; Project custom status·완료 증거는 재확인 필요 |
+| [`GGB-WRK-2026-0006`](https://github.com/devb-eru/ggb/issues/26) | 08-03 | 오늘의 회의 안건 생성 | `beru` | WRK-0003~0005 | 금요일 21:30에 기한 임박·BLOCKED·REVIEW를 Discord에 요약 | 공개 Issue `OPEN`; Project custom status·현재 차단은 재확인 필요 |
+| `GGB-WRK-2026-0007` | 08-04 | 운영 리허설 | `gatam` | WRK-0001~0006 | 가상 작업 1건을 등록→알림→회의→완료까지 통과 | 로컬 계획 `UNREGISTERED`; 완료 근거 없음 |
 
 ### GitHub Project 작업 현황 뷰
 

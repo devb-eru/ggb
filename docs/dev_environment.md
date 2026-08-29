@@ -21,6 +21,8 @@ node --test scripts/discord_notifications.test.mjs
 
 CI는 `.github/workflows/discord-notifications.yml`에서 Node.js 24를 사용합니다. 로컬 Node.js가 없으면 이 테스트를 실행했다고 표시하지 않고 CI 결과 또는 Node.js 24가 설치된 환경의 로그를 근거로 남깁니다.
 
+2026-08-29 검증에서는 Codex 번들 Node.js `v24.19.0`으로 위 명령을 실행해 15개 테스트가 모두 통과했습니다. 이 기록은 Discord 알림 스크립트의 로컬 실행 증거이며 Godot `V1~V5` 구현 증거를 대신하지 않습니다.
+
 ## Recommended Editor Flow
 
 1. 저장소 루트에서 최신 브랜치를 받습니다.

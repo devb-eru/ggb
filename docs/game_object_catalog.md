@@ -2,7 +2,7 @@
 
 ## 1. 목적
 
-이 문서는 독립된 상태·반응·저장 의미를 갖는 62개 정본 런타임 오브젝트의 사람용 색인이다. 기계 판독 정본은 [game_object_catalog.csv](game_object_catalog.csv)이며, 퍼즐 부품·문서·UI·캐릭터 소품·배경 소품군까지 포함한 제작 전수 목록은 [전체 제작 오브젝트 인벤토리](game_object_inventory.md)에서 확인한다. 상세 반응은 [공통 오브젝트 반응](../ideas/md/v04/15_이벤트상세_10_공통오브젝트반응.md), 위치는 [공간 구성 지도](../ideas/md/v04/05_공간구성지도_및_동선.md), 아트 행은 [에셋 매니페스트](asset_manifest.csv)를 따른다.
+이 문서는 독립된 상태·반응·저장 의미를 갖는 63개 정본 런타임 오브젝트의 사람용 색인이다. 기계 판독 정본은 [game_object_catalog.csv](game_object_catalog.csv)이며, 퍼즐 부품·문서·UI·캐릭터 소품·배경 소품군까지 포함한 제작 전수 목록은 [전체 제작 오브젝트 인벤토리](game_object_inventory.md)에서 확인한다. 상세 반응은 [공통 오브젝트 반응](../ideas/md/v04/15_이벤트상세_10_공통오브젝트반응.md), 위치는 [공간 구성 지도](../ideas/md/v04/05_공간구성지도_및_동선.md), 아트 행은 [에셋 매니페스트](asset_manifest.csv)를 따른다.
 
 ## 2. 포함 기준
 
@@ -15,7 +15,7 @@
 - 동의가 필요한 사용인 부착 인터페이스.
 - 현실·잔류 엔딩에서 필수 또는 선택 후속 반응을 가진 물체.
 
-다음은 이 대장의 62개 정본 오브젝트에 포함하지 않는다.
+다음은 이 대장의 63개 정본 오브젝트에 포함하지 않는다.
 
 - `ART_PUZ_*` 확대 패널과 그 내부 버튼·카드: 퍼즐 제작 부품 대장에서 관리한다.
 - `UI_*` 화면과 버튼: UI 제작 대장에서 관리한다.
@@ -28,11 +28,11 @@
 | --- | ---: | --- |
 | 침실·수면 | 6 | 리셋·영구 수첩·파열 수면 |
 | 중앙홀·생활 | 8 | 일상·관계·주방·온실 |
-| 서재·지하·거울 | 11 | 기록·압박·메인 퍼즐 |
+| 서재·지하·거울 | 12 | 기록·압박·메인 퍼즐 |
 | 북쪽 기록·코어 | 7 | 마라 2·최종 선택 장치 |
 | 현실·잔류 | 25 | 두 엔딩의 필수·선택 후속 |
 | 사용인 부착 인터페이스 | 5 | 동의 기반 진단·수리 |
-| **합계** | **62** | `asset_manifest.csv`의 `object_state` 62행과 일치 |
+| **합계** | **63** | `asset_manifest.csv`의 `object_state` 63행과 일치 |
 
 ## 4. 빠른 목록
 
@@ -69,6 +69,7 @@
 | `OBJ_LIBRARY_JOURNAL` | 아버지의 일지 | `M1_LIBRARY_INNER` | J1~J4 영구 복원 |
 | `OBJ_LIBRARY_JOURNAL_DESK` | 일지 책상 | `M1_LIBRARY_INNER` | 압박·은신·복원 조작 |
 | `OBJ_LIBRARY_INDEX_DRAWERS` | 색인 서랍 | `M1_LIBRARY_INNER` | B2 색인·D0 단서 |
+| `OBJ_LIBRARY_OUTER_CLOCK` | 외부 서고 중계 시계 | `M1_LIBRARY_OUTER` | B3-A 탁본·B3-B 중계 입력 |
 | `OBJ_LIBRARY_RECORD_CLOCK` | 기록 내실 경계 시계 | `M1_LIBRARY_INNER` | 에드가 진입 예고 |
 | `OBJ_LIBRARY_SERVICE_ALCOVE` | 점검 벽감 | `M1_LIBRARY_INNER` | 비실패 은신 선택 |
 | `OBJ_LIBRARY_PORTRAIT_LATCH` | 초상화 걸쇠 | `M1_LIBRARY_INNER` | 내실 접근 숏컷 |
@@ -138,4 +139,4 @@
 1. CSV의 `object_id` 집합은 `asset_manifest.csv`에서 `asset_type=object_state`인 `source_entity_id` 집합과 정확히 같아야 한다.
 2. 새 오브젝트를 추가할 때 `04`, `05`, `15`, `17`, 에셋 매니페스트와 이 대장을 같은 변경에서 갱신한다.
 3. 퍼즐 내부 부품이나 장식 소품에 독립 저장·상호작용이 생기면 먼저 정본 `object_id` 승격 여부를 결정한다.
-4. `GGB-CNF-2026-0018`이 해결되기 전 외부 서고 B3 시계는 `OBJ_LIBRARY_RECORD_CLOCK`으로 등록하지 않는다. 이 ID는 기록 내실 경계 시계만 뜻한다.
+4. `OBJ_LIBRARY_OUTER_CLOCK`은 B3 중계 시계, `OBJ_LIBRARY_RECORD_CLOCK`은 기록 내실 경계 시계만 뜻하며 서로의 상태·위치 fallback을 공유하지 않는다.

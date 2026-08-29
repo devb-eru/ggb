@@ -8,7 +8,7 @@
 
 | 층 | ID | 의미 | 변경 절차 |
 | --- | --- | --- | --- |
-| 정본 런타임 오브젝트 | `OBJ_*`, `SERVANT_OBJ_*` | 독립 상태·반응·저장 의미를 갖는 62개 개체 | v0.4 `04·05·15·17`, 매니페스트와 함께 변경 |
+| 정본 런타임 오브젝트 | `OBJ_*`, `SERVANT_OBJ_*` | 독립 상태·반응·저장 의미를 갖는 63개 개체 | v0.4 `04·05·15·17`, 매니페스트와 함께 변경 |
 | 제작 엔티티 | `PRDOBJ_*` | 퍼즐 하위 부품·읽기 자료·UI·캐릭터 소품·장식군을 조회하기 위한 카탈로그 ID | 저장 키로 사용하지 않으며 부모 정본/에셋 아래 납품 |
 
 `PRDOBJ_*`는 제작 대장 전용 ID다. Godot 상태 키, 이벤트 ID, 세이브 데이터에 기록하지 않는다. 동일한 의자나 책이 여러 개 놓이는 경우 개별 인스턴스를 무한히 늘리지 않고 “동일 제작 묶음” 한 행과 공간별 배치표로 관리한다.
@@ -27,15 +27,15 @@
 
 `PRDOBJ_*` 제작 엔티티는 총 86묶음이다. §5의 패널 하위 부품군과 §7의 `UI_*` 화면은 각 부모 제작 행 안에서 별도 수량으로 관리하므로 이 86묶음에 중복 합산하지 않는다.
 
-정본 62개는 [game_object_catalog.md](game_object_catalog.md)에 이름·위치·기능을 모두 열거한다. 아래 표는 그 62개에 포함되지 않지만 제작에서 빠지면 장면 또는 상호작용이 성립하지 않는 대상이다.
+정본 63개는 [game_object_catalog.md](game_object_catalog.md)에 이름·위치·기능을 모두 열거한다. 아래 표는 그 63개에 포함되지 않지만 제작에서 빠지면 장면 또는 상호작용이 성립하지 않는 대상이다.
 
-### 2.1 정본 62개 빠른 목록
+### 2.1 정본 63개 빠른 목록
 
 | 범주 | object_id·표시명 |
 | --- | --- |
 | 침실·수면 6 | `OBJ_BEDROOM_BED` 침실 침대<br>`OBJ_BEDROOM_WINDOW` 침실 창문<br>`OBJ_SUBJECT_NOTEBOOK_SIM` 시뮬레이션 수첩<br>`OBJ_BEDROOM_MIRROR` 침실 거울<br>`OBJ_BEDROOM_CALL_CORD` 침실 호출끈<br>`OBJ_EMERGENCY_REST_CAPSULE` 비상 휴식 캡슐 |
 | 중앙홀·생활 8 | `OBJ_HALL_FAMILY_PORTRAIT` 가족 초상화<br>`OBJ_HALL_WALLPAPER` 복도 벽지<br>`OBJ_HALL_CALL_CORD` 중앙홀 호출끈<br>`OBJ_KITCHEN_TEA_SET` 차 도구<br>`OBJ_DINING_TABLE` 식탁<br>`OBJ_KITCHEN_LIFE_PIPE` 주방 하부 배관<br>`OBJ_GREENHOUSE_DOOR` 온실 잠금문<br>`OBJ_GREENHOUSE_PLANTER` 온실 화분 |
-| 서재·지하·거울 11 | `OBJ_LIBRARY_OUTER_SHELVES` 외부 서고 책장<br>`OBJ_LIBRARY_INNER_SHELVES` 기록 내실 책장<br>`OBJ_LIBRARY_JOURNAL` 아버지의 일지<br>`OBJ_LIBRARY_JOURNAL_DESK` 일지 책상<br>`OBJ_LIBRARY_INDEX_DRAWERS` 색인 서랍<br>`OBJ_LIBRARY_RECORD_CLOCK` 기록 내실 경계 시계<br>`OBJ_LIBRARY_SERVICE_ALCOVE` 점검 벽감<br>`OBJ_LIBRARY_PORTRAIT_LATCH` 초상화 걸쇠<br>`OBJ_LIBRARY_MAP_FLOOR` 지도 이중 바닥<br>`OBJ_MIRROR_BLACK` 검은 거울<br>`OBJ_BASEMENT_AXIS_DEVICE` 세 축 장치 |
+| 서재·지하·거울 12 | `OBJ_LIBRARY_OUTER_SHELVES` 외부 서고 책장<br>`OBJ_LIBRARY_OUTER_CLOCK` 외부 서고 중계 시계<br>`OBJ_LIBRARY_INNER_SHELVES` 기록 내실 책장<br>`OBJ_LIBRARY_JOURNAL` 아버지의 일지<br>`OBJ_LIBRARY_JOURNAL_DESK` 일지 책상<br>`OBJ_LIBRARY_INDEX_DRAWERS` 색인 서랍<br>`OBJ_LIBRARY_RECORD_CLOCK` 기록 내실 경계 시계<br>`OBJ_LIBRARY_SERVICE_ALCOVE` 점검 벽감<br>`OBJ_LIBRARY_PORTRAIT_LATCH` 초상화 걸쇠<br>`OBJ_LIBRARY_MAP_FLOOR` 지도 이중 바닥<br>`OBJ_MIRROR_BLACK` 검은 거울<br>`OBJ_BASEMENT_AXIS_DEVICE` 세 축 장치 |
 | 북쪽 기록·코어 7 | `OBJ_ARCHIVE_NAMEPLATES` 기록 회랑 이름표<br>`OBJ_ARCHIVE_PORTRAIT_01` 겹친 단체 초상화<br>`OBJ_COLOR_SEPARATOR_PANEL` 색분해실 외부 패널<br>`OBJ_PERSONALITY_ARCHIVE_TERMINAL` 인격 아카이브 단말<br>`OBJ_CORE_WAKE_DEVICE` 냉각 기상 장치<br>`OBJ_CORE_LOOP_STABILIZER` 루프 안정화 장치<br>`OBJ_CORE_NOTEBOOK_TERMINAL` SUBJECT 수첩대 |
 | 현실 11 | `OBJ_REALITY_HAND` 현실의 손<br>`OBJ_REALITY_BREATH_MONITOR` 호흡 표시기<br>`OBJ_REALITY_RESTRAINT` 고정 벨트<br>`OBJ_REALITY_FIELD_NOTEBOOK` 공동 인계 수첩<br>`OBJ_REALITY_EXIT_PANEL` 시설 출구 패널<br>`OBJ_REALITY_CAPSULE_GLASS` 캡슐 유리<br>`OBJ_REALITY_EMPTY_STAND` 빈 연구원 거치대<br>`OBJ_REALITY_TOOLBOX` 공구함<br>`OBJ_REALITY_DRY_PLANTER` 마른 재배함<br>`OBJ_REALITY_NAME_WALL` 이름 벽<br>`OBJ_REALITY_DISTANT_SIGNAL` 먼 신호 |
 | 잔류 14 | `OBJ_STAY_MEMORY_CHARTER` 기억 헌장<br>`OBJ_STAY_APPEARANCE_CONTROL` 외형 표시 제어<br>`OBJ_STAY_AUTONOMY_CHARTER` 자율성 헌장<br>`OBJ_STAY_CLOCK` 중앙홀 시계<br>`OBJ_STAY_SCHEDULE` 일정표<br>`OBJ_STAY_FRONT_DOOR` 정문<br>`OBJ_STAY_CARPET` 카펫<br>`OBJ_STAY_CALL_CORD` 호출끈<br>`OBJ_STAY_NOTEBOOK` 잔류 수첩<br>`OBJ_STAY_STAIN` 식탁 얼룩<br>`OBJ_STAY_TEA` 차<br>`OBJ_STAY_SEASON_WINDOW` 계절창<br>`OBJ_STAY_PORTRAIT_LABEL` 초상화 이름표<br>`OBJ_STAY_RAPIER` 레이피어 |
@@ -185,8 +185,8 @@
 
 ## 9. 누락 방지 계약
 
-1. 새 클릭 대상에 독립 상태·저장 의미가 생기면 먼저 62개 정본 대장으로 승격할지 결정한다.
+1. 새 클릭 대상에 독립 상태·저장 의미가 생기면 먼저 63개 정본 대장으로 승격할지 결정한다.
 2. 새 퍼즐 부품·문서·UI 조작부·캐릭터 소품은 해당 부모 에셋과 함께 이 목록에 추가한다.
 3. 배경 장식은 동일 제작 묶음을 재사용할 수 있지만, 공간마다 필요한 배치·가림·월드 단계는 [공간 아트 명세](requests/art/01_공간_전수명세.md)에 기록한다.
 4. `PRDOBJ_*`가 독립 클릭·저장·콘텐츠 분기를 갖게 되면 카탈로그 ID를 런타임에서 그대로 쓰지 않고 정식 `OBJ_*` 발급 절차를 거친다.
-5. `GGB-CNF-2026-0018` 해결 전 외부 서고 B3 시계는 B3-A 패널의 자식 제작 엔티티이며 `OBJ_LIBRARY_RECORD_CLOCK`이 아니다.
+5. 외부 서고 B3 시계는 `OBJ_LIBRARY_OUTER_CLOCK`, 기록 내실 경계 시계는 `OBJ_LIBRARY_RECORD_CLOCK`이며 두 오브젝트의 제작·상태·배치 ID를 합치지 않는다.

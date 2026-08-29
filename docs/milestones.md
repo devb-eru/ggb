@@ -5,12 +5,12 @@
 | ID | 마일스톤 | 상태 | 내부 목표일 | 완료 기준 요약 |
 | --- | --- | --- | --- | --- |
 | `M1_V04_PLANNING_BASELINE` | v0.4 기획 기준선 확정 | COMPLETE | 2026-07-23, 완료 2026-07-27 | PR #14 병합, `niik` 승인, PR #16에 `gatam` 승인 기록 |
-| `OPS_01_COLLABORATION_BASELINE` | 협업 시스템 운영 기준선 | IN_PROGRESS | 2026-08-04 | GitHub Project, Discord 알림, 회의 안건과 운영 리허설 |
-| `STEAM_01_ONBOARDING` | Steamworks 가입·기본 AppID | PLANNED | 2026-08-14 | 계약 주체, 은행·세금 정보, 수수료, AppID 완료 |
-| `TECH_01_FOUNDATION` | Godot 기술 기반선 | PROVISIONAL | 2026-08-21 | production bootstrap, 상태·사건·입력·저장 최소 구조, Windows debug export |
-| `PROD_01_VERTICAL_SLICE` | 20~30분 버티컬 슬라이스 | PROVISIONAL | 2026-09-18 | 첫 리셋→영구 정보→실패→숏컷→성공 경로와 접근성·복구 검사 |
+| `OPS_01_COLLABORATION_BASELINE` | 협업 시스템 운영 기준선 | AT_RISK | 2026-08-04 경과 · 재산정 필요 | GitHub Project, Discord 알림, 회의 안건과 운영 리허설 |
+| `STEAM_01_ONBOARDING` | Steamworks 가입·기본 AppID | AT_RISK | 2026-08-14 경과 · 재산정 필요 | 계약 주체, 은행·세금 정보, 수수료, AppID 완료 |
+| `TECH_01_FOUNDATION` | Godot 기술 기반선 | AT_RISK | 2026-08-21 경과 · 재산정 필요 | production bootstrap, 상태·사건·입력·저장 최소 구조, Windows debug export |
+| `PROD_01_VERTICAL_SLICE` | 20~30분 버티컬 슬라이스 | AT_RISK | 2026-09-18 · 재산정 필요 | 첫 리셋→영구 정보→실패→숏컷→성공 경로와 접근성·복구 검사 |
 | `CH1_01_ALPHA` | 프롤로그·1장 알파 | PROVISIONAL | 2026-10-09 | 필수 경로, 초기 저장 지점, 한국어 원문, 임시 에셋 목록 |
-| `STEAM_02_STORE_PUBLIC` | 기본 게임 Coming Soon 공개 | PLANNED | 2026-10-30 | 한·영 상점과 심사 완료, 찜하기 시작 |
+| `STEAM_02_STORE_PUBLIC` | 기본 게임 Coming Soon 공개 | AT_RISK | 2026-10-30 · 재산정 필요 | 한·영 상점과 심사 완료, 찜하기 시작 |
 | `M2_DEMO_FEATURE_COMPLETE` | 데모 기능 완료 | PROVISIONAL | 2026-11-06 | 프롤로그~D4·D5 스팅어, 저장·입력·접근성 기능 범위 고정 |
 | `M2_DEMO_COMPLETE` | 공개 데모 콘텐츠 락 | PROVISIONAL | 2026-11-20 | 선택된 시간안, `SAVE_D5_COMPLETE`, 공개 품질, manifest `unit_count` 가중 임시 리소스 20% 이하 |
 | `STEAM_03_DEMO_PRIVATE_QA` | Steam 데모 비공개 QA | PLANNED | 2026-12-04 | 데모 AppID, depot, 설치·업데이트 검증 |
@@ -25,6 +25,18 @@
 | `FULL_02_RELEASE` | 정식 버전 1.0 출시 | PLANNED | 가장 빠르면 2027-03-05 03:00 KST | 행사 종료 후 72시간 이상 안정화하고 `beru` 승인 |
 
 Steam 행사 시각과 제출일은 [Steamworks February 2027 Next Fest 안내](https://partner.steamgames.com/doc/marketing/upcoming_events/nextfest/feb_2027)를 기준으로 한다. 공식 일정은 2026년 12월부터 주 1회 재확인한다. `PROVISIONAL` 날짜는 구현 약속이 아니라 계획 가설이며 `PROD_01_VERTICAL_SLICE` 실측 뒤 5영업일 안에 다시 산정한다.
+
+### 1.1 2026-08-29 기한 감사와 재기준화
+
+| 마일스톤 | `AT_RISK` 근거 | 책임자 | 다음 판정 | 새 목표일 입력 조건 |
+| --- | --- | --- | --- | --- |
+| 협업 시스템 운영 기준선 | 공개 Issue #24는 닫혔고 #26은 열려 있으며 운영 리허설 `GGB-WRK-2026-0007` 등록·완료 근거가 없다. GitHub Project custom status는 미확인이다. | `beru`·`gatam` | Project 상태 재조회, #26·운영 리허설 범위 확인 | 남은 작업·담당·실행일 합의 |
+| Steamworks 가입·기본 AppID | 계정·수수료·기본 AppID 완료 증거가 없고 정식 게임명 잠금도 경과했다. | `beru` | 민감정보를 공개하지 않고 완료 여부·차단 사유만 재확인 | Steamworks 현재 단계 확인 |
+| Godot 기술 기반선 | production main scene·autoload·저장 fixture·Windows export 증거가 없고 구현은 시작 전이다. | `beru` | 구현 capacity와 bootstrap 착수일 결정 | 개발 capacity와 최소 기반선 순서 확정 |
+| 20~30분 버티컬 슬라이스 | 기술 기반선 미착수, 팀 수락 패키지의 개별 의뢰 배분·첫 검토일 미정, AUD 팀 공수 1개월이다. | `beru`·각 팀장 | 기술·ART·AUD·CNT 통합 일정 재산정 | 기술 착수일과 요청별 배분·첫 검토일 확정 |
+| 기본 게임 Coming Soon 공개 | 게임명·태그라인 잠금이 경과했고 실제 플레이 캡처·상점 자산 제작 일정이 배분되지 않았다. | `beru`·`gatam`·`210` | 브랜딩 잠금과 상점 에셋 순서 재확인 | 이름·카피 잠금 및 ART 배분 확정 |
+
+`AT_RISK`는 실패나 취소가 아니라 현재 목표일을 신뢰할 증거가 부족하다는 뜻이다. 새 목표일은 과거 날짜를 조용히 덮어쓰지 않고 위 입력 조건이 갖춰진 변경에서 기록한다.
 
 ## 2. M1 기획 기준선
 

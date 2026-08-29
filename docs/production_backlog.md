@@ -29,21 +29,21 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | `PB-001` | P1 | 제품·접근성·데모·저장 계약 통합 | 기획·개발 | 없음 | DOC_COMPLETE | 미등록 |
 | `PB-002` | P1 | 개인별 capacity 확인과 전체 일정 재산정 | 프로젝트 관리 | PB-001 | NEEDS_TEAM_INPUT | 미등록 |
-| `PB-003` | P1 | 제작 epic과 하위 Issue 등록 | 프로젝트 관리 | PB-001 | BLOCKED_GITHUB_AUTH | 미등록 |
+| `PB-003` | P1 | 제작 epic과 하위 Issue 등록 | 프로젝트 관리 | PB-001 | PARTIAL_AUTH_GH_CLI_BLOCKED | 미등록 |
 | `PB-004` | P1 | 데모·본편 에셋 BOM과 승인 레지스트리 | 아트·사운드·기획 | PB-001 | DOC_COMPLETE | 미등록 |
 | `PB-005` | P1 | 민감 콘텐츠·상점 고지 기준 | 기획·QA·릴리즈 | PB-001 | DOC_COMPLETE | 미등록 |
 | `PB-006` | P1 | 정식명·인물명·연령·palette 잠금 | 기획·아트 | PB-001 | NEEDS_TEAM_DECISION | 미등록 |
 | `PB-007` | P1 | 아트·애니메이션·오디오 제작 규격 | 아트·사운드·개발 | PB-004 | DOC_COMPLETE | 미등록 |
 | `PB-008` | P1 | 1.0 플랫폼·Cloud·지원·라이선스 범위 | 릴리즈·개발 | PB-001 | DOC_COMPLETE | 미등록 |
 | `PB-009` | P1 | 팀 기여물 권리 증거와 비공개 서명 기록 | 프로젝트 관리·릴리즈 | PB-008 | POLICY_READY_SIGNATURES_PENDING | 미등록 |
-| `PB-010` | P1 | `TECH_01_FOUNDATION` | 개발 | PB-002, PB-003 | IMPLEMENTATION_NOT_STARTED | 미등록 |
-| `PB-011` | P1 | `PROD_01_VERTICAL_SLICE` | 전 영역 | PB-010 | IMPLEMENTATION_NOT_STARTED | 미등록 |
+| `PB-010` | P1 | `TECH_01_FOUNDATION` | 개발 | PB-002, PB-003 | IMPLEMENTATION_NOT_STARTED_AT_RISK | 미등록; 목표일 경과·재산정 필요 |
+| `PB-011` | P1 | `PROD_01_VERTICAL_SLICE` | 전 영역 | PB-010 | IMPLEMENTATION_NOT_STARTED_AT_RISK | 미등록; 기술·요청별 일정 재산정 필요 |
 | `PB-012` | P1 | 저장·리셋·복구·대화 기록 최소 경로 | 개발·QA | PB-010 | IMPLEMENTATION_NOT_STARTED | 미등록 |
 | `PB-013` | P1 | 마우스·키보드·접근성 최소 경로 | 개발·QA | PB-010 | IMPLEMENTATION_NOT_STARTED | 미등록 |
 | `PB-014` | P1 | 한국어·영어 저작·검수 파이프라인 | 기획·QA | PB-001 | DESIGN_READY | 미등록 |
 | `PB-015` | P1 | 재현 가능한 문서·데이터·빌드 검증 | 개발·QA | PB-010 | IMPLEMENTATION_NOT_STARTED | 미등록 |
-| `PB-016` | P1 | 대표 에셋 샘플 배치와 역할별 처리량 기준선 | 아트·사운드·개발·PM | PB-002, PB-004, PB-007 | REQUEST_READY_TEAM_INPUT_PENDING | `REQ-ART-2026-0001`, `REQ-AUD-2026-0001`; Issue 미등록 |
-| `PB-017` | P1 | 버티컬 슬라이스 문자열 정본·분량·번역 처리량 기준선 | 기획·현지화·QA | PB-006, PB-014 | REQUEST_READY_CONTENT_NOT_STARTED | `REQ-CNT-2026-0001`; Issue 미등록 |
+| `PB-016` | P1 | 대표 에셋 샘플 배치와 역할별 처리량 기준선 | 아트·사운드·개발·PM | PB-002, PB-004, PB-007 | REQUEST_ACCEPTED_ALLOCATION_PENDING | `REQ-ART-2026-0001`, `REQ-AUD-2026-0001`; 팀 수락 완료, Issue 미등록 |
+| `PB-017` | P1 | 버티컬 슬라이스 문자열 정본·분량·번역 처리량 기준선 | 기획·현지화·QA | PB-006, PB-014 | REQUEST_ACCEPTED_ALLOCATION_PENDING | `REQ-CNT-2026-0001`; 팀 수락 완료, Issue 미등록 |
 | `PB-020` | P2 | 프롤로그·1장 알파 | 전 영역 | PB-011 재산정 | NOT_READY | 미등록 |
 | `PB-021` | P2 | 데모 compact/extended 편집 비교 | 기획·QA | PB-011 | NOT_READY | 미등록 |
 | `PB-022` | P2 | 데모 기능 완료·콘텐츠 락 | 전 영역 | PB-020, PB-021 | NOT_READY | 미등록 |
@@ -116,12 +116,12 @@ GitHub 등록이 완료되기 전까지 `GGB-REV-2026-0009`는 해결 완료가 
 
 ## 8. GitHub 등록 차단 기록
 
-2026-07-31에 `PB-002`, `PB-004`, `PB-010~015`, `PB-021`에 대응하는 9개 Issue 생성을 시도했으나 GitHub integration이 모두 HTTP 403 `Resource not accessible by integration`을 반환했다. 이들을 등록·연결하는 상위 작업 `PB-003`과 이후 검토에서 추가된 권리 증빙 `PB-009`, 에셋 처리량 `PB-016`, 문자열 생산 기준선 `PB-017`도 같은 쓰기 권한이 필요하므로 영향 목록에 포함한다. `PB-009`, `PB-016`, `PB-017`은 동일 장애가 확인된 뒤 중복 실패를 피하려고 별도 생성 시도를 하지 않았다. 로컬 `gh auth status`도 기본 token이 유효하지 않다고 보고해 실제 Issue는 생성되지 않았다.
+2026-07-31에 `PB-002`, `PB-004`, `PB-010~015`, `PB-021`에 대응하는 9개 Issue 생성을 시도했으나 GitHub integration이 모두 HTTP 403 `Resource not accessible by integration`을 반환했다. 이들을 등록·연결하는 상위 작업 `PB-003`과 이후 검토에서 추가된 권리 증빙 `PB-009`, 에셋 처리량 `PB-016`, 문자열 생산 기준선 `PB-017`도 같은 쓰기 권한이 필요하므로 영향 목록에 포함한다. `PB-009`, `PB-016`, `PB-017`은 동일 장애가 확인된 뒤 중복 실패를 피하려고 별도 생성 시도를 하지 않았다. 이 문단은 당시 실패 이력이며 현재의 모든 GitHub 경로가 차단됐다는 뜻이 아니다.
 
 ```yaml
 blocker_id: PB-GITHUB-AUTH-2026-07-31
 affected: [PB-002, PB-003, PB-004, PB-009, PB-010, PB-011, PB-012, PB-013, PB-014, PB-015, PB-016, PB-017, PB-021]
-status: EXTERNAL_ACCESS_REQUIRED
+status: HISTORICAL_403
 retry_when:
   - GitHub integration에 repository issue write 권한 부여
   - 또는 유효한 gh 인증 복구
@@ -131,3 +131,27 @@ forbidden:
 ```
 
 권한이 복구되면 `PB-003`과 `PB-009`부터 재시도하고, 중복 생성을 피하기 위해 저장소에서 `GGB-WRK-2026-0013` 이후 후보 제목을 먼저 검색한다.
+
+### 8.1 2026-08-29 인증 재시험
+
+| 경로 | 현재 판정 | 근거 | 허용되는 다음 행동 |
+| --- | --- | --- | --- |
+| Git fetch·push | AVAILABLE | `develop` 원격 동기화와 브랜치 원격 작업 성공 이력 | 일반 Git 전송 가능 |
+| 공개 GitHub REST 읽기 | AVAILABLE | 저장소 Issue #15~#26 상태 조회 성공 | 중복 후보·공개 Issue 상태 확인 가능 |
+| `gh` CLI 계정 인증 | BLOCKED | `gh auth status`가 기본 계정 token 무효를 보고 | 사용자가 `gh auth login`으로 재인증하기 전 write 명령 금지 |
+| 기존 운영 Issue | PARTIAL_EVIDENCE | 공개 Issue #24는 CLOSED, #26은 OPEN. Project custom status는 인증 없이 확인하지 못함 | 로컬 문서에는 공개 Issue 상태와 Project 미확인을 분리 표기 |
+| 제작 PB Issue 등록 | NOT_STARTED_AUTH_REQUIRED | 대응 `GGB-WRK-*` 매핑이 없고 현재 `gh` write 인증이 무효 | 재인증 뒤 제목 중복 검색, 미등록 항목만 생성 |
+
+```yaml
+blocker_id: PB-GITHUB-AUTH-2026-08-29
+status: PARTIAL
+blocked_capability: gh_cli_issue_and_project_write
+unblocked_capabilities: [git_transport, public_rest_read]
+production_pb_registration: UNREGISTERED
+release_condition:
+  - gh auth status가 유효 계정을 보고
+  - Issue·Project write 권한을 최소 1건 dry-run 또는 비파괴 조회로 확인하고
+  - 후보 제목 중복 검색 뒤 미등록 PB만 생성
+```
+
+`PB-003`의 현재 상태는 `PARTIAL_AUTH_GH_CLI_BLOCKED`다. 인증 복구 전에는 로컬 PB 키를 실제 GitHub Issue로 표시하지 않으며, 인증 복구 자체를 제작 완료로 간주하지 않는다.

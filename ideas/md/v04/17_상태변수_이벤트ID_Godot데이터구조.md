@@ -2248,7 +2248,7 @@ func validate_reaction_identity(reaction: ObjectReaction) -> PackedStringArray:
 | --- | --- |
 | 침실·휴식 | `OBJ_BEDROOM_BED`, `OBJ_BEDROOM_WINDOW`, `OBJ_BEDROOM_MIRROR`, `OBJ_BEDROOM_CALL_CORD`, `OBJ_SUBJECT_NOTEBOOK_SIM`, `OBJ_EMERGENCY_REST_CAPSULE` |
 | 중앙홀·복도 | `OBJ_HALL_FAMILY_PORTRAIT`, `OBJ_HALL_WALLPAPER`, `OBJ_HALL_CALL_CORD` |
-| 서재 | `OBJ_LIBRARY_OUTER_SHELVES`, `OBJ_LIBRARY_INNER_SHELVES`, `OBJ_LIBRARY_JOURNAL`, `OBJ_LIBRARY_JOURNAL_DESK`, `OBJ_LIBRARY_SERVICE_ALCOVE`, `OBJ_LIBRARY_PORTRAIT_LATCH`, `OBJ_LIBRARY_INDEX_DRAWERS`, `OBJ_LIBRARY_RECORD_CLOCK`, `OBJ_LIBRARY_MAP_FLOOR` |
+| 서재 | `OBJ_LIBRARY_OUTER_SHELVES`, `OBJ_LIBRARY_OUTER_CLOCK`, `OBJ_LIBRARY_INNER_SHELVES`, `OBJ_LIBRARY_JOURNAL`, `OBJ_LIBRARY_JOURNAL_DESK`, `OBJ_LIBRARY_SERVICE_ALCOVE`, `OBJ_LIBRARY_PORTRAIT_LATCH`, `OBJ_LIBRARY_INDEX_DRAWERS`, `OBJ_LIBRARY_RECORD_CLOCK`, `OBJ_LIBRARY_MAP_FLOOR` |
 | 주방·식당 | `OBJ_KITCHEN_TEA_SET`, `OBJ_DINING_TABLE`, `OBJ_KITCHEN_LIFE_PIPE` |
 | 온실 | `OBJ_GREENHOUSE_DOOR`, `OBJ_GREENHOUSE_PLANTER` |
 | 거울·지하 | `OBJ_MIRROR_BLACK`, `OBJ_BASEMENT_AXIS_DEVICE` |
@@ -2269,7 +2269,7 @@ canonical registry와 별도로 아래 프롤로그 사건 전용 part registry�
 | --- | --- | --- | --- |
 | P2 | `P2_TOOL_SOFT_CLOTH`, `P2_TOOL_COARSE_BRUSH`, `P2_TOOL_WATER_BOTTLE`, `P2_PROP_MARA1_SPANNER`, `P2_WINDOW_01`, `P2_WINDOW_02`, `P2_WINDOW_03`, `P2_OBS_REPEATING_BIRD`, `P2_PARLOR_CLOCK_PREVIEW`, `P2_PARLOR_SEATING`, `P2_PARLOR_CURTAIN`, `P2_SOUTH_DOUBLE_DOOR` | 없음 | `event_local_states.P2` |
 | P3 | `P3_BOOK_MECHANICAL_DRAWINGS`, `P3_BOOK_GREENHOUSE_FLORA`, `P3_BOOK_DINING_LEDGER`, `P3_CLASSIFICATION_SLOTS`, `P3_RETURN_SLOT`, `P3_JOURNAL_GLIMPSE` | `OBJ_LIBRARY_OUTER_SHELVES` | `event_local_states.P3` |
-| P3·B3_A | `P3_INNER_GLASS_DOOR`, `P3_OUTER_CLOCK_PREVIEW` | 없음 | lock·puzzle controller |
+| P3 경계 | `P3_INNER_GLASS_DOOR` | 없음 | lock controller |
 | P4 | `P4_EMPTY_CUP`, `P4_HOT_WATER`, `P4_TEA_LEAVES`, `P4_MEASURING_SPOON`, `P4_STEEP_TIMER`, `P4_TEAPOT` | `OBJ_KITCHEN_TEA_SET` | `event_local_states.P4` |
 | P4_IRIS_GREETING | `P4_IRIS_HERB_BASKET` | 없음 | sub-beat controller |
 | P5 | `P5_CORRIDOR_WINDOW`, `P5_GREENHOUSE_GLASS`, `P5_THRESHOLD`, `P5_CEILING_PIPE_AUDIO`, `P5_SEASON_SIGN` | 일부 `OBJ_GREENHOUSE_DOOR` | `event_local_states.P5` |
@@ -2304,7 +2304,7 @@ part registry 항목은 최소 `interaction_part_id`, `event_context`, `location
 68. canonical 부모 없는 P2 part가 `production_id`, `event_context`, location을 모두 가지는지 확인.
 69. P3·P4·P5의 부모·자식 반응이 동시에 일치할 때 자식 한 건만 입력을 소비하는지 확인.
 70. P2 부분 완료·오답 뒤 NORMAL_RESET에서 `event_local_states.P2`가 초기화되고 `OBS_REPEATING_BIRD` 영구 지식은 유지되는지 확인.
-71. P3 외부 시계 part가 `GGB-CNF-2026-0018` 해결 전 `OBJ_LIBRARY_RECORD_CLOCK`으로 해석되지 않는지 확인.
+71. `OBJ_LIBRARY_OUTER_CLOCK`이 `M1_LIBRARY_OUTER`의 B3 컨트롤러만, `OBJ_LIBRARY_RECORD_CLOCK`이 `M1_LIBRARY_INNER`의 에드가 진입 예고만 읽고 서로의 위치·상태 키·fallback을 공유하지 않는지 확인.
 
 ### 16.9 일시적 동의·확인 상태
 
@@ -3768,7 +3768,7 @@ UI hover·focus
 
 ## 33. 본 상세화 검증 결과
 
-검증 기준일: 2026-08-03.
+검증 기준일: 2026-08-29.
 
 | 검증 ID | 검사 | 결과 | 상태 |
 | --- | --- | --- | --- |
@@ -3779,7 +3779,7 @@ UI hover·focus
 | `QA-17-SET-01` | `Set[StringName]` 구현 지시 | 비지원 사실 설명 외 사용 0건 | PASS |
 | `QA-17-SAVE-01` | 진행·엔딩 메타·접근성 프로필 경계 | runtime schema 1·state r12·profile v1 각각 분리 | PASS |
 | `QA-17-OBJECT-01` | object reaction 상태 소유권 | memory는 meta, runtime은 loop에 단일 배치 | PASS |
-| `QA-17-ISSUE-01` | 해결 issues 집계 | CNF 17·ERR 18, 총 35건 VERIFIED·DONE; CNF-0018 1건 OPEN 분리 | PASS |
+| `QA-17-ISSUE-01` | 해결 issues 집계 | CNF 18·ERR 18, 총 36건 VERIFIED·DONE; 열린 항목 없음 | PASS |
 | `QA-17-SYNC-01` | §32 후속 문서 상태 | 대상 9개 모두 `완료` | PASS |
 | `QA-17-SYNC-02` | 정본 버전·저장 경계 동기화 | Godot 4.7·runtime schema 1·state r12·profile v1·`.tres`/JSON 분리 일치 | PASS |
 | `QA-17-SYNC-03` | 구식 현행 구현 표기 검색 | `Godot 예정`·runtime schema 1 외 현행 지시·Set 구현 지시 잔존 없음. r8~r11은 pre-release 상태 모델 이력으로만 사용 | PASS |

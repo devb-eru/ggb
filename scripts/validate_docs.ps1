@@ -1,4 +1,4 @@
-Set-StrictMode -Version Latest
+﻿Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
@@ -117,6 +117,21 @@ else {
         }
         else {
             $objectIds[$row.object_id] = $true
+        }
+    }
+
+    $clockLocationContracts = @{
+        "OBJ_LIBRARY_OUTER_CLOCK" = "M1_LIBRARY_OUTER"
+        "OBJ_LIBRARY_RECORD_CLOCK" = "M1_LIBRARY_INNER"
+    }
+    foreach ($clockId in $clockLocationContracts.Keys) {
+        $clockRows = @($objectRows | Where-Object { $_.object_id -eq $clockId })
+        if ($clockRows.Count -ne 1) {
+            Add-ValidationError "CLOCK_OBJECT_CONTRACT" "docs/game_object_catalog.csv" "$clockId count=$($clockRows.Count)"
+            continue
+        }
+        if ($clockRows[0].location_ids -ne $clockLocationContracts[$clockId]) {
+            Add-ValidationError "CLOCK_LOCATION_CONTRACT" "docs/game_object_catalog.csv" "$clockId=$($clockRows[0].location_ids)"
         }
     }
 }
@@ -344,6 +359,15 @@ else {
             Add-ValidationError "OBJECT_ASSET_REF" "docs/game_object_catalog.csv" "$($objectRow.object_id)=$($objectRow.art_asset_id)"
         }
     }
+
+    $outerClockAssetRows = @($manifest | Where-Object {
+        $_.asset_id -eq "ART_OBJ_LIBRARY_OUTER_CLOCK" -and
+        $_.source_entity_id -eq "OBJ_LIBRARY_OUTER_CLOCK" -and
+        $_.asset_type -eq "object_state"
+    })
+    if ($outerClockAssetRows.Count -ne 1) {
+        Add-ValidationError "CLOCK_ASSET_CONTRACT" "docs/asset_manifest.csv" "ART_OBJ_LIBRARY_OUTER_CLOCK -> OBJ_LIBRARY_OUTER_CLOCK count=$($outerClockAssetRows.Count)"
+    }
 }
 
 $requestRegisterPath = Join-Path $repoRoot "docs/requests/request_register.csv"
@@ -419,7 +443,7 @@ else {
             }
         }
 
-        if ($row.status -eq "READY_FOR_ACCEPTANCE") {
+        if ($row.status -in @("READY_FOR_ACCEPTANCE", "ACCEPTED", "IN_PROGRESS", "REVIEW", "APPROVED", "INTEGRATED", "CHANGES_REQUESTED")) {
             if ([string]::IsNullOrWhiteSpace($row.brief_path) -or $row.brief_path -eq "TBD") {
                 Add-ValidationError "REQUEST_BRIEF" "docs/requests/request_register.csv" "$($row.request_id) has no brief_path"
                 continue
@@ -488,6 +512,26 @@ else {
                         Add-ValidationError "REQUEST_BRIEF_ASSET" $row.brief_path $trimmedAssetId
                     }
                 }
+            }
+        }
+    }
+
+
+    $artVsRequest = @($requests | Where-Object { $_.request_id -eq "REQ-ART-2026-0001" })
+    if ($artVsRequest.Count -ne 1 -or "ART_OBJ_LIBRARY_OUTER_CLOCK" -notin @($artVsRequest[0].asset_ids.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries))) {
+        Add-ValidationError "CLOCK_ART_REQUEST" "docs/requests/request_register.csv" "REQ-ART-2026-0001 must own ART_OBJ_LIBRARY_OUTER_CLOCK"
+    }
+
+    $cntVsRequest = @($requests | Where-Object { $_.request_id -eq "REQ-CNT-2026-0001" })
+    if ($cntVsRequest.Count -eq 1) {
+        $cntVsBriefPath = Join-Path $repoRoot $cntVsRequest[0].brief_path
+        if (Test-Path -LiteralPath $cntVsBriefPath -PathType Leaf) {
+            $cntVsBriefText = [System.IO.File]::ReadAllText($cntVsBriefPath, $utf8)
+            if ($cntVsBriefText -notmatch '(?m)^\| `CNT-VS01-PUZA-01`[^\r\n]*`OBJ_LIBRARY_OUTER_CLOCK`') {
+                Add-ValidationError "CLOCK_CNT_REQUEST" $cntVsRequest[0].brief_path "CNT-VS01-PUZA-01 must reference OBJ_LIBRARY_OUTER_CLOCK"
+            }
+            if ($cntVsBriefText -match '(?m)^\| `CNT-VS01-PUZA-01`[^\r\n]*`OBJ_LIBRARY_RECORD_CLOCK`') {
+                Add-ValidationError "CLOCK_CNT_REQUEST" $cntVsRequest[0].brief_path "CNT-VS01-PUZA-01 must not reference OBJ_LIBRARY_RECORD_CLOCK"
             }
         }
     }
