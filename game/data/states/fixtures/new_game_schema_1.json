@@ -1,0 +1,17 @@
+{
+  "fixture_id": "FIX_NEW_GAME_SCHEMA_1",
+  "save_header": {
+    "schema_version": 1,
+    "design_revision": "v0.4-state-r12",
+    "build_flavor": "demo",
+    "content_boundary_id": "SAVE_NEW_GAME",
+    "source_app_id": "local"
+  },
+  "expected": {
+    "revision": 0,
+    "journal_stage": 0,
+    "broken_reset_triggered": false,
+    "camouflage_filter": "active",
+    "final_decision": "unset"
+  }
+}

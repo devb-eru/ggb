@@ -1,3 +1,4 @@
+class_name PracticeInventory
 extends Node
 
 signal item_added(item_id: StringName)

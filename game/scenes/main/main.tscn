@@ -1,6 +1,94 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/systems/bootstrap.gd" id="1_bootstrap"]
+[ext_resource type="Script" path="res://scripts/systems/input_router.gd" id="2_input"]
+[ext_resource type="Script" path="res://scripts/systems/interaction_router.gd" id="3_interaction"]
 
-[node name="GGBMain" type="Node"]
+[node name="GGBMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_bootstrap")
+
+[node name="InputRouter" type="Node" parent="."]
+script = ExtResource("2_input")
+
+[node name="InteractionRouter" type="Node" parent="."]
+script = ExtResource("3_interaction")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.035, 0.043, 0.067, 1)
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="Panel" type="VBoxContainer" parent="SafeArea"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="SafeArea/Panel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "GGB technical foundation"
+
+[node name="Description" type="Label" parent="SafeArea/Panel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 22
+text = "Keyboard: Tab / Shift+Tab, Enter or Space. N opens the notebook fixture; I opens inventory."
+autowrap_mode = 2
+
+[node name="RunFoundationEvent" type="Button" parent="SafeArea/Panel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Run foundation event"
+
+[node name="OpenNotebook" type="Button" parent="SafeArea/Panel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Notebook"
+
+[node name="OpenInventory" type="Button" parent="SafeArea/Panel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Inventory"
+
+[node name="Status" type="Label" parent="SafeArea/Panel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Ready."
+autowrap_mode = 2
+
+[connection signal="pressed" from="SafeArea/Panel/RunFoundationEvent" to="." method="_on_run_foundation_event_pressed"]
+[connection signal="pressed" from="SafeArea/Panel/OpenNotebook" to="." method="_on_open_notebook_pressed"]
+[connection signal="pressed" from="SafeArea/Panel/OpenInventory" to="." method="_on_open_inventory_pressed"]

@@ -22,7 +22,7 @@
 | [`GGB-CNF-2026-0016`](GGB-CNF-2026-0016_데모_임시_에셋_비율_산식_충돌.md) | VERIFIED | DONE | 데모 임시 에셋 비율 산식 충돌 |
 | [`GGB-CNF-2026-0017`](GGB-CNF-2026-0017_D5_데모_스팅어와_본편_재개_경계_충돌.md) | VERIFIED | DONE | D5 데모 스팅어와 본편 재개 경계 충돌 |
 | [`GGB-CNF-2026-0018`](GGB-CNF-2026-0018_외부서고_B3_시계와_기록내실_시계_ID_충돌.md) | VERIFIED | DONE | 외부 서고 B3 시계와 기록 내실 시계 ID 충돌 |
-| [`GGB-CNF-2026-0019`](GGB-CNF-2026-0019_렌더러_미확정과_D3D12_ForwardPlus_고정_충돌.md) | OPEN | READY | 렌더러 미확정과 D3D12·Forward+ 고정 충돌 |
+| [`GGB-CNF-2026-0019`](GGB-CNF-2026-0019_렌더러_미확정과_D3D12_ForwardPlus_고정_충돌.md) | BLOCKED | BLOCKED | 렌더러 미확정과 D3D12·Forward+ 고정 충돌 |
 
 ## 오류
 
@@ -46,9 +46,12 @@
 | [`GGB-ERR-2026-0016`](GGB-ERR-2026-0016_F2_필수_지식_수량_구식_표기.md) | VERIFIED | DONE | F2 필수 지식 수량 구식 표기 |
 | [`GGB-ERR-2026-0017`](GGB-ERR-2026-0017_플레이타임_합산과_관계경로_예산_불일치.md) | VERIFIED | DONE | 플레이타임 합산과 관계 경로 예산 불일치 |
 | [`GGB-ERR-2026-0018`](GGB-ERR-2026-0018_프롤로그_자식상호작용_공통반응_누락.md) | VERIFIED | DONE | 프롤로그 자식 상호작용 공통 반응 누락 |
-| [`GGB-ERR-2026-0019`](GGB-ERR-2026-0019_상태_사건_저장_최소런타임_미구현.md) | OPEN | READY | 상태·사건·저장 최소 런타임 미구현 |
-| [`GGB-ERR-2026-0020`](GGB-ERR-2026-0020_입력맵_기준해상도_내비게이션_뼈대_누락.md) | OPEN | READY | 입력맵·기준 해상도·내비게이션 뼈대 누락 |
-| [`GGB-ERR-2026-0021`](GGB-ERR-2026-0021_연습씬_초기상태_중복추정과_형제경로_결합.md) | DEFERRED | BACKLOG | 연습 씬 초기 상태 중복 추정과 형제 경로 결합 |
+| [`GGB-ERR-2026-0019`](GGB-ERR-2026-0019_상태_사건_저장_최소런타임_미구현.md) | VERIFIED | DONE | 상태·사건·저장 최소 런타임 미구현 |
+| [`GGB-ERR-2026-0020`](GGB-ERR-2026-0020_입력맵_기준해상도_내비게이션_뼈대_누락.md) | RESOLVED | REVIEW | 입력맵·기준 해상도·내비게이션 뼈대 누락 |
+| [`GGB-ERR-2026-0021`](GGB-ERR-2026-0021_연습씬_초기상태_중복추정과_형제경로_결합.md) | VERIFIED | DONE | 연습 씬 초기 상태 중복 추정과 형제 경로 결합 |
+| [`GGB-ERR-2026-0022`](GGB-ERR-2026-0022_저장로드_snapshot_GameState_복원경로_누락.md) | OPEN | READY | 저장 로드 snapshot·GameState 복원 경로 누락 |
+| [`GGB-ERR-2026-0023`](GGB-ERR-2026-0023_ResetCoordinator_최소런타임_누락.md) | OPEN | READY | ResetCoordinator 최소 런타임 누락 |
+| [`GGB-ERR-2026-0024`](GGB-ERR-2026-0024_한영_대화소스_로드기반_누락.md) | OPEN | READY | 한·영 대화 소스 로드 기반 누락 |
 
 ## 관리
 

@@ -748,6 +748,118 @@ else {
             Add-ValidationError "GODOT_MAIN_SCENE" "game/project.godot" "$mainSceneUri does not exist"
         }
     }
+
+    $requiredAutoloads = @(
+        'GameState="*res://scripts/autoload/game_state.gd"',
+        'SaveManager="*res://scripts/autoload/save_manager.gd"',
+        'EventManager="*res://scripts/autoload/event_manager.gd"'
+    )
+    foreach ($autoload in $requiredAutoloads) {
+        if ($projectText -notmatch ('(?m)^' + [regex]::Escape($autoload) + '$')) {
+            Add-ValidationError "GODOT_AUTOLOAD" "game/project.godot" $autoload
+        }
+    }
+
+    $requiredInputActions = @(
+        "interact_confirm", "ui_cancel", "notebook_toggle",
+        "inventory_toggle", "focus_next", "focus_previous"
+    )
+    foreach ($action in $requiredInputActions) {
+        if ($projectText -notmatch ('(?m)^' + [regex]::Escape($action) + '=\{$')) {
+            Add-ValidationError "GODOT_INPUT_ACTION" "game/project.godot" $action
+        }
+    }
+
+    $layoutContracts = @(
+        'window/size/viewport_width=1920',
+        'window/size/viewport_height=1080',
+        'window/size/window_width_override=1280',
+        'window/size/window_height_override=720',
+        'window/stretch/mode="canvas_items"',
+        'window/stretch/aspect="expand"'
+    )
+    foreach ($contract in $layoutContracts) {
+        if ($projectText -notmatch ('(?m)^' + [regex]::Escape($contract) + '$')) {
+            Add-ValidationError "GODOT_LAYOUT" "game/project.godot" $contract
+        }
+    }
+
+    if ($projectText -match '(?m)^rendering_device/driver\.windows="d3d12"$') {
+        Add-ValidationError "GODOT_RENDERER_PROVISIONAL" "game/project.godot" "D3D12 must not be fixed before renderer decision"
+    }
+    if ($projectText -notmatch '(?m)^renderer/rendering_method="gl_compatibility"$') {
+        Add-ValidationError "GODOT_RENDERER_PROVISIONAL" "game/project.godot" "portable provisional baseline is missing"
+    }
+}
+
+$foundationFiles = @(
+    "game/scripts/autoload/game_state.gd",
+    "game/scripts/autoload/event_manager.gd",
+    "game/scripts/autoload/save_manager.gd",
+    "game/scripts/systems/state_writer.gd",
+    "game/scripts/systems/input_router.gd",
+    "game/scripts/systems/interaction_router.gd",
+    "game/scripts/tests/foundation_smoke_runner.gd",
+    "game/scripts/tests/practice_scene_smoke.gd",
+    "game/data/events/system/event_foundation_smoke.tres",
+    "game/data/states/state_path_registry.json",
+    "game/data/states/fixtures/new_game_schema_1.json",
+    "game/data/states/fixtures/normal_reset_schema_1.json",
+    "game/data/states/fixtures/future_schema_2.json",
+    "game/data/states/fixtures/corrupted_primary.txt",
+    "game/export_presets.cfg",
+    "scripts/run_godot_foundation.ps1",
+    "scripts/validate_renderer_candidates.ps1"
+)
+foreach ($relativePath in $foundationFiles) {
+    if (-not (Test-Path -LiteralPath (Join-Path $repoRoot $relativePath) -PathType Leaf)) {
+        Add-ValidationError "GODOT_FOUNDATION_FILE" $relativePath "file is missing"
+    }
+}
+
+foreach ($fixtureName in @("new_game_schema_1.json", "normal_reset_schema_1.json", "future_schema_2.json")) {
+    $fixturePath = Join-Path $gameRoot "data/states/fixtures/$fixtureName"
+    if (Test-Path -LiteralPath $fixturePath -PathType Leaf) {
+        try {
+            $fixture = Get-Content -Raw -LiteralPath $fixturePath -Encoding utf8 | ConvertFrom-Json
+            if ($fixture.save_header.schema_version -lt 1) {
+                Add-ValidationError "GODOT_SAVE_FIXTURE" "game/data/states/fixtures/$fixtureName" "invalid schema_version"
+            }
+        }
+        catch {
+            Add-ValidationError "GODOT_SAVE_FIXTURE" "game/data/states/fixtures/$fixtureName" $_.Exception.Message
+        }
+    }
+}
+
+$stateWriterPath = Join-Path $gameRoot "scripts/systems/state_writer.gd"
+if (Test-Path -LiteralPath $stateWriterPath -PathType Leaf) {
+    $stateWriterText = [System.IO.File]::ReadAllText($stateWriterPath, $utf8)
+    foreach ($token in @("ERR_STATE_PATH_NOT_REGISTERED", "ERR_STATE_STALE_REVISION", "commit_atomic")) {
+        if ($stateWriterText -notmatch [regex]::Escape($token)) {
+            Add-ValidationError "GODOT_STATE_WRITER" "game/scripts/systems/state_writer.gd" $token
+        }
+    }
+}
+
+$saveManagerPath = Join-Path $gameRoot "scripts/autoload/save_manager.gd"
+if (Test-Path -LiteralPath $saveManagerPath -PathType Leaf) {
+    $saveManagerText = [System.IO.File]::ReadAllText($saveManagerPath, $utf8)
+    foreach ($token in @("progress.tmp.json", "progress.bak.json", "HASH_SHA256", "ERR_SAVE_FUTURE_SCHEMA", "raw_text.replace")) {
+        if ($saveManagerText -notmatch [regex]::Escape($token)) {
+            Add-ValidationError "GODOT_SAVE_PIPELINE" "game/scripts/autoload/save_manager.gd" $token
+        }
+    }
+}
+
+$bootstrapPath = Join-Path $gameRoot "scripts/systems/bootstrap.gd"
+if (Test-Path -LiteralPath $bootstrapPath -PathType Leaf) {
+    $bootstrapText = [System.IO.File]::ReadAllText($bootstrapPath, $utf8)
+    foreach ($token in @("NOTIFICATION_APPLICATION_FOCUS_OUT", "_set_ui_input_suspended", "button.disabled = suspended")) {
+        if ($bootstrapText -notmatch [regex]::Escape($token)) {
+            Add-ValidationError "GODOT_FOCUS_GUARD" "game/scripts/systems/bootstrap.gd" $token
+        }
+    }
 }
 
 $godotSourceFiles = Get-ChildItem -LiteralPath $gameRoot -Recurse -File |
@@ -781,6 +893,47 @@ if (Test-Path -LiteralPath $practiceKeyPath -PathType Leaf) {
         $practiceKeyText -notmatch '\.add_item\('
     ) {
         Add-ValidationError "PRACTICE_KEY_ACQUIRE" "game/key.gd" "acquisition must write inventory, hide, and disable the key"
+    }
+}
+
+$practiceFiles = @("background.gd", "drawer.gd", "key.gd", "lock.gd")
+foreach ($practiceFile in $practiceFiles) {
+    $practicePath = Join-Path $gameRoot $practiceFile
+    if (Test-Path -LiteralPath $practicePath -PathType Leaf) {
+        $practiceText = [System.IO.File]::ReadAllText($practicePath, $utf8)
+        if ($practiceText -match '\$["'']?\.\./') {
+            Add-ValidationError "PRACTICE_SIBLING_NODEPATH" "game/$practiceFile" "direct sibling NodePath remains"
+        }
+    }
+}
+
+$practiceControllerPath = Join-Path $gameRoot "practice_scene_controller.gd"
+if (Test-Path -LiteralPath $practiceControllerPath -PathType Leaf) {
+    $practiceControllerText = [System.IO.File]::ReadAllText($practiceControllerPath, $utf8)
+    foreach ($token in @("@export_node_path", "_apply_background_snapshot", "_key.apply_snapshot")) {
+        if ($practiceControllerText -notmatch [regex]::Escape($token)) {
+            Add-ValidationError "PRACTICE_CONTROLLER" "game/practice_scene_controller.gd" $token
+        }
+    }
+}
+else {
+    Add-ValidationError "PRACTICE_CONTROLLER" "game/practice_scene_controller.gd" "file is missing"
+}
+
+$productionRoots = @(
+    (Join-Path $gameRoot "scenes/main"),
+    (Join-Path $gameRoot "scripts/autoload"),
+    (Join-Path $gameRoot "scripts/systems")
+)
+foreach ($productionRoot in $productionRoots) {
+    if (-not (Test-Path -LiteralPath $productionRoot -PathType Container)) {
+        continue
+    }
+    foreach ($file in Get-ChildItem -LiteralPath $productionRoot -Recurse -File) {
+        $text = [System.IO.File]::ReadAllText($file.FullName, $utf8)
+        if ($text -match 'signal_practice|res://(?:background|drawer|key|lock|practice_inventory)\.gd') {
+            Add-ValidationError "PRACTICE_PRODUCTION_ISOLATION" (Get-RepoRelativePath $file.FullName) "practice dependency"
+        }
     }
 }
 

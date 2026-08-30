@@ -5,8 +5,8 @@
 | 필드 | 값 |
 | --- | --- |
 | 심각도 | 높음 |
-| 상태 | OPEN |
-| 작업 상태 | READY |
+| 상태 | BLOCKED |
+| 작업 상태 | BLOCKED |
 | 우선순위 | P1 |
 | 담당자 | `beru` |
 | 목표 마일스톤 | `TECH_01_FOUNDATION` |
@@ -35,11 +35,32 @@
 
 ## 완료 조건
 
-- [ ] 두 후보가 같은 시험 장면과 품질표를 사용한다.
+- [x] 두 후보가 같은 foundation 시험 장면과 품질표를 사용한다.
 - [ ] 최소 네 장비 역할의 계측표와 실패 원인이 있다.
 - [ ] 색 제거·UI 200%에서 필수 단서 동등성을 확인한다.
 - [ ] renderer 결정 ID가 프로젝트 설정과 배포 문서에 연결된다.
-- [ ] Windows debug export를 깨끗한 사용자 환경에서 실행한다.
+- [x] Windows debug export를 격리된 사용자 데이터 환경에서 실행한다.
+
+## 부분 처리와 차단 사유
+
+```yaml
+changed_in:
+  - game/project.godot
+  - game/export_presets.cfg
+  - scripts/validate_renderer_candidates.ps1
+  - docs/technical_performance_budget.md
+partial_resolution: D3D12·Forward+ 단일 고정을 제거하고 GL Compatibility를 이식성 우선 임시 실행 기준으로 설정, 동일 content를 두 후보로 export·smoke하는 명령 추가
+blocked_by:
+  - C5·D5·E1과 색 제거 모드의 production 시험 장면 미구현
+  - LOW-IGPU·LOW-DGPU·MID·HIGH-DPI 실제 Windows 장비 미배정
+  - 이 호스트의 Godot 4.7 실행 파일·Windows export template 부재
+next_evidence:
+  - QA-CNF-0019-CANDIDATES
+  - QA-CNF-0019-PERF
+  - QA-CNF-0019-DECISION
+```
+
+현재 Compatibility 설정은 `PROVISIONAL_UNTIL_VERTICAL_SLICE`이며 renderer 결정 ID가 아니다. `scripts/validate_renderer_candidates.ps1`의 두 debug 산출물과 실제 콘텐츠 계측표가 모두 생긴 뒤 `IN_PROGRESS`로 되돌려 결정 기록을 작성한다.
 
 ## 검증 계획
 
@@ -54,3 +75,4 @@
 | 날짜 | 주체 | 내용 | 상태 |
 | --- | --- | --- | --- |
 | 2026-08-30 | `Codex` | 코드 재감사에서 미확정 렌더러와 단일 D3D12·Forward+ 설정의 충돌 등록 | OPEN · READY |
+| 2026-08-30 | `Codex` | 단일 고정 제거·임시 Compatibility 기준·두 후보 export 명령 추가, 실제 콘텐츠·장비 계측 대기 | BLOCKED |

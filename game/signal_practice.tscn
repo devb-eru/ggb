@@ -1,7 +1,6 @@
-[gd_scene format=3 uid="uid://dvyxrnl76ak4v"]
+[gd_scene load_steps=11 format=3 uid="uid://dvyxrnl76ak4v"]
 
-[ext_resource type="Script" uid="uid://drsjcwhyakxqn" path="res://next_button.gd" id="1_pcqjb"]
-[ext_resource type="Script" uid="uid://c6bixmjpjqpbp" path="res://previous_button.gd" id="2_pwt65"]
+[ext_resource type="Script" path="res://practice_scene_controller.gd" id="1_controller"]
 [ext_resource type="Texture2D" uid="uid://c6wmbd6bd3vmy" path="res://background1.png" id="3_pwt65"]
 [ext_resource type="Script" uid="uid://lowfmf7ga5ou" path="res://background.gd" id="4_pwt65"]
 [ext_resource type="Texture2D" uid="uid://bgn70a2mqx6hj" path="res://drawer_close.png" id="5_aytpw"]
@@ -13,6 +12,14 @@
 [ext_resource type="Script" path="res://lock.gd" id="9_lock"]
 
 [node name="main" type="Node2D" unique_id=1043276281]
+script = ExtResource("1_controller")
+next_button_path = NodePath("next_button")
+previous_button_path = NodePath("previous_button")
+background_path = NodePath("background")
+inventory_path = NodePath("inventory")
+drawer_path = NodePath("drawer")
+key_path = NodePath("key")
+lock_path = NodePath("lock")
 
 [node name="next_button" type="Button" parent="." unique_id=391170264]
 offset_left = 1053.0
@@ -21,7 +28,6 @@ offset_right = 1135.0
 offset_bottom = 280.0
 text = "다음 장면
 "
-script = ExtResource("1_pcqjb")
 
 [node name="previous_button" type="Button" parent="." unique_id=33456371]
 offset_left = 22.0
@@ -29,7 +35,6 @@ offset_top = 237.0
 offset_right = 106.0
 offset_bottom = 285.0
 text = "이전 장면"
-script = ExtResource("2_pwt65")
 
 [node name="background" type="Sprite2D" parent="." unique_id=787155839]
 show_behind_parent = true
@@ -72,8 +77,3 @@ position = Vector2(871.00006, 427)
 scale = Vector2(0.08973512, 0.17570578)
 texture = ExtResource("7_tjar1")
 script = ExtResource("9_lock")
-
-[connection signal="pressed" from="next_button" to="next_button" method="_on_pressed"]
-[connection signal="pressed" from="previous_button" to="previous_button" method="_on_pressed"]
-[connection signal="pressed" from="drawer" to="drawer" method="_on_pressed"]
-[connection signal="pressed" from="key" to="key" method="_on_pressed"]

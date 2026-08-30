@@ -1,0 +1,8 @@
+{
+  "fixture_id": "FIX_FUTURE_SCHEMA_2",
+  "save_header": {
+    "schema_version": 2,
+    "design_revision": "future-test-only"
+  },
+  "expected_error_id": "ERR_SAVE_FUTURE_SCHEMA"
+}

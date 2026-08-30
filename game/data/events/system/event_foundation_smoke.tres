@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="EventDefinition" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/event_definition.gd" id="1_event"]
+[ext_resource type="Script" path="res://scripts/data_types/event_node_definition.gd" id="2_node"]
+[ext_resource type="Script" path="res://scripts/data_types/state_write.gd" id="3_write"]
+[ext_resource type="Script" path="res://scripts/data_types/typed_state_value.gd" id="4_value"]
+
+[sub_resource type="Resource" id="TypedStateValue_notebook"]
+script = ExtResource("4_value")
+value_type = "bool"
+bool_value = true
+
+[sub_resource type="Resource" id="TypedStateValue_journal"]
+script = ExtResource("4_value")
+value_type = "int"
+int_value = 1
+
+[sub_resource type="Resource" id="StateWrite_notebook"]
+script = ExtResource("3_write")
+state_path = &"meta_progress.notebook_persistence_confirmed"
+value = SubResource("TypedStateValue_notebook")
+
+[sub_resource type="Resource" id="StateWrite_journal"]
+script = ExtResource("3_write")
+state_path = &"meta_progress.journal_stage"
+value = SubResource("TypedStateValue_journal")
+
+[sub_resource type="Resource" id="EventNode_entry"]
+script = ExtResource("2_node")
+node_id = &"entry"
+writes = Array[ExtResource("3_write")]([SubResource("StateWrite_notebook"), SubResource("StateWrite_journal")])
+result_id = &"foundation_ready"
+
+[resource]
+script = ExtResource("1_event")
+event_id = &"FOUNDATION_SMOKE"
+category = &"system"
+entry_node_id = &"entry"
+save_point_id = &"SAVE_FOUNDATION_SMOKE"
+nodes = Array[ExtResource("2_node")]([SubResource("EventNode_entry")])
