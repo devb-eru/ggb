@@ -5,8 +5,8 @@
 | 필드 | 값 |
 | --- | --- |
 | 심각도 | 높음 |
-| 상태 | OPEN |
-| 작업 상태 | READY |
+| 상태 | VERIFIED |
+| 작업 상태 | DONE |
 | 우선순위 | P1 |
 | 담당자 | `beru` |
 | 목표 마일스톤 | `TECH_01_FOUNDATION` |
@@ -31,11 +31,31 @@
 
 ## 완료 조건
 
-- [ ] 새 프로세스에서 정상 슬롯을 불러오면 저장 직전의 영구·루프·파열 상태가 동등하다.
-- [ ] 일부 루트만 적용되는 중간 상태가 존재하지 않는다.
-- [ ] 손상 primary는 backup을 설치하고 복구 사실을 표시한다.
-- [ ] future schema와 허용되지 않은 build flavor·boundary는 GameState를 변경하지 않는다.
-- [ ] 모든 save point가 등록된 안전 resume node를 가진다.
+- [x] 새 프로세스에서 정상 슬롯을 불러오면 저장 직전의 영구·루프·파열 상태가 동등하다.
+- [x] 일부 루트만 적용되는 중간 상태가 존재하지 않는다.
+- [x] 손상 primary는 backup을 설치하고 복구 사실을 표시한다.
+- [x] future schema와 허용되지 않은 build flavor·boundary는 GameState를 변경하지 않는다.
+- [x] 모든 save point가 등록된 안전 resume node를 가진다.
+
+## 해결 내용
+
+```yaml
+resolved_in:
+  - game/scripts/systems/state_snapshot_validator.gd
+  - game/scripts/systems/state_writer.gd
+  - game/scripts/systems/load_coordinator.gd
+  - game/data/registries/save_point_registry.json
+  - game/scripts/tests/foundation_runtime_regression.gd
+resolution_summary: 전체 snapshot을 schema·논리 집합·교차 루트 불변식 검사 뒤 한 revision으로 설치하고, 저장 지점 registry와 진행 중 reset phase를 안전 재개 event·node로 해석한다.
+verification_ids:
+  - QA-ERR-0022-INSTALL
+  - QA-ERR-0022-RESUME
+  - QA-ERR-0022-RECOVERY
+verification_state: PASS
+verified_on: 2026-08-30
+```
+
+Godot JSON 숫자는 로드 경계에서 런타임 정수 타입으로 정규화한다. primary 손상 복구 여부는 `recovered=true`, 설치 출처는 `source=backup`으로 호출자에게 반환하며 future schema와 등록되지 않은 경계는 설치 전에 거부한다.
 
 ## 검증 계획
 
@@ -50,3 +70,4 @@
 | 날짜 | 주체 | 내용 | 상태 |
 | --- | --- | --- | --- |
 | 2026-08-30 | `Codex` | 최소 저장 smoke 완료 뒤 실제 GameState 설치·안전 재개 경로 부재를 독립 오류로 등록 | OPEN · READY |
+| 2026-08-30 | `Codex` | 전체 snapshot 검증·원자 설치·save point registry·backup/future schema 회귀 fixture 구현 및 Godot 4.7.2 실기 통과 | VERIFIED · DONE |

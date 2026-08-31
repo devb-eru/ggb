@@ -5,8 +5,8 @@
 | 필드 | 값 |
 | --- | --- |
 | 심각도 | 높음 |
-| 상태 | OPEN |
-| 작업 상태 | READY |
+| 상태 | VERIFIED |
+| 작업 상태 | DONE |
 | 우선순위 | P1 |
 | 담당자 | `beru` |
 | 목표 마일스톤 | `TECH_01_FOUNDATION` |
@@ -31,10 +31,29 @@
 
 ## 완료 조건
 
-- [ ] NORMAL_RESET이 영구 정보·관계·대화 기록을 보존하고 루프 물리 상태만 초기화한다.
-- [ ] BROKEN_RESET은 한 번만 발생하고 위장 필터·세계 단계가 원자적으로 전환된다.
-- [ ] 어느 단계에서 종료해도 보상·기억·일지 효과가 중복되지 않는다.
-- [ ] 완료 뒤 `reset_state.phase=idle`과 최신 완료 transaction이 저장된다.
+- [x] NORMAL_RESET이 영구 정보·관계·대화 기록을 보존하고 루프 물리 상태만 초기화한다.
+- [x] BROKEN_RESET은 한 번만 발생하고 위장 필터·세계 단계가 원자적으로 전환된다.
+- [x] 어느 단계에서 종료해도 보상·기억·일지 효과가 중복되지 않는다.
+- [x] 완료 뒤 `reset_state.phase=idle`과 최신 완료 transaction이 저장된다.
+
+## 해결 내용
+
+```yaml
+resolved_in:
+  - game/scripts/autoload/game_state.gd
+  - game/scripts/systems/reset_coordinator.gd
+  - game/scripts/systems/load_coordinator.gd
+  - game/scripts/tests/foundation_runtime_regression.gd
+resolution_summary: sleep_confirmed부터 complete·idle까지 각 단계를 전체 snapshot 원자 커밋과 안전 저장으로 확정하며 NORMAL·BROKEN을 분리하고 transaction ID로 재개한다.
+verification_ids:
+  - QA-ERR-0023-NORMAL
+  - QA-ERR-0023-BROKEN
+  - QA-ERR-0023-CRASH
+verification_state: PASS
+verified_on: 2026-08-30
+```
+
+NORMAL과 BROKEN 각각 일곱 중단 phase를 저장한 뒤 `GameState`를 초기화하고 다시 로드해 최종 `idle`까지 재개했다. 총 14개 중단 경로에서 영구 상태 동등성, 루프 물리 폐기, BROKEN 단발 S3 전환과 후속 `POST_BROKEN_REST` 라우팅을 확인했다.
 
 ## 검증 계획
 
@@ -49,3 +68,4 @@
 | 날짜 | 주체 | 내용 | 상태 |
 | --- | --- | --- | --- |
 | 2026-08-30 | `Codex` | 기술 기반선 계약과 실제 코드 대조에서 ResetCoordinator 부재를 등록 | OPEN · READY |
+| 2026-08-30 | `Codex` | 단계형 reset transaction·단계별 저장·14개 중단 재개 fixture를 구현하고 Godot 4.7.2 실기 통과 | VERIFIED · DONE |

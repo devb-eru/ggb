@@ -18,6 +18,10 @@ func get_snapshot() -> Dictionary:
 	return _state.duplicate(true)
 
 
+func make_default_snapshot() -> Dictionary:
+	return _make_default_state()
+
+
 func get_value(state_path: StringName, fallback: Variant = null) -> Variant:
 	var cursor: Variant = _state
 	for segment in String(state_path).split("."):
@@ -102,6 +106,11 @@ func _make_default_state() -> Dictionary:
 			"reset_type": "none",
 			"transaction_id": "",
 			"last_completed_transaction_id": "",
+			"player_commit_complete": false,
+			"memory_commit_complete": false,
+			"physical_reset_complete": false,
+			"route_snapshot_id": "",
+			"pending_reactions_snapshot": [],
 		},
 		"ending_run": {
 			"final_decision": "unset",

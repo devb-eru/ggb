@@ -12,6 +12,69 @@ const BUILD_FLAVOR := "demo"
 const CONTENT_REVISION := "unlocked"
 const SOURCE_APP_ID := "local"
 const SAVE_ROOT := "user://saves"
+const PRODUCT_SLOT_IDS := ["slot_01", "slot_02", "slot_03"]
+
+
+func get_build_flavor() -> String:
+	return BUILD_FLAVOR
+
+
+func get_source_app_id() -> String:
+	return SOURCE_APP_ID
+
+
+func list_slot_summaries() -> Array[Dictionary]:
+	var summaries: Array[Dictionary] = []
+	for slot_id in PRODUCT_SLOT_IDS:
+		summaries.append(inspect_slot(slot_id))
+	return summaries
+
+
+func inspect_slot(slot_id: String) -> Dictionary:
+	if not _is_safe_slot_id(slot_id):
+		return {"slot_id": slot_id, "available": false, "error_id": &"ERR_SAVE_SLOT_ID"}
+	var paths := _slot_paths(slot_id)
+	var result := _read_and_validate(paths["main"])
+	var source := "main"
+	if not bool(result.get("ok", false)) and result.get("error_id", &"") != &"ERR_SAVE_FUTURE_SCHEMA":
+		var backup := _read_and_validate(paths["backup"])
+		if bool(backup.get("ok", false)):
+			result = backup
+			source = "backup"
+	if not bool(result.get("ok", false)):
+		return {
+			"slot_id": slot_id,
+			"available": false,
+			"incompatible": result.get("error_id", &"") == &"ERR_SAVE_FUTURE_SCHEMA",
+			"error_id": result.get("error_id", &"ERR_SAVE_NOT_FOUND"),
+		}
+	var header: Dictionary = result["header"]
+	var snapshot: Dictionary = result["snapshot"]
+	var loop_state: Dictionary = snapshot.get("loop_state", {})
+	var meta_progress: Dictionary = snapshot.get("meta_progress", {})
+	return {
+		"slot_id": slot_id,
+		"available": true,
+		"source": source,
+		"updated_at_utc": int(header.get("updated_at_utc", 0)),
+		"save_point_id": String(header.get("save_point_id", "")),
+		"day_index": int(loop_state.get("day_index", 0)),
+		"location_id": String(loop_state.get("location_id", "")),
+		"journal_stage": int(meta_progress.get("journal_stage", 0)),
+	}
+
+
+func find_latest_slot_id() -> String:
+	var latest_slot_id := ""
+	var latest_timestamp := -1
+	for summary in list_slot_summaries():
+		if not bool(summary.get("available", false)):
+			continue
+		var timestamp := int(summary.get("updated_at_utc", 0))
+		if timestamp > latest_timestamp:
+			latest_timestamp = timestamp
+			latest_slot_id = String(summary["slot_id"])
+	return latest_slot_id
 
 
 func save_snapshot(

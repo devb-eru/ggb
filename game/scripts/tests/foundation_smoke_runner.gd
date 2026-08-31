@@ -92,6 +92,11 @@ func run() -> Dictionary:
 	]:
 		_expect(InputMap.has_action(action_name), "missing input action: %s" % action_name, errors)
 
+	var runtime_regression := FoundationRuntimeRegression.new().run()
+	if not bool(runtime_regression.get("ok", false)):
+		for runtime_error in runtime_regression.get("errors", PackedStringArray()):
+			errors.append(String(runtime_error))
+
 	SaveManager.delete_test_slot(TEST_SLOT)
 	GameState.reset_for_test()
 	return {"ok": errors.is_empty(), "errors": errors}

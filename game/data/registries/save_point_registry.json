@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "design_revision": "v0.4-state-r12",
+  "build_flavors": ["demo", "full"],
+  "source_app_ids": ["local"],
+  "save_points": {
+    "SAVE_NEW_GAME": {"build_flavors": ["demo", "full"], "resume_event_id": "P1", "resume_node_id": "P1_ENTRY"},
+    "SAVE_P6_COMPLETE": {"build_flavors": ["demo", "full"], "resume_event_id": "SYS_RESET", "resume_node_id": "NORMAL_RESET"},
+    "SAVE_NORMAL_RESET_COMPLETE": {"build_flavors": ["demo", "full"], "resume_event_id": "ROUTE", "resume_node_id": "MORNING_ROUTE"},
+    "SAVE_A2_COMPLETE": {"build_flavors": ["demo", "full"], "resume_event_id": "B1", "resume_node_id": "B1_ENTRY"},
+    "SAVE_J1_COMPLETE": {"build_flavors": ["demo", "full"], "resume_event_id": "B3", "resume_node_id": "B3_PREPARE"},
+    "SAVE_J2_COMPLETE": {"build_flavors": ["demo", "full"], "resume_event_id": "SYS_RESET", "resume_node_id": "NORMAL_RESET"},
+    "SAVE_J3_COMPLETE": {"build_flavors": ["demo", "full"], "resume_event_id": "D0", "resume_node_id": "D0_ENTRY"},
+    "SAVE_D4_COMPLETE": {"build_flavors": ["demo", "full"], "resume_event_id": "D5", "resume_node_id": "D5_ENTRY"},
+    "SAVE_D5_COMPLETE": {"build_flavors": ["demo"], "resume_event_id": "DEMO_END", "resume_node_id": "DEMO_END_SCREEN"},
+    "SAVE_FRACTURE_CONFIRMED": {"build_flavors": ["demo", "full"], "resume_event_id": "SYS_RESET", "resume_node_id": "FRACTURE_SLEEP"},
+    "SAVE_BROKEN_RESET_COMPLETE": {"build_flavors": ["demo", "full"], "resume_event_id": "E1", "resume_node_id": "E1_ENTRY"},
+    "SAVE_E2_COMPLETE": {"build_flavors": ["full"], "resume_event_id": "E_HUB", "resume_node_id": "E_HUB"},
+    "SAVE_J4_COMPLETE": {"build_flavors": ["full"], "resume_event_id": "E3_4", "resume_node_id": "E3_4_ROUTE"},
+    "SAVE_E5_COMPLETE": {"build_flavors": ["full"], "resume_event_id": "E6", "resume_node_id": "E6_FREE_INSPECTION"},
+    "SAVE_F2_COMPLETE": {"build_flavors": ["full"], "resume_event_id": "F3", "resume_node_id": "F3_ENTRY"},
+    "SAVE_F3_COMPLETE": {"build_flavors": ["full"], "resume_event_id": "F3", "resume_node_id": "F3_COMPLETION"},
+    "SAVE_ENDING_BRANCH": {"build_flavors": ["full"], "resume_event_id": "ENDING", "resume_node_id": "SELECTED_BRANCH_ENTRY"},
+    "SAVE_ENDING_NODE": {"build_flavors": ["full"], "resume_event_id": "ENDING", "resume_node_id": "FIRST_INCOMPLETE_NODE"},
+    "SAVE_ENDING_COMPLETE": {"build_flavors": ["full"], "resume_event_id": "CREDITS", "resume_node_id": "CREDITS_ENTRY"},
+    "SAVE_FOUNDATION_SMOKE": {"build_flavors": ["demo"], "resume_event_id": "FOUNDATION_SMOKE", "resume_node_id": "FOUNDATION_ENTRY", "debug_only": true},
+    "SAVE_FOUNDATION_BACKUP": {"build_flavors": ["demo"], "resume_event_id": "FOUNDATION_SMOKE", "resume_node_id": "FOUNDATION_ENTRY", "debug_only": true}
+  }
+}

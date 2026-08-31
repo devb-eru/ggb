@@ -13,6 +13,7 @@ const TYPE_NAME_MAP := {
 var _game_state: Node
 var _path_specs: Dictionary = {}
 var _registry_error: StringName = &""
+var _snapshot_validator := StateSnapshotValidator.new()
 
 
 func _init(game_state: Node) -> void:
@@ -53,9 +54,12 @@ func commit_atomic(
 			return _failure(&"ERR_STATE_PARENT_MISSING")
 		changed_paths.append(state_path)
 
-	var invariant_error := _validate_invariants(staged_snapshot)
-	if invariant_error != &"":
-		return _failure(invariant_error)
+	var validation := _snapshot_validator.validate(staged_snapshot)
+	if not bool(validation.get("ok", false)):
+		return {
+			"ok": false,
+			"error_ids": validation.get("error_ids", PackedStringArray()),
+		}
 
 	var committed_revision: int = _game_state.commit_validated_snapshot(
 		staged_snapshot,
@@ -66,6 +70,40 @@ func commit_atomic(
 	if committed_revision < 0:
 		return _failure(&"ERR_STATE_STALE_REVISION")
 
+	return {
+		"ok": true,
+		"revision": committed_revision,
+		"changed_paths": changed_paths,
+		"previous_snapshot": previous_snapshot,
+	}
+
+
+func install_snapshot(
+	next_snapshot: Dictionary,
+	expected_revision: int,
+	transaction_id: StringName
+) -> Dictionary:
+	if expected_revision != _game_state.revision:
+		return _failure(&"ERR_STATE_STALE_REVISION")
+	var validation := _snapshot_validator.validate(next_snapshot)
+	if not bool(validation.get("ok", false)):
+		return {
+			"ok": false,
+			"error_ids": validation.get("error_ids", PackedStringArray()),
+		}
+	var previous_snapshot: Dictionary = _game_state.get_snapshot()
+	var changed_paths := PackedStringArray()
+	for root_key in StateSnapshotValidator.ROOT_KEYS:
+		if previous_snapshot.get(root_key) != next_snapshot.get(root_key):
+			changed_paths.append(root_key)
+	var committed_revision: int = _game_state.commit_validated_snapshot(
+		next_snapshot,
+		expected_revision,
+		transaction_id,
+		changed_paths
+	)
+	if committed_revision < 0:
+		return _failure(&"ERR_STATE_STALE_REVISION")
 	return {
 		"ok": true,
 		"revision": committed_revision,
@@ -123,23 +161,6 @@ func _set_path(snapshot: Dictionary, state_path: String, value: Variant) -> bool
 		cursor = cursor[segment]
 	cursor[segments[-1]] = value
 	return true
-
-
-func _validate_invariants(snapshot: Dictionary) -> StringName:
-	var fracture: Dictionary = snapshot["fracture_state"]
-	var is_broken := bool(fracture["broken_reset_triggered"])
-	var filter_is_broken := String(fracture["camouflage_filter"]) == "broken"
-	if is_broken != filter_is_broken:
-		return &"ERR_STATE_FRACTURE_FILTER_INVARIANT"
-
-	var ending: Dictionary = snapshot["ending_run"]
-	var final_decision := String(ending["final_decision"])
-	var selected_ending := String(ending["selected_ending"])
-	if final_decision == "unset" and not selected_ending.is_empty():
-		return &"ERR_STATE_ENDING_INVARIANT"
-	if final_decision in ["reality", "remain"] and selected_ending != final_decision:
-		return &"ERR_STATE_ENDING_INVARIANT"
-	return &""
 
 
 func _failure(error_id: StringName) -> Dictionary:

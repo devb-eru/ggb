@@ -6,6 +6,7 @@
     "ending_run.selected_ending": {"type": "string", "writer": "StateWriter"},
     "fracture_state.broken_reset_triggered": {"type": "bool", "writer": "StateWriter"},
     "fracture_state.camouflage_filter": {"type": "string", "writer": "StateWriter"},
+    "meta_progress.dialogue_history": {"type": "dictionary", "writer": "StateWriter"},
     "meta_progress.event_history.FOUNDATION_SMOKE": {"type": "dictionary", "writer": "StateWriter"},
     "meta_progress.journal_stage": {"type": "int", "minimum": 0, "maximum": 5, "writer": "StateWriter"},
     "meta_progress.notebook_persistence_confirmed": {"type": "bool", "writer": "StateWriter"}

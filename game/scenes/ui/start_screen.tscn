@@ -1,0 +1,938 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/start_screen.gd" id="1_start"]
+[ext_resource type="Script" path="res://scripts/ui/ui_title_placeholder_art.gd" id="2_art"]
+
+[sub_resource type="StyleBoxFlat" id="StyleMenu"]
+bg_color = Color(0.035, 0.012, 0.045, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.62, 0.12, 0.08, 0.88)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleModal"]
+bg_color = Color(0.035, 0.012, 0.052, 0.985)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.56, 0.10, 0.24, 0.82)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.72)
+shadow_size = 28
+
+[sub_resource type="StyleBoxFlat" id="StyleButton"]
+content_margin_left = 22.0
+content_margin_right = 22.0
+bg_color = Color(0.075, 0.018, 0.065, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.44, 0.09, 0.16, 0.66)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleButtonHover"]
+content_margin_left = 24.0
+content_margin_right = 20.0
+bg_color = Color(0.16, 0.022, 0.12, 0.98)
+border_width_left = 3
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.91, 0.25, 0.10, 0.94)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleButtonPressed"]
+content_margin_left = 24.0
+content_margin_right = 20.0
+bg_color = Color(0.21, 0.025, 0.16, 1)
+border_width_left = 3
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.96, 0.39, 0.12, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleButtonDisabled"]
+content_margin_left = 22.0
+content_margin_right = 22.0
+bg_color = Color(0.045, 0.025, 0.052, 0.76)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.20, 0.08, 0.12, 0.54)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleFocus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.76, 0.35, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="StartScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_start")
+
+[node name="PlaceholderArt" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_art")
+
+[node name="ReadabilityWash" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.01, 0.016, 0.03, 0.18)
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 56
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 56
+theme_override_constants/margin_bottom = 64
+
+[node name="MainLayout" type="HBoxContainer" parent="SafeArea"]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Identity" type="VBoxContainer" parent="SafeArea/MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="TopSpacer" type="Control" parent="SafeArea/MainLayout/Identity"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Eyebrow" type="Label" parent="SafeArea/MainLayout/Identity"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.61, 0.72, 0.9, 1)
+theme_override_constants/outline_size = 8
+theme_override_colors/font_outline_color = Color(0.02, 0.03, 0.06, 0.9)
+theme_override_font_sizes/font_size = 16
+text = ""
+
+[node name="Logo" type="Label" parent="SafeArea/MainLayout/Identity"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.94, 0.98, 1)
+theme_override_colors/font_shadow_color = Color(0.24, 0.32, 0.56, 0.8)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 92
+text = ""
+
+[node name="Rule" type="ColorRect" parent="SafeArea/MainLayout/Identity"]
+custom_minimum_size = Vector2(520, 2)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+color = Color(0.43, 0.55, 0.78, 0.7)
+
+[node name="Tagline" type="Label" parent="SafeArea/MainLayout/Identity"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
+theme_override_constants/outline_size = 6
+theme_override_colors/font_outline_color = Color(0.02, 0.03, 0.06, 0.88)
+theme_override_font_sizes/font_size = 24
+text = ""
+autowrap_mode = 2
+
+[node name="BottomSpacer" type="Control" parent="SafeArea/MainLayout/Identity"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MenuCard" type="PanelContainer" parent="SafeArea/MainLayout"]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleMenu")
+
+[node name="MenuMargin" type="MarginContainer" parent="SafeArea/MainLayout/MenuCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 28
+
+[node name="Menu" type="VBoxContainer" parent="SafeArea/MainLayout/MenuCard/MenuMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MenuTopSpacer" type="Control" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ContinueButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+focus_mode = 2
+disabled = true
+theme_override_colors/font_disabled_color = Color(0.4, 0.43, 0.5, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+theme_override_styles/pressed = SubResource("StyleButtonPressed")
+theme_override_styles/focus = SubResource("StyleFocus")
+theme_override_styles/disabled = SubResource("StyleButtonDisabled")
+text = ""
+alignment = 0
+
+[node name="NewGameButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+theme_override_styles/pressed = SubResource("StyleButtonPressed")
+theme_override_styles/focus = SubResource("StyleFocus")
+text = ""
+alignment = 0
+
+[node name="LoadButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+focus_mode = 2
+disabled = true
+theme_override_colors/font_disabled_color = Color(0.4, 0.43, 0.5, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+theme_override_styles/pressed = SubResource("StyleButtonPressed")
+theme_override_styles/focus = SubResource("StyleFocus")
+theme_override_styles/disabled = SubResource("StyleButtonDisabled")
+text = ""
+alignment = 0
+
+[node name="SettingsButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+theme_override_styles/pressed = SubResource("StyleButtonPressed")
+theme_override_styles/focus = SubResource("StyleFocus")
+text = ""
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+theme_override_styles/pressed = SubResource("StyleButtonPressed")
+theme_override_styles/focus = SubResource("StyleFocus")
+text = ""
+alignment = 0
+
+[node name="MenuRule" type="HSeparator" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+layout_mode = 2
+
+[node name="ContentButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 16
+flat = true
+text = ""
+alignment = 0
+
+[node name="TitleStatus" type="Label" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.68, 0.55, 1)
+text = ""
+autowrap_mode = 2
+
+[node name="MenuBottomSpacer" type="Control" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Footer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_left = 56
+theme_override_constants/margin_right = 56
+theme_override_constants/margin_bottom = 18
+
+[node name="FooterRow" type="HBoxContainer" parent="Footer"]
+layout_mode = 2
+
+[node name="TemporaryBadge" type="Label" parent="Footer/FooterRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.54, 0.65, 0.78, 0.8)
+theme_override_font_sizes/font_size = 13
+text = ""
+
+[node name="VersionLabel" type="Label" parent="Footer/FooterRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.46, 0.5, 0.58, 0.8)
+theme_override_font_sizes/font_size = 13
+text = ""
+horizontal_alignment = 2
+
+[node name="ModalLayer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ModalDimmer" type="ColorRect" parent="ModalLayer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.005, 0.008, 0.015, 0.78)
+
+[node name="SlotPanel" type="PanelContainer" parent="ModalLayer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(660, 450)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -330.0
+offset_top = -225.0
+offset_right = 330.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleModal")
+
+[node name="Margin" type="MarginContainer" parent="ModalLayer/SlotPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 32
+
+[node name="Body" type="VBoxContainer" parent="ModalLayer/SlotPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="SlotTitle" type="Label" parent="ModalLayer/SlotPanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = ""
+
+[node name="SlotRule" type="HSeparator" parent="ModalLayer/SlotPanel/Margin/Body"]
+layout_mode = 2
+
+[node name="SlotButton1" type="Button" parent="ModalLayer/SlotPanel/Margin/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+theme_override_styles/pressed = SubResource("StyleButtonPressed")
+theme_override_styles/focus = SubResource("StyleFocus")
+theme_override_styles/disabled = SubResource("StyleButtonDisabled")
+text = ""
+alignment = 0
+
+[node name="SlotButton2" type="Button" parent="ModalLayer/SlotPanel/Margin/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+theme_override_styles/pressed = SubResource("StyleButtonPressed")
+theme_override_styles/focus = SubResource("StyleFocus")
+theme_override_styles/disabled = SubResource("StyleButtonDisabled")
+text = ""
+alignment = 0
+
+[node name="SlotButton3" type="Button" parent="ModalLayer/SlotPanel/Margin/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+focus_mode = 2
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+theme_override_styles/pressed = SubResource("StyleButtonPressed")
+theme_override_styles/focus = SubResource("StyleFocus")
+theme_override_styles/disabled = SubResource("StyleButtonDisabled")
+text = ""
+alignment = 0
+
+[node name="SlotBackButton" type="Button" parent="ModalLayer/SlotPanel/Margin/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+focus_mode = 2
+text = ""
+
+[node name="FirstRunPanel" type="PanelContainer" parent="ModalLayer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(780, 610)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = -305.0
+offset_right = 390.0
+offset_bottom = 305.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleModal")
+
+[node name="Margin" type="MarginContainer" parent="ModalLayer/FirstRunPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 34
+
+[node name="Body" type="VBoxContainer" parent="ModalLayer/FirstRunPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="FirstRunTitle" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = ""
+
+[node name="FirstRunDescription" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+autowrap_mode = 2
+
+[node name="FirstRule" type="HSeparator" parent="ModalLayer/FirstRunPanel/Margin/Body"]
+layout_mode = 2
+
+[node name="TextRow" type="HBoxContainer" parent="ModalLayer/FirstRunPanel/Margin/Body"]
+layout_mode = 2
+
+[node name="FirstTextLabel" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body/TextRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+
+[node name="FirstTextOption" type="OptionButton" parent="ModalLayer/FirstRunPanel/Margin/Body/TextRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
+focus_mode = 2
+
+[node name="SignatureRow" type="HBoxContainer" parent="ModalLayer/FirstRunPanel/Margin/Body"]
+layout_mode = 2
+
+[node name="FirstSignatureLabel" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body/SignatureRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+
+[node name="FirstSignatureOption" type="OptionButton" parent="ModalLayer/FirstRunPanel/Margin/Body/SignatureRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
+focus_mode = 2
+
+[node name="MotionRow" type="HBoxContainer" parent="ModalLayer/FirstRunPanel/Margin/Body"]
+layout_mode = 2
+
+[node name="FirstMotionLabel" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body/MotionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+
+[node name="FirstMotionOption" type="OptionButton" parent="ModalLayer/FirstRunPanel/Margin/Body/MotionRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
+focus_mode = 2
+
+[node name="FirstCaptions" type="CheckButton" parent="ModalLayer/FirstRunPanel/Margin/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+focus_mode = 2
+button_pressed = true
+text = ""
+
+[node name="FirstPreview" type="PanelContainer" parent="ModalLayer/FirstRunPanel/Margin/Body"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleButtonDisabled")
+
+[node name="PreviewText" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body/FirstPreview"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.8, 0.92, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FirstButtons" type="HBoxContainer" parent="ModalLayer/FirstRunPanel/Margin/Body"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="FirstDefaultButton" type="Button" parent="ModalLayer/FirstRunPanel/Margin/Body/FirstButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+text = ""
+
+[node name="FirstApplyButton" type="Button" parent="ModalLayer/FirstRunPanel/Margin/Body/FirstButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+text = ""
+
+[node name="SettingsPanel" type="PanelContainer" parent="ModalLayer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(720, 540)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -270.0
+offset_right = 360.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleModal")
+
+[node name="Margin" type="MarginContainer" parent="ModalLayer/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 34
+
+[node name="Body" type="VBoxContainer" parent="ModalLayer/SettingsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="SettingsTitle" type="Label" parent="ModalLayer/SettingsPanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = ""
+
+[node name="SettingsRule" type="HSeparator" parent="ModalLayer/SettingsPanel/Margin/Body"]
+layout_mode = 2
+
+[node name="TextRow" type="HBoxContainer" parent="ModalLayer/SettingsPanel/Margin/Body"]
+layout_mode = 2
+
+[node name="SettingsTextLabel" type="Label" parent="ModalLayer/SettingsPanel/Margin/Body/TextRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+
+[node name="SettingsTextOption" type="OptionButton" parent="ModalLayer/SettingsPanel/Margin/Body/TextRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
+focus_mode = 2
+
+[node name="SignatureRow" type="HBoxContainer" parent="ModalLayer/SettingsPanel/Margin/Body"]
+layout_mode = 2
+
+[node name="SettingsSignatureLabel" type="Label" parent="ModalLayer/SettingsPanel/Margin/Body/SignatureRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+
+[node name="SettingsSignatureOption" type="OptionButton" parent="ModalLayer/SettingsPanel/Margin/Body/SignatureRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
+focus_mode = 2
+
+[node name="MotionRow" type="HBoxContainer" parent="ModalLayer/SettingsPanel/Margin/Body"]
+layout_mode = 2
+
+[node name="SettingsMotionLabel" type="Label" parent="ModalLayer/SettingsPanel/Margin/Body/MotionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+
+[node name="SettingsMotionOption" type="OptionButton" parent="ModalLayer/SettingsPanel/Margin/Body/MotionRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
+focus_mode = 2
+
+[node name="SettingsCaptions" type="CheckButton" parent="ModalLayer/SettingsPanel/Margin/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+focus_mode = 2
+button_pressed = true
+text = ""
+
+[node name="SettingsSpacer" type="Control" parent="ModalLayer/SettingsPanel/Margin/Body"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Buttons" type="HBoxContainer" parent="ModalLayer/SettingsPanel/Margin/Body"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SettingsBackButton" type="Button" parent="ModalLayer/SettingsPanel/Margin/Body/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+text = ""
+
+[node name="SettingsApplyButton" type="Button" parent="ModalLayer/SettingsPanel/Margin/Body/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+text = ""
+
+[node name="ContentPanel" type="PanelContainer" parent="ModalLayer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(760, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -250.0
+offset_right = 380.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleModal")
+
+[node name="Margin" type="MarginContainer" parent="ModalLayer/ContentPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 34
+
+[node name="Body" type="VBoxContainer" parent="ModalLayer/ContentPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="ContentTitle" type="Label" parent="ModalLayer/ContentPanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = ""
+
+[node name="ContentRule" type="HSeparator" parent="ModalLayer/ContentPanel/Margin/Body"]
+layout_mode = 2
+
+[node name="ContentBody" type="Label" parent="ModalLayer/ContentPanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.79, 0.82, 0.88, 1)
+theme_override_font_sizes/font_size = 18
+text = ""
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ContentCloseButton" type="Button" parent="ModalLayer/ContentPanel/Margin/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+focus_mode = 2
+text = ""
+
+[node name="QuitPanel" type="PanelContainer" parent="ModalLayer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(560, 280)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -140.0
+offset_right = 280.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleModal")
+
+[node name="Margin" type="MarginContainer" parent="ModalLayer/QuitPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 32
+
+[node name="Body" type="VBoxContainer" parent="ModalLayer/QuitPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="QuitTitle" type="Label" parent="ModalLayer/QuitPanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = ""
+
+[node name="QuitBody" type="Label" parent="ModalLayer/QuitPanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = ""
+autowrap_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="ModalLayer/QuitPanel/Margin/Body"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="QuitCancelButton" type="Button" parent="ModalLayer/QuitPanel/Margin/Body/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+text = ""
+
+[node name="QuitConfirmButton" type="Button" parent="ModalLayer/QuitPanel/Margin/Body/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+text = ""
+
+[node name="OverwritePanel" type="PanelContainer" parent="ModalLayer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(560, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -150.0
+offset_right = 280.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleModal")
+
+[node name="Margin" type="MarginContainer" parent="ModalLayer/OverwritePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 32
+
+[node name="Body" type="VBoxContainer" parent="ModalLayer/OverwritePanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="OverwriteTitle" type="Label" parent="ModalLayer/OverwritePanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = ""
+
+[node name="OverwriteBody" type="Label" parent="ModalLayer/OverwritePanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = ""
+autowrap_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="ModalLayer/OverwritePanel/Margin/Body"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="OverwriteCancelButton" type="Button" parent="ModalLayer/OverwritePanel/Margin/Body/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+text = ""
+
+[node name="OverwriteConfirmButton" type="Button" parent="ModalLayer/OverwritePanel/Margin/Body/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+text = ""
+
+[node name="LaunchPanel" type="PanelContainer" parent="ModalLayer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(680, 360)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -340.0
+offset_top = -180.0
+offset_right = 340.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleModal")
+
+[node name="Margin" type="MarginContainer" parent="ModalLayer/LaunchPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 36
+
+[node name="Body" type="VBoxContainer" parent="ModalLayer/LaunchPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="LaunchTitle" type="Label" parent="ModalLayer/LaunchPanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = ""
+
+[node name="LaunchBody" type="Label" parent="ModalLayer/LaunchPanel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.76, 0.82, 0.91, 1)
+theme_override_font_sizes/font_size = 18
+text = ""
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="LaunchReturnButton" type="Button" parent="ModalLayer/LaunchPanel/Margin/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+focus_mode = 2
+text = ""
