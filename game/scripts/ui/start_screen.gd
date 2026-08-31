@@ -10,6 +10,7 @@ const TEXT_SCALE_VALUES := [1.0, 1.25, 1.5, 2.0]
 const SIGNATURE_VALUES := ["color_pattern_label", "pattern_label", "label_only"]
 const MOTION_VALUES := ["standard", "reduced", "static"]
 
+@onready var _title_background: TextureRect = %TitleBackground
 @onready var _placeholder_art: UITitlePlaceholderArt = %PlaceholderArt
 @onready var _eyebrow: Label = %Eyebrow
 @onready var _logo: Label = %Logo
@@ -457,6 +458,10 @@ func _all_interactive_controls() -> Array[Control]:
 func _bind_asset_ids() -> void:
 	set_meta("asset_id", "UI_TITLE")
 	set_meta("is_placeholder", true)
+	_title_background.set_meta("asset_id", "UI_TITLE")
+	_title_background.set_meta("resource_role", "background")
+	_title_background.set_meta("is_generated", true)
+	_title_background.set_meta("is_placeholder", true)
 	_first_run_panel.set_meta("asset_id", "UI_FIRST_RUN_ACCESS")
 	_first_run_panel.set_meta("is_placeholder", true)
 	_settings_panel.set_meta("asset_id", "UI_SETTINGS")

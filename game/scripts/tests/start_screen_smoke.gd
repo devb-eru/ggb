@@ -146,6 +146,18 @@ func _validate_asset_registry(screen: StartScreen) -> void:
 		if node != null:
 			_expect(String(node.get_meta("asset_id", "")) == asset_id, "asset metadata mismatch: %s" % asset_id, _errors)
 			_expect(bool(node.get_meta("is_placeholder", false)), "placeholder marker missing: %s" % asset_id, _errors)
+		if asset_id == "UI_TITLE":
+			var expected_background := "res://assets/ui/title/ui_title_manor_background_v01.png"
+			var background_path := String(entry.get("background_path", ""))
+			_expect(background_path == expected_background, "title background registry path mismatch", _errors)
+			_expect(ResourceLoader.exists(background_path), "registered title background is unavailable", _errors)
+			_expect(String(entry.get("visual_revision", "")) == "gothic_manor_v01", "title visual revision mismatch", _errors)
+			var background := screen.get_node_or_null("%TitleBackground") as TextureRect
+			_expect(background != null, "title background node is missing", _errors)
+			if background != null:
+				_expect(background.texture != null, "title background texture is missing", _errors)
+				_expect(String(background.get_meta("asset_id", "")) == "UI_TITLE", "title background metadata mismatch", _errors)
+				_expect(String(background.get_meta("resource_role", "")) == "background", "title background role mismatch", _errors)
 
 
 func _validate_initial_state(screen: StartScreen) -> void:

@@ -2,6 +2,7 @@ class_name UITitlePlaceholderArt
 extends Control
 
 @export var asset_id: StringName = &"UI_TITLE"
+@export var overlay_only := false
 
 var _motion_mode := "standard"
 var _elapsed := 0.0
@@ -30,11 +31,12 @@ func _draw() -> void:
 	var canvas_size := size
 	if canvas_size.x <= 0.0 or canvas_size.y <= 0.0:
 		return
-	_draw_background(canvas_size)
-	_draw_checker_floor(canvas_size)
-	_draw_gothic_frames(canvas_size)
-	_draw_rose_window(canvas_size)
-	_draw_crooked_portraits(canvas_size)
+	if not overlay_only:
+		_draw_background(canvas_size)
+		_draw_checker_floor(canvas_size)
+		_draw_gothic_frames(canvas_size)
+		_draw_rose_window(canvas_size)
+		_draw_crooked_portraits(canvas_size)
 	_draw_data_layer(canvas_size)
 	_draw_fractures(canvas_size)
 
