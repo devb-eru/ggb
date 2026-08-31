@@ -7,7 +7,7 @@
       "node_path": ".",
       "placeholder": true,
       "background_path": "res://assets/ui/title/ui_title_manor_background_v01.png",
-      "visual_revision": "gothic_manor_v01"
+      "visual_revision": "gothic_manor_ui_v02"
     },
     "UI_FIRST_RUN_ACCESS": {
       "asset_type": "screen_pack",

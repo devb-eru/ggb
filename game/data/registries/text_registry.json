@@ -25,6 +25,8 @@
     "UI_TITLE_SETTINGS": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_TITLE_QUIT": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_TITLE_CONTENT_DETAILS": {"speaker_id": "SYSTEM", "variables": {}},
+    "UI_TITLE_MENU_HEADER": {"speaker_id": "SYSTEM", "variables": {}},
+    "UI_TITLE_MENU_HINT": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_TITLE_TEMP_ASSET": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_TITLE_VERSION": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_TITLE_NO_SAVE": {"speaker_id": "SYSTEM", "variables": {}},

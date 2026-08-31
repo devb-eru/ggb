@@ -7,6 +7,7 @@ const TEST_PROFILE_ROOT := "user://__test_start_screen_profile"
 const CAPTURE_ARG := "--capture-start-screen"
 const CAPTURE_INITIAL_PATH := "res://../builds/validation/start_screen_1280x720.png"
 const CAPTURE_FIRST_RUN_PATH := "res://../builds/validation/start_screen_first_run_1280x720.png"
+const CAPTURE_LARGE_TEXT_PATH := "res://../builds/validation/start_screen_large_text_1280x720.png"
 const TEST_BOOTSTRAP_SLOT := "__test_start_screen_bootstrap"
 const EMPTY_SUMMARIES: Array[Dictionary] = [
 	{"slot_id": "slot_01", "available": false},
@@ -34,6 +35,7 @@ func run(tree: SceneTree) -> Dictionary:
 
 	_validate_asset_registry(screen)
 	_validate_initial_state(screen)
+	await _validate_title_treatment(screen)
 	if CAPTURE_ARG in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
 		_capture_screen(screen, CAPTURE_INITIAL_PATH, "initial")
@@ -151,7 +153,7 @@ func _validate_asset_registry(screen: StartScreen) -> void:
 			var background_path := String(entry.get("background_path", ""))
 			_expect(background_path == expected_background, "title background registry path mismatch", _errors)
 			_expect(ResourceLoader.exists(background_path), "registered title background is unavailable", _errors)
-			_expect(String(entry.get("visual_revision", "")) == "gothic_manor_v01", "title visual revision mismatch", _errors)
+			_expect(String(entry.get("visual_revision", "")) == "gothic_manor_ui_v02", "title visual revision mismatch", _errors)
 			var background := screen.get_node_or_null("%TitleBackground") as TextureRect
 			_expect(background != null, "title background node is missing", _errors)
 			if background != null:
@@ -169,6 +171,39 @@ func _validate_initial_state(screen: StartScreen) -> void:
 	_expect((screen.get_node("%ContinueButton") as Button).disabled, "Continue must be disabled without saves", _errors)
 	_expect((screen.get_node("%LoadButton") as Button).disabled, "Load must be disabled without saves", _errors)
 	_expect(_tree.root.gui_get_focus_owner() == screen.get_node("%NewGameButton"), "New Game did not receive initial keyboard focus", _errors)
+	_expect(not (screen.get_node("%MenuHeader") as Label).text.is_empty(), "menu header text is missing", _errors)
+	_expect(not (screen.get_node("%MenuHint") as Label).text.is_empty(), "menu hint text is missing", _errors)
+	var logo := screen.get_node("%Logo") as Label
+	_expect((screen.get_node("%LogoGhostCyan") as Label).text == logo.text, "cyan logo layer mismatch", _errors)
+	_expect((screen.get_node("%LogoGhostMagenta") as Label).text == logo.text, "magenta logo layer mismatch", _errors)
+
+
+func _validate_title_treatment(screen: StartScreen) -> void:
+	var expected_indices := ["01", "02", "03", "04", "05", "INFO"]
+	var button_names := ["ContinueButton", "NewGameButton", "LoadButton", "SettingsButton", "QuitButton", "ContentButton"]
+	for index in range(button_names.size()):
+		var button := screen.get_node("%%%s" % button_names[index]) as GothicTitleButton
+		_expect(button != null, "gothic button treatment is missing: %s" % button_names[index], _errors)
+		if button != null:
+			_expect(button.menu_index == expected_indices[index], "gothic button index mismatch: %s" % button_names[index], _errors)
+	var original_profile: Dictionary = screen._profile.duplicate(true)
+	screen._profile["text_scale"] = 2.0
+	screen._apply_profile()
+	await _tree.process_frame
+	var new_game := screen.get_node("%NewGameButton") as GothicTitleButton
+	_expect(new_game.get_theme_font_size("font_size") == 40, "main menu text did not scale to 200%", _errors)
+	_expect(new_game.custom_minimum_size.y >= 76.0, "main menu hit target did not grow with text scale", _errors)
+	var viewport_rect := Rect2(screen.global_position, screen.size)
+	var menu_card := screen.get_node("SafeArea/MainLayout/MenuCard") as Control
+	_expect(_rect_inside(menu_card.get_global_rect(), viewport_rect), "200% title menu overflow", _errors)
+	var logo_stack := screen.get_node("%LogoStack") as Control
+	_expect(_rect_inside(logo_stack.get_global_rect(), viewport_rect), "200% title logo overflow", _errors)
+	if CAPTURE_ARG in OS.get_cmdline_user_args():
+		await RenderingServer.frame_post_draw
+		_capture_screen(screen, CAPTURE_LARGE_TEXT_PATH, "large_text")
+	screen._profile = original_profile
+	screen._apply_profile()
+	await _tree.process_frame
 
 
 func _validate_first_run(screen: StartScreen) -> void:

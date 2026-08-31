@@ -13,6 +13,9 @@ const MOTION_VALUES := ["standard", "reduced", "static"]
 @onready var _title_background: TextureRect = %TitleBackground
 @onready var _placeholder_art: UITitlePlaceholderArt = %PlaceholderArt
 @onready var _eyebrow: Label = %Eyebrow
+@onready var _logo_stack: Control = %LogoStack
+@onready var _logo_ghost_cyan: Label = %LogoGhostCyan
+@onready var _logo_ghost_magenta: Label = %LogoGhostMagenta
 @onready var _logo: Label = %Logo
 @onready var _tagline: Label = %Tagline
 @onready var _continue_button: Button = %ContinueButton
@@ -21,6 +24,17 @@ const MOTION_VALUES := ["standard", "reduced", "static"]
 @onready var _settings_button: Button = %SettingsButton
 @onready var _quit_button: Button = %QuitButton
 @onready var _content_button: Button = %ContentButton
+@onready var _menu_container: VBoxContainer = %Menu
+@onready var _menu_header: Label = %MenuHeader
+@onready var _menu_hint: Label = %MenuHint
+@onready var _title_buttons: Array[GothicTitleButton] = [
+	%ContinueButton as GothicTitleButton,
+	%NewGameButton as GothicTitleButton,
+	%LoadButton as GothicTitleButton,
+	%SettingsButton as GothicTitleButton,
+	%QuitButton as GothicTitleButton,
+	%ContentButton as GothicTitleButton,
+]
 @onready var _temporary_badge: Label = %TemporaryBadge
 @onready var _version_label: Label = %VersionLabel
 @onready var _status_label: Label = %TitleStatus
@@ -201,6 +215,8 @@ func _populate_options() -> void:
 func _apply_localized_text() -> void:
 	_eyebrow.text = _text(&"UI_TITLE_EYEBROW")
 	_logo.text = _text(&"UI_TITLE_LOGO")
+	_logo_ghost_cyan.text = _logo.text
+	_logo_ghost_magenta.text = _logo.text
 	_tagline.text = _text(&"UI_TITLE_TAGLINE")
 	_continue_button.text = _text(&"UI_TITLE_CONTINUE")
 	_new_game_button.text = _text(&"UI_TITLE_NEW_GAME")
@@ -208,6 +224,8 @@ func _apply_localized_text() -> void:
 	_settings_button.text = _text(&"UI_TITLE_SETTINGS")
 	_quit_button.text = _text(&"UI_TITLE_QUIT")
 	_content_button.text = _text(&"UI_TITLE_CONTENT_DETAILS")
+	_menu_header.text = _text(&"UI_TITLE_MENU_HEADER")
+	_menu_hint.text = _text(&"UI_TITLE_MENU_HINT")
 	_temporary_badge.text = _text(&"UI_TITLE_TEMP_ASSET")
 	_version_label.text = _text(&"UI_TITLE_VERSION")
 	_slot_back_button.text = _text(&"UI_COMMON_BACK")
@@ -392,10 +410,28 @@ func _save_profile() -> bool:
 
 
 func _apply_profile() -> void:
+	var text_scale := float(_profile.get("text_scale", 1.0))
 	var title_theme := Theme.new()
-	title_theme.default_font_size = int(round(18.0 * float(_profile.get("text_scale", 1.0))))
+	title_theme.default_font_size = int(round(18.0 * text_scale))
 	theme = title_theme
-	_placeholder_art.set_motion_mode(String(_profile.get("motion_mode", "standard")))
+	var logo_scale := minf(text_scale, 1.55)
+	_logo_stack.custom_minimum_size = Vector2(520.0, 120.0 + 70.0 * (logo_scale - 1.0))
+	for logo_layer in [_logo_ghost_cyan, _logo_ghost_magenta, _logo]:
+		logo_layer.add_theme_font_size_override("font_size", int(round(104.0 * logo_scale)))
+	_eyebrow.add_theme_font_size_override("font_size", int(round(16.0 * text_scale)))
+	_tagline.add_theme_font_size_override("font_size", int(round(24.0 * text_scale)))
+	_menu_header.add_theme_font_size_override("font_size", int(round(14.0 * text_scale)))
+	_menu_hint.add_theme_font_size_override("font_size", int(round(11.0 * text_scale)))
+	_menu_container.add_theme_constant_override("separation", maxi(5, int(round(12.0 - 7.0 * (text_scale - 1.0)))))
+	var motion_mode := String(_profile.get("motion_mode", "standard"))
+	for button in _title_buttons:
+		var is_secondary := button.chrome_role == "secondary"
+		var base_font_size := 16.0 if is_secondary else 20.0
+		var base_height := 46.0 if is_secondary else 60.0
+		button.add_theme_font_size_override("font_size", int(round(base_font_size * text_scale)))
+		button.custom_minimum_size = Vector2(button.custom_minimum_size.x, base_height + 16.0 * (text_scale - 1.0))
+		button.set_motion_mode(motion_mode)
+	_placeholder_art.set_motion_mode(motion_mode)
 
 
 func _open_modal(panel: Control, focus_target: Control, remember_focus: bool = true) -> void:
