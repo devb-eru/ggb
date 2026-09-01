@@ -20,8 +20,12 @@
 공통 schema·문체·분기·검수는 [공통 원문 계약](00_공통원문계약.md)을 따른다.
 63개 정본 오브젝트의 원문 소유 에피소드와 필수 상태는 [정본 오브젝트 원문 전수 매핑](01_정본오브젝트원문_전수매핑.md)에서 확인한다.
 사용인 짧은 반응과 엔딩 개인 반응은 [사용인 반응 전수 매핑](02_사용인반응_전수매핑.md), 종이·일지·기록은 [문서·수첩 전수 목록](03_문서수첩_전수목록.md), 메타 UI·시스템 문구는 [공통 시스템·UI 원문](04_공통시스템_UI원문.md)에서 교차 확인한다.
-기존 EP01 Google Sheets의 원문을 수정하지 않는 차기 개정 검토는 [EP01 스크립트 Sheet 보완 검토](EP01_스크립트시트_보완검토.md)에서 확인한다.
+EP01 Google Sheets의 초기 보완 검토는 [EP01 스크립트 Sheet 보완 검토](EP01_스크립트시트_보완검토.md)에서 확인한다.
 EP02 Google Sheets의 위치, EP01 대비 구조 변경과 검증 결과는 [EP02 검은 거울 스크립트 Sheet 인계](EP02_검은거울_스크립트시트_인계.md)에서 확인한다.
+EP03 Google Sheets의 위치, D1 HARD FAILURE와 D5 build 인계 계약은 [EP03 지하와 파열 스크립트 Sheet 인계](EP03_지하와파열_스크립트시트_인계.md)에서 확인한다.
+두 Sheet의 schema v3 전환 결과와 항목별 해결 증거는 [EP01·EP02 스크립트 Sheet 2차 검토](EP01_EP02_스크립트시트_2차검토.md)를 정본으로 삼는다.
+기계 판독 열 계약은 [CNT Sheet schema v3](schemas/CNT_sheet_schema_v3.json), 최신 기술 검증 결과는 [LINT-20260901-R3](lint/LINT-20260901-R3.json)에서 확인한다.
+재검증 시 각 정본 탭을 CSV로 내보낸 뒤 `scripts/content_sheet_contract_lint.py`에 Runtime·Route·Predicate·Effect, 공용 Vocab, 상태 Registry와 이전 Runtime 기준본을 전달한다.
 
 ## 2. 전수성 기준
 
