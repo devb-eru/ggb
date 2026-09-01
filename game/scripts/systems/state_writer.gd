@@ -7,8 +7,10 @@ const TYPE_NAME_MAP := {
 	"int": TYPE_INT,
 	"float": TYPE_FLOAT,
 	"string": TYPE_STRING,
+	"array": TYPE_ARRAY,
 	"dictionary": TYPE_DICTIONARY,
 }
+const ALLOWED_OPERATIONS := ["set", "increment", "add", "remove"]
 
 var _game_state: Node
 var _path_specs: Dictionary = {}
@@ -46,12 +48,14 @@ func commit_atomic(
 		var value: Variant = request.get("value")
 		if not _path_specs.has(state_path):
 			return _failure(&"ERR_STATE_PATH_NOT_REGISTERED")
-		if operation != "set":
+		var spec: Dictionary = _path_specs[state_path]
+		if String(spec.get("writer", "StateWriter")) != "StateWriter":
+			return _failure(&"ERR_STATE_WRITER_NOT_ALLOWED")
+		if operation not in ALLOWED_OPERATIONS:
 			return _failure(&"ERR_STATE_OPERATION_NOT_ALLOWED")
-		if not _value_matches_spec(value, _path_specs[state_path]):
-			return _failure(&"ERR_STATE_TYPE_OR_RANGE")
-		if not _set_path(staged_snapshot, state_path, value):
-			return _failure(&"ERR_STATE_PARENT_MISSING")
+		var operation_error := _apply_operation(staged_snapshot, state_path, operation, value, spec)
+		if operation_error != &"":
+			return _failure(operation_error)
 		changed_paths.append(state_path)
 
 	var validation := _snapshot_validator.validate(staged_snapshot)
@@ -144,11 +148,71 @@ func _load_path_registry() -> void:
 			_registry_error = &"ERR_STATE_REGISTRY_TYPE"
 			return
 		var runtime_spec := {"type": TYPE_NAME_MAP[type_name]}
+		runtime_spec["writer"] = String(source_spec.get("writer", "StateWriter"))
 		if source_spec.has("minimum"):
 			runtime_spec["min"] = int(source_spec["minimum"])
 		if source_spec.has("maximum"):
 			runtime_spec["max"] = int(source_spec["maximum"])
 		_path_specs[String(state_path)] = runtime_spec
+
+
+func _apply_operation(
+	snapshot: Dictionary,
+	state_path: String,
+	operation: String,
+	value: Variant,
+	spec: Dictionary
+) -> StringName:
+	if operation == "set":
+		if not _value_matches_spec(value, spec):
+			return &"ERR_STATE_TYPE_OR_RANGE"
+		return &"" if _set_path(snapshot, state_path, value) else &"ERR_STATE_PARENT_MISSING"
+
+	var current_result := _get_path(snapshot, state_path)
+	if not bool(current_result.get("ok", false)):
+		return &"ERR_STATE_PARENT_MISSING"
+	var current: Variant = current_result.get("value")
+	var next_value: Variant
+
+	match operation:
+		"increment":
+			if typeof(current) not in [TYPE_INT, TYPE_FLOAT] or typeof(value) not in [TYPE_INT, TYPE_FLOAT]:
+				return &"ERR_STATE_OPERATION_TYPE"
+			next_value = current + value
+		"add":
+			if current is Array and typeof(value) in [TYPE_STRING, TYPE_STRING_NAME]:
+				next_value = current.duplicate(true)
+				if String(value) not in next_value:
+					next_value.append(String(value))
+			elif current is Dictionary and value is Dictionary:
+				next_value = current.duplicate(true)
+				next_value.merge(value, true)
+			else:
+				return &"ERR_STATE_OPERATION_TYPE"
+		"remove":
+			if current is Array and typeof(value) in [TYPE_STRING, TYPE_STRING_NAME]:
+				next_value = current.duplicate(true)
+				next_value.erase(String(value))
+			elif current is Dictionary and typeof(value) in [TYPE_STRING, TYPE_STRING_NAME]:
+				next_value = current.duplicate(true)
+				next_value.erase(String(value))
+			else:
+				return &"ERR_STATE_OPERATION_TYPE"
+		_:
+			return &"ERR_STATE_OPERATION_NOT_ALLOWED"
+
+	if not _value_matches_spec(next_value, spec):
+		return &"ERR_STATE_TYPE_OR_RANGE"
+	return &"" if _set_path(snapshot, state_path, next_value) else &"ERR_STATE_PARENT_MISSING"
+
+
+func _get_path(snapshot: Dictionary, state_path: String) -> Dictionary:
+	var cursor: Variant = snapshot
+	for segment in state_path.split("."):
+		if not cursor is Dictionary or not cursor.has(segment):
+			return {"ok": false}
+		cursor = cursor[segment]
+	return {"ok": true, "value": cursor}
 
 
 func _set_path(snapshot: Dictionary, state_path: String, value: Variant) -> bool:

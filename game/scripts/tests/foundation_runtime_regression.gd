@@ -20,6 +20,7 @@ const CRASH_PHASES := [
 func run() -> Dictionary:
 	var errors := PackedStringArray()
 	_test_snapshot_install(errors)
+	_test_state_write_operations(errors)
 	_test_load_install_and_recovery(errors)
 	_test_reset_crash_recovery("normal", errors)
 	_test_reset_crash_recovery("broken", errors)
@@ -27,6 +28,57 @@ func run() -> Dictionary:
 	_cleanup()
 	GameState.reset_for_test()
 	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _test_state_write_operations(errors: PackedStringArray) -> void:
+	GameState.reset_for_test()
+	var writer := StateWriter.new(GameState)
+	var increment_result := writer.commit_atomic(
+		[{"state_path": "meta_progress.servants.edgar.bond", "operation": "increment", "value": 1}],
+		GameState.revision,
+		&"TEST_INCREMENT_BOND"
+	)
+	_expect(bool(increment_result.get("ok", false)), "registered increment was rejected", errors)
+	_expect(GameState.get_value(&"meta_progress.servants.edgar.bond", -1) == 1, "increment result mismatch", errors)
+
+	var add_result := writer.commit_atomic(
+		[{"state_path": "meta_progress.servants.edgar.residual_memory", "operation": "add", "value": "C4_FAIL"}],
+		GameState.revision,
+		&"TEST_ADD_MEMORY"
+	)
+	_expect(bool(add_result.get("ok", false)), "registered array add was rejected", errors)
+	var add_duplicate := writer.commit_atomic(
+		[{"state_path": "meta_progress.servants.edgar.residual_memory", "operation": "add", "value": "C4_FAIL"}],
+		GameState.revision,
+		&"TEST_ADD_MEMORY_DUPLICATE"
+	)
+	_expect(bool(add_duplicate.get("ok", false)), "idempotent array add was rejected", errors)
+	_expect(GameState.get_value(&"meta_progress.servants.edgar.residual_memory", []).size() == 1, "array add created duplicate", errors)
+
+	var merge_result := writer.commit_atomic(
+		[{"state_path": "meta_progress.knowledge_entries", "operation": "add", "value": {"KN_TEST": "verified"}}],
+		GameState.revision,
+		&"TEST_ADD_KNOWLEDGE"
+	)
+	_expect(bool(merge_result.get("ok", false)), "registered dictionary add was rejected", errors)
+	_expect(GameState.get_value(&"meta_progress.knowledge_entries.KN_TEST", "") == "verified", "dictionary add result mismatch", errors)
+
+	var remove_result := writer.commit_atomic(
+		[{"state_path": "meta_progress.servants.edgar.residual_memory", "operation": "remove", "value": "C4_FAIL"}],
+		GameState.revision,
+		&"TEST_REMOVE_MEMORY"
+	)
+	_expect(bool(remove_result.get("ok", false)), "registered array remove was rejected", errors)
+	_expect(GameState.get_value(&"meta_progress.servants.edgar.residual_memory", []).is_empty(), "array remove result mismatch", errors)
+
+	var revision_before_rejection := GameState.revision
+	var range_result := writer.commit_atomic(
+		[{"state_path": "meta_progress.servants.edgar.bond", "operation": "increment", "value": 10}],
+		GameState.revision,
+		&"TEST_INCREMENT_RANGE"
+	)
+	_expect(not bool(range_result.get("ok", false)), "out-of-range increment was accepted", errors)
+	_expect(GameState.revision == revision_before_rejection, "rejected increment changed revision", errors)
 
 
 func _test_snapshot_install(errors: PackedStringArray) -> void:

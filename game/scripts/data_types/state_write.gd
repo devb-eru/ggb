@@ -2,7 +2,7 @@ class_name StateWrite
 extends Resource
 
 @export var state_path: StringName = &""
-@export_enum("set") var operation: String = "set"
+@export_enum("set", "increment", "add", "remove") var operation: String = "set"
 @export var value: TypedStateValue
 
 
