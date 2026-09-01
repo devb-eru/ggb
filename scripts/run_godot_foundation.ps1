@@ -7,10 +7,11 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$projectRoot = Join-Path $repoRoot "game"
+$projectSourceRoot = Join-Path $repoRoot "game"
 $runtimeRoot = Join-Path $env:TEMP "ggb-godot-validation"
 $runtimeGodot = Join-Path $runtimeRoot "godot-validation.exe"
 $appDataRoot = Join-Path $runtimeRoot "appdata"
+$projectRoot = Join-Path $runtimeRoot "project"
 
 if (-not (Test-Path -LiteralPath $GodotPath -PathType Leaf)) {
     throw "Godot executable not found: $GodotPath"
@@ -33,6 +34,15 @@ if ($lfsPointers.Count -gt 0) {
 }
 
 New-Item -ItemType Directory -Force -Path $runtimeRoot, $appDataRoot | Out-Null
+$resolvedRuntimeRoot = [System.IO.Path]::GetFullPath($runtimeRoot)
+$resolvedProjectRoot = [System.IO.Path]::GetFullPath($projectRoot)
+if (-not $resolvedProjectRoot.StartsWith($resolvedRuntimeRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Unsafe validation project path: $resolvedProjectRoot"
+}
+if (Test-Path -LiteralPath $projectRoot) {
+    Remove-Item -LiteralPath $projectRoot -Recurse -Force
+}
+Copy-Item -LiteralPath $projectSourceRoot -Destination $projectRoot -Recurse -Force
 Copy-Item -LiteralPath $GodotPath -Destination $runtimeGodot -Force
 
 function Invoke-GodotValidation {
@@ -47,9 +57,14 @@ function Invoke-GodotValidation {
     $startInfo.CreateNoWindow = $true
     $startInfo.Environment["APPDATA"] = $appDataRoot
     $startInfo.Environment["LOCALAPPDATA"] = $appDataRoot
-    foreach ($argument in $Arguments) {
-        $startInfo.ArgumentList.Add($argument)
+    # Windows PowerShell 5.1 uses the .NET Framework ProcessStartInfo API,
+    # which does not expose ArgumentList. These validation arguments contain
+    # no trailing backslashes, so standard quoted command-line escaping is
+    # sufficient and keeps the script compatible with PowerShell 7 as well.
+    $quotedArguments = foreach ($argument in $Arguments) {
+        '"{0}"' -f ($argument -replace '"', '\"')
     }
+    $startInfo.Arguments = $quotedArguments -join ' '
 
     $process = [System.Diagnostics.Process]::Start($startInfo)
     $standardOutput = $process.StandardOutput.ReadToEndAsync()
@@ -103,4 +118,7 @@ $practiceSmokeResult = Invoke-GodotValidation @(
 )
 Assert-GodotValidation -Result $practiceSmokeResult -Name "Practice scene smoke" -RequiredMarker "PRACTICE_SCENE_SMOKE: PASS"
 
-Write-Host "Godot foundation, start screen, and practice validation passed."
+$prologueSmokeResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--prologue-smoke")
+Assert-GodotValidation -Result $prologueSmokeResult -Name "Prologue scene smoke" -RequiredMarker "PROLOGUE_SCENE_SMOKE: PASS"
+
+Write-Host "Godot foundation, start screen, practice, and prologue validation passed."

@@ -4,7 +4,10 @@ const EXPECTED_ENGINE_MAJOR := 4
 const EXPECTED_ENGINE_MINOR := 7
 const FOUNDATION_TEST_ARG := "--foundation-smoke"
 const START_SCREEN_TEST_ARG := "--start-screen-smoke"
+const PROLOGUE_TEST_ARG := "--prologue-smoke"
 const FOCUS_RECOVERY_DELAY_SECONDS := 0.15
+const PROLOGUE_SCENE := preload("res://scenes/prologue/prologue.tscn")
+const PROLOGUE_SMOKE_RUNNER := preload("res://scripts/tests/prologue_scene_smoke.gd")
 
 @onready var _start_screen: StartScreen = %StartScreen
 
@@ -12,6 +15,7 @@ var _load_coordinator: LoadCoordinator
 var _reset_coordinator: ResetCoordinator
 var _writer: StateWriter
 var _focus_resume_serial := 0
+var _prologue
 
 
 func _ready() -> void:
@@ -33,6 +37,11 @@ func _ready() -> void:
 			call_deferred("_run_start_screen_smoke")
 		else:
 			push_warning("Start screen smoke is unavailable in release builds.")
+	elif PROLOGUE_TEST_ARG in OS.get_cmdline_user_args():
+		if OS.is_debug_build():
+			call_deferred("_run_prologue_smoke")
+		else:
+			push_warning("Prologue smoke is unavailable in release builds.")
 
 
 func _notification(what: int) -> void:
@@ -94,7 +103,7 @@ func _on_new_game_requested(slot_id: String) -> void:
 		)
 		_start_screen.show_save_error(save_result.get("error_ids", PackedStringArray()))
 		return
-	_start_screen.show_launch_handoff("P1_ENTRY")
+	_launch_prologue(slot_id, "P1_ENTRY")
 
 
 func _on_load_game_requested(slot_id: String) -> void:
@@ -103,11 +112,29 @@ func _on_load_game_requested(slot_id: String) -> void:
 		_start_screen.show_load_error(result.get("error_ids", PackedStringArray()))
 		return
 	var resume_id := "%s / %s" % [result["resume_event_id"], result["resume_node_id"]]
-	_start_screen.show_launch_handoff(resume_id)
+	_launch_prologue(slot_id, resume_id)
 
 
 func _on_quit_requested() -> void:
 	get_tree().quit(0)
+
+
+func _launch_prologue(slot_id: String, resume_id: String) -> void:
+	if is_instance_valid(_prologue):
+		_prologue.queue_free()
+	_prologue = PROLOGUE_SCENE.instantiate()
+	_prologue.configure_session(slot_id, resume_id)
+	_prologue.return_to_title_requested.connect(_on_prologue_return_to_title)
+	_start_screen.visible = false
+	add_child(_prologue)
+
+
+func _on_prologue_return_to_title() -> void:
+	if is_instance_valid(_prologue):
+		_prologue.queue_free()
+	_prologue = null
+	_start_screen.visible = true
+	_start_screen.refresh_slots()
 
 
 func _on_focus_recovery_timeout(resume_serial: int) -> void:
@@ -144,4 +171,14 @@ func _run_start_screen_smoke() -> void:
 		get_tree().quit(0)
 	else:
 		push_error("START_SCREEN_SMOKE: FAIL %s" % result.get("errors", []))
+		get_tree().quit(1)
+
+
+func _run_prologue_smoke() -> void:
+	var result: Dictionary = await PROLOGUE_SMOKE_RUNNER.new().run(get_tree())
+	if bool(result.get("ok", false)):
+		print("PROLOGUE_SCENE_SMOKE: PASS")
+		get_tree().quit(0)
+	else:
+		push_error("PROLOGUE_SCENE_SMOKE: FAIL %s" % result.get("errors", []))
 		get_tree().quit(1)

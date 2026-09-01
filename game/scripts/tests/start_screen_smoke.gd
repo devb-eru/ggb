@@ -65,10 +65,12 @@ func _validate_bootstrap_handoff() -> void:
 	_expect(bool(saved.get("ok", false)), "bootstrap new game did not create a valid save", _errors)
 	_expect(String(saved.get("header", {}).get("save_point_id", "")) == "SAVE_NEW_GAME", "new-game save boundary mismatch", _errors)
 	var product_screen := bootstrap.get_node("%StartScreen") as StartScreen
-	_expect(product_screen != null and (product_screen.get_node("%LaunchPanel") as Control).visible, "new game did not open the P1 handoff", _errors)
-	if product_screen != null:
-		_expect("P1_ENTRY" in (product_screen.get_node("%LaunchBody") as Label).text, "new-game handoff target mismatch", _errors)
-		(product_screen.get_node("%LaunchReturnButton") as Button).pressed.emit()
+	var prologue = bootstrap.get_node_or_null("Prologue")
+	_expect(product_screen != null and not product_screen.visible, "new game did not hide the title screen", _errors)
+	_expect(prologue != null, "new game did not launch the prologue scene", _errors)
+	if prologue != null:
+		_expect(String(prologue._resume_id) == "P1_ENTRY", "new-game prologue target mismatch", _errors)
+	bootstrap.call("_on_prologue_return_to_title")
 	await _tree.process_frame
 
 	var writer := StateWriter.new(GameState)
@@ -81,10 +83,12 @@ func _validate_bootstrap_handoff() -> void:
 	bootstrap.call("_on_load_game_requested", TEST_BOOTSTRAP_SLOT)
 	await _tree.process_frame
 	_expect(int(GameState.get_value(&"meta_progress.journal_stage", -1)) == 0, "bootstrap load did not install the saved snapshot", _errors)
-	if product_screen != null:
-		_expect((product_screen.get_node("%LaunchPanel") as Control).visible, "load did not open the resume handoff", _errors)
-		_expect("P1" in (product_screen.get_node("%LaunchBody") as Label).text, "load handoff target mismatch", _errors)
-		(product_screen.get_node("%LaunchReturnButton") as Button).pressed.emit()
+	prologue = bootstrap.get_node_or_null("Prologue")
+	_expect(prologue != null, "load did not launch the prologue scene", _errors)
+	if prologue != null:
+		_expect("P1" in String(prologue._resume_id), "load prologue target mismatch", _errors)
+	bootstrap.call("_on_prologue_return_to_title")
+	await _tree.process_frame
 	SaveManager.delete_test_slot(TEST_BOOTSTRAP_SLOT)
 	GameState.reset_for_test()
 
