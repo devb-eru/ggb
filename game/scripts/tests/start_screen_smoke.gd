@@ -5,9 +5,10 @@ const START_SCREEN_SCENE := preload("res://scenes/ui/start_screen.tscn")
 const UI_ASSET_REGISTRY_PATH := "res://data/registries/ui_asset_registry.json"
 const TEST_PROFILE_ROOT := "user://__test_start_screen_profile"
 const CAPTURE_ARG := "--capture-start-screen"
-const CAPTURE_INITIAL_PATH := "res://../builds/validation/start_screen_1280x720.png"
-const CAPTURE_FIRST_RUN_PATH := "res://../builds/validation/start_screen_first_run_1280x720.png"
-const CAPTURE_LARGE_TEXT_PATH := "res://../builds/validation/start_screen_large_text_1280x720.png"
+const CAPTURE_OUTPUT_DIRECTORY := "../builds/validation"
+const CAPTURE_INITIAL_FILE := "start_screen_1280x720.png"
+const CAPTURE_FIRST_RUN_FILE := "start_screen_first_run_1280x720.png"
+const CAPTURE_LARGE_TEXT_FILE := "start_screen_large_text_1280x720.png"
 const TEST_BOOTSTRAP_SLOT := "__test_start_screen_bootstrap"
 const EMPTY_SUMMARIES: Array[Dictionary] = [
 	{"slot_id": "slot_01", "available": false},
@@ -38,7 +39,7 @@ func run(tree: SceneTree) -> Dictionary:
 	await _validate_title_treatment(screen)
 	if CAPTURE_ARG in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
-		_capture_screen(screen, CAPTURE_INITIAL_PATH, "initial")
+		_capture_screen(screen, CAPTURE_INITIAL_FILE, "initial")
 	await _validate_first_run(screen)
 	await _validate_slot_modes(screen)
 	await _validate_support_modals(screen)
@@ -88,7 +89,7 @@ func _validate_bootstrap_handoff() -> void:
 	GameState.reset_for_test()
 
 
-func _capture_screen(screen: StartScreen, output_path: String, capture_name: String) -> void:
+func _capture_screen(screen: StartScreen, output_file: String, capture_name: String) -> void:
 	var viewport_texture := screen.get_viewport().get_texture()
 	_expect(viewport_texture != null, "start screen capture is unavailable for the active display driver", _errors)
 	if viewport_texture == null:
@@ -116,12 +117,13 @@ func _capture_screen(screen: StartScreen, output_path: String, capture_name: Str
 		]
 	)
 	image.resize(1280, 720, Image.INTERPOLATE_LANCZOS)
-	var absolute_directory := ProjectSettings.globalize_path("res://../builds/validation")
+	var project_directory := ProjectSettings.globalize_path("res://")
+	var absolute_directory := project_directory.path_join(CAPTURE_OUTPUT_DIRECTORY).simplify_path()
 	var directory_error := DirAccess.make_dir_recursive_absolute(absolute_directory)
 	_expect(directory_error == OK, "start screen capture directory could not be created", _errors)
 	if directory_error != OK:
 		return
-	var save_error := image.save_png(ProjectSettings.globalize_path(output_path))
+	var save_error := image.save_png(absolute_directory.path_join(output_file))
 	_expect(save_error == OK, "start screen capture could not be saved", _errors)
 
 
@@ -200,7 +202,7 @@ func _validate_title_treatment(screen: StartScreen) -> void:
 	_expect(_rect_inside(logo_stack.get_global_rect(), viewport_rect), "200% title logo overflow", _errors)
 	if CAPTURE_ARG in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
-		_capture_screen(screen, CAPTURE_LARGE_TEXT_PATH, "large_text")
+		_capture_screen(screen, CAPTURE_LARGE_TEXT_FILE, "large_text")
 	screen._profile = original_profile
 	screen._apply_profile()
 	await _tree.process_frame
@@ -218,7 +220,7 @@ func _validate_first_run(screen: StartScreen) -> void:
 	_expect((screen.get_node("%FirstCaptions") as CheckButton).button_pressed, "captions must default to enabled", _errors)
 	if CAPTURE_ARG in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
-		_capture_screen(screen, CAPTURE_FIRST_RUN_PATH, "first_run")
+		_capture_screen(screen, CAPTURE_FIRST_RUN_FILE, "first_run")
 	(screen.get_node("%FirstDefaultButton") as Button).pressed.emit()
 	await _tree.process_frame
 	await _tree.process_frame

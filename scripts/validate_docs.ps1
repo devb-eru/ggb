@@ -855,9 +855,28 @@ if (Test-Path -LiteralPath $saveManagerPath -PathType Leaf) {
 $bootstrapPath = Join-Path $gameRoot "scripts/systems/bootstrap.gd"
 if (Test-Path -LiteralPath $bootstrapPath -PathType Leaf) {
     $bootstrapText = [System.IO.File]::ReadAllText($bootstrapPath, $utf8)
-    foreach ($token in @("NOTIFICATION_APPLICATION_FOCUS_OUT", "_set_ui_input_suspended", "button.disabled = suspended")) {
+    foreach ($token in @(
+        "NOTIFICATION_APPLICATION_FOCUS_OUT",
+        "_start_screen.set_input_suspended(true)",
+        "_start_screen.set_input_suspended(false)"
+    )) {
         if ($bootstrapText -notmatch [regex]::Escape($token)) {
             Add-ValidationError "GODOT_FOCUS_GUARD" "game/scripts/systems/bootstrap.gd" $token
+        }
+    }
+}
+
+$startScreenPath = Join-Path $gameRoot "scripts/ui/start_screen.gd"
+if (Test-Path -LiteralPath $startScreenPath -PathType Leaf) {
+    $startScreenText = [System.IO.File]::ReadAllText($startScreenPath, $utf8)
+    foreach ($token in @(
+        "func set_input_suspended(suspended: bool)",
+        "Control.MOUSE_FILTER_IGNORE if suspended",
+        "Control.FOCUS_NONE if suspended",
+        "gui_release_focus()"
+    )) {
+        if ($startScreenText -notmatch [regex]::Escape($token)) {
+            Add-ValidationError "GODOT_FOCUS_GUARD" "game/scripts/ui/start_screen.gd" $token
         }
     }
 }
