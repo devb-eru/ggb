@@ -43,6 +43,20 @@ const P3_BOOKS := {
 	"BOOK_FLORA": {"label": "온실 식물지", "shelf": "SHELF_FLOWER"},
 	"BOOK_LEDGER": {"label": "식탁 업무록", "shelf": "SHELF_CUP"},
 }
+const P3_JOURNAL_CHOICES := {
+	"author": {
+		"label": "누가 쓴 장부입니까?",
+		"response": "주인님의 기록입니다.",
+	},
+	"locked": {
+		"label": "왜 잠겨 있습니까?",
+		"response": "손상된 기록은 잘못 읽히기 쉽습니다.",
+	},
+	"silent": {
+		"label": "말없이 내려놓는다",
+		"response": "",
+	},
+}
 const P3B_LABELS := {
 	"EDGAR": "에드가 · LOCK",
 	"MARA1": "마라 1 · MAINT",
@@ -103,6 +117,7 @@ var _dialogue_index := 0
 var _dialogue_after := Callable()
 var _dialogue_active := false
 var _modal_active := false
+var _p3_journal_prompt_active := false
 
 
 func configure_session(slot_id: String, resume_id: String, test_mode: bool = false) -> void:
@@ -458,6 +473,7 @@ func _default_progress() -> Dictionary:
 		"p2_spanner_hint_seen": false,
 		"p3_placed": {},
 		"p3_journal_seen": false,
+		"p3_journal_choice": "",
 		"p3b_placed": {},
 		"tea_step": 0,
 		"p5_observations": [],
@@ -841,12 +857,17 @@ func _build_library() -> void:
 		_add_inventory_drop_hotspot(String(shelf[0]), label, shelf[2], _on_shelf_pressed.bind(String(shelf[0])), _on_shelf_item_dropped)
 	_add_hotspot("INNER_DOOR", "기록 내실 유리문\n잠김", Rect2(1460, 210, 205, 460), _inspect_inner_door)
 	_add_back_to_hall()
+	var needs_journal_choice := bool(_progress.get("p3_journal_seen", false)) \
+		and String(_progress.get("p3_journal_choice", "")) in ["", "pending"] \
+		and not _p3_journal_prompt_active
 	if not _intro_seen("P3"):
 		_mark_intro("P3")
 		_show_dialogue([
 			{"speaker": "에드가", "portrait": "EDGAR", "text": "외부 서고의 반납분입니다. 책등 문양과 선반 표식을 맞춰 주십시오."},
 			{"speaker": "에드가", "portrait": "EDGAR", "text": "기록 내실은 정리 대상이 아닙니다."},
-		])
+		], _resume_p3_journal_choice if needs_journal_choice else Callable())
+	elif needs_journal_choice:
+		call_deferred("_resume_p3_journal_choice")
 
 
 func _on_shelf_pressed(shelf_id: String) -> void:
@@ -862,15 +883,70 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 	var placed: Dictionary = _progress.get("p3_placed", {})
 	placed[shelf_id] = _selected_item
 	_progress["p3_placed"] = placed
+	var journal_discovered := false
 	if _selected_item == "BOOK_MECHANICAL" and not bool(_progress.get("p3_journal_seen", false)):
 		_progress["p3_journal_seen"] = true
+		_progress["p3_journal_choice"] = "pending"
+		_p3_journal_prompt_active = true
+		journal_discovered = true
 		_add_notebook("기계 도면집 뒤에서 낡은 연구 장부가 떨어졌다. 안쪽 면에는 내가 그린 듯한 고딕 저택 낙서가 있다.")
-		_show_dialogue([
-			{"speaker": "SYSTEM", "text": "반납 슬롯 안쪽에서 낡은 일지 한 권이 떨어진다. 잉크는 한 방향으로 밀린 것처럼 겹쳐 있다."},
-			{"speaker": "에드가", "portrait": "EDGAR", "text": "오래된 연구 장부입니다. 현재는 열람 대상이 아닙니다. 제자리에 두시는 편이 좋겠습니다."},
-		])
 	_selected_item = ""
-	if placed.size() >= 3:
+	_save_progress()
+	_rebuild_current_room_content()
+	if journal_discovered:
+		_show_dialogue([
+			{"speaker": "SYSTEM", "text": "반납 슬롯 안쪽에서 낡은 일지 한 권이 떨어진다. 표지는 읽히지 않고, 본문 잉크는 한 방향으로 밀린 것처럼 겹쳐 있다."},
+			{"speaker": "에드가", "portrait": "EDGAR", "text": "오래된 연구 장부입니다. 현재는 열람 대상이 아닙니다. 제자리에 두시는 편이 좋겠습니다."},
+		], _show_p3_journal_choices)
+		return
+	_finish_p3_book_placement()
+
+
+func _show_p3_journal_choices() -> void:
+	_p3_journal_prompt_active = true
+	_show_modal(
+		"낡은 연구 장부",
+		"에드가는 장부를 내려놓으라는 듯 손을 내민다. 표지의 잠금쇠 위로 남색 수직선이 한 번 겹쳤다가 사라진다.",
+		[
+			{"label": String(P3_JOURNAL_CHOICES["author"]["label"]), "action": _answer_p3_journal_choice.bind("author")},
+			{"label": String(P3_JOURNAL_CHOICES["locked"]["label"]), "action": _answer_p3_journal_choice.bind("locked")},
+			{"label": String(P3_JOURNAL_CHOICES["silent"]["label"]), "action": _answer_p3_journal_choice.bind("silent")},
+		]
+	)
+
+
+func _answer_p3_journal_choice(choice_id: String) -> void:
+	if not P3_JOURNAL_CHOICES.has(choice_id):
+		return
+	_close_modal()
+	_p3_journal_prompt_active = false
+	_progress["p3_journal_choice"] = choice_id
+	_save_progress()
+	if choice_id == "silent":
+		_set_status("말없이 장부를 내려놓았다. 에드가는 잠금쇠가 닫힌 것을 확인한다.")
+		_finish_p3_book_placement()
+		return
+	var response := String(P3_JOURNAL_CHOICES[choice_id]["response"])
+	_show_dialogue([
+		{"speaker": "에드가", "portrait": "EDGAR", "text": response},
+	], _finish_p3_book_placement)
+
+
+func _resume_p3_journal_choice() -> void:
+	if _current_room != "M1_LIBRARY_OUTER" or _dialogue_active or _modal_active or _p3_journal_prompt_active:
+		return
+	_p3_journal_prompt_active = true
+	_progress["p3_journal_choice"] = "pending"
+	_save_progress()
+	_show_dialogue([
+		{"speaker": "SYSTEM", "text": "내려놓지 못한 낡은 장부가 아직 손안에 있다. 표지의 글자는 읽히지 않는다."},
+		{"speaker": "에드가", "portrait": "EDGAR", "text": "오래된 연구 장부입니다. 현재는 열람 대상이 아닙니다. 제자리에 두시는 편이 좋겠습니다."},
+	], _show_p3_journal_choices)
+
+
+func _finish_p3_book_placement() -> void:
+	var placed: Dictionary = _progress.get("p3_placed", {})
+	if placed.size() >= 3 and not bool(_progress.get("P3_complete", false)):
 		_progress["P3_complete"] = true
 		_save_progress()
 		_rebuild_current_room_content()
@@ -1616,12 +1692,50 @@ func run_smoke_scenario() -> PackedStringArray:
 	for book_id in P3_BOOKS:
 		if book_id not in _inventory_item_ids():
 			errors.append("P3 inventory book missing: %s" % book_id)
-	for book_id in P3_BOOKS:
+	var p3_book_order := ["BOOK_FLORA", "BOOK_LEDGER", "BOOK_MECHANICAL"]
+	for book_id in p3_book_order:
 		var shelf_id := String(P3_BOOKS[book_id]["shelf"])
 		_drag_inventory_item_to_target_for_smoke(book_id, _hotspot_layer.get_node(shelf_id), errors)
+		if book_id != "BOOK_MECHANICAL":
+			_dismiss_dialogue_for_test()
+			continue
+		if not _dialogue_active or _dialogue_lines.size() != 2:
+			errors.append("P3 journal discovery dialogue missing")
+		while _dialogue_active:
+			_advance_dialogue()
+		if not _modal_active:
+			errors.append("P3 journal choice modal missing after Edgar dialogue")
+		var choice_labels: Array[String] = []
+		var author_button: Button
+		for child in _modal_body.get_children():
+			if child is Button:
+				choice_labels.append(child.text)
+				if child.text == String(P3_JOURNAL_CHOICES["author"]["label"]):
+					author_button = child
+		for choice_id in ["author", "locked", "silent"]:
+			if String(P3_JOURNAL_CHOICES[choice_id]["label"]) not in choice_labels:
+				errors.append("P3 journal choice missing: %s" % choice_id)
+		if String(P3_JOURNAL_CHOICES["author"]["response"]) != "주인님의 기록입니다.":
+			errors.append("P3 journal author response mismatch")
+		if String(P3_JOURNAL_CHOICES["locked"]["response"]) != "손상된 기록은 잘못 읽히기 쉽습니다.":
+			errors.append("P3 journal locked response mismatch")
+		if author_button == null:
+			errors.append("P3 journal author choice button unavailable")
+			_answer_p3_journal_choice("author")
+		else:
+			author_button.pressed.emit()
+		if not _dialogue_active or _dialogue_label.text != "주인님의 기록입니다.":
+			errors.append("P3 journal selected answer was not presented")
+		_advance_dialogue()
 		_dismiss_dialogue_for_test()
 	if not bool(_progress.get("P3_complete", false)) or not bool(_progress.get("p3_journal_seen", false)):
 		errors.append("P3 did not complete with journal")
+	if String(_progress.get("p3_journal_choice", "")) != "author":
+		errors.append("P3 journal choice was not recorded")
+	_answer_p3_journal_choice("locked")
+	if not _dialogue_active or _dialogue_label.text != "손상된 기록은 잘못 읽히기 쉽습니다.":
+		errors.append("P3 journal locked answer was not presented")
+	_dismiss_dialogue_for_test()
 
 	_enter_room("M1_NORTH_ARCHIVE_HALL")
 	_dismiss_dialogue_for_test()
