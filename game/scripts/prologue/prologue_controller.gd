@@ -380,6 +380,7 @@ func _enter_room(room_id: String) -> void:
 	_location_label.text = String(ROOM_NAMES.get(room_id, room_id))
 	_set_room_background(room_id)
 	_selected_item = ""
+	_update_inventory([])
 	_clear_hotspots()
 	_room_art.set_room(room_id, _progress)
 	match room_id:
@@ -398,7 +399,6 @@ func _enter_room(room_id: String) -> void:
 		"M1_GREENHOUSE_VESTIBULE":
 			_build_greenhouse()
 	_update_objective()
-	_update_inventory([])
 	_save_progress()
 
 
@@ -1183,7 +1183,10 @@ func run_smoke_scenario() -> PackedStringArray:
 	_progress["P1_complete"] = true
 	_enter_room("M1_PARLOR")
 	_dismiss_dialogue_for_test()
-	_selected_item = "SOFT_CLOTH"
+	for item_id in ["SOFT_CLOTH", "COARSE_BRUSH", "WATER", "SPANNER"]:
+		if item_id not in _inventory_item_ids():
+			errors.append("P2 inventory item missing: %s" % item_id)
+	_select_inventory_item_for_smoke("SOFT_CLOTH", errors)
 	for window_index in range(3):
 		for _stage in range(3):
 			_on_window_pressed(window_index)
@@ -1194,7 +1197,10 @@ func run_smoke_scenario() -> PackedStringArray:
 	_enter_room("M1_LIBRARY_OUTER")
 	_dismiss_dialogue_for_test()
 	for book_id in P3_BOOKS:
-		_selected_item = book_id
+		if book_id not in _inventory_item_ids():
+			errors.append("P3 inventory book missing: %s" % book_id)
+	for book_id in P3_BOOKS:
+		_select_inventory_item_for_smoke(book_id, errors)
 		_on_shelf_pressed(String(P3_BOOKS[book_id]["shelf"]))
 		_dismiss_dialogue_for_test()
 	if not bool(_progress.get("P3_complete", false)) or not bool(_progress.get("p3_journal_seen", false)):
@@ -1230,3 +1236,16 @@ func run_smoke_scenario() -> PackedStringArray:
 	if _inventory_slots.size() != 6 or _menu_button == null or _notebook_button == null:
 		errors.append("persistent UI contract missing")
 	return errors
+
+
+func _select_inventory_item_for_smoke(item_id: String, errors: PackedStringArray) -> bool:
+	for index in range(_inventory_slots.size()):
+		if String(_inventory_slots[index].get_meta("item_id", "")) != item_id:
+			continue
+		_on_inventory_slot_pressed(index)
+		if _selected_item != item_id:
+			errors.append("inventory slot could not select item: %s" % item_id)
+			return false
+		return true
+	errors.append("inventory slot not found for item: %s" % item_id)
+	return false
