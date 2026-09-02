@@ -988,6 +988,7 @@ func _answer_p3_journal_choice(choice_id: String) -> void:
 		return
 	_hide_dialogue_choices()
 	if choice_id == "silent":
+		_dialogue_layer.visible = false
 		_p3_journal_prompt_active = false
 		_progress["p3_journal_choice"] = "silent"
 		_save_progress()
@@ -1826,6 +1827,7 @@ func run_smoke_scenario() -> PackedStringArray:
 	if not bool(_progress.get("P2_complete", false)):
 		errors.append("P2 did not complete")
 
+	_run_p3_silent_close_smoke(errors)
 	_enter_room("M1_LIBRARY_OUTER")
 	_dismiss_dialogue_for_test()
 	for book_id in P3_BOOKS:
@@ -1918,6 +1920,35 @@ func run_smoke_scenario() -> PackedStringArray:
 	if _inventory_slots.size() != 6 or _menu_button == null or _notebook_button == null:
 		errors.append("persistent UI contract missing")
 	return errors
+
+
+func _run_p3_silent_close_smoke(errors: PackedStringArray) -> void:
+	_enter_room("M1_LIBRARY_OUTER")
+	_dismiss_dialogue_for_test()
+	_drag_inventory_item_to_target_for_smoke("BOOK_MECHANICAL", _hotspot_layer.get_node("SHELF_CLOCK"), errors)
+	while _dialogue_active:
+		_advance_dialogue()
+	var silent_button: Button
+	for button in _dialogue_choice_buttons:
+		if String(button.get_meta("choice_id", "")) == "silent":
+			silent_button = button
+			break
+	if silent_button == null:
+		errors.append("P3 silent close test could not find choice button")
+	else:
+		silent_button.pressed.emit()
+		if _dialogue_layer.visible or _dialogue_choice_active:
+			errors.append("P3 silent choice left dialogue UI visible before book sorting completed")
+		if bool(_progress.get("P3_complete", false)):
+			errors.append("P3 silent close test completed event with books remaining")
+	_dismiss_dialogue_for_test()
+	_progress["P3_complete"] = false
+	_progress["p3_placed"] = {}
+	_progress["p3_journal_seen"] = false
+	_progress["p3_journal_choice"] = ""
+	_progress["p3_journal_questions_asked"] = []
+	_p3_journal_prompt_active = false
+	_selected_item = ""
 
 
 func _drag_inventory_item_to_target_for_smoke(item_id: String, target: Control, errors: PackedStringArray) -> bool:
