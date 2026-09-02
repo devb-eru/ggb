@@ -3,6 +3,8 @@ extends RefCounted
 const PROLOGUE_SCENE := preload("res://scenes/prologue/prologue.tscn")
 const CAPTURE_ARG := "--capture-prologue"
 const CAPTURE_FILE := "user://prologue_dialogue_1280x720.png"
+const CAPTURE_P2_ARG := "--capture-p2-window"
+const CAPTURE_P2_FILE := "user://p2_window_drag_1280x720.png"
 const RESET_TEST_SLOT := "__test_prologue_reset"
 
 
@@ -12,23 +14,35 @@ func run(tree: SceneTree) -> Dictionary:
 	tree.root.add_child(prologue)
 	await tree.process_frame
 	await tree.process_frame
-	if CAPTURE_ARG in OS.get_cmdline_user_args():
+	if CAPTURE_P2_ARG in OS.get_cmdline_user_args():
+		prologue._dismiss_dialogue_for_test()
+		prologue._progress["P1_complete"] = true
+		prologue._enter_room("M1_PARLOR")
+		prologue._dismiss_dialogue_for_test()
+		prologue._on_window_pressed(0)
+		await _capture_view(tree, CAPTURE_P2_FILE, "P2_WINDOW_CAPTURE")
+	elif CAPTURE_ARG in OS.get_cmdline_user_args():
 		prologue._advance_dialogue()
 		prologue._advance_dialogue()
-		await tree.process_frame
-		if DisplayServer.get_name() != "headless":
-			await RenderingServer.frame_post_draw
-		var image := tree.root.get_texture().get_image()
-		if image != null and not image.is_empty():
-			image.resize(1280, 720, Image.INTERPOLATE_LANCZOS)
-			var save_error := image.save_png(CAPTURE_FILE)
-			if save_error == OK:
-				print("PROLOGUE_CAPTURE: %s" % ProjectSettings.globalize_path(CAPTURE_FILE))
+		await _capture_view(tree, CAPTURE_FILE, "PROLOGUE_CAPTURE")
 	var errors: PackedStringArray = prologue.run_smoke_scenario()
 	prologue.queue_free()
 	await tree.process_frame
 	await _validate_reset_integration(tree, errors)
 	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _capture_view(tree: SceneTree, path: String, marker: String) -> void:
+	await tree.process_frame
+	if DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+	var image := tree.root.get_texture().get_image()
+	if image == null or image.is_empty():
+		return
+	image.resize(1280, 720, Image.INTERPOLATE_LANCZOS)
+	var save_error := image.save_png(path)
+	if save_error == OK:
+		print("%s: %s" % [marker, ProjectSettings.globalize_path(path)])
 
 
 func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> void:

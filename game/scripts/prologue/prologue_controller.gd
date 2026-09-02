@@ -8,6 +8,9 @@ const ROOMS_PRIMARY_ATLAS := preload("res://assets/prologue/prologue_rooms_prima
 const ROOMS_SECONDARY_ATLAS := preload("res://assets/prologue/prologue_rooms_secondary_atlas_v01.png")
 const SERVANT_ATLAS := preload("res://assets/prologue/prologue_servants_atlas_v01.png")
 const ROOM_ART_SCRIPT := preload("res://scripts/prologue/prologue_room_art.gd")
+const WINDOW_INSPECTION_ART_SCRIPT := preload("res://scripts/prologue/prologue_window_inspection_art.gd")
+const INVENTORY_DRAG_SLOT_SCRIPT := preload("res://scripts/ui/inventory_drag_slot.gd")
+const INVENTORY_DROP_TARGET_SCRIPT := preload("res://scripts/ui/inventory_drop_target.gd")
 
 const ROOM_NAMES := {
 	"M2_BEDROOM": "주인공의 침실",
@@ -47,6 +50,7 @@ const P3B_LABELS := {
 	"IRIS": "이리스 · CLIMATE",
 	"MARA2": "마라 2 · ARCHIVE",
 }
+const P3B_OWNERS := ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]
 const TEA_STEPS := [
 	"빈 잔 데우기",
 	"데운 물 버리기",
@@ -55,6 +59,8 @@ const TEA_STEPS := [
 	"모래시계 기다리기",
 	"잔에 따르기",
 ]
+const TEA_STEP_ITEMS := ["HOT_WATER", "CUP", "TEA_LEAVES", "HOT_WATER", "TIMER", "TEAPOT"]
+const TEA_STEP_ITEM_LABELS := ["뜨거운 물", "빈 찻잔", "찻잎", "뜨거운 물", "모래시계", "찻주전자"]
 
 var _slot_id := "slot_01"
 var _resume_id := "P1_ENTRY"
@@ -81,6 +87,15 @@ var _dialogue_next: Button
 var _modal_layer: Control
 var _modal_panel: PanelContainer
 var _modal_body: VBoxContainer
+var _inspection_layer: Control
+var _inspection_panel: PanelContainer
+var _window_title: Label
+var _window_hint_label: Label
+var _window_feedback_label: Label
+var _window_art
+var _window_drop_targets: Dictionary = {}
+var _inspected_window := -1
+var _inspection_active := false
 var _fade: ColorRect
 
 var _dialogue_lines: Array = []
@@ -111,13 +126,17 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("notebook_toggle"):
-		if _modal_active:
+		if _inspection_active:
+			_close_window_inspection()
+		elif _modal_active:
 			_close_modal()
 		else:
 			_open_notebook()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_cancel"):
-		if _modal_active:
+		if _inspection_active:
+			_close_window_inspection()
+		elif _modal_active:
 			_close_modal()
 		elif _dialogue_active:
 			_advance_dialogue()
@@ -155,6 +174,7 @@ func _build_ui() -> void:
 	_hotspot_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_hotspot_layer)
 
+	_build_window_inspection_ui()
 	_build_persistent_ui()
 	_build_dialogue_ui()
 	_build_modal_ui()
@@ -165,6 +185,89 @@ func _build_ui() -> void:
 	_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_fade.visible = false
 	add_child(_fade)
+
+
+func _build_window_inspection_ui() -> void:
+	_inspection_layer = Control.new()
+	_inspection_layer.name = "WindowInspectionLayer"
+	_inspection_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_inspection_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_inspection_layer.visible = false
+	add_child(_inspection_layer)
+
+	var dimmer := ColorRect.new()
+	dimmer.name = "InspectionDimmer"
+	dimmer.color = Color(0.0, 0.0, 0.0, 0.78)
+	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
+	_place(dimmer, Rect2(0, 86, 1680, 994))
+	_inspection_layer.add_child(dimmer)
+
+	_inspection_panel = PanelContainer.new()
+	_inspection_panel.name = "WindowInspectionPanel"
+	_inspection_panel.add_theme_stylebox_override("panel", _style(Color(0.025, 0.018, 0.050, 0.99), Color(0.70, 0.42, 0.23, 0.98), 5, 12))
+	_place(_inspection_panel, Rect2(210, 115, 1390, 850))
+	_inspection_layer.add_child(_inspection_panel)
+
+	var content := Control.new()
+	content.name = "WindowInspectionContent"
+	_inspection_panel.add_child(content)
+
+	_window_title = Label.new()
+	_window_title.name = "WindowInspectionTitle"
+	_window_title.add_theme_font_size_override("font_size", 32)
+	_window_title.add_theme_color_override("font_color", Color(0.96, 0.79, 0.52))
+	_place(_window_title, Rect2(48, 28, 820, 48))
+	content.add_child(_window_title)
+
+	_window_hint_label = Label.new()
+	_window_hint_label.name = "WindowInspectionHint"
+	_window_hint_label.text = "오른쪽 인벤토리의 도구를 위·가운데·아래 영역으로 드래그하십시오."
+	_window_hint_label.add_theme_font_size_override("font_size", 20)
+	_window_hint_label.add_theme_color_override("font_color", Color(0.91, 0.89, 0.84))
+	_place(_window_hint_label, Rect2(48, 78, 1180, 36))
+	content.add_child(_window_hint_label)
+
+	_window_art = WINDOW_INSPECTION_ART_SCRIPT.new()
+	_window_art.name = "WindowInspectionArt"
+	_place(_window_art, Rect2(70, 120, 1250, 590))
+	content.add_child(_window_art)
+
+	var zone_specs := [
+		{"id": "TOP", "label": "위쪽", "rect": Rect2(160, 170, 1070, 140)},
+		{"id": "MIDDLE", "label": "가운데", "rect": Rect2(160, 335, 1070, 155)},
+		{"id": "BOTTOM", "label": "아래", "rect": Rect2(160, 515, 1070, 145)},
+	]
+	for spec_value in zone_specs:
+		var spec: Dictionary = spec_value
+		var zone_id := String(spec["id"])
+		var target = INVENTORY_DROP_TARGET_SCRIPT.new()
+		target.name = "WindowDrop%s" % zone_id.capitalize()
+		target.configure("WINDOW_ZONE_%s" % zone_id)
+		target.text = String(spec["label"])
+		target.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		target.add_theme_font_size_override("font_size", 22)
+		target.add_theme_stylebox_override("normal", _style(Color(0.04, 0.025, 0.07, 0.34), Color(0.73, 0.61, 0.44, 0.72), 3, 8))
+		target.add_theme_stylebox_override("hover", _style(Color(0.18, 0.08, 0.16, 0.62), Color(0.98, 0.72, 0.34, 0.98), 5, 8))
+		target.add_theme_stylebox_override("focus", _style(Color(0.12, 0.05, 0.15, 0.66), Color(0.60, 0.82, 1.0, 0.98), 5, 8))
+		_place(target, spec["rect"])
+		target.inventory_item_dropped.connect(_on_window_item_dropped)
+		target.pressed.connect(_on_window_zone_pressed.bind(zone_id))
+		_window_drop_targets[zone_id] = target
+		content.add_child(target)
+
+	_window_feedback_label = Label.new()
+	_window_feedback_label.name = "WindowFeedback"
+	_window_feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_window_feedback_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_window_feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_window_feedback_label.add_theme_font_size_override("font_size", 21)
+	_window_feedback_label.add_theme_color_override("font_color", Color(1.0, 0.83, 0.53))
+	_place(_window_feedback_label, Rect2(120, 708, 1110, 72))
+	content.add_child(_window_feedback_label)
+
+	var close_button := _make_button("확대 닫기", Rect2(1160, 24, 170, 58), _close_window_inspection)
+	close_button.name = "CloseWindowInspection"
+	content.add_child(close_button)
 
 
 func _build_persistent_ui() -> void:
@@ -230,7 +333,7 @@ func _build_persistent_ui() -> void:
 	inventory_title.add_theme_font_size_override("font_size", 19)
 	inventory_column.add_child(inventory_title)
 	for index in range(6):
-		var slot := Button.new()
+		var slot: Button = INVENTORY_DRAG_SLOT_SCRIPT.new()
 		slot.name = "InventorySlot%d" % (index + 1)
 		slot.custom_minimum_size = Vector2(170, 126)
 		slot.text = "비어 있음"
@@ -239,6 +342,7 @@ func _build_persistent_ui() -> void:
 		slot.add_theme_stylebox_override("normal", _style(Color(0.08, 0.035, 0.075, 0.96), Color(0.63, 0.26, 0.18, 0.92), 4, 4))
 		slot.add_theme_stylebox_override("hover", _style(Color(0.17, 0.055, 0.13, 0.98), Color(0.90, 0.47, 0.26, 1.0), 5, 4))
 		slot.pressed.connect(_on_inventory_slot_pressed.bind(index))
+		slot.drag_started.connect(_on_inventory_drag_started)
 		_inventory_slots.append(slot)
 		inventory_column.add_child(slot)
 
@@ -322,10 +426,15 @@ func _build_modal_ui() -> void:
 func _load_progress() -> void:
 	_progress = _default_progress()
 	if _test_mode:
+		_normalize_window_states()
 		return
 	var event_states: Dictionary = GameState.get_value(&"loop_state.event_local_states", {})
 	if event_states.get("PROLOGUE") is Dictionary:
-		_progress.merge(event_states["PROLOGUE"], true)
+		var stored_progress: Dictionary = event_states["PROLOGUE"]
+		_progress.merge(stored_progress, true)
+		if not stored_progress.has("window_states"):
+			_progress["window_states"] = _window_states_from_stages(Array(stored_progress.get("windows", [0, 0, 0])))
+	_normalize_window_states()
 	_current_room = String(_progress.get("current_room", "M2_BEDROOM"))
 
 
@@ -343,7 +452,10 @@ func _default_progress() -> Dictionary:
 		"time_block": "morning",
 		"p1_inspections": [],
 		"windows": [0, 0, 0],
+		"window_states": _make_default_window_states(),
 		"bird_observed": false,
+		"p2_brush_hint_seen": false,
+		"p2_spanner_hint_seen": false,
 		"p3_placed": {},
 		"p3_journal_seen": false,
 		"p3b_placed": {},
@@ -375,6 +487,7 @@ func _show_p1_intro() -> void:
 
 
 func _enter_room(room_id: String) -> void:
+	_close_window_inspection(false)
 	_current_room = room_id
 	_progress["current_room"] = room_id
 	_location_label.text = String(ROOM_NAMES.get(room_id, room_id))
@@ -400,6 +513,21 @@ func _enter_room(room_id: String) -> void:
 			_build_greenhouse()
 	_update_objective()
 	_save_progress()
+
+
+func _rebuild_current_room_content() -> void:
+	_clear_hotspots()
+	_room_art.set_room(_current_room, _progress)
+	match _current_room:
+		"M1_PARLOR":
+			_build_parlor()
+		"M1_LIBRARY_OUTER":
+			_build_library()
+		"M1_NORTH_ARCHIVE_HALL":
+			_build_archive()
+		"M1_KITCHEN":
+			_build_kitchen()
+	_update_objective()
 
 
 func _build_bedroom() -> void:
@@ -497,6 +625,8 @@ func _report_tasks() -> void:
 
 
 func _build_parlor() -> void:
+	_normalize_window_states()
+	_sync_window_stages()
 	_update_inventory([
 		{"id": "SOFT_CLOTH", "label": "부드러운 천"},
 		{"id": "COARSE_BRUSH", "label": "거친 솔"},
@@ -506,7 +636,7 @@ func _build_parlor() -> void:
 	var windows: Array = _progress.get("windows", [0, 0, 0])
 	for index in range(3):
 		var stage := int(windows[index])
-		_add_hotspot("WINDOW_%d" % index, "창 %d\n%s" % [index + 1, _window_stage_name(stage)], Rect2(300 + index * 420, 250, 300, 390), _on_window_pressed.bind(index))
+		_add_hotspot("WINDOW_%d" % index, "창 %d · 확대\n%s" % [index + 1, _window_stage_name(stage)], Rect2(300 + index * 420, 250, 300, 390), _on_window_pressed.bind(index))
 	_add_hotspot("CLOCK", "대응접실 시계", Rect2(1450, 185, 180, 190), _show_dialogue.bind([{"speaker": "주인공", "text": "열두 칸이 모두 같은 폭인데, 마지막 칸 아래에 지워진 홈이 하나 더 있다."}]))
 	_add_back_to_hall()
 	if not _intro_seen("P2"):
@@ -519,47 +649,178 @@ func _build_parlor() -> void:
 
 
 func _on_window_pressed(index: int) -> void:
-	if _interaction_blocked() or bool(_progress.get("P2_complete", false)):
+	if _dialogue_active or _modal_active:
 		return
+	_open_window_inspection(index)
+
+
+func _open_window_inspection(index: int) -> void:
+	_normalize_window_states()
+	if index < 0 or index >= Array(_progress.get("window_states", [])).size():
+		return
+	_inspected_window = index
+	_inspection_active = true
+	_inspection_layer.visible = true
+	_selected_item = ""
+	_refresh_inventory_selection()
+	_set_window_feedback("도구를 원하는 오염 영역으로 드래그하십시오.")
+	_refresh_window_inspection()
+	_set_status("창 %d 확대 조사 중" % (index + 1))
+
+
+func _close_window_inspection(update_status: bool = true) -> void:
+	if _inspection_layer != null:
+		_inspection_layer.visible = false
+	_inspection_active = false
+	_inspected_window = -1
+	if update_status and _status_label != null:
+		_set_status("창문 확대를 닫았다. 다른 창을 선택할 수 있다.")
+	_refresh_inventory_selection()
+
+
+func _refresh_window_inspection() -> void:
+	if not _inspection_active or _inspected_window < 0:
+		return
+	var states: Array = _progress.get("window_states", [])
+	if _inspected_window >= states.size():
+		return
+	var state: Dictionary = states[_inspected_window]
+	_window_title.text = "창 %d 확대 · %s" % [_inspected_window + 1, _window_stage_name(_stage_from_window_state(state))]
+	_window_art.set_window_state(_inspected_window, state)
+	var clean := _is_window_clean(state)
+	var top = _window_drop_targets["TOP"]
+	var middle = _window_drop_targets["MIDDLE"]
+	var bottom = _window_drop_targets["BOTTOM"]
+	top.text = "위쪽\n%s" % ("먼지가 양옆으로 퍼짐" if bool(state.get("dust_spread", false)) else ("먼지" if bool(state.get("top_dust", true)) else "정리됨"))
+	middle.text = "가운데\n%s" % ("얼룩" if bool(state.get("middle_stain", true)) else "정리됨")
+	bottom.text = "아래\n%s" % ("물기" if bool(state.get("bottom_wet", false)) else "마른 상태")
+	for target_value in _window_drop_targets.values():
+		target_value.set_drop_enabled(not clean)
+	_window_hint_label.text = "완료된 창입니다. 오염 패턴을 다시 확인할 수 있습니다." if clean else "오른쪽 인벤토리의 도구를 위·가운데·아래 영역으로 드래그하십시오."
+	_refresh_inventory_selection()
+
+
+func _on_window_zone_pressed(zone_id: String) -> void:
 	if _selected_item.is_empty():
-		_set_status("오른쪽 인벤토리에서 도구를 먼저 선택하십시오.")
+		_set_window_feedback("먼저 인벤토리에서 도구를 드래그하십시오. 키보드 조작은 도구 선택 후 영역을 누릅니다.")
 		return
-	var windows: Array = _progress.get("windows", [0, 0, 0])
-	var stage := int(windows[index])
-	match _selected_item:
-		"COARSE_BRUSH":
-			windows[index] = maxi(0, stage - 1)
-			_set_status("거친 솔이 먼지를 양옆으로 퍼뜨렸다. 부드러운 천이 필요하다.")
+	_on_window_item_dropped(_selected_item, "WINDOW_ZONE_%s" % zone_id)
+
+
+func _on_window_item_dropped(item_id: String, target_id: String) -> void:
+	if _dialogue_active or _modal_active or not _inspection_active:
+		return
+	var zone_id := target_id.trim_prefix("WINDOW_ZONE_")
+	_apply_window_tool(item_id, zone_id)
+
+
+func _apply_window_tool(item_id: String, zone_id: String) -> void:
+	var states: Array = _progress.get("window_states", [])
+	if _inspected_window < 0 or _inspected_window >= states.size():
+		return
+	var state: Dictionary = states[_inspected_window].duplicate(true)
+	if _is_window_clean(state):
+		_set_window_feedback("이미 깨끗한 창이다.")
+		return
+	var feedback_kind := "neutral"
+	match item_id:
 		"SPANNER":
-			_show_dialogue([{"speaker": "마라 1", "portrait": "MARA1", "text": "그걸로 닦으면 창문보다 벽부터 열릴 검다. 천을 쓰십쇼, 천."}])
+			_set_window_feedback("스패너는 창문에 사용할 수 없다. 마라 1이 황급히 손을 내민다.")
+			if not bool(_progress.get("p2_spanner_hint_seen", false)):
+				_progress["p2_spanner_hint_seen"] = true
+				_show_dialogue([{"speaker": "마라 1", "portrait": "MARA1", "text": "그걸로 닦으면 창문보다 벽부터 열릴 검다. 천을 쓰십쇼, 천."}])
+		"COARSE_BRUSH":
+			state["top_dust"] = true
+			state["dust_spread"] = true
+			feedback_kind = "wrong"
+			_set_window_feedback("거친 솔이 먼지를 양옆으로 퍼뜨렸다. 부드러운 천으로 바로 복구할 수 있다.")
+			if not bool(_progress.get("p2_brush_hint_seen", false)):
+				_progress["p2_brush_hint_seen"] = true
+				_show_dialogue([{"speaker": "마라 1", "portrait": "MARA1", "text": "아가씨, 그 솔 말고 부드러운 천 말임다! 퍼진 먼지는 위에서부터 다시 모으면 됨다."}])
 		"WATER":
-			if stage == 1:
-				windows[index] = 2
-				_set_status("얼룩이 풀렸지만 아래에 물기가 남았다.")
+			if zone_id == "MIDDLE" and not bool(state.get("top_dust", true)) and bool(state.get("middle_stain", true)):
+				state["middle_stain"] = false
+				state["bottom_wet"] = true
+				feedback_kind = "water"
+				_set_window_feedback("물로 얼룩이 풀렸다. 아래에 흐른 물기를 부드러운 천의 마른 면으로 걷어내야 한다.")
+			elif zone_id == "BOTTOM" and not bool(state.get("top_dust", true)) and not bool(state.get("middle_stain", true)):
+				state["bottom_wet"] = true
+				feedback_kind = "water"
+				_set_window_feedback("깨끗한 아래쪽이 다시 젖었다. 부드러운 천의 마른 면이 필요하다.")
 			else:
-				_set_status("지금 물을 더하면 먼지와 물기만 늘어난다.")
+				feedback_kind = "wrong"
+				_set_window_feedback("먼지가 남은 상태에서 물을 쓰면 얼룩만 번진다. 위쪽 먼지부터 정리해야 한다.")
 		"SOFT_CLOTH":
-			windows[index] = mini(3, stage + 1)
-			_set_status(["먼지를 아래로 모았다.", "가운데 얼룩을 원형으로 닦았다.", "마른 면으로 물기를 걷어냈다.", "이미 맑다."][stage])
-			if index == 2 and stage == 0 and not bool(_progress.get("bird_observed", false)):
-				_progress["bird_observed"] = true
-				_add_notebook("같은 새가 18초 간격으로 같은 궤도를 두 번 지나갔다.")
-				_show_dialogue([
-					{"speaker": "SYSTEM", "text": "같은 새가 같은 날갯짓으로 다시 창을 가로지른다."},
-					{"speaker": "마라 1", "portrait": "MARA1", "text": "일은 천천히 하시는데 눈은 좋으심다. 저 새까지 닦아낼 생각은 하지 마십쇼. ...농담입니다. 아마도."},
-				])
-	_progress["windows"] = windows
-	if windows.all(func(value: Variant) -> bool: return int(value) >= 3):
-		_progress["P2_complete"] = true
-		_add_notebook("대응접실의 세 창을 닦았다. 주황빛 닦임 자국이 천보다 한순간 먼저 움직였다.")
-		_save_progress()
-		_build_parlor()
-		_show_dialogue([
-			{"speaker": "마라 1", "portrait": "MARA1", "text": "깔끔함다! 다음에도 이 정도면 제가 일손 부족 얘기는 반만 하겠슴다."},
-		], func() -> void: _enter_room("M1_CENTRAL_HALL"))
-		return
+			match zone_id:
+				"TOP":
+					state["top_dust"] = false
+					state["dust_spread"] = false
+					feedback_kind = "correct"
+					_set_window_feedback("위쪽 먼지를 아래 방향으로 모아 걷어냈다.")
+					if _inspected_window == 2 and not bool(_progress.get("bird_observed", false)):
+						_progress["bird_observed"] = true
+						_add_notebook("같은 새가 18초 간격으로 같은 궤도를 두 번 지나갔다.")
+						_show_dialogue([
+							{"speaker": "SYSTEM", "text": "같은 새가 같은 날갯짓으로 다시 창을 가로지른다."},
+							{"speaker": "마라 1", "portrait": "MARA1", "text": "일은 천천히 하시는데 눈은 좋으심다. 저 새까지 닦아낼 생각은 하지 마십쇼. ...농담입니다. 아마도."},
+						])
+				"MIDDLE":
+					if bool(state.get("top_dust", true)):
+						feedback_kind = "falling_dust"
+						_set_window_feedback("아래부터 닦자 위쪽 먼지가 다시 떨어졌다. 위에서 아래 순서로 진행해야 한다.")
+					elif bool(state.get("middle_stain", true)):
+						state["middle_stain"] = false
+						feedback_kind = "correct"
+						_set_window_feedback("가운데 얼룩을 원형으로 닦아냈다.")
+					else:
+						_set_window_feedback("가운데는 이미 깨끗하다.")
+				"BOTTOM":
+					if bool(state.get("top_dust", true)) or bool(state.get("middle_stain", true)):
+						feedback_kind = "falling_dust"
+						_set_window_feedback("아래부터 닦자 위쪽 오염이 다시 떨어졌다. 위에서 아래 순서로 진행해야 한다.")
+					elif bool(state.get("bottom_wet", false)):
+						state["bottom_wet"] = false
+						feedback_kind = "correct"
+						_set_window_feedback("부드러운 천의 마른 면으로 아래 물기를 걷어냈다.")
+					else:
+						_set_window_feedback("아래쪽은 이미 마른 상태다.")
+		_:
+			_set_window_feedback("이 물건은 창문 닦기에 사용할 수 없다.")
+	states[_inspected_window] = state
+	_progress["window_states"] = states
+	_sync_window_stages()
+	_room_art.set_room("M1_PARLOR", _progress)
+	_refresh_window_inspection()
+	match feedback_kind:
+		"falling_dust":
+			_window_art.play_falling_dust()
+		"wrong":
+			_window_art.play_feedback(Color(0.78, 0.20, 0.18))
+		"water":
+			_window_art.play_feedback(Color(0.25, 0.62, 0.90))
+		"correct":
+			_window_art.play_feedback(Color(0.92, 0.72, 0.30))
 	_save_progress()
-	_build_parlor()
+	if _all_windows_clean() and not bool(_progress.get("P2_complete", false)):
+		_complete_p2()
+
+
+func _complete_p2() -> void:
+	_progress["P2_complete"] = true
+	_add_notebook("대응접실의 세 창을 닦았다. 주황빛 닦임 자국이 천보다 한순간 먼저 움직였다.")
+	_update_objective()
+	_save_progress()
+	_show_dialogue([
+		{"speaker": "마라 1", "portrait": "MARA1", "text": "깔끔함다! 다음에도 이 정도면 제가 일손 부족 얘기는 반만 하겠슴다."},
+	], func() -> void:
+		_close_window_inspection(false)
+		_enter_room("M1_CENTRAL_HALL")
+	)
+
+
+func _set_window_feedback(message: String) -> void:
+	_window_feedback_label.text = message
+	_set_status(message)
 
 
 func _build_library() -> void:
@@ -577,7 +838,7 @@ func _build_library() -> void:
 	for shelf in shelves:
 		var occupant := String(placed.get(shelf[0], ""))
 		var label := String(shelf[1]) if occupant.is_empty() else "%s\n[정리됨]" % P3_BOOKS[occupant]["label"]
-		_add_hotspot(String(shelf[0]), label, shelf[2], _on_shelf_pressed.bind(String(shelf[0])))
+		_add_inventory_drop_hotspot(String(shelf[0]), label, shelf[2], _on_shelf_pressed.bind(String(shelf[0])), _on_shelf_item_dropped)
 	_add_hotspot("INNER_DOOR", "기록 내실 유리문\n잠김", Rect2(1460, 210, 205, 460), _inspect_inner_door)
 	_add_back_to_hall()
 	if not _intro_seen("P3"):
@@ -592,7 +853,7 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 	if _interaction_blocked() or bool(_progress.get("P3_complete", false)):
 		return
 	if _selected_item not in P3_BOOKS:
-		_set_status("오른쪽에서 정리할 책을 선택하십시오.")
+		_set_status("오른쪽 인벤토리의 책을 선반으로 드래그하십시오.")
 		return
 	var expected := String(P3_BOOKS[_selected_item]["shelf"])
 	if shelf_id != expected:
@@ -612,11 +873,16 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 	if placed.size() >= 3:
 		_progress["P3_complete"] = true
 		_save_progress()
-		_build_library()
+		_rebuild_current_room_content()
 		_show_dialogue([{"speaker": "에드가", "portrait": "EDGAR", "text": "분류가 끝났습니다. 기록 내실은 그대로 두십시오."}], func() -> void: _enter_room("M1_CENTRAL_HALL"))
 		return
 	_save_progress()
-	_build_library()
+	_rebuild_current_room_content()
+
+
+func _on_shelf_item_dropped(item_id: String, shelf_id: String) -> void:
+	_selected_item = item_id
+	_on_shelf_pressed(shelf_id)
 
 
 func _inspect_inner_door() -> void:
@@ -630,13 +896,12 @@ func _build_archive() -> void:
 		if owner_id not in placed.values():
 			inventory.append({"id": "LABEL_%s" % owner_id, "label": String(P3B_LABELS[owner_id])})
 	_update_inventory(inventory)
-	var owners := ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]
 	var visuals := ["용의 뿔·레이피어", "여우 귀·스패너", "쥐 귀·이중 맥박", "백금발·판형 날개", "박쥐 귀·이중 액자"]
 	for index in range(5):
-		var owner: String = String(owners[index])
+		var owner: String = String(P3B_OWNERS[index])
 		var assigned := _owner_at_portrait(index)
 		var suffix := "\n[%s]" % P3B_LABELS[assigned] if not assigned.is_empty() else ""
-		_add_hotspot("PORTRAIT_%d" % index, "%s%s" % [visuals[index], suffix], Rect2(205 + index * 280, 260 + (index % 2) * 35, 235, 310), _on_portrait_pressed.bind(index, owner))
+		_add_inventory_drop_hotspot("PORTRAIT_%d" % index, "%s%s" % [visuals[index], suffix], Rect2(205 + index * 280, 260 + (index % 2) * 35, 235, 310), _on_portrait_pressed.bind(index, owner), _on_portrait_item_dropped)
 	_add_back_to_hall()
 	if not _intro_seen("P3B"):
 		_mark_intro("P3B")
@@ -651,7 +916,7 @@ func _on_portrait_pressed(index: int, expected_owner: String) -> void:
 	if _interaction_blocked() or bool(_progress.get("P3B_complete", false)):
 		return
 	if not _selected_item.begins_with("LABEL_"):
-		_set_status("오른쪽에서 이름표를 선택하십시오.")
+		_set_status("오른쪽 인벤토리의 이름표를 초상화로 드래그하십시오.")
 		return
 	var selected_owner := _selected_item.trim_prefix("LABEL_")
 	if selected_owner != expected_owner:
@@ -665,7 +930,7 @@ func _on_portrait_pressed(index: int, expected_owner: String) -> void:
 		_progress["P3B_complete"] = true
 		_add_notebook("다섯 사용인의 데이터 서명: LOCK, MAINT, BIO, CLIMATE, ARCHIVE. 색이 없어도 문양과 소리로 구별할 수 있다.")
 		_save_progress()
-		_build_archive()
+		_rebuild_current_room_content()
 		_show_dialogue([
 			{"speaker": "SYSTEM", "text": "수직선, 대각 닦임, 이중 맥박, 꽃잎 후광, 이중 액자가 차례로 반응한다."},
 			{"speaker": "마라 2", "portrait": "MARA2", "text": "정답! 이제 여기 있는 이름은 전부 알겠네. 잊어버리면 다시 물어봐. 내가 기억하고 있을 테니까!"},
@@ -673,7 +938,15 @@ func _on_portrait_pressed(index: int, expected_owner: String) -> void:
 		], func() -> void: _enter_room("M1_CENTRAL_HALL"))
 		return
 	_save_progress()
-	_build_archive()
+	_rebuild_current_room_content()
+
+
+func _on_portrait_item_dropped(item_id: String, target_id: String) -> void:
+	var index := int(target_id.trim_prefix("PORTRAIT_"))
+	if index < 0 or index >= P3B_OWNERS.size():
+		return
+	_selected_item = item_id
+	_on_portrait_pressed(index, String(P3B_OWNERS[index]))
 
 
 func _owner_at_portrait(index: int) -> String:
@@ -693,8 +966,8 @@ func _build_kitchen() -> void:
 	var step := int(_progress.get("tea_step", 0))
 	for index in range(TEA_STEPS.size()):
 		var done := index < step
-		var label := "%d. %s%s" % [index + 1, TEA_STEPS[index], " · 완료" if done else ""]
-		_add_hotspot("TEA_%d" % index, label, Rect2(320 + (index % 3) * 390, 300 + (index / 3) * 170, 330, 120), _on_tea_step.bind(index))
+		var label := "%d. %s\n%s%s" % [index + 1, TEA_STEPS[index], TEA_STEP_ITEM_LABELS[index], " · 완료" if done else ""]
+		_add_inventory_drop_hotspot("TEA_%d" % index, label, Rect2(320 + (index % 3) * 390, 300 + (index / 3) * 170, 330, 120), _on_tea_target_pressed.bind(index), _on_tea_item_dropped)
 	if not _intro_seen("P4"):
 		_mark_intro("P4")
 		_add_unique("introduced", "LUCA")
@@ -717,7 +990,25 @@ func _on_tea_step(index: int) -> void:
 		_complete_p4()
 		return
 	_save_progress()
-	_build_kitchen()
+	_rebuild_current_room_content()
+
+
+func _on_tea_target_pressed(index: int) -> void:
+	if _selected_item.is_empty():
+		_set_status("필요한 도구를 인벤토리에서 단계 위로 드래그하십시오.")
+		return
+	_on_tea_item_dropped(_selected_item, "TEA_%d" % index)
+
+
+func _on_tea_item_dropped(item_id: String, target_id: String) -> void:
+	var index := int(target_id.trim_prefix("TEA_"))
+	if index < 0 or index >= TEA_STEPS.size():
+		return
+	if item_id != String(TEA_STEP_ITEMS[index]):
+		_set_status("'%s' 단계에는 %s이(가) 필요하다." % [TEA_STEPS[index], TEA_STEP_ITEM_LABELS[index]])
+		return
+	_selected_item = item_id
+	_on_tea_step(index)
 
 
 func _complete_p4() -> void:
@@ -878,8 +1169,25 @@ func _add_hotspot(id: String, label: String, rect: Rect2, action: Callable) -> v
 	_hotspot_layer.add_child(button)
 
 
+func _add_inventory_drop_hotspot(id: String, label: String, rect: Rect2, click_action: Callable, drop_action: Callable) -> void:
+	var target = INVENTORY_DROP_TARGET_SCRIPT.new()
+	target.name = id
+	target.configure(id)
+	target.text = label
+	target.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	target.add_theme_font_size_override("font_size", 20)
+	target.add_theme_stylebox_override("normal", _style(Color(0.04, 0.02, 0.065, 0.72), Color(0.69, 0.39, 0.34, 0.84), 3, 7))
+	target.add_theme_stylebox_override("hover", _style(Color(0.15, 0.045, 0.14, 0.90), Color(0.95, 0.59, 0.31, 1.0), 5, 7))
+	target.add_theme_stylebox_override("focus", _style(Color(0.10, 0.03, 0.12, 0.88), Color(0.59, 0.78, 0.98, 1.0), 5, 7))
+	_place(target, rect)
+	target.pressed.connect(click_action)
+	target.inventory_item_dropped.connect(drop_action)
+	_hotspot_layer.add_child(target)
+
+
 func _clear_hotspots() -> void:
 	for child in _hotspot_layer.get_children():
+		_hotspot_layer.remove_child(child)
 		child.queue_free()
 
 
@@ -902,13 +1210,9 @@ func _update_inventory(items: Array) -> void:
 		var slot := _inventory_slots[index]
 		if index < items.size():
 			var item: Dictionary = items[index]
-			slot.text = String(item.get("label", item.get("id", "")))
-			slot.disabled = false
-			slot.set_meta("item_id", String(item.get("id", "")))
+			slot.set_inventory_item(String(item.get("id", "")), String(item.get("label", item.get("id", ""))))
 		else:
-			slot.text = "비어 있음"
-			slot.disabled = true
-			slot.set_meta("item_id", "")
+			slot.set_inventory_item("", "")
 	_refresh_inventory_selection()
 
 
@@ -919,17 +1223,36 @@ func _on_inventory_slot_pressed(index: int) -> void:
 	if item_id.is_empty():
 		return
 	_selected_item = item_id
-	_set_status("선택: %s" % _inventory_slots[index].text)
+	_set_status("선택: %s · 대상 위로 드래그하거나 대상을 누르십시오." % _inventory_slots[index].text)
+	_refresh_inventory_selection()
+
+
+func _on_inventory_drag_started(item_id: String) -> void:
+	_selected_item = item_id
+	var display_name := item_id
+	for slot in _inventory_slots:
+		if String(slot.get_meta("item_id", "")) == item_id:
+			display_name = slot.text.replace("\n", " ")
+			break
+	_set_status("드래그 중: %s" % display_name)
 	_refresh_inventory_selection()
 
 
 func _refresh_inventory_selection() -> void:
 	for slot in _inventory_slots:
-		var selected := String(slot.get_meta("item_id", "")) == _selected_item and not _selected_item.is_empty()
+		var item_id := String(slot.get_meta("item_id", ""))
+		var selected := item_id == _selected_item and not _selected_item.is_empty()
+		var drying_hint := false
+		if _inspection_active and _inspected_window >= 0 and item_id == "SOFT_CLOTH":
+			var states: Array = _progress.get("window_states", [])
+			if _inspected_window < states.size():
+				drying_hint = bool((states[_inspected_window] as Dictionary).get("bottom_wet", false))
+		if not item_id.is_empty():
+			slot.tooltip_text = "마른 면으로 아래 물기를 제거" if drying_hint else "대상으로 드래그하여 사용"
 		slot.add_theme_stylebox_override("normal", _style(
-			Color(0.18, 0.055, 0.13, 0.98) if selected else Color(0.08, 0.035, 0.075, 0.96),
-			Color(0.97, 0.68, 0.31, 1.0) if selected else Color(0.63, 0.26, 0.18, 0.92),
-			5 if selected else 4,
+			Color(0.18, 0.055, 0.13, 0.98) if selected else (Color(0.11, 0.13, 0.18, 0.98) if drying_hint else Color(0.08, 0.035, 0.075, 0.96)),
+			Color(0.97, 0.68, 0.31, 1.0) if selected else (Color(0.55, 0.84, 1.0, 1.0) if drying_hint else Color(0.63, 0.26, 0.18, 0.92)),
+			5 if selected or drying_hint else 4,
 			4
 		))
 
@@ -1119,6 +1442,75 @@ func _window_stage_name(stage: int) -> String:
 	return ["위쪽 먼지", "가운데 얼룩", "아래쪽 물기", "완료"][clampi(stage, 0, 3)]
 
 
+func _make_default_window_states() -> Array:
+	var states: Array = []
+	for _index in range(3):
+		states.append({
+			"top_dust": true,
+			"middle_stain": true,
+			"bottom_wet": false,
+			"dust_spread": false,
+		})
+	return states
+
+
+func _window_states_from_stages(stages: Array) -> Array:
+	var states: Array = []
+	for index in range(3):
+		var stage := int(stages[index]) if index < stages.size() else 0
+		states.append({
+			"top_dust": stage <= 0,
+			"middle_stain": stage <= 1,
+			"bottom_wet": stage == 2,
+			"dust_spread": false,
+		})
+	return states
+
+
+func _normalize_window_states() -> void:
+	var states_value: Variant = _progress.get("window_states", [])
+	if not (states_value is Array) or states_value.size() != 3:
+		_progress["window_states"] = _window_states_from_stages(Array(_progress.get("windows", [0, 0, 0])))
+		return
+	var normalized: Array = []
+	for state_value in states_value:
+		var state: Dictionary = state_value if state_value is Dictionary else {}
+		normalized.append({
+			"top_dust": bool(state.get("top_dust", true)),
+			"middle_stain": bool(state.get("middle_stain", true)),
+			"bottom_wet": bool(state.get("bottom_wet", false)),
+			"dust_spread": bool(state.get("dust_spread", false)),
+		})
+	_progress["window_states"] = normalized
+
+
+func _sync_window_stages() -> void:
+	_normalize_window_states()
+	var stages: Array = []
+	for state_value in Array(_progress.get("window_states", [])):
+		stages.append(_stage_from_window_state(state_value))
+	_progress["windows"] = stages
+
+
+func _stage_from_window_state(state: Dictionary) -> int:
+	if bool(state.get("top_dust", true)) or bool(state.get("dust_spread", false)):
+		return 0
+	if bool(state.get("middle_stain", true)):
+		return 1
+	if bool(state.get("bottom_wet", false)):
+		return 2
+	return 3
+
+
+func _is_window_clean(state: Dictionary) -> bool:
+	return _stage_from_window_state(state) == 3
+
+
+func _all_windows_clean() -> bool:
+	var states: Array = _progress.get("window_states", [])
+	return states.size() == 3 and states.all(func(state: Variant) -> bool: return state is Dictionary and _is_window_clean(state))
+
+
 func _observed_label(label: String, observation_id: String, observations: Array) -> String:
 	return "%s%s" % [label, "\n[확인함]" if observation_id in observations else ""]
 
@@ -1186,11 +1578,36 @@ func run_smoke_scenario() -> PackedStringArray:
 	for item_id in ["SOFT_CLOTH", "COARSE_BRUSH", "WATER", "SPANNER"]:
 		if item_id not in _inventory_item_ids():
 			errors.append("P2 inventory item missing: %s" % item_id)
-	_select_inventory_item_for_smoke("SOFT_CLOTH", errors)
-	for window_index in range(3):
-		for _stage in range(3):
-			_on_window_pressed(window_index)
-			_dismiss_dialogue_for_test()
+	_on_window_pressed(0)
+	if not _inspection_active or not _inspection_layer.visible or _inspected_window != 0:
+		errors.append("P2 window click did not open inspection view")
+	if _window_drop_targets.size() != 3:
+		errors.append("P2 inspection does not expose three pollution zones")
+	var initial_state: Dictionary = (Array(_progress["window_states"])[0] as Dictionary).duplicate(true)
+	_drag_inventory_item_to_target_for_smoke("SPANNER", _window_drop_targets["TOP"], errors)
+	_dismiss_dialogue_for_test()
+	if Array(_progress["window_states"])[0] != initial_state:
+		errors.append("P2 spanner changed window state")
+	_drag_inventory_item_to_target_for_smoke("COARSE_BRUSH", _window_drop_targets["TOP"], errors)
+	_dismiss_dialogue_for_test()
+	if not bool((Array(_progress["window_states"])[0] as Dictionary).get("dust_spread", false)):
+		errors.append("P2 coarse brush did not spread dust")
+	_drag_inventory_item_to_target_for_smoke("SOFT_CLOTH", _window_drop_targets["BOTTOM"], errors)
+	if _stage_from_window_state(Array(_progress["window_states"])[0]) != 0:
+		errors.append("P2 bottom-first mistake advanced the window")
+	_drag_inventory_item_to_target_for_smoke("SOFT_CLOTH", _window_drop_targets["TOP"], errors)
+	_drag_inventory_item_to_target_for_smoke("WATER", _window_drop_targets["MIDDLE"], errors)
+	if not bool((Array(_progress["window_states"])[0] as Dictionary).get("bottom_wet", false)):
+		errors.append("P2 water did not leave removable bottom moisture")
+	if "SOFT_CLOTH" not in _inventory_item_ids():
+		errors.append("P2 tool was consumed after use")
+	_drag_inventory_item_to_target_for_smoke("SOFT_CLOTH", _window_drop_targets["BOTTOM"], errors)
+	for window_index in range(1, 3):
+		_on_window_pressed(window_index)
+		_drag_inventory_item_to_target_for_smoke("SOFT_CLOTH", _window_drop_targets["TOP"], errors)
+		_dismiss_dialogue_for_test()
+		_drag_inventory_item_to_target_for_smoke("SOFT_CLOTH", _window_drop_targets["MIDDLE"], errors)
+	_dismiss_dialogue_for_test()
 	if not bool(_progress.get("P2_complete", false)):
 		errors.append("P2 did not complete")
 
@@ -1200,18 +1617,16 @@ func run_smoke_scenario() -> PackedStringArray:
 		if book_id not in _inventory_item_ids():
 			errors.append("P3 inventory book missing: %s" % book_id)
 	for book_id in P3_BOOKS:
-		_select_inventory_item_for_smoke(book_id, errors)
-		_on_shelf_pressed(String(P3_BOOKS[book_id]["shelf"]))
+		var shelf_id := String(P3_BOOKS[book_id]["shelf"])
+		_drag_inventory_item_to_target_for_smoke(book_id, _hotspot_layer.get_node(shelf_id), errors)
 		_dismiss_dialogue_for_test()
 	if not bool(_progress.get("P3_complete", false)) or not bool(_progress.get("p3_journal_seen", false)):
 		errors.append("P3 did not complete with journal")
 
 	_enter_room("M1_NORTH_ARCHIVE_HALL")
 	_dismiss_dialogue_for_test()
-	var owners := ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]
-	for index in range(owners.size()):
-		_selected_item = "LABEL_%s" % owners[index]
-		_on_portrait_pressed(index, owners[index])
+	for index in range(P3B_OWNERS.size()):
+		_drag_inventory_item_to_target_for_smoke("LABEL_%s" % P3B_OWNERS[index], _hotspot_layer.get_node("PORTRAIT_%d" % index), errors)
 		_dismiss_dialogue_for_test()
 	if not bool(_progress.get("P3B_complete", false)):
 		errors.append("P3B did not complete")
@@ -1219,7 +1634,7 @@ func run_smoke_scenario() -> PackedStringArray:
 	_enter_room("M1_KITCHEN")
 	_dismiss_dialogue_for_test()
 	for index in range(TEA_STEPS.size()):
-		_on_tea_step(index)
+		_drag_inventory_item_to_target_for_smoke(String(TEA_STEP_ITEMS[index]), _hotspot_layer.get_node("TEA_%d" % index), errors)
 		_dismiss_dialogue_for_test()
 	if not bool(_progress.get("P4_complete", false)) or not bool(_progress.get("iris_greeting_seen", false)):
 		errors.append("P4 or Iris greeting did not complete")
@@ -1238,14 +1653,21 @@ func run_smoke_scenario() -> PackedStringArray:
 	return errors
 
 
-func _select_inventory_item_for_smoke(item_id: String, errors: PackedStringArray) -> bool:
-	for index in range(_inventory_slots.size()):
-		if String(_inventory_slots[index].get_meta("item_id", "")) != item_id:
-			continue
-		_on_inventory_slot_pressed(index)
-		if _selected_item != item_id:
-			errors.append("inventory slot could not select item: %s" % item_id)
-			return false
-		return true
-	errors.append("inventory slot not found for item: %s" % item_id)
-	return false
+func _drag_inventory_item_to_target_for_smoke(item_id: String, target: Control, errors: PackedStringArray) -> bool:
+	var source: Button
+	for slot in _inventory_slots:
+		if String(slot.get_meta("item_id", "")) == item_id:
+			source = slot
+			break
+	if source == null:
+		errors.append("inventory drag source not found: %s" % item_id)
+		return false
+	var data: Variant = source.get_drag_payload_for_test()
+	if not (data is Dictionary) or String(data.get("item_id", "")) != item_id:
+		errors.append("inventory drag payload mismatch: %s" % item_id)
+		return false
+	if not target._can_drop_data(Vector2.ZERO, data):
+		errors.append("inventory target rejected drag payload: %s -> %s" % [item_id, target.name])
+		return false
+	target._drop_data(Vector2.ZERO, data)
+	return true
