@@ -24,6 +24,7 @@ EP01 Google Sheets의 초기 보완 검토는 [EP01 스크립트 Sheet 보완 �
 EP02 Google Sheets의 위치, EP01 대비 구조 변경과 검증 결과는 [EP02 검은 거울 스크립트 Sheet 인계](EP02_검은거울_스크립트시트_인계.md)에서 확인한다.
 EP03 Google Sheets의 위치, D1 HARD FAILURE와 D5 build 인계 계약은 [EP03 지하와 파열 스크립트 Sheet 인계](EP03_지하와파열_스크립트시트_인계.md)에서 확인한다.
 EP04 Google Sheets의 위치, `BROKEN_RESET_ONCE`, E1 3-of-4와 E2 관계 허브 인계 계약은 [EP04 다른 아침 스크립트 Sheet 인계](EP04_다른아침_스크립트시트_인계.md)에서 확인한다.
+EP05 Google Sheets의 위치, 다섯 관계 사건·J4·E5·E6의 비차단 진행 계약은 [EP05 다섯 관계와 마지막 저녁 스크립트 Sheet 인계](EP05_다섯관계와마지막저녁_스크립트시트_인계.md)에서 확인한다.
 두 Sheet의 schema v3 전환 결과와 항목별 해결 증거는 [EP01·EP02 스크립트 Sheet 2차 검토](EP01_EP02_스크립트시트_2차검토.md)를 정본으로 삼는다.
 기계 판독 열 계약은 [CNT Sheet schema v3](schemas/CNT_sheet_schema_v3.json), 최신 기술 검증 결과는 [LINT-20260901-R3](lint/LINT-20260901-R3.json)에서 확인한다.
 재검증 시 각 정본 탭을 CSV로 내보낸 뒤 `scripts/content_sheet_contract_lint.py`에 Runtime·Route·Predicate·Effect, 공용 Vocab, 상태 Registry와 이전 Runtime 기준본을 전달한다.
