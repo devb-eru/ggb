@@ -98,6 +98,11 @@ var _portrait: TextureRect
 var _speaker_label: Label
 var _dialogue_label: Label
 var _dialogue_next: Button
+var _dialogue_choice_blocker: ColorRect
+var _dialogue_choice_panel: PanelContainer
+var _dialogue_choice_buttons: Array[Button] = []
+var _dialogue_choice_focus_index := 0
+var _dialogue_choice_active := false
 var _modal_layer: Control
 var _modal_panel: PanelContainer
 var _modal_body: VBoxContainer
@@ -141,7 +146,9 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("notebook_toggle"):
-		if _inspection_active:
+		if _dialogue_choice_active:
+			_focus_p3_silent_choice()
+		elif _inspection_active:
 			_close_window_inspection()
 		elif _modal_active:
 			_close_modal()
@@ -149,7 +156,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			_open_notebook()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_cancel"):
-		if _inspection_active:
+		if _dialogue_choice_active:
+			_focus_p3_silent_choice()
+		elif _inspection_active:
 			_close_window_inspection()
 		elif _modal_active:
 			_close_modal()
@@ -412,6 +421,53 @@ func _build_dialogue_ui() -> void:
 	_dialogue_next.pressed.connect(_advance_dialogue)
 	body.add_child(_dialogue_next)
 
+	_dialogue_choice_blocker = ColorRect.new()
+	_dialogue_choice_blocker.name = "DialogueChoiceInputBlocker"
+	_dialogue_choice_blocker.color = Color(0.0, 0.0, 0.0, 0.16)
+	_dialogue_choice_blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_dialogue_choice_blocker.mouse_filter = Control.MOUSE_FILTER_STOP
+	_dialogue_choice_blocker.visible = false
+	_dialogue_layer.add_child(_dialogue_choice_blocker)
+	_dialogue_layer.move_child(_dialogue_choice_blocker, 0)
+
+	_dialogue_choice_panel = PanelContainer.new()
+	_dialogue_choice_panel.name = "DialogueChoicePanel"
+	_dialogue_choice_panel.add_theme_stylebox_override("panel", _style(Color(0.01, 0.008, 0.018, 0.72), Color(0.29, 0.36, 0.48, 0.64), 2, 3))
+	_place(_dialogue_choice_panel, Rect2(1190, 255, 470, 365))
+	_dialogue_choice_panel.visible = false
+	_dialogue_layer.add_child(_dialogue_choice_panel)
+	var choice_margin := MarginContainer.new()
+	choice_margin.add_theme_constant_override("margin_left", 12)
+	choice_margin.add_theme_constant_override("margin_top", 12)
+	choice_margin.add_theme_constant_override("margin_right", 12)
+	choice_margin.add_theme_constant_override("margin_bottom", 12)
+	_dialogue_choice_panel.add_child(choice_margin)
+	var choice_list := VBoxContainer.new()
+	choice_list.add_theme_constant_override("separation", 10)
+	choice_margin.add_child(choice_list)
+	var choice_header := Label.new()
+	choice_header.text = "장부에 대해 묻는다"
+	choice_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	choice_header.add_theme_font_size_override("font_size", 18)
+	choice_header.add_theme_color_override("font_color", Color(0.78, 0.81, 0.88))
+	choice_list.add_child(choice_header)
+	for choice_id in ["author", "locked", "silent"]:
+		var button := Button.new()
+		button.name = "JournalChoice%s" % choice_id.capitalize()
+		button.set_meta("choice_id", choice_id)
+		button.custom_minimum_size = Vector2(420, 88)
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.add_theme_font_size_override("font_size", 23)
+		button.add_theme_color_override("font_color", Color(0.94, 0.94, 0.95))
+		button.add_theme_stylebox_override("normal", _choice_style(Color(0.015, 0.012, 0.022, 0.88), Color(0.22, 0.24, 0.31, 0.76), 3))
+		button.add_theme_stylebox_override("hover", _choice_style(Color(0.055, 0.075, 0.09, 0.94), Color(0.37, 0.79, 0.86, 0.94), 5))
+		button.add_theme_stylebox_override("focus", _choice_style(Color(0.055, 0.075, 0.09, 0.98), Color(0.42, 0.86, 0.92, 1.0), 6))
+		button.pressed.connect(_answer_p3_journal_choice.bind(choice_id))
+		button.focus_entered.connect(_on_dialogue_choice_focused.bind(_dialogue_choice_buttons.size()))
+		button.mouse_entered.connect(_focus_dialogue_choice.bind(_dialogue_choice_buttons.size()))
+		_dialogue_choice_buttons.append(button)
+		choice_list.add_child(button)
+
 
 func _build_modal_ui() -> void:
 	_modal_layer = Control.new()
@@ -449,6 +505,13 @@ func _load_progress() -> void:
 		_progress.merge(stored_progress, true)
 		if not stored_progress.has("window_states"):
 			_progress["window_states"] = _window_states_from_stages(Array(stored_progress.get("windows", [0, 0, 0])))
+		var legacy_journal_choice := String(_progress.get("p3_journal_choice", ""))
+		if legacy_journal_choice in ["author", "locked"]:
+			var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
+			if legacy_journal_choice not in asked_questions:
+				asked_questions.append(legacy_journal_choice)
+			_progress["p3_journal_questions_asked"] = asked_questions
+			_progress["p3_journal_choice"] = "pending"
 	_normalize_window_states()
 	_current_room = String(_progress.get("current_room", "M2_BEDROOM"))
 
@@ -474,6 +537,7 @@ func _default_progress() -> Dictionary:
 		"p3_placed": {},
 		"p3_journal_seen": false,
 		"p3_journal_choice": "",
+		"p3_journal_questions_asked": [],
 		"p3b_placed": {},
 		"tea_step": 0,
 		"p5_observations": [],
@@ -904,32 +968,42 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 
 func _show_p3_journal_choices() -> void:
 	_p3_journal_prompt_active = true
-	_show_modal(
-		"낡은 연구 장부",
-		"에드가는 장부를 내려놓으라는 듯 손을 내민다. 표지의 잠금쇠 위로 남색 수직선이 한 번 겹쳤다가 사라진다.",
-		[
-			{"label": String(P3_JOURNAL_CHOICES["author"]["label"]), "action": _answer_p3_journal_choice.bind("author")},
-			{"label": String(P3_JOURNAL_CHOICES["locked"]["label"]), "action": _answer_p3_journal_choice.bind("locked")},
-			{"label": String(P3_JOURNAL_CHOICES["silent"]["label"]), "action": _answer_p3_journal_choice.bind("silent")},
-		]
-	)
+	_dialogue_active = false
+	_dialogue_lines.clear()
+	_dialogue_after = Callable()
+	_dialogue_choice_active = true
+	_dialogue_layer.visible = true
+	_dialogue_choice_blocker.visible = true
+	_dialogue_choice_panel.visible = true
+	_dialogue_next.visible = false
+	_speaker_label.text = "주인공"
+	_dialogue_label.text = "에드가는 장부를 내려놓으라는 듯 손을 내민다. 무엇을 물어볼까."
+	_set_dialogue_portrait("EDGAR")
+	_refresh_p3_journal_choice_labels()
+	_focus_dialogue_choice(_first_unasked_p3_choice_index())
 
 
 func _answer_p3_journal_choice(choice_id: String) -> void:
 	if not P3_JOURNAL_CHOICES.has(choice_id):
 		return
-	_close_modal()
-	_p3_journal_prompt_active = false
-	_progress["p3_journal_choice"] = choice_id
-	_save_progress()
+	_hide_dialogue_choices()
 	if choice_id == "silent":
+		_p3_journal_prompt_active = false
+		_progress["p3_journal_choice"] = "silent"
+		_save_progress()
 		_set_status("말없이 장부를 내려놓았다. 에드가는 잠금쇠가 닫힌 것을 확인한다.")
 		_finish_p3_book_placement()
 		return
+	var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
+	if choice_id not in asked_questions:
+		asked_questions.append(choice_id)
+	_progress["p3_journal_questions_asked"] = asked_questions
+	_progress["p3_journal_choice"] = "pending"
+	_save_progress()
 	var response := String(P3_JOURNAL_CHOICES[choice_id]["response"])
 	_show_dialogue([
 		{"speaker": "에드가", "portrait": "EDGAR", "text": response},
-	], _finish_p3_book_placement)
+	], _show_p3_journal_choices)
 
 
 func _resume_p3_journal_choice() -> void:
@@ -1334,6 +1408,7 @@ func _refresh_inventory_selection() -> void:
 
 
 func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
+	_hide_dialogue_choices()
 	_dialogue_lines = lines.duplicate(true)
 	_dialogue_index = 0
 	_dialogue_after = after
@@ -1348,14 +1423,67 @@ func _present_dialogue_line() -> void:
 	_speaker_label.text = String(line.get("speaker", "SYSTEM"))
 	_dialogue_label.text = String(line.get("text", ""))
 	var portrait_id := String(line.get("portrait", ""))
-	_portrait.visible = PORTRAIT_REGIONS.has(portrait_id)
-	if _portrait.visible:
-		var texture := AtlasTexture.new()
-		texture.atlas = SERVANT_ATLAS
-		texture.region = PORTRAIT_REGIONS[portrait_id]
-		_portrait.texture = texture
+	_set_dialogue_portrait(portrait_id)
+	_dialogue_next.visible = true
 	_dialogue_next.text = "마침" if _dialogue_index >= _dialogue_lines.size() - 1 else "계속"
 	_dialogue_next.call_deferred("grab_focus")
+
+
+func _set_dialogue_portrait(portrait_id: String) -> void:
+	_portrait.visible = PORTRAIT_REGIONS.has(portrait_id)
+	if not _portrait.visible:
+		return
+	var texture := AtlasTexture.new()
+	texture.atlas = SERVANT_ATLAS
+	texture.region = PORTRAIT_REGIONS[portrait_id]
+	_portrait.texture = texture
+
+
+func _hide_dialogue_choices() -> void:
+	_dialogue_choice_active = false
+	if _dialogue_choice_blocker != null:
+		_dialogue_choice_blocker.visible = false
+	if _dialogue_choice_panel != null:
+		_dialogue_choice_panel.visible = false
+	if _dialogue_next != null:
+		_dialogue_next.visible = true
+
+
+func _refresh_p3_journal_choice_labels() -> void:
+	var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
+	for index in range(_dialogue_choice_buttons.size()):
+		var button := _dialogue_choice_buttons[index]
+		var choice_id := String(button.get_meta("choice_id", ""))
+		var prefix := "▶ " if index == _dialogue_choice_focus_index else "   "
+		var suffix := "  [확인함]" if choice_id in asked_questions else ""
+		button.text = "%s%s%s" % [prefix, P3_JOURNAL_CHOICES[choice_id]["label"], suffix]
+
+
+func _first_unasked_p3_choice_index() -> int:
+	var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
+	for index in range(2):
+		var choice_id := String(_dialogue_choice_buttons[index].get_meta("choice_id", ""))
+		if choice_id not in asked_questions:
+			return index
+	return 2
+
+
+func _focus_dialogue_choice(index: int) -> void:
+	if _dialogue_choice_buttons.is_empty():
+		return
+	_dialogue_choice_focus_index = clampi(index, 0, _dialogue_choice_buttons.size() - 1)
+	_refresh_p3_journal_choice_labels()
+	_dialogue_choice_buttons[_dialogue_choice_focus_index].call_deferred("grab_focus")
+
+
+func _on_dialogue_choice_focused(index: int) -> void:
+	_dialogue_choice_focus_index = clampi(index, 0, _dialogue_choice_buttons.size() - 1)
+	_refresh_p3_journal_choice_labels()
+
+
+func _focus_p3_silent_choice() -> void:
+	_focus_dialogue_choice(2)
+	_set_status("선택 구간을 끝내려면 '말없이 내려놓는다'를 선택하십시오.")
 
 
 func _advance_dialogue() -> void:
@@ -1374,6 +1502,7 @@ func _advance_dialogue() -> void:
 
 
 func _dismiss_dialogue_for_test() -> void:
+	_hide_dialogue_choices()
 	_dialogue_active = false
 	_dialogue_layer.visible = false
 	_dialogue_lines.clear()
@@ -1381,7 +1510,7 @@ func _dismiss_dialogue_for_test() -> void:
 
 
 func _open_menu() -> void:
-	if _dialogue_active:
+	if _dialogue_active or _dialogue_choice_active:
 		return
 	_show_modal("메뉴", "진행은 일과를 완료할 때와 방을 이동할 때 자동 저장됩니다.", [
 		{"label": "계속", "action": _close_modal},
@@ -1390,7 +1519,7 @@ func _open_menu() -> void:
 
 
 func _open_notebook() -> void:
-	if _dialogue_active:
+	if _dialogue_active or _dialogue_choice_active:
 		return
 	var entries: Array = _progress.get("notebook_entries", [])
 	var body := "아직 기록이 없다." if entries.is_empty() else "\n\n".join(entries.map(func(value: Variant) -> String: return "- %s" % String(value)))
@@ -1618,7 +1747,7 @@ func _mark_intro(intro_id: String) -> void:
 
 
 func _interaction_blocked() -> bool:
-	return _dialogue_active or _modal_active
+	return _dialogue_active or _dialogue_choice_active or _modal_active
 
 
 func _place(control: Control, rect: Rect2) -> void:
@@ -1642,6 +1771,16 @@ func _style(background: Color, border: Color, border_width: int, radius: int) ->
 	box.content_margin_right = 12.0
 	box.content_margin_top = 8.0
 	box.content_margin_bottom = 8.0
+	return box
+
+
+func _choice_style(background: Color, border: Color, left_border_width: int) -> StyleBoxFlat:
+	var box := _style(background, border, 1, 2)
+	box.border_width_left = left_border_width
+	box.content_margin_left = 22.0
+	box.content_margin_right = 16.0
+	box.content_margin_top = 12.0
+	box.content_margin_bottom = 12.0
 	return box
 
 
@@ -1703,39 +1842,53 @@ func run_smoke_scenario() -> PackedStringArray:
 			errors.append("P3 journal discovery dialogue missing")
 		while _dialogue_active:
 			_advance_dialogue()
-		if not _modal_active:
-			errors.append("P3 journal choice modal missing after Edgar dialogue")
+		if not _dialogue_choice_active or not _dialogue_choice_panel.visible or _dialogue_next.visible:
+			errors.append("P3 dialogue choice list missing after Edgar dialogue")
+		if _modal_active:
+			errors.append("P3 journal choices still use the centered modal")
 		var choice_labels: Array[String] = []
 		var author_button: Button
-		for child in _modal_body.get_children():
-			if child is Button:
-				choice_labels.append(child.text)
-				if child.text == String(P3_JOURNAL_CHOICES["author"]["label"]):
-					author_button = child
+		var locked_button: Button
+		var silent_button: Button
+		for button in _dialogue_choice_buttons:
+			var choice_id := String(button.get_meta("choice_id", ""))
+			choice_labels.append(String(P3_JOURNAL_CHOICES[choice_id]["label"]))
+			match choice_id:
+				"author":
+					author_button = button
+				"locked":
+					locked_button = button
+				"silent":
+					silent_button = button
 		for choice_id in ["author", "locked", "silent"]:
 			if String(P3_JOURNAL_CHOICES[choice_id]["label"]) not in choice_labels:
 				errors.append("P3 journal choice missing: %s" % choice_id)
-		if String(P3_JOURNAL_CHOICES["author"]["response"]) != "주인님의 기록입니다.":
-			errors.append("P3 journal author response mismatch")
-		if String(P3_JOURNAL_CHOICES["locked"]["response"]) != "손상된 기록은 잘못 읽히기 쉽습니다.":
-			errors.append("P3 journal locked response mismatch")
-		if author_button == null:
-			errors.append("P3 journal author choice button unavailable")
-			_answer_p3_journal_choice("author")
-		else:
-			author_button.pressed.emit()
+		if author_button == null or locked_button == null or silent_button == null:
+			errors.append("P3 journal choice button unavailable")
+			return errors
+		author_button.pressed.emit()
 		if not _dialogue_active or _dialogue_label.text != "주인님의 기록입니다.":
 			errors.append("P3 journal selected answer was not presented")
 		_advance_dialogue()
+		if not _dialogue_choice_active or bool(_progress.get("P3_complete", false)):
+			errors.append("P3 author answer did not return to choices")
+		locked_button.pressed.emit()
+		if not _dialogue_active or _dialogue_label.text != "손상된 기록은 잘못 읽히기 쉽습니다.":
+			errors.append("P3 journal locked answer was not presented")
+		_advance_dialogue()
+		if not _dialogue_choice_active or bool(_progress.get("P3_complete", false)):
+			errors.append("P3 locked answer did not return to choices")
+		var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
+		if "author" not in asked_questions or "locked" not in asked_questions:
+			errors.append("P3 asked question history missing")
+		silent_button.pressed.emit()
+		if _dialogue_choice_active:
+			errors.append("P3 silent choice did not close choice list")
 		_dismiss_dialogue_for_test()
 	if not bool(_progress.get("P3_complete", false)) or not bool(_progress.get("p3_journal_seen", false)):
 		errors.append("P3 did not complete with journal")
-	if String(_progress.get("p3_journal_choice", "")) != "author":
-		errors.append("P3 journal choice was not recorded")
-	_answer_p3_journal_choice("locked")
-	if not _dialogue_active or _dialogue_label.text != "손상된 기록은 잘못 읽히기 쉽습니다.":
-		errors.append("P3 journal locked answer was not presented")
-	_dismiss_dialogue_for_test()
+	if String(_progress.get("p3_journal_choice", "")) != "silent":
+		errors.append("P3 journal choice section ended without silent choice")
 
 	_enter_room("M1_NORTH_ARCHIVE_HALL")
 	_dismiss_dialogue_for_test()
