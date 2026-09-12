@@ -14,6 +14,48 @@ func _supported_hint_stages() -> Array:
 	return ["C3", "C4", "CF"]
 
 
+func _open_notebook() -> void:
+	if _interaction_blocked():
+		return
+	super._open_notebook()
+	if session.stage() == "C3":
+		var button := Button.new()
+		button.name = "CleanerQuantityTable"
+		button.text = "Compare quantities" if TranslationServer.get_locale().begins_with("en") else "수첩에서 양을 정리한다"
+		button.custom_minimum_size.y = 58
+		button.pressed.connect(_open_cleaner_quantity_table)
+		_modal_body.add_child(button)
+
+
+func _open_cleaner_quantity_table() -> void:
+	if session == null or session.stage() != "C3":
+		return
+	var english := TranslationServer.get_locale().begins_with("en")
+	_show_modal("Compare quantities" if english else "세정제 양 비교", "", [{"label": "Close" if english else "닫기", "action": _close_modal}])
+	var scroll := _modal_body.get_child(2) as ScrollContainer
+	scroll.custom_minimum_size.y = 180
+	var label := scroll.get_child(0) as Label
+	var ratio := CheckButton.new()
+	ratio.name = "QuantityRatio"
+	ratio.text = "A = 2 × S" if english else "원액 A = 안정제 S의 두 배"
+	ratio.custom_minimum_size.y = 58
+	ratio.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
+	var difference := CheckButton.new()
+	difference.name = "QuantityWaterDifference"
+	difference.text = "W = S + A + 2" if english else "물 W = 안정제 S + 원액 A + 2"
+	difference.custom_minimum_size.y = 58
+	difference.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
+	_modal_body.add_child(ratio)
+	_modal_body.add_child(difference)
+	var refresh := func(_pressed: bool = false):
+		var table := preload("res://scripts/ui/cleaner_quantity_table.gd")
+		label.text = table.describe(table.candidates(ratio.button_pressed, difference.button_pressed), TranslationServer.get_locale())
+		scroll.scroll_vertical = 0
+	ratio.toggled.connect(refresh)
+	difference.toggled.connect(refresh)
+	refresh.call()
+
+
 func _puzzle_hint_text(level: int) -> String:
 	return preload("res://scripts/ui/mirror_hint_texts.gd").text(session.stage(), level, TranslationServer.get_locale())
 

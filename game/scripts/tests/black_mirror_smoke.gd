@@ -185,6 +185,30 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 			hint_state.loop_state.inventory.erase("NEUTRAL_CLEANER")
 		_expect(StateWriter.new(GameState).install_snapshot(hint_state, GameState.revision, StringName("MIRROR_HINT_" + hint_stage)).get("ok", false), "hint fixture installed")
 		_expect(view.session.stage() == hint_stage, "context selects current puzzle hint track")
+		if hint_stage == "C3":
+			var table := preload("res://scripts/ui/cleaner_quantity_table.gd")
+			_expect(table.candidates(false, false).size() == 45, "all nonnegative total-eight candidates")
+			_expect(table.candidates(true, false).size() == 3, "ratio filter alone leaves three candidates")
+			_expect(table.candidates(false, true).size() == 4, "water filter alone leaves four candidates")
+			_expect(table.candidates(true, true) == [{"water": 5, "stabilizer": 1, "active": 2}], "combined constraints yield original mixture")
+			view._open_notebook()
+			(view._modal_body.get_node("CleanerQuantityTable") as Button).pressed.emit()
+			var quantity_body := view._modal_body.get_child(2).get_child(0) as Label
+			_expect(quantity_body.text.contains("45"), "quantity table initially shows unfiltered candidates")
+			var ratio := view._modal_body.get_node("QuantityRatio") as CheckButton
+			var difference := view._modal_body.get_node("QuantityWaterDifference") as CheckButton
+			ratio.button_pressed = true
+			difference.button_pressed = true
+			_expect(quantity_body.text.contains("W 5   |   S 1   |   A 2") and not quantity_body.text.contains("W 8"), "actual filter controls narrow table")
+			if "--capture-black-mirror" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+				await tree.process_frame
+				await RenderingServer.frame_post_draw
+				tree.root.get_texture().get_image().save_png("user://cleaner_quantity_table.png")
+			ratio.button_pressed = false
+			difference.button_pressed = false
+			_expect(quantity_body.text.contains("45"), "clearing filters restores candidates")
+			view._close_modal()
+			_expect(GameState.get_snapshot() == hint_state, "quantity table never pours or changes state")
 		view._open_notebook()
 		var hints := view._modal_body.get_node_or_null("ClockHintsButton") as Button
 		_expect(hints != null, "mirror notebook exposes shared thought action")
