@@ -199,6 +199,43 @@ func load_slot(slot_id: String) -> Dictionary:
 	return primary
 
 
+func inspect_demo_import(slot_id: String) -> Dictionary:
+	if get_build_flavor() != "full" or not _is_safe_slot_id(slot_id): return _load_failure(&"ERR_IMPORT_CONTEXT")
+	var loaded := _read_and_validate(SAVE_ROOT.path_join(slot_id).path_join("progress.json"))
+	if not loaded.get("ok", false): return loaded
+	var header: Dictionary = loaded["header"]
+	if header.get("slot_id") != slot_id or header.get("build_flavor") != "demo" or header.get("source_app_id") != SOURCE_APP_ID:
+		return _load_failure(&"ERR_IMPORT_SOURCE")
+	if header.get("save_point_id") != "SAVE_D5_COMPLETE" or header.get("content_boundary_id") != "SAVE_D5_COMPLETE":
+		return _load_failure(&"ERR_IMPORT_BOUNDARY")
+	var validator := StateSnapshotValidator.new()
+	var state := validator.normalize(loaded["snapshot"])
+	if not validator.validate(state).get("ok", false): return _load_failure(&"ERR_IMPORT_STATE")
+	if not state["meta_progress"]["knowledge_entries"].get("d5_complete", false) or state["fracture_state"].get("broken_reset_triggered", false) or state["ending_run"]["final_decision"] != "unset":
+		return _load_failure(&"ERR_IMPORT_PROGRESS")
+	loaded["snapshot"] = state
+	return loaded
+
+
+func import_demo_to_new_slot(source_slot_id: String) -> Dictionary:
+	var source := inspect_demo_import(source_slot_id)
+	if not source.get("ok", false): return source
+	var target := ""
+	if OS.is_debug_build() and source_slot_id.begins_with("__test_"):
+		target = "__test_import_" + Crypto.new().generate_random_bytes(16).hex_encode()
+	else:
+		for id in PRODUCT_SLOT_IDS:
+			if not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(get_save_root().path_join(id))):
+				target = id
+				break
+	if target.is_empty() or DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(get_save_root().path_join(target))): return _load_failure(&"ERR_IMPORT_NO_EMPTY_SLOT")
+	var state: Dictionary = source["snapshot"].duplicate(true)
+	state["meta_progress"]["knowledge_entries"]["demo_import_source"] = {"slot_id":source_slot_id,"checksum":source["header"]["checksum"]}
+	var result := save_snapshot(target, "SAVE_FRACTURE_CONFIRMED", state, int(source["header"]["state_revision"]), "DEMO_IMPORT")
+	if result.get("ok", false): result["slot_id"] = target
+	return result
+
+
 func capture_f3_reselect(slot_id: String) -> Dictionary:
 	if not _is_safe_slot_id(slot_id): return _load_failure(&"ERR_SAVE_SLOT_ID")
 	var paths := _slot_paths(slot_id)

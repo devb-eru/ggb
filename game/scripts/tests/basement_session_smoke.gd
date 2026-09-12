@@ -108,6 +108,20 @@ func _validate_full_transition() -> void:
 	saves.delete_test_slot(SLOT)
 	_expect(not saves.load_slot(SLOT).get("ok", false), "full edition cannot implicitly load demo slot")
 	_expect(not LoadCoordinator.new(game, saves).validate_header(demo["header"]).get("ok", false), "demo header requires explicit import, not ordinary load")
+	var demo_path: String = "user://saves/" + SLOT + "/progress.json"
+	var demo_bytes := FileAccess.get_file_as_bytes(demo_path)
+	_expect(saves.inspect_demo_import(SLOT).get("ok",false), "Explicit import validates completed demo")
+	var imported: Dictionary = saves.import_demo_to_new_slot(SLOT)
+	_expect(imported.get("ok",false), "Demo import creates fresh full slot")
+	if imported.get("ok",false):
+		var imported_id: String = imported["slot_id"]
+		_expect(LoadCoordinator.new(game,saves).load_and_install(imported_id).get("ok",false), "Imported full slot loads normally")
+		var imported_session := SESSION.new(game,saves,imported_id)
+		_expect(imported_session.stage() == "D6", "Imported demo resumes at D6")
+		_expect(game.get_snapshot()["meta_progress"]["servants"] == StateSnapshotValidator.new().normalize(demo["snapshot"])["meta_progress"]["servants"], "Import preserves servant history")
+		_expect(FileAccess.get_file_as_bytes(demo_path) == demo_bytes, "Demo source remains byte-identical")
+		saves.delete_test_slot(imported_id)
+	_expect(not saves.inspect_demo_import("../slot_01").get("ok",false), "Import rejects unsafe slot path")
 	var state: Dictionary = StateSnapshotValidator.new().normalize(demo["snapshot"])
 	state["loop_state"]["location_id"] = "M2_BEDROOM"
 	_expect(StateWriter.new(game).install_snapshot(state, game.revision, &"FULL_TRANSITION_FIXTURE").get("ok", false), "full transition fixture installed")
