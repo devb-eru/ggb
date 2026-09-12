@@ -114,6 +114,34 @@ func run() -> Dictionary:
 	tab.echo = true
 	router._unhandled_input(tab)
 	_expect(focus_directions == [1, -1], "repeated key echo must not duplicate routed movement", errors)
+	tab.echo = false
+	router._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	router._unhandled_input(tab)
+	_expect(focus_directions == [1, -1], "unfocused router ignores movement", errors)
+	var focus_return_time := Time.get_ticks_msec()
+	router._notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
+	_expect(router._accept_input_after_msec >= focus_return_time + InputRouter.FOCUS_RECOVERY_DELAY_MSEC, "focus return establishes recovery delay", errors)
+	router._accept_input_after_msec = Time.get_ticks_msec() + 10000
+	router._unhandled_input(tab)
+	_expect(focus_directions == [1, -1], "router ignores movement during recovery delay", errors)
+	router._accept_input_after_msec = 0
+	router._unhandled_input(tab)
+	_expect(focus_directions == [1, -1, -1], "router resumes movement after recovery deadline", errors)
+	tab.pressed = false
+	router._unhandled_input(tab)
+	_expect(focus_directions == [1, -1, -1], "key release does not route movement", errors)
+	var confirmations: Array[bool] = []
+	router.confirm_requested.connect(func(): confirmations.append(true))
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.pressed = true
+	router._unhandled_input(click)
+	_expect(confirmations.is_empty(), "mouse confirmation remains owned by clicked control", errors)
+	var enter := InputEventKey.new()
+	enter.keycode = KEY_ENTER
+	enter.pressed = true
+	router._unhandled_input(enter)
+	_expect(confirmations.size() == 1, "keyboard confirmation routed once", errors)
 	router.free()
 	if not bool(runtime_regression.get("ok", false)):
 		for runtime_error in runtime_regression.get("errors", PackedStringArray()):
