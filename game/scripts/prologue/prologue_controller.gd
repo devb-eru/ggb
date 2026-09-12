@@ -1915,7 +1915,13 @@ func _open_menu() -> void:
 
 func _open_dialogue_history() -> void:
 	var result := _dialogue_texts.render_history(GameState.get_value(&"meta_progress.dialogue_history", {}), TranslationServer.get_locale())
+	_show_history_result(result)
+
+
+func _show_history_result(result: Dictionary) -> void:
 	var paragraphs: Array[String] = []
+	if not result.get("ok", false):
+		paragraphs.append(_dialogue_ui_text("CH1_HISTORY_READ_ERROR"))
 	for entry in result.get("entries", []):
 		paragraphs.append(String(entry["text"]))
 	var body := "\n\n".join(paragraphs) if not paragraphs.is_empty() else _dialogue_ui_text("CH1_HISTORY_EMPTY")

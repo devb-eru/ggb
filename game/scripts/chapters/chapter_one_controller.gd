@@ -119,11 +119,7 @@ func _open_menu() -> void:
 
 func _open_dialogue_history() -> void:
 	var result := _dialogue_texts.render_history(session.snapshot()["meta_progress"]["dialogue_history"], TranslationServer.get_locale())
-	var paragraphs: Array[String] = []
-	for entry in result.get("entries", []):
-		paragraphs.append(String(entry["text"]))
-	var body := "\n\n".join(paragraphs) if not paragraphs.is_empty() else _dialogue_ui_text("CH1_HISTORY_EMPTY")
-	_show_modal(_dialogue_ui_text("CH1_HISTORY_TITLE"), body, [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
+	_show_history_result(result)
 
 
 func _advance_dialogue() -> void:

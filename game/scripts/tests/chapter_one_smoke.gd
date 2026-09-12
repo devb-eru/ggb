@@ -235,6 +235,14 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	_expect(history_body.contains("Viewed history line") and not history_body.contains("Not yet viewed"), "history viewer excludes unshown sentence")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == before_history_open, "history viewing is read only")
+	view._show_history_result({"ok": false, "entries": [{"text": "Readable history remains"}]})
+	var partial_history := (view._modal_body.get_child(2).get_child(0) as Label).text
+	_expect(partial_history.contains(view._dialogue_ui_text("CH1_HISTORY_READ_ERROR")) and partial_history.contains("Readable history remains"), "partial history failure shows warning and readable entries")
+	view._close_modal()
+	view._show_history_result({"ok": false, "entries": []})
+	_expect((view._modal_body.get_child(2).get_child(0) as Label).text == view._dialogue_ui_text("CH1_HISTORY_READ_ERROR"), "unreadable history is not mislabeled as empty")
+	view._close_modal()
+	_expect(GameState.get_snapshot() == before_history_open, "history error display preserves original records")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "history save reload")
 	_expect(GameState.get_snapshot()["meta_progress"]["dialogue_history"] == before_history_open["meta_progress"]["dialogue_history"], "viewed history persists through reload")
 	var good_save: Node = view.session._save

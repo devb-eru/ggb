@@ -3,6 +3,7 @@
   "fallback_locale": "ko-KR",
   "supported_locales": ["ko-KR", "en-US"],
   "entries": {
+    "CH1_HISTORY_READ_ERROR": {"speaker_id": "SYSTEM", "variables": {}},
     "HISTORY_OPTIONS": {"speaker_id": "SYSTEM", "variables": {}},
     "HISTORY_SELECTED": {"speaker_id": "SYSTEM", "variables": {}},
     "CH1_HISTORY_TRANSCRIPT": {"speaker_id": "SYSTEM", "variables": {"speaker": "string", "text": "string"}},
