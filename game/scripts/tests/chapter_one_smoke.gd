@@ -384,6 +384,16 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._dialogue_next.pressed.emit()
 	_expect(not view._dialogue_active, "last sentence finish closes dialogue after successful recording")
 	var before_menu := GameState.get_snapshot()
+	var previous_locale := TranslationServer.get_locale()
+	var hotspot_count: int = view._hotspot_layer.get_child_count()
+	for locale in ["en", "ko", "en"]:
+		TranslationServer.set_locale(locale)
+		await tree.process_frame
+		_expect(view._menu_button.text == ("Menu" if locale == "en" else "메뉴"), "persistent menu refreshes on locale change")
+		_expect(view._notebook_button.text == ("Notebook\nN" if locale == "en" else "수첩\nN"), "persistent notebook refreshes on locale change")
+		_expect(GameState.get_snapshot() == before_menu and view._hotspot_layer.get_child_count() == hotspot_count, "persistent label refresh does not restart gameplay or record dialogue")
+	TranslationServer.set_locale(previous_locale)
+	await tree.process_frame
 	var audio_store := AccessibilityProfileStore.new("user://__test_campaign_audio")
 	audio_store.delete_test_profile()
 	view._audio_profile_store = audio_store

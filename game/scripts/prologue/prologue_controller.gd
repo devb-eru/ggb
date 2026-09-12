@@ -363,6 +363,14 @@ func _build_window_inspection_ui() -> void:
 	content.add_child(close_button)
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		if is_instance_valid(_menu_button):
+			_menu_button.text = _dialogue_ui_text("UI_P_MENU")
+		if is_instance_valid(_notebook_button):
+			_notebook_button.text = _dialogue_ui_text("UI_P_NOTEBOOK")
+
+
 func _build_persistent_ui() -> void:
 	var top_shade := ColorRect.new()
 	top_shade.color = Color(0.015, 0.01, 0.03, 0.78)
