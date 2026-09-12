@@ -4,6 +4,7 @@ extends BlackMirrorController
 const BASEMENT_SESSION := preload("res://scripts/systems/basement_session.gd")
 const BASEMENT_RULES := preload("res://data/puzzles/puzzle_basement.tres")
 const ENDING_SIGNATURE := preload("res://scripts/ui/ending_signature.gd")
+const ENDING_TEXTS := preload("res://scripts/ui/ending_decision_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -950,13 +951,13 @@ func _finish_ending_signature() -> void:
 
 
 func _build_ending_decision() -> void:
-	_objective_label.text = "EDC · 최종 선택 확인"
-	_location_label.text = "코어실"
-	_board_label("두 절차 모두 현재 연구원들을 새 신체로 해방시키지는 못한다.\n어느 절차도 아직 실행되지 않았다.", Rect2(250,150,1420,100))
-	_add_hotspot("EDC_REALITY", "기상 절차 실행\n외부 신체 기상 · 다섯 인격 저전력 보존\n외부 환경과 장기 생존은 불확실", Rect2(200,300,700,220), _confirm_ending.bind("reality"))
-	_add_hotspot("EDC_STAY", "안정화 루프 복원\n현재 기억 · 다섯 인격의 활동 의식 유지\n시설 수명과 자원 균형은 불확실", Rect2(1020,300,700,220), _confirm_ending.bind("stay"))
-	_add_hotspot("EDC_SUBJECT", "주인공 수첩대\n두 절차의 요약 다시 읽기", Rect2(610,580,700,130), _edc_summary)
-	_action("EDC_CANCEL", "결정하지 않고 장치 조사로 돌아간다", Rect2(400,790,1100,100), "f3_cancel")
+	_objective_label.text = _ending_text("objective")
+	_location_label.text = _ending_text("location")
+	_board_label(_ending_text("notice"), Rect2(250,150,1420,100))
+	_add_hotspot("EDC_REALITY", _ending_text("reality"), Rect2(200,300,700,220), _confirm_ending.bind("reality"))
+	_add_hotspot("EDC_STAY", _ending_text("stay"), Rect2(1020,300,700,220), _confirm_ending.bind("stay"))
+	_add_hotspot("EDC_SUBJECT", _ending_text("notebook"), Rect2(610,580,700,130), _edc_summary)
+	_action("EDC_CANCEL", _ending_text("cancel"), Rect2(400,790,1100,100), "f3_cancel")
 	_world_focus = "EDC_SUBJECT"
 	call_deferred("_restore_world_focus")
 
@@ -1032,15 +1033,20 @@ func _notification(what: int) -> void:
 
 func _edc_summary() -> void:
 	if _interaction_blocked(): return
-	_show_recorded_choice("두 절차의 요약", BasementSession.FINAL_INSPECTION.SUMMARIES["wake"] + "\n\n" + BasementSession.FINAL_INSPECTION.SUMMARIES["stay"], [{"label": "선택 화면으로", "action": _close_modal}])
+	var locale := TranslationServer.get_locale()
+	_show_recorded_choice(_ending_text("summary_title"), ENDING_TEXTS.summary("wake", locale) + "\n\n" + ENDING_TEXTS.summary("stay", locale), [{"label": _ending_text("return"), "action": _close_modal}])
+
+
+func _ending_text(id: String) -> String:
+	return ENDING_TEXTS.text(id, TranslationServer.get_locale())
 
 
 func _confirm_ending(decision: String) -> void:
 	if _interaction_blocked() or session.stage() != "EDC": return
 	if not BasementSession.ENDING_DECISION.CONFIRMATIONS.has(decision): return
-	_show_recorded_choice("내 선택 확인", BasementSession.ENDING_DECISION.CONFIRMATIONS[decision] + "\n\n현재 연구원들의 새 신체 이전은 실행할 수 없다.\n이 절차를 지금 확정할까요?", [
-		{"label": "취소하고 장치를 다시 조사한다", "action": _modal_act.bind("f3_cancel")},
-		{"label": "내 선택으로 확정한다", "action": _modal_act.bind("edc_commit", decision)},
+	_show_recorded_choice(_ending_text("confirm_title"), ENDING_TEXTS.confirmation(decision, TranslationServer.get_locale()) + "\n\n" + _ending_text("confirm_notice"), [
+		{"label": _ending_text("confirm_cancel"), "action": _modal_act.bind("f3_cancel")},
+		{"label": _ending_text("confirm_commit"), "action": _modal_act.bind("edc_commit", decision)},
 	])
 
 
