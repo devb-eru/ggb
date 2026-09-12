@@ -6,11 +6,21 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"UI_IMPORT_SLOT": "데모 {slot}",
+"UI_IMPORT_TITLE": "데모 저장 가져오기 확인",
+"UI_IMPORT_BODY": "데모 원본은 유지하고 빈 본편 슬롯에 복제합니다. 기존 본편 슬롯은 덮어쓰지 않습니다. 복제본은 D6에서 이어집니다. 취소하면 아무 파일도 바뀌지 않습니다.",
+"UI_IMPORT_EMPTY": "가져올 수 있는 D5 완료 데모 저장이 없습니다. 진행 경계·버전·출처·체크섬이 맞지 않는 파일은 표시하지 않습니다.",
+"UI_IMPORT_ERROR": "가져오지 못했습니다. 데모 원본과 기존 본편 저장은 유지됩니다. 빈 슬롯과 저장 파일 상태를 확인한 후 다시 시도해 주세요.\n{error}",
 "UI_TITLE_GALLERY": "감상 기록",
 "UI_TITLE_IMPORT_DEMO": "데모 저장 가져오기",
 "UI_TITLE_IMPORT_CONFIRM": "새 본편 슬롯으로 가져오기"
 },
 "en-US": {
+"UI_IMPORT_SLOT": "Demo {slot}",
+"UI_IMPORT_TITLE": "Confirm demo save import",
+"UI_IMPORT_BODY": "The demo save will be preserved and copied into an empty full-game slot. Existing full-game saves will not be overwritten. The copy resumes at D6. Canceling does not change any files.",
+"UI_IMPORT_EMPTY": "No eligible demo save completed through D5 was found. Files with incompatible progress boundaries, versions, sources, or checksums are not listed.",
+"UI_IMPORT_ERROR": "Import failed. The original demo save and existing full-game saves are preserved. Check for an empty slot and verify the save files before trying again.\n{error}",
 "UI_TITLE_GALLERY": "Gallery",
 "UI_TITLE_IMPORT_DEMO": "Import demo save",
 "UI_TITLE_IMPORT_CONFIRM": "Import into a new full-game slot"

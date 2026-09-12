@@ -300,12 +300,12 @@ func _open_demo_import() -> void:
 	for id in SLOT_IDS:
 		if SaveManager.inspect_demo_import(id).get("ok", false):
 			_import_sources.append(id)
-			_import_choices.add_item("데모 " + id)
+			_import_choices.add_item(_text(&"UI_IMPORT_SLOT", {"slot": id}))
 	_open_modal(_launch_panel, _launch_return_button)
 	_import_controls.show()
 	_import_confirm.disabled = _import_sources.is_empty()
-	_launch_title.text = "데모 저장 가져오기 확인"
-	_launch_body.text = "데모 원본은 유지하고 빈 본편 슬롯에 복제합니다. 기존 본편 슬롯은 덮어쓰지 않습니다. 복제본은 D6에서 이어집니다. 취소하면 아무 파일도 바뀌지 않습니다." if not _import_sources.is_empty() else "가져올 수 있는 D5 완료 데모 저장이 없습니다. 진행 경계·버전·출처·체크섬이 맞지 않는 파일은 표시하지 않습니다."
+	_launch_title.text = _text(&"UI_IMPORT_TITLE")
+	_launch_body.text = _text(&"UI_IMPORT_BODY" if not _import_sources.is_empty() else &"UI_IMPORT_EMPTY")
 	_gallery_scroll.scroll_vertical = 0
 
 func _confirm_demo_import() -> void:
@@ -315,7 +315,7 @@ func _confirm_demo_import() -> void:
 	_import_confirm.disabled = true
 	var result: Dictionary = SaveManager.import_demo_to_new_slot(_import_sources[index])
 	if not result.get("ok", false):
-		_launch_body.text = "가져오지 못했습니다. 데모 원본과 기존 본편 저장은 유지됩니다. 빈 슬롯과 저장 파일 상태를 확인한 후 다시 시도해 주세요.\n" + str(result.get("error_id", "ERR_IMPORT"))
+		_launch_body.text = _text(&"UI_IMPORT_ERROR", {"error": str(result.get("error_id", "ERR_IMPORT"))})
 		_import_confirm.disabled = false
 		return
 	_close_modal()

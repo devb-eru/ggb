@@ -3,6 +3,11 @@
   "fallback_locale": "ko-KR",
   "supported_locales": ["ko-KR", "en-US"],
   "entries": {
+    "UI_IMPORT_SLOT": {"speaker_id": "SYSTEM", "variables": {"slot": "string"}},
+    "UI_IMPORT_TITLE": {"speaker_id": "SYSTEM", "variables": {}},
+    "UI_IMPORT_BODY": {"speaker_id": "SYSTEM", "variables": {}},
+    "UI_IMPORT_EMPTY": {"speaker_id": "SYSTEM", "variables": {}},
+    "UI_IMPORT_ERROR": {"speaker_id": "SYSTEM", "variables": {"error": "string"}},
     "UI_TITLE_GALLERY": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_TITLE_IMPORT_DEMO": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_TITLE_IMPORT_CONFIRM": {"speaker_id": "SYSTEM", "variables": {}},
