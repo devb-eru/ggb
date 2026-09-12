@@ -772,10 +772,10 @@ func _build_parlor() -> void:
 	_normalize_window_states()
 	_sync_window_stages()
 	_update_inventory([
-		{"id": "SOFT_CLOTH", "label": "부드러운 천"},
-		{"id": "COARSE_BRUSH", "label": "거친 솔"},
-		{"id": "WATER", "label": "물병"},
-		{"id": "SPANNER", "label": "마라 1의 스패너"},
+		{"id": "SOFT_CLOTH", "label": _dialogue_ui_text("P2_TOOL_CLOTH")},
+		{"id": "COARSE_BRUSH", "label": _dialogue_ui_text("P2_TOOL_BRUSH")},
+		{"id": "WATER", "label": _dialogue_ui_text("P2_TOOL_WATER")},
+		{"id": "SPANNER", "label": _dialogue_ui_text("P2_TOOL_SPANNER")},
 	])
 	var windows: Array = _progress.get("windows", [0, 0, 0])
 	for index in range(3):
@@ -787,8 +787,8 @@ func _build_parlor() -> void:
 		_mark_intro("P2")
 		_add_unique("introduced", "MARA1")
 		_show_dialogue([
-			{"speaker": "마라 1", "portrait": "MARA1", "text": "오셨슴까, 아가씨. 전 위쪽을 맡을 테니 아래쪽 세 장만 부탁드림다."},
-			{"speaker": "마라 1", "portrait": "MARA1", "text": "부드러운 천을 고르고 위의 먼지부터 아래로. 스패너는 쓰지 마십쇼. 저도 방금 쓸 뻔했으니까."},
+			{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_INTRO")},
+			{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_GUIDE")},
 		])
 
 
@@ -864,72 +864,72 @@ func _apply_window_tool(item_id: String, zone_id: String) -> void:
 		return
 	var state: Dictionary = states[_inspected_window].duplicate(true)
 	if _is_window_clean(state):
-		_set_window_feedback("이미 깨끗한 창이다.")
+		_set_window_feedback(_dialogue_ui_text("P2_TOOL_ALREADY"))
 		return
 	var feedback_kind := "neutral"
 	match item_id:
 		"SPANNER":
-			_set_window_feedback("스패너는 창문에 사용할 수 없다. 마라 1이 황급히 손을 내민다.")
+			_set_window_feedback(_dialogue_ui_text("P2_TOOL_SPANNER_FEEDBACK"))
 			if not bool(_progress.get("p2_spanner_hint_seen", false)):
 				_progress["p2_spanner_hint_seen"] = true
-				_show_dialogue([{"speaker": "마라 1", "portrait": "MARA1", "text": "그걸로 닦으면 창문보다 벽부터 열릴 검다. 천을 쓰십쇼, 천."}])
+				_show_dialogue([{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_SPANNER_LINE")}])
 		"COARSE_BRUSH":
 			state["top_dust"] = true
 			state["dust_spread"] = true
 			feedback_kind = "wrong"
-			_set_window_feedback("거친 솔이 먼지를 양옆으로 퍼뜨렸다. 부드러운 천으로 바로 복구할 수 있다.")
+			_set_window_feedback(_dialogue_ui_text("P2_TOOL_BRUSH_FEEDBACK"))
 			if not bool(_progress.get("p2_brush_hint_seen", false)):
 				_progress["p2_brush_hint_seen"] = true
-				_show_dialogue([{"speaker": "마라 1", "portrait": "MARA1", "text": "아가씨, 그 솔 말고 부드러운 천 말임다! 퍼진 먼지는 위에서부터 다시 모으면 됨다."}])
+				_show_dialogue([{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_BRUSH_LINE")}])
 		"WATER":
 			if zone_id == "MIDDLE" and not bool(state.get("top_dust", true)) and bool(state.get("middle_stain", true)):
 				state["middle_stain"] = false
 				state["bottom_wet"] = true
 				feedback_kind = "water"
-				_set_window_feedback("물로 얼룩이 풀렸다. 아래에 흐른 물기를 부드러운 천의 마른 면으로 걷어내야 한다.")
+				_set_window_feedback(_dialogue_ui_text("P2_TOOL_WATER_STAIN"))
 			elif zone_id == "BOTTOM" and not bool(state.get("top_dust", true)) and not bool(state.get("middle_stain", true)):
 				state["bottom_wet"] = true
 				feedback_kind = "water"
-				_set_window_feedback("깨끗한 아래쪽이 다시 젖었다. 부드러운 천의 마른 면이 필요하다.")
+				_set_window_feedback(_dialogue_ui_text("P2_TOOL_WATER_BOTTOM"))
 			else:
 				feedback_kind = "wrong"
-				_set_window_feedback("먼지가 남은 상태에서 물을 쓰면 얼룩만 번진다. 위쪽 먼지부터 정리해야 한다.")
+				_set_window_feedback(_dialogue_ui_text("P2_TOOL_WATER_WRONG"))
 		"SOFT_CLOTH":
 			match zone_id:
 				"TOP":
 					state["top_dust"] = false
 					state["dust_spread"] = false
 					feedback_kind = "correct"
-					_set_window_feedback("위쪽 먼지를 아래 방향으로 모아 걷어냈다.")
+					_set_window_feedback(_dialogue_ui_text("P2_TOOL_TOP_CLEAN"))
 					if _inspected_window == 2 and not bool(_progress.get("bird_observed", false)):
 						_progress["bird_observed"] = true
 						_add_notebook("같은 새가 18초 간격으로 같은 궤도를 두 번 지나갔다.")
 						_show_dialogue([
-							{"speaker": "SYSTEM", "text": "같은 새가 같은 날갯짓으로 다시 창을 가로지른다."},
-							{"speaker": "마라 1", "portrait": "MARA1", "text": "일은 천천히 하시는데 눈은 좋으심다. 저 새까지 닦아낼 생각은 하지 마십쇼. ...농담입니다. 아마도."},
+							{"speaker": "SYSTEM", "text": _dialogue_ui_text("P2_TOOL_BIRD")},
+							{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_BIRD_LINE")},
 						])
 				"MIDDLE":
 					if bool(state.get("top_dust", true)):
 						feedback_kind = "falling_dust"
-						_set_window_feedback("아래부터 닦자 위쪽 먼지가 다시 떨어졌다. 위에서 아래 순서로 진행해야 한다.")
+						_set_window_feedback(_dialogue_ui_text("P2_TOOL_MIDDLE_ORDER"))
 					elif bool(state.get("middle_stain", true)):
 						state["middle_stain"] = false
 						feedback_kind = "correct"
-						_set_window_feedback("가운데 얼룩을 원형으로 닦아냈다.")
+						_set_window_feedback(_dialogue_ui_text("P2_TOOL_MIDDLE_CLEAN"))
 					else:
-						_set_window_feedback("가운데는 이미 깨끗하다.")
+						_set_window_feedback(_dialogue_ui_text("P2_TOOL_MIDDLE_ALREADY"))
 				"BOTTOM":
 					if bool(state.get("top_dust", true)) or bool(state.get("middle_stain", true)):
 						feedback_kind = "falling_dust"
-						_set_window_feedback("아래부터 닦자 위쪽 오염이 다시 떨어졌다. 위에서 아래 순서로 진행해야 한다.")
+						_set_window_feedback(_dialogue_ui_text("P2_TOOL_BOTTOM_ORDER"))
 					elif bool(state.get("bottom_wet", false)):
 						state["bottom_wet"] = false
 						feedback_kind = "correct"
-						_set_window_feedback("부드러운 천의 마른 면으로 아래 물기를 걷어냈다.")
+						_set_window_feedback(_dialogue_ui_text("P2_TOOL_BOTTOM_CLEAN"))
 					else:
-						_set_window_feedback("아래쪽은 이미 마른 상태다.")
+						_set_window_feedback(_dialogue_ui_text("P2_TOOL_BOTTOM_ALREADY"))
 		_:
-			_set_window_feedback("이 물건은 창문 닦기에 사용할 수 없다.")
+			_set_window_feedback(_dialogue_ui_text("P2_TOOL_INVALID"))
 	states[_inspected_window] = state
 	_progress["window_states"] = states
 	_sync_window_stages()
@@ -955,7 +955,7 @@ func _complete_p2() -> void:
 	_update_objective()
 	_save_progress()
 	_show_dialogue([
-		{"speaker": "마라 1", "portrait": "MARA1", "text": "깔끔함다! 다음에도 이 정도면 제가 일손 부족 얘기는 반만 하겠슴다."},
+		{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_COMPLETE_LINE")},
 	], func() -> void:
 		_close_window_inspection(false)
 		_enter_room("M1_CENTRAL_HALL")
