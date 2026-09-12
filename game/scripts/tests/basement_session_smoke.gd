@@ -1357,15 +1357,23 @@ func _validate_stay_story(session: BasementSession) -> void:
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	_expect(view._objective_label.text == texts.text("objective", "en") and view._location_label.text == texts.text("hall_location", "en"), "English stay story location and objective")
 	for id in rules.HALL:
 		_expect((view._hotspot_layer.get_node("STORY_HALL_"+id) as Button).text == texts.hall(id, 0, "en"), "English hall object title")
 		view._hotspot_layer.get_node("STORY_HALL_"+id).pressed.emit()
 		if id == "cord":
 			_expect(view._modal_active,"Stay shared channel selection")
+			_expect((view._modal_body.get_child(0) as Label).text == texts.text("channel_title", "en"), "Shared channel title is English")
+			var owner_index := 4
+			for owner in rules.OWNERS:
+				_expect((view._modal_body.get_child(owner_index) as Button).text == VIEW.STAY_TEXTS.owner(owner, "en"), "Shared channel retains all five translated recipients")
+				owner_index += 1
 			view._modal_body.get_child(4).pressed.emit()
+			_expect(rules.progress(session.snapshot())["channel"] == "edgar", "English recipient label still saves canonical owner ID")
 		else:
 			_expect(view._dialogue_label.text == texts.hall(id, 1, "en"), "Actual hall action displays English observation")
 			while view._dialogue_active: view._advance_dialogue()
+	_expect((view._hotspot_layer.get_node("STORY_DINE") as Button).text == texts.text("dine", "en"), "Dining navigation is English")
 	view._hotspot_layer.get_node("STORY_DINE").pressed.emit()
 	view._hotspot_layer.get_node("STORY_SIT").pressed.emit()
 	while view._dialogue_active: view._advance_dialogue()
@@ -1376,6 +1384,7 @@ func _validate_stay_story(session: BasementSession) -> void:
 		_expect(view._dialogue_label.text == expected_lines[0]["text"], "Actual table action displays selected English branch")
 		while view._dialogue_active: view._advance_dialogue()
 	view._hotspot_layer.get_node("STORY_TEA_HOT").pressed.emit()
+	_expect((view._hotspot_layer.get_node("STORY_TEA_HOT") as Button).text == texts.text("hot", "en") + texts.text("selected", "en"), "English tea selection marker follows selected state")
 	view._hotspot_layer.get_node("STORY_WRITE_1").pressed.emit()
 	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay partial writing reload")
 	_expect(session.act("story_write",1).get("ok",false) and rules.progress(session.snapshot())["written"] == [1],"Reloaded sentence remains deduplicated")
@@ -1386,6 +1395,7 @@ func _validate_stay_story(session: BasementSession) -> void:
 		root.get_texture().get_image().save_png("user://stay_table.png")
 	view._hotspot_layer.get_node("STORY_FINAL").pressed.emit()
 	view.set_process(false)
+	_expect(view._objective_label.text == texts.text("final_objective", "en"), "Final stay frame objective is English")
 	_expect(not session.act("story_finish").get("ok",false),"Stay opening pose precedes chosen positions")
 	for index in range(2): _expect(session.act("story_tick").get("ok",false),"Stay final pose time")
 	view._render_room()

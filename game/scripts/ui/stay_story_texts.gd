@@ -2,6 +2,29 @@ extends RefCounted
 
 const RULES := preload("res://scripts/systems/stay_story.gd")
 const CHARTER := preload("res://scripts/ui/stay_charter_texts.gd")
+const LABELS := {
+	"hall_location": ["잔류 · 중앙홀", "Staying · Central hall"],
+	"dining_location": ["잔류 · 식당", "Staying · Dining room"],
+	"objective": ["같은 저택의 다른 규칙", "Different rules in the same mansion"],
+	"channel_selected": ["선택된 통신 채널: %s · 응답은 상대가 선택", "Selected channel: %s · The other person chooses whether to respond"],
+	"dine": ["조사를 마치고 식당으로", "Finish investigating and go to the dining room"],
+	"sit": ["주인공 자리로 간다", "Take your place"],
+	"written": ["쓴 문장: ", "Written: "],
+	"write": ["수첩에 쓴다: ", "Write in notebook: "],
+	"warm": ["차 · 따뜻하게", "Tea · Warm"],
+	"hot": ["차 · 더 뜨겁게", "Tea · Hotter"],
+	"selected": [" · 선택함", " · Selected"],
+	"final": ["이 저녁을 바라본다", "Look upon this evening"],
+	"final_objective": ["ED_B 안정화 잔류 · FINAL DECISION: STAY", "ED_B Stabilized stay · FINAL DECISION: STAY"],
+	"finish": ["이 저녁을 남긴다", "Let this evening remain"],
+	"close": ["닫기", "Close"],
+	"channel_title": ["공용 통신 채널", "Shared communication channel"],
+	"channel_body": ["연결 대상을 선택해도 응답이나 이동을 강제하지 않는다.", "Selecting a recipient does not compel them to respond or move."],
+}
+
+static func text(id: String, locale: String) -> String:
+	return LABELS[id][1 if locale.begins_with("en") else 0]
+
 const HALL := {
 	"clock": ["Great clock", "The thirteenth position is no longer hidden: XIII / MANUAL. The clock does not order the next sleep."],
 	"schedule": ["Schedule", "Mandatory times have been erased, leaving blank spaces and proposed notes. The final confirmation box is empty."],

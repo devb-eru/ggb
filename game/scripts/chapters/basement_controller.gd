@@ -756,8 +756,8 @@ func _build_stay_story() -> void:
 	var state := session.snapshot()
 	var node: String = state["ending_run"]["current_node_id"]
 	var local: Dictionary = rules.progress(state)
-	_location_label.text = "잔류 · 중앙홀" if node == "EDS_CENTRAL_HALL" else "잔류 · 식당"
-	_objective_label.text = "같은 저택의 다른 규칙"
+	_location_label.text = _story_text("hall_location" if node == "EDS_CENTRAL_HALL" else "dining_location")
+	_objective_label.text = _story_text("objective")
 	if state["ending_run"].get("ending_appearance_mode","") == "layered" or _stay_inspection_open:
 		for x in [160,960,1760]:
 			var line := ColorRect.new()
@@ -766,46 +766,50 @@ func _build_stay_story() -> void:
 			_hotspot_layer.add_child(line)
 			_place(line,Rect2(x,110,3,810))
 	_board_label("FILTER: DISPLAY ONLY · "+state["ending_run"].get("ending_appearance_mode","contextual"),Rect2(200,105,1520,55))
-	_add_hotspot("STORY_INSPECT","시설 골격 조사 표시 전환",Rect2(200,970,700,60),_toggle_stay_inspection)
-	_add_hotspot("STORY_APPEARANCE","외형 표시 다시 선택",Rect2(1020,970,700,60),_show_stay_mode_settings)
+	_add_hotspot("STORY_INSPECT",_stay_text("inspect"),Rect2(200,970,700,60),_toggle_stay_inspection)
+	_add_hotspot("STORY_APPEARANCE",_stay_text("settings"),Rect2(1020,970,700,60),_show_stay_mode_settings)
 	match node:
 		"EDS_CENTRAL_HALL":
-			if local.has("channel"): _board_label("선택된 통신 채널: "+rules.OWNERS[local["channel"]]+" · 응답은 상대가 선택",Rect2(250,720,1420,55))
+			if local.has("channel"): _board_label(_story_text("channel_selected") % STAY_TEXTS.owner(local["channel"],locale),Rect2(250,720,1420,55))
 			var index := 0
 			for id in rules.HALL:
 				_add_hotspot("STORY_HALL_"+id,STORY_TEXTS.hall(id,0,locale),Rect2(250+(index%2)*750,210+(index/2)*170,670,120),_story_channel_menu if id == "cord" else _ending_read.bind([{"speaker":"SYSTEM","text":STORY_TEXTS.hall(id,1,locale)}],"hall",id,"story_"))
 				index += 1
-			_action("STORY_DINE","조사를 마치고 식당으로",Rect2(400,800,1120,100),"story_dine",null,false)
+			_action("STORY_DINE",_story_text("dine"),Rect2(400,800,1120,100),"story_dine",null,false)
 		"EDS_DINING_ROOM":
 			_board_label(STORY_TEXTS.seating(state,locale),Rect2(250,200,1420,440))
-			_add_hotspot("STORY_SIT","Take your place" if locale.begins_with("en") else "주인공 자리로 간다",Rect2(400,780,1120,100),_ending_read.bind([{"speaker":"SYSTEM","text":STORY_TEXTS.seating(state,locale)}],"sit",null,"story_"))
+			_add_hotspot("STORY_SIT",_story_text("sit"),Rect2(400,780,1120,100),_ending_read.bind([{"speaker":"SYSTEM","text":STORY_TEXTS.seating(state,locale)}],"sit",null,"story_"))
 		"EDS_TABLE_OBJECTS":
 			for index in range(2):
-				var prefix := ("Written: " if index in local["written"] else "Write in notebook: ") if locale.begins_with("en") else ("쓴 문장: " if index in local["written"] else "수첩에 쓴다: ")
+				var prefix := _story_text("written" if index in local["written"] else "write")
 				_action("STORY_WRITE_%d"%index,prefix+STORY_TEXTS.sentence(index,locale),Rect2(250,180+index*105,1420,85),"story_write",index,false)
 			var index := 0
 			for owner in rules.TABLE:
 				_add_hotspot("STORY_TABLE_"+owner,STORY_TEXTS.table_title(owner,locale),Rect2(250+(index%2)*750,420+(index/2)*110,670,85),_ending_read.bind(STORY_TEXTS.table_lines(state,owner,locale),"table",owner,"story_"))
 				index += 1
-			_action("STORY_TEA_WARM","차 · 따뜻하게"+(" · 선택함" if local["tea"] == "warm" else ""),Rect2(250,755,670,60),"story_tea","warm",false)
-			_action("STORY_TEA_HOT","차 · 더 뜨겁게"+(" · 선택함" if local["tea"] == "hot" else ""),Rect2(1000,755,670,60),"story_tea","hot",false)
-			if local["written"].size() == 2: _action("STORY_FINAL","이 저녁을 바라본다",Rect2(400,850,1120,80),"story_final",null,false)
+			_action("STORY_TEA_WARM",_story_text("warm")+(_story_text("selected") if local["tea"] == "warm" else ""),Rect2(250,755,670,60),"story_tea","warm",false)
+			_action("STORY_TEA_HOT",_story_text("hot")+(_story_text("selected") if local["tea"] == "hot" else ""),Rect2(1000,755,670,60),"story_tea","hot",false)
+			if local["written"].size() == 2: _action("STORY_FINAL",_story_text("final"),Rect2(400,850,1120,80),"story_final",null,false)
 		"EDS_FINAL_FRAME":
-			_objective_label.text = "ED_B 안정화 잔류 · FINAL DECISION: STAY"
+			_objective_label.text = _story_text("final_objective")
 			var opening := "You sit facing forward. The servants stand on either side as they once did." if locale.begins_with("en") else "주인공이 정면을 보고 앉았다. 사용인들은 과거처럼 양옆에 서 있다."
 			var text: String = opening if local["elapsed"] < 2 else STORY_TEXTS.seating(state,locale)
 			var sensory := "\nBehind the hearth's scent remains the smell of metal; behind birdsong, the turning fan.\nThe five signatures do not merge. Each retains its own boundary." if locale.begins_with("en") else "\n난로 향 뒤에 금속 냄새, 새소리 뒤에 팬 회전음이 남는다.\n다섯 서명은 섞이지 않고 각자의 경계를 유지한다."
 			_board_label(text+sensory,Rect2(250,200,1420,500))
 			if local["elapsed"] < 2: set_process(true)
-			else: _action("STORY_FINISH","이 저녁을 남긴다",Rect2(400,800,1120,100),"story_finish",null,false)
+			else: _action("STORY_FINISH",_story_text("finish"),Rect2(400,800,1120,100),"story_finish",null,false)
 
 
 func _story_channel_menu() -> void:
 	if _interaction_blocked(): return
-	var actions: Array = [{"label":"닫기","action":_close_modal}]
+	var actions: Array = [{"label":_story_text("close"),"action":_close_modal}]
 	for owner in BasementSession.STAY_STORY.OWNERS:
-		actions.append({"label":BasementSession.STAY_STORY.OWNERS[owner],"action":_modal_act.bind("story_channel",owner)})
-	_show_modal("공용 통신 채널", "연결 대상을 선택해도 응답이나 이동을 강제하지 않는다.", actions)
+		actions.append({"label":STAY_TEXTS.owner(owner,TranslationServer.get_locale()),"action":_modal_act.bind("story_channel",owner)})
+	_show_modal(_story_text("channel_title"), _story_text("channel_body"), actions)
+
+
+func _story_text(id: String) -> String:
+	return STORY_TEXTS.text(id, TranslationServer.get_locale())
 
 
 func _build_ending_credits() -> void:
