@@ -2044,8 +2044,29 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 		_modal_body.add_child(button)
 	_modal_active = true
 	_modal_layer.visible = true
+	call_deferred("_cycle_modal_focus")
 	if _modal_body.get_child_count() > 3:
 		call_deferred("_focus_visible_control", weakref(_modal_body.get_child(3)))
+
+
+func _cycle_modal_focus() -> void:
+	if not _modal_active or not _modal_layer.is_visible_in_tree():
+		return
+	var controls: Array[Control] = []
+	_collect_modal_focus(_modal_body, controls)
+	for index in range(controls.size()):
+		controls[index].focus_next = controls[index].get_path_to(controls[(index + 1) % controls.size()])
+		controls[index].focus_previous = controls[index].get_path_to(controls[posmod(index - 1, controls.size())])
+
+
+func _collect_modal_focus(node: Node, controls: Array[Control]) -> void:
+	for child in node.get_children():
+		if child is Control and not child.is_visible_in_tree():
+			continue
+		if child is Control and child.focus_mode == Control.FOCUS_ALL:
+			if not child is BaseButton or not child.disabled:
+				controls.append(child)
+		_collect_modal_focus(child, controls)
 
 
 func _focus_visible_control(reference: WeakRef) -> void:

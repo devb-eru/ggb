@@ -528,17 +528,7 @@ func _open_notebook() -> void:
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.add_theme_font_size_override("font_size", int(round(22 * _reading_text_scale)))
-	_cycle_support_focus()
-
-
-func _cycle_support_focus() -> void:
-	var controls: Array[Control] = []
-	for child in _modal_body.get_children():
-		if child is Control and child.focus_mode == Control.FOCUS_ALL:
-			controls.append(child)
-	for index in range(controls.size()):
-		controls[index].focus_next = controls[index].get_path_to(controls[(index + 1) % controls.size()])
-		controls[index].focus_previous = controls[index].get_path_to(controls[posmod(index - 1, controls.size())])
+	_cycle_modal_focus()
 
 
 func _offer_clock_failure_support() -> void:
@@ -581,7 +571,7 @@ func _show_clock_hint_menu(level: int) -> void:
 	else:
 		body = "You have read all five hints. Review your notes and use the available reversible checks before committing." if english else "다섯 단계의 힌트를 모두 읽었다. 수첩을 다시 보고, 돌이킬 수 없는 실행 전에 가능한 사전 시험을 활용하자."
 	_show_modal(_puzzle_hint_title(), body, actions)
-	_cycle_support_focus()
+	_cycle_modal_focus()
 
 
 func _read_clock_hint(level: int) -> void:

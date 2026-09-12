@@ -12,6 +12,20 @@ const CAPTURE_P4_FILE := "user://p4_father_choice_1280x720.png"
 const RESET_TEST_SLOT := "__test_prologue_reset"
 
 
+func _modal_tab(tree: SceneTree, backwards: bool = false) -> void:
+	var event := InputEventKey.new()
+	event.keycode = KEY_TAB
+	event.physical_keycode = KEY_TAB
+	event.shift_pressed = backwards
+	event.pressed = true
+	Input.parse_input_event(event)
+	await tree.process_frame
+	event = event.duplicate()
+	event.pressed = false
+	Input.parse_input_event(event)
+	await tree.process_frame
+
+
 func run(tree: SceneTree) -> Dictionary:
 	var prologue = PROLOGUE_SCENE.instantiate()
 	prologue.configure_session("__test_prologue", "P1_ENTRY", true)
@@ -88,6 +102,14 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._on_sleep_bed()
 	_expect(prologue._modal_body.get_child(3).text == "Go to sleep", "English sleep confirmation action", errors)
 	_expect(prologue._modal_body.get_child(4).text == "Investigate a little longer", "English sleep cancellation action", errors)
+	await tree.process_frame
+	await tree.process_frame
+	prologue._modal_body.get_child(4).grab_focus()
+	await _modal_tab(tree)
+	_expect(prologue.get_viewport().gui_get_focus_owner() == prologue._modal_body.get_child(2), "Sleep modal Tab wraps to reading area", errors)
+	await _modal_tab(tree, true)
+	_expect(prologue.get_viewport().gui_get_focus_owner() == prologue._modal_body.get_child(4), "Sleep modal Shift+Tab wraps to last action", errors)
+	_expect(prologue._progress == before_sleep_prompt, "Modal keyboard navigation preserves progress", errors)
 	prologue._modal_body.get_child(4).pressed.emit()
 	_expect(not prologue._modal_active, "Sleep cancellation closes prompt", errors)
 	_expect(prologue._progress == before_sleep_prompt, "Sleep cancellation preserves all progress", errors)
