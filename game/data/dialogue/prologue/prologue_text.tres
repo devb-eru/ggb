@@ -4,6 +4,11 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"R1_ROOM": "주인공의 침실 · 두 번째 아침",
+"R1_OBJECTIVE": "같은 침실의 같은 아침 · 수첩의 기록을 확인한다",
+"R1_WAKE": "새가 우는 소리에 눈을 뜬다.",
+"R1_SAME": "커튼 사이의 빛도, 침대보의 주름도, 어제 아침과 같은 자리에 있다.",
+"R1_NOTES": "하지만 수첩 안의 문장들은 사라지지 않았다.",
 "P6_TITLE": "오늘을 끝냅니다",
 "P6_BODY": "침대가 몸을 감싸기 전에 시야가 먼저 어두워질 것 같은 기분이 듭니다.",
 "P6_SLEEP": "잠든다",
@@ -223,6 +228,11 @@ localized_text = {
 "P1_WAKE_OBJECTIVE": "빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."
 },
 "en-US": {
+"R1_ROOM": "Protagonist's bedroom · second morning",
+"R1_OBJECTIVE": "The same bedroom, the same morning · check the notebook",
+"R1_WAKE": "I open my eyes to birdsong.",
+"R1_SAME": "The light between the curtains and the folds in the bedspread are exactly where they were yesterday morning.",
+"R1_NOTES": "But the words in the notebook have not disappeared.",
 "P6_TITLE": "End the day",
 "P6_BODY": "It feels as though my sight will go dark before the bed envelops me.",
 "P6_SLEEP": "Go to sleep",

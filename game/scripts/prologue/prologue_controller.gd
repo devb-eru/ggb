@@ -1568,15 +1568,15 @@ func _perform_normal_reset() -> void:
 func _show_after_reset() -> void:
 	_current_room = "M2_BEDROOM"
 	_set_room_background("M2_BEDROOM_RESET")
-	_location_label.text = "주인공의 침실 · 두 번째 아침"
+	_location_label.text = _dialogue_ui_text("R1_ROOM")
 	_clear_hotspots()
 	_update_inventory([])
 	_room_art.set_room("M2_BEDROOM", _progress)
-	_objective_label.text = "같은 침실의 같은 아침 · 수첩의 기록을 확인한다"
+	_objective_label.text = _dialogue_ui_text("R1_OBJECTIVE")
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": "새가 우는 소리에 눈을 뜬다."},
-		{"speaker": "주인공", "text": "커튼 사이의 빛도, 침대보의 주름도, 어제 아침과 같은 자리에 있다."},
-		{"speaker": "SYSTEM", "text": "하지만 수첩 안의 문장들은 사라지지 않았다."},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("R1_WAKE")},
+		{"speaker": "주인공", "text": _dialogue_ui_text("R1_SAME")},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("R1_NOTES")},
 	], func() -> void: campaign_requested.emit(_slot_id))
 
 
