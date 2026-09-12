@@ -65,6 +65,17 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(prologue._dialogue_index == 0, "Reading does not advance the sentence", errors)
 	prologue._advance_dialogue()
 	_expect(prologue._dialogue_scroll.scroll_vertical == 0, "Next dialogue resets scroll", errors)
+	prologue._dismiss_dialogue_for_test()
+	prologue._show_modal("긴 조사 기록", "기록의 끝도 확인할 수 있다.\n".repeat(80), [{"label":"닫기", "action":prologue._close_modal}])
+	await tree.process_frame
+	await tree.process_frame
+	prologue._unhandled_input(page)
+	var modal_scroll := prologue._modal_body.get_child(2) as ScrollContainer
+	_expect(modal_scroll.scroll_vertical > 0 and prologue._modal_active, "Page Down reads long modal without closing", errors)
+	page.keycode = KEY_PAGEUP
+	prologue._unhandled_input(page)
+	_expect(modal_scroll.scroll_vertical == 0, "Page Up returns modal to beginning", errors)
+	prologue._close_modal()
 	prologue.queue_free()
 	await tree.process_frame
 	await _validate_p4_resume_and_choices(tree, errors)
