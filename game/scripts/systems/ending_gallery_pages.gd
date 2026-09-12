@@ -6,10 +6,26 @@ const STAY := preload("res://scripts/systems/stay_story.gd")
 const WAKE := preload("res://scripts/systems/reality_wake.gd")
 const NOTEBOOK := preload("res://scripts/systems/field_notebook.gd")
 const CHARTER := preload("res://scripts/systems/stay_charter.gd")
+const ENTRY := preload("res://scripts/systems/ending_entry.gd")
 
 static func build(state: Dictionary) -> Array[Dictionary]:
 	var pages: Array[Dictionary] = []
 	var run: Dictionary = state.get("ending_run", {})
+	var branch: String = run.get("branch_id", "")
+	if branch not in ["reality", "stay"]: return pages
+	var final_node := "EDR_FINAL_FRAME" if branch == "reality" else "EDS_FINAL_FRAME"
+	if final_node not in run.get("completed_nodes", []): return pages
+	var ceremony := ENTRY.progress(state)
+	if run.get("all_ceremony_seen",false) and "ED_ALL_CEREMONY" in run.get("completed_nodes",[]) and int(ceremony["identity_index"]) == 5 and ceremony["authority_seen"]:
+		var all_complete := true
+		for owner in ENTRY.OWNERS:
+			if not state["meta_progress"]["servants"][owner]["core_event_complete"]: all_complete = false
+		if all_complete:
+			for line in ENTRY.IDENTITIES: pages.append({"title":"전원 인증 · " + line["speaker"],"text":line["text"]})
+			pages.append({"title":"전원 인증 · 권한 확인","text":"주인공의 SUBJECT 권한이 관리자의 CUSTODIAN 권한보다 우선합니다. 이 서명은 허가 요청이 아닙니다. 이미 내리신 선택을 기록합니다."})
+	for id in ENTRY.TEXT:
+		if id in run.get("completed_nodes", []) and id.begins_with("EDR_" if branch == "reality" else "EDS_"):
+			pages.append({"title":"엔딩 도입 · " + ("현실 기상" if branch == "reality" else "안정화 잔류"),"text":ENTRY.TEXT[id]})
 	if run.get("branch_id") == "reality" and "EDR_FINAL_FRAME" in run.get("completed_nodes", []):
 		var farewell_count := clampi(WAKE.index(state), 0, WAKE.OWNERS.size())
 		for index in range(farewell_count):

@@ -1314,6 +1314,8 @@ func _validate_credits(session: BasementSession) -> void:
 	var pages = preload("res://scripts/systems/ending_gallery_pages.gd")
 	_expect(not pages.build(before_gallery).is_empty(), "Gallery contains completed final frame")
 	var uninspected := before_gallery.duplicate(true)
+	uninspected["ending_run"]["all_ceremony_seen"] = false
+	for entry_node in SESSION.ENDING_ENTRY.TEXT: uninspected["ending_run"]["completed_nodes"].erase(entry_node)
 	uninspected["loop_state"]["event_local_states"]["EDR_FAREWELL"] = {"index":0}
 	uninspected["ending_run"]["required_interactions_seen"] = []
 	uninspected["loop_state"]["event_local_states"]["FIELD_NOTEBOOK"] = {"pages":[]}
@@ -1321,6 +1323,16 @@ func _validate_credits(session: BasementSession) -> void:
 	uninspected["loop_state"]["event_local_states"]["REALITY_SURFACE"] = {"seen":[],"look":"center","elapsed":8}
 	uninspected["loop_state"]["event_local_states"]["STAY_STORY"] = {"hall":[],"table":[],"written":[],"elapsed":2}
 	_expect(pages.build(uninspected).size() == 1, "Gallery hides uninspected optional objects and lines")
+	var all_record := uninspected.duplicate(true)
+	for owner in SESSION.ENDING_ENTRY.OWNERS: all_record["meta_progress"]["servants"][owner]["core_event_complete"] = true
+	var baseline_count: int = pages.build(all_record).size()
+	_expect(baseline_count == 1, "All relationships alone do not reveal ceremony")
+	all_record["ending_run"]["all_ceremony_seen"] = true
+	all_record["ending_run"]["completed_nodes"].erase("ED_ALL_CEREMONY")
+	_expect(pages.build(all_record).size() == baseline_count, "Seen flag without completed ceremony remains hidden")
+	all_record["ending_run"]["completed_nodes"].append("ED_ALL_CEREMONY")
+	all_record["loop_state"]["event_local_states"]["ED_ALL_CEREMONY"] = {"identity_index":5,"authority_seen":true}
+	_expect(pages.build(all_record).size() == baseline_count + 6, "Completed ALL ceremony exposes five identities and authority")
 	if before_gallery["ending_run"]["branch_id"] == "stay":
 		var charter_state := uninspected.duplicate(true)
 		charter_state["loop_state"]["event_local_states"]["STAY_CHARTER"] = {"principles":[1.0],"proposed":["luca"]}
