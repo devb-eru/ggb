@@ -22,13 +22,17 @@ func _make_session() -> ChapterOneSession:
 	return BASEMENT_SESSION.new(GameState, SaveManager, _slot_id)
 
 func _supported_hint_stages() -> Array:
-	return ["D0_A", "D1", "DF", "D4"]
+	return ["D0_A", "D1", "DF", "D4", "F0_A", "F0_B", "F0_C", "F0_D", "F0_E"]
 
 func _puzzle_hint_text(level: int) -> String:
+	if session.stage().begins_with("F0_"):
+		return preload("res://scripts/ui/core_hint_texts.gd").text(session.stage(), level, TranslationServer.get_locale())
 	return preload("res://scripts/ui/basement_hint_texts.gd").text(session.stage(), level, TranslationServer.get_locale())
 
 func _puzzle_hint_title() -> String:
 	var english := TranslationServer.get_locale().begins_with("en")
+	if session.stage().begins_with("F0_"):
+		return ("Core puzzle hints · " if english else "코어 퍼즐 생각 정리 · ") + session.stage().replace("_", "-")
 	match session.stage():
 		"D0_A": return "Floorplan overlay hints" if english else "저택 도면 생각 정리"
 		"D1", "DF": return "Pressure axis hints" if english else "압력축 생각 정리"

@@ -32,7 +32,9 @@ func _validate_basement_hints(expected_stage: String) -> void:
 		button.pressed.emit()
 		for level in range(5):
 			(view._modal_body.get_child(4) as Button).pressed.emit()
-			var expected: String = preload("res://scripts/ui/basement_hint_texts.gd").text(expected_stage, level, TranslationServer.get_locale())
+			var provider = preload("res://scripts/ui/core_hint_texts.gd") if expected_stage.begins_with("F0_") else preload("res://scripts/ui/basement_hint_texts.gd")
+			var expected: String = provider.text(expected_stage, level, TranslationServer.get_locale())
+			_expect(not expected.is_empty(), "requested hint has content")
 			_expect(view._dialogue_label.text == expected, "basement requested hint: " + expected_stage)
 			view._dialogue_next.pressed.emit()
 		view._close_modal()
@@ -699,6 +701,7 @@ func _validate_j4(session: BasementSession) -> void:
 
 
 func _validate_f0a(session: BasementSession) -> void:
+	await _validate_basement_hints("F0_A")
 	var rules = SESSION.CORE_ROOMS
 	var solutions := 0
 	for a in range(4):
@@ -739,6 +742,7 @@ func _validate_f0a(session: BasementSession) -> void:
 
 
 func _validate_f0b(session: BasementSession) -> void:
+	await _validate_basement_hints("F0_B")
 	var rules = SESSION.CORE_SAMPLES
 	var seed := session.snapshot()
 	for mask in range(16):
@@ -780,6 +784,7 @@ func _validate_f0b(session: BasementSession) -> void:
 	await tree.process_frame
 	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false) and session.stage() == "F0_C", "F0-B completed reload")
 	_expect(session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"], "F0-B no relationship changes")
+	await _validate_basement_hints("F0_C")
 	for layer in ["B4","C5","D4"]: session.act("f0c", {"action":"anchor","layer":layer,"value":0})
 	for i in range(2): session.act("f0c", {"action":"rotate","layer":"B4"})
 	session.act("f0c", {"action":"flip","layer":"C5"})
@@ -807,6 +812,7 @@ func _validate_f0b(session: BasementSession) -> void:
 
 
 func _validate_f0d(session: BasementSession) -> void:
+	await _validate_basement_hints("F0_D")
 	var rules = SESSION.CORE_ROLES
 	var seed := session.snapshot()
 	_expect(not session.act("f0d_verify").get("ok",false), "F0-D rejects empty slots")
@@ -840,6 +846,7 @@ func _validate_f0d(session: BasementSession) -> void:
 
 
 func _validate_f0e(session: BasementSession) -> void:
+	await _validate_basement_hints("F0_E")
 	var seed := session.snapshot()
 	var rules = SESSION.CORE_SELF
 	for type in rules.MARKS:
