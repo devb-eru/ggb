@@ -1,0 +1,48 @@
+extends RefCounted
+
+const EN := {
+	"달라진 통로를 조사하거나 쉴 곳을 선택한다": "Explore the changed passage or choose somewhere to rest",
+	"복구 절차는 수면 중 실행됩니다 · 더 조사하거나 쉴 곳을 선택한다": "Recovery runs during sleep · Keep exploring or choose a place to rest",
+	"드러난 서비스 통로": "Exposed service passage",
+	"벗겨진 벽지": "Peeled wallpaper",
+	"서비스 척추 표지": "Service spine sign",
+	"사용인 진단 잔상": "Servant diagnostic traces",
+	"비상 캡슐의 표면": "Emergency capsule surface",
+	"수첩의 낙서와 배선을 겹쳐 본다": "Compare the notebook sketch with the wiring",
+	"침실로 돌아간다": "Return to the bedroom",
+	"가까운 비상 캡슐에서 쉰다": "Rest in the nearby emergency capsule",
+	"주인공의 침실 · 파열 이후": "Protagonist's bedroom · After the fracture",
+	"통로를 조금 더 본다": "Explore the passage a little longer",
+	"침대에서 쉰다": "Rest in bed",
+	"벽지 뒤에서 드러난 서비스 통로에 두 휴식 경로가 표시되어 있다.": "Two routes to a resting place are marked in the service passage exposed beneath the wallpaper.",
+	"드러난 서비스 통로로": "Enter the exposed service passage",
+	"휴식 경로: 침실 또는 비상 캡슐 · 조사는 계속할 수 있다": "Rest routes: bedroom or emergency capsule · You may keep exploring",
+	"안내 기록 저장 재시도": "Retry saving the guidance record",
+	"안내 기록을 저장하지 못했다. 다시 시도하거나 조사를 계속할 수 있다.": "The guidance record could not be saved. Retry or keep exploring.",
+	"[취침 종: 깨진 간격으로 열한 번] 아직 통로를 더 살펴볼 수 있다.": "[Bedtime bell: eleven strokes at broken intervals] You can still explore the passage.",
+	"에드가 방송: 휴식 경로는 열려 있습니다. 이동 여부는 귀하가 결정하시면 됩니다.": "Edgar's broadcast: The routes to rest remain open. The decision to move is yours.",
+	"침실 또는 가까운 비상 캡슐에서 쉴 수 있다. 지금 잠들 필요는 없다.": "You can rest in the bedroom or the nearby emergency capsule. You do not have to sleep now.",
+	"잠깐 눈을 감는다": "Close your eyes for a while",
+	"조금 더 본다": "Look around a little longer",
+	"잠든다": "Go to sleep",
+	"익숙한 이불 아래로 캡슐의 곡면이 만져진다. 이불 끝을 한 번 더 끌어당긴다.": "You feel the curve of a capsule beneath the familiar blanket. You pull its edge closer once more.",
+	"금속 표면에 이불의 질감이 투사된다. 손끝이 매끄럽게 미끄러진다. 침대도 처음부터 이런 장치였을까.": "A blanket's texture is projected onto metal. Your fingertips slide smoothly across it. Was the bed a device like this all along?",
+	"복구 절차를 실행하면 현재 파열 상태를 기준으로 수면 전환이 시작됩니다.\n결과는 확인되지 않았습니다.": "Starting recovery will begin the sleep transition from the current fractured state.\nThe outcome has not been confirmed.",
+	"익숙한 복도의 외피 아래로 휴식 경로가 이어진다.": "Beneath the shell of the familiar corridor, a route leads toward rest.",
+	"벗겨진 벽지 뒤 금속 격자는 기억하는 방보다 좁다. 손끝에는 종이와 금속의 경계가 동시에 닿는다.": "The metal grid behind the peeled wallpaper is narrower than the room you remember. Your fingertips touch paper and metal at the same boundary.",
+	"서비스 척추 표지의 다섯 기능실 방향과 SUBJECT 방향이 갈라져 있다. 아직 기능실로 들어갈 수는 없다.": "The service spine sign separates the five function rooms from the SUBJECT route. The function rooms are not accessible yet.",
+	"몸은 없는데 문양만 일정한 간격으로 지나간다. 잠금선, 닦임 자국, 이중 맥박, 꽃잎, 겹친 액자. 알아보는 것은 색만이 아니다.": "No bodies are here, but patterns pass at regular intervals: locking lines, wipe marks, paired pulses, petals, overlapping frames. Colour is not the only thing you recognise.",
+	"비상 캡슐 표면에 침실 침대와 같은 직물 무늬가 투사된다. 가까이서는 천의 결 아래 매끄러운 곡면이 느껴진다.": "The same fabric pattern as your bed is projected onto the emergency capsule. Up close, you feel a smooth curve beneath the weave.",
+	"수첩의 낙서 저택을 펼쳐 배선과 겹쳐 본다. 복도 끝에서 꺾인 선이 같다. 내가 그린 선을 누군가 이곳의 길로 만들었다. 종이를 접어도 벽의 선은 사라지지 않는다.": "You open the notebook's mansion sketch and compare it with the wiring. The line turns at the same corridor end. Someone made your drawn lines into paths here. Folding the paper does not erase the lines on the wall.",
+	"조금 눈을 감는다. 이번에는 무엇이 돌아올지 알 수 없다.": "You close your eyes for a while. This time, you do not know what will return.",
+	"표시된 휴식 경로를 따른다.": "Follow a marked route to rest.",
+	"드러난 서비스 통로를 지나 침실로 간다.": "Go through the exposed service passage to reach the bedroom.",
+	"통로에서 조사할 대상을 확인한다.": "Choose something to examine in the passage.",
+	"현재 위치의 휴식 장치를 확인한다.": "Check the rest device at your current location.",
+	"이전 일과와 장치 조작은 끝났다. 드러난 통로와 휴식 경로를 확인한다.": "The old routines and device procedures are over. Examine the exposed passage and rest routes.",
+	"다음 안내 시점을 확인한다.": "Check the next guidance checkpoint.",
+	"휴식할 침실이나 확인한 비상 캡슐에서 잠든다.": "Sleep in the bedroom or in the emergency capsule you have confirmed."
+}
+
+static func text(source: String, locale: String) -> String:
+	return EN.get(source, source) if locale.begins_with("en") else source

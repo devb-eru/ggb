@@ -65,7 +65,7 @@ func _feedback(result: Dictionary) -> void:
 		return
 	var displayed := result.duplicate(true)
 	var original := String(result.get("text", ""))
-	displayed["text"] = ENDING_TEXTS.feedback(original, TranslationServer.get_locale())
+	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(original, TranslationServer.get_locale()))
 	if displayed["text"] != original and String(result.get("speaker", "주인공")) == "주인공":
 		displayed["speaker"] = "Protagonist"
 	super._feedback(displayed)
@@ -197,6 +197,19 @@ func _build_d6_inspection() -> void:
 		_objective_label.text = "휴식 경로: 침실 또는 비상 캡슐 · 조사는 계속할 수 있다"
 	if _d6_guidance_failed:
 		_add_hotspot("D6_GUIDANCE_RETRY", "안내 기록 저장 재시도", Rect2(510, 810, 870, 70), _retry_d6_guidance)
+	_objective_label.text = _d6_text(_objective_label.text)
+	_location_label.text = _d6_text(_location_label.text)
+	for node in _hotspot_layer.find_children("*", "Control", true, false):
+		if node is Label or node is Button:
+			node.text = _d6_text(node.text)
+
+
+func _d6_text(source: String) -> String:
+	return preload("res://scripts/ui/fracture_rest_texts.gd").text(source, TranslationServer.get_locale())
+
+
+func _localized_notebook_entry(entry: String) -> String:
+	return _d6_text(super._localized_notebook_entry(entry))
 
 
 func _retry_d6_guidance() -> void:
@@ -215,16 +228,16 @@ func _tick_d6_guidance(delta: float) -> void:
 	_d6_guidance_failed = not result.get("ok", false)
 	_render_room()
 	if _d6_guidance_failed:
-		_set_status("안내 기록을 저장하지 못했다. 다시 시도하거나 조사를 계속할 수 있다.")
+		_set_status(_d6_text("안내 기록을 저장하지 못했다. 다시 시도하거나 조사를 계속할 수 있다."))
 	else:
-		_set_status({180: "[취침 종: 깨진 간격으로 열한 번] 아직 통로를 더 살펴볼 수 있다.", 300: "에드가 방송: 휴식 경로는 열려 있습니다. 이동 여부는 귀하가 결정하시면 됩니다.", 480: "침실 또는 가까운 비상 캡슐에서 쉴 수 있다. 지금 잠들 필요는 없다."}[next])
+		_set_status(_d6_text({180: "[취침 종: 깨진 간격으로 열한 번] 아직 통로를 더 살펴볼 수 있다.", 300: "에드가 방송: 휴식 경로는 열려 있습니다. 이동 여부는 귀하가 결정하시면 됩니다.", 480: "침실 또는 가까운 비상 캡슐에서 쉴 수 있다. 지금 잠들 필요는 없다."}[next]))
 
 
 func _confirm_d6_rest(route: String) -> void:
 	var sensation := "익숙한 이불 아래로 캡슐의 곡면이 만져진다. 이불 끝을 한 번 더 끌어당긴다." if route == "bedroom" else "금속 표면에 이불의 질감이 투사된다. 손끝이 매끄럽게 미끄러진다. 침대도 처음부터 이런 장치였을까."
-	_show_modal("잠깐 눈을 감는다", sensation + "\n\n복구 절차를 실행하면 현재 파열 상태를 기준으로 수면 전환이 시작됩니다.\n결과는 확인되지 않았습니다.", [
-		{"label": "조금 더 본다", "action": _close_modal},
-		{"label": "잠든다", "action": _start_d6_rest.bind(route)},
+	_show_modal(_d6_text("잠깐 눈을 감는다"), _d6_text(sensation) + "\n\n" + _d6_text("복구 절차를 실행하면 현재 파열 상태를 기준으로 수면 전환이 시작됩니다.\n결과는 확인되지 않았습니다."), [
+		{"label": _d6_text("조금 더 본다"), "action": _close_modal},
+		{"label": _d6_text("잠든다"), "action": _start_d6_rest.bind(route)},
 	])
 
 

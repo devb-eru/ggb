@@ -242,6 +242,7 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 	_expect(game.get_snapshot() == guided, "D6 completed guidance does not repeat writes")
 	view._d6_guidance_seconds = 0.0
 	for route in ["capsule", "bedroom"]:
+		TranslationServer.set_locale("en_US" if route == "capsule" else "ko")
 		_expect(StateWriter.new(game).install_snapshot(d6_state, game.revision, &"D6_ROUTE_FIXTURE").get("ok", false), "D6 route fixture installed")
 		view._render_room()
 		view._hotspot_layer.get_node("D6_SPINE").pressed.emit()
@@ -252,9 +253,14 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 		_expect(game.get_snapshot() == untouched, "D6 rejected actions preserve state")
 		for id in ["wall", "sign", "trace", "capsule", "notebook"]:
 			view._hotspot_layer.get_node("D6_INSPECT_" + id).pressed.emit()
+			var original: String = game.get_value("meta_progress.knowledge_entries.chapter_notebook")["D6_" + id]
+			_expect(view._dialogue_label.text == view._d6_text(original), "D6 investigation uses selected language: " + id)
+			_expect(view._localized_notebook_entry(original) == view._d6_text(original), "D6 notebook translates without changing stored original")
+			if route == "capsule":
+				_expect(view._dialogue_label.text != original, "D6 English investigation is translated: " + id)
 			view._dismiss_dialogue_for_test()
 		_expect(game.get_value("meta_progress.knowledge_entries.D6_objects_seen").size() == 5, "D6 five optional investigations recorded")
-		_expect("수면 중" in view._objective_label.text, "D6 survey restores sleep guidance without forcing sleep")
+		_expect(view._objective_label.text == view._d6_text("복구 절차는 수면 중 실행됩니다 · 더 조사하거나 쉴 곳을 선택한다"), "D6 survey restores localized sleep guidance without forcing sleep")
 		view._hotspot_layer.get_node("D6_INSPECT_notebook").pressed.emit()
 		view._dismiss_dialogue_for_test()
 		_expect(game.get_value("meta_progress.knowledge_entries.D6_objects_seen").size() == 5, "D6 repeat notebook does not add a sixth investigation")
