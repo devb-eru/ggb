@@ -1264,9 +1264,9 @@ func _build_kitchen() -> void:
 			_add_inventory_drop_hotspot("TEA_%d" % index, label, Rect2(320 + (index % 3) * 390, 300 + (index / 3) * 170, 330, 120), _on_tea_target_pressed.bind(index), _on_tea_item_dropped)
 	else:
 		_update_inventory([])
-		var handle_label := "찻잔 손잡이\n왼쪽 자리 방향"
+		var handle_label := _dialogue_ui_text("P4_LINK_HANDLE")
 		if bool(_progress.get("p4_handle_return_used", false)):
-			handle_label += " · 되돌아옴"
+			handle_label += _dialogue_ui_text("P4_LINK_RETURNED")
 		_add_hotspot("P4_CUP_HANDLE", handle_label, Rect2(420, 320, 440, 230), _turn_p4_cup_handle)
 		var cup := Control.new()
 		cup.set_script(load("res://scripts/prologue/prologue_cup_art.gd"))
@@ -1274,15 +1274,15 @@ func _build_kitchen() -> void:
 		cup.position = Vector2(570, 160)
 		cup.size = Vector2(140, 140)
 		_hotspot_layer.add_child(cup)
-		_add_hotspot("P4_ASK_LUCA", "루카에게 한 가지 묻는다", Rect2(1010, 340, 430, 190), _show_p4_father_choices)
+		_add_hotspot("P4_ASK_LUCA", _dialogue_ui_text("P4_LINK_ASK"), Rect2(1010, 340, 430, 190), _show_p4_father_choices)
 	if bool(_progress.get("p4_life_support_seen", false)) and not bool(_progress.get("p4_life_support_recorded", false)):
-		_add_hotspot("P4_RECORD_PULSE", "수첩에 진동을 기록한다", Rect2(710, 690, 500, 100), _record_p4_life_support_pulse)
+		_add_hotspot("P4_RECORD_PULSE", _dialogue_ui_text("P4_LINK_RECORD"), Rect2(710, 690, 500, 100), _record_p4_life_support_pulse)
 	if not _intro_seen("P4"):
 		_mark_intro("P4")
 		_add_unique("introduced", "LUCA")
 		_show_dialogue([
-			{"speaker": "루카", "portrait": "LUCA", "text": "아, 아가씨... 오셨네요... 차는 제가 준비하려고 했는데, 오늘 일과에 들어 있다고 해서요... 같이 해도 괜찮을까요?"},
-			{"speaker": "루카", "portrait": "LUCA", "text": "잔을 먼저 데우고... 찻잎은 한 스푼만. 물을 부은 뒤에는 모래시계 한 칸을 기다려 주세요..."},
+			{"speaker": "루카", "portrait": "LUCA", "text": _dialogue_ui_text("P4_LINK_INTRO")},
+			{"speaker": "루카", "portrait": "LUCA", "text": _dialogue_ui_text("P4_LINK_GUIDE")},
 		])
 	elif bool(_progress.get("P4_complete", false)) and not bool(_progress.get("iris_greeting_seen", false)):
 		call_deferred("_show_p4_iris_greeting")
@@ -1465,8 +1465,8 @@ func _show_p4_iris_greeting() -> void:
 		return
 	_add_unique("introduced", "IRIS")
 	_show_dialogue([
-		{"speaker": "이리스", "portrait": "IRIS", "text": "우후후, 아가씨도 계셨네요. 오늘도 참 평온한 얼굴이라 다행이에요."},
-		{"speaker": "이리스", "portrait": "IRIS", "text": "시간이 남으면 온실 앞에 들러 보세요. 오늘은 안쪽에만 비가 와서, 제법 예쁘답니다."},
+		{"speaker": "이리스", "portrait": "IRIS", "text": _dialogue_ui_text("P4_LINK_IRIS_HELLO")},
+		{"speaker": "이리스", "portrait": "IRIS", "text": _dialogue_ui_text("P4_LINK_IRIS_INVITE")},
 	], _complete_p4_iris_greeting)
 
 

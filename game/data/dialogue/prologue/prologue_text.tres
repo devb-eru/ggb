@@ -4,6 +4,14 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"P4_LINK_HANDLE": "찻잔 손잡이\n왼쪽 자리 방향",
+"P4_LINK_RETURNED": " · 되돌아옴",
+"P4_LINK_ASK": "루카에게 한 가지 묻는다",
+"P4_LINK_RECORD": "수첩에 진동을 기록한다",
+"P4_LINK_INTRO": "아, 아가씨... 오셨네요... 차는 제가 준비하려고 했는데, 오늘 일과에 들어 있다고 해서요... 같이 해도 괜찮을까요?",
+"P4_LINK_GUIDE": "잔을 먼저 데우고... 찻잎은 한 스푼만. 물을 부은 뒤에는 모래시계 한 칸을 기다려 주세요...",
+"P4_LINK_IRIS_HELLO": "우후후, 아가씨도 계셨네요. 오늘도 참 평온한 얼굴이라 다행이에요.",
+"P4_LINK_IRIS_INVITE": "시간이 남으면 온실 앞에 들러 보세요. 오늘은 안쪽에만 비가 와서, 제법 예쁘답니다.",
 "P4_TEA_STEP_0": "빈 잔 데우기",
 "P4_TEA_STEP_1": "데운 물 버리기",
 "P4_TEA_STEP_2": "찻잎 한 스푼",
@@ -197,6 +205,14 @@ localized_text = {
 "P1_WAKE_OBJECTIVE": "빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."
 },
 "en-US": {
+"P4_LINK_HANDLE": "Cup handle\nToward the left seat",
+"P4_LINK_RETURNED": " · returned",
+"P4_LINK_ASK": "Ask Luka one question",
+"P4_LINK_RECORD": "Record the vibration in the notebook",
+"P4_LINK_INTRO": "Oh, my lady... you're here... I was going to make the tea, but they said it was on your schedule today... Could we do it together?",
+"P4_LINK_GUIDE": "Warm the cup first... just one spoonful of tea leaves. After pouring the water, please wait for one run of the hourglass...",
+"P4_LINK_IRIS_HELLO": "Heehee, you're here too, my lady. I'm glad you look so peaceful today.",
+"P4_LINK_IRIS_INVITE": "If you have time, stop by the greenhouse. Today it's raining only inside. It's quite lovely.",
 "P4_TEA_STEP_0": "Warm the empty cup",
 "P4_TEA_STEP_1": "Discard the warming water",
 "P4_TEA_STEP_2": "Add one spoonful of tea",
