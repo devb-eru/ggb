@@ -213,8 +213,8 @@ func _build_loop_bedroom(local: Dictionary) -> void:
 func _open_mark_choices() -> void:
 	var actions: Array = []
 	for id in SESSION_SCRIPT.MARKS:
-		actions.append({"label": SESSION_SCRIPT.MARKS[id], "action": _modal_act.bind("mark", id)})
-	_show_modal("자기 표식", "다음 아침의 내가 알아볼 흔적을 남긴다.", actions)
+		actions.append({"label": _dialogue_ui_text("CH1_MARK_" + String(id).to_upper()), "action": _modal_act.bind("mark", id)})
+	_show_modal(_dialogue_ui_text("CH1_MARK_TITLE"), _dialogue_ui_text("CH1_MARK_PROMPT"), actions)
 
 
 func _open_schedule_board() -> void:
@@ -231,9 +231,9 @@ func _modal_act(action: String, value: Variant = null) -> void:
 
 
 func _confirm_sleep() -> void:
-	_show_modal("잠들기", "물건과 장치의 상태는 같은 아침으로 돌아온다. 수첩과 확인한 정보, 사용인의 기억은 남는다.", [
-		{"label": "조금 더 조사한다", "action": _close_modal},
-		{"label": "잠든다", "action": _sleep_now},
+	_show_modal(_dialogue_ui_text("CH1_SLEEP_TITLE"), _dialogue_ui_text("CH1_SLEEP_RULE"), [
+		{"label": _dialogue_ui_text("P6_CANCEL"), "action": _close_modal},
+		{"label": _dialogue_ui_text("P6_SLEEP"), "action": _sleep_now},
 	])
 
 

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="LocalizedTextCatalog" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data_types/localized_text_catalog.gd" id="1"]
+[resource]
+script = ExtResource("1")
+localized_text = {
+"ko-KR": {
+"CH1_MARK_TITLE": "자기 표식",
+"CH1_MARK_PROMPT": "다음 아침의 내가 알아볼 흔적을 남긴다.",
+"CH1_MARK_SENTENCE": "내일 아침, 이 문장을 읽어.",
+"CH1_MARK_HOUSE_GLYPH": "창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문",
+"CH1_MARK_INK_CORNER": "페이지 모서리의 잉크 한 방울",
+"CH1_SLEEP_TITLE": "잠들기",
+"CH1_SLEEP_RULE": "물건과 장치의 상태는 같은 아침으로 돌아온다. 수첩과 확인한 정보, 사용인의 기억은 남는다."
+},
+"en-US": {
+"CH1_MARK_TITLE": "A mark for myself",
+"CH1_MARK_PROMPT": "Leave a trace that I will recognize the next morning.",
+"CH1_MARK_SENTENCE": "Tomorrow morning, read this sentence.",
+"CH1_MARK_HOUSE_GLYPH": "Three windows, a pointed roof, a door leaning left",
+"CH1_MARK_INK_CORNER": "A drop of ink at the corner of the page",
+"CH1_SLEEP_TITLE": "Go to sleep",
+"CH1_SLEEP_RULE": "Objects and devices return to the same morning's state. The notebook, confirmed information, and the servants' memories remain."
+}
+}
