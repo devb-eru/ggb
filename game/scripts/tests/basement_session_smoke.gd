@@ -204,6 +204,21 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 	_expect(view.session.stage() == "D6", "Full D5 completes after final acknowledgement")
 	_expect(not game.get_value("fracture_state.broken_reset_triggered"), "D5 story does not perform broken sleep")
 	var d6_state: Dictionary = game.get_snapshot()
+	view._d6_guidance_seconds = 0.0
+	view._tick_d6_guidance(179.0)
+	_expect(not game.get_value("loop_state.event_local_states").get("D6", {}).has("guidance_checkpoint"), "D6 guidance waits three active minutes")
+	view._open_menu()
+	view._tick_d6_guidance(200.0)
+	_expect(view._d6_guidance_seconds == 179.0, "D6 menu pauses guidance")
+	view._close_modal()
+	for amount in [1.0, 120.0, 180.0]:
+		view._tick_d6_guidance(amount)
+	_expect(game.get_value("loop_state.event_local_states.D6.guidance_checkpoint") == 480, "D6 reaches all three guidance checkpoints")
+	_expect(view.session.stage() == "D6" and not game.get_value("fracture_state.broken_reset_triggered"), "D6 eight-minute guidance never forces sleep")
+	var guided: Dictionary = game.get_snapshot()
+	view._tick_d6_guidance(1000.0)
+	_expect(game.get_snapshot() == guided, "D6 completed guidance does not repeat writes")
+	view._d6_guidance_seconds = 0.0
 	for route in ["capsule", "bedroom"]:
 		_expect(StateWriter.new(game).install_snapshot(d6_state, game.revision, &"D6_ROUTE_FIXTURE").get("ok", false), "D6 route fixture installed")
 		view._render_room()

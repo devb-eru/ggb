@@ -450,6 +450,14 @@ func _d6_action(action: String, value: String) -> Dictionary:
 			return _reject("드러난 서비스 통로를 지나 침실로 간다.")
 		state["loop_state"]["location_id"] = value
 		return _commit(state, "익숙한 복도의 외피 아래로 휴식 경로가 이어진다.")
+	if action == "d6_guidance":
+		var local: Dictionary = state["loop_state"]["event_local_states"].get("D6", {}).duplicate(true)
+		var checkpoint := int(local.get("guidance_checkpoint", 0))
+		var next := 180 if checkpoint < 180 else (300 if checkpoint < 300 else 480)
+		if checkpoint >= 480 or value != str(next): return _reject("다음 안내 시점을 확인한다.")
+		local["guidance_checkpoint"] = next
+		state["loop_state"]["event_local_states"]["D6"] = local
+		return _commit(state, "")
 	if action == "d6_inspect" and room == "H0_SERVICE_SPINE":
 		var descriptions := {
 			"wall": "벗겨진 벽지 뒤 금속 격자는 기억하는 방보다 좁다. 손끝에는 종이와 금속의 경계가 동시에 닿는다.",

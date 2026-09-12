@@ -16,6 +16,8 @@ var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
 var _demo_stinger_save_failed := false
+var _d6_guidance_seconds := 0.0
+var _d6_guidance_failed := false
 const DEMO_STINGER_BEATS := [
 	"열세 번째 울림이 멎는다.\n벽의 꽃무늬는 한 박자 늦게 떨림을 멈춘다.",
 	"벽지 아래로 가느다란 배선이 드러난다.\n찢어진 것은 벽이 아니라, 벽처럼 보이던 겉면이다.",
@@ -168,6 +170,9 @@ func _render_room() -> void:
 
 
 func _build_d6_inspection() -> void:
+	var checkpoint := int(session.snapshot()["loop_state"]["event_local_states"].get("D6", {}).get("guidance_checkpoint", 0))
+	_d6_guidance_seconds = maxf(_d6_guidance_seconds, float(checkpoint))
+	set_process(checkpoint < 480 and not _d6_guidance_failed)
 	var room := String(session.snapshot()["loop_state"]["location_id"])
 	_objective_label.text = "달라진 통로를 조사하거나 쉴 곳을 선택한다"
 	if Array(session.snapshot()["meta_progress"]["knowledge_entries"].get("D6_objects_seen", [])).size() >= 2:
@@ -188,6 +193,31 @@ func _build_d6_inspection() -> void:
 	else:
 		_board_label("벽지 뒤에서 드러난 서비스 통로에 두 휴식 경로가 표시되어 있다.", Rect2(350, 280, 1200, 200))
 		_action("D6_SPINE", "드러난 서비스 통로로", Rect2(510, 600, 870, 130), "d6_move", "H0_SERVICE_SPINE", false)
+	if checkpoint >= 480:
+		_objective_label.text = "휴식 경로: 침실 또는 비상 캡슐 · 조사는 계속할 수 있다"
+	if _d6_guidance_failed:
+		_add_hotspot("D6_GUIDANCE_RETRY", "안내 기록 저장 재시도", Rect2(510, 810, 870, 70), _retry_d6_guidance)
+
+
+func _retry_d6_guidance() -> void:
+	_d6_guidance_failed = false
+	_tick_d6_guidance(0.0)
+
+
+func _tick_d6_guidance(delta: float) -> void:
+	if session.stage() != "D6" or _interaction_blocked() or _d6_guidance_failed: return
+	var checkpoint := int(session.snapshot()["loop_state"]["event_local_states"].get("D6", {}).get("guidance_checkpoint", 0))
+	if checkpoint >= 480: return
+	_d6_guidance_seconds = minf(480.0, _d6_guidance_seconds + maxf(delta, 0.0))
+	var next := 180 if checkpoint < 180 else (300 if checkpoint < 300 else 480)
+	if _d6_guidance_seconds < next: return
+	var result := session.act("d6_guidance", str(next))
+	_d6_guidance_failed = not result.get("ok", false)
+	_render_room()
+	if _d6_guidance_failed:
+		_set_status("안내 기록을 저장하지 못했다. 다시 시도하거나 조사를 계속할 수 있다.")
+	else:
+		_set_status({180: "[취침 종: 깨진 간격으로 열한 번] 아직 통로를 더 살펴볼 수 있다.", 300: "에드가 방송: 휴식 경로는 열려 있습니다. 이동 여부는 귀하가 결정하시면 됩니다.", 480: "침실 또는 가까운 비상 캡슐에서 쉴 수 있다. 지금 잠들 필요는 없다."}[next])
 
 
 func _confirm_d6_rest(route: String) -> void:
@@ -781,6 +811,9 @@ func _build_reality_surface() -> void:
 
 func _process(delta: float) -> void:
 	if not get_window().has_focus() or _interaction_blocked(): return
+	if session.stage() == "D6":
+		_tick_d6_guidance(minf(delta, 0.1))
+		return
 	if session.stage() == "D5" and SaveManager.get_build_flavor() == "demo":
 		_tick_demo_stinger(minf(delta, 0.1))
 		return
