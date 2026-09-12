@@ -1068,6 +1068,15 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 	_finish_p3_book_placement()
 
 
+func _localized_p3_choices() -> Dictionary:
+	var choices := P3_JOURNAL_CHOICES.duplicate(true)
+	for choice_id in choices:
+		choices[choice_id]["label"] = _dialogue_ui_text("P3_Q_" + String(choice_id).to_upper())
+		if choice_id != "silent":
+			choices[choice_id]["response"] = _dialogue_ui_text("P3_A_" + String(choice_id).to_upper())
+	return choices
+
+
 func _show_p3_journal_choices() -> void:
 	_p3_journal_prompt_active = true
 	_show_dialogue_choice_set(
@@ -1077,7 +1086,7 @@ func _show_p3_journal_choices() -> void:
 		_dialogue_ui_text("P3_PROMPT"),
 		"EDGAR",
 		["author", "locked", "silent"],
-		P3_JOURNAL_CHOICES
+		_localized_p3_choices()
 	)
 
 
@@ -1124,7 +1133,7 @@ func _answer_p3_journal_choice(choice_id: String) -> void:
 		_p3_journal_prompt_active = false
 		_progress["p3_journal_choice"] = "silent"
 		_save_progress()
-		_set_status("말없이 장부를 내려놓았다. 에드가는 잠금쇠가 닫힌 것을 확인한다.")
+		_set_status(_dialogue_ui_text("P3_SILENT_STATUS"))
 		_finish_p3_book_placement()
 		return
 	var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
@@ -1133,7 +1142,7 @@ func _answer_p3_journal_choice(choice_id: String) -> void:
 	_progress["p3_journal_questions_asked"] = asked_questions
 	_progress["p3_journal_choice"] = "pending"
 	_save_progress()
-	var response := String(P3_JOURNAL_CHOICES[choice_id]["response"])
+	var response := String(_localized_p3_choices()[choice_id]["response"])
 	_show_dialogue([
 		{"speaker": "에드가", "portrait": "EDGAR", "text": response},
 	], _show_p3_journal_choices)

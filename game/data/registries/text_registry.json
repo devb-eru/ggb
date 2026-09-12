@@ -3,6 +3,12 @@
   "fallback_locale": "ko-KR",
   "supported_locales": ["ko-KR", "en-US"],
   "entries": {
+    "P3_Q_AUTHOR": {"speaker_id": "SYSTEM", "variables": {}},
+    "P3_Q_LOCKED": {"speaker_id": "SYSTEM", "variables": {}},
+    "P3_Q_SILENT": {"speaker_id": "SYSTEM", "variables": {}},
+    "P3_A_AUTHOR": {"speaker_id": "SYSTEM", "variables": {}},
+    "P3_A_LOCKED": {"speaker_id": "SYSTEM", "variables": {}},
+    "P3_SILENT_STATUS": {"speaker_id": "SYSTEM", "variables": {}},
     "P3_INTRO": {"speaker_id": "SYSTEM", "variables": {}},
     "P3_RESTRICTED": {"speaker_id": "SYSTEM", "variables": {}},
     "P3_SELECT": {"speaker_id": "SYSTEM", "variables": {}},
