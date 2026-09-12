@@ -134,12 +134,22 @@ func _validate_full_transition() -> void:
 	import_screen._import_confirm.disabled = false
 	var requested: Array[String] = []
 	import_screen.load_game_requested.connect(func(id: String): requested.append(id))
+	var bootstrap := tree.current_scene
+	import_screen.load_game_requested.connect(bootstrap._on_load_game_requested)
 	import_screen._import_confirm.pressed.emit()
+	await tree.process_frame
 	_expect(requested.size() == 1, "Import confirmation emits exactly one load request")
 	_expect(not import_screen._import_controls.visible, "Successful import closes confirmation")
 	if requested.size() == 1:
-		_expect(LoadCoordinator.new(game,saves).load_and_install(requested[0]).get("ok",false), "UI imported slot passes regular loader")
-		_expect(SESSION.new(game,saves,requested[0]).stage() == "D6", "UI imported slot resumes D6")
+		var campaign := bootstrap.get_node_or_null("Basement")
+		_expect(campaign != null, "Import load signal launches actual campaign scene")
+		if campaign != null:
+			_expect(campaign.session.stage() == "D6", "Imported campaign scene resumes D6")
+			_expect(campaign._slot_id == requested[0], "Campaign uses imported slot, not demo source")
+		_expect(not bootstrap.get_node("%StartScreen").visible, "Import launch hides product title")
+		bootstrap._on_prologue_return_to_title()
+		await tree.process_frame
+		_expect(bootstrap.get_node("%StartScreen").visible, "Imported campaign returns to title")
 		saves.delete_test_slot(requested[0])
 	_expect(FileAccess.get_file_as_bytes(demo_path) == demo_bytes, "UI import preserves demo bytes")
 	import_screen.queue_free()
