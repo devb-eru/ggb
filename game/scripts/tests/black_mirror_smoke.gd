@@ -219,6 +219,8 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 			(view._modal_body.get_node("CleanerQuantityTable") as Button).pressed.emit()
 			var quantity_body := view._modal_body.get_child(2).get_child(0) as Label
 			_expect(quantity_body.text.contains("45"), "quantity table initially shows unfiltered candidates")
+			_expect(view._modal_body.get_child(0).get_theme_font_size("font_size") == 68, "common modal title scales to 200 percent")
+			_expect(view._modal_body.get_child(3).get_theme_font_size("font_size") == 42, "common modal action scales to 200 percent")
 			var ratio := view._modal_body.get_node("QuantityRatio") as CheckButton
 			var difference := view._modal_body.get_node("QuantityWaterDifference") as CheckButton
 			_expect(ratio.get_theme_font_size("font_size") == 42, "quantity filters respect 200 percent text")
@@ -250,6 +252,9 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 			_expect(quantity_scroll.scroll_vertical > 0, "Page Down reaches candidate rows at large text")
 			view._close_modal()
 			view._apply_reading_text_scale(old_scale)
+			view._show_modal("확인", "기본 배율 복귀", [{"label": "닫기", "action": view._close_modal}])
+			_expect(view._modal_panel.position == Vector2(510, 190), "normal text restores normal modal placement")
+			view._close_modal()
 			_expect(GameState.get_snapshot() == hint_state, "quantity table never pours or changes state")
 		view._open_notebook()
 		var hints := view._modal_body.get_node_or_null("ClockHintsButton") as Button

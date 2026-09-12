@@ -2011,7 +2011,9 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 		child.queue_free()
 	var title_label := Label.new()
 	title_label.text = title
-	title_label.add_theme_font_size_override("font_size", 34)
+	_place(_modal_panel, Rect2(300, 90, 1320, 900) if _reading_text_scale >= 1.5 else Rect2(510, 190, 900, 700))
+	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title_label.add_theme_font_size_override("font_size", int(round(34 * _reading_text_scale)))
 	title_label.add_theme_color_override("font_color", Color(0.94, 0.72, 0.44))
 	_modal_body.add_child(title_label)
 	var rule := HSeparator.new()
@@ -2035,7 +2037,8 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 		var button := Button.new()
 		button.text = String(action.get("label", "확인"))
 		button.custom_minimum_size = Vector2(0, 58)
-		button.add_theme_font_size_override("font_size", 21)
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
 		button.add_theme_stylebox_override("normal", _style(Color(0.10, 0.035, 0.11, 0.98), Color(0.66, 0.35, 0.34, 0.95), 3, 7))
 		button.pressed.connect(action.get("action", _close_modal))
 		_modal_body.add_child(button)
