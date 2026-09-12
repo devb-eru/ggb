@@ -20,6 +20,19 @@ class RejectThirdSave extends Node:
 		return delegate.save_snapshot(slot, point, state, revision, transaction)
 
 
+func _press_key(tree: SceneTree, key: Key) -> void:
+	var event := InputEventKey.new()
+	event.keycode = key
+	event.physical_keycode = key
+	event.pressed = true
+	Input.parse_input_event(event)
+	await tree.process_frame
+	event = event.duplicate()
+	event.pressed = false
+	Input.parse_input_event(event)
+	await tree.process_frame
+
+
 func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	GameState.reset_for_test()
@@ -517,6 +530,21 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	_expect(session.local_state()["roles"].get("reference", "") == "parlor", "real role control persists player input")
 	_expect(view._status_label.text.is_empty(), "successful puzzle action clears stale error feedback")
 	_expect(tree.root.gui_get_focus_owner() == view._hotspot_layer.get_node("ROLE_reference"), "role selection preserves keyboard focus")
+	view._hotspot_layer.get_node("PHASE_1").grab_focus()
+	await _press_key(tree, KEY_SPACE)
+	_expect(session.local_state()["phase"] == "0", "keyboard selects a distinct starting phase")
+	view._hotspot_layer.get_node("PHASE_2").grab_focus()
+	await _press_key(tree, KEY_SPACE)
+	_expect(session.local_state()["phase"] == "+1", "Space on phase button persists timing selection through input pipeline")
+	_expect(tree.root.gui_get_focus_owner() == view._hotspot_layer.get_node("PHASE_2"), "phase selection restores keyboard focus after redraw")
+	var before_keyboard_confirm := GameState.get_snapshot()
+	view._hotspot_layer.get_node("B3_ACTIVATE").grab_focus()
+	await _press_key(tree, KEY_SPACE)
+	_expect(view._modal_active, "Space opens actual activation confirmation")
+	_expect(GameState.get_snapshot() == before_keyboard_confirm, "opening activation warning does not run clock")
+	await _press_key(tree, KEY_ESCAPE)
+	_expect(not view._modal_active and GameState.get_snapshot() == before_keyboard_confirm, "Escape cancels activation without bending pin or changing timing")
+	_expect(tree.root.gui_get_focus_owner() == view._hotspot_layer.get_node("B3_ACTIVATE"), "cancelled activation restores triggering button focus")
 	if "--capture-chapter-one" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		var capture := tree.root.get_texture().get_image()
