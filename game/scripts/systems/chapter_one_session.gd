@@ -364,24 +364,7 @@ func available_rooms() -> Array:
 
 
 func record_viewed_line(speaker: String, text: String, locale: String) -> Dictionary:
-	if text.is_empty():
-		return {"ok": true}
-	var state := snapshot()
-	var history: Dictionary = state["meta_progress"]["dialogue_history"]
-	var sequence := int(history["next_sequence"])
-	history["entries"].append({
-		"sequence": sequence, "line_id": "CH1_HISTORY_TRANSCRIPT", "speaker_id": "SYSTEM",
-		"variables": {"speaker": speaker, "text": text}, "viewed_locale": locale,
-	})
-	history["next_sequence"] = sequence + 1
-	var transaction := StringName("CH1_HISTORY_R%06d" % (_game.revision + 1))
-	var installed := _writer.install_snapshot(state, _game.revision, transaction)
-	if not installed.get("ok", false):
-		return installed
-	var saved: Dictionary = _save.save_snapshot(slot_id, _save_point(state), _game.get_snapshot(), _game.revision, String(transaction))
-	if not saved.get("ok", false):
-		_game.rollback_failed_persistence(installed["previous_snapshot"], int(installed["revision"]), transaction, &"ERR_DIALOGUE_HISTORY_SAVE")
-	return saved
+	return preload("res://scripts/systems/dialogue_history_writer.gd").record(_game, _save, slot_id, _save_point(snapshot()), speaker, text, locale)
 
 
 func _rooms_connected(from: String, to: String, knowledge: Dictionary) -> bool:

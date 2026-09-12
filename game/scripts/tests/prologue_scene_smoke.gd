@@ -416,6 +416,19 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	await tree.process_frame
 	prologue._dismiss_dialogue_for_test()
 	var before_failed_sleep: Dictionary = prologue._progress.duplicate(true)
+	var history_count: int = GameState.get_value(&"meta_progress.dialogue_history.entries", []).size()
+	var before_point := String(SaveManager.inspect_slot(RESET_TEST_SLOT).get("save_point_id", ""))
+	prologue._show_dialogue([{"speaker": "주인공", "text": "Prologue shown line"}, {"speaker": "주인공", "text": "Prologue unseen line"}])
+	_expect(GameState.get_value(&"meta_progress.dialogue_history.entries", []).size() == history_count + 1, "Prologue only records displayed sentence", errors)
+	_expect(SaveManager.inspect_slot(RESET_TEST_SLOT).get("save_point_id", "") == before_point, "Prologue history preserves existing save point", errors)
+	prologue._dismiss_dialogue_for_test()
+	var before_history_menu := GameState.get_snapshot()
+	prologue._open_menu()
+	(prologue._modal_body.get_child(4) as Button).pressed.emit()
+	var history_body := (prologue._modal_body.get_child(2).get_child(0) as Label).text
+	_expect(history_body.contains("Prologue shown line") and not history_body.contains("Prologue unseen line"), "Prologue menu displays viewed history only", errors)
+	(prologue._modal_body.get_child(3) as Button).pressed.emit()
+	_expect(GameState.get_snapshot() == before_history_menu, "Prologue history menu is read only", errors)
 	prologue._slot_id = "../invalid_sleep_slot"
 	prologue._begin_first_sleep()
 	_expect(prologue._progress == before_failed_sleep, "Failed sleep restores local completion and notes", errors)
@@ -426,6 +439,7 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	_expect(not GameState.get_value(&"meta_progress.knowledge_entries", {}).get("PROLOGUE_COMPLETE", false), "Later ordinary save does not leak failed completion", errors)
 	prologue._begin_first_sleep()
 	_expect(prologue._progress.get("P6_complete", false) and prologue._dialogue_active, "Sleep can be retried after saving recovers", errors)
+	_expect(SaveManager.inspect_slot(RESET_TEST_SLOT).get("save_point_id", "") == "SAVE_P6_COMPLETE", "Sleep dialogue history does not overwrite P6 boundary", errors)
 	prologue._dismiss_dialogue_for_test()
 	prologue._progress["P6_complete"] = true
 	prologue._progress["introduced"] = ["EDGAR", "MARA1", "MARA2", "LUCA", "IRIS"]

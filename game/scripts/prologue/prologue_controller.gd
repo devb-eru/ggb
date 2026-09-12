@@ -140,6 +140,7 @@ var _fade: ColorRect
 
 var _dialogue_lines: Array = []
 var _dialogue_index := 0
+var _prologue_history_index := -1
 var _dialogue_after := Callable()
 var _dialogue_active := false
 var _modal_active := false
@@ -1701,6 +1702,7 @@ func _refresh_inventory_selection() -> void:
 
 
 func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
+	_prologue_history_index = -1
 	_hide_dialogue_choices()
 	_dialogue_lines = lines.duplicate(true)
 	_dialogue_index = 0
@@ -1742,6 +1744,24 @@ func _present_dialogue_line() -> void:
 	_dialogue_next.visible = true
 	_dialogue_next.text = _dialogue_ui_text("UI_DIALOGUE_FINISH" if _dialogue_index >= _dialogue_lines.size() - 1 else "UI_DIALOGUE_CONTINUE")
 	call_deferred("_focus_visible_control", weakref(_dialogue_next))
+	_record_prologue_history()
+
+
+func _uses_prologue_history() -> bool:
+	return not _test_mode
+
+
+func _record_prologue_history() -> bool:
+	if not _uses_prologue_history() or not _dialogue_active or _prologue_history_index == _dialogue_index:
+		return true
+	var slot := SaveManager.inspect_slot(_slot_id)
+	var point := String(slot.get("save_point_id", "SAVE_NEW_GAME"))
+	var result := preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState, SaveManager, _slot_id, point, _speaker_label.text, _dialogue_label.text, TranslationServer.get_locale())
+	if not result.get("ok", false):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return false
+	_prologue_history_index = _dialogue_index
+	return true
 
 
 func _set_dialogue_portrait(portrait_id: String) -> void:
@@ -1824,6 +1844,8 @@ func _handle_dialogue_choice_cancel() -> void:
 
 
 func _advance_dialogue() -> void:
+	if not _record_prologue_history():
+		return
 	if not _dialogue_active:
 		return
 	_dialogue_index += 1
@@ -1849,10 +1871,26 @@ func _dismiss_dialogue_for_test() -> void:
 func _open_menu() -> void:
 	if _dialogue_active or _dialogue_choice_active:
 		return
+	if _uses_prologue_history():
+		_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
+			{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
+			{"label": _dialogue_ui_text("CH1_HISTORY_TITLE"), "action": _open_dialogue_history},
+			{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
+		])
+		return
 	_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
 		{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
 		{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
 	])
+
+
+func _open_dialogue_history() -> void:
+	var result := _dialogue_texts.render_history(GameState.get_value(&"meta_progress.dialogue_history", {}), TranslationServer.get_locale())
+	var paragraphs: Array[String] = []
+	for entry in result.get("entries", []):
+		paragraphs.append(String(entry["text"]))
+	var body := "\n\n".join(paragraphs) if not paragraphs.is_empty() else _dialogue_ui_text("CH1_HISTORY_EMPTY")
+	_show_modal(_dialogue_ui_text("CH1_HISTORY_TITLE"), body, [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
 
 
 func _localized_notebook_entry(entry: String) -> String:

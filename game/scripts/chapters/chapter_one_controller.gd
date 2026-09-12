@@ -83,6 +83,10 @@ func _history_enabled() -> bool:
 	return session != null and session.get_script() in HISTORY_SESSIONS
 
 
+func _uses_prologue_history() -> bool:
+	return false
+
+
 func _present_dialogue_line() -> void:
 	super._present_dialogue_line()
 	_record_current_history_line()
