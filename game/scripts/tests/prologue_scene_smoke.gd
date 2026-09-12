@@ -93,6 +93,31 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._advance_dialogue()
 	_expect("leave the order to you" in prologue._dialogue_label.text, "English duty order explanation", errors)
 	prologue._advance_dialogue()
+	for mask in range(8):
+		var flags := ["P2_complete", "P3_complete", "P3B_complete"]
+		var count := 0
+		for index in range(flags.size()):
+			prologue._progress[flags[index]] = bool(mask & (1 << index))
+			count += int(prologue._progress[flags[index]])
+		prologue._progress["tea_step"] = 0
+		prologue._enter_room("M1_CENTRAL_HALL")
+		_expect(prologue._hotspot_layer.has_node("KITCHEN") == (count == 3), "Kitchen gate for completion mask %d" % mask, errors)
+		if count < 3:
+			_expect(prologue._objective_label.text == "Morning duties %d / 3 · choose any order" % count, "Localized count for mask %d" % mask, errors)
+			prologue._report_tasks()
+			var names := ["Parlor", "Outer library", "North corridor"]
+			for index in range(flags.size()):
+				_expect((names[index] in prologue._dialogue_label.text) == not prologue._progress[flags[index]], "Report lists only unfinished duty", errors)
+			prologue._advance_dialogue()
+		else:
+			_expect(prologue._objective_label.text == "Prepare tea in the kitchen", "Tea objective after all duties", errors)
+		_expect(prologue._hotspot_layer.get_node("PARLOR").text.ends_with("Complete" if prologue._progress["P2_complete"] else "Pending"), "Localized task state", errors)
+	prologue._progress["tea_step"] = prologue.TEA_STEPS.size()
+	prologue._update_objective()
+	_expect("ask Luka one question" in prologue._objective_label.text, "Tea memory objective", errors)
+	prologue._progress["P4_complete"] = true
+	prologue._update_objective()
+	_expect("greenhouse optional" in prologue._objective_label.text, "Evening remains optional", errors)
 	for pair in [["주인공", "Protagonist"], ["마라 1", "Mara 1"], ["마라 2", "Mara 2"], ["루카", "Luka"], ["이리스", "Iris"]]:
 		_expect(prologue._localized_speaker(pair[0]) == pair[1], "English speaker " + pair[0], errors)
 	_expect(prologue._localized_speaker("Unknown witness") == "Unknown witness", "Unknown speaker remains visible", errors)

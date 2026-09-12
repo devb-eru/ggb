@@ -744,13 +744,13 @@ func _complete_p1() -> void:
 func _build_hall() -> void:
 	var morning_complete := _morning_tasks_complete()
 	if not bool(_progress.get("P4_complete", false)):
-		_add_hotspot("PARLOR", _task_label("대응접실 · 창문", "P2_complete"), Rect2(110, 410, 350, 180), _enter_room.bind("M1_PARLOR"))
-		_add_hotspot("LIBRARY", _task_label("외부 서고 · 책", "P3_complete"), Rect2(1120, 445, 300, 180), _enter_room.bind("M1_LIBRARY_OUTER"))
-		_add_hotspot("ARCHIVE", _task_label("북쪽 회랑 · 초상화", "P3B_complete"), Rect2(690, 240, 350, 150), _enter_room.bind("M1_NORTH_ARCHIVE_HALL"))
+		_add_hotspot("PARLOR", _task_label(_dialogue_ui_text("UI_DUTY_PARLOR"), "P2_complete"), Rect2(110, 410, 350, 180), _enter_room.bind("M1_PARLOR"))
+		_add_hotspot("LIBRARY", _task_label(_dialogue_ui_text("UI_DUTY_LIBRARY"), "P3_complete"), Rect2(1120, 445, 300, 180), _enter_room.bind("M1_LIBRARY_OUTER"))
+		_add_hotspot("ARCHIVE", _task_label(_dialogue_ui_text("UI_DUTY_ARCHIVE"), "P3B_complete"), Rect2(690, 240, 350, 150), _enter_room.bind("M1_NORTH_ARCHIVE_HALL"))
 		if morning_complete:
-			_add_hotspot("KITCHEN", "주방 · 차 준비", Rect2(1430, 430, 260, 180), _enter_room.bind("M1_KITCHEN"))
+			_add_hotspot("KITCHEN", _dialogue_ui_text("UI_DUTY_KITCHEN"), Rect2(1430, 430, 260, 180), _enter_room.bind("M1_KITCHEN"))
 		else:
-			_add_hotspot("REPORT", "에드가에게 보고", Rect2(760, 650, 360, 105), _report_tasks)
+			_add_hotspot("REPORT", _dialogue_ui_text("UI_DUTY_REPORT"), Rect2(760, 650, 360, 105), _report_tasks)
 		return
 
 	_progress["time_block"] = "evening_free"
@@ -762,10 +762,10 @@ func _build_hall() -> void:
 
 func _report_tasks() -> void:
 	var missing: Array[String] = []
-	for pair in [["P2_complete", "대응접실 창문"], ["P3_complete", "외부 서고 책"], ["P3B_complete", "북쪽 회랑 초상화"]]:
+	for pair in [["P2_complete", "UI_DUTY_PARLOR"], ["P3_complete", "UI_DUTY_LIBRARY"], ["P3B_complete", "UI_DUTY_ARCHIVE"]]:
 		if not bool(_progress.get(pair[0], false)):
-			missing.append(pair[1])
-	_show_dialogue([{"speaker": "에드가", "portrait": "EDGAR", "text": "아직 남은 일과가 있습니다. %s. 순서는 자유지만 확인 없이 넘길 수는 없습니다." % ", ".join(missing)}])
+			missing.append(_dialogue_ui_text(pair[1]))
+	_show_dialogue([{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("UI_DUTY_REMAINING", {"tasks": ", ".join(missing)})}])
 
 
 func _build_parlor() -> void:
@@ -1652,8 +1652,8 @@ func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 		_present_dialogue_line()
 
 
-func _dialogue_ui_text(text_id: String) -> String:
-	return DialogueRepository.new().get_text(text_id, TranslationServer.get_locale())
+func _dialogue_ui_text(text_id: String, variables: Dictionary = {}) -> String:
+	return DialogueRepository.new().get_text(text_id, TranslationServer.get_locale(), variables)
 
 
 func _localized_speaker(speaker: String) -> String:
@@ -1925,21 +1925,21 @@ func _morning_tasks_complete() -> bool:
 
 func _update_objective() -> void:
 	if not bool(_progress.get("P1_complete", false)):
-		_objective_label.text = "침실을 살펴보고 아침 일과를 시작한다"
+		_objective_label.text = _dialogue_ui_text("UI_OBJECTIVE_P1")
 	elif not _morning_tasks_complete():
 		var count := int(bool(_progress.get("P2_complete", false))) + int(bool(_progress.get("P3_complete", false))) + int(bool(_progress.get("P3B_complete", false)))
-		_objective_label.text = "아침 일과 %d / 3 · 순서는 자유" % count
+		_objective_label.text = _dialogue_ui_text("UI_OBJECTIVE_MORNING", {"count": count})
 	elif not bool(_progress.get("P4_complete", false)):
 		if int(_progress.get("tea_step", 0)) >= TEA_STEPS.size():
-			_objective_label.text = "찻잔의 기억을 확인하고 루카에게 한 가지 묻는다"
+			_objective_label.text = _dialogue_ui_text("UI_OBJECTIVE_TEA_MEMORY")
 		else:
-			_objective_label.text = "주방에서 차를 준비한다"
+			_objective_label.text = _dialogue_ui_text("UI_OBJECTIVE_TEA")
 	else:
-		_objective_label.text = "저녁 자유 조사 · 온실은 선택 · 침실에서 하루 종료"
+		_objective_label.text = _dialogue_ui_text("UI_OBJECTIVE_EVENING")
 
 
 func _task_label(label: String, flag: String) -> String:
-	return "%s\n%s" % [label, "완료" if bool(_progress.get(flag, false)) else "미완료"]
+	return "%s\n%s" % [label, _dialogue_ui_text("UI_DUTY_COMPLETE" if bool(_progress.get(flag, false)) else "UI_DUTY_PENDING")]
 
 
 func _window_stage_name(stage: int) -> String:
