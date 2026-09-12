@@ -150,6 +150,7 @@ func run(tree: SceneTree) -> Dictionary:
 	await _validate_game_key_settings(tree, prologue, errors)
 	_expect(audio_requests.count(&"AUD_SIG_LUCA") == 2, "P4 pulse dispatches on first presentation and simulated interrupted resume only", errors)
 	_expect("M1_KITCHEN" in room_requests, "kitchen entry requests ambience", errors)
+	await _validate_p4_pulse_art(tree, prologue, errors)
 	var original_locale := TranslationServer.get_locale()
 	TranslationServer.set_locale("en_US")
 	prologue._show_p1_intro()
@@ -427,6 +428,29 @@ func run(tree: SceneTree) -> Dictionary:
 	await _validate_p4_resume_and_choices(tree, errors)
 	await _validate_reset_integration(tree, errors)
 	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _validate_p4_pulse_art(tree: SceneTree, prologue: Node, errors: PackedStringArray) -> void:
+	var before: Dictionary = prologue._progress.duplicate(true)
+	prologue._show_dialogue([{"speaker": "SYSTEM", "p4_pulse": "pulse", "text": prologue._dialogue_ui_text("P4_MEMORY_PULSE")}])
+	var art = prologue._dialogue_layer.get_node("P4_PULSE_ART")
+	_expect(art.visible and art.mouse_filter == Control.MOUSE_FILTER_IGNORE, "P4 pulse illustration does not intercept input", errors)
+	_expect(art.pulse_at(0.325, 0.0) > 0.99 and art.pulse_at(1.225, 0.9) > 0.99, "P4 paired pulse peaks", errors)
+	_expect(art.pulse_at(1.5, 2.05) == 0.0 and art.pulse_at(2.375, 2.05) > 0.99, "P4 floor response follows paired pulse", errors)
+	art.present("reply", true)
+	_expect(not art.is_processing() and art.visible, "P4 reduced motion uses static illustration", errors)
+	var old_size := tree.root.size
+	prologue._apply_reading_text_scale(2.0)
+	if CAPTURE_ARG in OS.get_cmdline_user_args():
+		tree.root.size = Vector2i(1280, 720)
+		await _capture_view(tree, "user://p4_pulse_200.png", "P4_PULSE_CAPTURE")
+		tree.root.size = old_size
+	prologue._apply_reading_text_scale(1.0)
+	prologue._advance_dialogue()
+	prologue._show_dialogue([{"speaker": "SYSTEM", "text": "Following scene"}])
+	_expect(not art.visible and not art.is_processing(), "P4 illustration removed on unrelated dialogue", errors)
+	prologue._dismiss_dialogue_for_test()
+	_expect(prologue._progress == before, "P4 visual timing does not change progress", errors)
 
 
 func _capture_view(tree: SceneTree, path: String, marker: String) -> void:

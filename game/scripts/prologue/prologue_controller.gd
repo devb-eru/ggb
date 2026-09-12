@@ -1435,9 +1435,9 @@ func _resume_p4_life_support_foreshadow() -> void:
 	if _interaction_blocked() or _current_room != "M1_KITCHEN" or not bool(_progress.get("p4_life_support_pending", false)):
 		return
 	_show_dialogue([
-		{"speaker": "SYSTEM", "audio_cue": "AUD_SIG_LUCA", "text": _dialogue_ui_text("P4_MEMORY_PULSE")},
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_EARS")},
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_REPLY")},
+		{"speaker": "SYSTEM", "p4_pulse": "pulse", "audio_cue": "AUD_SIG_LUCA", "text": _dialogue_ui_text("P4_MEMORY_PULSE")},
+		{"speaker": "SYSTEM", "p4_pulse": "ears", "text": _dialogue_ui_text("P4_MEMORY_EARS")},
+		{"speaker": "SYSTEM", "p4_pulse": "reply", "text": _dialogue_ui_text("P4_MEMORY_REPLY")},
 	], _complete_p4_life_support_foreshadow)
 
 
@@ -1836,6 +1836,17 @@ func _localized_speaker(speaker: String) -> String:
 
 func _present_dialogue_line() -> void:
 	var line: Dictionary = _dialogue_lines[_dialogue_index]
+	var pulse_art := _dialogue_layer.get_node_or_null("P4_PULSE_ART")
+	if line.has("p4_pulse") and pulse_art == null:
+		pulse_art = Control.new()
+		pulse_art.set_script(preload("res://scripts/prologue/prologue_pulse_art.gd"))
+		pulse_art.name = "P4_PULSE_ART"
+		pulse_art.position = Vector2(640, 230)
+		pulse_art.size = Vector2(640, 280)
+		_dialogue_layer.add_child(pulse_art)
+	if pulse_art != null:
+		var pulse_profile: Dictionary = AccessibilityProfileStore.new().load_profile().get("profile", {})
+		pulse_art.present(String(line.get("p4_pulse", "")), String(pulse_profile.get("motion_mode", "standard")) != "standard")
 	if _audio_dialogue_index != _dialogue_index:
 		_audio_dialogue_index = _dialogue_index
 		if line.has("audio_cue"):
