@@ -343,6 +343,9 @@ func _sleep_now() -> void:
 
 
 func _localized_notebook_entry(entry: String) -> String:
+	for text_id in ["CH1_B4_RECORDED", "CH1_J2_RESTORED"]:
+		if entry == _dialogue_texts.get_text(text_id, "ko-KR"):
+			return _dialogue_ui_text(text_id)
 	for category in ["REFERENCE", "RELAY", "OUTPUT", "EXCLUDED", "PHASE_TOO_EARLY", "PHASE_SIMULTANEOUS", "PHASE_BETWEEN", "PHASE_UNSET"]:
 		var text_id: String = "CH1_CLOCK_FAILURE_" + category + "_NOTE"
 		if entry == _dialogue_texts.get_text(text_id, "ko-KR"):
@@ -373,9 +376,9 @@ func _build_inner(local: Dictionary, journal: int) -> void:
 		_action("J1_CLEAR", _dialogue_ui_text("CH1_J1_CLEAR"), Rect2(450, 768, 450, 75), "j1_clear", null, false)
 		_action("J1_RESTORE", _dialogue_ui_text("CH1_J1_VERIFY"), Rect2(990, 768, 450, 75), "j1_restore")
 	elif session.known("b4_waveform_acquired") and journal < 2:
-		_board_label("페이지: 긴 홈이 위에서 시작 → 두 문장으로 갈라짐 → 바깥 문단을 감쌈\n투명지 시작점: " + _direction(int(local["wave_rotation"])), Rect2(260, 390, 1370, 190))
-		_action("B5_ROTATE", "투명지 90° 회전", Rect2(300, 650, 580, 95), "wave_rotate", null, false)
-		_action("J2_RESTORE", "세 눌림 구간 대조", Rect2(990, 650, 580, 95), "restore_j2")
+		_board_label(_dialogue_ui_text("CH1_J2_BOARD") + _direction(int(local["wave_rotation"])), Rect2(260, 390, 1370, 190))
+		_action("B5_ROTATE", _dialogue_ui_text("CH1_J2_ROTATE"), Rect2(300, 650, 580, 95), "wave_rotate", null, false)
+		_action("J2_RESTORE", _dialogue_ui_text("CH1_J2_COMPARE"), Rect2(990, 650, 580, 95), "restore_j2")
 	else:
 		_add_hotspot("JOURNAL_READ", _dialogue_ui_text("CH1_J1_READ"), Rect2(440, 520, 950, 150), _open_notebook)
 
@@ -414,7 +417,7 @@ func _build_great_clock(local: Dictionary) -> void:
 		_board_label(_dialogue_ui_text("CH1_CLOCK_LOCKED"), Rect2(300, 340, 1290, 230))
 		return
 	if local["signal_generated"] or session.known("b4_waveform_acquired"):
-		_action("B4_RECORD", "공명통의 세 파형을 투명지에 기록", Rect2(440, 330, 1030, 220), "record_wave")
+		_action("B4_RECORD", _dialogue_ui_text("CH1_B4_RECORD"), Rect2(440, 330, 1030, 220), "record_wave")
 		return
 	if local["rubbed"].size() < 4:
 		_clock_hotspot()

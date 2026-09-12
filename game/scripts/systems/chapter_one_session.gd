@@ -329,22 +329,23 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			text = "같은 침실에서 일과를 마쳤다. 기록해 둔 순서로 네 방의 탁본을 새로 뜨고, 검증한 배선과 역할만 다시 놓는다. 전달 시점은 직접 정한다."
 		"record_wave":
 			if room != "M1_GREAT_CLOCK" or not local["signal_generated"]:
-				return _reject("공명통에 신호가 남아 있어야 파형을 기록할 수 있다.")
+				return _reject("공명통에 신호가 남아 있어야 파형을 기록할 수 있다.", "CH1_B4_NEED_SIGNAL")
 			knowledge["b4_waveform_acquired"] = true
 			knowledge["thirteenth_bell_known"] = true
 			if meta["failure_knowledge"].has("B3_B"):
 				meta["failure_knowledge"]["B3_B"]["status"] = "resolved"
 			text = "길고 낮은 진입파, 짧게 갈라지는 두 반사파, 바깥을 닫는 느린 잔류파를 투명지에 기록했다."
 			_note(knowledge, "B4", text)
+			text_id = "CH1_B4_RECORDED"
 		"wave_rotate", "restore_j2":
 			if int(meta["journal_stage"]) >= 2:
-				return _reject("두 번째 페이지는 이미 복원되어 있다. 수첩에서 다시 읽는다.")
+				return _reject("두 번째 페이지는 이미 복원되어 있다. 수첩에서 다시 읽는다.", "CH1_J2_ALREADY")
 			if room != "M1_LIBRARY_INNER" or not knowledge.get("b4_waveform_acquired", false) or local["edgar_state"] != "absent":
-				return _reject("기록 내실의 두 번째 페이지와 수첩의 파형이 필요하다.")
+				return _reject("기록 내실의 두 번째 페이지와 수첩의 파형이 필요하다.", "CH1_J2_NEED_PAGE")
 			if action == "wave_rotate":
 				local["wave_rotation"] = (int(local["wave_rotation"]) + 90) % 360
 			elif int(local["wave_rotation"]) != 0:
-				return _reject("진입파가 긴 홈과 어긋난다. 반사파의 두 갈래와 마지막 문단을 함께 비교한다.")
+				return _reject("진입파가 긴 홈과 어긋난다. 반사파의 두 갈래와 마지막 문단을 함께 비교한다.", "CH1_J2_MISALIGNED")
 			else:
 				meta["journal_stage"] = 2
 				knowledge["j2_restored_day"] = int(loop["day_index"])
@@ -352,6 +353,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				knowledge["KN_J2_BELL_IS_SIGNAL"] = true
 				knowledge["KN_J2_WAVE_SEGMENTS"] = true
 				text = J2_TEXT
+				text_id = "CH1_J2_RESTORED"
 				_note(knowledge, "J2", text)
 		_:
 			return _reject("정의되지 않은 행동이다: " + action)
