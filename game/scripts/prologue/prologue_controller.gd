@@ -620,12 +620,14 @@ func _apply_reading_text_scale(scale: float) -> void:
 
 func _show_p1_intro() -> void:
 	_add_unique("introduced", "EDGAR")
+	var texts := DialogueRepository.new()
+	var locale := TranslationServer.get_locale()
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": "커튼 사이의 아침빛이 눈꺼풀보다 먼저 같은 자리를 밝힌다."},
-		{"speaker": "SYSTEM", "text": "[문밖] 레이피어 끝이 바닥에 닿고, 정확히 세 번의 노크가 이어진다."},
-		{"speaker": "에드가", "portrait": "EDGAR", "text": "기상 시각입니다, 아가씨. 오늘 일정은 준비되어 있습니다."},
-		{"speaker": "에드가", "portrait": "EDGAR", "text": "방 안을 확인하신 뒤 나와 주십시오. 대응접실의 창문, 외부 서고의 책, 북쪽 기록 회랑의 초상화를 부탁드립니다."},
-	], func() -> void: _set_status("빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."))
+		{"speaker": "SYSTEM", "text": texts.get_text(&"P1_WAKE_LIGHT", locale)},
+		{"speaker": "SYSTEM", "text": texts.get_text(&"P1_WAKE_KNOCK", locale)},
+		{"speaker": "에드가", "portrait": "EDGAR", "text": texts.get_text(&"P1_WAKE_EDGAR", locale)},
+		{"speaker": "에드가", "portrait": "EDGAR", "text": texts.get_text(&"P1_WAKE_TASKS", locale)},
+	], func() -> void: _set_status(texts.get_text(&"P1_WAKE_OBJECTIVE", locale)))
 
 
 func _enter_room(room_id: String) -> void:

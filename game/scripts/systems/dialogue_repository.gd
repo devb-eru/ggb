@@ -4,6 +4,7 @@ extends RefCounted
 const TEXT_REGISTRY := "res://data/registries/text_registry.json"
 const TEXT_CATALOG := preload("res://data/dialogue/system/foundation_text_catalog.tres")
 const TITLE_EXTENSION := preload("res://data/dialogue/system/title_extension_text.tres")
+const PROLOGUE_TEXT := preload("res://data/dialogue/prologue/prologue_text.tres")
 const VARIABLE_TYPES := {
 	"string": TYPE_STRING,
 	"int": TYPE_INT,
@@ -126,7 +127,7 @@ func _load_registry() -> void:
 
 
 func _load_sources() -> void:
-	for catalog in [TEXT_CATALOG, TITLE_EXTENSION]:
+	for catalog in [TEXT_CATALOG, TITLE_EXTENSION, PROLOGUE_TEXT]:
 		_load_catalog(catalog)
 
 

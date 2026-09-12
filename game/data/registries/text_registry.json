@@ -3,6 +3,11 @@
   "fallback_locale": "ko-KR",
   "supported_locales": ["ko-KR", "en-US"],
   "entries": {
+    "P1_WAKE_LIGHT": {"speaker_id": "SYSTEM", "variables": {}},
+    "P1_WAKE_KNOCK": {"speaker_id": "SYSTEM", "variables": {}},
+    "P1_WAKE_EDGAR": {"speaker_id": "EDGAR", "variables": {}},
+    "P1_WAKE_TASKS": {"speaker_id": "EDGAR", "variables": {}},
+    "P1_WAKE_OBJECTIVE": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_IMPORT_SLOT": {"speaker_id": "SYSTEM", "variables": {"slot": "string"}},
     "UI_IMPORT_TITLE": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_IMPORT_BODY": {"speaker_id": "SYSTEM", "variables": {}},
