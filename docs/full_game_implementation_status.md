@@ -25,6 +25,8 @@
 
 ### 최근 반영과 증거의 한계
 
+- 포커스·최소화: [게임 일시정지](application_focus_pause_status.md)를 production bootstrap에 연결했다. 플레이 타이머·입력과 늦은 클릭 release를 보호하고 표시 중인 플레이 컨트롤로 복귀한다. 화면 설정 안전 카운트다운은 예외로 계속 처리한다. 전편 수동 Alt+Tab·다중 모니터 QA 완료를 뜻하지 않는다.
+
 - 설정 기능: [키 재설정](keyboard_settings_status.md)과 [화면 설정](display_settings_status.md)을 제목 화면·게임 중 메뉴에 연결했다. 키 저장·복원과 화면 모드·창 크기의 15초 확인/복구를 제공한다. 전체 입력 경로 완주, 독립 UI 배율과 전체 DPI/해상도 조합을 대신 검증한 것은 아니다.
 
 - 1장 추가 현지화: [J1 복원](j1_localization_status.md), [서재 조사](inner_library_localization_status.md), [시계망·B4·J2](clock_localization_status.md)의 단서와 표시 ID·저장 재개를 연결했다. 시계 배치 검사의 동적 오류 등 일부 1장 문구와 2장 이후 본문은 남는다. 정답과 저장 원문은 유지하며 전체 영어 완주 완료로 판정하지 않는다.

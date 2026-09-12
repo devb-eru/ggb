@@ -529,7 +529,7 @@ func _show_j4_confirmation() -> void:
 	])
 	var confirm := _modal_body.get_child(4) as Button
 	confirm.disabled = true
-	get_tree().create_timer(0.5).timeout.connect(_enable_j4_confirm.bind(weakref(confirm)))
+	get_tree().create_timer(0.5, false).timeout.connect(_enable_j4_confirm.bind(weakref(confirm)))
 
 
 func _enable_j4_confirm(reference: WeakRef) -> void:

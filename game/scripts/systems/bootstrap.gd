@@ -21,11 +21,19 @@ var _load_coordinator: LoadCoordinator
 var _reset_coordinator: ResetCoordinator
 var _writer: StateWriter
 var _focus_resume_serial := 0
+var _focus_suspended := false
+var _paused_before_focus := false
+var _focus_before_pause: WeakRef
+var _held_inputs: Dictionary = {}
+var _discard_releases: Dictionary = {}
+var _window_minimized := false
 var _prologue
 var _audio := preload("res://scripts/systems/game_audio.gd").new()
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	_start_screen.process_mode = Node.PROCESS_MODE_PAUSABLE
 	_audio.name = "GameAudio"
 	add_child(_audio)
 	_start_screen.audio_settings_changed.connect(_apply_audio_settings)
@@ -60,6 +68,8 @@ func _ready() -> void:
 		call_deferred("_run_black_mirror_smoke")
 	elif "--basement-session-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_basement_smoke")
+	elif "--application-focus-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_application_focus_smoke")
 
 
 func _apply_audio_settings(settings: Dictionary) -> void:
@@ -76,15 +86,85 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
 		_audio.set_pause_reason(&"focus", true)
 		_focus_resume_serial += 1
-		_start_screen.set_input_suspended(true)
+		_suspend_for_focus()
 	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
 		_focus_resume_serial += 1
 		var resume_serial := _focus_resume_serial
-		_start_screen.set_input_suspended(true)
+		_suspend_for_focus()
 		get_tree().create_timer(FOCUS_RECOVERY_DELAY_SECONDS).timeout.connect(
 			_on_focus_recovery_timeout.bind(resume_serial),
 			CONNECT_ONE_SHOT
 		)
+
+
+func _input(event: InputEvent) -> void:
+	var token := ""
+	if event is InputEventMouseButton:
+		token = "mouse:%d" % event.button_index
+	elif event is InputEventKey:
+		token = "key:%d" % (event.physical_keycode if event.physical_keycode != 0 else event.keycode)
+	if _focus_suspended:
+		if not token.is_empty():
+			if event.is_pressed(): _discard_releases[token] = true
+			else: _discard_releases.erase(token)
+		get_viewport().set_input_as_handled()
+		return
+	if token.is_empty(): return
+	if _discard_releases.has(token):
+		if not event.is_pressed() or event.is_echo():
+			if not event.is_pressed(): _discard_releases.erase(token)
+			get_viewport().set_input_as_handled()
+			return
+		_discard_releases.erase(token)
+	if event.is_pressed(): _held_inputs[token] = true
+	else: _held_inputs.erase(token)
+
+
+func _process(_delta: float) -> void:
+	var minimized := _is_window_minimized()
+	if minimized == _window_minimized: return
+	_window_minimized = minimized
+	if minimized:
+		_focus_resume_serial += 1
+		_suspend_for_focus()
+	elif get_window().has_focus():
+		_notification(NOTIFICATION_APPLICATION_FOCUS_IN)
+
+
+func _is_window_minimized() -> bool:
+	# The headless display reports a minimized window even though no OS window exists.
+	return DisplayServer.get_name() != "headless" and get_window().mode == Window.MODE_MINIMIZED
+
+
+func _exit_tree() -> void:
+	if _focus_suspended:
+		get_tree().paused = _paused_before_focus
+		_focus_suspended = false
+
+
+func _suspend_for_focus() -> void:
+	if _focus_suspended: return
+	_focus_suspended = true
+	_audio.set_pause_reason(&"focus", true)
+	_paused_before_focus = get_tree().paused
+	for token in _held_inputs: _discard_releases[token] = true
+	_held_inputs.clear()
+	var control := get_viewport().gui_get_focus_owner()
+	_focus_before_pause = weakref(control) if control != null else null
+	get_viewport().gui_release_focus()
+	_cancel_pending_controls(self)
+	if get_viewport().has_method("gui_cancel_drag"):
+		get_viewport().call("gui_cancel_drag")
+	get_tree().paused = true
+
+
+func _cancel_pending_controls(node: Node) -> void:
+	if node is BaseButton and not node.toggle_mode:
+		node.set_pressed_no_signal(false)
+	if node is OptionButton:
+		node.get_popup().hide()
+	for child: Node in node.get_children():
+		_cancel_pending_controls(child)
 
 
 func load_progress_slot(slot_id: String) -> Dictionary:
@@ -161,6 +241,7 @@ func _launch_prologue(slot_id: String, resume_id: String) -> void:
 	if is_instance_valid(_prologue):
 		_prologue.queue_free()
 	_prologue = PROLOGUE_SCENE.instantiate()
+	_prologue.process_mode = Node.PROCESS_MODE_PAUSABLE
 	_prologue.configure_session(slot_id, resume_id)
 	_prologue.audio_settings_changed.connect(_apply_audio_settings)
 	_prologue.menu_audio_pause_requested.connect(_set_menu_audio_pause)
@@ -181,6 +262,7 @@ func _launch_campaign(slot_id: String) -> void:
 	var mirror_chapter := int(GameState.get_value(&"meta_progress.journal_stage", 0)) >= 2
 	var basement_chapter := int(GameState.get_value(&"meta_progress.journal_stage", 0)) >= 3
 	_prologue = BASEMENT_SCRIPT.new() if basement_chapter else (BLACK_MIRROR_SCRIPT.new() if mirror_chapter else CHAPTER_ONE_SCRIPT.new())
+	_prologue.process_mode = Node.PROCESS_MODE_PAUSABLE
 	_prologue.name = "Basement" if basement_chapter else ("BlackMirror" if mirror_chapter else "ChapterOne")
 	_prologue.configure_session(slot_id, "MORNING_ROUTE")
 	_prologue.audio_settings_changed.connect(_apply_audio_settings)
@@ -206,9 +288,38 @@ func _on_prologue_return_to_title() -> void:
 
 
 func _on_focus_recovery_timeout(resume_serial: int) -> void:
-	if resume_serial == _focus_resume_serial:
+	if resume_serial == _focus_resume_serial and _focus_suspended and not _is_window_minimized():
+		_focus_suspended = false
+		get_tree().paused = _paused_before_focus
 		_audio.set_pause_reason(&"focus", false)
-		_start_screen.set_input_suspended(false)
+		var previous: Control = _focus_before_pause.get_ref() as Control if _focus_before_pause != null else null
+		_focus_before_pause = null
+		if is_instance_valid(previous) and previous.is_visible_in_tree() and previous.focus_mode != Control.FOCUS_NONE:
+			if not (previous is BaseButton and previous.disabled):
+				previous.grab_focus()
+				return
+		if _start_screen.visible:
+			var modal: Control = _start_screen._active_modal()
+			if modal != null:
+				_focus_first_control(modal)
+			else:
+				_start_screen.set_input_suspended(false)
+		elif is_instance_valid(_prologue) and is_instance_valid(_prologue._menu_button):
+			for field in ["_display_settings_panel", "_key_settings_panel", "_audio_settings_panel", "_modal_body", "_dialogue_layer"]:
+				var region: Control = _prologue.get(field)
+				if is_instance_valid(region) and region.is_visible_in_tree() and _focus_first_control(region): return
+			_prologue._menu_button.grab_focus()
+
+
+func _focus_first_control(node: Node) -> bool:
+	if node is Control and not node.is_visible_in_tree(): return false
+	if node is Control and node.focus_mode == Control.FOCUS_ALL:
+		if not (node is BaseButton and node.disabled):
+			node.grab_focus()
+			return true
+	for child: Node in node.get_children():
+		if _focus_first_control(child): return true
+	return false
 
 
 func _validate_engine_version() -> void:
@@ -280,4 +391,14 @@ func _run_black_mirror_smoke() -> void:
 		get_tree().quit(0)
 	else:
 		push_error("BLACK_MIRROR_SMOKE: FAIL %s" % result.get("errors", []))
+		get_tree().quit(1)
+
+
+func _run_application_focus_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/application_focus_smoke.gd").new().run(self)
+	if result.ok:
+		print("APPLICATION_FOCUS_SMOKE: PASS")
+		get_tree().quit(0)
+	else:
+		push_error("APPLICATION_FOCUS_SMOKE: FAIL " + str(result.errors))
 		get_tree().quit(1)
