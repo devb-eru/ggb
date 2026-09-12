@@ -116,6 +116,8 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 
 func _feedback(result: Dictionary) -> void:
 	var text := String(result.get("text", ""))
+	if not String(result.get("text_id", "")).is_empty():
+		text = _dialogue_ui_text(String(result["text_id"]))
 	if text.is_empty():
 		if not result.get("ok", false):
 			_set_status("저장 오류: " + str(result.get("error_ids", [])))
@@ -168,11 +170,11 @@ func _render_room() -> void:
 		"M1_SERVANT_COMMON":
 			for index in range(4):
 				var owner: String = ["edgar", "luca", "mara1", "mara2"][index]
-				var label: String = ["에드가 업무 장부", "루카 전달표", "마라 1 청소표", "마라 2 기록 반출표 (선택)"][index]
+				var label := _dialogue_ui_text("CH1_B1_DOC_" + owner.to_upper())
 				if session.known("schedule_" + owner):
-					label += " · 읽음"
+					label += _dialogue_ui_text("CH1_B1_READ")
 				_action("DOC_" + owner, label, Rect2(260 + (index % 2) * 720, 210 + (index / 2) * 165, 640, 115), "read_schedule", owner)
-			_add_hotspot("B1_BOARD", "문서의 시간 표현을 연결한다", Rect2(610, 610, 650, 110), _open_schedule_board)
+			_add_hotspot("B1_BOARD", _dialogue_ui_text("CH1_B1_BOARD"), Rect2(610, 610, 650, 110), _open_schedule_board)
 		"M1_LIBRARY_OUTER":
 			_action("INNER_DOOR", "기록 내실문", Rect2(1180, 230, 350, 390), "move", "M1_LIBRARY_INNER", false)
 			_clock_hotspot()
@@ -219,10 +221,10 @@ func _open_mark_choices() -> void:
 
 
 func _open_schedule_board() -> void:
-	_show_modal("기록 내실이 비는 구간", "읽은 문서에서 에드가의 위치와 복도 작업의 끝을 비교한다.", [
-		{"label": "아침부터 오후 차 전", "action": _modal_act.bind("schedule_window", "morning")},
-		{"label": "오후 차 회수 뒤부터 저녁 종 전", "action": _modal_act.bind("schedule_window", "after_tea_before_bell")},
-		{"label": "저녁 종 뒤", "action": _modal_act.bind("schedule_window", "after_bell")},
+	_show_modal(_dialogue_ui_text("CH1_B1_TITLE"), _dialogue_ui_text("CH1_B1_PROMPT"), [
+		{"label": _dialogue_ui_text("CH1_B1_MORNING"), "action": _modal_act.bind("schedule_window", "morning")},
+		{"label": _dialogue_ui_text("CH1_B1_TEA"), "action": _modal_act.bind("schedule_window", "after_tea_before_bell")},
+		{"label": _dialogue_ui_text("CH1_B1_BELL"), "action": _modal_act.bind("schedule_window", "after_bell")},
 	])
 
 
@@ -412,7 +414,13 @@ func _open_notebook() -> void:
 	if pages.is_empty() and knowledge.get("MEM_FATHER_TEA_HAND_FRAGMENT", "") == "sensory_fragment":
 		pages.append(_dialogue_ui_text("NOTE_P_TEA"))
 	for key in notes:
-		pages.append(String(notes[key]))
+		var entry := String(notes[key])
+		var owner := String(key).trim_prefix("B1_")
+		if String(key).begins_with("B1_") and SESSION_SCRIPT.DOCUMENTS.get(owner, "") == entry:
+			entry = _dialogue_ui_text("CH1_B1_TEXT_" + owner.to_upper())
+		elif key == "B1" and entry == _dialogue_texts.get_text("CH1_B1_SOLVED", "ko-KR"):
+			entry = _dialogue_ui_text("CH1_B1_SOLVED")
+		pages.append(entry)
 	label.text = "\n\n".join(pages) if not pages.is_empty() else _dialogue_ui_text("UI_NOTE_COMPARE_EMPTY")
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL

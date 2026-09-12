@@ -97,6 +97,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 	loop["event_local_states"][LOCAL_KEY] = local
 	var room := String(loop["location_id"])
 	var text := ""
+	var text_id := ""
 	var speaker := "주인공"
 	match action:
 		"move":
@@ -138,19 +139,21 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			text = "젖은 천이 어제와 같은 호를 그린다. 책등 세 권과 다섯 이름표를 정리하고, 물이 끓는 동안 모래시계를 뒤집는다. 익숙한 일과가 끝났다."
 		"read_schedule":
 			if room != "M1_SERVANT_COMMON" or not meta["notebook_persistence_confirmed"] or not DOCUMENTS.has(String(value)):
-				return _reject("수첩의 지속을 확인한 뒤 사용인 공용실에서 조사한다.")
+				return _reject("수첩의 지속을 확인한 뒤 사용인 공용실에서 조사한다.", "CH1_B1_NEED_CONFIRM")
 			knowledge["schedule_" + String(value)] = true
 			text = DOCUMENTS[String(value)]
+			text_id = "CH1_B1_TEXT_" + String(value).to_upper()
 			_note(knowledge, "B1_" + String(value), text)
 		"schedule_window":
 			var count := 0
 			for source in ["edgar", "luca", "mara1"]:
 				count += int(bool(knowledge.get("schedule_" + source, false)))
 			if room != "M1_SERVANT_COMMON" or count < 2:
-				return _reject("시간 표현을 교차 확인할 핵심 문서가 두 장 이상 필요하다.")
+				return _reject("시간 표현을 교차 확인할 핵심 문서가 두 장 이상 필요하다.", "CH1_B1_NEED_DOCS")
 			if String(value) != "after_tea_before_bell":
-				return _reject("그 시간에는 기록 내실 감독 또는 복귀 서명이 남아 있다. 차 회수와 저녁 종 사이를 비교한다.")
+				return _reject("그 시간에는 기록 내실 감독 또는 복귀 서명이 남아 있다. 차 회수와 저녁 종 사이를 비교한다.", "CH1_B1_WRONG")
 			knowledge["KN_B1_LIBRARY_WINDOW"] = true
+			text_id = "CH1_B1_SOLVED"
 			text = "오후 차를 치운 뒤, 저녁 종이 울리기 전에는 기록 내실이 비어 있다."
 			_note(knowledge, "B1", text)
 		"inspect_inner":
@@ -338,7 +341,10 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				_note(knowledge, "J2", text)
 		_:
 			return _reject("정의되지 않은 행동이다: " + action)
-	return _commit(state, text, speaker)
+	var result := _commit(state, text, speaker)
+	if result.get("ok", false) and not text_id.is_empty():
+		result["text_id"] = text_id
+	return result
 
 
 func sleep() -> Dictionary:
@@ -397,5 +403,5 @@ func _save_point(_state: Dictionary) -> String:
 	return SAVE_POINT
 
 
-func _reject(text: String) -> Dictionary:
-	return {"ok": false, "text": text}
+func _reject(text: String, text_id: String = "") -> Dictionary:
+	return {"ok": false, "text": text, "text_id": text_id}
