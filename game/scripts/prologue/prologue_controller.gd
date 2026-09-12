@@ -714,14 +714,14 @@ func _rebuild_current_room_content() -> void:
 func _build_bedroom() -> void:
 	if bool(_progress.get("P4_complete", false)):
 		_progress["time_block"] = "night"
-		_add_hotspot("BED", "침대\n오늘을 끝낸다", Rect2(245, 640, 480, 170), _on_sleep_bed)
-		_add_hotspot("WINDOW", "밤의 창문", Rect2(1280, 210, 300, 380), _inspect_bedroom.bind("window"))
-		_add_hotspot("HALL", "조금 더 둘러본다", Rect2(790, 870, 360, 92), _enter_room.bind("M1_CENTRAL_HALL"))
+		_add_hotspot("BED", _dialogue_ui_text("P6_NIGHT_BED"), Rect2(245, 640, 480, 170), _on_sleep_bed)
+		_add_hotspot("WINDOW", _dialogue_ui_text("P6_NIGHT_WINDOW"), Rect2(1280, 210, 300, 380), _inspect_bedroom.bind("window"))
+		_add_hotspot("HALL", _dialogue_ui_text("P6_NIGHT_EXPLORE"), Rect2(790, 870, 360, 92), _enter_room.bind("M1_CENTRAL_HALL"))
 		if not _intro_seen("P6"):
 			_mark_intro("P6")
 			_show_dialogue([
-				{"speaker": "에드가", "portrait": "EDGAR", "text": "오늘 일정은 종료되었습니다. 침실 상태도 확인했습니다."},
-				{"speaker": "에드가", "portrait": "EDGAR", "text": "이제 쉬시는 편이 좋겠습니다."},
+				{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P6_NIGHT_EDGAR_DONE")},
+				{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P6_NIGHT_EDGAR_REST")},
 			])
 		return
 

@@ -3,6 +3,11 @@
   "fallback_locale": "ko-KR",
   "supported_locales": ["ko-KR", "en-US"],
   "entries": {
+    "P6_NIGHT_BED": {"speaker_id": "SYSTEM", "variables": {}},
+    "P6_NIGHT_WINDOW": {"speaker_id": "SYSTEM", "variables": {}},
+    "P6_NIGHT_EXPLORE": {"speaker_id": "SYSTEM", "variables": {}},
+    "P6_NIGHT_EDGAR_DONE": {"speaker_id": "SYSTEM", "variables": {}},
+    "P6_NIGHT_EDGAR_REST": {"speaker_id": "SYSTEM", "variables": {}},
     "R1_ROOM": {"speaker_id": "SYSTEM", "variables": {}},
     "R1_OBJECTIVE": {"speaker_id": "SYSTEM", "variables": {}},
     "R1_WAKE": {"speaker_id": "SYSTEM", "variables": {}},
