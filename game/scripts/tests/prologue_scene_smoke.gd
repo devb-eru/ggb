@@ -53,6 +53,18 @@ func run(tree: SceneTree) -> Dictionary:
 		prologue._advance_dialogue()
 		await _capture_view(tree, CAPTURE_FILE, "PROLOGUE_CAPTURE")
 	var errors: PackedStringArray = prologue.run_smoke_scenario()
+	prologue._show_dialogue([{"speaker":"SYSTEM", "text":"긴 기록의 마지막 문장까지 읽을 수 있어야 한다.\n".repeat(40)}, {"speaker":"SYSTEM", "text":"다음 기록"}])
+	await tree.process_frame
+	await tree.process_frame
+	_expect(prologue._dialogue_label.size.y > prologue._dialogue_scroll.size.y, "Long dialogue overflows into scrollable content", errors)
+	var page := InputEventKey.new()
+	page.keycode = KEY_PAGEDOWN
+	page.pressed = true
+	prologue._unhandled_input(page)
+	_expect(prologue._dialogue_scroll.scroll_vertical > 0, "Page Down scrolls dialogue without advancing", errors)
+	_expect(prologue._dialogue_index == 0, "Reading does not advance the sentence", errors)
+	prologue._advance_dialogue()
+	_expect(prologue._dialogue_scroll.scroll_vertical == 0, "Next dialogue resets scroll", errors)
 	prologue.queue_free()
 	await tree.process_frame
 	await _validate_p4_resume_and_choices(tree, errors)

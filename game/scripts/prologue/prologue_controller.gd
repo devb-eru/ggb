@@ -113,6 +113,7 @@ var _dialogue_layer: Control
 var _portrait: TextureRect
 var _speaker_label: Label
 var _dialogue_label: Label
+var _dialogue_scroll: ScrollContainer
 var _dialogue_next: Button
 var _dialogue_choice_blocker: ColorRect
 var _dialogue_choice_panel: PanelContainer
@@ -163,6 +164,11 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _dialogue_layer.visible and not _modal_active and event is InputEventKey and event.pressed and event.keycode in [KEY_PAGEUP, KEY_PAGEDOWN]:
+		var direction := -1 if event.keycode == KEY_PAGEUP else 1
+		_dialogue_scroll.scroll_vertical += direction * maxi(40, int(_dialogue_scroll.size.y * 0.8))
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("notebook_toggle"):
 		if _dialogue_choice_active:
 			_handle_dialogue_choice_cancel()
@@ -424,13 +430,21 @@ func _build_dialogue_ui() -> void:
 	_speaker_label.add_theme_font_size_override("font_size", 25)
 	_speaker_label.add_theme_color_override("font_color", Color(0.93, 0.72, 0.44))
 	body.add_child(_speaker_label)
+	_dialogue_scroll = ScrollContainer.new()
+	_dialogue_scroll.name = "DialogueScroll"
+	_dialogue_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_dialogue_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_dialogue_scroll.custom_minimum_size.y = 80
+	_dialogue_scroll.focus_mode = Control.FOCUS_ALL
+	body.add_child(_dialogue_scroll)
 	_dialogue_label = Label.new()
 	_dialogue_label.name = "DialogueText"
 	_dialogue_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_dialogue_label.add_theme_font_size_override("font_size", 24)
 	_dialogue_label.add_theme_color_override("font_color", Color(0.94, 0.93, 0.91))
-	body.add_child(_dialogue_label)
+	_dialogue_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_dialogue_scroll.add_child(_dialogue_label)
 	_dialogue_next = Button.new()
 	_dialogue_next.name = "DialogueNext"
 	_dialogue_next.text = "계속"
@@ -1028,6 +1042,7 @@ func _show_dialogue_choice_set(
 	_dialogue_choice_header.text = header
 	_speaker_label.text = speaker
 	_dialogue_label.text = prompt
+	_dialogue_scroll.scroll_vertical = 0
 	_set_dialogue_portrait(portrait_id)
 	for index in range(_dialogue_choice_buttons.size()):
 		var button := _dialogue_choice_buttons[index]
@@ -1624,6 +1639,7 @@ func _present_dialogue_line() -> void:
 			cup.show_angle(TAU if line["cup_pose"] == "turned" else PI, String(profile.get("motion_mode", "standard")) != "standard")
 	_speaker_label.text = String(line.get("speaker", "SYSTEM"))
 	_dialogue_label.text = String(line.get("text", ""))
+	_dialogue_scroll.scroll_vertical = 0
 	var portrait_id := String(line.get("portrait", ""))
 	_set_dialogue_portrait(portrait_id)
 	_dialogue_next.visible = true
