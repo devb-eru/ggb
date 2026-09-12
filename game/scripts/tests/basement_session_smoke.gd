@@ -240,11 +240,55 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 		_expect(not game.get_value("meta_progress.knowledge_entries").has("D6_rest_route"), "D6 rest route is not permanent knowledge")
 		_expect(not game.get_value("loop_state.event_local_states").has("D6"), "D6 rest route expires on first broken sleep")
 		_expect(game.get_value("meta_progress.servants") == d6_state["meta_progress"]["servants"], "D6 routes preserve relationships")
+	_validate_d6_legacy_rest(d6_state, game.get_snapshot(), slot)
 	TranslationServer.set_locale(locale)
 	view.queue_free()
 	await tree.process_frame
 	saves.delete_test_slot(slot)
 	ProjectSettings.set_setting("ggb/build_flavor", previous)
+
+
+func _validate_d6_legacy_rest(d6: Dictionary, morning: Dictionary, slot: String) -> void:
+	var cases := [
+		["capsule", false, "", "emergency_capsule"],
+		["bedroom", false, "", "bedroom"],
+		["capsule", false, "bedroom", "bedroom"],
+		["bedroom", false, "emergency_capsule", "emergency_capsule"],
+		["invalid", false, "", ""],
+		["capsule", true, "", ""],
+		["bedroom", true, "", ""],
+	]
+	for item in cases:
+		var state: Dictionary = (morning if item[1] else d6).duplicate(true)
+		state["meta_progress"]["knowledge_entries"]["D6_rest_route"] = item[0]
+		state["loop_state"]["event_local_states"].erase("D6")
+		if not String(item[2]).is_empty():
+			state["loop_state"]["event_local_states"]["D6"] = {"fracture_rest_route": item[2], "unrelated": "retain"}
+		var point := "SAVE_BROKEN_RESET_COMPLETE" if item[1] else "SAVE_FRACTURE_CONFIRMED"
+		_expect(saves.save_snapshot(slot, point, state, game.revision, "D6_LEGACY_FIXTURE").get("ok", false), "Legacy D6 fixture written")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "Legacy D6 fixture loaded")
+		var session := SESSION.new(game, saves, slot)
+		_expect(session.initialize().get("ok", false), "Legacy D6 initialization succeeds")
+		var migrated: Dictionary = game.get_snapshot()
+		_expect(not migrated["meta_progress"]["knowledge_entries"].has("D6_rest_route"), "Legacy D6 permanent key removed")
+		var local: Dictionary = migrated["loop_state"]["event_local_states"].get("D6", {})
+		_expect(local.get("fracture_rest_route", "") == item[3], "Legacy D6 expected local result: " + str(item))
+		if not String(item[2]).is_empty():
+			_expect(local.get("unrelated") == "retain", "Migration preserves other local fields")
+		_expect(migrated["meta_progress"]["servants"] == state["meta_progress"]["servants"], "Migration preserves relationships")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "Migrated D6 result persists")
+		_expect(session.initialize().get("ok", false), "Repeated D6 migration initializes")
+		_expect(game.get_value("loop_state.event_local_states").get("D6", {}) == local, "Repeated migration does not change local route")
+	var failed: Dictionary = d6.duplicate(true)
+	failed["meta_progress"]["knowledge_entries"]["D6_rest_route"] = "capsule"
+	_expect(StateWriter.new(game).install_snapshot(failed, game.revision, &"D6_MIGRATION_FAILURE").get("ok", false), "D6 failed-save fixture installed")
+	var before_failure: Dictionary = game.get_snapshot()
+	var retry := SESSION.new(game, saves, "../invalid_slot")
+	_expect(not retry.initialize().get("ok", false), "D6 migration initialization rejects invalid save path")
+	_expect(game.get_snapshot() == before_failure, "D6 failed initialization preserves legacy choice")
+	retry.slot_id = slot
+	_expect(retry.initialize().get("ok", false), "D6 migration recovers after save path restored")
+	_expect(game.get_value("loop_state.event_local_states.D6.fracture_rest_route") == "emergency_capsule", "D6 retry restores intended capsule route")
 
 
 func _validate_full_transition() -> void:
