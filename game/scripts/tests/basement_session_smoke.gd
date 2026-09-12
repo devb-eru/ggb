@@ -102,7 +102,17 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	_expect(game.get_snapshot() == stinger_before, "Rejected stinger actions preserve state")
 	stinger._tick_demo_stinger(59.0)
 	_expect(session.stage() == "D5", "Stinger cannot finish before sixty active seconds")
+	var before_completion: Dictionary = game.get_snapshot()
+	stinger.session.slot_id = "../invalid_slot"
 	stinger._tick_demo_stinger(1.0)
+	_expect(stinger._demo_stinger_save_failed and session.stage() == "D5", "Failed completion stays in D5")
+	_expect(game.get_snapshot() == before_completion, "Failed stinger save rolls back completion")
+	_expect(stinger._hotspot_layer.has_node("D5_SAVE_RETRY") and not stinger._hotspot_layer.has_node("RETURN_TITLE"), "Failure exposes retry instead of completed screen")
+	var failed_revision: int = game.revision
+	stinger._tick_demo_stinger(30.0)
+	_expect(game.revision == failed_revision, "Failed stinger does not loop automatic save attempts")
+	stinger.session.slot_id = SLOT
+	stinger._hotspot_layer.get_node("D5_SAVE_RETRY").pressed.emit()
 	_expect(stinger._hotspot_layer.has_node("RETURN_TITLE"), "Stinger completion displays demo end screen")
 	stinger.queue_free()
 	await tree.process_frame
