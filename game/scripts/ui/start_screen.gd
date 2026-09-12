@@ -277,7 +277,7 @@ func _apply_localized_text() -> void:
 
 func _setup_import() -> void:
 	_import_button = Button.new()
-	_import_button.text = "데모 저장 가져오기"
+	_import_button.text = _text(&"UI_TITLE_IMPORT_DEMO")
 	_import_button.custom_minimum_size.y = 46
 	_content_button.get_parent().add_child(_import_button)
 	_import_button.visible = SaveManager.get_build_flavor() == "full"
@@ -288,7 +288,7 @@ func _setup_import() -> void:
 	_import_choices.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_import_controls.add_child(_import_choices)
 	_import_confirm = Button.new()
-	_import_confirm.text = "새 본편 슬롯으로 가져오기"
+	_import_confirm.text = _text(&"UI_TITLE_IMPORT_CONFIRM")
 	_import_controls.add_child(_import_confirm)
 	_import_confirm.pressed.connect(_confirm_demo_import)
 	_import_controls.hide()
@@ -325,7 +325,7 @@ func _confirm_demo_import() -> void:
 func _setup_gallery() -> void:
 	_gallery_button = Button.new()
 	_gallery_button.name = "GalleryButton"
-	_gallery_button.text = "감상 기록"
+	_gallery_button.text = _text(&"UI_TITLE_GALLERY")
 	_gallery_button.custom_minimum_size.y = 46
 	_content_button.get_parent().add_child(_gallery_button)
 	_gallery_button.pressed.connect(_open_gallery)

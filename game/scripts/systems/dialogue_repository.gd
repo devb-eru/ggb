@@ -3,6 +3,7 @@ extends RefCounted
 
 const TEXT_REGISTRY := "res://data/registries/text_registry.json"
 const TEXT_CATALOG := preload("res://data/dialogue/system/foundation_text_catalog.tres")
+const TITLE_EXTENSION := preload("res://data/dialogue/system/title_extension_text.tres")
 const VARIABLE_TYPES := {
 	"string": TYPE_STRING,
 	"int": TYPE_INT,
@@ -125,11 +126,16 @@ func _load_registry() -> void:
 
 
 func _load_sources() -> void:
-	if TEXT_CATALOG == null or TEXT_CATALOG.schema_version != 1:
+	for catalog in [TEXT_CATALOG, TITLE_EXTENSION]:
+		_load_catalog(catalog)
+
+
+func _load_catalog(catalog: LocalizedTextCatalog) -> void:
+	if catalog == null or catalog.schema_version != 1:
 		_errors.append("ERR_TEXT_SOURCE_INVALID")
 		return
 	for locale in _supported_locales:
-		var source_locale: Variant = TEXT_CATALOG.localized_text.get(locale)
+		var source_locale: Variant = catalog.localized_text.get(locale)
 		if not source_locale is Dictionary:
 			_errors.append("ERR_TEXT_SOURCE_LOCALE_MISSING")
 			continue

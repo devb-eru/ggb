@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="LocalizedTextCatalog" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data_types/localized_text_catalog.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+localized_text = {
+"ko-KR": {
+"UI_TITLE_GALLERY": "감상 기록",
+"UI_TITLE_IMPORT_DEMO": "데모 저장 가져오기",
+"UI_TITLE_IMPORT_CONFIRM": "새 본편 슬롯으로 가져오기"
+},
+"en-US": {
+"UI_TITLE_GALLERY": "Gallery",
+"UI_TITLE_IMPORT_DEMO": "Import demo save",
+"UI_TITLE_IMPORT_CONFIRM": "Import into a new full-game slot"
+}
+}

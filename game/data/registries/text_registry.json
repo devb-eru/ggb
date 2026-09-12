@@ -3,6 +3,9 @@
   "fallback_locale": "ko-KR",
   "supported_locales": ["ko-KR", "en-US"],
   "entries": {
+    "UI_TITLE_GALLERY": {"speaker_id": "SYSTEM", "variables": {}},
+    "UI_TITLE_IMPORT_DEMO": {"speaker_id": "SYSTEM", "variables": {}},
+    "UI_TITLE_IMPORT_CONFIRM": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_FOUNDATION_TITLE": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_FOUNDATION_DESCRIPTION": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_FOUNDATION_RUN_EVENT": {"speaker_id": "SYSTEM", "variables": {}},
