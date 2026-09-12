@@ -22,9 +22,12 @@ var _reset_coordinator: ResetCoordinator
 var _writer: StateWriter
 var _focus_resume_serial := 0
 var _prologue
+var _audio := preload("res://scripts/systems/game_audio.gd").new()
 
 
 func _ready() -> void:
+	_audio.name = "GameAudio"
+	add_child(_audio)
 	_validate_engine_version()
 	_load_coordinator = LoadCoordinator.new(GameState, SaveManager)
 	_reset_coordinator = ResetCoordinator.new(GameState, SaveManager)
@@ -60,6 +63,7 @@ func _notification(what: int) -> void:
 	if not is_node_ready():
 		return
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		_audio.set_pause_reason(&"focus", true)
 		_focus_resume_serial += 1
 		_start_screen.set_input_suspended(true)
 	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
@@ -132,6 +136,7 @@ func _on_quit_requested() -> void:
 
 
 func _launch_prologue(slot_id: String, resume_id: String) -> void:
+	_audio.stop_all()
 	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {})
 	if bool(knowledge.get("PROLOGUE_COMPLETE", false)):
 		if String(GameState.get_value(&"reset_state.phase", "idle")) != "idle" or int(GameState.get_value(&"loop_state.day_index", 0)) == 0:
@@ -152,6 +157,7 @@ func _launch_prologue(slot_id: String, resume_id: String) -> void:
 
 
 func _launch_campaign(slot_id: String) -> void:
+	_audio.stop_all()
 	if is_instance_valid(_prologue):
 		remove_child(_prologue)
 		_prologue.queue_free()
@@ -167,6 +173,7 @@ func _launch_campaign(slot_id: String) -> void:
 
 
 func _on_prologue_return_to_title() -> void:
+	_audio.stop_all()
 	if is_instance_valid(_prologue):
 		_prologue.queue_free()
 	_prologue = null
@@ -176,6 +183,7 @@ func _on_prologue_return_to_title() -> void:
 
 func _on_focus_recovery_timeout(resume_serial: int) -> void:
 	if resume_serial == _focus_resume_serial:
+		_audio.set_pause_reason(&"focus", false)
 		_start_screen.set_input_suspended(false)
 
 
