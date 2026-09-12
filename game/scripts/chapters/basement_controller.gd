@@ -11,6 +11,7 @@ const STORY_TEXTS := preload("res://scripts/ui/stay_story_texts.gd")
 const WAKE_TEXTS := preload("res://scripts/ui/reality_wake_texts.gd")
 const SURFACE_TEXTS := preload("res://scripts/ui/reality_surface_texts.gd")
 const CREDITS_TEXTS := preload("res://scripts/ui/ending_credits_texts.gd")
+const GALLERY_TEXTS := preload("res://scripts/ui/ending_gallery_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -846,29 +847,31 @@ func _build_ending_credits() -> void:
 
 func _gallery_menu(page: int = 0) -> void:
 	if _dialogue_active or session.stage() != "POST_CREDITS": return
+	var locale := TranslationServer.get_locale()
 	if _modal_active: _close_modal()
 	var store = preload("res://scripts/systems/ending_gallery_store.gd").new()
 	var entries: Array[Dictionary] = store.list_entries()
-	var actions: Array = [{"label":"닫기","action":_close_modal}]
+	var actions: Array = [{"label":GALLERY_TEXTS.text("close",locale),"action":_close_modal}]
 	for index in range(page * 4, mini(entries.size(), page * 4 + 4)):
 		var entry: Dictionary = entries[index]
-		var label := "현실 기상" if entry["branch"] == "reality" else "안정화 잔류"
-		actions.append({"label":"%s · 기록 %d" % [label,index + 1],"action":_gallery_page.bind(entry["id"],0)})
-	if page > 0: actions.append({"label":"이전 목록","action":_gallery_menu.bind(page-1)})
-	if (page+1)*4 < entries.size(): actions.append({"label":"다음 목록","action":_gallery_menu.bind(page+1)})
-	_show_modal("감상 기록", "보존된 마지막 장면과 확인한 조사만 열람합니다. 전체 엔딩·ALL 전용 장면 재생은 아직 준비 중입니다.\n본편 상태와 저장 파일은 바뀌지 않습니다.", actions)
+		var label: String = GALLERY_TEXTS.text(entry["branch"],locale)
+		actions.append({"label":GALLERY_TEXTS.text("record",locale) % [label,index + 1],"action":_gallery_page.bind(entry["id"],0)})
+	if page > 0: actions.append({"label":GALLERY_TEXTS.text("previous_list",locale),"action":_gallery_menu.bind(page-1)})
+	if (page+1)*4 < entries.size(): actions.append({"label":GALLERY_TEXTS.text("next_list",locale),"action":_gallery_menu.bind(page+1)})
+	_show_modal(GALLERY_TEXTS.text("title",locale), GALLERY_TEXTS.text("empty" if entries.is_empty() else "description",locale), actions)
 
 
 func _gallery_page(id: String, page: int) -> void:
 	if session.stage() != "POST_CREDITS": return
+	var locale := TranslationServer.get_locale()
 	var entry: Dictionary = preload("res://scripts/systems/ending_gallery_store.gd").new().read_entry(id)
 	if not entry.get("ok", false): return
-	var pages: Array[Dictionary] = preload("res://scripts/systems/ending_gallery_pages.gd").build(entry["state"])
+	var pages: Array[Dictionary] = preload("res://scripts/systems/ending_gallery_pages.gd").build(entry["state"],locale)
 	if page < 0 or page >= pages.size(): return
 	if _modal_active: _close_modal()
-	var actions: Array = [{"label":"목록으로","action":_gallery_menu}]
-	if page > 0: actions.append({"label":"이전 기록","action":_gallery_page.bind(id,page-1)})
-	if page+1 < pages.size(): actions.append({"label":"다음 기록","action":_gallery_page.bind(id,page+1)})
+	var actions: Array = [{"label":GALLERY_TEXTS.text("back",locale),"action":_gallery_menu}]
+	if page > 0: actions.append({"label":GALLERY_TEXTS.text("previous_record",locale),"action":_gallery_page.bind(id,page-1)})
+	if page+1 < pages.size(): actions.append({"label":GALLERY_TEXTS.text("next_record",locale),"action":_gallery_page.bind(id,page+1)})
 	_show_modal("%s · %d/%d" % [pages[page]["title"],page+1,pages.size()], pages[page]["text"], actions)
 
 

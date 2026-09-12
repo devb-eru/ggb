@@ -302,9 +302,18 @@ func run(tree: SceneTree) -> Dictionary:
 	await _validate_support_modals(screen)
 	_validate_layout(screen)
 	var gallery_before := GameState.get_snapshot()
+	var gallery_locale: String = screen._locale
+	screen._locale = "en-US"
 	screen._open_gallery()
 	_expect(screen._active_modal() != null and screen._gallery_controls.visible, "title gallery opens", _errors)
-	if not screen._gallery_pages.is_empty(): screen._show_gallery_page(0)
+	_expect(screen._gallery_previous.text == "Previous" and screen._gallery_next.text == "Next", "title gallery English navigation", _errors)
+	if not screen._gallery_pages.is_empty():
+		screen._show_gallery_page(0)
+		var expected_pages: Array = preload("res://scripts/systems/ending_gallery_pages.gd").build(screen._gallery_entries[0]["state"],"en-US")
+		_expect(screen._launch_body.text == expected_pages[0]["text"], "title gallery reads same English pages as post-ending gallery", _errors)
+	else:
+		_expect(screen._launch_title.text == "Viewing records" and screen._launch_body.text == screen.GALLERY_TEXTS.text("empty","en-US"), "empty title gallery is localized without inventing records", _errors)
+	screen._locale = gallery_locale
 	screen._gallery_pages.assign([{"title":"긴 기록","text":"스크롤 확인\n".repeat(100)},{"title":"다음 기록","text":"처음부터 읽는다."}])
 	screen._show_gallery_page(0)
 	await _tree.process_frame

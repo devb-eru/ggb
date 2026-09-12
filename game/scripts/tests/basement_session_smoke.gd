@@ -1813,6 +1813,11 @@ func _validate_credits(session: BasementSession) -> void:
 	_expect(session.snapshot() == before_gallery and FileAccess.get_file_as_bytes(source_path) == source_bytes, "post credits history preserves state and save bytes")
 	var pages = preload("res://scripts/systems/ending_gallery_pages.gd")
 	_expect(not pages.build(before_gallery).is_empty(), "Gallery contains completed final frame")
+	var korean_pages: Array = pages.build(before_gallery,"ko")
+	var english_pages: Array = pages.build(before_gallery,"en")
+	_expect(korean_pages.size() == english_pages.size() and session.snapshot() == before_gallery, "Gallery language preserves page count and game state")
+	for page_index in range(korean_pages.size()):
+		_expect(korean_pages[page_index]["title"] != english_pages[page_index]["title"] and korean_pages[page_index]["text"] != english_pages[page_index]["text"], "Every selected gallery page has translated title and content")
 	var uninspected := before_gallery.duplicate(true)
 	uninspected["ending_run"]["all_ceremony_seen"] = false
 	for entry_node in SESSION.ENDING_ENTRY.TEXT: uninspected["ending_run"]["completed_nodes"].erase(entry_node)
@@ -1823,6 +1828,7 @@ func _validate_credits(session: BasementSession) -> void:
 	uninspected["loop_state"]["event_local_states"]["REALITY_SURFACE"] = {"seen":[],"look":"center","elapsed":8}
 	uninspected["loop_state"]["event_local_states"]["STAY_STORY"] = {"hall":[],"table":[],"written":[],"elapsed":2}
 	_expect(pages.build(uninspected).size() == 1, "Gallery hides uninspected optional objects and lines")
+	_expect(pages.build(uninspected,"en").size() == 1, "English gallery also hides every uninspected page")
 	if before_gallery["ending_run"]["branch_id"] == "reality":
 		for object in SESSION.REALITY_WAKE.BODY:
 			var body_only := uninspected.duplicate(true)
@@ -1852,6 +1858,7 @@ func _validate_credits(session: BasementSession) -> void:
 	all_record["ending_run"]["completed_nodes"].append("ED_ALL_CEREMONY")
 	all_record["loop_state"]["event_local_states"]["ED_ALL_CEREMONY"] = {"identity_index":5,"authority_seen":true}
 	_expect(pages.build(all_record).size() == baseline_count + 6, "Completed ALL ceremony exposes five identities and authority")
+	_expect(pages.build(all_record,"en").size() == baseline_count + 6, "English ALL pages require the same completed ceremony")
 	if before_gallery["ending_run"]["branch_id"] == "stay":
 		var charter_state := uninspected.duplicate(true)
 		charter_state["loop_state"]["event_local_states"]["STAY_CHARTER"] = {"principles":[1.0],"proposed":["luca"]}
@@ -1890,13 +1897,18 @@ func _validate_credits(session: BasementSession) -> void:
 					found_expanded = page["text"] == SESSION.FIELD_NOTEBOOK.page_text(expanded_state,"FIELD_NOTEBOOK_PREFACE",true)
 			_expect(found_expanded, "Gallery uses explicitly acknowledged expanded text")
 		_expect(not SESSION.FIELD_NOTEBOOK.apply(before_gallery,"read",{"page":"FIELD_NOTEBOOK_PREFACE","expanded":"true"}).get("ok",false), "Notebook rejects malformed expanded flag")
+	TranslationServer.set_locale("en")
+	view._render_room()
 	view._hotspot_layer.get_node("CREDITS_GALLERY").pressed.emit()
 	_expect(view._modal_active, "Gallery opens read-only menu")
+	_expect((view._modal_body.get_child(0) as Label).text == VIEW.GALLERY_TEXTS.text("title","en"), "Post-ending gallery menu title is English")
 	var archived_entries: Array[Dictionary] = preload("res://scripts/systems/ending_gallery_store.gd").new().list_entries()
 	_expect(not archived_entries.is_empty(), "Gallery has archived entries")
 	if not archived_entries.is_empty():
 		view._gallery_page(archived_entries[0]["id"],0)
 		_expect(view._modal_active, "Gallery renders archived text page")
+		var expected_page: Dictionary = pages.build(archived_entries[0]["state"],"en")[0]
+		_expect((view._modal_body.get_child(2).get_child(0) as Label).text == expected_page["text"], "Actual gallery modal uses English preserved-state page")
 	view._close_modal()
 	_expect(session.snapshot() == before_gallery and FileAccess.get_file_as_bytes(source_path) == source_bytes, "Gallery never installs or saves gameplay state")
 	TranslationServer.set_locale("en")

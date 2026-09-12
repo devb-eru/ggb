@@ -1,6 +1,8 @@
 class_name StartScreen
 extends Control
 
+const GALLERY_TEXTS := preload("res://scripts/ui/ending_gallery_texts.gd")
+
 signal new_game_requested(slot_id: String)
 signal load_game_requested(slot_id: String)
 signal quit_requested
@@ -360,34 +362,36 @@ func _setup_gallery() -> void:
 	_gallery_controls.add_child(_gallery_choices)
 	_gallery_choices.item_selected.connect(_select_gallery_entry)
 	_gallery_previous = Button.new()
-	_gallery_previous.text = "이전"
+	_gallery_previous.text = GALLERY_TEXTS.text("previous",_locale)
 	_gallery_controls.add_child(_gallery_previous)
 	_gallery_previous.pressed.connect(func(): _show_gallery_page(_gallery_page_index-1))
 	_gallery_next = Button.new()
-	_gallery_next.text = "다음"
+	_gallery_next.text = GALLERY_TEXTS.text("next",_locale)
 	_gallery_controls.add_child(_gallery_next)
 	_gallery_next.pressed.connect(func(): _show_gallery_page(_gallery_page_index+1))
 	_gallery_controls.hide()
 
 func _open_gallery() -> void:
+	_gallery_previous.text = GALLERY_TEXTS.text("previous",_locale)
+	_gallery_next.text = GALLERY_TEXTS.text("next",_locale)
 	_gallery_entries = preload("res://scripts/systems/ending_gallery_store.gd").new().list_entries()
 	_gallery_choices.clear()
 	_gallery_scroll.scroll_vertical = 0
 	_gallery_pages.clear()
 	for index in range(_gallery_entries.size()):
-		_gallery_choices.add_item(("현실 기상" if _gallery_entries[index]["branch"] == "reality" else "안정화 잔류") + " · %d" % (index+1))
+		_gallery_choices.add_item(GALLERY_TEXTS.text("record",_locale) % [GALLERY_TEXTS.text(_gallery_entries[index]["branch"],_locale),index+1])
 	_open_modal(_launch_panel, _launch_return_button)
 	_gallery_controls.show()
 	if _gallery_entries.is_empty():
-		_launch_title.text = "감상 기록"
-		_launch_body.text = "보존된 엔딩 감상 기록이 없습니다. 미감상 장면은 표시하지 않습니다."
+		_launch_title.text = GALLERY_TEXTS.text("title",_locale)
+		_launch_body.text = GALLERY_TEXTS.text("empty",_locale)
 		_gallery_previous.disabled = true
 		_gallery_next.disabled = true
 	else: _select_gallery_entry(0)
 
 func _select_gallery_entry(index: int) -> void:
 	if index < 0 or index >= _gallery_entries.size(): return
-	_gallery_pages = preload("res://scripts/systems/ending_gallery_pages.gd").build(_gallery_entries[index]["state"])
+	_gallery_pages = preload("res://scripts/systems/ending_gallery_pages.gd").build(_gallery_entries[index]["state"],_locale)
 	_show_gallery_page(0)
 
 func _show_gallery_page(index: int) -> void:
