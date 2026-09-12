@@ -92,6 +92,7 @@ const TEA_STEPS := [
 const TEA_STEP_ITEMS := ["HOT_WATER", "CUP", "TEA_LEAVES", "HOT_WATER", "TIMER", "TEAPOT"]
 const TEA_STEP_ITEM_LABELS := ["뜨거운 물", "빈 찻잔", "찻잎", "뜨거운 물", "모래시계", "찻주전자"]
 
+var _dialogue_texts := DialogueRepository.new()
 var _slot_id := "slot_01"
 var _resume_id := "P1_ENTRY"
 var _test_mode := false
@@ -656,7 +657,7 @@ func _apply_window_text_scale() -> void:
 
 func _show_p1_intro() -> void:
 	_add_unique("introduced", "EDGAR")
-	var texts := DialogueRepository.new()
+	var texts := _dialogue_texts
 	var locale := TranslationServer.get_locale()
 	_show_dialogue([
 		{"speaker": "SYSTEM", "text": texts.get_text(&"P1_WAKE_LIGHT", locale)},
@@ -1700,7 +1701,7 @@ func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 
 
 func _dialogue_ui_text(text_id: String, variables: Dictionary = {}) -> String:
-	return DialogueRepository.new().get_text(text_id, TranslationServer.get_locale(), variables)
+	return _dialogue_texts.get_text(text_id, TranslationServer.get_locale(), variables)
 
 
 func _localized_speaker(speaker: String) -> String:
@@ -1845,7 +1846,7 @@ func _open_menu() -> void:
 
 func _localized_notebook_entry(entry: String) -> String:
 	# Legacy saves contain Korean prose; translate for display without rewriting history.
-	var texts := DialogueRepository.new()
+	var texts := _dialogue_texts
 	for text_id in ["NOTE_P_DUTIES","NOTE_P_IMPRESSIONS","NOTE_P_BIRD","NOTE_P_WINDOWS","NOTE_P_JOURNAL","NOTE_P_SIGNATURES","NOTE_P_PULSE","NOTE_P_WEATHER","NOTE_P_SLEEP","NOTE_P_TEA"]:
 		if entry == texts.get_text(text_id, "ko-KR"):
 			return texts.get_text(text_id, TranslationServer.get_locale())

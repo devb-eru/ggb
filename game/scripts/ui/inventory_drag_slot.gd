@@ -5,13 +5,14 @@ signal drag_started(item_id: String)
 
 var item_id := ""
 var item_label := ""
+var _texts := DialogueRepository.new()
 
 
 func set_inventory_item(next_item_id: String, next_label: String) -> void:
 	item_id = next_item_id
 	item_label = next_label
 	set_meta("item_id", item_id)
-	var texts := DialogueRepository.new()
+	var texts := _texts
 	var locale := TranslationServer.get_locale()
 	text = item_label if not item_id.is_empty() else texts.get_text("UI_INV_EMPTY", locale)
 	disabled = item_id.is_empty()
