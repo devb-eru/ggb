@@ -303,7 +303,7 @@ func _build_loop_bedroom(local: Dictionary) -> void:
 		_add_hotspot("NOTEBOOK", _dialogue_ui_text("CH1_BED_NOTEBOOK"), Rect2(350, 240, 470, 100), _open_notebook)
 	_action("AS_ROUTINE", _dialogue_ui_text("CH1_BED_ROUTINE_DONE" if local["routine_done"] else "CH1_BED_ROUTINE"), Rect2(350, 550, 650, 100), "routine")
 	_add_hotspot("SLEEP", _dialogue_ui_text("CH1_BED_SLEEP"), Rect2(1090, 580, 510, 140), _confirm_sleep)
-	if int(session.snapshot()["meta_progress"]["journal_stage"]) < 2 and session.snapshot()["meta_progress"]["failure_knowledge"].has("B3_B") and not local["clock_locked"]:
+	if session.can_prepare_clock_shortcut():
 		_action("BSHORT", _dialogue_ui_text("CH1_BED_SHORTCUT"), Rect2(360, 730, 880, 100), "shortcut")
 	_clock_hotspot()
 

@@ -3,6 +3,9 @@
   "fallback_locale": "ko-KR",
   "supported_locales": ["ko-KR", "en-US"],
   "entries": {
+    "CH1_BSHORT_BEDROOM": {"speaker_id": "SYSTEM", "variables": {}},
+    "CH1_BSHORT_UNAVAILABLE": {"speaker_id": "SYSTEM", "variables": {}},
+    "CH1_BSHORT_COMPLETE": {"speaker_id": "SYSTEM", "variables": {}},
     "CH1_B4_NEED_SIGNAL": {"speaker_id": "SYSTEM", "variables": {}},
     "CH1_B4_RECORD": {"speaker_id": "SYSTEM", "variables": {}},
     "CH1_B4_RECORDED": {"speaker_id": "SYSTEM", "variables": {}},

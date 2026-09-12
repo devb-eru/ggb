@@ -4,6 +4,9 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"CH1_BSHORT_BEDROOM": "같은 침실에서 수첩을 펼치고 준비 동선을 시작한다.",
+"CH1_BSHORT_UNAVAILABLE": "리셋 뒤 검증한 배치와 아직 해결되지 않은 실패 기록이 필요하다. 이미 신호를 만들었거나 파형을 기록했다면 그 결과를 이어서 조사한다.",
+"CH1_BSHORT_COMPLETE": "같은 침실에서 일과를 마쳤다. 기록해 둔 순서로 네 방의 탁본을 새로 뜨고, 검증한 배선과 역할만 다시 놓는다. 전달 시점은 직접 정한다.",
 "CH1_B4_NEED_SIGNAL": "공명통에 신호가 남아 있어야 파형을 기록할 수 있다.",
 "CH1_B4_RECORD": "공명통의 세 파형을 투명지에 기록",
 "CH1_B4_RECORDED": "길고 낮은 진입파, 짧게 갈라지는 두 반사파, 바깥을 닫는 느린 잔류파를 투명지에 기록했다.",
@@ -192,6 +195,9 @@ localized_text = {
 "CH1_SLEEP_RULE": "물건과 장치의 상태는 같은 아침으로 돌아온다. 수첩과 확인한 정보, 사용인의 기억은 남는다."
 },
 "en-US": {
+"CH1_BSHORT_BEDROOM": "Open the notebook in the same bedroom to begin the preparation route.",
+"CH1_BSHORT_UNAVAILABLE": "Preparation requires a reset, a verified layout and an unresolved failure record. If the signal has already been produced or recorded, continue investigating that result.",
+"CH1_BSHORT_COMPLETE": "I finished the routine from the same bedroom. Following my notes, I took fresh rubbings from all four rooms and restored only the verified wiring and roles. I must set the transmission timing myself.",
 "CH1_B4_NEED_SIGNAL": "A signal must remain in the resonance chamber before I can record its waveform.",
 "CH1_B4_RECORD": "Record the chamber's three wave segments on a transparent sheet",
 "CH1_B4_RECORDED": "I recorded a long, low entry wave, two short branching reflections, and a slow residual wave closing the outside on a transparent sheet.",

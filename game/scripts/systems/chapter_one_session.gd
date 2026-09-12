@@ -46,6 +46,20 @@ func local_state(state: Dictionary = {}) -> Dictionary:
 	return result
 
 
+func can_prepare_clock_shortcut() -> bool:
+	var state := snapshot()
+	var meta: Dictionary = state["meta_progress"]
+	var knowledge: Dictionary = meta["knowledge_entries"]
+	var local := local_state(state)
+	return state["loop_state"]["location_id"] == "M2_BEDROOM" \
+		and int(meta["journal_stage"]) == 1 \
+		and knowledge.get("clock_network_layout_solved", false) \
+		and meta["failure_knowledge"].get("B3_B", {}).get("status", "") == "active" \
+		and not local["clock_locked"] \
+		and not local["signal_generated"] \
+		and not knowledge.get("b4_waveform_acquired", false)
+
+
 func known(key: String) -> bool:
 	return bool(snapshot()["meta_progress"]["knowledge_entries"].get(key, false))
 
@@ -317,9 +331,9 @@ func act(action: String, value: Variant = null) -> Dictionary:
 						text += "\n에드가: 같은 소리가 다시 나지 않도록 점검할 의무가 있습니다. 원인을 기록하셨다면, 점검 순서를 확인하겠습니다."
 		"shortcut":
 			if room != "M2_BEDROOM":
-				return _reject("같은 침실에서 수첩을 펼치고 준비 동선을 시작한다.")
-			if not knowledge.get("clock_network_layout_solved", false) or not meta["failure_knowledge"].has("B3_B") or local["clock_locked"]:
-				return _reject("리셋 뒤 검증한 배치와 실패 기록이 있어야 준비를 축약할 수 있다.")
+				return _reject("같은 침실에서 수첩을 펼치고 준비 동선을 시작한다.", "CH1_BSHORT_BEDROOM")
+			if not can_prepare_clock_shortcut():
+				return _reject("리셋 뒤 검증한 배치와 아직 해결되지 않은 실패 기록이 필요하다. 이미 신호를 만들었거나 파형을 기록했다면 그 결과를 이어서 조사한다.", "CH1_BSHORT_UNAVAILABLE")
 			local["routine_done"] = true
 			local["rubbed"] = CLOCK.CLOCKS.duplicate()
 			local["board"] = knowledge["clock_verified_board"].duplicate(true)
@@ -327,6 +341,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			loop["time_block"] = "evening_free"
 			loop["location_id"] = "M1_GREAT_CLOCK"
 			text = "같은 침실에서 일과를 마쳤다. 기록해 둔 순서로 네 방의 탁본을 새로 뜨고, 검증한 배선과 역할만 다시 놓는다. 전달 시점은 직접 정한다."
+			text_id = "CH1_BSHORT_COMPLETE"
 		"record_wave":
 			if room != "M1_GREAT_CLOCK" or not local["signal_generated"]:
 				return _reject("공명통에 신호가 남아 있어야 파형을 기록할 수 있다.", "CH1_B4_NEED_SIGNAL")
