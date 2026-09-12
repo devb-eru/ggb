@@ -95,6 +95,14 @@ var _latest_slot_id := ""
 var _slot_mode := "load"
 var _pending_overwrite_slot := ""
 var _focus_before_modal: Control
+var _gallery_button: Button
+var _gallery_controls: HBoxContainer
+var _gallery_choices: OptionButton
+var _gallery_previous: Button
+var _gallery_next: Button
+var _gallery_entries: Array[Dictionary] = []
+var _gallery_pages: Array[Dictionary] = []
+var _gallery_page_index := 0
 
 
 func configure_profile_store(profile_store: AccessibilityProfileStore) -> void:
@@ -108,6 +116,7 @@ func _ready() -> void:
 	_locale = TranslationServer.get_locale()
 	_bind_asset_ids()
 	_connect_controls()
+	_setup_gallery()
 	_populate_options()
 	var profile_result := _profile_store.load_profile()
 	_profile = profile_result.get("profile", _profile_store.default_profile()).duplicate(true)
@@ -258,6 +267,69 @@ func _apply_localized_text() -> void:
 	_launch_title.text = _text(&"UI_LAUNCH_TITLE")
 	_launch_return_button.text = _text(&"UI_LAUNCH_RETURN")
 
+
+func _setup_gallery() -> void:
+	_gallery_button = Button.new()
+	_gallery_button.name = "GalleryButton"
+	_gallery_button.text = "감상 기록"
+	_gallery_button.custom_minimum_size.y = 46
+	_content_button.get_parent().add_child(_gallery_button)
+	_gallery_button.pressed.connect(_open_gallery)
+	var body_parent := _launch_body.get_parent()
+	var body_index := _launch_body.get_index()
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size.y = 120
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	body_parent.remove_child(_launch_body)
+	body_parent.add_child(scroll)
+	body_parent.move_child(scroll, body_index)
+	scroll.add_child(_launch_body)
+	_launch_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_launch_body.size_flags_vertical = Control.SIZE_FILL
+	_gallery_controls = HBoxContainer.new()
+	_launch_return_button.get_parent().add_child(_gallery_controls)
+	_gallery_choices = OptionButton.new()
+	_gallery_choices.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_gallery_controls.add_child(_gallery_choices)
+	_gallery_choices.item_selected.connect(_select_gallery_entry)
+	_gallery_previous = Button.new()
+	_gallery_previous.text = "이전"
+	_gallery_controls.add_child(_gallery_previous)
+	_gallery_previous.pressed.connect(func(): _show_gallery_page(_gallery_page_index-1))
+	_gallery_next = Button.new()
+	_gallery_next.text = "다음"
+	_gallery_controls.add_child(_gallery_next)
+	_gallery_next.pressed.connect(func(): _show_gallery_page(_gallery_page_index+1))
+	_gallery_controls.hide()
+
+func _open_gallery() -> void:
+	_gallery_entries = preload("res://scripts/systems/ending_gallery_store.gd").new().list_entries()
+	_gallery_choices.clear()
+	_gallery_pages.clear()
+	for index in range(_gallery_entries.size()):
+		_gallery_choices.add_item(("현실 기상" if _gallery_entries[index]["branch"] == "reality" else "안정화 잔류") + " · %d" % (index+1))
+	_open_modal(_launch_panel, _launch_return_button)
+	_gallery_controls.show()
+	if _gallery_entries.is_empty():
+		_launch_title.text = "감상 기록"
+		_launch_body.text = "보존된 엔딩 감상 기록이 없습니다. 미감상 장면은 표시하지 않습니다."
+		_gallery_previous.disabled = true
+		_gallery_next.disabled = true
+	else: _select_gallery_entry(0)
+
+func _select_gallery_entry(index: int) -> void:
+	if index < 0 or index >= _gallery_entries.size(): return
+	_gallery_pages = preload("res://scripts/systems/ending_gallery_pages.gd").build(_gallery_entries[index]["state"])
+	_show_gallery_page(0)
+
+func _show_gallery_page(index: int) -> void:
+	if index < 0 or index >= _gallery_pages.size(): return
+	_gallery_page_index = index
+	_launch_title.text = "%s · %d/%d" % [_gallery_pages[index]["title"],index+1,_gallery_pages.size()]
+	_launch_body.text = _gallery_pages[index]["text"]
+	_gallery_previous.disabled = index == 0
+	_gallery_next.disabled = index == _gallery_pages.size()-1
 
 func _on_continue_pressed() -> void:
 	if not _latest_slot_id.is_empty():
@@ -446,6 +518,7 @@ func _open_modal(panel: Control, focus_target: Control, remember_focus: bool = t
 
 
 func _close_modal() -> void:
+	if is_instance_valid(_gallery_controls): _gallery_controls.hide()
 	for modal in _modal_panels():
 		modal.visible = false
 	_dimmer.visible = false
@@ -488,6 +561,8 @@ func _all_interactive_controls() -> Array[Control]:
 	]
 	for button in _slot_buttons:
 		controls.append(button)
+	if is_instance_valid(_gallery_button):
+		controls.append_array([_gallery_button,_gallery_choices,_gallery_previous,_gallery_next])
 	return controls
 
 

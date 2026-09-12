@@ -44,6 +44,12 @@ func run(tree: SceneTree) -> Dictionary:
 	await _validate_slot_modes(screen)
 	await _validate_support_modals(screen)
 	_validate_layout(screen)
+	var gallery_before := GameState.get_snapshot()
+	screen._open_gallery()
+	_expect(screen._active_modal() != null and screen._gallery_controls.visible, "title gallery opens", _errors)
+	if not screen._gallery_pages.is_empty(): screen._show_gallery_page(0)
+	screen._close_modal()
+	_expect(not screen._gallery_controls.visible and GameState.get_snapshot() == gallery_before, "title gallery leaves gameplay untouched", _errors)
 	await _validate_bootstrap_handoff()
 
 	screen.queue_free()
