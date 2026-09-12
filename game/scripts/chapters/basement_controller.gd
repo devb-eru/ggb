@@ -1072,11 +1072,13 @@ func _build_core_overlay() -> void:
 	board.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_hotspot_layer.add_child(board)
 	_place(board, Rect2(150,170,850,660))
-	_board_label("B4 점선: 종 파형 / C5 굵은 선: 거울 회로\nD4 가는 선: 고정 포트 잔상\n회전은 시계 방향, 반전은 원본에 먼저 적용한다.", Rect2(150,845,850,100))
+	_board_label("B4 점선: 종 파형 / C5 굵은 선: 거울 회로\nD4 가는 선: 고정 포트 잔상\n기준 표식: 열두 번째 종 완료선 · 닫힌 고리 중심 · 중앙 심장 포트\n회전은 시계 방향, 반전은 원본에 먼저 적용한다.", Rect2(150,835,850,125))
 	for index in range(3):
 		var layer: String = rules.LAYERS[index]
 		var y := 160 + index*230
-		_board_label("%s · %d도 · 반전 %s · 기준점 %d" % [layer,local[layer]["turn"]*90,str(local[layer]["flip"]),local[layer]["anchor"]], Rect2(1050,y,720,55))
+		var anchor_names := ["미지정", "원점 정렬", "오른쪽 한 칸", "아래쪽 한 칸"]
+		var anchor_index := clampi(int(local[layer]["anchor"]) + 1, 0, 3)
+		_board_label("%s · %d도 · 반전 %s · %s" % [layer,local[layer]["turn"]*90,"있음" if local[layer]["flip"] else "없음",anchor_names[anchor_index]], Rect2(1050,y,720,55))
 		if not local["locked"]:
 			if layer != "D4":
 				_action(layer+"_ROTATE", "90도 회전", Rect2(1050,y+65,340,55), "f0c", {"action":"rotate","layer":layer}, false)
@@ -1088,7 +1090,8 @@ func _build_core_overlay() -> void:
 	else:
 		for index in range(3):
 			var point: String = rules.INVESTIGATION[index]
-			_action("F0C_"+point, point, Rect2(1020+index*250,885,230,75), "f0c", {"action":"inspect","value":point})
+			var point_label: String = {"PATH":"PATH · 경로", "SPLIT":"SPLIT · 분기", "AUTH":"AUTH · 인증 고리"}[point]
+			_action("F0C_"+point, point_label, Rect2(1020+index*250,885,230,75), "f0c", {"action":"inspect","value":point})
 
 
 func _build_core_samples() -> void:
