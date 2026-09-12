@@ -1323,6 +1323,9 @@ func _validate_stay_charter(session: BasementSession) -> void:
 func _validate_stay_story(session: BasementSession) -> void:
 	var seed := session.snapshot()
 	var rules = SESSION.STAY_STORY
+	var texts = VIEW.STORY_TEXTS
+	var original_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
 	for mask in range(32):
 		var state := seed.duplicate(true)
 		var index := 0
@@ -1331,6 +1334,17 @@ func _validate_stay_story(session: BasementSession) -> void:
 			index += 1
 		var seating: String = rules.seating(state)
 		for name in rules.OWNERS.values(): _expect(name in seating,"Stay all seating combinations retain five names")
+		var english_seating: String = texts.seating(state, "en")
+		_expect(english_seating.split("\n").size() == seating.split("\n").size() and texts.seating(state, "ko") == seating, "Translated seating preserves canonical paragraph count and Korean text")
+		for owner in rules.OWNERS:
+			_expect(english_seating.contains(VIEW.STAY_TEXTS.owner(owner, "en")), "English seating retains all five names in all 32 combinations")
+			var before_lines: Dictionary = state.duplicate(true)
+			var original_lines: Array = rules.table_lines(state, owner)
+			var translated_lines: Array = texts.table_lines(state, owner, "en")
+			_expect(translated_lines.size() == original_lines.size() and state == before_lines, "English table lines neither reveal extra branches nor mutate relationships")
+			_expect(texts.table_lines(state, owner, "ko") == original_lines, "Korean table dialogue stays canonical")
+			for i in range(original_lines.size()):
+				_expect(translated_lines[i]["text"] != original_lines[i]["text"], "Selected table dialogue has an English translation")
 	var table_seed: Dictionary = rules.apply(seed,"dine",null)["state"]
 	table_seed = rules.apply(table_seed,"sit",null)["state"]
 	for order in [[0,1],[1,0]]:
@@ -1344,18 +1358,22 @@ func _validate_stay_story(session: BasementSession) -> void:
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	for id in rules.HALL:
+		_expect((view._hotspot_layer.get_node("STORY_HALL_"+id) as Button).text == texts.hall(id, 0, "en"), "English hall object title")
 		view._hotspot_layer.get_node("STORY_HALL_"+id).pressed.emit()
 		if id == "cord":
 			_expect(view._modal_active,"Stay shared channel selection")
 			view._modal_body.get_child(4).pressed.emit()
 		else:
+			_expect(view._dialogue_label.text == texts.hall(id, 1, "en"), "Actual hall action displays English observation")
 			while view._dialogue_active: view._advance_dialogue()
 	view._hotspot_layer.get_node("STORY_DINE").pressed.emit()
 	view._hotspot_layer.get_node("STORY_SIT").pressed.emit()
 	while view._dialogue_active: view._advance_dialogue()
 	_expect(not session.act("story_final").get("ok",false),"Stay requires manual notebook writing")
 	for owner in rules.TABLE:
+		var expected_lines: Array = texts.table_lines(session.snapshot(), owner, "en")
 		view._hotspot_layer.get_node("STORY_TABLE_"+owner).pressed.emit()
+		_expect(view._dialogue_label.text == expected_lines[0]["text"], "Actual table action displays selected English branch")
 		while view._dialogue_active: view._advance_dialogue()
 	view._hotspot_layer.get_node("STORY_TEA_HOT").pressed.emit()
 	view._hotspot_layer.get_node("STORY_WRITE_1").pressed.emit()
@@ -1379,6 +1397,7 @@ func _validate_stay_story(session: BasementSession) -> void:
 	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay final frame reload")
 	_expect(session.snapshot()["ending_run"]["current_node_id"] == "CREDITS_STAY","Stay reaches credits boundary")
 	_expect(session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"] and session.snapshot()["ending_run"]["final_decision"] == "stay","Stay story preserves choice and relationships")
+	TranslationServer.set_locale(original_locale)
 	await _validate_credits(session)
 
 

@@ -7,6 +7,7 @@ const ENDING_SIGNATURE := preload("res://scripts/ui/ending_signature.gd")
 const ENDING_TEXTS := preload("res://scripts/ui/ending_decision_texts.gd")
 const FIELD_TEXTS := preload("res://scripts/ui/field_notebook_texts.gd")
 const STAY_TEXTS := preload("res://scripts/ui/stay_charter_texts.gd")
+const STORY_TEXTS := preload("res://scripts/ui/stay_story_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -751,6 +752,7 @@ func _tick_demo_stinger(delta: float) -> void:
 
 func _build_stay_story() -> void:
 	var rules = BasementSession.STAY_STORY
+	var locale := TranslationServer.get_locale()
 	var state := session.snapshot()
 	var node: String = state["ending_run"]["current_node_id"]
 	var local: Dictionary = rules.progress(state)
@@ -771,26 +773,29 @@ func _build_stay_story() -> void:
 			if local.has("channel"): _board_label("선택된 통신 채널: "+rules.OWNERS[local["channel"]]+" · 응답은 상대가 선택",Rect2(250,720,1420,55))
 			var index := 0
 			for id in rules.HALL:
-				_add_hotspot("STORY_HALL_"+id,rules.HALL[id][0],Rect2(250+(index%2)*750,210+(index/2)*170,670,120),_story_channel_menu if id == "cord" else _ending_read.bind([{"speaker":"SYSTEM","text":rules.HALL[id][1]}],"hall",id,"story_"))
+				_add_hotspot("STORY_HALL_"+id,STORY_TEXTS.hall(id,0,locale),Rect2(250+(index%2)*750,210+(index/2)*170,670,120),_story_channel_menu if id == "cord" else _ending_read.bind([{"speaker":"SYSTEM","text":STORY_TEXTS.hall(id,1,locale)}],"hall",id,"story_"))
 				index += 1
 			_action("STORY_DINE","조사를 마치고 식당으로",Rect2(400,800,1120,100),"story_dine",null,false)
 		"EDS_DINING_ROOM":
-			_board_label(rules.seating(state),Rect2(250,200,1420,440))
-			_add_hotspot("STORY_SIT","주인공 자리로 간다",Rect2(400,780,1120,100),_ending_read.bind([{"speaker":"SYSTEM","text":rules.seating(state)}],"sit",null,"story_"))
+			_board_label(STORY_TEXTS.seating(state,locale),Rect2(250,200,1420,440))
+			_add_hotspot("STORY_SIT","Take your place" if locale.begins_with("en") else "주인공 자리로 간다",Rect2(400,780,1120,100),_ending_read.bind([{"speaker":"SYSTEM","text":STORY_TEXTS.seating(state,locale)}],"sit",null,"story_"))
 		"EDS_TABLE_OBJECTS":
 			for index in range(2):
-				_action("STORY_WRITE_%d"%index,("쓴 문장: " if index in local["written"] else "수첩에 쓴다: ")+rules.SENTENCES[index],Rect2(250,180+index*105,1420,85),"story_write",index,false)
+				var prefix := ("Written: " if index in local["written"] else "Write in notebook: ") if locale.begins_with("en") else ("쓴 문장: " if index in local["written"] else "수첩에 쓴다: ")
+				_action("STORY_WRITE_%d"%index,prefix+STORY_TEXTS.sentence(index,locale),Rect2(250,180+index*105,1420,85),"story_write",index,false)
 			var index := 0
 			for owner in rules.TABLE:
-				_add_hotspot("STORY_TABLE_"+owner,rules.TABLE[owner][0],Rect2(250+(index%2)*750,420+(index/2)*110,670,85),_ending_read.bind(rules.table_lines(state,owner),"table",owner,"story_"))
+				_add_hotspot("STORY_TABLE_"+owner,STORY_TEXTS.table_title(owner,locale),Rect2(250+(index%2)*750,420+(index/2)*110,670,85),_ending_read.bind(STORY_TEXTS.table_lines(state,owner,locale),"table",owner,"story_"))
 				index += 1
 			_action("STORY_TEA_WARM","차 · 따뜻하게"+(" · 선택함" if local["tea"] == "warm" else ""),Rect2(250,755,670,60),"story_tea","warm",false)
 			_action("STORY_TEA_HOT","차 · 더 뜨겁게"+(" · 선택함" if local["tea"] == "hot" else ""),Rect2(1000,755,670,60),"story_tea","hot",false)
 			if local["written"].size() == 2: _action("STORY_FINAL","이 저녁을 바라본다",Rect2(400,850,1120,80),"story_final",null,false)
 		"EDS_FINAL_FRAME":
 			_objective_label.text = "ED_B 안정화 잔류 · FINAL DECISION: STAY"
-			var text: String = "주인공이 정면을 보고 앉았다. 사용인들은 과거처럼 양옆에 서 있다." if local["elapsed"] < 2 else rules.seating(state)
-			_board_label(text+"\n난로 향 뒤에 금속 냄새, 새소리 뒤에 팬 회전음이 남는다.\n다섯 서명은 섞이지 않고 각자의 경계를 유지한다.",Rect2(250,200,1420,500))
+			var opening := "You sit facing forward. The servants stand on either side as they once did." if locale.begins_with("en") else "주인공이 정면을 보고 앉았다. 사용인들은 과거처럼 양옆에 서 있다."
+			var text: String = opening if local["elapsed"] < 2 else STORY_TEXTS.seating(state,locale)
+			var sensory := "\nBehind the hearth's scent remains the smell of metal; behind birdsong, the turning fan.\nThe five signatures do not merge. Each retains its own boundary." if locale.begins_with("en") else "\n난로 향 뒤에 금속 냄새, 새소리 뒤에 팬 회전음이 남는다.\n다섯 서명은 섞이지 않고 각자의 경계를 유지한다."
+			_board_label(text+sensory,Rect2(250,200,1420,500))
 			if local["elapsed"] < 2: set_process(true)
 			else: _action("STORY_FINISH","이 저녁을 남긴다",Rect2(400,800,1120,100),"story_finish",null,false)
 
