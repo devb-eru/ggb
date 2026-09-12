@@ -221,6 +221,24 @@ func _validate_full_transition() -> void:
 	_expect((view._modal_body.get_child(2).get_child(0) as Label).text.contains(shown_text), "E1 history available through menu")
 	(view._modal_body.get_child(3) as Button).pressed.emit()
 	_expect(game.get_snapshot() == before_history, "E1 history viewer is read only")
+	for choice_method in ["_show_mara1_choice", "_show_iris_choice", "_show_luca_choice", "_show_edgar_choice", "_show_mara2_choice"]:
+		var before_choice: Dictionary = game.get_snapshot()
+		var option_count: int = before_choice["meta_progress"]["dialogue_history"]["entries"].size()
+		view.call(choice_method)
+		var displayed: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(displayed.size() == option_count + 1, "relationship choice display recorded: " + choice_method)
+		_expect(String(displayed.back()["variables"]["text"]).contains((view._modal_body.get_child(4) as Button).text), "relationship transcript includes actual option: " + choice_method)
+		(view._modal_body.get_child(3) as Button).pressed.emit()
+		_expect(game.get_value("meta_progress.dialogue_history.entries", []).size() == option_count + 1, "relationship deferral is not recorded as selected answer")
+		_expect(game.get_snapshot()["meta_progress"]["servants"] == before_choice["meta_progress"]["servants"], "relationship deferral preserves bonds and completion")
+	var choice_probe := {"calls": 0}
+	view._show_recorded_choice("Choice test", "Shown only", [{"label": "Cancel", "action": view._close_modal}, {"label": "Chosen answer", "action": func(): choice_probe["calls"] += 1; view._close_modal()}])
+	var selected_button := view._modal_body.get_child(4) as Button
+	selected_button.pressed.emit()
+	var selected_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+	_expect(choice_probe["calls"] == 1 and selected_history.back()["variables"]["text"] == "Chosen answer", "recorded choice invokes original action after storing selection")
+	selected_button.pressed.emit()
+	_expect(choice_probe["calls"] == 1, "closed choice cannot fire stale callback")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://e1_morning.png")

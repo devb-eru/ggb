@@ -13,6 +13,7 @@ var _edgar_timer: Timer
 var _rendering := false
 var _world_focus := ""
 var _history_recorded_index := -1
+var _choice_modal_generation := 0
 
 
 func _ready() -> void:
@@ -136,6 +137,7 @@ func _advance_dialogue() -> void:
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
+	_choice_modal_generation += 1
 	_remember_world_focus()
 	for child in _modal_body.get_children():
 		_modal_body.remove_child(child)
@@ -144,8 +146,46 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 
 
 func _close_modal() -> void:
+	_choice_modal_generation += 1
 	super._close_modal()
 	call_deferred("_restore_world_focus")
+
+
+func _show_recorded_choice(title: String, body: String, actions: Array) -> void:
+	var context := {"generation": _choice_modal_generation + 1, "recorded": false, "text": title + "\n" + body}
+	var wrapped: Array = []
+	for index in range(actions.size()):
+		var action: Dictionary = actions[index].duplicate()
+		var label := String(action["label"])
+		context["text"] += "\n" + label
+		action["action"] = _recorded_choice_pressed.bind(context, label, action["action"], index == 0)
+		wrapped.append(action)
+	_show_modal(title, body, wrapped)
+	_record_modal_options(context)
+
+
+func _record_modal_options(context: Dictionary) -> bool:
+	if context["recorded"] or not _history_enabled():
+		return true
+	var result := session.record_viewed_line(_dialogue_ui_text("HISTORY_OPTIONS"), String(context["text"]), TranslationServer.get_locale())
+	if not result.get("ok", false):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return false
+	context["recorded"] = true
+	return true
+
+
+func _recorded_choice_pressed(context: Dictionary, label: String, action: Callable, cancel: bool) -> void:
+	if not _modal_active or int(context["generation"]) != _choice_modal_generation:
+		return
+	if not _record_modal_options(context):
+		return
+	if not cancel and _history_enabled():
+		var result := session.record_viewed_line(_dialogue_ui_text("HISTORY_SELECTED"), label, TranslationServer.get_locale())
+		if not result.get("ok", false):
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return
+	action.call()
 
 
 func _update_objective() -> void:

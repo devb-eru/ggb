@@ -254,7 +254,7 @@ func _build_mara1_relationship() -> void:
 
 
 func _show_mara1_choice() -> void:
-	_show_modal("기록을 어떻게 남길까", "두 방식 모두 사건과 명령자·수행자의 책임을 보존한다.", [
+	_show_recorded_choice("기록을 어떻게 남길까", "두 방식 모두 사건과 명령자·수행자의 책임을 보존한다.", [
 		{"label": "아직 결정하지 않는다", "action": _close_modal},
 		{"label": "책임자와 원문을 그대로 남긴다", "action": _modal_act.bind("mara1_choose", "original_attribution")},
 		{"label": "피해자 식별 정보만 보호한다", "action": _modal_act.bind("mara1_choose", "protected_identifiers")},
@@ -310,7 +310,7 @@ func _show_iris_channel(gauge: String, index: int) -> void:
 
 
 func _show_iris_choice() -> void:
-	_show_modal("지금의 온실", "두 방식 모두 외부값과 책임 기록을 보존한다. 현재 보이는 계절 연출을 유지할지 정한다.", [
+	_show_recorded_choice("지금의 온실", "두 방식 모두 외부값과 책임 기록을 보존한다. 현재 보이는 계절 연출을 유지할지 정한다.", [
 		{"label": "아직 결정하지 않는다", "action": _close_modal},
 		{"label": "불완전한 외부값과 책임 로그를 그대로 남긴다", "action": _modal_act.bind("iris_choose", "external_truth")},
 		{"label": "외부값은 보존하고 현재 온실 연출은 유지한다", "action": _modal_act.bind("iris_choose", "shelter_projection")},
@@ -363,7 +363,7 @@ func _show_luca_slot(index: int) -> void:
 
 
 func _show_luca_choice() -> void:
-	_show_modal("확인할 순서", "두 선택 모두 같은 위험 기록을 읽는다. 지금 생존한다는 사실이 기상 안전을 보장하지는 않는다.", [
+	_show_recorded_choice("확인할 순서", "두 선택 모두 같은 위험 기록을 읽는다. 지금 생존한다는 사실이 기상 안전을 보장하지는 않는다.", [
 		{"label": "아직 결정하지 않는다", "action": _close_modal},
 		{"label": "위험 수치를 먼저 전부 읽는다", "action": _modal_act.bind("luca_choose", "full_disclosure")},
 		{"label": "장치를 안정시킨 뒤 기록을 함께 읽는다", "action": _modal_act.bind("luca_choose", "stabilize_first")},
@@ -411,7 +411,7 @@ func _show_edgar_owner(function: String) -> void:
 
 
 func _show_edgar_choice() -> void:
-	_show_modal("책임의 기록", "두 선택 모두 현재 선택권은 주인공에게 반환된다. 용서 여부나 엔딩을 결정하는 선택이 아니다.", [
+	_show_recorded_choice("책임의 기록", "두 선택 모두 현재 선택권은 주인공에게 반환된다. 용서 여부나 엔딩을 결정하는 선택이 아니다.", [
 		{"label": "기록을 다시 읽는다", "action": _close_modal},
 		{"label": "당신이 한 결정도 공식 기록에 남겨요.", "action": _modal_act.bind("edgar_choose", "responsibility_recorded")},
 		{"label": "기록보다 먼저, 내 권한을 내게 직접 돌려줘요.", "action": _modal_act.bind("edgar_choose", "authority_returned")},
@@ -492,7 +492,7 @@ func _show_mara2_cell(index: int) -> void:
 
 
 func _show_mara2_choice() -> void:
-	_show_modal("기록의 보존", "둘 다 원본과 감정 주석을 보존한다. 병합은 완전 회복의 약속이 아니며, 분리는 포기가 아니다.", [
+	_show_recorded_choice("기록의 보존", "둘 다 원본과 감정 주석을 보존한다. 병합은 완전 회복의 약속이 아니며, 분리는 포기가 아니다.", [
 		{"label": "설명을 다시 생각한다", "action": _close_modal},
 		{"label": "감정 주석을 원본에 다시 합친다.", "action": _modal_act.bind("mara2_choose", "merged")},
 		{"label": "원본과 주석을 분리해 서로 참조하게 한다.", "action": _modal_act.bind("mara2_choose", "separated")},
