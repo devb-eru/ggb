@@ -342,6 +342,12 @@ func _sleep_now() -> void:
 	_feedback(result)
 
 
+func _localized_notebook_entry(entry: String) -> String:
+	if entry == "\n\n".join(SESSION_SCRIPT.J1_FRAGMENTS):
+		return _dialogue_ui_text("CH1_J1_RESTORED")
+	return super._localized_notebook_entry(entry)
+
+
 func _build_inner(local: Dictionary, journal: int) -> void:
 	var ids := ["desk", "index", "drawer", "alcove", "gap", "link"]
 	var labels := ["일지 책상", "색인함", "작은 서랍", "점검 벽감 · 숨을 공간", "일지의 마지막 여백", "초상화 뒤 연결문 걸쇠"]
@@ -350,22 +356,22 @@ func _build_inner(local: Dictionary, journal: int) -> void:
 	if journal == 0 and "desk" in local["inspected"]:
 		for index in range(3):
 			var fragment_id: int = [2, 0, 1][index]
-			var fragment := String(SESSION_SCRIPT.J1_FRAGMENTS[fragment_id])
-			var face := "앞면 · 홈이 읽힘" if bool(local["j1_front"][fragment_id]) else "뒷면 · 번진 잉크"
+			var fragment := _dialogue_ui_text("CH1_J1_FRAGMENT_%d" % fragment_id)
+			var face := _dialogue_ui_text("CH1_J1_FRONT" if bool(local["j1_front"][fragment_id]) else "CH1_J1_BACK")
 			_action("J1_PIECE_%d" % fragment_id, fragment + "\n" + face, Rect2(130 + index * 565, 368, 535, 200), "j1_piece", fragment_id, false)
-			_action("J1_FLIP_%d" % fragment_id, "앞뒤 뒤집기", Rect2(160 + index * 565, 580, 470, 56), "j1_flip", fragment_id, false)
+			_action("J1_FLIP_%d" % fragment_id, _dialogue_ui_text("CH1_J1_FLIP"), Rect2(160 + index * 565, 580, 470, 56), "j1_flip", fragment_id, false)
 		var order: Array[String] = []
 		for id in local["j1_order"]:
-			order.append(String(SESSION_SCRIPT.J1_FRAGMENTS[int(id)]).split("\n")[0])
-		_board_label("선택한 순서: " + " → ".join(order), Rect2(170, 660, 1550, 70))
-		_action("J1_CLEAR", "배열 다시 놓기", Rect2(450, 768, 450, 75), "j1_clear", null, false)
-		_action("J1_RESTORE", "눌림선과 문장 확인", Rect2(990, 768, 450, 75), "j1_restore")
+			order.append(_dialogue_ui_text("CH1_J1_FRAGMENT_%d" % int(id)).split("\n")[0])
+		_board_label(_dialogue_ui_text("CH1_J1_ORDER") + " → ".join(order), Rect2(170, 660, 1550, 70))
+		_action("J1_CLEAR", _dialogue_ui_text("CH1_J1_CLEAR"), Rect2(450, 768, 450, 75), "j1_clear", null, false)
+		_action("J1_RESTORE", _dialogue_ui_text("CH1_J1_VERIFY"), Rect2(990, 768, 450, 75), "j1_restore")
 	elif session.known("b4_waveform_acquired") and journal < 2:
 		_board_label("페이지: 긴 홈이 위에서 시작 → 두 문장으로 갈라짐 → 바깥 문단을 감쌈\n투명지 시작점: " + _direction(int(local["wave_rotation"])), Rect2(260, 390, 1370, 190))
 		_action("B5_ROTATE", "투명지 90° 회전", Rect2(300, 650, 580, 95), "wave_rotate", null, false)
 		_action("J2_RESTORE", "세 눌림 구간 대조", Rect2(990, 650, 580, 95), "restore_j2")
 	else:
-		_add_hotspot("JOURNAL_READ", "복원된 일지 다시 읽기", Rect2(440, 520, 950, 150), _open_notebook)
+		_add_hotspot("JOURNAL_READ", _dialogue_ui_text("CH1_J1_READ"), Rect2(440, 520, 950, 150), _open_notebook)
 
 
 func _build_edgar_pressure(local: Dictionary) -> void:

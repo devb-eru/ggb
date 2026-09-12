@@ -211,28 +211,29 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				local["edgar_visit_done"] = true
 		"j1_piece", "j1_flip", "j1_clear", "j1_restore":
 			if room != "M1_LIBRARY_INNER" or local["edgar_state"] != "absent" or "desk" not in local["inspected"]:
-				return _reject("책상의 압지를 확인하고 조용히 펼칠 자리를 확보한다.")
+				return _reject("책상의 압지를 확인하고 조용히 펼칠 자리를 확보한다.", "CH1_J1_NEED_DESK")
 			if int(meta["journal_stage"]) >= 1:
-				return _reject("첫 페이지는 이미 복원되어 있다.")
+				return _reject("첫 페이지는 이미 복원되어 있다.", "CH1_J1_ALREADY")
 			if action == "j1_clear":
 				local["j1_order"] = []
 			elif action in ["j1_piece", "j1_flip"]:
 				var index := int(value)
 				if index < 0 or index > 2:
-					return _reject("압지 조각을 선택한다.")
+					return _reject("압지 조각을 선택한다.", "CH1_J1_NEED_PIECE")
 				if action == "j1_flip":
 					local["j1_front"][index] = not bool(local["j1_front"][index])
 				elif index not in local["j1_order"]:
 					local["j1_order"].append(index)
 			else:
 				if local["j1_order"] != [0, 1, 2]:
-					return _reject("눌림 자국이 한 줄 어긋난다. 조각은 손상되지 않았다.")
+					return _reject("눌림 자국이 한 줄 어긋난다. 조각은 손상되지 않았다.", "CH1_J1_WRONG_ORDER")
 				if false in local["j1_front"]:
-					return _reject("잉크가 손끝에 묻지만 문장은 드러나지 않는다. 압지의 앞뒤를 확인한다.")
+					return _reject("잉크가 손끝에 묻지만 문장은 드러나지 않는다. 압지의 앞뒤를 확인한다.", "CH1_J1_WRONG_FACE")
 				meta["journal_stage"] = 1
 				knowledge["KN_J1_CLOCK_ROLES"] = true
 				knowledge["KN_J1_POST_COMPLETION_GAP"] = true
 				text = "\n\n".join(J1_FRAGMENTS)
+				text_id = "CH1_J1_RESTORED"
 				_note(knowledge, "J1", text)
 		"rub_clock":
 			if int(meta["journal_stage"]) < 1 or not CLOCK_ROOMS.has(room):

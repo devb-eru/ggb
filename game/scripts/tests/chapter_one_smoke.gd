@@ -91,12 +91,16 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(StateWriter.new(GameState).install_snapshot(after_normal_visit, GameState.revision, &"CH1_ALERT_RESTORE").get("ok", false), "restore normal encounter state")
 	session.act("inspect_inner", "desk")
 	session.act("j1_piece", 2)
-	_expect(not session.act("j1_restore").get("ok", false), "J1 partial cannot restore")
+	_expect(session.act("j1_restore").get("text_id", "") == "CH1_J1_WRONG_ORDER", "J1 partial reports localized retry without damage")
 	session.act("j1_clear")
 	for index in range(3):
 		session.act("j1_piece", index)
 		session.act("j1_flip", index)
-	_expect(session.act("j1_restore").get("ok", false), "J1 restored")
+	var restored_j1 := session.act("j1_restore")
+	_expect(restored_j1.get("ok", false) and restored_j1.get("text_id", "") == "CH1_J1_RESTORED", "J1 restored with display translation ID")
+	_expect(restored_j1.get("text", "") == "\n\n".join(SESSION.J1_FRAGMENTS), "J1 original source preserved")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "J1 restored save reload")
+	_expect(session.initialize().get("text_id", "") == "CH1_J1_RESTORED", "J1 restored translation ID survives reload")
 	_expect(int(GameState.get_value(&"meta_progress.journal_stage")) == 1, "journal stage one")
 	session.act("inspect_inner", "link")
 	for room in SESSION.CLOCK_ROOMS:
@@ -203,6 +207,19 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	var saved_locale := TranslationServer.get_locale()
 	var before_translation := GameState.get_snapshot()
 	TranslationServer.set_locale("en_US")
+	view._clear_hotspots()
+	var j1_ui := session.local_state().duplicate(true)
+	j1_ui["inspected"] = ["desk"]
+	j1_ui["j1_order"] = [0, 1, 2]
+	view._build_inner(j1_ui, 0)
+	_expect(view._hotspot_layer.get_node("J1_PIECE_0").text.contains("If you remember yesterday"), "English J1 opening clue")
+	_expect(view._hotspot_layer.get_node("J1_PIECE_1").text.contains("passing a tremor to the next room"), "English J1 preserves relay clue")
+	_expect(view._hotspot_layer.get_node("J1_PIECE_2").text.contains("one space beyond"), "English J1 preserves thirteenth sound clue")
+	_expect(view._hotspot_layer.get_node("J1_FLIP_0").text == "Turn over", "English J1 flip control retains fragment ID")
+	_expect(view._localized_notebook_entry("\n\n".join(SESSION.J1_FRAGMENTS)).contains("It is not the time that is wrong"), "Legacy J1 notebook translated only for display")
+	for index in range(3):
+		_expect(view._dialogue_texts.get_text("CH1_J1_FRAGMENT_%d" % index, "ko-KR") == SESSION.J1_FRAGMENTS[index], "Korean J1 fragments match canonical source")
+	_expect(GameState.get_snapshot() == before_translation, "J1 translated presentation preserves saved state")
 	view._update_objective()
 	_expect(view._objective_label.text.contains("black mirror"), "English chapter boundary objective")
 	view._clear_hotspots()
