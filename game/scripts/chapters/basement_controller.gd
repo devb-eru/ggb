@@ -9,6 +9,7 @@ const FIELD_TEXTS := preload("res://scripts/ui/field_notebook_texts.gd")
 const STAY_TEXTS := preload("res://scripts/ui/stay_charter_texts.gd")
 const STORY_TEXTS := preload("res://scripts/ui/stay_story_texts.gd")
 const WAKE_TEXTS := preload("res://scripts/ui/reality_wake_texts.gd")
+const SURFACE_TEXTS := preload("res://scripts/ui/reality_surface_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -685,6 +686,7 @@ func _build_field_notebook() -> void:
 
 func _build_reality_surface() -> void:
 	var rules = BasementSession.REALITY_SURFACE
+	var locale := TranslationServer.get_locale()
 	var state := session.snapshot()
 	var node: String = state["ending_run"]["current_node_id"]
 	var location: String = state["loop_state"]["location_id"]
@@ -694,34 +696,33 @@ func _build_reality_surface() -> void:
 	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_hotspot_layer.add_child(backdrop)
 	_place(backdrop,Rect2(0,90,1920,990))
-	_location_label.text = {"R0_CRYO_CHAMBER":"현실 · 냉각실", "R0_FACILITY_EXIT":"현실 · 시설 출구", "R0_SURFACE_THRESHOLD":"현실 · 지표 경계"}.get(location,location)
-	_objective_label.text = "현실 · 선택 조사"
+	_location_label.text = SURFACE_TEXTS.text(location,locale)
+	_objective_label.text = SURFACE_TEXTS.text("objective",locale)
 	if node == "EDR_FINAL_FRAME":
-		_objective_label.text = "ED_A 현실 기상 · FINAL DECISION: REALITY"
-		var views := {"left":"문틀의 거친 면에 바람의 압력이 실린다.","center":"회갈색 지표 위로 젖은 흑연선이 선명하다.","right":"먼 빛이 보인다. 무엇인지 알 수 없다. 확대하지 않는다."}
-		_board_label("한 손에 현실 수첩을 들고, 다른 손으로 시설 문틀을 잡는다.\n"+views[progress["look"]]+"\n이 시선이 앞으로 갈 방향을 확정하지는 않는다.",Rect2(250,260,1420,250))
+		_objective_label.text = SURFACE_TEXTS.text("final_objective",locale)
+		_board_label(SURFACE_TEXTS.final_frame(progress["look"],locale),Rect2(250,260,1420,250))
 		var index := 0
 		for direction in ["left","center","right"]:
-			_action("SURFACE_LOOK_"+direction,{"left":"문틀 쪽","center":"지표 쪽","right":"먼 빛 쪽"}[direction],Rect2(250+index*500,650,440,100),"surface_look",direction,false)
+			_action("SURFACE_LOOK_"+direction,SURFACE_TEXTS.view_text(direction,0,locale),Rect2(250+index*500,650,440,100),"surface_look",direction,false)
 			index += 1
 		set_process(true)
 		return
 	if node == "EDR_AIRLOCK_CONFIRM":
-		_board_label("외기는 호흡 가능 범위로 표시되지만 장기 노출은 미검증이다.\n지표 경계로 나가도 다른 생존자가 있는지는 알 수 없다.",Rect2(300,250,1320,260))
-		_action("SURFACE_CANCEL","시설을 조금 더 조사한다",Rect2(300,630,620,120),"surface_cancel",null,false)
-		_action("SURFACE_ENTER","지표 경계로 나간다",Rect2(1000,630,620,120),"surface_enter",null,false)
+		_board_label(SURFACE_TEXTS.text("airlock_board",locale),Rect2(300,250,1320,260))
+		_action("SURFACE_CANCEL",SURFACE_TEXTS.text("cancel",locale),Rect2(300,630,620,120),"surface_cancel",null,false)
+		_action("SURFACE_ENTER",SURFACE_TEXTS.text("enter",locale),Rect2(1000,630,620,120),"surface_enter",null,false)
 		return
 	var index := 0
 	for id in rules.OBJECTS:
 		if rules.OBJECTS[id][0] != location: continue
-		_add_hotspot("SURFACE_OBJ_"+id,rules.OBJECTS[id][1]+(" · 확인함" if id in progress["seen"] else ""),Rect2(350,200+index*160,1220,110),_ending_read.bind([{"speaker":"SYSTEM","text":rules.OBJECTS[id][2]}],"inspect",id,"surface_"))
+		_add_hotspot("SURFACE_OBJ_"+id,SURFACE_TEXTS.object_text(id,0,locale)+(SURFACE_TEXTS.text("checked",locale) if id in progress["seen"] else ""),Rect2(350,200+index*160,1220,110),_ending_read.bind([{"speaker":"SYSTEM","text":SURFACE_TEXTS.object_text(id,1,locale)}],"inspect",id,"surface_"))
 		index += 1
 	if node == "EDR_FACILITY_FREE_LOOK":
 		var target := "R0_CRYO_CHAMBER" if location == "R0_FACILITY_EXIT" else "R0_FACILITY_EXIT"
-		_action("SURFACE_MOVE","냉각실로" if target == "R0_CRYO_CHAMBER" else "시설 출구로",Rect2(250,760,650,100),"surface_move",target,false)
-		if location == "R0_FACILITY_EXIT": _action("SURFACE_AIRLOCK","조사를 마치고 에어록으로",Rect2(1020,760,650,100),"surface_airlock",null,false)
+		_action("SURFACE_MOVE",SURFACE_TEXTS.text("move_cryo" if target == "R0_CRYO_CHAMBER" else "move_exit",locale),Rect2(250,760,650,100),"surface_move",target,false)
+		if location == "R0_FACILITY_EXIT": _action("SURFACE_AIRLOCK",SURFACE_TEXTS.text("airlock",locale),Rect2(1020,760,650,100),"surface_airlock",null,false)
 	else:
-		_action("SURFACE_OUTSIDE","밖을 본다",Rect2(400,760,1120,100),"surface_outside",null,false)
+		_action("SURFACE_OUTSIDE",SURFACE_TEXTS.text("outside",locale),Rect2(400,760,1120,100),"surface_outside",null,false)
 
 
 func _process(delta: float) -> void:

@@ -1643,6 +1643,14 @@ func _validate_field_notebook(session: BasementSession) -> void:
 func _validate_surface(session: BasementSession) -> void:
 	var seed := session.snapshot()
 	var rules = SESSION.REALITY_SURFACE
+	var texts = VIEW.SURFACE_TEXTS
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	_expect(texts.OBJECTS.keys() == rules.OBJECTS.keys(), "Surface translation covers all six optional objects")
+	for id in rules.OBJECTS:
+		for index in [0,1]:
+			_expect(texts.object_text(id,index,"ko") == rules.OBJECTS[id][index+1], "Korean surface observations remain canonical")
+			_expect(not texts.object_text(id,index,"en").is_empty() and texts.object_text(id,index,"en") != texts.object_text(id,index,"ko"), "Surface title and observation have English text")
 	var skip := seed.duplicate(true)
 	for action in ["airlock","enter","outside"]:
 		var result: Dictionary = rules.apply(skip,action,null)
@@ -1661,11 +1669,18 @@ func _validate_surface(session: BasementSession) -> void:
 	for location in ["R0_CRYO_CHAMBER","R0_FACILITY_EXIT"]:
 		_expect(session.act("surface_move",location).get("ok",false),"Surface internal movement")
 		view._render_room()
+		_expect(view._location_label.text == texts.text(location,"en") and view._objective_label.text == texts.text("objective","en"), "Surface English location and optional objective")
 		for id in rules.OBJECTS:
 			if rules.OBJECTS[id][0] != location: continue
+			_expect((view._hotspot_layer.get_node("SURFACE_OBJ_"+id) as Button).text == texts.object_text(id,0,"en"), "Surface English object button")
 			view._hotspot_layer.get_node("SURFACE_OBJ_"+id).pressed.emit()
+			_expect(view._dialogue_label.text == texts.object_text(id,1,"en"), "Actual surface object displays English observation")
+			_expect(game.get_value("meta_progress.dialogue_history.entries",[]).back()["variables"]["text"] == texts.object_text(id,1,"en"), "Viewed surface observation is recorded in English")
 			while view._dialogue_active: view._advance_dialogue()
+			_expect((view._hotspot_layer.get_node("SURFACE_OBJ_"+id) as Button).text.ends_with(texts.text("checked","en")), "Acknowledged surface observation shows checked label")
+	_expect((view._hotspot_layer.get_node("SURFACE_AIRLOCK") as Button).text == texts.text("airlock","en"), "English airlock approach action")
 	view._hotspot_layer.get_node("SURFACE_AIRLOCK").pressed.emit()
+	_expect((view._hotspot_layer.get_node("SURFACE_CANCEL") as Button).text == texts.text("cancel","en") and (view._hotspot_layer.get_node("SURFACE_ENTER") as Button).text == texts.text("enter","en"), "Airlock keeps both investigation and exit choices in English")
 	view._hotspot_layer.get_node("SURFACE_CANCEL").pressed.emit()
 	_expect(session.snapshot()["ending_run"]["current_node_id"] == "EDR_FACILITY_FREE_LOOK","Airlock cancel returns to investigation")
 	view._hotspot_layer.get_node("SURFACE_AIRLOCK").pressed.emit()
@@ -1673,11 +1688,23 @@ func _validate_surface(session: BasementSession) -> void:
 	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Surface arrival reload")
 	view._render_room()
 	view._hotspot_layer.get_node("SURFACE_OBJ_signal").pressed.emit()
+	_expect(view._dialogue_label.text == texts.object_text("signal",1,"en"), "Distant signal remains an uncertain observation in English")
 	while view._dialogue_active: view._advance_dialogue()
 	view._hotspot_layer.get_node("SURFACE_OUTSIDE").pressed.emit()
 	view.set_process(false)
-	view._hotspot_layer.get_node("SURFACE_LOOK_left").pressed.emit()
-	view.set_process(false)
+	for locale in ["ko","en"]:
+		TranslationServer.set_locale(locale)
+		view._render_room()
+		view.set_process(false)
+		for direction in ["center","right","left"]:
+			_expect((view._hotspot_layer.get_node("SURFACE_LOOK_"+direction) as Button).text == texts.view_text(direction,0,locale), "Final view direction uses localized label")
+			view._hotspot_layer.get_node("SURFACE_LOOK_"+direction).pressed.emit()
+			view.set_process(false)
+			var found := false
+			for label in view._hotspot_layer.find_children("*","Label",true,false):
+				if label.text == texts.final_frame(direction,locale): found = true
+			_expect(found and rules.local(session.snapshot())["look"] == direction, "Actual final frame follows chosen view without changing direction IDs")
+			_expect(rules.local(session.snapshot())["elapsed"] == 0 and session.snapshot()["ending_run"]["final_decision"] == "reality", "Language and view changes do not advance the final timer or change ending")
 	view._open_notebook()
 	_expect(view._modal_active,"Physical notebook remains readable on surface")
 	var elapsed: int = rules.local(session.snapshot())["elapsed"]
@@ -1697,6 +1724,7 @@ func _validate_surface(session: BasementSession) -> void:
 	_expect(session.snapshot()["ending_run"]["final_decision"] == "reality" and session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"],"Last gaze does not change ending or relationships")
 	view.queue_free()
 	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
 	await _validate_credits(session)
 
 
