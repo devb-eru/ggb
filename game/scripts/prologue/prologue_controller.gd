@@ -141,6 +141,7 @@ var _fade: ColorRect
 var _dialogue_lines: Array = []
 var _dialogue_index := 0
 var _prologue_history_index := -1
+var _choice_history_recorded := false
 var _dialogue_after := Callable()
 var _dialogue_active := false
 var _modal_active := false
@@ -1105,6 +1106,7 @@ func _show_dialogue_choice_set(
 	_dialogue_lines.clear()
 	_dialogue_after = Callable()
 	_dialogue_choice_mode = mode
+	_choice_history_recorded = false
 	_dialogue_choice_active = true
 	_dialogue_layer.visible = true
 	_dialogue_choice_blocker.visible = true
@@ -1124,6 +1126,20 @@ func _show_dialogue_choice_set(
 	_refresh_dialogue_choice_labels()
 	var initial_index := _first_unasked_p3_choice_index() if mode == "p3_journal" else 0
 	_focus_dialogue_choice(initial_index)
+	_record_choice_history()
+
+
+func _record_choice_history() -> bool:
+	if not _uses_prologue_history() or _choice_history_recorded:
+		return true
+	var lines: Array[String] = [_dialogue_label.text]
+	for button in _dialogue_choice_buttons:
+		if button.visible:
+			lines.append(String(button.get_meta("choice_label", "")))
+	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), "\n".join(lines)):
+		return false
+	_choice_history_recorded = true
+	return true
 
 
 func _answer_p3_journal_choice(choice_id: String) -> void:
@@ -1754,13 +1770,19 @@ func _uses_prologue_history() -> bool:
 func _record_prologue_history() -> bool:
 	if not _uses_prologue_history() or not _dialogue_active or _prologue_history_index == _dialogue_index:
 		return true
+	if not _record_prologue_text(_speaker_label.text, _dialogue_label.text):
+		return false
+	_prologue_history_index = _dialogue_index
+	return true
+
+
+func _record_prologue_text(speaker: String, text: String) -> bool:
 	var slot := SaveManager.inspect_slot(_slot_id)
 	var point := String(slot.get("save_point_id", "SAVE_NEW_GAME"))
-	var result := preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState, SaveManager, _slot_id, point, _speaker_label.text, _dialogue_label.text, TranslationServer.get_locale())
+	var result := preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState, SaveManager, _slot_id, point, speaker, text, TranslationServer.get_locale())
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false
-	_prologue_history_index = _dialogue_index
 	return true
 
 
@@ -1821,6 +1843,13 @@ func _on_dialogue_choice_pressed(index: int) -> void:
 	if not _dialogue_choice_active or index < 0 or index >= _dialogue_choice_buttons.size():
 		return
 	var choice_id := String(_dialogue_choice_buttons[index].get_meta("choice_id", ""))
+	if choice_id.is_empty() or not _dialogue_choice_buttons[index].visible:
+		return
+	if _uses_prologue_history():
+		if not _record_choice_history():
+			return
+		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), String(_dialogue_choice_buttons[index].get_meta("choice_label", ""))):
+			return
 	match _dialogue_choice_mode:
 		"p3_journal":
 			_answer_p3_journal_choice(choice_id)

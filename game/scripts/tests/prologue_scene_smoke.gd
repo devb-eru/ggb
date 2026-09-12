@@ -416,6 +416,19 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	await tree.process_frame
 	prologue._dismiss_dialogue_for_test()
 	var before_failed_sleep: Dictionary = prologue._progress.duplicate(true)
+	var choice_start: int = GameState.get_value(&"meta_progress.dialogue_history.entries", []).size()
+	prologue._show_dialogue_choice_set("p3_journal", "Journal", "주인공", "A shown question prompt", "", ["author"], {"author": {"label": "Shown author question"}, "locked": {"label": "Unshown option"}})
+	var shown_choices: Array = GameState.get_value(&"meta_progress.dialogue_history.entries", [])
+	_expect(shown_choices.size() == choice_start + 1 and shown_choices.back()["variables"]["text"].contains("Shown author question") and not shown_choices.back()["variables"]["text"].contains("Unshown option"), "Choice history includes only displayed options", errors)
+	prologue._slot_id = "../invalid_choice_history"
+	prologue._dialogue_choice_buttons[0].pressed.emit()
+	_expect(prologue._dialogue_choice_active and GameState.get_value(&"meta_progress.dialogue_history.entries", []).size() == choice_start + 1, "Failed selected-option save keeps choices open", errors)
+	prologue._slot_id = RESET_TEST_SLOT
+	prologue._dialogue_choice_buttons[0].pressed.emit()
+	var selected_choices: Array = GameState.get_value(&"meta_progress.dialogue_history.entries", [])
+	_expect(selected_choices.size() == choice_start + 3 and selected_choices[choice_start + 1]["variables"]["text"] == "Shown author question", "Choice retry records selection once before displayed answer", errors)
+	prologue._dismiss_dialogue_for_test()
+	before_failed_sleep = prologue._progress.duplicate(true)
 	var history_count: int = GameState.get_value(&"meta_progress.dialogue_history.entries", []).size()
 	var before_point := String(SaveManager.inspect_slot(RESET_TEST_SLOT).get("save_point_id", ""))
 	prologue._show_dialogue([{"speaker": "주인공", "text": "Prologue shown line"}, {"speaker": "주인공", "text": "Prologue unseen line"}])

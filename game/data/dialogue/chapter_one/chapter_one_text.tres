@@ -4,6 +4,8 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"HISTORY_OPTIONS": "표시된 선택지",
+"HISTORY_SELECTED": "선택한 문구",
 "CH1_HISTORY_TRANSCRIPT": "{speaker}: {text}",
 "CH1_HISTORY_TITLE": "대화 기록",
 "CH1_HISTORY_EMPTY": "아직 기록된 대사가 없다.",
@@ -68,6 +70,8 @@ localized_text = {
 "CH1_SLEEP_RULE": "물건과 장치의 상태는 같은 아침으로 돌아온다. 수첩과 확인한 정보, 사용인의 기억은 남는다."
 },
 "en-US": {
+"HISTORY_OPTIONS": "Displayed choices",
+"HISTORY_SELECTED": "Selected option",
 "CH1_HISTORY_TRANSCRIPT": "{speaker}: {text}",
 "CH1_HISTORY_TITLE": "Dialogue history",
 "CH1_HISTORY_EMPTY": "No dialogue has been recorded yet.",
