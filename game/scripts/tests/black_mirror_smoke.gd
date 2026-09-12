@@ -264,6 +264,18 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 			await tree.process_frame
 			await _support_key(KEY_PAGEDOWN, tree)
 			_expect(quantity_scroll.scroll_vertical > 0, "Page Down reaches candidate rows at large text")
+			var original_page_keys := InputMap.action_get_events("ui_page_down")
+			InputMap.action_erase_events("ui_page_down")
+			var remapped_page := InputEventKey.new()
+			remapped_page.keycode = KEY_F8
+			InputMap.action_add_event("ui_page_down", remapped_page)
+			quantity_scroll.scroll_vertical = 0
+			difference.grab_focus()
+			await _support_key(KEY_F8, tree)
+			_expect(quantity_scroll.scroll_vertical > 0, "remapped page action scrolls from a non-scroll control")
+			InputMap.action_erase_events("ui_page_down")
+			for original_key in original_page_keys:
+				InputMap.action_add_event("ui_page_down", original_key)
 			view._close_modal()
 			view._apply_reading_text_scale(old_scale)
 			view._show_modal("확인", "기본 배율 복귀", [{"label": "닫기", "action": view._close_modal}])

@@ -181,15 +181,17 @@ func _unhandled_input(event: InputEvent) -> void:
 			_open_menu()
 			get_viewport().set_input_as_handled()
 		return
-	if _modal_active and event is InputEventKey and event.pressed and event.keycode in [KEY_PAGEUP, KEY_PAGEDOWN]:
+	var page_up := event.is_action_pressed("ui_page_up")
+	var page_down := event.is_action_pressed("ui_page_down")
+	if _modal_active and (page_up or page_down):
 		var body_scroll := _modal_body.get_child(2) as ScrollContainer
 		if body_scroll != null:
-			var direction := -1 if event.keycode == KEY_PAGEUP else 1
+			var direction := -1 if page_up else 1
 			body_scroll.scroll_vertical += direction * maxi(40, int(body_scroll.size.y * 0.8))
 			get_viewport().set_input_as_handled()
 			return
-	if _dialogue_layer.visible and not _modal_active and event is InputEventKey and event.pressed and event.keycode in [KEY_PAGEUP, KEY_PAGEDOWN]:
-		var direction := -1 if event.keycode == KEY_PAGEUP else 1
+	if _dialogue_layer.visible and not _modal_active and (page_up or page_down):
+		var direction := -1 if page_up else 1
 		_dialogue_scroll.scroll_vertical += direction * maxi(40, int(_dialogue_scroll.size.y * 0.8))
 		get_viewport().set_input_as_handled()
 		return
