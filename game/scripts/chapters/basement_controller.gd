@@ -6,6 +6,7 @@ const BASEMENT_RULES := preload("res://data/puzzles/puzzle_basement.tres")
 const ENDING_SIGNATURE := preload("res://scripts/ui/ending_signature.gd")
 const ENDING_TEXTS := preload("res://scripts/ui/ending_decision_texts.gd")
 const FIELD_TEXTS := preload("res://scripts/ui/field_notebook_texts.gd")
+const STAY_TEXTS := preload("res://scripts/ui/stay_charter_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -978,13 +979,14 @@ func _restore_world_focus() -> void:
 
 func _build_stay_charter() -> void:
 	var rules = BasementSession.STAY_CHARTER
+	var locale := TranslationServer.get_locale()
 	var state := session.snapshot()
 	var node: String = state["ending_run"]["current_node_id"]
 	var local: Dictionary = rules.progress(state)
 	var mode: String = state["ending_run"].get("ending_appearance_mode","")
 	if mode == "unset": mode = ""
-	_location_label.text = "저택 코어 · S5 안정화"
-	_objective_label.text = {"EDS_MEMORY_CHARTER":"기억 원칙", "EDS_APPEARANCE_CONTROL":"외형 표시 방식", "EDS_AUTONOMY_CHARTER":"사용인 자율성"}[node]
+	_location_label.text = _stay_text("location")
+	_objective_label.text = _stay_text(node)
 	if mode == "layered" or _stay_inspection_open:
 		for x in [160,960,1760]:
 			var line := ColorRect.new()
@@ -992,28 +994,28 @@ func _build_stay_charter() -> void:
 			line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			_hotspot_layer.add_child(line)
 			_place(line,Rect2(x,110,3,810))
-		_board_label("시설 골격 · 배선 / 문양·출처: 에드가 · 마라 1 · 루카 · 이리스 · 마라 2",Rect2(200,115,1520,60))
+		_board_label(_stay_text("structure"),Rect2(200,115,1520,60))
 	if not mode.is_empty():
-		_board_label("FILTER: DISPLAY ONLY · "+rules.MODES[mode]+" · 언제든 바꿀 수 있다",Rect2(200,900,1520,60))
-		_add_hotspot("STAY_INSPECT_FRAME","시설 골격 조사 표시 전환",Rect2(200,970,700,65),_toggle_stay_inspection)
-		_add_hotspot("STAY_MODE_SETTINGS","외형 표시 다시 선택",Rect2(1020,970,700,65),_show_stay_mode_settings)
+		_board_label("FILTER: DISPLAY ONLY · "+STAY_TEXTS.mode(mode,locale)+_stay_text("changeable"),Rect2(200,900,1520,60))
+		_add_hotspot("STAY_INSPECT_FRAME",_stay_text("inspect"),Rect2(200,970,700,65),_toggle_stay_inspection)
+		_add_hotspot("STAY_MODE_SETTINGS",_stay_text("settings"),Rect2(1020,970,700,65),_show_stay_mode_settings)
 	match node:
 		"EDS_MEMORY_CHARTER":
 			for index in range(3):
-				_add_hotspot("STAY_MEMORY_%d"%index,"기억 원칙 %d%s"%[index+1," · 확인함" if index in local["principles"] else ""],Rect2(350,220+index*170,1220,120),_ending_read.bind([{"speaker":"SYSTEM","text":rules.PRINCIPLES[index]}],"memory",index,"stay_"))
-			if local["principles"].size() == 3: _action("STAY_MEMORY_FINISH","세 원칙을 유지한다",Rect2(400,780,1120,100),"stay_memory_finish",null,false)
+				_add_hotspot("STAY_MEMORY_%d"%index,_stay_text("principle")%[index+1,_stay_text("checked") if index in local["principles"] else ""],Rect2(350,220+index*170,1220,120),_ending_read.bind([{"speaker":"SYSTEM","text":STAY_TEXTS.principle(index,locale)}],"memory",index,"stay_"))
+			if local["principles"].size() == 3: _action("STAY_MEMORY_FINISH",_stay_text("memory_finish"),Rect2(400,780,1120,100),"stay_memory_finish",null,false)
 		"EDS_APPEARANCE_CONTROL":
-			_action("STAY_LAYERED",rules.MODES["layered"],Rect2(200,260,700,200),"stay_appearance","layered",false)
-			_action("STAY_CONTEXTUAL",rules.MODES["contextual"],Rect2(1020,260,700,200),"stay_appearance","contextual",false)
-			_add_hotspot("STAY_MODE_NEUTRAL","표시만 바뀐다 · 기억과 결정을 바꾸지 않는다",Rect2(460,540,1000,100),func(): _set_status("어느 표시든 S5의 진실과 현재 기억은 유지된다."))
-			if not mode.is_empty(): _action("STAY_APPEARANCE_FINISH","이 표시로 계속한다",Rect2(400,750,1120,100),"stay_appearance_finish",null,false)
+			_action("STAY_LAYERED",STAY_TEXTS.mode("layered",locale),Rect2(200,260,700,200),"stay_appearance","layered",false)
+			_action("STAY_CONTEXTUAL",STAY_TEXTS.mode("contextual",locale),Rect2(1020,260,700,200),"stay_appearance","contextual",false)
+			_add_hotspot("STAY_MODE_NEUTRAL",_stay_text("neutral"),Rect2(460,540,1000,100),func(): _set_status(_stay_text("neutral_detail")))
+			if not mode.is_empty(): _action("STAY_APPEARANCE_FINISH",_stay_text("appearance_finish"),Rect2(400,750,1120,100),"stay_appearance_finish",null,false)
 		"EDS_AUTONOMY_CHARTER":
-			_board_label("주 공간·휴식 시간은 각자 선택한다. 경고는 제공하되 이동을 자동 봉쇄하지 않는다.\n에드가는 일정표를 제안만 한다. 누구도 다른 인격의 기억·이름을 단독 삭제하지 못한다.",Rect2(200,180,1520,120))
+			_board_label(_stay_text("autonomy"),Rect2(200,180,1520,120))
 			var index := 0
 			for owner in rules.OWNERS:
-				_action("STAY_ROLE_"+owner,rules.OWNERS[owner]+(" · 제안" if owner in local["proposed"] else " · 고정 → 제안"),Rect2(250+(index%2)*750,350+(index/2)*140,670,100),"stay_propose",owner,false)
+				_action("STAY_ROLE_"+owner,STAY_TEXTS.owner(owner,locale)+_stay_text("proposed" if owner in local["proposed"] else "fixed"),Rect2(250+(index%2)*750,350+(index/2)*140,670,100),"stay_propose",owner,false)
 				index += 1
-			if local["proposed"].size() == 5: _action("STAY_AUTONOMY_FINISH","다섯 사용인의 자율성을 확인한다",Rect2(400,790,1120,85),"stay_autonomy_finish",null,false)
+			if local["proposed"].size() == 5: _action("STAY_AUTONOMY_FINISH",_stay_text("autonomy_finish"),Rect2(400,790,1120,85),"stay_autonomy_finish",null,false)
 
 
 func _toggle_stay_inspection() -> void:
@@ -1023,11 +1025,15 @@ func _toggle_stay_inspection() -> void:
 
 func _show_stay_mode_settings() -> void:
 	if _interaction_blocked(): return
-	_show_modal("외형 표시", "표시는 가역적이며 기억·관계·엔딩을 바꾸지 않는다.", [
-		{"label":"현재 표시 유지","action":_close_modal},
-		{"label":"외피와 시설 골격 동시 표시","action":_modal_act.bind("stay_appearance","layered")},
-		{"label":"조사 시 시설 골격 표시","action":_modal_act.bind("stay_appearance","contextual")},
+	_show_modal(_stay_text("settings_title"), _stay_text("settings_body"), [
+		{"label":_stay_text("keep"),"action":_close_modal},
+		{"label":_stay_text("layered_button"),"action":_modal_act.bind("stay_appearance","layered")},
+		{"label":_stay_text("contextual_button"),"action":_modal_act.bind("stay_appearance","contextual")},
 	])
+
+
+func _stay_text(id: String) -> String:
+	return STAY_TEXTS.text(id, TranslationServer.get_locale())
 
 
 func _notification(what: int) -> void:

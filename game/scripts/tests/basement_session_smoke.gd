@@ -1267,22 +1267,35 @@ func _validate_stay_charter(session: BasementSession) -> void:
 	_expect(not StateSnapshotValidator.new().validate(unset_mode).get("ok",false),"Invalid appearance rejected")
 	_expect(not session.act("stay_memory_finish").get("ok",false),"Stay requires three memory principles")
 	_expect(not session.act("stay_appearance","layered").get("ok",false),"Stay cannot skip memory")
+	var original_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	var texts = VIEW.STAY_TEXTS
 	var view := VIEW.new()
 	view.configure_session(SLOT,"STAY_CHARTER")
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	_expect(view._objective_label.text == texts.text("EDS_MEMORY_CHARTER", "en"), "Stay memory objective is English")
 	for index in range(3):
+		_expect(texts.principle(index, "ko") == rules.PRINCIPLES[index], "Korean memory principles remain canonical")
 		view._hotspot_layer.get_node("STAY_MEMORY_%d"%index).pressed.emit()
+		_expect(view._dialogue_label.text == texts.principle(index, "en"), "English memory principle displayed by actual action")
 		while view._dialogue_active: view._advance_dialogue()
+		_expect(game.get_value("meta_progress.dialogue_history.entries", []).back()["variables"]["text"] == texts.principle(index, "en"), "English principle remains in viewed history")
 		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay memory partial reload")
 		_expect(session.act("stay_memory",index).get("ok",false) and rules.progress(session.snapshot())["principles"].size() == index+1,"Reloaded principles remain deduplicated")
 	view._hotspot_layer.get_node("STAY_MEMORY_FINISH").pressed.emit()
 	view._restore_world_focus()
 	_expect(root.gui_get_focus_owner() == view._hotspot_layer.get_node("STAY_MODE_NEUTRAL"),"Stay appearance neutral focus")
 	_expect(not session.act("stay_appearance_finish").get("ok",false),"Stay requires explicit appearance choice")
+	_expect((view._hotspot_layer.get_node("STAY_LAYERED") as Button).text == texts.mode("layered", "en") and (view._hotspot_layer.get_node("STAY_CONTEXTUAL") as Button).text == texts.mode("contextual", "en"), "Both reversible appearance options render in English")
 	view._hotspot_layer.get_node("STAY_LAYERED").pressed.emit()
 	view._hotspot_layer.get_node("STAY_CONTEXTUAL").pressed.emit()
+	var before_settings: Dictionary = session.snapshot()
+	view._hotspot_layer.get_node("STAY_MODE_SETTINGS").pressed.emit()
+	_expect((view._modal_body.get_child(0) as Label).text == texts.text("settings_title", "en"), "English appearance settings opens")
+	view._modal_body.get_child(3).pressed.emit()
+	_expect(session.snapshot() == before_settings, "Keeping appearance leaves memory and ending unchanged")
 	view._hotspot_layer.get_node("STAY_INSPECT_FRAME").pressed.emit()
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
@@ -1290,6 +1303,7 @@ func _validate_stay_charter(session: BasementSession) -> void:
 	view._hotspot_layer.get_node("STAY_APPEARANCE_FINISH").pressed.emit()
 	_expect(not session.act("stay_autonomy_finish").get("ok",false),"Stay autonomy includes all five even LOW")
 	for owner in rules.OWNERS:
+		_expect((view._hotspot_layer.get_node("STAY_ROLE_"+owner) as Button).text == texts.owner(owner, "en") + texts.text("fixed", "en"), "English autonomy action retains each owner")
 		view._hotspot_layer.get_node("STAY_ROLE_"+owner).pressed.emit()
 		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay autonomy partial reload")
 	view._hotspot_layer.get_node("STAY_AUTONOMY_FINISH").pressed.emit()
@@ -1302,6 +1316,7 @@ func _validate_stay_charter(session: BasementSession) -> void:
 	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay final appearance reload")
 	_expect(session.snapshot()["ending_run"]["ending_appearance_mode"] == "layered" and session.snapshot()["ending_run"]["final_decision"] == "stay","Appearance persistence and choice invariance")
 	_expect(not session.sleep().get("ok",false),"No actual sleep in ending")
+	TranslationServer.set_locale(original_locale)
 	await _validate_stay_story(session)
 
 
