@@ -53,6 +53,9 @@ func run(tree: SceneTree) -> Dictionary:
 		prologue._advance_dialogue()
 		await _capture_view(tree, CAPTURE_FILE, "PROLOGUE_CAPTURE")
 	var errors: PackedStringArray = prologue.run_smoke_scenario()
+	prologue._apply_reading_text_scale(2.0)
+	_expect(prologue._dialogue_label.get_theme_font_size("font_size") == 48, "Dialogue applies 200 percent text size", errors)
+	_expect(prologue._dialogue_choice_buttons[0].get_theme_font_size("font_size") == 46, "Choices apply 200 percent text size", errors)
 	prologue._show_dialogue([{"speaker":"SYSTEM", "text":"긴 기록의 마지막 문장까지 읽을 수 있어야 한다.\n".repeat(40)}, {"speaker":"SYSTEM", "text":"다음 기록"}])
 	await tree.process_frame
 	await tree.process_frame
@@ -71,6 +74,7 @@ func run(tree: SceneTree) -> Dictionary:
 	await tree.process_frame
 	prologue._unhandled_input(page)
 	var modal_scroll := prologue._modal_body.get_child(2) as ScrollContainer
+	_expect(modal_scroll.get_child(0).get_theme_font_size("font_size") == 46, "Modal body applies 200 percent text size", errors)
 	_expect(modal_scroll.scroll_vertical > 0 and prologue._modal_active, "Page Down reads long modal without closing", errors)
 	page.keycode = KEY_PAGEUP
 	prologue._unhandled_input(page)

@@ -114,6 +114,7 @@ var _portrait: TextureRect
 var _speaker_label: Label
 var _dialogue_label: Label
 var _dialogue_scroll: ScrollContainer
+var _reading_text_scale := 1.0
 var _dialogue_next: Button
 var _dialogue_choice_blocker: ColorRect
 var _dialogue_choice_panel: PanelContainer
@@ -603,6 +604,15 @@ func _apply_accessibility_profile() -> void:
 	var ui_theme := Theme.new()
 	ui_theme.default_font_size = int(round(19.0 * scale))
 	theme = ui_theme
+	_apply_reading_text_scale(scale)
+
+func _apply_reading_text_scale(scale: float) -> void:
+	_reading_text_scale = clampf(scale, 1.0, 2.0)
+	_dialogue_label.add_theme_font_size_override("font_size", int(round(24 * _reading_text_scale)))
+	_speaker_label.add_theme_font_size_override("font_size", int(round(25 * _reading_text_scale)))
+	_dialogue_next.add_theme_font_size_override("font_size", int(round(20 * _reading_text_scale)))
+	for button in _dialogue_choice_buttons:
+		button.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
 
 
 func _show_p1_intro() -> void:
@@ -1788,7 +1798,7 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 	body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	body_label.add_theme_font_size_override("font_size", 23)
+	body_label.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
 	body_label.add_theme_color_override("font_color", Color(0.93, 0.92, 0.90))
 	var body_scroll := ScrollContainer.new()
 	body_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
