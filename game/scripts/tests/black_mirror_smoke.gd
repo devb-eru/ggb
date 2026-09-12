@@ -161,6 +161,22 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 	tree.root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var before_history := GameState.get_snapshot()
+	var history_count: int = before_history["meta_progress"]["dialogue_history"]["entries"].size()
+	view._show_dialogue([{"speaker": "주인공", "text": "Mirror history shown"}, {"speaker": "주인공", "text": "Mirror history unseen"}])
+	_expect(GameState.get_snapshot()["meta_progress"]["dialogue_history"]["entries"].size() == history_count + 1, "mirror records only presented line")
+	view._dismiss_dialogue_for_test()
+	var recorded := GameState.get_snapshot()
+	_expect(recorded["loop_state"] == before_history["loop_state"] and recorded["ending_run"] == before_history["ending_run"], "history recording preserves mirror puzzle and ending state")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "mirror history reload")
+	_expect(GameState.get_snapshot()["meta_progress"]["dialogue_history"] == recorded["meta_progress"]["dialogue_history"], "mirror history survives reload")
+	var before_history_menu := GameState.get_snapshot()
+	view._open_menu()
+	(view._modal_body.get_child(4) as Button).pressed.emit()
+	var history_body := (view._modal_body.get_child(2).get_child(0) as Label).text
+	_expect(history_body.contains("Mirror history shown") and not history_body.contains("Mirror history unseen"), "mirror menu opens viewed history only")
+	(view._modal_body.get_child(3) as Button).pressed.emit()
+	_expect(GameState.get_snapshot() == before_history_menu, "mirror history menu is read only")
 	view._hotspot_layer.get_node("TRACE_COMPARE").pressed.emit()
 	await tree.process_frame
 	_expect(view._modal_active, "waveform comparison diagram opens")

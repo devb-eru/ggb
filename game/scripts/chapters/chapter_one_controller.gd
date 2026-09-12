@@ -2,6 +2,7 @@ class_name ChapterOneController
 extends PrologueController
 
 const SESSION_SCRIPT := preload("res://scripts/systems/chapter_one_session.gd")
+const HISTORY_SESSIONS := [SESSION_SCRIPT, preload("res://scripts/systems/black_mirror_session.gd")]
 const CLOCK := preload("res://data/puzzles/puzzle_clock_network.tres")
 const CHAPTER_NAMES := {"M2_BEDROOM": "주인공의 침실", "M1_CENTRAL_HALL": "중앙홀", "M1_SERVANT_COMMON": "사용인 공용실", "M1_PARLOR": "대응접실", "M1_LIBRARY_OUTER": "외부 서고", "M1_LIBRARY_INNER": "기록 내실", "M1_GREAT_CLOCK": "서쪽 대시계", "M1_NORTH_ARCHIVE_HALL": "북쪽 기록 회랑"}
 const OBJECTIVES := {"A1": "수첩에 다음 아침과 비교할 표식을 남긴다", "AS": "익숙한 일과를 마치고 침실에서 잠든다", "A2": "다음 아침의 수첩 표식을 확인한다", "B1": "사용인 공용실의 문서 두 장 이상으로 빈 시간대를 추론한다", "B2": "일과를 마치고 외부 서고를 통해 기록 내실에 접근한다", "J1": "책상의 압지 조각을 배열해 첫 페이지를 복원한다", "B3_A": "네 방의 시계 탁본을 모아 배선을 연결한다", "B3_B": "역할과 전달 시점을 설정해 시계망을 작동한다", "BF": "남은 조사 후 침실에서 잠든다 · 실패 정보는 남는다", "B4": "공명통에 남은 파형을 수첩에 기록한다", "B5": "기록 내실에서 파형과 두 번째 페이지를 겹친다", "J2_COMPLETE": "첫 장의 기록을 확인한다 · 다음은 검은 거울"}
@@ -79,7 +80,7 @@ func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 
 
 func _history_enabled() -> bool:
-	return session != null and session.get_script() == SESSION_SCRIPT
+	return session != null and session.get_script() in HISTORY_SESSIONS
 
 
 func _present_dialogue_line() -> void:
