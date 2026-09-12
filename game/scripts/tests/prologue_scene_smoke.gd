@@ -78,6 +78,17 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._advance_dialogue()
 	_expect(not prologue._dialogue_active, "English P1 completes normally", errors)
 	_expect("Examine the light" in prologue._status_label.text, "English P1 completes with localized objective", errors)
+	prologue._progress["P3_complete"] = false
+	prologue._progress["p3_placed"] = {}
+	prologue._progress["p3_journal_seen"] = true
+	prologue._progress["p3_journal_choice"] = "silent"
+	prologue._enter_room("M1_LIBRARY_OUTER")
+	prologue._dismiss_dialogue_for_test()
+	_expect(prologue._inventory_slots[0].text == "Mechanical drawings", "English book name", errors)
+	_expect("Clock · vertical lines" in prologue._hotspot_layer.get_node("SHELF_CLOCK").text, "English shelf pattern clue", errors)
+	prologue._on_shelf_item_dropped("BOOK_MECHANICAL", "SHELF_CLOCK")
+	_expect(prologue._progress["p3_placed"]["SHELF_CLOCK"] == "BOOK_MECHANICAL", "Book ID survives localization", errors)
+	_expect(prologue._hotspot_layer.get_node("SHELF_CLOCK").text == "Mechanical drawings\n[Shelved]", "English occupied shelf", errors)
 	prologue._progress["p3_journal_questions_asked"] = []
 	prologue._show_p3_journal_choices()
 	_expect(prologue._dialogue_choice_buttons[0].get_meta("choice_label") == "Who wrote this ledger?", "English author choice", errors)

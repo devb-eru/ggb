@@ -4,6 +4,14 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"P3_NAME_BOOK_MECHANICAL": "기계 도면집",
+"P3_NAME_BOOK_FLORA": "온실 식물지",
+"P3_NAME_BOOK_LEDGER": "식탁 업무록",
+"P3_SHELF_CLOCK": "시계·수직선\n기계공학",
+"P3_SHELF_FLOWER": "꽃잎·후광\n식물·환경",
+"P3_SHELF_CUP": "찻잔·이중고리\n생활 기록",
+"P3_PLACED": "{book}\n[정리됨]",
+"P3_INNER_DOOR": "기록 내실 유리문\n잠김",
 "P3_Q_AUTHOR": "누가 쓴 장부입니까?",
 "P3_Q_LOCKED": "왜 잠겨 있습니까?",
 "P3_Q_SILENT": "말없이 내려놓는다",
@@ -132,6 +140,14 @@ localized_text = {
 "P1_WAKE_OBJECTIVE": "빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."
 },
 "en-US": {
+"P3_NAME_BOOK_MECHANICAL": "Mechanical drawings",
+"P3_NAME_BOOK_FLORA": "Greenhouse flora",
+"P3_NAME_BOOK_LEDGER": "Dining duty ledger",
+"P3_SHELF_CLOCK": "Clock · vertical lines\nMechanical engineering",
+"P3_SHELF_FLOWER": "Petals · halo\nPlants and environment",
+"P3_SHELF_CUP": "Teacup · double ring\nHousehold records",
+"P3_PLACED": "{book}\n[Shelved]",
+"P3_INNER_DOOR": "Inner archive glass door\nLocked",
 "P3_Q_AUTHOR": "Who wrote this ledger?",
 "P3_Q_LOCKED": "Why is it locked?",
 "P3_Q_SILENT": "Put it down without a word",

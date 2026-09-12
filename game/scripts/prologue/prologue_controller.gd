@@ -1010,18 +1010,18 @@ func _build_library() -> void:
 	var placed: Dictionary = _progress.get("p3_placed", {})
 	for book_id in P3_BOOKS:
 		if book_id not in placed.values():
-			inventory.append({"id": book_id, "label": String(P3_BOOKS[book_id]["label"])})
+			inventory.append({"id": book_id, "label": _dialogue_ui_text("P3_NAME_" + String(book_id))})
 	_update_inventory(inventory)
 	var shelves := [
-		["SHELF_CLOCK", "시계·수직선\n기계공학", Rect2(315, 300, 285, 300)],
-		["SHELF_FLOWER", "꽃잎·후광\n식물·환경", Rect2(720, 300, 285, 300)],
-		["SHELF_CUP", "찻잔·이중고리\n생활 기록", Rect2(1125, 300, 285, 300)],
+		["SHELF_CLOCK", _dialogue_ui_text("P3_SHELF_CLOCK"), Rect2(315, 300, 285, 300)],
+		["SHELF_FLOWER", _dialogue_ui_text("P3_SHELF_FLOWER"), Rect2(720, 300, 285, 300)],
+		["SHELF_CUP", _dialogue_ui_text("P3_SHELF_CUP"), Rect2(1125, 300, 285, 300)],
 	]
 	for shelf in shelves:
 		var occupant := String(placed.get(shelf[0], ""))
-		var label := String(shelf[1]) if occupant.is_empty() else "%s\n[정리됨]" % P3_BOOKS[occupant]["label"]
+		var label := String(shelf[1]) if occupant.is_empty() else _dialogue_ui_text("P3_PLACED", {"book": _dialogue_ui_text("P3_NAME_" + occupant)})
 		_add_inventory_drop_hotspot(String(shelf[0]), label, shelf[2], _on_shelf_pressed.bind(String(shelf[0])), _on_shelf_item_dropped)
-	_add_hotspot("INNER_DOOR", "기록 내실 유리문\n잠김", Rect2(1460, 210, 205, 460), _inspect_inner_door)
+	_add_hotspot("INNER_DOOR", _dialogue_ui_text("P3_INNER_DOOR"), Rect2(1460, 210, 205, 460), _inspect_inner_door)
 	_add_back_to_hall()
 	var needs_journal_choice := bool(_progress.get("p3_journal_seen", false)) \
 		and String(_progress.get("p3_journal_choice", "")) in ["", "pending"] \
