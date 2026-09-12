@@ -93,6 +93,28 @@ func run() -> Dictionary:
 		_expect(InputMap.has_action(action_name), "missing input action: %s" % action_name, errors)
 
 	var runtime_regression := FoundationRuntimeRegression.new().run()
+	var router := InputRouter.new()
+	GameState.get_tree().root.add_child(router)
+	# Test routing independently of the host window's current focus state.
+	router._window_has_focus = true
+	router._accept_input_after_msec = 0
+	var focus_directions: Array[int] = []
+	router.focus_move_requested.connect(func(direction: int): focus_directions.append(direction))
+	var tab := InputEventKey.new()
+	tab.keycode = KEY_TAB
+	tab.pressed = true
+	router._unhandled_input(tab)
+	tab.shift_pressed = true
+	router._unhandled_input(tab)
+	_expect(focus_directions == [1, -1], "Tab and Shift+Tab must route in opposite directions: " + str(focus_directions), errors)
+	tab.ctrl_pressed = true
+	router._unhandled_input(tab)
+	_expect(focus_directions == [1, -1], "unbound modifier combination must not move focus", errors)
+	tab.ctrl_pressed = false
+	tab.echo = true
+	router._unhandled_input(tab)
+	_expect(focus_directions == [1, -1], "repeated key echo must not duplicate routed movement", errors)
+	router.free()
 	if not bool(runtime_regression.get("ok", false)):
 		for runtime_error in runtime_regression.get("errors", PackedStringArray()):
 			errors.append(String(runtime_error))

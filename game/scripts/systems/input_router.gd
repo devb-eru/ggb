@@ -23,9 +23,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not _can_consume_input() or event.is_echo():
 		return
 
-	if event.is_action_pressed("focus_next"):
+	if event.is_action_pressed("focus_next", false, true):
 		focus_move_requested.emit(1)
-	elif event.is_action_pressed("focus_previous"):
+	elif event.is_action_pressed("focus_previous", false, true):
 		focus_move_requested.emit(-1)
 	elif event.is_action_pressed("notebook_toggle"):
 		toggle_requested.emit(&"notebook_toggle")
