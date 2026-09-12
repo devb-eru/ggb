@@ -84,7 +84,19 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	session.act("d_heart", {"action": "pull_auxiliary", "confirmed": true})
 	_expect(session.stage() == "D5" and not game.get_value("fracture_state.broken_reset_triggered"), "filter release precedes first broken sleep")
 	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "load at D4 boundary")
-	session.act("d_fracture")
+	var stinger := VIEW.new()
+	stinger.configure_session(SLOT, "D5")
+	root.add_child(stinger)
+	await tree.process_frame
+	stinger.set_process(false)
+	stinger._demo_stinger_seconds = 0.0
+	_expect(not stinger._hotspot_layer.has_node("D5_CONFIRM"), "Demo stinger has no confirmation gate")
+	stinger._tick_demo_stinger(59.0)
+	_expect(session.stage() == "D5", "Stinger cannot finish before sixty active seconds")
+	stinger._tick_demo_stinger(1.0)
+	_expect(stinger._hotspot_layer.has_node("RETURN_TITLE"), "Stinger completion displays demo end screen")
+	stinger.queue_free()
+	await tree.process_frame
 	_expect(session.stage() == "DEMO_END", "demo boundary remains distinct from full-game continuation")
 	_expect(not session.sleep().get("ok", false), "demo cannot silently enter full chapter")
 	var loaded: Dictionary = saves.load_slot(SLOT)

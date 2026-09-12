@@ -6,6 +6,16 @@ const BASEMENT_RULES := preload("res://data/puzzles/puzzle_basement.tres")
 const ENDING_SIGNATURE := preload("res://scripts/ui/ending_signature.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
+var _demo_stinger_seconds := 0.0
+var _demo_stinger_save_failed := false
+const DEMO_STINGER_BEATS := [
+	"열세 번째 울림이 멎는다.\n벽의 꽃무늬는 한 박자 늦게 떨림을 멈춘다.",
+	"벽지 아래로 가느다란 배선이 드러난다.\n찢어진 것은 벽이 아니라, 벽처럼 보이던 겉면이다.",
+	"금속 이음새를 따라 차가운 빛이 이어진다.\n익숙한 복도의 윤곽은 아직 그 위에 남아 있다.",
+	"멀리 사용인의 윤곽이 두 겹으로 어긋난다.\n누군가 말을 꺼내려다 멈춘다.",
+	"저택 아래에서 규칙적인 진동이 돌아온다.\n차가 우러나던 동안 들었던 간격과 닮아 있다.",
+	"주인공은 수첩을 쥔다.\n벽은 달라졌지만, 자신이 적은 글자는 남아 있다."
+]
 const OBJECTIVE_TEXT := {"D_SLEEP": "J3를 기억한 채 잠들어 다음 아침을 맞는다", "D0": "기록 내실의 세 눌림점에서 평면도를 꺼낸다", "D0_A": "C5 투명지와 저택 도면의 방향·기준점을 검증한다", "D1": "세 축의 순서와 깊이를 도면대로 적용한다", "DF": "압력핀 잠김 · 같은 침실에서 잠든다", "D2": "지하창고의 반복 구조를 조사한다", "D4": "태엽 심장의 연동 링과 정상 기동을 확인한다", "D5": "위장 필터 너머 드러난 공간을 확인한다", "DEMO_END": "데모 공개 구간 종료", "D6": "파열된 저택을 확인한 뒤 침실로 돌아간다", "E1_ENTRY": "같은 침실의 다른 아침"}
 
 func _make_session() -> ChapterOneSession:
@@ -54,8 +64,16 @@ func _render_room() -> void:
 	if session.stage() in ["D5", "DEMO_END", "E1_ENTRY", "LUCA_GUIDE", "LUCA_S2", "E2_INTRO", "E3_3", "E_HUB", "E3_1", "E3_2", "E3_4", "E3_5", "J4", "E3_4M", "E5", "E6", "F0_A", "F0_B", "F0_C", "F0_D", "F0_E", "F1", "F2", "F3", "EDC", "ENDING_SEQUENCE", "ENDING_BODY_PENDING"]:
 		_clear_hotspots()
 		if session.stage() == "D5":
-			_board_label("벽의 문양 사이로 배선이 드러난다.\n방금까지 하나였던 윤곽과 서명이 조금씩 어긋난다.", Rect2(350, 300, 1200, 240))
-			_action("D5_CONFIRM", "드러난 공간을 확인한다", Rect2(510, 640, 870, 130), "d_fracture")
+			if SaveManager.get_build_flavor() == "demo":
+				_objective_label.text = "위장 필터 해제"
+				_board_label(DEMO_STINGER_BEATS[mini(5, int(_demo_stinger_seconds / 10.0))], Rect2(350, 300, 1200, 240))
+				if _demo_stinger_save_failed:
+					_action("D5_SAVE_RETRY", "완료 기록 저장 재시도", Rect2(510,640,870,130), "d_fracture")
+				else:
+					set_process(true)
+			else:
+				_board_label("벽의 문양 사이로 배선이 드러난다.\n방금까지 하나였던 윤곽과 서명이 조금씩 어긋난다.", Rect2(350, 300, 1200, 240))
+				_action("D5_CONFIRM", "드러난 공간을 확인한다", Rect2(510, 640, 870, 130), "d_fracture")
 		elif session.stage() == "DEMO_END":
 			_board_label("데모는 여기까지입니다.\n기록과 선택은 저장되어 있습니다. 본편의 저장 가져오기는 별도 승인을 거쳐 처리됩니다.", Rect2(330, 280, 1260, 280))
 			_add_hotspot("RETURN_TITLE", "타이틀로 돌아간다", Rect2(520, 650, 830, 120), _return_to_title)
@@ -663,6 +681,9 @@ func _build_reality_surface() -> void:
 
 func _process(delta: float) -> void:
 	if not get_window().has_focus() or _interaction_blocked(): return
+	if session.stage() == "D5" and SaveManager.get_build_flavor() == "demo":
+		_tick_demo_stinger(minf(delta, 0.1))
+		return
 	_surface_active_seconds += minf(delta,0.1)
 	if _surface_active_seconds >= 1.0:
 		_surface_active_seconds -= 1.0
@@ -671,6 +692,19 @@ func _process(delta: float) -> void:
 			if result.get("ok",false): _render_room()
 			else: _feedback(result)
 		else: _on_surface_tick()
+
+
+func _tick_demo_stinger(delta: float) -> void:
+	if _demo_stinger_save_failed or session.stage() != "D5" or SaveManager.get_build_flavor() != "demo": return
+	var previous_beat := int(_demo_stinger_seconds / 10.0)
+	_demo_stinger_seconds = minf(60.0, _demo_stinger_seconds + maxf(0.0, delta))
+	if _demo_stinger_seconds >= 60.0:
+		var result := session.act("d_fracture")
+		_demo_stinger_save_failed = not result.get("ok", false)
+		_render_room()
+		if _demo_stinger_save_failed: _feedback(result)
+	elif int(_demo_stinger_seconds / 10.0) != previous_beat:
+		_render_room()
 
 
 func _build_stay_story() -> void:
