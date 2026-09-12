@@ -1183,6 +1183,12 @@ func _build_kitchen() -> void:
 		if bool(_progress.get("p4_handle_return_used", false)):
 			handle_label += " · 되돌아옴"
 		_add_hotspot("P4_CUP_HANDLE", handle_label, Rect2(420, 320, 440, 230), _turn_p4_cup_handle)
+		var cup := Control.new()
+		cup.set_script(load("res://scripts/prologue/prologue_cup_art.gd"))
+		cup.name = "P4_CUP_ART"
+		cup.position = Vector2(570, 160)
+		cup.size = Vector2(140, 140)
+		_hotspot_layer.add_child(cup)
 		_add_hotspot("P4_ASK_LUCA", "루카에게 한 가지 묻는다", Rect2(1010, 340, 430, 190), _show_p4_father_choices)
 	if bool(_progress.get("p4_life_support_seen", false)) and not bool(_progress.get("p4_life_support_recorded", false)):
 		_add_hotspot("P4_RECORD_PULSE", "수첩에 진동을 기록한다", Rect2(710, 690, 500, 100), _record_p4_life_support_pulse)
@@ -1301,6 +1307,10 @@ func _turn_p4_cup_handle() -> void:
 	_progress["p4_handle_return_used"] = true
 	_save_progress()
 	_rebuild_current_room_content()
+	var cup := _hotspot_layer.get_node_or_null("P4_CUP_ART")
+	if cup != null:
+		var profile: Dictionary = AccessibilityProfileStore.new().load_profile().get("profile", {})
+		cup.play_return(String(profile.get("motion_mode", "standard")) != "standard")
 	_show_dialogue([
 		{"speaker": "SYSTEM", "text": "찻잔 손잡이를 반대쪽으로 천천히 돌려 본다."},
 		{"speaker": "SYSTEM", "text": "손을 떼는 순간 도자기가 받침을 한 번 긁으며, 손잡이가 원래의 왼쪽 각도로 되돌아간다."},
