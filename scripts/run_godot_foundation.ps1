@@ -122,3 +122,19 @@ $prologueSmokeResult = Invoke-GodotValidation @("--headless", "--path", $project
 Assert-GodotValidation -Result $prologueSmokeResult -Name "Prologue scene smoke" -RequiredMarker "PROLOGUE_SCENE_SMOKE: PASS"
 
 Write-Host "Godot foundation, start screen, practice, and prologue validation passed."
+
+$chapterOneSmokeResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--chapter-one-smoke")
+Assert-GodotValidation -Result $chapterOneSmokeResult -Name "Chapter one smoke" -RequiredMarker "CHAPTER_ONE_SMOKE: PASS"
+Write-Host "Chapter one reset, failure, shortcut, journal, and load validation passed."
+
+$blackMirrorResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--black-mirror-smoke")
+Assert-GodotValidation -Result $blackMirrorResult -Name "Black mirror chapter smoke" -RequiredMarker "BLACK_MIRROR_SMOKE: PASS"
+Write-Host "Black mirror mixture, irreversible trace, reset, capture, and J3 validation passed."
+
+$basementPuzzleResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--script", "res://scripts/tests/basement_puzzle_smoke.gd")
+Assert-GodotValidation -Result $basementPuzzleResult -Name "Basement puzzle rules" -RequiredMarker "BASEMENT_PUZZLE_SMOKE: PASS"
+Write-Host "Basement overlay, pressure axes, and linked heart rule validation passed."
+
+$basementSessionResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--basement-session-smoke")
+Assert-GodotValidation -Result $basementSessionResult -Name "Basement session" -RequiredMarker "BASEMENT_SESSION_SMOKE: PASS"
+Write-Host "Basement navigation, failure persistence, sleep shortcuts, heart, and D5 save validation passed."

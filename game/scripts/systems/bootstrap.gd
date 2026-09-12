@@ -8,6 +8,12 @@ const PROLOGUE_TEST_ARG := "--prologue-smoke"
 const FOCUS_RECOVERY_DELAY_SECONDS := 0.15
 const PROLOGUE_SCENE := preload("res://scenes/prologue/prologue.tscn")
 const PROLOGUE_SMOKE_RUNNER := preload("res://scripts/tests/prologue_scene_smoke.gd")
+const CHAPTER_ONE_SCRIPT := preload("res://scripts/chapters/chapter_one_controller.gd")
+const CHAPTER_ONE_SMOKE := preload("res://scripts/tests/chapter_one_smoke.gd")
+const BLACK_MIRROR_SCRIPT := preload("res://scripts/chapters/black_mirror_controller.gd")
+const BASEMENT_SCRIPT := preload("res://scripts/chapters/basement_controller.gd")
+const BASEMENT_SMOKE := preload("res://scripts/tests/basement_session_smoke.gd")
+const BLACK_MIRROR_SMOKE := preload("res://scripts/tests/black_mirror_smoke.gd")
 
 @onready var _start_screen: StartScreen = %StartScreen
 
@@ -42,6 +48,12 @@ func _ready() -> void:
 			call_deferred("_run_prologue_smoke")
 		else:
 			push_warning("Prologue smoke is unavailable in release builds.")
+	elif "--chapter-one-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_chapter_one_smoke")
+	elif "--black-mirror-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_black_mirror_smoke")
+	elif "--basement-session-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_basement_smoke")
 
 
 func _notification(what: int) -> void:
@@ -120,11 +132,36 @@ func _on_quit_requested() -> void:
 
 
 func _launch_prologue(slot_id: String, resume_id: String) -> void:
+	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {})
+	if bool(knowledge.get("PROLOGUE_COMPLETE", false)):
+		if String(GameState.get_value(&"reset_state.phase", "idle")) != "idle" or int(GameState.get_value(&"loop_state.day_index", 0)) == 0:
+			var reset_result := request_sleep_transition(slot_id)
+			if not reset_result.get("ok", false):
+				_start_screen.show_load_error(reset_result.get("error_ids", PackedStringArray()))
+				return
+		_launch_campaign(slot_id)
+		return
 	if is_instance_valid(_prologue):
 		_prologue.queue_free()
 	_prologue = PROLOGUE_SCENE.instantiate()
 	_prologue.configure_session(slot_id, resume_id)
 	_prologue.return_to_title_requested.connect(_on_prologue_return_to_title)
+	_prologue.campaign_requested.connect(_launch_campaign, CONNECT_DEFERRED)
+	_start_screen.visible = false
+	add_child(_prologue)
+
+
+func _launch_campaign(slot_id: String) -> void:
+	if is_instance_valid(_prologue):
+		remove_child(_prologue)
+		_prologue.queue_free()
+	var mirror_chapter := int(GameState.get_value(&"meta_progress.journal_stage", 0)) >= 2
+	var basement_chapter := int(GameState.get_value(&"meta_progress.journal_stage", 0)) >= 3
+	_prologue = BASEMENT_SCRIPT.new() if basement_chapter else (BLACK_MIRROR_SCRIPT.new() if mirror_chapter else CHAPTER_ONE_SCRIPT.new())
+	_prologue.name = "Basement" if basement_chapter else ("BlackMirror" if mirror_chapter else "ChapterOne")
+	_prologue.configure_session(slot_id, "MORNING_ROUTE")
+	_prologue.return_to_title_requested.connect(_on_prologue_return_to_title)
+	_prologue.campaign_requested.connect(_launch_campaign, CONNECT_DEFERRED)
 	_start_screen.visible = false
 	add_child(_prologue)
 
@@ -181,4 +218,34 @@ func _run_prologue_smoke() -> void:
 		get_tree().quit(0)
 	else:
 		push_error("PROLOGUE_SCENE_SMOKE: FAIL %s" % result.get("errors", []))
+		get_tree().quit(1)
+
+
+func _run_chapter_one_smoke() -> void:
+	var result: Dictionary = await CHAPTER_ONE_SMOKE.new().run(get_tree())
+	if bool(result.get("ok", false)):
+		print("CHAPTER_ONE_SMOKE: PASS")
+		get_tree().quit(0)
+	else:
+		push_error("CHAPTER_ONE_SMOKE: FAIL %s" % result.get("errors", []))
+		get_tree().quit(1)
+
+
+func _run_basement_smoke() -> void:
+	var result: Dictionary = await BASEMENT_SMOKE.new().run(get_tree())
+	if result.get("ok", false):
+		print("BASEMENT_SESSION_SMOKE: PASS")
+		get_tree().quit(0)
+	else:
+		push_error("BASEMENT_SESSION_SMOKE: FAIL " + str(result.get("errors", [])))
+		get_tree().quit(1)
+
+
+func _run_black_mirror_smoke() -> void:
+	var result: Dictionary = await BLACK_MIRROR_SMOKE.new().run(get_tree())
+	if bool(result.get("ok", false)):
+		print("BLACK_MIRROR_SMOKE: PASS")
+		get_tree().quit(0)
+	else:
+		push_error("BLACK_MIRROR_SMOKE: FAIL %s" % result.get("errors", []))
 		get_tree().quit(1)
