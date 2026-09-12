@@ -765,7 +765,8 @@ func _build_stay_story() -> void:
 			line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			_hotspot_layer.add_child(line)
 			_place(line,Rect2(x,110,3,810))
-	_board_label("FILTER: DISPLAY ONLY · "+state["ending_run"].get("ending_appearance_mode","contextual"),Rect2(200,105,1520,55))
+	var appearance_mode: String = state["ending_run"].get("ending_appearance_mode","contextual")
+	_board_label(_stay_text("display_status") % _stay_text("mode_"+appearance_mode),Rect2(200,105,1520,55))
 	_add_hotspot("STORY_INSPECT",_stay_text("inspect"),Rect2(200,970,700,60),_toggle_stay_inspection)
 	_add_hotspot("STORY_APPEARANCE",_stay_text("settings"),Rect2(1020,970,700,60),_show_stay_mode_settings)
 	match node:

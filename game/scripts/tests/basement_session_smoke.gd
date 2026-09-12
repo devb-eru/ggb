@@ -1358,6 +1358,21 @@ func _validate_stay_story(session: BasementSession) -> void:
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	_expect(view._objective_label.text == texts.text("objective", "en") and view._location_label.text == texts.text("hall_location", "en"), "English stay story location and objective")
+	var appearance_before := session.snapshot()
+	for display_locale in ["ko", "en"]:
+		TranslationServer.set_locale(display_locale)
+		for display_mode in ["layered", "contextual"]:
+			_expect(view.session.act("stay_appearance", display_mode).get("ok", false), "Stay appearance remains reversible in either language")
+			view._render_room()
+			var expected_status: String = VIEW.STAY_TEXTS.text("display_status", display_locale) % VIEW.STAY_TEXTS.text("mode_"+display_mode, display_locale)
+			var status_found := false
+			for child in view._hotspot_layer.find_children("*", "Label", true, false):
+				if child is Label and child.text == expected_status: status_found = true
+			_expect(status_found, "Stay display status uses a localized description rather than an internal mode ID")
+			var after_display := session.snapshot()
+			_expect(after_display["meta_progress"] == appearance_before["meta_progress"] and after_display["fracture_state"] == appearance_before["fracture_state"] and after_display["ending_run"]["final_decision"] == "stay", "Display labels and settings preserve memory, relationships, fracture and ending")
+	_expect(view.session.act("stay_appearance", appearance_before["ending_run"]["ending_appearance_mode"]).get("ok", false), "Restore original display mode after bilingual checks")
+	view._render_room()
 	for id in rules.HALL:
 		_expect((view._hotspot_layer.get_node("STORY_HALL_"+id) as Button).text == texts.hall(id, 0, "en"), "English hall object title")
 		view._hotspot_layer.get_node("STORY_HALL_"+id).pressed.emit()

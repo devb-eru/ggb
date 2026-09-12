@@ -9,6 +9,9 @@ const PRINCIPLES := [
 const OWNERS := {"edgar": "Edgar", "mara1": "Mara 1", "luca": "Luca", "iris": "Iris", "mara2": "Mara 2"}
 const MODES := {"layered": "Show both the Gothic exterior and facility structure", "contextual": "Show the exterior normally; reveal the structure when inspecting"}
 const LABELS := {
+	"display_status": ["표시만 변경 · %s", "Display only · %s"],
+	"mode_layered": ["외피와 시설 골격 함께 표시", "Exterior and facility structure together"],
+	"mode_contextual": ["조사할 때 시설 골격 표시", "Facility structure shown when inspecting"],
 	"location": ["저택 코어 · S5 안정화", "Mansion core · S5 stabilization"],
 	"EDS_MEMORY_CHARTER": ["기억 원칙", "Memory principles"],
 	"EDS_APPEARANCE_CONTROL": ["외형 표시 방식", "Appearance display mode"],
