@@ -200,6 +200,27 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 		view._dismiss_dialogue_for_test()
 	view._hotspot_layer.get_node("D5_CONFIRM").pressed.emit()
 	for index in range(14):
+		if index == 6:
+			var focus_before: Dictionary = game.get_snapshot()
+			for owner in ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]:
+				view._dialogue_layer.get_node("D5Focus/" + owner).pressed.emit()
+				_expect(game.get_value("loop_state.event_local_states.D5.D5_FOCUS_OWNER") == owner, "D5 stores optional viewing owner")
+				_expect(view._dialogue_index == 6 and view.session.stage() == "D5", "D5 focus does not advance narrative")
+			_expect(game.get_value("meta_progress.servants") == focus_before["meta_progress"]["servants"], "D5 focus leaves relationships unchanged")
+			view.session.slot_id = "../invalid_slot"
+			view._dialogue_layer.get_node("D5Focus/EDGAR").pressed.emit()
+			_expect(game.get_value("loop_state.event_local_states.D5.D5_FOCUS_OWNER") == "MARA2", "D5 failed focus save preserves previous owner")
+			view.session.slot_id = slot
+			if "--capture-basement-session" in OS.get_cmdline_user_args():
+				var old_size := root.size
+				root.size = Vector2i(1280, 720)
+				view._apply_reading_text_scale(2.0)
+				view._refresh_d5_focus_controls()
+				await tree.process_frame
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("user://d5_focus_en_200.png")
+				root.size = old_size
+				view._apply_reading_text_scale(1.0)
 		view._advance_dialogue()
 	_expect(view.session.stage() == "D6", "Full D5 completes after final acknowledgement")
 	_expect(not game.get_value("fracture_state.broken_reset_triggered"), "D5 story does not perform broken sleep")

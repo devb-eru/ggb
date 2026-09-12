@@ -262,6 +262,48 @@ func _start_d6_rest(route: String) -> void:
 	_sleep_now()
 
 
+func _present_dialogue_line() -> void:
+	super._present_dialogue_line()
+	_refresh_d5_focus_controls()
+
+
+func _refresh_d5_focus_controls() -> void:
+	var panel := _dialogue_layer.get_node_or_null("D5Focus") as Control
+	var allowed: bool = session != null and session.stage() == "D5" and SaveManager.get_build_flavor() == "full" and _dialogue_active and bool(_dialogue_lines[_dialogue_index].get("d5_focus_allowed", false))
+	if not allowed:
+		if panel != null: panel.visible = false
+		return
+	var owners := ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]
+	if panel == null:
+		panel = Control.new()
+		panel.name = "D5Focus"
+		panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_dialogue_layer.add_child(panel)
+		for index in range(5):
+			var button := _make_button("", Rect2(250 + index * 290, 330, 270, 190), _select_d5_focus.bind(owners[index]))
+			button.name = owners[index]
+			panel.add_child(button)
+	panel.visible = true
+	var english := TranslationServer.get_locale().begins_with("en")
+	var names := ["Edgar", "Mara 1", "Luca", "Iris", "Mara 2"] if english else ["에드가", "마라 1", "루카", "이리스", "마라 2"]
+	var patterns := ["| |", "/ /", "|| . ||", "( * )", "[ [ ] ]"]
+	var selected := String(session.snapshot()["loop_state"]["event_local_states"].get("D5", {}).get("D5_FOCUS_OWNER", ""))
+	for index in range(5):
+		var button := panel.get_node(owners[index]) as Button
+		button.text = names[index] + "\n" + patterns[index] + ("\n" + ("Looking" if english else "바라보는 중") if selected == owners[index] else "")
+		button.add_theme_font_size_override("font_size", int(round(18 * _reading_text_scale)))
+
+
+func _select_d5_focus(owner: String) -> void:
+	if not _dialogue_active or not bool(_dialogue_lines[_dialogue_index].get("d5_focus_allowed", false)) or _modal_active:
+		return
+	var result := session.act("d5_focus", owner)
+	if result.get("ok", false):
+		_refresh_d5_focus_controls()
+	else:
+		_set_status("Could not save the viewing choice. Try again or continue reading." if TranslationServer.get_locale().begins_with("en") else "시선 기록을 저장하지 못했다. 다시 선택하거나 계속 읽을 수 있다.")
+
+
 func _show_full_fracture_transition() -> void:
 	if _interaction_blocked() or session.stage() != "D5" or SaveManager.get_build_flavor() != "full":
 		return

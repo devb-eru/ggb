@@ -152,6 +152,14 @@ func can_use_basement_shortcut(fast_path: bool = false) -> bool:
 
 
 func act(action: String, value: Variant = null) -> Dictionary:
+	if action == "d5_focus":
+		if _save.get_build_flavor() != "full" or stage() != "D5" or str(value) not in ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]:
+			return _reject("현재 바라볼 수 있는 진단 투사가 아니다.")
+		var state := snapshot()
+		var local: Dictionary = state["loop_state"]["event_local_states"].get("D5", {}).duplicate(true)
+		local["D5_FOCUS_OWNER"] = str(value)
+		state["loop_state"]["event_local_states"]["D5"] = local
+		return _commit(state, "")
 	if stage() == "D6":
 		return _d6_action(action, str(value))
 	if _save.get_build_flavor() == "demo":

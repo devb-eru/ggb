@@ -38,5 +38,5 @@ static func lines(locale: String) -> Array:
 	var result: Array = []
 	var source: Array = EN if locale.begins_with("en") else KO
 	for index in range(source.size()):
-		result.append({"speaker": "주인공" if index == 5 else "SYSTEM", "text": source[index]})
+		result.append({"speaker": "주인공" if index == 5 else "SYSTEM", "text": source[index], "d5_focus_allowed": index >= 6 and index <= 10})
 	return result
