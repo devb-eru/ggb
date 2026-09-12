@@ -28,7 +28,7 @@ func _history_enabled() -> bool:
 	if session == null:
 		return false
 	var current_stage := session.stage()
-	if current_stage in ["DEMO_END", "ENDING_CREDITS", "POST_CREDITS"]:
+	if current_stage in ["DEMO_END", "ENDING_CREDITS", "POST_CREDITS", "ENDING_BODY_PENDING"]:
 		return false
 	return not (current_stage == "D5" and SaveManager.get_build_flavor() == "demo")
 
@@ -141,9 +141,10 @@ func _build_fracture_intro() -> void:
 			_build_ending_entry()
 			return
 		"ENDING_BODY_PENDING":
-			_objective_label.text = "최종 결정 저장 완료"
+			_objective_label.text = "엔딩 진행 상태 확인 필요"
 			var ending: Dictionary = session.snapshot()["ending_run"]
-			_board_label(("현실 기상" if ending["branch_id"] == "reality" else "안정화 잔류") + " 분기 확정\n엔딩 본문은 이어서 구현 중이다.\n저장된 시작 노드: " + ending["current_node_id"], Rect2(350,300,1200,300))
+			_board_label("이 버전에서 엔딩의 다음 장면을 확인할 수 없습니다.\n이 화면에서는 진행을 변경하지 않습니다.\n타이틀로 돌아가 저장 파일과 게임 버전을 확인하십시오.\n진단용 노드: " + String(ending.get("current_node_id", "없음")), Rect2(350,250,1200,330))
+			_add_hotspot("ENDING_UNAVAILABLE_TITLE", "타이틀로 돌아간다", Rect2(520,650,880,110), _return_to_title)
 			return
 		"F3":
 			_build_final_inspection()

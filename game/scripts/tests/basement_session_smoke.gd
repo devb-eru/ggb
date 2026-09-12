@@ -13,6 +13,10 @@ class UnavailableEndingMeta extends RefCounted:
 	func commit_completed(_state: Dictionary) -> Dictionary:
 		return {"ok":false,"error":"injected_write_failure"}
 
+class PendingEndingSession extends BasementSession:
+	func stage() -> String:
+		return "ENDING_BODY_PENDING"
+
 func run(scene_tree: SceneTree) -> Dictionary:
 	tree = scene_tree
 	root = tree.root
@@ -239,6 +243,19 @@ func _validate_full_transition() -> void:
 	_expect(choice_probe["calls"] == 1 and selected_history.back()["variables"]["text"] == "Chosen answer", "recorded choice invokes original action after storing selection")
 	selected_button.pressed.emit()
 	_expect(choice_probe["calls"] == 1, "closed choice cannot fire stale callback")
+	var original_session: ChapterOneSession = view.session
+	var before_unavailable: Dictionary = game.get_snapshot()
+	view.session = PendingEndingSession.new(game, saves, SLOT)
+	view._clear_hotspots()
+	view._build_fracture_intro()
+	_expect(not view._history_enabled(), "unsupported ending screen cannot write dialogue history")
+	_expect(view._hotspot_layer.has_node("ENDING_UNAVAILABLE_TITLE") and not view._objective_label.text.contains("구현 중"), "unsupported ending offers accurate recovery navigation")
+	var title_probe := {"called": false}
+	view.return_to_title_requested.connect(func(): title_probe["called"] = true)
+	(view._hotspot_layer.get_node("ENDING_UNAVAILABLE_TITLE") as Button).pressed.emit()
+	_expect(title_probe["called"] and game.get_snapshot() == before_unavailable, "unsupported ending title action preserves gameplay state")
+	view.session = original_session
+	view._render_room()
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://e1_morning.png")
