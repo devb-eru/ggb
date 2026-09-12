@@ -19,6 +19,21 @@ func mirror_local(state: Dictionary = {}) -> Dictionary:
 	return local
 
 
+func can_prepare_mirror_shortcut() -> bool:
+	var state := snapshot()
+	var meta: Dictionary = state["meta_progress"]
+	var knowledge: Dictionary = meta["knowledge_entries"]
+	var local := mirror_local(state)
+	return state["loop_state"]["location_id"] == "M2_BEDROOM" \
+		and int(meta["journal_stage"]) == 2 \
+		and knowledge.get("c2_cleaning_record", false) \
+		and knowledge.get("c21_chemical_record", false) \
+		and meta["failure_knowledge"].get("C4", {}).get("status", "") == "active" \
+		and not local["locked"] \
+		and not local["surface_open"] \
+		and not knowledge.get("mirror_tracing_acquired", false)
+
+
 func initialize() -> Dictionary:
 	if int(snapshot()["meta_progress"]["journal_stage"]) < 2:
 		return _reject("일지 2단계를 먼저 복원한다.")
@@ -106,7 +121,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			if not knowledge.get("c2_cleaning_record", false) or not knowledge.get("c21_chemical_record", false): return _reject("청소 기록과 약품 라벨이 모두 필요하다.")
 			if local["locked"]: return _reject("오늘의 거울 표면은 돌아오지 않는다. 먼저 잠든다.")
 			if action == "c_shortcut":
-				if room != "M2_BEDROOM" or not meta["failure_knowledge"].has("C4"): return _reject("실패 뒤 같은 침실에서 기록한 준비 동선을 사용한다.")
+				if not can_prepare_mirror_shortcut(): return _reject("실패 뒤 같은 침실에서 기록한 준비 동선을 사용한다. 이미 확보한 거울 회로는 수첩에서 이어서 조사한다.")
 				loop["location_id"] = "M1_KITCHEN"
 				loop["event_local_states"][LOCAL_KEY] = local_state(state)
 				loop["event_local_states"][LOCAL_KEY]["routine_done"] = true

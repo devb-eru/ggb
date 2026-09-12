@@ -121,7 +121,7 @@ func _replace_back(destination: String, label: String) -> void:
 
 func _build_loop_bedroom(local: Dictionary) -> void:
 	super._build_loop_bedroom(local)
-	if session.snapshot()["meta_progress"]["failure_knowledge"].has("C4") and not _mirror().mirror_local()["locked"]:
+	if _mirror().can_prepare_mirror_shortcut():
 		_action("CSHORT", "기록한 동선으로 재료만 다시 준비한다", Rect2(340, 755, 1000, 90), "c_shortcut")
 
 
