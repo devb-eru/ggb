@@ -10,6 +10,7 @@ signal audio_room_requested(room_id: String)
 var _audio_dialogue_index := -1
 
 var _audio_settings_panel: PanelContainer
+var _key_settings_panel: PanelContainer
 var _audio_profile_store := AccessibilityProfileStore.new()
 
 const MANSION_BACKGROUND := preload("res://assets/prologue/prologue_mansion_hall_v01.png")
@@ -176,13 +177,25 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if is_instance_valid(_audio_settings_panel) and _audio_settings_panel.visible:
-		if event.is_action_pressed("ui_cancel") or event.is_action_pressed("notebook_toggle"):
+	if is_instance_valid(_key_settings_panel) and _key_settings_panel.visible:
+		if event.is_action_pressed("ui_cancel", false, true):
 			_open_menu()
 			get_viewport().set_input_as_handled()
 		return
-	var page_up := event.is_action_pressed("ui_page_up")
-	var page_down := event.is_action_pressed("ui_page_down")
+	if event.is_action_pressed("inventory_toggle", false, true) and not _interaction_blocked():
+		for slot: Button in _inventory_slots:
+			if slot.is_visible_in_tree() and not slot.disabled:
+				slot.grab_focus()
+				break
+		get_viewport().set_input_as_handled()
+		return
+	if is_instance_valid(_audio_settings_panel) and _audio_settings_panel.visible:
+		if event.is_action_pressed("ui_cancel", false, true) or event.is_action_pressed("notebook_toggle", false, true):
+			_open_menu()
+			get_viewport().set_input_as_handled()
+		return
+	var page_up := event.is_action_pressed("ui_page_up", false, true)
+	var page_down := event.is_action_pressed("ui_page_down", false, true)
 	if _modal_active and (page_up or page_down):
 		var body_scroll := _modal_body.get_child(2) as ScrollContainer
 		if body_scroll != null:
@@ -195,7 +208,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_dialogue_scroll.scroll_vertical += direction * maxi(40, int(_dialogue_scroll.size.y * 0.8))
 		get_viewport().set_input_as_handled()
 		return
-	if event.is_action_pressed("notebook_toggle"):
+	if event.is_action_pressed("notebook_toggle", false, true):
 		if _dialogue_choice_active:
 			_handle_dialogue_choice_cancel()
 		elif _inspection_active:
@@ -205,7 +218,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			_open_notebook()
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_cancel"):
+	elif event.is_action_pressed("ui_cancel", false, true):
 		if _dialogue_choice_active:
 			_handle_dialogue_choice_cancel()
 		elif _inspection_active:
@@ -631,6 +644,7 @@ func _default_progress() -> Dictionary:
 
 func _apply_accessibility_profile() -> void:
 	var profile_result := AccessibilityProfileStore.new().load_profile()
+	preload("res://scripts/systems/key_bindings.gd").apply_bindings(profile_result.profile.get("key_bindings", preload("res://scripts/systems/key_bindings.gd").defaults()))
 	var profile: Dictionary = profile_result.get("profile", {})
 	var scale := float(profile.get("text_scale", 1.0))
 	var ui_theme := Theme.new()
@@ -1928,17 +1942,53 @@ func _open_menu() -> void:
 			{"label": _dialogue_ui_text("CH1_HISTORY_TITLE"), "action": _open_dialogue_history},
 			{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
 			{"label": _audio_settings_label(), "action": _open_audio_settings},
+			{"label": _key_settings_label(), "action": _open_key_settings},
 		])
 		return
 	_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
 		{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
 		{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
 		{"label": _audio_settings_label(), "action": _open_audio_settings},
+		{"label": _key_settings_label(), "action": _open_key_settings},
 	])
 
 
 func _audio_settings_label() -> String:
 	return "Audio settings" if TranslationServer.get_locale().begins_with("en") else "음향 설정"
+
+
+func _key_settings_label() -> String:
+	return "Keyboard settings" if TranslationServer.get_locale().begins_with("en") else "키보드 설정"
+
+
+func _open_key_settings() -> void:
+	if _dialogue_active or _dialogue_choice_active: return
+	if not is_instance_valid(_key_settings_panel):
+		_key_settings_panel = preload("res://scripts/ui/key_settings_panel.gd").new()
+		_modal_layer.add_child(_key_settings_panel)
+		_key_settings_panel.back_requested.connect(_open_menu)
+		_key_settings_panel.apply_requested.connect(_apply_game_key_settings)
+	var profile: Dictionary = _audio_profile_store.load_profile().profile
+	_key_settings_panel.load_values(profile.get("key_bindings", preload("res://scripts/systems/key_bindings.gd").defaults()), TranslationServer.get_locale())
+	var panel_theme := Theme.new()
+	panel_theme.default_font_size = int(round(18 * _reading_text_scale))
+	_key_settings_panel.theme = panel_theme
+	_modal_panel.hide()
+	_modal_layer.show()
+	_modal_active = true
+	menu_audio_pause_requested.emit(true)
+	_key_settings_panel.show()
+	_key_settings_panel.back.call_deferred("grab_focus")
+
+
+func _apply_game_key_settings(bindings: Dictionary) -> void:
+	var profile: Dictionary = _audio_profile_store.load_profile().profile.duplicate(true)
+	profile["key_bindings"] = bindings.duplicate(true)
+	if not _audio_profile_store.save_profile(profile).get("ok", false):
+		_key_settings_panel.show_save_error()
+		return
+	preload("res://scripts/systems/key_bindings.gd").apply_bindings(bindings)
+	_open_menu()
 
 
 func _open_audio_settings() -> void:
@@ -2005,6 +2055,7 @@ func _open_notebook() -> void:
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
+	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
 	if is_instance_valid(_audio_settings_panel):
 		_audio_settings_panel.hide()
 	_modal_panel.show()
@@ -2078,6 +2129,7 @@ func _focus_visible_control(reference: WeakRef) -> void:
 
 
 func _close_modal() -> void:
+	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
 	if is_instance_valid(_audio_settings_panel):
 		_audio_settings_panel.hide()
 	_modal_panel.show()

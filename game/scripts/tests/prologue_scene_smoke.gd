@@ -26,6 +26,42 @@ func _modal_tab(tree: SceneTree, backwards: bool = false) -> void:
 	await tree.process_frame
 
 
+func _validate_game_key_settings(tree: SceneTree, prologue: Control, errors: PackedStringArray) -> void:
+	var bindings := preload("res://scripts/systems/key_bindings.gd")
+	var store := AccessibilityProfileStore.new("user://__test_game_keys")
+	store.delete_test_profile()
+	var original_store: AccessibilityProfileStore = prologue._audio_profile_store
+	prologue._audio_profile_store = store
+	prologue._dismiss_dialogue_for_test()
+	prologue._close_modal()
+	var before: Dictionary = prologue._progress.duplicate(true)
+	prologue._open_menu()
+	prologue._open_key_settings()
+	await tree.process_frame
+	_expect(prologue._key_settings_panel.visible and not prologue._modal_panel.visible, "game key panel replaces menu body", errors)
+	var draft := bindings.defaults()
+	draft.cancel = [KEY_F8]
+	prologue._apply_game_key_settings(draft)
+	_expect(not prologue._key_settings_panel.visible and prologue._modal_active, "game binding apply returns to menu", errors)
+	_expect(int(store.load_profile().profile.key_bindings.cancel[0]) == KEY_F8, "game bindings persist in profile", errors)
+	prologue._open_key_settings()
+	await tree.process_frame
+	var event := bindings.key_event(KEY_F8)
+	event.pressed = true
+	Input.parse_input_event(event)
+	await tree.process_frame
+	event = event.duplicate()
+	event.pressed = false
+	Input.parse_input_event(event)
+	await tree.process_frame
+	_expect(not prologue._key_settings_panel.visible and prologue._modal_active, "rebound cancel returns from game key panel", errors)
+	prologue._close_modal()
+	_expect(prologue._progress == before, "game key settings preserve puzzle state", errors)
+	prologue._audio_profile_store = original_store
+	bindings.apply_bindings(bindings.defaults())
+	store.delete_test_profile()
+
+
 func run(tree: SceneTree) -> Dictionary:
 	var prologue = PROLOGUE_SCENE.instantiate()
 	prologue.configure_session("__test_prologue", "P1_ENTRY", true)
@@ -78,6 +114,7 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue.audio_cue_requested.connect(func(id: StringName): audio_requests.append(id))
 	prologue.audio_room_requested.connect(func(id: String): room_requests.append(id))
 	var errors: PackedStringArray = prologue.run_smoke_scenario()
+	await _validate_game_key_settings(tree, prologue, errors)
 	_expect(audio_requests.count(&"AUD_SIG_LUCA") == 1, "P4 pulse dispatches once during the tea sequence", errors)
 	_expect("M1_KITCHEN" in room_requests, "kitchen entry requests ambience", errors)
 	var original_locale := TranslationServer.get_locale()

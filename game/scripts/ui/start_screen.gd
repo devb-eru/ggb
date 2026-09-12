@@ -92,6 +92,8 @@ var _profile_store := AccessibilityProfileStore.new()
 var _profile: Dictionary = {}
 var _audio_panel := preload("res://scripts/ui/audio_settings_panel.gd").new()
 var _audio_button := Button.new()
+var _key_panel := preload("res://scripts/ui/key_settings_panel.gd").new()
+var _key_button := Button.new()
 var _locale := "ko-KR"
 var _slot_summaries: Dictionary = {}
 var _latest_slot_id := ""
@@ -128,6 +130,7 @@ func _ready() -> void:
 	_setup_gallery()
 	_setup_import()
 	_setup_audio_settings()
+	_setup_key_settings()
 	_populate_options()
 	var profile_result := _profile_store.load_profile()
 	_profile = profile_result.get("profile", _profile_store.default_profile()).duplicate(true)
@@ -138,7 +141,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel") and _active_modal() != null:
+	if event.is_action_pressed("ui_cancel", false, true) and _active_modal() != null:
 		_close_modal()
 		get_viewport().set_input_as_handled()
 
@@ -430,6 +433,43 @@ func _setup_audio_settings() -> void:
 	_audio_panel.apply_requested.connect(_apply_audio_settings)
 
 
+func get_key_bindings() -> Dictionary:
+	return _profile.get("key_bindings", preload("res://scripts/systems/key_bindings.gd").defaults()).duplicate(true)
+
+
+func _setup_key_settings() -> void:
+	_settings_panel.get_parent().add_child(_key_panel)
+	_settings_back_button.get_parent().add_child(_key_button)
+	_key_button.text = "Keyboard" if _locale.begins_with("en") else "키보드"
+	_key_button.pressed.connect(_open_key_settings)
+	_key_panel.back_requested.connect(_on_settings_pressed)
+	_key_panel.apply_requested.connect(_apply_key_settings)
+
+
+func _open_key_settings() -> void:
+	_key_panel.load_values(get_key_bindings(), _locale)
+	_open_modal(_key_panel, _key_panel.back, false)
+
+
+func _apply_key_settings(bindings: Dictionary) -> void:
+	var candidate := _profile.duplicate(true)
+	candidate["key_bindings"] = bindings.duplicate(true)
+	if not _profile_store.save_profile(candidate).get("ok", false):
+		_key_panel.show_save_error()
+		return
+	_profile = candidate
+	preload("res://scripts/systems/key_bindings.gd").apply_bindings(bindings)
+	_refresh_key_hint()
+	_on_settings_pressed()
+
+
+func _refresh_key_hint() -> void:
+	var bindings := get_key_bindings()
+	var key_names := preload("res://scripts/systems/key_bindings.gd")
+	_menu_hint.text = ("%s · CONFIRM    %s · BACK" if _locale.begins_with("en") else "%s · 확인    %s · 뒤로") % [key_names.caption(bindings.confirm), key_names.caption(bindings.cancel)]
+	_menu_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+
 func _open_audio_settings() -> void:
 	_audio_panel.load_values(get_audio_settings(), _locale)
 	_open_modal(_audio_panel, _audio_panel.back, false)
@@ -450,7 +490,7 @@ func _apply_audio_settings(settings: Dictionary) -> void:
 func _on_settings_pressed() -> void:
 	_audio_button.text = "Audio settings" if _locale.begins_with("en") else "음향 설정"
 	_sync_controls_from_profile(_settings_text_option, _settings_signature_option, _settings_motion_option, _settings_captions)
-	_open_modal(_settings_panel, _settings_text_option, _active_modal() != _audio_panel)
+	_open_modal(_settings_panel, _settings_text_option, _active_modal() not in [_audio_panel, _key_panel])
 
 
 func _on_content_pressed() -> void:
@@ -564,6 +604,7 @@ func _profile_from_controls(
 ) -> Dictionary:
 	return {
 		"audio": get_audio_settings(),
+		"key_bindings": get_key_bindings(),
 		"accessibility_profile_version": AccessibilityProfileStore.PROFILE_VERSION,
 		"first_run_complete": false,
 		"text_scale": TEXT_SCALE_VALUES[text_option.selected],
@@ -583,6 +624,8 @@ func _save_profile() -> bool:
 
 
 func _apply_profile() -> void:
+	preload("res://scripts/systems/key_bindings.gd").apply_bindings(get_key_bindings())
+	_refresh_key_hint()
 	audio_settings_changed.emit(get_audio_settings())
 	var text_scale := float(_profile.get("text_scale", 1.0))
 	var title_theme := Theme.new()
@@ -646,6 +689,7 @@ func _active_modal() -> Control:
 func _modal_panels() -> Array[Control]:
 	return [
 		_audio_panel,
+		_key_panel,
 		_slot_panel,
 		_first_run_panel,
 		_settings_panel,
@@ -659,6 +703,7 @@ func _modal_panels() -> Array[Control]:
 func _all_interactive_controls() -> Array[Control]:
 	var controls: Array[Control] = [
 		_audio_button,
+		_key_button,
 		_continue_button, _new_game_button, _load_button, _settings_button, _quit_button, _content_button,
 		_slot_back_button, _first_text_option, _first_signature_option, _first_motion_option, _first_captions,
 		_first_default_button, _first_apply_button, _settings_text_option, _settings_signature_option,
@@ -669,6 +714,7 @@ func _all_interactive_controls() -> Array[Control]:
 	for button in _slot_buttons:
 		controls.append(button)
 	controls.append_array(_audio_panel.interactive_controls())
+	controls.append_array(_key_panel.interactive_controls())
 	if is_instance_valid(_gallery_button):
 		controls.append_array([_gallery_button,_gallery_choices,_gallery_previous,_gallery_next])
 	if is_instance_valid(_import_button): controls.append_array([_import_button,_import_choices,_import_confirm])

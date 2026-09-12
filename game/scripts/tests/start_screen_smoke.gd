@@ -25,7 +25,101 @@ class RejectAudioProfile extends AccessibilityProfileStore:
 		return {"ok": false}
 
 
+func _validate_key_settings(screen: StartScreen) -> void:
+	var bindings := preload("res://scripts/systems/key_bindings.gd")
+	var before := GameState.get_snapshot()
+	var legacy := _profile_store.default_profile()
+	legacy.erase("key_bindings")
+	_expect(_profile_store.validate_profile(legacy).ok, "legacy bindings remain supported", _errors)
+	for malformed: Variant in [null, true, [], {}, {"cancel": [KEY_ESCAPE]}]:
+		_expect(not bindings.validate(malformed), "malformed binding structure rejected", _errors)
+	for code: Variant in [true, "65", null, -1, 65.5, NAN, INF, KEY_SHIFT, KEY_CTRL]:
+		var invalid := bindings.defaults()
+		invalid.cancel = [code]
+		_expect(not bindings.validate(invalid), "invalid key rejected before conversion", _errors)
+	var duplicate := bindings.defaults()
+	duplicate.cancel = duplicate.next.duplicate()
+	_expect(not bindings.apply_bindings(duplicate), "invalid bindings cannot partially apply", _errors)
+	screen._open_key_settings()
+	await _tree.process_frame
+	screen._key_panel.begin_capture("cancel")
+	await _binding_key(KEY_TAB)
+	_expect(screen._key_panel._capture == "cancel", "duplicate key capture rejected", _errors)
+	await _binding_key(KEY_F8)
+	_expect(screen._key_panel._capture.is_empty(), "new binding captured", _errors)
+	_expect(InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_ESCAPE)), "draft does not replace applied input", _errors)
+	screen._key_panel.apply.pressed.emit()
+	_expect(InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_F8)), "saved cancel key applied", _errors)
+	_expect(not InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_ESCAPE)), "old Escape removed", _errors)
+	_expect("F8" in screen._menu_hint.text and "Escape" not in screen._menu_hint.text, "title hint displays current cancel binding", _errors)
+	var loaded: Dictionary = AccessibilityProfileStore.new(TEST_PROFILE_ROOT).load_profile().profile
+	_expect(int(loaded.key_bindings.cancel[0]) == KEY_F8, "new store reload retains binding", _errors)
+	bindings.apply_bindings(bindings.defaults())
+	screen.refresh_profile()
+	_expect(InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_F8)), "profile refresh restores runtime binding", _errors)
+	var controls_profile: Dictionary = screen._profile_from_controls(screen._settings_text_option, screen._settings_signature_option, screen._settings_motion_option, screen._settings_captions)
+	_expect(controls_profile.key_bindings == loaded.key_bindings, "ordinary settings preserve bindings", _errors)
+	screen._open_key_settings()
+	screen._key_panel.begin_capture("next")
+	await _binding_key(KEY_F9)
+	screen._key_panel.begin_capture("previous")
+	await _binding_key(KEY_F10)
+	screen._key_panel.begin_capture("cancel")
+	await _binding_key(KEY_ESCAPE)
+	_expect(screen._key_panel._capture.is_empty(), "Escape assigned instead of closing panel", _errors)
+	screen._profile_store = RejectAudioProfile.new()
+	screen._key_panel.apply.pressed.emit()
+	_expect(screen._active_modal() == screen._key_panel and InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_F8)), "failed save keeps old inputs and panel", _errors)
+	screen._profile_store = _profile_store
+	screen._key_panel.apply.pressed.emit()
+	screen._open_key_settings()
+	await _tree.process_frame
+	screen._key_panel.buttons.confirm.grab_focus()
+	await _binding_key(KEY_F9)
+	_expect(screen.get_viewport().gui_get_focus_owner() == screen._key_panel.buttons.cancel, "rebound next navigates real GUI focus", _errors)
+	await _binding_key(KEY_F10)
+	_expect(screen.get_viewport().gui_get_focus_owner() == screen._key_panel.buttons.confirm, "rebound previous navigates real GUI focus", _errors)
+	screen._key_panel.begin_capture("next")
+	await _binding_key(KEY_TAB)
+	screen._key_panel.begin_capture("previous")
+	await _binding_key(KEY_TAB | KEY_MASK_SHIFT)
+	_expect(int(screen._key_panel._draft.previous[0]) == (KEY_TAB | KEY_MASK_SHIFT), "Shift Tab captured with modifier", _errors)
+	screen._key_panel.back.pressed.emit()
+	screen._open_key_settings()
+	_expect(int(screen._key_panel._draft.next[0]) == KEY_F9, "back discards draft", _errors)
+	if CAPTURE_ARG in OS.get_cmdline_user_args():
+		var scale_before: float = screen._profile.text_scale
+		screen._profile.text_scale = 2.0
+		screen._apply_profile()
+		await _tree.process_frame
+		await _tree.process_frame
+		await RenderingServer.frame_post_draw
+		_capture_screen(screen, "keyboard_settings_1280x720_200.png", "keyboard")
+		screen._profile.text_scale = scale_before
+		screen._apply_profile()
+	screen._key_panel.restore.pressed.emit()
+	screen._key_panel.apply.pressed.emit()
+	_expect(InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_ESCAPE)), "restore defaults applied", _errors)
+	var mouse := InputEventMouseButton.new()
+	mouse.button_index = MOUSE_BUTTON_LEFT
+	_expect(InputMap.action_has_event("interact_confirm", mouse), "keyboard replacement preserves mouse", _errors)
+	_expect(GameState.get_snapshot() == before, "key settings preserve game state", _errors)
+	screen._close_modal()
+
+
+func _binding_key(code: Key) -> void:
+	var event := preload("res://scripts/systems/key_bindings.gd").key_event(code)
+	event.pressed = true
+	Input.parse_input_event(event)
+	await _tree.process_frame
+	event = event.duplicate()
+	event.pressed = false
+	Input.parse_input_event(event)
+	await _tree.process_frame
+
+
 func _validate_audio_settings(screen: StartScreen) -> void:
+	await _validate_key_settings(screen)
 	var before := GameState.get_snapshot()
 	for field in ["accessibility_profile_version", "text_scale", "signature_mode", "motion_mode"]:
 		for bad_value in [true, null, [], {}, "1", NAN, INF, 1.9]:
