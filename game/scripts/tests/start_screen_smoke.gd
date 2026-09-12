@@ -76,6 +76,16 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(_tree.root.gui_get_focus_owner() == screen._launch_return_button, "import defaults to cancel focus", _errors)
 	screen._close_modal()
 	_expect(GameState.get_snapshot() == import_state and not screen._import_controls.visible, "import cancellation preserves gameplay", _errors)
+	var korean_locale := screen._locale
+	screen._locale = "en-US"
+	screen._open_demo_import()
+	_expect(screen._launch_title.text == "Confirm demo save import", "English import confirmation title", _errors)
+	_expect("[UI_" not in screen._launch_body.text and not screen._launch_body.text.is_empty(), "English import body resolves", _errors)
+	_expect(screen._text(&"UI_IMPORT_SLOT", {"slot":"slot_01"}) == "Demo slot_01", "Import slot variable resolves in English", _errors)
+	_expect(screen._text(&"UI_IMPORT_ERROR", {"error":"ERR_IMPORT_TEST"}).ends_with("\nERR_IMPORT_TEST"), "Import error identifier preserved", _errors)
+	_expect("will not be overwritten" in screen._text(&"UI_IMPORT_BODY"), "English import preserves overwrite warning", _errors)
+	screen._close_modal()
+	screen._locale = korean_locale
 	ProjectSettings.set_setting("ggb/build_flavor",old_flavor)
 
 	screen.queue_free()
