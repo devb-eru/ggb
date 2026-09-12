@@ -19,6 +19,8 @@ func run(tree: SceneTree) -> Dictionary:
 	await tree.process_frame
 	await tree.process_frame
 	if CAPTURE_P4_ARG in OS.get_cmdline_user_args():
+		if "--capture-large-text" in OS.get_cmdline_user_args():
+			prologue._apply_reading_text_scale(2.0)
 		prologue._dismiss_dialogue_for_test()
 		prologue._progress["P1_complete"] = true
 		prologue._progress["P2_complete"] = true

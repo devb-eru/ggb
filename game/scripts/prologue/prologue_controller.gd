@@ -474,6 +474,9 @@ func _build_dialogue_ui() -> void:
 	_dialogue_choice_panel.name = "DialogueChoicePanel"
 	_dialogue_choice_panel.add_theme_stylebox_override("panel", _style(Color(0.01, 0.008, 0.018, 0.72), Color(0.29, 0.36, 0.48, 0.64), 2, 3))
 	_place(_dialogue_choice_panel, Rect2(1190, 255, 470, 365))
+	_dialogue_choice_panel.resized.connect(func() -> void:
+		_dialogue_choice_panel.position.x = maxf(24.0, 1660.0 - _dialogue_choice_panel.size.x)
+	)
 	_dialogue_choice_panel.visible = false
 	_dialogue_layer.add_child(_dialogue_choice_panel)
 	var choice_margin := MarginContainer.new()
