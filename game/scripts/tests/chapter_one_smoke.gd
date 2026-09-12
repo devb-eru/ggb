@@ -493,6 +493,28 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._open_notebook()
 	_expect(view._modal_body.get_child(2).get_child(0).get_theme_font_size("font_size") == 44, "Notebook respects 200 percent reading text scale")
 	view._close_modal()
+	var field_texts = preload("res://scripts/ui/field_notebook_texts.gd")
+	var reading_state: Dictionary = GameState.get_snapshot()
+	view._show_modal(field_texts.PAGES["FIELD_NOTEBOOK_FIRST_72_HOURS"][0], field_texts.PAGES["FIELD_NOTEBOOK_FIRST_72_HOURS"][2], [{"label": "Close reading", "action": view._close_modal}])
+	await tree.process_frame
+	await tree.process_frame
+	var reading_scroll := view._modal_body.get_child(2) as ScrollContainer
+	var reading_button := view._modal_body.get_child(3) as Button
+	_expect(tree.root.gui_get_focus_owner() == reading_button, "long reading initially focuses close action")
+	await _press_key(tree, KEY_TAB)
+	_expect(tree.root.gui_get_focus_owner() == reading_scroll, "Tab reaches long reading body")
+	var reading_bar := reading_scroll.get_v_scroll_bar()
+	_expect(reading_bar.max_value > reading_bar.page, "real English notebook text overflows at 200 percent")
+	for step in range(20):
+		await _press_key(tree, KEY_PAGEDOWN)
+	_expect(reading_scroll.scroll_vertical >= reading_bar.max_value - reading_bar.page - 1, "PageDown reaches final English notebook paragraph")
+	for step in range(20):
+		await _press_key(tree, KEY_PAGEUP)
+	_expect(reading_scroll.scroll_vertical == 0, "PageUp returns to beginning of notebook text")
+	await _press_key(tree, KEY_TAB)
+	_expect(tree.root.gui_get_focus_owner() == reading_button, "Tab returns from reading body to close button")
+	await _press_key(tree, KEY_ENTER)
+	_expect(not view._modal_active and GameState.get_snapshot() == reading_state, "keyboard reading closes without changing gameplay")
 	view._render_room()
 	await tree.process_frame
 	var back := view._hotspot_layer.get_node("BACK") as Button
