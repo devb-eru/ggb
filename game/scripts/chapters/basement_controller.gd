@@ -918,7 +918,7 @@ func _open_field_page(page: String, expanded: bool) -> void:
 	var text: String = rules.page_text(session.snapshot(),page,expanded)
 	var pages: Array = rules.PAGES.keys()
 	var next_page: String = pages[(pages.find(page)+1)%pages.size()]
-	_show_modal(rules.PAGES[page][0],text,[
+	_show_recorded_choice(rules.PAGES[page][0],text,[
 		{"label":"읽기 확인 후 닫기","action":_modal_act.bind("field_read",{"page":page,"expanded":expanded})},
 		{"label":"요약으로" if expanded else "펼쳐 읽기","action":_open_field_page.bind(page,not expanded)},
 		{"label":"다음 색인: " + rules.PAGES[next_page][0],"action":_open_field_page.bind(next_page,false)},
@@ -1032,7 +1032,7 @@ func _notification(what: int) -> void:
 
 func _edc_summary() -> void:
 	if _interaction_blocked(): return
-	_show_modal("두 절차의 요약", BasementSession.FINAL_INSPECTION.SUMMARIES["wake"] + "\n\n" + BasementSession.FINAL_INSPECTION.SUMMARIES["stay"], [{"label": "선택 화면으로", "action": _close_modal}])
+	_show_recorded_choice("두 절차의 요약", BasementSession.FINAL_INSPECTION.SUMMARIES["wake"] + "\n\n" + BasementSession.FINAL_INSPECTION.SUMMARIES["stay"], [{"label": "선택 화면으로", "action": _close_modal}])
 
 
 func _confirm_ending(decision: String) -> void:

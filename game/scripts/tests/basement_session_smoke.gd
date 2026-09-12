@@ -1092,6 +1092,16 @@ func _validate_edc(session: BasementSession) -> void:
 		root.add_child(confirm_view)
 		await tree.process_frame
 		confirm_view._dismiss_dialogue_for_test()
+		var before_summary: Dictionary = session.snapshot()
+		confirm_view._edc_summary()
+		var summary_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(summary_history.size() == before_summary["meta_progress"]["dialogue_history"]["entries"].size() + 1, "EDC summary is recorded when shown")
+		for procedure in ["wake", "stay"]:
+			_expect(summary_history.back()["variables"]["text"].contains(SESSION.FINAL_INSPECTION.SUMMARIES[procedure]), "EDC history preserves both procedure summaries")
+		confirm_view._modal_body.get_child(3).pressed.emit()
+		var after_summary: Dictionary = session.snapshot()
+		after_summary["meta_progress"]["dialogue_history"] = before_summary["meta_progress"]["dialogue_history"].duplicate(true)
+		_expect(after_summary == before_summary, "Reading balanced summary does not change choice or progression")
 		var history_before_confirmation: int = game.get_value("meta_progress.dialogue_history.entries", []).size()
 		confirm_view._confirm_ending(decision)
 		await tree.process_frame
@@ -1356,16 +1366,42 @@ func _validate_field_notebook(session: BasementSession) -> void:
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var before_failed_read: Dictionary = session.snapshot()
+	var original_slot: String = view.session.slot_id
+	view.session.slot_id = "../invalid_slot"
+	view._open_field_page("FIELD_NOTEBOOK_PREFACE", false)
+	var retry_button := view._modal_body.get_child(3) as Button
+	retry_button.pressed.emit()
+	_expect(session.snapshot() == before_failed_read and view._modal_active, "Failed reading transcript save preserves state and keeps page open")
+	view.session.slot_id = original_slot
+	retry_button.pressed.emit()
+	_expect(not view._modal_active, "Reading can retry successfully after persistence is restored")
+	view._dismiss_dialogue_for_test()
 	for page in rules.PAGES:
+		var before_page: Dictionary = session.snapshot()
+		var summary_text: String = rules.page_text(before_page, page, false)
 		view._open_field_page(page,false)
 		_expect(view._modal_active,"Field page summary opens")
+		var summaries: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(summaries.size() == before_page["meta_progress"]["dialogue_history"]["entries"].size() + 1, "Opening notebook summary records one visible panel")
+		_expect(summaries.back()["variables"]["text"] == rules.PAGES[page][0] + "\n" + summary_text + "\n읽기 확인 후 닫기\n펼쳐 읽기\n" + (view._modal_body.get_child(5) as Button).text, "Summary history contains displayed text and navigation only")
+		var after_page: Dictionary = session.snapshot()
+		after_page["meta_progress"]["dialogue_history"] = before_page["meta_progress"]["dialogue_history"].duplicate(true)
+		_expect(after_page == before_page, "Opening a page does not mark expanded or confirmed reading")
+		var stale_read := view._modal_body.get_child(3) as Button
 		view._open_field_page(page,true)
+		var expanded_state: Dictionary = session.snapshot()
+		var expanded_entries: Array = expanded_state["meta_progress"]["dialogue_history"]["entries"]
+		_expect(expanded_entries.size() == summaries.size() + 1 and expanded_entries.back()["variables"]["text"].contains(rules.page_text(before_page, page, true)), "Only opened expanded page is appended")
+		stale_read.pressed.emit()
+		_expect(session.snapshot() == expanded_state and view._modal_active, "Replaced summary callback cannot confirm stale reading")
 		await tree.process_frame
 		if page == "SUBJECT_HANDOFF_PAGE" and "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("user://field_notebook_page.png")
 		view._modal_body.get_child(3).pressed.emit()
 		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Field page reload")
+		_expect(game.get_value("meta_progress.dialogue_history.entries", []).has(expanded_entries.back()), "Expanded reading transcript survives reload")
 	view._render_room()
 	view._hotspot_layer.get_node("FIELD_FINISH").pressed.emit()
 	_expect(session.snapshot()["loop_state"]["location_id"] == "R0_FACILITY_EXIT","Field notebook leads to physical exit")
