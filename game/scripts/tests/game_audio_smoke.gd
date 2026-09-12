@@ -1,5 +1,7 @@
 extends SceneTree
 
+const MISSING_CATALOG_PATH := "user://__test_missing_audio_registry.json"
+
 func _initialize() -> void:
 	call_deferred("_run")
 
@@ -9,7 +11,9 @@ func _run() -> void:
 	assert(audio._catalog.has("AUD_SIG_LUCA"))
 	assert(not audio.request_cue(&"AUD_SIG_LUCA"))
 	assert(not audio.request_cue(&"UNKNOWN"))
-	assert(not audio.load_catalog("res://missing_audio_registry.json"))
+	if FileAccess.file_exists(MISSING_CATALOG_PATH):
+		assert(DirAccess.remove_absolute(ProjectSettings.globalize_path(MISSING_CATALOG_PATH)) == OK)
+	assert(not audio.load_catalog(MISSING_CATALOG_PATH))
 	assert(audio._catalog.has("AUD_SIG_LUCA"))
 	var stream := AudioStreamGenerator.new()
 	assert(audio.play_cue(&"old_room", stream, &"AMB"))
