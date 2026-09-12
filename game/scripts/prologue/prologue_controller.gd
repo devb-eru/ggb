@@ -1251,16 +1251,16 @@ func _build_kitchen() -> void:
 	var step := int(_progress.get("tea_step", 0))
 	if step < TEA_STEPS.size():
 		_update_inventory([
-			{"id": "CUP", "label": "빈 찻잔"},
-			{"id": "HOT_WATER", "label": "뜨거운 물"},
-			{"id": "TEA_LEAVES", "label": "찻잎"},
-			{"id": "SPOON", "label": "계량 숟가락"},
-			{"id": "TIMER", "label": "모래시계"},
-			{"id": "TEAPOT", "label": "찻주전자"},
+			{"id": "CUP", "label": _dialogue_ui_text("P4_TEA_ITEM_CUP")},
+			{"id": "HOT_WATER", "label": _dialogue_ui_text("P4_TEA_ITEM_HOT_WATER")},
+			{"id": "TEA_LEAVES", "label": _dialogue_ui_text("P4_TEA_ITEM_TEA_LEAVES")},
+			{"id": "SPOON", "label": _dialogue_ui_text("P4_TEA_ITEM_SPOON")},
+			{"id": "TIMER", "label": _dialogue_ui_text("P4_TEA_ITEM_TIMER")},
+			{"id": "TEAPOT", "label": _dialogue_ui_text("P4_TEA_ITEM_TEAPOT")},
 		])
 		for index in range(TEA_STEPS.size()):
 			var done := index < step
-			var label := "%d. %s\n%s%s" % [index + 1, TEA_STEPS[index], TEA_STEP_ITEM_LABELS[index], " · 완료" if done else ""]
+			var label := "%d. %s\n%s%s" % [index + 1, _dialogue_ui_text("P4_TEA_STEP_%d" % index), _dialogue_ui_text("P4_TEA_ITEM_" + String(TEA_STEP_ITEMS[index])), " · " + _dialogue_ui_text("UI_DUTY_COMPLETE") if done else ""]
 			_add_inventory_drop_hotspot("TEA_%d" % index, label, Rect2(320 + (index % 3) * 390, 300 + (index / 3) * 170, 330, 120), _on_tea_target_pressed.bind(index), _on_tea_item_dropped)
 	else:
 		_update_inventory([])
@@ -1301,10 +1301,10 @@ func _on_tea_step(index: int) -> void:
 	if step >= TEA_STEPS.size():
 		return
 	if index != step:
-		_set_status("순서가 맞지 않는다. 지금 필요한 단계는 '%s'이다." % TEA_STEPS[step])
+		_set_status(_dialogue_ui_text("P4_TEA_ORDER", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % step)}))
 		return
 	_progress["tea_step"] = step + 1
-	_set_status("%s: 완료" % TEA_STEPS[index])
+	_set_status(_dialogue_ui_text("P4_TEA_DONE", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % index)}))
 	if step + 1 >= TEA_STEPS.size():
 		_begin_p4_memory_anchor()
 		return
@@ -1316,7 +1316,7 @@ func _on_tea_step(index: int) -> void:
 
 func _on_tea_target_pressed(index: int) -> void:
 	if _selected_item.is_empty():
-		_set_status("필요한 도구를 인벤토리에서 단계 위로 드래그하십시오.")
+		_set_status(_dialogue_ui_text("P4_TEA_DRAG"))
 		return
 	_on_tea_item_dropped(_selected_item, "TEA_%d" % index)
 
@@ -1326,7 +1326,7 @@ func _on_tea_item_dropped(item_id: String, target_id: String) -> void:
 	if index < 0 or index >= TEA_STEPS.size():
 		return
 	if item_id != String(TEA_STEP_ITEMS[index]):
-		_set_status("'%s' 단계에는 %s이(가) 필요하다." % [TEA_STEPS[index], TEA_STEP_ITEM_LABELS[index]])
+		_set_status(_dialogue_ui_text("P4_TEA_REQUIRES", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % index), "item": _dialogue_ui_text("P4_TEA_ITEM_" + String(TEA_STEP_ITEMS[index]))}))
 		return
 	_selected_item = item_id
 	_on_tea_step(index)
