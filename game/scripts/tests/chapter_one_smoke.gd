@@ -324,9 +324,11 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	await tree.process_frame
 	var role_button := view._hotspot_layer.get_node("ROLE_reference") as OptionButton
 	role_button.grab_focus()
+	view._set_status("Previous failed action")
 	role_button.item_selected.emit(CLOCK.CLOCKS.find("parlor") + 1)
 	await tree.process_frame
 	_expect(session.local_state()["roles"].get("reference", "") == "parlor", "real role control persists player input")
+	_expect(view._status_label.text.is_empty(), "successful puzzle action clears stale error feedback")
 	_expect(tree.root.gui_get_focus_owner() == view._hotspot_layer.get_node("ROLE_reference"), "role selection preserves keyboard focus")
 	if "--capture-chapter-one" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw

@@ -194,6 +194,8 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 	if _interaction_blocked():
 		return
 	var result := session.act(action, value)
+	if result.get("ok", false):
+		_set_status("")
 	_render_room()
 	if show_text:
 		_feedback(result)
