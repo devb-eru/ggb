@@ -1307,13 +1307,9 @@ func _turn_p4_cup_handle() -> void:
 	_progress["p4_handle_return_used"] = true
 	_save_progress()
 	_rebuild_current_room_content()
-	var cup := _hotspot_layer.get_node_or_null("P4_CUP_ART")
-	if cup != null:
-		var profile: Dictionary = AccessibilityProfileStore.new().load_profile().get("profile", {})
-		cup.play_return(String(profile.get("motion_mode", "standard")) != "standard")
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": "찻잔 손잡이를 반대쪽으로 천천히 돌려 본다."},
-		{"speaker": "SYSTEM", "text": "손을 떼는 순간 도자기가 받침을 한 번 긁으며, 손잡이가 원래의 왼쪽 각도로 되돌아간다."},
+		{"speaker": "SYSTEM", "cup_pose": "turned", "text": "찻잔 손잡이를 반대쪽으로 천천히 돌려 본다."},
+		{"speaker": "SYSTEM", "cup_pose": "returned", "text": "손을 떼는 순간 도자기가 받침을 한 번 긁으며, 손잡이가 원래의 왼쪽 각도로 되돌아간다."},
 	])
 
 
@@ -1621,6 +1617,11 @@ func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 
 func _present_dialogue_line() -> void:
 	var line: Dictionary = _dialogue_lines[_dialogue_index]
+	if line.get("cup_pose", "") in ["turned", "returned"]:
+		var cup := _hotspot_layer.get_node_or_null("P4_CUP_ART")
+		if cup != null:
+			var profile: Dictionary = AccessibilityProfileStore.new().load_profile().get("profile", {})
+			cup.show_angle(TAU if line["cup_pose"] == "turned" else PI, String(profile.get("motion_mode", "standard")) != "standard")
 	_speaker_label.text = String(line.get("speaker", "SYSTEM"))
 	_dialogue_label.text = String(line.get("text", ""))
 	var portrait_id := String(line.get("portrait", ""))

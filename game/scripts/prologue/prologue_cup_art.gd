@@ -15,16 +15,14 @@ func _draw() -> void:
 	draw_circle(center, 42, Color("eee3cd"))
 	draw_circle(center, 33, Color("593c29"))
 
-func play_return(reduced_motion: bool) -> void:
+func show_angle(target: float, reduced_motion: bool) -> void:
 	if _motion != null: _motion.kill()
 	if reduced_motion:
-		handle_angle = PI
+		handle_angle = target
 		queue_redraw()
 		return
 	_motion = create_tween()
-	_motion.tween_method(_set_angle, PI, TAU, 0.6)
-	_motion.tween_interval(0.15)
-	_motion.tween_method(_set_angle, TAU, PI, 0.35)
+	_motion.tween_method(_set_angle, handle_angle, target, 0.45)
 
 func _set_angle(value: float) -> void:
 	handle_angle = value
