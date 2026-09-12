@@ -195,6 +195,9 @@ func _validate_fracture_state(value: Variant, errors: PackedStringArray) -> void
 		"researcher_records",
 		"mandatory_e1_observations",
 	]
+	if fracture.has("final_sleep_lock"):
+		required.append("final_sleep_lock")
+		_require_type(fracture["final_sleep_lock"], TYPE_BOOL, "FRACTURE_SLEEP_LOCK", errors)
 	_validate_exact_keys(fracture, required, "FRACTURE", errors)
 	_require_type(fracture.get("broken_reset_triggered"), TYPE_BOOL, "FRACTURE_TRIGGER", errors)
 	if _require_type(fracture.get("camouflage_filter"), TYPE_STRING, "FRACTURE_FILTER", errors):
@@ -257,6 +260,41 @@ func _validate_ending_run(value: Variant, errors: PackedStringArray) -> void:
 		return
 	var ending: Dictionary = value
 	var required := ["final_decision", "selected_ending", "reselect_used"]
+	for field in ["credits_started","credits_completed"]:
+		if ending.has(field):
+			required.append(field)
+			_require_type(ending[field],TYPE_BOOL,"ENDING_CREDITS",errors)
+	if ending.get("credits_completed",false) and (not ending.get("credits_started",false) or not ending.get("branch_committed",false)): errors.append("ERR_ENDING_CREDITS_INVARIANT")
+	if ending.get("credits_started",false):
+		var frame := "EDR_FINAL_FRAME" if ending.get("branch_id") == "reality" else "EDS_FINAL_FRAME"
+		if not ending.get("branch_committed",false) or frame not in ending.get("completed_nodes",[]): errors.append("ERR_ENDING_CREDITS_FRAME")
+	if ending.get("credits_completed",false):
+		var credits := "CREDITS_REALITY" if ending.get("branch_id") == "reality" else "CREDITS_STAY"
+		if ending.get("current_node_id") != "ENDING_POST_CREDITS" or credits not in ending.get("completed_nodes",[]): errors.append("ERR_ENDING_CREDITS_COMPLETION")
+	if ending.has("ending_appearance_mode"):
+		required.append("ending_appearance_mode")
+		_require_type(ending["ending_appearance_mode"], TYPE_STRING, "ENDING_APPEARANCE_MODE", errors)
+		if ending["ending_appearance_mode"] not in ["unset","layered","contextual"] or (ending["ending_appearance_mode"] != "unset" and ending.get("final_decision") != "stay"): errors.append("ERR_ENDING_APPEARANCE_MODE")
+	if ending.has("all_ceremony_seen"):
+		required.append("all_ceremony_seen")
+		_require_type(ending["all_ceremony_seen"], TYPE_BOOL, "ENDING_CEREMONY", errors)
+	if ending.has("completed_nodes"):
+		required.append("completed_nodes")
+		_require_unique_string_array(ending["completed_nodes"], "ENDING_COMPLETED_NODES", errors)
+	if ending.has("required_interactions_seen"):
+		required.append("required_interactions_seen")
+		_require_unique_string_array(ending["required_interactions_seen"], "ENDING_REQUIRED_INTERACTIONS", errors)
+	var branch_fields := ["final_choice_relation", "branch_committed", "branch_id", "current_node_id"]
+	var has_branch_fields := false
+	for field in branch_fields:
+		if ending.has(field): has_branch_fields = true
+	if has_branch_fields:
+		required.append_array(branch_fields)
+		_require_type(ending.get("branch_committed"), TYPE_BOOL, "ENDING_COMMITTED", errors)
+		for field in ["final_choice_relation", "branch_id", "current_node_id"]:
+			_require_type(ending.get(field), TYPE_STRING, "ENDING_BRANCH_FIELD", errors)
+		if ending.get("branch_committed") != true or ending.get("final_decision") not in ["reality", "stay"] or ending.get("branch_id") != ending.get("final_decision") or ending.get("final_choice_relation") not in ["reaffirmed", "revised", "formed"] or str(ending.get("current_node_id", "")).is_empty():
+			errors.append("ERR_STATE_ENDING_BRANCH_INVARIANT")
 	_validate_exact_keys(ending, required, "ENDING", errors)
 	if _require_type(ending.get("final_decision"), TYPE_STRING, "ENDING_DECISION", errors):
 		if String(ending["final_decision"]) not in ENDING_DECISIONS:

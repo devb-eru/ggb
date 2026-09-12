@@ -59,11 +59,30 @@ func _validate_bootstrap_handoff() -> void:
 	_expect(bootstrap != null and bootstrap.has_method("_on_new_game_requested"), "title bootstrap is unavailable", _errors)
 	if bootstrap == null or not bootstrap.has_method("_on_new_game_requested"):
 		return
+	var sidecar := SaveManager.get_save_root().path_join(TEST_BOOTSTRAP_SLOT).path_join("f3_reselect.json")
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(sidecar.get_base_dir()))
+	for suffix in ["", ".tmp", ".bak"]:
+		var file := FileAccess.open(sidecar + suffix, FileAccess.WRITE)
+		file.store_string("old run fixture")
+		file.close()
 	bootstrap.call("_on_new_game_requested", TEST_BOOTSTRAP_SLOT)
 	await _tree.process_frame
 	var saved := SaveManager.load_slot(TEST_BOOTSTRAP_SLOT)
 	_expect(bool(saved.get("ok", false)), "bootstrap new game did not create a valid save", _errors)
 	_expect(String(saved.get("header", {}).get("save_point_id", "")) == "SAVE_NEW_GAME", "new-game save boundary mismatch", _errors)
+	var initial_run: String = saved.get("header", {}).get("run_id", "")
+	_expect(not initial_run.is_empty(), "new game assigns save lineage", _errors)
+	SaveManager.save_snapshot(TEST_BOOTSTRAP_SLOT, "SAVE_NEW_GAME", GameState.get_snapshot(), GameState.revision, "TEST_NORMAL_SAVE")
+	_expect(SaveManager.load_slot(TEST_BOOTSTRAP_SLOT)["header"].get("run_id") == initial_run, "normal save preserves lineage", _errors)
+	SaveManager.save_snapshot(TEST_BOOTSTRAP_SLOT, "SAVE_NEW_GAME", GameState.get_snapshot(), GameState.revision, "NEW_GAME_TEST_OVERWRITE")
+	_expect(SaveManager.load_slot(TEST_BOOTSTRAP_SLOT)["header"].get("run_id") != initial_run, "confirmed new game replaces lineage", _errors)
+	for suffix in ["", ".tmp", ".bak"]:
+		_expect(not FileAccess.file_exists(sidecar + suffix), "new game clears previous F3 sidecars", _errors)
+	var stale := FileAccess.open(sidecar, FileAccess.WRITE)
+	stale.store_string("leftover after failed cleanup")
+	stale.close()
+	_expect(SaveManager.load_f3_reselect(TEST_BOOTSTRAP_SLOT).get("error_id") == &"ERR_RESELECT_CURRENT_RUN", "current run guard blocks leftover F3 copy", _errors)
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(sidecar))
 	var product_screen := bootstrap.get_node("%StartScreen") as StartScreen
 	var prologue = bootstrap.get_node_or_null("Prologue")
 	_expect(product_screen != null and not product_screen.visible, "new game did not hide the title screen", _errors)

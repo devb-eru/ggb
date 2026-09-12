@@ -9,6 +9,7 @@ const DESIGN_REVISION := "v0.4-state-r12"
 const GAME_VERSION := "0.0.0-dev"
 const BUILD_ID := "local-dev"
 const BUILD_FLAVOR := "demo"
+const BUILD_FLAVOR_SETTING := "ggb/build_flavor"
 const CONTENT_REVISION := "unlocked"
 const SOURCE_APP_ID := "local"
 const SAVE_ROOT := "user://saves"
@@ -16,7 +17,12 @@ const PRODUCT_SLOT_IDS := ["slot_01", "slot_02", "slot_03"]
 
 
 func get_build_flavor() -> String:
-	return BUILD_FLAVOR
+	var flavor := String(ProjectSettings.get_setting(BUILD_FLAVOR_SETTING, BUILD_FLAVOR))
+	return flavor if flavor in ["demo", "full"] else BUILD_FLAVOR
+
+
+func get_save_root() -> String:
+	return "user://saves_full" if get_build_flavor() == "full" else SAVE_ROOT
 
 
 func get_source_app_id() -> String:
@@ -86,19 +92,24 @@ func save_snapshot(
 ) -> Dictionary:
 	if not _is_safe_slot_id(slot_id):
 		return _save_failure(slot_id, &"ERR_SAVE_SLOT_ID")
-	var slot_dir := "%s/%s" % [SAVE_ROOT, slot_id]
+	var slot_dir := "%s/%s" % [get_save_root(), slot_id]
 	var make_dir_error := DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(slot_dir))
 	if make_dir_error != OK:
 		return _save_failure(slot_id, &"ERR_SAVE_CREATE_DIRECTORY")
 
 	var paths := _slot_paths(slot_id)
 	var now := int(Time.get_unix_time_from_system())
+	var previous := _read_and_validate(paths["main"])
+	var run_id: String = previous.get("header", {}).get("run_id", "") if previous.get("ok", false) else ""
+	if run_id.is_empty() or transaction_id.begins_with("NEW_GAME_"):
+		run_id = Crypto.new().generate_random_bytes(16).hex_encode()
 	var header := {
+		"run_id": run_id,
 		"schema_version": SCHEMA_VERSION,
 		"design_revision": DESIGN_REVISION,
 		"game_version": GAME_VERSION,
 		"build_id": BUILD_ID,
-		"build_flavor": BUILD_FLAVOR,
+		"build_flavor": get_build_flavor(),
 		"content_revision": CONTENT_REVISION,
 		"content_boundary_id": save_point_id,
 		"source_app_id": SOURCE_APP_ID,
@@ -156,7 +167,10 @@ func save_snapshot(
 		return _save_failure(slot_id, &"ERR_SAVE_PROMOTE")
 
 	save_completed.emit(StringName(slot_id), StringName(save_point_id))
-	return {"ok": true, "path": paths["main"], "checksum": payload["save_header"]["checksum"]}
+	var warnings := PackedStringArray()
+	if not snapshot.get("meta_progress", {}).get("knowledge_entries", {}).get("F3_complete", false):
+		warnings = _clear_previous_f3(slot_id)
+	return {"ok": true, "path": paths["main"], "checksum": payload["save_header"]["checksum"], "warning_ids": warnings}
 
 
 func load_slot(slot_id: String) -> Dictionary:
@@ -185,14 +199,117 @@ func load_slot(slot_id: String) -> Dictionary:
 	return primary
 
 
+func capture_f3_reselect(slot_id: String) -> Dictionary:
+	if not _is_safe_slot_id(slot_id): return _load_failure(&"ERR_SAVE_SLOT_ID")
+	var paths := _slot_paths(slot_id)
+	var source := _read_and_validate(paths["main"])
+	if not _valid_f3_copy(source, slot_id): return _load_failure(&"ERR_RESELECT_SOURCE")
+	var target := "%s/%s/f3_reselect.json" % [get_save_root(), slot_id]
+	var existing := _read_and_validate(target)
+	if existing.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return existing
+	var temporary := target + ".tmp"
+	if DirAccess.copy_absolute(ProjectSettings.globalize_path(paths["main"]), ProjectSettings.globalize_path(temporary)) != OK:
+		return _load_failure(&"ERR_RESELECT_COPY")
+	if not _valid_f3_copy(_read_and_validate(temporary), slot_id): return _load_failure(&"ERR_RESELECT_VERIFY")
+	if FileAccess.file_exists(target):
+		if DirAccess.copy_absolute(ProjectSettings.globalize_path(target), ProjectSettings.globalize_path(target + ".bak")) != OK:
+			return _load_failure(&"ERR_RESELECT_BACKUP")
+		if DirAccess.remove_absolute(ProjectSettings.globalize_path(target)) != OK: return _load_failure(&"ERR_RESELECT_REPLACE")
+	if DirAccess.rename_absolute(ProjectSettings.globalize_path(temporary), ProjectSettings.globalize_path(target)) != OK:
+		return _load_failure(&"ERR_RESELECT_PROMOTE")
+	return {"ok":true,"path":target}
+
+
+func load_f3_reselect(slot_id: String) -> Dictionary:
+	if not _is_safe_slot_id(slot_id): return _load_failure(&"ERR_SAVE_SLOT_ID")
+	# A stale sidecar is never enough: the current primary must belong to a run that reached F3.
+	var current := _read_and_validate(_slot_paths(slot_id)["main"])
+	if not current.get("ok", false): return current
+	if current["header"].get("slot_id") != slot_id or current["header"].get("build_flavor") != get_build_flavor():
+		return _load_failure(&"ERR_RESELECT_SOURCE")
+	if not current["snapshot"].get("meta_progress", {}).get("knowledge_entries", {}).get("F3_complete", false):
+		return _load_failure(&"ERR_RESELECT_CURRENT_RUN")
+	var path := "%s/%s/f3_reselect.json" % [get_save_root(), slot_id]
+	for suffix in ["", ".tmp", ".bak"]:
+		var result := _read_and_validate(path + suffix)
+		if result.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return result
+		if _valid_f3_copy(result, slot_id):
+			var run_id: String = current["header"].get("run_id", "")
+			if not run_id.is_empty() and result["header"].get("run_id", "") == run_id: return result
+	return _load_failure(&"ERR_RESELECT_UNAVAILABLE")
+
+
+func _clear_previous_f3(slot_id: String) -> PackedStringArray:
+	var warnings := PackedStringArray()
+	var path := "%s/%s/f3_reselect.json" % [get_save_root(), slot_id]
+	for suffix in ["", ".tmp", ".bak"]:
+		if _read_and_validate(path + suffix).get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA":
+			return PackedStringArray(["WARN_RESELECT_FUTURE_PRESERVED"])
+	for suffix in ["", ".tmp", ".bak"]:
+		if FileAccess.file_exists(path + suffix) and DirAccess.remove_absolute(ProjectSettings.globalize_path(path + suffix)) != OK:
+			warnings.append("WARN_RESELECT_CLEANUP")
+	return warnings
+
+
+func create_f3_reselect_slot(source_slot_id: String) -> Dictionary:
+	var loaded := load_f3_reselect(source_slot_id)
+	if not loaded.get("ok", false): return loaded
+	var snapshot: Dictionary = loaded["snapshot"].duplicate(true)
+	snapshot["ending_run"]["reselect_used"] = true
+	snapshot["meta_progress"]["knowledge_entries"]["reselect_source_slot_id"] = source_slot_id
+	snapshot["meta_progress"]["knowledge_entries"]["reselect_source_run_id"] = loaded["header"].get("run_id", "")
+	var prefix := "__test_reselect_" if source_slot_id.begins_with("__test_") else "reselect_"
+	var target := prefix + Crypto.new().generate_random_bytes(16).hex_encode()
+	if DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(get_save_root().path_join(target))):
+		return _load_failure(&"ERR_RESELECT_COLLISION")
+	var result := save_snapshot(target, "SAVE_F3_COMPLETE", snapshot, int(loaded["header"]["state_revision"]), "RESELECT_COPY")
+	if result.get("ok", false):
+		result["slot_id"] = target
+		result["source_slot_id"] = source_slot_id
+	return result
+
+
+func list_reselect_slots(source_slot_id: String) -> Array[Dictionary]:
+	var found: Array[Dictionary] = []
+	if not _is_safe_slot_id(source_slot_id): return found
+	var source := _read_and_validate(_slot_paths(source_slot_id)["main"])
+	if not source.get("ok", false): return found
+	var run_id: String = source["header"].get("run_id", "")
+	if run_id.is_empty(): return found
+	for name in DirAccess.get_directories_at(get_save_root()):
+		if not name.begins_with("reselect_") and not name.begins_with("__test_reselect_"): continue
+		var saved := _read_and_validate(_slot_paths(name)["main"])
+		if not saved.get("ok", false): continue
+		if saved["header"].get("build_flavor") != get_build_flavor(): continue
+		var knowledge: Dictionary = saved["snapshot"].get("meta_progress", {}).get("knowledge_entries", {})
+		if knowledge.get("reselect_source_slot_id") != source_slot_id or knowledge.get("reselect_source_run_id") != run_id: continue
+		var summary := inspect_slot(name)
+		if summary.get("available", false): found.append(summary)
+	found.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["updated_at_utc"] > b["updated_at_utc"])
+	return found
+
+
+func _valid_f3_copy(result: Dictionary, slot_id: String) -> bool:
+	if not result.get("ok", false): return false
+	var header: Dictionary = result["header"]
+	var snapshot: Dictionary = result["snapshot"]
+	if header.get("slot_id") != slot_id or header.get("save_point_id") != "SAVE_F3_COMPLETE" or header.get("build_flavor") != get_build_flavor(): return false
+	var validator := StateSnapshotValidator.new()
+	if not validator.validate(validator.normalize(snapshot)).get("ok", false): return false
+	var run: Dictionary = snapshot["ending_run"]
+	return snapshot["meta_progress"]["knowledge_entries"].get("F3_complete", false) and snapshot["fracture_state"].get("final_sleep_lock", false) and run.get("final_decision") == "unset" and not run.get("branch_committed", false)
+
+
 func delete_test_slot(slot_id: String) -> void:
 	if not OS.is_debug_build() or not slot_id.begins_with("__test_"):
 		return
 	var paths := _slot_paths(slot_id)
 	_remove_if_exists(paths["main"])
+	for suffix in ["", ".tmp", ".bak"]:
+		_remove_if_exists("%s/%s/f3_reselect.json%s" % [get_save_root(), slot_id, suffix])
 	_remove_if_exists(paths["backup"])
 	_remove_if_exists(paths["temporary"])
-	var absolute_dir := ProjectSettings.globalize_path("%s/%s" % [SAVE_ROOT, slot_id])
+	var absolute_dir := ProjectSettings.globalize_path("%s/%s" % [get_save_root(), slot_id])
 	DirAccess.remove_absolute(absolute_dir)
 
 
@@ -267,7 +384,7 @@ func _canonicalize(value: Variant) -> Variant:
 
 
 func _slot_paths(slot_id: String) -> Dictionary:
-	var root := "%s/%s" % [SAVE_ROOT, slot_id]
+	var root := "%s/%s" % [get_save_root(), slot_id]
 	return {
 		"main": "%s/progress.json" % root,
 		"backup": "%s/progress.bak.json" % root,

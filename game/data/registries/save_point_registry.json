@@ -4,6 +4,7 @@
   "build_flavors": ["demo", "full"],
   "source_app_ids": ["local"],
   "save_points": {
+    "SAVE_CAMPAIGN_PROGRESS": {"build_flavors": ["demo", "full"], "resume_event_id": "CAMPAIGN", "resume_node_id": "PERSISTED_ROOM_AND_EVENT"},
     "SAVE_NEW_GAME": {"build_flavors": ["demo", "full"], "resume_event_id": "P1", "resume_node_id": "P1_ENTRY"},
     "SAVE_P6_COMPLETE": {"build_flavors": ["demo", "full"], "resume_event_id": "SYS_RESET", "resume_node_id": "NORMAL_RESET"},
     "SAVE_NORMAL_RESET_COMPLETE": {"build_flavors": ["demo", "full"], "resume_event_id": "ROUTE", "resume_node_id": "MORNING_ROUTE"},
