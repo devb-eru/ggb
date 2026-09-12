@@ -855,14 +855,25 @@ if (Test-Path -LiteralPath $saveManagerPath -PathType Leaf) {
 $bootstrapPath = Join-Path $gameRoot "scripts/systems/bootstrap.gd"
 if (Test-Path -LiteralPath $bootstrapPath -PathType Leaf) {
     $bootstrapText = [System.IO.File]::ReadAllText($bootstrapPath, $utf8)
-    foreach ($token in @(
-        "NOTIFICATION_APPLICATION_FOCUS_OUT",
-        "_start_screen.set_input_suspended(true)",
-        "_start_screen.set_input_suspended(false)"
-    )) {
+    foreach ($token in @("NOTIFICATION_APPLICATION_FOCUS_OUT", "_on_focus_recovery_timeout")) {
         if ($bootstrapText -notmatch [regex]::Escape($token)) {
             Add-ValidationError "GODOT_FOCUS_GUARD" "game/scripts/systems/bootstrap.gd" $token
         }
+    }
+
+    $delegatedScreenGuard =
+        $bootstrapText -match [regex]::Escape("_start_screen.set_input_suspended(true)") -and
+        $bootstrapText -match [regex]::Escape("_start_screen.set_input_suspended(false)")
+    $applicationPauseGuard =
+        $bootstrapText -match [regex]::Escape("_suspend_for_focus()") -and
+        $bootstrapText -match [regex]::Escape("get_tree().paused = true") -and
+        $bootstrapText -match [regex]::Escape("get_tree().paused = _paused_before_focus") -and
+        $bootstrapText -match [regex]::Escape("_discard_releases")
+    if (-not ($delegatedScreenGuard -or $applicationPauseGuard)) {
+        Add-ValidationError `
+            "GODOT_FOCUS_GUARD" `
+            "game/scripts/systems/bootstrap.gd" `
+            "complete delegated-screen or application-pause focus guard is required"
     }
 }
 
