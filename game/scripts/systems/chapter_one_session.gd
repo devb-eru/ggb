@@ -159,9 +159,9 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			_note(knowledge, "B1", text)
 		"inspect_inner":
 			if room != "M1_LIBRARY_INNER" or local["edgar_state"] != "absent":
-				return _reject("발소리가 가까워졌다. 숨을지, 남아서 말을 걸지 정한다.")
+				return _reject("발소리가 가까워졌다. 숨을지, 남아서 말을 걸지 정한다.", "CH1_INNER_PRESSURE")
 			if String(value) not in ["desk", "index", "drawer", "alcove", "gap", "link"]:
-				return _reject("알 수 없는 조사 대상이다.")
+				return _reject("알 수 없는 조사 대상이다.", "CH1_INNER_UNKNOWN")
 			if String(value) not in local["inspected"]:
 				local["inspected"].append(String(value))
 				if String(value) in ["index", "drawer"]:
@@ -170,16 +170,19 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				knowledge["north_library_shortcut"] = true
 			var observations := {"desk": "손상된 일지와 압지 세 장. 모서리 홈과 눌림선을 맞추면 읽을 수 있을 것 같다.", "index": "색인 카드를 넘기는 소리가 문 쪽으로 선명하게 번진다.", "drawer": "서랍이 걸리며 나무가 짧게 운다.", "alcove": "점검 벽감의 안쪽이 비어 있다. 몸을 숨길 수 있다.", "gap": "마침표 뒤 한 칸의 빈 공간, 그 다음에 잉크점. 끝난 뒤에도 남아 있는 소리.", "link": "초상화 패널의 안쪽 걸쇠다. 복원된 일지와 경로를 확인해야 열 수 있다."}
 			text = observations[String(value)]
+			text_id = "CH1_INNER_" + String(value).to_upper()
 			if value == "gap":
 				knowledge["KN_J1_POST_COMPLETION_GAP"] = true
 			if knowledge.get("north_library_shortcut", false) and value == "link":
 				text = "안쪽 걸쇠를 열었다. 다음 아침에는 이 구조를 기억해 연결문을 빠르게 열 수 있다."
+				text_id = "CH1_INNER_LINK_OPEN"
 			var threshold := 1 if int(meta["servants"]["edgar"]["alert"]) >= 4 else 2
 			if knowledge.get("schedule_mara2", false):
 				threshold += 1
 			if int(local["attention"]) >= threshold and not local["edgar_visit_done"]:
 				local["edgar_state"] = "entering"
 				text += "\n문밖에서 발소리가 멎는다. 잠금쇠가 돌아간다."
+				text_id += "_VISIT"
 		"edgar_hide", "edgar_talk", "edgar_leave":
 			if room != "M1_LIBRARY_INNER":
 				return _reject("에드가는 지금 이 방에 없다.", "CH1_B2_ABSENT")

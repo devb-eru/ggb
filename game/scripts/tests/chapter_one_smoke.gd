@@ -64,11 +64,15 @@ func run(tree: SceneTree) -> Dictionary:
 	session.act("routine")
 	_travel(session, "M1_LIBRARY_OUTER")
 	_expect(session.act("move", "M1_LIBRARY_INNER").get("ok", false), "B2 entry")
-	session.act("inspect_inner", "alcove")
-	session.act("inspect_inner", "index")
+	_expect(session.act("inspect_inner", "alcove").get("text_id", "") == "CH1_INNER_ALCOVE", "alcove observation has translation ID")
+	_expect(session.act("inspect_inner", "index").get("text_id", "") == "CH1_INNER_INDEX", "quiet index observation has no premature footsteps")
 	session.act("inspect_inner", "index")
 	_expect(int(session.local_state()["attention"]) == 1, "repeat object does not farm attention")
-	session.act("inspect_inner", "drawer")
+	var drawer_visit := session.act("inspect_inner", "drawer")
+	_expect(drawer_visit.get("text_id", "") == "CH1_INNER_DRAWER_VISIT", "drawer combines observation and deterministic visit translation")
+	_expect(drawer_visit.get("text", "").contains("문밖에서 발소리"), "visit retains original footsteps source")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "observation with visit reload")
+	_expect(session.initialize().get("text_id", "") == "CH1_INNER_DRAWER_VISIT", "reload preserves composite observation ID")
 	_expect(session.local_state()["edgar_state"] == "entering", "deterministic Edgar entry")
 	var before_visit := GameState.get_snapshot()
 	_expect(session.act("edgar_hide").get("text_id", "") == "CH1_B2_HIDDEN", "hide narration has translation ID")
@@ -212,6 +216,14 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	j1_ui["inspected"] = ["desk"]
 	j1_ui["j1_order"] = [0, 1, 2]
 	view._build_inner(j1_ui, 0)
+	_expect(view._hotspot_layer.get_node("INNER_alcove").text.contains("Hiding place"), "English inner library exposes hiding affordance")
+	_expect(view._hotspot_layer.get_node("INNER_link").text.contains("latch behind the portrait"), "English shortcut hotspot description")
+	for id in ["DESK", "INDEX", "DRAWER", "ALCOVE", "GAP", "LINK", "LINK_OPEN"]:
+		var base_id: String = "CH1_INNER_" + id
+		var original: String = view._dialogue_texts.get_text(base_id, "ko-KR")
+		var translated: String = view._dialogue_ui_text(base_id)
+		_expect(not translated.is_empty() and translated != original and translated != base_id, "English observation available: " + id)
+		_expect(view._dialogue_ui_text(base_id + "_VISIT") == translated + "\nFootsteps stop outside the door. The latch turns.", "English observation preserves both content and footsteps: " + id)
 	_expect(view._hotspot_layer.get_node("J1_PIECE_0").text.contains("If you remember yesterday"), "English J1 opening clue")
 	_expect(view._hotspot_layer.get_node("J1_PIECE_1").text.contains("passing a tremor to the next room"), "English J1 preserves relay clue")
 	_expect(view._hotspot_layer.get_node("J1_PIECE_2").text.contains("one space beyond"), "English J1 preserves thirteenth sound clue")

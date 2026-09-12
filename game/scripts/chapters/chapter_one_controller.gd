@@ -350,9 +350,8 @@ func _localized_notebook_entry(entry: String) -> String:
 
 func _build_inner(local: Dictionary, journal: int) -> void:
 	var ids := ["desk", "index", "drawer", "alcove", "gap", "link"]
-	var labels := ["일지 책상", "색인함", "작은 서랍", "점검 벽감 · 숨을 공간", "일지의 마지막 여백", "초상화 뒤 연결문 걸쇠"]
 	for index in range(ids.size()):
-		_action("INNER_" + ids[index], labels[index], Rect2(150 + (index % 3) * 540, 145 + (index / 3) * 94, 485, 70), "inspect_inner", ids[index])
+		_action("INNER_" + ids[index], _dialogue_ui_text("CH1_INNER_LABEL_" + ids[index].to_upper()), Rect2(150 + (index % 3) * 540, 145 + (index / 3) * 94, 485, 70), "inspect_inner", ids[index])
 	if journal == 0 and "desk" in local["inspected"]:
 		for index in range(3):
 			var fragment_id: int = [2, 0, 1][index]
