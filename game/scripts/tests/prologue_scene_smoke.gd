@@ -44,12 +44,17 @@ func run(tree: SceneTree) -> Dictionary:
 			prologue._advance_dialogue()
 		await _capture_view(tree, CAPTURE_P3_FILE, "P3_JOURNAL_CHOICE_CAPTURE")
 	elif CAPTURE_P2_ARG in OS.get_cmdline_user_args():
+		if "--capture-english" in OS.get_cmdline_user_args():
+			TranslationServer.set_locale("en_US")
+		if "--capture-large-text" in OS.get_cmdline_user_args():
+			prologue._apply_reading_text_scale(2.0)
 		prologue._dismiss_dialogue_for_test()
 		prologue._progress["P1_complete"] = true
 		prologue._enter_room("M1_PARLOR")
 		prologue._dismiss_dialogue_for_test()
 		prologue._on_window_pressed(0)
 		await _capture_view(tree, CAPTURE_P2_FILE, "P2_WINDOW_CAPTURE")
+		prologue._apply_reading_text_scale(1.0)
 	elif CAPTURE_ARG in OS.get_cmdline_user_args():
 		prologue._advance_dialogue()
 		prologue._advance_dialogue()
@@ -106,6 +111,12 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._refresh_window_inspection()
 	_expect("This window is clean" in prologue._window_hint_label.text, "English completed window hint", errors)
 	_expect(window_state == clean_snapshot, "Translation does not mutate window state", errors)
+	prologue._apply_reading_text_scale(2.0)
+	await tree.process_frame
+	_expect(prologue._window_title.get_theme_font_size("font_size") == 64, "Window title doubles text size", errors)
+	_expect(prologue._window_drop_targets["TOP"].get_theme_font_size("font_size") == 44, "Window area doubles text size", errors)
+	_expect(not prologue._window_drop_targets["TOP"].get_rect().intersects(prologue._window_drop_targets["MIDDLE"].get_rect()), "Large window targets do not overlap", errors)
+	prologue._apply_reading_text_scale(1.0)
 	prologue._close_window_inspection()
 	prologue._progress["P4_complete"] = false
 	prologue._progress["p1_inspections"] = []

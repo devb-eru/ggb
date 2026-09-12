@@ -616,6 +616,29 @@ func _apply_reading_text_scale(scale: float) -> void:
 	_dialogue_next.add_theme_font_size_override("font_size", int(round(20 * _reading_text_scale)))
 	for button in _dialogue_choice_buttons:
 		button.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
+	_apply_window_text_scale()
+
+
+func _apply_window_text_scale() -> void:
+	_window_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_window_hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_window_title.add_theme_font_size_override("font_size", int(round(32 * _reading_text_scale)))
+	_window_hint_label.add_theme_font_size_override("font_size", int(round(20 * _reading_text_scale)))
+	_window_feedback_label.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
+	var enlarged := _reading_text_scale > 1.0
+	_place(_window_title, Rect2(48, 28, 1080, 160) if enlarged else Rect2(48, 28, 1080, 48))
+	_place(_window_hint_label, Rect2(48, 190, 1250, 110) if enlarged else Rect2(48, 78, 1180, 36))
+	_place(_window_art, Rect2(70, 310, 1250, 370) if enlarged else Rect2(70, 120, 1250, 590))
+	_place(_window_feedback_label, Rect2(48, 690, 1250, 140) if enlarged else Rect2(120, 708, 1110, 72))
+	var normal_rects := [Rect2(160, 170, 1070, 140), Rect2(160, 335, 1070, 155), Rect2(160, 515, 1070, 145)]
+	var zones := ["TOP", "MIDDLE", "BOTTOM"]
+	for index in range(zones.size()):
+		var target = _window_drop_targets[zones[index]]
+		target.add_theme_font_size_override("font_size", int(round(22 * _reading_text_scale)))
+		_place(target, Rect2(160, 315 + 115 * index, 1070, 110) if enlarged else normal_rects[index])
+	_refresh_window_inspection()
+	for index in range(zones.size()):
+		_place(_window_drop_targets[zones[index]], Rect2(160, 315 + 115 * index, 1070, 110) if enlarged else normal_rects[index])
 
 
 func _show_p1_intro() -> void:
@@ -839,6 +862,8 @@ func _refresh_window_inspection() -> void:
 	middle.text = _dialogue_ui_text("P2_MIDDLE", {"state": _dialogue_ui_text("P2_STAIN" if bool(state.get("middle_stain", true)) else "P2_CLEAR")})
 	bottom.text = _dialogue_ui_text("P2_BOTTOM", {"state": _dialogue_ui_text("P2_WET" if bool(state.get("bottom_wet", false)) else "P2_DRY")})
 	for target_value in _window_drop_targets.values():
+		if _reading_text_scale > 1.0:
+			target_value.text = target_value.text.replace("\n", " · ")
 		target_value.set_drop_enabled(not clean)
 	_window_hint_label.text = _dialogue_ui_text("P2_CLEAN_HINT" if clean else "P2_ACTIVE_HINT")
 	_refresh_inventory_selection()
