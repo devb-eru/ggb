@@ -969,11 +969,26 @@ func _validate_f2(session: BasementSession) -> void:
 func _validate_f3(session: BasementSession) -> void:
 	var seed := session.snapshot()
 	var rules = SESSION.FINAL_INSPECTION
+	var texts = VIEW.ENDING_TEXTS
+	_expect(texts.feedback("unrelated feedback", "en") == "unrelated feedback", "F3 translation does not rewrite unrelated feedback")
+	for intent in ["reality", "stay", "undecided"]:
+		var intent_state: Dictionary = rules.apply(seed, "enter", null)["state"]
+		intent_state["meta_progress"]["knowledge_entries"]["f0_provisional_intent"] = intent
+		var notebook: Dictionary = rules.apply(intent_state, "inspect", "notebook")
+		var translated: String = texts.feedback(notebook["text"], "en")
+		_expect(translated != notebook["text"] and translated.contains("This sentence is not a decision"), "F3 translates each provisional intent without making it final")
+		_expect(texts.feedback(notebook["text"], "ko") == notebook["text"], "F3 Korean notebook stays canonical")
+	for relation in SESSION.ENDING_DECISION.MONOLOGUES:
+		var original: String = SESSION.ENDING_DECISION.MONOLOGUES[relation]
+		_expect(texts.feedback(original, "en") != original and texts.feedback(original, "ko") == original, "EDC translates all intent relation monologues")
 	for order in [["wake","stay","notebook"],["stay","wake","notebook"],["notebook","wake","stay"],["notebook","stay","wake"],["wake","notebook","stay"],["stay","notebook","wake"]]:
 		var state: Dictionary = rules.apply(seed,"enter",null)["state"]
 		for object in order: state = rules.apply(state,"inspect",object)["state"]
 		var result: Dictionary = rules.apply(state,"summary",null)
 		_expect(result["ok"],"F3 any investigation order")
+		var english: String = texts.feedback(result["text"], "en")
+		var first := "stay" if rules.progress(state)["last_device"] == "wake" else "wake"
+		_expect(english.begins_with(texts.summary(first, "en")) and english.contains("Neither procedure has been executed."), "English summary preserves order and noncommitment")
 		_expect(result["state"]["ending_run"]==seed["ending_run"],"F3 cannot choose ending")
 	_expect(session.act("f3_enter").get("ok",false),"F3 enter commits sleep lock")
 	_expect(not session.sleep().get("ok",false),"F3 sleep lock")
@@ -985,6 +1000,21 @@ func _validate_f3(session: BasementSession) -> void:
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var original_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	view._render_room()
+	_expect(view._objective_label.text == texts.text("f3_objective", "en"), "F3 English objective")
+	for device in ["wake", "stay"]:
+		var button := view._hotspot_layer.get_node("F3_" + device.to_upper()) as Button
+		_expect(button.text == texts.text("f3_" + device, "en"), "F3 English device label")
+		button.pressed.emit()
+		var expected_text: String = texts.feedback(rules.OBJECTS[device], "en")
+		_expect(view._dialogue_label.text == expected_text.split("\n")[0], "F3 inspection displays English feedback")
+		while view._dialogue_active: view._advance_dialogue()
+		var entries: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(entries.back()["variables"]["text"] == expected_text.split("\n")[-1], "F3 sensory paragraph is recorded in displayed English")
+	TranslationServer.set_locale(original_locale)
+	view._render_room()
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://f3_inspection.png")

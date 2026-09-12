@@ -4,6 +4,13 @@ const DECISION := preload("res://scripts/systems/ending_decision.gd")
 const INSPECTION := preload("res://scripts/systems/final_inspection.gd")
 
 const LABELS := {
+	"f3_objective": ["F3 · 마지막 확인", "F3 · Final inspection"],
+	"f3_enter": ["두 장치와 수첩을 확인한다", "Examine both devices and your notebook"],
+	"f3_wake": ["기상 장치\n확정·불확정 사항 조사", "Waking device\nInspect what is assured and what is uncertain"],
+	"f3_stay": ["안정화 장치\n확정·불확정 사항 조사", "Stabilization device\nInspect what is assured and what is uncertain"],
+	"f3_notebook": ["주인공 수첩\n사실·불확실성·임시 의향 구분", "Your notebook\nSeparate facts, uncertainties, and provisional intent"],
+	"f3_summary": ["두 절차의 균형 요약", "Balanced summary of both procedures"],
+	"f3_open": ["최종 선택을 확인한다", "Review the final choice"],
 	"objective": ["EDC · 최종 선택 확인", "EDC · Confirm your final choice"],
 	"location": ["코어실", "Core chamber"],
 	"notice": ["두 절차 모두 현재 연구원들을 새 신체로 해방시키지는 못한다.\n어느 절차도 아직 실행되지 않았다.", "Neither procedure can currently transfer the researchers into new bodies.\nNeither procedure has been executed."],
@@ -40,3 +47,32 @@ static func summary(procedure: String, locale: String) -> String:
 
 static func confirmation(decision: String, locale: String) -> String:
 	return String((CONFIRMATIONS_EN if locale.begins_with("en") else DECISION.CONFIRMATIONS).get(decision, ""))
+
+# Compatibility lookup for existing saves containing Korean feedback, not text IDs.
+static func feedback(source: String, locale: String) -> String:
+	if not locale.begins_with("en"):
+		return source
+	var translations := {
+		INSPECTION.OBJECTS["wake"]: "Waking procedure\nAssured: connection to your physical body, current signs of life, and automatic low-power preservation of all five personalities.\nUncertain: long-term survival outside, other survivors, a return, and future transfer into new bodies. An immediate return to the same core state is not guaranteed.\nThe air against the back of your hand smells of dust and metal. The cooling fan turns at a different rhythm from Luca's pulse.",
+		INSPECTION.OBJECTS["stay"]: "Restore the stabilization loop\nAssured: retention of current memories and relationships, continued conscious activity of all five personalities, and agreed rules replacing compulsory routines and sleep.\nUncertain: facility lifespan, the balance of resources between your physical body and the facility, and long-term psychological changes. This facility cannot currently transfer the researchers into new bodies.\nBehind the warmth of the hearth and the smell of food, you also feel the power coil's vibration. The facility frame beside the wood does not disappear.",
+		"두 장치 사이에 주인공 수첩이 놓였다. 두 절차 모두 아직 실행되지 않았다. 지금은 세계 내 수면을 할 수 없지만 저장과 불러오기는 가능하다.": "Your notebook rests between the two devices. Neither procedure has been executed. You cannot sleep in the world now, but you can still save and load.",
+		"대면 기록과 최종 결정 상태를 확인한다.": "Check the confrontation record and the status of the final decision.",
+		"세 조사 대상 중 하나를 선택한다.": "Choose one of the three objects to inspect.",
+		"기상 장치·안정화 장치·수첩을 모두 조사한다.": "Inspect the waking device, stabilization device, and notebook.",
+		"두 절차의 확정·불확정 사항을 먼저 확인한다.": "First review what is assured and uncertain for both procedures.",
+		"최종 선택 확인 단계가 열렸다. 아직 결정이 저장되지는 않았다.": "Final choice review is now available. No decision has been saved yet.",
+		"장치 조사로 돌아간다. 최종 결정은 미정이다.": "Return to inspecting the devices. The final decision remains unset.",
+		"정의되지 않은 최종 확인 행동이다.": "This final inspection action is not defined.",
+		"아직 확정하지 않은 두 절차 중 하나를 확인한다.": "Review one of the two procedures before a final decision is committed.",
+		"장치 조사와 최종 권한 확인을 먼저 마친다.": "Complete the device inspection and final authority check first.",
+		DECISION.MONOLOGUES["reaffirmed"]: "I choose now the path I leaned toward then.",
+		DECISION.MONOLOGUES["revised"]: "My thoughts have changed. This is my choice now.",
+		DECISION.MONOLOGUES["formed"]: "Now I decide.",
+	}
+	for intent in [["현실 지향", "leaning toward reality"], ["잔류 지향", "leaning toward staying"], ["미정", "undecided"]]:
+		var original: String = "주인공 수첩\n확인한 사실: 내 외부 몸과 다섯 결합 인격은 현재 유지되고 있다. 최종 권한은 내게 있다.\n불확실한 사실: 외부 장기 생존, 시설의 영속, 미래 신체 이전.\n이전에 적은 임시 의향: " + intent[0] + "\n이 문장은 결정이 아니다. 지우거나 바꾸어도 이전의 내가 사라지는 것은 아니다."
+		translations[original] = "Your notebook\nVerified facts: my physical body and all five linked personalities are currently sustained. Final authority is mine.\nUncertainties: long-term survival outside, the facility's permanence, and future transfer into new bodies.\nProvisional intent recorded earlier: " + intent[1] + "\nThis sentence is not a decision. Erasing or changing it does not erase who I was."
+	for first in ["wake", "stay"]:
+		var second := "stay" if first == "wake" else "wake"
+		translations[INSPECTION.SUMMARIES[first] + "\n" + INSPECTION.SUMMARIES[second] + "\n현실은 용기의 보상, 잔류는 도피의 처벌로 판정되지 않는다. 어느 쪽도 아직 실행하지 않았다."] = SUMMARIES_EN[first] + "\n" + SUMMARIES_EN[second] + "\nReality is not judged as a reward for courage, nor staying as a punishment for avoidance. Neither procedure has been executed."
+	return String(translations.get(source, source))

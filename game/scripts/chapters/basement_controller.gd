@@ -54,7 +54,12 @@ func _feedback(result: Dictionary) -> void:
 	if session != null and session.stage() == "D5" and SaveManager.get_build_flavor() == "demo" and result.get("ok", false):
 		_set_status("위장 필터 해제 연출이 진행됩니다. 메뉴를 열면 일시정지합니다.")
 		return
-	super._feedback(result)
+	var displayed := result.duplicate(true)
+	var original := String(result.get("text", ""))
+	displayed["text"] = ENDING_TEXTS.feedback(original, TranslationServer.get_locale())
+	if displayed["text"] != original and String(result.get("speaker", "주인공")) == "주인공":
+		displayed["speaker"] = "Protagonist"
+	super._feedback(displayed)
 
 func _update_objective() -> void:
 	if session != null: _objective_label.text = OBJECTIVE_TEXT.get(session.stage(), "수첩을 확인한다")
@@ -539,19 +544,19 @@ func _enable_j4_confirm(reference: WeakRef) -> void:
 
 
 func _build_final_inspection() -> void:
-	_objective_label.text = "F3 · 마지막 확인"
-	_location_label.text = "코어실"
+	_objective_label.text = _ending_text("f3_objective")
+	_location_label.text = _ending_text("location")
 	var local: Dictionary = BasementSession.FINAL_INSPECTION.progress(session.snapshot())
 	if not local["entered"]:
-		_action("F3_ENTER","두 장치와 수첩을 확인한다",Rect2(400,400,1100,130),"f3_enter")
+		_action("F3_ENTER",_ending_text("f3_enter"),Rect2(400,400,1100,130),"f3_enter")
 		return
-	_action("F3_WAKE","기상 장치\n확정·불확정 사항 조사",Rect2(200,250,700,220),"f3_inspect","wake")
-	_action("F3_STAY","안정화 장치\n확정·불확정 사항 조사",Rect2(1020,250,700,220),"f3_inspect","stay")
-	_action("F3_NOTEBOOK","주인공 수첩\n사실·불확실성·임시 의향 구분",Rect2(610,530,700,130),"f3_inspect","notebook")
+	_action("F3_WAKE",_ending_text("f3_wake"),Rect2(200,250,700,220),"f3_inspect","wake")
+	_action("F3_STAY",_ending_text("f3_stay"),Rect2(1020,250,700,220),"f3_inspect","stay")
+	_action("F3_NOTEBOOK",_ending_text("f3_notebook"),Rect2(610,530,700,130),"f3_inspect","notebook")
 	if local["seen"].size()==3:
-		_action("F3_SUMMARY","두 절차의 균형 요약",Rect2(400,720,1100,85),"f3_summary")
+		_action("F3_SUMMARY",_ending_text("f3_summary"),Rect2(400,720,1100,85),"f3_summary")
 	if local["summary_seen"]:
-		_action("F3_OPEN","최종 선택을 확인한다",Rect2(400,830,1100,85),"f3_open")
+		_action("F3_OPEN",_ending_text("f3_open"),Rect2(400,830,1100,85),"f3_open")
 
 
 func _build_ending_entry() -> void:
