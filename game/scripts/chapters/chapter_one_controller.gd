@@ -206,7 +206,8 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 			if int(failure.get("attempts", 0)) >= 2:
 				_dialogue_after = _offer_clock_failure_support
 	elif not result.get("ok", false):
-		_set_status(result.get("text", str(result.get("error_ids", []))))
+		var text_id := String(result.get("text_id", ""))
+		_set_status(_dialogue_ui_text(text_id) if not text_id.is_empty() else result.get("text", str(result.get("error_ids", []))))
 
 
 func _feedback(result: Dictionary) -> void:

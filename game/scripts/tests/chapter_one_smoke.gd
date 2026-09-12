@@ -257,6 +257,9 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	var saved_locale := TranslationServer.get_locale()
 	var before_translation := GameState.get_snapshot()
 	TranslationServer.set_locale("en_US")
+	view._do("restore_j2", null, false)
+	_expect(view._status_label.text == "The second page has already been restored. Read it again in the notebook.", "silent action rejection uses display translation ID")
+	_expect(not view._dialogue_active and GameState.get_snapshot() == before_translation, "silent translated rejection preserves state without opening dialogue")
 	_expect(view._dialogue_texts.get_text("CH1_J2_RESTORED", "ko-KR") == SESSION.J2_TEXT, "J2 translation matches canonical Korean page")
 	var translated_j2: String = view._localized_notebook_entry(SESSION.J2_TEXT)
 	for clue in ["not a key", "briefly loosens", "Two short reflections", "path beneath it", "three ingredients"]:
