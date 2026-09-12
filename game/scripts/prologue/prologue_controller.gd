@@ -2,6 +2,7 @@ class_name PrologueController
 extends Control
 
 signal return_to_title_requested
+signal campaign_requested(slot_id: String)
 
 const MANSION_BACKGROUND := preload("res://assets/prologue/prologue_mansion_hall_v01.png")
 const ROOMS_PRIMARY_ATLAS := preload("res://assets/prologue/prologue_rooms_primary_atlas_v01.png")
@@ -57,6 +58,21 @@ const P3_JOURNAL_CHOICES := {
 		"response": "",
 	},
 }
+const P4_FATHER_CHOICES := {
+	"father_tea": {
+		"label": "아버지가 좋아한 차인가요?",
+		"response": "네... 비슷한 향을 좋아하셨어요.\n정확히 같은지는... 이제 자신이 없지만요.",
+	},
+	"mansion_age": {
+		"label": "이 저택은 언제부터 있었나요?",
+		"response": "아가씨가 기억하는 만큼 오래됐다고... 들었어요.",
+	},
+	"luca_tenure": {
+		"label": "루카는 여기서 오래 일했나요?",
+		"response": "오래요... 아주 오래요.\n그런데 며칠이라고 세면, 늘 같은 수가 나와서...",
+	},
+}
+const P4_FATHER_CHOICE_ORDER := ["father_tea", "mansion_age", "luca_tenure"]
 const P3B_LABELS := {
 	"EDGAR": "에드가 · LOCK",
 	"MARA1": "마라 1 · MAINT",
@@ -100,9 +116,11 @@ var _dialogue_label: Label
 var _dialogue_next: Button
 var _dialogue_choice_blocker: ColorRect
 var _dialogue_choice_panel: PanelContainer
+var _dialogue_choice_header: Label
 var _dialogue_choice_buttons: Array[Button] = []
 var _dialogue_choice_focus_index := 0
 var _dialogue_choice_active := false
+var _dialogue_choice_mode := ""
 var _modal_layer: Control
 var _modal_panel: PanelContainer
 var _modal_body: VBoxContainer
@@ -147,7 +165,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("notebook_toggle"):
 		if _dialogue_choice_active:
-			_focus_p3_silent_choice()
+			_handle_dialogue_choice_cancel()
 		elif _inspection_active:
 			_close_window_inspection()
 		elif _modal_active:
@@ -157,7 +175,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_cancel"):
 		if _dialogue_choice_active:
-			_focus_p3_silent_choice()
+			_handle_dialogue_choice_cancel()
 		elif _inspection_active:
 			_close_window_inspection()
 		elif _modal_active:
@@ -445,16 +463,15 @@ func _build_dialogue_ui() -> void:
 	var choice_list := VBoxContainer.new()
 	choice_list.add_theme_constant_override("separation", 10)
 	choice_margin.add_child(choice_list)
-	var choice_header := Label.new()
-	choice_header.text = "장부에 대해 묻는다"
-	choice_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	choice_header.add_theme_font_size_override("font_size", 18)
-	choice_header.add_theme_color_override("font_color", Color(0.78, 0.81, 0.88))
-	choice_list.add_child(choice_header)
-	for choice_id in ["author", "locked", "silent"]:
+	_dialogue_choice_header = Label.new()
+	_dialogue_choice_header.name = "DialogueChoiceHeader"
+	_dialogue_choice_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_dialogue_choice_header.add_theme_font_size_override("font_size", 18)
+	_dialogue_choice_header.add_theme_color_override("font_color", Color(0.78, 0.81, 0.88))
+	choice_list.add_child(_dialogue_choice_header)
+	for index in range(3):
 		var button := Button.new()
-		button.name = "JournalChoice%s" % choice_id.capitalize()
-		button.set_meta("choice_id", choice_id)
+		button.name = "DialogueChoice%d" % (index + 1)
 		button.custom_minimum_size = Vector2(420, 88)
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.add_theme_font_size_override("font_size", 23)
@@ -462,9 +479,9 @@ func _build_dialogue_ui() -> void:
 		button.add_theme_stylebox_override("normal", _choice_style(Color(0.015, 0.012, 0.022, 0.88), Color(0.22, 0.24, 0.31, 0.76), 3))
 		button.add_theme_stylebox_override("hover", _choice_style(Color(0.055, 0.075, 0.09, 0.94), Color(0.37, 0.79, 0.86, 0.94), 5))
 		button.add_theme_stylebox_override("focus", _choice_style(Color(0.055, 0.075, 0.09, 0.98), Color(0.42, 0.86, 0.92, 1.0), 6))
-		button.pressed.connect(_answer_p3_journal_choice.bind(choice_id))
-		button.focus_entered.connect(_on_dialogue_choice_focused.bind(_dialogue_choice_buttons.size()))
-		button.mouse_entered.connect(_focus_dialogue_choice.bind(_dialogue_choice_buttons.size()))
+		button.pressed.connect(_on_dialogue_choice_pressed.bind(index))
+		button.focus_entered.connect(_on_dialogue_choice_focused.bind(index))
+		button.mouse_entered.connect(_focus_dialogue_choice.bind(index))
 		_dialogue_choice_buttons.append(button)
 		choice_list.add_child(button)
 
@@ -512,6 +529,11 @@ func _load_progress() -> void:
 				asked_questions.append(legacy_journal_choice)
 			_progress["p3_journal_questions_asked"] = asked_questions
 			_progress["p3_journal_choice"] = "pending"
+		if bool(_progress.get("P4_complete", false)):
+			_progress["p4_phase"] = "complete"
+			_progress["p4_memory_anchor_seen"] = true
+		elif int(_progress.get("tea_step", 0)) >= TEA_STEPS.size() and String(_progress.get("p4_phase", "brewing")) == "brewing":
+			_progress["p4_phase"] = "memory_anchor"
 	_normalize_window_states()
 	_current_room = String(_progress.get("current_room", "M2_BEDROOM"))
 
@@ -540,6 +562,12 @@ func _default_progress() -> Dictionary:
 		"p3_journal_questions_asked": [],
 		"p3b_placed": {},
 		"tea_step": 0,
+		"p4_phase": "brewing",
+		"p4_life_support_seen": false,
+		"p4_life_support_recorded": false,
+		"p4_memory_anchor_seen": false,
+		"p4_handle_return_used": false,
+		"p4_father_question": "",
 		"p5_observations": [],
 		"introduced": [],
 		"notebook_entries": ["오늘의 일과: 대응접실 창문, 외부 서고 책, 북쪽 회랑 초상화."],
@@ -968,19 +996,48 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 
 func _show_p3_journal_choices() -> void:
 	_p3_journal_prompt_active = true
+	_show_dialogue_choice_set(
+		"p3_journal",
+		"장부에 대해 묻는다",
+		"주인공",
+		"에드가는 장부를 내려놓으라는 듯 손을 내민다. 무엇을 물어볼까.",
+		"EDGAR",
+		["author", "locked", "silent"],
+		P3_JOURNAL_CHOICES
+	)
+
+
+func _show_dialogue_choice_set(
+	mode: String,
+	header: String,
+	speaker: String,
+	prompt: String,
+	portrait_id: String,
+	choice_order: Array,
+	choice_data: Dictionary
+) -> void:
 	_dialogue_active = false
 	_dialogue_lines.clear()
 	_dialogue_after = Callable()
+	_dialogue_choice_mode = mode
 	_dialogue_choice_active = true
 	_dialogue_layer.visible = true
 	_dialogue_choice_blocker.visible = true
 	_dialogue_choice_panel.visible = true
 	_dialogue_next.visible = false
-	_speaker_label.text = "주인공"
-	_dialogue_label.text = "에드가는 장부를 내려놓으라는 듯 손을 내민다. 무엇을 물어볼까."
-	_set_dialogue_portrait("EDGAR")
-	_refresh_p3_journal_choice_labels()
-	_focus_dialogue_choice(_first_unasked_p3_choice_index())
+	_dialogue_choice_header.text = header
+	_speaker_label.text = speaker
+	_dialogue_label.text = prompt
+	_set_dialogue_portrait(portrait_id)
+	for index in range(_dialogue_choice_buttons.size()):
+		var button := _dialogue_choice_buttons[index]
+		var choice_id := String(choice_order[index]) if index < choice_order.size() else ""
+		button.set_meta("choice_id", choice_id)
+		button.set_meta("choice_label", String(choice_data.get(choice_id, {}).get("label", "")))
+		button.visible = not choice_id.is_empty()
+	_refresh_dialogue_choice_labels()
+	var initial_index := _first_unasked_p3_choice_index() if mode == "p3_journal" else 0
+	_focus_dialogue_choice(initial_index)
 
 
 func _answer_p3_journal_choice(choice_id: String) -> void:
@@ -1106,19 +1163,29 @@ func _owner_at_portrait(index: int) -> String:
 
 
 func _build_kitchen() -> void:
-	_update_inventory([
-		{"id": "CUP", "label": "빈 찻잔"},
-		{"id": "HOT_WATER", "label": "뜨거운 물"},
-		{"id": "TEA_LEAVES", "label": "찻잎"},
-		{"id": "SPOON", "label": "계량 숟가락"},
-		{"id": "TIMER", "label": "모래시계"},
-		{"id": "TEAPOT", "label": "찻주전자"},
-	])
 	var step := int(_progress.get("tea_step", 0))
-	for index in range(TEA_STEPS.size()):
-		var done := index < step
-		var label := "%d. %s\n%s%s" % [index + 1, TEA_STEPS[index], TEA_STEP_ITEM_LABELS[index], " · 완료" if done else ""]
-		_add_inventory_drop_hotspot("TEA_%d" % index, label, Rect2(320 + (index % 3) * 390, 300 + (index / 3) * 170, 330, 120), _on_tea_target_pressed.bind(index), _on_tea_item_dropped)
+	if step < TEA_STEPS.size():
+		_update_inventory([
+			{"id": "CUP", "label": "빈 찻잔"},
+			{"id": "HOT_WATER", "label": "뜨거운 물"},
+			{"id": "TEA_LEAVES", "label": "찻잎"},
+			{"id": "SPOON", "label": "계량 숟가락"},
+			{"id": "TIMER", "label": "모래시계"},
+			{"id": "TEAPOT", "label": "찻주전자"},
+		])
+		for index in range(TEA_STEPS.size()):
+			var done := index < step
+			var label := "%d. %s\n%s%s" % [index + 1, TEA_STEPS[index], TEA_STEP_ITEM_LABELS[index], " · 완료" if done else ""]
+			_add_inventory_drop_hotspot("TEA_%d" % index, label, Rect2(320 + (index % 3) * 390, 300 + (index / 3) * 170, 330, 120), _on_tea_target_pressed.bind(index), _on_tea_item_dropped)
+	else:
+		_update_inventory([])
+		var handle_label := "찻잔 손잡이\n왼쪽 자리 방향"
+		if bool(_progress.get("p4_handle_return_used", false)):
+			handle_label += " · 되돌아옴"
+		_add_hotspot("P4_CUP_HANDLE", handle_label, Rect2(420, 320, 440, 230), _turn_p4_cup_handle)
+		_add_hotspot("P4_ASK_LUCA", "루카에게 한 가지 묻는다", Rect2(1010, 340, 430, 190), _show_p4_father_choices)
+	if bool(_progress.get("p4_life_support_seen", false)) and not bool(_progress.get("p4_life_support_recorded", false)):
+		_add_hotspot("P4_RECORD_PULSE", "수첩에 진동을 기록한다", Rect2(710, 690, 500, 100), _record_p4_life_support_pulse)
 	if not _intro_seen("P4"):
 		_mark_intro("P4")
 		_add_unique("introduced", "LUCA")
@@ -1126,22 +1193,34 @@ func _build_kitchen() -> void:
 			{"speaker": "루카", "portrait": "LUCA", "text": "아, 아가씨... 오셨네요... 차는 제가 준비하려고 했는데, 오늘 일과에 들어 있다고 해서요... 같이 해도 괜찮을까요?"},
 			{"speaker": "루카", "portrait": "LUCA", "text": "잔을 먼저 데우고... 찻잎은 한 스푼만. 물을 부은 뒤에는 모래시계 한 칸을 기다려 주세요..."},
 		])
+	elif bool(_progress.get("P4_complete", false)) and not bool(_progress.get("iris_greeting_seen", false)):
+		call_deferred("_show_p4_iris_greeting")
+	elif String(_progress.get("p4_phase", "")) == "memory_anchor":
+		call_deferred("_resume_p4_memory_anchor")
+	elif String(_progress.get("p4_phase", "")) == "question_answered":
+		call_deferred("_resume_p4_question_answer")
+	elif String(_progress.get("p4_phase", "")) == "question" and String(_progress.get("p4_father_question", "")).is_empty():
+		call_deferred("_show_p4_father_choices")
 
 
 func _on_tea_step(index: int) -> void:
 	if _interaction_blocked() or bool(_progress.get("P4_complete", false)):
 		return
 	var step := int(_progress.get("tea_step", 0))
+	if step >= TEA_STEPS.size():
+		return
 	if index != step:
 		_set_status("순서가 맞지 않는다. 지금 필요한 단계는 '%s'이다." % TEA_STEPS[step])
 		return
 	_progress["tea_step"] = step + 1
 	_set_status("%s: 완료" % TEA_STEPS[index])
 	if step + 1 >= TEA_STEPS.size():
-		_complete_p4()
+		_begin_p4_memory_anchor()
 		return
 	_save_progress()
 	_rebuild_current_room_content()
+	if index == 4 and not bool(_progress.get("p4_life_support_seen", false)):
+		_show_p4_life_support_foreshadow()
 
 
 func _on_tea_target_pressed(index: int) -> void:
@@ -1162,20 +1241,140 @@ func _on_tea_item_dropped(item_id: String, target_id: String) -> void:
 	_on_tea_step(index)
 
 
-func _complete_p4() -> void:
-	_progress["P4_complete"] = true
-	_progress["iris_greeting_seen"] = true
-	_progress["time_block"] = "evening_free"
-	_add_unique("introduced", "IRIS")
-	_add_notebook("차를 따르자 손이 먼저 찻잔 손잡이를 왼쪽으로 돌렸다. 아버지가 늘 그렇게 마셨던 것 같다.")
+func _show_p4_life_support_foreshadow() -> void:
+	_progress["p4_life_support_seen"] = true
 	_save_progress()
+	_rebuild_current_room_content()
 	_show_dialogue([
+		{"speaker": "SYSTEM", "text": "차가 우러나는 동안 주전자 바닥에서 낮은 맥박이 두 번 울린다."},
+		{"speaker": "SYSTEM", "text": "같은 간격으로 루카의 둥근 귀 안쪽, 연두색 부분이 두 번 점멸한다."},
+		{"speaker": "SYSTEM", "text": "바닥 아래에서 한 번 늦은 응답음이 돌아온다. 손목의 맥박과 비슷하지만, 완전히 같은 박자는 아니다."},
+	])
+
+
+func _record_p4_life_support_pulse() -> void:
+	if _interaction_blocked() or bool(_progress.get("p4_life_support_recorded", false)):
+		return
+	if not bool(_progress.get("p4_life_support_seen", false)):
+		return
+	_progress["p4_life_support_recorded"] = true
+	_add_notebook("주방의 규칙적인 진동")
+	_save_progress()
+	_rebuild_current_room_content()
+	_set_status("수첩에 '주방의 규칙적인 진동'이라고만 적었다.")
+
+
+func _begin_p4_memory_anchor() -> void:
+	_progress["p4_phase"] = "memory_anchor"
+	_progress["p4_memory_anchor_seen"] = true
+	_save_progress()
+	_rebuild_current_room_content()
+	_resume_p4_memory_anchor()
+
+
+func _resume_p4_memory_anchor() -> void:
+	if _interaction_blocked() or _current_room != "M1_KITCHEN" or String(_progress.get("p4_phase", "")) != "memory_anchor":
+		return
+	_progress["p4_memory_anchor_seen"] = true
+	_show_dialogue([
+		{"speaker": "SYSTEM", "text": "지시받지 않았는데도 엄지가 찻잔 손잡이 안쪽의 얕은 홈을 찾아낸다."},
+		{"speaker": "SYSTEM", "text": "손이 찻잔을 왼쪽 자리 쪽으로 돌린다. 도자기가 받침 위에서 짧게 긁힌다."},
+		{"speaker": "SYSTEM", "text": "낯익은 찻잎 향 위로 더 큰 손의 잔상이 겹친다."},
+		{"speaker": "SYSTEM", "text": "얼굴도, 그때의 대사도 떠오르지 않는다."},
 		{"speaker": "주인공", "text": "왜 이쪽이어야 하지?"},
+		{"speaker": "SYSTEM", "text": "루카는 손에 든 찻수건을 멈춘 채 잠깐 주인공을 바라본다."},
 		{"speaker": "루카", "portrait": "LUCA", "text": "그렇게 두시면... 늘 맞았어요."},
-		{"speaker": "SYSTEM", "text": "주전자 바닥에서 두 번의 낮은 맥박이 울리고, 루카의 귀 안쪽이 한 박자 늦게 반짝인다."},
+	], _finish_p4_memory_anchor)
+
+
+func _finish_p4_memory_anchor() -> void:
+	_progress["p4_phase"] = "memory_anchor_ready"
+	_save_progress()
+
+
+func _turn_p4_cup_handle() -> void:
+	if _interaction_blocked() or int(_progress.get("tea_step", 0)) < TEA_STEPS.size():
+		return
+	if bool(_progress.get("p4_handle_return_used", false)):
+		_show_dialogue([{"speaker": "주인공", "text": "손잡이는 다시 왼쪽 자리를 향하고 있다. 더 건드려도 달라질 것 같지 않다."}])
+		return
+	_progress["p4_handle_return_used"] = true
+	_save_progress()
+	_rebuild_current_room_content()
+	_show_dialogue([
+		{"speaker": "SYSTEM", "text": "찻잔 손잡이를 반대쪽으로 천천히 돌려 본다."},
+		{"speaker": "SYSTEM", "text": "손을 떼는 순간 도자기가 받침을 한 번 긁으며, 손잡이가 원래의 왼쪽 각도로 되돌아간다."},
+	])
+
+
+func _show_p4_father_choices() -> void:
+	if _dialogue_active or _modal_active or bool(_progress.get("P4_complete", false)):
+		return
+	if int(_progress.get("tea_step", 0)) < TEA_STEPS.size() or not bool(_progress.get("p4_memory_anchor_seen", false)):
+		return
+	_progress["p4_phase"] = "question"
+	_save_progress()
+	_show_dialogue_choice_set(
+		"p4_father",
+		"차가 식기 전에 묻는다",
+		"주인공",
+		"루카는 대답을 기다리면서도 찻잔에서 시선을 떼지 않는다. 한 가지만 물어볼 수 있을 것 같다.",
+		"LUCA",
+		P4_FATHER_CHOICE_ORDER,
+		P4_FATHER_CHOICES
+	)
+
+
+func _answer_p4_father_choice(choice_id: String) -> void:
+	if not P4_FATHER_CHOICES.has(choice_id) or not String(_progress.get("p4_father_question", "")).is_empty():
+		return
+	if String(_progress.get("p4_phase", "")) != "question" or not _dialogue_choice_active or _dialogue_choice_mode != "p4_father":
+		return
+	_hide_dialogue_choices()
+	_progress["p4_father_question"] = choice_id
+	_progress["p4_phase"] = "question_answered"
+	_save_progress()
+	_present_p4_question_answer(choice_id)
+
+
+func _resume_p4_question_answer() -> void:
+	if _dialogue_active or _dialogue_choice_active or bool(_progress.get("P4_complete", false)):
+		return
+	var choice_id := String(_progress.get("p4_father_question", ""))
+	if P4_FATHER_CHOICES.has(choice_id):
+		_present_p4_question_answer(choice_id)
+
+
+func _present_p4_question_answer(choice_id: String) -> void:
+	var lines: Array = [{"speaker": "루카", "portrait": "LUCA", "text": String(P4_FATHER_CHOICES[choice_id]["response"])}]
+	if choice_id == "luca_tenure":
+		lines.append({"speaker": "SYSTEM", "text": "루카는 자신이 한 말을 뒤늦게 알아차린 듯 입술을 다문다. 손끝이 급히 찻잔을 가지런히 모은다."})
+		lines.append({"speaker": "루카", "portrait": "LUCA", "text": "차가 식기 전에... 내어 갈게요."})
+	_show_dialogue(lines, _finish_p4_after_question)
+
+
+func _finish_p4_after_question() -> void:
+	_progress["P4_complete"] = true
+	_progress["p4_phase"] = "complete"
+	_progress["time_block"] = "evening_free"
+	_save_progress()
+	_show_p4_iris_greeting()
+
+
+func _show_p4_iris_greeting() -> void:
+	if _dialogue_active or bool(_progress.get("iris_greeting_seen", false)):
+		return
+	_add_unique("introduced", "IRIS")
+	_show_dialogue([
 		{"speaker": "이리스", "portrait": "IRIS", "text": "우후후, 아가씨도 계셨네요. 오늘도 참 평온한 얼굴이라 다행이에요."},
 		{"speaker": "이리스", "portrait": "IRIS", "text": "시간이 남으면 온실 앞에 들러 보세요. 오늘은 안쪽에만 비가 와서, 제법 예쁘답니다."},
-	], func() -> void: _enter_room("M1_CENTRAL_HALL"))
+	], _complete_p4_iris_greeting)
+
+
+func _complete_p4_iris_greeting() -> void:
+	_progress["iris_greeting_seen"] = true
+	_save_progress()
+	_enter_room("M1_CENTRAL_HALL")
 
 
 func _build_greenhouse() -> void:
@@ -1271,21 +1470,12 @@ func _show_after_reset() -> void:
 	_clear_hotspots()
 	_update_inventory([])
 	_room_art.set_room("M2_BEDROOM", _progress)
-	_objective_label.text = "프롤로그 완료 · 같은 침실의 같은 아침"
+	_objective_label.text = "같은 침실의 같은 아침 · 수첩의 기록을 확인한다"
 	_show_dialogue([
 		{"speaker": "SYSTEM", "text": "새가 우는 소리에 눈을 뜬다."},
 		{"speaker": "주인공", "text": "커튼 사이의 빛도, 침대보의 주름도, 어제 아침과 같은 자리에 있다."},
 		{"speaker": "SYSTEM", "text": "하지만 수첩 안의 문장들은 사라지지 않았다."},
-	], func() -> void:
-		_show_modal(
-			"프롤로그 완료",
-			"첫 번째 수면 뒤 세계의 물리 상태가 되돌아왔습니다. 수첩과 확인한 정보는 다음 루프에도 남습니다.",
-			[
-				{"label": "같은 아침을 바라본다", "action": _close_modal},
-				{"label": "타이틀로 돌아간다", "action": _return_to_title},
-			]
-		)
-	)
+	], func() -> void: campaign_requested.emit(_slot_id))
 
 
 func _set_room_background(room_id: String) -> void:
@@ -1427,7 +1617,7 @@ func _present_dialogue_line() -> void:
 	_set_dialogue_portrait(portrait_id)
 	_dialogue_next.visible = true
 	_dialogue_next.text = "마침" if _dialogue_index >= _dialogue_lines.size() - 1 else "계속"
-	_dialogue_next.call_deferred("grab_focus")
+	call_deferred("_focus_visible_control", weakref(_dialogue_next))
 
 
 func _set_dialogue_portrait(portrait_id: String) -> void:
@@ -1450,14 +1640,15 @@ func _hide_dialogue_choices() -> void:
 		_dialogue_next.visible = true
 
 
-func _refresh_p3_journal_choice_labels() -> void:
+func _refresh_dialogue_choice_labels() -> void:
 	var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
 	for index in range(_dialogue_choice_buttons.size()):
 		var button := _dialogue_choice_buttons[index]
 		var choice_id := String(button.get_meta("choice_id", ""))
+		var label := String(button.get_meta("choice_label", choice_id))
 		var prefix := "▶ " if index == _dialogue_choice_focus_index else "   "
-		var suffix := "  [확인함]" if choice_id in asked_questions else ""
-		button.text = "%s%s%s" % [prefix, P3_JOURNAL_CHOICES[choice_id]["label"], suffix]
+		var suffix := "  [확인함]" if _dialogue_choice_mode == "p3_journal" and choice_id in asked_questions else ""
+		button.text = "%s%s%s" % [prefix, label, suffix]
 
 
 func _first_unasked_p3_choice_index() -> int:
@@ -1473,18 +1664,39 @@ func _focus_dialogue_choice(index: int) -> void:
 	if _dialogue_choice_buttons.is_empty():
 		return
 	_dialogue_choice_focus_index = clampi(index, 0, _dialogue_choice_buttons.size() - 1)
-	_refresh_p3_journal_choice_labels()
-	_dialogue_choice_buttons[_dialogue_choice_focus_index].call_deferred("grab_focus")
+	_refresh_dialogue_choice_labels()
+	call_deferred("_focus_visible_control", weakref(_dialogue_choice_buttons[_dialogue_choice_focus_index]))
 
 
 func _on_dialogue_choice_focused(index: int) -> void:
 	_dialogue_choice_focus_index = clampi(index, 0, _dialogue_choice_buttons.size() - 1)
-	_refresh_p3_journal_choice_labels()
+	_refresh_dialogue_choice_labels()
+
+
+func _on_dialogue_choice_pressed(index: int) -> void:
+	if not _dialogue_choice_active or index < 0 or index >= _dialogue_choice_buttons.size():
+		return
+	var choice_id := String(_dialogue_choice_buttons[index].get_meta("choice_id", ""))
+	match _dialogue_choice_mode:
+		"p3_journal":
+			_answer_p3_journal_choice(choice_id)
+		"p4_father":
+			_answer_p4_father_choice(choice_id)
 
 
 func _focus_p3_silent_choice() -> void:
-	_focus_dialogue_choice(2)
+	for index in range(_dialogue_choice_buttons.size()):
+		if String(_dialogue_choice_buttons[index].get_meta("choice_id", "")) == "silent":
+			_focus_dialogue_choice(index)
+			break
 	_set_status("선택 구간을 끝내려면 '말없이 내려놓는다'를 선택하십시오.")
+
+
+func _handle_dialogue_choice_cancel() -> void:
+	if _dialogue_choice_mode == "p3_journal":
+		_focus_p3_silent_choice()
+	else:
+		_set_status("루카에게 건넬 질문 하나를 선택해야 한다.")
 
 
 func _advance_dialogue() -> void:
@@ -1556,7 +1768,13 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 	_modal_active = true
 	_modal_layer.visible = true
 	if _modal_body.get_child_count() > 3:
-		(_modal_body.get_child(3) as Control).call_deferred("grab_focus")
+		call_deferred("_focus_visible_control", weakref(_modal_body.get_child(3)))
+
+
+func _focus_visible_control(reference: WeakRef) -> void:
+	var control := reference.get_ref() as Control
+	if is_instance_valid(control) and control.is_inside_tree() and control.is_visible_in_tree():
+		control.grab_focus()
 
 
 func _close_modal() -> void:
@@ -1576,12 +1794,17 @@ func _save_progress(save_point_id: String = "SAVE_NEW_GAME", prologue_complete: 
 	var event_states: Dictionary = GameState.get_value(&"loop_state.event_local_states", {}).duplicate(true)
 	event_states["PROLOGUE"] = _progress.duplicate(true)
 	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {}).duplicate(true)
+	knowledge["prologue_notebook_entries"] = Array(_progress.get("notebook_entries", [])).duplicate(true)
 	for servant_id in Array(_progress.get("introduced", [])):
 		knowledge["INTRO_%s" % servant_id] = true
 	if bool(_progress.get("p3_journal_seen", false)):
 		knowledge["NOTE_JOURNAL"] = true
 	if bool(_progress.get("P3B_complete", false)):
 		knowledge["CLR_00_SIGNATURES"] = true
+	if bool(_progress.get("p4_life_support_seen", false)):
+		knowledge["OBS_KITCHEN_REGULAR_PULSE"] = true
+	if bool(_progress.get("p4_memory_anchor_seen", false)):
+		knowledge["MEM_FATHER_TEA_HAND_FRAGMENT"] = "sensory_fragment"
 	if bool(_progress.get("bird_observed", false)):
 		knowledge["OBS_REPEATING_BIRD"] = true
 	if bool(_progress.get("P5_complete", false)):
@@ -1635,7 +1858,10 @@ func _update_objective() -> void:
 		var count := int(bool(_progress.get("P2_complete", false))) + int(bool(_progress.get("P3_complete", false))) + int(bool(_progress.get("P3B_complete", false)))
 		_objective_label.text = "아침 일과 %d / 3 · 순서는 자유" % count
 	elif not bool(_progress.get("P4_complete", false)):
-		_objective_label.text = "주방에서 차를 준비한다"
+		if int(_progress.get("tea_step", 0)) >= TEA_STEPS.size():
+			_objective_label.text = "찻잔의 기억을 확인하고 루카에게 한 가지 묻는다"
+		else:
+			_objective_label.text = "주방에서 차를 준비한다"
 	else:
 		_objective_label.text = "저녁 자유 조사 · 온실은 선택 · 침실에서 하루 종료"
 
@@ -1904,9 +2130,53 @@ func run_smoke_scenario() -> PackedStringArray:
 	_dismiss_dialogue_for_test()
 	for index in range(TEA_STEPS.size()):
 		_drag_inventory_item_to_target_for_smoke(String(TEA_STEP_ITEMS[index]), _hotspot_layer.get_node("TEA_%d" % index), errors)
+		if index == 4:
+			if not bool(_progress.get("p4_life_support_seen", false)):
+				errors.append("P4 life-support foreshadow did not trigger while tea steeped")
+			if _dialogue_lines.size() != 3 or "두 번" not in String(_dialogue_lines[0].get("text", "")):
+				errors.append("P4 life-support sensory sequence is incomplete")
 		_dismiss_dialogue_for_test()
+	if not bool(_progress.get("p4_memory_anchor_seen", false)) or bool(_progress.get("P4_complete", false)):
+		errors.append("P4 memory anchor did not pause completion after six tea steps")
+	if _hotspot_layer.get_node_or_null("P4_CUP_HANDLE") == null or _hotspot_layer.get_node_or_null("P4_ASK_LUCA") == null:
+		errors.append("P4 memory-anchor interaction hotspots are missing")
+	_record_p4_life_support_pulse()
+	if "주방의 규칙적인 진동" not in Array(_progress.get("notebook_entries", [])):
+		errors.append("P4 notebook pulse entry is missing or over-explained")
+	_turn_p4_cup_handle()
+	if not bool(_progress.get("p4_handle_return_used", false)) or _dialogue_lines.size() != 2:
+		errors.append("P4 cup handle did not return exactly once after release")
+	_dismiss_dialogue_for_test()
+	_show_p4_father_choices()
+	if not _dialogue_choice_active or _dialogue_choice_mode != "p4_father":
+		errors.append("P4 father question choices did not open")
+	var expected_p4_choice_text := {
+		"father_tea": ["아버지가 좋아한 차인가요?", "네... 비슷한 향을 좋아하셨어요.\n정확히 같은지는... 이제 자신이 없지만요."],
+		"mansion_age": ["이 저택은 언제부터 있었나요?", "아가씨가 기억하는 만큼 오래됐다고... 들었어요."],
+		"luca_tenure": ["루카는 여기서 오래 일했나요?", "오래요... 아주 오래요.\n그런데 며칠이라고 세면, 늘 같은 수가 나와서..."],
+	}
+	for index in range(P4_FATHER_CHOICE_ORDER.size()):
+		var expected_choice_id := String(P4_FATHER_CHOICE_ORDER[index])
+		var button := _dialogue_choice_buttons[index]
+		if String(button.get_meta("choice_id", "")) != expected_choice_id:
+			errors.append("P4 father question order mismatch: %s" % expected_choice_id)
+		if String(button.get_meta("choice_label", "")) != String(expected_p4_choice_text[expected_choice_id][0]):
+			errors.append("P4 father question label mismatch: %s" % expected_choice_id)
+		if String(P4_FATHER_CHOICES[expected_choice_id]["response"]) != String(expected_p4_choice_text[expected_choice_id][1]):
+			errors.append("P4 father answer text mismatch: %s" % expected_choice_id)
+	var tenure_button := _dialogue_choice_buttons[2]
+	tenure_button.pressed.emit()
+	if not _dialogue_active or _dialogue_lines.size() != 3 or "늘 같은 수" not in String(_dialogue_lines[0].get("text", "")):
+		errors.append("P4 Luca tenure answer or topic-change beat is missing")
+	_answer_p4_father_choice("father_tea")
+	if String(_progress.get("p4_father_question", "")) != "luca_tenure":
+		errors.append("P4 accepted more than one father question")
+	while _dialogue_active:
+		_advance_dialogue()
 	if not bool(_progress.get("P4_complete", false)) or not bool(_progress.get("iris_greeting_seen", false)):
 		errors.append("P4 or Iris greeting did not complete")
+	if String(_progress.get("p4_father_question", "")) != "luca_tenure":
+		errors.append("P4 selected father question was not recorded")
 
 	_enter_room("M1_GREENHOUSE_VESTIBULE")
 	_dismiss_dialogue_for_test()

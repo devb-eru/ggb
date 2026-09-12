@@ -7,6 +7,8 @@ const CAPTURE_P2_ARG := "--capture-p2-window"
 const CAPTURE_P2_FILE := "user://p2_window_drag_1280x720.png"
 const CAPTURE_P3_ARG := "--capture-p3-journal-choice"
 const CAPTURE_P3_FILE := "user://p3_journal_choice_1280x720.png"
+const CAPTURE_P4_ARG := "--capture-p4-father-choice"
+const CAPTURE_P4_FILE := "user://p4_father_choice_1280x720.png"
 const RESET_TEST_SLOT := "__test_prologue_reset"
 
 
@@ -16,7 +18,20 @@ func run(tree: SceneTree) -> Dictionary:
 	tree.root.add_child(prologue)
 	await tree.process_frame
 	await tree.process_frame
-	if CAPTURE_P3_ARG in OS.get_cmdline_user_args():
+	if CAPTURE_P4_ARG in OS.get_cmdline_user_args():
+		prologue._dismiss_dialogue_for_test()
+		prologue._progress["P1_complete"] = true
+		prologue._progress["P2_complete"] = true
+		prologue._progress["P3_complete"] = true
+		prologue._progress["P3B_complete"] = true
+		prologue._enter_room("M1_KITCHEN")
+		prologue._dismiss_dialogue_for_test()
+		for index in range(prologue.TEA_STEPS.size()):
+			prologue._on_tea_step(index)
+			prologue._dismiss_dialogue_for_test()
+		prologue._show_p4_father_choices()
+		await _capture_view(tree, CAPTURE_P4_FILE, "P4_FATHER_CHOICE_CAPTURE")
+	elif CAPTURE_P3_ARG in OS.get_cmdline_user_args():
 		prologue._dismiss_dialogue_for_test()
 		prologue._progress["P1_complete"] = true
 		prologue._enter_room("M1_LIBRARY_OUTER")
@@ -40,6 +55,7 @@ func run(tree: SceneTree) -> Dictionary:
 	var errors: PackedStringArray = prologue.run_smoke_scenario()
 	prologue.queue_free()
 	await tree.process_frame
+	await _validate_p4_resume_and_choices(tree, errors)
 	await _validate_reset_integration(tree, errors)
 	return {"ok": errors.is_empty(), "errors": errors}
 
@@ -55,6 +71,64 @@ func _capture_view(tree: SceneTree, path: String, marker: String) -> void:
 	var save_error := image.save_png(path)
 	if save_error == OK:
 		print("%s: %s" % [marker, ProjectSettings.globalize_path(path)])
+
+
+func _validate_p4_resume_and_choices(tree: SceneTree, errors: PackedStringArray) -> void:
+	const SLOT := "__test_p4_resume"
+	SaveManager.delete_test_slot(SLOT)
+	GameState.reset_for_test()
+	var scene = PROLOGUE_SCENE.instantiate()
+	scene.configure_session(SLOT, "P1_ENTRY", false)
+	tree.root.add_child(scene)
+	await tree.process_frame
+	scene._dismiss_dialogue_for_test()
+	for event_id in ["P1_complete", "P2_complete", "P3_complete", "P3B_complete"]:
+		scene._progress[event_id] = true
+	scene._progress["intros_seen"] = ["P4"]
+	scene._progress["tea_step"] = scene.TEA_STEPS.size()
+	scene._progress["p4_phase"] = "memory_anchor"
+	scene._progress["p4_memory_anchor_seen"] = true
+	scene._current_room = "M1_KITCHEN"
+	scene._progress["current_room"] = "M1_KITCHEN"
+	_expect(scene._save_progress(), "P4 interrupted memory save failed", errors)
+	scene.queue_free()
+	await tree.process_frame
+	GameState.reset_for_test()
+	var load_result := LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT)
+	_expect(bool(load_result.get("ok", false)), "P4 interrupted memory load failed", errors)
+	scene = PROLOGUE_SCENE.instantiate()
+	scene.configure_session(SLOT, "P1_ENTRY", false)
+	tree.root.add_child(scene)
+	await tree.process_frame
+	await tree.process_frame
+	_expect(scene._dialogue_active and scene._dialogue_lines.size() == 7, "P4 memory sensory sequence was skipped after reload", errors)
+	while scene._dialogue_active:
+		scene._advance_dialogue()
+	_expect(scene._progress["p4_phase"] == "memory_anchor_ready", "P4 memory completion was not persisted", errors)
+	scene._on_tea_step(0)
+	_expect(scene._progress["tea_step"] == scene.TEA_STEPS.size(), "P4 repeated tea input changed completed steps", errors)
+	scene._test_mode = true
+	for choice_id in scene.P4_FATHER_CHOICE_ORDER:
+		scene._progress["P4_complete"] = false
+		scene._progress["p4_father_question"] = ""
+		scene._progress["p4_phase"] = "memory_anchor_ready"
+		scene._progress["iris_greeting_seen"] = false
+		scene._current_room = "M1_KITCHEN"
+		scene._show_p4_father_choices()
+		scene._answer_p4_father_choice(choice_id)
+		_expect(scene._progress["p4_father_question"] == choice_id, "P4 choice failed: " + choice_id, errors)
+		scene._dismiss_dialogue_for_test()
+		scene._resume_p4_question_answer()
+		_expect(scene._dialogue_active and scene._dialogue_lines[0]["text"] == scene.P4_FATHER_CHOICES[choice_id]["response"], "P4 answer resume failed: " + choice_id, errors)
+		scene._answer_p4_father_choice("father_tea")
+		_expect(scene._progress["p4_father_question"] == choice_id, "P4 second question replaced selection", errors)
+		while scene._dialogue_active:
+			scene._advance_dialogue()
+		_expect(scene._progress["P4_complete"] and scene._progress["iris_greeting_seen"], "P4 choice did not reach evening: " + choice_id, errors)
+	scene.queue_free()
+	await tree.process_frame
+	SaveManager.delete_test_slot(SLOT)
+	GameState.reset_for_test()
 
 
 func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> void:
@@ -73,6 +147,10 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	prologue._progress["introduced"] = ["EDGAR", "MARA1", "MARA2", "LUCA", "IRIS"]
 	prologue._progress["p3_journal_seen"] = true
 	prologue._progress["P3B_complete"] = true
+	prologue._progress["P4_complete"] = true
+	prologue._progress["p4_memory_anchor_seen"] = true
+	prologue._add_notebook("주방의 규칙적인 진동")
+	prologue._progress["iris_greeting_seen"] = true
 	prologue._progress["P5_complete"] = true
 	var save_ok: bool = prologue._save_progress("SAVE_P6_COMPLETE", true)
 	_expect(save_ok, "P6 completion save failed", errors)
@@ -84,6 +162,8 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	_expect(bool(knowledge.get("PROLOGUE_COMPLETE", false)), "normal reset lost prologue completion knowledge", errors)
 	_expect(bool(knowledge.get("NOTE_JOURNAL", false)), "normal reset lost journal knowledge", errors)
 	_expect(bool(knowledge.get("CLR_00_SIGNATURES", false)), "normal reset lost signature knowledge", errors)
+	_expect(String(knowledge.get("MEM_FATHER_TEA_HAND_FRAGMENT", "")) == "sensory_fragment", "normal reset lost P4 tea memory anchor", errors)
+	_expect("주방의 규칙적인 진동" in knowledge.get("prologue_notebook_entries", []), "normal reset lost written notebook text", errors)
 	prologue.queue_free()
 	await tree.process_frame
 	SaveManager.delete_test_slot(RESET_TEST_SLOT)
