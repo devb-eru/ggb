@@ -83,8 +83,10 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._enter_room("M1_GREENHOUSE_VESTIBULE")
 	prologue._dismiss_dialogue_for_test()
 	for index in range(9):
-		var observation_id: String = ["corridor", "glass", "threshold"][index % 3]
-		prologue._observe_weather(observation_id, "Weather test")
+		var hotspot_id: String = ["CORRIDOR_WINDOW", "GREENHOUSE_GLASS", "THRESHOLD"][index % 3]
+		prologue._hotspot_layer.get_node(hotspot_id).pressed.emit()
+		var clue: String = ["railing is completely dry", "ceiling pipes", "Spring · clear"][index % 3]
+		_expect(clue in prologue._dialogue_label.text, "English weather clue from hotspot", errors)
 		prologue._dismiss_dialogue_for_test()
 		var observations: Array = prologue._progress["p5_observations"]
 		_expect(prologue._hotspot_layer.get_child_count() == (5 if observations.size() == 3 else 4), "Repeated weather observations do not stack hotspots", errors)

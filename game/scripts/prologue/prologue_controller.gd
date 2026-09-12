@@ -1479,17 +1479,17 @@ func _complete_p4_iris_greeting() -> void:
 func _build_greenhouse() -> void:
 	_clear_hotspots()
 	var observations: Array = _progress.get("p5_observations", [])
-	_add_hotspot("CORRIDOR_WINDOW", _observed_label("복도 창\n맑은 하늘", "corridor", observations), Rect2(230, 245, 300, 350), _observe_weather.bind("corridor", "복도 밖은 맑고 난간은 완전히 말라 있다."))
-	_add_hotspot("GREENHOUSE_GLASS", _observed_label("온실 유리\n안쪽의 비", "glass", observations), Rect2(670, 205, 420, 430), _observe_weather.bind("glass", "유리 안쪽에는 빗줄기와 젖은 잎이 보인다. 빗소리는 천장 배관 쪽에서 난다."))
-	_add_hotspot("THRESHOLD", _observed_label("문턱·계절판\n봄·맑음", "threshold", observations), Rect2(1140, 570, 350, 150), _observe_weather.bind("threshold", "문턱의 흙은 마르고 계절판은 '봄·맑음'에 고정되어 있다."))
+	_add_hotspot("CORRIDOR_WINDOW", _observed_label(_dialogue_ui_text("P5_CORRIDOR_LABEL"), "corridor", observations), Rect2(230, 245, 300, 350), _observe_weather.bind("corridor", _dialogue_ui_text("P5_CORRIDOR")))
+	_add_hotspot("GREENHOUSE_GLASS", _observed_label(_dialogue_ui_text("P5_GLASS_LABEL"), "glass", observations), Rect2(670, 205, 420, 430), _observe_weather.bind("glass", _dialogue_ui_text("P5_GLASS")))
+	_add_hotspot("THRESHOLD", _observed_label(_dialogue_ui_text("P5_THRESHOLD_LABEL"), "threshold", observations), Rect2(1140, 570, 350, 150), _observe_weather.bind("threshold", _dialogue_ui_text("P5_THRESHOLD")))
 	if observations.size() >= 3 and not bool(_progress.get("P5_complete", false)):
-		_add_hotspot("RECORD", "수첩에 모순을 기록한다", Rect2(700, 760, 500, 100), _complete_p5)
+		_add_hotspot("RECORD", _dialogue_ui_text("P5_RECORD"), Rect2(700, 760, 500, 100), _complete_p5)
 	_add_back_to_hall()
 	if not _intro_seen("P5"):
 		_mark_intro("P5")
 		_show_dialogue([
-			{"speaker": "이리스", "portrait": "IRIS", "text": "우후후, 정말 오셨네요. 비는 안쪽에서만 오는 날도 있어요."},
-			{"speaker": "이리스", "portrait": "IRIS", "text": "밖이 언제나 바깥인 건 아니니까요."},
+			{"speaker": "이리스", "portrait": "IRIS", "text": _dialogue_ui_text("P5_HELLO")},
+			{"speaker": "이리스", "portrait": "IRIS", "text": _dialogue_ui_text("P5_OUTSIDE")},
 		])
 
 
@@ -1508,8 +1508,8 @@ func _complete_p5() -> void:
 	_save_progress()
 	_build_greenhouse()
 	_show_dialogue([
-		{"speaker": "주인공", "text": "이 비는 진짜인가요?"},
-		{"speaker": "이리스", "portrait": "IRIS", "text": "아가씨가 차갑다고 느끼면 진짜고, 아무것도 느끼지 못하면... 다른 이름이 필요하겠죠."},
+		{"speaker": "주인공", "text": _dialogue_ui_text("P5_QUESTION")},
+		{"speaker": "이리스", "portrait": "IRIS", "text": _dialogue_ui_text("P5_ANSWER")},
 	], func() -> void: _enter_room("M1_CENTRAL_HALL"))
 
 

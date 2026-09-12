@@ -4,6 +4,17 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"P5_CORRIDOR_LABEL": "복도 창\n맑은 하늘",
+"P5_GLASS_LABEL": "온실 유리\n안쪽의 비",
+"P5_THRESHOLD_LABEL": "문턱·계절판\n봄·맑음",
+"P5_CORRIDOR": "복도 밖은 맑고 난간은 완전히 말라 있다.",
+"P5_GLASS": "유리 안쪽에는 빗줄기와 젖은 잎이 보인다. 빗소리는 천장 배관 쪽에서 난다.",
+"P5_THRESHOLD": "문턱의 흙은 마르고 계절판은 '봄·맑음'에 고정되어 있다.",
+"P5_RECORD": "수첩에 모순을 기록한다",
+"P5_HELLO": "우후후, 정말 오셨네요. 비는 안쪽에서만 오는 날도 있어요.",
+"P5_OUTSIDE": "밖이 언제나 바깥인 건 아니니까요.",
+"P5_QUESTION": "이 비는 진짜인가요?",
+"P5_ANSWER": "아가씨가 차갑다고 느끼면 진짜고, 아무것도 느끼지 못하면... 다른 이름이 필요하겠죠.",
 "P4_LINK_HANDLE": "찻잔 손잡이\n왼쪽 자리 방향",
 "P4_LINK_RETURNED": " · 되돌아옴",
 "P4_LINK_ASK": "루카에게 한 가지 묻는다",
@@ -205,6 +216,17 @@ localized_text = {
 "P1_WAKE_OBJECTIVE": "빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."
 },
 "en-US": {
+"P5_CORRIDOR_LABEL": "Corridor window\nClear sky",
+"P5_GLASS_LABEL": "Greenhouse glass\nRain inside",
+"P5_THRESHOLD_LABEL": "Threshold · season plate\nSpring · clear",
+"P5_CORRIDOR": "It is clear outside the corridor, and the railing is completely dry.",
+"P5_GLASS": "Rain and wet leaves are visible behind the glass. The sound of rain comes from the ceiling pipes.",
+"P5_THRESHOLD": "The soil at the threshold is dry, and the season plate is fixed on 'Spring · clear'.",
+"P5_RECORD": "Record the contradiction in the notebook",
+"P5_HELLO": "Heehee, you really came. Some days it rains only on the inside.",
+"P5_OUTSIDE": "Outside isn't always the outdoors, after all.",
+"P5_QUESTION": "Is this rain real?",
+"P5_ANSWER": "If it feels cold to you, my lady, it is real. If you feel nothing... perhaps it needs another name.",
 "P4_LINK_HANDLE": "Cup handle\nToward the left seat",
 "P4_LINK_RETURNED": " · returned",
 "P4_LINK_ASK": "Ask Luka one question",
