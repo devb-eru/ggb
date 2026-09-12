@@ -110,10 +110,12 @@ func _open_menu() -> void:
 		return
 	if _dialogue_active or _dialogue_choice_active:
 		return
+	menu_audio_pause_requested.emit(true)
 	_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
 		{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
 		{"label": _dialogue_ui_text("CH1_HISTORY_TITLE"), "action": _open_dialogue_history},
 		{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
+		{"label": _audio_settings_label(), "action": _open_audio_settings},
 	])
 
 

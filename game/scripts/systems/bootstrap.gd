@@ -65,6 +65,10 @@ func _apply_audio_settings(settings: Dictionary) -> void:
 	_audio.set_levels(settings.master, settings.bgm, settings.ambience, settings.effects, settings.muted)
 
 
+func _set_menu_audio_pause(paused: bool) -> void:
+	_audio.set_pause_reason(&"menu", paused)
+
+
 func _notification(what: int) -> void:
 	if not is_node_ready():
 		return
@@ -143,6 +147,7 @@ func _on_quit_requested() -> void:
 
 func _launch_prologue(slot_id: String, resume_id: String) -> void:
 	_audio.stop_all()
+	_set_menu_audio_pause(false)
 	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {})
 	if bool(knowledge.get("PROLOGUE_COMPLETE", false)):
 		if String(GameState.get_value(&"reset_state.phase", "idle")) != "idle" or int(GameState.get_value(&"loop_state.day_index", 0)) == 0:
@@ -156,6 +161,8 @@ func _launch_prologue(slot_id: String, resume_id: String) -> void:
 		_prologue.queue_free()
 	_prologue = PROLOGUE_SCENE.instantiate()
 	_prologue.configure_session(slot_id, resume_id)
+	_prologue.audio_settings_changed.connect(_apply_audio_settings)
+	_prologue.menu_audio_pause_requested.connect(_set_menu_audio_pause)
 	_prologue.return_to_title_requested.connect(_on_prologue_return_to_title)
 	_prologue.campaign_requested.connect(_launch_campaign, CONNECT_DEFERRED)
 	_start_screen.visible = false
@@ -164,6 +171,7 @@ func _launch_prologue(slot_id: String, resume_id: String) -> void:
 
 func _launch_campaign(slot_id: String) -> void:
 	_audio.stop_all()
+	_set_menu_audio_pause(false)
 	if is_instance_valid(_prologue):
 		remove_child(_prologue)
 		_prologue.queue_free()
@@ -172,6 +180,8 @@ func _launch_campaign(slot_id: String) -> void:
 	_prologue = BASEMENT_SCRIPT.new() if basement_chapter else (BLACK_MIRROR_SCRIPT.new() if mirror_chapter else CHAPTER_ONE_SCRIPT.new())
 	_prologue.name = "Basement" if basement_chapter else ("BlackMirror" if mirror_chapter else "ChapterOne")
 	_prologue.configure_session(slot_id, "MORNING_ROUTE")
+	_prologue.audio_settings_changed.connect(_apply_audio_settings)
+	_prologue.menu_audio_pause_requested.connect(_set_menu_audio_pause)
 	_prologue.return_to_title_requested.connect(_on_prologue_return_to_title)
 	_prologue.campaign_requested.connect(_launch_campaign, CONNECT_DEFERRED)
 	_start_screen.visible = false
@@ -180,9 +190,11 @@ func _launch_campaign(slot_id: String) -> void:
 
 func _on_prologue_return_to_title() -> void:
 	_audio.stop_all()
+	_set_menu_audio_pause(false)
 	if is_instance_valid(_prologue):
 		_prologue.queue_free()
 	_prologue = null
+	_start_screen.refresh_profile()
 	_start_screen.visible = true
 	_start_screen.refresh_slots()
 

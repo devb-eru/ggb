@@ -416,6 +416,11 @@ func get_audio_settings() -> Dictionary:
 	return _profile.get("audio", AccessibilityProfileStore.DEFAULT_AUDIO).duplicate()
 
 
+func refresh_profile() -> void:
+	_profile = _profile_store.load_profile().get("profile", _profile_store.default_profile()).duplicate(true)
+	_apply_profile()
+
+
 func _setup_audio_settings() -> void:
 	_settings_panel.get_parent().add_child(_audio_panel)
 	_settings_back_button.get_parent().add_child(_audio_button)

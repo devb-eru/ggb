@@ -262,6 +262,28 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._dialogue_next.pressed.emit()
 	_expect(not view._dialogue_active, "last sentence finish closes dialogue after successful recording")
 	var before_menu := GameState.get_snapshot()
+	var audio_store := AccessibilityProfileStore.new("user://__test_campaign_audio")
+	audio_store.delete_test_profile()
+	view._audio_profile_store = audio_store
+	var pauses: Array[bool] = []
+	var settings_updates: Array[Dictionary] = []
+	view.menu_audio_pause_requested.connect(func(paused: bool): pauses.append(paused))
+	view.audio_settings_changed.connect(func(settings: Dictionary): settings_updates.append(settings))
+	view._open_menu()
+	(view._modal_body.get_child(6) as Button).pressed.emit()
+	_expect(view._audio_settings_panel.visible and view._modal_active and not view._modal_panel.visible, "campaign menu opens audio settings")
+	view._audio_settings_panel.sliders.master.value = 23
+	view._audio_settings_panel.apply.pressed.emit()
+	_expect(is_equal_approx(audio_store.load_profile().profile.audio.master, 0.23), "campaign audio persists independently")
+	_expect(settings_updates.size() == 1 and is_equal_approx(settings_updates[0].master, 0.23), "campaign audio signals runtime only after save")
+	_expect(not view._audio_settings_panel.visible and view._modal_panel.visible and view._modal_active, "audio apply returns to pause menu")
+	view._open_audio_settings()
+	view._audio_settings_panel.sliders.master.value = 99
+	view._audio_settings_panel.back.pressed.emit()
+	view._close_modal()
+	_expect(settings_updates.size() == 1 and not pauses.back(), "audio cancel does not apply and menu close resumes")
+	_expect(GameState.get_snapshot() == before_menu, "campaign audio leaves progress and dialogue history unchanged")
+	audio_store.delete_test_profile()
 	view._open_menu()
 	var history_button := view._modal_body.get_child(4) as Button
 	_expect(history_button.text == view._dialogue_ui_text("CH1_HISTORY_TITLE"), "pause menu exposes history action")

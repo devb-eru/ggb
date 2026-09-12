@@ -3,6 +3,11 @@ extends Control
 
 signal return_to_title_requested
 signal campaign_requested(slot_id: String)
+signal audio_settings_changed(settings: Dictionary)
+signal menu_audio_pause_requested(paused: bool)
+
+var _audio_settings_panel: PanelContainer
+var _audio_profile_store := AccessibilityProfileStore.new()
 
 const MANSION_BACKGROUND := preload("res://assets/prologue/prologue_mansion_hall_v01.png")
 const ROOMS_PRIMARY_ATLAS := preload("res://assets/prologue/prologue_rooms_primary_atlas_v01.png")
@@ -168,6 +173,11 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_instance_valid(_audio_settings_panel) and _audio_settings_panel.visible:
+		if event.is_action_pressed("ui_cancel") or event.is_action_pressed("notebook_toggle"):
+			_open_menu()
+			get_viewport().set_input_as_handled()
+		return
 	if _modal_active and event is InputEventKey and event.pressed and event.keycode in [KEY_PAGEUP, KEY_PAGEDOWN]:
 		var body_scroll := _modal_body.get_child(2) as ScrollContainer
 		if body_scroll != null:
@@ -1900,17 +1910,55 @@ func _dismiss_dialogue_for_test() -> void:
 func _open_menu() -> void:
 	if _dialogue_active or _dialogue_choice_active:
 		return
+	menu_audio_pause_requested.emit(true)
 	if _uses_prologue_history():
 		_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
 			{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
 			{"label": _dialogue_ui_text("CH1_HISTORY_TITLE"), "action": _open_dialogue_history},
 			{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
+			{"label": _audio_settings_label(), "action": _open_audio_settings},
 		])
 		return
 	_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
 		{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
 		{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
+		{"label": _audio_settings_label(), "action": _open_audio_settings},
 	])
+
+
+func _audio_settings_label() -> String:
+	return "Audio settings" if TranslationServer.get_locale().begins_with("en") else "음향 설정"
+
+
+func _open_audio_settings() -> void:
+	if _dialogue_active or _dialogue_choice_active:
+		return
+	if not is_instance_valid(_audio_settings_panel):
+		_audio_settings_panel = preload("res://scripts/ui/audio_settings_panel.gd").new()
+		_modal_layer.add_child(_audio_settings_panel)
+		_audio_settings_panel.back_requested.connect(_open_menu)
+		_audio_settings_panel.apply_requested.connect(_apply_game_audio_settings)
+	var profile: Dictionary = _audio_profile_store.load_profile().profile
+	_audio_settings_panel.load_values(profile.get("audio", AccessibilityProfileStore.DEFAULT_AUDIO), TranslationServer.get_locale())
+	var panel_theme := Theme.new()
+	panel_theme.default_font_size = int(round(18 * _reading_text_scale))
+	_audio_settings_panel.theme = panel_theme
+	_modal_panel.hide()
+	_modal_layer.show()
+	_modal_active = true
+	menu_audio_pause_requested.emit(true)
+	_audio_settings_panel.show()
+	_audio_settings_panel.back.call_deferred("grab_focus")
+
+
+func _apply_game_audio_settings(settings: Dictionary) -> void:
+	var profile: Dictionary = _audio_profile_store.load_profile().profile.duplicate(true)
+	profile["audio"] = settings.duplicate()
+	if not bool(_audio_profile_store.save_profile(profile).get("ok", false)):
+		_audio_settings_panel.show_save_error()
+		return
+	audio_settings_changed.emit(settings.duplicate())
+	_open_menu()
 
 
 func _open_dialogue_history() -> void:
@@ -1946,6 +1994,9 @@ func _open_notebook() -> void:
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
+	if is_instance_valid(_audio_settings_panel):
+		_audio_settings_panel.hide()
+	_modal_panel.show()
 	for child in _modal_body.get_children():
 		_modal_body.remove_child(child)
 		child.queue_free()
@@ -1992,6 +2043,10 @@ func _focus_visible_control(reference: WeakRef) -> void:
 
 
 func _close_modal() -> void:
+	if is_instance_valid(_audio_settings_panel):
+		_audio_settings_panel.hide()
+	_modal_panel.show()
+	menu_audio_pause_requested.emit(false)
 	_modal_active = false
 	_modal_layer.visible = false
 
