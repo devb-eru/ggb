@@ -4,6 +4,10 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"CH1_HISTORY_TRANSCRIPT": "{speaker}: {text}",
+"CH1_HISTORY_TITLE": "대화 기록",
+"CH1_HISTORY_EMPTY": "아직 기록된 대사가 없다.",
+"CH1_HISTORY_SAVE_ERROR": "대화 기록 저장에 실패했습니다. 계속 버튼으로 재시도합니다.",
 "CH1_B2_HIDDEN_BOARD": "점검 벽감 안\n에드가가 책상을 확인하고 있다. 잠시 뒤 발소리가 멀어진다.",
 "CH1_B2_ENTRY": "문밖의 발소리가 멎는다. 잠금쇠가 돌아간다.",
 "CH1_B2_HIDE": "점검 벽감에 숨는다",
@@ -64,6 +68,10 @@ localized_text = {
 "CH1_SLEEP_RULE": "물건과 장치의 상태는 같은 아침으로 돌아온다. 수첩과 확인한 정보, 사용인의 기억은 남는다."
 },
 "en-US": {
+"CH1_HISTORY_TRANSCRIPT": "{speaker}: {text}",
+"CH1_HISTORY_TITLE": "Dialogue history",
+"CH1_HISTORY_EMPTY": "No dialogue has been recorded yet.",
+"CH1_HISTORY_SAVE_ERROR": "Could not save dialogue history. Select Continue to retry.",
 "CH1_B2_HIDDEN_BOARD": "Inside the maintenance alcove\nEdgar is checking the desk. Before long, his footsteps recede.",
 "CH1_B2_ENTRY": "The footsteps outside the door stop. The latch turns.",
 "CH1_B2_HIDE": "Hide in the maintenance alcove",

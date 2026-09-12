@@ -11,6 +11,7 @@ var _swap_from := -1
 var _edgar_timer: Timer
 var _rendering := false
 var _world_focus := ""
+var _history_recorded_index := -1
 
 
 func _ready() -> void:
@@ -73,10 +74,55 @@ func _restore_world_focus() -> void:
 
 func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 	_remember_world_focus()
+	_history_recorded_index = -1
 	super._show_dialogue(lines, after)
 
 
+func _history_enabled() -> bool:
+	return session != null and session.get_script() == SESSION_SCRIPT
+
+
+func _present_dialogue_line() -> void:
+	super._present_dialogue_line()
+	_record_current_history_line()
+
+
+func _record_current_history_line() -> bool:
+	if not _history_enabled() or not _dialogue_active or _history_recorded_index == _dialogue_index:
+		return true
+	var result := session.record_viewed_line(_speaker_label.text, _dialogue_label.text, TranslationServer.get_locale())
+	if not result.get("ok", false):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return false
+	_history_recorded_index = _dialogue_index
+	return true
+
+
+func _open_menu() -> void:
+	if not _history_enabled():
+		super._open_menu()
+		return
+	if _dialogue_active or _dialogue_choice_active:
+		return
+	_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
+		{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
+		{"label": _dialogue_ui_text("CH1_HISTORY_TITLE"), "action": _open_dialogue_history},
+		{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
+	])
+
+
+func _open_dialogue_history() -> void:
+	var result := _dialogue_texts.render_history(session.snapshot()["meta_progress"]["dialogue_history"], TranslationServer.get_locale())
+	var paragraphs: Array[String] = []
+	for entry in result.get("entries", []):
+		paragraphs.append(String(entry["text"]))
+	var body := "\n\n".join(paragraphs) if not paragraphs.is_empty() else _dialogue_ui_text("CH1_HISTORY_EMPTY")
+	_show_modal(_dialogue_ui_text("CH1_HISTORY_TITLE"), body, [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
+
+
 func _advance_dialogue() -> void:
+	if not _record_current_history_line():
+		return
 	super._advance_dialogue()
 	if not _dialogue_active:
 		call_deferred("_restore_world_focus")
