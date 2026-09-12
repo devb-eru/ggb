@@ -1019,7 +1019,8 @@ func _edc_summary() -> void:
 
 func _confirm_ending(decision: String) -> void:
 	if _interaction_blocked() or session.stage() != "EDC": return
-	_show_modal("내 선택 확인", BasementSession.ENDING_DECISION.CONFIRMATIONS[decision] + "\n\n현재 연구원들의 새 신체 이전은 실행할 수 없다.\n이 절차를 지금 확정할까요?", [
+	if not BasementSession.ENDING_DECISION.CONFIRMATIONS.has(decision): return
+	_show_recorded_choice("내 선택 확인", BasementSession.ENDING_DECISION.CONFIRMATIONS[decision] + "\n\n현재 연구원들의 새 신체 이전은 실행할 수 없다.\n이 절차를 지금 확정할까요?", [
 		{"label": "취소하고 장치를 다시 조사한다", "action": _modal_act.bind("f3_cancel")},
 		{"label": "내 선택으로 확정한다", "action": _modal_act.bind("edc_commit", decision)},
 	])

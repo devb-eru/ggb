@@ -1026,9 +1026,15 @@ func _validate_edc(session: BasementSession) -> void:
 		root.add_child(confirm_view)
 		await tree.process_frame
 		confirm_view._dismiss_dialogue_for_test()
+		var history_before_confirmation: int = game.get_value("meta_progress.dialogue_history.entries", []).size()
 		confirm_view._confirm_ending(decision)
 		await tree.process_frame
+		var preview_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(preview_history.size() == history_before_confirmation + 1 and preview_history.back()["variables"]["text"].contains(rules.CONFIRMATIONS[decision]), "EDC records displayed confirmation for " + decision)
+		_expect(session.snapshot()["ending_run"]["final_decision"] == "unset", "Recording EDC preview does not commit branch")
 		confirm_view._modal_body.get_child(4).pressed.emit()
+		var committed_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(committed_history[history_before_confirmation + 1]["variables"]["text"] == "내 선택으로 확정한다", "EDC records confirmation click separately")
 		confirm_view._dismiss_dialogue_for_test()
 		confirm_view.queue_free()
 		await tree.process_frame
