@@ -104,6 +104,11 @@ var _gallery_entries: Array[Dictionary] = []
 var _gallery_pages: Array[Dictionary] = []
 var _gallery_page_index := 0
 var _gallery_scroll: ScrollContainer
+var _import_button: Button
+var _import_controls: HBoxContainer
+var _import_choices: OptionButton
+var _import_confirm: Button
+var _import_sources: Array[String] = []
 
 
 func configure_profile_store(profile_store: AccessibilityProfileStore) -> void:
@@ -118,6 +123,7 @@ func _ready() -> void:
 	_bind_asset_ids()
 	_connect_controls()
 	_setup_gallery()
+	_setup_import()
 	_populate_options()
 	var profile_result := _profile_store.load_profile()
 	_profile = profile_result.get("profile", _profile_store.default_profile()).duplicate(true)
@@ -268,6 +274,53 @@ func _apply_localized_text() -> void:
 	_launch_title.text = _text(&"UI_LAUNCH_TITLE")
 	_launch_return_button.text = _text(&"UI_LAUNCH_RETURN")
 
+
+func _setup_import() -> void:
+	_import_button = Button.new()
+	_import_button.text = "데모 저장 가져오기"
+	_import_button.custom_minimum_size.y = 46
+	_content_button.get_parent().add_child(_import_button)
+	_import_button.visible = SaveManager.get_build_flavor() == "full"
+	_import_button.pressed.connect(_open_demo_import)
+	_import_controls = HBoxContainer.new()
+	_launch_return_button.get_parent().add_child(_import_controls)
+	_import_choices = OptionButton.new()
+	_import_choices.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_import_controls.add_child(_import_choices)
+	_import_confirm = Button.new()
+	_import_confirm.text = "새 본편 슬롯으로 가져오기"
+	_import_controls.add_child(_import_confirm)
+	_import_confirm.pressed.connect(_confirm_demo_import)
+	_import_controls.hide()
+
+func _open_demo_import() -> void:
+	if SaveManager.get_build_flavor() != "full": return
+	_import_sources.clear()
+	_import_choices.clear()
+	for id in SLOT_IDS:
+		if SaveManager.inspect_demo_import(id).get("ok", false):
+			_import_sources.append(id)
+			_import_choices.add_item("데모 " + id)
+	_open_modal(_launch_panel, _launch_return_button)
+	_import_controls.show()
+	_import_confirm.disabled = _import_sources.is_empty()
+	_launch_title.text = "데모 저장 가져오기 확인"
+	_launch_body.text = "데모 원본은 유지하고 빈 본편 슬롯에 복제합니다. 기존 본편 슬롯은 덮어쓰지 않습니다. 복제본은 D6에서 이어집니다. 취소하면 아무 파일도 바뀌지 않습니다." if not _import_sources.is_empty() else "가져올 수 있는 D5 완료 데모 저장이 없습니다. 진행 경계·버전·출처·체크섬이 맞지 않는 파일은 표시하지 않습니다."
+	_gallery_scroll.scroll_vertical = 0
+
+func _confirm_demo_import() -> void:
+	if SaveManager.get_build_flavor() != "full" or not _import_controls.visible: return
+	var index := _import_choices.selected
+	if index < 0 or index >= _import_sources.size(): return
+	_import_confirm.disabled = true
+	var result: Dictionary = SaveManager.import_demo_to_new_slot(_import_sources[index])
+	if not result.get("ok", false):
+		_launch_body.text = "가져오지 못했습니다. 데모 원본과 기존 본편 저장은 유지됩니다. 빈 슬롯과 저장 파일 상태를 확인한 후 다시 시도해 주세요.\n" + str(result.get("error_id", "ERR_IMPORT"))
+		_import_confirm.disabled = false
+		return
+	_close_modal()
+	refresh_slots()
+	load_game_requested.emit(result["slot_id"])
 
 func _setup_gallery() -> void:
 	_gallery_button = Button.new()
@@ -514,6 +567,7 @@ func _apply_profile() -> void:
 
 
 func _open_modal(panel: Control, focus_target: Control, remember_focus: bool = true) -> void:
+	if is_instance_valid(_import_controls): _import_controls.hide()
 	if is_instance_valid(_gallery_controls): _gallery_controls.hide()
 	if remember_focus:
 		var current_focus := get_viewport().gui_get_focus_owner()
@@ -526,6 +580,7 @@ func _open_modal(panel: Control, focus_target: Control, remember_focus: bool = t
 
 
 func _close_modal() -> void:
+	if is_instance_valid(_import_controls): _import_controls.hide()
 	if is_instance_valid(_gallery_controls): _gallery_controls.hide()
 	for modal in _modal_panels():
 		modal.visible = false
@@ -571,6 +626,7 @@ func _all_interactive_controls() -> Array[Control]:
 		controls.append(button)
 	if is_instance_valid(_gallery_button):
 		controls.append_array([_gallery_button,_gallery_choices,_gallery_previous,_gallery_next])
+	if is_instance_valid(_import_button): controls.append_array([_import_button,_import_choices,_import_confirm])
 	return controls
 
 

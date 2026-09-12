@@ -62,6 +62,19 @@ func run(tree: SceneTree) -> Dictionary:
 	screen._close_modal()
 	_expect(not screen._gallery_controls.visible and GameState.get_snapshot() == gallery_before, "title gallery leaves gameplay untouched", _errors)
 	await _validate_bootstrap_handoff()
+	var old_flavor: Variant = ProjectSettings.get_setting("ggb/build_flavor",null)
+	ProjectSettings.set_setting("ggb/build_flavor","demo")
+	screen._open_demo_import()
+	_expect(not screen._import_controls.visible, "demo cannot open full import", _errors)
+	ProjectSettings.set_setting("ggb/build_flavor","full")
+	var import_state := GameState.get_snapshot()
+	screen._open_demo_import()
+	_expect(screen._import_controls.visible, "full title opens import confirmation", _errors)
+	await _tree.process_frame
+	_expect(_tree.root.gui_get_focus_owner() == screen._launch_return_button, "import defaults to cancel focus", _errors)
+	screen._close_modal()
+	_expect(GameState.get_snapshot() == import_state and not screen._import_controls.visible, "import cancellation preserves gameplay", _errors)
+	ProjectSettings.set_setting("ggb/build_flavor",old_flavor)
 
 	screen.queue_free()
 	await _tree.process_frame
