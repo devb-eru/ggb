@@ -496,6 +496,13 @@ func _open_notebook() -> void:
 	var knowledge: Dictionary = session.snapshot()["meta_progress"]["knowledge_entries"]
 	var notes: Dictionary = knowledge.get("chapter_notebook", {})
 	_show_modal(_dialogue_ui_text("UI_NOTE_PERMANENT"), _dialogue_ui_text("UI_NOTE_PERSIST"), [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
+	if session.stage() in ["B3_A", "B3_B", "BF"]:
+		var hint_button := Button.new()
+		hint_button.name = "ClockHintsButton"
+		hint_button.text = "Organize my thoughts" if TranslationServer.get_locale().begins_with("en") else "생각을 정리한다"
+		hint_button.custom_minimum_size.y = 58
+		hint_button.pressed.connect(_show_clock_hint_menu.bind(0))
+		_modal_body.add_child(hint_button)
 	var scroll := _modal_body.get_child(2) as ScrollContainer
 	scroll.custom_minimum_size = Vector2(0, 430)
 	var label := scroll.get_child(0) as Label
@@ -516,3 +523,26 @@ func _open_notebook() -> void:
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.add_theme_font_size_override("font_size", int(round(22 * _reading_text_scale)))
+
+
+func _show_clock_hint_menu(level: int) -> void:
+	if session == null or session.stage() not in ["B3_A", "B3_B", "BF"] or level < 0 or level > 5:
+		return
+	var english := TranslationServer.get_locale().begins_with("en")
+	var actions: Array = [{"label": "Close" if english else "닫기", "action": _close_modal}]
+	var body := "Hints do not change your puzzle inputs or relationships. Later hints reveal more of the solution." if english else "힌트를 읽어도 퍼즐 입력이나 관계는 바뀌지 않는다. 뒤 단계일수록 해답을 더 구체적으로 알려 준다."
+	if level < 5:
+		actions.append({"label": ("Read hint H%d" if english else "H%d 힌트를 읽는다") % (level + 1), "action": _read_clock_hint.bind(level)})
+	else:
+		body = "You have read all five hints. Test your arrangement before activating the network." if english else "다섯 단계의 힌트를 모두 읽었다. 실제 작동 전에 배치와 약한 시험 결과를 확인하자."
+	_show_modal("Clock network hints" if english else "시계망 생각 정리", body, actions)
+
+
+func _read_clock_hint(level: int) -> void:
+	if session == null:
+		return
+	var text: String = preload("res://scripts/ui/clock_hint_texts.gd").text(session.stage(), level, TranslationServer.get_locale())
+	if text.is_empty():
+		return
+	_close_modal()
+	_show_dialogue([{"speaker": "주인공", "text": text}], _show_clock_hint_menu.bind(level + 1))

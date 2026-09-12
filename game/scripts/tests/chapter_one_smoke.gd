@@ -343,6 +343,30 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	board_local["roles"] = {}
 	StateWriter.new(GameState).install_snapshot(board_state, GameState.revision, &"CH1_UI_FIXTURE")
 	view._render_room()
+	var hint_before := GameState.get_snapshot()
+	view._open_notebook()
+	var hint_button := view._modal_body.get_node_or_null("ClockHintsButton") as Button
+	_expect(hint_button != null, "B3 notebook offers requested hints")
+	if hint_button != null:
+		hint_button.pressed.emit()
+		for level in range(5):
+			var read_hint := view._modal_body.get_child(4) as Button
+			_expect(read_hint.text.contains("H%d" % (level + 1)), "hint progression requires explicit request")
+			read_hint.pressed.emit()
+			var expected_hint: String = preload("res://scripts/ui/clock_hint_texts.gd").text("B3_B", level, TranslationServer.get_locale())
+			_expect(view._dialogue_label.text == expected_hint, "requested hint is shown in dialogue")
+			view._dialogue_next.pressed.emit()
+			_expect(view._modal_active and not view._dialogue_active, "hint returns to support menu without solving")
+		_expect(view._modal_body.get_child_count() == 4, "final hint does not offer an out-of-range tier")
+	view._close_modal()
+	var hint_after := GameState.get_snapshot()
+	_expect(hint_after.meta_progress.dialogue_history.entries.size() == hint_before.meta_progress.dialogue_history.entries.size() + 5, "only five requested hints enter durable history")
+	hint_after.meta_progress.dialogue_history = hint_before.meta_progress.dialogue_history.duplicate(true)
+	_expect(hint_after == hint_before, "hints do not change puzzle roles phase failure or relationships")
+	var hint_texts := preload("res://scripts/ui/clock_hint_texts.gd")
+	_expect(hint_texts.text("B3_A", 2, "en-US").contains("flipping"), "English transform hint")
+	_expect(hint_texts.text("BF", 4, "en-US").contains("+1"), "failed loop retains direct support")
+	_expect(hint_texts.text("F0", 0, "ko-KR").is_empty(), "clock hints do not leak into other puzzles")
 	await tree.process_frame
 	var role_button := view._hotspot_layer.get_node("ROLE_reference") as OptionButton
 	role_button.grab_focus()
