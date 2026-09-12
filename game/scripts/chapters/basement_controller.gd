@@ -21,6 +21,19 @@ const OBJECTIVE_TEXT := {"D_SLEEP": "J3를 기억한 채 잠들어 다음 아침
 func _make_session() -> ChapterOneSession:
 	return BASEMENT_SESSION.new(GameState, SaveManager, _slot_id)
 
+func _supported_hint_stages() -> Array:
+	return ["D0_A", "D1", "DF", "D4"]
+
+func _puzzle_hint_text(level: int) -> String:
+	return preload("res://scripts/ui/basement_hint_texts.gd").text(session.stage(), level, TranslationServer.get_locale())
+
+func _puzzle_hint_title() -> String:
+	var english := TranslationServer.get_locale().begins_with("en")
+	match session.stage():
+		"D0_A": return "Floorplan overlay hints" if english else "저택 도면 생각 정리"
+		"D1", "DF": return "Pressure axis hints" if english else "압력축 생각 정리"
+		_: return "Clockwork heart hints" if english else "태엽 심장 생각 정리"
+
 func _basement() -> BasementSession:
 	return session as BasementSession
 

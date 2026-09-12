@@ -17,6 +17,33 @@ class PendingEndingSession extends BasementSession:
 	func stage() -> String:
 		return "ENDING_BODY_PENDING"
 
+func _validate_basement_hints(expected_stage: String) -> void:
+	var view := VIEW.new()
+	view.configure_session(SLOT, expected_stage)
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view.session.stage() == expected_stage, "basement hint stage: " + expected_stage)
+	var before: Dictionary = game.get_snapshot()
+	view._open_notebook()
+	var button := view._modal_body.get_node_or_null("ClockHintsButton") as Button
+	_expect(button != null, "basement thought action: " + expected_stage)
+	if button != null:
+		button.pressed.emit()
+		for level in range(5):
+			(view._modal_body.get_child(4) as Button).pressed.emit()
+			var expected: String = preload("res://scripts/ui/basement_hint_texts.gd").text(expected_stage, level, TranslationServer.get_locale())
+			_expect(view._dialogue_label.text == expected, "basement requested hint: " + expected_stage)
+			view._dialogue_next.pressed.emit()
+		view._close_modal()
+	var after: Dictionary = game.get_snapshot()
+	_expect(after.meta_progress.dialogue_history.entries.size() == before.meta_progress.dialogue_history.entries.size() + 5, "basement hints persist only shown lines")
+	after.meta_progress.dialogue_history = before.meta_progress.dialogue_history.duplicate(true)
+	_expect(after == before, "basement hints preserve axes rings locks and relationships")
+	view.queue_free()
+	await tree.process_frame
+
+
 func run(scene_tree: SceneTree) -> Dictionary:
 	tree = scene_tree
 	root = tree.root
@@ -41,6 +68,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	_move(session, ["M1_CENTRAL_HALL", "M1_LIBRARY_OUTER", "M1_LIBRARY_INNER"])
 	for point in ["greenhouse", "bedroom", "great_clock"]: session.act("d_drawer_point", point)
 	_expect("MANSION_FLOORPLAN" in game.get_value("loop_state.inventory"), "physical floorplan acquired")
+	await _validate_basement_hints("D0_A")
 	session.act("d_overlay")
 	_expect(not session.known("basement_overlay_solved"), "wrong overlay stays local")
 	session.act("d_flip")
@@ -48,6 +76,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	session.act("d_anchor", "great_clock")
 	session.act("d_overlay")
 	_expect(session.stage() == "D1", "D0-A unlocks pressure puzzle")
+	await _validate_basement_hints("D1")
 	_move(session, ["M1_LIBRARY_OUTER", "M1_CENTRAL_HALL", "M1_GREAT_CLOCK", "M1_BASEMENT_ENTRY", "B1_BASEMENT_STAIR", "B1_AXIS_CHAMBER"])
 	_expect(not session.act("move", "B1_STORAGE").get("ok", false), "locked storage cannot be bypassed")
 	session.act("d_axis_depth", ["line", 2])
@@ -56,6 +85,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	session.act("d_axis_depth", ["branch", 3])
 	session.act("d_axis_push", {"value": "branch", "confirmed": true})
 	_expect(session.stage() == "DF", "wrong depth causes DF")
+	await _validate_basement_hints("DF")
 	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "load failure")
 	_expect(session.stage() == "DF", "load cannot repair pressure pins")
 	_move(session, ["B1_BASEMENT_STAIR", "M1_BASEMENT_ENTRY", "M1_GREAT_CLOCK", "M1_CENTRAL_HALL", "M2_BEDROOM"])
@@ -78,6 +108,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	session.act("d_storage", "cable")
 	session.act("d_storage", "drawing")
 	_move(session, ["B1_CLOCKWORK_HEART"])
+	await _validate_basement_hints("D4")
 	for handle in ["A", "B", "C", "C"]: session.act("d_heart", {"action": "turn", "value": handle})
 	session.act("d_heart", {"action": "fix"})
 	for index in range(12): session.act("d_heart", {"action": "wind"})
