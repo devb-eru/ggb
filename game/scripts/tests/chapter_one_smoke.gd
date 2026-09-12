@@ -175,12 +175,12 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	_expect(view._objective_label.text.contains("검은 거울"), "chapter boundary objective visible")
 	view._open_notebook()
 	_expect(view._modal_active, "chapter notebook opens")
-	_expect(view._modal_body.get_child_count() == 5, "notebook replaces body without stale modal children")
+	_expect(view._modal_body.get_child_count() == 4, "notebook reuses common scroll without stale modal children")
 	var pages := (view._modal_body.get_child(2).get_child(0) as Label).text
 	_expect(pages.contains("주방의 규칙적인 진동") and pages.contains("표식"), "chapter notebook displays both prologue and current records")
 	view._close_modal()
 	view._open_notebook()
-	_expect(view._modal_body.get_child_count() == 5, "same-frame notebook reopen has no duplicate children")
+	_expect(view._modal_body.get_child_count() == 4, "same-frame notebook reopen has no duplicate children")
 	view._close_modal()
 	view._render_room()
 	await tree.process_frame

@@ -401,16 +401,10 @@ func _open_notebook() -> void:
 		return
 	var knowledge: Dictionary = session.snapshot()["meta_progress"]["knowledge_entries"]
 	var notes: Dictionary = knowledge.get("chapter_notebook", {})
-	var scroll := ScrollContainer.new()
 	_show_modal("수첩 · 영구 기록", "잠들어도 확인한 기록은 남는다.", [{"label": "닫기", "action": _close_modal}])
-	var body_label := _modal_body.get_child(2) as Label
-	if body_label != null:
-		body_label.visible = false
+	var scroll := _modal_body.get_child(2) as ScrollContainer
 	scroll.custom_minimum_size = Vector2(0, 430)
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_modal_body.add_child(scroll)
-	_modal_body.move_child(scroll, 2)
-	var label := Label.new()
+	var label := scroll.get_child(0) as Label
 	var pages: Array[String] = []
 	for entry in knowledge.get("prologue_notebook_entries", []):
 		pages.append(String(entry))
@@ -422,4 +416,3 @@ func _open_notebook() -> void:
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.add_theme_font_size_override("font_size", 22)
-	scroll.add_child(label)

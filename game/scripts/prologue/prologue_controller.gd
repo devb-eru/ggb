@@ -1780,9 +1780,16 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 	body_label.text = body
 	body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	body_label.add_theme_font_size_override("font_size", 23)
 	body_label.add_theme_color_override("font_color", Color(0.93, 0.92, 0.90))
-	_modal_body.add_child(body_label)
+	var body_scroll := ScrollContainer.new()
+	body_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	body_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body_scroll.custom_minimum_size.y = 100
+	body_scroll.focus_mode = Control.FOCUS_ALL
+	_modal_body.add_child(body_scroll)
+	body_scroll.add_child(body_label)
 	for action_value in actions:
 		var action: Dictionary = action_value
 		var button := Button.new()
