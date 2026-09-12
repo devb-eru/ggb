@@ -28,7 +28,8 @@
 이번 변경으로 START_SCREEN, PROLOGUE_SCENE, FOUNDATION, CHAPTER_ONE, BLACK_MIRROR, BASEMENT_SESSION 회귀가 통과했다. 재시작 테스트의 기록·읽기 두 프로세스도 각각 PASS를 확인했다. 환경의 루트 인증서 저장소 읽기 경고는 출력되었으나 이 키 입력 테스트에서 스크립트 오류는 발생하지 않았다.
 
 - `start_screen_smoke.gd`: 실제 키 이벤트로 재지정, 중복 거절, Escape 및 Shift+Tab 캡처, F9/F10 GUI 포커스 이동, 미적용 취소, 저장 실패, 기존 기본 키 제거, 마우스 입력 보존, 일반 설정과의 왕복.
-- `prologue_scene_smoke.gd`: 게임 메뉴 진입·저장·새 취소 키로 복귀, 퍼즐 진행 불변. 챕터 화면은 같은 PrologueController의 설정 구현을 상속한다.
+- `prologue_scene_smoke.gd`: 게임 메뉴 진입·저장·새 취소 키로 복귀, 퍼즐 진행 불변을 검증한다. 이 테스트만으로 별도 메뉴를 사용하는 후반 챕터의 설정 진입을 증명하지는 않는다.
+- `chapter_one_smoke.gd`: 1장 메뉴의 실제 키보드·화면 버튼을 눌러 패널 열기, 뒤로 돌아오기, 진행·대화 기록 불변을 검증한다. 기존 ChapterOneController 메뉴에는 두 버튼이 누락되어 있었으며, 현재는 프롤로그와 `_settings_menu_actions()` 목록을 공유한다. 검은 거울·지하 구간은 이 챕터 메뉴를 상속한다.
 - `key_binding_restart_smoke.gd`: 첫 엔진 프로세스에서 테스트 프로필 저장 후 종료, 별도 엔진 프로세스에서 프로필을 읽어 F8/F9/F10 InputMap 적용과 이전 Escape 제거를 검증한다. `--write-key-profile`은 기록 단계이고 인수 없는 실행은 읽기 단계다.
 - 1280x720, 글자 배율 200%에서 키 목록은 스크롤하고 취소/복원/적용은 목록 밖에 남는다. 이것은 모든 해상도와 DPI에 대한 검증을 의미하지 않는다.
 

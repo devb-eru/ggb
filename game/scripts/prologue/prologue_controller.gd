@@ -1947,18 +1947,20 @@ func _open_menu() -> void:
 			{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
 			{"label": _dialogue_ui_text("CH1_HISTORY_TITLE"), "action": _open_dialogue_history},
 			{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
-			{"label": _audio_settings_label(), "action": _open_audio_settings},
-			{"label": _key_settings_label(), "action": _open_key_settings},
-			{"label": _display_settings_label(), "action": _open_display_settings},
-		])
+		] + _settings_menu_actions())
 		return
 	_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
 		{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
 		{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
+	] + _settings_menu_actions())
+
+
+func _settings_menu_actions() -> Array:
+	return [
 		{"label": _audio_settings_label(), "action": _open_audio_settings},
 		{"label": _key_settings_label(), "action": _open_key_settings},
 		{"label": _display_settings_label(), "action": _open_display_settings},
-	])
+	]
 
 
 func _audio_settings_label() -> String:

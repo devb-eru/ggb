@@ -405,6 +405,19 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._close_modal()
 	_expect(settings_updates.size() == 1 and not pauses.back(), "audio cancel does not apply and menu close resumes")
 	_expect(GameState.get_snapshot() == before_menu, "campaign audio leaves progress and dialogue history unchanged")
+	view._open_menu()
+	var keyboard_button := view._modal_body.get_child(7) as Button
+	_expect(keyboard_button.text == view._key_settings_label(), "campaign menu exposes keyboard settings")
+	keyboard_button.pressed.emit()
+	_expect(view._key_settings_panel.visible and not view._modal_panel.visible, "actual campaign menu opens keyboard panel")
+	view._key_settings_panel.back.pressed.emit()
+	var display_button := view._modal_body.get_child(8) as Button
+	_expect(display_button.text == view._display_settings_label(), "campaign menu exposes display settings")
+	display_button.pressed.emit()
+	_expect(view._display_settings_panel.visible and not view._modal_panel.visible, "actual campaign menu opens display panel")
+	view._display_settings_panel.back.pressed.emit()
+	view._close_modal()
+	_expect(GameState.get_snapshot() == before_menu, "campaign settings navigation preserves progression and history")
 	audio_store.delete_test_profile()
 	view._open_menu()
 	var history_button := view._modal_body.get_child(4) as Button

@@ -115,8 +115,7 @@ func _open_menu() -> void:
 		{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
 		{"label": _dialogue_ui_text("CH1_HISTORY_TITLE"), "action": _open_dialogue_history},
 		{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
-		{"label": _audio_settings_label(), "action": _open_audio_settings},
-	])
+	] + _settings_menu_actions())
 
 
 func _open_dialogue_history() -> void:
