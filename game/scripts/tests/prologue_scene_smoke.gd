@@ -148,7 +148,7 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue.audio_room_requested.connect(func(id: String): room_requests.append(id))
 	var errors: PackedStringArray = prologue.run_smoke_scenario()
 	await _validate_game_key_settings(tree, prologue, errors)
-	_expect(audio_requests.count(&"AUD_SIG_LUCA") == 1, "P4 pulse dispatches once during the tea sequence", errors)
+	_expect(audio_requests.count(&"AUD_SIG_LUCA") == 2, "P4 pulse dispatches on first presentation and simulated interrupted resume only", errors)
 	_expect("M1_KITCHEN" in room_requests, "kitchen entry requests ambience", errors)
 	var original_locale := TranslationServer.get_locale()
 	TranslationServer.set_locale("en_US")

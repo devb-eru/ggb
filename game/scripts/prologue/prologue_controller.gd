@@ -1373,6 +1373,8 @@ func _build_kitchen() -> void:
 			{"speaker": "루카", "portrait": "LUCA", "text": _dialogue_ui_text("P4_LINK_INTRO")},
 			{"speaker": "루카", "portrait": "LUCA", "text": _dialogue_ui_text("P4_LINK_GUIDE")},
 		])
+	elif bool(_progress.get("p4_life_support_pending", false)):
+		call_deferred("_resume_p4_life_support_foreshadow")
 	elif bool(_progress.get("P4_complete", false)) and not bool(_progress.get("iris_greeting_seen", false)):
 		call_deferred("_show_p4_iris_greeting")
 	elif String(_progress.get("p4_phase", "")) == "memory_anchor":
@@ -1423,13 +1425,27 @@ func _on_tea_item_dropped(item_id: String, target_id: String) -> void:
 
 func _show_p4_life_support_foreshadow() -> void:
 	_progress["p4_life_support_seen"] = true
+	_progress["p4_life_support_pending"] = true
 	_save_progress()
 	_rebuild_current_room_content()
+	_resume_p4_life_support_foreshadow()
+
+
+func _resume_p4_life_support_foreshadow() -> void:
+	if _interaction_blocked() or _current_room != "M1_KITCHEN" or not bool(_progress.get("p4_life_support_pending", false)):
+		return
 	_show_dialogue([
 		{"speaker": "SYSTEM", "audio_cue": "AUD_SIG_LUCA", "text": _dialogue_ui_text("P4_MEMORY_PULSE")},
 		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_EARS")},
 		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_REPLY")},
-	])
+	], _complete_p4_life_support_foreshadow)
+
+
+func _complete_p4_life_support_foreshadow() -> void:
+	_progress["p4_life_support_pending"] = false
+	if not _save_progress():
+		_progress["p4_life_support_pending"] = true
+	_rebuild_current_room_content()
 
 
 func _record_p4_life_support_pulse() -> void:
@@ -2564,6 +2580,20 @@ func run_smoke_scenario() -> PackedStringArray:
 				errors.append("P4 life-support foreshadow did not trigger while tea steeped")
 			if _dialogue_lines.size() != 3 or "두 번" not in String(_dialogue_lines[0].get("text", "")):
 				errors.append("P4 life-support sensory sequence is incomplete")
+			var interrupted := _progress.duplicate(true)
+			_advance_dialogue()
+			_dismiss_dialogue_for_test()
+			_progress = interrupted
+			_resume_p4_life_support_foreshadow()
+			if not _dialogue_active or _dialogue_index != 0 or not bool(_progress.get("p4_life_support_pending", false)):
+				errors.append("P4 interrupted sensory sequence did not resume")
+			for beat in range(3):
+				_advance_dialogue()
+			if bool(_progress.get("p4_life_support_pending", false)):
+				errors.append("P4 acknowledged sensory sequence remained pending")
+			_resume_p4_life_support_foreshadow()
+			if _dialogue_active:
+				errors.append("P4 acknowledged sensory sequence replayed")
 		_dismiss_dialogue_for_test()
 	if not bool(_progress.get("p4_memory_anchor_seen", false)) or bool(_progress.get("P4_complete", false)):
 		errors.append("P4 memory anchor did not pause completion after six tea steps")
