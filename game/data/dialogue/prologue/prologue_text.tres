@@ -4,6 +4,8 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"UI_P_AUTOSAVE": "진행은 일과를 완료할 때와 방을 이동할 때 자동 저장됩니다.",
+"UI_P_RETURN_TITLE": "타이틀로 돌아간다",
 "ROOM_M2_BEDROOM": "주인공의 침실",
 "ROOM_M1_CENTRAL_HALL": "중앙홀",
 "ROOM_M1_PARLOR": "대응접실",
@@ -245,6 +247,8 @@ localized_text = {
 "P1_WAKE_OBJECTIVE": "빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."
 },
 "en-US": {
+"UI_P_AUTOSAVE": "Progress is saved automatically when you complete duties or move between rooms.",
+"UI_P_RETURN_TITLE": "Return to title",
 "ROOM_M2_BEDROOM": "Protagonist's bedroom",
 "ROOM_M1_CENTRAL_HALL": "Central hall",
 "ROOM_M1_PARLOR": "Parlor",

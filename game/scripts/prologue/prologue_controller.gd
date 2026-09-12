@@ -1849,9 +1849,9 @@ func _dismiss_dialogue_for_test() -> void:
 func _open_menu() -> void:
 	if _dialogue_active or _dialogue_choice_active:
 		return
-	_show_modal("메뉴", "진행은 일과를 완료할 때와 방을 이동할 때 자동 저장됩니다.", [
-		{"label": "계속", "action": _close_modal},
-		{"label": "타이틀로 돌아간다", "action": _return_to_title},
+	_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
+		{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
+		{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
 	])
 
 

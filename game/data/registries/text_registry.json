@@ -3,6 +3,8 @@
   "fallback_locale": "ko-KR",
   "supported_locales": ["ko-KR", "en-US"],
   "entries": {
+    "UI_P_AUTOSAVE": {"speaker_id": "SYSTEM", "variables": {}},
+    "UI_P_RETURN_TITLE": {"speaker_id": "SYSTEM", "variables": {}},
     "ROOM_M2_BEDROOM": {"speaker_id": "SYSTEM", "variables": {}},
     "ROOM_M1_CENTRAL_HALL": {"speaker_id": "SYSTEM", "variables": {}},
     "ROOM_M1_PARLOR": {"speaker_id": "SYSTEM", "variables": {}},
