@@ -1317,9 +1317,18 @@ func _validate_credits(session: BasementSession) -> void:
 	uninspected["loop_state"]["event_local_states"]["EDR_FAREWELL"] = {"index":0}
 	uninspected["ending_run"]["required_interactions_seen"] = []
 	uninspected["loop_state"]["event_local_states"]["FIELD_NOTEBOOK"] = {"pages":[]}
+	uninspected["loop_state"]["event_local_states"]["STAY_CHARTER"] = {"principles":[],"proposed":[]}
 	uninspected["loop_state"]["event_local_states"]["REALITY_SURFACE"] = {"seen":[],"look":"center","elapsed":8}
 	uninspected["loop_state"]["event_local_states"]["STAY_STORY"] = {"hall":[],"table":[],"written":[],"elapsed":2}
 	_expect(pages.build(uninspected).size() == 1, "Gallery hides uninspected optional objects and lines")
+	if before_gallery["ending_run"]["branch_id"] == "stay":
+		var charter_state := uninspected.duplicate(true)
+		charter_state["loop_state"]["event_local_states"]["STAY_CHARTER"] = {"principles":[1.0],"proposed":["luca"]}
+		_expect(pages.build(charter_state).size() == 3, "Gallery replays only acknowledged charter principle and owner")
+		charter_state["ending_run"]["ending_appearance_mode"] = "layered"
+		_expect(pages.build(charter_state).size() == 3, "Unconfirmed appearance is not a gallery page")
+		charter_state["ending_run"]["required_interactions_seen"] = ["OBJ_STAY_APPEARANCE_CONTROL"]
+		_expect(pages.build(charter_state).size() == 4, "Confirmed appearance adds one gallery page")
 	if before_gallery["ending_run"]["branch_id"] == "reality":
 		var partial := uninspected.duplicate(true)
 		partial["loop_state"]["event_local_states"]["EDR_FAREWELL"] = {"index":1}
