@@ -89,6 +89,22 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._on_shelf_item_dropped("BOOK_MECHANICAL", "SHELF_CLOCK")
 	_expect(prologue._progress["p3_placed"]["SHELF_CLOCK"] == "BOOK_MECHANICAL", "Book ID survives localization", errors)
 	_expect(prologue._hotspot_layer.get_node("SHELF_CLOCK").text == "Mechanical drawings\n[Shelved]", "English occupied shelf", errors)
+	prologue._progress["P3B_complete"] = false
+	prologue._progress["p3b_placed"] = {}
+	prologue._enter_room("M1_NORTH_ARCHIVE_HALL")
+	prologue._dismiss_dialogue_for_test()
+	_expect(prologue._inventory_slots[0].text == "Edgar · LOCK", "English portrait nameplate", errors)
+	_expect("Dragon horns" in prologue._hotspot_layer.get_node("PORTRAIT_0").text, "Non-color portrait clue in English", errors)
+	prologue._on_portrait_item_dropped("LABEL_MARA1", "PORTRAIT_0")
+	_expect("Check the appearance and function label" in prologue._dialogue_label.text, "English portrait mismatch guidance", errors)
+	_expect(prologue._progress["p3b_placed"].is_empty(), "Wrong portrait does not assign owner", errors)
+	prologue._dismiss_dialogue_for_test()
+	for index in range(5):
+		prologue._on_portrait_item_dropped("LABEL_" + prologue.P3B_OWNERS[index], "PORTRAIT_%d" % index)
+	_expect(prologue._progress["P3B_complete"], "English five-portrait completion", errors)
+	_expect("Vertical lines" in prologue._dialogue_label.text, "English pattern confirmation", errors)
+	while prologue._dialogue_active:
+		prologue._advance_dialogue()
 	prologue._progress["p3_journal_questions_asked"] = []
 	prologue._show_p3_journal_choices()
 	_expect(prologue._dialogue_choice_buttons[0].get_meta("choice_label") == "Who wrote this ledger?", "English author choice", errors)

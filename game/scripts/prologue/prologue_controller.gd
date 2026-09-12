@@ -1186,21 +1186,21 @@ func _build_archive() -> void:
 	var placed: Dictionary = _progress.get("p3b_placed", {})
 	for owner_id in P3B_LABELS:
 		if owner_id not in placed.values():
-			inventory.append({"id": "LABEL_%s" % owner_id, "label": String(P3B_LABELS[owner_id])})
+			inventory.append({"id": "LABEL_%s" % owner_id, "label": _dialogue_ui_text("P3B_" + String(owner_id))})
 	_update_inventory(inventory)
-	var visuals := ["용의 뿔·레이피어", "여우 귀·스패너", "쥐 귀·이중 맥박", "백금발·판형 날개", "박쥐 귀·이중 액자"]
+	var visuals := [_dialogue_ui_text("P3B_V_EDGAR"), _dialogue_ui_text("P3B_V_MARA1"), _dialogue_ui_text("P3B_V_LUCA"), _dialogue_ui_text("P3B_V_IRIS"), _dialogue_ui_text("P3B_V_MARA2")]
 	for index in range(5):
 		var owner: String = String(P3B_OWNERS[index])
 		var assigned := _owner_at_portrait(index)
-		var suffix := "\n[%s]" % P3B_LABELS[assigned] if not assigned.is_empty() else ""
+		var suffix := "\n[%s]" % _dialogue_ui_text("P3B_" + assigned) if not assigned.is_empty() else ""
 		_add_inventory_drop_hotspot("PORTRAIT_%d" % index, "%s%s" % [visuals[index], suffix], Rect2(205 + index * 280, 260 + (index % 2) * 35, 235, 310), _on_portrait_pressed.bind(index, owner), _on_portrait_item_dropped)
 	_add_back_to_hall()
 	if not _intro_seen("P3B"):
 		_mark_intro("P3B")
 		_add_unique("introduced", "MARA2")
 		_show_dialogue([
-			{"speaker": "마라 2", "portrait": "MARA2", "text": "늦었어! 엄청 늦었어! 다섯 장밖에 안 되는데 설마 못 맞히는 건 아니지?!"},
-			{"speaker": "마라 2", "portrait": "MARA2", "text": "색 말고 귀, 소품, 프레임 문양, 기능 라벨을 같이 봐. 틀려도 괜찮아. 내가 아주 오래 놀릴 수 있으니까!"},
+			{"speaker": "마라 2", "portrait": "MARA2", "text": _dialogue_ui_text("P3B_INTRO")},
+			{"speaker": "마라 2", "portrait": "MARA2", "text": _dialogue_ui_text("P3B_HINT")},
 		])
 
 
@@ -1208,11 +1208,11 @@ func _on_portrait_pressed(index: int, expected_owner: String) -> void:
 	if _interaction_blocked() or bool(_progress.get("P3B_complete", false)):
 		return
 	if not _selected_item.begins_with("LABEL_"):
-		_set_status("오른쪽 인벤토리의 이름표를 초상화로 드래그하십시오.")
+		_set_status(_dialogue_ui_text("P3B_DRAG"))
 		return
 	var selected_owner := _selected_item.trim_prefix("LABEL_")
 	if selected_owner != expected_owner:
-		_show_dialogue([{"speaker": "마라 2", "portrait": "MARA2", "text": "색 하나만 믿으면 틀려! 외형과 기능 라벨을 같이 봐. 기본이잖아!"}])
+		_show_dialogue([{"speaker": "마라 2", "portrait": "MARA2", "text": _dialogue_ui_text("P3B_WRONG")}])
 		return
 	var placed: Dictionary = _progress.get("p3b_placed", {})
 	placed[str(index)] = selected_owner
@@ -1224,9 +1224,9 @@ func _on_portrait_pressed(index: int, expected_owner: String) -> void:
 		_save_progress()
 		_rebuild_current_room_content()
 		_show_dialogue([
-			{"speaker": "SYSTEM", "text": "수직선, 대각 닦임, 이중 맥박, 꽃잎 후광, 이중 액자가 차례로 반응한다."},
-			{"speaker": "마라 2", "portrait": "MARA2", "text": "정답! 이제 여기 있는 이름은 전부 알겠네. 잊어버리면 다시 물어봐. 내가 기억하고 있을 테니까!"},
-			{"speaker": "마라 2", "portrait": "MARA2", "text": "마라 2. 기록실. 보라 이중 프레임. ...맞지? 내가 쓴 이름이니까 당연히 맞지!"},
+			{"speaker": "SYSTEM", "text": _dialogue_ui_text("P3B_PATTERNS")},
+			{"speaker": "마라 2", "portrait": "MARA2", "text": _dialogue_ui_text("P3B_COMPLETE")},
+			{"speaker": "마라 2", "portrait": "MARA2", "text": _dialogue_ui_text("P3B_NAME")},
 		], func() -> void: _enter_room("M1_CENTRAL_HALL"))
 		return
 	_save_progress()
