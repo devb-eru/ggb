@@ -4,6 +4,13 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"UI_INV_EMPTY": "비어 있음",
+"UI_INV_EMPTY_DESC": "빈 인벤토리 칸",
+"UI_INV_DRAG_HINT": "대상으로 드래그하여 사용",
+"UI_INV_DESC": "{item}. 대상 위로 드래그하거나 선택 후 대상을 누르십시오.",
+"UI_INV_SELECTED": "선택: {item} · 대상 위로 드래그하거나 대상을 누르십시오.",
+"UI_INV_DRAGGING": "드래그 중: {item}",
+"UI_INV_DRY_HINT": "마른 면으로 아래 물기를 제거",
 "P2_TOOL_CLOTH": "부드러운 천",
 "P2_TOOL_BRUSH": "거친 솔",
 "P2_TOOL_WATER": "물병",
@@ -108,6 +115,13 @@ localized_text = {
 "P1_WAKE_OBJECTIVE": "빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."
 },
 "en-US": {
+"UI_INV_EMPTY": "Empty",
+"UI_INV_EMPTY_DESC": "Empty inventory slot",
+"UI_INV_DRAG_HINT": "Drag onto a target to use",
+"UI_INV_DESC": "{item}. Drag onto a target, or select this item and activate the target.",
+"UI_INV_SELECTED": "Selected: {item} · drag onto a target or activate the target.",
+"UI_INV_DRAGGING": "Dragging: {item}",
+"UI_INV_DRY_HINT": "Use the dry side to remove moisture at the bottom",
 "P2_TOOL_CLOTH": "Soft cloth",
 "P2_TOOL_BRUSH": "Coarse brush",
 "P2_TOOL_WATER": "Water bottle",

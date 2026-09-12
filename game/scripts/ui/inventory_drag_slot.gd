@@ -11,11 +11,13 @@ func set_inventory_item(next_item_id: String, next_label: String) -> void:
 	item_id = next_item_id
 	item_label = next_label
 	set_meta("item_id", item_id)
-	text = item_label if not item_id.is_empty() else "비어 있음"
+	var texts := DialogueRepository.new()
+	var locale := TranslationServer.get_locale()
+	text = item_label if not item_id.is_empty() else texts.get_text("UI_INV_EMPTY", locale)
 	disabled = item_id.is_empty()
 	mouse_default_cursor_shape = Control.CURSOR_DRAG if not disabled else Control.CURSOR_ARROW
-	tooltip_text = "대상으로 드래그하여 사용" if not disabled else "빈 인벤토리 칸"
-	accessibility_description = "%s. 대상 위로 드래그하거나 선택 후 대상을 누르십시오." % item_label if not disabled else "빈 인벤토리 칸"
+	tooltip_text = texts.get_text("UI_INV_DRAG_HINT" if not disabled else "UI_INV_EMPTY_DESC", locale)
+	accessibility_description = texts.get_text("UI_INV_DESC", locale, {"item": item_label}) if not disabled else texts.get_text("UI_INV_EMPTY_DESC", locale)
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:

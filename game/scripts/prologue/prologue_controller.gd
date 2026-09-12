@@ -384,7 +384,7 @@ func _build_persistent_ui() -> void:
 	inventory_column.add_theme_constant_override("separation", 12)
 	inventory_margin.add_child(inventory_column)
 	var inventory_title := Label.new()
-	inventory_title.text = "인벤토리"
+	inventory_title.text = _dialogue_ui_text("UI_INVENTORY")
 	inventory_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	inventory_title.add_theme_font_size_override("font_size", 19)
 	inventory_column.add_child(inventory_title)
@@ -403,7 +403,7 @@ func _build_persistent_ui() -> void:
 		var slot: Button = INVENTORY_DRAG_SLOT_SCRIPT.new()
 		slot.name = "InventorySlot%d" % (index + 1)
 		slot.custom_minimum_size = Vector2(170, 126)
-		slot.text = "비어 있음"
+		slot.text = _dialogue_ui_text("UI_INV_EMPTY")
 		slot.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		slot.add_theme_font_size_override("font_size", 17)
 		slot.add_theme_stylebox_override("normal", _style(Color(0.08, 0.035, 0.075, 0.96), Color(0.63, 0.26, 0.18, 0.92), 4, 4))
@@ -1645,7 +1645,7 @@ func _on_inventory_slot_pressed(index: int) -> void:
 	if item_id.is_empty():
 		return
 	_selected_item = item_id
-	_set_status("선택: %s · 대상 위로 드래그하거나 대상을 누르십시오." % _inventory_slots[index].text)
+	_set_status(_dialogue_ui_text("UI_INV_SELECTED", {"item": _inventory_slots[index].text}))
 	_refresh_inventory_selection()
 
 
@@ -1656,7 +1656,7 @@ func _on_inventory_drag_started(item_id: String) -> void:
 		if String(slot.get_meta("item_id", "")) == item_id:
 			display_name = slot.text.replace("\n", " ")
 			break
-	_set_status("드래그 중: %s" % display_name)
+	_set_status(_dialogue_ui_text("UI_INV_DRAGGING", {"item": display_name}))
 	_refresh_inventory_selection()
 
 
@@ -1670,7 +1670,7 @@ func _refresh_inventory_selection() -> void:
 			if _inspected_window < states.size():
 				drying_hint = bool((states[_inspected_window] as Dictionary).get("bottom_wet", false))
 		if not item_id.is_empty():
-			slot.tooltip_text = "마른 면으로 아래 물기를 제거" if drying_hint else "대상으로 드래그하여 사용"
+			slot.tooltip_text = _dialogue_ui_text("UI_INV_DRY_HINT" if drying_hint else "UI_INV_DRAG_HINT")
 		slot.add_theme_stylebox_override("normal", _style(
 			Color(0.18, 0.055, 0.13, 0.98) if selected else (Color(0.11, 0.13, 0.18, 0.98) if drying_hint else Color(0.08, 0.035, 0.075, 0.96)),
 			Color(0.97, 0.68, 0.31, 1.0) if selected else (Color(0.55, 0.84, 1.0, 1.0) if drying_hint else Color(0.63, 0.26, 0.18, 0.92)),
