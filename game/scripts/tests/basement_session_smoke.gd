@@ -635,6 +635,7 @@ func _validate_j4(session: BasementSession) -> void:
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	view._show_j4_confirmation()
+	_expect(not view._objective_label.text.contains("구현 중"), "relation hub contains player-facing objective rather than development status")
 	var j4_before_cancel := session.snapshot()
 	var expected_hub := hub.duplicate(true)
 	expected_hub["meta_progress"]["dialogue_history"] = j4_before_cancel["meta_progress"]["dialogue_history"].duplicate(true)

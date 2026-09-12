@@ -206,8 +206,8 @@ func _build_fracture_intro() -> void:
 				_action("E2_FINISH", "목적지와 핵심 보고를 정리한다", Rect2(380, 710, 1170, 100), "e2_finish")
 		"E_HUB":
 			_add_hotspot("J4_CONFIRM", "조사를 마치고 기록 정리", Rect2(570, 885, 800, 60), _show_j4_confirmation)
-			_objective_label.text = "사용인별 기능실 · 후속 사건 구현 중"
-			_board_label("마라 1 · 배선실: 고장 난 척한 삭제 장치\n이리스 · 계절 제어실: 계절보다 오래된 전력 기록\n루카 · 생명 유지실: 주인공의 다른 맥박\n에드가 · 대시계 기계실: 누가 선택을 잠갔는가\n마라 2 · 인격 아카이브: 짧아진 이름과 분산된 원본\n결산 이후의 진행은 구현 중입니다.", Rect2(330, 130, 1260, 390))
+			_objective_label.text = "사용인을 찾아가거나 지금까지의 기록을 정리한다"
+			_board_label("마라 1은 배선실로 향했다.\n이리스는 온실에서 기다리고 있다.\n루카는 주방 아래의 장치를 살피고 있다.\n에드가는 대시계 쪽에 있다.\n마라 2는 북쪽 기록 회랑으로 돌아갔다.\n누구를 먼저 찾아갈지, 조사를 언제 마칠지는 내가 정한다.", Rect2(330, 130, 1260, 390))
 			_action("MARA1_ENTRY", "마라 1 · 배선실로", Rect2(330, 550, 620, 90), "move", "M1_SERVICE_HALL", false)
 			_action("IRIS_ENTRY", "이리스 · 온실로", Rect2(990, 550, 620, 90), "move", "M1_GREENHOUSE", false)
 			_action("LUCA_ENTRY", "루카 · 생명 유지실로", Rect2(330, 670, 620, 90), "move", "M1_KITCHEN", false)
