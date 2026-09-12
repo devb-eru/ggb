@@ -8,6 +8,7 @@ const ENDING_TEXTS := preload("res://scripts/ui/ending_decision_texts.gd")
 const FIELD_TEXTS := preload("res://scripts/ui/field_notebook_texts.gd")
 const STAY_TEXTS := preload("res://scripts/ui/stay_charter_texts.gd")
 const STORY_TEXTS := preload("res://scripts/ui/stay_story_texts.gd")
+const WAKE_TEXTS := preload("res://scripts/ui/reality_wake_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -598,10 +599,11 @@ func _ending_read(lines: Array, action: String, value: Variant, prefix: String =
 
 func _build_reality_wake() -> void:
 	var rules = BasementSession.REALITY_WAKE
+	var locale := TranslationServer.get_locale()
 	var state := session.snapshot()
 	var node: String = state["ending_run"]["current_node_id"]
-	_location_label.text = "현실 · 냉각실" if node in ["EDR_WAKE_BODY","EDR_BODY_CHECK"] else "코어실 · 연결 해제 전 인계 기록"
-	_objective_label.text = "현실 기상 · " + {"EDR_FAREWELL":"마지막 인계", "EDR_DISCONNECT":"연결 해제", "EDR_WAKE_BODY":"첫 호흡", "EDR_BODY_CHECK":"신체 확인"}[node]
+	_location_label.text = WAKE_TEXTS.text("location_body" if node in ["EDR_WAKE_BODY","EDR_BODY_CHECK"] else "location_handoff", locale)
+	_objective_label.text = WAKE_TEXTS.text("objective", locale) % WAKE_TEXTS.text(node, locale)
 	if node in ["EDR_WAKE_BODY","EDR_BODY_CHECK"]:
 		var backdrop := ColorRect.new()
 		backdrop.color = Color(0.075,0.095,0.105)
@@ -611,32 +613,33 @@ func _build_reality_wake() -> void:
 	match node:
 		"EDR_FAREWELL":
 			var owner: String = rules.OWNERS[rules.index(state)]
-			_board_label("연결 해제 전 남긴 다섯 인격의 인계 기록\n현재 저전력 보존 상태와 별개의 마지막 재생이다.\n" + rules.NAMES[owner], Rect2(300,230,1320,270))
-			_add_hotspot("REALITY_FAREWELL", "인계 기록을 듣는다", Rect2(450,680,1020,120), _ending_read.bind(rules.farewell(state,owner)["lines"], "farewell", owner, "reality_"))
+			_board_label(WAKE_TEXTS.text("handoff_board", locale) % WAKE_TEXTS.name_for(owner, locale), Rect2(300,230,1320,270))
+			_add_hotspot("REALITY_FAREWELL", WAKE_TEXTS.text("farewell", locale), Rect2(450,680,1020,120), _ending_read.bind(WAKE_TEXTS.farewell(state,owner,locale)["lines"], "farewell", owner, "reality_"))
 		"EDR_DISCONNECT":
-			_add_hotspot("REALITY_DISCONNECT", "연결 해제와 감각 전환", Rect2(450,450,1020,150), _reality_disconnect)
+			_add_hotspot("REALITY_DISCONNECT", WAKE_TEXTS.text("disconnect", locale), Rect2(450,450,1020,150), _reality_disconnect)
 		"EDR_WAKE_BODY":
-			_board_label("눈꺼풀을 실제로 들어 올리는 무게.\n짧고 얕은 첫 호흡은 이미 시작되었다.\n속도를 맞추거나 버튼을 연타할 필요는 없다.", Rect2(300,260,1320,300))
-			_add_hotspot("REALITY_WAKE", "열린 캡슐 안을 확인한다", Rect2(450,730,1020,120), _ending_read.bind([{"speaker":"SYSTEM","text":"첫 호흡이 돌아온다. 얕지만 끊기지 않는다. 손과 호흡 표시기, 풀린 고정 벨트가 보인다."}],"continue",node,"reality_"))
+			_board_label(WAKE_TEXTS.text("wake_board", locale), Rect2(300,260,1320,300))
+			_add_hotspot("REALITY_WAKE", WAKE_TEXTS.text("wake", locale), Rect2(450,730,1020,120), _ending_read.bind([{"speaker":"SYSTEM","text":WAKE_TEXTS.text("wake_body", locale)}],"continue",node,"reality_"))
 		"EDR_BODY_CHECK":
 			var seen: Array = state["ending_run"].get("required_interactions_seen", [])
 			var index := 0
 			var count := 0
 			for object in rules.BODY:
-				var data: Array = rules.BODY[object]
+				var data: Array = WAKE_TEXTS.body(object, locale)
 				var repeated: bool = object in seen
 				if repeated: count += 1
-				_add_hotspot(object, data[0] + (" · 확인함" if repeated else ""), Rect2(400,250+index*170,1120,120), _ending_read.bind([{"speaker":"주인공" if repeated else "SYSTEM","text":data[2] if repeated else data[1]}],"body",object,"reality_"))
+				_add_hotspot(object, data[0] + (WAKE_TEXTS.text("checked", locale) if repeated else ""), Rect2(400,250+index*170,1120,120), _ending_read.bind([{"speaker":WAKE_TEXTS.text("protagonist", locale) if repeated else "SYSTEM","text":data[2] if repeated else data[1]}],"body",object,"reality_"))
 				index += 1
-			if count >= 2: _action("REALITY_BODY_FINISH","캡슐 아래의 수첩을 확인한다",Rect2(400,800,1120,100),"reality_body_finish",null,false)
+			if count >= 2: _action("REALITY_BODY_FINISH",WAKE_TEXTS.text("body_finish", locale),Rect2(400,800,1120,100),"reality_body_finish",null,false)
 
 
 func _reality_disconnect() -> void:
 	if _interaction_blocked(): return
+	var locale := TranslationServer.get_locale()
 	_show_dialogue([
-		{"speaker":"SYSTEM","text":"가상 난로의 열기가 사라진다."},
-		{"speaker":"SYSTEM","text":"귀 안쪽에 낮은 압력이 걸린다."},
-		{"speaker":"SYSTEM","text":"혀에 금속 맛이 남는다."},
+		{"speaker":"SYSTEM","text":WAKE_TEXTS.text("disconnect_heat", locale)},
+		{"speaker":"SYSTEM","text":WAKE_TEXTS.text("disconnect_pressure", locale)},
+		{"speaker":"SYSTEM","text":WAKE_TEXTS.text("disconnect_taste", locale)},
 	], _reality_fade)
 
 
@@ -645,7 +648,7 @@ func _open_notebook() -> void:
 		_open_field_page("FIELD_NOTEBOOK_COVER",false)
 		return
 	if session != null and str(session.snapshot()["loop_state"]["location_id"]).begins_with("R0_"):
-		_set_status("시뮬레이션 수첩은 이곳에서 펼칠 수 없다. 캡슐 아래의 물리적 현장 수첩은 별개의 물건이다.")
+		_set_status(WAKE_TEXTS.text("notebook_unavailable", TranslationServer.get_locale()))
 		return
 	super._open_notebook()
 

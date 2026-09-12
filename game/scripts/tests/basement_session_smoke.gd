@@ -1429,6 +1429,36 @@ func _validate_stay_story(session: BasementSession) -> void:
 func _validate_reality_wake(session: BasementSession) -> void:
 	var seed := session.snapshot()
 	var rules = SESSION.REALITY_WAKE
+	var texts = VIEW.WAKE_TEXTS
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	_expect(texts.NAMES.keys() == rules.NAMES.keys() and texts.BODY.keys() == rules.BODY.keys() and texts.IRIS.keys() == rules.IRIS.keys(), "Reality wake translations cover canonical owners, physical objects and disclosures")
+	for object in rules.BODY:
+		_expect(texts.body(object,"ko") == rules.BODY[object] and texts.body(object,"en").size() == 3, "Physical observation keeps Korean and translates title, first and repeated readings")
+	var disclosures_seen: Array = []
+	for owner in rules.OWNERS:
+		for complete in [false, true]:
+			for bond in [0, 2, 4]:
+				for alert in [0, 2, 4]:
+					for evidence in ["valid", "missing", "stale"]:
+						var source := seed.duplicate(true)
+						for id in rules.OWNERS: source["meta_progress"]["servants"][id]["core_event_complete"] = false
+						var servant: Dictionary = source["meta_progress"]["servants"][owner]
+						servant["core_event_complete"] = complete
+						servant["bond"] = bond
+						servant["alert"] = alert
+						servant["researcher_record_acquired"] = evidence != "missing"
+						source["meta_progress"]["knowledge_entries"]["mara2_name_written"] = complete
+						source["meta_progress"]["event_history"][rules.EVENTS[owner]] = {"outcome_id":rules.OVERLAYS[owner].keys()[0], "lifecycle":"completed" if evidence != "stale" else "started"}
+						_validate_wake_translation(source, owner)
+						if owner == "iris":
+							var disclosure: String = rules.CONFRONTATION.iris_state(source)
+							if disclosure not in disclosures_seen: disclosures_seen.append(disclosure)
+	var all_complete := seed.duplicate(true)
+	for owner in rules.OWNERS: all_complete["meta_progress"]["servants"][owner]["core_event_complete"] = true
+	_validate_wake_translation(all_complete,"iris")
+	disclosures_seen.append(rules.CONFRONTATION.iris_state(all_complete))
+	_expect(disclosures_seen.size() == rules.IRIS.size(), "Reality translation exercises all six Iris disclosure states without promoting private testimony")
 	for owner in rules.OWNERS:
 		for outcome in rules.OVERLAYS[owner]:
 			var source := seed.duplicate(true)
@@ -1438,6 +1468,8 @@ func _validate_reality_wake(session: BasementSession) -> void:
 			var before := source.duplicate(true)
 			var response: Dictionary = rules.farewell(source,owner)
 			_expect(not response["warning"] and source == before, "Farewell outcome overlay is read-only")
+			_validate_wake_translation(source,owner)
+			_expect(texts.farewell(source,owner,"en")["lines"][2]["text"] == texts.OVERLAYS[owner][outcome], "English handoff addendum follows the canonical outcome")
 	var view := VIEW.new()
 	view.configure_session(SLOT,"REALITY_WAKE")
 	root.add_child(view)
@@ -1445,21 +1477,29 @@ func _validate_reality_wake(session: BasementSession) -> void:
 	view._dismiss_dialogue_for_test()
 	for owner in rules.OWNERS:
 		var before_index: int = rules.index(session.snapshot())
+		var expected_lines: Array = texts.farewell(session.snapshot(),owner,"en")["lines"]
+		_expect((view._hotspot_layer.get_node("REALITY_FAREWELL") as Button).text == texts.text("farewell","en"), "English handoff action shown")
 		view._hotspot_layer.get_node("REALITY_FAREWELL").pressed.emit()
 		_expect(rules.index(session.snapshot()) == before_index, "Farewell not saved before acknowledgement")
-		while view._dialogue_active: view._advance_dialogue()
+		for line in expected_lines:
+			_expect(view._dialogue_active and view._dialogue_label.text == line["text"], "Actual handoff displays only the selected English line")
+			view._advance_dialogue()
+		_expect(not view._dialogue_active, "English handoff does not append undisclosed lines")
 		_expect(rules.index(session.snapshot()) == before_index + 1, "Farewell acknowledged once")
 		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "Farewell partial reload")
 		view._render_room()
 	_expect(session.snapshot()["ending_run"]["current_node_id"] == "EDR_DISCONNECT", "All five farewell records remain present")
 	view._hotspot_layer.get_node("REALITY_DISCONNECT").pressed.emit()
-	while view._dialogue_active: view._advance_dialogue()
+	for beat in ["disconnect_heat", "disconnect_pressure", "disconnect_taste"]:
+		_expect(view._dialogue_label.text == texts.text(beat,"en"), "Disconnection keeps the heat, pressure, taste order in English")
+		view._advance_dialogue()
 	await tree.create_timer(1.3).timeout
 	_expect(session.snapshot()["loop_state"]["location_id"] == "R0_CRYO_CHAMBER", "Disconnect enters physical cryo chamber")
 	_expect(session.snapshot()["fracture_state"]["world_phase"] == "R0", "Reality world phase")
 	view._open_notebook()
 	_expect(not view._modal_active, "Reality cannot open simulation notebook")
 	view._hotspot_layer.get_node("REALITY_WAKE").pressed.emit()
+	_expect(view._dialogue_label.text == texts.text("wake_body","en"), "First breath is shown in English without a timed-input task")
 	while view._dialogue_active: view._advance_dialogue()
 	_expect(not session.act("reality_body_finish").get("ok",false), "Body check requires two distinct objects")
 	var body_seed := session.snapshot()
@@ -1469,7 +1509,12 @@ func _validate_reality_wake(session: BasementSession) -> void:
 		for object in pair: state = rules.apply(state,"body",object)["state"]
 		_expect(rules.apply(state,"body_finish",null).get("ok",false), "Any two physical observations qualify")
 	for object in [keys[0],keys[0],keys[1]]:
+		var repeated: bool = object in session.snapshot()["ending_run"].get("required_interactions_seen",[])
+		_expect((view._hotspot_layer.get_node(object) as Button).text == texts.body(object,"en")[0] + (texts.text("checked","en") if repeated else ""), "Physical observation English title and checked state")
 		view._hotspot_layer.get_node(object).pressed.emit()
+		var expected_text: String = texts.body(object,"en")[2 if repeated else 1]
+		_expect(view._dialogue_label.text == expected_text, "Physical first and repeated observations use English")
+		_expect(game.get_value("meta_progress.dialogue_history.entries",[]).back()["variables"]["text"] == expected_text, "Read physical observation is retained in dialogue history")
 		while view._dialogue_active: view._advance_dialogue()
 	_expect(session.snapshot()["ending_run"]["required_interactions_seen"].size() == 2, "Repeated physical observation is deduplicated")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
@@ -1481,7 +1526,24 @@ func _validate_reality_wake(session: BasementSession) -> void:
 	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "Reality body completed reload")
 	_expect(session.snapshot()["ending_run"]["current_node_id"] == "EDR_FIELD_NOTEBOOK", "Reality reaches physical notebook")
 	_expect(session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"] and session.snapshot()["ending_run"]["final_decision"] == "reality", "Wake has no relation reward or ending reversal")
+	TranslationServer.set_locale(previous_locale)
 	await _validate_field_notebook(session)
+
+
+func _validate_wake_translation(source: Dictionary, owner: String) -> void:
+	var rules = SESSION.REALITY_WAKE
+	var texts = VIEW.WAKE_TEXTS
+	var before := source.duplicate(true)
+	var canonical: Dictionary = rules.farewell(source,owner)
+	var translated: Dictionary = texts.farewell(source,owner,"en")
+	_expect(source == before and translated["warning"] == canonical["warning"], "Handoff translation preserves state and integrity warnings")
+	_expect(texts.farewell(source,owner,"ko") == canonical, "Korean handoff remains canonical")
+	_expect(translated["lines"].size() == canonical["lines"].size(), "Translation neither adds nor removes relationship disclosures")
+	for index in range(canonical["lines"].size()):
+		_expect(translated["lines"][index]["text"] != canonical["lines"][index]["text"], "Every selected handoff sentence has an English translation")
+		var speaker: String = canonical["lines"][index]["speaker"]
+		var expected_speaker: String = texts.name_for(owner,"en") if speaker == rules.NAMES[owner] else speaker
+		_expect(translated["lines"][index]["speaker"] == expected_speaker, "Anonymous narration remains SYSTEM rather than becoming a named speaker")
 
 
 func _validate_field_notebook(session: BasementSession) -> void:
