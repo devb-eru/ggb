@@ -75,6 +75,11 @@ func _render_room() -> void:
 	set_process(false)
 	super._render_room()
 	if session == null: return
+	if session.stage() == "D6":
+		_clear_hotspots()
+		_build_d6_inspection()
+		call_deferred("_restore_world_focus")
+		return
 	if session.stage() in ["ENDING_CREDITS","POST_CREDITS"]:
 		_clear_hotspots()
 		_build_ending_credits()
@@ -160,6 +165,42 @@ func _render_room() -> void:
 			_build_heart()
 			_replace_back("B1_STORAGE", "지하창고로")
 	call_deferred("_restore_world_focus")
+
+
+func _build_d6_inspection() -> void:
+	var room := String(session.snapshot()["loop_state"]["location_id"])
+	_objective_label.text = "달라진 통로를 조사하거나 쉴 곳을 선택한다"
+	if room == "H0_SERVICE_SPINE":
+		_location_label.text = "드러난 서비스 통로"
+		var ids := ["wall", "sign", "trace", "capsule"]
+		var labels := ["벗겨진 벽지", "서비스 척추 표지", "사용인 진단 잔상", "비상 캡슐의 표면"]
+		for index in range(4):
+			_action("D6_INSPECT_" + ids[index], labels[index], Rect2(280 + index % 2 * 700, 210 + index / 2 * 180, 610, 130), "d6_inspect", ids[index])
+		_action("D6_BEDROOM", "침실로 돌아간다", Rect2(280, 640, 610, 100), "d6_move", "M2_BEDROOM", false)
+		_add_hotspot("D6_CAPSULE", "가까운 비상 캡슐에서 쉰다", Rect2(980, 640, 610, 100), _confirm_d6_rest.bind("capsule"))
+	elif room == "M2_BEDROOM":
+		_location_label.text = "주인공의 침실 · 파열 이후"
+		_action("D6_RETURN", "통로를 조금 더 본다", Rect2(280, 420, 610, 130), "d6_move", "H0_SERVICE_SPINE", false)
+		_add_hotspot("D6_BED", "침대에서 쉰다", Rect2(980, 420, 610, 130), _confirm_d6_rest.bind("bedroom"))
+	else:
+		_board_label("벽지 뒤에서 드러난 서비스 통로에 두 휴식 경로가 표시되어 있다.", Rect2(350, 280, 1200, 200))
+		_action("D6_SPINE", "드러난 서비스 통로로", Rect2(510, 600, 870, 130), "d6_move", "H0_SERVICE_SPINE", false)
+
+
+func _confirm_d6_rest(route: String) -> void:
+	_show_modal("잠깐 눈을 감는다", "잠들면 무엇이 돌아올지 알 수 없다. 더 조사하거나 지금 쉴 수 있다.", [
+		{"label": "조금 더 본다", "action": _close_modal},
+		{"label": "잠든다", "action": _start_d6_rest.bind(route)},
+	])
+
+
+func _start_d6_rest(route: String) -> void:
+	_close_modal()
+	var result := session.act("d6_rest", route)
+	if not result.get("ok", false):
+		_feedback(result)
+		return
+	_sleep_now()
 
 
 func _show_full_fracture_transition() -> void:

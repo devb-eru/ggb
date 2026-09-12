@@ -144,6 +144,8 @@ func can_use_basement_shortcut(fast_path: bool = false) -> bool:
 
 
 func act(action: String, value: Variant = null) -> Dictionary:
+	if stage() == "D6":
+		return _d6_action(action, str(value))
 	if _save.get_build_flavor() == "demo":
 		var demo_stage := stage()
 		if demo_stage == "DEMO_END" or (demo_stage == "D5" and action != "d_fracture"):
@@ -429,10 +431,43 @@ func _inspect_e1(object_id: String) -> Dictionary:
 	return _commit(state, text)
 
 
+func _d6_action(action: String, value: String) -> Dictionary:
+	var state := snapshot()
+	var room := String(state["loop_state"]["location_id"])
+	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
+	if action == "d6_move":
+		if value not in ["H0_SERVICE_SPINE", "M2_BEDROOM"]:
+			return _reject("표시된 휴식 경로를 따른다.")
+		if value == "M2_BEDROOM" and room != "H0_SERVICE_SPINE":
+			return _reject("드러난 서비스 통로를 지나 침실로 간다.")
+		state["loop_state"]["location_id"] = value
+		return _commit(state, "익숙한 복도의 외피 아래로 휴식 경로가 이어진다.")
+	if action == "d6_inspect" and room == "H0_SERVICE_SPINE":
+		var descriptions := {
+			"wall": "벗겨진 벽지 뒤 금속 격자는 기억하는 방보다 좁다. 손끝에는 종이와 금속의 경계가 동시에 닿는다.",
+			"sign": "서비스 척추 표지의 다섯 기능실 방향과 SUBJECT 방향이 갈라져 있다. 아직 기능실로 들어갈 수는 없다.",
+			"trace": "몸은 없는데 문양만 일정한 간격으로 지나간다. 잠금선, 닦임 자국, 이중 맥박, 꽃잎, 겹친 액자. 알아보는 것은 색만이 아니다.",
+			"capsule": "비상 캡슐 표면에 침실 침대와 같은 직물 무늬가 투사된다. 가까이서는 천의 결 아래 매끄러운 곡면이 느껴진다."
+		}
+		if not descriptions.has(value): return _reject("통로에서 조사할 대상을 확인한다.")
+		var seen: Array = knowledge.get("D6_objects_seen", []).duplicate()
+		if value not in seen: seen.append(value)
+		knowledge["D6_objects_seen"] = seen
+		_note(knowledge, "D6_" + value, descriptions[value])
+		return _commit(state, descriptions[value])
+	if action == "d6_rest":
+		if not ((value == "bedroom" and room == "M2_BEDROOM") or (value == "capsule" and room == "H0_SERVICE_SPINE")):
+			return _reject("현재 위치의 휴식 장치를 확인한다.")
+		knowledge["D6_rest_route"] = value
+		return _commit(state, "조금 눈을 감는다. 이번에는 무엇이 돌아올지 알 수 없다.")
+	return _reject("이전 일과와 장치 조작은 끝났다. 드러난 통로와 휴식 경로를 확인한다.")
+
+
 func sleep() -> Dictionary:
 	if snapshot()["fracture_state"].get("final_sleep_lock", false): return _reject("최종 확인 중에는 세계 내 수면을 하지 않는다. 저장과 불러오기는 가능하다.")
 	if stage() == "DEMO_END": return _reject("데모 공개 범위는 여기까지다. 본편에서 이어진다.")
-	if snapshot()["loop_state"]["location_id"] != "M2_BEDROOM": return _reject("같은 침실에서 잠든다.")
+	var capsule_ready: bool = stage() == "D6" and snapshot()["loop_state"]["location_id"] == "H0_SERVICE_SPINE" and snapshot()["meta_progress"]["knowledge_entries"].get("D6_rest_route", "") == "capsule"
+	if snapshot()["loop_state"]["location_id"] != "M2_BEDROOM" and not capsule_ready: return _reject("휴식할 침실이나 확인한 비상 캡슐에서 잠든다.")
 	var reset := ResetCoordinator.new(_game, _save)
 	match reset.resolve_sleep_route():
 		&"NORMAL_RESET": return super.sleep()
