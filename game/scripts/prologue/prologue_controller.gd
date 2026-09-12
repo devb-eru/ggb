@@ -688,11 +688,11 @@ func _build_bedroom() -> void:
 			])
 		return
 
-	_add_hotspot("BED", "침대", Rect2(180, 610, 560, 210), _inspect_bedroom.bind("bed"))
-	_add_hotspot("WINDOW", "침실 창문", Rect2(1250, 180, 330, 410), _inspect_bedroom.bind("window"))
-	_add_hotspot("PHOTO", "아버지 사진", Rect2(930, 245, 190, 245), _inspect_bedroom.bind("photo"))
-	_add_hotspot("NOTEBOOK", "낙서 수첩", Rect2(610, 690, 180, 115), _inspect_bedroom.bind("notebook"))
-	_add_hotspot("EXIT", "방을 나선다", Rect2(825, 850, 300, 100), _leave_bedroom_morning)
+	_add_hotspot("BED", _dialogue_ui_text("P1_LABEL_BED"), Rect2(180, 610, 560, 210), _inspect_bedroom.bind("bed"))
+	_add_hotspot("WINDOW", _dialogue_ui_text("P1_LABEL_WINDOW"), Rect2(1250, 180, 330, 410), _inspect_bedroom.bind("window"))
+	_add_hotspot("PHOTO", _dialogue_ui_text("P1_LABEL_PHOTO"), Rect2(930, 245, 190, 245), _inspect_bedroom.bind("photo"))
+	_add_hotspot("NOTEBOOK", _dialogue_ui_text("P1_LABEL_NOTEBOOK"), Rect2(610, 690, 180, 115), _inspect_bedroom.bind("notebook"))
+	_add_hotspot("EXIT", _dialogue_ui_text("P1_LABEL_EXIT"), Rect2(825, 850, 300, 100), _leave_bedroom_morning)
 
 
 func _inspect_bedroom(object_id: String) -> void:
@@ -700,14 +700,14 @@ func _inspect_bedroom(object_id: String) -> void:
 		return
 	_add_unique("p1_inspections", object_id)
 	var lines := {
-		"bed": "막 일어난 자리인데도 주름 하나 없이 반듯하다. 천 아래에는 매트리스보다 단단한 곡면이 닿는다.",
-		"window": "정원은 맑다. 그런데 유리는 햇빛보다 미지근하고, 멀리 있는 새는 한 번도 고도를 바꾸지 않는다.",
-		"photo": "아버지와 함께 찍힌 사진이다. 익숙한 얼굴인데 이 장면으로 이어지는 기억은 없다. 사진 표면만 차갑다.",
-		"notebook": "고딕 저택 낙서와 빈 페이지. 연필 압흔은 내가 쓰기 전부터 다음 장까지 이어져 있다.",
+		"bed": "P1_INSPECT_BED",
+		"window": "P1_INSPECT_WINDOW",
+		"photo": "P1_INSPECT_PHOTO",
+		"notebook": "P1_INSPECT_NOTEBOOK",
 	}
 	if object_id == "notebook":
 		_add_notebook("수첩의 빈 페이지 아래에 이전 필압 같은 자국이 남아 있다.")
-	_show_dialogue([{"speaker": "주인공", "text": String(lines[object_id])}])
+	_show_dialogue([{"speaker": "주인공", "text": _dialogue_ui_text(String(lines[object_id]))}])
 	_room_art.set_room(_current_room, _progress)
 	_save_progress()
 
@@ -717,11 +717,11 @@ func _leave_bedroom_morning() -> void:
 		return
 	if Array(_progress.get("p1_inspections", [])).size() < 2:
 		_show_modal(
-			"에드가의 확인",
-			"아직 방 안을 충분히 살펴보지 않았습니다. 그래도 일과를 시작합니까?",
+			_dialogue_ui_text("P1_EXIT_TITLE"),
+			_dialogue_ui_text("P1_EXIT_CONFIRM"),
 			[
-				{"label": "일과를 시작한다", "action": _complete_p1},
-				{"label": "조금 더 살펴본다", "action": _close_modal},
+				{"label": _dialogue_ui_text("P1_EXIT_START"), "action": _complete_p1},
+				{"label": _dialogue_ui_text("P1_EXIT_STAY"), "action": _close_modal},
 			]
 		)
 		return
@@ -736,8 +736,8 @@ func _complete_p1() -> void:
 	_save_progress()
 	_enter_room("M1_CENTRAL_HALL")
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": "계단 아래에서 저택의 세 방향이 한눈에 들어온다."},
-		{"speaker": "에드가", "portrait": "EDGAR", "text": "순서는 정하지 않겠습니다. 완료한 일은 중앙홀에서 확인할 수 있습니다."},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P1_HALL_VIEW")},
+		{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P1_HALL_EDGAR")},
 	])
 
 

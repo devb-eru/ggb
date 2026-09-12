@@ -73,6 +73,26 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._advance_dialogue()
 	_expect(not prologue._dialogue_active, "English P1 completes normally", errors)
 	_expect("Examine the light" in prologue._status_label.text, "English P1 completes with localized objective", errors)
+	prologue._progress["P4_complete"] = false
+	prologue._progress["p1_inspections"] = []
+	prologue._enter_room("M2_BEDROOM")
+	_expect(prologue._hotspot_layer.get_node("BED").text == "Bed", "English bedroom hotspot label", errors)
+	prologue._leave_bedroom_morning()
+	_expect(prologue._modal_active, "English early departure retains confirmation", errors)
+	_expect(prologue._modal_body.get_child(3).text == "Begin the day's duties", "English departure action", errors)
+	prologue._modal_body.get_child(4).pressed.emit()
+	_expect(not prologue._modal_active and prologue._current_room == "M2_BEDROOM", "Keep looking does not leave bedroom", errors)
+	for pair in [["bed", "not a wrinkle"], ["window", "altitude"], ["photo", "Father and me"], ["notebook", "pencil impressions"]]:
+		prologue._inspect_bedroom(pair[0])
+		_expect(pair[1] in prologue._dialogue_label.text, "English inspection " + pair[0], errors)
+		_expect(pair[0] in prologue._progress["p1_inspections"], "Inspection ID preserved " + pair[0], errors)
+		prologue._advance_dialogue()
+	prologue._leave_bedroom_morning()
+	_expect(prologue._current_room == "M1_CENTRAL_HALL", "English inspected departure reaches hall", errors)
+	_expect("three routes" in prologue._dialogue_label.text, "English hall transition", errors)
+	prologue._advance_dialogue()
+	_expect("leave the order to you" in prologue._dialogue_label.text, "English duty order explanation", errors)
+	prologue._advance_dialogue()
 	for pair in [["주인공", "Protagonist"], ["마라 1", "Mara 1"], ["마라 2", "Mara 2"], ["루카", "Luka"], ["이리스", "Iris"]]:
 		_expect(prologue._localized_speaker(pair[0]) == pair[1], "English speaker " + pair[0], errors)
 	_expect(prologue._localized_speaker("Unknown witness") == "Unknown witness", "Unknown speaker remains visible", errors)
