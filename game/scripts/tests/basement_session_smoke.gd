@@ -211,7 +211,29 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 	view._tick_d6_guidance(200.0)
 	_expect(view._d6_guidance_seconds == 179.0, "D6 menu pauses guidance")
 	view._close_modal()
-	for amount in [1.0, 120.0, 180.0]:
+	var before_guidance_failure: Dictionary = game.get_snapshot()
+	view.session.slot_id = "../invalid_slot"
+	view._tick_d6_guidance(1.0)
+	_expect(view._d6_guidance_failed and not view.is_processing(), "D6 failed guidance stops automatic retry")
+	_expect(game.get_snapshot() == before_guidance_failure, "D6 failed guidance rolls back checkpoint")
+	_expect(view._hotspot_layer.has_node("D6_GUIDANCE_RETRY") and view._hotspot_layer.has_node("D6_SPINE"), "D6 failure retains navigation and explicit retry")
+	var failed_revision: int = game.revision
+	view._tick_d6_guidance(500.0)
+	_expect(game.revision == failed_revision, "D6 failed guidance makes no repeated save attempts")
+	view.session.slot_id = slot
+	view._hotspot_layer.get_node("D6_GUIDANCE_RETRY").pressed.emit()
+	_expect(not view._d6_guidance_failed and view.is_processing(), "D6 explicit retry restores timer")
+	_expect(game.get_value("loop_state.event_local_states.D6.guidance_checkpoint") == 180, "D6 retry commits first checkpoint")
+	_expect(not view._hotspot_layer.has_node("D6_GUIDANCE_RETRY"), "D6 successful retry removes error control")
+	_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "D6 guidance checkpoint reloads")
+	view._d6_guidance_seconds = 0.0
+	view._render_room()
+	_expect(view._d6_guidance_seconds == 180.0, "D6 reconstruction resumes last committed checkpoint")
+	view._show_dialogue([{"speaker": "SYSTEM", "text": "D6 investigation pause"}])
+	view._tick_d6_guidance(500.0)
+	_expect(view._d6_guidance_seconds == 180.0, "D6 investigation dialogue pauses guidance")
+	view._dismiss_dialogue_for_test()
+	for amount in [120.0, 180.0]:
 		view._tick_d6_guidance(amount)
 	_expect(game.get_value("loop_state.event_local_states.D6.guidance_checkpoint") == 480, "D6 reaches all three guidance checkpoints")
 	_expect(view.session.stage() == "D6" and not game.get_value("fracture_state.broken_reset_triggered"), "D6 eight-minute guidance never forces sleep")
