@@ -182,6 +182,10 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._open_notebook()
 	_expect(view._modal_body.get_child_count() == 4, "same-frame notebook reopen has no duplicate children")
 	view._close_modal()
+	view._apply_reading_text_scale(2.0)
+	view._open_notebook()
+	_expect(view._modal_body.get_child(2).get_child(0).get_theme_font_size("font_size") == 44, "Notebook respects 200 percent reading text scale")
+	view._close_modal()
 	view._render_room()
 	await tree.process_frame
 	var back := view._hotspot_layer.get_node("BACK") as Button

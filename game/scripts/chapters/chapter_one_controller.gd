@@ -415,4 +415,4 @@ func _open_notebook() -> void:
 	label.text = "\n\n".join(pages) if not pages.is_empty() else "아직 비교를 마친 기록이 없다."
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	label.add_theme_font_size_override("font_size", 22)
+	label.add_theme_font_size_override("font_size", int(round(22 * _reading_text_scale)))
