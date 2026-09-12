@@ -1267,9 +1267,35 @@ func _validate_ending_entry(session: BasementSession) -> void:
 		for step in range(2):
 			var current: String = session.snapshot()["ending_run"]["current_node_id"]
 			_expect((entry_view._hotspot_layer.get_node("ENDING_CONTINUE") as Button).text == texts.text("entry_continue","en"), "English ending entry continuation button")
+			var original_entry_slot: String = entry_view.session.slot_id
+			var before_entry_read := session.snapshot()
+			if step == 0: entry_view.session.slot_id = "../invalid_history_slot"
+			if step == 1: entry_view._apply_reading_text_scale(2.0)
 			entry_view._hotspot_layer.get_node("ENDING_CONTINUE").pressed.emit()
 			_expect(entry_view._dialogue_label.text == texts.entry(current,"en"), "Actual ending introduction and resident status use shared English text")
 			_expect(session.snapshot()["ending_run"]["current_node_id"] == current, "Resident status remains pending until acknowledgement")
+			if step == 0:
+				entry_view._advance_dialogue()
+				_expect(entry_view._dialogue_active and session.snapshot() == before_entry_read, "Failed history persistence blocks acknowledgement and rolls back viewed text")
+				entry_view.session.slot_id = original_entry_slot
+			else:
+				await tree.process_frame
+				await tree.process_frame
+				var line_height: float = entry_view._dialogue_label.get_theme_font("font").get_height(entry_view._dialogue_label.get_theme_font_size("font_size"))
+				_expect(entry_view._dialogue_scroll.size.y >= line_height*3, "Large text dialogue keeps at least three lines visible")
+				var before_scroll := session.snapshot()
+				await _ending_reading_key(KEY_PAGEDOWN)
+				_expect(entry_view._dialogue_scroll.scroll_vertical > 0, "English resident status can be scrolled with PageDown at 200 percent")
+				_expect(session.snapshot() == before_scroll and entry_view._dialogue_active, "Scrolling long status neither acknowledges nor modifies progress")
+				if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+					var original_window_size: Vector2i = root.size
+					root.size = Vector2i(1280,720)
+					await tree.process_frame
+					await RenderingServer.frame_post_draw
+					root.get_texture().get_image().save_png("user://ending_status_" + str(seed["ending_run"]["branch_id"]) + "_200.png")
+					root.size = original_window_size
+				await _ending_reading_key(KEY_PAGEUP)
+				_expect(entry_view._dialogue_scroll.scroll_vertical == 0, "PageUp restores the beginning of resident status")
 			while entry_view._dialogue_active: entry_view._advance_dialogue()
 			_expect(not session.act("ending_continue", current).get("ok", false), "Ending stale acknowledgement rejected")
 		entry_view.queue_free()
@@ -1286,6 +1312,17 @@ func _validate_ending_entry(session: BasementSession) -> void:
 			_expect(final_state["fracture_state"]["world_phase"] == "S5", "Stay stabilizes S5 without reset")
 			await _validate_stay_charter(session)
 		else: await _validate_reality_wake(session)
+
+
+func _ending_reading_key(code: Key) -> void:
+	var event := preload("res://scripts/systems/key_bindings.gd").key_event(code)
+	event.pressed = true
+	Input.parse_input_event(event)
+	await tree.process_frame
+	event = event.duplicate()
+	event.pressed = false
+	Input.parse_input_event(event)
+	await tree.process_frame
 
 
 func _validate_stay_charter(session: BasementSession) -> void:

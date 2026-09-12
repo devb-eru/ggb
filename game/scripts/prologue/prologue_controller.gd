@@ -697,6 +697,8 @@ func _apply_reading_text_scale(scale: float) -> void:
 	_dialogue_label.add_theme_font_size_override("font_size", int(round(24 * _reading_text_scale)))
 	_speaker_label.add_theme_font_size_override("font_size", int(round(25 * _reading_text_scale)))
 	_dialogue_next.add_theme_font_size_override("font_size", int(round(20 * _reading_text_scale)))
+	var extra_height := 170.0 * (_reading_text_scale - 1.0)
+	_place(_dialogue_layer.get_node("DialogueBacking"), Rect2(185,735-extra_height,1490,310+extra_height))
 	for button in _dialogue_choice_buttons:
 		button.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
 	_apply_window_text_scale()
