@@ -24,6 +24,95 @@ class RejectAudioProfile extends AccessibilityProfileStore:
 	func save_profile(_value: Dictionary) -> Dictionary:
 		return {"ok": false}
 
+class DisplayFixture extends RefCounted:
+	var state := {"mode": "windowed", "width": 1280, "height": 720}
+	var rejected := false
+	func capture() -> Dictionary: return state.duplicate(true)
+	func apply(value: Dictionary) -> bool:
+		state = value.duplicate(true)
+		return not rejected
+	func restore(value: Dictionary) -> void: state = value.duplicate(true)
+
+
+func _validate_display_settings(screen: StartScreen) -> void:
+	var settings := preload("res://scripts/systems/display_settings.gd")
+	var backend := DisplayFixture.new()
+	var transaction := settings.Preview.new(backend, settings.validate)
+	var initial := backend.state.duplicate(true)
+	var candidate := {"mode": "borderless", "width": 1920, "height": 1080}
+	_expect(transaction.begin(candidate, 1000), "display preview starts", _errors)
+	_expect(not transaction.begin(candidate, 1001), "display duplicate preview blocked", _errors)
+	_expect(not transaction.expire(15999) and transaction.pending, "display retains full 15 second window", _errors)
+	_expect(transaction.expire(16000) and backend.state == initial, "display deadline restores snapshot", _errors)
+	transaction.begin(candidate, 20000)
+	_expect(not transaction.keep(35000) and backend.state == initial, "late display confirmation rejected", _errors)
+	backend.rejected = true
+	_expect(not transaction.begin(candidate, 40000) and backend.state == initial, "partially failed display apply restored", _errors)
+	backend.rejected = false
+	for bad: Variant in [null, true, [], {}, {"mode": "windowed", "width": 1, "height": 1}, {"mode": "windowed", "width": "1280", "height": 720}, {"mode": "windowed", "width": NAN, "height": 720}]:
+		_expect(not settings.validate(bad), "malformed display rejected", _errors)
+	var legacy := _profile_store.default_profile()
+	legacy.erase("display")
+	_expect(_profile_store.validate_profile(legacy).ok, "legacy display profile supported", _errors)
+	var before := GameState.get_snapshot()
+	screen._display_panel.preview = transaction
+	screen._on_settings_pressed()
+	screen._display_button.pressed.emit()
+	await _tree.process_frame
+	screen._display_panel.mode.select(0)
+	screen._display_panel.resolution.select(1)
+	screen._display_panel.apply.pressed.emit()
+	_expect(transaction.pending and backend.state.width == 1600, "display panel previews selected size", _errors)
+	_expect(not _profile_store.load_profile().profile.has("display") or int(_profile_store.load_profile().profile.display.width) != 1600, "unconfirmed display is not saved", _errors)
+	screen._display_panel.back.pressed.emit()
+	_expect(not transaction.pending and backend.state == initial, "display back restores previous window", _errors)
+	screen._open_display_settings()
+	screen._display_panel.mode.select(0)
+	screen._display_panel.resolution.select(1)
+	screen._display_panel.apply.pressed.emit()
+	screen._display_panel.keep.pressed.emit()
+	_expect(int(_profile_store.load_profile().profile.display.width) == 1600, "confirmed display saved", _errors)
+	_expect(int(screen.get_display_settings().width) == 1600, "host keeps latest display profile", _errors)
+	var rebuilt: Dictionary = screen._profile_from_controls(screen._settings_text_option, screen._settings_signature_option, screen._settings_motion_option, screen._settings_captions)
+	_expect(int(rebuilt.display.width) == 1600, "ordinary settings retain display", _errors)
+	screen._display_panel.resolution.select(2)
+	screen._display_panel.apply.pressed.emit()
+	screen._display_panel.profile_store = RejectAudioProfile.new()
+	screen._display_panel.keep.pressed.emit()
+	_expect(not transaction.pending and int(backend.state.width) == 1600, "display failed save restores confirmed size", _errors)
+	_expect(int(_profile_store.load_profile().profile.display.width) == 1600, "display failed save leaves durable profile unchanged", _errors)
+	screen._open_display_settings()
+	screen._display_panel.mode.select(1)
+	screen._display_panel.apply.pressed.emit()
+	transaction.deadline_msec = Time.get_ticks_msec()
+	screen._display_panel._process(0.0)
+	_expect(not transaction.pending and int(backend.state.width) == 1600, "UI countdown timeout reverts", _errors)
+	screen._display_panel.apply.pressed.emit()
+	screen._close_modal()
+	_expect(not transaction.pending, "closing display panel cancels preview", _errors)
+	_expect(GameState.get_snapshot() == before, "display settings preserve game state", _errors)
+	# Keep native capture fixtures at 1280x720; runtime behavior is tested separately.
+	screen._profile["display"] = initial.duplicate()
+	_profile_store.save_profile(screen._profile)
+	screen._display_panel.preview = settings.Preview.new(settings.WindowBackend.new(screen.get_window()), settings.validate)
+	if CAPTURE_ARG in OS.get_cmdline_user_args():
+		var old_scale: float = screen._profile.text_scale
+		screen._profile.text_scale = 2.0
+		screen._apply_profile()
+		screen._on_settings_pressed()
+		await _tree.process_frame
+		await _tree.process_frame
+		await RenderingServer.frame_post_draw
+		_capture_screen(screen, "general_settings_1280x720_200.png", "general_settings")
+		screen._open_display_settings()
+		await _tree.process_frame
+		await _tree.process_frame
+		await RenderingServer.frame_post_draw
+		_capture_screen(screen, "display_settings_1280x720_200.png", "display_settings")
+		screen._profile.text_scale = old_scale
+		screen._apply_profile()
+		screen._close_modal()
+
 
 func _validate_key_settings(screen: StartScreen) -> void:
 	var bindings := preload("res://scripts/systems/key_bindings.gd")
@@ -119,6 +208,7 @@ func _binding_key(code: Key) -> void:
 
 
 func _validate_audio_settings(screen: StartScreen) -> void:
+	await _validate_display_settings(screen)
 	await _validate_key_settings(screen)
 	var before := GameState.get_snapshot()
 	for field in ["accessibility_profile_version", "text_scale", "signature_mode", "motion_mode"]:
@@ -189,6 +279,9 @@ func run(tree: SceneTree) -> Dictionary:
 	_tree.root.size = Vector2i(1280, 720)
 	_profile_store.delete_test_profile()
 	var screen: StartScreen = START_SCREEN_SCENE.instantiate()
+	var window_fixture := _profile_store.default_profile()
+	window_fixture.display.mode = "windowed"
+	_profile_store.save_profile(window_fixture)
 	screen.configure_profile_store(_profile_store)
 	var screen_parent: Node = _tree.current_scene if _tree.current_scene != null else _tree.root
 	screen_parent.add_child(screen)
@@ -443,6 +536,7 @@ func _validate_title_treatment(screen: StartScreen) -> void:
 
 
 func _validate_first_run(screen: StartScreen) -> void:
+	var retained := {"audio": screen.get_audio_settings(), "key_bindings": screen.get_key_bindings(), "display": screen.get_display_settings()}
 	(screen.get_node("%NewGameButton") as Button).pressed.emit()
 	await _tree.process_frame
 	var panel := screen.get_node("%FirstRunPanel") as Control
@@ -461,6 +555,9 @@ func _validate_first_run(screen: StartScreen) -> void:
 	var profile_result := _profile_store.load_profile()
 	_expect(bool(profile_result.get("ok", false)), "first-run profile was not saved", _errors)
 	_expect(bool(profile_result.get("profile", {}).get("first_run_complete", false)), "first-run completion was not persisted", _errors)
+	for field: String in retained:
+		var serialized: Variant = JSON.parse_string(JSON.stringify(retained[field]))
+		_expect(profile_result.profile[field] == serialized, "first-run accessibility defaults preserve " + field, _errors)
 	_expect((screen.get_node("%SlotPanel") as Control).visible, "new-game slot panel did not open after first-run setup", _errors)
 
 

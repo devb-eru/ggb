@@ -22,6 +22,7 @@ func default_profile() -> Dictionary:
 		"captions_enabled": true,
 		"audio": DEFAULT_AUDIO.duplicate(),
 		"key_bindings": preload("res://scripts/systems/key_bindings.gd").defaults(),
+		"display": preload("res://scripts/systems/display_settings.gd").DEFAULT.duplicate(),
 	}
 
 
@@ -127,6 +128,8 @@ func validate_profile(profile_value: Variant) -> Dictionary:
 				errors.append("ERR_AUDIO_MUTED")
 	if profile.has("key_bindings") and not preload("res://scripts/systems/key_bindings.gd").validate(profile.key_bindings):
 		errors.append("ERR_KEY_BINDINGS")
+	if profile.has("display") and not preload("res://scripts/systems/display_settings.gd").validate(profile.display):
+		errors.append("ERR_DISPLAY_PROFILE")
 	return {"ok": errors.is_empty(), "error_ids": errors}
 
 

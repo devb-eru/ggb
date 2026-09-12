@@ -25,6 +25,8 @@
 
 ### 최근 반영과 증거의 한계
 
+- 설정 기능: [키 재설정](keyboard_settings_status.md)과 [화면 설정](display_settings_status.md)을 제목 화면·게임 중 메뉴에 연결했다. 키 저장·복원과 화면 모드·창 크기의 15초 확인/복구를 제공한다. 전체 입력 경로 완주, 독립 UI 배율과 전체 DPI/해상도 조합을 대신 검증한 것은 아니다.
+
 - 1장 추가 현지화: [J1 복원](j1_localization_status.md), [서재 조사](inner_library_localization_status.md), [시계망·B4·J2](clock_localization_status.md)의 단서와 표시 ID·저장 재개를 연결했다. 시계 배치 검사의 동적 오류 등 일부 1장 문구와 2장 이후 본문은 남는다. 정답과 저장 원문은 유지하며 전체 영어 완주 완료로 판정하지 않는다.
 - 재준비 조건: 시계망·거울은 성공 영구 정보 확보 후 실패용 준비를 닫는다. [거울 검증](mirror_shortcut_validation.md), [지하창고 검증](basement_shortcut_validation.md)을 따른다. 지하창고는 정상 리셋 뒤 성공한 접근 경로로 다시 여는 기능을 별도로 유지한다.
 - 공통 확인창: 제목·버튼 읽기 배율과 표시 중인 컨트롤의 Tab 순환을 적용했다. [입력 검증](support_input_validation.md)은 Godot 입력 이벤트·일부 화면 캡처의 범위이며 전편 OS 입력 완료가 아니다.

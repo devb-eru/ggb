@@ -11,6 +11,14 @@ const CAPTURE_P4_ARG := "--capture-p4-father-choice"
 const CAPTURE_P4_FILE := "user://p4_father_choice_1280x720.png"
 const RESET_TEST_SLOT := "__test_prologue_reset"
 
+class DisplayFixture extends RefCounted:
+	var state := {"mode": "windowed", "width": 1280, "height": 720}
+	func capture() -> Dictionary: return state.duplicate(true)
+	func apply(value: Dictionary) -> bool:
+		state = value.duplicate(true)
+		return true
+	func restore(value: Dictionary) -> void: state = value.duplicate(true)
+
 
 func _modal_tab(tree: SceneTree, backwards: bool = false) -> void:
 	var event := InputEventKey.new()
@@ -55,6 +63,31 @@ func _validate_game_key_settings(tree: SceneTree, prologue: Control, errors: Pac
 	Input.parse_input_event(event)
 	await tree.process_frame
 	_expect(not prologue._key_settings_panel.visible and prologue._modal_active, "rebound cancel returns from game key panel", errors)
+	prologue._open_display_settings()
+	await tree.process_frame
+	_expect(prologue._display_settings_panel.visible and not prologue._modal_panel.visible, "game display panel opens from menu", errors)
+	var settings := preload("res://scripts/systems/display_settings.gd")
+	var backend := DisplayFixture.new()
+	prologue._display_settings_panel.preview = settings.Preview.new(backend, settings.validate)
+	prologue._display_settings_panel.mode.select(1)
+	prologue._display_settings_panel._begin_preview()
+	event = bindings.key_event(KEY_F8)
+	event.pressed = true
+	Input.parse_input_event(event)
+	await tree.process_frame
+	event = event.duplicate()
+	event.pressed = false
+	Input.parse_input_event(event)
+	await tree.process_frame
+	_expect(not prologue._display_settings_panel.visible and not prologue._display_settings_panel.preview.pending, "rebound cancel reverts game display preview", errors)
+	_expect(backend.state.mode == "windowed", "game preview cancellation restores screen", errors)
+	prologue._open_display_settings()
+	prologue._display_settings_panel.mode.select(0)
+	prologue._display_settings_panel.resolution.select(1)
+	prologue._display_settings_panel._begin_preview()
+	prologue._display_settings_panel._keep()
+	_expect(int(store.load_profile().profile.display.width) == 1600, "game display confirmation persists", errors)
+	_expect(int(store.load_profile().profile.key_bindings.cancel[0]) == KEY_F8, "game display save preserves key bindings", errors)
 	prologue._close_modal()
 	_expect(prologue._progress == before, "game key settings preserve puzzle state", errors)
 	prologue._audio_profile_store = original_store

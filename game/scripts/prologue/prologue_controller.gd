@@ -11,6 +11,7 @@ var _audio_dialogue_index := -1
 
 var _audio_settings_panel: PanelContainer
 var _key_settings_panel: PanelContainer
+var _display_settings_panel: PanelContainer
 var _audio_profile_store := AccessibilityProfileStore.new()
 
 const MANSION_BACKGROUND := preload("res://assets/prologue/prologue_mansion_hall_v01.png")
@@ -177,6 +178,11 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_instance_valid(_display_settings_panel) and _display_settings_panel.visible:
+		if event.is_action_pressed("ui_cancel", false, true):
+			_open_menu()
+			get_viewport().set_input_as_handled()
+		return
 	if is_instance_valid(_key_settings_panel) and _key_settings_panel.visible:
 		if event.is_action_pressed("ui_cancel", false, true):
 			_open_menu()
@@ -1943,6 +1949,7 @@ func _open_menu() -> void:
 			{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
 			{"label": _audio_settings_label(), "action": _open_audio_settings},
 			{"label": _key_settings_label(), "action": _open_key_settings},
+			{"label": _display_settings_label(), "action": _open_display_settings},
 		])
 		return
 	_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
@@ -1950,6 +1957,7 @@ func _open_menu() -> void:
 		{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
 		{"label": _audio_settings_label(), "action": _open_audio_settings},
 		{"label": _key_settings_label(), "action": _open_key_settings},
+		{"label": _display_settings_label(), "action": _open_display_settings},
 	])
 
 
@@ -1959,6 +1967,30 @@ func _audio_settings_label() -> String:
 
 func _key_settings_label() -> String:
 	return "Keyboard settings" if TranslationServer.get_locale().begins_with("en") else "키보드 설정"
+
+
+func _display_settings_label() -> String:
+	return "Display settings" if TranslationServer.get_locale().begins_with("en") else "화면 설정"
+
+
+func _open_display_settings() -> void:
+	if _dialogue_active or _dialogue_choice_active: return
+	if not is_instance_valid(_display_settings_panel):
+		_display_settings_panel = preload("res://scripts/ui/display_settings_panel.gd").new()
+		_modal_layer.add_child(_display_settings_panel)
+		_display_settings_panel.back_requested.connect(_open_menu)
+	_display_settings_panel.profile_store = _audio_profile_store
+	var profile: Dictionary = _audio_profile_store.load_profile().profile
+	_display_settings_panel.load_values(profile.get("display", preload("res://scripts/systems/display_settings.gd").DEFAULT), TranslationServer.get_locale())
+	var panel_theme := Theme.new()
+	panel_theme.default_font_size = int(round(18 * _reading_text_scale))
+	_display_settings_panel.theme = panel_theme
+	_modal_panel.hide()
+	_modal_layer.show()
+	_modal_active = true
+	menu_audio_pause_requested.emit(true)
+	_display_settings_panel.show()
+	_display_settings_panel.back.call_deferred("grab_focus")
 
 
 func _open_key_settings() -> void:
@@ -2055,6 +2087,7 @@ func _open_notebook() -> void:
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
+	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
 	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
 	if is_instance_valid(_audio_settings_panel):
 		_audio_settings_panel.hide()
@@ -2129,6 +2162,7 @@ func _focus_visible_control(reference: WeakRef) -> void:
 
 
 func _close_modal() -> void:
+	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
 	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
 	if is_instance_valid(_audio_settings_panel):
 		_audio_settings_panel.hide()
