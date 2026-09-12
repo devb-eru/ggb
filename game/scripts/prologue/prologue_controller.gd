@@ -368,7 +368,7 @@ func _notification(what: int) -> void:
 		if is_instance_valid(_menu_button):
 			_menu_button.text = _dialogue_ui_text("UI_P_MENU")
 		if is_instance_valid(_notebook_button):
-			_notebook_button.text = _notebook_caption()
+			_refresh_notebook_caption()
 
 
 func _notebook_caption() -> String:
@@ -379,7 +379,16 @@ func _notebook_caption() -> String:
 				keys.append(event.as_text())
 	var names: Array = preload("res://scripts/systems/key_bindings.gd").NAMES["notebook"]
 	var title: String = names[1 if TranslationServer.get_locale().begins_with("en") else 0]
-	return title if keys.is_empty() else title + "\n" + " / ".join(keys)
+	return title if keys.is_empty() else title + "\n" + "\n".join(keys)
+
+
+func _refresh_notebook_caption() -> void:
+	_notebook_button.text = _notebook_caption()
+	_notebook_button.tooltip_text = _notebook_button.text.replace("\n", " · ")
+
+
+func _show_notebook_shortcut() -> void:
+	_set_status(_notebook_button.tooltip_text)
 
 
 func _build_persistent_ui() -> void:
@@ -420,9 +429,14 @@ func _build_persistent_ui() -> void:
 	_place(_status_label, Rect2(500, 90, 920, 44))
 	add_child(_status_label)
 
-	_notebook_button = _make_button(_notebook_caption(), Rect2(24, 912, 116, 132), _open_notebook)
+	_notebook_button = _make_button(_notebook_caption(), Rect2(24, 912, 148, 132), _open_notebook)
 	_notebook_button.name = "NotebookButton"
 	_notebook_button.add_theme_font_size_override("font_size", 22)
+	_notebook_button.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_notebook_button.clip_text = true
+	_notebook_button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_notebook_button.focus_entered.connect(_show_notebook_shortcut)
+	_refresh_notebook_caption()
 	add_child(_notebook_button)
 
 	_inventory_panel = PanelContainer.new()
@@ -670,7 +684,7 @@ func _default_progress() -> Dictionary:
 func _apply_accessibility_profile() -> void:
 	var profile_result := AccessibilityProfileStore.new().load_profile()
 	preload("res://scripts/systems/key_bindings.gd").apply_bindings(profile_result.profile.get("key_bindings", preload("res://scripts/systems/key_bindings.gd").defaults()))
-	_notebook_button.text = _notebook_caption()
+	_refresh_notebook_caption()
 	var profile: Dictionary = profile_result.get("profile", {})
 	var scale := float(profile.get("text_scale", 1.0))
 	var ui_theme := Theme.new()
@@ -2042,7 +2056,7 @@ func _apply_game_key_settings(bindings: Dictionary) -> void:
 		_key_settings_panel.show_save_error()
 		return
 	preload("res://scripts/systems/key_bindings.gd").apply_bindings(bindings)
-	_notebook_button.text = _notebook_caption()
+	_refresh_notebook_caption()
 	_open_menu()
 
 

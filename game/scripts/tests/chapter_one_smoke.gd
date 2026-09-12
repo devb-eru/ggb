@@ -440,6 +440,29 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._open_key_settings()
 	view._apply_game_key_settings(binding_rules.defaults())
 	_expect(view._notebook_button.text == "Notebook\nN", "restoring defaults restores notebook shortcut caption")
+	var notebook: Button = view._notebook_button
+	_expect(notebook.autowrap_mode == TextServer.AUTOWRAP_OFF and notebook.clip_text and notebook.text_overrun_behavior == TextServer.OVERRUN_TRIM_ELLIPSIS, "Notebook avoids splitting words and keeps long captions inside its bounds")
+	var title_width: float = notebook.get_theme_font("font").get_string_size("Notebook", HORIZONTAL_ALIGNMENT_LEFT, -1, notebook.get_theme_font_size("font_size")).x
+	var content_width: float = notebook.size.x - notebook.get_theme_stylebox("normal").get_minimum_size().x
+	_expect(title_width <= content_width and notebook.get_rect().end.x <= 180, "Full English Notebook title fits without covering leftmost puzzle controls")
+	var long_keys: Dictionary = binding_rules.defaults()
+	long_keys["notebook"] = [KEY_PAGEUP | KEY_MASK_CTRL | KEY_MASK_SHIFT | KEY_MASK_ALT, KEY_PAGEDOWN | KEY_MASK_CTRL | KEY_MASK_SHIFT | KEY_MASK_ALT]
+	view._open_key_settings()
+	view._apply_game_key_settings(long_keys)
+	view._close_modal()
+	var full_shortcuts := PackedStringArray()
+	for code in long_keys["notebook"]: full_shortcuts.append(binding_rules.key_event(code).as_text())
+	_expect(notebook.text == "Notebook\n" + "\n".join(full_shortcuts), "Two long notebook bindings occupy separate explicit lines")
+	_expect(notebook.tooltip_text == "Notebook · " + " · ".join(full_shortcuts), "Mouse tooltip retains both complete shortcut combinations")
+	notebook.grab_focus()
+	await tree.process_frame
+	_expect(view._status_label.text == notebook.tooltip_text, "Keyboard focus exposes the same unabridged shortcut guidance")
+	_expect(notebook.size == Vector2(148,132), "Long key labels do not expand over game controls")
+	if "--capture-chapter-one" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		tree.root.get_texture().get_image().save_png("user://notebook_long_shortcuts.png")
+	view._open_key_settings()
+	view._apply_game_key_settings(binding_rules.defaults())
 	TranslationServer.set_locale(previous_locale)
 	await tree.process_frame
 	view._close_modal()
