@@ -115,6 +115,20 @@ func run(tree: SceneTree) -> Dictionary:
 	await tree.process_frame
 	_expect(prologue._window_title.get_theme_font_size("font_size") == 64, "Window title doubles text size", errors)
 	_expect(prologue._window_drop_targets["TOP"].get_theme_font_size("font_size") == 44, "Window area doubles text size", errors)
+	var items: Array = []
+	for index in range(6):
+		items.append({"id": "TEST_%d" % index, "label": "A long inventory item label for reading"})
+	prologue._update_inventory(items)
+	await tree.process_frame
+	await tree.process_frame
+	var inventory_scroll := prologue._inventory_slots[0].get_parent().get_parent() as ScrollContainer
+	_expect(prologue._inventory_slots[0].get_theme_font_size("font_size") == 34, "Inventory doubles text size", errors)
+	prologue._inventory_slots[5].grab_focus()
+	await tree.process_frame
+	await tree.process_frame
+	_expect(inventory_scroll.scroll_vertical > 0, "Keyboard focus scrolls to lower inventory slot", errors)
+	var payload: Dictionary = prologue._inventory_slots[5].get_drag_payload_for_test()
+	_expect(payload.get("item_id") == "TEST_5", "Scrolled inventory retains drag identity", errors)
 	_expect(not prologue._window_drop_targets["TOP"].get_rect().intersects(prologue._window_drop_targets["MIDDLE"].get_rect()), "Large window targets do not overlap", errors)
 	prologue._apply_reading_text_scale(1.0)
 	prologue._close_window_inspection()

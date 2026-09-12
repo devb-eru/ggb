@@ -388,6 +388,17 @@ func _build_persistent_ui() -> void:
 	inventory_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	inventory_title.add_theme_font_size_override("font_size", 19)
 	inventory_column.add_child(inventory_title)
+	var inventory_scroll := ScrollContainer.new()
+	inventory_scroll.name = "InventoryScroll"
+	inventory_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	inventory_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	inventory_scroll.custom_minimum_size.y = 100
+	inventory_scroll.follow_focus = true
+	inventory_column.add_child(inventory_scroll)
+	var slots_column := VBoxContainer.new()
+	slots_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slots_column.add_theme_constant_override("separation", 12)
+	inventory_scroll.add_child(slots_column)
 	for index in range(6):
 		var slot: Button = INVENTORY_DRAG_SLOT_SCRIPT.new()
 		slot.name = "InventorySlot%d" % (index + 1)
@@ -400,7 +411,7 @@ func _build_persistent_ui() -> void:
 		slot.pressed.connect(_on_inventory_slot_pressed.bind(index))
 		slot.drag_started.connect(_on_inventory_drag_started)
 		_inventory_slots.append(slot)
-		inventory_column.add_child(slot)
+		slots_column.add_child(slot)
 
 
 func _build_dialogue_ui() -> void:
@@ -617,6 +628,8 @@ func _apply_reading_text_scale(scale: float) -> void:
 	for button in _dialogue_choice_buttons:
 		button.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
 	_apply_window_text_scale()
+	for slot in _inventory_slots:
+		slot.add_theme_font_size_override("font_size", int(round(17 * _reading_text_scale)))
 
 
 func _apply_window_text_scale() -> void:
