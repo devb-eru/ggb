@@ -343,6 +343,10 @@ func _sleep_now() -> void:
 
 
 func _localized_notebook_entry(entry: String) -> String:
+	for category in ["REFERENCE", "RELAY", "OUTPUT", "EXCLUDED", "PHASE_TOO_EARLY", "PHASE_SIMULTANEOUS", "PHASE_BETWEEN", "PHASE_UNSET"]:
+		var text_id: String = "CH1_CLOCK_FAILURE_" + category + "_NOTE"
+		if entry == _dialogue_texts.get_text(text_id, "ko-KR"):
+			return _dialogue_ui_text(text_id)
 	for clock_id in CLOCK.CLOCKS:
 		if entry == CLOCK.CLUES[clock_id]:
 			return _dialogue_ui_text("CH1_CLOCK_" + clock_id.to_upper())

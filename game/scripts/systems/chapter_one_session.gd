@@ -297,10 +297,14 @@ func act(action: String, value: Variant = null) -> Dictionary:
 					return _reject("봉인핀 파손 가능성을 확인한 뒤 작동한다.")
 				var check: Dictionary = CLOCK.inspect_roles(local["roles"]) if action == "test_clock" else CLOCK.activate(local["roles"], local["phase"])
 				text = check["text"]
+				var category := String(check["category"]).to_upper()
+				text_id = "CH1_CLOCK_TEST_OK" if category.is_empty() else "CH1_CLOCK_RESULT_" + category
 				if action == "activate_clock":
 					if check["ok"]:
+						text_id = "CH1_CLOCK_ACTIVATION_OK"
 						local["signal_generated"] = true
 					else:
+						text_id = "CH1_CLOCK_FAILURE_" + category
 						local["clock_locked"] = true
 						var failures: Dictionary = meta["failure_knowledge"]
 						var old_failure: Dictionary = failures.get("B3_B", {})

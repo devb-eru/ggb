@@ -126,10 +126,10 @@ func run(tree: SceneTree) -> Dictionary:
 	for role in CLOCK.ROLES:
 		session.act("role", [role, CLOCK.SOLUTION[role]])
 	var before_phase: String = session.local_state()["phase"]
-	session.act("test_clock")
+	_expect(session.act("test_clock").get("text_id", "") == "CH1_CLOCK_TEST_OK", "weak test carries translated result without timing validation")
 	_expect(session.local_state()["phase"] == before_phase and not session.local_state()["clock_locked"], "weak test does not set phase or break pin")
 	_expect(not session.act("activate_clock", false).get("ok", false), "actual run requires confirmation")
-	session.act("activate_clock", true)
+	_expect(session.act("activate_clock", true).get("text_id", "") == "CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS", "actual failure retains precise display category")
 	_expect(session.stage() == "BF", "wrong phase physically locks the clock")
 	_expect(not session.act("phase", "+1").get("ok", false), "cannot repair locked clock in same day")
 	var failure := GameState.get_value(&"meta_progress.failure_knowledge.B3_B", {}) as Dictionary
@@ -137,6 +137,7 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(failure.get("verified_roles", {}).size() == 4, "preserve tested roles")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "reload after hard failure")
 	_expect(session.stage() == "BF", "reload cannot evade failure")
+	_expect(session.initialize().get("text_id", "") == "CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS", "failure display ID survives reload")
 	_travel(session, "M2_BEDROOM")
 	_expect(session.sleep().get("ok", false), "sleep after hard failure")
 	_expect(session.local_state()["rubbed"].is_empty() and not session.local_state()["clock_locked"], "rubbings and broken pin reset")
@@ -147,7 +148,7 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(session.act("shortcut").get("ok", false), "BSHORT rebuilds physical materials from knowledge")
 	_expect(session.local_state()["rubbed"].size() == 4, "shortcut reacquires four rubbings")
 	session.act("phase", "+1")
-	session.act("activate_clock", true)
+	_expect(session.act("activate_clock", true).get("text_id", "") == "CH1_CLOCK_ACTIVATION_OK", "successful activation has distinct translated outcome")
 	_expect(session.stage() == "B4", "correct phase leads to recording, not auto J2")
 	session.act("record_wave")
 	_expect(GameState.get_value(&"meta_progress.failure_knowledge.B3_B.status") == "resolved", "success resolves active failure")
@@ -216,6 +217,22 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	var saved_locale := TranslationServer.get_locale()
 	var before_translation := GameState.get_snapshot()
 	TranslationServer.set_locale("en_US")
+	var result_cases: Array[Dictionary] = []
+	for role in CLOCK.ROLES:
+		var roles: Dictionary = CLOCK.SOLUTION.duplicate(true)
+		roles.erase(role)
+		result_cases.append(CLOCK.inspect_roles(roles))
+	for phase in ["-1", "0", "HALF", "unset"]:
+		result_cases.append(CLOCK.activate(CLOCK.SOLUTION, phase))
+	for result in result_cases:
+		var category: String = String(result["category"]).to_upper()
+		_expect(view._dialogue_texts.get_text("CH1_CLOCK_RESULT_" + category, "ko-KR") == result["text"], "failure category translation matches puzzle source")
+		var note_id: String = "CH1_CLOCK_FAILURE_" + category + "_NOTE"
+		var note_source: String = view._dialogue_texts.get_text(note_id, "ko-KR")
+		_expect(view._localized_notebook_entry(note_source).contains("Sleep will restore the pin"), "English failure note preserves sleep recovery rule")
+		_expect(view._dialogue_ui_text("CH1_CLOCK_FAILURE_" + category).contains("Edgar: It is my duty"), "English actual failure preserves Edgar response")
+	_expect(view._dialogue_ui_text("CH1_CLOCK_TEST_OK").contains("cannot verify the transmission timing"), "English weak test does not reveal timing validation")
+	_expect(view._dialogue_texts.get_text("CH1_CLOCK_ACTIVATION_OK", "ko-KR") == CLOCK.activate(CLOCK.SOLUTION, "+1")["text"], "success translation source matches canonical activation")
 	for clock_id in CLOCK.CLOCKS:
 		var text_id: String = "CH1_CLOCK_" + clock_id.to_upper()
 		_expect(view._dialogue_texts.get_text(text_id, "ko-KR") == CLOCK.CLUES[clock_id], "Korean clock clue matches puzzle source")
