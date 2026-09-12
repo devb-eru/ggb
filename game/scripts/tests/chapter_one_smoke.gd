@@ -420,7 +420,30 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	_expect(keyboard_button.text == view._key_settings_label(), "campaign menu exposes keyboard settings")
 	keyboard_button.pressed.emit()
 	_expect(view._key_settings_panel.visible and not view._modal_panel.visible, "actual campaign menu opens keyboard panel")
+	var binding_rules = preload("res://scripts/systems/key_bindings.gd")
+	var custom_keys: Dictionary = binding_rules.defaults()
+	custom_keys["notebook"] = [KEY_F8 | KEY_MASK_CTRL]
+	view._apply_game_key_settings(custom_keys)
+	_expect(view._notebook_button.text.ends_with("\nCtrl+F8"), "saved notebook key updates visible shortcut")
+	TranslationServer.set_locale("en")
+	await tree.process_frame
+	_expect(view._notebook_button.text == "Notebook\nCtrl+F8", "locale change preserves actual notebook binding")
+	view._open_key_settings()
+	var before_cancel_caption: String = view._notebook_button.text
+	var invalid_keys: Dictionary = custom_keys.duplicate(true)
+	invalid_keys["notebook"] = []
+	view._apply_game_key_settings(invalid_keys)
+	_expect(view._notebook_button.text == before_cancel_caption and view._key_settings_panel.visible, "failed profile validation preserves notebook caption and panel")
+	_expect(InputMap.action_has_event("notebook_toggle", binding_rules.key_event(KEY_F8 | KEY_MASK_CTRL)), "failed settings save preserves actual notebook binding")
 	view._key_settings_panel.back.pressed.emit()
+	_expect(view._notebook_button.text == before_cancel_caption, "leaving key settings preserves committed shortcut")
+	view._open_key_settings()
+	view._apply_game_key_settings(binding_rules.defaults())
+	_expect(view._notebook_button.text == "Notebook\nN", "restoring defaults restores notebook shortcut caption")
+	TranslationServer.set_locale(previous_locale)
+	await tree.process_frame
+	view._close_modal()
+	view._open_menu()
 	var display_button := view._modal_body.get_child(8) as Button
 	_expect(display_button.text == view._display_settings_label(), "campaign menu exposes display settings")
 	display_button.pressed.emit()
