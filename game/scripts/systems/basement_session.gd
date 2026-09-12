@@ -128,6 +128,21 @@ func _rooms_connected(from: String, to: String, knowledge: Dictionary) -> bool:
 	return super._rooms_connected(from, to, knowledge)
 
 
+func can_use_basement_shortcut(fast_path: bool = false) -> bool:
+	var state := snapshot()
+	var local := basement_local(state)
+	if state["loop_state"]["location_id"] != "M2_BEDROOM" or local["axes"]["locked"] or local["axes"]["open"]:
+		return false
+	if state["fracture_state"]["camouflage_filter"] == "disabled" or state["fracture_state"]["broken_reset_triggered"] or stage() == "D_SLEEP":
+		return false
+	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
+	if fast_path:
+		return knowledge.get("basement_access_fast_path", false)
+	return knowledge.get("basement_overlay_solved", false) \
+		and not knowledge.get("basement_access_fast_path", false) \
+		and state["meta_progress"]["failure_knowledge"].get("D1", {}).get("status", "") == "active"
+
+
 func act(action: String, value: Variant = null) -> Dictionary:
 	if _save.get_build_flavor() == "demo":
 		var demo_stage := stage()
@@ -309,6 +324,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				if meta["failure_knowledge"].has("D1"): meta["failure_knowledge"]["D1"]["status"] = "resolved"
 				_note(knowledge, "D2", "세 축과 중앙 반 바퀴로 지하창고 접근 경로를 검증했다.")
 		"d_shortcut", "d_fastpath":
+			if not can_use_basement_shortcut(action == "d_fastpath"): return _reject("수면 뒤 닫힌 지하창고를 다시 준비할 때 사용하는 동선이다. 이미 열린 문이나 파열 이후에는 이전 절차를 반복하지 않는다.")
 			if room != "M2_BEDROOM" or local["axes"]["locked"]: return _reject("리셋 뒤 같은 침실에서 준비 동선을 시작한다.")
 			if action == "d_shortcut" and not meta["failure_knowledge"].has("D1"): return _reject("실패 뒤 확인한 축 기록이 필요하다.")
 			if action == "d_fastpath" and not known("basement_access_fast_path"): return _reject("지하창고를 한 번 직접 열어야 한다.")

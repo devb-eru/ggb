@@ -1293,9 +1293,9 @@ func _build_loop_bedroom(local: Dictionary) -> void:
 		if old != null:
 			_hotspot_layer.remove_child(old)
 			old.queue_free()
-	if session.known("basement_access_fast_path"):
+	if _basement().can_use_basement_shortcut(true):
 		_action("D_FASTPATH", "검증한 절차로 지하창고 다시 열기", Rect2(350, 770, 1050, 90), "d_fastpath")
-	elif session.snapshot()["meta_progress"]["failure_knowledge"].has("D1"):
+	elif _basement().can_use_basement_shortcut():
 		_action("DSHORT", "도면과 검증한 깊이로 준비 축약", Rect2(350, 770, 1050, 90), "d_shortcut")
 
 func _build_inner(_local: Dictionary, _journal: int) -> void:
