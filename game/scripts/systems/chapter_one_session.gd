@@ -24,6 +24,7 @@ var slot_id: String
 var _game: Node
 var _save: Node
 var _writer: StateWriter
+var _pending_feedback_text_id := ""
 
 
 func _init(game: Node, save: Node, slot: String) -> void:
@@ -85,7 +86,7 @@ func initialize() -> Dictionary:
 		state["loop_state"]["location_id"] = "M2_BEDROOM"
 	state["loop_state"]["event_local_states"][LOCAL_KEY] = local_state(state)
 	var last: Dictionary = local_state(state).get("last_feedback", {})
-	return _commit(state, String(last.get("text", "같은 아침이다. 방의 흔적과 수첩을 비교해 본다.")), String(last.get("speaker", "주인공")))
+	return _commit_feedback(state, String(last.get("text", "같은 아침이다. 방의 흔적과 수첩을 비교해 본다.")), String(last.get("speaker", "주인공")), String(last.get("text_id", "")))
 
 
 func act(action: String, value: Variant = null) -> Dictionary:
@@ -345,10 +346,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				_note(knowledge, "J2", text)
 		_:
 			return _reject("정의되지 않은 행동이다: " + action)
-	var result := _commit(state, text, speaker)
-	if result.get("ok", false) and not text_id.is_empty():
-		result["text_id"] = text_id
-	return result
+	return _commit_feedback(state, text, speaker, text_id)
 
 
 func sleep() -> Dictionary:
@@ -381,9 +379,10 @@ func _note(knowledge: Dictionary, id: String, text: String) -> void:
 
 
 func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> Dictionary:
+	var text_id := _pending_feedback_text_id
 	var local := local_state(state)
 	if not text.is_empty():
-		local["last_feedback"] = {"text": text, "speaker": speaker}
+		local["last_feedback"] = {"text": text, "speaker": speaker, "text_id": text_id}
 	state["loop_state"]["event_local_states"][LOCAL_KEY] = local
 	var inventory: Array = state["loop_state"]["inventory"]
 	# Rebuild only this chapter's physical items; unrelated inventory is preserved.
@@ -400,7 +399,16 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 	if not saved.get("ok", false):
 		_game.rollback_failed_persistence(installed["previous_snapshot"], int(installed["revision"]), transaction, &"ERR_CAMPAIGN_SAVE")
 		return saved
-	return {"ok": true, "text": text, "speaker": speaker, "stage": stage()}
+	return {"ok": true, "text": text, "speaker": speaker, "text_id": text_id, "stage": stage()}
+
+
+func _commit_feedback(state: Dictionary, text: String, speaker: String, text_id: String) -> Dictionary:
+	# Keep subclass commit hooks while passing display metadata through the transaction.
+	var previous_id := _pending_feedback_text_id
+	_pending_feedback_text_id = text_id
+	var result := _commit(state, text, speaker)
+	_pending_feedback_text_id = previous_id
+	return result
 
 
 func _save_point(_state: Dictionary) -> String:
