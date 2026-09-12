@@ -4,6 +4,16 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"P4_Q_FATHER_TEA": "아버지가 좋아한 차인가요?",
+"P4_A_FATHER_TEA": "네... 비슷한 향을 좋아하셨어요.\n정확히 같은지는... 이제 자신이 없지만요.",
+"P4_Q_MANSION_AGE": "이 저택은 언제부터 있었나요?",
+"P4_A_MANSION_AGE": "아가씨가 기억하는 만큼 오래됐다고... 들었어요.",
+"P4_Q_LUCA_TENURE": "루카는 여기서 오래 일했나요?",
+"P4_A_LUCA_TENURE": "오래요... 아주 오래요.\n그런데 며칠이라고 세면, 늘 같은 수가 나와서...",
+"P4_HEADER": "차가 식기 전에 묻는다",
+"P4_PROMPT": "루카는 대답을 기다리면서도 찻잔에서 시선을 떼지 않는다. 한 가지만 물어볼 수 있을 것 같다.",
+"P4_TENURE_PAUSE": "루카는 자신이 한 말을 뒤늦게 알아차린 듯 입술을 다문다. 손끝이 급히 찻잔을 가지런히 모은다.",
+"P4_SERVE": "차가 식기 전에... 내어 갈게요.",
 "P3B_EDGAR": "에드가 · LOCK",
 "P3B_MARA1": "마라 1 · MAINT",
 "P3B_LUCA": "루카 · BIO",
@@ -157,6 +167,16 @@ localized_text = {
 "P1_WAKE_OBJECTIVE": "빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."
 },
 "en-US": {
+"P4_Q_FATHER_TEA": "Was this Father's favorite tea?",
+"P4_A_FATHER_TEA": "Yes... he liked a similar fragrance.\nWhether it was exactly the same... I'm no longer sure.",
+"P4_Q_MANSION_AGE": "How long has this mansion been here?",
+"P4_A_MANSION_AGE": "As long as you can remember... or so I've been told.",
+"P4_Q_LUCA_TENURE": "Have you worked here a long time, Luka?",
+"P4_A_LUCA_TENURE": "A long time... a very long time.\nBut when I count the days, I always get the same number...",
+"P4_HEADER": "Ask before the tea cools",
+"P4_PROMPT": "Luka waits without taking her eyes off the teacup. It feels like I can ask just one question.",
+"P4_TENURE_PAUSE": "Luka closes her lips, as though only now realizing what she said. Her fingers hurry to gather the cups neatly.",
+"P4_SERVE": "I'll serve it... before the tea gets cold.",
 "P3B_EDGAR": "Edgar · LOCK",
 "P3B_MARA1": "Mara 1 · MAINT",
 "P3B_LUCA": "Luka · BIO",

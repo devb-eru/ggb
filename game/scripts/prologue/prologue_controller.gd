@@ -1398,6 +1398,14 @@ func _turn_p4_cup_handle() -> void:
 	])
 
 
+func _localized_p4_choices() -> Dictionary:
+	var choices := P4_FATHER_CHOICES.duplicate(true)
+	for choice_id in choices:
+		choices[choice_id]["label"] = _dialogue_ui_text("P4_Q_" + String(choice_id).to_upper())
+		choices[choice_id]["response"] = _dialogue_ui_text("P4_A_" + String(choice_id).to_upper())
+	return choices
+
+
 func _show_p4_father_choices() -> void:
 	if _dialogue_active or _modal_active or bool(_progress.get("P4_complete", false)):
 		return
@@ -1407,12 +1415,12 @@ func _show_p4_father_choices() -> void:
 	_save_progress()
 	_show_dialogue_choice_set(
 		"p4_father",
-		"차가 식기 전에 묻는다",
+		_dialogue_ui_text("P4_HEADER"),
 		"주인공",
-		"루카는 대답을 기다리면서도 찻잔에서 시선을 떼지 않는다. 한 가지만 물어볼 수 있을 것 같다.",
+		_dialogue_ui_text("P4_PROMPT"),
 		"LUCA",
 		P4_FATHER_CHOICE_ORDER,
-		P4_FATHER_CHOICES
+		_localized_p4_choices()
 	)
 
 
@@ -1437,10 +1445,10 @@ func _resume_p4_question_answer() -> void:
 
 
 func _present_p4_question_answer(choice_id: String) -> void:
-	var lines: Array = [{"speaker": "루카", "portrait": "LUCA", "text": String(P4_FATHER_CHOICES[choice_id]["response"])}]
+	var lines: Array = [{"speaker": "루카", "portrait": "LUCA", "text": String(_localized_p4_choices()[choice_id]["response"])}]
 	if choice_id == "luca_tenure":
-		lines.append({"speaker": "SYSTEM", "text": "루카는 자신이 한 말을 뒤늦게 알아차린 듯 입술을 다문다. 손끝이 급히 찻잔을 가지런히 모은다."})
-		lines.append({"speaker": "루카", "portrait": "LUCA", "text": "차가 식기 전에... 내어 갈게요."})
+		lines.append({"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_TENURE_PAUSE")})
+		lines.append({"speaker": "루카", "portrait": "LUCA", "text": _dialogue_ui_text("P4_SERVE")})
 	_show_dialogue(lines, _finish_p4_after_question)
 
 

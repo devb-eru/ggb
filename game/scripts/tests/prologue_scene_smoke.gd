@@ -78,6 +78,22 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._advance_dialogue()
 	_expect(not prologue._dialogue_active, "English P1 completes normally", errors)
 	_expect("Examine the light" in prologue._status_label.text, "English P1 completes with localized objective", errors)
+	for choice_id in prologue.P4_FATHER_CHOICE_ORDER:
+		prologue._progress["P4_complete"] = false
+		prologue._progress["tea_step"] = prologue.TEA_STEPS.size()
+		prologue._progress["p4_memory_anchor_seen"] = true
+		prologue._progress["p4_father_question"] = ""
+		prologue._show_p4_father_choices()
+		_expect(prologue._dialogue_choice_buttons[0].get_meta("choice_label") == "Was this Father's favorite tea?", "English P4 choice label", errors)
+		prologue._answer_p4_father_choice(choice_id)
+		_expect(prologue._progress["p4_father_question"] == choice_id, "English P4 preserves chosen ID", errors)
+		_expect(prologue._dialogue_label.text == prologue._localized_p4_choices()[choice_id]["response"], "English P4 answer rendered", errors)
+		prologue._answer_p4_father_choice("mansion_age" if choice_id != "mansion_age" else "father_tea")
+		_expect(prologue._progress["p4_father_question"] == choice_id, "English P4 rejects second selection", errors)
+		if choice_id == "luca_tenure":
+			_expect(prologue._dialogue_lines.size() == 3, "Tenure keeps topic-change beats", errors)
+			_expect("same number" in prologue._dialogue_label.text, "English tenure keeps loop clue", errors)
+		prologue._dismiss_dialogue_for_test()
 	prologue._progress["P3_complete"] = false
 	prologue._progress["p3_placed"] = {}
 	prologue._progress["p3_journal_seen"] = true
