@@ -23,8 +23,10 @@ func _open_notebook() -> void:
 		button.name = "CleanerQuantityTable"
 		button.text = "Compare quantities" if TranslationServer.get_locale().begins_with("en") else "수첩에서 양을 정리한다"
 		button.custom_minimum_size.y = 58
+		button.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
 		button.pressed.connect(_open_cleaner_quantity_table)
 		_modal_body.add_child(button)
+		_cycle_support_focus()
 
 
 func _open_cleaner_quantity_table() -> void:
@@ -54,6 +56,7 @@ func _open_cleaner_quantity_table() -> void:
 	ratio.toggled.connect(refresh)
 	difference.toggled.connect(refresh)
 	refresh.call()
+	_cycle_support_focus()
 
 
 func _puzzle_hint_text(level: int) -> String:

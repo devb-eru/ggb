@@ -153,6 +153,20 @@ func _validate_unique_solutions() -> void:
 	_expect(traces == 1, "unique 24-3 mirror transform and trace")
 
 
+func _support_key(keycode: Key, scene_tree: SceneTree, shift: bool = false) -> void:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.physical_keycode = keycode
+	event.shift_pressed = shift
+	event.pressed = true
+	Input.parse_input_event(event)
+	await scene_tree.process_frame
+	event = event.duplicate()
+	event.pressed = false
+	Input.parse_input_event(event)
+	await scene_tree.process_frame
+
+
 func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Dictionary) -> void:
 	var completed := GameState.get_snapshot()
 	StateWriter.new(GameState).install_snapshot(ready, GameState.revision, &"MIRROR_UI")
@@ -180,7 +194,9 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 	var hint_base := GameState.get_snapshot()
 	for hint_stage in ["C3", "C4"]:
 		var hint_state := hint_base.duplicate(true)
+		var old_scale: float = view._reading_text_scale
 		if hint_stage == "C3":
+			view._apply_reading_text_scale(2.0)
 			hint_state.loop_state.event_local_states.BLACK_MIRROR.cleaner_ready = false
 			hint_state.loop_state.inventory.erase("NEUTRAL_CLEANER")
 		_expect(StateWriter.new(GameState).install_snapshot(hint_state, GameState.revision, StringName("MIRROR_HINT_" + hint_stage)).get("ok", false), "hint fixture installed")
@@ -192,11 +208,31 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 			_expect(table.candidates(false, true).size() == 4, "water filter alone leaves four candidates")
 			_expect(table.candidates(true, true) == [{"water": 5, "stabilizer": 1, "active": 2}], "combined constraints yield original mixture")
 			view._open_notebook()
+			_expect(view._modal_body.get_node("ClockHintsButton").get_theme_font_size("font_size") == 42, "notebook hint button follows text scale")
+			_expect(view._modal_body.get_node("CleanerQuantityTable").get_theme_font_size("font_size") == 42, "notebook calculation button follows text scale")
+			await tree.process_frame
+			await tree.process_frame
+			_expect(view._modal_panel.get_global_rect().end.y <= view.get_global_rect().end.y, "large text notebook remains vertically within view")
+			if "--capture-black-mirror" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+				await RenderingServer.frame_post_draw
+				tree.root.get_texture().get_image().save_png("user://cleaner_notebook_200.png")
 			(view._modal_body.get_node("CleanerQuantityTable") as Button).pressed.emit()
 			var quantity_body := view._modal_body.get_child(2).get_child(0) as Label
 			_expect(quantity_body.text.contains("45"), "quantity table initially shows unfiltered candidates")
 			var ratio := view._modal_body.get_node("QuantityRatio") as CheckButton
 			var difference := view._modal_body.get_node("QuantityWaterDifference") as CheckButton
+			_expect(ratio.get_theme_font_size("font_size") == 42, "quantity filters respect 200 percent text")
+			await tree.process_frame
+			await tree.process_frame
+			ratio.grab_focus()
+			await _support_key(KEY_SPACE, tree)
+			_expect(ratio.button_pressed, "Space toggles focused quantity filter through input pipeline")
+			await _support_key(KEY_TAB, tree)
+			_expect(tree.root.gui_get_focus_owner() == difference, "Tab advances to next filter")
+			await _support_key(KEY_TAB, tree)
+			_expect(tree.root.gui_get_focus_owner() == view._modal_body.get_child(2), "last filter wraps to support scroll instead of world")
+			await _support_key(KEY_TAB, tree, true)
+			_expect(tree.root.gui_get_focus_owner() == difference, "Shift Tab wraps backward within support")
 			ratio.button_pressed = true
 			difference.button_pressed = true
 			_expect(quantity_body.text.contains("W 5   |   S 1   |   A 2") and not quantity_body.text.contains("W 8"), "actual filter controls narrow table")
@@ -207,7 +243,13 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 			ratio.button_pressed = false
 			difference.button_pressed = false
 			_expect(quantity_body.text.contains("45"), "clearing filters restores candidates")
+			var quantity_scroll := view._modal_body.get_child(2) as ScrollContainer
+			quantity_scroll.grab_focus()
+			await tree.process_frame
+			await _support_key(KEY_PAGEDOWN, tree)
+			_expect(quantity_scroll.scroll_vertical > 0, "Page Down reaches candidate rows at large text")
 			view._close_modal()
+			view._apply_reading_text_scale(old_scale)
 			_expect(GameState.get_snapshot() == hint_state, "quantity table never pours or changes state")
 		view._open_notebook()
 		var hints := view._modal_body.get_node_or_null("ClockHintsButton") as Button
