@@ -73,6 +73,27 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._advance_dialogue()
 	_expect(not prologue._dialogue_active, "English P1 completes normally", errors)
 	_expect("Examine the light" in prologue._status_label.text, "English P1 completes with localized objective", errors)
+	prologue._progress["window_states"] = prologue._make_default_window_states()
+	prologue._open_window_inspection(0)
+	_expect("Window 1 close-up" in prologue._window_title.text, "English window title", errors)
+	_expect(prologue._window_drop_targets["TOP"].text == "Top\nDust", "English dust area", errors)
+	var window_state: Dictionary = prologue._progress["window_states"][0]
+	window_state["dust_spread"] = true
+	prologue._refresh_window_inspection()
+	_expect("Dust spread sideways" in prologue._window_drop_targets["TOP"].text, "English spread state", errors)
+	window_state["dust_spread"] = false
+	window_state["top_dust"] = false
+	window_state["middle_stain"] = false
+	window_state["bottom_wet"] = true
+	prologue._refresh_window_inspection()
+	_expect("Moisture at the bottom" in prologue._window_title.text, "English remaining moisture stage", errors)
+	_expect(prologue._window_drop_targets["BOTTOM"].text == "Bottom\nWet", "English wet area", errors)
+	window_state["bottom_wet"] = false
+	var clean_snapshot := window_state.duplicate(true)
+	prologue._refresh_window_inspection()
+	_expect("This window is clean" in prologue._window_hint_label.text, "English completed window hint", errors)
+	_expect(window_state == clean_snapshot, "Translation does not mutate window state", errors)
+	prologue._close_window_inspection()
 	prologue._progress["P4_complete"] = false
 	prologue._progress["p1_inspections"] = []
 	prologue._enter_room("M2_BEDROOM")

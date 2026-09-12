@@ -807,9 +807,9 @@ func _open_window_inspection(index: int) -> void:
 	_inspection_layer.visible = true
 	_selected_item = ""
 	_refresh_inventory_selection()
-	_set_window_feedback("도구를 원하는 오염 영역으로 드래그하십시오.")
+	_set_window_feedback(_dialogue_ui_text("P2_DRAG"))
 	_refresh_window_inspection()
-	_set_status("창 %d 확대 조사 중" % (index + 1))
+	_set_status(_dialogue_ui_text("P2_INSPECTING", {"index": index + 1}))
 
 
 func _close_window_inspection(update_status: bool = true) -> void:
@@ -818,7 +818,7 @@ func _close_window_inspection(update_status: bool = true) -> void:
 	_inspection_active = false
 	_inspected_window = -1
 	if update_status and _status_label != null:
-		_set_status("창문 확대를 닫았다. 다른 창을 선택할 수 있다.")
+		_set_status(_dialogue_ui_text("P2_CLOSED"))
 	_refresh_inventory_selection()
 
 
@@ -829,24 +829,24 @@ func _refresh_window_inspection() -> void:
 	if _inspected_window >= states.size():
 		return
 	var state: Dictionary = states[_inspected_window]
-	_window_title.text = "창 %d 확대 · %s" % [_inspected_window + 1, _window_stage_name(_stage_from_window_state(state))]
+	_window_title.text = _dialogue_ui_text("P2_TITLE", {"index": _inspected_window + 1, "state": _window_stage_name(_stage_from_window_state(state))})
 	_window_art.set_window_state(_inspected_window, state)
 	var clean := _is_window_clean(state)
 	var top = _window_drop_targets["TOP"]
 	var middle = _window_drop_targets["MIDDLE"]
 	var bottom = _window_drop_targets["BOTTOM"]
-	top.text = "위쪽\n%s" % ("먼지가 양옆으로 퍼짐" if bool(state.get("dust_spread", false)) else ("먼지" if bool(state.get("top_dust", true)) else "정리됨"))
-	middle.text = "가운데\n%s" % ("얼룩" if bool(state.get("middle_stain", true)) else "정리됨")
-	bottom.text = "아래\n%s" % ("물기" if bool(state.get("bottom_wet", false)) else "마른 상태")
+	top.text = _dialogue_ui_text("P2_TOP", {"state": _dialogue_ui_text("P2_SPREAD" if bool(state.get("dust_spread", false)) else ("P2_DUST" if bool(state.get("top_dust", true)) else "P2_CLEAR"))})
+	middle.text = _dialogue_ui_text("P2_MIDDLE", {"state": _dialogue_ui_text("P2_STAIN" if bool(state.get("middle_stain", true)) else "P2_CLEAR")})
+	bottom.text = _dialogue_ui_text("P2_BOTTOM", {"state": _dialogue_ui_text("P2_WET" if bool(state.get("bottom_wet", false)) else "P2_DRY")})
 	for target_value in _window_drop_targets.values():
 		target_value.set_drop_enabled(not clean)
-	_window_hint_label.text = "완료된 창입니다. 오염 패턴을 다시 확인할 수 있습니다." if clean else "오른쪽 인벤토리의 도구를 위·가운데·아래 영역으로 드래그하십시오."
+	_window_hint_label.text = _dialogue_ui_text("P2_CLEAN_HINT" if clean else "P2_ACTIVE_HINT")
 	_refresh_inventory_selection()
 
 
 func _on_window_zone_pressed(zone_id: String) -> void:
 	if _selected_item.is_empty():
-		_set_window_feedback("먼저 인벤토리에서 도구를 드래그하십시오. 키보드 조작은 도구 선택 후 영역을 누릅니다.")
+		_set_window_feedback(_dialogue_ui_text("P2_SELECT_HINT"))
 		return
 	_on_window_item_dropped(_selected_item, "WINDOW_ZONE_%s" % zone_id)
 
@@ -1953,7 +1953,7 @@ func _task_label(label: String, flag: String) -> String:
 
 
 func _window_stage_name(stage: int) -> String:
-	return ["위쪽 먼지", "가운데 얼룩", "아래쪽 물기", "완료"][clampi(stage, 0, 3)]
+	return _dialogue_ui_text(["P2_STAGE_TOP", "P2_STAGE_MIDDLE", "P2_STAGE_BOTTOM", "UI_DUTY_COMPLETE"][clampi(stage, 0, 3)])
 
 
 func _make_default_window_states() -> Array:
