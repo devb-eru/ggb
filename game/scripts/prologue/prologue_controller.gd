@@ -5,6 +5,9 @@ signal return_to_title_requested
 signal campaign_requested(slot_id: String)
 signal audio_settings_changed(settings: Dictionary)
 signal menu_audio_pause_requested(paused: bool)
+signal audio_cue_requested(cue_id: StringName)
+signal audio_room_requested(room_id: String)
+var _audio_dialogue_index := -1
 
 var _audio_settings_panel: PanelContainer
 var _audio_profile_store := AccessibilityProfileStore.new()
@@ -682,6 +685,7 @@ func _show_p1_intro() -> void:
 func _enter_room(room_id: String) -> void:
 	_close_window_inspection(false)
 	_current_room = room_id
+	audio_room_requested.emit(room_id)
 	_progress["current_room"] = room_id
 	_location_label.text = _dialogue_ui_text("ROOM_" + room_id) if ROOM_NAMES.has(room_id) else room_id
 	_set_room_background(room_id)
@@ -1364,7 +1368,7 @@ func _show_p4_life_support_foreshadow() -> void:
 	_save_progress()
 	_rebuild_current_room_content()
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_PULSE")},
+		{"speaker": "SYSTEM", "audio_cue": "AUD_SIG_LUCA", "text": _dialogue_ui_text("P4_MEMORY_PULSE")},
 		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_EARS")},
 		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_REPLY")},
 	])
@@ -1729,6 +1733,7 @@ func _refresh_inventory_selection() -> void:
 
 func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 	_prologue_history_index = -1
+	_audio_dialogue_index = -1
 	_hide_dialogue_choices()
 	_dialogue_lines = lines.duplicate(true)
 	_dialogue_index = 0
@@ -1757,6 +1762,10 @@ func _localized_speaker(speaker: String) -> String:
 
 func _present_dialogue_line() -> void:
 	var line: Dictionary = _dialogue_lines[_dialogue_index]
+	if _audio_dialogue_index != _dialogue_index:
+		_audio_dialogue_index = _dialogue_index
+		if line.has("audio_cue"):
+			audio_cue_requested.emit(StringName(line.audio_cue))
 	if line.get("cup_pose", "") in ["turned", "returned"]:
 		var cup := _hotspot_layer.get_node_or_null("P4_CUP_ART")
 		if cup != null:

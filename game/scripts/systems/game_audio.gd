@@ -8,10 +8,58 @@ var _levels := {&"BGM": 1.0, &"AMB": 1.0, &"SFX": 1.0}
 var _pause_reasons: Dictionary = {}
 var _master := 1.0
 var _muted := false
+var _catalog: Dictionary = {}
+var _room_id := ""
+const CATALOG_PATH := "res://data/registries/audio_cue_registry.json"
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	load_catalog(CATALOG_PATH)
+
+
+func load_catalog(path: String) -> bool:
+	if not FileAccess.file_exists(path):
+		return false
+	var value: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not value is Dictionary or value.get("schema_version") != 1 or not value.get("cues") is Array:
+		return false
+	var next: Dictionary = {}
+	for entry: Variant in value.cues:
+		if not entry is Dictionary:
+			return false
+		var id: Variant = entry.get("asset_id")
+		if not id is String or id.is_empty() or next.has(id):
+			return false
+		if entry.get("channel") not in ["BGM", "AMB", "SFX"] or not entry.get("resource_path") is String:
+			return false
+		if entry.get("status") not in ["PLANNED", "APPROVED"]:
+			return false
+		next[id] = entry.duplicate(true)
+	_catalog = next
+	return true
+
+
+func request_cue(cue_id: StringName) -> bool:
+	var entry: Dictionary = _catalog.get(String(cue_id), {})
+	if entry.get("status") != "APPROVED":
+		return false
+	var path: String = entry.get("resource_path", "")
+	if not path.begins_with("res://assets/") or not ResourceLoader.exists(path, "AudioStream"):
+		return false
+	var stream := ResourceLoader.load(path) as AudioStream
+	return play_cue(cue_id, stream, StringName(entry.channel))
+
+
+func enter_room(room_id: String) -> void:
+	if room_id == _room_id:
+		return
+	_room_id = room_id
+	# Never carry the previous room's ambience into an unvoiced room.
+	for id: StringName in _voices.keys():
+		if _voices[id].channel == &"AMB":
+			stop_cue(id)
+	request_cue(StringName("AUD_AMB_" + room_id))
 
 
 func play_cue(cue_id: StringName, stream: AudioStream, channel: StringName) -> bool:
@@ -51,6 +99,7 @@ func stop_cue(cue_id: StringName) -> void:
 
 
 func stop_all() -> void:
+	_room_id = ""
 	for id: StringName in _voices.keys():
 		stop_cue(id)
 

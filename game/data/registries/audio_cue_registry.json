@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "cues": [
+    {
+      "asset_id": "BGM_TITLE",
+      "channel": "BGM",
+      "status": "PLANNED",
+      "resource_path": ""
+    },
+    {
+      "asset_id": "AUD_SIG_LUCA",
+      "channel": "SFX",
+      "status": "PLANNED",
+      "resource_path": ""
+    },
+    {
+      "asset_id": "AUD_AMB_M2_BEDROOM",
+      "channel": "AMB",
+      "status": "PLANNED",
+      "resource_path": ""
+    },
+    {
+      "asset_id": "AUD_AMB_M1_CENTRAL_HALL",
+      "channel": "AMB",
+      "status": "PLANNED",
+      "resource_path": ""
+    },
+    {
+      "asset_id": "AUD_AMB_M1_PARLOR",
+      "channel": "AMB",
+      "status": "PLANNED",
+      "resource_path": ""
+    },
+    {
+      "asset_id": "AUD_AMB_M1_LIBRARY_OUTER",
+      "channel": "AMB",
+      "status": "PLANNED",
+      "resource_path": ""
+    },
+    {
+      "asset_id": "AUD_AMB_M1_NORTH_ARCHIVE_HALL",
+      "channel": "AMB",
+      "status": "PLANNED",
+      "resource_path": ""
+    },
+    {
+      "asset_id": "AUD_AMB_M1_KITCHEN",
+      "channel": "AMB",
+      "status": "PLANNED",
+      "resource_path": ""
+    },
+    {
+      "asset_id": "AUD_AMB_M1_GREENHOUSE_VESTIBULE",
+      "channel": "AMB",
+      "status": "PLANNED",
+      "resource_path": ""
+    }
+  ]
+}

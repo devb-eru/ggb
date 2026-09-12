@@ -59,7 +59,13 @@ func run(tree: SceneTree) -> Dictionary:
 		prologue._advance_dialogue()
 		prologue._advance_dialogue()
 		await _capture_view(tree, CAPTURE_FILE, "PROLOGUE_CAPTURE")
+	var audio_requests: Array[StringName] = []
+	var room_requests: Array[String] = []
+	prologue.audio_cue_requested.connect(func(id: StringName): audio_requests.append(id))
+	prologue.audio_room_requested.connect(func(id: String): room_requests.append(id))
 	var errors: PackedStringArray = prologue.run_smoke_scenario()
+	_expect(audio_requests.count(&"AUD_SIG_LUCA") == 1, "P4 pulse dispatches once during the tea sequence", errors)
+	_expect("M1_KITCHEN" in room_requests, "kitchen entry requests ambience", errors)
 	var original_locale := TranslationServer.get_locale()
 	TranslationServer.set_locale("en_US")
 	prologue._show_p1_intro()

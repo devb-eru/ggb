@@ -30,6 +30,7 @@ func _ready() -> void:
 	add_child(_audio)
 	_start_screen.audio_settings_changed.connect(_apply_audio_settings)
 	_apply_audio_settings(_start_screen.get_audio_settings())
+	_audio.request_cue(&"BGM_TITLE")
 	_validate_engine_version()
 	_load_coordinator = LoadCoordinator.new(GameState, SaveManager)
 	_reset_coordinator = ResetCoordinator.new(GameState, SaveManager)
@@ -163,6 +164,8 @@ func _launch_prologue(slot_id: String, resume_id: String) -> void:
 	_prologue.configure_session(slot_id, resume_id)
 	_prologue.audio_settings_changed.connect(_apply_audio_settings)
 	_prologue.menu_audio_pause_requested.connect(_set_menu_audio_pause)
+	_prologue.audio_cue_requested.connect(_audio.request_cue)
+	_prologue.audio_room_requested.connect(_audio.enter_room)
 	_prologue.return_to_title_requested.connect(_on_prologue_return_to_title)
 	_prologue.campaign_requested.connect(_launch_campaign, CONNECT_DEFERRED)
 	_start_screen.visible = false
@@ -182,6 +185,8 @@ func _launch_campaign(slot_id: String) -> void:
 	_prologue.configure_session(slot_id, "MORNING_ROUTE")
 	_prologue.audio_settings_changed.connect(_apply_audio_settings)
 	_prologue.menu_audio_pause_requested.connect(_set_menu_audio_pause)
+	_prologue.audio_cue_requested.connect(_audio.request_cue)
+	_prologue.audio_room_requested.connect(_audio.enter_room)
 	_prologue.return_to_title_requested.connect(_on_prologue_return_to_title)
 	_prologue.campaign_requested.connect(_launch_campaign, CONNECT_DEFERRED)
 	_start_screen.visible = false
@@ -195,6 +200,7 @@ func _on_prologue_return_to_title() -> void:
 		_prologue.queue_free()
 	_prologue = null
 	_start_screen.refresh_profile()
+	_audio.request_cue(&"BGM_TITLE")
 	_start_screen.visible = true
 	_start_screen.refresh_slots()
 
