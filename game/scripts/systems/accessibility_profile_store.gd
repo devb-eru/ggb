@@ -95,16 +95,21 @@ func validate_profile(profile_value: Variant) -> Dictionary:
 	for field in required:
 		if not profile.has(field):
 			errors.append("ERR_ACCESSIBILITY_FIELD")
-	if int(profile.get("accessibility_profile_version", -1)) != PROFILE_VERSION:
+	var version: Variant = profile.get("accessibility_profile_version")
+	if typeof(version) not in [TYPE_INT, TYPE_FLOAT]:
+		errors.append("ERR_ACCESSIBILITY_VERSION")
+	elif not is_finite(float(version)) or float(version) != float(PROFILE_VERSION):
 		errors.append("ERR_ACCESSIBILITY_VERSION")
 	if typeof(profile.get("first_run_complete")) != TYPE_BOOL or typeof(profile.get("captions_enabled")) != TYPE_BOOL:
 		errors.append("ERR_ACCESSIBILITY_BOOL")
-	var text_scale := float(profile.get("text_scale", 0.0))
-	if text_scale not in [1.0, 1.25, 1.5, 2.0]:
+	var text_scale: Variant = profile.get("text_scale")
+	if typeof(text_scale) not in [TYPE_INT, TYPE_FLOAT]:
 		errors.append("ERR_ACCESSIBILITY_TEXT_SCALE")
-	if String(profile.get("signature_mode", "")) not in ["color_pattern_label", "pattern_label", "label_only"]:
+	elif not is_finite(float(text_scale)) or float(text_scale) not in [1.0, 1.25, 1.5, 2.0]:
+		errors.append("ERR_ACCESSIBILITY_TEXT_SCALE")
+	if typeof(profile.get("signature_mode")) != TYPE_STRING or profile["signature_mode"] not in ["color_pattern_label", "pattern_label", "label_only"]:
 		errors.append("ERR_ACCESSIBILITY_SIGNATURE")
-	if String(profile.get("motion_mode", "")) not in ["standard", "reduced", "static"]:
+	if typeof(profile.get("motion_mode")) != TYPE_STRING or profile["motion_mode"] not in ["standard", "reduced", "static"]:
 		errors.append("ERR_ACCESSIBILITY_MOTION")
 	if profile.has("audio"):
 		var audio: Variant = profile.audio

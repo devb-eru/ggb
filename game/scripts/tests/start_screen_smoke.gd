@@ -27,6 +27,16 @@ class RejectAudioProfile extends AccessibilityProfileStore:
 
 func _validate_audio_settings(screen: StartScreen) -> void:
 	var before := GameState.get_snapshot()
+	for field in ["accessibility_profile_version", "text_scale", "signature_mode", "motion_mode"]:
+		for bad_value in [true, null, [], {}, "1", NAN, INF, 1.9]:
+			var malformed := _profile_store.default_profile()
+			malformed[field] = bad_value
+			var unchanged := malformed.duplicate(true)
+			_expect(not _profile_store.validate_profile(malformed).ok, "profile rejects malformed " + field, _errors)
+			if not (bad_value is float and is_nan(bad_value)):
+				_expect(malformed == unchanged, "validation preserves malformed source", _errors)
+	var json_profile: Variant = JSON.parse_string(JSON.stringify(_profile_store.default_profile()))
+	_expect(_profile_store.validate_profile(json_profile).ok, "JSON numeric profile remains compatible", _errors)
 	var legacy := _profile_store.default_profile()
 	legacy.erase("audio")
 	_expect(_profile_store.validate_profile(legacy).ok, "legacy profile accepts absent audio", _errors)
