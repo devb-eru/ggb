@@ -177,6 +177,31 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 	_expect(history_body.contains("Mirror history shown") and not history_body.contains("Mirror history unseen"), "mirror menu opens viewed history only")
 	(view._modal_body.get_child(3) as Button).pressed.emit()
 	_expect(GameState.get_snapshot() == before_history_menu, "mirror history menu is read only")
+	var hint_base := GameState.get_snapshot()
+	for hint_stage in ["C3", "C4"]:
+		var hint_state := hint_base.duplicate(true)
+		if hint_stage == "C3":
+			hint_state.loop_state.event_local_states.BLACK_MIRROR.cleaner_ready = false
+			hint_state.loop_state.inventory.erase("NEUTRAL_CLEANER")
+		_expect(StateWriter.new(GameState).install_snapshot(hint_state, GameState.revision, StringName("MIRROR_HINT_" + hint_stage)).get("ok", false), "hint fixture installed")
+		_expect(view.session.stage() == hint_stage, "context selects current puzzle hint track")
+		view._open_notebook()
+		var hints := view._modal_body.get_node_or_null("ClockHintsButton") as Button
+		_expect(hints != null, "mirror notebook exposes shared thought action")
+		if hints != null:
+			hints.pressed.emit()
+			for level in range(5):
+				(view._modal_body.get_child(4) as Button).pressed.emit()
+				var expected: String = preload("res://scripts/ui/mirror_hint_texts.gd").text(hint_stage, level, TranslationServer.get_locale())
+				_expect(view._dialogue_active and view._dialogue_label.text == expected, "mirror hint text shown only on request")
+				view._dialogue_next.pressed.emit()
+			view._close_modal()
+		var hint_result := GameState.get_snapshot()
+		_expect(hint_result.meta_progress.dialogue_history.entries.size() == hint_state.meta_progress.dialogue_history.entries.size() + 5, "five requested mirror hints persisted")
+		hint_result.meta_progress.dialogue_history = hint_state.meta_progress.dialogue_history.duplicate(true)
+		_expect(hint_result == hint_state, "hints preserve mixture trace inventory lock and relations")
+	_expect(preload("res://scripts/ui/mirror_hint_texts.gd").text("CF", 4, "en-US").contains("sleep"), "locked mirror support preserves sleep requirement")
+	StateWriter.new(GameState).install_snapshot(hint_base, GameState.revision, &"MIRROR_HINT_RESTORE")
 	view._hotspot_layer.get_node("TRACE_COMPARE").pressed.emit()
 	await tree.process_frame
 	_expect(view._modal_active, "waveform comparison diagram opens")

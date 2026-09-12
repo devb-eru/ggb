@@ -500,7 +500,7 @@ func _open_notebook() -> void:
 	var knowledge: Dictionary = session.snapshot()["meta_progress"]["knowledge_entries"]
 	var notes: Dictionary = knowledge.get("chapter_notebook", {})
 	_show_modal(_dialogue_ui_text("UI_NOTE_PERMANENT"), _dialogue_ui_text("UI_NOTE_PERSIST"), [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
-	if session.stage() in ["B3_A", "B3_B", "BF"]:
+	if session.stage() in _supported_hint_stages():
 		var hint_button := Button.new()
 		hint_button.name = "ClockHintsButton"
 		hint_button.text = "Organize my thoughts" if TranslationServer.get_locale().begins_with("en") else "생각을 정리한다"
@@ -546,8 +546,20 @@ func _offer_clock_failure_support() -> void:
 	])
 
 
+func _supported_hint_stages() -> Array:
+	return ["B3_A", "B3_B", "BF"]
+
+
+func _puzzle_hint_text(level: int) -> String:
+	return preload("res://scripts/ui/clock_hint_texts.gd").text(session.stage(), level, TranslationServer.get_locale())
+
+
+func _puzzle_hint_title() -> String:
+	return "Clock network hints" if TranslationServer.get_locale().begins_with("en") else "시계망 생각 정리"
+
+
 func _show_clock_hint_menu(level: int) -> void:
-	if session == null or session.stage() not in ["B3_A", "B3_B", "BF"] or level < 0 or level > 5:
+	if session == null or session.stage() not in _supported_hint_stages() or level < 0 or level > 5:
 		return
 	var english := TranslationServer.get_locale().begins_with("en")
 	var actions: Array = [{"label": "Close" if english else "닫기", "action": _close_modal}]
@@ -555,14 +567,14 @@ func _show_clock_hint_menu(level: int) -> void:
 	if level < 5:
 		actions.append({"label": ("Read hint H%d" if english else "H%d 힌트를 읽는다") % (level + 1), "action": _read_clock_hint.bind(level)})
 	else:
-		body = "You have read all five hints. Test your arrangement before activating the network." if english else "다섯 단계의 힌트를 모두 읽었다. 실제 작동 전에 배치와 약한 시험 결과를 확인하자."
-	_show_modal("Clock network hints" if english else "시계망 생각 정리", body, actions)
+		body = "You have read all five hints. Review your notes and use the available reversible checks before committing." if english else "다섯 단계의 힌트를 모두 읽었다. 수첩을 다시 보고, 돌이킬 수 없는 실행 전에 가능한 사전 시험을 활용하자."
+	_show_modal(_puzzle_hint_title(), body, actions)
 
 
 func _read_clock_hint(level: int) -> void:
 	if session == null:
 		return
-	var text: String = preload("res://scripts/ui/clock_hint_texts.gd").text(session.stage(), level, TranslationServer.get_locale())
+	var text := _puzzle_hint_text(level)
 	if text.is_empty():
 		return
 	_close_modal()

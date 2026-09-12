@@ -10,6 +10,21 @@ func _make_session() -> ChapterOneSession:
 	return MIRROR_SESSION.new(GameState, SaveManager, _slot_id)
 
 
+func _supported_hint_stages() -> Array:
+	return ["C3", "C4", "CF"]
+
+
+func _puzzle_hint_text(level: int) -> String:
+	return preload("res://scripts/ui/mirror_hint_texts.gd").text(session.stage(), level, TranslationServer.get_locale())
+
+
+func _puzzle_hint_title() -> String:
+	var english := TranslationServer.get_locale().begins_with("en")
+	if session.stage() == "C3":
+		return "Cleaning solution hints" if english else "세정제 생각 정리"
+	return "Black mirror hints" if english else "검은 거울 생각 정리"
+
+
 func _update_objective() -> void:
 	if session != null:
 		_objective_label.text = "J2를 기억한 채 잠들어 다음 아침을 맞는다" if session.stage() == "C_SLEEP" else MIRROR_OBJECTIVES.get(session.stage(), "기록을 확인한다")
