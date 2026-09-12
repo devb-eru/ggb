@@ -7,6 +7,7 @@ const WAKE := preload("res://scripts/systems/reality_wake.gd")
 const NOTEBOOK := preload("res://scripts/systems/field_notebook.gd")
 const CHARTER := preload("res://scripts/systems/stay_charter.gd")
 const ENTRY := preload("res://scripts/systems/ending_entry.gd")
+const WAKE_TEXTS := preload("res://scripts/ui/reality_wake_texts.gd")
 
 static func build(state: Dictionary) -> Array[Dictionary]:
 	var pages: Array[Dictionary] = []
@@ -34,7 +35,9 @@ static func build(state: Dictionary) -> Array[Dictionary]:
 				pages.append({"title":"작별 · " + WAKE.NAMES[owner],"text":str(line["speaker"]) + "\n" + str(line["text"])})
 		for id in WAKE.BODY:
 			if id in run.get("required_interactions_seen", []):
-				pages.append({"title":"신체 확인 · " + WAKE.BODY[id][0],"text":WAKE.BODY[id][1] + "\n" + WAKE.BODY[id][2]})
+				var body_text: String = WAKE.BODY[id][1]
+				if _body_repeat_seen(state,id): body_text += "\n" + WAKE.BODY[id][2]
+				pages.append({"title":"신체 확인 · " + WAKE.BODY[id][0],"text":body_text})
 		var notebook: Dictionary = state["loop_state"]["event_local_states"].get("FIELD_NOTEBOOK", {})
 		for id in NOTEBOOK.PAGES:
 			if id in notebook.get("pages", []):
@@ -67,3 +70,12 @@ static func build(state: Dictionary) -> Array[Dictionary]:
 		for index in local["written"]: pages.append({"title":"주인공 수첩","text":STAY.SENTENCES[int(index)]})
 		pages.append({"title":"안정화 잔류 · 마지막 자리","text":STAY.seating(state)})
 	return pages
+
+
+static func _body_repeat_seen(state: Dictionary, id: String) -> bool:
+	# The required-interaction flag proves the first reading, not a repeat reading.
+	var known_texts := [WAKE.BODY[id][2], WAKE_TEXTS.body(id,"en")[2]]
+	for entry in state.get("meta_progress",{}).get("dialogue_history",{}).get("entries",[]):
+		if entry.get("line_id","") != "CH1_HISTORY_TRANSCRIPT": continue
+		if entry.get("variables",{}).get("text","") in known_texts: return true
+	return false

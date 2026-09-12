@@ -1823,6 +1823,25 @@ func _validate_credits(session: BasementSession) -> void:
 	uninspected["loop_state"]["event_local_states"]["REALITY_SURFACE"] = {"seen":[],"look":"center","elapsed":8}
 	uninspected["loop_state"]["event_local_states"]["STAY_STORY"] = {"hall":[],"table":[],"written":[],"elapsed":2}
 	_expect(pages.build(uninspected).size() == 1, "Gallery hides uninspected optional objects and lines")
+	if before_gallery["ending_run"]["branch_id"] == "reality":
+		for object in SESSION.REALITY_WAKE.BODY:
+			var body_only := uninspected.duplicate(true)
+			body_only["meta_progress"]["dialogue_history"]["entries"] = []
+			body_only["ending_run"]["required_interactions_seen"] = [object]
+			var initial: Array = pages.build(body_only)
+			_expect(initial.size() == 2 and initial[0]["text"] == SESSION.REALITY_WAKE.BODY[object][1], "First body observation alone cannot unlock unseen repeat dialogue in gallery")
+			for locale in ["ko","en"]:
+				var recorded := body_only.duplicate(true)
+				var repeat_text: String = VIEW.WAKE_TEXTS.body(object,locale)[2]
+				recorded["meta_progress"]["dialogue_history"]["entries"] = [{"line_id":"CH1_HISTORY_TRANSCRIPT","variables":{"text":repeat_text},"viewed_locale":locale}]
+				var before_repeat := recorded.duplicate(true)
+				var replay: Array = pages.build(recorded)
+				_expect(replay[0]["text"] == SESSION.REALITY_WAKE.BODY[object][1] + "\n" + SESSION.REALITY_WAKE.BODY[object][2] and recorded == before_repeat, "Recorded Korean or English repeat unlocks only that object's canonical rereading without mutation")
+				recorded["ending_run"]["required_interactions_seen"] = []
+				_expect(pages.build(recorded).size() == 1, "Transcript alone cannot invent an acknowledged physical observation")
+			var unrelated := body_only.duplicate(true)
+			unrelated["meta_progress"]["dialogue_history"]["entries"] = [{"line_id":"OTHER_LINE","variables":{"text":SESSION.REALITY_WAKE.BODY[object][2]}}]
+			_expect(pages.build(unrelated)[0]["text"] == initial[0]["text"], "Unrelated dialogue record cannot unlock repeat observation")
 	var all_record := uninspected.duplicate(true)
 	for owner in SESSION.ENDING_ENTRY.OWNERS: all_record["meta_progress"]["servants"][owner]["core_event_complete"] = true
 	var baseline_count: int = pages.build(all_record).size()
