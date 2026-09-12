@@ -62,6 +62,14 @@ func initialize() -> Dictionary:
 	if not result.get("ok", false): return result
 	var state := snapshot()
 	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
+	if knowledge.has("D6_rest_route"):
+		var legacy_route := String(knowledge["D6_rest_route"])
+		if not state["fracture_state"]["broken_reset_triggered"] and knowledge.get("d5_complete", false) and legacy_route in ["bedroom", "capsule"]:
+			var rest: Dictionary = state["loop_state"]["event_local_states"].get("D6", {}).duplicate(true)
+			if not rest.has("fracture_rest_route"):
+				rest["fracture_rest_route"] = "emergency_capsule" if legacy_route == "capsule" else "bedroom"
+			state["loop_state"]["event_local_states"]["D6"] = rest
+		knowledge.erase("D6_rest_route")
 	if not knowledge.has("j3_restored_day"):
 		knowledge["j3_restored_day"] = int(state["loop_state"]["day_index"])
 	state["loop_state"]["event_local_states"][BASEMENT_KEY] = basement_local(state)
@@ -459,7 +467,9 @@ func _d6_action(action: String, value: String) -> Dictionary:
 	if action == "d6_rest":
 		if not ((value == "bedroom" and room == "M2_BEDROOM") or (value == "capsule" and room == "H0_SERVICE_SPINE")):
 			return _reject("현재 위치의 휴식 장치를 확인한다.")
-		knowledge["D6_rest_route"] = value
+		var rest: Dictionary = state["loop_state"]["event_local_states"].get("D6", {}).duplicate(true)
+		rest["fracture_rest_route"] = "emergency_capsule" if value == "capsule" else "bedroom"
+		state["loop_state"]["event_local_states"]["D6"] = rest
 		return _commit(state, "조금 눈을 감는다. 이번에는 무엇이 돌아올지 알 수 없다.")
 	return _reject("이전 일과와 장치 조작은 끝났다. 드러난 통로와 휴식 경로를 확인한다.")
 
@@ -467,7 +477,7 @@ func _d6_action(action: String, value: String) -> Dictionary:
 func sleep() -> Dictionary:
 	if snapshot()["fracture_state"].get("final_sleep_lock", false): return _reject("최종 확인 중에는 세계 내 수면을 하지 않는다. 저장과 불러오기는 가능하다.")
 	if stage() == "DEMO_END": return _reject("데모 공개 범위는 여기까지다. 본편에서 이어진다.")
-	var capsule_ready: bool = stage() == "D6" and snapshot()["loop_state"]["location_id"] == "H0_SERVICE_SPINE" and snapshot()["meta_progress"]["knowledge_entries"].get("D6_rest_route", "") == "capsule"
+	var capsule_ready: bool = stage() == "D6" and snapshot()["loop_state"]["location_id"] == "H0_SERVICE_SPINE" and snapshot()["loop_state"]["event_local_states"].get("D6", {}).get("fracture_rest_route", "") == "emergency_capsule"
 	if snapshot()["loop_state"]["location_id"] != "M2_BEDROOM" and not capsule_ready: return _reject("휴식할 침실이나 확인한 비상 캡슐에서 잠든다.")
 	var reset := ResetCoordinator.new(_game, _save)
 	match reset.resolve_sleep_route():
