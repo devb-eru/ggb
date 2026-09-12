@@ -1880,17 +1880,26 @@ func _validate_credits(session: BasementSession) -> void:
 		_expect(view._modal_active, "Gallery renders archived text page")
 	view._close_modal()
 	_expect(session.snapshot() == before_gallery and FileAccess.get_file_as_bytes(source_path) == source_bytes, "Gallery never installs or saves gameplay state")
+	TranslationServer.set_locale("en")
+	view._render_room()
 	view._hotspot_layer.get_node("CREDITS_RESELECT").pressed.emit()
 	_expect(view._modal_active, "Post credits opens reselect menu")
+	_expect((view._modal_body.get_child(0) as Label).text == texts.text("reselect_title","en") and (view._modal_body.get_child(2).get_child(0) as Label).text == texts.text("reselect_body","en"), "Reselection menu explains copy-only behavior in English")
+	_expect((view._modal_body.get_child(3) as Button).text == texts.text("cancel","en"), "Reselection menu retains translated cancel action")
 	view._close_modal()
 	_expect(FileAccess.get_file_as_bytes(source_path) == source_bytes, "Reselect menu cancel preserves source")
 	_expect(saves.load_f3_reselect(SLOT).get("ok", false), "Completed source retains a valid F3 copy for UI test")
 	if saves.load_f3_reselect(SLOT).get("ok", false):
 		view._confirm_reselect()
 		_expect(view._modal_active, "Reselect requires confirmation")
-		view._create_reselect()
+		_expect((view._modal_body.get_child(0) as Label).text == texts.text("confirm_title","en") and (view._modal_body.get_child(4) as Button).text == texts.text("create","en"), "English confirmation separates copy creation from original progress")
+		view._modal_body.get_child(3).pressed.emit()
+		_expect(not view._modal_active and FileAccess.get_file_as_bytes(source_path) == source_bytes, "English confirmation cancel preserves original save")
+		view._confirm_reselect()
+		view._modal_body.get_child(4).pressed.emit()
 		var replay_id: String = view._slot_id
 		_expect(replay_id != SLOT and view.session.snapshot()["ending_run"]["reselect_used"], "Reselect UI switches to separate slot")
+		_expect(view._dialogue_label.text == texts.text("copy_entered","en"), "Copy entry notice is in English")
 		_expect(view.session.act("f3_cancel").get("ok", false), "Replay can return to F3 inspection")
 		_expect(FileAccess.get_file_as_bytes(source_path) == source_bytes, "Replay action does not write source")
 		var listed := false
@@ -1902,6 +1911,7 @@ func _validate_credits(session: BasementSession) -> void:
 	view.queue_free()
 	await tree.process_frame
 	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false) and session.stage() == "POST_CREDITS","Credits completion reload")
+	TranslationServer.set_locale(previous_locale)
 	_expect(saves.inspect_slot(SLOT).get("save_point_id","") == "SAVE_ENDING_COMPLETE","Credits final save point")
 	_expect(session.snapshot()["ending_run"]["final_decision"] == seed["ending_run"]["final_decision"] and session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"],"Credits preserve choice and relationships")
 	var meta_path: String = real_store.root_path

@@ -878,23 +878,25 @@ func _reselect_source() -> String:
 
 func _reselect_menu(page: int = 0) -> void:
 	if _dialogue_active or session.stage() != "POST_CREDITS": return
+	var locale := TranslationServer.get_locale()
 	if _modal_active: _close_modal()
 	var source := _reselect_source()
 	var entries: Array[Dictionary] = SaveManager.list_reselect_slots(source)
-	var actions: Array = [{"label":"취소","action":_close_modal}]
+	var actions: Array = [{"label":CREDITS_TEXTS.text("cancel",locale),"action":_close_modal}]
 	if SaveManager.load_f3_reselect(source).get("ok", false):
-		actions.append({"label":"새 사본에서 다른 선택 확인","action":_confirm_reselect})
+		actions.append({"label":CREDITS_TEXTS.text("new_copy",locale),"action":_confirm_reselect})
 	for index in range(page * 4, mini(entries.size(), page * 4 + 4)):
 		var entry: Dictionary = entries[index]
-		actions.append({"label":"사본 %d 이어하기 · %s" % [index + 1, entry["save_point_id"]],"action":_resume_reselect.bind(entry["slot_id"])})
-	if page > 0: actions.append({"label":"이전 목록","action":_reselect_menu.bind(page - 1)})
-	if (page + 1) * 4 < entries.size(): actions.append({"label":"다음 목록","action":_reselect_menu.bind(page + 1)})
-	_show_modal("다른 선택 확인", "원본 플레이를 되감지 않습니다. 사본에서 종료한 경우 원본 슬롯의 이 화면에서 이어갈 수 있습니다.\n새 사본 버튼이 없으면 출처를 검증할 수 있는 F3 저장이 없는 상태입니다.", actions)
+		actions.append({"label":CREDITS_TEXTS.text("resume_copy",locale) % [index + 1, entry["save_point_id"]],"action":_resume_reselect.bind(entry["slot_id"])})
+	if page > 0: actions.append({"label":CREDITS_TEXTS.text("previous_list",locale),"action":_reselect_menu.bind(page - 1)})
+	if (page + 1) * 4 < entries.size(): actions.append({"label":CREDITS_TEXTS.text("next_list",locale),"action":_reselect_menu.bind(page + 1)})
+	_show_modal(CREDITS_TEXTS.text("reselect_title",locale), CREDITS_TEXTS.text("reselect_body",locale), actions)
 
 
 func _confirm_reselect() -> void:
 	_close_modal()
-	_show_modal("별도 사본 생성 확인", "F3 당시 관계·기록·임시 의향을 그대로 사용합니다. 원본 슬롯과 엔딩 감상 기록은 유지됩니다.", [{"label":"취소","action":_close_modal},{"label":"사본을 만들고 이동","action":_create_reselect}])
+	var locale := TranslationServer.get_locale()
+	_show_modal(CREDITS_TEXTS.text("confirm_title",locale), CREDITS_TEXTS.text("confirm_body",locale), [{"label":CREDITS_TEXTS.text("cancel",locale),"action":_close_modal},{"label":CREDITS_TEXTS.text("create",locale),"action":_create_reselect}])
 
 
 func _create_reselect() -> void:
@@ -902,7 +904,7 @@ func _create_reselect() -> void:
 	_close_modal()
 	var result: Dictionary = SaveManager.create_f3_reselect_slot(_reselect_source())
 	if not result.get("ok", false):
-		_show_dialogue([{"speaker":"안내","text":"사본을 만들지 못했습니다. 원본 슬롯은 유지됩니다."}])
+		_show_dialogue([{"speaker":CREDITS_TEXTS.text("notice",TranslationServer.get_locale()),"text":CREDITS_TEXTS.text("create_failed",TranslationServer.get_locale())}])
 		return
 	_resume_reselect(result["slot_id"])
 
@@ -916,12 +918,12 @@ func _resume_reselect(target: String) -> void:
 	if _modal_active: _close_modal()
 	var result := LoadCoordinator.new(GameState, SaveManager).load_and_install(target)
 	if not result.get("ok", false):
-		_show_dialogue([{"speaker":"안내","text":"사본을 불러오지 못했습니다. 현재 슬롯은 유지됩니다."}])
+		_show_dialogue([{"speaker":CREDITS_TEXTS.text("notice",TranslationServer.get_locale()),"text":CREDITS_TEXTS.text("load_failed",TranslationServer.get_locale())}])
 		return
 	_slot_id = target
 	session = _make_session()
 	_render_room()
-	_show_dialogue([{"speaker":"안내","text":"별도 재선택 사본입니다. 이후 저장은 이 사본에만 반영됩니다. 원본 엔딩은 유지됩니다."}])
+	_show_dialogue([{"speaker":CREDITS_TEXTS.text("notice",TranslationServer.get_locale()),"text":CREDITS_TEXTS.text("copy_entered",TranslationServer.get_locale())}])
 
 
 func _on_surface_tick() -> void:
