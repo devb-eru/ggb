@@ -24,6 +24,12 @@ func _make_session() -> ChapterOneSession:
 func _basement() -> BasementSession:
 	return session as BasementSession
 
+func _feedback(result: Dictionary) -> void:
+	if session != null and session.stage() == "D5" and SaveManager.get_build_flavor() == "demo" and result.get("ok", false):
+		_set_status("위장 필터 해제 연출이 진행됩니다. 메뉴를 열면 일시정지합니다.")
+		return
+	super._feedback(result)
+
 func _update_objective() -> void:
 	if session != null: _objective_label.text = OBJECTIVE_TEXT.get(session.stage(), "수첩을 확인한다")
 
@@ -695,6 +701,7 @@ func _process(delta: float) -> void:
 
 
 func _tick_demo_stinger(delta: float) -> void:
+	if _interaction_blocked(): return
 	if _demo_stinger_save_failed or session.stage() != "D5" or SaveManager.get_build_flavor() != "demo": return
 	var previous_beat := int(_demo_stinger_seconds / 10.0)
 	_demo_stinger_seconds = minf(60.0, _demo_stinger_seconds + maxf(0.0, delta))

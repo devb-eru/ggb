@@ -90,6 +90,11 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	await tree.process_frame
 	stinger.set_process(false)
 	stinger._demo_stinger_seconds = 0.0
+	stinger._open_menu()
+	_expect(stinger._modal_active, "Stinger menu remains available")
+	stinger._tick_demo_stinger(70.0)
+	_expect(stinger._demo_stinger_seconds == 0.0 and session.stage() == "D5", "Menu pauses stinger before completion boundary")
+	stinger._close_modal()
 	_expect(not stinger._hotspot_layer.has_node("D5_CONFIRM"), "Demo stinger has no confirmation gate")
 	var stinger_before: Dictionary = game.get_snapshot()
 	for attempt in [["move", "B1_STORAGE"], ["routine", null], ["d_storage", "cable"]]:
