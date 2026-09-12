@@ -1029,8 +1029,8 @@ func _build_library() -> void:
 	if not _intro_seen("P3"):
 		_mark_intro("P3")
 		_show_dialogue([
-			{"speaker": "에드가", "portrait": "EDGAR", "text": "외부 서고의 반납분입니다. 책등 문양과 선반 표식을 맞춰 주십시오."},
-			{"speaker": "에드가", "portrait": "EDGAR", "text": "기록 내실은 정리 대상이 아닙니다."},
+			{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P3_INTRO")},
+			{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P3_RESTRICTED")},
 		], _resume_p3_journal_choice if needs_journal_choice else Callable())
 	elif needs_journal_choice:
 		call_deferred("_resume_p3_journal_choice")
@@ -1040,11 +1040,11 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 	if _interaction_blocked() or bool(_progress.get("P3_complete", false)):
 		return
 	if _selected_item not in P3_BOOKS:
-		_set_status("오른쪽 인벤토리의 책을 선반으로 드래그하십시오.")
+		_set_status(_dialogue_ui_text("P3_SELECT"))
 		return
 	var expected := String(P3_BOOKS[_selected_item]["shelf"])
 	if shelf_id != expected:
-		_set_status("책은 들어가지만 책등 높이가 맞지 않는다. 문양과 선반 표식을 다시 비교한다.")
+		_set_status(_dialogue_ui_text("P3_WRONG"))
 		return
 	var placed: Dictionary = _progress.get("p3_placed", {})
 	placed[shelf_id] = _selected_item
@@ -1061,8 +1061,8 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 	_rebuild_current_room_content()
 	if journal_discovered:
 		_show_dialogue([
-			{"speaker": "SYSTEM", "text": "반납 슬롯 안쪽에서 낡은 일지 한 권이 떨어진다. 표지는 읽히지 않고, 본문 잉크는 한 방향으로 밀린 것처럼 겹쳐 있다."},
-			{"speaker": "에드가", "portrait": "EDGAR", "text": "오래된 연구 장부입니다. 현재는 열람 대상이 아닙니다. 제자리에 두시는 편이 좋겠습니다."},
+			{"speaker": "SYSTEM", "text": _dialogue_ui_text("P3_DISCOVER")},
+			{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P3_LEDGER")},
 		], _show_p3_journal_choices)
 		return
 	_finish_p3_book_placement()
@@ -1072,9 +1072,9 @@ func _show_p3_journal_choices() -> void:
 	_p3_journal_prompt_active = true
 	_show_dialogue_choice_set(
 		"p3_journal",
-		"장부에 대해 묻는다",
+		_dialogue_ui_text("P3_HEADER"),
 		"주인공",
-		"에드가는 장부를 내려놓으라는 듯 손을 내민다. 무엇을 물어볼까.",
+		_dialogue_ui_text("P3_PROMPT"),
 		"EDGAR",
 		["author", "locked", "silent"],
 		P3_JOURNAL_CHOICES
@@ -1146,8 +1146,8 @@ func _resume_p3_journal_choice() -> void:
 	_progress["p3_journal_choice"] = "pending"
 	_save_progress()
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": "내려놓지 못한 낡은 장부가 아직 손안에 있다. 표지의 글자는 읽히지 않는다."},
-		{"speaker": "에드가", "portrait": "EDGAR", "text": "오래된 연구 장부입니다. 현재는 열람 대상이 아닙니다. 제자리에 두시는 편이 좋겠습니다."},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P3_RESUME")},
+		{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P3_LEDGER")},
 	], _show_p3_journal_choices)
 
 
@@ -1157,7 +1157,7 @@ func _finish_p3_book_placement() -> void:
 		_progress["P3_complete"] = true
 		_save_progress()
 		_rebuild_current_room_content()
-		_show_dialogue([{"speaker": "에드가", "portrait": "EDGAR", "text": "분류가 끝났습니다. 기록 내실은 그대로 두십시오."}], func() -> void: _enter_room("M1_CENTRAL_HALL"))
+		_show_dialogue([{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P3_COMPLETE")}], func() -> void: _enter_room("M1_CENTRAL_HALL"))
 		return
 	_save_progress()
 	_rebuild_current_room_content()
@@ -1169,7 +1169,7 @@ func _on_shelf_item_dropped(item_id: String, shelf_id: String) -> void:
 
 
 func _inspect_inner_door() -> void:
-	_show_dialogue([{"speaker": "주인공", "text": "손잡이보다 안쪽 걸쇠가 먼저 버틴다. 문틀에는 열쇠구멍 대신 레이피어 날처럼 가는 세로 홈이 있다."}])
+	_show_dialogue([{"speaker": "주인공", "text": _dialogue_ui_text("P3_DOOR")}])
 
 
 func _build_archive() -> void:
