@@ -5,6 +5,7 @@ const BASEMENT_SESSION := preload("res://scripts/systems/basement_session.gd")
 const BASEMENT_RULES := preload("res://data/puzzles/puzzle_basement.tres")
 const ENDING_SIGNATURE := preload("res://scripts/ui/ending_signature.gd")
 const ENDING_TEXTS := preload("res://scripts/ui/ending_decision_texts.gd")
+const FIELD_TEXTS := preload("res://scripts/ui/field_notebook_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -649,10 +650,11 @@ func _open_notebook() -> void:
 
 func _build_field_notebook() -> void:
 	var rules = BasementSession.FIELD_NOTEBOOK
+	var locale := TranslationServer.get_locale()
 	var state := session.snapshot()
 	var at_exit: bool = state["ending_run"]["current_node_id"] == "EDR_EXIT_PANEL"
-	_location_label.text = "현실 · 시설 출구" if at_exit else "현실 · 냉각실"
-	_objective_label.text = "출입 패널 점검" if at_exit else "현장 인계 01 · 물리 수첩"
+	_location_label.text = FIELD_TEXTS.text("location_exit" if at_exit else "location_book", locale)
+	_objective_label.text = FIELD_TEXTS.text("objective_exit" if at_exit else "objective_book", locale)
 	var backdrop := ColorRect.new()
 	backdrop.color = Color(0.075,0.095,0.105)
 	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -664,16 +666,16 @@ func _build_field_notebook() -> void:
 		var complete := true
 		for id in rules.EXIT:
 			if id not in seen: complete = false
-			_add_hotspot(id,rules.EXIT[id][0]+(" · 확인함" if id in seen else ""),Rect2(400,210+index*170,1120,120),_ending_read.bind([{"speaker":"SYSTEM","text":rules.EXIT[id][1]}],"inspect",id,"field_"))
+			_add_hotspot(id,FIELD_TEXTS.exit_text(id,0,locale)+(FIELD_TEXTS.text("checked",locale) if id in seen else ""),Rect2(400,210+index*170,1120,120),_ending_read.bind([{"speaker":"SYSTEM","text":FIELD_TEXTS.exit_text(id,1,locale)}],"inspect",id,"field_"))
 			index += 1
-		if complete: _action("FIELD_UNLOCK","출구 잠금 해제",Rect2(400,780,1120,100),"field_unlock",null,false)
+		if complete: _action("FIELD_UNLOCK",FIELD_TEXTS.text("unlock",locale),Rect2(400,780,1120,100),"field_unlock",null,false)
 		return
 	var pages: Array = state["loop_state"]["event_local_states"].get("FIELD_NOTEBOOK",{}).get("pages",[])
 	var index := 0
 	for id in rules.PAGES:
-		_add_hotspot(id,rules.PAGES[id][0]+(" · 읽음" if id in pages else (" · 필수" if id in rules.REQUIRED else "")),Rect2(200+(index%3)*520,170+(index/3)*180,480,140),_open_field_page.bind(id,false))
+		_add_hotspot(id,FIELD_TEXTS.title(id,locale)+(FIELD_TEXTS.text("read",locale) if id in pages else (FIELD_TEXTS.text("required",locale) if id in rules.REQUIRED else "")),Rect2(200+(index%3)*520,170+(index/3)*180,480,140),_open_field_page.bind(id,false))
 		index += 1
-	if rules.REQUIRED[0] in seen and rules.REQUIRED[1] in seen: _action("FIELD_FINISH","수첩을 들고 출입 패널로",Rect2(400,790,1120,100),"field_finish",null,false)
+	if rules.REQUIRED[0] in seen and rules.REQUIRED[1] in seen: _action("FIELD_FINISH",FIELD_TEXTS.text("finish",locale),Rect2(400,790,1120,100),"field_finish",null,false)
 
 
 func _build_reality_surface() -> void:
@@ -921,13 +923,14 @@ func _open_field_page(page: String, expanded: bool) -> void:
 	if _dialogue_active: return
 	if _modal_active: _close_modal()
 	var rules = BasementSession.FIELD_NOTEBOOK
-	var text: String = rules.page_text(session.snapshot(),page,expanded)
+	var locale := TranslationServer.get_locale()
+	var text: String = FIELD_TEXTS.page_text(session.snapshot(),page,expanded,locale)
 	var pages: Array = rules.PAGES.keys()
 	var next_page: String = pages[(pages.find(page)+1)%pages.size()]
-	_show_recorded_choice(rules.PAGES[page][0],text,[
-		{"label":"읽기 확인 후 닫기","action":_modal_act.bind("field_read",{"page":page,"expanded":expanded})},
-		{"label":"요약으로" if expanded else "펼쳐 읽기","action":_open_field_page.bind(page,not expanded)},
-		{"label":"다음 색인: " + rules.PAGES[next_page][0],"action":_open_field_page.bind(next_page,false)},
+	_show_recorded_choice(FIELD_TEXTS.title(page,locale),text,[
+		{"label":FIELD_TEXTS.text("close",locale),"action":_modal_act.bind("field_read",{"page":page,"expanded":expanded})},
+		{"label":FIELD_TEXTS.text("summary" if expanded else "expand",locale),"action":_open_field_page.bind(page,not expanded)},
+		{"label":FIELD_TEXTS.text("next",locale) + FIELD_TEXTS.title(next_page,locale),"action":_open_field_page.bind(next_page,false)},
 	])
 
 

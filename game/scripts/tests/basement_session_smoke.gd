@@ -1428,12 +1428,42 @@ func _validate_reality_wake(session: BasementSession) -> void:
 func _validate_field_notebook(session: BasementSession) -> void:
 	var seed := session.snapshot()
 	var rules = SESSION.FIELD_NOTEBOOK
+	var texts = VIEW.FIELD_TEXTS
+	_expect(texts.PAGES.keys() == rules.PAGES.keys(), "English physical notebook covers every canonical page")
+	for page in rules.OWNERS:
+		var owner: String = rules.OWNERS[page]
+		for outcome in rules.WAKE.OVERLAYS[owner]:
+			var variant: Dictionary = seed.duplicate(true)
+			variant["meta_progress"]["servants"][owner]["core_event_complete"] = true
+			variant["meta_progress"]["servants"][owner]["researcher_record_acquired"] = true
+			variant["meta_progress"]["event_history"][rules.WAKE.EVENTS[owner]] = {"outcome_id": outcome, "lifecycle": "completed"}
+			_expect(texts.page_text(variant, page, true, "en").ends_with(texts.OVERLAYS[owner][outcome]), "English handoff addendum matches completed outcome")
+			_expect(texts.page_text(variant, page, true, "ko") == rules.page_text(variant, page, true), "Korean physical notebook remains canonical")
+			variant["meta_progress"]["servants"][owner]["researcher_record_acquired"] = false
+			_expect(not texts.page_text(variant, page, true, "en").contains("Handoff addendum:"), "Incomplete handoff evidence cannot reveal English relationship addendum")
 	_expect(not session.act("field_finish").get("ok",false),"Field notebook required pages")
 	var view := VIEW.new()
 	view.configure_session(SLOT,"FIELD_NOTEBOOK")
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var previous_locale := TranslationServer.get_locale()
+	var before_english: Dictionary = session.snapshot()
+	TranslationServer.set_locale("en")
+	view._render_room()
+	for page in rules.PAGES:
+		_expect((view._hotspot_layer.get_node(page) as Button).text.begins_with(texts.title(page, "en")), "Physical notebook English index title")
+		for expanded in [false, true]:
+			view._open_field_page(page, expanded)
+			var shown: String = (view._modal_body.get_child(2).get_child(0) as Label).text
+			_expect(shown == texts.page_text(before_english, page, expanded, "en"), "Actual notebook panel shows requested English reading depth")
+			_expect(game.get_value("meta_progress.dialogue_history.entries", []).back()["variables"]["text"].contains(shown), "English physical notebook text enters viewed history")
+	view._close_modal()
+	TranslationServer.set_locale(previous_locale)
+	view._render_room()
+	var after_english: Dictionary = session.snapshot()
+	after_english["meta_progress"]["dialogue_history"] = before_english["meta_progress"]["dialogue_history"].duplicate(true)
+	_expect(after_english == before_english, "English page previews do not mark reading complete or alter relationships")
 	var before_failed_read: Dictionary = session.snapshot()
 	var original_slot: String = view.session.slot_id
 	view.session.slot_id = "../invalid_slot"
