@@ -1730,6 +1730,11 @@ func _validate_surface(session: BasementSession) -> void:
 
 func _validate_credits(session: BasementSession) -> void:
 	var seed := session.snapshot()
+	var texts = VIEW.CREDITS_TEXTS
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	_expect(texts.PAGES.size() == SESSION.ENDING_CREDITS.PAGES.size(), "Credits translate all three canonical pages")
+	_expect(texts.page(0,"ko").contains("미정") and texts.page(0,"en").contains("to be determined"), "Credits keep the production names unassigned in both languages")
 	var profile: Dictionary = session.ending_meta_store.load_profile()
 	var gallery = preload("res://scripts/systems/ending_gallery_store.gd").new(session.ending_meta_store.root_path.path_join("ending_gallery"))
 	var archived: Dictionary = gallery.capture(seed)
@@ -1760,18 +1765,41 @@ func _validate_credits(session: BasementSession) -> void:
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	_expect((view._hotspot_layer.get_node("CREDITS_START") as Button).text == texts.text("start","en"), "Credits start button uses English")
+	var view_store = view.session.ending_meta_store
+	view.session.ending_meta_store = UnavailableEndingMeta.new()
+	view._render_room()
+	_expect((view._hotspot_layer.get_node("CREDITS_RETRY") as Button).text == texts.text("retry","en"), "Viewing-record failure has a translated retry action")
+	_expect(not session.snapshot()["ending_run"].get("credits_started",false), "Rendering translated storage failure cannot start credits")
+	view.session.ending_meta_store = view_store
+	view._render_room()
 	view._hotspot_layer.get_node("CREDITS_START").pressed.emit()
 	_expect(not session.act("credits_start").get("ok",false),"Credits cannot restart accidentally")
-	for index in range(2):
-		view._hotspot_layer.get_node("CREDITS_NEXT").pressed.emit()
-		_expect(not session.act("credits_next",index).get("ok",false),"Credits stale page acknowledgement rejected")
-		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Credits page reload")
-		view._render_room()
+	for index in range(3):
+		for locale in ["ko","en"]:
+			var before_locale := session.snapshot()
+			TranslationServer.set_locale(locale)
+			view._render_room()
+			var found := false
+			for label in view._hotspot_layer.find_children("*","Label",true,false):
+				if label.text == texts.page(index,locale): found = true
+			_expect(found and session.snapshot() == before_locale, "Actual bilingual credit page renders without advancing or rewriting progress")
+			_expect(view._location_label.text == texts.text(seed["ending_run"]["branch_id"],locale), "Credits preserve the localized selected ending heading")
+		if index < 2:
+			view._hotspot_layer.get_node("CREDITS_NEXT").pressed.emit()
+			_expect(not session.act("credits_next",index).get("ok",false),"Credits stale page acknowledgement rejected")
+			_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Credits page reload")
+			view._render_room()
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://ending_credits.png")
 	view._hotspot_layer.get_node("CREDITS_FINISH").pressed.emit()
 	_expect(session.stage() == "POST_CREDITS" and view._hotspot_layer.has_node("CREDITS_TITLE"),"Credits finish reaches real title action")
+	for action in {"CREDITS_TITLE":"title","CREDITS_GALLERY":"gallery","CREDITS_RESELECT":"reselect"}:
+		var key: String = {"CREDITS_TITLE":"title","CREDITS_GALLERY":"gallery","CREDITS_RESELECT":"reselect"}[action]
+		_expect((view._hotspot_layer.get_node(action) as Button).text == texts.text(key,"en"), "Post-credit navigation actions are translated without replacing their handlers")
+	TranslationServer.set_locale(previous_locale)
+	view._render_room()
 	var source_path: String = saves.get_save_root().path_join(SLOT).path_join("progress.json")
 	var source_bytes := FileAccess.get_file_as_bytes(source_path)
 	var before_gallery := session.snapshot()

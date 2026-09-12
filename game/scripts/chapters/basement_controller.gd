@@ -10,6 +10,7 @@ const STAY_TEXTS := preload("res://scripts/ui/stay_charter_texts.gd")
 const STORY_TEXTS := preload("res://scripts/ui/stay_story_texts.gd")
 const WAKE_TEXTS := preload("res://scripts/ui/reality_wake_texts.gd")
 const SURFACE_TEXTS := preload("res://scripts/ui/reality_surface_texts.gd")
+const CREDITS_TEXTS := preload("res://scripts/ui/ending_credits_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -819,27 +820,28 @@ func _story_text(id: String) -> String:
 
 func _build_ending_credits() -> void:
 	var state := session.snapshot()
-	_location_label.text = "현실 기상" if state["ending_run"]["branch_id"] == "reality" else "안정화 잔류"
-	_objective_label.text = "개발용 크레딧"
+	var locale := TranslationServer.get_locale()
+	_location_label.text = CREDITS_TEXTS.text(state["ending_run"]["branch_id"],locale)
+	_objective_label.text = CREDITS_TEXTS.text("objective",locale)
 	if session.stage() == "POST_CREDITS":
-		_board_label("크레딧 완료가 저장되었습니다.\n다른 선택은 F3 당시 상태를 보존한 별도 슬롯에서 확인합니다.\n감상 기록에서는 마지막 장면과 확인한 조사를 열람합니다.",Rect2(300,210,1320,210))
-		_add_hotspot("CREDITS_RESELECT","다른 선택 확인 / 사본 이어하기",Rect2(450,590,1020,110),_reselect_menu)
-		_add_hotspot("CREDITS_GALLERY","감상 기록 · 마지막 장면과 조사",Rect2(450,470,1020,95),_gallery_menu)
-		_add_hotspot("CREDITS_TITLE","타이틀로",Rect2(450,760,1020,110),_return_to_title)
+		_board_label(CREDITS_TEXTS.text("post_body",locale),Rect2(300,210,1320,210))
+		_add_hotspot("CREDITS_RESELECT",CREDITS_TEXTS.text("reselect",locale),Rect2(450,590,1020,110),_reselect_menu)
+		_add_hotspot("CREDITS_GALLERY",CREDITS_TEXTS.text("gallery",locale),Rect2(450,470,1020,95),_gallery_menu)
+		_add_hotspot("CREDITS_TITLE",CREDITS_TEXTS.text("title",locale),Rect2(450,760,1020,110),_return_to_title)
 		return
 	if not state["ending_run"].get("credits_started",false):
 		var meta: Dictionary = session.ensure_ending_meta()
 		if not meta.get("ok", false):
-			_board_label("마지막 장면은 저장되었습니다.\n엔딩 감상 기록을 저장하지 못했습니다.\n저장 공간·파일 접근 상태를 확인한 뒤 다시 시도해 주세요.\n오류: %s" % meta.get("error", "unknown"),Rect2(300,210,1320,300))
-			_action("CREDITS_RETRY","감상 기록 저장 재시도",Rect2(450,650,1020,100),"credits_start",null,false)
+			_board_label(CREDITS_TEXTS.text("save_error",locale) % meta.get("error", "unknown"),Rect2(300,210,1320,300))
+			_action("CREDITS_RETRY",CREDITS_TEXTS.text("retry",locale),Rect2(450,650,1020,100),"credits_start",null,false)
 			return
-		_action("CREDITS_START","개발용 크레딧을 확인한다",Rect2(450,440,1020,130),"credits_start",null,false)
+		_action("CREDITS_START",CREDITS_TEXTS.text("start",locale),Rect2(450,440,1020,130),"credits_start",null,false)
 		return
 	var rules = BasementSession.ENDING_CREDITS
 	var index: int = rules.page(state)
-	_board_label(rules.PAGES[index][0]+"\n\n"+rules.PAGES[index][1],Rect2(300,210,1320,460))
-	if index < rules.PAGES.size()-1: _action("CREDITS_NEXT","다음 페이지",Rect2(450,770,1020,100),"credits_next",index,false)
-	else: _action("CREDITS_FINISH","크레딧 확인 완료",Rect2(450,770,1020,100),"credits_finish",null,false)
+	_board_label(CREDITS_TEXTS.page(index,locale),Rect2(300,210,1320,460))
+	if index < rules.PAGES.size()-1: _action("CREDITS_NEXT",CREDITS_TEXTS.text("next",locale),Rect2(450,770,1020,100),"credits_next",index,false)
+	else: _action("CREDITS_FINISH",CREDITS_TEXTS.text("finish",locale),Rect2(450,770,1020,100),"credits_finish",null,false)
 
 
 func _gallery_menu(page: int = 0) -> void:
