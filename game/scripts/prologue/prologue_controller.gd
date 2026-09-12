@@ -455,7 +455,7 @@ func _build_dialogue_ui() -> void:
 	_dialogue_scroll.add_child(_dialogue_label)
 	_dialogue_next = Button.new()
 	_dialogue_next.name = "DialogueNext"
-	_dialogue_next.text = "계속"
+	_dialogue_next.text = _dialogue_ui_text("UI_DIALOGUE_CONTINUE")
 	_dialogue_next.custom_minimum_size = Vector2(170, 46)
 	_dialogue_next.size_flags_horizontal = Control.SIZE_SHRINK_END
 	_dialogue_next.pressed.connect(_advance_dialogue)
@@ -1062,7 +1062,7 @@ func _show_dialogue_choice_set(
 	_dialogue_choice_panel.visible = true
 	_dialogue_next.visible = false
 	_dialogue_choice_header.text = header
-	_speaker_label.text = speaker
+	_speaker_label.text = _localized_speaker(speaker)
 	_dialogue_label.text = prompt
 	_dialogue_scroll.scroll_vertical = 0
 	_set_dialogue_portrait(portrait_id)
@@ -1652,6 +1652,22 @@ func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 		_present_dialogue_line()
 
 
+func _dialogue_ui_text(text_id: String) -> String:
+	return DialogueRepository.new().get_text(text_id, TranslationServer.get_locale())
+
+
+func _localized_speaker(speaker: String) -> String:
+	var names := {
+		"SYSTEM": "SYSTEM", "주인공": "SUBJECT", "SUBJECT": "SUBJECT",
+		"에드가": "EDGAR", "EDGAR": "EDGAR", "마라 1": "MARA1", "MARA1": "MARA1",
+		"마라 2": "MARA2", "MARA2": "MARA2", "루카": "LUKA", "LUKA": "LUKA",
+		"이리스": "IRIS", "IRIS": "IRIS"
+	}
+	if not names.has(speaker):
+		return speaker
+	return _dialogue_ui_text("UI_SPEAKER_" + String(names[speaker]))
+
+
 func _present_dialogue_line() -> void:
 	var line: Dictionary = _dialogue_lines[_dialogue_index]
 	if line.get("cup_pose", "") in ["turned", "returned"]:
@@ -1659,13 +1675,13 @@ func _present_dialogue_line() -> void:
 		if cup != null:
 			var profile: Dictionary = AccessibilityProfileStore.new().load_profile().get("profile", {})
 			cup.show_angle(TAU if line["cup_pose"] == "turned" else PI, String(profile.get("motion_mode", "standard")) != "standard")
-	_speaker_label.text = String(line.get("speaker", "SYSTEM"))
+	_speaker_label.text = _localized_speaker(String(line.get("speaker", "SYSTEM")))
 	_dialogue_label.text = String(line.get("text", ""))
 	_dialogue_scroll.scroll_vertical = 0
 	var portrait_id := String(line.get("portrait", ""))
 	_set_dialogue_portrait(portrait_id)
 	_dialogue_next.visible = true
-	_dialogue_next.text = "마침" if _dialogue_index >= _dialogue_lines.size() - 1 else "계속"
+	_dialogue_next.text = _dialogue_ui_text("UI_DIALOGUE_FINISH" if _dialogue_index >= _dialogue_lines.size() - 1 else "UI_DIALOGUE_CONTINUE")
 	call_deferred("_focus_visible_control", weakref(_dialogue_next))
 
 
