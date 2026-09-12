@@ -270,8 +270,24 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 			view._hotspot_layer.get_node("D6_BEDROOM").pressed.emit()
 		var button := "D6_BED" if route == "bedroom" else "D6_CAPSULE"
 		var before_cancel: Dictionary = game.get_snapshot()
+		var previous_size := root.size
+		if route == "capsule":
+			view._apply_reading_text_scale(2.0)
+			view._render_room()
+			_expect(view._hotspot_layer.get_node("D6_CAPSULE").get_theme_font_size("font_size") == 40, "D6 buttons respect 200 percent reading scale")
+			if "--capture-basement-session" in OS.get_cmdline_user_args():
+				root.size = Vector2i(1280, 720)
+				await tree.process_frame
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("user://d6_inspection_en_200.png")
 		view._hotspot_layer.get_node(button).pressed.emit()
+		if route == "capsule" and "--capture-basement-session" in OS.get_cmdline_user_args():
+			await tree.process_frame
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://d6_rest_en_200.png")
 		view._close_modal()
+		root.size = previous_size
+		view._apply_reading_text_scale(1.0)
 		_expect(game.get_snapshot() == before_cancel, "D6 rest cancellation is neutral")
 		_expect(view.session.act("d6_rest", route).get("ok", false), "D6 rest choice stores local state")
 		_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "D6 local rest choice reloads before sleep")

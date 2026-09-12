@@ -202,6 +202,18 @@ func _build_d6_inspection() -> void:
 	for node in _hotspot_layer.find_children("*", "Control", true, false):
 		if node is Label or node is Button:
 			node.text = _d6_text(node.text)
+		if node is Button:
+			node.add_theme_font_size_override("font_size", int(round(20 * _reading_text_scale)))
+	if _reading_text_scale > 1.0:
+		var expanded := {
+			"D6_INSPECT_notebook": Rect2(280, 550, 1310, 90),
+			"D6_BEDROOM": Rect2(280, 665, 610, 140),
+			"D6_CAPSULE": Rect2(980, 665, 610, 140),
+			"D6_GUIDANCE_RETRY": Rect2(510, 850, 870, 110)
+		}
+		for id in expanded:
+			var control := _hotspot_layer.get_node_or_null(NodePath(id)) as Control
+			if control != null: _place(control, expanded[id])
 
 
 func _d6_text(source: String) -> String:
