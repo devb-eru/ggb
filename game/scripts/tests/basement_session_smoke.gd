@@ -1126,6 +1126,11 @@ func _validate_edc(session: BasementSession) -> void:
 		var before_english: Dictionary = session.snapshot()
 		TranslationServer.set_locale("en")
 		confirm_view._render_room()
+		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://edc_english_board.png")
+		var prior_text_scale: float = confirm_view._reading_text_scale
+		confirm_view._apply_reading_text_scale(2.0)
 		var english_ui = VIEW.ENDING_TEXTS
 		_expect(confirm_view._objective_label.text == english_ui.text("objective", "en"), "EDC objective renders in English")
 		for pair in [["EDC_REALITY", "reality"], ["EDC_STAY", "stay"], ["EDC_SUBJECT", "notebook"], ["EDC_CANCEL", "cancel"]]:
@@ -1137,9 +1142,18 @@ func _validate_edc(session: BasementSession) -> void:
 		confirm_view._modal_body.get_child(3).pressed.emit()
 		(confirm_view._hotspot_layer.get_node("EDC_" + decision.to_upper()) as Button).pressed.emit()
 		var english_confirmation: Dictionary = game.get_value("meta_progress.dialogue_history.entries", []).back().duplicate(true)
+		await tree.process_frame
+		await tree.process_frame
+		for button_index in [3, 4]:
+			var confirmation_button := confirm_view._modal_body.get_child(button_index) as Button
+			_expect(confirm_view._modal_panel.get_global_rect().encloses(confirmation_button.get_global_rect()), "English 200% confirmation button remains in panel")
+		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://edc_english_200_" + decision + ".png")
 		_expect(english_confirmation["variables"]["text"].contains(english_ui.confirmation(decision, "en")), "EDC English confirmation preserves branch explanation")
 		_expect((confirm_view._modal_body.get_child(3) as Button).text == english_ui.text("confirm_cancel", "en") and (confirm_view._modal_body.get_child(4) as Button).text == english_ui.text("confirm_commit", "en"), "EDC English confirmation actions remain explicit")
 		confirm_view._close_modal()
+		confirm_view._apply_reading_text_scale(prior_text_scale)
 		TranslationServer.set_locale(original_locale)
 		confirm_view._render_room()
 		var after_english: Dictionary = session.snapshot()
