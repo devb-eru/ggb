@@ -129,6 +129,10 @@ func _rooms_connected(from: String, to: String, knowledge: Dictionary) -> bool:
 
 
 func act(action: String, value: Variant = null) -> Dictionary:
+	if _save.get_build_flavor() == "demo":
+		var demo_stage := stage()
+		if demo_stage == "DEMO_END" or (demo_stage == "D5" and action != "d_fracture"):
+			return _reject("데모 종료 연출 중에는 저택 행동을 진행하지 않는다.")
 	if action.begins_with("credits_"):
 		var result: Dictionary = ENDING_CREDITS.apply(snapshot(), action.trim_prefix("credits_"), value)
 		if result.get("ok", false):

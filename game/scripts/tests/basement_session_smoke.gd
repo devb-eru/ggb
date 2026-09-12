@@ -91,6 +91,10 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	stinger.set_process(false)
 	stinger._demo_stinger_seconds = 0.0
 	_expect(not stinger._hotspot_layer.has_node("D5_CONFIRM"), "Demo stinger has no confirmation gate")
+	var stinger_before: Dictionary = game.get_snapshot()
+	for attempt in [["move", "B1_STORAGE"], ["routine", null], ["d_storage", "cable"]]:
+		_expect(not session.act(attempt[0], attempt[1]).get("ok", false), "Stinger rejects world action: " + attempt[0])
+	_expect(game.get_snapshot() == stinger_before, "Rejected stinger actions preserve state")
 	stinger._tick_demo_stinger(59.0)
 	_expect(session.stage() == "D5", "Stinger cannot finish before sixty active seconds")
 	stinger._tick_demo_stinger(1.0)
