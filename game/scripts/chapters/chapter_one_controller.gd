@@ -201,6 +201,10 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 	_render_room()
 	if show_text:
 		_feedback(result)
+		if action == "activate_clock" and result.get("ok", false) and session.stage() == "BF" and _dialogue_active:
+			var failure: Dictionary = session.snapshot()["meta_progress"]["failure_knowledge"].get("B3_B", {})
+			if int(failure.get("attempts", 0)) >= 2:
+				_dialogue_after = _offer_clock_failure_support
 	elif not result.get("ok", false):
 		_set_status(result.get("text", str(result.get("error_ids", []))))
 
@@ -523,6 +527,23 @@ func _open_notebook() -> void:
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.add_theme_font_size_override("font_size", int(round(22 * _reading_text_scale)))
+
+
+func _offer_clock_failure_support() -> void:
+	if session == null or session.stage() != "BF":
+		return
+	var failure: Dictionary = session.snapshot()["meta_progress"]["failure_knowledge"].get("B3_B", {})
+	var attempts := int(failure.get("attempts", 0))
+	if attempts < 2 or failure.get("status", "") != "active":
+		return
+	var english := TranslationServer.get_locale().begins_with("en")
+	var level := mini(attempts, 4)
+	var body := ("The clock network has locked %d times. You can request stronger support before sleeping. This does not repair today's pin or alter your choices." if english else "시계망이 %d번 잠겼다. 잠들기 전에 더 구체적인 도움을 요청할 수 있다. 오늘의 핀을 복구하거나 선택을 대신하지는 않는다.") % attempts
+	_show_modal("Review the failed attempt" if english else "실패한 시도를 정리한다", body, [
+		{"label": "Continue investigating" if english else "조사를 계속한다", "action": _close_modal},
+		{"label": ("Request stronger hint H%d" if english else "더 구체적인 H%d 힌트를 요청한다") % (level + 1), "action": _read_clock_hint.bind(level)},
+		{"label": "Start with observation hints" if english else "관찰 힌트부터 살펴본다", "action": _show_clock_hint_menu.bind(0)},
+	])
 
 
 func _show_clock_hint_menu(level: int) -> void:

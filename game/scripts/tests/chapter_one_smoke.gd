@@ -367,6 +367,41 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	_expect(hint_texts.text("B3_A", 2, "en-US").contains("flipping"), "English transform hint")
 	_expect(hint_texts.text("BF", 4, "en-US").contains("+1"), "failed loop retains direct support")
 	_expect(hint_texts.text("F0", 0, "ko-KR").is_empty(), "clock hints do not leak into other puzzles")
+	var before_support := GameState.get_snapshot()
+	for attempts in [1, 2, 3, 4]:
+		var support_state := before_support.duplicate(true)
+		support_state.loop_state.event_local_states.CHAPTER_ONE.clock_locked = true
+		var failure: Dictionary = support_state.meta_progress.failure_knowledge.get("B3_B", {}).duplicate(true)
+		failure.merge({"source_event_id": "B3_B", "status": "active", "attempts": attempts}, true)
+		support_state.meta_progress.failure_knowledge["B3_B"] = failure
+		_expect(StateWriter.new(GameState).install_snapshot(support_state, GameState.revision, StringName("CLOCK_SUPPORT_%d" % attempts)).get("ok", false), "install failure support fixture")
+		view._offer_clock_failure_support()
+		if attempts == 1:
+			_expect(not view._modal_active, "first failure does not auto-offer a strong hint")
+		else:
+			_expect(view._modal_active, "repeated failure offers optional support")
+			var support_button := view._modal_body.get_child(4) as Button
+			_expect(support_button.text.contains("H%d" % mini(attempts + 1, 5)), "support tier follows real failure count")
+			_expect(not (view._modal_body.get_child(2).get_child(0) as Label).text.contains("+1"), "support offer does not reveal phase answer")
+			(view._modal_body.get_child(3) as Button).pressed.emit()
+		_expect(GameState.get_snapshot() == support_state, "declining support preserves lock failures and state")
+	StateWriter.new(GameState).install_snapshot(before_support, GameState.revision, &"CLOCK_SUPPORT_RESTORE")
+	var actual_retry := before_support.duplicate(true)
+	actual_retry.loop_state.time_block = "evening_free"
+	actual_retry.loop_state.event_local_states.CHAPTER_ONE.clock_locked = false
+	actual_retry.loop_state.event_local_states.CHAPTER_ONE.roles = {}
+	var previous_failure: Dictionary = actual_retry.meta_progress.failure_knowledge.get("B3_B", {}).duplicate(true)
+	previous_failure.merge({"source_event_id": "B3_B", "status": "active", "attempts": 1}, true)
+	actual_retry.meta_progress.failure_knowledge["B3_B"] = previous_failure
+	StateWriter.new(GameState).install_snapshot(actual_retry, GameState.revision, &"CLOCK_SUPPORT_ACTION")
+	view._do("activate_clock", true)
+	_expect(view._dialogue_active and not view._modal_active, "actual failed activation shows outcome before support")
+	while view._dialogue_active:
+		view._dialogue_next.pressed.emit()
+	_expect(view._modal_active and view._modal_body.get_child(4).text.contains("H3"), "second actual failure chains optional H3 after outcome")
+	view._close_modal()
+	StateWriter.new(GameState).install_snapshot(before_support, GameState.revision, &"CLOCK_SUPPORT_ACTION_RESTORE")
+	view._render_room()
 	await tree.process_frame
 	var role_button := view._hotspot_layer.get_node("ROLE_reference") as OptionButton
 	role_button.grab_focus()
