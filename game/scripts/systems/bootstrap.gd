@@ -28,6 +28,8 @@ var _audio := preload("res://scripts/systems/game_audio.gd").new()
 func _ready() -> void:
 	_audio.name = "GameAudio"
 	add_child(_audio)
+	_start_screen.audio_settings_changed.connect(_apply_audio_settings)
+	_apply_audio_settings(_start_screen.get_audio_settings())
 	_validate_engine_version()
 	_load_coordinator = LoadCoordinator.new(GameState, SaveManager)
 	_reset_coordinator = ResetCoordinator.new(GameState, SaveManager)
@@ -57,6 +59,10 @@ func _ready() -> void:
 		call_deferred("_run_black_mirror_smoke")
 	elif "--basement-session-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_basement_smoke")
+
+
+func _apply_audio_settings(settings: Dictionary) -> void:
+	_audio.set_levels(settings.master, settings.bgm, settings.ambience, settings.effects, settings.muted)
 
 
 func _notification(what: int) -> void:

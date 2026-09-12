@@ -20,6 +20,65 @@ var _errors := PackedStringArray()
 var _profile_store := AccessibilityProfileStore.new(TEST_PROFILE_ROOT)
 var _tree: SceneTree
 
+class RejectAudioProfile extends AccessibilityProfileStore:
+	func save_profile(_value: Dictionary) -> Dictionary:
+		return {"ok": false}
+
+
+func _validate_audio_settings(screen: StartScreen) -> void:
+	var before := GameState.get_snapshot()
+	var legacy := _profile_store.default_profile()
+	legacy.erase("audio")
+	_expect(_profile_store.validate_profile(legacy).ok, "legacy profile accepts absent audio", _errors)
+	var invalid := _profile_store.default_profile()
+	invalid.audio.master = "0.5"
+	_expect(not _profile_store.validate_profile(invalid).ok, "audio rejects numeric strings", _errors)
+	invalid.audio.master = NAN
+	_expect(not _profile_store.validate_profile(invalid).ok, "audio rejects NaN", _errors)
+	screen._on_settings_pressed()
+	screen._audio_button.pressed.emit()
+	await _tree.process_frame
+	_expect(screen._active_modal() == screen._audio_panel, "audio panel opens from settings", _errors)
+	screen._audio_panel.sliders.master.value = 37
+	screen._audio_panel.mute.button_pressed = true
+	screen._audio_panel.back.pressed.emit()
+	_expect(screen.get_audio_settings().master == 1.0, "audio cancel preserves profile", _errors)
+	screen._open_audio_settings()
+	screen._audio_panel.sliders.master.value = 37
+	screen._audio_panel.sliders.effects.value = 0
+	screen._audio_panel.mute.button_pressed = true
+	screen._audio_panel.apply.pressed.emit()
+	var loaded: Dictionary = _profile_store.load_profile().profile
+	_expect(is_equal_approx(loaded.audio.master, 0.37) and loaded.audio.muted and loaded.audio.effects == 0.0, "audio saved and reloaded", _errors)
+	var rebuilt: Dictionary = screen._profile_from_controls(screen._settings_text_option, screen._settings_signature_option, screen._settings_motion_option, screen._settings_captions)
+	_expect(rebuilt.audio == loaded.audio, "accessibility edits retain audio", _errors)
+	screen._open_audio_settings()
+	screen._profile_store = RejectAudioProfile.new()
+	screen._audio_panel.sliders.master.value = 99
+	screen._audio_panel.apply.pressed.emit()
+	_expect(screen._active_modal() == screen._audio_panel and not screen._audio_panel.error_label.text.is_empty(), "audio failed save stays open with error", _errors)
+	_expect(screen.get_audio_settings() == loaded.audio, "audio failed save preserves applied values", _errors)
+	screen._profile_store = _profile_store
+	var old_locale: String = screen._locale
+	screen._locale = "en-US"
+	screen._open_audio_settings()
+	_expect(screen._audio_panel.heading.text == "Audio settings", "English audio labels", _errors)
+	_expect(screen._audio_panel.labels.master.text == "Master volume: 37%", "audio percentage shown", _errors)
+	if CAPTURE_ARG in OS.get_cmdline_user_args():
+		var scale_before: float = screen._profile.text_scale
+		screen._profile.text_scale = 2.0
+		screen._apply_profile()
+		await _tree.process_frame
+		await _tree.process_frame
+		await RenderingServer.frame_post_draw
+		_capture_screen(screen, "audio_settings_1280x720_200.png", "audio")
+		screen._profile.text_scale = scale_before
+		screen._apply_profile()
+	screen._locale = old_locale
+	screen._apply_audio_settings(AccessibilityProfileStore.DEFAULT_AUDIO.duplicate())
+	screen._close_modal()
+	_expect(GameState.get_snapshot() == before, "audio settings preserve game state", _errors)
+
 
 func run(tree: SceneTree) -> Dictionary:
 	_tree = tree
@@ -36,6 +95,7 @@ func run(tree: SceneTree) -> Dictionary:
 
 	_validate_asset_registry(screen)
 	_validate_initial_state(screen)
+	await _validate_audio_settings(screen)
 	await _validate_title_treatment(screen)
 	if CAPTURE_ARG in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw

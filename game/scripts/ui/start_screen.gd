@@ -4,6 +4,7 @@ extends Control
 signal new_game_requested(slot_id: String)
 signal load_game_requested(slot_id: String)
 signal quit_requested
+signal audio_settings_changed(settings: Dictionary)
 
 const SLOT_IDS := ["slot_01", "slot_02", "slot_03"]
 const TEXT_SCALE_VALUES := [1.0, 1.25, 1.5, 2.0]
@@ -89,6 +90,8 @@ const MOTION_VALUES := ["standard", "reduced", "static"]
 var _dialogue := DialogueRepository.new()
 var _profile_store := AccessibilityProfileStore.new()
 var _profile: Dictionary = {}
+var _audio_panel := preload("res://scripts/ui/audio_settings_panel.gd").new()
+var _audio_button := Button.new()
 var _locale := "ko-KR"
 var _slot_summaries: Dictionary = {}
 var _latest_slot_id := ""
@@ -124,6 +127,7 @@ func _ready() -> void:
 	_connect_controls()
 	_setup_gallery()
 	_setup_import()
+	_setup_audio_settings()
 	_populate_options()
 	var profile_result := _profile_store.load_profile()
 	_profile = profile_result.get("profile", _profile_store.default_profile()).duplicate(true)
@@ -408,9 +412,40 @@ func _on_load_pressed() -> void:
 	_open_slot_panel("load")
 
 
+func get_audio_settings() -> Dictionary:
+	return _profile.get("audio", AccessibilityProfileStore.DEFAULT_AUDIO).duplicate()
+
+
+func _setup_audio_settings() -> void:
+	_settings_panel.get_parent().add_child(_audio_panel)
+	_settings_back_button.get_parent().add_child(_audio_button)
+	_audio_button.text = "Audio settings" if _locale.begins_with("en") else "음향 설정"
+	_audio_button.pressed.connect(_open_audio_settings)
+	_audio_panel.back_requested.connect(_on_settings_pressed)
+	_audio_panel.apply_requested.connect(_apply_audio_settings)
+
+
+func _open_audio_settings() -> void:
+	_audio_panel.load_values(get_audio_settings(), _locale)
+	_open_modal(_audio_panel, _audio_panel.back, false)
+
+
+func _apply_audio_settings(settings: Dictionary) -> void:
+	var candidate := _profile.duplicate(true)
+	candidate["audio"] = settings.duplicate()
+	var result := _profile_store.save_profile(candidate)
+	if not bool(result.get("ok", false)):
+		_audio_panel.show_save_error()
+		return
+	_profile = candidate
+	audio_settings_changed.emit(get_audio_settings())
+	_on_settings_pressed()
+
+
 func _on_settings_pressed() -> void:
+	_audio_button.text = "Audio settings" if _locale.begins_with("en") else "음향 설정"
 	_sync_controls_from_profile(_settings_text_option, _settings_signature_option, _settings_motion_option, _settings_captions)
-	_open_modal(_settings_panel, _settings_text_option)
+	_open_modal(_settings_panel, _settings_text_option, _active_modal() != _audio_panel)
 
 
 func _on_content_pressed() -> void:
@@ -523,6 +558,7 @@ func _profile_from_controls(
 	captions: CheckButton
 ) -> Dictionary:
 	return {
+		"audio": get_audio_settings(),
 		"accessibility_profile_version": AccessibilityProfileStore.PROFILE_VERSION,
 		"first_run_complete": false,
 		"text_scale": TEXT_SCALE_VALUES[text_option.selected],
@@ -542,6 +578,7 @@ func _save_profile() -> bool:
 
 
 func _apply_profile() -> void:
+	audio_settings_changed.emit(get_audio_settings())
 	var text_scale := float(_profile.get("text_scale", 1.0))
 	var title_theme := Theme.new()
 	title_theme.default_font_size = int(round(18.0 * text_scale))
@@ -603,6 +640,7 @@ func _active_modal() -> Control:
 
 func _modal_panels() -> Array[Control]:
 	return [
+		_audio_panel,
 		_slot_panel,
 		_first_run_panel,
 		_settings_panel,
@@ -615,6 +653,7 @@ func _modal_panels() -> Array[Control]:
 
 func _all_interactive_controls() -> Array[Control]:
 	var controls: Array[Control] = [
+		_audio_button,
 		_continue_button, _new_game_button, _load_button, _settings_button, _quit_button, _content_button,
 		_slot_back_button, _first_text_option, _first_signature_option, _first_motion_option, _first_captions,
 		_first_default_button, _first_apply_button, _settings_text_option, _settings_signature_option,
@@ -624,6 +663,7 @@ func _all_interactive_controls() -> Array[Control]:
 	]
 	for button in _slot_buttons:
 		controls.append(button)
+	controls.append_array(_audio_panel.interactive_controls())
 	if is_instance_valid(_gallery_button):
 		controls.append_array([_gallery_button,_gallery_choices,_gallery_previous,_gallery_next])
 	if is_instance_valid(_import_button): controls.append_array([_import_button,_import_choices,_import_confirm])

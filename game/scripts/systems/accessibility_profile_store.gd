@@ -3,6 +3,7 @@ extends RefCounted
 
 const PROFILE_VERSION := 1
 const DEFAULT_ROOT := "user://profile"
+const DEFAULT_AUDIO := {"master": 1.0, "bgm": 1.0, "ambience": 1.0, "effects": 1.0, "muted": false}
 
 var _root_path: String
 
@@ -19,6 +20,7 @@ func default_profile() -> Dictionary:
 		"signature_mode": "color_pattern_label",
 		"motion_mode": "standard",
 		"captions_enabled": true,
+		"audio": DEFAULT_AUDIO.duplicate(),
 	}
 
 
@@ -104,6 +106,19 @@ func validate_profile(profile_value: Variant) -> Dictionary:
 		errors.append("ERR_ACCESSIBILITY_SIGNATURE")
 	if String(profile.get("motion_mode", "")) not in ["standard", "reduced", "static"]:
 		errors.append("ERR_ACCESSIBILITY_MOTION")
+	if profile.has("audio"):
+		var audio: Variant = profile.audio
+		if not audio is Dictionary:
+			errors.append("ERR_AUDIO_PROFILE")
+		else:
+			for field in ["master", "bgm", "ambience", "effects"]:
+				var value: Variant = audio.get(field)
+				if typeof(value) not in [TYPE_INT, TYPE_FLOAT]:
+					errors.append("ERR_AUDIO_LEVEL")
+				elif not is_finite(float(value)) or float(value) < 0.0 or float(value) > 1.0:
+					errors.append("ERR_AUDIO_LEVEL")
+			if typeof(audio.get("muted")) != TYPE_BOOL:
+				errors.append("ERR_AUDIO_MUTED")
 	return {"ok": errors.is_empty(), "error_ids": errors}
 
 
