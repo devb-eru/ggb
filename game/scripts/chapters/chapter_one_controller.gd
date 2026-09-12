@@ -100,7 +100,7 @@ func _record_current_history_line() -> bool:
 
 
 func _open_menu() -> void:
-	if not _history_enabled():
+	if session == null:
 		super._open_menu()
 		return
 	if _dialogue_active or _dialogue_choice_active:
