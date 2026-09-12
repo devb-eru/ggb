@@ -1517,11 +1517,11 @@ func _on_sleep_bed() -> void:
 	if _interaction_blocked():
 		return
 	_show_modal(
-		"오늘을 끝냅니다",
-		"침대가 몸을 감싸기 전에 시야가 먼저 어두워질 것 같은 기분이 듭니다.",
+		_dialogue_ui_text("P6_TITLE"),
+		_dialogue_ui_text("P6_BODY"),
 		[
-			{"label": "잠든다", "action": _begin_first_sleep},
-			{"label": "조금 더 조사한다", "action": _close_modal},
+			{"label": _dialogue_ui_text("P6_SLEEP"), "action": _begin_first_sleep},
+			{"label": _dialogue_ui_text("P6_CANCEL"), "action": _close_modal},
 		]
 	)
 
@@ -1535,11 +1535,11 @@ func _begin_first_sleep() -> void:
 		return
 	var saved := _save_progress("SAVE_P6_COMPLETE", true)
 	if not saved:
-		_set_status("진행을 저장하지 못해 수면 절차를 시작할 수 없습니다.")
+		_set_status(_dialogue_ui_text("P6_SAVE_ERROR"))
 		return
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": "침대가 몸을 감싸기 전에 시야가 먼저 어두워진다."},
-		{"speaker": "SYSTEM", "text": "낮은 시계음. 두 번의 맥박. 빠른 세 음의 마지막이 잘린다."},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P6_DARK")},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P6_SOUND")},
 	], _perform_normal_reset)
 
 

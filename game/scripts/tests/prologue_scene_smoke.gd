@@ -78,6 +78,13 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._advance_dialogue()
 	_expect(not prologue._dialogue_active, "English P1 completes normally", errors)
 	_expect("Examine the light" in prologue._status_label.text, "English P1 completes with localized objective", errors)
+	var before_sleep_prompt: Dictionary = prologue._progress.duplicate(true)
+	prologue._on_sleep_bed()
+	_expect(prologue._modal_body.get_child(3).text == "Go to sleep", "English sleep confirmation action", errors)
+	_expect(prologue._modal_body.get_child(4).text == "Investigate a little longer", "English sleep cancellation action", errors)
+	prologue._modal_body.get_child(4).pressed.emit()
+	_expect(not prologue._modal_active, "Sleep cancellation closes prompt", errors)
+	_expect(prologue._progress == before_sleep_prompt, "Sleep cancellation preserves all progress", errors)
 	prologue._progress["P5_complete"] = false
 	prologue._progress["p5_observations"] = []
 	prologue._enter_room("M1_GREENHOUSE_VESTIBULE")

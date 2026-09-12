@@ -4,6 +4,13 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"P6_TITLE": "오늘을 끝냅니다",
+"P6_BODY": "침대가 몸을 감싸기 전에 시야가 먼저 어두워질 것 같은 기분이 듭니다.",
+"P6_SLEEP": "잠든다",
+"P6_CANCEL": "조금 더 조사한다",
+"P6_DARK": "침대가 몸을 감싸기 전에 시야가 먼저 어두워진다.",
+"P6_SOUND": "낮은 시계음. 두 번의 맥박. 빠른 세 음의 마지막이 잘린다.",
+"P6_SAVE_ERROR": "진행을 저장하지 못해 수면 절차를 시작할 수 없습니다.",
 "P5_CORRIDOR_LABEL": "복도 창\n맑은 하늘",
 "P5_GLASS_LABEL": "온실 유리\n안쪽의 비",
 "P5_THRESHOLD_LABEL": "문턱·계절판\n봄·맑음",
@@ -216,6 +223,13 @@ localized_text = {
 "P1_WAKE_OBJECTIVE": "빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."
 },
 "en-US": {
+"P6_TITLE": "End the day",
+"P6_BODY": "It feels as though my sight will go dark before the bed envelops me.",
+"P6_SLEEP": "Go to sleep",
+"P6_CANCEL": "Investigate a little longer",
+"P6_DARK": "My sight goes dark before the bed envelops me.",
+"P6_SOUND": "A low clock note. Two pulses. The last of three quick notes cuts off.",
+"P6_SAVE_ERROR": "Progress could not be saved. The sleep sequence cannot begin.",
 "P5_CORRIDOR_LABEL": "Corridor window\nClear sky",
 "P5_GLASS_LABEL": "Greenhouse glass\nRain inside",
 "P5_THRESHOLD_LABEL": "Threshold · season plate\nSpring · clear",
