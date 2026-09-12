@@ -1192,10 +1192,13 @@ func _validate_edc(session: BasementSession) -> void:
 func _validate_ending_entry(session: BasementSession) -> void:
 	var seed := session.snapshot()
 	var rules = SESSION.ENDING_ENTRY
+	var texts = VIEW.GALLERY_TEXTS
+	var previous_locale := TranslationServer.get_locale()
 	var wrong_branch := seed.duplicate(true)
 	wrong_branch["ending_run"]["current_node_id"] = "EDS_ENTRY" if seed["ending_run"]["branch_id"] == "reality" else "EDR_ENTRY"
 	_expect(not rules.apply(wrong_branch, "continue", wrong_branch["ending_run"]["current_node_id"]).get("ok", false), "Ending rejects opposite branch node")
 	for ceremony in [false, true]:
+		TranslationServer.set_locale("en")
 		var state := seed.duplicate(true)
 		var ending: Dictionary = state["ending_run"]
 		ending.erase("completed_nodes")
@@ -1207,17 +1210,33 @@ func _validate_ending_entry(session: BasementSession) -> void:
 		var before_servants: Dictionary = state["meta_progress"]["servants"].duplicate(true)
 		if ceremony:
 			_expect(not session.act("ending_sign").get("ok", false), "Ceremony cannot skip identities")
+			var identity_view := VIEW.new()
+			identity_view.configure_session(SLOT,"ENDING_SEQUENCE")
+			root.add_child(identity_view)
+			await tree.process_frame
+			identity_view._dismiss_dialogue_for_test()
 			for owner in rules.OWNERS:
-				_expect(session.act("ending_identity", owner).get("ok", false), "Ceremony identity saved")
+				var identity_index: int = rules.progress(session.snapshot())["identity_index"]
+				identity_view._hotspot_layer.get_node("ENDING_IDENTITY").pressed.emit()
+				_expect(identity_view._dialogue_label.text == texts.identity(identity_index,"en"), "Actual ceremony speaks the selected English identity")
+				_expect(rules.progress(session.snapshot())["identity_index"] == identity_index, "Identity not completed before reading acknowledgement")
+				while identity_view._dialogue_active: identity_view._advance_dialogue()
+				_expect(rules.progress(session.snapshot())["identity_index"] == identity_index+1, "English identity advances only after acknowledgement")
 				_expect(not session.act("ending_identity", owner).get("ok", false), "Ceremony duplicate identity rejected")
 				_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "Ceremony partial identity reload")
-			_expect(session.act("ending_authority").get("ok", false), "Ceremony authority")
+				identity_view._render_room()
+			identity_view._hotspot_layer.get_node("ENDING_AUTHORITY").pressed.emit()
+			_expect(identity_view._dialogue_label.text == texts.text("authority","en"), "English authority keeps SUBJECT precedence")
+			while identity_view._dialogue_active: identity_view._advance_dialogue()
+			identity_view.queue_free()
+			await tree.process_frame
 			var view := VIEW.new()
 			view.configure_session(SLOT,"ENDING_SEQUENCE")
 			root.add_child(view)
 			await tree.process_frame
 			view._dismiss_dialogue_for_test()
 			_expect(view._hotspot_layer.has_node("ENDING_SIGNATURE") and view._hotspot_layer.has_node("ENDING_AUTO_SIGN"), "Ceremony trace and accessible alternative")
+			_expect((view._hotspot_layer.get_node("ENDING_AUTO_SIGN") as Button).text == texts.text("auto_sign","en"), "English automatic signing remains available")
 			if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 				await RenderingServer.frame_post_draw
 				root.get_texture().get_image().save_png("user://ending_signature.png")
@@ -1240,10 +1259,21 @@ func _validate_ending_entry(session: BasementSession) -> void:
 			await tree.process_frame
 			_expect(session.snapshot()["ending_run"].get("all_ceremony_seen", false), "Ceremony signature saved")
 		var entry: String = session.snapshot()["ending_run"]["current_node_id"]
-		_expect(session.act("ending_continue", entry).get("ok", false), "Ending entry advances")
-		var status: String = session.snapshot()["ending_run"]["current_node_id"]
-		_expect(not session.act("ending_continue", entry).get("ok", false), "Ending stale acknowledgement rejected")
-		_expect(session.act("ending_continue", status).get("ok", false), "Ending status applies")
+		var entry_view := VIEW.new()
+		entry_view.configure_session(SLOT,"ENDING_SEQUENCE")
+		root.add_child(entry_view)
+		await tree.process_frame
+		entry_view._dismiss_dialogue_for_test()
+		for step in range(2):
+			var current: String = session.snapshot()["ending_run"]["current_node_id"]
+			_expect((entry_view._hotspot_layer.get_node("ENDING_CONTINUE") as Button).text == texts.text("entry_continue","en"), "English ending entry continuation button")
+			entry_view._hotspot_layer.get_node("ENDING_CONTINUE").pressed.emit()
+			_expect(entry_view._dialogue_label.text == texts.entry(current,"en"), "Actual ending introduction and resident status use shared English text")
+			_expect(session.snapshot()["ending_run"]["current_node_id"] == current, "Resident status remains pending until acknowledgement")
+			while entry_view._dialogue_active: entry_view._advance_dialogue()
+			_expect(not session.act("ending_continue", current).get("ok", false), "Ending stale acknowledgement rejected")
+		entry_view.queue_free()
+		await tree.process_frame
 		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "Ending node reload")
 		_expect(session.stage() == ("REALITY_WAKE" if seed["ending_run"]["branch_id"] == "reality" else "STAY_CHARTER"), "Ending next body boundary")
 		var final_state := session.snapshot()
@@ -1251,6 +1281,7 @@ func _validate_ending_entry(session: BasementSession) -> void:
 		var channels: Dictionary = final_state["meta_progress"]["knowledge_entries"]["ending_resident_channels"]
 		_expect(channels.size() == 5, "All five channels preserved even LOW")
 		for mode in channels.values(): _expect(mode == ("low_power" if final_state["ending_run"]["branch_id"] == "reality" else "active"), "Ending resident mode")
+		TranslationServer.set_locale(previous_locale)
 		if final_state["ending_run"]["branch_id"] == "stay":
 			_expect(final_state["fracture_state"]["world_phase"] == "S5", "Stay stabilizes S5 without reset")
 			await _validate_stay_charter(session)

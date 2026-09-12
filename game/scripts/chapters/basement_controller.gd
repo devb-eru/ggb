@@ -567,32 +567,33 @@ func _build_final_inspection() -> void:
 
 
 func _build_ending_entry() -> void:
-	_location_label.text = "코어실"
+	var locale := TranslationServer.get_locale()
+	_location_label.text = GALLERY_TEXTS.text("entry_location",locale)
 	var rules = BasementSession.ENDING_ENTRY
 	var node: String = session.snapshot()["ending_run"]["current_node_id"]
-	_objective_label.text = "전원 이름 인증" if node == "ED_ALL_CEREMONY" else "확정된 절차의 시작"
+	_objective_label.text = GALLERY_TEXTS.text("identity_objective" if node == "ED_ALL_CEREMONY" else "entry_objective",locale)
 	if node != "ED_ALL_CEREMONY":
-		_board_label(rules.TEXT[node], Rect2(250,170,1420,510))
-		_add_hotspot("ENDING_CONTINUE", "기록을 확인하고 이어간다", Rect2(450,770,1020,100), _ending_read.bind([{"speaker":"SYSTEM", "text":rules.TEXT[node]}], "continue", node))
+		_board_label(GALLERY_TEXTS.entry(node,locale), Rect2(250,170,1420,510))
+		_add_hotspot("ENDING_CONTINUE", GALLERY_TEXTS.text("entry_continue",locale), Rect2(450,770,1020,100), _ending_read.bind([{"speaker":"SYSTEM", "text":GALLERY_TEXTS.entry(node,locale)}], "continue", node))
 		return
 	var local: Dictionary = rules.progress(session.snapshot())
 	var index: int = local["identity_index"]
-	_board_label("이 선택은 이미 주인공이 했다.\n인증과 서명은 선택을 허가하는 시험이 아니다.", Rect2(250,150,1420,130))
+	_board_label(GALLERY_TEXTS.text("identity_neutral",locale), Rect2(250,150,1420,130))
 	if index < rules.OWNERS.size():
-		var identity: Dictionary = rules.IDENTITIES[index]
-		_board_label("이름 인증 %d / 5\n첫 미완료 인물: %s" % [index + 1, identity["speaker"]], Rect2(300,360,1320,140))
-		_add_hotspot("ENDING_IDENTITY", "이름과 기록 서명을 듣는다", Rect2(450,650,1020,120), _ending_read.bind([identity], "identity", rules.OWNERS[index]))
+		var identity := {"speaker":GALLERY_TEXTS.WAKE.name_for(rules.OWNERS[index],locale),"text":GALLERY_TEXTS.identity(index,locale)}
+		_board_label(GALLERY_TEXTS.text("identity_progress",locale) % [index + 1, identity["speaker"]], Rect2(300,360,1320,140))
+		_add_hotspot("ENDING_IDENTITY", GALLERY_TEXTS.text("identity_listen",locale), Rect2(450,650,1020,120), _ending_read.bind([identity], "identity", rules.OWNERS[index]))
 	elif not local["authority_seen"]:
-		_add_hotspot("ENDING_AUTHORITY", "에드가의 권한 확인을 듣는다", Rect2(450,450,1020,120), _ending_read.bind([{"speaker":"에드가", "portrait":"EDGAR", "text":"주인공의 SUBJECT 권한이 관리자의 CUSTODIAN 권한보다 우선합니다. 이 서명은 허가 요청이 아닙니다. 이미 내리신 선택을 기록합니다."}], "authority", null))
+		_add_hotspot("ENDING_AUTHORITY", GALLERY_TEXTS.text("authority_listen",locale), Rect2(450,450,1020,120), _ending_read.bind([{"speaker":GALLERY_TEXTS.WAKE.name_for("edgar",locale), "portrait":"EDGAR", "text":GALLERY_TEXTS.text("authority",locale)}], "authority", null))
 	else:
-		_board_label("이 선택은 주인공이 했다\n선 위로 한 번 긋거나 자동 서명을 사용한다. 오답과 제한 시간은 없다.", Rect2(250,320,1420,120))
+		_board_label(GALLERY_TEXTS.text("signature_guide",locale), Rect2(250,320,1420,120))
 		var signature = ENDING_SIGNATURE.new()
 		signature.name = "ENDING_SIGNATURE"
 		_hotspot_layer.add_child(signature)
 		_place(signature, Rect2(460,510,1000,170))
 		signature.signed.connect(_finish_ending_signature)
-		signature.assistance_suggested.connect(func(): _set_status("자동 서명을 사용할 수 있습니다. 키보드로도 진행할 수 있습니다."))
-		_add_hotspot("ENDING_AUTO_SIGN", "자동 서명", Rect2(600,760,720,100), signature.finish_signature)
+		signature.assistance_suggested.connect(func(): _set_status(GALLERY_TEXTS.text("signature_assistance",TranslationServer.get_locale())))
+		_add_hotspot("ENDING_AUTO_SIGN", GALLERY_TEXTS.text("auto_sign",locale), Rect2(600,760,720,100), signature.finish_signature)
 
 
 func _ending_read(lines: Array, action: String, value: Variant, prefix: String = "ending_") -> void:

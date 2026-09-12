@@ -7,6 +7,17 @@ const SURFACE := preload("res://scripts/ui/reality_surface_texts.gd")
 const CHARTER := preload("res://scripts/ui/stay_charter_texts.gd")
 const STORY := preload("res://scripts/ui/stay_story_texts.gd")
 const LABELS := {
+	"entry_location": ["코어실", "Core room"],
+	"entry_objective": ["확정된 절차의 시작", "Begin the confirmed procedure"],
+	"identity_objective": ["전원 이름 인증", "Verify all five names"],
+	"entry_continue": ["기록을 확인하고 이어간다", "Read the record and continue"],
+	"identity_neutral": ["이 선택은 이미 주인공이 했다.\n인증과 서명은 선택을 허가하는 시험이 아니다.", "You have already made this choice.\nVerification and signing are not tests for permission to choose."],
+	"identity_progress": ["이름 인증 %d / 5\n첫 미완료 인물: %s", "Name verification %d / 5\nNext unverified person: %s"],
+	"identity_listen": ["이름과 기록 서명을 듣는다", "Listen to the name and record signature"],
+	"authority_listen": ["에드가의 권한 확인을 듣는다", "Listen to Edgar's authority confirmation"],
+	"signature_guide": ["이 선택은 주인공이 했다\n선 위로 한 번 긋거나 자동 서명을 사용한다. 오답과 제한 시간은 없다.", "This choice was yours.\nDraw across the line once, or use automatic signing. There is no wrong answer or time limit."],
+	"signature_assistance": ["자동 서명을 사용할 수 있습니다. 키보드로도 진행할 수 있습니다.", "Automatic signing is available. You can also continue using the keyboard."],
+	"auto_sign": ["자동 서명", "Sign automatically"],
 	"title": ["감상 기록", "Viewing records"],
 	"empty": ["보존된 엔딩 감상 기록이 없습니다. 미감상 장면은 표시하지 않습니다.", "No preserved ending records are available. Unseen scenes are not displayed."],
 	"description": ["보존된 마지막 장면과 확인한 조사만 열람합니다. 전체 엔딩·ALL 전용 장면 재생은 아직 준비 중입니다.\n본편 상태와 저장 파일은 바뀌지 않습니다.", "Read only preserved final scenes and observations you have seen. Full ending and ALL-scene playback is still in preparation.\nYour game state and save files remain unchanged."],
