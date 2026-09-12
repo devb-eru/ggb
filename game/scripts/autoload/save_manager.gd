@@ -16,6 +16,13 @@ const SAVE_ROOT := "user://saves"
 const PRODUCT_SLOT_IDS := ["slot_01", "slot_02", "slot_03"]
 
 
+func _enter_tree() -> void:
+	# Runtime-only development override; exported games keep their build setting.
+	if OS.has_feature("editor") and "--ggb-dev-full" in OS.get_cmdline_user_args():
+		ProjectSettings.set_setting(BUILD_FLAVOR_SETTING, "full")
+		print("GGB development full mode: user://saves_full (project setting unchanged on disk)")
+
+
 func get_build_flavor() -> String:
 	var flavor := String(ProjectSettings.get_setting(BUILD_FLAVOR_SETTING, BUILD_FLAVOR))
 	return flavor if flavor in ["demo", "full"] else BUILD_FLAVOR
