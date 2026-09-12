@@ -1477,6 +1477,7 @@ func _complete_p4_iris_greeting() -> void:
 
 
 func _build_greenhouse() -> void:
+	_clear_hotspots()
 	var observations: Array = _progress.get("p5_observations", [])
 	_add_hotspot("CORRIDOR_WINDOW", _observed_label("복도 창\n맑은 하늘", "corridor", observations), Rect2(230, 245, 300, 350), _observe_weather.bind("corridor", "복도 밖은 맑고 난간은 완전히 말라 있다."))
 	_add_hotspot("GREENHOUSE_GLASS", _observed_label("온실 유리\n안쪽의 비", "glass", observations), Rect2(670, 205, 420, 430), _observe_weather.bind("glass", "유리 안쪽에는 빗줄기와 젖은 잎이 보인다. 빗소리는 천장 배관 쪽에서 난다."))

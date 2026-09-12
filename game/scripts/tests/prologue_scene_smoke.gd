@@ -78,6 +78,21 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._advance_dialogue()
 	_expect(not prologue._dialogue_active, "English P1 completes normally", errors)
 	_expect("Examine the light" in prologue._status_label.text, "English P1 completes with localized objective", errors)
+	prologue._progress["P5_complete"] = false
+	prologue._progress["p5_observations"] = []
+	prologue._enter_room("M1_GREENHOUSE_VESTIBULE")
+	prologue._dismiss_dialogue_for_test()
+	for index in range(9):
+		var observation_id: String = ["corridor", "glass", "threshold"][index % 3]
+		prologue._observe_weather(observation_id, "Weather test")
+		prologue._dismiss_dialogue_for_test()
+		var observations: Array = prologue._progress["p5_observations"]
+		_expect(prologue._hotspot_layer.get_child_count() == (5 if observations.size() == 3 else 4), "Repeated weather observations do not stack hotspots", errors)
+		_expect(prologue._hotspot_layer.has_node("RECORD") == (observations.size() == 3), "Weather record still requires all clues", errors)
+	_expect(prologue._progress["p5_observations"].size() == 3, "Repeated weather observations remain unique", errors)
+	prologue._complete_p5()
+	_expect(prologue._hotspot_layer.get_child_count() == 4, "Completed weather removes record action without duplicating hotspots", errors)
+	prologue._dismiss_dialogue_for_test()
 	for choice_id in prologue.P4_FATHER_CHOICE_ORDER:
 		prologue._progress["P4_complete"] = false
 		prologue._progress["tea_step"] = prologue.TEA_STEPS.size()
