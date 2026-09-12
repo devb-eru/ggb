@@ -208,9 +208,19 @@ func _validate_full_transition() -> void:
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	_expect(view._hotspot_layer.get_node_or_null("E1_bed") != null and view._hotspot_layer.get_node_or_null("E1_call_cord") != null, "E1 investigation UI connected")
+	var history_count: int = game.get_value("meta_progress.dialogue_history.entries", []).size()
 	view._hotspot_layer.get_node("E1_bed").pressed.emit()
 	_expect(view._dialogue_active, "E1 click presents sensory response")
+	var shown_text: String = view._dialogue_label.text
+	var viewed_entries: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+	_expect(viewed_entries.size() == history_count + 1 and viewed_entries.back()["variables"]["text"] == shown_text, "E1 actual investigation records displayed sentence")
 	view._dismiss_dialogue_for_test()
+	var before_history: Dictionary = game.get_snapshot()
+	view._open_menu()
+	(view._modal_body.get_child(4) as Button).pressed.emit()
+	_expect((view._modal_body.get_child(2).get_child(0) as Label).text.contains(shown_text), "E1 history available through menu")
+	(view._modal_body.get_child(3) as Button).pressed.emit()
+	_expect(game.get_snapshot() == before_history, "E1 history viewer is read only")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://e1_morning.png")
@@ -607,12 +617,16 @@ func _validate_j4(session: BasementSession) -> void:
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	view._show_j4_confirmation()
+	var j4_before_cancel := session.snapshot()
+	var expected_hub := hub.duplicate(true)
+	expected_hub["meta_progress"]["dialogue_history"] = j4_before_cancel["meta_progress"]["dialogue_history"].duplicate(true)
+	_expect(j4_before_cancel == expected_hub, "J4 opening only appends displayed dialogue history")
 	var confirm := view._modal_body.get_child(4) as Button
 	_expect(confirm.disabled, "J4 confirmation input grace")
 	await tree.create_timer(0.6).timeout
 	_expect(not confirm.disabled, "J4 confirmation becomes available")
 	view._close_modal()
-	_expect(session.snapshot() == hub, "J4 modal cancel changes nothing")
+	_expect(session.snapshot() == j4_before_cancel, "J4 modal cancel changes nothing")
 	view.queue_free()
 	await tree.process_frame
 
@@ -1498,6 +1512,9 @@ func _validate_e6_ui(session: BasementSession) -> void:
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	_expect(view._hotspot_layer.has_node("E6_ENTER"), "E6 entry button visible")
+	var after_intro := session.snapshot()
+	before["meta_progress"]["dialogue_history"] = after_intro["meta_progress"]["dialogue_history"].duplicate(true)
+	_expect(after_intro == before, "E6 opening only appends displayed dialogue history")
 	view._hotspot_layer.get_node("E6_ENTER").pressed.emit()
 	await tree.process_frame
 	var focus := root.gui_get_focus_owner() as Button

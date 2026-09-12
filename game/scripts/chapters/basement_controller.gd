@@ -24,6 +24,14 @@ func _make_session() -> ChapterOneSession:
 func _basement() -> BasementSession:
 	return session as BasementSession
 
+func _history_enabled() -> bool:
+	if session == null:
+		return false
+	var current_stage := session.stage()
+	if current_stage in ["DEMO_END", "ENDING_CREDITS", "POST_CREDITS"]:
+		return false
+	return not (current_stage == "D5" and SaveManager.get_build_flavor() == "demo")
+
 func _feedback(result: Dictionary) -> void:
 	if session != null and session.stage() == "D5" and SaveManager.get_build_flavor() == "demo" and result.get("ok", false):
 		_set_status("위장 필터 해제 연출이 진행됩니다. 메뉴를 열면 일시정지합니다.")
