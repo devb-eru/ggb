@@ -4,6 +4,18 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"CH1_B2_HIDDEN_BOARD": "점검 벽감 안\n에드가가 책상을 확인하고 있다. 잠시 뒤 발소리가 멀어진다.",
+"CH1_B2_ENTRY": "문밖의 발소리가 멎는다. 잠금쇠가 돌아간다.",
+"CH1_B2_HIDE": "점검 벽감에 숨는다",
+"CH1_B2_TALK": "남아서 에드가에게 말을 건다",
+"CH1_B2_HIDDEN": "벽감 안에서 숨을 고른다. 에드가가 들어와 책상과 잠금선을 확인한다.",
+"CH1_B2_NORMAL": "보고 싶은 책이 있으십니까? 열람이 끝나면 제자리에 두십시오.",
+"CH1_B2_ALERT": "보고 싶은 책이 있으십니까? 열람이 끝나면 제자리에 두십시오.\n우연히 이 시간에 오신 것이라면, 다음에도 같은 우연이 생기지는 않겠습니까.",
+"CH1_B2_LEFT": "발소리가 다시 멀어진다. 에드가는 문을 닫고 나갔다. 압지와 일지는 그대로다.",
+"CH1_B2_ABSENT": "에드가는 지금 이 방에 없다.",
+"CH1_B2_NEED_ALCOVE": "먼저 숨을 수 있는 점검 벽감을 확인한다.",
+"CH1_B2_FINISHED": "점검은 이미 끝났다.",
+"CH1_B2_WAITING": "에드가가 대답을 기다린다.",
 "CH1_B1_DOC_EDGAR": "에드가 업무 장부",
 "CH1_B1_DOC_LUCA": "루카 전달표",
 "CH1_B1_DOC_MARA1": "마라 1 청소표",
@@ -52,6 +64,18 @@ localized_text = {
 "CH1_SLEEP_RULE": "물건과 장치의 상태는 같은 아침으로 돌아온다. 수첩과 확인한 정보, 사용인의 기억은 남는다."
 },
 "en-US": {
+"CH1_B2_HIDDEN_BOARD": "Inside the maintenance alcove\nEdgar is checking the desk. Before long, his footsteps recede.",
+"CH1_B2_ENTRY": "The footsteps outside the door stop. The latch turns.",
+"CH1_B2_HIDE": "Hide in the maintenance alcove",
+"CH1_B2_TALK": "Stay and speak to Edgar",
+"CH1_B2_HIDDEN": "I steady my breathing in the alcove. Edgar enters and checks the desk and the locking lines.",
+"CH1_B2_NORMAL": "Is there a book you wish to read? Please return it to its place when you have finished.",
+"CH1_B2_ALERT": "Is there a book you wish to read? Please return it to its place when you have finished.\nIf your arrival at this hour is a coincidence, might the same coincidence occur again?",
+"CH1_B2_LEFT": "The footsteps recede again. Edgar has left and closed the door. The blotting paper and journal are untouched.",
+"CH1_B2_ABSENT": "Edgar is not in this room right now.",
+"CH1_B2_NEED_ALCOVE": "First locate the maintenance alcove where you can hide.",
+"CH1_B2_FINISHED": "The inspection is already over.",
+"CH1_B2_WAITING": "Edgar is waiting for an answer.",
 "CH1_B1_DOC_EDGAR": "Edgar's work ledger",
 "CH1_B1_DOC_LUCA": "Luka's delivery sheet",
 "CH1_B1_DOC_MARA1": "Mara 1's cleaning schedule",

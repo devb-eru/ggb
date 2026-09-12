@@ -275,14 +275,14 @@ func _build_inner(local: Dictionary, journal: int) -> void:
 
 func _build_edgar_pressure(local: Dictionary) -> void:
 	if local["edgar_state"] == "hidden":
-		_board_label("점검 벽감 안\n에드가가 책상을 확인하고 있다. 잠시 뒤 발소리가 멀어진다.", Rect2(390, 330, 1080, 230))
+		_board_label(_dialogue_ui_text("CH1_B2_HIDDEN_BOARD"), Rect2(390, 330, 1080, 230))
 		if _edgar_timer.is_stopped():
 			_edgar_timer.start()
 		return
-	_board_label("문밖의 발소리가 멎는다. 잠금쇠가 돌아간다.", Rect2(400, 250, 1120, 160))
+	_board_label(_dialogue_ui_text("CH1_B2_ENTRY"), Rect2(400, 250, 1120, 160))
 	if "alcove" in local["inspected"]:
-		_action("B2_HIDE", "점검 벽감에 숨는다", Rect2(380, 490, 540, 140), "edgar_hide")
-	_action("B2_CAUGHT", "남아서 에드가에게 말을 건다", Rect2(1000, 490, 540, 140), "edgar_talk")
+		_action("B2_HIDE", _dialogue_ui_text("CH1_B2_HIDE"), Rect2(380, 490, 540, 140), "edgar_hide")
+	_action("B2_CAUGHT", _dialogue_ui_text("CH1_B2_TALK"), Rect2(1000, 490, 540, 140), "edgar_talk")
 
 
 func _on_edgar_timeout() -> void:

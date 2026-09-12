@@ -181,27 +181,31 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				text += "\n문밖에서 발소리가 멎는다. 잠금쇠가 돌아간다."
 		"edgar_hide", "edgar_talk", "edgar_leave":
 			if room != "M1_LIBRARY_INNER":
-				return _reject("에드가는 지금 이 방에 없다.")
+				return _reject("에드가는 지금 이 방에 없다.", "CH1_B2_ABSENT")
 			if action == "edgar_hide":
 				if local["edgar_state"] != "entering" or "alcove" not in local["inspected"]:
-					return _reject("먼저 숨을 수 있는 점검 벽감을 확인한다.")
+					return _reject("먼저 숨을 수 있는 점검 벽감을 확인한다.", "CH1_B2_NEED_ALCOVE")
 				local["edgar_state"] = "hidden"
+				text_id = "CH1_B2_HIDDEN"
 				text = "벽감 안에서 숨을 고른다. 에드가가 들어와 책상과 잠금선을 확인한다."
 			else:
 				if local["edgar_state"] not in ["entering", "hidden"]:
-					return _reject("점검은 이미 끝났다.")
+					return _reject("점검은 이미 끝났다.", "CH1_B2_FINISHED")
 				if action == "edgar_leave" and local["edgar_state"] != "hidden":
-					return _reject("에드가가 대답을 기다린다.")
+					return _reject("에드가가 대답을 기다린다.", "CH1_B2_WAITING")
 				if action == "edgar_talk":
 					speaker = "에드가"
+					text_id = "CH1_B2_NORMAL"
 					text = "보고 싶은 책이 있으십니까? 열람이 끝나면 제자리에 두십시오."
 					if int(meta["servants"]["edgar"]["alert"]) >= 4:
+						text_id = "CH1_B2_ALERT"
 						text += "\n우연히 이 시간에 오신 것이라면, 다음에도 같은 우연이 생기지는 않겠습니까."
 					var memory: Array = meta["servants"]["edgar"]["residual_memory"]
 					if "B2_CAUGHT" not in memory:
 						memory.append("B2_CAUGHT")
 				else:
 					text = "발소리가 다시 멀어진다. 에드가는 문을 닫고 나갔다. 압지와 일지는 그대로다."
+					text_id = "CH1_B2_LEFT"
 				local["edgar_state"] = "absent"
 				local["edgar_visit_done"] = true
 		"j1_piece", "j1_flip", "j1_clear", "j1_restore":
