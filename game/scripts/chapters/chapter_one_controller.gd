@@ -401,18 +401,18 @@ func _open_notebook() -> void:
 		return
 	var knowledge: Dictionary = session.snapshot()["meta_progress"]["knowledge_entries"]
 	var notes: Dictionary = knowledge.get("chapter_notebook", {})
-	_show_modal("수첩 · 영구 기록", "잠들어도 확인한 기록은 남는다.", [{"label": "닫기", "action": _close_modal}])
+	_show_modal(_dialogue_ui_text("UI_NOTE_PERMANENT"), _dialogue_ui_text("UI_NOTE_PERSIST"), [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
 	var scroll := _modal_body.get_child(2) as ScrollContainer
 	scroll.custom_minimum_size = Vector2(0, 430)
 	var label := scroll.get_child(0) as Label
 	var pages: Array[String] = []
 	for entry in knowledge.get("prologue_notebook_entries", []):
-		pages.append(String(entry))
+		pages.append(_localized_notebook_entry(String(entry)))
 	if pages.is_empty() and knowledge.get("MEM_FATHER_TEA_HAND_FRAGMENT", "") == "sensory_fragment":
-		pages.append("찻잔 손잡이가 왼쪽 자리를 향했다. 낯익은 향과 더 큰 손의 잔상. 얼굴과 대사는 떠오르지 않는다.")
+		pages.append(_dialogue_ui_text("NOTE_P_TEA"))
 	for key in notes:
 		pages.append(String(notes[key]))
-	label.text = "\n\n".join(pages) if not pages.is_empty() else "아직 비교를 마친 기록이 없다."
+	label.text = "\n\n".join(pages) if not pages.is_empty() else _dialogue_ui_text("UI_NOTE_COMPARE_EMPTY")
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.add_theme_font_size_override("font_size", int(round(22 * _reading_text_scale)))

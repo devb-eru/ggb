@@ -118,6 +118,25 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._progress["P4_complete"] = true
 	prologue._update_objective()
 	_expect("greenhouse optional" in prologue._objective_label.text, "Evening remains optional", errors)
+	var saved_notes: Array = prologue._progress["notebook_entries"].duplicate(true)
+	var legacy_notes := ["주방의 규칙적인 진동", "Unknown legacy note"]
+	prologue._progress["notebook_entries"] = legacy_notes.duplicate()
+	prologue._open_notebook()
+	var english_notes: String = prologue._modal_body.get_child(2).get_child(0).text
+	_expect("The kitchen's rhythmic vibration" in english_notes, "Legacy note displays in English", errors)
+	_expect("Unknown legacy note" in english_notes, "Unknown note preserved", errors)
+	_expect(prologue._progress["notebook_entries"] == legacy_notes, "Reading does not rewrite saved notes", errors)
+	prologue._close_modal()
+	await tree.process_frame
+	TranslationServer.set_locale("ko_KR")
+	prologue._open_notebook()
+	_expect("주방의 규칙적인 진동" in prologue._modal_body.get_child(2).get_child(0).text, "Same note returns to Korean", errors)
+	prologue._close_modal()
+	await tree.process_frame
+	prologue._add_notebook("주방의 규칙적인 진동")
+	_expect(prologue._progress["notebook_entries"].size() == 2, "Locale change does not duplicate acquisition", errors)
+	prologue._progress["notebook_entries"] = saved_notes
+	TranslationServer.set_locale("en_US")
 	for pair in [["주인공", "Protagonist"], ["마라 1", "Mara 1"], ["마라 2", "Mara 2"], ["루카", "Luka"], ["이리스", "Iris"]]:
 		_expect(prologue._localized_speaker(pair[0]) == pair[1], "English speaker " + pair[0], errors)
 	_expect(prologue._localized_speaker("Unknown witness") == "Unknown witness", "Unknown speaker remains visible", errors)

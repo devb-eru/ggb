@@ -1796,16 +1796,26 @@ func _open_menu() -> void:
 	])
 
 
+func _localized_notebook_entry(entry: String) -> String:
+	# Legacy saves contain Korean prose; translate for display without rewriting history.
+	var texts := DialogueRepository.new()
+	for text_id in ["NOTE_P_DUTIES","NOTE_P_IMPRESSIONS","NOTE_P_BIRD","NOTE_P_WINDOWS","NOTE_P_JOURNAL","NOTE_P_SIGNATURES","NOTE_P_PULSE","NOTE_P_WEATHER","NOTE_P_SLEEP","NOTE_P_TEA"]:
+		if entry == texts.get_text(text_id, "ko-KR"):
+			return texts.get_text(text_id, TranslationServer.get_locale())
+	return entry
+
+
 func _open_notebook() -> void:
 	if _dialogue_active or _dialogue_choice_active:
 		return
 	var entries: Array = _progress.get("notebook_entries", [])
-	var body := "아직 기록이 없다." if entries.is_empty() else "\n\n".join(entries.map(func(value: Variant) -> String: return "- %s" % String(value)))
-	_show_modal("주인공의 수첩", body, [{"label": "닫기", "action": _close_modal}])
+	var body := _dialogue_ui_text("UI_NOTE_EMPTY") if entries.is_empty() else "\n\n".join(entries.map(func(value: Variant) -> String: return "- %s" % _localized_notebook_entry(String(value))))
+	_show_modal(_dialogue_ui_text("UI_NOTE_TITLE"), body, [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
 	for child in _modal_body.get_children():
+		_modal_body.remove_child(child)
 		child.queue_free()
 	var title_label := Label.new()
 	title_label.text = title
