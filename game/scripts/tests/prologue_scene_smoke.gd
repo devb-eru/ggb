@@ -414,6 +414,19 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	bootstrap.add_child(prologue)
 	await tree.process_frame
 	await tree.process_frame
+	prologue._dismiss_dialogue_for_test()
+	var before_failed_sleep: Dictionary = prologue._progress.duplicate(true)
+	prologue._slot_id = "../invalid_sleep_slot"
+	prologue._begin_first_sleep()
+	_expect(prologue._progress == before_failed_sleep, "Failed sleep restores local completion and notes", errors)
+	_expect(not prologue._dialogue_active, "Failed sleep does not begin transition dialogue", errors)
+	_expect(not GameState.get_value(&"meta_progress.knowledge_entries", {}).get("PROLOGUE_COMPLETE", false), "Failed sleep does not persist completion", errors)
+	prologue._slot_id = RESET_TEST_SLOT
+	_expect(prologue._save_progress(), "Ordinary save after failed sleep succeeds", errors)
+	_expect(not GameState.get_value(&"meta_progress.knowledge_entries", {}).get("PROLOGUE_COMPLETE", false), "Later ordinary save does not leak failed completion", errors)
+	prologue._begin_first_sleep()
+	_expect(prologue._progress.get("P6_complete", false) and prologue._dialogue_active, "Sleep can be retried after saving recovers", errors)
+	prologue._dismiss_dialogue_for_test()
 	prologue._progress["P6_complete"] = true
 	prologue._progress["introduced"] = ["EDGAR", "MARA1", "MARA2", "LUCA", "IRIS"]
 	prologue._progress["p3_journal_seen"] = true

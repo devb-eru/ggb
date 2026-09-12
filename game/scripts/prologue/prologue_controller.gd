@@ -1528,6 +1528,7 @@ func _on_sleep_bed() -> void:
 
 func _begin_first_sleep() -> void:
 	_close_modal()
+	var previous_progress := _progress.duplicate(true)
 	_progress["P6_complete"] = true
 	_add_notebook("오늘을 끝내고 잠든다.")
 	if _test_mode:
@@ -1535,6 +1536,7 @@ func _begin_first_sleep() -> void:
 		return
 	var saved := _save_progress("SAVE_P6_COMPLETE", true)
 	if not saved:
+		_progress = previous_progress
 		_set_status(_dialogue_ui_text("P6_SAVE_ERROR"))
 		return
 	_show_dialogue([
