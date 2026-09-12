@@ -288,6 +288,20 @@ func _test_dialogue_repository(errors: PackedStringArray) -> void:
 	var loaded_history: Dictionary = GameState.get_value(&"meta_progress.dialogue_history", {})
 	var rendered_ko := repository.render_history(loaded_history, "ko-KR")
 	var rendered_en := repository.render_history(loaded_history, "en-US")
+	for invalid_variables in [{"count": "two"}, {"count": 2, "extra": true}, {}, [], null]:
+		var malformed := loaded_history.duplicate(true)
+		malformed["entries"][0]["variables"] = invalid_variables
+		var rejected := repository.render_history(malformed, "en-US")
+		_expect(not rejected["ok"] and "ERR_DIALOGUE_HISTORY_VARIABLES" in rejected["error_ids"] and rejected["entries"].is_empty(), "invalid history variables must not render as successful text", errors)
+	for invalid_sequence in [-1, "0", 0.5, null]:
+		var malformed := loaded_history.duplicate(true)
+		malformed["entries"][0]["sequence"] = invalid_sequence
+		var rejected := repository.render_history(malformed, "ko-KR")
+		_expect(not rejected["ok"] and "ERR_DIALOGUE_HISTORY_SEQUENCE" in rejected["error_ids"], "invalid history sequence rejected", errors)
+	var duplicate := loaded_history.duplicate(true)
+	duplicate["entries"].append(duplicate["entries"][0].duplicate(true))
+	_expect(not repository.render_history(duplicate, "en-US")["ok"], "duplicate history sequence rejected", errors)
+	_expect(GameState.get_value(&"meta_progress.dialogue_history", {}) == loaded_history, "history rendering does not mutate persisted entries", errors)
 	_expect(bool(rendered_ko.get("ok", false)) and bool(rendered_en.get("ok", false)), "dialogue history did not render", errors)
 	if not rendered_ko.get("entries", []).is_empty() and not rendered_en.get("entries", []).is_empty():
 		_expect(String(rendered_ko["entries"][0]["text"]) != String(rendered_en["entries"][0]["text"]), "history body was not reinterpreted by locale", errors)

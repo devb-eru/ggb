@@ -68,11 +68,19 @@ func render_history(history_value: Variant, locale: String) -> Dictionary:
 	var rendered_entries: Array = []
 	if not history_value is Dictionary or not history_value.get("entries") is Array:
 		return {"ok": false, "entries": rendered_entries, "error_ids": PackedStringArray(["ERR_DIALOGUE_HISTORY_TYPE"])}
+	var previous_sequence := -1
 	for history_entry_value in history_value["entries"]:
 		if not history_entry_value is Dictionary:
 			errors.append("ERR_DIALOGUE_HISTORY_ENTRY_TYPE")
 			continue
 		var history_entry: Dictionary = history_entry_value
+		if typeof(history_entry.get("sequence")) != TYPE_INT or int(history_entry["sequence"]) <= previous_sequence:
+			errors.append("ERR_DIALOGUE_HISTORY_SEQUENCE")
+			continue
+		previous_sequence = int(history_entry["sequence"])
+		if not history_entry.get("line_id") is String or not history_entry.get("speaker_id") is String:
+			errors.append("ERR_DIALOGUE_HISTORY_ID_TYPE")
+			continue
 		var line_id := String(history_entry.get("line_id", ""))
 		if not _entries.has(line_id):
 			errors.append("ERR_DIALOGUE_HISTORY_LINE_ID")
@@ -80,6 +88,10 @@ func render_history(history_value: Variant, locale: String) -> Dictionary:
 		var definition: Dictionary = _entries[line_id]
 		if String(history_entry.get("speaker_id", "")) != String(definition.get("speaker_id", "")):
 			errors.append("ERR_DIALOGUE_HISTORY_SPEAKER_ID")
+			continue
+		var variables: Variant = history_entry.get("variables", {})
+		if not variables is Dictionary or not _variables_match(definition.get("variables", {}), variables):
+			errors.append("ERR_DIALOGUE_HISTORY_VARIABLES")
 			continue
 		rendered_entries.append({
 			"sequence": int(history_entry.get("sequence", -1)),
