@@ -343,6 +343,9 @@ func _sleep_now() -> void:
 
 
 func _localized_notebook_entry(entry: String) -> String:
+	for clock_id in CLOCK.CLOCKS:
+		if entry == CLOCK.CLUES[clock_id]:
+			return _dialogue_ui_text("CH1_CLOCK_" + clock_id.to_upper())
 	if entry == "\n\n".join(SESSION_SCRIPT.J1_FRAGMENTS):
 		return _dialogue_ui_text("CH1_J1_RESTORED")
 	return super._localized_notebook_entry(entry)
@@ -399,19 +402,19 @@ func _clock_hotspot() -> void:
 		return
 	var room_clock: String = SESSION_SCRIPT.CLOCK_ROOMS.get(_current_room, "")
 	if not room_clock.is_empty():
-		_action("RUB_CLOCK", "시계 배선 조사 · 탁본 뜨기", Rect2(1080, 150, 550, 140), "rub_clock")
+		_action("RUB_CLOCK", _dialogue_ui_text("CH1_CLOCK_RUB"), Rect2(1080, 150, 550, 140), "rub_clock")
 
 
 func _build_great_clock(local: Dictionary) -> void:
 	if local["clock_locked"]:
-		_board_label("봉인핀 파손 · 오늘 시계망 잠김\n잠들면 핀은 원래대로 돌아온다. 수첩의 실패 기록은 남는다.", Rect2(300, 340, 1290, 230))
+		_board_label(_dialogue_ui_text("CH1_CLOCK_LOCKED"), Rect2(300, 340, 1290, 230))
 		return
 	if local["signal_generated"] or session.known("b4_waveform_acquired"):
 		_action("B4_RECORD", "공명통의 세 파형을 투명지에 기록", Rect2(440, 330, 1030, 220), "record_wave")
 		return
 	if local["rubbed"].size() < 4:
 		_clock_hotspot()
-		_board_label("당일 탁본: %d / 4\n침실 · 대응접실 · 외부 서고 · 서쪽 대시계\n각 방에서 시계를 직접 조사한다." % local["rubbed"].size(), Rect2(350, 370, 1220, 250))
+		_board_label(_dialogue_ui_text("CH1_CLOCK_COLLECT") % local["rubbed"].size(), Rect2(350, 370, 1220, 250))
 		return
 	if not session.known("clock_network_layout_solved"):
 		_build_layout_board(local)
@@ -421,16 +424,16 @@ func _build_great_clock(local: Dictionary) -> void:
 
 func _build_layout_board(local: Dictionary) -> void:
 	var board: Dictionary = local["board"]
-	_board_label("탁본 조립: 위쪽 모서리 홈을 맞춘 뒤 [시작 → 통과 → 공명통]으로 연결한다. 단절된 조각은 네 번째 칸.\n조각을 눌러 두 자리를 교환한다. 나사·문양과 방 이름은 색 없이도 읽을 수 있다.", Rect2(150, 145, 1620, 105))
+	_board_label(_dialogue_ui_text("CH1_CLOCK_LAYOUT"), Rect2(150, 145, 1620, 105))
 	for index in range(4):
 		var clock_id: String = board["pieces"][index]
 		var back: bool = clock_id == "library_outer" and board["library_back"]
-		var pattern: String = {"bedroom": "중앙에서 끊긴 선", "parlor": "굵은 시작선 →", "library_outer": "← 중계선" if back else "중계선 →", "great_clock": "선 → 빈 공명통"}[clock_id]
-		var label := "%d번 자리 · %s\n모서리 홈: %s\n%s\n%s" % [index + 1, CLOCK.NAMES[clock_id], _direction(int(board["rotations"][index])), pattern, "뒷면" if back else "앞면"]
+		var pattern := _dialogue_ui_text("CH1_CLOCK_PATTERN_" + ("LIBRARY_BACK" if back else clock_id.to_upper()))
+		var label := _dialogue_ui_text("CH1_CLOCK_CARD") % [index + 1, _dialogue_ui_text("CH1_CLOCK_NAME_" + clock_id.to_upper()), _direction(int(board["rotations"][index])), pattern, _dialogue_ui_text("CH1_CLOCK_BACK") if back else _dialogue_ui_text("CH1_CLOCK_FRONT")]
 		_add_hotspot("B3_PIECE_%d" % index, label, Rect2(135 + index * 445, 320, 405, 245), _swap_piece.bind(index))
-		_action("B3_ROTATE_%d" % index, "90° 회전", Rect2(155 + index * 445, 585, 365, 65), "board_rotate", index, false)
-	_action("B3_FLIP", "외부 서고 탁본 뒤집기", Rect2(220, 706, 570, 90), "board_flip", null, false)
-	_action("B3_CHECK", "약한 진동으로 배선 추적", Rect2(1020, 706, 630, 90), "board_check")
+		_action("B3_ROTATE_%d" % index, _dialogue_ui_text("CH1_CLOCK_ROTATE"), Rect2(155 + index * 445, 585, 365, 65), "board_rotate", index, false)
+	_action("B3_FLIP", _dialogue_ui_text("CH1_CLOCK_FLIP"), Rect2(220, 706, 570, 90), "board_flip", null, false)
+	_action("B3_CHECK", _dialogue_ui_text("CH1_CLOCK_CHECK"), Rect2(1020, 706, 630, 90), "board_check")
 
 
 func _swap_piece(index: int) -> void:
@@ -438,7 +441,7 @@ func _swap_piece(index: int) -> void:
 		return
 	if _swap_from < 0:
 		_swap_from = index
-		_set_status("%d번 조각 선택 · 교환할 다른 자리를 누른다." % (index + 1))
+		_set_status(_dialogue_ui_text("CH1_CLOCK_SWAP") % (index + 1))
 		return
 	var from := _swap_from
 	_swap_from = -1
@@ -446,26 +449,28 @@ func _swap_piece(index: int) -> void:
 
 
 func _build_roles_board(local: Dictionary) -> void:
-	_board_label("배치와 역할은 별도 설정이다. 약한 시험은 배선만 확인하며 전달 시점은 확인하지 않는다.", Rect2(180, 145, 1570, 80))
+	_board_label(_dialogue_ui_text("CH1_CLOCK_ROLES"), Rect2(180, 145, 1570, 80))
 	for index in range(4):
 		var role: String = CLOCK.ROLES[index]
 		var selected: String = local["roles"].get(role, "")
 		var button := OptionButton.new()
 		button.name = "ROLE_" + role
-		button.add_item(CLOCK.ROLE_NAMES[role] + " · 시계 선택", 0)
+		button.add_item(_dialogue_ui_text("CH1_CLOCK_ROLE_" + role.to_upper()) + " · " + _dialogue_ui_text("CH1_CLOCK_SELECT"), 0)
 		for clock_id in CLOCK.CLOCKS:
-			button.add_item(CLOCK.ROLE_NAMES[role] + " · " + CLOCK.NAMES[clock_id])
+			button.add_item(_dialogue_ui_text("CH1_CLOCK_ROLE_" + role.to_upper()) + " · " + _dialogue_ui_text("CH1_CLOCK_NAME_" + clock_id.to_upper()))
 		button.select(CLOCK.CLOCKS.find(selected) + 1)
 		button.add_theme_font_size_override("font_size", 22)
 		_place(button, Rect2(180 + index * 430, 325, 385, 105))
 		button.item_selected.connect(_role_selected.bind(role))
 		_hotspot_layer.add_child(button)
-	var names := ["-1 · 마지막 종 전", "0 · 열두 번째 종과 동시", "+1 · 정상 종 뒤 한 칸", "HALF · 종 사이"]
+	var names: Array[String] = []
+	for phase_index in range(4):
+		names.append(_dialogue_ui_text("CH1_CLOCK_PHASE_%d" % phase_index))
 	for index in range(4):
 		var phase: String = CLOCK.PHASES[index]
-		_action("PHASE_%d" % index, names[index] + (" · 선택" if local["phase"] == phase else ""), Rect2(180 + index * 430, 480, 385, 112), "phase", phase, false)
-	_action("B3_TEST", "약한 시험 진동", Rect2(380, 700, 490, 100), "test_clock")
-	_add_hotspot("B3_ACTIVATE", "저녁 시계망 실제 작동", Rect2(1020, 700, 530, 100), _confirm_clock)
+		_action("PHASE_%d" % index, names[index] + (_dialogue_ui_text("CH1_CLOCK_SELECTED") if local["phase"] == phase else ""), Rect2(180 + index * 430, 480, 385, 112), "phase", phase, false)
+	_action("B3_TEST", _dialogue_ui_text("CH1_CLOCK_TEST"), Rect2(380, 700, 490, 100), "test_clock")
+	_add_hotspot("B3_ACTIVATE", _dialogue_ui_text("CH1_CLOCK_ACTIVATE"), Rect2(1020, 700, 530, 100), _confirm_clock)
 
 
 func _role_selected(index: int, role: String) -> void:
@@ -474,15 +479,15 @@ func _role_selected(index: int, role: String) -> void:
 
 
 func _confirm_clock() -> void:
-	_show_modal("봉인핀 확인", "오류가 있으면 봉인핀이 꺾여 오늘 다시 시도할 수 없다. 잠든 뒤 같은 아침에서 다시 준비한다.", [
-		{"label": "약한 시험 진동을 다시 보낸다", "action": _modal_act.bind("test_clock", null)},
-		{"label": "현재 설정으로 작동한다", "action": _modal_act.bind("activate_clock", true)},
-		{"label": "설정을 고친다", "action": _close_modal},
+	_show_modal(_dialogue_ui_text("CH1_CLOCK_CONFIRM"), _dialogue_ui_text("CH1_CLOCK_WARNING"), [
+		{"label": _dialogue_ui_text("CH1_CLOCK_RETEST"), "action": _modal_act.bind("test_clock", null)},
+		{"label": _dialogue_ui_text("CH1_CLOCK_COMMIT"), "action": _modal_act.bind("activate_clock", true)},
+		{"label": _dialogue_ui_text("CH1_CLOCK_EDIT"), "action": _close_modal},
 	])
 
 
 func _direction(degrees: int) -> String:
-	return {0: "위 ↑", 90: "오른쪽 →", 180: "아래 ↓", 270: "왼쪽 ←"}.get(degrees, "?")
+	return _dialogue_ui_text("CH1_CLOCK_DIR_%d" % degrees) if degrees in [0, 90, 180, 270] else "?"
 
 
 func _board_label(text: String, rect: Rect2) -> void:

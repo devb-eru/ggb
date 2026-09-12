@@ -240,12 +240,13 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				_note(knowledge, "J1", text)
 		"rub_clock":
 			if int(meta["journal_stage"]) < 1 or not CLOCK_ROOMS.has(room):
-				return _reject("일지의 첫 페이지를 복원한 뒤 각 방의 시계에서 탁본을 뜬다.")
+				return _reject("일지의 첫 페이지를 복원한 뒤 각 방의 시계에서 탁본을 뜬다.", "CH1_CLOCK_NEED_J1")
 			var clock_id: String = CLOCK_ROOMS[room]
 			if clock_id not in local["rubbed"]:
 				local["rubbed"].append(clock_id)
 			knowledge["clock_observed_" + clock_id] = true
 			text = CLOCK.CLUES[clock_id]
+			text_id = "CH1_CLOCK_" + clock_id.to_upper()
 			_note(knowledge, "CLOCK_" + clock_id, text)
 		"board_swap", "board_rotate", "board_flip", "board_check":
 			if room != "M1_GREAT_CLOCK" or local["rubbed"].size() != 4 or local["clock_locked"]:

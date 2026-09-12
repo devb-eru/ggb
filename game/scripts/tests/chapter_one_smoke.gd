@@ -109,7 +109,12 @@ func run(tree: SceneTree) -> Dictionary:
 	session.act("inspect_inner", "link")
 	for room in SESSION.CLOCK_ROOMS:
 		_travel(session, room)
-		session.act("rub_clock")
+		var rubbing := session.act("rub_clock")
+		var clock_id: String = SESSION.CLOCK_ROOMS[room]
+		_expect(rubbing.get("ok", false) and rubbing.get("text_id", "") == "CH1_CLOCK_" + clock_id.to_upper(), "clock observation has stable display ID")
+		_expect(rubbing.get("text", "") == CLOCK.CLUES[clock_id], "clock observation preserves original clue")
+		_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "clock observation save reload")
+		_expect(session.initialize().get("text_id", "") == "CH1_CLOCK_" + clock_id.to_upper(), "clock clue display ID survives reload")
 	_expect(session.local_state()["rubbed"].size() == 4, "four physical rubbings")
 	_expect((GameState.get_value(&"loop_state.inventory") as Array).size() == 4, "physical rubbings are registered inventory")
 	_expect(not CLOCK.inspect_layout(session.local_state()["board"])["ok"], "initial board is unsolved")
@@ -211,6 +216,25 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	var saved_locale := TranslationServer.get_locale()
 	var before_translation := GameState.get_snapshot()
 	TranslationServer.set_locale("en_US")
+	for clock_id in CLOCK.CLOCKS:
+		var text_id: String = "CH1_CLOCK_" + clock_id.to_upper()
+		_expect(view._dialogue_texts.get_text(text_id, "ko-KR") == CLOCK.CLUES[clock_id], "Korean clock clue matches puzzle source")
+		_expect(view._localized_notebook_entry(CLOCK.CLUES[clock_id]) == view._dialogue_ui_text(text_id), "legacy clock clue translated without migration")
+	view._clear_hotspots()
+	view._build_layout_board(session.local_state())
+	_expect(view._hotspot_layer.get_node("B3_FLIP").text == "Turn over the outer-library rubbing", "English rubbing flip control")
+	_expect(view._hotspot_layer.get_node("B3_PIECE_0").text.contains("Corner groove"), "English rubbing card includes orientation")
+	view._clear_hotspots()
+	view._build_roles_board(session.local_state())
+	_expect(view._hotspot_layer.get_node("ROLE_reference").get_item_text(0) == "Reference · Select clock", "English role selector retains role ID")
+	_expect(view._hotspot_layer.get_node("PHASE_2").text.contains("One step after the normal chimes"), "English phase clue")
+	if "--capture-chapter-one" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		tree.root.get_texture().get_image().save_png("user://chapter_one_roles_english.png")
+	view._confirm_clock()
+	_expect(view._modal_body.get_child(2).get_child(0).text.contains("preventing another attempt today"), "English irreversible failure warning")
+	view._close_modal()
+	_expect(GameState.get_snapshot() == before_translation, "clock screen translation preserves puzzle state")
 	view._clear_hotspots()
 	var j1_ui := session.local_state().duplicate(true)
 	j1_ui["inspected"] = ["desk"]
