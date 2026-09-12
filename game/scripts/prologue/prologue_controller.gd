@@ -1337,9 +1337,9 @@ func _show_p4_life_support_foreshadow() -> void:
 	_save_progress()
 	_rebuild_current_room_content()
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": "차가 우러나는 동안 주전자 바닥에서 낮은 맥박이 두 번 울린다."},
-		{"speaker": "SYSTEM", "text": "같은 간격으로 루카의 둥근 귀 안쪽, 연두색 부분이 두 번 점멸한다."},
-		{"speaker": "SYSTEM", "text": "바닥 아래에서 한 번 늦은 응답음이 돌아온다. 손목의 맥박과 비슷하지만, 완전히 같은 박자는 아니다."},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_PULSE")},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_EARS")},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_REPLY")},
 	])
 
 
@@ -1352,7 +1352,7 @@ func _record_p4_life_support_pulse() -> void:
 	_add_notebook("주방의 규칙적인 진동")
 	_save_progress()
 	_rebuild_current_room_content()
-	_set_status("수첩에 '주방의 규칙적인 진동'이라고만 적었다.")
+	_set_status(_dialogue_ui_text("P4_MEMORY_NOTE"))
 
 
 func _begin_p4_memory_anchor() -> void:
@@ -1368,13 +1368,13 @@ func _resume_p4_memory_anchor() -> void:
 		return
 	_progress["p4_memory_anchor_seen"] = true
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": "지시받지 않았는데도 엄지가 찻잔 손잡이 안쪽의 얕은 홈을 찾아낸다."},
-		{"speaker": "SYSTEM", "text": "손이 찻잔을 왼쪽 자리 쪽으로 돌린다. 도자기가 받침 위에서 짧게 긁힌다."},
-		{"speaker": "SYSTEM", "text": "낯익은 찻잎 향 위로 더 큰 손의 잔상이 겹친다."},
-		{"speaker": "SYSTEM", "text": "얼굴도, 그때의 대사도 떠오르지 않는다."},
-		{"speaker": "주인공", "text": "왜 이쪽이어야 하지?"},
-		{"speaker": "SYSTEM", "text": "루카는 손에 든 찻수건을 멈춘 채 잠깐 주인공을 바라본다."},
-		{"speaker": "루카", "portrait": "LUCA", "text": "그렇게 두시면... 늘 맞았어요."},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_GROOVE")},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_SCRAPE")},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_HAND")},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_ABSENCE")},
+		{"speaker": "주인공", "text": _dialogue_ui_text("P4_MEMORY_WHY")},
+		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_PAUSE")},
+		{"speaker": "루카", "portrait": "LUCA", "text": _dialogue_ui_text("P4_MEMORY_HABIT")},
 	], _finish_p4_memory_anchor)
 
 
@@ -1387,14 +1387,14 @@ func _turn_p4_cup_handle() -> void:
 	if _interaction_blocked() or int(_progress.get("tea_step", 0)) < TEA_STEPS.size():
 		return
 	if bool(_progress.get("p4_handle_return_used", false)):
-		_show_dialogue([{"speaker": "주인공", "text": "손잡이는 다시 왼쪽 자리를 향하고 있다. 더 건드려도 달라질 것 같지 않다."}])
+		_show_dialogue([{"speaker": "주인공", "text": _dialogue_ui_text("P4_MEMORY_ALREADY")}])
 		return
 	_progress["p4_handle_return_used"] = true
 	_save_progress()
 	_rebuild_current_room_content()
 	_show_dialogue([
-		{"speaker": "SYSTEM", "cup_pose": "turned", "text": "찻잔 손잡이를 반대쪽으로 천천히 돌려 본다."},
-		{"speaker": "SYSTEM", "cup_pose": "returned", "text": "손을 떼는 순간 도자기가 받침을 한 번 긁으며, 손잡이가 원래의 왼쪽 각도로 되돌아간다."},
+		{"speaker": "SYSTEM", "cup_pose": "turned", "text": _dialogue_ui_text("P4_MEMORY_TURN")},
+		{"speaker": "SYSTEM", "cup_pose": "returned", "text": _dialogue_ui_text("P4_MEMORY_RETURN")},
 	])
 
 
