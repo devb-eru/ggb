@@ -304,20 +304,49 @@ func run(tree: SceneTree) -> Dictionary:
 	var gallery_before := GameState.get_snapshot()
 	var gallery_locale: String = screen._locale
 	screen._locale = "en-US"
+	screen._apply_localized_text()
 	screen._open_gallery()
+	_expect(screen._gallery_button.text == screen._text(&"UI_TITLE_GALLERY"), "gallery entry button refreshes with title language", _errors)
 	_expect(screen._active_modal() != null and screen._gallery_controls.visible, "title gallery opens", _errors)
 	_expect(screen._gallery_previous.text == "Previous" and screen._gallery_next.text == "Next", "title gallery English navigation", _errors)
 	if not screen._gallery_pages.is_empty():
 		screen._show_gallery_page(0)
 		var expected_pages: Array = preload("res://scripts/systems/ending_gallery_pages.gd").build(screen._gallery_entries[0]["state"],"en-US")
 		_expect(screen._launch_body.text == expected_pages[0]["text"], "title gallery reads same English pages as post-ending gallery", _errors)
+		if CAPTURE_ARG in OS.get_cmdline_user_args():
+			var longest := 0
+			for index in range(expected_pages.size()):
+				if str(expected_pages[index]["text"]).length() > str(expected_pages[longest]["text"]).length(): longest = index
+			screen._show_gallery_page(longest)
+			await _tree.process_frame
+			await RenderingServer.frame_post_draw
+			_capture_screen(screen, "ending_gallery_english.png", "ending_gallery_english")
 	else:
 		_expect(screen._launch_title.text == "Viewing records" and screen._launch_body.text == screen.GALLERY_TEXTS.text("empty","en-US"), "empty title gallery is localized without inventing records", _errors)
 	screen._locale = gallery_locale
+	screen._apply_localized_text()
 	screen._gallery_pages.assign([{"title":"긴 기록","text":"스크롤 확인\n".repeat(100)},{"title":"다음 기록","text":"처음부터 읽는다."}])
 	screen._show_gallery_page(0)
 	await _tree.process_frame
 	await _tree.process_frame
+	var before_scroll_focus: Control = screen._gallery_scroll.find_prev_valid_focus()
+	before_scroll_focus.grab_focus()
+	await _binding_key(KEY_TAB)
+	_expect(_tree.root.gui_get_focus_owner() == screen._gallery_scroll, "Tab reaches gallery reading area", _errors)
+	await _binding_key(KEY_PAGEDOWN)
+	_expect(screen._gallery_scroll.scroll_vertical > 0, "keyboard PageDown scrolls long gallery record", _errors)
+	await _binding_key(KEY_PAGEUP)
+	_expect(screen._gallery_scroll.scroll_vertical == 0, "keyboard PageUp returns to the beginning", _errors)
+	var keys_before: Dictionary = screen.get_key_bindings()
+	var custom_gallery_keys: Dictionary = keys_before.duplicate(true)
+	custom_gallery_keys["page_down"] = [KEY_F11 | KEY_MASK_CTRL]
+	var binding_rules = preload("res://scripts/systems/key_bindings.gd")
+	_expect(binding_rules.apply_bindings(custom_gallery_keys), "gallery custom page key installs", _errors)
+	await _binding_key(KEY_PAGEDOWN)
+	_expect(screen._gallery_scroll.scroll_vertical == 0, "replaced PageDown does not scroll", _errors)
+	await _binding_key(KEY_F11 | KEY_MASK_CTRL)
+	_expect(screen._gallery_scroll.scroll_vertical > 0, "gallery paging follows rebound input action", _errors)
+	_expect(binding_rules.apply_bindings(keys_before), "restore gallery page keys", _errors)
 	screen._gallery_scroll.scroll_vertical = 80
 	screen._gallery_next.grab_focus()
 	screen._show_gallery_page(1)

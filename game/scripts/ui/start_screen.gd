@@ -253,6 +253,7 @@ func _apply_localized_text() -> void:
 	_settings_button.text = _text(&"UI_TITLE_SETTINGS")
 	_quit_button.text = _text(&"UI_TITLE_QUIT")
 	_content_button.text = _text(&"UI_TITLE_CONTENT_DETAILS")
+	if is_instance_valid(_gallery_button): _gallery_button.text = _text(&"UI_TITLE_GALLERY")
 	_menu_header.text = _text(&"UI_TITLE_MENU_HEADER")
 	_menu_hint.text = _text(&"UI_TITLE_MENU_HINT")
 	_temporary_badge.text = _text(&"UI_TITLE_TEMP_ASSET")
@@ -346,6 +347,8 @@ func _setup_gallery() -> void:
 	var body_index := _launch_body.get_index()
 	var scroll := ScrollContainer.new()
 	_gallery_scroll = scroll
+	scroll.focus_mode = Control.FOCUS_ALL
+	scroll.gui_input.connect(_gallery_scroll_input)
 	scroll.custom_minimum_size.y = 120
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -370,6 +373,14 @@ func _setup_gallery() -> void:
 	_gallery_controls.add_child(_gallery_next)
 	_gallery_next.pressed.connect(func(): _show_gallery_page(_gallery_page_index+1))
 	_gallery_controls.hide()
+
+func _gallery_scroll_input(event: InputEvent) -> void:
+	if not _gallery_scroll.has_focus() or not _gallery_scroll.is_visible_in_tree(): return
+	var down := event.is_action_pressed("ui_page_down", false, true)
+	var up := event.is_action_pressed("ui_page_up", false, true)
+	if not down and not up: return
+	_gallery_scroll.scroll_vertical += (1 if down else -1) * maxi(40,int(_gallery_scroll.size.y * 0.8))
+	_gallery_scroll.accept_event()
 
 func _open_gallery() -> void:
 	_gallery_previous.text = GALLERY_TEXTS.text("previous",_locale)
