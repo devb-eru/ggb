@@ -228,6 +228,30 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	_expect(GameState.get_snapshot() == before_history_open, "history viewing is read only")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "history save reload")
 	_expect(GameState.get_snapshot()["meta_progress"]["dialogue_history"] == before_history_open["meta_progress"]["dialogue_history"], "viewed history persists through reload")
+	var good_save: Node = view.session._save
+	var rejected_history_save := RejectingSave.new()
+	view.session._save = rejected_history_save
+	var before_retry := GameState.get_snapshot()
+	view._show_dialogue([{"speaker": "주인공", "text": "Retry first line"}, {"speaker": "주인공", "text": "Retry second line"}])
+	_expect(view._dialogue_index == 0 and GameState.get_snapshot() == before_retry, "failed display save leaves first sentence and state intact")
+	view._dialogue_next.pressed.emit()
+	_expect(view._dialogue_index == 0 and GameState.get_snapshot() == before_retry, "continue cannot skip a sentence whose history save failed")
+	view.session._save = good_save
+	rejected_history_save.free()
+	view._dialogue_next.pressed.emit()
+	_expect(view._dialogue_index == 1 and view._dialogue_label.text == "Retry second line", "recovered save advances by exactly one sentence")
+	var retried_entries: Array = GameState.get_snapshot()["meta_progress"]["dialogue_history"]["entries"]
+	_expect(retried_entries.size() == before_retry["meta_progress"]["dialogue_history"]["entries"].size() + 2, "recovered save records both presented sentences once")
+	view._dialogue_next.pressed.emit()
+	_expect(not view._dialogue_active, "last sentence finish closes dialogue after successful recording")
+	var before_menu := GameState.get_snapshot()
+	view._open_menu()
+	var history_button := view._modal_body.get_child(4) as Button
+	_expect(history_button.text == view._dialogue_ui_text("CH1_HISTORY_TITLE"), "pause menu exposes history action")
+	history_button.pressed.emit()
+	_expect((view._modal_body.get_child(2).get_child(0) as Label).text.contains("Retry second line"), "actual menu action opens recorded transcript")
+	(view._modal_body.get_child(3) as Button).pressed.emit()
+	_expect(not view._modal_active and GameState.get_snapshot() == before_menu, "history close button preserves gameplay state")
 	view._render_room()
 	view._open_notebook()
 	_expect(view._modal_active, "chapter notebook opens")
