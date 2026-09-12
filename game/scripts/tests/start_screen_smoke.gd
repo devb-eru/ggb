@@ -48,6 +48,17 @@ func run(tree: SceneTree) -> Dictionary:
 	screen._open_gallery()
 	_expect(screen._active_modal() != null and screen._gallery_controls.visible, "title gallery opens", _errors)
 	if not screen._gallery_pages.is_empty(): screen._show_gallery_page(0)
+	screen._gallery_pages.assign([{"title":"긴 기록","text":"스크롤 확인\n".repeat(100)},{"title":"다음 기록","text":"처음부터 읽는다."}])
+	screen._show_gallery_page(0)
+	await _tree.process_frame
+	await _tree.process_frame
+	screen._gallery_scroll.scroll_vertical = 80
+	screen._gallery_next.grab_focus()
+	screen._show_gallery_page(1)
+	_expect(screen._gallery_scroll.scroll_vertical == 0, "gallery page change resets scroll", _errors)
+	_expect(_tree.root.gui_get_focus_owner() == screen._launch_return_button, "disabled gallery navigation restores focus", _errors)
+	screen._on_settings_pressed()
+	_expect(not screen._gallery_controls.visible, "other modal hides gallery controls", _errors)
 	screen._close_modal()
 	_expect(not screen._gallery_controls.visible and GameState.get_snapshot() == gallery_before, "title gallery leaves gameplay untouched", _errors)
 	await _validate_bootstrap_handoff()

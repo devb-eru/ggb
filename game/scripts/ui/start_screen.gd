@@ -103,6 +103,7 @@ var _gallery_next: Button
 var _gallery_entries: Array[Dictionary] = []
 var _gallery_pages: Array[Dictionary] = []
 var _gallery_page_index := 0
+var _gallery_scroll: ScrollContainer
 
 
 func configure_profile_store(profile_store: AccessibilityProfileStore) -> void:
@@ -278,6 +279,7 @@ func _setup_gallery() -> void:
 	var body_parent := _launch_body.get_parent()
 	var body_index := _launch_body.get_index()
 	var scroll := ScrollContainer.new()
+	_gallery_scroll = scroll
 	scroll.custom_minimum_size.y = 120
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -306,6 +308,7 @@ func _setup_gallery() -> void:
 func _open_gallery() -> void:
 	_gallery_entries = preload("res://scripts/systems/ending_gallery_store.gd").new().list_entries()
 	_gallery_choices.clear()
+	_gallery_scroll.scroll_vertical = 0
 	_gallery_pages.clear()
 	for index in range(_gallery_entries.size()):
 		_gallery_choices.add_item(("현실 기상" if _gallery_entries[index]["branch"] == "reality" else "안정화 잔류") + " · %d" % (index+1))
@@ -328,8 +331,12 @@ func _show_gallery_page(index: int) -> void:
 	_gallery_page_index = index
 	_launch_title.text = "%s · %d/%d" % [_gallery_pages[index]["title"],index+1,_gallery_pages.size()]
 	_launch_body.text = _gallery_pages[index]["text"]
+	_gallery_scroll.scroll_vertical = 0
 	_gallery_previous.disabled = index == 0
 	_gallery_next.disabled = index == _gallery_pages.size()-1
+	var focus := get_viewport().gui_get_focus_owner()
+	if (focus == _gallery_previous and _gallery_previous.disabled) or (focus == _gallery_next and _gallery_next.disabled):
+		_launch_return_button.grab_focus()
 
 func _on_continue_pressed() -> void:
 	if not _latest_slot_id.is_empty():
@@ -507,6 +514,7 @@ func _apply_profile() -> void:
 
 
 func _open_modal(panel: Control, focus_target: Control, remember_focus: bool = true) -> void:
+	if is_instance_valid(_gallery_controls): _gallery_controls.hide()
 	if remember_focus:
 		var current_focus := get_viewport().gui_get_focus_owner()
 		_focus_before_modal = current_focus if current_focus is Control else _new_game_button
