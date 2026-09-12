@@ -67,6 +67,8 @@ func run(tree: SceneTree) -> Dictionary:
 	screen._open_demo_import()
 	_expect(not screen._import_controls.visible, "demo cannot open full import", _errors)
 	ProjectSettings.set_setting("ggb/build_flavor","full")
+	screen._import_button.show()
+	await _validate_title_treatment(screen)
 	var import_state := GameState.get_snapshot()
 	screen._open_demo_import()
 	_expect(screen._import_controls.visible, "full title opens import confirmation", _errors)
@@ -251,6 +253,11 @@ func _validate_title_treatment(screen: StartScreen) -> void:
 	var viewport_rect := Rect2(screen.global_position, screen.size)
 	var menu_card := screen.get_node("SafeArea/MainLayout/MenuCard") as Control
 	_expect(_rect_inside(menu_card.get_global_rect(), viewport_rect), "200% title menu overflow", _errors)
+	for extra_button in [screen._gallery_button, screen._import_button]:
+		if extra_button.is_visible_in_tree():
+			_expect(_rect_inside(extra_button.get_global_rect(), menu_card.get_global_rect()), "200% extra menu button overflow: " + extra_button.text, _errors)
+			extra_button.grab_focus()
+			_expect(_tree.root.gui_get_focus_owner() == extra_button, "extra menu button cannot receive keyboard focus", _errors)
 	var logo_stack := screen.get_node("%LogoStack") as Control
 	_expect(_rect_inside(logo_stack.get_global_rect(), viewport_rect), "200% title logo overflow", _errors)
 	if CAPTURE_ARG in OS.get_cmdline_user_args():
