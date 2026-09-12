@@ -4,6 +4,18 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"ROOM_M2_BEDROOM": "주인공의 침실",
+"ROOM_M1_CENTRAL_HALL": "중앙홀",
+"ROOM_M1_PARLOR": "대응접실",
+"ROOM_M1_LIBRARY_OUTER": "외부 서고",
+"ROOM_M1_NORTH_ARCHIVE_HALL": "북쪽 기록 회랑",
+"ROOM_M1_KITCHEN": "주방",
+"ROOM_M1_GREENHOUSE_VESTIBULE": "온실 앞",
+"UI_P_BACK": "중앙홀로",
+"UI_P_MENU": "메뉴",
+"UI_P_NOTEBOOK": "수첩\nN",
+"UI_P_CLOSE_ZOOM": "확대 닫기",
+"UI_P_CHECKED": "확인함",
 "P6_NIGHT_BED": "침대\n오늘을 끝낸다",
 "P6_NIGHT_WINDOW": "밤의 창문",
 "P6_NIGHT_EXPLORE": "조금 더 둘러본다",
@@ -233,6 +245,18 @@ localized_text = {
 "P1_WAKE_OBJECTIVE": "빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."
 },
 "en-US": {
+"ROOM_M2_BEDROOM": "Protagonist's bedroom",
+"ROOM_M1_CENTRAL_HALL": "Central hall",
+"ROOM_M1_PARLOR": "Parlor",
+"ROOM_M1_LIBRARY_OUTER": "Outer library",
+"ROOM_M1_NORTH_ARCHIVE_HALL": "North archive corridor",
+"ROOM_M1_KITCHEN": "Kitchen",
+"ROOM_M1_GREENHOUSE_VESTIBULE": "Greenhouse entrance",
+"UI_P_BACK": "To the central hall",
+"UI_P_MENU": "Menu",
+"UI_P_NOTEBOOK": "Notebook\nN",
+"UI_P_CLOSE_ZOOM": "Close view",
+"UI_P_CHECKED": "Checked",
 "P6_NIGHT_BED": "Bed\nEnd the day",
 "P6_NIGHT_WINDOW": "Window at night",
 "P6_NIGHT_EXPLORE": "Look around a little longer",

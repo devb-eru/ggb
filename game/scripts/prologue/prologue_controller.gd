@@ -322,7 +322,7 @@ func _build_window_inspection_ui() -> void:
 	_place(_window_feedback_label, Rect2(120, 708, 1110, 72))
 	content.add_child(_window_feedback_label)
 
-	var close_button := _make_button("확대 닫기", Rect2(1160, 24, 170, 58), _close_window_inspection)
+	var close_button := _make_button(_dialogue_ui_text("UI_P_CLOSE_ZOOM"), Rect2(1160, 24, 170, 58), _close_window_inspection)
 	close_button.name = "CloseWindowInspection"
 	content.add_child(close_button)
 
@@ -333,7 +333,7 @@ func _build_persistent_ui() -> void:
 	_place(top_shade, Rect2(0, 0, 1920, 86))
 	add_child(top_shade)
 
-	_menu_button = _make_button("메뉴", Rect2(22, 18, 136, 52), _open_menu)
+	_menu_button = _make_button(_dialogue_ui_text("UI_P_MENU"), Rect2(22, 18, 136, 52), _open_menu)
 	_menu_button.name = "MenuButton"
 	add_child(_menu_button)
 
@@ -365,7 +365,7 @@ func _build_persistent_ui() -> void:
 	_place(_status_label, Rect2(500, 90, 920, 44))
 	add_child(_status_label)
 
-	_notebook_button = _make_button("수첩\nN", Rect2(24, 912, 116, 132), _open_notebook)
+	_notebook_button = _make_button(_dialogue_ui_text("UI_P_NOTEBOOK"), Rect2(24, 912, 116, 132), _open_notebook)
 	_notebook_button.name = "NotebookButton"
 	_notebook_button.add_theme_font_size_override("font_size", 22)
 	add_child(_notebook_button)
@@ -671,7 +671,7 @@ func _enter_room(room_id: String) -> void:
 	_close_window_inspection(false)
 	_current_room = room_id
 	_progress["current_room"] = room_id
-	_location_label.text = String(ROOM_NAMES.get(room_id, room_id))
+	_location_label.text = _dialogue_ui_text("ROOM_" + room_id) if ROOM_NAMES.has(room_id) else room_id
 	_set_room_background(room_id)
 	_selected_item = ""
 	_update_inventory([])
@@ -1599,7 +1599,7 @@ func _evening_ambient(text: String) -> void:
 
 
 func _add_back_to_hall() -> void:
-	_add_hotspot("BACK", "중앙홀로", Rect2(720, 875, 400, 90), _enter_room.bind("M1_CENTRAL_HALL"))
+	_add_hotspot("BACK", _dialogue_ui_text("UI_P_BACK"), Rect2(720, 875, 400, 90), _enter_room.bind("M1_CENTRAL_HALL"))
 
 
 func _add_hotspot(id: String, label: String, rect: Rect2, action: Callable) -> void:
@@ -1771,7 +1771,7 @@ func _refresh_dialogue_choice_labels() -> void:
 		var choice_id := String(button.get_meta("choice_id", ""))
 		var label := String(button.get_meta("choice_label", choice_id))
 		var prefix := "▶ " if index == _dialogue_choice_focus_index else "   "
-		var suffix := "  [확인함]" if _dialogue_choice_mode == "p3_journal" and choice_id in asked_questions else ""
+		var suffix := "  [%s]" % _dialogue_ui_text("UI_P_CHECKED") if _dialogue_choice_mode == "p3_journal" and choice_id in asked_questions else ""
 		button.text = "%s%s%s" % [prefix, label, suffix]
 
 
@@ -2085,7 +2085,7 @@ func _all_windows_clean() -> bool:
 
 
 func _observed_label(label: String, observation_id: String, observations: Array) -> String:
-	return "%s%s" % [label, "\n[확인함]" if observation_id in observations else ""]
+	return "%s%s" % [label, "\n[%s]" % _dialogue_ui_text("UI_P_CHECKED") if observation_id in observations else ""]
 
 
 func _set_status(message: String) -> void:
