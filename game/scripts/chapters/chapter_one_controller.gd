@@ -99,7 +99,8 @@ func _close_modal() -> void:
 
 func _update_objective() -> void:
 	if session != null:
-		_objective_label.text = OBJECTIVES.get(session.stage(), "수첩을 확인한다")
+		var objective_id := "CH1_OBJ_" + session.stage() if OBJECTIVES.has(session.stage()) else "CH1_OBJ_DEFAULT"
+		_objective_label.text = _dialogue_ui_text(objective_id)
 
 
 func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
@@ -198,15 +199,15 @@ func _action(id: String, label: String, rect: Rect2, action: String, value: Vari
 
 func _build_loop_bedroom(local: Dictionary) -> void:
 	if session.stage() == "A1":
-		_add_hotspot("A1_MARK", "수첩의 빈 페이지에 표식을 남긴다", Rect2(510, 320, 830, 160), _open_mark_choices)
+		_add_hotspot("A1_MARK", _dialogue_ui_text("CH1_BED_MARK"), Rect2(510, 320, 830, 160), _open_mark_choices)
 	elif session.stage() == "A2":
-		_action("A2_CONFIRM", "수첩 표식과 방의 흔적을 비교한다", Rect2(510, 320, 830, 160), "confirm_mark")
+		_action("A2_CONFIRM", _dialogue_ui_text("CH1_BED_CONFIRM"), Rect2(510, 320, 830, 160), "confirm_mark")
 	else:
-		_add_hotspot("NOTEBOOK", "수첩의 기록", Rect2(350, 240, 470, 100), _open_notebook)
-	_action("AS_ROUTINE", "익숙한 순서대로 일과를 마친다" + (" · 완료" if local["routine_done"] else ""), Rect2(350, 550, 650, 100), "routine")
-	_add_hotspot("SLEEP", "침대 · 잠든다", Rect2(1090, 580, 510, 140), _confirm_sleep)
+		_add_hotspot("NOTEBOOK", _dialogue_ui_text("CH1_BED_NOTEBOOK"), Rect2(350, 240, 470, 100), _open_notebook)
+	_action("AS_ROUTINE", _dialogue_ui_text("CH1_BED_ROUTINE_DONE" if local["routine_done"] else "CH1_BED_ROUTINE"), Rect2(350, 550, 650, 100), "routine")
+	_add_hotspot("SLEEP", _dialogue_ui_text("CH1_BED_SLEEP"), Rect2(1090, 580, 510, 140), _confirm_sleep)
 	if int(session.snapshot()["meta_progress"]["journal_stage"]) < 2 and session.snapshot()["meta_progress"]["failure_knowledge"].has("B3_B") and not local["clock_locked"]:
-		_action("BSHORT", "수첩의 검증 정보로 준비를 축약한다", Rect2(360, 730, 880, 100), "shortcut")
+		_action("BSHORT", _dialogue_ui_text("CH1_BED_SHORTCUT"), Rect2(360, 730, 880, 100), "shortcut")
 	_clock_hotspot()
 
 
