@@ -3,6 +3,12 @@
   "fallback_locale": "ko-KR",
   "supported_locales": ["ko-KR", "en-US"],
   "entries": {
+    "PF_GREENHOUSE": {"speaker_id": "SYSTEM", "variables": {}},
+    "PF_BEDROOM": {"speaker_id": "SYSTEM", "variables": {}},
+    "PF_PARLOR": {"speaker_id": "SYSTEM", "variables": {}},
+    "PF_LIBRARY": {"speaker_id": "SYSTEM", "variables": {}},
+    "PF_LIGHT": {"speaker_id": "SYSTEM", "variables": {}},
+    "PF_PAGES": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_P_AUTOSAVE": {"speaker_id": "SYSTEM", "variables": {}},
     "UI_P_RETURN_TITLE": {"speaker_id": "SYSTEM", "variables": {}},
     "ROOM_M2_BEDROOM": {"speaker_id": "SYSTEM", "variables": {}},

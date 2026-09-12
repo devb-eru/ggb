@@ -4,6 +4,12 @@
 script = ExtResource("1")
 localized_text = {
 "ko-KR": {
+"PF_GREENHOUSE": "온실 앞 · 선택 조사",
+"PF_BEDROOM": "침실로 돌아간다",
+"PF_PARLOR": "조용해진 대응접실",
+"PF_LIBRARY": "잠긴 서재 방향",
+"PF_LIGHT": "대응접실의 창문은 아침에 닦은 흔적 그대로인데, 바깥빛만 한 치도 움직이지 않았다.",
+"PF_PAGES": "기록 내실의 유리문 뒤에서 종이 넘기는 소리가 난다. 안에는 아무도 보이지 않는다.",
 "UI_P_AUTOSAVE": "진행은 일과를 완료할 때와 방을 이동할 때 자동 저장됩니다.",
 "UI_P_RETURN_TITLE": "타이틀로 돌아간다",
 "ROOM_M2_BEDROOM": "주인공의 침실",
@@ -247,6 +253,12 @@ localized_text = {
 "P1_WAKE_OBJECTIVE": "빛과 사물 중 마음에 걸리는 것을 조사해 보십시오."
 },
 "en-US": {
+"PF_GREENHOUSE": "Greenhouse entrance · optional investigation",
+"PF_BEDROOM": "Return to the bedroom",
+"PF_PARLOR": "The quiet parlor",
+"PF_LIBRARY": "Toward the locked library",
+"PF_LIGHT": "The parlor windows still bear the traces of this morning's cleaning, but the light outside has not shifted at all.",
+"PF_PAGES": "Pages rustle behind the inner archive's glass door. No one is visible inside.",
 "UI_P_AUTOSAVE": "Progress is saved automatically when you complete duties or move between rooms.",
 "UI_P_RETURN_TITLE": "Return to title",
 "ROOM_M2_BEDROOM": "Protagonist's bedroom",

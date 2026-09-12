@@ -791,10 +791,10 @@ func _build_hall() -> void:
 		return
 
 	_progress["time_block"] = "evening_free"
-	_add_hotspot("GREENHOUSE", _task_label("온실 앞 · 선택 조사", "P5_complete"), Rect2(1415, 405, 275, 190), _enter_room.bind("M1_GREENHOUSE_VESTIBULE"))
-	_add_hotspot("BEDROOM", "침실로 돌아간다", Rect2(720, 220, 420, 150), _enter_room.bind("M2_BEDROOM"))
-	_add_hotspot("PARLOR", "조용해진 대응접실", Rect2(120, 430, 330, 160), _evening_ambient.bind("대응접실의 창문은 아침에 닦은 흔적 그대로인데, 바깥빛만 한 치도 움직이지 않았다."))
-	_add_hotspot("LIBRARY", "잠긴 서재 방향", Rect2(1110, 460, 310, 160), _evening_ambient.bind("기록 내실의 유리문 뒤에서 종이 넘기는 소리가 난다. 안에는 아무도 보이지 않는다."))
+	_add_hotspot("GREENHOUSE", _task_label(_dialogue_ui_text("PF_GREENHOUSE"), "P5_complete"), Rect2(1415, 405, 275, 190), _enter_room.bind("M1_GREENHOUSE_VESTIBULE"))
+	_add_hotspot("BEDROOM", _dialogue_ui_text("PF_BEDROOM"), Rect2(720, 220, 420, 150), _enter_room.bind("M2_BEDROOM"))
+	_add_hotspot("PARLOR", _dialogue_ui_text("PF_PARLOR"), Rect2(120, 430, 330, 160), _evening_ambient.bind(_dialogue_ui_text("PF_LIGHT")))
+	_add_hotspot("LIBRARY", _dialogue_ui_text("PF_LIBRARY"), Rect2(1110, 460, 310, 160), _evening_ambient.bind(_dialogue_ui_text("PF_PAGES")))
 
 
 func _report_tasks() -> void:
