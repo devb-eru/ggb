@@ -211,6 +211,10 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 			view._dialogue_layer.get_node("D5Focus/EDGAR").pressed.emit()
 			_expect(game.get_value("loop_state.event_local_states.D5.D5_FOCUS_OWNER") == "MARA2", "D5 failed focus save preserves previous owner")
 			view.session.slot_id = slot
+			view._dialogue_layer.get_node("D5Focus/EDGAR").pressed.emit()
+			_expect(game.get_value("loop_state.event_local_states.D5.D5_FOCUS_OWNER") == "EDGAR", "D5 explicit retry updates selected owner")
+			_expect(view._status_label.text.is_empty(), "D5 successful retry clears stale failure notice")
+			_expect(view._dialogue_index == 6 and view._dialogue_active, "D5 retry preserves reading position")
 			if "--capture-basement-session" in OS.get_cmdline_user_args():
 				var old_size := root.size
 				root.size = Vector2i(1280, 720)

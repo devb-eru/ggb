@@ -299,6 +299,7 @@ func _select_d5_focus(owner: String) -> void:
 		return
 	var result := session.act("d5_focus", owner)
 	if result.get("ok", false):
+		_set_status("")
 		_refresh_d5_focus_controls()
 	else:
 		_set_status("Could not save the viewing choice. Try again or continue reading." if TranslationServer.get_locale().begins_with("en") else "시선 기록을 저장하지 못했다. 다시 선택하거나 계속 읽을 수 있다.")
