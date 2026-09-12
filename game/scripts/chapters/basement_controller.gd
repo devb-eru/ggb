@@ -170,12 +170,15 @@ func _render_room() -> void:
 func _build_d6_inspection() -> void:
 	var room := String(session.snapshot()["loop_state"]["location_id"])
 	_objective_label.text = "달라진 통로를 조사하거나 쉴 곳을 선택한다"
+	if Array(session.snapshot()["meta_progress"]["knowledge_entries"].get("D6_objects_seen", [])).size() >= 2:
+		_objective_label.text = "복구 절차는 수면 중 실행됩니다 · 더 조사하거나 쉴 곳을 선택한다"
 	if room == "H0_SERVICE_SPINE":
 		_location_label.text = "드러난 서비스 통로"
 		var ids := ["wall", "sign", "trace", "capsule"]
 		var labels := ["벗겨진 벽지", "서비스 척추 표지", "사용인 진단 잔상", "비상 캡슐의 표면"]
 		for index in range(4):
 			_action("D6_INSPECT_" + ids[index], labels[index], Rect2(280 + index % 2 * 700, 210 + index / 2 * 180, 610, 130), "d6_inspect", ids[index])
+		_action("D6_INSPECT_notebook", "수첩의 낙서와 배선을 겹쳐 본다", Rect2(280, 550, 1310, 70), "d6_inspect", "notebook")
 		_action("D6_BEDROOM", "침실로 돌아간다", Rect2(280, 640, 610, 100), "d6_move", "M2_BEDROOM", false)
 		_add_hotspot("D6_CAPSULE", "가까운 비상 캡슐에서 쉰다", Rect2(980, 640, 610, 100), _confirm_d6_rest.bind("capsule"))
 	elif room == "M2_BEDROOM":
@@ -188,7 +191,8 @@ func _build_d6_inspection() -> void:
 
 
 func _confirm_d6_rest(route: String) -> void:
-	_show_modal("잠깐 눈을 감는다", "잠들면 무엇이 돌아올지 알 수 없다. 더 조사하거나 지금 쉴 수 있다.", [
+	var sensation := "익숙한 이불 아래로 캡슐의 곡면이 만져진다. 이불 끝을 한 번 더 끌어당긴다." if route == "bedroom" else "금속 표면에 이불의 질감이 투사된다. 손끝이 매끄럽게 미끄러진다. 침대도 처음부터 이런 장치였을까."
+	_show_modal("잠깐 눈을 감는다", sensation + "\n\n복구 절차를 실행하면 현재 파열 상태를 기준으로 수면 전환이 시작됩니다.\n결과는 확인되지 않았습니다.", [
 		{"label": "조금 더 본다", "action": _close_modal},
 		{"label": "잠든다", "action": _start_d6_rest.bind(route)},
 	])

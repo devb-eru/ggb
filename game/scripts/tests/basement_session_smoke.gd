@@ -213,10 +213,14 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 		_expect(not view.session.act("routine").get("ok", false), "D6 rejects old routines")
 		_expect(not view.session.sleep().get("ok", false), "D6 capsule requires confirmed rest route")
 		_expect(game.get_snapshot() == untouched, "D6 rejected actions preserve state")
-		for id in ["wall", "sign", "trace", "capsule"]:
+		for id in ["wall", "sign", "trace", "capsule", "notebook"]:
 			view._hotspot_layer.get_node("D6_INSPECT_" + id).pressed.emit()
 			view._dismiss_dialogue_for_test()
-		_expect(game.get_value("meta_progress.knowledge_entries.D6_objects_seen").size() == 4, "D6 four optional investigations recorded")
+		_expect(game.get_value("meta_progress.knowledge_entries.D6_objects_seen").size() == 5, "D6 five optional investigations recorded")
+		_expect("수면 중" in view._objective_label.text, "D6 survey restores sleep guidance without forcing sleep")
+		view._hotspot_layer.get_node("D6_INSPECT_notebook").pressed.emit()
+		view._dismiss_dialogue_for_test()
+		_expect(game.get_value("meta_progress.knowledge_entries.D6_objects_seen").size() == 5, "D6 repeat notebook does not add a sixth investigation")
 		_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "D6 investigation save reloads")
 		view._render_room()
 		if route == "bedroom":
