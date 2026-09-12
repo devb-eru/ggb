@@ -122,6 +122,28 @@ func _validate_full_transition() -> void:
 		_expect(FileAccess.get_file_as_bytes(demo_path) == demo_bytes, "Demo source remains byte-identical")
 		saves.delete_test_slot(imported_id)
 	_expect(not saves.inspect_demo_import("../slot_01").get("ok",false), "Import rejects unsafe slot path")
+	var import_screen: StartScreen = load("res://scenes/ui/start_screen.tscn").instantiate()
+	root.add_child(import_screen)
+	await tree.process_frame
+	_expect(import_screen._import_button.visible, "Full title exposes import action")
+	import_screen._import_button.pressed.emit()
+	# Use the real completed fixture without touching any product save slot.
+	import_screen._import_sources.assign([SLOT])
+	import_screen._import_choices.clear()
+	import_screen._import_choices.add_item("테스트 데모")
+	import_screen._import_confirm.disabled = false
+	var requested: Array[String] = []
+	import_screen.load_game_requested.connect(func(id: String): requested.append(id))
+	import_screen._import_confirm.pressed.emit()
+	_expect(requested.size() == 1, "Import confirmation emits exactly one load request")
+	_expect(not import_screen._import_controls.visible, "Successful import closes confirmation")
+	if requested.size() == 1:
+		_expect(LoadCoordinator.new(game,saves).load_and_install(requested[0]).get("ok",false), "UI imported slot passes regular loader")
+		_expect(SESSION.new(game,saves,requested[0]).stage() == "D6", "UI imported slot resumes D6")
+		saves.delete_test_slot(requested[0])
+	_expect(FileAccess.get_file_as_bytes(demo_path) == demo_bytes, "UI import preserves demo bytes")
+	import_screen.queue_free()
+	await tree.process_frame
 	var state: Dictionary = StateSnapshotValidator.new().normalize(demo["snapshot"])
 	state["loop_state"]["location_id"] = "M2_BEDROOM"
 	_expect(StateWriter.new(game).install_snapshot(state, game.revision, &"FULL_TRANSITION_FIXTURE").get("ok", false), "full transition fixture installed")
