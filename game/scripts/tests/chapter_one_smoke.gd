@@ -10,6 +10,15 @@ class RejectingSave extends Node:
 	func save_snapshot(_slot: String, _point: String, _state: Dictionary, _revision: int, _transaction: String) -> Dictionary:
 		return {"ok": false, "error_ids": PackedStringArray(["ERR_TEST_DISK_UNAVAILABLE"])}
 
+class RejectThirdSave extends Node:
+	var calls := 0
+	var delegate: Node
+	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		calls += 1
+		if calls == 3:
+			return {"ok": false, "error_ids": PackedStringArray(["ERR_TEST_CHOICE_COMMIT"])}
+		return delegate.save_snapshot(slot, point, state, revision, transaction)
+
 
 func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
@@ -252,6 +261,26 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	_expect((view._modal_body.get_child(2).get_child(0) as Label).text.contains("Retry second line"), "actual menu action opens recorded transcript")
 	(view._modal_body.get_child(3) as Button).pressed.emit()
 	_expect(not view._modal_active and GameState.get_snapshot() == before_menu, "history close button preserves gameplay state")
+	var before_choice_fixture := GameState.get_snapshot()
+	var choice_fixture := before_choice_fixture.duplicate(true)
+	choice_fixture["loop_state"]["event_local_states"]["CHAPTER_ONE"]["routine_done"] = false
+	choice_fixture["loop_state"]["time_block"] = "morning"
+	_expect(StateWriter.new(GameState).install_snapshot(choice_fixture, GameState.revision, &"CHOICE_SAVE_FIXTURE").get("ok", false), "choice save failure fixture")
+	var staged_failure := RejectThirdSave.new()
+	staged_failure.delegate = view.session._save
+	view.session._save = staged_failure
+	view._show_recorded_choice("Routine", "Attempt, not completion", [{"label": "Cancel", "action": view._close_modal}, {"label": "Attempt routine", "action": view._modal_act.bind("routine")}])
+	(view._modal_body.get_child(4) as Button).pressed.emit()
+	_expect(staged_failure.calls == 3, "choice records prompt and click before attempted gameplay save")
+	var after_failed_choice := GameState.get_snapshot()
+	_expect(not view.session.local_state()["routine_done"] and after_failed_choice["loop_state"]["time_block"] == "morning", "failed choice commit rolls back routine and time")
+	var attempted_history: Array = after_failed_choice["meta_progress"]["dialogue_history"]["entries"]
+	_expect(attempted_history.back()["variables"]["text"] == "Attempt routine", "failed gameplay commit retains actual click record")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "failed choice commit reload")
+	_expect(not view.session.local_state()["routine_done"], "reload does not turn recorded click into completed action")
+	view.session._save = staged_failure.delegate
+	staged_failure.free()
+	_expect(StateWriter.new(GameState).install_snapshot(before_choice_fixture, GameState.revision, &"CHOICE_SAVE_RESTORE").get("ok", false), "restore state after choice failure test")
 	view._render_room()
 	view._open_notebook()
 	_expect(view._modal_active, "chapter notebook opens")
