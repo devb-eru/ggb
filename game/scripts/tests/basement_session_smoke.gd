@@ -171,9 +171,43 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	_expect(session.stage() == "DEMO_END", "D5 boundary persists")
 	await _validate_ui(session, axis_view_state)
 	await _validate_full_transition()
+	await _validate_full_d5_story(before_completion)
 	saves.delete_test_slot(SLOT)
 	game.reset_for_test()
 	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _validate_full_d5_story(state: Dictionary) -> void:
+	var previous: Variant = ProjectSettings.get_setting("ggb/build_flavor", null)
+	ProjectSettings.set_setting("ggb/build_flavor", "full")
+	var slot := "__test_full_d5_story"
+	saves.delete_test_slot(slot)
+	_expect(StateWriter.new(game).install_snapshot(state, game.revision, &"D5_STORY_FIXTURE").get("ok", false), "Full D5 fixture installed")
+	var view := VIEW.new()
+	view.configure_session(slot, "D5")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	var before: Dictionary = game.get_snapshot()
+	var locale := TranslationServer.get_locale()
+	for language in ["ko", "en_US"]:
+		TranslationServer.set_locale(language)
+		view._hotspot_layer.get_node("D5_CONFIRM").pressed.emit()
+		_expect(view._dialogue_active and view._dialogue_lines.size() == 14, "Full D5 presents every narrative beat: " + language)
+		_expect(game.get_value("meta_progress.servants") == before["meta_progress"]["servants"], "Full D5 does not change relationships")
+		view._advance_dialogue()
+		_expect(view.session.stage() == "D5", "Reading first D5 beat does not complete transition")
+		view._dismiss_dialogue_for_test()
+	view._hotspot_layer.get_node("D5_CONFIRM").pressed.emit()
+	for index in range(14):
+		view._advance_dialogue()
+	_expect(view.session.stage() == "D6", "Full D5 completes after final acknowledgement")
+	_expect(not game.get_value("fracture_state.broken_reset_triggered"), "D5 story does not perform broken sleep")
+	TranslationServer.set_locale(locale)
+	view.queue_free()
+	await tree.process_frame
+	saves.delete_test_slot(slot)
+	ProjectSettings.set_setting("ggb/build_flavor", previous)
 
 
 func _validate_full_transition() -> void:

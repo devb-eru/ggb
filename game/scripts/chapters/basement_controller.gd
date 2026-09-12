@@ -117,7 +117,7 @@ func _render_room() -> void:
 					set_process(true)
 			else:
 				_board_label("벽의 문양 사이로 배선이 드러난다.\n방금까지 하나였던 윤곽과 서명이 조금씩 어긋난다.", Rect2(350, 300, 1200, 240))
-				_action("D5_CONFIRM", "드러난 공간을 확인한다", Rect2(510, 640, 870, 130), "d_fracture")
+				_add_hotspot("D5_CONFIRM", "Release the handle and look around" if TranslationServer.get_locale().begins_with("en") else "손잡이를 놓고 드러난 공간을 확인한다", Rect2(510, 640, 870, 130), _show_full_fracture_transition)
 		elif session.stage() == "DEMO_END":
 			_board_label("데모는 여기까지입니다.\n기록과 선택은 저장되어 있습니다. 본편의 저장 가져오기는 별도 승인을 거쳐 처리됩니다.", Rect2(330, 280, 1260, 280))
 			_add_hotspot("RETURN_TITLE", "타이틀로 돌아간다", Rect2(520, 650, 830, 120), _return_to_title)
@@ -160,6 +160,12 @@ func _render_room() -> void:
 			_build_heart()
 			_replace_back("B1_STORAGE", "지하창고로")
 	call_deferred("_restore_world_focus")
+
+
+func _show_full_fracture_transition() -> void:
+	if _interaction_blocked() or session.stage() != "D5" or SaveManager.get_build_flavor() != "full":
+		return
+	_show_dialogue(preload("res://scripts/ui/fracture_transition_texts.gd").lines(TranslationServer.get_locale()), _do.bind("d_fracture", null, false))
 
 
 func _build_fracture_intro() -> void:
