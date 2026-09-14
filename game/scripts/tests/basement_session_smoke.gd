@@ -4,6 +4,7 @@ const SESSION := preload("res://scripts/systems/basement_session.gd")
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
 const D4_REACTION := preload("res://scripts/systems/d4_reaction_selector.gd")
 const D5_TEXTS := preload("res://scripts/ui/fracture_transition_texts.gd")
+const D5_ART := preload("res://scripts/ui/d5_transition_art.gd")
 const SLOT := "__test_basement_session"
 var errors := PackedStringArray()
 var game: Node
@@ -52,6 +53,7 @@ func _validate_d4_reaction_selection() -> void:
 	_expect(D5_TEXTS.lines("ko").size() == 14, "D5 legacy or no-reaction state keeps fourteen beats")
 	var localized: Array = D5_TEXTS.lines("en_US", alert_selected)
 	_expect(localized.size() == 15 and localized[11]["speaker"] == "Mara 1", "D5 inserts one localized frozen reaction")
+	_expect(D5_ART.PATTERNS.size() == 5 and not D5_ART.PATTERNS.values().has(""), "D5 art exposes a non-color pattern for every servant")
 
 func _validate_basement_hints(expected_stage: String) -> void:
 	var view := VIEW.new()
@@ -245,6 +247,8 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 		TranslationServer.set_locale(language)
 		view._hotspot_layer.get_node("D5_CONFIRM").pressed.emit()
 		_expect(view._d5_hold_active and not view._dialogue_active and not view._hotspot_layer.has_node("D5_CONFIRM"), "Full D5 starts non-skippable hold: " + language)
+		var art = view._hotspot_layer.get_node_or_null("D5TransitionArt")
+		_expect(art != null and is_equal_approx(art.reveal_progress, 0.0) and art.focus_owner == "MARA1", "D5 hold starts with frozen reaction channel ready: " + language)
 		var hold_before: Dictionary = game.get_snapshot()
 		view._open_menu()
 		view._tick_full_d5_hold(10.0)
@@ -252,6 +256,8 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 		view._close_modal()
 		view._tick_full_d5_hold(9.9)
 		_expect(view._d5_hold_active and not view._dialogue_active and game.get_snapshot() == hold_before, "Full D5 hold blocks progress for ten active seconds: " + language)
+		art = view._hotspot_layer.get_node_or_null("D5TransitionArt")
+		_expect(art != null and art.reveal_progress > 0.98, "D5 visual reveal follows active hold time: " + language)
 		view._tick_full_d5_hold(0.1)
 		_expect(view._dialogue_active and view._dialogue_lines.size() == 15, "Full D5 presents narrative beats and one frozen reaction: " + language)
 		_expect(view._dialogue_lines[11].get("d4_reaction_owner", "") == "MARA1", "D5 consumes D4 owner without relationship reevaluation: " + language)
@@ -268,6 +274,7 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 			for owner in ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]:
 				view._dialogue_layer.get_node("D5Focus/" + owner).pressed.emit()
 				_expect(game.get_value("loop_state.event_local_states.D5.D5_FOCUS_OWNER") == owner, "D5 stores optional viewing owner")
+				_expect(view._hotspot_layer.get_node("D5TransitionArt").focus_owner == owner, "D5 visual focus follows optional viewing owner")
 				_expect(view._dialogue_index == 6 and view.session.stage() == "D5", "D5 focus does not advance narrative")
 			_expect(game.get_value("meta_progress.servants") == focus_before["meta_progress"]["servants"], "D5 focus leaves relationships unchanged")
 			view.session.slot_id = "../invalid_slot"

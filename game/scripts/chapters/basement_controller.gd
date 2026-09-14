@@ -12,6 +12,7 @@ const WAKE_TEXTS := preload("res://scripts/ui/reality_wake_texts.gd")
 const SURFACE_TEXTS := preload("res://scripts/ui/reality_surface_texts.gd")
 const CREDITS_TEXTS := preload("res://scripts/ui/ending_credits_texts.gd")
 const GALLERY_TEXTS := preload("res://scripts/ui/ending_gallery_texts.gd")
+const D5_TRANSITION_ART := preload("res://scripts/ui/d5_transition_art.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -128,6 +129,7 @@ func _render_room() -> void:
 	if session.stage() in ["D5", "DEMO_END", "E1_ENTRY", "LUCA_GUIDE", "LUCA_S2", "E2_INTRO", "E3_3", "E_HUB", "E3_1", "E3_2", "E3_4", "E3_5", "J4", "E3_4M", "E5", "E6", "F0_A", "F0_B", "F0_C", "F0_D", "F0_E", "F1", "F2", "F3", "EDC", "ENDING_SEQUENCE", "ENDING_BODY_PENDING"]:
 		_clear_hotspots()
 		if session.stage() == "D5":
+			_add_d5_transition_art(_demo_stinger_seconds / 60.0 if SaveManager.get_build_flavor() == "demo" else (_d5_hold_seconds / FULL_D5_HOLD_SECONDS if _d5_hold_active else 0.0))
 			if SaveManager.get_build_flavor() == "demo":
 				_objective_label.text = "위장 필터 해제"
 				_board_label(_demo_stinger_beat(mini(5, int(_demo_stinger_seconds / 10.0))), Rect2(350, 300, 1200, 240))
@@ -306,6 +308,7 @@ func _refresh_d5_focus_controls() -> void:
 	var names := ["Edgar", "Mara 1", "Luca", "Iris", "Mara 2"] if english else ["에드가", "마라 1", "루카", "이리스", "마라 2"]
 	var patterns := ["| |", "/ /", "|| . ||", "( * )", "[ [ ] ]"]
 	var selected := String(session.snapshot()["loop_state"]["event_local_states"].get("D5", {}).get("D5_FOCUS_OWNER", ""))
+	_update_d5_transition_art(1.0)
 	for index in range(5):
 		var button := panel.get_node(owners[index]) as Button
 		button.text = names[index] + "\n" + patterns[index] + ("\n" + ("Looking" if english else "바라보는 중") if selected == owners[index] else "")
@@ -326,7 +329,35 @@ func _select_d5_focus(owner: String) -> void:
 func _show_full_fracture_transition() -> void:
 	if _interaction_blocked() or session.stage() != "D5" or SaveManager.get_build_flavor() != "full":
 		return
+	_update_d5_transition_art(1.0)
 	_show_dialogue(preload("res://scripts/ui/fracture_transition_texts.gd").lines(TranslationServer.get_locale(), _basement().d5_reaction()), _do.bind("d_fracture", null, false))
+
+
+func _add_d5_transition_art(progress: float) -> void:
+	var art := Control.new()
+	art.set_script(D5_TRANSITION_ART)
+	art.name = "D5TransitionArt"
+	art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_hotspot_layer.add_child(art)
+	_hotspot_layer.move_child(art, 0)
+	art.present(progress, _d5_visual_owner(), _d5_motion_mode())
+
+
+func _update_d5_transition_art(progress: float) -> void:
+	var art = _hotspot_layer.get_node_or_null("D5TransitionArt")
+	if art != null:
+		art.present(progress, _d5_visual_owner(), String(art.motion_mode))
+
+
+func _d5_visual_owner() -> String:
+	var local: Dictionary = session.snapshot()["loop_state"]["event_local_states"].get("D5", {})
+	var selected := String(local.get("D5_FOCUS_OWNER", ""))
+	return selected if not selected.is_empty() else String(_basement().d5_reaction().get("owner", ""))
+
+
+func _d5_motion_mode() -> String:
+	return String(AccessibilityProfileStore.new().load_profile().get("profile", {}).get("motion_mode", "standard"))
 
 
 func _begin_full_fracture_hold() -> void:
@@ -349,6 +380,7 @@ func _tick_full_d5_hold(delta: float) -> void:
 		return
 	var previous_beat := 0 if _d5_hold_seconds < 3.0 else (1 if _d5_hold_seconds < 7.0 else 2)
 	_d5_hold_seconds = minf(FULL_D5_HOLD_SECONDS, _d5_hold_seconds + maxf(delta, 0.0))
+	_update_d5_transition_art(_d5_hold_seconds / FULL_D5_HOLD_SECONDS)
 	if _d5_hold_seconds >= FULL_D5_HOLD_SECONDS:
 		_d5_hold_active = false
 		set_process(false)
@@ -961,6 +993,7 @@ func _tick_demo_stinger(delta: float) -> void:
 	if _demo_stinger_save_failed or session.stage() != "D5" or SaveManager.get_build_flavor() != "demo": return
 	var previous_beat := int(_demo_stinger_seconds / 10.0)
 	_demo_stinger_seconds = minf(60.0, _demo_stinger_seconds + maxf(0.0, delta))
+	_update_d5_transition_art(_demo_stinger_seconds / 60.0)
 	if _demo_stinger_seconds >= 60.0:
 		var result := session.act("d_fracture")
 		_demo_stinger_save_failed = not result.get("ok", false)
