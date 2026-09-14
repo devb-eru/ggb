@@ -16,8 +16,21 @@ var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
 var _demo_stinger_save_failed := false
+var _d5_hold_seconds := 0.0
+var _d5_hold_active := false
 var _d6_guidance_seconds := 0.0
 var _d6_guidance_failed := false
+const FULL_D5_HOLD_SECONDS := 10.0
+const FULL_D5_HOLD_KO := [
+	"손가락을 편다.\n손잡이는 바로 떨어지지 않고 손바닥의 떨림을 한 번 더 끌고 간다.",
+	"톱니의 진동이 손금 사이에 남는다.\n꽃무늬 벽지는 배선 격자에서 천천히 밀려난다.",
+	"촛불은 흔들리지 않는데 열이 사라진다.\n방이 망가진 것이 아니라, 숨기기를 멈추고 있다.",
+]
+const FULL_D5_HOLD_EN := [
+	"You open your fingers.\nThe handle does not fall away at once. It drags the tremor across your palm one last time.",
+	"The gears keep vibrating between the lines of your hand.\nThe floral wallpaper slowly slips away from a wiring grid.",
+	"The candle does not flicker, but its heat disappears.\nThe room is not breaking. It is ceasing to hide.",
+]
 const DEMO_STINGER_BEATS := [
 	"열세 번째 울림이 멎는다.\n벽의 꽃무늬는 한 박자 늦게 떨림을 멈춘다.",
 	"벽지 아래로 가느다란 배선이 드러난다.\n찢어진 것은 벽이 아니라, 벽처럼 보이던 겉면이다.",
@@ -123,8 +136,13 @@ func _render_room() -> void:
 				else:
 					set_process(true)
 			else:
-				_board_label("벽의 문양 사이로 배선이 드러난다.\n방금까지 하나였던 윤곽과 서명이 조금씩 어긋난다.", Rect2(350, 300, 1200, 240))
-				_add_hotspot("D5_CONFIRM", "Release the handle and look around" if TranslationServer.get_locale().begins_with("en") else "손잡이를 놓고 드러난 공간을 확인한다", Rect2(510, 640, 870, 130), _show_full_fracture_transition)
+				if _d5_hold_active:
+					_objective_label.text = "INPUT HOLD · CAMOUFLAGE FILTER SEPARATING" if TranslationServer.get_locale().begins_with("en") else "입력 고정 · 위장 필터 분리 중"
+					_board_label(_full_d5_hold_beat(), Rect2(350, 300, 1200, 260))
+					set_process(true)
+				else:
+					_board_label("벽의 문양 사이로 배선이 드러난다.\n방금까지 하나였던 윤곽과 서명이 조금씩 어긋난다.", Rect2(350, 300, 1200, 240))
+					_add_hotspot("D5_CONFIRM", "Release the handle and look around" if TranslationServer.get_locale().begins_with("en") else "손잡이를 놓고 드러난 공간을 확인한다", Rect2(510, 640, 870, 130), _begin_full_fracture_hold)
 		elif session.stage() == "DEMO_END":
 			_board_label("데모는 여기까지입니다.\n기록과 선택은 저장되어 있습니다. 본편의 저장 가져오기는 별도 승인을 거쳐 처리됩니다.", Rect2(330, 280, 1260, 280))
 			_add_hotspot("RETURN_TITLE", "타이틀로 돌아간다", Rect2(520, 650, 830, 120), _return_to_title)
@@ -309,6 +327,36 @@ func _show_full_fracture_transition() -> void:
 	if _interaction_blocked() or session.stage() != "D5" or SaveManager.get_build_flavor() != "full":
 		return
 	_show_dialogue(preload("res://scripts/ui/fracture_transition_texts.gd").lines(TranslationServer.get_locale(), _basement().d5_reaction()), _do.bind("d_fracture", null, false))
+
+
+func _begin_full_fracture_hold() -> void:
+	if _interaction_blocked() or session.stage() != "D5" or SaveManager.get_build_flavor() != "full":
+		return
+	_d5_hold_seconds = 0.0
+	_d5_hold_active = true
+	_set_status("")
+	_render_room()
+
+
+func _full_d5_hold_beat() -> String:
+	var source := FULL_D5_HOLD_EN if TranslationServer.get_locale().begins_with("en") else FULL_D5_HOLD_KO
+	var index := 0 if _d5_hold_seconds < 3.0 else (1 if _d5_hold_seconds < 7.0 else 2)
+	return source[index]
+
+
+func _tick_full_d5_hold(delta: float) -> void:
+	if not _d5_hold_active or _interaction_blocked() or session.stage() != "D5" or SaveManager.get_build_flavor() != "full":
+		return
+	var previous_beat := 0 if _d5_hold_seconds < 3.0 else (1 if _d5_hold_seconds < 7.0 else 2)
+	_d5_hold_seconds = minf(FULL_D5_HOLD_SECONDS, _d5_hold_seconds + maxf(delta, 0.0))
+	if _d5_hold_seconds >= FULL_D5_HOLD_SECONDS:
+		_d5_hold_active = false
+		set_process(false)
+		_show_full_fracture_transition()
+		return
+	var current_beat := 0 if _d5_hold_seconds < 3.0 else (1 if _d5_hold_seconds < 7.0 else 2)
+	if current_beat != previous_beat:
+		_render_room()
 
 
 func _demo_stinger_beat(index: int) -> String:
@@ -889,6 +937,9 @@ func _build_reality_surface() -> void:
 
 func _process(delta: float) -> void:
 	if not get_window().has_focus() or _interaction_blocked(): return
+	if session.stage() == "D5" and SaveManager.get_build_flavor() == "full" and _d5_hold_active:
+		_tick_full_d5_hold(minf(delta, 0.1))
+		return
 	if session.stage() == "D6":
 		_tick_d6_guidance(minf(delta, 0.1))
 		return
