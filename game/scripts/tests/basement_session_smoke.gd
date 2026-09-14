@@ -8,6 +8,7 @@ const D5_ART := preload("res://scripts/ui/d5_transition_art.gd")
 const D6_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
 const CORE_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
 const BASEMENT_TEXTS := preload("res://scripts/ui/basement_display_texts.gd")
+const FRACTURE_COMMON_TEXTS := preload("res://scripts/ui/fracture_common_display_texts.gd")
 const SLOT := "__test_basement_session"
 var errors := PackedStringArray()
 var game: Node
@@ -117,6 +118,19 @@ func _validate_basement_text_catalog() -> void:
 	var heart := {"rings":[1,2,3],"wind":12}
 	_expect(BASEMENT_TEXTS.heart_status(heart,"en_US").contains("XIII Notch"), "Heart status translates dynamic glyphs")
 
+
+func _validate_fracture_common_text_catalog() -> void:
+	for id in FRACTURE_COMMON_TEXTS.UI:
+		_expect(not FRACTURE_COMMON_TEXTS.ui(id, "ko").is_empty(), "Fracture common Korean UI exists: " + id)
+		_expect(not FRACTURE_COMMON_TEXTS.ui(id, "en_US").is_empty(), "Fracture common English UI exists: " + id)
+	for source in FRACTURE_COMMON_TEXTS.FEEDBACK_EN:
+		_expect(FRACTURE_COMMON_TEXTS.feedback(source, "en_US") != source, "Fracture common feedback is translated: " + source.left(32))
+	for source in FRACTURE_COMMON_TEXTS.E1_DESCRIPTIONS_EN:
+		_expect(FRACTURE_COMMON_TEXTS.feedback(source, "en_US") != source, "E1 sensory text is translated")
+	for source in FRACTURE_COMMON_TEXTS.E2_ANSWERS_EN:
+		_expect(FRACTURE_COMMON_TEXTS.feedback(source, "en_US") != source, "E2 answer is translated")
+	_expect(FRACTURE_COMMON_TEXTS.feedback("관련 없는 문장", "en_US") == "관련 없는 문장", "Fracture common translation leaves unrelated text unchanged")
+
 func _validate_basement_hints(expected_stage: String) -> void:
 	var view := VIEW.new()
 	view.configure_session(SLOT, expected_stage)
@@ -156,6 +170,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	_validate_d4_reaction_selection()
 	_validate_core_story_text_catalog()
 	_validate_basement_text_catalog()
+	_validate_fracture_common_text_catalog()
 	var state: Dictionary = game.get_snapshot()
 	state["meta_progress"]["journal_stage"] = 3
 	state["meta_progress"]["knowledge_entries"] = {"PROLOGUE_COMPLETE": true, "j3_restored_day": 3, "j2_restored_day": 2, "C5_MIRROR_TRACING": true, "KN_B1_LIBRARY_WINDOW": true, "self_authored_mark": {"day": 1}}
@@ -640,10 +655,17 @@ func _validate_full_transition() -> void:
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	_expect(view._hotspot_layer.get_node_or_null("E1_bed") != null and view._hotspot_layer.get_node_or_null("E1_call_cord") != null, "E1 investigation UI connected")
+	var e_common_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._location_label.text == FRACTURE_COMMON_TEXTS.ui("e1_location", "en_US"), "E1 location renders in English")
+	_expect(view._objective_label.text == FRACTURE_COMMON_TEXTS.ui("e1_objective", "en_US"), "E1 objective renders in English")
+	_expect((view._hotspot_layer.get_node("E1_bed") as Button).text == FRACTURE_COMMON_TEXTS.e1_object("bed", "en_US"), "E1 object action renders in English")
 	var history_count: int = game.get_value("meta_progress.dialogue_history.entries", []).size()
 	view._hotspot_layer.get_node("E1_bed").pressed.emit()
 	_expect(view._dialogue_active, "E1 click presents sensory response")
 	var shown_text: String = view._dialogue_label.text
+	_expect(shown_text != String(SESSION.E1_OBJECTS["bed"]), "E1 sensory response renders in English")
 	var viewed_entries: Array = game.get_value("meta_progress.dialogue_history.entries", [])
 	_expect(viewed_entries.size() == history_count + 1 and viewed_entries.back()["variables"]["text"] == shown_text, "E1 actual investigation records displayed sentence")
 	view._dismiss_dialogue_for_test()
@@ -653,6 +675,7 @@ func _validate_full_transition() -> void:
 	_expect((view._modal_body.get_child(2).get_child(0) as Label).text.contains(shown_text), "E1 history available through menu")
 	(view._modal_body.get_child(3) as Button).pressed.emit()
 	_expect(game.get_snapshot() == before_history, "E1 history viewer is read only")
+	TranslationServer.set_locale(e_common_locale)
 	for choice_method in ["_show_mara1_choice", "_show_iris_choice", "_show_luca_choice", "_show_edgar_choice", "_show_mara2_choice"]:
 		var before_choice: Dictionary = game.get_snapshot()
 		var option_count: int = before_choice["meta_progress"]["dialogue_history"]["entries"].size()
@@ -722,20 +745,26 @@ func _validate_full_transition() -> void:
 		_expect(not session.act("e2_finish").get("ok", false), "report precedes completion")
 		session.act("e2_report")
 		if choice == "hold":
+			var e2_locale := TranslationServer.get_locale()
+			TranslationServer.set_locale("en_US")
 			view = VIEW.new()
 			view.configure_session(SLOT, "E2_INTRO")
 			root.add_child(view)
 			await tree.process_frame
 			view._dismiss_dialogue_for_test()
 			_expect(view._hotspot_layer.get_node_or_null("E2_Q_2") != null, "E2 question UI available")
+			_expect(view._objective_label.text == FRACTURE_COMMON_TEXTS.ui("e2_objective", "en_US"), "E2 objective renders in English")
+			_expect((view._hotspot_layer.get_node("E2_Q_2") as Button).text == FRACTURE_COMMON_TEXTS.ui("e2_question_memory", "en_US"), "E2 question action renders in English")
 			view._hotspot_layer.get_node("E2_Q_2").pressed.emit()
 			_expect(view._dialogue_active, "E2 question click presents response")
+			_expect(view._dialogue_label.text != String(SESSION.E2_ANSWERS["memory"]), "E2 answer renders in English")
 			view._dismiss_dialogue_for_test()
 			if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 				await RenderingServer.frame_post_draw
 				root.get_texture().get_image().save_png("user://e2_questions.png")
 			view.queue_free()
 			await tree.process_frame
+			TranslationServer.set_locale(e2_locale)
 			for question in ["memory", "house", "body", "memory"]: session.act("e2_question", question)
 			_expect(game.get_value("meta_progress.knowledge_entries.E2_questions_seen").size() == 3, "questions arbitrary order unique history")
 		_expect(session.act("e2_finish").get("ok", false), "E2 can finish with all or no optional questions")

@@ -16,6 +16,7 @@ const D5_TRANSITION_ART := preload("res://scripts/ui/d5_transition_art.gd")
 const FRACTURE_REST_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
 const CORE_STORY_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
 const BASEMENT_TEXTS := preload("res://scripts/ui/basement_display_texts.gd")
+const FRACTURE_COMMON_TEXTS := preload("res://scripts/ui/fracture_common_display_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -80,7 +81,7 @@ func _feedback(result: Dictionary) -> void:
 	var displayed := result.duplicate(true)
 	var original := String(result.get("text", ""))
 	var locale := TranslationServer.get_locale()
-	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(CORE_STORY_TEXTS.feedback(BASEMENT_TEXTS.feedback(original, locale), locale), locale))
+	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(CORE_STORY_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(original, locale), locale), locale), locale))
 	if displayed["text"] != original:
 		displayed["speaker"] = CORE_STORY_TEXTS.speaker(String(result.get("speaker", "주인공")), locale)
 	super._feedback(displayed)
@@ -153,14 +154,14 @@ func _render_room() -> void:
 			_board_label(BASEMENT_TEXTS.ui("demo_end", TranslationServer.get_locale()), Rect2(330, 280, 1260, 280))
 			_add_hotspot("RETURN_TITLE", BASEMENT_TEXTS.ui("return_title", TranslationServer.get_locale()), Rect2(520, 650, 830, 120), _return_to_title)
 		elif session.stage() == "E1_ENTRY":
-			_location_label.text = "같은 침실의 다른 아침"
-			_objective_label.text = "서로 다른 세 곳을 확인한다" if not session.known("E1_complete") else "문이 열렸다. 남은 조사도 할 수 있다"
+			_location_label.text = FRACTURE_COMMON_TEXTS.ui("e1_location", TranslationServer.get_locale())
+			_objective_label.text = FRACTURE_COMMON_TEXTS.ui("e1_objective", TranslationServer.get_locale()) if not session.known("E1_complete") else FRACTURE_COMMON_TEXTS.ui("e1_objective_done", TranslationServer.get_locale())
 			var seen: Array = session.snapshot()["meta_progress"]["knowledge_entries"].get("E1_objects_seen", [])
 			for index in range(4):
 				var id: String = ["bed", "window", "mirror", "call_cord"][index]
-				var label: String = ["천 아래의 침대", "그림자 없는 창문", "늦게 숨 쉬는 거울", "응답 없는 호출끈"][index]
-				_action("E1_" + id, label + (" · 확인함" if id in seen else ""), Rect2(280 + (index % 2) * 730, 220 + (index / 2) * 190, 650, 140), "e1_inspect", id)
-			_action("E1_EXIT", "침실 문을 연다", Rect2(510, 680, 870, 100), "move", "M1_CENTRAL_HALL")
+				var label: String = FRACTURE_COMMON_TEXTS.e1_object(id, TranslationServer.get_locale())
+				_action("E1_" + id, label + (FRACTURE_COMMON_TEXTS.checked_suffix(TranslationServer.get_locale()) if id in seen else ""), Rect2(280 + (index % 2) * 730, 220 + (index / 2) * 190, 650, 140), "e1_inspect", id)
+			_action("E1_EXIT", FRACTURE_COMMON_TEXTS.ui("e1_exit", TranslationServer.get_locale()), Rect2(510, 680, 870, 100), "move", "M1_CENTRAL_HALL")
 		else:
 			_build_fracture_intro()
 		call_deferred("_restore_world_focus")
@@ -260,7 +261,7 @@ func _d6_guidance_text(checkpoint: int) -> String:
 
 func _localized_notebook_entry(entry: String) -> String:
 	var locale := TranslationServer.get_locale()
-	return _d6_text(CORE_STORY_TEXTS.feedback(BASEMENT_TEXTS.feedback(super._localized_notebook_entry(entry), locale), locale))
+	return _d6_text(CORE_STORY_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(super._localized_notebook_entry(entry), locale), locale), locale))
 
 
 func _core_text(id: String) -> String:
@@ -536,32 +537,32 @@ func _build_fracture_intro() -> void:
 		"E3_1":
 			_build_mara1_relationship()
 		"LUCA_GUIDE":
-			_objective_label.text = "주방의 이중 맥박 표식을 확인한다"
-			_board_label("중앙홀은 잠깐 비어 있다.\n연두 보조등과 이중 맥박 문양이 주방 쪽을 가리킨다.", Rect2(340, 220, 1250, 220))
-			_action("LUCA_GUIDE", "사용인 통로를 지나 주방으로", Rect2(410, 520, 1100, 120), "move", "M1_KITCHEN")
-			_action("E1_RETURN", "침실의 남은 조사", Rect2(510, 720, 850, 90), "move", "M2_BEDROOM", false)
+			_objective_label.text = FRACTURE_COMMON_TEXTS.ui("luca_guide_objective", TranslationServer.get_locale())
+			_board_label(FRACTURE_COMMON_TEXTS.ui("luca_guide_board", TranslationServer.get_locale()), Rect2(340, 220, 1250, 220))
+			_action("LUCA_GUIDE", FRACTURE_COMMON_TEXTS.ui("luca_guide_action", TranslationServer.get_locale()), Rect2(410, 520, 1100, 120), "move", "M1_KITCHEN")
+			_action("E1_RETURN", FRACTURE_COMMON_TEXTS.ui("e1_return", TranslationServer.get_locale()), Rect2(510, 720, 850, 90), "move", "M2_BEDROOM", false)
 		"LUCA_S2":
-			_objective_label.text = "루카의 차가운 손"
-			_board_label("조리대 아래 낮은 경고음이 손목 맥박과 맞물린다.\n루카는 손을 숨긴다. 가까이 다가가자 피부가 아니라 냉각관 같은 한기가 닿는다.", Rect2(270, 190, 1380, 230))
+			_objective_label.text = FRACTURE_COMMON_TEXTS.ui("luca_s2_objective", TranslationServer.get_locale())
+			_board_label(FRACTURE_COMMON_TEXTS.ui("luca_s2_board", TranslationServer.get_locale()), Rect2(270, 190, 1380, 230))
 			for index in range(3):
-				_action("LUCA_S2_%d" % index, ["무슨 소리예요?", "손을 잡는다", "물러난다"][index], Rect2(400, 470 + index * 125, 1100, 100), "e2_luca", ["ask", "hold", "withdraw"][index])
+				_action("LUCA_S2_%d" % index, FRACTURE_COMMON_TEXTS.ui(["luca_s2_ask", "luca_s2_hold", "luca_s2_withdraw"][index], TranslationServer.get_locale()), Rect2(400, 470 + index * 125, 1100, 100), "e2_luca", ["ask", "hold", "withdraw"][index])
 		"E2_INTRO":
-			_objective_label.text = "다섯 사용인의 보고와 합의"
-			_action("E2_REPORT", "에드가의 보고를 듣는다", Rect2(380, 180, 1170, 100), "e2_report")
+			_objective_label.text = FRACTURE_COMMON_TEXTS.ui("e2_objective", TranslationServer.get_locale())
+			_action("E2_REPORT", FRACTURE_COMMON_TEXTS.ui("e2_report", TranslationServer.get_locale()), Rect2(380, 180, 1170, 100), "e2_report")
 			if session.known("E2_report_seen"):
 				for index in range(3):
-					_action("E2_Q_%d" % index, ["저택은 어떻게 된 거예요?", "제 몸은 괜찮아요?", "왜 모두 기억하고 있어요?"][index], Rect2(380, 320 + index * 110, 1170, 85), "e2_question", ["house", "body", "memory"][index])
-				_action("E2_FINISH", "목적지와 핵심 보고를 정리한다", Rect2(380, 710, 1170, 100), "e2_finish")
+					_action("E2_Q_%d" % index, FRACTURE_COMMON_TEXTS.ui(["e2_question_house", "e2_question_body", "e2_question_memory"][index], TranslationServer.get_locale()), Rect2(380, 320 + index * 110, 1170, 85), "e2_question", ["house", "body", "memory"][index])
+				_action("E2_FINISH", FRACTURE_COMMON_TEXTS.ui("e2_finish", TranslationServer.get_locale()), Rect2(380, 710, 1170, 100), "e2_finish")
 		"E_HUB":
-			_add_hotspot("J4_CONFIRM", "조사를 마치고 기록 정리", Rect2(570, 885, 800, 60), _show_j4_confirmation)
-			_objective_label.text = "사용인을 찾아가거나 지금까지의 기록을 정리한다"
-			_board_label("마라 1은 배선실로 향했다.\n이리스는 온실에서 기다리고 있다.\n루카는 주방 아래의 장치를 살피고 있다.\n에드가는 대시계 쪽에 있다.\n마라 2는 북쪽 기록 회랑으로 돌아갔다.\n누구를 먼저 찾아갈지, 조사를 언제 마칠지는 내가 정한다.", Rect2(330, 130, 1260, 390))
-			_action("MARA1_ENTRY", "마라 1 · 배선실로", Rect2(330, 550, 620, 90), "move", "M1_SERVICE_HALL", false)
-			_action("IRIS_ENTRY", "이리스 · 온실로", Rect2(990, 550, 620, 90), "move", "M1_GREENHOUSE", false)
-			_action("LUCA_ENTRY", "루카 · 생명 유지실로", Rect2(330, 670, 620, 90), "move", "M1_KITCHEN", false)
-			_action("EDGAR_ENTRY", "에드가 · 대시계로", Rect2(990, 670, 620, 90), "move", "M1_GREAT_CLOCK", false)
-			_action("MARA2_ENTRY", "마라 2 · 북쪽 기록 회랑", Rect2(330, 790, 620, 80), "move", "M1_NORTH_ARCHIVE_HALL", false)
-			_action("E1_RETURN", "침실의 남은 조사", Rect2(990, 790, 620, 80), "move", "M2_BEDROOM", false)
+			_add_hotspot("J4_CONFIRM", FRACTURE_COMMON_TEXTS.ui("hub_finish", TranslationServer.get_locale()), Rect2(570, 885, 800, 60), _show_j4_confirmation)
+			_objective_label.text = FRACTURE_COMMON_TEXTS.ui("hub_objective", TranslationServer.get_locale())
+			_board_label(FRACTURE_COMMON_TEXTS.ui("hub_board", TranslationServer.get_locale()), Rect2(330, 130, 1260, 390))
+			_action("MARA1_ENTRY", FRACTURE_COMMON_TEXTS.ui("hub_mara1", TranslationServer.get_locale()), Rect2(330, 550, 620, 90), "move", "M1_SERVICE_HALL", false)
+			_action("IRIS_ENTRY", FRACTURE_COMMON_TEXTS.ui("hub_iris", TranslationServer.get_locale()), Rect2(990, 550, 620, 90), "move", "M1_GREENHOUSE", false)
+			_action("LUCA_ENTRY", FRACTURE_COMMON_TEXTS.ui("hub_luca", TranslationServer.get_locale()), Rect2(330, 670, 620, 90), "move", "M1_KITCHEN", false)
+			_action("EDGAR_ENTRY", FRACTURE_COMMON_TEXTS.ui("hub_edgar", TranslationServer.get_locale()), Rect2(990, 670, 620, 90), "move", "M1_GREAT_CLOCK", false)
+			_action("MARA2_ENTRY", FRACTURE_COMMON_TEXTS.ui("hub_mara2", TranslationServer.get_locale()), Rect2(330, 790, 620, 80), "move", "M1_NORTH_ARCHIVE_HALL", false)
+			_action("E1_RETURN", FRACTURE_COMMON_TEXTS.ui("e1_return", TranslationServer.get_locale()), Rect2(990, 790, 620, 80), "move", "M2_BEDROOM", false)
 
 
 func _build_mara1_relationship() -> void:
