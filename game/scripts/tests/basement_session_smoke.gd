@@ -2,6 +2,8 @@ extends RefCounted
 
 const SESSION := preload("res://scripts/systems/basement_session.gd")
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
+const D4_REACTION := preload("res://scripts/systems/d4_reaction_selector.gd")
+const D5_TEXTS := preload("res://scripts/ui/fracture_transition_texts.gd")
 const SLOT := "__test_basement_session"
 var errors := PackedStringArray()
 var game: Node
@@ -16,6 +18,40 @@ class UnavailableEndingMeta extends RefCounted:
 class PendingEndingSession extends BasementSession:
 	func stage() -> String:
 		return "ENDING_BODY_PENDING"
+
+
+func _validate_d4_reaction_selection() -> void:
+	var base: Dictionary = game.get_snapshot()
+	var untouched := base.duplicate(true)
+	_expect(D4_REACTION.select(base)["owner"].is_empty(), "D4 reaction remains silent below high threshold")
+	_expect(base == untouched, "D4 reaction selection does not mutate source state")
+
+	for owner in ["edgar", "mara1", "luca", "iris", "mara2"]:
+		var seeded := base.duplicate(true)
+		seeded["meta_progress"]["servants"][owner]["bond"] = 4
+		var selected: Dictionary = D4_REACTION.select(seeded)
+		_expect(selected["owner"] == owner.to_upper() and selected["mode"] == "bond", "D4 bond reaction owner: " + owner)
+
+	var alert_seed := base.duplicate(true)
+	alert_seed["meta_progress"]["servants"]["mara1"]["alert"] = 4
+	alert_seed["meta_progress"]["servants"]["luca"]["bond"] = 4
+	_expect(D4_REACTION.select(alert_seed)["owner"] == "LUCA", "D4 equal strength prefers bond response")
+	alert_seed["meta_progress"]["servants"]["luca"]["bond"] = 0
+	var alert_selected: Dictionary = D4_REACTION.select(alert_seed)
+	_expect(alert_selected["owner"] == "MARA1" and alert_selected["mode"] == "alert", "D4 alert response remains eligible")
+
+	var priority_seed := base.duplicate(true)
+	priority_seed["meta_progress"]["servants"]["edgar"]["bond"] = 4
+	priority_seed["meta_progress"]["servants"]["mara1"]["bond"] = 5
+	_expect(D4_REACTION.select(priority_seed)["owner"] == "EDGAR", "D4 Edgar high bond has narrative priority")
+	priority_seed["meta_progress"]["servants"]["edgar"]["bond"] = 0
+	priority_seed["meta_progress"]["servants"]["mara1"]["bond"] = 4
+	priority_seed["meta_progress"]["servants"]["luca"]["bond"] = 4
+	_expect(D4_REACTION.select(priority_seed)["owner"] == "MARA1", "D4 equal other reactions use stable priority")
+
+	_expect(D5_TEXTS.lines("ko").size() == 14, "D5 legacy or no-reaction state keeps fourteen beats")
+	var localized: Array = D5_TEXTS.lines("en_US", alert_selected)
+	_expect(localized.size() == 15 and localized[11]["speaker"] == "Mara 1", "D5 inserts one localized frozen reaction")
 
 func _validate_basement_hints(expected_stage: String) -> void:
 	var view := VIEW.new()
@@ -53,6 +89,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	saves = root.get_node("SaveManager")
 	game.reset_for_test()
 	saves.delete_test_slot(SLOT)
+	_validate_d4_reaction_selection()
 	var state: Dictionary = game.get_snapshot()
 	state["meta_progress"]["journal_stage"] = 3
 	state["meta_progress"]["knowledge_entries"] = {"PROLOGUE_COMPLETE": true, "j3_restored_day": 3, "j2_restored_day": 2, "C5_MIRROR_TRACING": true, "KN_B1_LIBRARY_WINDOW": true, "self_authored_mark": {"day": 1}}
@@ -128,9 +165,19 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	_expect(game.get_value("fracture_state.camouflage_filter") == "active", "XII does not release filter")
 	session.act("d_heart", {"action": "inspect_auxiliary"})
 	_expect(not session.act("d_heart", {"action": "pull_auxiliary", "confirmed": false}).get("ok", false), "auxiliary is cancelable")
-	session.act("d_heart", {"action": "pull_auxiliary", "confirmed": true})
+	var d4_ready: Dictionary = game.get_snapshot()
+	d4_ready["meta_progress"]["servants"]["mara1"]["bond"] = 5
+	d4_ready["meta_progress"]["servants"]["iris"]["alert"] = 5
+	_expect(StateWriter.new(game).install_snapshot(d4_ready, game.revision, &"D4_REACTION_FIXTURE").get("ok", false), "D4 reaction fixture installed")
+	session.slot_id = "../invalid_slot"
+	_expect(not session.act("d_heart", {"action": "pull_auxiliary", "confirmed": true}).get("ok", false), "D4 reaction commit failure is reported")
+	_expect(session.stage() == "D4" and session.d5_reaction()["owner"].is_empty(), "D4 failed save rolls back filter and frozen reaction")
+	session.slot_id = SLOT
+	_expect(session.act("d_heart", {"action": "pull_auxiliary", "confirmed": true}).get("ok", false), "D4 reaction explicit retry succeeds")
 	_expect(session.stage() == "D5" and not game.get_value("fracture_state.broken_reset_triggered"), "filter release precedes first broken sleep")
+	_expect(session.d5_reaction()["owner"] == "MARA1" and session.d5_reaction()["mode"] == "bond", "D4 freezes strongest eligible servant reaction")
 	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "load at D4 boundary")
+	_expect(session.d5_reaction()["owner"] == "MARA1", "D4 frozen reaction survives save and load")
 	var stinger := VIEW.new()
 	stinger.configure_session(SLOT, "D5")
 	root.add_child(stinger)
@@ -143,6 +190,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	_expect(stinger._demo_stinger_seconds == 0.0 and session.stage() == "D5", "Menu pauses stinger before completion boundary")
 	stinger._close_modal()
 	_expect(not stinger._hotspot_layer.has_node("D5_CONFIRM"), "Demo stinger has no confirmation gate")
+	_expect("마라 1:" in stinger._demo_stinger_beat(3), "Demo stinger consumes frozen D4 reaction")
 	var stinger_before: Dictionary = game.get_snapshot()
 	for attempt in [["move", "B1_STORAGE"], ["routine", null], ["d_storage", "cable"]]:
 		_expect(not session.act(attempt[0], attempt[1]).get("ok", false), "Stinger rejects world action: " + attempt[0])
@@ -182,7 +230,10 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	var slot := "__test_full_d5_story"
 	saves.delete_test_slot(slot)
-	_expect(StateWriter.new(game).install_snapshot(state, game.revision, &"D5_STORY_FIXTURE").get("ok", false), "Full D5 fixture installed")
+	var fixture := state.duplicate(true)
+	fixture["meta_progress"]["servants"]["mara1"]["bond"] = 0
+	fixture["meta_progress"]["servants"]["edgar"]["bond"] = 5
+	_expect(StateWriter.new(game).install_snapshot(fixture, game.revision, &"D5_STORY_FIXTURE").get("ok", false), "Full D5 fixture installed")
 	var view := VIEW.new()
 	view.configure_session(slot, "D5")
 	root.add_child(view)
@@ -193,13 +244,14 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 	for language in ["ko", "en_US"]:
 		TranslationServer.set_locale(language)
 		view._hotspot_layer.get_node("D5_CONFIRM").pressed.emit()
-		_expect(view._dialogue_active and view._dialogue_lines.size() == 14, "Full D5 presents every narrative beat: " + language)
+		_expect(view._dialogue_active and view._dialogue_lines.size() == 15, "Full D5 presents narrative beats and one frozen reaction: " + language)
+		_expect(view._dialogue_lines[11].get("d4_reaction_owner", "") == "MARA1", "D5 consumes D4 owner without relationship reevaluation: " + language)
 		_expect(game.get_value("meta_progress.servants") == before["meta_progress"]["servants"], "Full D5 does not change relationships")
 		view._advance_dialogue()
 		_expect(view.session.stage() == "D5", "Reading first D5 beat does not complete transition")
 		view._dismiss_dialogue_for_test()
 	view._hotspot_layer.get_node("D5_CONFIRM").pressed.emit()
-	for index in range(14):
+	for index in range(view._dialogue_lines.size()):
 		if index == 6:
 			var focus_before: Dictionary = game.get_snapshot()
 			for owner in ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]:
@@ -225,6 +277,15 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 				root.get_texture().get_image().save_png("user://d5_focus_en_200.png")
 				root.size = old_size
 				view._apply_reading_text_scale(1.0)
+		if index == 11 and "--capture-basement-session" in OS.get_cmdline_user_args():
+			var old_size := root.size
+			root.size = Vector2i(1280, 720)
+			view._apply_reading_text_scale(2.0)
+			await tree.process_frame
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://d4_reaction_en_200.png")
+			root.size = old_size
+			view._apply_reading_text_scale(1.0)
 		view._advance_dialogue()
 	_expect(view.session.stage() == "D6", "Full D5 completes after final acknowledgement")
 	_expect(not game.get_value("fracture_state.broken_reset_triggered"), "D5 story does not perform broken sleep")

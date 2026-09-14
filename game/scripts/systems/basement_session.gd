@@ -27,6 +27,7 @@ const REALITY_SURFACE := preload("res://scripts/systems/reality_surface.gd")
 const STAY_CHARTER := preload("res://scripts/systems/stay_charter.gd")
 const STAY_STORY := preload("res://scripts/systems/stay_story.gd")
 const ENDING_CREDITS := preload("res://scripts/systems/ending_credits.gd")
+const D4_REACTION := preload("res://scripts/systems/d4_reaction_selector.gd")
 var ending_meta_store = preload("res://scripts/systems/ending_meta_store.gd").new()
 
 func ensure_ending_meta() -> Dictionary:
@@ -149,6 +150,14 @@ func can_use_basement_shortcut(fast_path: bool = false) -> bool:
 	return knowledge.get("basement_overlay_solved", false) \
 		and not knowledge.get("basement_access_fast_path", false) \
 		and state["meta_progress"]["failure_knowledge"].get("D1", {}).get("status", "") == "active"
+
+
+func d5_reaction() -> Dictionary:
+	var local: Variant = snapshot()["loop_state"]["event_local_states"].get("D5", {})
+	if not local is Dictionary:
+		return D4_REACTION.none()
+	var reaction: Variant = local.get("D4_REACTION", {})
+	return reaction.duplicate(true) if reaction is Dictionary and reaction.has("owner") else D4_REACTION.none()
 
 
 func act(action: String, value: Variant = null) -> Dictionary:
@@ -374,6 +383,9 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			if result["filter_off"]:
 				state["fracture_state"]["camouflage_filter"] = "disabled"
 				knowledge["d4_filter_release"] = true
+				var d5_local: Dictionary = loop["event_local_states"].get("D5", {}).duplicate(true)
+				d5_local["D4_REACTION"] = D4_REACTION.select(state)
+				loop["event_local_states"]["D5"] = d5_local
 				_note(knowledge, "D4", "XII 뒤 보조 입력을 실행했다. 위장 필터 해제. 정상 안정화만으로는 닿지 않는 공간이었다.")
 		"d_fracture":
 			if stage() != "D5": return _reject("위장 필터를 해제한 뒤 확인한다.")

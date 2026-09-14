@@ -34,9 +34,65 @@ const EN := [
 	"The projected guide shows two directions: the bedroom and a nearby emergency rest capsule. You hold your notebook. The walls have changed, but your writing remains."
 ]
 
-static func lines(locale: String) -> Array:
+const REACTIONS := {
+	"EDGAR": {
+		"speaker_ko": "에드가", "speaker_en": "Edgar",
+		"bond_ko": "마지막 경고입니다. 이 다음은 제가 되돌릴 수 없습니다. ...레이피어를 거두겠습니다.",
+		"bond_en": "This is my final warning. I cannot undo what comes next. ...I will sheathe my rapier.",
+	},
+	"MARA1": {
+		"speaker_ko": "마라 1", "speaker_en": "Mara 1",
+		"bond_ko": "아가씨, 이번 건 진짜 큼다. 그래도 손 놓으란 말은 못 하겠네요.",
+		"bond_en": "Miss, this one is seriously big. Still, I can't tell you to let go.",
+		"alert_ko": "이번엔 농담 못 하겠슴다. 뭘 깨운 건지, 저도 모르겠어요.",
+		"alert_en": "I can't joke about this one. Even I don't know what you just woke up.",
+	},
+	"LUCA": {
+		"speaker_ko": "루카", "speaker_en": "Luca",
+		"bond_ko": "신호가 달라졌어요... 무서워도, 이번에는 먼저 숨기지 않을게요.",
+		"bond_en": "The signal changed... Even if I'm afraid, I won't hide it first this time.",
+		"alert_ko": "그 손잡이에서... 조금만 떨어져 주세요. 무엇이 깨어났는지 모르겠어요...",
+		"alert_en": "Please... step away from that handle. I don't know what just woke up...",
+	},
+	"IRIS": {
+		"speaker_ko": "이리스", "speaker_en": "Iris",
+		"bond_ko": "우후후... 이제 따뜻한 거짓말로는 지켜 드릴 수 없겠네요.",
+		"bond_en": "Oh my... A warm lie can no longer keep you safe.",
+		"alert_ko": "눈을 감으세요, 주인공. 보지 않으면 아직 돌아갈 수 있을지도 몰라요.",
+		"alert_en": "Close your eyes, Protagonist. If you do not look, perhaps you can still go back.",
+	},
+	"MARA2": {
+		"speaker_ko": "마라 2", "speaker_en": "Mara 2",
+		"bond_ko": "좋아, 봐버렸네! 그럼 내 이름까지 지워지기 전에 제대로 기억해 둬.",
+		"bond_en": "Well, you saw it! Then remember my name properly before it gets erased too.",
+		"alert_ko": "천재 의견은 하나야! 지금 본 걸 함부로 믿지 마. 특히 나를.",
+		"alert_en": "This genius has one opinion! Do not trust what you just saw. Especially me.",
+	},
+}
+
+static func reaction(reaction_state: Dictionary, locale: String) -> Dictionary:
+	var owner := String(reaction_state.get("owner", ""))
+	if not REACTIONS.has(owner):
+		return {}
+	var english := locale.begins_with("en")
+	var mode := String(reaction_state.get("mode", "bond"))
+	if mode != "alert" or not REACTIONS[owner].has("alert_ko"):
+		mode = "bond"
+	return {
+		"speaker": REACTIONS[owner]["speaker_en" if english else "speaker_ko"],
+		"text": REACTIONS[owner][mode + ("_en" if english else "_ko")],
+		"d4_reaction_owner": owner,
+		"d5_focus_allowed": false,
+	}
+
+
+static func lines(locale: String, reaction_state: Dictionary = {}) -> Array:
 	var result: Array = []
 	var source: Array = EN if locale.begins_with("en") else KO
 	for index in range(source.size()):
 		result.append({"speaker": "주인공" if index == 5 else "SYSTEM", "text": source[index], "d5_focus_allowed": index >= 6 and index <= 10})
+		if index == 10:
+			var frozen := reaction(reaction_state, locale)
+			if not frozen.is_empty():
+				result.append(frozen)
 	return result

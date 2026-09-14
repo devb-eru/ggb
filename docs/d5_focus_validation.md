@@ -20,4 +20,4 @@
 
 2026-09-13 재시도 검사 포함 headless `BASEMENT_SESSION_SMOKE` PASS. 최종 실행에 SCRIPT ERROR 없음.
 
-캡처 모드는 1280×720·영어·글자 200%의 `user://d5_focus_en_200.png`를 생성한다. 최종 투사 아트, 카메라 시선·필터 박리·첫 HOLD, CHK_D4_REACT 소비, 실제 OS 키보드·마우스 완주와 전편 콘텐츠 완료를 대신하지 않는다.
+캡처 모드는 1280×720·영어·글자 200%의 `user://d5_focus_en_200.png`를 생성한다. CHK_D4_REACT의 동결·소비는 [D4 관계 반응 검증](d4_reaction_validation.md)에서 별도로 다룬다. 최종 투사 아트, 카메라 시선·필터 박리·첫 HOLD, 실제 OS 키보드·마우스 완주와 전편 콘텐츠 완료를 대신하지 않는다.

@@ -117,7 +117,7 @@ func _render_room() -> void:
 		if session.stage() == "D5":
 			if SaveManager.get_build_flavor() == "demo":
 				_objective_label.text = "위장 필터 해제"
-				_board_label(DEMO_STINGER_BEATS[mini(5, int(_demo_stinger_seconds / 10.0))], Rect2(350, 300, 1200, 240))
+				_board_label(_demo_stinger_beat(mini(5, int(_demo_stinger_seconds / 10.0))), Rect2(350, 300, 1200, 240))
 				if _demo_stinger_save_failed:
 					_action("D5_SAVE_RETRY", "완료 기록 저장 재시도", Rect2(510,640,870,130), "d_fracture")
 				else:
@@ -308,7 +308,17 @@ func _select_d5_focus(owner: String) -> void:
 func _show_full_fracture_transition() -> void:
 	if _interaction_blocked() or session.stage() != "D5" or SaveManager.get_build_flavor() != "full":
 		return
-	_show_dialogue(preload("res://scripts/ui/fracture_transition_texts.gd").lines(TranslationServer.get_locale()), _do.bind("d_fracture", null, false))
+	_show_dialogue(preload("res://scripts/ui/fracture_transition_texts.gd").lines(TranslationServer.get_locale(), _basement().d5_reaction()), _do.bind("d_fracture", null, false))
+
+
+func _demo_stinger_beat(index: int) -> String:
+	var text := String(DEMO_STINGER_BEATS[clampi(index, 0, DEMO_STINGER_BEATS.size() - 1)])
+	if index != 3:
+		return text
+	var line: Dictionary = preload("res://scripts/ui/fracture_transition_texts.gd").reaction(_basement().d5_reaction(), TranslationServer.get_locale())
+	if line.is_empty():
+		return text
+	return text + "\n\n" + String(line["speaker"]) + ": " + String(line["text"])
 
 
 func _build_fracture_intro() -> void:
