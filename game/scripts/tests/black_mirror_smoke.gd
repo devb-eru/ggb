@@ -3,6 +3,7 @@ extends RefCounted
 const SESSION := preload("res://scripts/systems/black_mirror_session.gd")
 const RULES := preload("res://data/puzzles/puzzle_black_mirror.tres")
 const VIEW := preload("res://scripts/chapters/black_mirror_controller.gd")
+const TEXTS := preload("res://scripts/ui/black_mirror_display_texts.gd")
 const SLOT := "__test_black_mirror"
 var errors := PackedStringArray()
 
@@ -325,6 +326,7 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 	_expect(view._modal_active, "wet trace confirmation visible")
 	_expect((tree.root.gui_get_focus_owner() as Button).text == "계획을 다시 확인한다", "default focus is reversible choice")
 	view._close_modal()
+	await _validate_english_display(tree, view, ready)
 	view.queue_free()
 	await tree.process_frame
 	StateWriter.new(GameState).install_snapshot(completed, GameState.revision, &"MIRROR_UI_RESTORE")
@@ -336,6 +338,51 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 	_expect(bootstrap.get_node_or_null("Basement") != null, "bootstrap routes J3 completion to basement")
 	bootstrap._on_prologue_return_to_title()
 	await tree.process_frame
+
+
+func _validate_english_display(tree: SceneTree, view: BlackMirrorController, ready: Dictionary) -> void:
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	StateWriter.new(GameState).install_snapshot(ready, GameState.revision, &"MIRROR_ENGLISH_UI")
+	view._render_room()
+	_expect(view._location_label.text.contains("Mirror Gallery"), "English mirror-gallery location header")
+	_expect(view._objective_label.text.contains("overlay") and view._objective_label.text.contains("route"), "English C4 objective")
+	_expect((view._hotspot_layer.get_node("TRACE_COMPARE") as Button).text.contains("mirror grooves"), "English trace comparison control")
+	_expect((view._hotspot_layer.get_node("C_WET") as Button).text == "Apply with the wet cloth", "English irreversible action control")
+	view._confirm_wet_trace()
+	_expect((view._modal_body.get_child(0) as Label).text == "An Irreversible Cleaning for Today", "English irreversible-action title")
+	_expect((view._modal_body.get_child(3) as Button).text == "Review the plan again", "English confirmation defaults to reversible choice")
+	view._close_modal()
+	view._feedback({"ok": false, "text": "거울 앞에서 일지의 가설을 확인한다."})
+	_expect(view._status_label.text == "Review the journal's hypothesis in front of the mirror.", "English uncatalogued mirror rejection")
+	for id in TEXTS.OBJECTIVES:
+		_expect(TEXTS.objective(id, "en-US") != TEXTS.objective(id, "ko-KR"), "English mirror objective exists: " + id)
+	for id in TEXTS.UI:
+		_expect(TEXTS.ui(id, "en-US") != TEXTS.ui(id, "ko-KR"), "English mirror UI text exists: " + id)
+	for id in TEXTS.MATERIALS:
+		_expect(TEXTS.material_name(id, "en-US") != TEXTS.material_name(id, "ko-KR"), "English material name exists: " + id)
+	for id in TEXTS.SEGMENTS:
+		_expect(TEXTS.segment_name(id, "en-US") != TEXTS.segment_name(id, "ko-KR"), "English trace segment exists: " + id)
+	for id in TEXTS.CHANNELS:
+		_expect(TEXTS.channel(id, "en-US") != TEXTS.channel(id, "ko-KR"), "English channel signature exists: " + id)
+	for source in TEXTS.FEEDBACK_EN:
+		_expect(TEXTS.feedback(source, "en-US") != source, "English mirror feedback exists: " + source.left(14))
+	for index in range(TEXTS.J3_PARTS.size()):
+		_expect(TEXTS.j3_part(index, "en-US") != TEXTS.j3_part(index, "ko-KR"), "English J3 fragment exists: " + str(index))
+	var dry_result := "마른 천 시험: " + String(RULES.inspect_trace(90, false, true, RULES.PATH)["text"])
+	_expect(TEXTS.feedback(dry_result, "en-US").begins_with("Dry-cloth test:"), "English dry-run prefix composes with puzzle feedback")
+	var channel_result := "수첩의 진단면 사본: " + String(SESSION.CHANNELS["MARA2"]) + "\n서로 다른 문양이 같은 면 아래에서 겹친다. 이것이 무엇인지는 아직 단정할 수 없다."
+	var translated_channel := TEXTS.feedback(channel_result, "en-US")
+	_expect(translated_channel.contains("Notebook diagnostic copy: Mara 2") and translated_channel.contains("Different glyphs overlap"), "English channel scan preserves source and interpretation")
+	var before_notebook := GameState.get_snapshot()
+	var j3_source := "\n\n".join(SESSION.J3_PARTS)
+	_expect(view._localized_notebook_entry(j3_source).contains("heart of the house"), "English notebook renders restored J3 without rewriting source")
+	_expect(GameState.get_snapshot() == before_notebook, "English mirror display leaves puzzle and save state unchanged")
+	if "--capture-black-mirror" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await tree.process_frame
+		await RenderingServer.frame_post_draw
+		tree.root.get_texture().get_image().save_png("user://black_mirror_english.png")
+	TranslationServer.set_locale(previous_locale)
 
 
 func _expect(condition: bool, message: String) -> void:

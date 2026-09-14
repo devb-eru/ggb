@@ -207,7 +207,7 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 	elif not result.get("ok", false):
 		var text_id := String(result.get("text_id", ""))
 		var fallback := String(result.get("text", str(result.get("error_ids", []))))
-		_set_status(_dialogue_ui_text(text_id) if not text_id.is_empty() else DISPLAY_TEXTS.feedback(fallback, TranslationServer.get_locale()))
+		_set_status(_dialogue_ui_text(text_id) if not text_id.is_empty() else _display_feedback(fallback))
 
 
 func _feedback(result: Dictionary) -> void:
@@ -215,7 +215,7 @@ func _feedback(result: Dictionary) -> void:
 	if not String(result.get("text_id", "")).is_empty():
 		text = _dialogue_ui_text(String(result["text_id"]))
 	else:
-		text = DISPLAY_TEXTS.feedback(text, TranslationServer.get_locale())
+		text = _display_feedback(text)
 	if text.is_empty():
 		if not result.get("ok", false):
 			_set_status(DISPLAY_TEXTS.ui("save_error", TranslationServer.get_locale(), [str(result.get("error_ids", []))]))
@@ -229,6 +229,10 @@ func _feedback(result: Dictionary) -> void:
 		if not paragraph.is_empty():
 			lines.append({"speaker": speaker, "portrait": "EDGAR" if speaker == "에드가" else "", "text": paragraph})
 	_show_dialogue(lines)
+
+
+func _display_feedback(text: String) -> String:
+	return DISPLAY_TEXTS.feedback(text, TranslationServer.get_locale())
 
 
 func _render_room() -> void:
