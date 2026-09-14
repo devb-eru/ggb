@@ -1,5 +1,38 @@
 extends RefCounted
 
+const GUIDANCE_300 := {
+	"EDGAR": {
+		"bond_ko": "에드가의 진단 투사: 두 휴식 경로는 모두 유효합니다. 어느 쪽을 택할지는 아가씨께서 결정하십시오.",
+		"bond_en": "Edgar's diagnostic projection: Both routes to rest are valid. You will decide which one to take, my lady.",
+		"alert_ko": "에드가의 진단 투사: 절차 밖의 이동은 기록 중입니다. 그래도 수면 경로 선택은 아가씨의 권한입니다.",
+		"alert_en": "Edgar's diagnostic projection: Movement outside procedure is being logged. Even so, the route to rest remains your decision, my lady.",
+	},
+	"MARA1": {
+		"bond_ko": "마라 1의 진단 잔상: 길은 둘 다 열어뒀슴다. 이번엔 아가씨가 정할 때까지 안 재촉하겠슴다.",
+		"bond_en": "Mara 1's diagnostic trace: Both routes are open. This time, I won't rush you before you decide.",
+		"alert_ko": "마라 1의 진단 잔상: 어느 길로 가는지는 지켜보겠슴다. 막지는 않겠지만요.",
+		"alert_en": "Mara 1's diagnostic trace: I'll be watching which route you take. I won't stop you, though.",
+	},
+	"LUCA": {
+		"bond_ko": "루카의 진단 잔상: 두 길은... 같은 곳으로 이어져요. 그래도 고르는 건 아가씨가 하셔야 해요...",
+		"bond_en": "Luca's diagnostic trace: Both routes... lead to the same place. Even so, you should be the one to choose...",
+		"alert_ko": "루카의 진단 잔상: 어느 쪽을 고르셔도... 장치는 기록해요. 저는, 막지 않을게요...",
+		"alert_en": "Luca's diagnostic trace: Whichever route you choose... the system will record it. I won't stop you...",
+	},
+	"IRIS": {
+		"bond_ko": "이리스의 진단 잔상: 우후후... 어느 쪽이 덜 무서운지는 정해 드릴 수 없네요. 기다리고 있을게요.",
+		"bond_en": "Iris's diagnostic trace: Oh-ho-ho... I cannot decide which route is less frightening for you. I will wait.",
+		"alert_ko": "이리스의 진단 잔상: 어느 쪽으로 가셔도 결과는 같을까요? 우후후... 선택은 돌려드릴게요.",
+		"alert_en": "Iris's diagnostic trace: Will the outcome be the same whichever route you take? Oh-ho-ho... I leave the choice with you.",
+	},
+	"MARA2": {
+		"bond_ko": "마라 2의 진단 잔상: 두 길, 같은 목적지! 그래도 네가 고른 쪽은 내가 제대로 기억해 둘게!",
+		"bond_en": "Mara 2's diagnostic trace: Two routes, one destination! I'll still remember which one you chose!",
+		"alert_ko": "마라 2의 진단 잔상: 어느 쪽이 함정인지는 안 알려줄 거야! ...둘 다 막지는 않았지만.",
+		"alert_en": "Mara 2's diagnostic trace: I won't tell you which one's a trap! ...Not that I blocked either of them.",
+	},
+}
+
 const EN := {
 	"달라진 통로를 조사하거나 쉴 곳을 선택한다": "Explore the changed passage or choose somewhere to rest",
 	"복구 절차는 수면 중 실행됩니다 · 더 조사하거나 쉴 곳을 선택한다": "Recovery runs during sleep · Keep exploring or choose a place to rest",
@@ -46,3 +79,13 @@ const EN := {
 
 static func text(source: String, locale: String) -> String:
 	return EN.get(source, source) if locale.begins_with("en") else source
+
+
+static func guidance_300(reaction_state: Dictionary, locale: String) -> String:
+	var owner := String(reaction_state.get("owner", ""))
+	if not GUIDANCE_300.has(owner):
+		return text("에드가 방송: 휴식 경로는 열려 있습니다. 이동 여부는 귀하가 결정하시면 됩니다.", locale)
+	var mode := String(reaction_state.get("mode", "bond"))
+	if mode != "alert":
+		mode = "bond"
+	return String(GUIDANCE_300[owner][mode + ("_en" if locale.begins_with("en") else "_ko")])

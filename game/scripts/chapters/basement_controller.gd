@@ -13,6 +13,7 @@ const SURFACE_TEXTS := preload("res://scripts/ui/reality_surface_texts.gd")
 const CREDITS_TEXTS := preload("res://scripts/ui/ending_credits_texts.gd")
 const GALLERY_TEXTS := preload("res://scripts/ui/ending_gallery_texts.gd")
 const D5_TRANSITION_ART := preload("res://scripts/ui/d5_transition_art.gd")
+const FRACTURE_REST_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -237,7 +238,13 @@ func _build_d6_inspection() -> void:
 
 
 func _d6_text(source: String) -> String:
-	return preload("res://scripts/ui/fracture_rest_texts.gd").text(source, TranslationServer.get_locale())
+	return FRACTURE_REST_TEXTS.text(source, TranslationServer.get_locale())
+
+
+func _d6_guidance_text(checkpoint: int) -> String:
+	if checkpoint == 300:
+		return FRACTURE_REST_TEXTS.guidance_300(_basement().d5_reaction(), TranslationServer.get_locale())
+	return _d6_text({180: "[취침 종: 깨진 간격으로 열한 번] 아직 통로를 더 살펴볼 수 있다.", 480: "침실 또는 가까운 비상 캡슐에서 쉴 수 있다. 지금 잠들 필요는 없다."}.get(checkpoint, ""))
 
 
 func _localized_notebook_entry(entry: String) -> String:
@@ -262,7 +269,7 @@ func _tick_d6_guidance(delta: float) -> void:
 	if _d6_guidance_failed:
 		_set_status(_d6_text("안내 기록을 저장하지 못했다. 다시 시도하거나 조사를 계속할 수 있다."))
 	else:
-		_set_status(_d6_text({180: "[취침 종: 깨진 간격으로 열한 번] 아직 통로를 더 살펴볼 수 있다.", 300: "에드가 방송: 휴식 경로는 열려 있습니다. 이동 여부는 귀하가 결정하시면 됩니다.", 480: "침실 또는 가까운 비상 캡슐에서 쉴 수 있다. 지금 잠들 필요는 없다."}[next]))
+		_set_status(_d6_guidance_text(next))
 
 
 func _confirm_d6_rest(route: String) -> void:

@@ -5,6 +5,7 @@ const VIEW := preload("res://scripts/chapters/basement_controller.gd")
 const D4_REACTION := preload("res://scripts/systems/d4_reaction_selector.gd")
 const D5_TEXTS := preload("res://scripts/ui/fracture_transition_texts.gd")
 const D5_ART := preload("res://scripts/ui/d5_transition_art.gd")
+const D6_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
 const SLOT := "__test_basement_session"
 var errors := PackedStringArray()
 var game: Node
@@ -54,6 +55,12 @@ func _validate_d4_reaction_selection() -> void:
 	var localized: Array = D5_TEXTS.lines("en_US", alert_selected)
 	_expect(localized.size() == 15 and localized[11]["speaker"] == "Mara 1", "D5 inserts one localized frozen reaction")
 	_expect(D5_ART.PATTERNS.size() == 5 and not D5_ART.PATTERNS.values().has(""), "D5 art exposes a non-color pattern for every servant")
+	for owner in ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]:
+		for mode in ["bond", "alert"]:
+			var response := {"owner": owner, "mode": mode}
+			_expect(not D6_TEXTS.guidance_300(response, "ko").is_empty(), "D6 Korean companion guidance: " + owner + " " + mode)
+			_expect(not D6_TEXTS.guidance_300(response, "en_US").is_empty(), "D6 English companion guidance: " + owner + " " + mode)
+	_expect("에드가 방송" in D6_TEXTS.guidance_300({}, "ko"), "D6 guidance falls back to Edgar broadcast without frozen reaction")
 
 func _validate_basement_hints(expected_stage: String) -> void:
 	var view := VIEW.new()
@@ -307,6 +314,7 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 		view._advance_dialogue()
 	_expect(view.session.stage() == "D6", "Full D5 completes after final acknowledgement")
 	_expect(not game.get_value("fracture_state.broken_reset_triggered"), "D5 story does not perform broken sleep")
+	TranslationServer.set_locale("ko")
 	var d6_state: Dictionary = game.get_snapshot()
 	view._d6_guidance_seconds = 0.0
 	view._tick_d6_guidance(179.0)
@@ -337,8 +345,10 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 	view._tick_d6_guidance(500.0)
 	_expect(view._d6_guidance_seconds == 180.0, "D6 investigation dialogue pauses guidance")
 	view._dismiss_dialogue_for_test()
-	for amount in [120.0, 180.0]:
-		view._tick_d6_guidance(amount)
+	view._tick_d6_guidance(120.0)
+	_expect("마라 1" in view._status_label.text, "D6 five-minute guidance consumes frozen D4 companion")
+	_expect(game.get_value("meta_progress.servants") == d6_state["meta_progress"]["servants"], "D6 companion guidance does not change relationships")
+	view._tick_d6_guidance(180.0)
 	_expect(game.get_value("loop_state.event_local_states.D6.guidance_checkpoint") == 480, "D6 reaches all three guidance checkpoints")
 	_expect(view.session.stage() == "D6" and not game.get_value("fracture_state.broken_reset_triggered"), "D6 eight-minute guidance never forces sleep")
 	var guided: Dictionary = game.get_snapshot()
