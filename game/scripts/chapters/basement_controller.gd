@@ -15,6 +15,7 @@ const GALLERY_TEXTS := preload("res://scripts/ui/ending_gallery_texts.gd")
 const D5_TRANSITION_ART := preload("res://scripts/ui/d5_transition_art.gd")
 const FRACTURE_REST_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
 const CORE_STORY_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
+const BASEMENT_TEXTS := preload("res://scripts/ui/basement_display_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -38,14 +39,6 @@ const FULL_D5_HOLD_EN := [
 	"You open your fingers.\nThe handle does not fall away at once. It drags the tremor across your palm one last time.",
 	"The gears keep vibrating between the lines of your hand.\nThe floral wallpaper slowly slips away from a wiring grid.",
 	"The candle does not flicker, but its heat disappears.\nThe room is not breaking. It is ceasing to hide.",
-]
-const DEMO_STINGER_BEATS := [
-	"열세 번째 울림이 멎는다.\n벽의 꽃무늬는 한 박자 늦게 떨림을 멈춘다.",
-	"벽지 아래로 가느다란 배선이 드러난다.\n찢어진 것은 벽이 아니라, 벽처럼 보이던 겉면이다.",
-	"금속 이음새를 따라 차가운 빛이 이어진다.\n익숙한 복도의 윤곽은 아직 그 위에 남아 있다.",
-	"멀리 사용인의 윤곽이 두 겹으로 어긋난다.\n누군가 말을 꺼내려다 멈춘다.",
-	"저택 아래에서 규칙적인 진동이 돌아온다.\n차가 우러나던 동안 들었던 간격과 닮아 있다.",
-	"주인공은 수첩을 쥔다.\n벽은 달라졌지만, 자신이 적은 글자는 남아 있다."
 ]
 const OBJECTIVE_TEXT := {"D_SLEEP": "J3를 기억한 채 잠들어 다음 아침을 맞는다", "D0": "기록 내실의 세 눌림점에서 평면도를 꺼낸다", "D0_A": "C5 투명지와 저택 도면의 방향·기준점을 검증한다", "D1": "세 축의 순서와 깊이를 도면대로 적용한다", "DF": "압력핀 잠김 · 같은 침실에서 잠든다", "D2": "지하창고의 반복 구조를 조사한다", "D4": "태엽 심장의 연동 링과 정상 기동을 확인한다", "D5": "위장 필터 너머 드러난 공간을 확인한다", "DEMO_END": "데모 공개 구간 종료", "D6": "파열된 저택을 확인한 뒤 침실로 돌아간다", "E1_ENTRY": "같은 침실의 다른 아침"}
 
@@ -82,18 +75,19 @@ func _history_enabled() -> bool:
 
 func _feedback(result: Dictionary) -> void:
 	if session != null and session.stage() == "D5" and SaveManager.get_build_flavor() == "demo" and result.get("ok", false):
-		_set_status("위장 필터 해제 연출이 진행됩니다. 메뉴를 열면 일시정지합니다.")
+		_set_status(BASEMENT_TEXTS.ui("d5_demo_running", TranslationServer.get_locale()))
 		return
 	var displayed := result.duplicate(true)
 	var original := String(result.get("text", ""))
 	var locale := TranslationServer.get_locale()
-	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(CORE_STORY_TEXTS.feedback(original, locale), locale))
+	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(CORE_STORY_TEXTS.feedback(BASEMENT_TEXTS.feedback(original, locale), locale), locale))
 	if displayed["text"] != original:
 		displayed["speaker"] = CORE_STORY_TEXTS.speaker(String(result.get("speaker", "주인공")), locale)
 	super._feedback(displayed)
 
 func _update_objective() -> void:
-	if session != null: _objective_label.text = OBJECTIVE_TEXT.get(session.stage(), "수첩을 확인한다")
+	if session != null:
+		_objective_label.text = BASEMENT_TEXTS.objective(session.stage(), TranslationServer.get_locale()) if BASEMENT_TEXTS.OBJECTIVES.has(session.stage()) else OBJECTIVE_TEXT.get(session.stage(), BASEMENT_TEXTS.objective("default", TranslationServer.get_locale()))
 
 func _render_room() -> void:
 	set_process(false)
@@ -141,10 +135,10 @@ func _render_room() -> void:
 		if session.stage() == "D5":
 			_add_d5_transition_art(_demo_stinger_seconds / 60.0 if SaveManager.get_build_flavor() == "demo" else (_d5_hold_seconds / FULL_D5_HOLD_SECONDS if _d5_hold_active else 0.0))
 			if SaveManager.get_build_flavor() == "demo":
-				_objective_label.text = "위장 필터 해제"
+				_objective_label.text = BASEMENT_TEXTS.ui("d5_demo_objective", TranslationServer.get_locale())
 				_board_label(_demo_stinger_beat(mini(5, int(_demo_stinger_seconds / 10.0))), Rect2(350, 300, 1200, 240))
 				if _demo_stinger_save_failed:
-					_action("D5_SAVE_RETRY", "완료 기록 저장 재시도", Rect2(510,640,870,130), "d_fracture")
+					_action("D5_SAVE_RETRY", BASEMENT_TEXTS.ui("d5_save_retry", TranslationServer.get_locale()), Rect2(510,640,870,130), "d_fracture")
 				else:
 					set_process(true)
 			else:
@@ -153,11 +147,11 @@ func _render_room() -> void:
 					_board_label(_full_d5_hold_beat(), Rect2(350, 300, 1200, 260))
 					set_process(true)
 				else:
-					_board_label("벽의 문양 사이로 배선이 드러난다.\n방금까지 하나였던 윤곽과 서명이 조금씩 어긋난다.", Rect2(350, 300, 1200, 240))
+					_board_label(BASEMENT_TEXTS.ui("d5_idle", TranslationServer.get_locale()), Rect2(350, 300, 1200, 240))
 					_add_hotspot("D5_CONFIRM", "Release the handle and look around" if TranslationServer.get_locale().begins_with("en") else "손잡이를 놓고 드러난 공간을 확인한다", Rect2(510, 640, 870, 130), _begin_full_fracture_hold)
 		elif session.stage() == "DEMO_END":
-			_board_label("데모는 여기까지입니다.\n기록과 선택은 저장되어 있습니다. 본편의 저장 가져오기는 별도 승인을 거쳐 처리됩니다.", Rect2(330, 280, 1260, 280))
-			_add_hotspot("RETURN_TITLE", "타이틀로 돌아간다", Rect2(520, 650, 830, 120), _return_to_title)
+			_board_label(BASEMENT_TEXTS.ui("demo_end", TranslationServer.get_locale()), Rect2(330, 280, 1260, 280))
+			_add_hotspot("RETURN_TITLE", BASEMENT_TEXTS.ui("return_title", TranslationServer.get_locale()), Rect2(520, 650, 830, 120), _return_to_title)
 		elif session.stage() == "E1_ENTRY":
 			_location_label.text = "같은 침실의 다른 아침"
 			_objective_label.text = "서로 다른 세 곳을 확인한다" if not session.known("E1_complete") else "문이 열렸다. 남은 조사도 할 수 있다"
@@ -173,29 +167,29 @@ func _render_room() -> void:
 		return
 	match _current_room:
 		"M1_BASEMENT_ENTRY":
-			_location_label.text = "서쪽 지하 계단문"
-			_action("DESCEND", "지하 계단으로", Rect2(470, 310, 970, 260), "move", "B1_BASEMENT_STAIR", false)
-			_replace_back("M1_GREAT_CLOCK", "대시계로")
+			_location_label.text = BASEMENT_TEXTS.location(_current_room, TranslationServer.get_locale())
+			_action("DESCEND", BASEMENT_TEXTS.ui("descend", TranslationServer.get_locale()), Rect2(470, 310, 970, 260), "move", "B1_BASEMENT_STAIR", false)
+			_replace_back("M1_GREAT_CLOCK", BASEMENT_TEXTS.ui("back_clock", TranslationServer.get_locale()))
 		"B1_BASEMENT_STAIR":
-			_location_label.text = "지하 계단"
-			_action("AXIS_ROOM", "세 축 장치실", Rect2(470, 310, 970, 260), "move", "B1_AXIS_CHAMBER", false)
-			_replace_back("M1_BASEMENT_ENTRY", "계단문으로")
+			_location_label.text = BASEMENT_TEXTS.location(_current_room, TranslationServer.get_locale())
+			_action("AXIS_ROOM", BASEMENT_TEXTS.ui("axis_room", TranslationServer.get_locale()), Rect2(470, 310, 970, 260), "move", "B1_AXIS_CHAMBER", false)
+			_replace_back("M1_BASEMENT_ENTRY", BASEMENT_TEXTS.ui("back_entry", TranslationServer.get_locale()))
 		"B1_AXIS_CHAMBER":
-			_location_label.text = "세 축 장치실"
+			_location_label.text = BASEMENT_TEXTS.location(_current_room, TranslationServer.get_locale())
 			_build_axes()
-			_replace_back("B1_BASEMENT_STAIR", "지하 계단으로")
+			_replace_back("B1_BASEMENT_STAIR", BASEMENT_TEXTS.ui("back_stair", TranslationServer.get_locale()))
 		"B1_STORAGE":
-			_location_label.text = "지하창고"
+			_location_label.text = BASEMENT_TEXTS.location(_current_room, TranslationServer.get_locale())
 			for index in range(4):
 				var id: String = ["barrel", "cable", "filter", "drawing"][index]
-				var label: String = ["빈 와인통", "케이블 릴", "위장 필터 부품", "낙서 조각"][index]
+				var label: String = BASEMENT_TEXTS.storage_name(id, TranslationServer.get_locale())
 				_action("STORE_" + id, label, Rect2(310 + (index % 2) * 700, 220 + (index / 2) * 190, 600, 130), "d_storage", id)
-			_action("HEART_DOOR", "반복 구조의 중심", Rect2(500, 680, 900, 120), "move", "B1_CLOCKWORK_HEART", false)
-			_replace_back("B1_AXIS_CHAMBER", "세 축 장치실로")
+			_action("HEART_DOOR", BASEMENT_TEXTS.ui("heart_door", TranslationServer.get_locale()), Rect2(500, 680, 900, 120), "move", "B1_CLOCKWORK_HEART", false)
+			_replace_back("B1_AXIS_CHAMBER", BASEMENT_TEXTS.ui("back_axes", TranslationServer.get_locale()))
 		"B1_CLOCKWORK_HEART":
-			_location_label.text = "태엽 심장실"
+			_location_label.text = BASEMENT_TEXTS.location(_current_room, TranslationServer.get_locale())
 			_build_heart()
-			_replace_back("B1_STORAGE", "지하창고로")
+			_replace_back("B1_STORAGE", BASEMENT_TEXTS.ui("back_storage", TranslationServer.get_locale()))
 	call_deferred("_restore_world_focus")
 
 
@@ -266,7 +260,7 @@ func _d6_guidance_text(checkpoint: int) -> String:
 
 func _localized_notebook_entry(entry: String) -> String:
 	var locale := TranslationServer.get_locale()
-	return _d6_text(CORE_STORY_TEXTS.feedback(super._localized_notebook_entry(entry), locale))
+	return _d6_text(CORE_STORY_TEXTS.feedback(BASEMENT_TEXTS.feedback(super._localized_notebook_entry(entry), locale), locale))
 
 
 func _core_text(id: String) -> String:
@@ -476,7 +470,7 @@ func _tick_full_d5_hold(delta: float) -> void:
 
 
 func _demo_stinger_beat(index: int) -> String:
-	var text := String(DEMO_STINGER_BEATS[clampi(index, 0, DEMO_STINGER_BEATS.size() - 1)])
+	var text := BASEMENT_TEXTS.demo_beat(index, TranslationServer.get_locale())
 	if index != 3:
 		return text
 	var line: Dictionary = preload("res://scripts/ui/fracture_transition_texts.gd").reaction(_basement().d5_reaction(), TranslationServer.get_locale())
@@ -1667,7 +1661,7 @@ func _build_journal_four() -> void:
 			_action("J4_ORDER", "순서를 확인한다", Rect2(1000, 750, 610, 90), "j4_order")
 
 func _build_great_clock(_local: Dictionary) -> void:
-	_action("BASEMENT_DOOR", "서쪽 지하 계단문", Rect2(430, 300, 1050, 230), "move", "M1_BASEMENT_ENTRY", false)
+	_action("BASEMENT_DOOR", BASEMENT_TEXTS.ui("basement_door", TranslationServer.get_locale()), Rect2(430, 300, 1050, 230), "move", "M1_BASEMENT_ENTRY", false)
 
 func _build_loop_bedroom(local: Dictionary) -> void:
 	super._build_loop_bedroom(local)
@@ -1677,75 +1671,72 @@ func _build_loop_bedroom(local: Dictionary) -> void:
 			_hotspot_layer.remove_child(old)
 			old.queue_free()
 	if _basement().can_use_basement_shortcut(true):
-		_action("D_FASTPATH", "검증한 절차로 지하창고 다시 열기", Rect2(350, 770, 1050, 90), "d_fastpath")
+		_action("D_FASTPATH", BASEMENT_TEXTS.ui("fastpath", TranslationServer.get_locale()), Rect2(350, 770, 1050, 90), "d_fastpath")
 	elif _basement().can_use_basement_shortcut():
-		_action("DSHORT", "도면과 검증한 깊이로 준비 축약", Rect2(350, 770, 1050, 90), "d_shortcut")
+		_action("DSHORT", BASEMENT_TEXTS.ui("shortcut", TranslationServer.get_locale()), Rect2(350, 770, 1050, 90), "d_shortcut")
 
 func _build_inner(_local: Dictionary, _journal: int) -> void:
 	var local := _basement().basement_local()
 	if not local["floorplan_ready"]:
-		_board_label("책상 이중 바닥의 세 눌림점\nC5 투명지와 J3의 침실·온실·대시계 기준점을 비교한다.", Rect2(290, 210, 1350, 220))
+		_board_label(BASEMENT_TEXTS.ui("drawer_board", TranslationServer.get_locale()), Rect2(290, 210, 1350, 220))
 		for index in range(3):
 			var id: String = ["bedroom", "greenhouse", "great_clock"][index]
-			_action("DRAWER_" + id, ["침실 점", "온실 점", "대시계 점"][index], Rect2(280 + index * 510, 540, 450, 140), "d_drawer_point", id)
+			_action("DRAWER_" + id, BASEMENT_TEXTS.ui("point_" + id, TranslationServer.get_locale()), Rect2(280 + index * 510, 540, 450, 140), "d_drawer_point", id)
 		return
-	var anchor_label: String = {"bedroom": "침실", "greenhouse": "온실", "great_clock": "대시계"}.get(String(local["anchor"]), "미선택")
-	_board_label("평면도와 C5 투명지\n회전 %d° · %s · 고정점 %s\n세 기준점뿐 아니라 거울에 뒤집힌 글자의 방향도 확인한다." % [local["rotation"], "좌우 반전" if local["flipped"] else "반전 없음", anchor_label], Rect2(260, 180, 1390, 210))
-	_action("D_ROTATE", "90° 회전", Rect2(360, 440, 520, 90), "d_rotate", null, false)
-	_action("D_FLIP", "좌우 반전", Rect2(1030, 440, 520, 90), "d_flip", null, false)
+	_board_label(BASEMENT_TEXTS.floorplan_status(local, TranslationServer.get_locale()), Rect2(260, 180, 1390, 210))
+	_action("D_ROTATE", BASEMENT_TEXTS.ui("rotate_90", TranslationServer.get_locale()), Rect2(360, 440, 520, 90), "d_rotate", null, false)
+	_action("D_FLIP", BASEMENT_TEXTS.ui("flip_horizontal", TranslationServer.get_locale()), Rect2(1030, 440, 520, 90), "d_flip", null, false)
 	for index in range(3):
-		_action("D_ANCHOR_%d" % index, ["침실 고정", "온실 고정", "대시계 고정"][index], Rect2(280 + index * 510, 575, 450, 85), "d_anchor", ["bedroom", "greenhouse", "great_clock"][index], false)
-	_action("D_OVERLAY", "방향과 지하 좌표 검증", Rect2(510, 745, 880, 105), "d_overlay")
+		var anchor: String = ["bedroom", "greenhouse", "great_clock"][index]
+		_action("D_ANCHOR_%d" % index, BASEMENT_TEXTS.ui("anchor_" + anchor, TranslationServer.get_locale()), Rect2(280 + index * 510, 575, 450, 85), "d_anchor", anchor, false)
+	_action("D_OVERLAY", BASEMENT_TEXTS.ui("verify_overlay", TranslationServer.get_locale()), Rect2(510, 745, 880, 105), "d_overlay")
 
 func _build_axes() -> void:
 	var axes: Dictionary = _basement().basement_local()["axes"]
 	if axes["locked"]:
-		_board_label("압력핀 하강 · 당일 입력 잠김\n수첩의 검증 결과는 남는다. 같은 침실에서 잠든다.", Rect2(380, 310, 1140, 250))
+		_board_label(BASEMENT_TEXTS.ui("axis_locked", TranslationServer.get_locale()), Rect2(380, 310, 1140, 250))
 		return
 	if axes["open"]:
-		_action("STORAGE_ENTER", "열린 지하창고로", Rect2(470, 330, 980, 250), "move", "B1_STORAGE", false)
+		_action("STORAGE_ENTER", BASEMENT_TEXTS.ui("storage_enter", TranslationServer.get_locale()), Rect2(470, 330, 980, 250), "move", "B1_STORAGE", false)
 		return
 	for index in range(3):
 		var axis: String = BASEMENT_RULES.AXES[index]
-		_board_label(BASEMENT_RULES.AXIS_NAMES[axis] + (" · 밀기 완료" if axis in axes["pushed"] else " · 깊이 " + str(axes["depths"][axis])), Rect2(240 + index * 520, 230, 460, 110))
+		_board_label(BASEMENT_TEXTS.axis_status(axis, axes, TranslationServer.get_locale()), Rect2(240 + index * 520, 230, 460, 110))
 		for depth in range(1, 4):
 			_action("DEPTH_%s_%d" % [axis, depth], str(depth), Rect2(245 + index * 520 + (depth - 1) * 155, 410, 140, 85), "d_axis_depth", [axis, depth], false)
-		_add_hotspot("PUSH_" + axis, "축을 민다", Rect2(250 + index * 520, 560, 430, 100), _confirm_axis.bind(axis))
-	_add_hotspot("CENTRAL_CW", "중앙 시계 방향 반 바퀴", Rect2(320, 755, 610, 105), _confirm_central.bind("clockwise"))
-	_add_hotspot("CENTRAL_CCW", "중앙 반시계 방향", Rect2(1030, 755, 580, 105), _confirm_central.bind("counterclockwise"))
+		_add_hotspot("PUSH_" + axis, BASEMENT_TEXTS.ui("axis_push", TranslationServer.get_locale()), Rect2(250 + index * 520, 560, 430, 100), _confirm_axis.bind(axis))
+	_add_hotspot("CENTRAL_CW", BASEMENT_TEXTS.ui("central_cw", TranslationServer.get_locale()), Rect2(320, 755, 610, 105), _confirm_central.bind("clockwise"))
+	_add_hotspot("CENTRAL_CCW", BASEMENT_TEXTS.ui("central_ccw", TranslationServer.get_locale()), Rect2(1030, 755, 580, 105), _confirm_central.bind("counterclockwise"))
 
 func _confirmation_notebook() -> void:
 	_close_modal()
 	_open_notebook()
 
 func _confirm_axis(axis: String) -> void:
-	_show_modal("압력핀 확인", "축을 밀면 이 루프에서는 되돌릴 수 없다. 도면의 순서와 깊이를 먼저 확인한다.", [
-		{"label": "수첩 도면을 본다", "action": _confirmation_notebook},
-		{"label": "깊이를 다시 확인한다", "action": _close_modal},
-		{"label": "축을 민다", "action": _modal_act.bind("d_axis_push", {"value": axis, "confirmed": true})},
+	_show_modal(BASEMENT_TEXTS.ui("axis_modal_title", TranslationServer.get_locale()), BASEMENT_TEXTS.ui("axis_modal_body", TranslationServer.get_locale()), [
+		{"label": BASEMENT_TEXTS.ui("review_plan", TranslationServer.get_locale()), "action": _confirmation_notebook},
+		{"label": BASEMENT_TEXTS.ui("review_depth", TranslationServer.get_locale()), "action": _close_modal},
+		{"label": BASEMENT_TEXTS.ui("axis_push", TranslationServer.get_locale()), "action": _modal_act.bind("d_axis_push", {"value": axis, "confirmed": true})},
 	])
 
 func _confirm_central(direction: String) -> void:
-	_show_modal("중앙 손잡이", "역방향에는 방지턱이 있다. 경고 뒤 강행하면 오늘 장치가 잠긴다.", [
-		{"label": "다시 확인한다", "action": _close_modal},
-		{"label": "선택한 방향으로 움직인다", "action": _modal_act.bind("d_axis_central", {"value": direction, "confirmed": true})},
+	_show_modal(BASEMENT_TEXTS.ui("central_modal_title", TranslationServer.get_locale()), BASEMENT_TEXTS.ui("central_modal_body", TranslationServer.get_locale()), [
+		{"label": BASEMENT_TEXTS.ui("review_direction", TranslationServer.get_locale()), "action": _close_modal},
+		{"label": BASEMENT_TEXTS.ui("move_selected", TranslationServer.get_locale()), "action": _modal_act.bind("d_axis_central", {"value": direction, "confirmed": true})},
 	])
 
 func _build_heart() -> void:
 	var heart: Dictionary = _basement().basement_local()["heart"]
-	var glyphs := [["XII 표시", "XIII 홈", "작은 홈", "빈 테두리"], ["닫힌 갈래", "직선 접점", "C5 분기 접점", "환형 접점"], ["빈 중심", "창 문양", "문 문양", "최하단 심장"]]
-	var labels: Array[String] = []
-	for index in range(3): labels.append(glyphs[index][heart["rings"][index]])
-	_board_label("외곽 · 중간 · 안쪽\n" + " / ".join(labels) + "\n정상 레버: %d / XII" % heart["wind"], Rect2(270, 175, 1370, 180))
+	_board_label(BASEMENT_TEXTS.heart_status(heart, TranslationServer.get_locale()), Rect2(270, 175, 1370, 180))
 	var operations := ["turn", "turn", "turn", "reset", "fix", "unfix", "wind", "stabilize", "inspect_auxiliary"]
-	var names := ["손잡이 A", "손잡이 B", "손잡이 C", "링 초기 위치로", "링 고정", "기동 전 고정 해제", "정상 레버 한 칸", "정상 안정화 실행", "패널 뒤 조사"]
+	var names := ["handle_a", "handle_b", "handle_c", "reset_rings", "fix_rings", "unfix_rings", "wind_lever", "stabilize", "inspect_panel"]
 	for index in range(operations.size()):
-		_action("HEART_%d" % index, names[index], Rect2(235 + (index % 3) * 515, 415 + (index / 3) * 115, 455, 85), "d_heart", {"action": operations[index], "value": ["A", "B", "C"][index] if index < 3 else null})
-	_add_hotspot("AUXILIARY", "보조 레버 확인", Rect2(510, 805, 880, 88), _confirm_auxiliary)
+		_action("HEART_%d" % index, BASEMENT_TEXTS.ui(names[index], TranslationServer.get_locale()), Rect2(235 + (index % 3) * 515, 415 + (index / 3) * 115, 455, 85), "d_heart", {"action": operations[index], "value": ["A", "B", "C"][index] if index < 3 else null})
+	_add_hotspot("AUXILIARY", BASEMENT_TEXTS.ui("auxiliary_check", TranslationServer.get_locale()), Rect2(510, 805, 880, 88), _confirm_auxiliary)
 
 func _confirm_auxiliary() -> void:
-	_show_modal("정상 절차 밖의 입력", "보조 레버를 실행하면 현재 위장 상태를 유지할 수 없다.", [
-		{"label": "아직 당기지 않는다", "action": _close_modal},
-		{"label": "기록을 다시 확인한다", "action": _confirmation_notebook},
-		{"label": "보조 레버를 당긴다", "action": _modal_act.bind("d_heart", {"action": "pull_auxiliary", "confirmed": true})},
+	_show_modal(BASEMENT_TEXTS.ui("auxiliary_modal_title", TranslationServer.get_locale()), BASEMENT_TEXTS.ui("auxiliary_modal_body", TranslationServer.get_locale()), [
+		{"label": BASEMENT_TEXTS.ui("do_not_pull", TranslationServer.get_locale()), "action": _close_modal},
+		{"label": BASEMENT_TEXTS.ui("review_record", TranslationServer.get_locale()), "action": _confirmation_notebook},
+		{"label": BASEMENT_TEXTS.ui("pull_auxiliary", TranslationServer.get_locale()), "action": _modal_act.bind("d_heart", {"action": "pull_auxiliary", "confirmed": true})},
 	])

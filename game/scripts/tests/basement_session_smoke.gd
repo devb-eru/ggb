@@ -7,6 +7,7 @@ const D5_TEXTS := preload("res://scripts/ui/fracture_transition_texts.gd")
 const D5_ART := preload("res://scripts/ui/d5_transition_art.gd")
 const D6_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
 const CORE_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
+const BASEMENT_TEXTS := preload("res://scripts/ui/basement_display_texts.gd")
 const SLOT := "__test_basement_session"
 var errors := PackedStringArray()
 var game: Node
@@ -93,6 +94,29 @@ func _validate_core_story_text_catalog() -> void:
 	_expect(CORE_TEXTS.feedback("관련 없는 문장", "en") == "관련 없는 문장", "Core translation does not rewrite unrelated text")
 	_expect(CORE_TEXTS.feedback("네 방 포트를 확인한다.", "ko") == "네 방 포트를 확인한다.", "Core Korean feedback stays canonical")
 
+
+func _validate_basement_text_catalog() -> void:
+	for stage in BASEMENT_TEXTS.OBJECTIVES:
+		_expect(not BASEMENT_TEXTS.objective(stage, "ko").is_empty(), "Basement Korean objective exists: " + stage)
+		_expect(not BASEMENT_TEXTS.objective(stage, "en_US").is_empty(), "Basement English objective exists: " + stage)
+	for id in BASEMENT_TEXTS.UI:
+		_expect(not BASEMENT_TEXTS.ui(id, "ko").is_empty(), "Basement Korean UI exists: " + id)
+		_expect(not BASEMENT_TEXTS.ui(id, "en_US").is_empty(), "Basement English UI exists: " + id)
+	for source in BASEMENT_TEXTS.FEEDBACK_EN:
+		_expect(BASEMENT_TEXTS.feedback(source, "en_US") != source, "Basement feedback is translated: " + source.left(32))
+		_expect(BASEMENT_TEXTS.feedback(source, "ko") == source, "Basement Korean feedback stays canonical: " + source.left(32))
+	for axis in SESSION.BASEMENT.AXES:
+		var source: String = SESSION.BASEMENT.AXIS_NAMES[axis] + "의 게이지가 안정된다. 손바닥보다 치아에 압력이 먼저 닿는다."
+		_expect(BASEMENT_TEXTS.feedback(source, "en_US") != source, "Dynamic axis feedback is translated: " + axis)
+	for index in range(BASEMENT_TEXTS.DEMO_BEATS.size()):
+		_expect(BASEMENT_TEXTS.demo_beat(index, "en_US") != BASEMENT_TEXTS.demo_beat(index, "ko"), "D5 demo beat is bilingual: %d" % index)
+	var floorplan := {"rotation":270,"flipped":true,"anchor":"great_clock"}
+	_expect(BASEMENT_TEXTS.floorplan_status(floorplan,"en_US").contains("Great Clock"), "Floorplan status translates dynamic anchor")
+	var axes := {"pushed":["line"],"depths":{"line":2,"branch":1,"ring":3}}
+	_expect(BASEMENT_TEXTS.axis_status("line",axes,"en_US").contains("Pushed"), "Axis status translates pushed state")
+	var heart := {"rings":[1,2,3],"wind":12}
+	_expect(BASEMENT_TEXTS.heart_status(heart,"en_US").contains("XIII Notch"), "Heart status translates dynamic glyphs")
+
 func _validate_basement_hints(expected_stage: String) -> void:
 	var view := VIEW.new()
 	view.configure_session(SLOT, expected_stage)
@@ -131,6 +155,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	saves.delete_test_slot(SLOT)
 	_validate_d4_reaction_selection()
 	_validate_core_story_text_catalog()
+	_validate_basement_text_catalog()
 	var state: Dictionary = game.get_snapshot()
 	state["meta_progress"]["journal_stage"] = 3
 	state["meta_progress"]["knowledge_entries"] = {"PROLOGUE_COMPLETE": true, "j3_restored_day": 3, "j2_restored_day": 2, "C5_MIRROR_TRACING": true, "KN_B1_LIBRARY_WINDOW": true, "self_authored_mark": {"day": 1}}
@@ -2576,6 +2601,27 @@ func _validate_ui(session: BasementSession, axis_state: Dictionary) -> void:
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://basement_axes.png")
 		print("BASEMENT_CAPTURE: " + ProjectSettings.globalize_path("user://basement_axes.png"))
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	await tree.process_frame
+	_expect(view._location_label.text == BASEMENT_TEXTS.location("B1_AXIS_CHAMBER", "en_US"), "D1 location renders in English")
+	_expect(view._objective_label.text == BASEMENT_TEXTS.objective("D1", "en_US"), "D1 objective renders in English")
+	_expect((view._hotspot_layer.get_node("PUSH_branch") as Button).text == BASEMENT_TEXTS.ui("axis_push", "en_US"), "D1 axis action renders in English")
+	var visible_text := PackedStringArray()
+	for label in view._hotspot_layer.find_children("*", "Label", true, false):
+		visible_text.append(String(label.text))
+	_expect("Branch Axis · Depth 1" in visible_text, "D1 dynamic branch state renders in English")
+	view._hotspot_layer.get_node("PUSH_branch").pressed.emit()
+	await tree.process_frame
+	focused = root.gui_get_focus_owner() as Button
+	_expect(focused != null and focused.text == BASEMENT_TEXTS.ui("review_plan", "en_US"), "English axis confirmation defaults to notebook")
+	view._close_modal()
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://basement_axes_english.png")
+		print("BASEMENT_EN_CAPTURE: " + ProjectSettings.globalize_path("user://basement_axes_english.png"))
+	TranslationServer.set_locale(previous_locale)
 	view.queue_free()
 	await tree.process_frame
 	StateWriter.new(game).install_snapshot(completed, game.revision, &"BASEMENT_UI_RESTORE")
