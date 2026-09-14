@@ -4,7 +4,7 @@ extends PrologueController
 const SESSION_SCRIPT := preload("res://scripts/systems/chapter_one_session.gd")
 const HISTORY_SESSIONS := [SESSION_SCRIPT, preload("res://scripts/systems/black_mirror_session.gd")]
 const CLOCK := preload("res://data/puzzles/puzzle_clock_network.tres")
-const CHAPTER_NAMES := {"M2_BEDROOM": "주인공의 침실", "M1_CENTRAL_HALL": "중앙홀", "M1_SERVANT_COMMON": "사용인 공용실", "M1_PARLOR": "대응접실", "M1_LIBRARY_OUTER": "외부 서고", "M1_LIBRARY_INNER": "기록 내실", "M1_GREAT_CLOCK": "서쪽 대시계", "M1_NORTH_ARCHIVE_HALL": "북쪽 기록 회랑"}
+const DISPLAY_TEXTS := preload("res://scripts/ui/chapter_one_display_texts.gd")
 const OBJECTIVES := {"A1": "수첩에 다음 아침과 비교할 표식을 남긴다", "AS": "익숙한 일과를 마치고 침실에서 잠든다", "A2": "다음 아침의 수첩 표식을 확인한다", "B1": "사용인 공용실의 문서 두 장 이상으로 빈 시간대를 추론한다", "B2": "일과를 마치고 외부 서고를 통해 기록 내실에 접근한다", "J1": "책상의 압지 조각을 배열해 첫 페이지를 복원한다", "B3_A": "네 방의 시계 탁본을 모아 배선을 연결한다", "B3_B": "역할과 전달 시점을 설정해 시계망을 작동한다", "BF": "남은 조사 후 침실에서 잠든다 · 실패 정보는 남는다", "B4": "공명통에 남은 파형을 수첩에 기록한다", "B5": "기록 내실에서 파형과 두 번째 페이지를 겹친다", "J2_COMPLETE": "첫 장의 기록을 확인한다 · 다음은 검은 거울"}
 
 var session: ChapterOneSession
@@ -206,16 +206,19 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 				_dialogue_after = _offer_clock_failure_support
 	elif not result.get("ok", false):
 		var text_id := String(result.get("text_id", ""))
-		_set_status(_dialogue_ui_text(text_id) if not text_id.is_empty() else result.get("text", str(result.get("error_ids", []))))
+		var fallback := String(result.get("text", str(result.get("error_ids", []))))
+		_set_status(_dialogue_ui_text(text_id) if not text_id.is_empty() else DISPLAY_TEXTS.feedback(fallback, TranslationServer.get_locale()))
 
 
 func _feedback(result: Dictionary) -> void:
 	var text := String(result.get("text", ""))
 	if not String(result.get("text_id", "")).is_empty():
 		text = _dialogue_ui_text(String(result["text_id"]))
+	else:
+		text = DISPLAY_TEXTS.feedback(text, TranslationServer.get_locale())
 	if text.is_empty():
 		if not result.get("ok", false):
-			_set_status("저장 오류: " + str(result.get("error_ids", [])))
+			_set_status(DISPLAY_TEXTS.ui("save_error", TranslationServer.get_locale(), [str(result.get("error_ids", []))]))
 		return
 	if not result.get("ok", false):
 		_set_status(text)
@@ -248,7 +251,8 @@ func _render_room() -> void:
 		background_id = "M1_LIBRARY_OUTER" if _current_room == "M1_LIBRARY_INNER" else "M1_KITCHEN"
 	_set_room_background(background_id)
 	_room_art.set_room(background_id, {})
-	_location_label.text = "%s · %d번째 아침 이후" % [CHAPTER_NAMES.get(_current_room, _current_room), int(state["loop_state"]["day_index"]) + 1]
+	var locale := TranslationServer.get_locale()
+	_location_label.text = DISPLAY_TEXTS.location_header(_current_room, int(state["loop_state"]["day_index"]) + 1, locale)
 	_update_objective()
 	if _current_room == "M1_LIBRARY_INNER" and local["edgar_state"] != "absent":
 		_build_edgar_pressure(local)
@@ -261,7 +265,7 @@ func _render_room() -> void:
 		"M1_CENTRAL_HALL":
 			var destinations := ["M1_SERVANT_COMMON", "M1_PARLOR", "M1_LIBRARY_OUTER", "M1_GREAT_CLOCK", "M1_NORTH_ARCHIVE_HALL", "M2_BEDROOM"]
 			for index in range(destinations.size()):
-				_action("GO_" + destinations[index], CHAPTER_NAMES[destinations[index]], Rect2(240 + (index % 3) * 490, 230 + (index / 3) * 210, 410, 140), "move", destinations[index], false)
+				_action("GO_" + destinations[index], DISPLAY_TEXTS.location_name(destinations[index], locale), Rect2(240 + (index % 3) * 490, 230 + (index / 3) * 210, 410, 140), "move", destinations[index], false)
 		"M1_SERVANT_COMMON":
 			for index in range(4):
 				var owner: String = ["edgar", "luca", "mara1", "mara2"][index]
@@ -271,7 +275,7 @@ func _render_room() -> void:
 				_action("DOC_" + owner, label, Rect2(260 + (index % 2) * 720, 210 + (index / 2) * 165, 640, 115), "read_schedule", owner)
 			_add_hotspot("B1_BOARD", _dialogue_ui_text("CH1_B1_BOARD"), Rect2(610, 610, 650, 110), _open_schedule_board)
 		"M1_LIBRARY_OUTER":
-			_action("INNER_DOOR", "기록 내실문", Rect2(1180, 230, 350, 390), "move", "M1_LIBRARY_INNER", false)
+			_action("INNER_DOOR", DISPLAY_TEXTS.ui("inner_door", locale), Rect2(1180, 230, 350, 390), "move", "M1_LIBRARY_INNER", false)
 			_clock_hotspot()
 		"M1_LIBRARY_INNER":
 			_build_inner(local, int(state["meta_progress"]["journal_stage"]))
@@ -280,12 +284,12 @@ func _render_room() -> void:
 		"M1_GREAT_CLOCK":
 			_build_great_clock(local)
 		"M1_NORTH_ARCHIVE_HALL":
-			_action("NORTH_LINK", "서재 연결문\n" + ("구조를 기억한다" if session.known("north_library_shortcut") else "안쪽 걸쇠 잠김"), Rect2(580, 250, 700, 260), "move", "M1_LIBRARY_INNER", false)
-			_add_hotspot("MARA2_MEMORY", "마라 2에게 이름표를 묻는다", Rect2(600, 570, 600, 110), _show_dialogue.bind([{"speaker": "마라 2", "portrait": "MARA2", "text": "어제도 고쳤잖아! 이름표가 돌아왔다고 내가 잊어버린 건 아니거든!"}]))
+			_action("NORTH_LINK", DISPLAY_TEXTS.ui("north_link", locale) + "\n" + DISPLAY_TEXTS.ui("north_known" if session.known("north_library_shortcut") else "north_locked", locale), Rect2(580, 250, 700, 260), "move", "M1_LIBRARY_INNER", false)
+			_add_hotspot("MARA2_MEMORY", DISPLAY_TEXTS.ui("mara2_memory_action", locale), Rect2(600, 570, 600, 110), _show_dialogue.bind([{"speaker": "마라 2", "portrait": "MARA2", "text": DISPLAY_TEXTS.ui("mara2_memory_line", locale)}]))
 	if _current_room == "M1_LIBRARY_INNER":
-		_action("BACK", "외부 서고로", Rect2(700, 944, 400, 72), "move", "M1_LIBRARY_OUTER", false)
+		_action("BACK", DISPLAY_TEXTS.ui("back_outer", locale), Rect2(700, 944, 400, 72), "move", "M1_LIBRARY_OUTER", false)
 	elif _current_room != "M1_CENTRAL_HALL":
-		_action("BACK", "중앙홀로", Rect2(700, 944, 400, 72), "move", "M1_CENTRAL_HALL", false)
+		_action("BACK", DISPLAY_TEXTS.ui("back_hall", locale), Rect2(700, 944, 400, 72), "move", "M1_CENTRAL_HALL", false)
 	_rendering = false
 	call_deferred("_restore_world_focus")
 

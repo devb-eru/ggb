@@ -3,6 +3,7 @@ extends RefCounted
 const SESSION := preload("res://scripts/systems/chapter_one_session.gd")
 const CLOCK := preload("res://data/puzzles/puzzle_clock_network.tres")
 const VIEW := preload("res://scripts/chapters/chapter_one_controller.gd")
+const DISPLAY_TEXTS := preload("res://scripts/ui/chapter_one_display_texts.gd")
 const SLOT := "__test_chapter_one"
 var errors := PackedStringArray()
 
@@ -257,6 +258,10 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	var saved_locale := TranslationServer.get_locale()
 	var before_translation := GameState.get_snapshot()
 	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._location_label.text.contains("Inner Archive") and view._location_label.text.contains("Morning"), "English chapter-one location header has no Korean-only room name")
+	_expect((view._hotspot_layer.get_node("BACK") as Button).text == "To the Outer Library", "English inner-archive return route")
+	_validate_remaining_display_texts(view)
 	view._do("restore_j2", null, false)
 	_expect(view._status_label.text == "The second page has already been restored. Read it again in the notebook.", "silent action rejection uses display translation ID")
 	_expect(not view._dialogue_active and GameState.get_snapshot() == before_translation, "silent translated rejection preserves state without opening dialogue")
@@ -656,6 +661,54 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	bootstrap._on_prologue_return_to_title()
 	await tree.process_frame
 	_expect(session.stage() == "J2_COMPLETE", "return to title does not overwrite chapter state")
+
+
+func _validate_remaining_display_texts(view: ChapterOneController) -> void:
+	for location_id in DISPLAY_TEXTS.LOCATION_NAMES:
+		_expect(DISPLAY_TEXTS.location_name(location_id, "en-US") != DISPLAY_TEXTS.location_name(location_id, "ko-KR"), "English location name exists: " + location_id)
+	for ui_id in DISPLAY_TEXTS.UI_TEXT:
+		var translated := DISPLAY_TEXTS.ui(ui_id, "en-US", ["ERR_TEST"] if ui_id == "save_error" else [])
+		var source := DISPLAY_TEXTS.ui(ui_id, "ko-KR", ["ERR_TEST"] if ui_id == "save_error" else [])
+		_expect(translated != source, "English chapter-one UI text exists: " + ui_id)
+	var fixed_sources := [
+		"같은 아침이다. 방의 흔적과 수첩을 비교해 본다.",
+		"프롤로그를 마친 뒤 진입할 수 있다.",
+		"아직 갈 수 없는 장소다.",
+		"연결된 문을 통해 이동한다.",
+		"먼저 에드가가 지나가기를 기다리거나 말을 건넨다.",
+		"기록 내실이 비는 구간을 확인하고 오늘의 일과를 마쳐야 한다.",
+		"외부 서고의 내실문으로 접근한다.",
+		"연결문 걸쇠는 안쪽에서 잠겨 있다.",
+		"문턱을 넘는다.",
+		"지금은 새 표식을 작성할 수 없다.",
+		"표식을 남겼다. 아직 내일의 내가 읽기 전이라 증거는 완성되지 않았다.",
+		"표식을 남긴 뒤 잠들어 다음 아침에 비교해야 한다.",
+		"내가 쓴 표식이다. 수첩은 방과 다른 시간 위에 놓여 있다.",
+		"다음 아침과 비교할 표식을 먼저 남긴다.",
+		"젖은 천이 어제와 같은 호를 그린다. 책등 세 권과 다섯 이름표를 정리하고, 물이 끓는 동안 모래시계를 뒤집는다. 익숙한 일과가 끝났다.",
+		"당일 탁본 네 장과 움직일 수 있는 점검함이 필요하다.",
+		"교환할 두 자리를 선택한다.",
+		"회전할 자리를 선택한다.",
+		"대응접실 → 외부 서고 → 서쪽 대시계. 침실은 단절. 네 조각의 배치를 검증했다.",
+		"먼저 당일 탁본으로 배치를 확인한다.",
+		"오늘의 시계망 작동은 끝났다. 결과를 확인한다.",
+		"역할과 시계를 확인한다.",
+		"표시된 네 전달 시점 중 하나를 선택한다.",
+		"봉인핀 파손 가능성을 확인한 뒤 작동한다.",
+		"오늘의 일과를 마친 뒤 같은 침실에서 잠든다.",
+	]
+	for source in fixed_sources:
+		_expect(DISPLAY_TEXTS.feedback(source, "en-US") != source, "Uncatalogued chapter-one feedback has an English display: " + source.left(14))
+	var layout_feedback := "일치한 구간: 2 / 4\n2번 자리의 배선이 옆 조각과 이어지지 않는다.\n3번 자리의 모서리 홈과 나사 구멍이 어긋난다.\n외부 서고의 선이 서쪽 공명통이 아닌 동쪽으로 향한다. 뒷면에도 흑연이 묻어 있다."
+	var translated_layout := DISPLAY_TEXTS.feedback(layout_feedback, "en-US")
+	_expect(translated_layout.contains("Matched sections: 2 / 4"), "English layout feedback preserves matched count")
+	_expect(translated_layout.contains("position 2") and translated_layout.contains("position 3"), "English layout feedback identifies each faulty position")
+	_expect(translated_layout.contains("graphite on the back"), "English layout feedback preserves the outer-library flip clue")
+	_expect(DISPLAY_TEXTS.feedback("정의되지 않은 행동이다: TEST_ACTION", "en-US") == "Undefined action: TEST_ACTION", "Dynamic undefined-action feedback is localized")
+	view._feedback({"ok": false, "text": "아직 갈 수 없는 장소다."})
+	_expect(view._status_label.text == "I cannot go there yet.", "Controller translates uncatalogued rejection before display")
+	view._feedback({"ok": false, "error_ids": PackedStringArray(["ERR_TEST_SAVE"])})
+	_expect(view._status_label.text.contains("Save error") and view._status_label.text.contains("ERR_TEST_SAVE"), "Controller translates generic persistence error")
 
 
 func _expect(condition: bool, message: String) -> void:
