@@ -22,7 +22,12 @@ var _d5_hold_seconds := 0.0
 var _d5_hold_active := false
 var _d6_guidance_seconds := 0.0
 var _d6_guidance_failed := false
+var _d6_sleep_transition_seconds := 0.0
+var _d6_sleep_transition_active := false
+var _d6_sleep_transition_route := ""
+var _d6_sleep_transition_failed := false
 const FULL_D5_HOLD_SECONDS := 10.0
+const D6_SLEEP_TRANSITION_SECONDS := 6.0
 const FULL_D5_HOLD_KO := [
 	"손가락을 편다.\n손잡이는 바로 떨어지지 않고 손바닥의 떨림을 한 번 더 끌고 간다.",
 	"톱니의 진동이 손금 사이에 남는다.\n꽃무늬 벽지는 배선 격자에서 천천히 밀려난다.",
@@ -191,6 +196,14 @@ func _render_room() -> void:
 
 
 func _build_d6_inspection() -> void:
+	var saved_route := String(session.snapshot()["loop_state"]["event_local_states"].get("D6", {}).get("fracture_rest_route", ""))
+	if not _d6_sleep_transition_active and not _d6_sleep_transition_failed and _d6_sleep_transition_route.is_empty() and saved_route in ["bedroom", "emergency_capsule"]:
+		_d6_sleep_transition_route = "capsule" if saved_route == "emergency_capsule" else "bedroom"
+		_d6_sleep_transition_active = true
+		_d6_sleep_transition_seconds = 0.0
+	if _d6_sleep_transition_active or _d6_sleep_transition_failed:
+		_build_d6_sleep_transition()
+		return
 	var checkpoint := int(session.snapshot()["loop_state"]["event_local_states"].get("D6", {}).get("guidance_checkpoint", 0))
 	_d6_guidance_seconds = maxf(_d6_guidance_seconds, float(checkpoint))
 	set_process(checkpoint < 480 and not _d6_guidance_failed)
@@ -286,7 +299,62 @@ func _start_d6_rest(route: String) -> void:
 	if not result.get("ok", false):
 		_feedback(result)
 		return
-	_sleep_now()
+	_begin_d6_sleep_transition(route)
+
+
+func _begin_d6_sleep_transition(route: String) -> void:
+	_d6_sleep_transition_route = "capsule" if route == "capsule" or route == "emergency_capsule" else "bedroom"
+	_d6_sleep_transition_seconds = 0.0
+	_d6_sleep_transition_failed = false
+	_d6_sleep_transition_active = true
+	set_process(true)
+	_render_room()
+
+
+func _build_d6_sleep_transition() -> void:
+	_location_label.text = _d6_text("수면 전환 · 비상 캡슐" if _d6_sleep_transition_route == "capsule" else "수면 전환 · 침실")
+	_objective_label.text = _d6_text("눈을 감은 뒤의 상태를 확인한다")
+	var shade := ColorRect.new()
+	shade.name = "D6SleepShade"
+	shade.color = Color(0.012, 0.015, 0.024, 0.30 + 0.55 * clampf(_d6_sleep_transition_seconds / D6_SLEEP_TRANSITION_SECONDS, 0.0, 1.0))
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_hotspot_layer.add_child(shade)
+	_place(shade, Rect2(0, 90, 1920, 990))
+	if _d6_sleep_transition_failed:
+		_board_label(_d6_text("수면 전환을 저장하지 못했습니다. 현재 파열 상태와 선택한 경로는 유지됩니다."), Rect2(300, 280, 1320, 260))
+		_add_hotspot("D6_SLEEP_RETRY", _d6_text("수면 전환 저장 재시도"), Rect2(510, 650, 900, 130), _retry_d6_sleep_transition)
+		return
+	var presentation: Dictionary = FRACTURE_REST_TEXTS.sleep_transition(_d6_sleep_transition_route, _d6_sleep_transition_seconds, TranslationServer.get_locale())
+	_board_label(String(presentation["body"]), Rect2(300, 230, 1320, 480))
+	set_process(true)
+
+
+func _retry_d6_sleep_transition() -> void:
+	_d6_sleep_transition_seconds = 0.0
+	_d6_sleep_transition_failed = false
+	_d6_sleep_transition_active = true
+	set_process(true)
+	_render_room()
+
+
+func _tick_d6_sleep_transition(delta: float) -> void:
+	if not _d6_sleep_transition_active or _interaction_blocked() or session.stage() != "D6":
+		return
+	var previous_beat := 0 if _d6_sleep_transition_seconds < 2.0 else (1 if _d6_sleep_transition_seconds < 4.0 else 2)
+	_d6_sleep_transition_seconds = minf(D6_SLEEP_TRANSITION_SECONDS, _d6_sleep_transition_seconds + maxf(delta, 0.0))
+	if _d6_sleep_transition_seconds >= D6_SLEEP_TRANSITION_SECONDS:
+		_d6_sleep_transition_active = false
+		set_process(false)
+		var result := session.sleep()
+		_d6_sleep_transition_failed = not result.get("ok", false)
+		if not _d6_sleep_transition_failed:
+			_d6_sleep_transition_route = ""
+		_render_room()
+		_feedback(result)
+		return
+	var current_beat := 0 if _d6_sleep_transition_seconds < 2.0 else (1 if _d6_sleep_transition_seconds < 4.0 else 2)
+	if current_beat != previous_beat:
+		_render_room()
 
 
 func _present_dialogue_line() -> void:
@@ -980,6 +1048,9 @@ func _process(delta: float) -> void:
 		_tick_full_d5_hold(minf(delta, 0.1))
 		return
 	if session.stage() == "D6":
+		if _d6_sleep_transition_active:
+			_tick_d6_sleep_transition(minf(delta, 0.1))
+			return
 		_tick_d6_guidance(minf(delta, 0.1))
 		return
 	if session.stage() == "D5" and SaveManager.get_build_flavor() == "demo":

@@ -33,6 +33,32 @@ const GUIDANCE_300 := {
 	},
 }
 
+const SLEEP_TRANSITION_KO := {
+	"bedroom": [
+		"이불 끝을 쥔 손가락부터 감각이 느려진다.\n\nSUBJECT SIGNAL ........ PERSIST",
+		"캐노피 그림자가 눈꺼풀보다 먼저 닫힌다. 침대 아래 곡면이 아주 낮게 울린다.\n\nSUBJECT SIGNAL ........ PERSIST\nRESIDENT MEMORY ....... PERSIST\nWORLD GEOMETRY ........ DEGRADED",
+		"익숙한 침실의 냄새가 사라지고 소독약 냄새만 남는다. 돌아갈 기준점은 응답하지 않는다.\n\nSUBJECT SIGNAL ........ PERSIST\nRESIDENT MEMORY ....... PERSIST\nWORLD GEOMETRY ........ DEGRADED\nCAMOUFLAGE MASK ....... NO BASELINE",
+	],
+	"capsule": [
+		"투사된 이불 무늬 아래로 투명 덮개가 천천히 닫힌다.\n\nSUBJECT SIGNAL ........ PERSIST",
+		"금속 곡면이 등과 손목의 위치를 읽는다. 바로 아래에서 자신의 것과 비슷한 맥박이 늦게 답한다.\n\nSUBJECT SIGNAL ........ PERSIST\nRESIDENT MEMORY ....... PERSIST\nWORLD GEOMETRY ........ DEGRADED",
+		"직물 무늬가 꺼지고 소독약 냄새만 남는다. 돌아갈 기준점은 응답하지 않는다.\n\nSUBJECT SIGNAL ........ PERSIST\nRESIDENT MEMORY ....... PERSIST\nWORLD GEOMETRY ........ DEGRADED\nCAMOUFLAGE MASK ....... NO BASELINE",
+	],
+}
+
+const SLEEP_TRANSITION_EN := {
+	"bedroom": [
+		"Sensation slows from the fingers gripping the blanket's edge.\n\nSUBJECT SIGNAL ........ PERSIST",
+		"The canopy shadow closes before your eyelids do. A low vibration answers from the curve beneath the bed.\n\nSUBJECT SIGNAL ........ PERSIST\nRESIDENT MEMORY ....... PERSIST\nWORLD GEOMETRY ........ DEGRADED",
+		"The familiar scent of the bedroom disappears, leaving only antiseptic. The restoration baseline does not answer.\n\nSUBJECT SIGNAL ........ PERSIST\nRESIDENT MEMORY ....... PERSIST\nWORLD GEOMETRY ........ DEGRADED\nCAMOUFLAGE MASK ....... NO BASELINE",
+	],
+	"capsule": [
+		"The transparent cover closes slowly beneath the projected blanket pattern.\n\nSUBJECT SIGNAL ........ PERSIST",
+		"The metal curve reads the position of your back and wrist. A pulse much like your own answers late from directly below.\n\nSUBJECT SIGNAL ........ PERSIST\nRESIDENT MEMORY ....... PERSIST\nWORLD GEOMETRY ........ DEGRADED",
+		"The fabric pattern goes dark, leaving only antiseptic. The restoration baseline does not answer.\n\nSUBJECT SIGNAL ........ PERSIST\nRESIDENT MEMORY ....... PERSIST\nWORLD GEOMETRY ........ DEGRADED\nCAMOUFLAGE MASK ....... NO BASELINE",
+	],
+}
+
 const EN := {
 	"달라진 통로를 조사하거나 쉴 곳을 선택한다": "Explore the changed passage or choose somewhere to rest",
 	"복구 절차는 수면 중 실행됩니다 · 더 조사하거나 쉴 곳을 선택한다": "Recovery runs during sleep · Keep exploring or choose a place to rest",
@@ -75,6 +101,11 @@ const EN := {
 	"이전 일과와 장치 조작은 끝났다. 드러난 통로와 휴식 경로를 확인한다.": "The old routines and device procedures are over. Examine the exposed passage and rest routes.",
 	"다음 안내 시점을 확인한다.": "Check the next guidance checkpoint.",
 	"휴식할 침실이나 확인한 비상 캡슐에서 잠든다.": "Sleep in the bedroom or in the emergency capsule you have confirmed."
+	,"수면 전환 · 침실": "Sleep transition · Bedroom"
+	,"수면 전환 · 비상 캡슐": "Sleep transition · Emergency capsule"
+	,"눈을 감은 뒤의 상태를 확인한다": "Observe what remains after closing your eyes"
+	,"수면 전환 저장 재시도": "Retry saving the sleep transition"
+	,"수면 전환을 저장하지 못했습니다. 현재 파열 상태와 선택한 경로는 유지됩니다.": "The sleep transition could not be saved. The current fractured state and selected route are preserved."
 }
 
 static func text(source: String, locale: String) -> String:
@@ -89,3 +120,13 @@ static func guidance_300(reaction_state: Dictionary, locale: String) -> String:
 	if mode != "alert":
 		mode = "bond"
 	return String(GUIDANCE_300[owner][mode + ("_en" if locale.begins_with("en") else "_ko")])
+
+
+static func sleep_transition(route: String, seconds: float, locale: String) -> Dictionary:
+	var normalized := "capsule" if route == "capsule" or route == "emergency_capsule" else "bedroom"
+	var beat := 0 if seconds < 2.0 else (1 if seconds < 4.0 else 2)
+	var source: Dictionary = SLEEP_TRANSITION_EN if locale.begins_with("en") else SLEEP_TRANSITION_KO
+	return {
+		"title": text("수면 전환 · 비상 캡슐" if normalized == "capsule" else "수면 전환 · 침실", locale),
+		"body": String(source[normalized][beat]),
+	}

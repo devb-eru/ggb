@@ -403,11 +403,51 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 		root.size = previous_size
 		view._apply_reading_text_scale(1.0)
 		_expect(game.get_snapshot() == before_cancel, "D6 rest cancellation is neutral")
-		_expect(view.session.act("d6_rest", route).get("ok", false), "D6 rest choice stores local state")
+		view._start_d6_rest(route)
+		_expect(view._d6_sleep_transition_active and view.session.stage() == "D6", "D6 rest confirmation starts HOLD before broken reset")
+		_expect(not view._hotspot_layer.has_node("D6_BED") and not view._hotspot_layer.has_node("D6_CAPSULE"), "D6 sleep HOLD removes world actions")
 		_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "D6 local rest choice reloads before sleep")
 		var expected_route := "emergency_capsule" if route == "capsule" else "bedroom"
 		_expect(game.get_value("loop_state.event_local_states.D6.fracture_rest_route") == expected_route, "D6 local rest route uses canonical value")
-		view._start_d6_rest(route)
+		view._d6_sleep_transition_active = false
+		view._d6_sleep_transition_route = ""
+		view._d6_sleep_transition_seconds = 0.0
+		view._render_room()
+		_expect(view._d6_sleep_transition_active, "D6 saved rest confirmation resumes FRACTURE_SLEEP entry")
+		view._open_menu()
+		view._tick_d6_sleep_transition(10.0)
+		_expect(view._d6_sleep_transition_seconds == 0.0 and view.session.stage() == "D6", "D6 sleep HOLD pauses in menu")
+		view._close_modal()
+		view._tick_d6_sleep_transition(5.0)
+		_expect(view._d6_sleep_transition_active and view.session.stage() == "D6", "D6 sleep cannot reset before six active seconds")
+		if route == "capsule" and "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			var sleep_capture_size := root.size
+			view.set_process(false)
+			root.size = Vector2i(1280, 720)
+			view._apply_reading_text_scale(2.0)
+			view._render_room()
+			view.set_process(false)
+			await tree.process_frame
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://d6_sleep_transition_en_200.png")
+			root.size = sleep_capture_size
+			view._apply_reading_text_scale(1.0)
+			view._render_room()
+			view.set_process(false)
+		if route == "capsule":
+			var before_sleep_failure: Dictionary = game.get_snapshot()
+			view.session.slot_id = "../invalid_slot"
+			view._tick_d6_sleep_transition(1.0)
+			_expect(view._d6_sleep_transition_failed and not view._d6_sleep_transition_active, "D6 broken reset save failure stops automatic retry")
+			_expect(game.get_snapshot() == before_sleep_failure and view._hotspot_layer.has_node("D6_SLEEP_RETRY"), "D6 failed sleep keeps selected route and exposes retry")
+			var sleep_failed_revision: int = game.revision
+			view._tick_d6_sleep_transition(10.0)
+			_expect(game.revision == sleep_failed_revision and view.session.stage() == "D6", "D6 failed sleep does not retry by timer")
+			view.session.slot_id = slot
+			view._hotspot_layer.get_node("D6_SLEEP_RETRY").pressed.emit()
+			view._tick_d6_sleep_transition(6.0)
+		else:
+			view._tick_d6_sleep_transition(1.0)
 		view._dismiss_dialogue_for_test()
 		_expect(view.session.stage() == "E1_ENTRY" and game.get_value("loop_state.location_id") == "M2_BEDROOM", "Both D6 routes wake in same bedroom")
 		_expect(not game.get_value("meta_progress.knowledge_entries").has("D6_rest_route"), "D6 rest route is not permanent knowledge")
