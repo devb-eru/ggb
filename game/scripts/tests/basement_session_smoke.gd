@@ -6,6 +6,7 @@ const D4_REACTION := preload("res://scripts/systems/d4_reaction_selector.gd")
 const D5_TEXTS := preload("res://scripts/ui/fracture_transition_texts.gd")
 const D5_ART := preload("res://scripts/ui/d5_transition_art.gd")
 const D6_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
+const CORE_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
 const SLOT := "__test_basement_session"
 var errors := PackedStringArray()
 var game: Node
@@ -62,6 +63,36 @@ func _validate_d4_reaction_selection() -> void:
 			_expect(not D6_TEXTS.guidance_300(response, "en_US").is_empty(), "D6 English companion guidance: " + owner + " " + mode)
 	_expect("에드가 방송" in D6_TEXTS.guidance_300({}, "ko"), "D6 guidance falls back to Edgar broadcast without frozen reaction")
 
+
+func _validate_core_story_text_catalog() -> void:
+	for id in CORE_TEXTS.UI:
+		_expect(not CORE_TEXTS.text(id, "ko").is_empty() and not CORE_TEXTS.text(id, "en_US").is_empty(), "Core story UI text is bilingual: " + id)
+	for room in SESSION.CORE_ROOMS.ROOMS:
+		_expect(CORE_TEXTS.room_name(room, "en") != SESSION.CORE_ROOMS.NAMES[room], "F0-A room name is translated: " + room)
+		_expect(CORE_TEXTS.port(room, "en") != SESSION.CORE_ROOMS.PORTS[room], "F0-A port is translated: " + room)
+		for index in range(2):
+			var sample_source: String = SESSION.CORE_SAMPLES.NAMES[room] + " · " + SESSION.CORE_SAMPLES.SAMPLES[room][index]["label"] + "\n" + SESSION.CORE_SAMPLES.SAMPLES[room][index]["trace"]
+			_expect(CORE_TEXTS.feedback(sample_source, "en") != sample_source, "F0-B sample trace is translated: %s:%d" % [room,index])
+	for record in SESSION.CORE_ROLES.RECORDS:
+		var role_source: String = SESSION.CORE_ROLES.NAMES[record] + "\n" + SESSION.CORE_ROLES.FACTS[record]
+		_expect(CORE_TEXTS.feedback(role_source, "en") != role_source, "F0-D record is translated: " + record)
+	for mark_type in SESSION.CORE_SELF.MARKS:
+		for piece in SESSION.CORE_SELF.MARKS[mark_type]:
+			_expect(CORE_TEXTS.mark_piece(mark_type,piece,"en") != piece, "F0-E mark piece is translated: " + mark_type)
+	for intent in SESSION.CORE_SELF.INTENTS:
+		_expect(CORE_TEXTS.intent(intent,"en") != SESSION.CORE_SELF.INTENTS[intent], "F0-E intent is translated: " + intent)
+	for index in range(SESSION.FATHER_RECORD.SEGMENTS.size()):
+		var record_source: String = SESSION.FATHER_RECORD.TITLES[index] + "\n" + SESSION.FATHER_RECORD.SEGMENTS[index]
+		var record_english := CORE_TEXTS.feedback(record_source,"en")
+		_expect(record_english != record_source and not record_english.contains(SESSION.FATHER_RECORD.TITLES[index]), "F1 complete record segment is translated: %d" % index)
+	_expect(CORE_TEXTS.feedback(SESSION.FATHER_RECORD.J5_TEXT,"en") != SESSION.FATHER_RECORD.J5_TEXT, "J5 page is translated")
+	for question in SESSION.CONFRONTATION.QUESTIONS:
+		_expect(CORE_TEXTS.question(question,"en") != SESSION.CONFRONTATION.QUESTIONS[question], "F2 question is translated: " + question)
+	for fact in SESSION.CONFRONTATION.FACTS:
+		_expect(CORE_TEXTS.feedback(SESSION.CONFRONTATION.FACTS[fact],"en") != SESSION.CONFRONTATION.FACTS[fact], "F2 fact is translated: " + fact)
+	_expect(CORE_TEXTS.feedback("관련 없는 문장", "en") == "관련 없는 문장", "Core translation does not rewrite unrelated text")
+	_expect(CORE_TEXTS.feedback("네 방 포트를 확인한다.", "ko") == "네 방 포트를 확인한다.", "Core Korean feedback stays canonical")
+
 func _validate_basement_hints(expected_stage: String) -> void:
 	var view := VIEW.new()
 	view.configure_session(SLOT, expected_stage)
@@ -99,6 +130,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	game.reset_for_test()
 	saves.delete_test_slot(SLOT)
 	_validate_d4_reaction_selection()
+	_validate_core_story_text_catalog()
 	var state: Dictionary = game.get_snapshot()
 	state["meta_progress"]["journal_stage"] = 3
 	state["meta_progress"]["knowledge_entries"] = {"PROLOGUE_COMPLETE": true, "j3_restored_day": 3, "j2_restored_day": 2, "C5_MIRROR_TRACING": true, "KN_B1_LIBRARY_WINDOW": true, "self_authored_mark": {"day": 1}}
@@ -1071,12 +1103,22 @@ func _validate_f0a(session: BasementSession) -> void:
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var f0a_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f0a_objective","en_US"), "F0-A actual objective is English")
+	_expect(not view._location_label.text.contains("아침"), "F0-A actual location heading is English")
+	_expect((view._hotspot_layer.get_node("F0A_SIGNAL") as Button).text == CORE_TEXTS.text("f0a_signal","en_US"), "F0-A actual signal action is English")
 	_expect(view._hotspot_layer.has_node("F0A_SIGNAL"), "F0-A signal button")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://f0a_network.png")
 	view._hotspot_layer.get_node("F0A_SIGNAL").pressed.emit()
+	_expect(view._dialogue_label.text == "Weak-signal route", "F0-A actual success feedback begins in English")
 	view._dismiss_dialogue_for_test()
+	var f0a_history: Array = game.get_value("meta_progress.dialogue_history.entries",[])
+	_expect(not f0a_history.is_empty() and f0a_history.back()["viewed_locale"].begins_with("en"), "F0-A English feedback is persisted with viewed locale")
+	TranslationServer.set_locale(f0a_locale)
 	_expect(session.stage() == "F0_B", "F0-A solved moves to next stage")
 	view.queue_free()
 	await tree.process_frame
@@ -1115,14 +1157,21 @@ func _validate_f0b(session: BasementSession) -> void:
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var f0b_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f0b_objective","en_US"), "F0-B actual objective is English")
+	_expect((view._hotspot_layer.get_node("F0B_greenhouse_0") as Button).text.begins_with(CORE_TEXTS.sample_label("greenhouse",0,"en_US")), "F0-B actual sample label is English")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://f0b_samples.png")
 	view._hotspot_layer.get_node("F0B_greenhouse_0").pressed.emit()
+	_expect(view._dialogue_label.text.begins_with("Greenhouse · Outside-air readings"), "F0-B actual inspection feedback is English")
 	view._dismiss_dialogue_for_test()
 	view._render_room()
 	view._hotspot_layer.get_node("F0B_SEND_greenhouse").pressed.emit()
 	view._dismiss_dialogue_for_test()
+	TranslationServer.set_locale(f0b_locale)
 	_expect(session.stage() == "F0_C", "F0-B access denied advances to missing port investigation")
 	view.queue_free()
 	await tree.process_frame
@@ -1139,6 +1188,11 @@ func _validate_f0b(session: BasementSession) -> void:
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var f0c_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f0c_objective","en_US"), "F0-C actual objective is English")
+	_expect((view._hotspot_layer.get_node("F0C_VERIFY") as Button).text == CORE_TEXTS.text("verify_overlay","en_US"), "F0-C actual verification action is English")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://f0c_overlay.png")
@@ -1148,6 +1202,7 @@ func _validate_f0b(session: BasementSession) -> void:
 		view._render_room()
 		view._hotspot_layer.get_node("F0C_"+point).pressed.emit()
 		view._dismiss_dialogue_for_test()
+	TranslationServer.set_locale(f0c_locale)
 	_expect(session.stage() == "F0_D", "F0-C UI investigation completes")
 	view.queue_free()
 	await tree.process_frame
@@ -1176,11 +1231,17 @@ func _validate_f0d(session: BasementSession) -> void:
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f0d_objective","en_US"), "F0-D actual objective is English")
+	_expect((view._hotspot_layer.get_node("F0D_VERIFY") as Button).text == CORE_TEXTS.text("verify_roles","en_US"), "F0-D actual verification action is English")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://f0d_roles.png")
 	view._hotspot_layer.get_node("F0D_VERIFY").pressed.emit()
 	view._dismiss_dialogue_for_test()
+	TranslationServer.set_locale(previous_locale)
 	_expect(session.stage()=="F0_E", "F0-D roles solved")
 	view.queue_free()
 	await tree.process_frame
@@ -1212,12 +1273,18 @@ func _validate_f0e(session: BasementSession) -> void:
 				root.add_child(view)
 				await tree.process_frame
 				view._dismiss_dialogue_for_test()
+				var previous_locale := TranslationServer.get_locale()
+				TranslationServer.set_locale("en_US")
+				view._render_room()
+				_expect(view._objective_label.text == CORE_TEXTS.text("f0e_objective","en_US"), "F0-E actual objective is English")
+				_expect((view._hotspot_layer.get_node("F0E_INTENT_undecided") as Button).text == CORE_TEXTS.intent("undecided","en_US"), "F0-E all nonbinding intents render in English")
 				_expect(view._hotspot_layer.has_node("F0E_INTENT_stay") and view._hotspot_layer.has_node("F0E_INTENT_undecided"),"all intent buttons available")
 				if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 					await RenderingServer.frame_post_draw
 					root.get_texture().get_image().save_png("user://f0e_intent.png")
 				view.queue_free()
 				await tree.process_frame
+				TranslationServer.set_locale(previous_locale)
 			_expect(session.act("f0e_intent",intent).get("ok",false),"F0-E all intents succeed")
 			_expect(session.stage()=="F1", "F0-E common merge")
 			_expect(session.snapshot()["ending_run"]==seed["ending_run"],"F0-E final decision unchanged")
@@ -1248,11 +1315,21 @@ func _validate_f1(session: BasementSession) -> void:
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f1_objective","en_US"), "F1 actual objective is English")
+	_expect(view._location_label.text.begins_with("Core records room"), "F1 actual location heading is English")
+	_expect((view._hotspot_layer.get_node("J5_WRITE") as Button).text == CORE_TEXTS.text("j5_write","en_US"), "J5 actual author action is English")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://f1_records.png")
 	view._hotspot_layer.get_node("J5_WRITE").pressed.emit()
+	_expect(view._dialogue_label.text == "I am the one writing this sentence now.", "J5 actual completion feedback is English")
 	view._dismiss_dialogue_for_test()
+	var j5_history: Array = game.get_value("meta_progress.dialogue_history.entries",[])
+	_expect(not j5_history.is_empty() and j5_history.back()["viewed_locale"].begins_with("en"), "J5 English completion is persisted with viewed locale")
+	TranslationServer.set_locale(previous_locale)
 	view.queue_free()
 	await tree.process_frame
 	_expect(session.stage()=="F2" and int(session.snapshot()["meta_progress"]["journal_stage"])==5,"J5 completes")
@@ -1285,14 +1362,24 @@ func _validate_f2(session: BasementSession) -> void:
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f2_objective","en_US"), "F2 actual objective is English")
+	_expect((view._hotspot_layer.get_node("F2_consent") as Button).text == CORE_TEXTS.question("consent","en_US"), "F2 actual question is English")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://f2_questions.png")
 	view._hotspot_layer.get_node("F2_RECAP").pressed.emit()
+	_expect(not view._dialogue_label.text.contains("동의"), "F2 actual recap begins in English")
 	view._dismiss_dialogue_for_test()
 	view._render_room()
 	view._hotspot_layer.get_node("F2_FINISH").pressed.emit()
+	_expect(view._dialogue_label.text.begins_with("The confrontation record closes."), "F2 actual completion feedback is English")
 	view._dismiss_dialogue_for_test()
+	var f2_history: Array = game.get_value("meta_progress.dialogue_history.entries",[])
+	_expect(not f2_history.is_empty() and f2_history.back()["viewed_locale"].begins_with("en"), "F2 English completion is persisted with viewed locale")
+	TranslationServer.set_locale(previous_locale)
 	view.queue_free()
 	await tree.process_frame
 	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false) and session.stage()=="F3","F2 completed reload")

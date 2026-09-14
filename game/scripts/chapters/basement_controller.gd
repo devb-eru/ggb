@@ -14,6 +14,7 @@ const CREDITS_TEXTS := preload("res://scripts/ui/ending_credits_texts.gd")
 const GALLERY_TEXTS := preload("res://scripts/ui/ending_gallery_texts.gd")
 const D5_TRANSITION_ART := preload("res://scripts/ui/d5_transition_art.gd")
 const FRACTURE_REST_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
+const CORE_STORY_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -85,9 +86,10 @@ func _feedback(result: Dictionary) -> void:
 		return
 	var displayed := result.duplicate(true)
 	var original := String(result.get("text", ""))
-	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(original, TranslationServer.get_locale()))
-	if displayed["text"] != original and String(result.get("speaker", "주인공")) == "주인공":
-		displayed["speaker"] = "Protagonist"
+	var locale := TranslationServer.get_locale()
+	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(CORE_STORY_TEXTS.feedback(original, locale), locale))
+	if displayed["text"] != original:
+		displayed["speaker"] = CORE_STORY_TEXTS.speaker(String(result.get("speaker", "주인공")), locale)
 	super._feedback(displayed)
 
 func _update_objective() -> void:
@@ -97,6 +99,8 @@ func _render_room() -> void:
 	set_process(false)
 	super._render_room()
 	if session == null: return
+	if CORE_STORY_TEXTS.is_english(TranslationServer.get_locale()) and session.stage() in ["F0_A","F0_B","F0_C","F0_D","F0_E","F1","F2"]:
+		_location_label.text = CORE_STORY_TEXTS.location(_current_room,int(session.snapshot()["loop_state"]["day_index"])+1,TranslationServer.get_locale())
 	if session.stage() == "D6":
 		_clear_hotspots()
 		_build_d6_inspection()
@@ -261,7 +265,12 @@ func _d6_guidance_text(checkpoint: int) -> String:
 
 
 func _localized_notebook_entry(entry: String) -> String:
-	return _d6_text(super._localized_notebook_entry(entry))
+	var locale := TranslationServer.get_locale()
+	return _d6_text(CORE_STORY_TEXTS.feedback(super._localized_notebook_entry(entry), locale))
+
+
+func _core_text(id: String) -> String:
+	return CORE_STORY_TEXTS.text(id, TranslationServer.get_locale())
 
 
 func _retry_d6_guidance() -> void:
@@ -1411,94 +1420,100 @@ func _confirm_ending(decision: String) -> void:
 
 
 func _build_confrontation() -> void:
-	_objective_label.text = "F2 · 연구원들과의 대면"
+	var locale := TranslationServer.get_locale()
+	_objective_label.text = _core_text("f2_objective")
 	var rules = BasementSession.CONFRONTATION
 	var local: Dictionary = rules.progress(session.snapshot())
 	if not local["entered"]:
-		_action("F2_ENTER","대면 기록을 연다",Rect2(400,400,1100,130),"f2_enter")
+		_action("F2_ENTER",_core_text("f2_enter"),Rect2(400,400,1100,130),"f2_enter")
 		return
 	var index := 0
 	for question in ["consent","awakening","outside","release","wish"]:
-		_action("F2_"+question,rules.QUESTIONS[question],Rect2(350,160+index*115,1200,95),"f2_question",question)
+		_action("F2_"+question,CORE_STORY_TEXTS.question(question,locale),Rect2(350,160+index*115,1200,95),"f2_question",question)
 		index += 1
 	if not local["recapped"]:
-		_action("F2_RECAP","질문을 마치고 누락된 사실 확인",Rect2(350,790,1200,100),"f2_recap")
+		_action("F2_RECAP",_core_text("f2_recap"),Rect2(350,790,1200,100),"f2_recap")
 	else:
-		_action("F2_FINISH","최종 권한 확인 후 다음 방으로",Rect2(350,790,1200,100),"f2_finish")
+		_action("F2_FINISH",_core_text("f2_finish"),Rect2(350,790,1200,100),"f2_finish")
 
 
 func _build_father_record() -> void:
-	_objective_label.text = "F1 · 아버지의 마지막 기록"
+	var locale := TranslationServer.get_locale()
+	_objective_label.text = _core_text("f1_objective")
 	var rules = BasementSession.FATHER_RECORD
 	var local: Dictionary = rules.progress(session.snapshot())
 	if not local["entered"]:
-		_action("F1_ENTER","코어 기록실로 간다",Rect2(400,400,1100,130),"f1_enter")
+		_action("F1_ENTER",_core_text("f1_enter"),Rect2(400,400,1100,130),"f1_enter")
 		return
-	_action("F1_INSPECT","아직 재생하지 않는다 / 기록실과 편집 이력 조사",Rect2(300,150,1300,100),"f1_inspect")
+	_action("F1_INSPECT",_core_text("f1_inspect"),Rect2(300,150,1300,100),"f1_inspect")
 	if not local["authenticated"]:
 		var mark: Dictionary = session.snapshot()["meta_progress"]["knowledge_entries"].get("self_authored_mark",{})
-		_action("F1_AUTH","A1의 내 표시로 재생 권한 확인",Rect2(400,350,1100,120),"f1_authenticate",mark.get("type",""))
+		_action("F1_AUTH",_core_text("f1_auth"),Rect2(400,350,1100,120),"f1_authenticate",mark.get("type",""))
 	else:
 		for index in range(8):
 			if index <= int(local["next"]):
-				_action("F1_SEG_%d"%index,("재열람 · " if index < int(local["next"]) else "재생한다 · ")+rules.TITLES[index],Rect2(250+(index%2)*740,290+(index/2)*105,700,85),"f1_play",index)
+				_action("F1_SEG_%d"%index,(_core_text("replay") if index < int(local["next"]) else _core_text("play"))+CORE_STORY_TEXTS.father_title(index,locale),Rect2(250+(index%2)*740,290+(index/2)*105,700,85),"f1_play",index)
 		if session.known("father_final_record_played"):
 			if not local["j5_read"]:
-				_action("J5_PAGE","출력된 마지막 페이지를 읽는다",Rect2(400,780,1100,100),"f1_page")
+				_action("J5_PAGE",_core_text("j5_page"),Rect2(400,780,1100,100),"f1_page")
 			else:
-				_action("J5_WRITE","지금의 내가 두 줄을 쓴다 · 최종 결정은 보류",Rect2(400,780,1100,100),"f1_write","subject")
+				_action("J5_WRITE",_core_text("j5_write"),Rect2(400,780,1100,100),"f1_write","subject")
 
 
 func _build_core_self() -> void:
-	_objective_label.text = "F0-E · 과거 연속성과 현재 작성자"
+	var locale := TranslationServer.get_locale()
+	_objective_label.text = _core_text("f0e_objective")
 	var rules = BasementSession.CORE_SELF
 	var local: Dictionary = rules.progress(session.snapshot())
 	var mark: Dictionary = session.snapshot()["meta_progress"]["knowledge_entries"].get("self_authored_mark",{})
 	if not rules.MARKS.has(mark.get("type","")):
-		_board_label("A1 표시 유형 기록을 확인할 수 없다. 저장 자료 확인이 필요하다.", Rect2(300,250,1300,250))
+		_board_label(_core_text("f0e_missing_mark"), Rect2(300,250,1300,250))
 		return
 	if not local["past_verified"]:
-		_board_label("A1의 원래 표시: "+str(mark.get("text",""))+"\n현재 배열: "+" → ".join(local["sequence"]), Rect2(300,130,1300,160))
+		var shown_sequence: PackedStringArray = []
+		for canonical_piece in local["sequence"]: shown_sequence.append(CORE_STORY_TEXTS.mark_piece(mark["type"],canonical_piece,locale))
+		_board_label(_core_text("f0e_mark") % [CORE_STORY_TEXTS.feedback(str(mark.get("text","")),locale)," → ".join(shown_sequence)], Rect2(300,130,1300,160))
 		var pieces: Array = rules.MARKS[mark["type"]]
 		for i in range(3):
 			var piece: String = pieces[[2,0,1][i]]
-			_action("F0E_PIECE_%d"%i,piece,Rect2(400,330+i*115,1100,95),"f0e_piece",piece,false)
-		_action("F0E_CLEAR","다시 배열",Rect2(400,710,520,85),"f0e_clear",null,false)
-		_action("F0E_PAST","과거 표시 확인",Rect2(980,710,520,85),"f0e_past")
+			_action("F0E_PIECE_%d"%i,CORE_STORY_TEXTS.mark_piece(mark["type"],piece,locale),Rect2(400,330+i*115,1100,95),"f0e_piece",piece,false)
+		_action("F0E_CLEAR",_core_text("rearrange"),Rect2(400,710,520,85),"f0e_clear",null,false)
+		_action("F0E_PAST",_core_text("verify_past"),Rect2(980,710,520,85),"f0e_past")
 	elif not local["current_verified"]:
-		_board_label("빈 수첩 줄. 현재 문장의 작성 주체를 확인한다.\n이 단계는 남을지 떠날지를 묻지 않는다.",Rect2(300,140,1300,150))
+		_board_label(_core_text("f0e_author_board"),Rect2(300,140,1300,150))
 		for i in range(4):
 			var writer: String = ["father","system","subject","servant"][i]
-			_action("F0E_AUTHOR_"+writer,["아버지의 기존 문장 불러오기","시스템 자동 문장 사용","지금의 내가 직접 쓴다","사용인 기록 넣기"][i],Rect2(400,330+i*115,1100,95),"f0e_author",writer)
+			_action("F0E_AUTHOR_"+writer,_core_text("author_"+writer),Rect2(400,330+i*115,1100,95),"f0e_author",writer)
 	else:
-		_board_label("비공개 임시 의향. 세 답변은 동등하며 최종 선택이 아니다.\n사용인은 이 기록을 보거나 듣지 못한다.",Rect2(300,150,1300,150))
+		_board_label(_core_text("f0e_intent_board"),Rect2(300,150,1300,150))
 		for i in range(3):
 			var intent: String = ["reality","stay","undecided"][i]
-			_action("F0E_INTENT_"+intent,rules.INTENTS[intent],Rect2(400,370+i*130,1100,105),"f0e_intent",intent)
+			_action("F0E_INTENT_"+intent,CORE_STORY_TEXTS.intent(intent,locale),Rect2(400,370+i*130,1100,105),"f0e_intent",intent)
 
 
 func _build_core_roles() -> void:
-	_objective_label.text = "F0-D · 기록 역할 분류"
+	var locale := TranslationServer.get_locale()
+	_objective_label.text = _core_text("f0d_objective")
 	var rules = BasementSession.CORE_ROLES
 	var local: Dictionary = rules.progress(session.snapshot())
-	_board_label("왼쪽 기록을 조사한 뒤 오른쪽 역할에 배치한다.\n사용인 서명은 출처이지 역할 정답이 아니다.", Rect2(220,105,1480,100))
+	_board_label(_core_text("f0d_board"), Rect2(220,105,1480,100))
 	for index in range(5):
 		var record: String = ["notebook","command","father","residents","passphrase"][index]
-		var title: String = rules.NAMES[record]
-		if record == "residents" and not session.snapshot()["meta_progress"]["servants"]["mara2"]["researcher_record_acquired"]: title += " · 익명 인덱스"
-		if local["selected"] == record: title += " [선택]"
+		var title: String = CORE_STORY_TEXTS.record_name(record,locale)
+		if record == "residents" and not session.snapshot()["meta_progress"]["servants"]["mara2"]["researcher_record_acquired"]: title += " · " + _core_text("anonymous_index")
+		if local["selected"] == record: title += " [" + _core_text("selected") + "]"
 		_action("F0D_CARD_"+record, title, Rect2(180,235+index*115,620,95), "f0d_select", record)
 		var placed: String = local["slots"][index]
-		var slot_title: String = rules.LABELS[index]+"\n"+("빈 슬롯" if placed.is_empty() else String(rules.NAMES[placed]))
-		if local["locked"] == index: slot_title += " [고정]"
+		var slot_title: String = rules.LABELS[index]+"\n"+(_core_text("empty_slot") if placed.is_empty() else CORE_STORY_TEXTS.record_name(placed,locale))
+		if local["locked"] == index: slot_title += " [" + _core_text("locked") + "]"
 		_action("F0D_SLOT_%d"%index, slot_title, Rect2(880,235+index*115,650,95), "f0d_place", index, false)
 		if local["failures"] >= 3 and local["locked"] < 0:
-			_action("F0D_LOCK_%d"%index, "고정 확인", Rect2(1560,235+index*115,220,95), "f0d_lock", index)
-	_action("F0D_VERIFY", "다섯 기록 일괄 검증", Rect2(350,850,1200,85), "f0d_verify")
+			_action("F0D_LOCK_%d"%index, _core_text("lock_confirm"), Rect2(1560,235+index*115,220,95), "f0d_lock", index)
+	_action("F0D_VERIFY", _core_text("verify_roles"), Rect2(350,850,1200,85), "f0d_verify")
 
 
 func _build_core_overlay() -> void:
-	_objective_label.text = "F0-C · 세 자료 중첩"
+	_objective_label.text = _core_text("f0c_objective")
 	var rules = BasementSession.CORE_OVERLAY
 	var local: Dictionary = session.snapshot()["loop_state"]["event_local_states"].get("F0_C", rules.initial())
 	var board := preload("res://scripts/chapters/core_overlay_board.gd").new()
@@ -1506,60 +1521,62 @@ func _build_core_overlay() -> void:
 	board.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_hotspot_layer.add_child(board)
 	_place(board, Rect2(150,170,850,660))
-	_board_label("B4 점선: 종 파형 / C5 굵은 선: 거울 회로\nD4 가는 선: 고정 포트 잔상\n기준 표식: 열두 번째 종 완료선 · 닫힌 고리 중심 · 중앙 심장 포트\n회전은 시계 방향, 반전은 원본에 먼저 적용한다.", Rect2(150,835,850,125))
+	_board_label(_core_text("f0c_board"), Rect2(150,835,850,125))
 	for index in range(3):
 		var layer: String = rules.LAYERS[index]
 		var y := 160 + index*230
-		var anchor_names := ["미지정", "원점 정렬", "오른쪽 한 칸", "아래쪽 한 칸"]
+		var anchor_names := [_core_text("anchor_unset"), _core_text("anchor_origin"), _core_text("anchor_right"), _core_text("anchor_down")]
 		var anchor_index := clampi(int(local[layer]["anchor"]) + 1, 0, 3)
-		_board_label("%s · %d도 · 반전 %s · %s" % [layer,local[layer]["turn"]*90,"있음" if local[layer]["flip"] else "없음",anchor_names[anchor_index]], Rect2(1050,y,720,55))
+		_board_label("%s · %d° · %s · %s" % [layer,local[layer]["turn"]*90,_core_text("flip_yes") if local[layer]["flip"] else _core_text("flip_no"),anchor_names[anchor_index]], Rect2(1050,y,720,55))
 		if not local["locked"]:
 			if layer != "D4":
-				_action(layer+"_ROTATE", "90도 회전", Rect2(1050,y+65,340,55), "f0c", {"action":"rotate","layer":layer}, false)
-				_action(layer+"_FLIP", "좌우 반전", Rect2(1410,y+65,340,55), "f0c", {"action":"flip","layer":layer}, false)
-			_action(layer+"_ANCHOR", "기준점 순환", Rect2(1050,y+130,340,55), "f0c", {"action":"anchor","layer":layer,"value":(int(local[layer]["anchor"])+2)%4-1}, false)
-		_action(layer+"_OPACITY", "투명도 %d" % local[layer]["opacity"], Rect2(1410,y+130,340,55), "f0c", {"action":"opacity","layer":layer,"value":20 if local[layer]["opacity"] >= 100 else int(local[layer]["opacity"])+10}, false)
+				_action(layer+"_ROTATE", _core_text("rotate_90"), Rect2(1050,y+65,340,55), "f0c", {"action":"rotate","layer":layer}, false)
+				_action(layer+"_FLIP", _core_text("flip_horizontal"), Rect2(1410,y+65,340,55), "f0c", {"action":"flip","layer":layer}, false)
+			_action(layer+"_ANCHOR", _core_text("cycle_anchor"), Rect2(1050,y+130,340,55), "f0c", {"action":"anchor","layer":layer,"value":(int(local[layer]["anchor"])+2)%4-1}, false)
+		_action(layer+"_OPACITY", _core_text("opacity") % local[layer]["opacity"], Rect2(1410,y+130,340,55), "f0c", {"action":"opacity","layer":layer,"value":20 if local[layer]["opacity"] >= 100 else int(local[layer]["opacity"])+10}, false)
 	if not local["locked"]:
-		_action("F0C_VERIFY", "중첩 확인", Rect2(1050,885,700,75), "f0c", {"action":"verify"})
+		_action("F0C_VERIFY", _core_text("verify_overlay"), Rect2(1050,885,700,75), "f0c", {"action":"verify"})
 	else:
 		for index in range(3):
 			var point: String = rules.INVESTIGATION[index]
-			var point_label: String = {"PATH":"PATH · 경로", "SPLIT":"SPLIT · 분기", "AUTH":"AUTH · 인증 고리"}[point]
+			var point_label: String = _core_text(point.to_lower())
 			_action("F0C_"+point, point_label, Rect2(1020+index*250,885,230,75), "f0c", {"action":"inspect","value":point})
 
 
 func _build_core_samples() -> void:
-	_objective_label.text = "F0-B · 시스템 신호 표본"
+	var locale := TranslationServer.get_locale()
+	_objective_label.text = _core_text("f0b_objective")
 	var rules = BasementSession.CORE_SAMPLES
 	var local: Dictionary = rules.progress(session.snapshot())
-	_board_label("후보를 눌러 연결 목적지를 조사하고 방별로 표본을 전송한다.\n검증한 채널은 유지된다. 색이 아니라 연결 기능으로 판단한다.", Rect2(240, 110, 1440, 110))
+	_board_label(_core_text("f0b_board"), Rect2(240, 110, 1440, 110))
 	for index in range(4):
 		var room: String = rules.ROOMS[index]
 		var y := 245 + index * 160
-		_board_label(rules.NAMES[room] + (" · 검증 완료" if room in local["verified"] else ""), Rect2(160, y, 290, 125))
+		_board_label(CORE_STORY_TEXTS.room_name(room,locale) + (" · " + _core_text("verified") if room in local["verified"] else ""), Rect2(160, y, 290, 125))
 		for column in range(2):
 			var sample: int = [1, 0][column] if index % 2 == 0 else column
-			var label: String = rules.SAMPLES[room][sample]["label"]
-			if local["selected"].get(room, -1) == sample: label += " [선택]"
+			var label: String = CORE_STORY_TEXTS.sample_label(room,sample,locale)
+			if local["selected"].get(room, -1) == sample: label += " [" + _core_text("selected") + "]"
 			_action("F0B_%s_%d" % [room, sample], label, Rect2(480 + column * 460, y, 430, 125), "f0b_inspect", [room, sample])
 		if room not in local["verified"]:
-			_action("F0B_SEND_" + room, "전송", Rect2(1410, y, 330, 125), "f0b_send", room)
+			_action("F0B_SEND_" + room, _core_text("send"), Rect2(1410, y, 330, 125), "f0b_send", room)
 
 
 func _build_core_room_network() -> void:
-	_objective_label.text = "F0-A · 네 방의 피드백 회로"
+	var locale := TranslationServer.get_locale()
+	_objective_label.text = _core_text("f0a_objective")
 	var rules = BasementSession.CORE_ROOMS
 	var local: Dictionary = rules.progress(session.snapshot())
-	_board_label("외부 대기 입력: 북\n코어 요청 단자: 서\n고정 회랑: 북→동→남→서→북\n타일 두 개를 눌러 교환한다.\n출력 방향은 별도로 회전한다.", Rect2(650, 345, 620, 245))
+	_board_label(_core_text("f0a_board"), Rect2(650, 345, 620, 245))
 	var positions := [Vector2(675, 110), Vector2(1275, 345), Vector2(675, 650), Vector2(75, 345)]
 	for slot in range(4):
 		var pos: Vector2 = positions[slot]
 		var room: String = local["tiles"][slot]
-		var label := "%s · %s%s\n%s\n출력 → %s" % [rules.DIRECTIONS[slot], rules.NAMES[room], " [선택]" if local["selected"] == slot else "", rules.PORTS[room], rules.DIRECTIONS[local["directions"][slot]]]
+		var label := "%s · %s%s\n%s\n%s → %s" % [CORE_STORY_TEXTS.direction(slot,locale), CORE_STORY_TEXTS.room_name(room,locale), " [" + _core_text("selected") + "]" if local["selected"] == slot else "", CORE_STORY_TEXTS.port(room,locale), "Output" if CORE_STORY_TEXTS.is_english(locale) else "출력", CORE_STORY_TEXTS.direction(local["directions"][slot],locale)]
 		_action("F0A_TILE_%d" % slot, label, Rect2(pos, Vector2(550, 150)), "f0a_select", slot, false)
-		_action("F0A_ROTATE_%d" % slot, "출력 90도 회전", Rect2(pos + Vector2(0, 160), Vector2(550, 65)), "f0a_rotate", slot, false)
-	_action("F0A_NOTES", "P1·P4·P5·일지 자료", Rect2(180, 930, 720, 60), "f0a_notes")
-	_action("F0A_SIGNAL", "약한 신호를 보낸다", Rect2(1020, 930, 720, 60), "f0a_signal")
+		_action("F0A_ROTATE_%d" % slot, _core_text("f0a_rotate"), Rect2(pos + Vector2(0, 160), Vector2(550, 65)), "f0a_rotate", slot, false)
+	_action("F0A_NOTES", _core_text("f0a_notes"), Rect2(180, 930, 720, 60), "f0a_notes")
+	_action("F0A_SIGNAL", _core_text("f0a_signal"), Rect2(1020, 930, 720, 60), "f0a_signal")
 
 
 func _build_core_approach() -> void:
