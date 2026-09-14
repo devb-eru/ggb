@@ -1030,8 +1030,14 @@ func _validate_j4(session: BasementSession) -> void:
 	_expect(j4_before_cancel == expected_hub, "J4 opening only appends displayed dialogue history")
 	var confirm := view._modal_body.get_child(4) as Button
 	_expect(confirm.disabled, "J4 confirmation input grace")
+	var paused_before_grace_test := tree.paused
+	tree.paused = true
+	await tree.create_timer(0.6).timeout
+	_expect(confirm.disabled, "J4 confirmation grace pauses with gameplay")
+	tree.paused = false
 	await tree.create_timer(0.6).timeout
 	_expect(not confirm.disabled, "J4 confirmation becomes available")
+	tree.paused = paused_before_grace_test
 	view._close_modal()
 	_expect(session.snapshot() == j4_before_cancel, "J4 modal cancel changes nothing")
 	view.queue_free()
