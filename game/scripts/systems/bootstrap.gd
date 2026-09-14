@@ -14,6 +14,7 @@ const BLACK_MIRROR_SCRIPT := preload("res://scripts/chapters/black_mirror_contro
 const BASEMENT_SCRIPT := preload("res://scripts/chapters/basement_controller.gd")
 const BASEMENT_SMOKE := preload("res://scripts/tests/basement_session_smoke.gd")
 const BLACK_MIRROR_SMOKE := preload("res://scripts/tests/black_mirror_smoke.gd")
+const FULL_CAMPAIGN_SMOKE := preload("res://scripts/tests/full_campaign_smoke.gd")
 
 @onready var _start_screen: StartScreen = %StartScreen
 
@@ -68,6 +69,8 @@ func _ready() -> void:
 		call_deferred("_run_black_mirror_smoke")
 	elif "--basement-session-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_basement_smoke")
+	elif "--full-campaign-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_full_campaign_smoke")
 	elif "--application-focus-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_application_focus_smoke")
 
@@ -391,6 +394,16 @@ func _run_black_mirror_smoke() -> void:
 		get_tree().quit(0)
 	else:
 		push_error("BLACK_MIRROR_SMOKE: FAIL %s" % result.get("errors", []))
+		get_tree().quit(1)
+
+
+func _run_full_campaign_smoke() -> void:
+	var result: Dictionary = await FULL_CAMPAIGN_SMOKE.new().run(get_tree())
+	if bool(result.get("ok", false)):
+		print("FULL_CAMPAIGN_SMOKE: PASS")
+		get_tree().quit(0)
+	else:
+		push_error("FULL_CAMPAIGN_SMOKE: FAIL %s" % result.get("errors", []))
 		get_tree().quit(1)
 
 
