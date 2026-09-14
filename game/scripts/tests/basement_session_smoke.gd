@@ -9,6 +9,7 @@ const D6_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
 const CORE_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
 const BASEMENT_TEXTS := preload("res://scripts/ui/basement_display_texts.gd")
 const FRACTURE_COMMON_TEXTS := preload("res://scripts/ui/fracture_common_display_texts.gd")
+const RELATIONSHIP_TEXTS := preload("res://scripts/ui/relationship_display_texts.gd")
 const SLOT := "__test_basement_session"
 var errors := PackedStringArray()
 var game: Node
@@ -131,6 +132,27 @@ func _validate_fracture_common_text_catalog() -> void:
 		_expect(FRACTURE_COMMON_TEXTS.feedback(source, "en_US") != source, "E2 answer is translated")
 	_expect(FRACTURE_COMMON_TEXTS.feedback("관련 없는 문장", "en_US") == "관련 없는 문장", "Fracture common translation leaves unrelated text unchanged")
 
+
+func _validate_relationship_text_catalog() -> void:
+	for source in RELATIONSHIP_TEXTS.TEXT_EN:
+		_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Relationship text is translated: " + source.left(32))
+		_expect(RELATIONSHIP_TEXTS.text(source, "ko") == source, "Relationship Korean text stays canonical: " + source.left(32))
+	for source in RELATIONSHIP_TEXTS.RECORDS_EN:
+		_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Relationship notebook record is translated")
+	for rules in [SESSION.MARA1_RELATIONSHIP, SESSION.IRIS_RELATIONSHIP, SESSION.LUCA_RELATIONSHIP, SESSION.EDGAR_RELATIONSHIP]:
+		for source in rules.LOGS.values():
+			_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Relationship source log is translated")
+	for source in SESSION.IRIS_RELATIONSHIP.CLUES.values():
+		_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Iris clue is translated")
+	for source in SESSION.EDGAR_RELATIONSHIP.CLUES.values():
+		_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Edgar clue is translated")
+	for source in SESSION.MARA2_RELATIONSHIP.SIGNS.values():
+		_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Mara2 signature is translated")
+	_expect(RELATIONSHIP_TEXTS.text("날짜와 앞 문서의 참조로 전력 기록을 연결한다. 선택 2 / 5", "en_US").contains("Selected: 2 / 5"), "Iris dynamic order status is translated")
+	_expect(RELATIONSHIP_TEXTS.text("슬롯 1\n주관 맥박 1", "en_US") == "Slot 1\nMain Pulse 1", "Luca dynamic slot is translated")
+	_expect(RELATIONSHIP_TEXTS.text("초상화 A\n열화 단계 2\n3음 시작 표식 2 · 윤곽 기준선 3", "en_US").contains("Outline reference 3"), "Mara2 dynamic portrait status is translated")
+	_expect(RELATIONSHIP_TEXTS.text("관련 없는 문장", "en_US") == "관련 없는 문장", "Relationship translation leaves unrelated text unchanged")
+
 func _validate_basement_hints(expected_stage: String) -> void:
 	var view := VIEW.new()
 	view.configure_session(SLOT, expected_stage)
@@ -171,6 +193,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	_validate_core_story_text_catalog()
 	_validate_basement_text_catalog()
 	_validate_fracture_common_text_catalog()
+	_validate_relationship_text_catalog()
 	var state: Dictionary = game.get_snapshot()
 	state["meta_progress"]["journal_stage"] = 3
 	state["meta_progress"]["knowledge_entries"] = {"PROLOGUE_COMPLETE": true, "j3_restored_day": 3, "j2_restored_day": 2, "C5_MIRROR_TRACING": true, "KN_B1_LIBRARY_WINDOW": true, "self_authored_mark": {"day": 1}}
@@ -814,21 +837,26 @@ func _validate_mara1(session: BasementSession) -> void:
 		for id in ["consent", "failure", "command"]: session.act("mara1_log", id)
 		session.act("mara1_restore")
 		session.act("mara1_confess")
+		var relation_locale := TranslationServer.get_locale()
+		TranslationServer.set_locale("en_US")
 		var view := VIEW.new()
 		view.configure_session(SLOT, "E3_1")
 		root.add_child(view)
 		await tree.process_frame
 		view._dismiss_dialogue_for_test()
+		_expect(view._objective_label.text == RELATIONSHIP_TEXTS.text("마라 1 · 끊긴 배선과 삭제 기록", "en_US"), "Mara1 objective renders in English")
 		view._hotspot_layer.get_node("MARA_CHOICE").pressed.emit()
 		await tree.process_frame
-		_expect((root.gui_get_focus_owner() as Button).text == "아직 결정하지 않는다", "relationship choice defaults to defer")
+		_expect((root.gui_get_focus_owner() as Button).text == RELATIONSHIP_TEXTS.text("아직 결정하지 않는다", "en_US"), "English Mara1 choice defaults to defer")
 		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("user://mara1_choice.png")
 		view._modal_body.get_child(4 if outcome == "original_attribution" else 5).pressed.emit()
+		_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "Mara1 choice feedback renders in English")
 		view._dismiss_dialogue_for_test()
 		view.queue_free()
 		await tree.process_frame
+		TranslationServer.set_locale(relation_locale)
 		_expect(session.known("E3_1_complete") and session.known("REC_MARA1"), "Mara completion and record atomic")
 		var after: Dictionary = game.get_value("meta_progress.servants.mara1")
 		_expect(after["core_event_complete"] and after["researcher_record_acquired"], "Mara servant flags")
@@ -873,22 +901,26 @@ func _validate_iris(session: BasementSession) -> void:
 		session.act("iris_confront")
 		var result: Dictionary
 		if scenario[3] == "direct_private":
+			var relation_locale := TranslationServer.get_locale()
+			TranslationServer.set_locale("en_US")
 			var view := VIEW.new()
 			view.configure_session(SLOT, "E3_2")
 			root.add_child(view)
 			await tree.process_frame
 			view._dismiss_dialogue_for_test()
+			_expect(view._objective_label.text == RELATIONSHIP_TEXTS.text("이리스 · 계절 센서와 빼앗긴 전력", "en_US"), "Iris objective renders in English")
 			view._hotspot_layer.get_node("IRIS_CHOICE").pressed.emit()
 			await tree.process_frame
-			_expect((root.gui_get_focus_owner() as Button).text == "아직 결정하지 않는다", "Iris choice defaults to defer")
+			_expect((root.gui_get_focus_owner() as Button).text == RELATIONSHIP_TEXTS.text("아직 결정하지 않는다", "en_US"), "English Iris choice defaults to defer")
 			if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 				await RenderingServer.frame_post_draw
 				root.get_texture().get_image().save_png("user://iris_choice.png")
 			view._modal_body.get_child(4).pressed.emit()
-			_expect(view._dialogue_active, "Iris choice renders conditional confession")
+			_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "Iris choice renders conditional confession in English")
 			view._dismiss_dialogue_for_test()
 			view.queue_free()
 			await tree.process_frame
+			TranslationServer.set_locale(relation_locale)
 			result = {"ok": session.known("E3_2_complete")}
 		else:
 			result = session.act("iris_choose", scenario[2])
@@ -935,21 +967,26 @@ func _validate_luca(session: BasementSession) -> void:
 		_expect(rules.progress(game.get_snapshot())["stable"], "Luca pressure checkpoint survives rest and exit")
 		for id in rules.LOGS: session.act("luca_log", id)
 		session.act("luca_confess")
+		var relation_locale := TranslationServer.get_locale()
+		TranslationServer.set_locale("en_US")
 		var view := VIEW.new()
 		view.configure_session(SLOT, "E3_3")
 		root.add_child(view)
 		await tree.process_frame
 		view._dismiss_dialogue_for_test()
+		_expect(view._objective_label.text == RELATIONSHIP_TEXTS.text("루카 · 생명 유지 장치와 유예된 기상", "en_US"), "Luca objective renders in English")
 		view._hotspot_layer.get_node("LUCA_CHOICE").pressed.emit()
 		await tree.process_frame
-		_expect((root.gui_get_focus_owner() as Button).text == "아직 결정하지 않는다", "Luca choice defaults to defer")
+		_expect((root.gui_get_focus_owner() as Button).text == RELATIONSHIP_TEXTS.text("아직 결정하지 않는다", "en_US"), "English Luca choice defaults to defer")
 		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("user://luca_choice.png")
 		view._modal_body.get_child(4 if outcome == "full_disclosure" else 5).pressed.emit()
+		_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "Luca choice feedback renders in English")
 		view._dismiss_dialogue_for_test()
 		view.queue_free()
 		await tree.process_frame
+		TranslationServer.set_locale(relation_locale)
 		_expect(session.known("REC_LUCA") and session.known("wake_criteria_missing") and session.known("protagonist_body_preserved"), "Luca record and core knowledge")
 		var after: Dictionary = game.get_value("meta_progress.servants.luca")
 		_expect(after["core_event_complete"] and after["researcher_record_acquired"], "Luca servant completion")
@@ -994,21 +1031,26 @@ func _validate_edgar(session: BasementSession) -> void:
 		session.act("edgar_validate")
 		_expect(session.known("edgar_authority_layout_validated"), "Edgar current layout validated")
 		session.act("edgar_confess")
+		var relation_locale := TranslationServer.get_locale()
+		TranslationServer.set_locale("en_US")
 		var view := VIEW.new()
 		view.configure_session(SLOT, "E3_4")
 		root.add_child(view)
 		await tree.process_frame
 		view._dismiss_dialogue_for_test()
+		_expect(view._objective_label.text == RELATIONSHIP_TEXTS.text("에드가 · 보안 코어와 선택 권한", "en_US"), "Edgar objective renders in English")
 		view._hotspot_layer.get_node("EDGAR_CHOICE").pressed.emit()
 		await tree.process_frame
-		_expect((root.gui_get_focus_owner() as Button).text == "기록을 다시 읽는다", "Edgar choice default reread")
+		_expect((root.gui_get_focus_owner() as Button).text == RELATIONSHIP_TEXTS.text("기록을 다시 읽는다", "en_US"), "English Edgar choice defaults to reread")
 		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("user://edgar_choice.png")
 		view._modal_body.get_child(4 if outcome == "responsibility_recorded" else 5).pressed.emit()
+		_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "Edgar choice feedback renders in English")
 		view._dismiss_dialogue_for_test()
 		view.queue_free()
 		await tree.process_frame
+		TranslationServer.set_locale(relation_locale)
 		_expect(session.known("REC_EDGAR") and session.known("subject_role_identified") and session.known("edgar_detention_decision_known"), "both Edgar outcomes return subject role and truth")
 		var after: Dictionary = game.get_value("meta_progress.servants.edgar")
 		_expect(after["core_event_complete"] and after["researcher_record_acquired"], "Edgar completion flags")
@@ -2583,21 +2625,26 @@ func _validate_mara2(session: BasementSession) -> void:
 		_expect(rules.progress(game.get_snapshot())["solved"], "Mara2 puzzle survives exit rest load")
 		session.act("mara2_confess")
 		var before: Dictionary = game.get_value("meta_progress.servants.mara2")
+		var relation_locale := TranslationServer.get_locale()
+		TranslationServer.set_locale("en_US")
 		var view := VIEW.new()
 		view.configure_session(SLOT, "E3_5")
 		root.add_child(view)
 		await tree.process_frame
 		view._dismiss_dialogue_for_test()
+		_expect(view._objective_label.text == RELATIONSHIP_TEXTS.text("마라 2 · 원본과 분산된 주석", "en_US"), "Mara2 objective renders in English")
 		view._hotspot_layer.get_node("MARA2_CHOICE").pressed.emit()
 		await tree.process_frame
-		_expect((root.gui_get_focus_owner() as Button).text == "설명을 다시 생각한다", "Mara2 choice defaults to defer")
+		_expect((root.gui_get_focus_owner() as Button).text == RELATIONSHIP_TEXTS.text("설명을 다시 생각한다", "en_US"), "English Mara2 choice defaults to defer")
 		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("user://mara2_choice.png")
 		view._modal_body.get_child(4 if outcome == "merged" else 5).pressed.emit()
+		_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "Mara2 choice feedback renders in English")
 		view._dismiss_dialogue_for_test()
 		view.queue_free()
 		await tree.process_frame
+		TranslationServer.set_locale(relation_locale)
 		_expect(session.known("REC_MARA2") and session.known("mara2_self_sacrifice_known") and session.known("mara2_archive_index_known"), "Mara2 record and identity after choice")
 		var after: Dictionary = game.get_value("meta_progress.servants.mara2")
 		_expect(after["core_event_complete"] and after["researcher_record_acquired"], "Mara2 completion flags")
@@ -2668,6 +2715,11 @@ func _validate_ui(session: BasementSession, axis_state: Dictionary) -> void:
 
 func _move(session: BasementSession, path: Array) -> void:
 	for room in path: _expect(session.act("move", room).get("ok", false), "move " + room)
+
+func _contains_hangul(value: String) -> bool:
+	var expression := RegEx.new()
+	return expression.compile("[가-힣]") == OK and expression.search(value) != null
+
 
 func _expect(condition: bool, message: String) -> void:
 	if not condition: errors.append(message)

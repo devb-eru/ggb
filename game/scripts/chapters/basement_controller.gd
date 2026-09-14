@@ -17,6 +17,7 @@ const FRACTURE_REST_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
 const CORE_STORY_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
 const BASEMENT_TEXTS := preload("res://scripts/ui/basement_display_texts.gd")
 const FRACTURE_COMMON_TEXTS := preload("res://scripts/ui/fracture_common_display_texts.gd")
+const RELATIONSHIP_TEXTS := preload("res://scripts/ui/relationship_display_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -81,7 +82,7 @@ func _feedback(result: Dictionary) -> void:
 	var displayed := result.duplicate(true)
 	var original := String(result.get("text", ""))
 	var locale := TranslationServer.get_locale()
-	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(CORE_STORY_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(original, locale), locale), locale), locale))
+	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(CORE_STORY_TEXTS.feedback(RELATIONSHIP_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(original, locale), locale), locale), locale), locale))
 	if displayed["text"] != original:
 		displayed["speaker"] = CORE_STORY_TEXTS.speaker(String(result.get("speaker", "주인공")), locale)
 	super._feedback(displayed)
@@ -164,6 +165,8 @@ func _render_room() -> void:
 			_action("E1_EXIT", FRACTURE_COMMON_TEXTS.ui("e1_exit", TranslationServer.get_locale()), Rect2(510, 680, 870, 100), "move", "M1_CENTRAL_HALL")
 		else:
 			_build_fracture_intro()
+			if session.stage() in ["E3_1", "E3_2", "E3_3", "E3_4", "E3_5"]:
+				_localize_relationship_view()
 		call_deferred("_restore_world_focus")
 		return
 	match _current_room:
@@ -261,7 +264,7 @@ func _d6_guidance_text(checkpoint: int) -> String:
 
 func _localized_notebook_entry(entry: String) -> String:
 	var locale := TranslationServer.get_locale()
-	return _d6_text(CORE_STORY_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(super._localized_notebook_entry(entry), locale), locale), locale))
+	return _d6_text(CORE_STORY_TEXTS.feedback(RELATIONSHIP_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(super._localized_notebook_entry(entry), locale), locale), locale), locale))
 
 
 func _core_text(id: String) -> String:
@@ -565,6 +568,35 @@ func _build_fracture_intro() -> void:
 			_action("E1_RETURN", FRACTURE_COMMON_TEXTS.ui("e1_return", TranslationServer.get_locale()), Rect2(990, 790, 620, 80), "move", "M2_BEDROOM", false)
 
 
+func _relationship_text(source: String) -> String:
+	return RELATIONSHIP_TEXTS.text(source, TranslationServer.get_locale())
+
+
+func _localize_relationship_view() -> void:
+	_location_label.text = _relationship_text(_location_label.text)
+	_objective_label.text = _relationship_text(_objective_label.text)
+	for node in _hotspot_layer.find_children("*", "Control", true, false):
+		if node is Label or node is Button:
+			node.text = _relationship_text(String(node.text))
+
+
+func _relationship_actions(actions: Array) -> Array:
+	var localized: Array = []
+	for item in actions:
+		var copy: Dictionary = item.duplicate()
+		copy["label"] = _relationship_text(String(item.get("label", "")))
+		localized.append(copy)
+	return localized
+
+
+func _show_relationship_modal(title: String, body: String, actions: Array) -> void:
+	_show_modal(_relationship_text(title), _relationship_text(body), _relationship_actions(actions))
+
+
+func _show_relationship_choice(title: String, body: String, actions: Array) -> void:
+	_show_recorded_choice(_relationship_text(title), _relationship_text(body), _relationship_actions(actions))
+
+
 func _build_mara1_relationship() -> void:
 	_objective_label.text = "마라 1 · 끊긴 배선과 삭제 기록"
 	if _current_room == "M1_SERVICE_HALL":
@@ -603,7 +635,7 @@ func _build_mara1_relationship() -> void:
 
 
 func _show_mara1_choice() -> void:
-	_show_recorded_choice("기록을 어떻게 남길까", "두 방식 모두 사건과 명령자·수행자의 책임을 보존한다.", [
+	_show_relationship_choice("기록을 어떻게 남길까", "두 방식 모두 사건과 명령자·수행자의 책임을 보존한다.", [
 		{"label": "아직 결정하지 않는다", "action": _close_modal},
 		{"label": "책임자와 원문을 그대로 남긴다", "action": _modal_act.bind("mara1_choose", "original_attribution")},
 		{"label": "피해자 식별 정보만 보호한다", "action": _modal_act.bind("mara1_choose", "protected_identifiers")},
@@ -655,11 +687,11 @@ func _show_iris_channel(gauge: String, index: int) -> void:
 	var actions: Array = [{"label": "문양과 날짜를 다시 본다", "action": _close_modal}]
 	for source in BasementSession.IRIS_RELATIONSHIP.SOURCES:
 		actions.append({"label": {"PROJECTION": "투사 연출", "EXTERNAL": "외부 센서", "MEMORY": "기억 모델"}[source], "action": _modal_act.bind("iris_source", [gauge, index, source])})
-	_show_modal("입력 출처", "꽃잎의 반복 / 유리의 결손 파형 / 후광의 과거 날짜를 대조한다.", actions)
+	_show_relationship_modal("입력 출처", "꽃잎의 반복 / 유리의 결손 파형 / 후광의 과거 날짜를 대조한다.", actions)
 
 
 func _show_iris_choice() -> void:
-	_show_recorded_choice("지금의 온실", "두 방식 모두 외부값과 책임 기록을 보존한다. 현재 보이는 계절 연출을 유지할지 정한다.", [
+	_show_relationship_choice("지금의 온실", "두 방식 모두 외부값과 책임 기록을 보존한다. 현재 보이는 계절 연출을 유지할지 정한다.", [
 		{"label": "아직 결정하지 않는다", "action": _close_modal},
 		{"label": "불완전한 외부값과 책임 로그를 그대로 남긴다", "action": _modal_act.bind("iris_choose", "external_truth")},
 		{"label": "외부값은 보존하고 현재 온실 연출은 유지한다", "action": _modal_act.bind("iris_choose", "shelter_projection")},
@@ -708,11 +740,11 @@ func _show_luca_slot(index: int) -> void:
 	var actions: Array = [{"label": "아직 배치하지 않는다", "action": _close_modal}]
 	for phase in BasementSession.LUCA_RELATIONSHIP.PHASES:
 		actions.append({"label": BasementSession.LUCA_RELATIONSHIP.PHASE_LABELS[phase], "action": _modal_act.bind("luca_slot", [index, phase])})
-	_show_modal("밸브 위상", "시간이 아니라 순서를 맞춘다. 전체 주기는 미리 확인할 수 있다.", actions)
+	_show_relationship_modal("밸브 위상", "시간이 아니라 순서를 맞춘다. 전체 주기는 미리 확인할 수 있다.", actions)
 
 
 func _show_luca_choice() -> void:
-	_show_recorded_choice("확인할 순서", "두 선택 모두 같은 위험 기록을 읽는다. 지금 생존한다는 사실이 기상 안전을 보장하지는 않는다.", [
+	_show_relationship_choice("확인할 순서", "두 선택 모두 같은 위험 기록을 읽는다. 지금 생존한다는 사실이 기상 안전을 보장하지는 않는다.", [
 		{"label": "아직 결정하지 않는다", "action": _close_modal},
 		{"label": "위험 수치를 먼저 전부 읽는다", "action": _modal_act.bind("luca_choose", "full_disclosure")},
 		{"label": "장치를 안정시킨 뒤 기록을 함께 읽는다", "action": _modal_act.bind("luca_choose", "stabilize_first")},
@@ -756,11 +788,11 @@ func _show_edgar_owner(function: String) -> void:
 	var actions: Array = [{"label": "근거를 다시 읽는다", "action": _close_modal}]
 	for owner in BasementSession.EDGAR_RELATIONSHIP.OWNERS.values():
 		actions.append({"label": owner, "action": _modal_act.bind("edgar_owner", [function, owner])})
-	_show_modal(function, BasementSession.EDGAR_RELATIONSHIP.CLUES[function], actions)
+	_show_relationship_modal(function, BasementSession.EDGAR_RELATIONSHIP.CLUES[function], actions)
 
 
 func _show_edgar_choice() -> void:
-	_show_recorded_choice("책임의 기록", "두 선택 모두 현재 선택권은 주인공에게 반환된다. 용서 여부나 엔딩을 결정하는 선택이 아니다.", [
+	_show_relationship_choice("책임의 기록", "두 선택 모두 현재 선택권은 주인공에게 반환된다. 용서 여부나 엔딩을 결정하는 선택이 아니다.", [
 		{"label": "기록을 다시 읽는다", "action": _close_modal},
 		{"label": "당신이 한 결정도 공식 기록에 남겨요.", "action": _modal_act.bind("edgar_choose", "responsibility_recorded")},
 		{"label": "기록보다 먼저, 내 권한을 내게 직접 돌려줘요.", "action": _modal_act.bind("edgar_choose", "authority_returned")},
@@ -825,23 +857,23 @@ func _show_mara2_source(portrait: String, owner: String) -> void:
 	var actions: Array = [{"label": "문양을 다시 본다", "action": _close_modal}]
 	for candidate in BasementSession.MARA2_RELATIONSHIP.OWNERS:
 		actions.append({"label": candidate, "action": _modal_act.bind("mara2_source", [portrait, owner, candidate])})
-	_show_modal("초상화 " + portrait, BasementSession.MARA2_RELATIONSHIP.SIGNS[owner], actions)
+	_show_relationship_modal("초상화 " + portrait, BasementSession.MARA2_RELATIONSHIP.SIGNS[owner], actions)
 
 
 func _show_mara2_alignment(portrait: String, kind: String) -> void:
 	var actions: Array = [{"label": "표식을 다시 본다", "action": _close_modal}]
 	for index in range(3): actions.append({"label": "기준점 %d" % [index + 1], "action": _modal_act.bind("mara2_align", [portrait, kind, index])})
-	_show_modal("초상화 " + portrait, "3음 시작 표식과 이중 윤곽 기준선을 맞춘다.", actions)
+	_show_relationship_modal("초상화 " + portrait, "3음 시작 표식과 이중 윤곽 기준선을 맞춘다.", actions)
 
 
 func _show_mara2_cell(index: int) -> void:
 	var actions: Array = [{"label": "보조 기록을 다시 본다", "action": _close_modal}]
 	for glyph in ["선", "점", "호"]: actions.append({"label": glyph, "action": _modal_act.bind("mara2_cell", [index, glyph])})
-	_show_modal("결손 %d칸" % [index + 1], "원본 참조가 같은 조각을 대조한다.", actions)
+	_show_relationship_modal("결손 %d칸" % [index + 1], "원본 참조가 같은 조각을 대조한다.", actions)
 
 
 func _show_mara2_choice() -> void:
-	_show_recorded_choice("기록의 보존", "둘 다 원본과 감정 주석을 보존한다. 병합은 완전 회복의 약속이 아니며, 분리는 포기가 아니다.", [
+	_show_relationship_choice("기록의 보존", "둘 다 원본과 감정 주석을 보존한다. 병합은 완전 회복의 약속이 아니며, 분리는 포기가 아니다.", [
 		{"label": "설명을 다시 생각한다", "action": _close_modal},
 		{"label": "감정 주석을 원본에 다시 합친다.", "action": _modal_act.bind("mara2_choose", "merged")},
 		{"label": "원본과 주석을 분리해 서로 참조하게 한다.", "action": _modal_act.bind("mara2_choose", "separated")},
