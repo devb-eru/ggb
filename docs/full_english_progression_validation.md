@@ -33,9 +33,10 @@ P1부터 현실·잔류 엔딩과 크레딧까지 이어지는 연속 캠페인�
 
 ## 남은 범위
 
-- 관계 완료 수에 따른 LOW, MID, HIGH, ALL 전편 경로 검증
 - Windows PC에서 마우스만 사용한 실제 완주
 - Windows PC에서 키보드만 사용한 실제 완주
 - 최종 아트·BGM·SFX 교체와 해당 리소스를 전제로 한 연출 보강은 리소스 완성 뒤 진행
+
+관계 완료 수에 따른 LOW·MID·HIGH·ALL 전편 경로는 [관계 티어별 전편 경로 검증](relationship_tier_campaign_validation.md)에서 후속 완료했다.
 
 크레딧 제작진 명단은 사용자 지시에 따라 미정으로 유지한다.

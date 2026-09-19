@@ -10,12 +10,20 @@ const ENDING_META := preload("res://scripts/systems/ending_meta_store.gd")
 
 const SLOT := "__test_full_campaign"
 const BUILD_FLAVOR_SETTING := "ggb/build_flavor"
+const TIER_ORDER := ["LOW", "MID", "HIGH", "ALL"]
+const TIER_RELATIONSHIPS := {
+	"LOW": [],
+	"MID": ["mara1", "luca"],
+	"HIGH": ["mara1", "iris", "luca", "edgar"],
+	"ALL": ["mara1", "iris", "luca", "edgar", "mara2"],
+}
 
 var errors := PackedStringArray()
 var game: Node
 var saves: Node
 var tree: SceneTree
-var _replay_slot := ""
+var _test_slots: Array[String] = [SLOT]
+var _replay_slots: Array[String] = []
 var _meta_roots: Array[String] = []
 
 
@@ -33,8 +41,8 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	if await _run_prologue():
 		if _run_chapter_one():
 			if _run_black_mirror():
-				if _run_basement_to_decision():
-					_run_both_endings()
+				if _run_basement_to_relationship_hub():
+					_run_relationship_tiers()
 
 	_cleanup()
 	ProjectSettings.set_setting(BUILD_FLAVOR_SETTING, previous_flavor)
@@ -212,7 +220,7 @@ func _run_black_mirror() -> bool:
 	return _expect(session.stage() == "J3_COMPLETE", "black mirror chapter reaches J3_COMPLETE") and _reload(SLOT, "J3 campaign reload")
 
 
-func _run_basement_to_decision() -> bool:
+func _run_basement_to_relationship_hub() -> bool:
 	var session := BASEMENT.new(game, saves, SLOT)
 	if not _step(session.initialize(), "basement campaign initializes from J3"):
 		return false
@@ -283,8 +291,137 @@ func _run_basement_to_decision() -> bool:
 	_step(session.act("e2_report"), "E2 hears the reset-failure report")
 	if not _step(session.act("e2_finish"), "E2 opens the optional relationship hub"):
 		return false
-	if not _expect(_completed_servants(session.snapshot()) == 0, "main route remains valid with zero completed relationship events"):
+	return _expect(
+		_completed_servants(session.snapshot()) == 0 and session.stage() == "E_HUB",
+		"continuous campaign reaches E_HUB with every relationship event still optional"
+	)
+
+
+func _run_relationship_tiers() -> void:
+	var hub_snapshot: Dictionary = game.get_snapshot()
+	var hub_header: Dictionary = saves.inspect_slot(SLOT)
+	var save_point := String(hub_header.get("save_point_id", "SAVE_BROKEN_RESET_COMPLETE"))
+	for tier in TIER_ORDER:
+		if tier == "LOW":
+			continue
+		var slot_id := _tier_slot(tier)
+		saves.delete_test_slot(slot_id)
+		_test_slots.append(slot_id)
+		if not _step(
+			saves.save_snapshot(slot_id, save_point, hub_snapshot, game.revision, "RELATIONSHIP_TIER_BRANCH_" + tier),
+			"%s route branches from the authentic E_HUB save" % tier
+		):
+			return
+
+	for tier in TIER_ORDER:
+		var slot_id := _tier_slot(tier)
+		if not _reload(slot_id, "%s E_HUB branch reload" % tier):
+			continue
+		var session := BASEMENT.new(game, saves, slot_id)
+		if not _step(session.initialize(), "%s route initializes at E_HUB" % tier):
+			continue
+		if not _expect(session.stage() == "E_HUB", "%s route starts from the same relationship hub" % tier):
+			continue
+		var route_ok := true
+		for owner in TIER_RELATIONSHIPS[tier]:
+			if not _solve_relationship(session, owner, tier):
+				route_ok = false
+				break
+		var expected_count: int = TIER_RELATIONSHIPS[tier].size()
+		if not _expect(_completed_servants(session.snapshot()) == expected_count, "%s route completes exactly %d relationship events" % [tier, expected_count]):
+			route_ok = false
+		if route_ok and _run_tier_to_decision(session, slot_id, tier, expected_count):
+			_run_both_endings(slot_id, tier, expected_count)
+
+
+func _tier_slot(tier: String) -> String:
+	return SLOT if tier == "LOW" else SLOT + "_" + tier.to_lower()
+
+
+func _solve_relationship(session, owner: String, tier: String) -> bool:
+	var errors_before := errors.size()
+	match owner:
+		"mara1":
+			_move_basement(session, ["M1_SERVICE_HALL", "M1_WIRING_ROOM"])
+			_step(session.act("mara1_panel"), tier + " opens Mara 1's wiring panel")
+			for index in range(3):
+				_step(session.act("mara1_source", [index, ["MAINT", "CONSENT", "AUDIT"][index]]), tier + " traces Mara 1 source %d" % index)
+			_step(session.act("mara1_bridge"), tier + " bridges Mara 1's verified wiring")
+			for record_id in ["consent", "failure", "command"]:
+				_step(session.act("mara1_log", record_id), tier + " orders Mara 1 record " + record_id)
+			_step(session.act("mara1_restore"), tier + " restores Mara 1's deleted record")
+			_step(session.act("mara1_confess"), tier + " hears Mara 1's account")
+			_step(session.act("mara1_choose", "original_attribution"), tier + " returns Mara 1's attribution")
+			_move_basement(session, ["M1_SERVICE_HALL", "M1_CENTRAL_HALL"])
+		"iris":
+			_move_basement(session, ["M1_GREENHOUSE", "H0_CLIMATE_CONTROL"])
+			_step(session.act("iris_panel"), tier + " opens Iris's climate panel")
+			for gauge in BASEMENT.IRIS_RELATIONSHIP.CHANNELS:
+				for index in range(3):
+					_step(session.act("iris_source", [gauge, index, BASEMENT.IRIS_RELATIONSHIP.CHANNELS[gauge][index]]), tier + " separates Iris channel %s/%d" % [gauge, index])
+			for record_id in BASEMENT.IRIS_RELATIONSHIP.ORDER:
+				_step(session.act("iris_log", record_id), tier + " orders Iris record " + record_id)
+			_step(session.act("iris_restore"), tier + " restores Iris's audit chronology")
+			_step(session.act("iris_audit", "credential_owner_not_executor"), tier + " distinguishes Iris's credential from execution")
+			_step(session.act("iris_confront"), tier + " confronts Iris with the audit")
+			_step(session.act("iris_choose", "external_truth"), tier + " preserves Iris's external record")
+			_move_basement(session, ["M1_GREENHOUSE", "M1_CENTRAL_HALL"])
+		"luca":
+			_move_basement(session, ["M1_KITCHEN", "H0_LIFE_SUPPORT"])
+			_step(session.act("luca_panel"), tier + " opens Luca's life-support panel")
+			_step(session.act("luca_pipe", "main"), tier + " selects Luca's main pipe")
+			_step(session.act("luca_pipe", "aux"), tier + " selects Luca's auxiliary pipe")
+			_step(session.act("luca_match"), tier + " matches Luca's two live pipes")
+			for index in range(4):
+				_step(session.act("luca_slot", [index, BASEMENT.LUCA_RELATIONSHIP.PHASES[index]]), tier + " places Luca phase %d" % index)
+			_step(session.act("luca_run"), tier + " stabilizes Luca's pressure cycle")
+			for record_id in BASEMENT.LUCA_RELATIONSHIP.LOGS:
+				_step(session.act("luca_log", record_id), tier + " reads Luca record " + record_id)
+			_step(session.act("luca_confess"), tier + " hears Luca's account")
+			_step(session.act("luca_choose", "full_disclosure"), tier + " requests Luca's full disclosure")
+			_move_basement(session, ["M1_KITCHEN", "M1_CENTRAL_HALL"])
+		"edgar":
+			_move_basement(session, ["M1_GREAT_CLOCK", "H0_CLOCK_MACHINE"])
+			for record_id in BASEMENT.EDGAR_RELATIONSHIP.ORDER:
+				_step(session.act("edgar_log", record_id), tier + " orders Edgar record " + record_id)
+			_step(session.act("edgar_audit"), tier + " validates Edgar's chronology")
+			for function in BASEMENT.EDGAR_RELATIONSHIP.OWNERS:
+				_step(session.act("edgar_owner", [function, BASEMENT.EDGAR_RELATIONSHIP.OWNERS[function]]), tier + " assigns Edgar authority " + function)
+			_step(session.act("edgar_validate"), tier + " validates Edgar's authority layout")
+			_step(session.act("edgar_confess"), tier + " hears Edgar's account")
+			_step(session.act("edgar_choose", "authority_returned"), tier + " returns authority through Edgar's record")
+			_move_basement(session, ["M1_GREAT_CLOCK", "M1_CENTRAL_HALL"])
+		"mara2":
+			_move_basement(session, ["M1_NORTH_ARCHIVE_HALL", "M1_COLOR_ROOM_ENTRY", "H0_COLOR_SEPARATION"])
+			for portrait in BASEMENT.MARA2_RELATIONSHIP.PORTRAITS:
+				for source_owner in BASEMENT.MARA2_RELATIONSHIP.OWNERS:
+					_step(session.act("mara2_source", [portrait, source_owner, source_owner]), tier + " separates Mara 2 source %s/%s" % [portrait, source_owner])
+			for portrait in BASEMENT.MARA2_RELATIONSHIP.ORDER:
+				_step(session.act("mara2_portrait", portrait), tier + " orders Mara 2 portrait " + portrait)
+			for portrait in BASEMENT.MARA2_RELATIONSHIP.PORTRAITS:
+				for kind in ["start", "outline"]:
+					_step(session.act("mara2_align", [portrait, kind, BASEMENT.MARA2_RELATIONSHIP.PORTRAITS[portrait][kind]]), tier + " aligns Mara 2 %s/%s" % [portrait, kind])
+			_step(session.act("mara2_overlay"), tier + " overlays Mara 2's degraded portraits")
+			_move_basement(session, ["H0_PERSONALITY_ARCHIVE"])
+			for backup_owner in BASEMENT.MARA2_RELATIONSHIP.BACKUPS:
+				_step(session.act("mara2_backup", backup_owner), tier + " verifies Mara 2 backup " + backup_owner)
+			for index in BASEMENT.MARA2_RELATIONSHIP.GAPS:
+				_step(session.act("mara2_cell", [index, BASEMENT.MARA2_RELATIONSHIP.CHECKSUM[index]]), tier + " restores Mara 2 checksum cell %d" % index)
+			_step(session.act("mara2_checksum"), tier + " validates Mara 2's original checksum")
+			_step(session.act("mara2_confess"), tier + " hears Mara 2's account")
+			_step(session.act("mara2_choose", "separated"), tier + " preserves Mara 2's separated identity")
+			_move_basement(session, ["H0_COLOR_SEPARATION", "M1_COLOR_ROOM_ENTRY", "M1_NORTH_ARCHIVE_HALL", "M1_CENTRAL_HALL"])
+		_:
+			_expect(false, "unknown relationship route owner " + owner)
+	if errors.size() != errors_before:
 		return false
+	return _expect(
+		bool(game.get_value("meta_progress.servants.%s.core_event_complete" % owner, false)),
+		"%s route commits %s as a completed relationship event" % [tier, owner]
+	)
+
+
+func _run_tier_to_decision(session, slot_id: String, tier: String, expected_count: int) -> bool:
 	if not _step(session.act("j4_confirm", true), "J4 closes the optional relationship hub"):
 		return false
 	for page in BASEMENT.JOURNAL_FOUR.ORDER:
@@ -292,36 +429,43 @@ func _run_basement_to_decision() -> bool:
 	_step(session.act("j4_order"), "J4 verifies chronological order")
 	if not _step(session.act("j4_read"), "J4 restores the base journal variant"):
 		return false
-	if not _expect(game.get_value("meta_progress.knowledge_entries.j4_variant", "") == "J4_BASE", "zero relationships select J4_BASE"):
+	var expected_j4 := "J4_FULL" if expected_count == 5 else ("J4_EXPANDED" if expected_count >= 2 else "J4_BASE")
+	if not _expect(game.get_value("meta_progress.knowledge_entries.j4_variant", "") == expected_j4, "%s route selects %s" % [tier, expected_j4]):
 		return false
-	if not _step(session.act("j4_minimum"), "E3_4M grants minimum core access without relationship reward"):
-		return false
-	if not _reload(SLOT, "J4 campaign reload"):
+	if not bool(game.get_value("meta_progress.servants.edgar.core_event_complete", false)):
+		if not _step(session.act("j4_minimum"), "%s route receives minimum core access without relationship reward" % tier):
+			return false
+	if not _reload(slot_id, "%s J4 reload" % tier):
 		return false
 	session.initialize()
 	_step(session.act("e5_enter"), "E5 begins the last normal evening")
 	_step(session.act("e5_sit"), "E5 takes the subject seat")
-	_step(session.act("e5_question", "wish"), "E5 asks one optional question")
-	if not _step(session.act("e5_finish", true), "E5 commits the LOW settlement"):
+	var question: String = {"LOW":"wish", "MID":"leave", "HIGH":"stay", "ALL":"wish"}[tier]
+	_step(session.act("e5_question", question), "%s E5 asks one optional question" % tier)
+	if not _step(session.act("e5_finish", true), "%s E5 commits its relationship settlement" % tier):
 		return false
+	if not _expect(game.get_value("meta_progress.event_history.E5.variant_id", "") == tier, "%s route records the matching E5 variant" % tier):
+		return false
+	if bool(game.get_value("meta_progress.servants.mara2.core_event_complete", false)):
+		_step(session.act("e6_move", "M1_NORTH_ARCHIVE_HALL"), tier + " visits Mara 2's optional name follow-up")
+		_step(session.act("e6_mara2", "write"), tier + " records Mara 2's chosen name")
 	_step(session.act("e6_move", "H0_CLOCK_MACHINE"), "E6 approaches Edgar's core access")
-	_step(session.act("e6_open"), "E6 opens the core path without follow-up rewards")
+	if bool(game.get_value("meta_progress.servants.edgar.core_event_complete", false)):
+		_step(session.act("e6_edgar", "ask"), tier + " asks Edgar to open the core path")
+	else:
+		_step(session.act("e6_open"), tier + " opens the core path without relationship rewards")
 	if not _step(session.act("e6_enter", true), "E6 enters the F0 meta-puzzle"):
 		return false
-	if not _reload(SLOT, "F0 entry reload"):
+	if not _reload(slot_id, "%s F0 entry reload" % tier):
 		return false
 	session.initialize()
 	if not _solve_core_meta_puzzle(session):
 		return false
-	if not _run_final_records(session):
+	if not _run_final_records(session, slot_id):
 		return false
-	if not _expect(session.stage() == "EDC", "continuous campaign reaches the final decision"):
+	if not _expect(session.stage() == "EDC", "%s continuous campaign reaches the final decision" % tier):
 		return false
-	var clone: Dictionary = saves.create_f3_reselect_slot(SLOT)
-	if not _step(clone, "F3 creates an independent ending reselect slot"):
-		return false
-	_replay_slot = String(clone.get("slot_id", ""))
-	return _expect(not _replay_slot.is_empty() and _replay_slot != SLOT, "F3 reselect slot is distinct from the campaign slot")
+	return _expect(_completed_servants(session.snapshot()) == expected_count, "%s route preserves its relationship count at EDC" % tier)
 
 
 func _solve_core_meta_puzzle(session) -> bool:
@@ -368,7 +512,7 @@ func _solve_core_meta_puzzle(session) -> bool:
 	return _expect(session.stage() == "F1" and session.snapshot()["ending_run"]["final_decision"] == "unset", "F0-E reaches F1 without choosing an ending")
 
 
-func _run_final_records(session) -> bool:
+func _run_final_records(session, slot_id: String) -> bool:
 	_step(session.act("f1_enter"), "F1 enters the original-record chamber")
 	_step(session.act("f1_inspect"), "F1 inspects the playback device")
 	var mark_type := String(game.get_value("meta_progress.knowledge_entries.self_authored_mark.type", ""))
@@ -376,7 +520,7 @@ func _run_final_records(session) -> bool:
 	for index in range(8):
 		if not _step(session.act("f1_play", index), "F1 plays segment %d" % index):
 			return false
-		if index == 3 and not _reload(SLOT, "F1 partial playback reload"):
+		if index == 3 and not _reload(slot_id, "F1 partial playback reload"):
 			return false
 	_step(session.act("f1_page"), "F1 reads the fifth-page source")
 	if not _step(session.act("f1_write", "subject"), "J5 writes the fifth journal page as SUBJECT"):
@@ -391,44 +535,66 @@ func _run_final_records(session) -> bool:
 	_step(session.act("f3_summary"), "F3 compares both procedures")
 	if not _step(session.act("f3_open"), "F3 opens the balanced final decision"):
 		return false
-	return _reload(SLOT, "F3 decision boundary reload")
+	return _reload(slot_id, "F3 decision boundary reload")
 
 
-func _run_both_endings() -> void:
-	_run_ending(SLOT, "reality")
-	if _replay_slot.is_empty():
+func _run_both_endings(slot_id: String, tier: String, expected_count: int) -> void:
+	var clone: Dictionary = saves.create_f3_reselect_slot(slot_id)
+	if not _step(clone, "%s F3 creates an independent ending reselect slot" % tier):
 		return
-	if not _reload(_replay_slot, "F3 replay slot reload"):
+	var replay_slot := String(clone.get("slot_id", ""))
+	if not _expect(not replay_slot.is_empty() and replay_slot != slot_id, "%s F3 reselect slot is distinct from its campaign slot" % tier):
 		return
-	var replay := BASEMENT.new(game, saves, _replay_slot)
-	if not _step(replay.initialize(), "replay session initializes at EDC"):
+	_replay_slots.append(replay_slot)
+	_run_ending(slot_id, "reality", tier, expected_count)
+	if not _reload(replay_slot, "%s F3 replay slot reload" % tier):
 		return
-	_expect(replay.snapshot()["ending_run"].get("reselect_used", false), "replay slot records reselect provenance")
-	_run_ending(_replay_slot, "stay")
+	var replay := BASEMENT.new(game, saves, replay_slot)
+	if not _step(replay.initialize(), "%s replay session initializes at EDC" % tier):
+		return
+	_expect(replay.snapshot()["ending_run"].get("reselect_used", false), "%s replay slot records reselect provenance" % tier)
+	_run_ending(replay_slot, "stay", tier, expected_count)
 
 
-func _run_ending(slot_id: String, branch: String) -> void:
+func _run_ending(slot_id: String, branch: String, tier: String, expected_count: int) -> void:
 	var session := BASEMENT.new(game, saves, slot_id)
-	if not _step(session.initialize(), branch + " ending initializes"):
+	var route_label := "%s %s" % [tier, branch]
+	if not _step(session.initialize(), route_label + " ending initializes"):
 		return
-	if not _expect(session.stage() == "EDC", branch + " ending starts from the same decision boundary"):
+	if not _expect(session.stage() == "EDC", route_label + " ending starts from the same decision boundary"):
 		return
-	var meta_root := "user://__test_full_campaign_meta_%s_%s" % [branch, Time.get_ticks_usec()]
+	var meta_root := "user://__test_full_campaign_meta_%s_%s_%s" % [tier.to_lower(), branch, Time.get_ticks_usec()]
 	_meta_roots.append(meta_root)
 	session.ending_meta_store = ENDING_META.new(meta_root)
-	if not _step(session.act("edc_commit", branch), "EDC commits " + branch):
+	if not _step(session.act("edc_commit", branch), route_label + " EDC commits the branch"):
 		return
+	if expected_count == 5:
+		if not _expect(session.snapshot()["ending_run"]["current_node_id"] == "ED_ALL_CEREMONY", route_label + " enters the ALL identity ceremony"):
+			return
+		for owner in BASEMENT.ENDING_ENTRY.OWNERS:
+			if not _step(session.act("ending_identity", owner), route_label + " authenticates " + owner):
+				return
+		if not _step(session.act("ending_authority"), route_label + " confirms SUBJECT authority"):
+			return
+		if not _step(session.act("ending_sign"), route_label + " signs the ALL ceremony"):
+			return
+		if not _expect(session.snapshot()["ending_run"].get("all_ceremony_seen", false), route_label + " records the completed ALL ceremony"):
+			return
+	else:
+		var expected_entry := "EDR_ENTRY" if branch == "reality" else "EDS_ENTRY"
+		if not _expect(session.snapshot()["ending_run"]["current_node_id"] == expected_entry, route_label + " skips the ALL-only ceremony"):
+			return
 	for index in range(2):
 		var current := String(session.snapshot()["ending_run"]["current_node_id"])
-		if not _step(session.act("ending_continue", current), branch + " ending acknowledges " + current):
+		if not _step(session.act("ending_continue", current), route_label + " ending acknowledges " + current):
 			return
 	if branch == "reality":
-		_run_reality_ending(session, slot_id)
+		_run_reality_ending(session, slot_id, tier, expected_count)
 	else:
-		_run_stay_ending(session, slot_id)
+		_run_stay_ending(session, slot_id, tier, expected_count)
 
 
-func _run_reality_ending(session, slot_id: String) -> void:
+func _run_reality_ending(session, slot_id: String, tier: String, expected_count: int) -> void:
 	for owner in BASEMENT.REALITY_WAKE.OWNERS:
 		if not _step(session.act("reality_farewell", owner), "reality reads " + owner + " handoff"):
 			return
@@ -455,10 +621,10 @@ func _run_reality_ending(session, slot_id: String) -> void:
 	for index in range(8):
 		if not _step(session.act("surface_tick"), "reality final frame second %d" % (index + 1)):
 			return
-	_finish_credits(session, slot_id, "reality")
+	_finish_credits(session, slot_id, "reality", tier, expected_count)
 
 
-func _run_stay_ending(session, slot_id: String) -> void:
+func _run_stay_ending(session, slot_id: String, tier: String, expected_count: int) -> void:
 	for index in range(3):
 		_step(session.act("stay_memory", index), "stay confirms memory principle %d" % index)
 	_step(session.act("stay_memory_finish"), "stay preserves all three truth principles")
@@ -477,10 +643,10 @@ func _run_stay_ending(session, slot_id: String) -> void:
 	_step(session.act("story_tick"), "stay final frame second beat")
 	if not _step(session.act("story_finish"), "stay reaches the credits boundary"):
 		return
-	_finish_credits(session, slot_id, "stay")
+	_finish_credits(session, slot_id, "stay", tier, expected_count)
 
 
-func _finish_credits(session, slot_id: String, branch: String) -> void:
+func _finish_credits(session, slot_id: String, branch: String, tier: String, expected_count: int) -> void:
 	if not _step(session.act("credits_start"), branch + " credits start"):
 		return
 	_step(session.act("credits_next", 0), branch + " credits page two")
@@ -491,7 +657,8 @@ func _finish_credits(session, slot_id: String, branch: String) -> void:
 	_expect(saves.inspect_slot(slot_id).get("save_point_id", "") == "SAVE_ENDING_COMPLETE", branch + " ending completion is stored on disk")
 	_reload(slot_id, branch + " completed-ending reload")
 	_expect(game.get_value("ending_run.final_decision", "") == branch, branch + " decision survives completed-ending reload")
-	_expect(_completed_servants(game.get_snapshot()) == 0, branch + " ending preserves the zero-relationship route")
+	_expect(_completed_servants(game.get_snapshot()) == expected_count, "%s %s ending preserves %d completed relationships" % [tier, branch, expected_count])
+	_expect(game.get_value("meta_progress.event_history.E5.variant_id", "") == tier, "%s %s ending preserves its E5 relationship tier" % [tier, branch])
 
 
 func _make_cleaner(session) -> void:
@@ -580,9 +747,10 @@ func _expect(condition: bool, message: String) -> bool:
 
 
 func _cleanup() -> void:
-	saves.delete_test_slot(SLOT)
-	if not _replay_slot.is_empty():
-		saves.delete_test_slot(_replay_slot)
+	for slot_id in _test_slots:
+		saves.delete_test_slot(slot_id)
+	for replay_slot in _replay_slots:
+		saves.delete_test_slot(replay_slot)
 	for path in _meta_roots:
 		_remove_tree(path)
 	game.reset_for_test()
