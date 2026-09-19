@@ -24,7 +24,14 @@ const LABELS := {
 	"confirm_notice": ["현재 연구원들의 새 신체 이전은 실행할 수 없다.\n이 절차를 지금 확정할까요?", "The researchers cannot currently be transferred into new bodies.\nConfirm this procedure now?"],
 	"confirm_cancel": ["취소하고 장치를 다시 조사한다", "Cancel and inspect the devices again"],
 	"confirm_commit": ["내 선택으로 확정한다", "Confirm this as my choice"],
+	"unavailable_objective": ["엔딩 진행 상태 확인 필요", "Ending Progress Requires Attention"],
+	"unavailable_return": ["타이틀로 돌아간다", "Return to Title"],
 }
+
+const UNAVAILABLE_BODY := [
+	"이 버전에서 엔딩의 다음 장면을 확인할 수 없습니다.\n이 화면에서는 진행을 변경하지 않습니다.\n타이틀로 돌아가 저장 파일과 게임 버전을 확인하십시오.\n진단용 노드: {node}",
+	"The next ending scene is unavailable in this version.\nThis screen will not change your progress.\nReturn to the title and check the save file and game version.\nDiagnostic node: {node}",
+]
 
 const SUMMARIES_EN := {
 	"wake": "Waking in reality: You can act physically in the outside world. You accept risks to your body and environment and the upkeep of the preservation equipment; immediate conversation with the servants ends. Connection to your physical body and low-power preservation of all five personalities are assured, but long-term survival, other people, and the infrastructure for future transfers remain uncertain.",
@@ -47,6 +54,10 @@ static func summary(procedure: String, locale: String) -> String:
 
 static func confirmation(decision: String, locale: String) -> String:
 	return String((CONFIRMATIONS_EN if locale.begins_with("en") else DECISION.CONFIRMATIONS).get(decision, ""))
+
+static func unavailable(node_id: String, locale: String) -> String:
+	var displayed_id := node_id if not node_id.is_empty() else ("None" if locale.begins_with("en") else "없음")
+	return String(UNAVAILABLE_BODY[1 if locale.begins_with("en") else 0]).format({"node": displayed_id})
 
 # Compatibility lookup for existing saves containing Korean feedback, not text IDs.
 static func feedback(source: String, locale: String) -> String:

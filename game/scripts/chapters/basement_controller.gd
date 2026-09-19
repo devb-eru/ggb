@@ -495,10 +495,10 @@ func _build_fracture_intro() -> void:
 			_build_ending_entry()
 			return
 		"ENDING_BODY_PENDING":
-			_objective_label.text = "엔딩 진행 상태 확인 필요"
+			_objective_label.text = ENDING_TEXTS.text("unavailable_objective", TranslationServer.get_locale())
 			var ending: Dictionary = session.snapshot()["ending_run"]
-			_board_label("이 버전에서 엔딩의 다음 장면을 확인할 수 없습니다.\n이 화면에서는 진행을 변경하지 않습니다.\n타이틀로 돌아가 저장 파일과 게임 버전을 확인하십시오.\n진단용 노드: " + String(ending.get("current_node_id", "없음")), Rect2(350,250,1200,330))
-			_add_hotspot("ENDING_UNAVAILABLE_TITLE", "타이틀로 돌아간다", Rect2(520,650,880,110), _return_to_title)
+			_board_label(ENDING_TEXTS.unavailable(String(ending.get("current_node_id", "")), TranslationServer.get_locale()), Rect2(350,250,1200,330))
+			_add_hotspot("ENDING_UNAVAILABLE_TITLE", ENDING_TEXTS.text("unavailable_return", TranslationServer.get_locale()), Rect2(520,650,880,110), _return_to_title)
 			return
 		"F3":
 			_build_final_inspection()

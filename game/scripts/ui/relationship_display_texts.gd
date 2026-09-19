@@ -369,7 +369,8 @@ static func _line(source: String) -> String:
 		return source.replace(" · 결손", " · Missing").replace(" · 선", " · Line").replace(" · 점", " · Dot").replace(" · 호", " · Arc")
 	for owner in ["EDGAR", "MARA1", "LUCA", "IRIS"]:
 		if source.begins_with(owner + " 보조 영역"):
-			return source.replace("보조 영역", "Backup Region").replace("칸:", "cell:").replace("호", "Arc").replace("선", "Line").replace("점", "Dot")
+			var owner_name: String = String({"EDGAR": "Edgar", "MARA1": "Mara 1", "LUCA": "Luca", "IRIS": "Iris"}[owner])
+			return source.replace(owner, owner_name).replace("보조 영역", "Backup Region").replace("칸:", "cell:").replace("호", "Arc").replace("선", "Line").replace("점", "Dot").replace(" · 확인", " · Checked")
 	if source.ends_with(" · 확인함"): return _line(source.trim_suffix(" · 확인함")) + " · Inspected"
 	if source.ends_with(" · 확인"): return _line(source.trim_suffix(" · 확인")) + " · Checked"
 	if source.ends_with(" · 연결 선택"): return _line(source.trim_suffix(" · 연결 선택")) + " · Selected for Connection"

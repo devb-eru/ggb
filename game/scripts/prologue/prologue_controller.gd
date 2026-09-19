@@ -314,7 +314,7 @@ func _build_window_inspection_ui() -> void:
 
 	_window_hint_label = Label.new()
 	_window_hint_label.name = "WindowInspectionHint"
-	_window_hint_label.text = "오른쪽 인벤토리의 도구를 위·가운데·아래 영역으로 드래그하십시오."
+	_window_hint_label.text = _dialogue_ui_text("P2_ACTIVE_HINT")
 	_window_hint_label.add_theme_font_size_override("font_size", 20)
 	_window_hint_label.add_theme_color_override("font_color", Color(0.91, 0.89, 0.84))
 	_place(_window_hint_label, Rect2(48, 78, 1180, 36))
@@ -326,9 +326,9 @@ func _build_window_inspection_ui() -> void:
 	content.add_child(_window_art)
 
 	var zone_specs := [
-		{"id": "TOP", "label": "위쪽", "rect": Rect2(160, 170, 1070, 140)},
-		{"id": "MIDDLE", "label": "가운데", "rect": Rect2(160, 335, 1070, 155)},
-		{"id": "BOTTOM", "label": "아래", "rect": Rect2(160, 515, 1070, 145)},
+		{"id": "TOP", "label": _dialogue_ui_text("P2_ZONE_TOP"), "rect": Rect2(160, 170, 1070, 140)},
+		{"id": "MIDDLE", "label": _dialogue_ui_text("P2_ZONE_MIDDLE"), "rect": Rect2(160, 335, 1070, 155)},
+		{"id": "BOTTOM", "label": _dialogue_ui_text("P2_ZONE_BOTTOM"), "rect": Rect2(160, 515, 1070, 145)},
 	]
 	for spec_value in zone_specs:
 		var spec: Dictionary = spec_value
@@ -891,8 +891,8 @@ func _build_parlor() -> void:
 	var windows: Array = _progress.get("windows", [0, 0, 0])
 	for index in range(3):
 		var stage := int(windows[index])
-		_add_hotspot("WINDOW_%d" % index, "창 %d · 확대\n%s" % [index + 1, _window_stage_name(stage)], Rect2(300 + index * 420, 250, 300, 390), _on_window_pressed.bind(index))
-	_add_hotspot("CLOCK", "대응접실 시계", Rect2(1450, 185, 180, 190), _show_dialogue.bind([{"speaker": "주인공", "text": "열두 칸이 모두 같은 폭인데, 마지막 칸 아래에 지워진 홈이 하나 더 있다."}]))
+		_add_hotspot("WINDOW_%d" % index, _dialogue_ui_text("P2_WINDOW_LABEL", {"index": index + 1, "state": _window_stage_name(stage)}), Rect2(300 + index * 420, 250, 300, 390), _on_window_pressed.bind(index))
+	_add_hotspot("CLOCK", _dialogue_ui_text("P2_CLOCK_LABEL"), Rect2(1450, 185, 180, 190), _show_dialogue.bind([{"speaker": "주인공", "text": _dialogue_ui_text("P2_CLOCK_OBSERVATION")}]))
 	_add_back_to_hall()
 	if not _intro_seen("P2"):
 		_mark_intro("P2")
@@ -2187,7 +2187,7 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 	for action_value in actions:
 		var action: Dictionary = action_value
 		var button := Button.new()
-		button.text = String(action.get("label", "확인"))
+		button.text = String(action.get("label", _dialogue_ui_text("UI_DIALOGUE_CONTINUE")))
 		button.custom_minimum_size = Vector2(0, 58)
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		button.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
@@ -2551,13 +2551,13 @@ func run_smoke_scenario() -> PackedStringArray:
 			errors.append("P3 journal choice button unavailable")
 			return errors
 		author_button.pressed.emit()
-		if not _dialogue_active or _dialogue_label.text != "주인님의 기록입니다.":
+		if not _dialogue_active or _dialogue_label.text != _dialogue_ui_text("P3_A_AUTHOR"):
 			errors.append("P3 journal selected answer was not presented")
 		_advance_dialogue()
 		if not _dialogue_choice_active or bool(_progress.get("P3_complete", false)):
 			errors.append("P3 author answer did not return to choices")
 		locked_button.pressed.emit()
-		if not _dialogue_active or _dialogue_label.text != "손상된 기록은 잘못 읽히기 쉽습니다.":
+		if not _dialogue_active or _dialogue_label.text != _dialogue_ui_text("P3_A_LOCKED"):
 			errors.append("P3 journal locked answer was not presented")
 		_advance_dialogue()
 		if not _dialogue_choice_active or bool(_progress.get("P3_complete", false)):
@@ -2589,7 +2589,7 @@ func run_smoke_scenario() -> PackedStringArray:
 		if index == 4:
 			if not bool(_progress.get("p4_life_support_seen", false)):
 				errors.append("P4 life-support foreshadow did not trigger while tea steeped")
-			if _dialogue_lines.size() != 3 or "두 번" not in String(_dialogue_lines[0].get("text", "")):
+			if _dialogue_lines.size() != 3 or String(_dialogue_lines[0].get("text", "")) != _dialogue_ui_text("P4_MEMORY_PULSE"):
 				errors.append("P4 life-support sensory sequence is incomplete")
 			var interrupted := _progress.duplicate(true)
 			_advance_dialogue()
@@ -2620,23 +2620,23 @@ func run_smoke_scenario() -> PackedStringArray:
 	_show_p4_father_choices()
 	if not _dialogue_choice_active or _dialogue_choice_mode != "p4_father":
 		errors.append("P4 father question choices did not open")
-	var expected_p4_choice_text := {
-		"father_tea": ["아버지가 좋아한 차인가요?", "네... 비슷한 향을 좋아하셨어요.\n정확히 같은지는... 이제 자신이 없지만요."],
-		"mansion_age": ["이 저택은 언제부터 있었나요?", "아가씨가 기억하는 만큼 오래됐다고... 들었어요."],
-		"luca_tenure": ["루카는 여기서 오래 일했나요?", "오래요... 아주 오래요.\n그런데 며칠이라고 세면, 늘 같은 수가 나와서..."],
+	var expected_p4_choice_ids := {
+		"father_tea": ["P4_Q_FATHER_TEA", "P4_A_FATHER_TEA"],
+		"mansion_age": ["P4_Q_MANSION_AGE", "P4_A_MANSION_AGE"],
+		"luca_tenure": ["P4_Q_LUCA_TENURE", "P4_A_LUCA_TENURE"],
 	}
 	for index in range(P4_FATHER_CHOICE_ORDER.size()):
 		var expected_choice_id := String(P4_FATHER_CHOICE_ORDER[index])
 		var button := _dialogue_choice_buttons[index]
 		if String(button.get_meta("choice_id", "")) != expected_choice_id:
 			errors.append("P4 father question order mismatch: %s" % expected_choice_id)
-		if String(button.get_meta("choice_label", "")) != String(expected_p4_choice_text[expected_choice_id][0]):
+		if String(button.get_meta("choice_label", "")) != _dialogue_ui_text(String(expected_p4_choice_ids[expected_choice_id][0])):
 			errors.append("P4 father question label mismatch: %s" % expected_choice_id)
-		if String(P4_FATHER_CHOICES[expected_choice_id]["response"]) != String(expected_p4_choice_text[expected_choice_id][1]):
+		if String(P4_FATHER_CHOICES[expected_choice_id]["response"]) != _dialogue_texts.get_text(String(expected_p4_choice_ids[expected_choice_id][1]), "ko-KR"):
 			errors.append("P4 father answer text mismatch: %s" % expected_choice_id)
 	var tenure_button := _dialogue_choice_buttons[2]
 	tenure_button.pressed.emit()
-	if not _dialogue_active or _dialogue_lines.size() != 3 or "늘 같은 수" not in String(_dialogue_lines[0].get("text", "")):
+	if not _dialogue_active or _dialogue_lines.size() != 3 or String(_dialogue_lines[0].get("text", "")) != _dialogue_ui_text("P4_A_LUCA_TENURE"):
 		errors.append("P4 Luca tenure answer or topic-change beat is missing")
 	_answer_p4_father_choice("father_tea")
 	if String(_progress.get("p4_father_question", "")) != "luca_tenure":

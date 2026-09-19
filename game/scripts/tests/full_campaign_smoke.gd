@@ -23,6 +23,8 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	tree = scene_tree
 	game = tree.root.get_node("GameState")
 	saves = tree.root.get_node("SaveManager")
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
 	var previous_flavor: Variant = ProjectSettings.get_setting(BUILD_FLAVOR_SETTING, null)
 	ProjectSettings.set_setting(BUILD_FLAVOR_SETTING, "full")
 	saves.delete_test_slot(SLOT)
@@ -36,6 +38,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 
 	_cleanup()
 	ProjectSettings.set_setting(BUILD_FLAVOR_SETTING, previous_flavor)
+	TranslationServer.set_locale(previous_locale)
 	return {"ok": errors.is_empty(), "errors": errors}
 
 

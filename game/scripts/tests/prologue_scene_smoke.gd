@@ -169,6 +169,21 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._advance_dialogue()
 	_expect(not prologue._dialogue_active, "English P1 completes normally", errors)
 	_expect("Examine the light" in prologue._status_label.text, "English P1 completes with localized objective", errors)
+	prologue._enter_room("M1_PARLOR")
+	prologue._dismiss_dialogue_for_test()
+	for index in range(3):
+		var window_button := prologue._hotspot_layer.get_node("WINDOW_%d" % index) as Button
+		_expect(window_button.text.begins_with("Window %d" % (index + 1)) and not _contains_hangul(window_button.text), "English P2 window label %d" % (index + 1), errors)
+	var clock_button := prologue._hotspot_layer.get_node("CLOCK") as Button
+	_expect(clock_button.text == "Parlor clock", "English P2 clock label", errors)
+	clock_button.pressed.emit()
+	_expect(prologue._dialogue_active and prologue._dialogue_label.text.contains("erased notch") and not _contains_hangul(prologue._dialogue_label.text), "English P2 clock observation", errors)
+	prologue._dismiss_dialogue_for_test()
+	prologue._open_window_inspection(0)
+	_expect(not _contains_hangul(prologue._window_hint_label.text), "English P2 close-up guidance", errors)
+	for target_value in prologue._window_drop_targets.values():
+		_expect(not _contains_hangul(String(target_value.text)), "English P2 close-up zone", errors)
+	prologue._close_window_inspection()
 	var before_sleep_prompt: Dictionary = prologue._progress.duplicate(true)
 	prologue._on_sleep_bed()
 	_expect(prologue._modal_body.get_child(3).text == "Go to sleep", "English sleep confirmation action", errors)
@@ -623,3 +638,8 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 func _expect(condition: bool, message: String, errors: PackedStringArray) -> void:
 	if not condition:
 		errors.append(message)
+
+
+func _contains_hangul(value: String) -> bool:
+	var expression := RegEx.new()
+	return expression.compile("[가-힣]") == OK and expression.search(value) != null

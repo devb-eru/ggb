@@ -152,7 +152,9 @@ func _validate_relationship_text_catalog() -> void:
 	_expect(RELATIONSHIP_TEXTS.text("날짜와 앞 문서의 참조로 전력 기록을 연결한다. 선택 2 / 5", "en_US").contains("Selected: 2 / 5"), "Iris dynamic order status is translated")
 	_expect(RELATIONSHIP_TEXTS.text("슬롯 1\n주관 맥박 1", "en_US") == "Slot 1\nMain Pulse 1", "Luca dynamic slot is translated")
 	_expect(RELATIONSHIP_TEXTS.text("초상화 A\n열화 단계 2\n3음 시작 표식 2 · 윤곽 기준선 3", "en_US").contains("Outline reference 3"), "Mara2 dynamic portrait status is translated")
+	_expect(RELATIONSHIP_TEXTS.text("EDGAR 보조 영역 · 확인", "en_US") == "Edgar Backup Region · Checked", "Mara2 backup owner uses a player-facing English name")
 	_expect(RELATIONSHIP_TEXTS.text("관련 없는 문장", "en_US") == "관련 없는 문장", "Relationship translation leaves unrelated text unchanged")
+	_expect(not _contains_hangul(VIEW.ENDING_TEXTS.unavailable("ED_UNKNOWN", "en_US")), "Unsupported ending recovery guidance is fully translated")
 
 func _validate_fracture_resolution_text_catalog() -> void:
 	for source in FRACTURE_RESOLUTION_TEXTS.TEXT_EN:
@@ -752,15 +754,25 @@ func _validate_full_transition() -> void:
 	_expect(choice_probe["calls"] == 1, "closed choice cannot fire stale callback")
 	var original_session: ChapterOneSession = view.session
 	var before_unavailable: Dictionary = game.get_snapshot()
+	var unavailable_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
 	view.session = PendingEndingSession.new(game, saves, SLOT)
 	view._clear_hotspots()
 	view._build_fracture_intro()
 	_expect(not view._history_enabled(), "unsupported ending screen cannot write dialogue history")
 	_expect(view._hotspot_layer.has_node("ENDING_UNAVAILABLE_TITLE") and not view._objective_label.text.contains("구현 중"), "unsupported ending offers accurate recovery navigation")
+	_expect(not _contains_hangul(view._objective_label.text), "unsupported ending objective renders in English")
+	var unavailable_text := PackedStringArray()
+	for label in view._hotspot_layer.find_children("*", "Label", true, false):
+		unavailable_text.append(String(label.text))
+	for button in view._hotspot_layer.find_children("*", "Button", true, false):
+		unavailable_text.append(String(button.text))
+	_expect(not _contains_hangul("\n".join(unavailable_text)), "unsupported ending recovery screen has no Korean leakage")
 	var title_probe := {"called": false}
 	view.return_to_title_requested.connect(func(): title_probe["called"] = true)
 	(view._hotspot_layer.get_node("ENDING_UNAVAILABLE_TITLE") as Button).pressed.emit()
 	_expect(title_probe["called"] and game.get_snapshot() == before_unavailable, "unsupported ending title action preserves gameplay state")
+	TranslationServer.set_locale(unavailable_locale)
 	view.session = original_session
 	view._render_room()
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
