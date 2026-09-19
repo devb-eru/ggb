@@ -10,6 +10,7 @@ const CORE_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
 const BASEMENT_TEXTS := preload("res://scripts/ui/basement_display_texts.gd")
 const FRACTURE_COMMON_TEXTS := preload("res://scripts/ui/fracture_common_display_texts.gd")
 const RELATIONSHIP_TEXTS := preload("res://scripts/ui/relationship_display_texts.gd")
+const FRACTURE_RESOLUTION_TEXTS := preload("res://scripts/ui/fracture_resolution_display_texts.gd")
 const SLOT := "__test_basement_session"
 var errors := PackedStringArray()
 var game: Node
@@ -153,6 +154,37 @@ func _validate_relationship_text_catalog() -> void:
 	_expect(RELATIONSHIP_TEXTS.text("초상화 A\n열화 단계 2\n3음 시작 표식 2 · 윤곽 기준선 3", "en_US").contains("Outline reference 3"), "Mara2 dynamic portrait status is translated")
 	_expect(RELATIONSHIP_TEXTS.text("관련 없는 문장", "en_US") == "관련 없는 문장", "Relationship translation leaves unrelated text unchanged")
 
+func _validate_fracture_resolution_text_catalog() -> void:
+	for source in FRACTURE_RESOLUTION_TEXTS.TEXT_EN:
+		_expect(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US") != source, "Fracture resolution text is translated: " + source.left(32))
+		_expect(FRACTURE_RESOLUTION_TEXTS.text(source, "ko") == source, "Fracture resolution Korean stays canonical: " + source.left(32))
+	for source in FRACTURE_RESOLUTION_TEXTS.SCENE_OPENINGS_EN:
+		_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US")), "E5 tier opening is fully translated")
+	for source in SESSION.JOURNAL_FOUR.PAGES.values():
+		_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US")), "J4 page is fully translated")
+	for source in [SESSION.JOURNAL_FOUR.BASE_TEXT, SESSION.JOURNAL_FOUR.LAST_TEXT]:
+		_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US")), "J4 restored text is fully translated")
+	for table in [SESSION.LAST_EVENING.QUESTIONS, SESSION.LAST_EVENING.ANSWERS, SESSION.LAST_EVENING.INSERTS, SESSION.LAST_EVENING.DISTANCE, SESSION.LAST_EVENING.OVERLAYS]:
+		for source in table.values():
+			_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US")), "E5 source text is fully translated")
+	for source in SESSION.LAST_EVENING.NAMES:
+		_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US")), "E5 servant seat label is translated")
+	for count in [0, 2, 4, 5]:
+		var fixture: Dictionary = game.get_snapshot()
+		for index in range(SESSION.LAST_EVENING.OWNERS.size()):
+			fixture["meta_progress"]["servants"][SESSION.LAST_EVENING.OWNERS[index]]["core_event_complete"] = index < count
+		var scene: String = SESSION.LAST_EVENING.scene(fixture)
+		_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(scene, "en_US")), "E5 generated tier scene is fully translated: %d" % count)
+	_expect(FRACTURE_RESOLUTION_TEXTS.text("현재 배열: 약속 → 전환 → 역할 고정 → 주인공 기동", "en_US") == "Current order: Promise -> Conversion -> Roles Fixed -> Protagonist Activated", "J4 dynamic order is translated")
+	for location_id in FRACTURE_RESOLUTION_TEXTS.LOCATION_ID_EN:
+		_expect(not FRACTURE_RESOLUTION_TEXTS.text(location_id + " · Morning 8", "en_US").begins_with(location_id), "Fracture resolution location ID is human readable: " + location_id)
+	var no_records := {"remaining_names":"대각선 · 마라 1, 꽃잎 · 이리스","minutes_min":19,"minutes_max":29,"core_complete_ids":[],"researcher_record_count":0,"edgar_core_complete":false}
+	_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.j4_confirmation(no_records, "en_US")), "J4 incomplete summary is fully translated")
+	var all_records := {"remaining_names":"","minutes_min":0,"minutes_max":0,"core_complete_ids":["E3_1","E3_2","E3_3","E3_4","E3_5"],"researcher_record_count":5,"edgar_core_complete":true}
+	_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.j4_confirmation(all_records, "en_US")), "J4 complete summary is fully translated")
+	_expect(FRACTURE_RESOLUTION_TEXTS.text("관련 없는 문장", "en_US") == "관련 없는 문장", "Fracture resolution leaves unrelated text unchanged")
+
+
 func _validate_basement_hints(expected_stage: String) -> void:
 	var view := VIEW.new()
 	view.configure_session(SLOT, expected_stage)
@@ -194,6 +226,7 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	_validate_basement_text_catalog()
 	_validate_fracture_common_text_catalog()
 	_validate_relationship_text_catalog()
+	_validate_fracture_resolution_text_catalog()
 	var state: Dictionary = game.get_snapshot()
 	state["meta_progress"]["journal_stage"] = 3
 	state["meta_progress"]["knowledge_entries"] = {"PROLOGUE_COMPLETE": true, "j3_restored_day": 3, "j2_restored_day": 2, "C5_MIRROR_TRACING": true, "KN_B1_LIBRARY_WINDOW": true, "self_authored_mark": {"day": 1}}
@@ -1080,9 +1113,11 @@ func _validate_j4(session: BasementSession) -> void:
 			fixture["meta_progress"]["knowledge_entries"][rules.EVENTS[index] + "_complete"] = complete
 			if complete: count += 1
 		_expect(StateWriter.new(game).install_snapshot(fixture, game.revision, &"J4_FIXTURE").get("ok", false), "J4 fixture")
+		if mask == 0: await _validate_j4_low_confirmation_ui(session)
 		_expect(not session.act("j4_confirm", false).get("ok", false) and session.snapshot() == fixture, "J4 cancellation preserves state")
 		_expect(session.act("j4_confirm", true).get("ok", false), "J4 confirm mask %d" % mask)
 		_expect(session.stage() == "J4", "J4 opens without record gate")
+		if mask == 0: await _validate_j4_ordering_ui(session)
 		_expect(not session.act("move", "M1_KITCHEN").get("ok", false), "J4 closes relation hub")
 		_expect(not session.act("j4_read").get("ok", false), "J4 requires page assembly")
 		session.act("j4_page", "activation")
@@ -1092,6 +1127,7 @@ func _validate_j4(session: BasementSession) -> void:
 		_expect(session.act("j4_order").get("ok", false), "J4 chronological order")
 		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "J4 partial load")
 		_expect(session.act("j4_read").get("ok", false), "J4 restoration")
+		if mask == 31: _validate_j4_full_notebook_translation()
 		var expected := "J4_FULL" if count == 5 else ("J4_EXPANDED" if count >= 2 else "J4_BASE")
 		_expect(game.get_value("meta_progress.knowledge_entries.j4_variant") == expected, "J4 record tier")
 		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "J4 completed load")
@@ -1145,6 +1181,8 @@ func _validate_j4(session: BasementSession) -> void:
 		_expect(not session.act("e6_move", "M1_CENTRAL_HALL").get("ok", false), "no F0 backtracking")
 		_expect(session.snapshot()["meta_progress"]["event_history"]["E5"] == e5_history, "followups preserve E5 snapshot")
 	_expect(StateWriter.new(game).install_snapshot(hub, game.revision, &"J4_RESTORE").get("ok", false), "restore relation hub after J4 tests")
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
 	var view := VIEW.new()
 	view.configure_session(SLOT, "J4")
 	root.add_child(view)
@@ -1152,6 +1190,8 @@ func _validate_j4(session: BasementSession) -> void:
 	view._dismiss_dialogue_for_test()
 	view._show_j4_confirmation()
 	_expect(not view._objective_label.text.contains("구현 중"), "relation hub contains player-facing objective rather than development status")
+	_expect(not _contains_hangul((view._modal_body.get_child(2).get_child(0) as Label).text), "J4 English confirmation body has no Korean")
+	_expect((view._modal_body.get_child(3) as Button).text == FRACTURE_RESOLUTION_TEXTS.text("계속 조사한다", "en_US"), "J4 English confirmation keeps continue as default action")
 	var j4_before_cancel := session.snapshot()
 	var expected_hub := hub.duplicate(true)
 	expected_hub["meta_progress"]["dialogue_history"] = j4_before_cancel["meta_progress"]["dialogue_history"].duplicate(true)
@@ -1166,10 +1206,71 @@ func _validate_j4(session: BasementSession) -> void:
 	await tree.create_timer(0.6).timeout
 	_expect(not confirm.disabled, "J4 confirmation becomes available")
 	tree.paused = paused_before_grace_test
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://j4_confirmation_english.png")
 	view._close_modal()
 	_expect(session.snapshot() == j4_before_cancel, "J4 modal cancel changes nothing")
 	view.queue_free()
 	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
+
+
+func _validate_j4_low_confirmation_ui(session: BasementSession) -> void:
+	var before := session.snapshot()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "J4")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	view._show_j4_confirmation()
+	_expect((view._modal_body.get_child(0) as Label).text == FRACTURE_RESOLUTION_TEXTS.text("조사 종료 확인", "en_US"), "J4 LOW confirmation title renders in English")
+	_expect(not _contains_hangul((view._modal_body.get_child(2).get_child(0) as Label).text), "J4 LOW confirmation body has no Korean")
+	_expect((view._modal_body.get_child(3) as Button).text == FRACTURE_RESOLUTION_TEXTS.text("계속 조사한다", "en_US"), "J4 LOW confirmation defaults to continued investigation")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://j4_confirmation_low_english.png")
+	view._close_modal()
+	view.queue_free()
+	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
+	_expect(StateWriter.new(game).install_snapshot(before, game.revision, &"J4_LOW_UI_RESTORE").get("ok", false), "J4 LOW UI fixture restore")
+
+
+func _validate_j4_full_notebook_translation() -> void:
+	var canonical := String(game.get_value("meta_progress.knowledge_entries.chapter_notebook.J4"))
+	_expect(_contains_hangul(canonical), "J4 canonical notebook remains Korean")
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	var view := VIEW.new()
+	var translated := view._localized_notebook_entry(canonical)
+	_expect(not _contains_hangul(translated), "J4 FULL notebook renders entirely in English")
+	view.free()
+	TranslationServer.set_locale(previous_locale)
+
+
+func _validate_j4_ordering_ui(session: BasementSession) -> void:
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "J4")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view._objective_label.text == FRACTURE_RESOLUTION_TEXTS.text("네 번째 일지 · 약속과 권한", "en_US"), "J4 objective renders in English")
+	_expect((view._hotspot_layer.get_node("J4_PAGE_promise") as Button).text == FRACTURE_RESOLUTION_TEXTS.text(SESSION.JOURNAL_FOUR.PAGES["promise"], "en_US"), "J4 page action renders in English")
+	var visible_text := PackedStringArray()
+	for label in view._hotspot_layer.find_children("*", "Label", true, false):
+		visible_text.append(String(label.text))
+	_expect("Current order: None" in visible_text, "J4 dynamic current order renders in English")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://j4_ordering_english.png")
+	view.queue_free()
+	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
 
 
 func _validate_f0a(session: BasementSession) -> void:
@@ -2541,53 +2642,70 @@ func _validate_credits(session: BasementSession) -> void:
 
 func _validate_e6_ui(session: BasementSession) -> void:
 	var before := session.snapshot()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
 	var view := VIEW.new()
 	view.configure_session(SLOT, "E6")
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	_expect(view._hotspot_layer.has_node("E6_ENTER"), "E6 entry button visible")
+	_expect(view._objective_label.text == FRACTURE_RESOLUTION_TEXTS.text("코어 접근 · 남은 후속 반응", "en_US"), "E6 objective renders in English")
+	_expect(view._location_label.text.begins_with("Security Machine Room"), "E6 location renders a human-readable English name")
+	_expect((view._hotspot_layer.get_node("E6_ENTER") as Button).text == FRACTURE_RESOLUTION_TEXTS.text("코어 경로 진입 확인", "en_US"), "E6 entry action renders in English")
 	var after_intro := session.snapshot()
 	before["meta_progress"]["dialogue_history"] = after_intro["meta_progress"]["dialogue_history"].duplicate(true)
 	_expect(after_intro == before, "E6 opening only appends displayed dialogue history")
 	view._hotspot_layer.get_node("E6_ENTER").pressed.emit()
 	await tree.process_frame
 	var focus := root.gui_get_focus_owner() as Button
-	_expect(focus != null and focus.text == "아직 조사한다", "E6 confirmation defaults to stay")
+	_expect(focus != null and focus.text == FRACTURE_RESOLUTION_TEXTS.text("아직 조사한다", "en_US"), "E6 English confirmation defaults to stay")
+	_expect(not _contains_hangul((view._modal_body.get_child(2).get_child(0) as Label).text), "E6 English confirmation body has no Korean")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://e6_confirmation.png")
 	view._close_modal()
 	view.queue_free()
 	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
 	_expect(session.snapshot() == before, "E6 UI cancellation unchanged")
 
 
 func _validate_e5_ui(session: BasementSession) -> void:
 	var before := session.snapshot()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
 	var view := VIEW.new()
 	view.configure_session(SLOT, "E5")
 	root.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	_expect(view._hotspot_layer.has_node("E5_SIT"), "E5 seat button visible")
+	_expect(view._objective_label.text == FRACTURE_RESOLUTION_TEXTS.text("마지막으로 정상인 저녁", "en_US"), "E5 objective renders in English")
+	_expect(view._location_label.text.begins_with("Dining Room"), "E5 location renders a human-readable English name")
+	_expect((view._hotspot_layer.get_node("E5_SIT") as Button).text == FRACTURE_RESOLUTION_TEXTS.text("북쪽 정면의 내 자리에 앉는다", "en_US"), "E5 seat action renders in English")
 	view._hotspot_layer.get_node("E5_SIT").pressed.emit()
+	_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "E5 relationship-tier scene begins in English")
 	view._dismiss_dialogue_for_test()
 	view._render_room()
 	_expect(view._hotspot_layer.has_node("E5_QUESTION_stay"), "all E5 questions accessible")
+	_expect((view._hotspot_layer.get_node("E5_QUESTION_stay") as Button).text == FRACTURE_RESOLUTION_TEXTS.text(SESSION.LAST_EVENING.QUESTIONS["stay"], "en_US"), "E5 question renders in English")
 	view._hotspot_layer.get_node("E5_QUESTION_stay").pressed.emit()
+	_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "E5 selected answer begins in English")
 	view._dismiss_dialogue_for_test()
 	view._render_room()
 	view._hotspot_layer.get_node("E5_FINISH").pressed.emit()
 	await tree.process_frame
 	var focus := root.gui_get_focus_owner() as Button
-	_expect(focus != null and focus.text == "아직 준비되지 않았다", "E5 confirmation defaults to defer")
+	_expect(focus != null and focus.text == FRACTURE_RESOLUTION_TEXTS.text("아직 준비되지 않았다", "en_US"), "E5 English confirmation defaults to defer")
+	_expect(not _contains_hangul((view._modal_body.get_child(2).get_child(0) as Label).text), "E5 English confirmation body has no Korean")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://e5_confirmation.png")
 	view._close_modal()
 	view.queue_free()
 	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
 	_expect(StateWriter.new(game).install_snapshot(before, game.revision, &"E5_UI_RESTORE").get("ok", false), "E5 UI fixture restore")
 
 

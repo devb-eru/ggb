@@ -18,6 +18,7 @@ const CORE_STORY_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
 const BASEMENT_TEXTS := preload("res://scripts/ui/basement_display_texts.gd")
 const FRACTURE_COMMON_TEXTS := preload("res://scripts/ui/fracture_common_display_texts.gd")
 const RELATIONSHIP_TEXTS := preload("res://scripts/ui/relationship_display_texts.gd")
+const FRACTURE_RESOLUTION_TEXTS := preload("res://scripts/ui/fracture_resolution_display_texts.gd")
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -82,7 +83,7 @@ func _feedback(result: Dictionary) -> void:
 	var displayed := result.duplicate(true)
 	var original := String(result.get("text", ""))
 	var locale := TranslationServer.get_locale()
-	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(CORE_STORY_TEXTS.feedback(RELATIONSHIP_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(original, locale), locale), locale), locale), locale))
+	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(CORE_STORY_TEXTS.feedback(FRACTURE_RESOLUTION_TEXTS.feedback(RELATIONSHIP_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(original, locale), locale), locale), locale), locale), locale))
 	if displayed["text"] != original:
 		displayed["speaker"] = CORE_STORY_TEXTS.speaker(String(result.get("speaker", "주인공")), locale)
 	super._feedback(displayed)
@@ -167,6 +168,8 @@ func _render_room() -> void:
 			_build_fracture_intro()
 			if session.stage() in ["E3_1", "E3_2", "E3_3", "E3_4", "E3_5"]:
 				_localize_relationship_view()
+			elif session.stage() in ["J4", "E3_4M", "E5", "E6"]:
+				_localize_fracture_resolution_view()
 		call_deferred("_restore_world_focus")
 		return
 	match _current_room:
@@ -264,7 +267,7 @@ func _d6_guidance_text(checkpoint: int) -> String:
 
 func _localized_notebook_entry(entry: String) -> String:
 	var locale := TranslationServer.get_locale()
-	return _d6_text(CORE_STORY_TEXTS.feedback(RELATIONSHIP_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(super._localized_notebook_entry(entry), locale), locale), locale), locale))
+	return _d6_text(CORE_STORY_TEXTS.feedback(FRACTURE_RESOLUTION_TEXTS.feedback(RELATIONSHIP_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(super._localized_notebook_entry(entry), locale), locale), locale), locale), locale))
 
 
 func _core_text(id: String) -> String:
@@ -597,6 +600,31 @@ func _show_relationship_choice(title: String, body: String, actions: Array) -> v
 	_show_recorded_choice(_relationship_text(title), _relationship_text(body), _relationship_actions(actions))
 
 
+func _fracture_resolution_text(source: String) -> String:
+	return FRACTURE_RESOLUTION_TEXTS.text(source, TranslationServer.get_locale())
+
+
+func _localize_fracture_resolution_view() -> void:
+	_location_label.text = _fracture_resolution_text(_location_label.text)
+	_objective_label.text = _fracture_resolution_text(_objective_label.text)
+	for node in _hotspot_layer.find_children("*", "Control", true, false):
+		if node is Label or node is Button:
+			node.text = _fracture_resolution_text(String(node.text))
+
+
+func _fracture_resolution_actions(actions: Array) -> Array:
+	var localized: Array = []
+	for item in actions:
+		var copy: Dictionary = item.duplicate()
+		copy["label"] = _fracture_resolution_text(String(item.get("label", "")))
+		localized.append(copy)
+	return localized
+
+
+func _show_fracture_resolution_modal(title: String, body: String, actions: Array) -> void:
+	_show_modal(_fracture_resolution_text(title), _fracture_resolution_text(body), _fracture_resolution_actions(actions))
+
+
 func _build_mara1_relationship() -> void:
 	_objective_label.text = "마라 1 · 끊긴 배선과 삭제 기록"
 	if _current_room == "M1_SERVICE_HALL":
@@ -882,11 +910,8 @@ func _show_mara2_choice() -> void:
 
 func _show_j4_confirmation() -> void:
 	var totals: Dictionary = BasementSession.JOURNAL_FOUR.summary(session.snapshot())
-	var remaining := String(totals["remaining_names"])
-	var time_text := "남은 선택 사건 없음" if remaining.is_empty() else "%d~%d분" % [totals["minutes_min"], totals["minutes_max"]]
-	var body := "남은 사용인 사건은 이후 완료할 수 없습니다. 메인 진행과 두 최종 선택지는 유지됩니다.\n완료: %d / 5 · 연구원 기록: %d / 5\n미완료: %s\n남은 예상 시간: %s" % [totals["core_complete_ids"].size(), totals["researcher_record_count"], "없음" if remaining.is_empty() else remaining, time_text]
-	if not totals["edgar_core_complete"]: body += "\n에드가 전체 사건은 최소 접근 절차로 대체됩니다. 최소 절차는 기록·관계·완료 수를 제공하지 않습니다."
-	_show_modal("조사 종료 확인", body, [
+	var body := FRACTURE_RESOLUTION_TEXTS.j4_confirmation(totals, TranslationServer.get_locale())
+	_show_fracture_resolution_modal("조사 종료 확인", body, [
 		{"label": "계속 조사한다", "action": _close_modal},
 		{"label": "기록을 정리한다", "action": _modal_act.bind("j4_confirm", true)},
 	])
@@ -1635,7 +1660,7 @@ func _build_core_approach() -> void:
 
 
 func _show_core_entry_confirmation() -> void:
-	_show_modal("코어 경로 진입", "진입하면 이전 공간으로 돌아갈 수 없고, 미확인 후속 반응은 종료됩니다. 완료한 관계와 저녁의 결산은 유지됩니다. 현실·잔류 선택은 아직 하지 않습니다.", [
+	_show_fracture_resolution_modal("코어 경로 진입", "진입하면 이전 공간으로 돌아갈 수 없고, 미확인 후속 반응은 종료됩니다. 완료한 관계와 저녁의 결산은 유지됩니다. 현실·잔류 선택은 아직 하지 않습니다.", [
 		{"label": "아직 조사한다", "action": _close_modal},
 		{"label": "문턱을 넘는다", "action": _modal_act.bind("e6_enter", true)},
 	])
@@ -1666,7 +1691,7 @@ func _build_last_evening() -> void:
 
 
 func _show_e5_confirmation() -> void:
-	_show_modal("코어 접근 준비", "저녁의 결산을 마칩니다. 남을지 떠날지는 코어에서 다시 확인합니다.", [
+	_show_fracture_resolution_modal("코어 접근 준비", "저녁의 결산을 마칩니다. 남을지 떠날지는 코어에서 다시 확인합니다.", [
 		{"label": "아직 준비되지 않았다", "action": _close_modal},
 		{"label": "준비를 마친다", "action": _modal_act.bind("e5_finish", true)},
 	])
