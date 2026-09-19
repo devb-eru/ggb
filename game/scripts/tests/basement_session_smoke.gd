@@ -1203,7 +1203,8 @@ func _validate_j4(session: BasementSession) -> void:
 	view._show_j4_confirmation()
 	_expect(not view._objective_label.text.contains("구현 중"), "relation hub contains player-facing objective rather than development status")
 	_expect(not _contains_hangul((view._modal_body.get_child(2).get_child(0) as Label).text), "J4 English confirmation body has no Korean")
-	_expect((view._modal_body.get_child(3) as Button).text == FRACTURE_RESOLUTION_TEXTS.text("계속 조사한다", "en_US"), "J4 English confirmation keeps continue as default action")
+	var continue_button := view._modal_body.get_child(3) as Button
+	_expect(continue_button.text == FRACTURE_RESOLUTION_TEXTS.text("계속 조사한다", "en_US"), "J4 English confirmation keeps continue as default action")
 	var j4_before_cancel := session.snapshot()
 	var expected_hub := hub.duplicate(true)
 	expected_hub["meta_progress"]["dialogue_history"] = j4_before_cancel["meta_progress"]["dialogue_history"].duplicate(true)
@@ -1217,6 +1218,8 @@ func _validate_j4(session: BasementSession) -> void:
 	tree.paused = false
 	await tree.create_timer(0.6).timeout
 	_expect(not confirm.disabled, "J4 confirmation becomes available")
+	_expect(continue_button.focus_next == continue_button.get_path_to(confirm), "J4 delayed confirmation joins forward Tab cycle")
+	_expect(confirm.focus_previous == confirm.get_path_to(continue_button), "J4 delayed confirmation joins reverse Tab cycle")
 	tree.paused = paused_before_grace_test
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw

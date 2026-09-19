@@ -922,7 +922,9 @@ func _show_j4_confirmation() -> void:
 
 func _enable_j4_confirm(reference: WeakRef) -> void:
 	var button = reference.get_ref()
-	if is_instance_valid(button) and _modal_active and button.is_inside_tree(): button.disabled = false
+	if is_instance_valid(button) and _modal_active and button.is_inside_tree():
+		button.disabled = false
+		_cycle_modal_focus()
 
 
 func _build_final_inspection() -> void:
