@@ -2270,6 +2270,31 @@ func _validate_field_notebook(session: BasementSession) -> void:
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("ko")
+	view._render_room()
+	var cover: String = rules.REQUIRED[0]
+	var first_hours: String = rules.REQUIRED[1]
+	view._open_field_page(cover,false)
+	var cover_next := view._modal_body.get_child(5) as Button
+	_expect(cover_next.text == texts.text("next","ko") + texts.title(first_hours,"ko"), "Physical notebook next-index label targets following page")
+	cover_next.pressed.emit()
+	var after_cover_next: Dictionary = session.snapshot()
+	var notebook_after_cover: Dictionary = after_cover_next["loop_state"]["event_local_states"]["FIELD_NOTEBOOK"]
+	_expect(cover in notebook_after_cover.get("pages",[]) and cover not in notebook_after_cover.get("expanded_pages",[]), "Next index marks current summary page read")
+	_expect(cover in after_cover_next["ending_run"]["required_interactions_seen"] and view._modal_active, "Next index persists required reading and keeps notebook open")
+	(view._modal_body.get_child(4) as Button).pressed.emit()
+	var hours_next := view._modal_body.get_child(5) as Button
+	var pages: Array = rules.PAGES.keys()
+	var expected_after_hours: String = pages[(pages.find(first_hours)+1)%pages.size()]
+	_expect(hours_next.text == texts.text("next","ko") + texts.title(expected_after_hours,"ko"), "Expanded page keeps next-index navigation")
+	hours_next.pressed.emit()
+	var after_hours_next: Dictionary = session.snapshot()
+	var notebook_after_hours: Dictionary = after_hours_next["loop_state"]["event_local_states"]["FIELD_NOTEBOOK"]
+	_expect(first_hours in notebook_after_hours.get("pages",[]) and first_hours in notebook_after_hours.get("expanded_pages",[]), "Next index records expanded reading depth")
+	_expect(first_hours in after_hours_next["ending_run"]["required_interactions_seen"], "Next index satisfies second required physical notebook page")
+	view._close_modal()
+	view._render_room()
+	_expect(view._hotspot_layer.has_node("FIELD_FINISH"), "Next-index reading unlocks physical notebook completion")
 	var before_english: Dictionary = session.snapshot()
 	TranslationServer.set_locale("en")
 	view._render_room()

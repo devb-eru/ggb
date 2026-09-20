@@ -1340,8 +1340,20 @@ func _open_field_page(page: String, expanded: bool) -> void:
 	_show_recorded_choice(FIELD_TEXTS.title(page,locale),text,[
 		{"label":FIELD_TEXTS.text("close",locale),"action":_modal_act.bind("field_read",{"page":page,"expanded":expanded})},
 		{"label":FIELD_TEXTS.text("summary" if expanded else "expand",locale),"action":_open_field_page.bind(page,not expanded)},
-		{"label":FIELD_TEXTS.text("next",locale) + FIELD_TEXTS.title(next_page,locale),"action":_open_field_page.bind(next_page,false)},
+		{"label":FIELD_TEXTS.text("next",locale) + FIELD_TEXTS.title(next_page,locale),"action":_advance_field_page.bind(page,expanded,next_page)},
 	])
+
+
+func _advance_field_page(page: String, expanded: bool, next_page: String) -> void:
+	if _dialogue_active or not _modal_active:
+		return
+	var result := session.act("field_read", {"page":page,"expanded":expanded})
+	if not result.get("ok",false):
+		_set_status(_display_feedback(String(result.get("text",str(result.get("error_ids",[]))))))
+		return
+	_set_status("")
+	_close_modal()
+	_open_field_page(next_page,false)
 
 
 func _reality_fade() -> void:
