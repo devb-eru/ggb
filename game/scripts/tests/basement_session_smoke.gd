@@ -1,0 +1,2883 @@
+extends RefCounted
+
+const SESSION := preload("res://scripts/systems/basement_session.gd")
+const VIEW := preload("res://scripts/chapters/basement_controller.gd")
+const D4_REACTION := preload("res://scripts/systems/d4_reaction_selector.gd")
+const D5_TEXTS := preload("res://scripts/ui/fracture_transition_texts.gd")
+const D5_ART := preload("res://scripts/ui/d5_transition_art.gd")
+const D6_TEXTS := preload("res://scripts/ui/fracture_rest_texts.gd")
+const CORE_TEXTS := preload("res://scripts/ui/core_story_texts.gd")
+const BASEMENT_TEXTS := preload("res://scripts/ui/basement_display_texts.gd")
+const FRACTURE_COMMON_TEXTS := preload("res://scripts/ui/fracture_common_display_texts.gd")
+const RELATIONSHIP_TEXTS := preload("res://scripts/ui/relationship_display_texts.gd")
+const FRACTURE_RESOLUTION_TEXTS := preload("res://scripts/ui/fracture_resolution_display_texts.gd")
+const SLOT := "__test_basement_session"
+var errors := PackedStringArray()
+var game: Node
+var saves: Node
+var root: Window
+var tree: SceneTree
+
+class UnavailableEndingMeta extends RefCounted:
+	func commit_completed(_state: Dictionary) -> Dictionary:
+		return {"ok":false,"error":"injected_write_failure"}
+
+class PendingEndingSession extends BasementSession:
+	func stage() -> String:
+		return "ENDING_BODY_PENDING"
+
+
+func _validate_d4_reaction_selection() -> void:
+	var base: Dictionary = game.get_snapshot()
+	var untouched := base.duplicate(true)
+	_expect(D4_REACTION.select(base)["owner"].is_empty(), "D4 reaction remains silent below high threshold")
+	_expect(base == untouched, "D4 reaction selection does not mutate source state")
+
+	for owner in ["edgar", "mara1", "luca", "iris", "mara2"]:
+		var seeded := base.duplicate(true)
+		seeded["meta_progress"]["servants"][owner]["bond"] = 4
+		var selected: Dictionary = D4_REACTION.select(seeded)
+		_expect(selected["owner"] == owner.to_upper() and selected["mode"] == "bond", "D4 bond reaction owner: " + owner)
+
+	var alert_seed := base.duplicate(true)
+	alert_seed["meta_progress"]["servants"]["mara1"]["alert"] = 4
+	alert_seed["meta_progress"]["servants"]["luca"]["bond"] = 4
+	_expect(D4_REACTION.select(alert_seed)["owner"] == "LUCA", "D4 equal strength prefers bond response")
+	alert_seed["meta_progress"]["servants"]["luca"]["bond"] = 0
+	var alert_selected: Dictionary = D4_REACTION.select(alert_seed)
+	_expect(alert_selected["owner"] == "MARA1" and alert_selected["mode"] == "alert", "D4 alert response remains eligible")
+
+	var priority_seed := base.duplicate(true)
+	priority_seed["meta_progress"]["servants"]["edgar"]["bond"] = 4
+	priority_seed["meta_progress"]["servants"]["mara1"]["bond"] = 5
+	_expect(D4_REACTION.select(priority_seed)["owner"] == "EDGAR", "D4 Edgar high bond has narrative priority")
+	priority_seed["meta_progress"]["servants"]["edgar"]["bond"] = 0
+	priority_seed["meta_progress"]["servants"]["mara1"]["bond"] = 4
+	priority_seed["meta_progress"]["servants"]["luca"]["bond"] = 4
+	_expect(D4_REACTION.select(priority_seed)["owner"] == "MARA1", "D4 equal other reactions use stable priority")
+
+	_expect(D5_TEXTS.lines("ko").size() == 14, "D5 legacy or no-reaction state keeps fourteen beats")
+	var localized: Array = D5_TEXTS.lines("en_US", alert_selected)
+	_expect(localized.size() == 15 and localized[11]["speaker"] == "Mara 1", "D5 inserts one localized frozen reaction")
+	_expect(D5_ART.PATTERNS.size() == 5 and not D5_ART.PATTERNS.values().has(""), "D5 art exposes a non-color pattern for every servant")
+	for owner in ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]:
+		for mode in ["bond", "alert"]:
+			var response := {"owner": owner, "mode": mode}
+			_expect(not D6_TEXTS.guidance_300(response, "ko").is_empty(), "D6 Korean companion guidance: " + owner + " " + mode)
+			_expect(not D6_TEXTS.guidance_300(response, "en_US").is_empty(), "D6 English companion guidance: " + owner + " " + mode)
+	_expect("에드가 방송" in D6_TEXTS.guidance_300({}, "ko"), "D6 guidance falls back to Edgar broadcast without frozen reaction")
+
+
+func _validate_core_story_text_catalog() -> void:
+	for id in CORE_TEXTS.UI:
+		_expect(not CORE_TEXTS.text(id, "ko").is_empty() and not CORE_TEXTS.text(id, "en_US").is_empty(), "Core story UI text is bilingual: " + id)
+	for room in SESSION.CORE_ROOMS.ROOMS:
+		_expect(CORE_TEXTS.room_name(room, "en") != SESSION.CORE_ROOMS.NAMES[room], "F0-A room name is translated: " + room)
+		_expect(CORE_TEXTS.port(room, "en") != SESSION.CORE_ROOMS.PORTS[room], "F0-A port is translated: " + room)
+		for index in range(2):
+			var sample_source: String = SESSION.CORE_SAMPLES.NAMES[room] + " · " + SESSION.CORE_SAMPLES.SAMPLES[room][index]["label"] + "\n" + SESSION.CORE_SAMPLES.SAMPLES[room][index]["trace"]
+			_expect(CORE_TEXTS.feedback(sample_source, "en") != sample_source, "F0-B sample trace is translated: %s:%d" % [room,index])
+	for record in SESSION.CORE_ROLES.RECORDS:
+		var role_source: String = SESSION.CORE_ROLES.NAMES[record] + "\n" + SESSION.CORE_ROLES.FACTS[record]
+		_expect(CORE_TEXTS.feedback(role_source, "en") != role_source, "F0-D record is translated: " + record)
+	for mark_type in SESSION.CORE_SELF.MARKS:
+		for piece in SESSION.CORE_SELF.MARKS[mark_type]:
+			_expect(CORE_TEXTS.mark_piece(mark_type,piece,"en") != piece, "F0-E mark piece is translated: " + mark_type)
+	for intent in SESSION.CORE_SELF.INTENTS:
+		_expect(CORE_TEXTS.intent(intent,"en") != SESSION.CORE_SELF.INTENTS[intent], "F0-E intent is translated: " + intent)
+	for index in range(SESSION.FATHER_RECORD.SEGMENTS.size()):
+		var record_source: String = SESSION.FATHER_RECORD.TITLES[index] + "\n" + SESSION.FATHER_RECORD.SEGMENTS[index]
+		var record_english := CORE_TEXTS.feedback(record_source,"en")
+		_expect(record_english != record_source and not record_english.contains(SESSION.FATHER_RECORD.TITLES[index]), "F1 complete record segment is translated: %d" % index)
+	_expect(CORE_TEXTS.feedback(SESSION.FATHER_RECORD.J5_TEXT,"en") != SESSION.FATHER_RECORD.J5_TEXT, "J5 page is translated")
+	for question in SESSION.CONFRONTATION.QUESTIONS:
+		_expect(CORE_TEXTS.question(question,"en") != SESSION.CONFRONTATION.QUESTIONS[question], "F2 question is translated: " + question)
+	for fact in SESSION.CONFRONTATION.FACTS:
+		_expect(CORE_TEXTS.feedback(SESSION.CONFRONTATION.FACTS[fact],"en") != SESSION.CONFRONTATION.FACTS[fact], "F2 fact is translated: " + fact)
+	_expect(CORE_TEXTS.feedback("관련 없는 문장", "en") == "관련 없는 문장", "Core translation does not rewrite unrelated text")
+	_expect(CORE_TEXTS.feedback("네 방 포트를 확인한다.", "ko") == "네 방 포트를 확인한다.", "Core Korean feedback stays canonical")
+
+
+func _validate_basement_text_catalog() -> void:
+	for stage in BASEMENT_TEXTS.OBJECTIVES:
+		_expect(not BASEMENT_TEXTS.objective(stage, "ko").is_empty(), "Basement Korean objective exists: " + stage)
+		_expect(not BASEMENT_TEXTS.objective(stage, "en_US").is_empty(), "Basement English objective exists: " + stage)
+	for id in BASEMENT_TEXTS.UI:
+		_expect(not BASEMENT_TEXTS.ui(id, "ko").is_empty(), "Basement Korean UI exists: " + id)
+		_expect(not BASEMENT_TEXTS.ui(id, "en_US").is_empty(), "Basement English UI exists: " + id)
+	for source in BASEMENT_TEXTS.FEEDBACK_EN:
+		_expect(BASEMENT_TEXTS.feedback(source, "en_US") != source, "Basement feedback is translated: " + source.left(32))
+		_expect(BASEMENT_TEXTS.feedback(source, "ko") == source, "Basement Korean feedback stays canonical: " + source.left(32))
+	for axis in SESSION.BASEMENT.AXES:
+		var source: String = SESSION.BASEMENT.AXIS_NAMES[axis] + "의 게이지가 안정된다. 손바닥보다 치아에 압력이 먼저 닿는다."
+		_expect(BASEMENT_TEXTS.feedback(source, "en_US") != source, "Dynamic axis feedback is translated: " + axis)
+	for index in range(BASEMENT_TEXTS.DEMO_BEATS.size()):
+		_expect(BASEMENT_TEXTS.demo_beat(index, "en_US") != BASEMENT_TEXTS.demo_beat(index, "ko"), "D5 demo beat is bilingual: %d" % index)
+	var floorplan := {"rotation":270,"flipped":true,"anchor":"great_clock"}
+	_expect(BASEMENT_TEXTS.floorplan_status(floorplan,"en_US").contains("Great Clock"), "Floorplan status translates dynamic anchor")
+	var axes := {"pushed":["line"],"depths":{"line":2,"branch":1,"ring":3}}
+	_expect(BASEMENT_TEXTS.axis_status("line",axes,"en_US").contains("Pushed"), "Axis status translates pushed state")
+	var heart := {"rings":[1,2,3],"wind":12}
+	_expect(BASEMENT_TEXTS.heart_status(heart,"en_US").contains("XIII Notch"), "Heart status translates dynamic glyphs")
+
+
+func _validate_fracture_common_text_catalog() -> void:
+	for id in FRACTURE_COMMON_TEXTS.UI:
+		_expect(not FRACTURE_COMMON_TEXTS.ui(id, "ko").is_empty(), "Fracture common Korean UI exists: " + id)
+		_expect(not FRACTURE_COMMON_TEXTS.ui(id, "en_US").is_empty(), "Fracture common English UI exists: " + id)
+	for source in FRACTURE_COMMON_TEXTS.FEEDBACK_EN:
+		_expect(FRACTURE_COMMON_TEXTS.feedback(source, "en_US") != source, "Fracture common feedback is translated: " + source.left(32))
+	for source in FRACTURE_COMMON_TEXTS.E1_DESCRIPTIONS_EN:
+		_expect(FRACTURE_COMMON_TEXTS.feedback(source, "en_US") != source, "E1 sensory text is translated")
+	for source in FRACTURE_COMMON_TEXTS.E2_ANSWERS_EN:
+		_expect(FRACTURE_COMMON_TEXTS.feedback(source, "en_US") != source, "E2 answer is translated")
+	_expect(FRACTURE_COMMON_TEXTS.feedback("관련 없는 문장", "en_US") == "관련 없는 문장", "Fracture common translation leaves unrelated text unchanged")
+
+
+func _validate_relationship_text_catalog() -> void:
+	for source in RELATIONSHIP_TEXTS.TEXT_EN:
+		_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Relationship text is translated: " + source.left(32))
+		_expect(RELATIONSHIP_TEXTS.text(source, "ko") == source, "Relationship Korean text stays canonical: " + source.left(32))
+	for source in RELATIONSHIP_TEXTS.RECORDS_EN:
+		_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Relationship notebook record is translated")
+	for rules in [SESSION.MARA1_RELATIONSHIP, SESSION.IRIS_RELATIONSHIP, SESSION.LUCA_RELATIONSHIP, SESSION.EDGAR_RELATIONSHIP]:
+		for source in rules.LOGS.values():
+			_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Relationship source log is translated")
+	for source in SESSION.IRIS_RELATIONSHIP.CLUES.values():
+		_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Iris clue is translated")
+	for source in SESSION.EDGAR_RELATIONSHIP.CLUES.values():
+		_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Edgar clue is translated")
+	for source in SESSION.MARA2_RELATIONSHIP.SIGNS.values():
+		_expect(RELATIONSHIP_TEXTS.text(source, "en_US") != source, "Mara2 signature is translated")
+	_expect(RELATIONSHIP_TEXTS.text("날짜와 앞 문서의 참조로 전력 기록을 연결한다. 선택 2 / 5", "en_US").contains("Selected: 2 / 5"), "Iris dynamic order status is translated")
+	_expect(RELATIONSHIP_TEXTS.text("슬롯 1\n주관 맥박 1", "en_US") == "Slot 1\nMain Pulse 1", "Luca dynamic slot is translated")
+	_expect(RELATIONSHIP_TEXTS.text("초상화 A\n열화 단계 2\n3음 시작 표식 2 · 윤곽 기준선 3", "en_US").contains("Outline reference 3"), "Mara2 dynamic portrait status is translated")
+	_expect(RELATIONSHIP_TEXTS.text("EDGAR 보조 영역 · 확인", "en_US") == "Edgar Backup Region · Checked", "Mara2 backup owner uses a player-facing English name")
+	_expect(RELATIONSHIP_TEXTS.text("관련 없는 문장", "en_US") == "관련 없는 문장", "Relationship translation leaves unrelated text unchanged")
+	_expect(not _contains_hangul(VIEW.ENDING_TEXTS.unavailable("ED_UNKNOWN", "en_US")), "Unsupported ending recovery guidance is fully translated")
+
+func _validate_fracture_resolution_text_catalog() -> void:
+	for source in FRACTURE_RESOLUTION_TEXTS.TEXT_EN:
+		_expect(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US") != source, "Fracture resolution text is translated: " + source.left(32))
+		_expect(FRACTURE_RESOLUTION_TEXTS.text(source, "ko") == source, "Fracture resolution Korean stays canonical: " + source.left(32))
+	for source in FRACTURE_RESOLUTION_TEXTS.SCENE_OPENINGS_EN:
+		_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US")), "E5 tier opening is fully translated")
+	for source in SESSION.JOURNAL_FOUR.PAGES.values():
+		_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US")), "J4 page is fully translated")
+	for source in [SESSION.JOURNAL_FOUR.BASE_TEXT, SESSION.JOURNAL_FOUR.LAST_TEXT]:
+		_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US")), "J4 restored text is fully translated")
+	for table in [SESSION.LAST_EVENING.QUESTIONS, SESSION.LAST_EVENING.ANSWERS, SESSION.LAST_EVENING.INSERTS, SESSION.LAST_EVENING.DISTANCE, SESSION.LAST_EVENING.OVERLAYS]:
+		for source in table.values():
+			_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US")), "E5 source text is fully translated")
+	for source in SESSION.LAST_EVENING.NAMES:
+		_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(source, "en_US")), "E5 servant seat label is translated")
+	for count in [0, 2, 4, 5]:
+		var fixture: Dictionary = game.get_snapshot()
+		for index in range(SESSION.LAST_EVENING.OWNERS.size()):
+			fixture["meta_progress"]["servants"][SESSION.LAST_EVENING.OWNERS[index]]["core_event_complete"] = index < count
+		var scene: String = SESSION.LAST_EVENING.scene(fixture)
+		_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.text(scene, "en_US")), "E5 generated tier scene is fully translated: %d" % count)
+	_expect(FRACTURE_RESOLUTION_TEXTS.text("현재 배열: 약속 → 전환 → 역할 고정 → 주인공 기동", "en_US") == "Current order: Promise -> Conversion -> Roles Fixed -> Protagonist Activated", "J4 dynamic order is translated")
+	for location_id in FRACTURE_RESOLUTION_TEXTS.LOCATION_ID_EN:
+		_expect(not FRACTURE_RESOLUTION_TEXTS.text(location_id + " · Morning 8", "en_US").begins_with(location_id), "Fracture resolution location ID is human readable: " + location_id)
+	var no_records := {"remaining_names":"대각선 · 마라 1, 꽃잎 · 이리스","minutes_min":19,"minutes_max":29,"core_complete_ids":[],"researcher_record_count":0,"edgar_core_complete":false}
+	_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.j4_confirmation(no_records, "en_US")), "J4 incomplete summary is fully translated")
+	var all_records := {"remaining_names":"","minutes_min":0,"minutes_max":0,"core_complete_ids":["E3_1","E3_2","E3_3","E3_4","E3_5"],"researcher_record_count":5,"edgar_core_complete":true}
+	_expect(not _contains_hangul(FRACTURE_RESOLUTION_TEXTS.j4_confirmation(all_records, "en_US")), "J4 complete summary is fully translated")
+	_expect(FRACTURE_RESOLUTION_TEXTS.text("관련 없는 문장", "en_US") == "관련 없는 문장", "Fracture resolution leaves unrelated text unchanged")
+
+
+func _validate_basement_hints(expected_stage: String) -> void:
+	var view := VIEW.new()
+	view.configure_session(SLOT, expected_stage)
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view.session.stage() == expected_stage, "basement hint stage: " + expected_stage)
+	var before: Dictionary = game.get_snapshot()
+	view._open_notebook()
+	var button := view._modal_body.get_node_or_null("ClockHintsButton") as Button
+	_expect(button != null, "basement thought action: " + expected_stage)
+	if button != null:
+		button.pressed.emit()
+		for level in range(5):
+			(view._modal_body.get_child(4) as Button).pressed.emit()
+			var provider = preload("res://scripts/ui/core_hint_texts.gd") if expected_stage.begins_with("F0_") else preload("res://scripts/ui/basement_hint_texts.gd")
+			var expected: String = provider.text(expected_stage, level, TranslationServer.get_locale())
+			_expect(not expected.is_empty(), "requested hint has content")
+			_expect(view._dialogue_label.text == expected, "basement requested hint: " + expected_stage)
+			view._dialogue_next.pressed.emit()
+		view._close_modal()
+	var after: Dictionary = game.get_snapshot()
+	_expect(after.meta_progress.dialogue_history.entries.size() == before.meta_progress.dialogue_history.entries.size() + 5, "basement hints persist only shown lines")
+	after.meta_progress.dialogue_history = before.meta_progress.dialogue_history.duplicate(true)
+	_expect(after == before, "basement hints preserve axes rings locks and relationships")
+	view.queue_free()
+	await tree.process_frame
+
+
+func run(scene_tree: SceneTree) -> Dictionary:
+	tree = scene_tree
+	root = tree.root
+	game = root.get_node("GameState")
+	saves = root.get_node("SaveManager")
+	game.reset_for_test()
+	saves.delete_test_slot(SLOT)
+	_validate_d4_reaction_selection()
+	_validate_core_story_text_catalog()
+	_validate_basement_text_catalog()
+	_validate_fracture_common_text_catalog()
+	_validate_relationship_text_catalog()
+	_validate_fracture_resolution_text_catalog()
+	var state: Dictionary = game.get_snapshot()
+	state["meta_progress"]["journal_stage"] = 3
+	state["meta_progress"]["knowledge_entries"] = {"PROLOGUE_COMPLETE": true, "j3_restored_day": 3, "j2_restored_day": 2, "C5_MIRROR_TRACING": true, "KN_B1_LIBRARY_WINDOW": true, "self_authored_mark": {"day": 1}}
+	state["loop_state"]["day_index"] = 3
+	state["loop_state"]["location_id"] = "M2_BEDROOM"
+	StateWriter.new(game).install_snapshot(state, game.revision, &"BASEMENT_SEED")
+	var session := SESSION.new(game, saves, SLOT)
+	_expect(session.initialize().get("ok", false), "initialize")
+	_expect(session.stage() == "D_SLEEP", "J3 requires next morning")
+	session.act("routine")
+	_expect(session.sleep().get("ok", false), "J3 sleep")
+	_expect(session.stage() == "D0", "D0 next morning")
+	_expect(not session.act("move", "M1_BASEMENT_ENTRY").get("ok", false), "no basement entry before diagram")
+	session.act("routine")
+	_move(session, ["M1_CENTRAL_HALL", "M1_LIBRARY_OUTER", "M1_LIBRARY_INNER"])
+	for point in ["greenhouse", "bedroom", "great_clock"]: session.act("d_drawer_point", point)
+	_expect("MANSION_FLOORPLAN" in game.get_value("loop_state.inventory"), "physical floorplan acquired")
+	await _validate_basement_hints("D0_A")
+	session.act("d_overlay")
+	_expect(not session.known("basement_overlay_solved"), "wrong overlay stays local")
+	session.act("d_flip")
+	for index in range(3): session.act("d_rotate")
+	session.act("d_anchor", "great_clock")
+	session.act("d_overlay")
+	_expect(session.stage() == "D1", "D0-A unlocks pressure puzzle")
+	await _validate_basement_hints("D1")
+	_move(session, ["M1_LIBRARY_OUTER", "M1_CENTRAL_HALL", "M1_GREAT_CLOCK", "M1_BASEMENT_ENTRY", "B1_BASEMENT_STAIR", "B1_AXIS_CHAMBER"])
+	_expect(not session.act("move", "B1_STORAGE").get("ok", false), "locked storage cannot be bypassed")
+	session.act("d_axis_depth", ["line", 2])
+	session.act("d_axis_push", {"value": "line", "confirmed": true})
+	var axis_view_state: Dictionary = game.get_snapshot()
+	session.act("d_axis_depth", ["branch", 3])
+	session.act("d_axis_push", {"value": "branch", "confirmed": true})
+	_expect(session.stage() == "DF", "wrong depth causes DF")
+	await _validate_basement_hints("DF")
+	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "load failure")
+	_expect(session.stage() == "DF", "load cannot repair pressure pins")
+	_move(session, ["B1_BASEMENT_STAIR", "M1_BASEMENT_ENTRY", "M1_GREAT_CLOCK", "M1_CENTRAL_HALL", "M2_BEDROOM"])
+	_expect(not session.can_use_basement_shortcut(), "locked axes require sleep before preparation")
+	session.sleep()
+	_expect(session.can_use_basement_shortcut(), "unresolved axes failure allows preparation after sleep")
+	_expect(session.basement_local()["axes"]["pushed"].is_empty(), "sleep resets physical axes")
+	_expect("MANSION_FLOORPLAN" not in game.get_value("loop_state.inventory"), "sleep returns floorplan to drawer")
+	_expect(session.known("basement_overlay_solved"), "verified overlay remains")
+	session.act("d_shortcut")
+	_expect(session.basement_local()["axes"]["depths"]["line"] == 2 and session.basement_local()["axes"]["pushed"].is_empty(), "shortcut preselects only verified depth, no irreversible push")
+	for pair in [["line", 2], ["branch", 1], ["ring", 3]]:
+		session.act("d_axis_depth", pair)
+		session.act("d_axis_push", {"value": pair[0], "confirmed": true})
+	session.act("d_axis_central", {"value": "counterclockwise", "confirmed": true})
+	_expect(not session.basement_local()["axes"]["locked"], "reverse warning permits cancellation")
+	session.act("d_axis_central", {"value": "clockwise", "confirmed": true})
+	_expect(session.known("basement_access_fast_path"), "D2 grants access shortcut only after success")
+	_expect(game.get_value("meta_progress.failure_knowledge.D1.status") == "resolved", "D2 resolves failure")
+	_move(session, ["B1_BASEMENT_STAIR", "M1_BASEMENT_ENTRY", "M1_GREAT_CLOCK", "M1_CENTRAL_HALL", "M2_BEDROOM"])
+	var opened_storage: Dictionary = game.get_snapshot()
+	_expect(not session.can_use_basement_shortcut() and not session.can_use_basement_shortcut(true), "already open storage offers neither preparation nor reopening")
+	_expect(not session.act("d_shortcut").get("ok", false) and not session.act("d_fastpath").get("ok", false), "session rejects redundant storage shortcuts")
+	_expect(game.get_snapshot() == opened_storage, "redundant storage shortcuts preserve state")
+	_expect(session.sleep().get("ok", false), "sleep resets opened physical storage")
+	_expect(not session.can_use_basement_shortcut() and session.can_use_basement_shortcut(true), "verified access replaces resolved failure preparation after reset")
+	_expect(session.act("d_fastpath").get("ok", false) and session.basement_local()["axes"]["open"], "successful access shortcut reopens storage after reset")
+	_move(session, ["B1_STORAGE"])
+	_expect(not session.act("move", "B1_CLOCKWORK_HEART").get("ok", false), "storage survey before heart entry")
+	session.act("d_storage", "cable")
+	session.act("d_storage", "drawing")
+	_move(session, ["B1_CLOCKWORK_HEART"])
+	await _validate_basement_hints("D4")
+	for handle in ["A", "B", "C", "C"]: session.act("d_heart", {"action": "turn", "value": handle})
+	session.act("d_heart", {"action": "fix"})
+	for index in range(12): session.act("d_heart", {"action": "wind"})
+	session.act("d_heart", {"action": "stabilize"})
+	_expect(game.get_value("fracture_state.camouflage_filter") == "active", "XII does not release filter")
+	session.act("d_heart", {"action": "inspect_auxiliary"})
+	_expect(not session.act("d_heart", {"action": "pull_auxiliary", "confirmed": false}).get("ok", false), "auxiliary is cancelable")
+	var d4_ready: Dictionary = game.get_snapshot()
+	d4_ready["meta_progress"]["servants"]["mara1"]["bond"] = 5
+	d4_ready["meta_progress"]["servants"]["iris"]["alert"] = 5
+	_expect(StateWriter.new(game).install_snapshot(d4_ready, game.revision, &"D4_REACTION_FIXTURE").get("ok", false), "D4 reaction fixture installed")
+	session.slot_id = "../invalid_slot"
+	_expect(not session.act("d_heart", {"action": "pull_auxiliary", "confirmed": true}).get("ok", false), "D4 reaction commit failure is reported")
+	_expect(session.stage() == "D4" and session.d5_reaction()["owner"].is_empty(), "D4 failed save rolls back filter and frozen reaction")
+	session.slot_id = SLOT
+	_expect(session.act("d_heart", {"action": "pull_auxiliary", "confirmed": true}).get("ok", false), "D4 reaction explicit retry succeeds")
+	_expect(session.stage() == "D5" and not game.get_value("fracture_state.broken_reset_triggered"), "filter release precedes first broken sleep")
+	_expect(session.d5_reaction()["owner"] == "MARA1" and session.d5_reaction()["mode"] == "bond", "D4 freezes strongest eligible servant reaction")
+	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "load at D4 boundary")
+	_expect(session.d5_reaction()["owner"] == "MARA1", "D4 frozen reaction survives save and load")
+	var stinger := VIEW.new()
+	stinger.configure_session(SLOT, "D5")
+	root.add_child(stinger)
+	await tree.process_frame
+	stinger.set_process(false)
+	stinger._demo_stinger_seconds = 0.0
+	stinger._open_menu()
+	_expect(stinger._modal_active, "Stinger menu remains available")
+	stinger._tick_demo_stinger(70.0)
+	_expect(stinger._demo_stinger_seconds == 0.0 and session.stage() == "D5", "Menu pauses stinger before completion boundary")
+	stinger._close_modal()
+	_expect(not stinger._hotspot_layer.has_node("D5_CONFIRM"), "Demo stinger has no confirmation gate")
+	_expect("마라 1:" in stinger._demo_stinger_beat(3), "Demo stinger consumes frozen D4 reaction")
+	var stinger_before: Dictionary = game.get_snapshot()
+	for attempt in [["move", "B1_STORAGE"], ["routine", null], ["d_storage", "cable"]]:
+		_expect(not session.act(attempt[0], attempt[1]).get("ok", false), "Stinger rejects world action: " + attempt[0])
+	_expect(game.get_snapshot() == stinger_before, "Rejected stinger actions preserve state")
+	stinger._tick_demo_stinger(59.0)
+	_expect(session.stage() == "D5", "Stinger cannot finish before sixty active seconds")
+	var before_completion: Dictionary = game.get_snapshot()
+	stinger.session.slot_id = "../invalid_slot"
+	stinger._tick_demo_stinger(1.0)
+	_expect(stinger._demo_stinger_save_failed and session.stage() == "D5", "Failed completion stays in D5")
+	_expect(game.get_snapshot() == before_completion, "Failed stinger save rolls back completion")
+	_expect(stinger._hotspot_layer.has_node("D5_SAVE_RETRY") and not stinger._hotspot_layer.has_node("RETURN_TITLE"), "Failure exposes retry instead of completed screen")
+	var failed_revision: int = game.revision
+	stinger._tick_demo_stinger(30.0)
+	_expect(game.revision == failed_revision, "Failed stinger does not loop automatic save attempts")
+	stinger.session.slot_id = SLOT
+	stinger._hotspot_layer.get_node("D5_SAVE_RETRY").pressed.emit()
+	_expect(stinger._hotspot_layer.has_node("RETURN_TITLE"), "Stinger completion displays demo end screen")
+	stinger.queue_free()
+	await tree.process_frame
+	_expect(session.stage() == "DEMO_END", "demo boundary remains distinct from full-game continuation")
+	_expect(not session.sleep().get("ok", false), "demo cannot silently enter full chapter")
+	var loaded: Dictionary = saves.load_slot(SLOT)
+	_expect(loaded.get("ok", false), "D5 boundary stored")
+	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "D5 boundary loads")
+	_expect(session.stage() == "DEMO_END", "D5 boundary persists")
+	await _validate_ui(session, axis_view_state)
+	await _validate_full_transition()
+	await _validate_full_d5_story(before_completion)
+	saves.delete_test_slot(SLOT)
+	game.reset_for_test()
+	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _validate_full_d5_story(state: Dictionary) -> void:
+	var previous: Variant = ProjectSettings.get_setting("ggb/build_flavor", null)
+	ProjectSettings.set_setting("ggb/build_flavor", "full")
+	var slot := "__test_full_d5_story"
+	saves.delete_test_slot(slot)
+	var fixture := state.duplicate(true)
+	fixture["meta_progress"]["servants"]["mara1"]["bond"] = 0
+	fixture["meta_progress"]["servants"]["edgar"]["bond"] = 5
+	_expect(StateWriter.new(game).install_snapshot(fixture, game.revision, &"D5_STORY_FIXTURE").get("ok", false), "Full D5 fixture installed")
+	var view := VIEW.new()
+	view.configure_session(slot, "D5")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	var before: Dictionary = game.get_snapshot()
+	var locale := TranslationServer.get_locale()
+	for language in ["ko", "en_US"]:
+		TranslationServer.set_locale(language)
+		view._hotspot_layer.get_node("D5_CONFIRM").pressed.emit()
+		_expect(view._d5_hold_active and not view._dialogue_active and not view._hotspot_layer.has_node("D5_CONFIRM"), "Full D5 starts non-skippable hold: " + language)
+		var art = view._hotspot_layer.get_node_or_null("D5TransitionArt")
+		_expect(art != null and is_equal_approx(art.reveal_progress, 0.0) and art.focus_owner == "MARA1", "D5 hold starts with frozen reaction channel ready: " + language)
+		var hold_before: Dictionary = game.get_snapshot()
+		view._open_menu()
+		view._tick_full_d5_hold(10.0)
+		_expect(view._d5_hold_seconds == 0.0 and game.get_snapshot() == hold_before, "Full D5 menu pauses hold without save writes: " + language)
+		view._close_modal()
+		view._tick_full_d5_hold(9.9)
+		_expect(view._d5_hold_active and not view._dialogue_active and game.get_snapshot() == hold_before, "Full D5 hold blocks progress for ten active seconds: " + language)
+		art = view._hotspot_layer.get_node_or_null("D5TransitionArt")
+		_expect(art != null and art.reveal_progress > 0.98, "D5 visual reveal follows active hold time: " + language)
+		view._tick_full_d5_hold(0.1)
+		_expect(view._dialogue_active and view._dialogue_lines.size() == 15, "Full D5 presents narrative beats and one frozen reaction: " + language)
+		_expect(view._dialogue_lines[11].get("d4_reaction_owner", "") == "MARA1", "D5 consumes D4 owner without relationship reevaluation: " + language)
+		_expect(game.get_value("meta_progress.servants") == before["meta_progress"]["servants"], "Full D5 does not change relationships")
+		view._advance_dialogue()
+		_expect(view.session.stage() == "D5", "Reading first D5 beat does not complete transition")
+		view._dismiss_dialogue_for_test()
+		view._render_room()
+	view._hotspot_layer.get_node("D5_CONFIRM").pressed.emit()
+	view._tick_full_d5_hold(10.0)
+	for index in range(view._dialogue_lines.size()):
+		if index == 6:
+			var focus_before: Dictionary = game.get_snapshot()
+			for owner in ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]:
+				view._dialogue_layer.get_node("D5Focus/" + owner).pressed.emit()
+				_expect(game.get_value("loop_state.event_local_states.D5.D5_FOCUS_OWNER") == owner, "D5 stores optional viewing owner")
+				_expect(view._hotspot_layer.get_node("D5TransitionArt").focus_owner == owner, "D5 visual focus follows optional viewing owner")
+				_expect(view._dialogue_index == 6 and view.session.stage() == "D5", "D5 focus does not advance narrative")
+			_expect(game.get_value("meta_progress.servants") == focus_before["meta_progress"]["servants"], "D5 focus leaves relationships unchanged")
+			view.session.slot_id = "../invalid_slot"
+			view._dialogue_layer.get_node("D5Focus/EDGAR").pressed.emit()
+			_expect(game.get_value("loop_state.event_local_states.D5.D5_FOCUS_OWNER") == "MARA2", "D5 failed focus save preserves previous owner")
+			view.session.slot_id = slot
+			view._dialogue_layer.get_node("D5Focus/EDGAR").pressed.emit()
+			_expect(game.get_value("loop_state.event_local_states.D5.D5_FOCUS_OWNER") == "EDGAR", "D5 explicit retry updates selected owner")
+			_expect(view._status_label.text.is_empty(), "D5 successful retry clears stale failure notice")
+			_expect(view._dialogue_index == 6 and view._dialogue_active, "D5 retry preserves reading position")
+			if "--capture-basement-session" in OS.get_cmdline_user_args():
+				var old_size := root.size
+				root.size = Vector2i(1280, 720)
+				view._apply_reading_text_scale(2.0)
+				view._refresh_d5_focus_controls()
+				await tree.process_frame
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("user://d5_focus_en_200.png")
+				root.size = old_size
+				view._apply_reading_text_scale(1.0)
+		if index == 11 and "--capture-basement-session" in OS.get_cmdline_user_args():
+			var old_size := root.size
+			root.size = Vector2i(1280, 720)
+			view._apply_reading_text_scale(2.0)
+			await tree.process_frame
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://d4_reaction_en_200.png")
+			root.size = old_size
+			view._apply_reading_text_scale(1.0)
+		view._advance_dialogue()
+	_expect(view.session.stage() == "D6", "Full D5 completes after final acknowledgement")
+	_expect(not game.get_value("fracture_state.broken_reset_triggered"), "D5 story does not perform broken sleep")
+	TranslationServer.set_locale("ko")
+	var d6_state: Dictionary = game.get_snapshot()
+	view._d6_guidance_seconds = 0.0
+	view._tick_d6_guidance(179.0)
+	_expect(not game.get_value("loop_state.event_local_states").get("D6", {}).has("guidance_checkpoint"), "D6 guidance waits three active minutes")
+	view._open_menu()
+	view._tick_d6_guidance(200.0)
+	_expect(view._d6_guidance_seconds == 179.0, "D6 menu pauses guidance")
+	view._close_modal()
+	var before_guidance_failure: Dictionary = game.get_snapshot()
+	view.session.slot_id = "../invalid_slot"
+	view._tick_d6_guidance(1.0)
+	_expect(view._d6_guidance_failed and not view.is_processing(), "D6 failed guidance stops automatic retry")
+	_expect(game.get_snapshot() == before_guidance_failure, "D6 failed guidance rolls back checkpoint")
+	_expect(view._hotspot_layer.has_node("D6_GUIDANCE_RETRY") and view._hotspot_layer.has_node("D6_SPINE"), "D6 failure retains navigation and explicit retry")
+	var failed_revision: int = game.revision
+	view._tick_d6_guidance(500.0)
+	_expect(game.revision == failed_revision, "D6 failed guidance makes no repeated save attempts")
+	view.session.slot_id = slot
+	view._hotspot_layer.get_node("D6_GUIDANCE_RETRY").pressed.emit()
+	_expect(not view._d6_guidance_failed and view.is_processing(), "D6 explicit retry restores timer")
+	_expect(game.get_value("loop_state.event_local_states.D6.guidance_checkpoint") == 180, "D6 retry commits first checkpoint")
+	_expect(not view._hotspot_layer.has_node("D6_GUIDANCE_RETRY"), "D6 successful retry removes error control")
+	_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "D6 guidance checkpoint reloads")
+	view._d6_guidance_seconds = 0.0
+	view._render_room()
+	_expect(view._d6_guidance_seconds == 180.0, "D6 reconstruction resumes last committed checkpoint")
+	view._show_dialogue([{"speaker": "SYSTEM", "text": "D6 investigation pause"}])
+	view._tick_d6_guidance(500.0)
+	_expect(view._d6_guidance_seconds == 180.0, "D6 investigation dialogue pauses guidance")
+	view._dismiss_dialogue_for_test()
+	view._tick_d6_guidance(120.0)
+	_expect("마라 1" in view._status_label.text, "D6 five-minute guidance consumes frozen D4 companion")
+	_expect(game.get_value("meta_progress.servants") == d6_state["meta_progress"]["servants"], "D6 companion guidance does not change relationships")
+	view._tick_d6_guidance(180.0)
+	_expect(game.get_value("loop_state.event_local_states.D6.guidance_checkpoint") == 480, "D6 reaches all three guidance checkpoints")
+	_expect(view.session.stage() == "D6" and not game.get_value("fracture_state.broken_reset_triggered"), "D6 eight-minute guidance never forces sleep")
+	var guided: Dictionary = game.get_snapshot()
+	view._tick_d6_guidance(1000.0)
+	_expect(game.get_snapshot() == guided, "D6 completed guidance does not repeat writes")
+	view._d6_guidance_seconds = 0.0
+	for route in ["capsule", "bedroom"]:
+		TranslationServer.set_locale("en_US" if route == "capsule" else "ko")
+		_expect(StateWriter.new(game).install_snapshot(d6_state, game.revision, &"D6_ROUTE_FIXTURE").get("ok", false), "D6 route fixture installed")
+		view._render_room()
+		view._hotspot_layer.get_node("D6_SPINE").pressed.emit()
+		_expect(game.get_value("loop_state.location_id") == "H0_SERVICE_SPINE", "D6 enters service spine")
+		var untouched: Dictionary = game.get_snapshot()
+		_expect(not view.session.act("routine").get("ok", false), "D6 rejects old routines")
+		_expect(not view.session.sleep().get("ok", false), "D6 capsule requires confirmed rest route")
+		_expect(game.get_snapshot() == untouched, "D6 rejected actions preserve state")
+		for id in ["wall", "sign", "trace", "capsule", "notebook"]:
+			view._hotspot_layer.get_node("D6_INSPECT_" + id).pressed.emit()
+			var original: String = game.get_value("meta_progress.knowledge_entries.chapter_notebook")["D6_" + id]
+			_expect(view._dialogue_label.text == view._d6_text(original), "D6 investigation uses selected language: " + id)
+			_expect(view._localized_notebook_entry(original) == view._d6_text(original), "D6 notebook translates without changing stored original")
+			if route == "capsule":
+				_expect(view._dialogue_label.text != original, "D6 English investigation is translated: " + id)
+			view._dismiss_dialogue_for_test()
+		_expect(game.get_value("meta_progress.knowledge_entries.D6_objects_seen").size() == 5, "D6 five optional investigations recorded")
+		_expect(view._objective_label.text == view._d6_text("복구 절차는 수면 중 실행됩니다 · 더 조사하거나 쉴 곳을 선택한다"), "D6 survey restores localized sleep guidance without forcing sleep")
+		view._hotspot_layer.get_node("D6_INSPECT_notebook").pressed.emit()
+		view._dismiss_dialogue_for_test()
+		_expect(game.get_value("meta_progress.knowledge_entries.D6_objects_seen").size() == 5, "D6 repeat notebook does not add a sixth investigation")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "D6 investigation save reloads")
+		view._render_room()
+		if route == "bedroom":
+			view._hotspot_layer.get_node("D6_BEDROOM").pressed.emit()
+		var button := "D6_BED" if route == "bedroom" else "D6_CAPSULE"
+		var before_cancel: Dictionary = game.get_snapshot()
+		var previous_size := root.size
+		if route == "capsule":
+			view._apply_reading_text_scale(2.0)
+			view._render_room()
+			_expect(view._hotspot_layer.get_node("D6_CAPSULE").get_theme_font_size("font_size") == 40, "D6 buttons respect 200 percent reading scale")
+			if "--capture-basement-session" in OS.get_cmdline_user_args():
+				root.size = Vector2i(1280, 720)
+				await tree.process_frame
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("user://d6_inspection_en_200.png")
+		view._hotspot_layer.get_node(button).pressed.emit()
+		if route == "capsule" and "--capture-basement-session" in OS.get_cmdline_user_args():
+			await tree.process_frame
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://d6_rest_en_200.png")
+		view._close_modal()
+		root.size = previous_size
+		view._apply_reading_text_scale(1.0)
+		_expect(game.get_snapshot() == before_cancel, "D6 rest cancellation is neutral")
+		view._start_d6_rest(route)
+		_expect(view._d6_sleep_transition_active and view.session.stage() == "D6", "D6 rest confirmation starts HOLD before broken reset")
+		_expect(not view._hotspot_layer.has_node("D6_BED") and not view._hotspot_layer.has_node("D6_CAPSULE"), "D6 sleep HOLD removes world actions")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "D6 local rest choice reloads before sleep")
+		var expected_route := "emergency_capsule" if route == "capsule" else "bedroom"
+		_expect(game.get_value("loop_state.event_local_states.D6.fracture_rest_route") == expected_route, "D6 local rest route uses canonical value")
+		view._d6_sleep_transition_active = false
+		view._d6_sleep_transition_route = ""
+		view._d6_sleep_transition_seconds = 0.0
+		view._render_room()
+		_expect(view._d6_sleep_transition_active, "D6 saved rest confirmation resumes FRACTURE_SLEEP entry")
+		view._open_menu()
+		view._tick_d6_sleep_transition(10.0)
+		_expect(view._d6_sleep_transition_seconds == 0.0 and view.session.stage() == "D6", "D6 sleep HOLD pauses in menu")
+		view._close_modal()
+		view._tick_d6_sleep_transition(5.0)
+		_expect(view._d6_sleep_transition_active and view.session.stage() == "D6", "D6 sleep cannot reset before six active seconds")
+		if route == "capsule" and "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			var sleep_capture_size := root.size
+			view.set_process(false)
+			root.size = Vector2i(1280, 720)
+			view._apply_reading_text_scale(2.0)
+			view._render_room()
+			view.set_process(false)
+			await tree.process_frame
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://d6_sleep_transition_en_200.png")
+			root.size = sleep_capture_size
+			view._apply_reading_text_scale(1.0)
+			view._render_room()
+			view.set_process(false)
+		if route == "capsule":
+			var before_sleep_failure: Dictionary = game.get_snapshot()
+			view.session.slot_id = "../invalid_slot"
+			view._tick_d6_sleep_transition(1.0)
+			_expect(view._d6_sleep_transition_failed and not view._d6_sleep_transition_active, "D6 broken reset save failure stops automatic retry")
+			_expect(game.get_snapshot() == before_sleep_failure and view._hotspot_layer.has_node("D6_SLEEP_RETRY"), "D6 failed sleep keeps selected route and exposes retry")
+			var sleep_failed_revision: int = game.revision
+			view._tick_d6_sleep_transition(10.0)
+			_expect(game.revision == sleep_failed_revision and view.session.stage() == "D6", "D6 failed sleep does not retry by timer")
+			view.session.slot_id = slot
+			view._hotspot_layer.get_node("D6_SLEEP_RETRY").pressed.emit()
+			view._tick_d6_sleep_transition(6.0)
+		else:
+			view._tick_d6_sleep_transition(1.0)
+		view._dismiss_dialogue_for_test()
+		_expect(view.session.stage() == "E1_ENTRY" and game.get_value("loop_state.location_id") == "M2_BEDROOM", "Both D6 routes wake in same bedroom")
+		_expect(not game.get_value("meta_progress.knowledge_entries").has("D6_rest_route"), "D6 rest route is not permanent knowledge")
+		_expect(not game.get_value("loop_state.event_local_states").has("D6"), "D6 rest route expires on first broken sleep")
+		_expect(game.get_value("meta_progress.servants") == d6_state["meta_progress"]["servants"], "D6 routes preserve relationships")
+	_validate_d6_legacy_rest(d6_state, game.get_snapshot(), slot)
+	TranslationServer.set_locale(locale)
+	view.queue_free()
+	await tree.process_frame
+	saves.delete_test_slot(slot)
+	ProjectSettings.set_setting("ggb/build_flavor", previous)
+
+
+func _validate_d6_legacy_rest(d6: Dictionary, morning: Dictionary, slot: String) -> void:
+	var cases := [
+		["capsule", false, "", "emergency_capsule"],
+		["bedroom", false, "", "bedroom"],
+		["capsule", false, "bedroom", "bedroom"],
+		["bedroom", false, "emergency_capsule", "emergency_capsule"],
+		["invalid", false, "", ""],
+		["capsule", true, "", ""],
+		["bedroom", true, "", ""],
+	]
+	for item in cases:
+		var state: Dictionary = (morning if item[1] else d6).duplicate(true)
+		state["meta_progress"]["knowledge_entries"]["D6_rest_route"] = item[0]
+		state["loop_state"]["event_local_states"].erase("D6")
+		if not String(item[2]).is_empty():
+			state["loop_state"]["event_local_states"]["D6"] = {"fracture_rest_route": item[2], "unrelated": "retain"}
+		var point := "SAVE_BROKEN_RESET_COMPLETE" if item[1] else "SAVE_FRACTURE_CONFIRMED"
+		_expect(saves.save_snapshot(slot, point, state, game.revision, "D6_LEGACY_FIXTURE").get("ok", false), "Legacy D6 fixture written")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "Legacy D6 fixture loaded")
+		var session := SESSION.new(game, saves, slot)
+		_expect(session.initialize().get("ok", false), "Legacy D6 initialization succeeds")
+		var migrated: Dictionary = game.get_snapshot()
+		_expect(not migrated["meta_progress"]["knowledge_entries"].has("D6_rest_route"), "Legacy D6 permanent key removed")
+		var local: Dictionary = migrated["loop_state"]["event_local_states"].get("D6", {})
+		_expect(local.get("fracture_rest_route", "") == item[3], "Legacy D6 expected local result: " + str(item))
+		if not String(item[2]).is_empty():
+			_expect(local.get("unrelated") == "retain", "Migration preserves other local fields")
+		_expect(migrated["meta_progress"]["servants"] == state["meta_progress"]["servants"], "Migration preserves relationships")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(slot).get("ok", false), "Migrated D6 result persists")
+		_expect(session.initialize().get("ok", false), "Repeated D6 migration initializes")
+		_expect(game.get_value("loop_state.event_local_states").get("D6", {}) == local, "Repeated migration does not change local route")
+	var failed: Dictionary = d6.duplicate(true)
+	failed["meta_progress"]["knowledge_entries"]["D6_rest_route"] = "capsule"
+	_expect(StateWriter.new(game).install_snapshot(failed, game.revision, &"D6_MIGRATION_FAILURE").get("ok", false), "D6 failed-save fixture installed")
+	var before_failure: Dictionary = game.get_snapshot()
+	var retry := SESSION.new(game, saves, "../invalid_slot")
+	_expect(not retry.initialize().get("ok", false), "D6 migration initialization rejects invalid save path")
+	_expect(game.get_snapshot() == before_failure, "D6 failed initialization preserves legacy choice")
+	retry.slot_id = slot
+	_expect(retry.initialize().get("ok", false), "D6 migration recovers after save path restored")
+	_expect(game.get_value("loop_state.event_local_states.D6.fracture_rest_route") == "emergency_capsule", "D6 retry restores intended capsule route")
+
+
+func _validate_full_transition() -> void:
+	var demo: Dictionary = saves.load_slot(SLOT)
+	var setting := "ggb/build_flavor"
+	var previous: Variant = ProjectSettings.get_setting(setting, null)
+	ProjectSettings.set_setting(setting, "full")
+	_expect(saves.get_build_flavor() == "full", "full edition selected")
+	_expect(saves.get_save_root() != "user://saves", "full edition preserves demo directory")
+	saves.delete_test_slot(SLOT)
+	_expect(not saves.load_slot(SLOT).get("ok", false), "full edition cannot implicitly load demo slot")
+	_expect(not LoadCoordinator.new(game, saves).validate_header(demo["header"]).get("ok", false), "demo header requires explicit import, not ordinary load")
+	var demo_path: String = "user://saves/" + SLOT + "/progress.json"
+	var demo_bytes := FileAccess.get_file_as_bytes(demo_path)
+	_expect(saves.inspect_demo_import(SLOT).get("ok",false), "Explicit import validates completed demo")
+	var imported: Dictionary = saves.import_demo_to_new_slot(SLOT)
+	_expect(imported.get("ok",false), "Demo import creates fresh full slot")
+	if imported.get("ok",false):
+		var imported_id: String = imported["slot_id"]
+		_expect(LoadCoordinator.new(game,saves).load_and_install(imported_id).get("ok",false), "Imported full slot loads normally")
+		var imported_session := SESSION.new(game,saves,imported_id)
+		_expect(imported_session.stage() == "D6", "Imported demo resumes at D6")
+		_expect(game.get_snapshot()["meta_progress"]["servants"] == StateSnapshotValidator.new().normalize(demo["snapshot"])["meta_progress"]["servants"], "Import preserves servant history")
+		_expect(FileAccess.get_file_as_bytes(demo_path) == demo_bytes, "Demo source remains byte-identical")
+		saves.delete_test_slot(imported_id)
+	_expect(not saves.inspect_demo_import("../slot_01").get("ok",false), "Import rejects unsafe slot path")
+	var import_screen: StartScreen = load("res://scenes/ui/start_screen.tscn").instantiate()
+	root.add_child(import_screen)
+	await tree.process_frame
+	_expect(import_screen._import_button.visible, "Full title exposes import action")
+	import_screen._import_button.pressed.emit()
+	# Use the real completed fixture without touching any product save slot.
+	import_screen._import_sources.assign([SLOT])
+	import_screen._import_choices.clear()
+	import_screen._import_choices.add_item("테스트 데모")
+	import_screen._import_confirm.disabled = false
+	var requested: Array[String] = []
+	import_screen.load_game_requested.connect(func(id: String): requested.append(id))
+	var bootstrap := tree.current_scene
+	import_screen.load_game_requested.connect(bootstrap._on_load_game_requested)
+	import_screen._import_confirm.pressed.emit()
+	await tree.process_frame
+	_expect(requested.size() == 1, "Import confirmation emits exactly one load request")
+	_expect(not import_screen._import_controls.visible, "Successful import closes confirmation")
+	if requested.size() == 1:
+		var campaign := bootstrap.get_node_or_null("Basement")
+		_expect(campaign != null, "Import load signal launches actual campaign scene")
+		if campaign != null:
+			_expect(campaign.session.stage() == "D6", "Imported campaign scene resumes D6")
+			_expect(campaign._slot_id == requested[0], "Campaign uses imported slot, not demo source")
+		_expect(not bootstrap.get_node("%StartScreen").visible, "Import launch hides product title")
+		bootstrap._on_prologue_return_to_title()
+		await tree.process_frame
+		_expect(bootstrap.get_node("%StartScreen").visible, "Imported campaign returns to title")
+		saves.delete_test_slot(requested[0])
+	_expect(FileAccess.get_file_as_bytes(demo_path) == demo_bytes, "UI import preserves demo bytes")
+	import_screen.queue_free()
+	await tree.process_frame
+	var state: Dictionary = StateSnapshotValidator.new().normalize(demo["snapshot"])
+	state["loop_state"]["location_id"] = "M2_BEDROOM"
+	_expect(StateWriter.new(game).install_snapshot(state, game.revision, &"FULL_TRANSITION_FIXTURE").get("ok", false), "full transition fixture installed")
+	var session := SESSION.new(game, saves, SLOT)
+	_expect(session.initialize().get("ok", false), "full D6 initialized")
+	_expect(session.stage() == "D6", "full D5 continues to D6")
+	_expect(saves.load_slot(SLOT)["header"]["save_point_id"] == "SAVE_FRACTURE_CONFIRMED", "full pre-sleep boundary")
+	var day := int(game.get_value("loop_state.day_index"))
+	var sleep_result := session.sleep()
+	_expect(sleep_result.get("ok", false), "first broken sleep succeeds: " + str(sleep_result))
+	_expect(session.stage() == "E1_ENTRY", "broken sleep enters E1")
+	_expect(game.get_value("fracture_state.broken_reset_triggered") and game.get_value("fracture_state.camouflage_filter") == "broken", "broken state installed")
+	_expect(int(game.get_value("loop_state.day_index")) == day + 1, "first broken sleep advances once")
+	_expect(game.get_value("loop_state.location_id") == "M2_BEDROOM", "broken morning uses same bedroom")
+	_expect(saves.load_slot(SLOT)["header"]["save_point_id"] == "SAVE_BROKEN_RESET_COMPLETE", "E1 save is not mislabeled as pre-sleep")
+	var loaded := LoadCoordinator.new(game, saves).load_and_install(SLOT)
+	_expect(loaded.get("ok", false) and loaded.get("resume_event_id") == "E1", "E1 load resolves E1 registry boundary")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "E1_ENTRY")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view._hotspot_layer.get_node_or_null("E1_bed") != null and view._hotspot_layer.get_node_or_null("E1_call_cord") != null, "E1 investigation UI connected")
+	var e_common_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._location_label.text == FRACTURE_COMMON_TEXTS.ui("e1_location", "en_US"), "E1 location renders in English")
+	_expect(view._objective_label.text == FRACTURE_COMMON_TEXTS.ui("e1_objective", "en_US"), "E1 objective renders in English")
+	_expect((view._hotspot_layer.get_node("E1_bed") as Button).text == FRACTURE_COMMON_TEXTS.e1_object("bed", "en_US"), "E1 object action renders in English")
+	var history_count: int = game.get_value("meta_progress.dialogue_history.entries", []).size()
+	view._hotspot_layer.get_node("E1_bed").pressed.emit()
+	_expect(view._dialogue_active, "E1 click presents sensory response")
+	var shown_text: String = view._dialogue_label.text
+	_expect(shown_text != String(SESSION.E1_OBJECTS["bed"]), "E1 sensory response renders in English")
+	var viewed_entries: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+	_expect(viewed_entries.size() == history_count + 1 and viewed_entries.back()["variables"]["text"] == shown_text, "E1 actual investigation records displayed sentence")
+	view._dismiss_dialogue_for_test()
+	var before_history: Dictionary = game.get_snapshot()
+	view._open_menu()
+	(view._modal_body.get_child(4) as Button).pressed.emit()
+	_expect((view._modal_body.get_child(2).get_child(0) as Label).text.contains(shown_text), "E1 history available through menu")
+	(view._modal_body.get_child(3) as Button).pressed.emit()
+	_expect(game.get_snapshot() == before_history, "E1 history viewer is read only")
+	TranslationServer.set_locale(e_common_locale)
+	for choice_method in ["_show_mara1_choice", "_show_iris_choice", "_show_luca_choice", "_show_edgar_choice", "_show_mara2_choice"]:
+		var before_choice: Dictionary = game.get_snapshot()
+		var option_count: int = before_choice["meta_progress"]["dialogue_history"]["entries"].size()
+		view.call(choice_method)
+		var displayed: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(displayed.size() == option_count + 1, "relationship choice display recorded: " + choice_method)
+		_expect(String(displayed.back()["variables"]["text"]).contains((view._modal_body.get_child(4) as Button).text), "relationship transcript includes actual option: " + choice_method)
+		(view._modal_body.get_child(3) as Button).pressed.emit()
+		_expect(game.get_value("meta_progress.dialogue_history.entries", []).size() == option_count + 1, "relationship deferral is not recorded as selected answer")
+		_expect(game.get_snapshot()["meta_progress"]["servants"] == before_choice["meta_progress"]["servants"], "relationship deferral preserves bonds and completion")
+	var choice_probe := {"calls": 0}
+	view._show_recorded_choice("Choice test", "Shown only", [{"label": "Cancel", "action": view._close_modal}, {"label": "Chosen answer", "action": func(): choice_probe["calls"] += 1; view._close_modal()}])
+	var selected_button := view._modal_body.get_child(4) as Button
+	selected_button.pressed.emit()
+	var selected_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+	_expect(choice_probe["calls"] == 1 and selected_history.back()["variables"]["text"] == "Chosen answer", "recorded choice invokes original action after storing selection")
+	selected_button.pressed.emit()
+	_expect(choice_probe["calls"] == 1, "closed choice cannot fire stale callback")
+	var original_session: ChapterOneSession = view.session
+	var before_unavailable: Dictionary = game.get_snapshot()
+	var unavailable_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view.session = PendingEndingSession.new(game, saves, SLOT)
+	view._clear_hotspots()
+	view._build_fracture_intro()
+	_expect(not view._history_enabled(), "unsupported ending screen cannot write dialogue history")
+	_expect(view._hotspot_layer.has_node("ENDING_UNAVAILABLE_TITLE") and not view._objective_label.text.contains("구현 중"), "unsupported ending offers accurate recovery navigation")
+	_expect(not _contains_hangul(view._objective_label.text), "unsupported ending objective renders in English")
+	var unavailable_text := PackedStringArray()
+	for label in view._hotspot_layer.find_children("*", "Label", true, false):
+		unavailable_text.append(String(label.text))
+	for button in view._hotspot_layer.find_children("*", "Button", true, false):
+		unavailable_text.append(String(button.text))
+	_expect(not _contains_hangul("\n".join(unavailable_text)), "unsupported ending recovery screen has no Korean leakage")
+	var title_probe := {"called": false}
+	view.return_to_title_requested.connect(func(): title_probe["called"] = true)
+	(view._hotspot_layer.get_node("ENDING_UNAVAILABLE_TITLE") as Button).pressed.emit()
+	_expect(title_probe["called"] and game.get_snapshot() == before_unavailable, "unsupported ending title action preserves gameplay state")
+	TranslationServer.set_locale(unavailable_locale)
+	view.session = original_session
+	view._render_room()
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://e1_morning.png")
+	view.queue_free()
+	await tree.process_frame
+	_expect(not session.act("move", "M1_CENTRAL_HALL").get("ok", false), "E1 exit requires investigation")
+	session.act("e1_inspect", "bed")
+	session.act("e1_inspect", "bed")
+	_expect(game.get_value("meta_progress.knowledge_entries.E1_objects_seen").size() == 1, "E1 repeats do not inflate unique count")
+	session.act("e1_inspect", "window")
+	_expect(not session.known("E1_complete"), "E1 two objects insufficient")
+	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "E1 partial investigation loads")
+	session.act("e1_inspect", "mirror")
+	_expect(session.known("E1_complete") and not session.known("E1_all_objects_seen"), "three objects unlock without fourth")
+	_expect(session.act("move", "M1_CENTRAL_HALL").get("ok", false), "E1 exit unlocks")
+	_expect(not session.act("move", "M1_PARLOR").get("ok", false), "E2 handoff cannot bypass gathering")
+	session.act("move", "M2_BEDROOM")
+	session.act("e1_inspect", "call_cord")
+	_expect(session.known("E1_all_objects_seen"), "fourth optional inspection works after exit")
+	_expect(not session.act("d_fastpath").get("ok", false), "broken morning rejects old basement replay")
+	var e1_state: Dictionary = game.get_snapshot()
+	var bond := int(game.get_value("meta_progress.servants.luca.bond"))
+	for choice in ["withdraw", "hold"]:
+		_expect(StateWriter.new(game).install_snapshot(e1_state, game.revision, StringName("LUCA_FIXTURE_" + choice)).get("ok", false), "Luca branch fixture")
+		session.act("move", "M1_CENTRAL_HALL")
+		_expect(session.stage() == "LUCA_GUIDE", "Luca prelude delays E2")
+		session.act("move", "M1_KITCHEN")
+		session.act("e2_luca", "ask")
+		_expect(not session.known("LUCA_S2_complete"), "sensory question is not an outcome")
+		_expect(session.act("e2_luca", choice).get("ok", false), "Luca choice " + choice)
+		_expect(session.stage() == "E2_INTRO", "both choices rejoin E2")
+		var expected := mini(5, bond + 1) if choice == "hold" else bond
+		_expect(int(game.get_value("meta_progress.servants.luca.bond")) == expected, "Luca choice relationship delta")
+		session.act("e2_luca", "hold")
+		_expect(int(game.get_value("meta_progress.servants.luca.bond")) == expected, "Luca cannot farm repeat bond")
+		_expect(not session.act("e2_finish").get("ok", false), "report precedes completion")
+		session.act("e2_report")
+		if choice == "hold":
+			var e2_locale := TranslationServer.get_locale()
+			TranslationServer.set_locale("en_US")
+			view = VIEW.new()
+			view.configure_session(SLOT, "E2_INTRO")
+			root.add_child(view)
+			await tree.process_frame
+			view._dismiss_dialogue_for_test()
+			_expect(view._hotspot_layer.get_node_or_null("E2_Q_2") != null, "E2 question UI available")
+			_expect(view._objective_label.text == FRACTURE_COMMON_TEXTS.ui("e2_objective", "en_US"), "E2 objective renders in English")
+			_expect((view._hotspot_layer.get_node("E2_Q_2") as Button).text == FRACTURE_COMMON_TEXTS.ui("e2_question_memory", "en_US"), "E2 question action renders in English")
+			view._hotspot_layer.get_node("E2_Q_2").pressed.emit()
+			_expect(view._dialogue_active, "E2 question click presents response")
+			_expect(view._dialogue_label.text != String(SESSION.E2_ANSWERS["memory"]), "E2 answer renders in English")
+			view._dismiss_dialogue_for_test()
+			if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("user://e2_questions.png")
+			view.queue_free()
+			await tree.process_frame
+			TranslationServer.set_locale(e2_locale)
+			for question in ["memory", "house", "body", "memory"]: session.act("e2_question", question)
+			_expect(game.get_value("meta_progress.knowledge_entries.E2_questions_seen").size() == 3, "questions arbitrary order unique history")
+		_expect(session.act("e2_finish").get("ok", false), "E2 can finish with all or no optional questions")
+		_expect(session.stage() == "E_HUB" and session.known("relationship_hub_open"), "E2 opens hub")
+		_expect(not session.known("mara2_archive_index_known"), "anonymous index does not grant identity")
+		_expect(int(game.get_value("meta_progress.servants.luca.bond")) == expected, "E2 does not change relationship")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "E2 completion loads")
+		_expect(session.stage() == "E_HUB", "E2 completion persists")
+	await _validate_mara1(session)
+	await _validate_iris(session)
+	await _validate_luca(session)
+	await _validate_edgar(session)
+	await _validate_mara2(session)
+	await _validate_j4(session)
+	session.act("move", "M2_BEDROOM")
+	state = game.get_snapshot()
+	state["loop_state"]["physical_changes"]["test_repair"] = true
+	StateWriter.new(game).install_snapshot(state, game.revision, &"FULL_REPAIR_FIXTURE")
+	_expect(session.sleep().get("ok", false), "post-broken rest succeeds")
+	_expect(int(game.get_value("loop_state.day_index")) == day + 1 and game.get_value("loop_state.physical_changes.test_repair") == true, "post-broken rest does not repeat physical reset")
+	saves.delete_test_slot(SLOT)
+	ProjectSettings.set_setting(setting, previous)
+	_expect(saves.load_slot(SLOT).get("snapshot", {}) == demo["snapshot"], "full test leaves original demo save intact")
+
+
+func _validate_mara1(session: BasementSession) -> void:
+	var hub: Dictionary = game.get_snapshot()
+	for outcome in ["original_attribution", "protected_identifiers"]:
+		_expect(StateWriter.new(game).install_snapshot(hub, game.revision, StringName("MARA_FIXTURE_" + outcome)).get("ok", false), "Mara fixture")
+		_move(session, ["M1_SERVICE_HALL", "M1_WIRING_ROOM"])
+		_expect(not session.act("mara1_choose", outcome).get("ok", false), "cannot choose before evidence")
+		_expect(not session.act("mara1_bridge").get("ok", false), "spanner before trace blocked locally")
+		session.act("mara1_panel")
+		var servant: Dictionary = game.get_value("meta_progress.servants.mara1")
+		session.act("mara1_source", [0, "AUDIT"])
+		_expect(game.get_value("meta_progress.servants.mara1") == servant, "wrong wiring no relationship penalty")
+		for index in range(3): session.act("mara1_source", [index, ["MAINT", "CONSENT", "AUDIT"][index]])
+		session.act("mara1_bridge")
+		_move(session, ["M1_SERVICE_HALL", "M1_CENTRAL_HALL", "M2_BEDROOM"])
+		session.sleep()
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "Mara partial progress reload")
+		_move(session, ["M1_CENTRAL_HALL", "M1_SERVICE_HALL", "M1_WIRING_ROOM"])
+		_expect(game.get_value("loop_state.event_local_states.E3_1.bridge") == true, "Mara bridge survives exit rest load")
+		for id in ["command", "failure", "consent"]: session.act("mara1_log", id)
+		_expect(not session.act("mara1_restore").get("ok", false), "wrong chronology local retry")
+		session.act("mara1_clear")
+		for id in ["consent", "failure", "command"]: session.act("mara1_log", id)
+		session.act("mara1_restore")
+		session.act("mara1_confess")
+		var relation_locale := TranslationServer.get_locale()
+		TranslationServer.set_locale("en_US")
+		var view := VIEW.new()
+		view.configure_session(SLOT, "E3_1")
+		root.add_child(view)
+		await tree.process_frame
+		view._dismiss_dialogue_for_test()
+		_expect(view._objective_label.text == RELATIONSHIP_TEXTS.text("마라 1 · 끊긴 배선과 삭제 기록", "en_US"), "Mara1 objective renders in English")
+		view._hotspot_layer.get_node("MARA_CHOICE").pressed.emit()
+		await tree.process_frame
+		_expect((root.gui_get_focus_owner() as Button).text == RELATIONSHIP_TEXTS.text("아직 결정하지 않는다", "en_US"), "English Mara1 choice defaults to defer")
+		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://mara1_choice.png")
+		view._modal_body.get_child(4 if outcome == "original_attribution" else 5).pressed.emit()
+		_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "Mara1 choice feedback renders in English")
+		view._dismiss_dialogue_for_test()
+		view.queue_free()
+		await tree.process_frame
+		TranslationServer.set_locale(relation_locale)
+		_expect(session.known("E3_1_complete") and session.known("REC_MARA1"), "Mara completion and record atomic")
+		var after: Dictionary = game.get_value("meta_progress.servants.mara1")
+		_expect(after["core_event_complete"] and after["researcher_record_acquired"], "Mara servant flags")
+		_expect(int(after["bond"]) == clampi(int(servant["bond"]) + (2 if outcome == "original_attribution" else 1), 0, 5), "Mara bond outcome")
+		_expect(int(after["alert"]) == clampi(int(servant["alert"]) + (1 if outcome == "original_attribution" else -1), 0, 5), "Mara alert outcome")
+		session.act("mara1_choose", outcome)
+		_expect(game.get_value("meta_progress.servants.mara1") == after, "Mara outcome not farmable")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "Mara completion loads")
+		_expect(game.get_value("meta_progress.event_history.E3_1.outcome_id") == outcome, "Mara outcome survives load")
+		_move(session, ["M1_SERVICE_HALL", "M1_CENTRAL_HALL"])
+
+
+func _validate_iris(session: BasementSession) -> void:
+	var hub: Dictionary = game.get_snapshot()
+	var rules = BasementSession.IRIS_RELATIONSHIP
+	for scenario in [[0, 0, "external_truth", "indirect"], [2, 5, "external_truth", "direct_private"], [0, 4, "shelter_projection", "denied"], [0, 0, "shelter_projection", "withheld"]]:
+		var fixture := hub.duplicate(true)
+		fixture["meta_progress"]["servants"]["iris"]["bond"] = scenario[0]
+		fixture["meta_progress"]["servants"]["iris"]["alert"] = scenario[1]
+		_expect(StateWriter.new(game).install_snapshot(fixture, game.revision, StringName("IRIS_FIXTURE_" + scenario[3])).get("ok", false), "Iris fixture installed")
+		_move(session, ["M1_GREENHOUSE", "H0_CLIMATE_CONTROL"])
+		_expect(not session.act("iris_choose", scenario[2]).get("ok", false), "Iris choice cannot precede evidence")
+		session.act("iris_panel")
+		var before: Dictionary = game.get_value("meta_progress.servants.iris")
+		session.act("iris_source", ["temperature", 0, "EXTERNAL"])
+		_expect(game.get_value("meta_progress.servants.iris") == before, "Iris error does not increase hostility")
+		for gauge in rules.CHANNELS:
+			for index in range(3): session.act("iris_source", [gauge, index, rules.CHANNELS[gauge][index]])
+		_expect(session.known("iris_sensor_sources_separated"), "all three gauges separated")
+		_move(session, ["M1_GREENHOUSE", "M1_CENTRAL_HALL", "M2_BEDROOM"])
+		session.sleep()
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "Iris partial save load")
+		_move(session, ["M1_CENTRAL_HALL", "M1_GREENHOUSE", "H0_CLIMATE_CONTROL"])
+		_expect(rules.progress(game.get_snapshot())["channels"].size() == 9, "Iris sensors survive exit rest and load")
+		for id in ["command", "warning", "loss", "audit", "conversion"]: session.act("iris_log", id)
+		_expect(not session.act("iris_restore").get("ok", false), "Iris false approval chronology rejected")
+		session.act("iris_clear")
+		for id in rules.ORDER: session.act("iris_log", id)
+		session.act("iris_restore")
+		_expect(not session.act("iris_audit", "warning_is_consent").get("ok", false), "warning is not consent")
+		session.act("iris_audit", "credential_owner_not_executor")
+		session.act("iris_confront")
+		var result: Dictionary
+		if scenario[3] == "direct_private":
+			var relation_locale := TranslationServer.get_locale()
+			TranslationServer.set_locale("en_US")
+			var view := VIEW.new()
+			view.configure_session(SLOT, "E3_2")
+			root.add_child(view)
+			await tree.process_frame
+			view._dismiss_dialogue_for_test()
+			_expect(view._objective_label.text == RELATIONSHIP_TEXTS.text("이리스 · 계절 센서와 빼앗긴 전력", "en_US"), "Iris objective renders in English")
+			view._hotspot_layer.get_node("IRIS_CHOICE").pressed.emit()
+			await tree.process_frame
+			_expect((root.gui_get_focus_owner() as Button).text == RELATIONSHIP_TEXTS.text("아직 결정하지 않는다", "en_US"), "English Iris choice defaults to defer")
+			if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("user://iris_choice.png")
+			view._modal_body.get_child(4).pressed.emit()
+			_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "Iris choice renders conditional confession in English")
+			view._dismiss_dialogue_for_test()
+			view.queue_free()
+			await tree.process_frame
+			TranslationServer.set_locale(relation_locale)
+			result = {"ok": session.known("E3_2_complete")}
+		else:
+			result = session.act("iris_choose", scenario[2])
+		_expect(result.get("ok", false), "Iris outcome accepted " + scenario[3])
+		var iris: Dictionary = game.get_value("meta_progress.servants.iris")
+		_expect(rules.confession(iris["bond"], iris["alert"]) == scenario[3], "Iris prospective relationship confession")
+		_expect(session.known("REC_IRIS") and session.known("iris_power_diversion_known") and iris["core_event_complete"] and iris["researcher_record_acquired"], "both Iris choices preserve record and knowledge")
+		_expect(not game.get_value("meta_progress.knowledge_entries").has("iris_confession_state"), "Iris confession remains derived not global stored state")
+		session.act("iris_choose", scenario[2])
+		_expect(game.get_value("meta_progress.servants.iris") == iris, "Iris outcome cannot repeat rewards")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "Iris outcome save load")
+		_expect(game.get_value("meta_progress.event_history.E3_2.outcome_id") == scenario[2], "Iris outcome persists")
+		_move(session, ["M1_GREENHOUSE", "M1_CENTRAL_HALL"])
+
+
+func _validate_luca(session: BasementSession) -> void:
+	var hub: Dictionary = game.get_snapshot()
+	var rules = BasementSession.LUCA_RELATIONSHIP
+	var record := ""
+	for outcome in ["full_disclosure", "stabilize_first"]:
+		_expect(StateWriter.new(game).install_snapshot(hub, game.revision, StringName("LUCA_CORE_" + outcome)).get("ok", false), "Luca core fixture")
+		_move(session, ["M1_KITCHEN", "H0_LIFE_SUPPORT"])
+		_expect(not session.act("luca_choose", outcome).get("ok", false), "Luca choice requires evidence")
+		session.act("luca_panel")
+		session.act("luca_pipe", "decoration")
+		session.act("luca_pipe", "main")
+		_expect(not session.act("luca_match").get("ok", false), "decorative pipe cannot be used")
+		session.act("luca_pipe", "decoration")
+		session.act("luca_pipe", "aux")
+		session.act("luca_match")
+		var before: Dictionary = game.get_value("meta_progress.servants.luca")
+		session.act("luca_slot", [0, "aux_1"])
+		session.act("luca_preview")
+		session.act("luca_run")
+		_expect(rules.progress(game.get_snapshot())["pressure"] == 0 and not rules.progress(game.get_snapshot())["stable"], "wrong phase vents pressure without progress")
+		_expect(game.get_value("meta_progress.servants.luca") == before, "wrong pressure has no relationship penalty")
+		for index in range(4): session.act("luca_slot", [index, rules.PHASES[index]])
+		session.act("luca_run")
+		_expect(session.known("luca_pressure_phase_stable"), "correct pressure confirmed")
+		_move(session, ["M1_KITCHEN", "M1_CENTRAL_HALL", "M2_BEDROOM"])
+		session.sleep()
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "Luca partial save load")
+		_move(session, ["M1_CENTRAL_HALL", "M1_KITCHEN", "H0_LIFE_SUPPORT"])
+		_expect(rules.progress(game.get_snapshot())["stable"], "Luca pressure checkpoint survives rest and exit")
+		for id in rules.LOGS: session.act("luca_log", id)
+		session.act("luca_confess")
+		var relation_locale := TranslationServer.get_locale()
+		TranslationServer.set_locale("en_US")
+		var view := VIEW.new()
+		view.configure_session(SLOT, "E3_3")
+		root.add_child(view)
+		await tree.process_frame
+		view._dismiss_dialogue_for_test()
+		_expect(view._objective_label.text == RELATIONSHIP_TEXTS.text("루카 · 생명 유지 장치와 유예된 기상", "en_US"), "Luca objective renders in English")
+		view._hotspot_layer.get_node("LUCA_CHOICE").pressed.emit()
+		await tree.process_frame
+		_expect((root.gui_get_focus_owner() as Button).text == RELATIONSHIP_TEXTS.text("아직 결정하지 않는다", "en_US"), "English Luca choice defaults to defer")
+		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://luca_choice.png")
+		view._modal_body.get_child(4 if outcome == "full_disclosure" else 5).pressed.emit()
+		_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "Luca choice feedback renders in English")
+		view._dismiss_dialogue_for_test()
+		view.queue_free()
+		await tree.process_frame
+		TranslationServer.set_locale(relation_locale)
+		_expect(session.known("REC_LUCA") and session.known("wake_criteria_missing") and session.known("protagonist_body_preserved"), "Luca record and core knowledge")
+		var after: Dictionary = game.get_value("meta_progress.servants.luca")
+		_expect(after["core_event_complete"] and after["researcher_record_acquired"], "Luca servant completion")
+		_expect(int(after["bond"]) == clampi(int(before["bond"]) + (2 if outcome == "full_disclosure" else 1), 0, 5), "Luca bond")
+		_expect(int(after["alert"]) == clampi(int(before["alert"]) + (1 if outcome == "full_disclosure" else -1), 0, 5), "Luca alert")
+		var current := String(game.get_value("meta_progress.knowledge_entries.chapter_notebook.REC_LUCA"))
+		if record.is_empty(): record = current
+		else: _expect(record == current, "both outcomes provide identical facts")
+		session.act("luca_choose", outcome)
+		_expect(game.get_value("meta_progress.servants.luca") == after, "Luca cannot repeat rewards")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "Luca completion loads")
+		_expect(game.get_value("meta_progress.event_history.E3_3.outcome_id") == outcome, "Luca outcome preserved")
+		_move(session, ["M1_KITCHEN", "M1_CENTRAL_HALL"])
+
+
+func _validate_edgar(session: BasementSession) -> void:
+	var hub: Dictionary = game.get_snapshot()
+	var rules = BasementSession.EDGAR_RELATIONSHIP
+	var record := ""
+	for outcome in ["responsibility_recorded", "authority_returned"]:
+		_expect(StateWriter.new(game).install_snapshot(hub, game.revision, StringName("EDGAR_FIXTURE_" + outcome)).get("ok", false), "Edgar fixture")
+		_move(session, ["M1_GREAT_CLOCK", "H0_CLOCK_MACHINE"])
+		_expect(not session.act("edgar_choose", outcome).get("ok", false), "Edgar choice cannot skip evidence")
+		for id in ["vacancy", "protocol", "extension", "consent"]: session.act("edgar_log", id)
+		_expect(not session.act("edgar_audit").get("ok", false), "Edgar chronology wrong local retry")
+		session.act("edgar_clear")
+		for id in rules.ORDER: session.act("edgar_log", id)
+		session.act("edgar_audit")
+		var before: Dictionary = game.get_value("meta_progress.servants.edgar")
+		session.act("edgar_owner", ["PROTECTION", "SYSTEM"])
+		session.act("edgar_owner", ["CHOICE", "CUSTODIAN"])
+		session.act("edgar_validate")
+		var partial: Dictionary = rules.progress(game.get_snapshot())
+		_expect(partial["owners"].get("PROTECTION") == "SYSTEM" and not partial["owners"].has("CHOICE"), "Edgar only wrong cards return")
+		_expect(game.get_value("meta_progress.servants.edgar") == before, "Edgar wrong layout no relationship change")
+		_move(session, ["M1_GREAT_CLOCK", "M1_CENTRAL_HALL", "M2_BEDROOM"])
+		session.sleep()
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "Edgar partial save load")
+		_move(session, ["M1_CENTRAL_HALL", "M1_GREAT_CLOCK", "H0_CLOCK_MACHINE"])
+		_expect(rules.progress(game.get_snapshot())["owners"].get("PROTECTION") == "SYSTEM", "Edgar correct card survives exit rest load")
+		for function in rules.OWNERS: session.act("edgar_owner", [function, rules.OWNERS[function]])
+		session.act("edgar_validate")
+		_expect(session.known("edgar_authority_layout_validated"), "Edgar current layout validated")
+		session.act("edgar_confess")
+		var relation_locale := TranslationServer.get_locale()
+		TranslationServer.set_locale("en_US")
+		var view := VIEW.new()
+		view.configure_session(SLOT, "E3_4")
+		root.add_child(view)
+		await tree.process_frame
+		view._dismiss_dialogue_for_test()
+		_expect(view._objective_label.text == RELATIONSHIP_TEXTS.text("에드가 · 보안 코어와 선택 권한", "en_US"), "Edgar objective renders in English")
+		view._hotspot_layer.get_node("EDGAR_CHOICE").pressed.emit()
+		await tree.process_frame
+		_expect((root.gui_get_focus_owner() as Button).text == RELATIONSHIP_TEXTS.text("기록을 다시 읽는다", "en_US"), "English Edgar choice defaults to reread")
+		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://edgar_choice.png")
+		view._modal_body.get_child(4 if outcome == "responsibility_recorded" else 5).pressed.emit()
+		_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "Edgar choice feedback renders in English")
+		view._dismiss_dialogue_for_test()
+		view.queue_free()
+		await tree.process_frame
+		TranslationServer.set_locale(relation_locale)
+		_expect(session.known("REC_EDGAR") and session.known("subject_role_identified") and session.known("edgar_detention_decision_known"), "both Edgar outcomes return subject role and truth")
+		var after: Dictionary = game.get_value("meta_progress.servants.edgar")
+		_expect(after["core_event_complete"] and after["researcher_record_acquired"], "Edgar completion flags")
+		_expect(int(after["bond"]) == clampi(int(before["bond"]) + (1 if outcome == "responsibility_recorded" else 2), 0, 5), "Edgar bond")
+		_expect(int(after["alert"]) == clampi(int(before["alert"]) + (-1 if outcome == "responsibility_recorded" else 1), 0, 5), "Edgar alert")
+		var current := String(game.get_value("meta_progress.knowledge_entries.chapter_notebook.REC_EDGAR"))
+		if record.is_empty(): record = current
+		else: _expect(record == current, "Edgar truth equal between choices")
+		session.act("edgar_choose", outcome)
+		_expect(game.get_value("meta_progress.servants.edgar") == after, "Edgar repeated reward refused")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "Edgar completion loads")
+		_expect(game.get_value("meta_progress.event_history.E3_4.outcome_id") == outcome, "Edgar outcome persisted")
+		_move(session, ["M1_GREAT_CLOCK", "M1_CENTRAL_HALL"])
+
+
+func _validate_j4(session: BasementSession) -> void:
+	var hub := session.snapshot()
+	var rules = SESSION.JOURNAL_FOUR
+	for mask in range(32):
+		var fixture := hub.duplicate(true)
+		var count := 0
+		for index in range(5):
+			var complete := (mask & (1 << index)) != 0
+			var servant: Dictionary = fixture["meta_progress"]["servants"][rules.OWNERS[index]]
+			servant["core_event_complete"] = complete
+			servant["researcher_record_acquired"] = complete
+			fixture["meta_progress"]["knowledge_entries"][rules.EVENTS[index] + "_complete"] = complete
+			if complete: count += 1
+		_expect(StateWriter.new(game).install_snapshot(fixture, game.revision, &"J4_FIXTURE").get("ok", false), "J4 fixture")
+		if mask == 0: await _validate_j4_low_confirmation_ui(session)
+		_expect(not session.act("j4_confirm", false).get("ok", false) and session.snapshot() == fixture, "J4 cancellation preserves state")
+		_expect(session.act("j4_confirm", true).get("ok", false), "J4 confirm mask %d" % mask)
+		_expect(session.stage() == "J4", "J4 opens without record gate")
+		if mask == 0: await _validate_j4_ordering_ui(session)
+		_expect(not session.act("move", "M1_KITCHEN").get("ok", false), "J4 closes relation hub")
+		_expect(not session.act("j4_read").get("ok", false), "J4 requires page assembly")
+		session.act("j4_page", "activation")
+		_expect(not session.act("j4_order").get("ok", false), "J4 wrong order is locally retryable")
+		session.act("j4_clear")
+		for page in rules.ORDER: _expect(session.act("j4_page", page).get("ok", false), "J4 page")
+		_expect(session.act("j4_order").get("ok", false), "J4 chronological order")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "J4 partial load")
+		_expect(session.act("j4_read").get("ok", false), "J4 restoration")
+		if mask == 31: _validate_j4_full_notebook_translation()
+		var expected := "J4_FULL" if count == 5 else ("J4_EXPANDED" if count >= 2 else "J4_BASE")
+		_expect(game.get_value("meta_progress.knowledge_entries.j4_variant") == expected, "J4 record tier")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "J4 completed load")
+		var servants_before: Dictionary = session.snapshot()["meta_progress"]["servants"].duplicate(true)
+		if (mask & 8) == 0:
+			_expect(session.stage() == "E3_4M", "unfinished Edgar routes to minimum")
+			_expect(session.act("j4_minimum").get("ok", false), "zero reward minimum procedure")
+			_expect(not session.act("j4_minimum").get("ok", false), "minimum cannot duplicate")
+		_expect(session.snapshot()["meta_progress"]["servants"] == servants_before, "minimum does not award relationships")
+		_expect(session.stage() == "E5", "all masks reach next evening")
+		var before_evening: Dictionary = session.snapshot()["meta_progress"]["servants"].duplicate(true)
+		_expect(session.act("e5_enter").get("ok", false), "E5 enter for every mask")
+		if mask == 0: await _validate_e5_ui(session)
+		_expect(not session.act("e5_finish", true).get("ok", false), "E5 cannot skip dialogue")
+		_expect(session.act("e5_sit").get("ok", false), "E5 subject seat")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "E5 partial reload")
+		_expect(session.act("e5_question", ["wish", "leave", "stay"][mask % 3]).get("ok", false), "E5 question")
+		_expect(not session.act("e5_question", "wish").get("ok", false), "E5 question once")
+		_expect(not session.act("e5_finish", false).get("ok", false), "E5 cancel remains free")
+		_expect(session.act("e5_inspect", "hall").get("ok", false), "E5 free hall inspection")
+		_expect(session.act("e5_inspect", "dining").get("ok", false), "E5 return dining")
+		_expect(session.act("e5_finish", true).get("ok", false), "E5 commit")
+		var expected_tier := "ALL" if count == 5 else ("HIGH" if count == 4 else ("MID" if count >= 2 else "LOW"))
+		_expect(game.get_value("meta_progress.event_history.E5.variant_id") == expected_tier, "E5 settlement tier")
+		_expect(session.snapshot()["meta_progress"]["servants"] == before_evening, "E5 does not change relationship values")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "E5 completed reload")
+		_expect(session.stage() == "E6", "E5 reaches followup boundary")
+		var e5_history: Dictionary = session.snapshot()["meta_progress"]["event_history"]["E5"].duplicate(true)
+		if (mask & 16) != 0 and mask % 2 == 1:
+			session.act("e6_move", "M1_NORTH_ARCHIVE_HALL")
+			var choice: String = ["write", "call", "joke"][mask % 3]
+			var bond := int(game.get_value("meta_progress.servants.mara2.bond"))
+			_expect(session.act("e6_mara2", choice).get("ok", false), "Mara2 followup")
+			_expect(int(game.get_value("meta_progress.servants.mara2.bond")) == clampi(bond + (0 if choice == "joke" else 1), 0, 5), "Mara2 followup delta")
+			_expect(not session.act("e6_mara2", choice).get("ok", false), "Mara2 no duplicate reward")
+		session.act("e6_move", "H0_CLOCK_MACHINE")
+		if mask % 2 == 0:
+			_expect(session.act("e6_open").get("ok", false), "skip all followups opens door")
+		else:
+			var choice: String = ["ask", "order", "wait"][mask % 3]
+			var bond := int(game.get_value("meta_progress.servants.edgar.bond"))
+			_expect(session.act("e6_edgar", choice).get("ok", false), "Edgar followup")
+			_expect(int(game.get_value("meta_progress.servants.edgar.bond")) == clampi(bond + (1 if choice == "ask" else 0), 0, 5), "Edgar followup delta")
+			_expect(not session.act("e6_edgar", choice).get("ok", false), "Edgar no duplicate reward")
+		_expect(not session.act("e6_enter", false).get("ok", false), "E6 entry can be deferred")
+		if mask == 0: await _validate_e6_ui(session)
+		_expect(session.act("e6_enter", true).get("ok", false), "E6 all masks enter F0")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "F0 entry reload")
+		_expect(session.initialize().get("ok", false) and session.stage() == "F0_A", "F0 resume stays on core path")
+		if mask == 0: await _validate_f0a(session)
+		_expect(not session.act("e6_move", "M1_CENTRAL_HALL").get("ok", false), "no F0 backtracking")
+		_expect(session.snapshot()["meta_progress"]["event_history"]["E5"] == e5_history, "followups preserve E5 snapshot")
+	_expect(StateWriter.new(game).install_snapshot(hub, game.revision, &"J4_RESTORE").get("ok", false), "restore relation hub after J4 tests")
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "J4")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	view._show_j4_confirmation()
+	_expect(not view._objective_label.text.contains("구현 중"), "relation hub contains player-facing objective rather than development status")
+	_expect(not _contains_hangul((view._modal_body.get_child(2).get_child(0) as Label).text), "J4 English confirmation body has no Korean")
+	var continue_button := view._modal_body.get_child(3) as Button
+	_expect(continue_button.text == FRACTURE_RESOLUTION_TEXTS.text("계속 조사한다", "en_US"), "J4 English confirmation keeps continue as default action")
+	var j4_before_cancel := session.snapshot()
+	var expected_hub := hub.duplicate(true)
+	expected_hub["meta_progress"]["dialogue_history"] = j4_before_cancel["meta_progress"]["dialogue_history"].duplicate(true)
+	_expect(j4_before_cancel == expected_hub, "J4 opening only appends displayed dialogue history")
+	var confirm := view._modal_body.get_child(4) as Button
+	_expect(confirm.disabled, "J4 confirmation input grace")
+	var paused_before_grace_test := tree.paused
+	tree.paused = true
+	await tree.create_timer(0.6).timeout
+	_expect(confirm.disabled, "J4 confirmation grace pauses with gameplay")
+	tree.paused = false
+	await tree.create_timer(0.6).timeout
+	_expect(not confirm.disabled, "J4 confirmation becomes available")
+	_expect(continue_button.focus_next == continue_button.get_path_to(confirm), "J4 delayed confirmation joins forward Tab cycle")
+	_expect(confirm.focus_previous == confirm.get_path_to(continue_button), "J4 delayed confirmation joins reverse Tab cycle")
+	tree.paused = paused_before_grace_test
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://j4_confirmation_english.png")
+	view._close_modal()
+	_expect(session.snapshot() == j4_before_cancel, "J4 modal cancel changes nothing")
+	view.queue_free()
+	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
+
+
+func _validate_j4_low_confirmation_ui(session: BasementSession) -> void:
+	var before := session.snapshot()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "J4")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	view._show_j4_confirmation()
+	_expect((view._modal_body.get_child(0) as Label).text == FRACTURE_RESOLUTION_TEXTS.text("조사 종료 확인", "en_US"), "J4 LOW confirmation title renders in English")
+	_expect(not _contains_hangul((view._modal_body.get_child(2).get_child(0) as Label).text), "J4 LOW confirmation body has no Korean")
+	_expect((view._modal_body.get_child(3) as Button).text == FRACTURE_RESOLUTION_TEXTS.text("계속 조사한다", "en_US"), "J4 LOW confirmation defaults to continued investigation")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://j4_confirmation_low_english.png")
+	view._close_modal()
+	view.queue_free()
+	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
+	_expect(StateWriter.new(game).install_snapshot(before, game.revision, &"J4_LOW_UI_RESTORE").get("ok", false), "J4 LOW UI fixture restore")
+
+
+func _validate_j4_full_notebook_translation() -> void:
+	var canonical := String(game.get_value("meta_progress.knowledge_entries.chapter_notebook.J4"))
+	_expect(_contains_hangul(canonical), "J4 canonical notebook remains Korean")
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	var view := VIEW.new()
+	var translated := view._localized_notebook_entry(canonical)
+	_expect(not _contains_hangul(translated), "J4 FULL notebook renders entirely in English")
+	view.free()
+	TranslationServer.set_locale(previous_locale)
+
+
+func _validate_j4_ordering_ui(session: BasementSession) -> void:
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "J4")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view._objective_label.text == FRACTURE_RESOLUTION_TEXTS.text("네 번째 일지 · 약속과 권한", "en_US"), "J4 objective renders in English")
+	_expect((view._hotspot_layer.get_node("J4_PAGE_promise") as Button).text == FRACTURE_RESOLUTION_TEXTS.text(SESSION.JOURNAL_FOUR.PAGES["promise"], "en_US"), "J4 page action renders in English")
+	var visible_text := PackedStringArray()
+	for label in view._hotspot_layer.find_children("*", "Label", true, false):
+		visible_text.append(String(label.text))
+	_expect("Current order: None" in visible_text, "J4 dynamic current order renders in English")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://j4_ordering_english.png")
+	view.queue_free()
+	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
+
+
+func _validate_f0a(session: BasementSession) -> void:
+	await _validate_basement_hints("F0_A")
+	var rules = SESSION.CORE_ROOMS
+	var solutions := 0
+	for a in range(4):
+		for b in range(4):
+			for c in range(4):
+				for d in range(4):
+					if [a,b,c,d].count(a) != 1 or [a,b,c,d].count(b) != 1 or [a,b,c,d].count(c) != 1: continue
+					for rotation in range(256):
+						var local := {"tiles": [rules.ROOMS[a],rules.ROOMS[b],rules.ROOMS[c],rules.ROOMS[d]], "directions": [rotation%4,(rotation/4)%4,(rotation/16)%4,(rotation/64)%4]}
+						if rules.evaluate(local)["ok"]: solutions += 1
+	_expect(solutions == 1, "F0-A has one solution among 6144 configurations")
+	var before := session.snapshot()
+	_expect(session.act("f0a_signal").get("ok", false) and not session.known("f0_room_feedback_loop_solved"), "F0-A wrong wiring remains retryable")
+	for slot in range(4):
+		var local: Dictionary = rules.progress(session.snapshot())
+		var source: int = local["tiles"].find(rules.ROOMS[slot])
+		session.act("f0a_select", slot)
+		session.act("f0a_select", source)
+		for turn in range((slot+1)%4): session.act("f0a_rotate", slot)
+	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "F0-A partial reload")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "F0_A")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	var f0a_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f0a_objective","en_US"), "F0-A actual objective is English")
+	_expect(not view._location_label.text.contains("아침"), "F0-A actual location heading is English")
+	_expect((view._hotspot_layer.get_node("F0A_SIGNAL") as Button).text == CORE_TEXTS.text("f0a_signal","en_US"), "F0-A actual signal action is English")
+	_expect(view._hotspot_layer.has_node("F0A_SIGNAL"), "F0-A signal button")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://f0a_network.png")
+	view._hotspot_layer.get_node("F0A_SIGNAL").pressed.emit()
+	_expect(view._dialogue_label.text == "Weak-signal route", "F0-A actual success feedback begins in English")
+	view._dismiss_dialogue_for_test()
+	var f0a_history: Array = game.get_value("meta_progress.dialogue_history.entries",[])
+	_expect(not f0a_history.is_empty() and f0a_history.back()["viewed_locale"].begins_with("en"), "F0-A English feedback is persisted with viewed locale")
+	TranslationServer.set_locale(f0a_locale)
+	_expect(session.stage() == "F0_B", "F0-A solved moves to next stage")
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false) and session.stage() == "F0_B", "F0-A completion reload")
+	_expect(session.snapshot()["meta_progress"]["servants"] == before["meta_progress"]["servants"], "F0-A no relationship gate or reward")
+	await _validate_f0b(session)
+
+
+func _validate_f0b(session: BasementSession) -> void:
+	await _validate_basement_hints("F0_B")
+	var rules = SESSION.CORE_SAMPLES
+	var seed := session.snapshot()
+	for mask in range(16):
+		var state := seed.duplicate(true)
+		var expected := 0
+		for index in range(4):
+			var room: String = rules.ROOMS[index]
+			var sample := (mask >> index) & 1
+			if sample == 0: expected += 1
+			state = rules.apply(state, "inspect", [room, sample])["state"]
+			state = rules.apply(state, "send", room)["state"]
+		_expect(rules.progress(state)["verified"].size() == expected, "F0-B all 16 combinations")
+		_expect(bool(state["meta_progress"]["knowledge_entries"].get("f0_system_samples_verified", false)) == (mask == 0), "F0-B only four maintenance samples complete")
+	_expect(not session.act("f0b_send", "kitchen").get("ok", false), "F0-B inspect before send")
+	for attempt in range(3):
+		session.act("f0b_inspect", ["kitchen", 1])
+		session.act("f0b_send", "kitchen")
+	_expect(rules.progress(session.snapshot())["hint_seen"], "F0-B third error hint")
+	for room in ["bedroom", "library", "kitchen"]:
+		session.act("f0b_inspect", [room, 0])
+		_expect(session.act("f0b_send", room).get("ok", false), "F0-B verify channels in any order")
+		_expect(not session.act("f0b_send", room).get("ok", false), "F0-B verified channel cannot duplicate")
+	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "F0-B partial load")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "F0_B")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	var f0b_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f0b_objective","en_US"), "F0-B actual objective is English")
+	_expect((view._hotspot_layer.get_node("F0B_greenhouse_0") as Button).text.begins_with(CORE_TEXTS.sample_label("greenhouse",0,"en_US")), "F0-B actual sample label is English")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://f0b_samples.png")
+	view._hotspot_layer.get_node("F0B_greenhouse_0").pressed.emit()
+	_expect(view._dialogue_label.text.begins_with("Greenhouse · Outside-air readings"), "F0-B actual inspection feedback is English")
+	view._dismiss_dialogue_for_test()
+	view._render_room()
+	view._hotspot_layer.get_node("F0B_SEND_greenhouse").pressed.emit()
+	view._dismiss_dialogue_for_test()
+	TranslationServer.set_locale(f0b_locale)
+	_expect(session.stage() == "F0_C", "F0-B access denied advances to missing port investigation")
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false) and session.stage() == "F0_C", "F0-B completed reload")
+	_expect(session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"], "F0-B no relationship changes")
+	await _validate_basement_hints("F0_C")
+	for layer in ["B4","C5","D4"]: session.act("f0c", {"action":"anchor","layer":layer,"value":0})
+	for i in range(2): session.act("f0c", {"action":"rotate","layer":"B4"})
+	session.act("f0c", {"action":"flip","layer":"C5"})
+	for i in range(3): session.act("f0c", {"action":"rotate","layer":"C5"})
+	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "F0-C partial reload")
+	view = VIEW.new()
+	view.configure_session(SLOT, "F0_C")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	var f0c_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f0c_objective","en_US"), "F0-C actual objective is English")
+	_expect((view._hotspot_layer.get_node("F0C_VERIFY") as Button).text == CORE_TEXTS.text("verify_overlay","en_US"), "F0-C actual verification action is English")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://f0c_overlay.png")
+	view._hotspot_layer.get_node("F0C_VERIFY").pressed.emit()
+	view._dismiss_dialogue_for_test()
+	for point in ["PATH","SPLIT","AUTH"]:
+		view._render_room()
+		view._hotspot_layer.get_node("F0C_"+point).pressed.emit()
+		view._dismiss_dialogue_for_test()
+	TranslationServer.set_locale(f0c_locale)
+	_expect(session.stage() == "F0_D", "F0-C UI investigation completes")
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false) and session.stage() == "F0_D", "F0-C completed reload")
+	await _validate_f0d(session)
+
+
+func _validate_f0d(session: BasementSession) -> void:
+	await _validate_basement_hints("F0_D")
+	var rules = SESSION.CORE_ROLES
+	var seed := session.snapshot()
+	_expect(not session.act("f0d_verify").get("ok",false), "F0-D rejects empty slots")
+	for index in range(5):
+		session.act("f0d_select",rules.RECORDS[index])
+		session.act("f0d_place",index if index == 0 else (index%4)+1)
+	for failure in range(3): session.act("f0d_verify")
+	_expect(session.act("f0d_lock",0).get("ok",false), "F0-D verified slot lock")
+	session.act("f0d_select","father")
+	_expect(not session.act("f0d_place",1).get("ok",false), "F0-D cannot move locked card")
+	for index in range(1,5):
+		session.act("f0d_select",rules.RECORDS[index])
+		session.act("f0d_place",index)
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "F0-D partial reload")
+	var view := VIEW.new()
+	view.configure_session(SLOT,"F0_D")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f0d_objective","en_US"), "F0-D actual objective is English")
+	_expect((view._hotspot_layer.get_node("F0D_VERIFY") as Button).text == CORE_TEXTS.text("verify_roles","en_US"), "F0-D actual verification action is English")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://f0d_roles.png")
+	view._hotspot_layer.get_node("F0D_VERIFY").pressed.emit()
+	view._dismiss_dialogue_for_test()
+	TranslationServer.set_locale(previous_locale)
+	_expect(session.stage()=="F0_E", "F0-D roles solved")
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false) and session.stage()=="F0_E", "F0-D completed reload")
+	_expect(session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"], "F0-D anonymous route no relationship changes")
+	await _validate_f0e(session)
+
+
+func _validate_f0e(session: BasementSession) -> void:
+	await _validate_basement_hints("F0_E")
+	var seed := session.snapshot()
+	var rules = SESSION.CORE_SELF
+	for type in rules.MARKS:
+		for intent in ["reality","stay","undecided"]:
+			var fixture := seed.duplicate(true)
+			fixture["meta_progress"]["knowledge_entries"]["self_authored_mark"] = {"type":type,"day":1,"text":"A1 test mark"}
+			_expect(StateWriter.new(game).install_snapshot(fixture,game.revision,&"F0E_FIXTURE").get("ok",false),"F0-E fixture")
+			_expect(not session.act("f0e_intent",intent).get("ok",false),"F0-E cannot skip authentication")
+			_expect(not session.act("f0e_past").get("ok",false),"F0-E wrong order retry")
+			for piece in rules.MARKS[type]: session.act("f0e_piece",piece)
+			_expect(session.act("f0e_past").get("ok",false),"F0-E past mark verified")
+			for external in ["father","system","servant"]:
+				_expect(not session.act("f0e_author",external).get("ok",false),"F0-E external author rejected")
+			_expect(session.act("f0e_author","subject").get("ok",false),"F0-E direct author")
+			_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"F0-E partial reload")
+			if type == "sentence" and intent == "reality":
+				var view := VIEW.new()
+				view.configure_session(SLOT,"F0_E")
+				root.add_child(view)
+				await tree.process_frame
+				view._dismiss_dialogue_for_test()
+				var previous_locale := TranslationServer.get_locale()
+				TranslationServer.set_locale("en_US")
+				view._render_room()
+				_expect(view._objective_label.text == CORE_TEXTS.text("f0e_objective","en_US"), "F0-E actual objective is English")
+				_expect((view._hotspot_layer.get_node("F0E_INTENT_undecided") as Button).text == CORE_TEXTS.intent("undecided","en_US"), "F0-E all nonbinding intents render in English")
+				_expect(view._hotspot_layer.has_node("F0E_INTENT_stay") and view._hotspot_layer.has_node("F0E_INTENT_undecided"),"all intent buttons available")
+				if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+					await RenderingServer.frame_post_draw
+					root.get_texture().get_image().save_png("user://f0e_intent.png")
+				view.queue_free()
+				await tree.process_frame
+				TranslationServer.set_locale(previous_locale)
+			_expect(session.act("f0e_intent",intent).get("ok",false),"F0-E all intents succeed")
+			_expect(session.stage()=="F1", "F0-E common merge")
+			_expect(session.snapshot()["ending_run"]==seed["ending_run"],"F0-E final decision unchanged")
+			_expect(session.snapshot()["meta_progress"]["servants"]==seed["meta_progress"]["servants"],"F0-E relationship unchanged")
+			_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"F0-E completion reload")
+	await _validate_f1(session)
+
+
+func _validate_f1(session: BasementSession) -> void:
+	var seed := session.snapshot()
+	_expect(not session.act("f1_play",7).get("ok",false),"F1 cannot auto skip")
+	session.act("f1_enter")
+	session.act("f1_inspect")
+	_expect(not session.known("father_final_record_played"),"F1 investigation does not play")
+	session.act("f1_authenticate",seed["meta_progress"]["knowledge_entries"]["self_authored_mark"]["type"])
+	for index in range(8):
+		_expect(session.act("f1_play",index).get("ok",false),"F1 segment")
+		if index == 3:
+			_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"F1 partial reload")
+			session.initialize()
+			_expect(session.snapshot()["loop_state"]["location_id"]=="H0_CORE_RECORDS","F1 location retained")
+	_expect(session.known("KN_F1_RELEASE_HARDWARE_LOST"),"F1 no release hardware fact")
+	_expect(not session.act("f1_write","subject").get("ok",false),"J5 must read page")
+	session.act("f1_page")
+	_expect(not session.act("f1_write","father").get("ok",false),"J5 external author rejected")
+	var view := VIEW.new()
+	view.configure_session(SLOT,"F1")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f1_objective","en_US"), "F1 actual objective is English")
+	_expect(view._location_label.text.begins_with("Core records room"), "F1 actual location heading is English")
+	_expect((view._hotspot_layer.get_node("J5_WRITE") as Button).text == CORE_TEXTS.text("j5_write","en_US"), "J5 actual author action is English")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://f1_records.png")
+	view._hotspot_layer.get_node("J5_WRITE").pressed.emit()
+	_expect(view._dialogue_label.text == "I am the one writing this sentence now.", "J5 actual completion feedback is English")
+	view._dismiss_dialogue_for_test()
+	var j5_history: Array = game.get_value("meta_progress.dialogue_history.entries",[])
+	_expect(not j5_history.is_empty() and j5_history.back()["viewed_locale"].begins_with("en"), "J5 English completion is persisted with viewed locale")
+	TranslationServer.set_locale(previous_locale)
+	view.queue_free()
+	await tree.process_frame
+	_expect(session.stage()=="F2" and int(session.snapshot()["meta_progress"]["journal_stage"])==5,"J5 completes")
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"J5 completed reload")
+	_expect(session.snapshot()["ending_run"]==seed["ending_run"],"F1 J5 do not decide ending")
+	await _validate_f2(session)
+
+
+func _validate_f2(session: BasementSession) -> void:
+	var seed := session.snapshot()
+	var rules = SESSION.CONFRONTATION
+	for mask in range(32):
+		var state := seed.duplicate(true)
+		var index := 0
+		for owner in state["meta_progress"]["servants"]:
+			state["meta_progress"]["servants"][owner]["core_event_complete"] = (mask & (1<<index)) != 0
+			index += 1
+		state = rules.apply(state,"enter",null)["state"]
+		if mask % 2 == 1:
+			for question in rules.QUESTIONS: state = rules.apply(state,"question",question)["state"]
+		state = rules.apply(state,"recap",null)["state"]
+		_expect(rules.progress(state)["facts"].size()==6,"F2 all relationship masks receive mandatory facts")
+		_expect(rules.apply(state,"finish",null)["ok"],"F2 all masks may finish")
+	_expect(not session.act("f2_finish").get("ok",false),"F2 cannot bypass recap")
+	session.act("f2_enter")
+	session.act("f2_question","release")
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"F2 partial reload")
+	var view := VIEW.new()
+	view.configure_session(SLOT,"F2")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	_expect(view._objective_label.text == CORE_TEXTS.text("f2_objective","en_US"), "F2 actual objective is English")
+	_expect((view._hotspot_layer.get_node("F2_consent") as Button).text == CORE_TEXTS.question("consent","en_US"), "F2 actual question is English")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://f2_questions.png")
+	view._hotspot_layer.get_node("F2_RECAP").pressed.emit()
+	_expect(not view._dialogue_label.text.contains("동의"), "F2 actual recap begins in English")
+	view._dismiss_dialogue_for_test()
+	view._render_room()
+	view._hotspot_layer.get_node("F2_FINISH").pressed.emit()
+	_expect(view._dialogue_label.text.begins_with("The confrontation record closes."), "F2 actual completion feedback is English")
+	view._dismiss_dialogue_for_test()
+	var f2_history: Array = game.get_value("meta_progress.dialogue_history.entries",[])
+	_expect(not f2_history.is_empty() and f2_history.back()["viewed_locale"].begins_with("en"), "F2 English completion is persisted with viewed locale")
+	TranslationServer.set_locale(previous_locale)
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false) and session.stage()=="F3","F2 completed reload")
+	_expect(session.snapshot()["ending_run"]==seed["ending_run"] and session.snapshot()["meta_progress"]["servants"]==seed["meta_progress"]["servants"],"F2 ending and relationships unchanged")
+	await _validate_f3(session)
+
+
+func _validate_f3(session: BasementSession) -> void:
+	var seed := session.snapshot()
+	var rules = SESSION.FINAL_INSPECTION
+	var texts = VIEW.ENDING_TEXTS
+	_expect(texts.feedback("unrelated feedback", "en") == "unrelated feedback", "F3 translation does not rewrite unrelated feedback")
+	for intent in ["reality", "stay", "undecided"]:
+		var intent_state: Dictionary = rules.apply(seed, "enter", null)["state"]
+		intent_state["meta_progress"]["knowledge_entries"]["f0_provisional_intent"] = intent
+		var notebook: Dictionary = rules.apply(intent_state, "inspect", "notebook")
+		var translated: String = texts.feedback(notebook["text"], "en")
+		_expect(translated != notebook["text"] and translated.contains("This sentence is not a decision"), "F3 translates each provisional intent without making it final")
+		_expect(texts.feedback(notebook["text"], "ko") == notebook["text"], "F3 Korean notebook stays canonical")
+	for relation in SESSION.ENDING_DECISION.MONOLOGUES:
+		var original: String = SESSION.ENDING_DECISION.MONOLOGUES[relation]
+		_expect(texts.feedback(original, "en") != original and texts.feedback(original, "ko") == original, "EDC translates all intent relation monologues")
+	for order in [["wake","stay","notebook"],["stay","wake","notebook"],["notebook","wake","stay"],["notebook","stay","wake"],["wake","notebook","stay"],["stay","notebook","wake"]]:
+		var state: Dictionary = rules.apply(seed,"enter",null)["state"]
+		for object in order: state = rules.apply(state,"inspect",object)["state"]
+		var result: Dictionary = rules.apply(state,"summary",null)
+		_expect(result["ok"],"F3 any investigation order")
+		var english: String = texts.feedback(result["text"], "en")
+		var first := "stay" if rules.progress(state)["last_device"] == "wake" else "wake"
+		_expect(english.begins_with(texts.summary(first, "en")) and english.contains("Neither procedure has been executed."), "English summary preserves order and noncommitment")
+		_expect(result["state"]["ending_run"]==seed["ending_run"],"F3 cannot choose ending")
+	_expect(session.act("f3_enter").get("ok",false),"F3 enter commits sleep lock")
+	_expect(not session.sleep().get("ok",false),"F3 sleep lock")
+	_expect(not session.act("f3_open").get("ok",false),"F3 cannot skip inspection")
+	for object in ["wake","stay","notebook"]: session.act("f3_inspect",object)
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"F3 partial reload")
+	var view := VIEW.new()
+	view.configure_session(SLOT,"F3")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	var original_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	view._render_room()
+	_expect(view._objective_label.text == texts.text("f3_objective", "en"), "F3 English objective")
+	for device in ["wake", "stay"]:
+		var button := view._hotspot_layer.get_node("F3_" + device.to_upper()) as Button
+		_expect(button.text == texts.text("f3_" + device, "en"), "F3 English device label")
+		button.pressed.emit()
+		var expected_text: String = texts.feedback(rules.OBJECTS[device], "en")
+		_expect(view._dialogue_label.text == expected_text.split("\n")[0], "F3 inspection displays English feedback")
+		while view._dialogue_active: view._advance_dialogue()
+		var entries: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(entries.back()["variables"]["text"] == expected_text.split("\n")[-1], "F3 sensory paragraph is recorded in displayed English")
+	TranslationServer.set_locale(original_locale)
+	view._render_room()
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://f3_inspection.png")
+	view._hotspot_layer.get_node("F3_SUMMARY").pressed.emit()
+	view._dismiss_dialogue_for_test()
+	view._render_room()
+	view._hotspot_layer.get_node("F3_OPEN").pressed.emit()
+	view._dismiss_dialogue_for_test()
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false) and session.stage()=="EDC","F3 completed reload")
+	var original_path: String = saves.get_save_root().path_join(SLOT).path_join("progress.json")
+	var original_bytes := FileAccess.get_file_as_bytes(original_path)
+	var f3_copy: Dictionary = saves.load_f3_reselect(SLOT)
+	_expect(f3_copy.get("ok",false),"F3 independent snapshot captured")
+	var clone: Dictionary = saves.create_f3_reselect_slot(SLOT)
+	_expect(clone.get("ok",false),"F3 copy creates unique replay slot")
+	if clone.get("ok",false):
+		var replay_id: String = clone["slot_id"]
+		_expect(replay_id != SLOT and replay_id not in saves.PRODUCT_SLOT_IDS,"Replay slot cannot overwrite product slot")
+		_expect(LoadCoordinator.new(game,saves).load_and_install(replay_id).get("ok",false),"F3 replay copy loads through regular validator")
+		_expect(game.get_snapshot()["ending_run"]["reselect_used"] and game.get_snapshot()["ending_run"]["final_decision"] == "unset","Replay starts before decision")
+		var normalized_f3 := StateSnapshotValidator.new().normalize(f3_copy["snapshot"])
+		_expect(game.get_snapshot()["meta_progress"]["servants"] == normalized_f3["meta_progress"]["servants"],"Replay preserves F3 relationships")
+		_expect(FileAccess.get_file_as_bytes(original_path) == original_bytes,"Replay leaves original bytes intact")
+		saves.delete_test_slot(replay_id)
+		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Restore source after replay test")
+	session.act("f3_cancel")
+	_expect(session.stage()=="F3" and session.snapshot()["ending_run"]==seed["ending_run"],"EDC cancel returns to inspection without decision")
+	await _validate_edc(session)
+
+
+func _validate_edc(session: BasementSession) -> void:
+	_expect(not session.act("edc_commit", "reality").get("ok", false), "EDC cannot commit from closed inspection")
+	_expect(session.act("f3_open").get("ok", false), "EDC reopens")
+	var seed := session.snapshot()
+	var rules = SESSION.ENDING_DECISION
+	var validator := StateSnapshotValidator.new()
+	_expect(seed["loop_state"]["location_id"] == "H0_CORE_CHAMBER", "EDC canonical core chamber")
+	_expect(not rules.commit(seed, "invalid").get("ok", false), "EDC unknown decision rejected")
+	var unlocked := seed.duplicate(true)
+	unlocked["fracture_state"]["final_sleep_lock"] = false
+	_expect(not rules.commit(unlocked, "reality").get("ok", false), "EDC requires final sleep lock")
+	for intent in ["reality", "stay", "undecided"]:
+		for decision in ["reality", "stay"]:
+			for completed in [false, true]:
+				var source := seed.duplicate(true)
+				source["meta_progress"]["knowledge_entries"]["f0_provisional_intent"] = intent
+				for servant in source["meta_progress"]["servants"].values(): servant["core_event_complete"] = completed
+				var before := source.duplicate(true)
+				var result: Dictionary = rules.commit(source, decision)
+				_expect(result.get("ok", false) and source == before, "EDC pure commit does not mutate source")
+				if not result.get("ok", false): continue
+				var state: Dictionary = result["state"]
+				var ending: Dictionary = state["ending_run"]
+				_expect(validator.validate(state).get("ok", false), "EDC branch schema valid")
+				_expect(ending["final_choice_relation"] == ("formed" if intent == "undecided" else ("reaffirmed" if intent == decision else "revised")), "EDC all six intent comparisons")
+				_expect(ending["current_node_id"] == ("ED_ALL_CEREMONY" if completed else ("EDR_ENTRY" if decision == "reality" else "EDS_ENTRY")), "EDC ceremony only after all five completed")
+				_expect(state["meta_progress"]["servants"] == before["meta_progress"]["servants"] and state["meta_progress"]["knowledge_entries"] == before["meta_progress"]["knowledge_entries"], "EDC no relationship or provisional writes")
+				for field in ["final_choice_relation", "branch_committed", "branch_id", "current_node_id"]:
+					var partial := state.duplicate(true)
+					partial["ending_run"].erase(field)
+					_expect(not validator.validate(partial).get("ok", false), "EDC partial field bundle rejected")
+				_expect(not rules.commit(state, decision).get("ok", false), "EDC cannot recommit")
+	for guard in ["F3_complete", "subject_authority_restored"]:
+		var invalid := seed.duplicate(true)
+		invalid["meta_progress"]["knowledge_entries"][guard] = false
+		_expect(not rules.commit(invalid, "reality").get("ok", false), "EDC guard " + guard)
+	var view := VIEW.new()
+	view.configure_session(SLOT, "EDC")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	view._restore_world_focus()
+	_expect(root.gui_get_focus_owner() == view._hotspot_layer.get_node("EDC_SUBJECT"), "EDC neutral default focus")
+	_expect(view._hotspot_layer.get_node("EDC_REALITY").size == view._hotspot_layer.get_node("EDC_STAY").size, "EDC equal choice area")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://edc_choices.png")
+	view._hotspot_layer.get_node("EDC_STAY").pressed.emit()
+	await tree.process_frame
+	_expect(view._modal_active and session.snapshot()["ending_run"]["final_decision"] == "unset", "EDC preview does not commit")
+	view._notification(MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	view._notification(MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN)
+	await tree.process_frame
+	_expect(not view._modal_active and root.gui_get_focus_owner() == view._hotspot_layer.get_node("EDC_SUBJECT"), "EDC focus return discards confirmation and stays neutral")
+	view._hotspot_layer.get_node("EDC_STAY").pressed.emit()
+	await tree.process_frame
+	view._modal_body.get_child(3).pressed.emit()
+	view._dismiss_dialogue_for_test()
+	_expect(session.stage() == "F3", "EDC confirmation cancel returns F3")
+	view.queue_free()
+	await tree.process_frame
+	_expect(session.act("f3_open").get("ok", false), "EDC reopen after preview cancel")
+	var open_seed := session.snapshot()
+	var valid_slot := session.slot_id
+	session.slot_id = "../invalid_slot"
+	_expect(not session.act("edc_commit", "stay").get("ok", false), "EDC save failure is reported")
+	_expect(session.snapshot() == open_seed, "EDC failed persistence rolls back all fields")
+	session.slot_id = valid_slot
+	for decision in ["reality", "stay"]:
+		_expect(StateWriter.new(game).install_snapshot(open_seed, game.revision, &"EDC_TEST_SEED").get("ok", false), "EDC restore test seed")
+		var confirm_view := VIEW.new()
+		confirm_view.configure_session(SLOT, "EDC")
+		root.add_child(confirm_view)
+		await tree.process_frame
+		confirm_view._dismiss_dialogue_for_test()
+		var original_locale := TranslationServer.get_locale()
+		var before_english: Dictionary = session.snapshot()
+		TranslationServer.set_locale("en")
+		confirm_view._render_room()
+		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://edc_english_board.png")
+		var prior_text_scale: float = confirm_view._reading_text_scale
+		confirm_view._apply_reading_text_scale(2.0)
+		var english_ui = VIEW.ENDING_TEXTS
+		_expect(confirm_view._objective_label.text == english_ui.text("objective", "en"), "EDC objective renders in English")
+		for pair in [["EDC_REALITY", "reality"], ["EDC_STAY", "stay"], ["EDC_SUBJECT", "notebook"], ["EDC_CANCEL", "cancel"]]:
+			_expect((confirm_view._hotspot_layer.get_node(pair[0]) as Button).text == english_ui.text(pair[1], "en"), "EDC English button: " + pair[0])
+		(confirm_view._hotspot_layer.get_node("EDC_SUBJECT") as Button).pressed.emit()
+		var english_summary: Dictionary = game.get_value("meta_progress.dialogue_history.entries", []).back().duplicate(true)
+		for procedure in ["wake", "stay"]:
+			_expect(english_summary["variables"]["text"].contains(english_ui.summary(procedure, "en")), "EDC English summary preserves both procedures")
+		confirm_view._modal_body.get_child(3).pressed.emit()
+		(confirm_view._hotspot_layer.get_node("EDC_" + decision.to_upper()) as Button).pressed.emit()
+		var english_confirmation: Dictionary = game.get_value("meta_progress.dialogue_history.entries", []).back().duplicate(true)
+		await tree.process_frame
+		await tree.process_frame
+		for button_index in [3, 4]:
+			var confirmation_button := confirm_view._modal_body.get_child(button_index) as Button
+			_expect(confirm_view._modal_panel.get_global_rect().encloses(confirmation_button.get_global_rect()), "English 200% confirmation button remains in panel")
+		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://edc_english_200_" + decision + ".png")
+		_expect(english_confirmation["variables"]["text"].contains(english_ui.confirmation(decision, "en")), "EDC English confirmation preserves branch explanation")
+		_expect((confirm_view._modal_body.get_child(3) as Button).text == english_ui.text("confirm_cancel", "en") and (confirm_view._modal_body.get_child(4) as Button).text == english_ui.text("confirm_commit", "en"), "EDC English confirmation actions remain explicit")
+		confirm_view._close_modal()
+		confirm_view._apply_reading_text_scale(prior_text_scale)
+		TranslationServer.set_locale(original_locale)
+		confirm_view._render_room()
+		var after_english: Dictionary = session.snapshot()
+		_expect(after_english["meta_progress"]["dialogue_history"]["entries"].has(english_summary) and after_english["meta_progress"]["dialogue_history"]["entries"].has(english_confirmation), "Changing locale preserves previously read English text")
+		after_english["meta_progress"]["dialogue_history"] = before_english["meta_progress"]["dialogue_history"].duplicate(true)
+		_expect(after_english == before_english, "English EDC preview does not change branch or gameplay")
+		var before_summary: Dictionary = session.snapshot()
+		confirm_view._edc_summary()
+		var summary_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(summary_history.size() == before_summary["meta_progress"]["dialogue_history"]["entries"].size() + 1, "EDC summary is recorded when shown")
+		for procedure in ["wake", "stay"]:
+			_expect(summary_history.back()["variables"]["text"].contains(SESSION.FINAL_INSPECTION.SUMMARIES[procedure]), "EDC history preserves both procedure summaries")
+		confirm_view._modal_body.get_child(3).pressed.emit()
+		var after_summary: Dictionary = session.snapshot()
+		after_summary["meta_progress"]["dialogue_history"] = before_summary["meta_progress"]["dialogue_history"].duplicate(true)
+		_expect(after_summary == before_summary, "Reading balanced summary does not change choice or progression")
+		var history_before_confirmation: int = game.get_value("meta_progress.dialogue_history.entries", []).size()
+		confirm_view._confirm_ending(decision)
+		await tree.process_frame
+		var preview_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(preview_history.size() == history_before_confirmation + 1 and preview_history.back()["variables"]["text"].contains(rules.CONFIRMATIONS[decision]), "EDC records displayed confirmation for " + decision)
+		_expect(session.snapshot()["ending_run"]["final_decision"] == "unset", "Recording EDC preview does not commit branch")
+		confirm_view._modal_body.get_child(4).pressed.emit()
+		var committed_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(committed_history[history_before_confirmation + 1]["variables"]["text"] == "내 선택으로 확정한다", "EDC records confirmation click separately")
+		confirm_view._dismiss_dialogue_for_test()
+		confirm_view.queue_free()
+		await tree.process_frame
+		_expect(session.snapshot()["ending_run"]["final_decision"] == decision, "EDC confirmation UI commits " + decision)
+		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "EDC branch reload")
+		_expect(session.stage() == "ENDING_SEQUENCE" and session.snapshot()["ending_run"]["branch_id"] == decision, "EDC resume committed branch")
+		_expect(not session.act("f3_cancel").get("ok", false) and not session.act("edc_commit", decision).get("ok", false), "EDC no return after commit")
+		await _validate_ending_entry(session)
+
+
+func _validate_ending_entry(session: BasementSession) -> void:
+	var seed := session.snapshot()
+	var rules = SESSION.ENDING_ENTRY
+	var texts = VIEW.GALLERY_TEXTS
+	var previous_locale := TranslationServer.get_locale()
+	var wrong_branch := seed.duplicate(true)
+	wrong_branch["ending_run"]["current_node_id"] = "EDS_ENTRY" if seed["ending_run"]["branch_id"] == "reality" else "EDR_ENTRY"
+	_expect(not rules.apply(wrong_branch, "continue", wrong_branch["ending_run"]["current_node_id"]).get("ok", false), "Ending rejects opposite branch node")
+	for ceremony in [false, true]:
+		TranslationServer.set_locale("en")
+		var state := seed.duplicate(true)
+		var ending: Dictionary = state["ending_run"]
+		ending.erase("completed_nodes")
+		ending.erase("all_ceremony_seen")
+		ending["current_node_id"] = "ED_ALL_CEREMONY" if ceremony else ("EDR_ENTRY" if ending["branch_id"] == "reality" else "EDS_ENTRY")
+		state["loop_state"]["event_local_states"].erase("ED_ALL_CEREMONY")
+		for servant in state["meta_progress"]["servants"].values(): servant["core_event_complete"] = ceremony
+		_expect(StateWriter.new(game).install_snapshot(state, game.revision, &"ENDING_ENTRY_TEST").get("ok", false), "Ending seed installed")
+		var before_servants: Dictionary = state["meta_progress"]["servants"].duplicate(true)
+		if ceremony:
+			_expect(not session.act("ending_sign").get("ok", false), "Ceremony cannot skip identities")
+			var identity_view := VIEW.new()
+			identity_view.configure_session(SLOT,"ENDING_SEQUENCE")
+			root.add_child(identity_view)
+			await tree.process_frame
+			identity_view._dismiss_dialogue_for_test()
+			for owner in rules.OWNERS:
+				var identity_index: int = rules.progress(session.snapshot())["identity_index"]
+				identity_view._hotspot_layer.get_node("ENDING_IDENTITY").pressed.emit()
+				_expect(identity_view._dialogue_label.text == texts.identity(identity_index,"en"), "Actual ceremony speaks the selected English identity")
+				_expect(rules.progress(session.snapshot())["identity_index"] == identity_index, "Identity not completed before reading acknowledgement")
+				while identity_view._dialogue_active: identity_view._advance_dialogue()
+				_expect(rules.progress(session.snapshot())["identity_index"] == identity_index+1, "English identity advances only after acknowledgement")
+				_expect(not session.act("ending_identity", owner).get("ok", false), "Ceremony duplicate identity rejected")
+				_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "Ceremony partial identity reload")
+				identity_view._render_room()
+			identity_view._hotspot_layer.get_node("ENDING_AUTHORITY").pressed.emit()
+			_expect(identity_view._dialogue_label.text == texts.text("authority","en"), "English authority keeps SUBJECT precedence")
+			while identity_view._dialogue_active: identity_view._advance_dialogue()
+			identity_view.queue_free()
+			await tree.process_frame
+			var view := VIEW.new()
+			view.configure_session(SLOT,"ENDING_SEQUENCE")
+			root.add_child(view)
+			await tree.process_frame
+			view._dismiss_dialogue_for_test()
+			_expect(view._hotspot_layer.has_node("ENDING_SIGNATURE") and view._hotspot_layer.has_node("ENDING_AUTO_SIGN"), "Ceremony trace and accessible alternative")
+			_expect((view._hotspot_layer.get_node("ENDING_AUTO_SIGN") as Button).text == texts.text("auto_sign","en"), "English automatic signing remains available")
+			if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("user://ending_signature.png")
+			if seed["ending_run"]["branch_id"] == "reality":
+				var signature = view._hotspot_layer.get_node("ENDING_SIGNATURE")
+				var press := InputEventMouseButton.new()
+				press.button_index = MOUSE_BUTTON_LEFT
+				press.pressed = true
+				press.position = Vector2(50,50)
+				signature._gui_input(press)
+				var motion := InputEventMouseMotion.new()
+				motion.position = Vector2(100,50)
+				signature._gui_input(motion)
+				press.pressed = false
+				signature._gui_input(press)
+			else:
+				view._hotspot_layer.get_node("ENDING_AUTO_SIGN").pressed.emit()
+			while view._dialogue_active: view._advance_dialogue()
+			view.queue_free()
+			await tree.process_frame
+			_expect(session.snapshot()["ending_run"].get("all_ceremony_seen", false), "Ceremony signature saved")
+		var entry: String = session.snapshot()["ending_run"]["current_node_id"]
+		var entry_view := VIEW.new()
+		entry_view.configure_session(SLOT,"ENDING_SEQUENCE")
+		root.add_child(entry_view)
+		await tree.process_frame
+		entry_view._dismiss_dialogue_for_test()
+		for step in range(2):
+			var current: String = session.snapshot()["ending_run"]["current_node_id"]
+			_expect((entry_view._hotspot_layer.get_node("ENDING_CONTINUE") as Button).text == texts.text("entry_continue","en"), "English ending entry continuation button")
+			var original_entry_slot: String = entry_view.session.slot_id
+			var before_entry_read := session.snapshot()
+			if step == 0: entry_view.session.slot_id = "../invalid_history_slot"
+			if step == 1: entry_view._apply_reading_text_scale(2.0)
+			entry_view._hotspot_layer.get_node("ENDING_CONTINUE").pressed.emit()
+			_expect(entry_view._dialogue_label.text == texts.entry(current,"en"), "Actual ending introduction and resident status use shared English text")
+			_expect(session.snapshot()["ending_run"]["current_node_id"] == current, "Resident status remains pending until acknowledgement")
+			if step == 0:
+				entry_view._advance_dialogue()
+				_expect(entry_view._dialogue_active and session.snapshot() == before_entry_read, "Failed history persistence blocks acknowledgement and rolls back viewed text")
+				entry_view.session.slot_id = original_entry_slot
+			else:
+				await tree.process_frame
+				await tree.process_frame
+				var line_height: float = entry_view._dialogue_label.get_theme_font("font").get_height(entry_view._dialogue_label.get_theme_font_size("font_size"))
+				_expect(entry_view._dialogue_scroll.size.y >= line_height*3, "Large text dialogue keeps at least three lines visible")
+				var before_scroll := session.snapshot()
+				await _ending_reading_key(KEY_PAGEDOWN)
+				_expect(entry_view._dialogue_scroll.scroll_vertical > 0, "English resident status can be scrolled with PageDown at 200 percent")
+				_expect(session.snapshot() == before_scroll and entry_view._dialogue_active, "Scrolling long status neither acknowledges nor modifies progress")
+				if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+					var original_window_size: Vector2i = root.size
+					root.size = Vector2i(1280,720)
+					await tree.process_frame
+					await RenderingServer.frame_post_draw
+					root.get_texture().get_image().save_png("user://ending_status_" + str(seed["ending_run"]["branch_id"]) + "_200.png")
+					root.size = original_window_size
+				await _ending_reading_key(KEY_PAGEUP)
+				_expect(entry_view._dialogue_scroll.scroll_vertical == 0, "PageUp restores the beginning of resident status")
+			while entry_view._dialogue_active: entry_view._advance_dialogue()
+			_expect(not session.act("ending_continue", current).get("ok", false), "Ending stale acknowledgement rejected")
+		entry_view.queue_free()
+		await tree.process_frame
+		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "Ending node reload")
+		_expect(session.stage() == ("REALITY_WAKE" if seed["ending_run"]["branch_id"] == "reality" else "STAY_CHARTER"), "Ending next body boundary")
+		var final_state := session.snapshot()
+		_expect(final_state["ending_run"]["final_decision"] == seed["ending_run"]["final_decision"] and final_state["meta_progress"]["servants"] == before_servants, "Ending entry preserves choice and relationships")
+		var channels: Dictionary = final_state["meta_progress"]["knowledge_entries"]["ending_resident_channels"]
+		_expect(channels.size() == 5, "All five channels preserved even LOW")
+		for mode in channels.values(): _expect(mode == ("low_power" if final_state["ending_run"]["branch_id"] == "reality" else "active"), "Ending resident mode")
+		TranslationServer.set_locale(previous_locale)
+		if final_state["ending_run"]["branch_id"] == "stay":
+			_expect(final_state["fracture_state"]["world_phase"] == "S5", "Stay stabilizes S5 without reset")
+			await _validate_stay_charter(session)
+		else: await _validate_reality_wake(session)
+
+
+func _ending_reading_key(code: Key) -> void:
+	var event := preload("res://scripts/systems/key_bindings.gd").key_event(code)
+	event.pressed = true
+	Input.parse_input_event(event)
+	await tree.process_frame
+	event = event.duplicate()
+	event.pressed = false
+	Input.parse_input_event(event)
+	await tree.process_frame
+
+
+func _validate_stay_charter(session: BasementSession) -> void:
+	var seed := session.snapshot()
+	var rules = SESSION.STAY_CHARTER
+	var unset_mode := seed.duplicate(true)
+	unset_mode["ending_run"]["ending_appearance_mode"] = "unset"
+	_expect(StateSnapshotValidator.new().validate(unset_mode).get("ok",false),"Unset appearance remains loadable")
+	unset_mode["ending_run"]["ending_appearance_mode"] = "invalid"
+	_expect(not StateSnapshotValidator.new().validate(unset_mode).get("ok",false),"Invalid appearance rejected")
+	_expect(not session.act("stay_memory_finish").get("ok",false),"Stay requires three memory principles")
+	_expect(not session.act("stay_appearance","layered").get("ok",false),"Stay cannot skip memory")
+	var original_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	var texts = VIEW.STAY_TEXTS
+	var view := VIEW.new()
+	view.configure_session(SLOT,"STAY_CHARTER")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view._objective_label.text == texts.text("EDS_MEMORY_CHARTER", "en"), "Stay memory objective is English")
+	for index in range(3):
+		_expect(texts.principle(index, "ko") == rules.PRINCIPLES[index], "Korean memory principles remain canonical")
+		view._hotspot_layer.get_node("STAY_MEMORY_%d"%index).pressed.emit()
+		_expect(view._dialogue_label.text == texts.principle(index, "en"), "English memory principle displayed by actual action")
+		while view._dialogue_active: view._advance_dialogue()
+		_expect(game.get_value("meta_progress.dialogue_history.entries", []).back()["variables"]["text"] == texts.principle(index, "en"), "English principle remains in viewed history")
+		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay memory partial reload")
+		_expect(session.act("stay_memory",index).get("ok",false) and rules.progress(session.snapshot())["principles"].size() == index+1,"Reloaded principles remain deduplicated")
+	view._hotspot_layer.get_node("STAY_MEMORY_FINISH").pressed.emit()
+	view._restore_world_focus()
+	_expect(root.gui_get_focus_owner() == view._hotspot_layer.get_node("STAY_MODE_NEUTRAL"),"Stay appearance neutral focus")
+	_expect(not session.act("stay_appearance_finish").get("ok",false),"Stay requires explicit appearance choice")
+	_expect((view._hotspot_layer.get_node("STAY_LAYERED") as Button).text == texts.mode("layered", "en") and (view._hotspot_layer.get_node("STAY_CONTEXTUAL") as Button).text == texts.mode("contextual", "en"), "Both reversible appearance options render in English")
+	view._hotspot_layer.get_node("STAY_LAYERED").pressed.emit()
+	view._hotspot_layer.get_node("STAY_CONTEXTUAL").pressed.emit()
+	var before_settings: Dictionary = session.snapshot()
+	view._hotspot_layer.get_node("STAY_MODE_SETTINGS").pressed.emit()
+	_expect((view._modal_body.get_child(0) as Label).text == texts.text("settings_title", "en"), "English appearance settings opens")
+	view._modal_body.get_child(3).pressed.emit()
+	_expect(session.snapshot() == before_settings, "Keeping appearance leaves memory and ending unchanged")
+	view._hotspot_layer.get_node("STAY_INSPECT_FRAME").pressed.emit()
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://stay_appearance.png")
+	view._hotspot_layer.get_node("STAY_APPEARANCE_FINISH").pressed.emit()
+	_expect(not session.act("stay_autonomy_finish").get("ok",false),"Stay autonomy includes all five even LOW")
+	for owner in rules.OWNERS:
+		_expect((view._hotspot_layer.get_node("STAY_ROLE_"+owner) as Button).text == texts.owner(owner, "en") + texts.text("fixed", "en"), "English autonomy action retains each owner")
+		view._hotspot_layer.get_node("STAY_ROLE_"+owner).pressed.emit()
+		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay autonomy partial reload")
+	view._hotspot_layer.get_node("STAY_AUTONOMY_FINISH").pressed.emit()
+	view.queue_free()
+	await tree.process_frame
+	_expect(session.snapshot()["ending_run"]["current_node_id"] == "EDS_CENTRAL_HALL","Stay charters reach central hall")
+	_expect(session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"],"Stay autonomy does not grant relationship rewards")
+	_expect(session.snapshot()["fracture_state"] == seed["fracture_state"],"Appearance never restores physical reset or erases fracture")
+	_expect(session.act("stay_appearance","layered").get("ok",false),"Appearance remains reversible after charters")
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay final appearance reload")
+	_expect(session.snapshot()["ending_run"]["ending_appearance_mode"] == "layered" and session.snapshot()["ending_run"]["final_decision"] == "stay","Appearance persistence and choice invariance")
+	_expect(not session.sleep().get("ok",false),"No actual sleep in ending")
+	TranslationServer.set_locale(original_locale)
+	await _validate_stay_story(session)
+
+
+func _validate_stay_story(session: BasementSession) -> void:
+	var seed := session.snapshot()
+	var rules = SESSION.STAY_STORY
+	var texts = VIEW.STORY_TEXTS
+	var original_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	for mask in range(32):
+		var state := seed.duplicate(true)
+		var index := 0
+		for owner in rules.OWNERS:
+			state["meta_progress"]["servants"][owner]["core_event_complete"] = bool(mask & (1 << index))
+			index += 1
+		var seating: String = rules.seating(state)
+		for name in rules.OWNERS.values(): _expect(name in seating,"Stay all seating combinations retain five names")
+		var english_seating: String = texts.seating(state, "en")
+		_expect(english_seating.split("\n").size() == seating.split("\n").size() and texts.seating(state, "ko") == seating, "Translated seating preserves canonical paragraph count and Korean text")
+		for owner in rules.OWNERS:
+			_expect(english_seating.contains(VIEW.STAY_TEXTS.owner(owner, "en")), "English seating retains all five names in all 32 combinations")
+			var before_lines: Dictionary = state.duplicate(true)
+			var original_lines: Array = rules.table_lines(state, owner)
+			var translated_lines: Array = texts.table_lines(state, owner, "en")
+			_expect(translated_lines.size() == original_lines.size() and state == before_lines, "English table lines neither reveal extra branches nor mutate relationships")
+			_expect(texts.table_lines(state, owner, "ko") == original_lines, "Korean table dialogue stays canonical")
+			for i in range(original_lines.size()):
+				_expect(translated_lines[i]["text"] != original_lines[i]["text"], "Selected table dialogue has an English translation")
+	var table_seed: Dictionary = rules.apply(seed,"dine",null)["state"]
+	table_seed = rules.apply(table_seed,"sit",null)["state"]
+	for order in [[0,1],[1,0]]:
+		var state := table_seed.duplicate(true)
+		for index in order: state = rules.apply(state,"write",index)["state"]
+		_expect(rules.progress(state)["written"] == [0,1],"Stay written sentence order canonical")
+		_expect(rules.apply(state,"final",null).get("ok",false),"Stay optional table objects not gates")
+	var view := VIEW.new()
+	view.configure_session(SLOT,"STAY_STORY")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view._objective_label.text == texts.text("objective", "en") and view._location_label.text == texts.text("hall_location", "en"), "English stay story location and objective")
+	var appearance_before := session.snapshot()
+	for display_locale in ["ko", "en"]:
+		TranslationServer.set_locale(display_locale)
+		for display_mode in ["layered", "contextual"]:
+			_expect(view.session.act("stay_appearance", display_mode).get("ok", false), "Stay appearance remains reversible in either language")
+			view._render_room()
+			var expected_status: String = VIEW.STAY_TEXTS.text("display_status", display_locale) % VIEW.STAY_TEXTS.text("mode_"+display_mode, display_locale)
+			var status_found := false
+			for child in view._hotspot_layer.find_children("*", "Label", true, false):
+				if child is Label and child.text == expected_status: status_found = true
+			_expect(status_found, "Stay display status uses a localized description rather than an internal mode ID")
+			var after_display := session.snapshot()
+			_expect(after_display["meta_progress"] == appearance_before["meta_progress"] and after_display["fracture_state"] == appearance_before["fracture_state"] and after_display["ending_run"]["final_decision"] == "stay", "Display labels and settings preserve memory, relationships, fracture and ending")
+	_expect(view.session.act("stay_appearance", appearance_before["ending_run"]["ending_appearance_mode"]).get("ok", false), "Restore original display mode after bilingual checks")
+	view._render_room()
+	for id in rules.HALL:
+		_expect((view._hotspot_layer.get_node("STORY_HALL_"+id) as Button).text == texts.hall(id, 0, "en"), "English hall object title")
+		view._hotspot_layer.get_node("STORY_HALL_"+id).pressed.emit()
+		if id == "cord":
+			_expect(view._modal_active,"Stay shared channel selection")
+			_expect((view._modal_body.get_child(0) as Label).text == texts.text("channel_title", "en"), "Shared channel title is English")
+			var owner_index := 4
+			for owner in rules.OWNERS:
+				_expect((view._modal_body.get_child(owner_index) as Button).text == VIEW.STAY_TEXTS.owner(owner, "en"), "Shared channel retains all five translated recipients")
+				owner_index += 1
+			view._modal_body.get_child(4).pressed.emit()
+			_expect(rules.progress(session.snapshot())["channel"] == "edgar", "English recipient label still saves canonical owner ID")
+		else:
+			_expect(view._dialogue_label.text == texts.hall(id, 1, "en"), "Actual hall action displays English observation")
+			while view._dialogue_active: view._advance_dialogue()
+	_expect((view._hotspot_layer.get_node("STORY_DINE") as Button).text == texts.text("dine", "en"), "Dining navigation is English")
+	view._hotspot_layer.get_node("STORY_DINE").pressed.emit()
+	view._hotspot_layer.get_node("STORY_SIT").pressed.emit()
+	while view._dialogue_active: view._advance_dialogue()
+	_expect(not session.act("story_final").get("ok",false),"Stay requires manual notebook writing")
+	for owner in rules.TABLE:
+		var expected_lines: Array = texts.table_lines(session.snapshot(), owner, "en")
+		view._hotspot_layer.get_node("STORY_TABLE_"+owner).pressed.emit()
+		_expect(view._dialogue_label.text == expected_lines[0]["text"], "Actual table action displays selected English branch")
+		while view._dialogue_active: view._advance_dialogue()
+	view._hotspot_layer.get_node("STORY_TEA_HOT").pressed.emit()
+	_expect((view._hotspot_layer.get_node("STORY_TEA_HOT") as Button).text == texts.text("hot", "en") + texts.text("selected", "en"), "English tea selection marker follows selected state")
+	view._hotspot_layer.get_node("STORY_WRITE_1").pressed.emit()
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay partial writing reload")
+	_expect(session.act("story_write",1).get("ok",false) and rules.progress(session.snapshot())["written"] == [1],"Reloaded sentence remains deduplicated")
+	view._render_room()
+	view._hotspot_layer.get_node("STORY_WRITE_0").pressed.emit()
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://stay_table.png")
+	view._hotspot_layer.get_node("STORY_FINAL").pressed.emit()
+	view.set_process(false)
+	_expect(view._objective_label.text == texts.text("final_objective", "en"), "Final stay frame objective is English")
+	_expect(not session.act("story_finish").get("ok",false),"Stay opening pose precedes chosen positions")
+	for index in range(2): _expect(session.act("story_tick").get("ok",false),"Stay final pose time")
+	view._render_room()
+	session.ending_meta_store = preload("res://scripts/systems/ending_meta_store.gd").new("user://__test_auto_meta_stay_%s" % Time.get_ticks_usec())
+	view.session.ending_meta_store = session.ending_meta_store
+	view._hotspot_layer.get_node("STORY_FINISH").pressed.emit()
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay final frame reload")
+	_expect(session.snapshot()["ending_run"]["current_node_id"] == "CREDITS_STAY","Stay reaches credits boundary")
+	_expect(session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"] and session.snapshot()["ending_run"]["final_decision"] == "stay","Stay story preserves choice and relationships")
+	TranslationServer.set_locale(original_locale)
+	await _validate_credits(session)
+
+
+func _validate_reality_wake(session: BasementSession) -> void:
+	var seed := session.snapshot()
+	var rules = SESSION.REALITY_WAKE
+	var texts = VIEW.WAKE_TEXTS
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	_expect(texts.NAMES.keys() == rules.NAMES.keys() and texts.BODY.keys() == rules.BODY.keys() and texts.IRIS.keys() == rules.IRIS.keys(), "Reality wake translations cover canonical owners, physical objects and disclosures")
+	for object in rules.BODY:
+		_expect(texts.body(object,"ko") == rules.BODY[object] and texts.body(object,"en").size() == 3, "Physical observation keeps Korean and translates title, first and repeated readings")
+	var disclosures_seen: Array = []
+	for owner in rules.OWNERS:
+		for complete in [false, true]:
+			for bond in [0, 2, 4]:
+				for alert in [0, 2, 4]:
+					for evidence in ["valid", "missing", "stale"]:
+						var source := seed.duplicate(true)
+						for id in rules.OWNERS: source["meta_progress"]["servants"][id]["core_event_complete"] = false
+						var servant: Dictionary = source["meta_progress"]["servants"][owner]
+						servant["core_event_complete"] = complete
+						servant["bond"] = bond
+						servant["alert"] = alert
+						servant["researcher_record_acquired"] = evidence != "missing"
+						source["meta_progress"]["knowledge_entries"]["mara2_name_written"] = complete
+						source["meta_progress"]["event_history"][rules.EVENTS[owner]] = {"outcome_id":rules.OVERLAYS[owner].keys()[0], "lifecycle":"completed" if evidence != "stale" else "started"}
+						_validate_wake_translation(source, owner)
+						if owner == "iris":
+							var disclosure: String = rules.CONFRONTATION.iris_state(source)
+							if disclosure not in disclosures_seen: disclosures_seen.append(disclosure)
+	var all_complete := seed.duplicate(true)
+	for owner in rules.OWNERS: all_complete["meta_progress"]["servants"][owner]["core_event_complete"] = true
+	_validate_wake_translation(all_complete,"iris")
+	disclosures_seen.append(rules.CONFRONTATION.iris_state(all_complete))
+	_expect(disclosures_seen.size() == rules.IRIS.size(), "Reality translation exercises all six Iris disclosure states without promoting private testimony")
+	for owner in rules.OWNERS:
+		for outcome in rules.OVERLAYS[owner]:
+			var source := seed.duplicate(true)
+			source["meta_progress"]["servants"][owner]["core_event_complete"] = true
+			source["meta_progress"]["servants"][owner]["researcher_record_acquired"] = true
+			source["meta_progress"]["event_history"][rules.EVENTS[owner]] = {"outcome_id":outcome,"lifecycle":"completed"}
+			var before := source.duplicate(true)
+			var response: Dictionary = rules.farewell(source,owner)
+			_expect(not response["warning"] and source == before, "Farewell outcome overlay is read-only")
+			_validate_wake_translation(source,owner)
+			_expect(texts.farewell(source,owner,"en")["lines"][2]["text"] == texts.OVERLAYS[owner][outcome], "English handoff addendum follows the canonical outcome")
+	var view := VIEW.new()
+	view.configure_session(SLOT,"REALITY_WAKE")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	for owner in rules.OWNERS:
+		var before_index: int = rules.index(session.snapshot())
+		var expected_lines: Array = texts.farewell(session.snapshot(),owner,"en")["lines"]
+		_expect((view._hotspot_layer.get_node("REALITY_FAREWELL") as Button).text == texts.text("farewell","en"), "English handoff action shown")
+		view._hotspot_layer.get_node("REALITY_FAREWELL").pressed.emit()
+		_expect(rules.index(session.snapshot()) == before_index, "Farewell not saved before acknowledgement")
+		for line in expected_lines:
+			_expect(view._dialogue_active and view._dialogue_label.text == line["text"], "Actual handoff displays only the selected English line")
+			view._advance_dialogue()
+		_expect(not view._dialogue_active, "English handoff does not append undisclosed lines")
+		_expect(rules.index(session.snapshot()) == before_index + 1, "Farewell acknowledged once")
+		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "Farewell partial reload")
+		view._render_room()
+	_expect(session.snapshot()["ending_run"]["current_node_id"] == "EDR_DISCONNECT", "All five farewell records remain present")
+	view._hotspot_layer.get_node("REALITY_DISCONNECT").pressed.emit()
+	for beat in ["disconnect_heat", "disconnect_pressure", "disconnect_taste"]:
+		_expect(view._dialogue_label.text == texts.text(beat,"en"), "Disconnection keeps the heat, pressure, taste order in English")
+		view._advance_dialogue()
+	await tree.create_timer(1.3).timeout
+	_expect(session.snapshot()["loop_state"]["location_id"] == "R0_CRYO_CHAMBER", "Disconnect enters physical cryo chamber")
+	_expect(session.snapshot()["fracture_state"]["world_phase"] == "R0", "Reality world phase")
+	view._open_notebook()
+	_expect(not view._modal_active, "Reality cannot open simulation notebook")
+	view._hotspot_layer.get_node("REALITY_WAKE").pressed.emit()
+	_expect(view._dialogue_label.text == texts.text("wake_body","en"), "First breath is shown in English without a timed-input task")
+	while view._dialogue_active: view._advance_dialogue()
+	_expect(not session.act("reality_body_finish").get("ok",false), "Body check requires two distinct objects")
+	var body_seed := session.snapshot()
+	var keys: Array = rules.BODY.keys()
+	for pair in [[keys[0],keys[1]],[keys[0],keys[2]],[keys[1],keys[2]]]:
+		var state := body_seed.duplicate(true)
+		for object in pair: state = rules.apply(state,"body",object)["state"]
+		_expect(rules.apply(state,"body_finish",null).get("ok",false), "Any two physical observations qualify")
+	for object in [keys[0],keys[0],keys[1]]:
+		var repeated: bool = object in session.snapshot()["ending_run"].get("required_interactions_seen",[])
+		_expect((view._hotspot_layer.get_node(object) as Button).text == texts.body(object,"en")[0] + (texts.text("checked","en") if repeated else ""), "Physical observation English title and checked state")
+		view._hotspot_layer.get_node(object).pressed.emit()
+		var expected_text: String = texts.body(object,"en")[2 if repeated else 1]
+		_expect(view._dialogue_label.text == expected_text, "Physical first and repeated observations use English")
+		_expect(game.get_value("meta_progress.dialogue_history.entries",[]).back()["variables"]["text"] == expected_text, "Read physical observation is retained in dialogue history")
+		while view._dialogue_active: view._advance_dialogue()
+	_expect(session.snapshot()["ending_run"]["required_interactions_seen"].size() == 2, "Repeated physical observation is deduplicated")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://reality_body_check.png")
+	view._hotspot_layer.get_node("REALITY_BODY_FINISH").pressed.emit()
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "Reality body completed reload")
+	_expect(session.snapshot()["ending_run"]["current_node_id"] == "EDR_FIELD_NOTEBOOK", "Reality reaches physical notebook")
+	_expect(session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"] and session.snapshot()["ending_run"]["final_decision"] == "reality", "Wake has no relation reward or ending reversal")
+	TranslationServer.set_locale(previous_locale)
+	await _validate_field_notebook(session)
+
+
+func _validate_wake_translation(source: Dictionary, owner: String) -> void:
+	var rules = SESSION.REALITY_WAKE
+	var texts = VIEW.WAKE_TEXTS
+	var before := source.duplicate(true)
+	var canonical: Dictionary = rules.farewell(source,owner)
+	var translated: Dictionary = texts.farewell(source,owner,"en")
+	_expect(source == before and translated["warning"] == canonical["warning"], "Handoff translation preserves state and integrity warnings")
+	_expect(texts.farewell(source,owner,"ko") == canonical, "Korean handoff remains canonical")
+	_expect(translated["lines"].size() == canonical["lines"].size(), "Translation neither adds nor removes relationship disclosures")
+	for index in range(canonical["lines"].size()):
+		_expect(translated["lines"][index]["text"] != canonical["lines"][index]["text"], "Every selected handoff sentence has an English translation")
+		var speaker: String = canonical["lines"][index]["speaker"]
+		var expected_speaker: String = texts.name_for(owner,"en") if speaker == rules.NAMES[owner] else speaker
+		_expect(translated["lines"][index]["speaker"] == expected_speaker, "Anonymous narration remains SYSTEM rather than becoming a named speaker")
+
+
+func _validate_field_notebook(session: BasementSession) -> void:
+	var seed := session.snapshot()
+	var rules = SESSION.FIELD_NOTEBOOK
+	var texts = VIEW.FIELD_TEXTS
+	_expect(texts.PAGES.keys() == rules.PAGES.keys(), "English physical notebook covers every canonical page")
+	for page in rules.OWNERS:
+		var owner: String = rules.OWNERS[page]
+		for outcome in rules.WAKE.OVERLAYS[owner]:
+			var variant: Dictionary = seed.duplicate(true)
+			variant["meta_progress"]["servants"][owner]["core_event_complete"] = true
+			variant["meta_progress"]["servants"][owner]["researcher_record_acquired"] = true
+			variant["meta_progress"]["event_history"][rules.WAKE.EVENTS[owner]] = {"outcome_id": outcome, "lifecycle": "completed"}
+			_expect(texts.page_text(variant, page, true, "en").ends_with(texts.OVERLAYS[owner][outcome]), "English handoff addendum matches completed outcome")
+			_expect(texts.page_text(variant, page, true, "ko") == rules.page_text(variant, page, true), "Korean physical notebook remains canonical")
+			variant["meta_progress"]["servants"][owner]["researcher_record_acquired"] = false
+			_expect(not texts.page_text(variant, page, true, "en").contains("Handoff addendum:"), "Incomplete handoff evidence cannot reveal English relationship addendum")
+	_expect(not session.act("field_finish").get("ok",false),"Field notebook required pages")
+	var view := VIEW.new()
+	view.configure_session(SLOT,"FIELD_NOTEBOOK")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("ko")
+	view._render_room()
+	var cover: String = rules.REQUIRED[0]
+	var first_hours: String = rules.REQUIRED[1]
+	view._open_field_page(cover,false)
+	var cover_next := view._modal_body.get_child(5) as Button
+	_expect(cover_next.text == texts.text("next","ko") + texts.title(first_hours,"ko"), "Physical notebook next-index label targets following page")
+	cover_next.pressed.emit()
+	var after_cover_next: Dictionary = session.snapshot()
+	var notebook_after_cover: Dictionary = after_cover_next["loop_state"]["event_local_states"]["FIELD_NOTEBOOK"]
+	_expect(cover in notebook_after_cover.get("pages",[]) and cover not in notebook_after_cover.get("expanded_pages",[]), "Next index marks current summary page read")
+	_expect(cover in after_cover_next["ending_run"]["required_interactions_seen"] and view._modal_active, "Next index persists required reading and keeps notebook open")
+	(view._modal_body.get_child(4) as Button).pressed.emit()
+	var hours_next := view._modal_body.get_child(5) as Button
+	var pages: Array = rules.PAGES.keys()
+	var expected_after_hours: String = pages[(pages.find(first_hours)+1)%pages.size()]
+	_expect(hours_next.text == texts.text("next","ko") + texts.title(expected_after_hours,"ko"), "Expanded page keeps next-index navigation")
+	hours_next.pressed.emit()
+	var after_hours_next: Dictionary = session.snapshot()
+	var notebook_after_hours: Dictionary = after_hours_next["loop_state"]["event_local_states"]["FIELD_NOTEBOOK"]
+	_expect(first_hours in notebook_after_hours.get("pages",[]) and first_hours in notebook_after_hours.get("expanded_pages",[]), "Next index records expanded reading depth")
+	_expect(first_hours in after_hours_next["ending_run"]["required_interactions_seen"], "Next index satisfies second required physical notebook page")
+	view._close_modal()
+	view._render_room()
+	_expect(view._hotspot_layer.has_node("FIELD_FINISH"), "Next-index reading unlocks physical notebook completion")
+	var before_english: Dictionary = session.snapshot()
+	TranslationServer.set_locale("en")
+	view._render_room()
+	for page in rules.PAGES:
+		_expect((view._hotspot_layer.get_node(page) as Button).text.begins_with(texts.title(page, "en")), "Physical notebook English index title")
+		for expanded in [false, true]:
+			view._open_field_page(page, expanded)
+			var shown: String = (view._modal_body.get_child(2).get_child(0) as Label).text
+			_expect(shown == texts.page_text(before_english, page, expanded, "en"), "Actual notebook panel shows requested English reading depth")
+			_expect(game.get_value("meta_progress.dialogue_history.entries", []).back()["variables"]["text"].contains(shown), "English physical notebook text enters viewed history")
+	view._close_modal()
+	TranslationServer.set_locale(previous_locale)
+	view._render_room()
+	var after_english: Dictionary = session.snapshot()
+	after_english["meta_progress"]["dialogue_history"] = before_english["meta_progress"]["dialogue_history"].duplicate(true)
+	_expect(after_english == before_english, "English page previews do not mark reading complete or alter relationships")
+	var before_failed_read: Dictionary = session.snapshot()
+	var original_slot: String = view.session.slot_id
+	view.session.slot_id = "../invalid_slot"
+	view._open_field_page("FIELD_NOTEBOOK_PREFACE", false)
+	var retry_button := view._modal_body.get_child(3) as Button
+	retry_button.pressed.emit()
+	_expect(session.snapshot() == before_failed_read and view._modal_active, "Failed reading transcript save preserves state and keeps page open")
+	view.session.slot_id = original_slot
+	retry_button.pressed.emit()
+	_expect(not view._modal_active, "Reading can retry successfully after persistence is restored")
+	view._dismiss_dialogue_for_test()
+	for page in rules.PAGES:
+		var before_page: Dictionary = session.snapshot()
+		var summary_text: String = rules.page_text(before_page, page, false)
+		view._open_field_page(page,false)
+		_expect(view._modal_active,"Field page summary opens")
+		var summaries: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(summaries.size() == before_page["meta_progress"]["dialogue_history"]["entries"].size() + 1, "Opening notebook summary records one visible panel")
+		_expect(summaries.back()["variables"]["text"] == rules.PAGES[page][0] + "\n" + summary_text + "\n읽기 확인 후 닫기\n펼쳐 읽기\n" + (view._modal_body.get_child(5) as Button).text, "Summary history contains displayed text and navigation only")
+		var after_page: Dictionary = session.snapshot()
+		after_page["meta_progress"]["dialogue_history"] = before_page["meta_progress"]["dialogue_history"].duplicate(true)
+		_expect(after_page == before_page, "Opening a page does not mark expanded or confirmed reading")
+		var stale_read := view._modal_body.get_child(3) as Button
+		view._open_field_page(page,true)
+		var expanded_state: Dictionary = session.snapshot()
+		var expanded_entries: Array = expanded_state["meta_progress"]["dialogue_history"]["entries"]
+		_expect(expanded_entries.size() == summaries.size() + 1 and expanded_entries.back()["variables"]["text"].contains(rules.page_text(before_page, page, true)), "Only opened expanded page is appended")
+		stale_read.pressed.emit()
+		_expect(session.snapshot() == expanded_state and view._modal_active, "Replaced summary callback cannot confirm stale reading")
+		await tree.process_frame
+		if page == "SUBJECT_HANDOFF_PAGE" and "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://field_notebook_page.png")
+		view._modal_body.get_child(3).pressed.emit()
+		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Field page reload")
+		_expect(game.get_value("meta_progress.dialogue_history.entries", []).has(expanded_entries.back()), "Expanded reading transcript survives reload")
+	view._render_room()
+	view._hotspot_layer.get_node("FIELD_FINISH").pressed.emit()
+	_expect(session.snapshot()["loop_state"]["location_id"] == "R0_FACILITY_EXIT","Field notebook leads to physical exit")
+	_expect(not session.act("field_unlock").get("ok",false),"Exit cannot skip three status checks")
+	for id in rules.EXIT:
+		view._hotspot_layer.get_node(id).pressed.emit()
+		while view._dialogue_active: view._advance_dialogue()
+	view._hotspot_layer.get_node("FIELD_UNLOCK").pressed.emit()
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Exit unlock reload")
+	_expect(session.snapshot()["ending_run"]["current_node_id"] == "EDR_FACILITY_FREE_LOOK","Exit reaches free investigation")
+	_expect(session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"],"Reading does not change relationships")
+	var minimal := seed.duplicate(true)
+	for id in rules.REQUIRED: minimal = rules.apply(minimal,"read",id)["state"]
+	_expect(rules.apply(minimal,"finish",null).get("ok",false),"Optional pages are not gates")
+	await _validate_surface(session)
+
+
+func _validate_surface(session: BasementSession) -> void:
+	var seed := session.snapshot()
+	var rules = SESSION.REALITY_SURFACE
+	var texts = VIEW.SURFACE_TEXTS
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	_expect(texts.OBJECTS.keys() == rules.OBJECTS.keys(), "Surface translation covers all six optional objects")
+	for id in rules.OBJECTS:
+		for index in [0,1]:
+			_expect(texts.object_text(id,index,"ko") == rules.OBJECTS[id][index+1], "Korean surface observations remain canonical")
+			_expect(not texts.object_text(id,index,"en").is_empty() and texts.object_text(id,index,"en") != texts.object_text(id,index,"ko"), "Surface title and observation have English text")
+	var skip := seed.duplicate(true)
+	for action in ["airlock","enter","outside"]:
+		var result: Dictionary = rules.apply(skip,action,null)
+		_expect(result.get("ok",false),"Surface optional investigations never gate")
+		skip = result["state"]
+	_expect(rules.local(skip)["seen"].is_empty(),"Unobserved signal stays unobserved")
+	var invalid := skip.duplicate(true)
+	invalid["ending_run"]["current_node_id"] = "EDR_SURFACE_THRESHOLD"
+	invalid["ending_run"]["completed_nodes"].erase("EDR_BODY_CHECK")
+	_expect(not rules.apply(invalid,"outside",null).get("ok",false),"Final frame requires body/notebook/exit completion")
+	var view := VIEW.new()
+	view.configure_session(SLOT,"REALITY_SURFACE")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	for location in ["R0_CRYO_CHAMBER","R0_FACILITY_EXIT"]:
+		_expect(session.act("surface_move",location).get("ok",false),"Surface internal movement")
+		view._render_room()
+		_expect(view._location_label.text == texts.text(location,"en") and view._objective_label.text == texts.text("objective","en"), "Surface English location and optional objective")
+		for id in rules.OBJECTS:
+			if rules.OBJECTS[id][0] != location: continue
+			_expect((view._hotspot_layer.get_node("SURFACE_OBJ_"+id) as Button).text == texts.object_text(id,0,"en"), "Surface English object button")
+			view._hotspot_layer.get_node("SURFACE_OBJ_"+id).pressed.emit()
+			_expect(view._dialogue_label.text == texts.object_text(id,1,"en"), "Actual surface object displays English observation")
+			_expect(game.get_value("meta_progress.dialogue_history.entries",[]).back()["variables"]["text"] == texts.object_text(id,1,"en"), "Viewed surface observation is recorded in English")
+			while view._dialogue_active: view._advance_dialogue()
+			_expect((view._hotspot_layer.get_node("SURFACE_OBJ_"+id) as Button).text.ends_with(texts.text("checked","en")), "Acknowledged surface observation shows checked label")
+	_expect((view._hotspot_layer.get_node("SURFACE_AIRLOCK") as Button).text == texts.text("airlock","en"), "English airlock approach action")
+	view._hotspot_layer.get_node("SURFACE_AIRLOCK").pressed.emit()
+	_expect((view._hotspot_layer.get_node("SURFACE_CANCEL") as Button).text == texts.text("cancel","en") and (view._hotspot_layer.get_node("SURFACE_ENTER") as Button).text == texts.text("enter","en"), "Airlock keeps both investigation and exit choices in English")
+	view._hotspot_layer.get_node("SURFACE_CANCEL").pressed.emit()
+	_expect(session.snapshot()["ending_run"]["current_node_id"] == "EDR_FACILITY_FREE_LOOK","Airlock cancel returns to investigation")
+	view._hotspot_layer.get_node("SURFACE_AIRLOCK").pressed.emit()
+	view._hotspot_layer.get_node("SURFACE_ENTER").pressed.emit()
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Surface arrival reload")
+	view._render_room()
+	view._hotspot_layer.get_node("SURFACE_OBJ_signal").pressed.emit()
+	_expect(view._dialogue_label.text == texts.object_text("signal",1,"en"), "Distant signal remains an uncertain observation in English")
+	while view._dialogue_active: view._advance_dialogue()
+	view._hotspot_layer.get_node("SURFACE_OUTSIDE").pressed.emit()
+	view.set_process(false)
+	for locale in ["ko","en"]:
+		TranslationServer.set_locale(locale)
+		view._render_room()
+		view.set_process(false)
+		for direction in ["center","right","left"]:
+			_expect((view._hotspot_layer.get_node("SURFACE_LOOK_"+direction) as Button).text == texts.view_text(direction,0,locale), "Final view direction uses localized label")
+			view._hotspot_layer.get_node("SURFACE_LOOK_"+direction).pressed.emit()
+			view.set_process(false)
+			var found := false
+			for label in view._hotspot_layer.find_children("*","Label",true,false):
+				if label.text == texts.final_frame(direction,locale): found = true
+			_expect(found and rules.local(session.snapshot())["look"] == direction, "Actual final frame follows chosen view without changing direction IDs")
+			_expect(rules.local(session.snapshot())["elapsed"] == 0 and session.snapshot()["ending_run"]["final_decision"] == "reality", "Language and view changes do not advance the final timer or change ending")
+	view._open_notebook()
+	_expect(view._modal_active,"Physical notebook remains readable on surface")
+	var elapsed: int = rules.local(session.snapshot())["elapsed"]
+	view._on_surface_tick()
+	_expect(rules.local(session.snapshot())["elapsed"] == elapsed,"Final frame pauses during notebook")
+	view._close_modal()
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://reality_final_frame.png")
+	for index in range(7): _expect(session.act("surface_tick").get("ok",false),"Final frame advances active second")
+	_expect(session.snapshot()["ending_run"]["current_node_id"] == "EDR_FINAL_FRAME","Final frame remains until eight seconds")
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Final frame partial reload")
+	session.ending_meta_store = preload("res://scripts/systems/ending_meta_store.gd").new("user://__test_auto_meta_reality_%s" % Time.get_ticks_usec())
+	_expect(session.act("surface_tick").get("ok",false),"Final eighth second")
+	_expect(session.snapshot()["ending_run"]["current_node_id"] == "CREDITS_REALITY","Reality final frame reaches credits boundary")
+	_expect(rules.local(session.snapshot())["look"] == "left","No automatic signal zoom")
+	_expect(session.snapshot()["ending_run"]["final_decision"] == "reality" and session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"],"Last gaze does not change ending or relationships")
+	view.queue_free()
+	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
+	await _validate_credits(session)
+
+
+func _validate_credits(session: BasementSession) -> void:
+	var seed := session.snapshot()
+	var texts = VIEW.CREDITS_TEXTS
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en")
+	_expect(texts.PAGES.size() == SESSION.ENDING_CREDITS.PAGES.size(), "Credits translate all three canonical pages")
+	_expect(texts.page(0,"ko").contains("미정") and texts.page(0,"en").contains("to be determined"), "Credits keep the production names unassigned in both languages")
+	var profile: Dictionary = session.ending_meta_store.load_profile()
+	var gallery = preload("res://scripts/systems/ending_gallery_store.gd").new(session.ending_meta_store.root_path.path_join("ending_gallery"))
+	var archived: Dictionary = gallery.capture(seed)
+	_expect(archived.get("ok",false), "Completed ending gallery archive")
+	_expect(gallery.capture(seed).get("id") == archived.get("id"), "Gallery capture is idempotent")
+	var unseen := seed.duplicate(true)
+	unseen["ending_run"]["completed_nodes"].erase("EDR_FINAL_FRAME")
+	unseen["ending_run"]["completed_nodes"].erase("EDS_FINAL_FRAME")
+	_expect(not gallery.capture(unseen).get("ok",false), "Gallery rejects unseen ending")
+	_expect(not gallery.read_entry("../progress").get("ok",false), "Gallery rejects path traversal")
+	_expect(gallery.read_entry(archived.get("id","")).get("state",{}).get("meta_progress",{}) == seed["meta_progress"], "Gallery retains actual relationship and record state")
+	_expect(profile.get("ok",false) and profile["profile"]["ending_meta"][seed["ending_run"]["branch_id"] + "_seen"],"Final frame automatically commits seen before credits")
+	var real_store = session.ending_meta_store
+	session.ending_meta_store = UnavailableEndingMeta.new()
+	_expect(session._commit(seed.duplicate(true),"").get("ok",false),"Meta failure preserves successful final frame save")
+	_expect(not session.act("credits_start").get("ok",false),"Meta failure blocks credits start")
+	_expect(not session.snapshot()["ending_run"].get("credits_started",false),"Failed meta does not start credits")
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Final frame reload after meta failure")
+	session.ending_meta_store = real_store
+	_expect(session.ensure_ending_meta().get("ok",false),"Meta retry after reload succeeds")
+	_expect(not session.act("credits_finish").get("ok",false),"Credits cannot finish before pages")
+	var invalid := seed.duplicate(true)
+	invalid["ending_run"]["completed_nodes"].erase("EDR_FINAL_FRAME")
+	invalid["ending_run"]["completed_nodes"].erase("EDS_FINAL_FRAME")
+	_expect(not SESSION.ENDING_CREDITS.apply(invalid,"start",null).get("ok",false),"Credits require final frame")
+	var view := VIEW.new()
+	view.configure_session(SLOT,"ENDING_CREDITS")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect((view._hotspot_layer.get_node("CREDITS_START") as Button).text == texts.text("start","en"), "Credits start button uses English")
+	var view_store = view.session.ending_meta_store
+	view.session.ending_meta_store = UnavailableEndingMeta.new()
+	view._render_room()
+	_expect((view._hotspot_layer.get_node("CREDITS_RETRY") as Button).text == texts.text("retry","en"), "Viewing-record failure has a translated retry action")
+	_expect(not session.snapshot()["ending_run"].get("credits_started",false), "Rendering translated storage failure cannot start credits")
+	view.session.ending_meta_store = view_store
+	view._render_room()
+	view._hotspot_layer.get_node("CREDITS_START").pressed.emit()
+	_expect(not session.act("credits_start").get("ok",false),"Credits cannot restart accidentally")
+	for index in range(3):
+		for locale in ["ko","en"]:
+			var before_locale := session.snapshot()
+			TranslationServer.set_locale(locale)
+			view._render_room()
+			var found := false
+			for label in view._hotspot_layer.find_children("*","Label",true,false):
+				if label.text == texts.page(index,locale): found = true
+			_expect(found and session.snapshot() == before_locale, "Actual bilingual credit page renders without advancing or rewriting progress")
+			_expect(view._location_label.text == texts.text(seed["ending_run"]["branch_id"],locale), "Credits preserve the localized selected ending heading")
+		if index < 2:
+			view._hotspot_layer.get_node("CREDITS_NEXT").pressed.emit()
+			_expect(not session.act("credits_next",index).get("ok",false),"Credits stale page acknowledgement rejected")
+			_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Credits page reload")
+			view._render_room()
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://ending_credits.png")
+	view._hotspot_layer.get_node("CREDITS_FINISH").pressed.emit()
+	_expect(session.stage() == "POST_CREDITS" and view._hotspot_layer.has_node("CREDITS_TITLE"),"Credits finish reaches real title action")
+	for action in {"CREDITS_TITLE":"title","CREDITS_GALLERY":"gallery","CREDITS_RESELECT":"reselect"}:
+		var key: String = {"CREDITS_TITLE":"title","CREDITS_GALLERY":"gallery","CREDITS_RESELECT":"reselect"}[action]
+		_expect((view._hotspot_layer.get_node(action) as Button).text == texts.text(key,"en"), "Post-credit navigation actions are translated without replacing their handlers")
+	TranslationServer.set_locale(previous_locale)
+	view._render_room()
+	var source_path: String = saves.get_save_root().path_join(SLOT).path_join("progress.json")
+	var source_bytes := FileAccess.get_file_as_bytes(source_path)
+	var before_gallery := session.snapshot()
+	_expect(not view._history_enabled(), "post credits does not record new dialogue")
+	view._open_menu()
+	var history_button := view._modal_body.get_child(4) as Button
+	_expect(history_button.text == view._dialogue_ui_text("CH1_HISTORY_TITLE"), "post credits offers existing dialogue history")
+	history_button.pressed.emit()
+	_expect(view._modal_active and (view._modal_body.get_child(0) as Label).text == view._dialogue_ui_text("CH1_HISTORY_TITLE"), "post credits opens transcript")
+	(view._modal_body.get_child(3) as Button).pressed.emit()
+	_expect(session.snapshot() == before_gallery and FileAccess.get_file_as_bytes(source_path) == source_bytes, "post credits history preserves state and save bytes")
+	var pages = preload("res://scripts/systems/ending_gallery_pages.gd")
+	_expect(not pages.build(before_gallery).is_empty(), "Gallery contains completed final frame")
+	var korean_pages: Array = pages.build(before_gallery,"ko")
+	var english_pages: Array = pages.build(before_gallery,"en")
+	_expect(korean_pages.size() == english_pages.size() and session.snapshot() == before_gallery, "Gallery language preserves page count and game state")
+	for page_index in range(korean_pages.size()):
+		_expect(korean_pages[page_index]["title"] != english_pages[page_index]["title"] and korean_pages[page_index]["text"] != english_pages[page_index]["text"], "Every selected gallery page has translated title and content")
+	var uninspected := before_gallery.duplicate(true)
+	uninspected["ending_run"]["all_ceremony_seen"] = false
+	for entry_node in SESSION.ENDING_ENTRY.TEXT: uninspected["ending_run"]["completed_nodes"].erase(entry_node)
+	uninspected["loop_state"]["event_local_states"]["EDR_FAREWELL"] = {"index":0}
+	uninspected["ending_run"]["required_interactions_seen"] = []
+	uninspected["loop_state"]["event_local_states"]["FIELD_NOTEBOOK"] = {"pages":[]}
+	uninspected["loop_state"]["event_local_states"]["STAY_CHARTER"] = {"principles":[],"proposed":[]}
+	uninspected["loop_state"]["event_local_states"]["REALITY_SURFACE"] = {"seen":[],"look":"center","elapsed":8}
+	uninspected["loop_state"]["event_local_states"]["STAY_STORY"] = {"hall":[],"table":[],"written":[],"elapsed":2}
+	_expect(pages.build(uninspected).size() == 1, "Gallery hides uninspected optional objects and lines")
+	_expect(pages.build(uninspected,"en").size() == 1, "English gallery also hides every uninspected page")
+	if before_gallery["ending_run"]["branch_id"] == "reality":
+		for object in SESSION.REALITY_WAKE.BODY:
+			var body_only := uninspected.duplicate(true)
+			body_only["meta_progress"]["dialogue_history"]["entries"] = []
+			body_only["ending_run"]["required_interactions_seen"] = [object]
+			var initial: Array = pages.build(body_only)
+			_expect(initial.size() == 2 and initial[0]["text"] == SESSION.REALITY_WAKE.BODY[object][1], "First body observation alone cannot unlock unseen repeat dialogue in gallery")
+			for locale in ["ko","en"]:
+				var recorded := body_only.duplicate(true)
+				var repeat_text: String = VIEW.WAKE_TEXTS.body(object,locale)[2]
+				recorded["meta_progress"]["dialogue_history"]["entries"] = [{"line_id":"CH1_HISTORY_TRANSCRIPT","variables":{"text":repeat_text},"viewed_locale":locale}]
+				var before_repeat := recorded.duplicate(true)
+				var replay: Array = pages.build(recorded)
+				_expect(replay[0]["text"] == SESSION.REALITY_WAKE.BODY[object][1] + "\n" + SESSION.REALITY_WAKE.BODY[object][2] and recorded == before_repeat, "Recorded Korean or English repeat unlocks only that object's canonical rereading without mutation")
+				recorded["ending_run"]["required_interactions_seen"] = []
+				_expect(pages.build(recorded).size() == 1, "Transcript alone cannot invent an acknowledged physical observation")
+			var unrelated := body_only.duplicate(true)
+			unrelated["meta_progress"]["dialogue_history"]["entries"] = [{"line_id":"OTHER_LINE","variables":{"text":SESSION.REALITY_WAKE.BODY[object][2]}}]
+			_expect(pages.build(unrelated)[0]["text"] == initial[0]["text"], "Unrelated dialogue record cannot unlock repeat observation")
+	var all_record := uninspected.duplicate(true)
+	for owner in SESSION.ENDING_ENTRY.OWNERS: all_record["meta_progress"]["servants"][owner]["core_event_complete"] = true
+	var baseline_count: int = pages.build(all_record).size()
+	_expect(baseline_count == 1, "All relationships alone do not reveal ceremony")
+	all_record["ending_run"]["all_ceremony_seen"] = true
+	all_record["ending_run"]["completed_nodes"].erase("ED_ALL_CEREMONY")
+	_expect(pages.build(all_record).size() == baseline_count, "Seen flag without completed ceremony remains hidden")
+	all_record["ending_run"]["completed_nodes"].append("ED_ALL_CEREMONY")
+	all_record["loop_state"]["event_local_states"]["ED_ALL_CEREMONY"] = {"identity_index":5,"authority_seen":true}
+	_expect(pages.build(all_record).size() == baseline_count + 6, "Completed ALL ceremony exposes five identities and authority")
+	_expect(pages.build(all_record,"en").size() == baseline_count + 6, "English ALL pages require the same completed ceremony")
+	if before_gallery["ending_run"]["branch_id"] == "stay":
+		var charter_state := uninspected.duplicate(true)
+		charter_state["loop_state"]["event_local_states"]["STAY_CHARTER"] = {"principles":[1.0],"proposed":["luca"]}
+		_expect(pages.build(charter_state).size() == 3, "Gallery replays only acknowledged charter principle and owner")
+		charter_state["ending_run"]["ending_appearance_mode"] = "layered"
+		_expect(pages.build(charter_state).size() == 3, "Unconfirmed appearance is not a gallery page")
+		charter_state["ending_run"]["required_interactions_seen"] = ["OBJ_STAY_APPEARANCE_CONTROL"]
+		_expect(pages.build(charter_state).size() == 4, "Confirmed appearance adds one gallery page")
+	if before_gallery["ending_run"]["branch_id"] == "reality":
+		var partial := uninspected.duplicate(true)
+		partial["loop_state"]["event_local_states"]["EDR_FAREWELL"] = {"index":1}
+		var partial_pages: Array[Dictionary] = pages.build(partial)
+		_expect(partial_pages.size() > 1, "Gallery replays acknowledged farewell")
+		for page in partial_pages:
+			_expect(not str(page["title"]).begins_with("작별 · 이리스"), "Gallery cannot reveal unacknowledged Iris farewell")
+		partial["ending_run"]["required_interactions_seen"] = ["OBJ_REALITY_HAND"]
+		var body_pages: Array[Dictionary] = pages.build(partial)
+		_expect(body_pages.size() == partial_pages.size() + 1, "Gallery replays only inspected body object")
+		partial["loop_state"]["event_local_states"]["FIELD_NOTEBOOK"] = {"pages":["FIELD_NOTEBOOK_PREFACE"]}
+		var notebook_pages: Array[Dictionary] = pages.build(partial)
+		_expect(notebook_pages.size() == body_pages.size() + 1, "Gallery shows only acknowledged notebook page")
+		for page in notebook_pages:
+			if str(page["title"]).begins_with("현장 수첩"):
+				_expect(page["text"] == SESSION.FIELD_NOTEBOOK.PAGES["FIELD_NOTEBOOK_PREFACE"][1], "Gallery does not infer expanded notebook reading")
+		partial["ending_run"]["required_interactions_seen"].append("EXIT_STATUS_AIR")
+		_expect(pages.build(partial).size() == notebook_pages.size() + 1, "Gallery shows only inspected exit check")
+		var expanded_result: Dictionary = SESSION.FIELD_NOTEBOOK.apply(before_gallery,"read",{"page":"FIELD_NOTEBOOK_PREFACE","expanded":true})
+		_expect(expanded_result.get("ok",false), "Expanded notebook acknowledgement accepted")
+		if expanded_result.get("ok",false):
+			var expanded_state: Dictionary = expanded_result["state"]
+			var repeated: Dictionary = SESSION.FIELD_NOTEBOOK.apply(expanded_state,"read",{"page":"FIELD_NOTEBOOK_PREFACE","expanded":true})
+			_expect(repeated["state"]["loop_state"]["event_local_states"]["FIELD_NOTEBOOK"]["expanded_pages"].count("FIELD_NOTEBOOK_PREFACE") == 1, "Expanded notebook history deduplicated")
+			var found_expanded := false
+			for page in pages.build(expanded_state):
+				if page["title"] == "현장 수첩 · " + SESSION.FIELD_NOTEBOOK.PAGES["FIELD_NOTEBOOK_PREFACE"][0]:
+					found_expanded = page["text"] == SESSION.FIELD_NOTEBOOK.page_text(expanded_state,"FIELD_NOTEBOOK_PREFACE",true)
+			_expect(found_expanded, "Gallery uses explicitly acknowledged expanded text")
+		_expect(not SESSION.FIELD_NOTEBOOK.apply(before_gallery,"read",{"page":"FIELD_NOTEBOOK_PREFACE","expanded":"true"}).get("ok",false), "Notebook rejects malformed expanded flag")
+	TranslationServer.set_locale("en")
+	view._render_room()
+	view._hotspot_layer.get_node("CREDITS_GALLERY").pressed.emit()
+	_expect(view._modal_active, "Gallery opens read-only menu")
+	_expect((view._modal_body.get_child(0) as Label).text == VIEW.GALLERY_TEXTS.text("title","en"), "Post-ending gallery menu title is English")
+	var archived_entries: Array[Dictionary] = preload("res://scripts/systems/ending_gallery_store.gd").new().list_entries()
+	_expect(not archived_entries.is_empty(), "Gallery has archived entries")
+	if not archived_entries.is_empty():
+		view._gallery_page(archived_entries[0]["id"],0)
+		_expect(view._modal_active, "Gallery renders archived text page")
+		var expected_page: Dictionary = pages.build(archived_entries[0]["state"],"en")[0]
+		_expect((view._modal_body.get_child(2).get_child(0) as Label).text == expected_page["text"], "Actual gallery modal uses English preserved-state page")
+	view._close_modal()
+	_expect(session.snapshot() == before_gallery and FileAccess.get_file_as_bytes(source_path) == source_bytes, "Gallery never installs or saves gameplay state")
+	TranslationServer.set_locale("en")
+	view._render_room()
+	view._hotspot_layer.get_node("CREDITS_RESELECT").pressed.emit()
+	_expect(view._modal_active, "Post credits opens reselect menu")
+	_expect((view._modal_body.get_child(0) as Label).text == texts.text("reselect_title","en") and (view._modal_body.get_child(2).get_child(0) as Label).text == texts.text("reselect_body","en"), "Reselection menu explains copy-only behavior in English")
+	_expect((view._modal_body.get_child(3) as Button).text == texts.text("cancel","en"), "Reselection menu retains translated cancel action")
+	view._close_modal()
+	_expect(FileAccess.get_file_as_bytes(source_path) == source_bytes, "Reselect menu cancel preserves source")
+	_expect(saves.load_f3_reselect(SLOT).get("ok", false), "Completed source retains a valid F3 copy for UI test")
+	if saves.load_f3_reselect(SLOT).get("ok", false):
+		view._confirm_reselect()
+		_expect(view._modal_active, "Reselect requires confirmation")
+		_expect((view._modal_body.get_child(0) as Label).text == texts.text("confirm_title","en") and (view._modal_body.get_child(4) as Button).text == texts.text("create","en"), "English confirmation separates copy creation from original progress")
+		view._modal_body.get_child(3).pressed.emit()
+		_expect(not view._modal_active and FileAccess.get_file_as_bytes(source_path) == source_bytes, "English confirmation cancel preserves original save")
+		view._confirm_reselect()
+		view._modal_body.get_child(4).pressed.emit()
+		var replay_id: String = view._slot_id
+		_expect(replay_id != SLOT and view.session.snapshot()["ending_run"]["reselect_used"], "Reselect UI switches to separate slot")
+		_expect(view._dialogue_label.text == texts.text("copy_entered","en"), "Copy entry notice is in English")
+		_expect(view.session.act("f3_cancel").get("ok", false), "Replay can return to F3 inspection")
+		_expect(FileAccess.get_file_as_bytes(source_path) == source_bytes, "Replay action does not write source")
+		var listed := false
+		for entry in saves.list_reselect_slots(SLOT):
+			if entry["slot_id"] == replay_id: listed = true
+		_expect(listed, "Replay remains discoverable from original ending")
+		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false), "Restore original after replay UI")
+		saves.delete_test_slot(replay_id)
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false) and session.stage() == "POST_CREDITS","Credits completion reload")
+	TranslationServer.set_locale(previous_locale)
+	_expect(saves.inspect_slot(SLOT).get("save_point_id","") == "SAVE_ENDING_COMPLETE","Credits final save point")
+	_expect(session.snapshot()["ending_run"]["final_decision"] == seed["ending_run"]["final_decision"] and session.snapshot()["meta_progress"]["servants"] == seed["meta_progress"]["servants"],"Credits preserve choice and relationships")
+	var meta_path: String = real_store.root_path
+	if "__test_auto_meta_" in meta_path:
+		var gallery_path := meta_path.path_join("ending_gallery")
+		for name in DirAccess.get_files_at(gallery_path): DirAccess.remove_absolute(ProjectSettings.globalize_path(gallery_path.path_join(name)))
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(gallery_path))
+		for name in real_store.FILES: DirAccess.remove_absolute(ProjectSettings.globalize_path(meta_path.path_join(name)))
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(meta_path))
+
+
+func _validate_e6_ui(session: BasementSession) -> void:
+	var before := session.snapshot()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "E6")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view._hotspot_layer.has_node("E6_ENTER"), "E6 entry button visible")
+	_expect(view._objective_label.text == FRACTURE_RESOLUTION_TEXTS.text("코어 접근 · 남은 후속 반응", "en_US"), "E6 objective renders in English")
+	_expect(view._location_label.text.begins_with("Security Machine Room"), "E6 location renders a human-readable English name")
+	_expect((view._hotspot_layer.get_node("E6_ENTER") as Button).text == FRACTURE_RESOLUTION_TEXTS.text("코어 경로 진입 확인", "en_US"), "E6 entry action renders in English")
+	var after_intro := session.snapshot()
+	before["meta_progress"]["dialogue_history"] = after_intro["meta_progress"]["dialogue_history"].duplicate(true)
+	_expect(after_intro == before, "E6 opening only appends displayed dialogue history")
+	view._hotspot_layer.get_node("E6_ENTER").pressed.emit()
+	await tree.process_frame
+	var focus := root.gui_get_focus_owner() as Button
+	_expect(focus != null and focus.text == FRACTURE_RESOLUTION_TEXTS.text("아직 조사한다", "en_US"), "E6 English confirmation defaults to stay")
+	_expect(not _contains_hangul((view._modal_body.get_child(2).get_child(0) as Label).text), "E6 English confirmation body has no Korean")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://e6_confirmation.png")
+	view._close_modal()
+	view.queue_free()
+	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
+	_expect(session.snapshot() == before, "E6 UI cancellation unchanged")
+
+
+func _validate_e5_ui(session: BasementSession) -> void:
+	var before := session.snapshot()
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "E5")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view._hotspot_layer.has_node("E5_SIT"), "E5 seat button visible")
+	_expect(view._objective_label.text == FRACTURE_RESOLUTION_TEXTS.text("마지막으로 정상인 저녁", "en_US"), "E5 objective renders in English")
+	_expect(view._location_label.text.begins_with("Dining Room"), "E5 location renders a human-readable English name")
+	_expect((view._hotspot_layer.get_node("E5_SIT") as Button).text == FRACTURE_RESOLUTION_TEXTS.text("북쪽 정면의 내 자리에 앉는다", "en_US"), "E5 seat action renders in English")
+	view._hotspot_layer.get_node("E5_SIT").pressed.emit()
+	_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "E5 relationship-tier scene begins in English")
+	view._dismiss_dialogue_for_test()
+	view._render_room()
+	_expect(view._hotspot_layer.has_node("E5_QUESTION_stay"), "all E5 questions accessible")
+	_expect((view._hotspot_layer.get_node("E5_QUESTION_stay") as Button).text == FRACTURE_RESOLUTION_TEXTS.text(SESSION.LAST_EVENING.QUESTIONS["stay"], "en_US"), "E5 question renders in English")
+	view._hotspot_layer.get_node("E5_QUESTION_stay").pressed.emit()
+	_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "E5 selected answer begins in English")
+	view._dismiss_dialogue_for_test()
+	view._render_room()
+	view._hotspot_layer.get_node("E5_FINISH").pressed.emit()
+	await tree.process_frame
+	var focus := root.gui_get_focus_owner() as Button
+	_expect(focus != null and focus.text == FRACTURE_RESOLUTION_TEXTS.text("아직 준비되지 않았다", "en_US"), "E5 English confirmation defaults to defer")
+	_expect(not _contains_hangul((view._modal_body.get_child(2).get_child(0) as Label).text), "E5 English confirmation body has no Korean")
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://e5_confirmation.png")
+	view._close_modal()
+	view.queue_free()
+	await tree.process_frame
+	TranslationServer.set_locale(previous_locale)
+	_expect(StateWriter.new(game).install_snapshot(before, game.revision, &"E5_UI_RESTORE").get("ok", false), "E5 UI fixture restore")
+
+
+func _validate_mara2(session: BasementSession) -> void:
+	var hub: Dictionary = game.get_snapshot()
+	var rules = BasementSession.MARA2_RELATIONSHIP
+	var record := ""
+	for outcome in ["merged", "separated"]:
+		_expect(StateWriter.new(game).install_snapshot(hub, game.revision, StringName("MARA2_FIXTURE_" + outcome)).get("ok", false), "Mara2 fixture")
+		_move(session, ["M1_NORTH_ARCHIVE_HALL", "M1_COLOR_ROOM_ENTRY", "H0_COLOR_SEPARATION"])
+		_expect(not session.act("move", "H0_PERSONALITY_ARCHIVE").get("ok", false), "archive needs common gaps")
+		_expect(not session.act("mara2_source", ["A", "MARA2", "EDGAR"]).get("ok", false), "mixed owner source rejected")
+		for portrait in rules.PORTRAITS:
+			for owner in rules.OWNERS: session.act("mara2_source", [portrait, owner, owner])
+		for portrait in ["A", "B", "C"]: session.act("mara2_portrait", portrait)
+		_expect(not session.act("mara2_overlay").get("ok", false), "wrong degradation chronology rejected")
+		session.act("mara2_clear")
+		for portrait in rules.ORDER: session.act("mara2_portrait", portrait)
+		_expect(not session.act("mara2_overlay").get("ok", false), "wave alignment required")
+		for portrait in rules.PORTRAITS:
+			for kind in ["start", "outline"]: session.act("mara2_align", [portrait, kind, rules.PORTRAITS[portrait][kind]])
+		session.act("mara2_overlay")
+		_move(session, ["H0_PERSONALITY_ARCHIVE"])
+		for owner in rules.BACKUPS: session.act("mara2_backup", owner)
+		for index in rules.GAPS: session.act("mara2_cell", [index, "선"])
+		session.act("mara2_checksum")
+		_expect(not session.known("E3_5_puzzle_solved"), "wrong checksum not completed")
+		for index in rules.GAPS: session.act("mara2_cell", [index, rules.CHECKSUM[index]])
+		session.act("mara2_checksum")
+		_expect(session.known("E3_5_puzzle_solved") and not session.known("REC_MARA2"), "technical checkpoint is not relationship completion")
+		_move(session, ["H0_COLOR_SEPARATION", "M1_COLOR_ROOM_ENTRY", "M1_NORTH_ARCHIVE_HALL", "M1_CENTRAL_HALL", "M2_BEDROOM"])
+		session.sleep()
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "Mara2 checkpoint reload")
+		_move(session, ["M1_CENTRAL_HALL", "M1_NORTH_ARCHIVE_HALL", "M1_COLOR_ROOM_ENTRY", "H0_COLOR_SEPARATION", "H0_PERSONALITY_ARCHIVE"])
+		_expect(rules.progress(game.get_snapshot())["solved"], "Mara2 puzzle survives exit rest load")
+		session.act("mara2_confess")
+		var before: Dictionary = game.get_value("meta_progress.servants.mara2")
+		var relation_locale := TranslationServer.get_locale()
+		TranslationServer.set_locale("en_US")
+		var view := VIEW.new()
+		view.configure_session(SLOT, "E3_5")
+		root.add_child(view)
+		await tree.process_frame
+		view._dismiss_dialogue_for_test()
+		_expect(view._objective_label.text == RELATIONSHIP_TEXTS.text("마라 2 · 원본과 분산된 주석", "en_US"), "Mara2 objective renders in English")
+		view._hotspot_layer.get_node("MARA2_CHOICE").pressed.emit()
+		await tree.process_frame
+		_expect((root.gui_get_focus_owner() as Button).text == RELATIONSHIP_TEXTS.text("설명을 다시 생각한다", "en_US"), "English Mara2 choice defaults to defer")
+		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png("user://mara2_choice.png")
+		view._modal_body.get_child(4 if outcome == "merged" else 5).pressed.emit()
+		_expect(view._dialogue_active and not _contains_hangul(view._dialogue_label.text), "Mara2 choice feedback renders in English")
+		view._dismiss_dialogue_for_test()
+		view.queue_free()
+		await tree.process_frame
+		TranslationServer.set_locale(relation_locale)
+		_expect(session.known("REC_MARA2") and session.known("mara2_self_sacrifice_known") and session.known("mara2_archive_index_known"), "Mara2 record and identity after choice")
+		var after: Dictionary = game.get_value("meta_progress.servants.mara2")
+		_expect(after["core_event_complete"] and after["researcher_record_acquired"], "Mara2 completion flags")
+		_expect(int(after["bond"]) == clampi(int(before["bond"]) + (2 if outcome == "merged" else 1), 0, 5), "Mara2 bond")
+		_expect(int(after["alert"]) == clampi(int(before["alert"]) + (1 if outcome == "merged" else -1), 0, 5), "Mara2 alert")
+		var current := String(game.get_value("meta_progress.knowledge_entries.chapter_notebook.REC_MARA2"))
+		if record.is_empty(): record = current
+		else: _expect(record == current, "both archive choices preserve identical facts")
+		session.act("mara2_choose", outcome)
+		_expect(game.get_value("meta_progress.servants.mara2") == after, "Mara2 cannot repeat relationship rewards")
+		_expect(LoadCoordinator.new(game, saves).load_and_install(SLOT).get("ok", false), "Mara2 completion loads")
+		_expect(game.get_value("meta_progress.event_history.E3_5.outcome_id") == outcome, "archive resolution persisted in outcome")
+		_move(session, ["H0_COLOR_SEPARATION", "M1_COLOR_ROOM_ENTRY", "M1_NORTH_ARCHIVE_HALL", "M1_CENTRAL_HALL"])
+
+func _validate_ui(session: BasementSession, axis_state: Dictionary) -> void:
+	var completed: Dictionary = game.get_snapshot()
+	StateWriter.new(game).install_snapshot(axis_state, game.revision, &"BASEMENT_UI_FIXTURE")
+	var view := VIEW.new()
+	view.configure_session(SLOT, "D1")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	view._hotspot_layer.get_node("PUSH_branch").pressed.emit()
+	await tree.process_frame
+	_expect(view._modal_active, "axis irreversible confirmation appears")
+	var focused := root.gui_get_focus_owner() as Button
+	_expect(focused != null and focused.text == "수첩 도면을 본다", "axis confirmation defaults to notebook")
+	view._close_modal()
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://basement_axes.png")
+		print("BASEMENT_CAPTURE: " + ProjectSettings.globalize_path("user://basement_axes.png"))
+	var previous_locale := TranslationServer.get_locale()
+	TranslationServer.set_locale("en_US")
+	view._render_room()
+	await tree.process_frame
+	_expect(view._location_label.text == BASEMENT_TEXTS.location("B1_AXIS_CHAMBER", "en_US"), "D1 location renders in English")
+	_expect(view._objective_label.text == BASEMENT_TEXTS.objective("D1", "en_US"), "D1 objective renders in English")
+	_expect((view._hotspot_layer.get_node("PUSH_branch") as Button).text == BASEMENT_TEXTS.ui("axis_push", "en_US"), "D1 axis action renders in English")
+	var visible_text := PackedStringArray()
+	for label in view._hotspot_layer.find_children("*", "Label", true, false):
+		visible_text.append(String(label.text))
+	_expect("Branch Axis · Depth 1" in visible_text, "D1 dynamic branch state renders in English")
+	view._hotspot_layer.get_node("PUSH_branch").pressed.emit()
+	await tree.process_frame
+	focused = root.gui_get_focus_owner() as Button
+	_expect(focused != null and focused.text == BASEMENT_TEXTS.ui("review_plan", "en_US"), "English axis confirmation defaults to notebook")
+	view._close_modal()
+	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("user://basement_axes_english.png")
+		print("BASEMENT_EN_CAPTURE: " + ProjectSettings.globalize_path("user://basement_axes_english.png"))
+	TranslationServer.set_locale(previous_locale)
+	view.queue_free()
+	await tree.process_frame
+	StateWriter.new(game).install_snapshot(completed, game.revision, &"BASEMENT_UI_RESTORE")
+	session.initialize()
+	view = VIEW.new()
+	view.configure_session(SLOT, "DEMO_END_SCREEN")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view._hotspot_layer.get_node_or_null("RETURN_TITLE") != null, "demo boundary presents title exit")
+	_expect(view._hotspot_layer.get_node_or_null("SLEEP") == null, "demo boundary has no full-game sleep action")
+	view.queue_free()
+	await tree.process_frame
+
+
+func _move(session: BasementSession, path: Array) -> void:
+	for room in path: _expect(session.act("move", room).get("ok", false), "move " + room)
+
+func _contains_hangul(value: String) -> bool:
+	var expression := RegEx.new()
+	return expression.compile("[가-힣]") == OK and expression.search(value) != null
+
+
+func _expect(condition: bool, message: String) -> void:
+	if not condition: errors.append(message)

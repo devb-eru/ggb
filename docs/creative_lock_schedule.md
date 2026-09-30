@@ -13,20 +13,20 @@ LOCKED → REOPENED  # 영향표와 beru 승인 필요
 
 ## 2. 잠금표
 
-| ID | 결정 | 현재 | 책임·검토 | 필요일 | 늦으면 멈추는 작업 | 잠금 뒤 변경 비용 |
-| --- | --- | --- | --- | --- | --- | --- |
-| `LOCK_TITLE_PUBLIC` | 정식 게임명·영문명 | `ggb` 가칭 | beru / gatam·210 | 2026-08-14 | Steam AppID 표시명, 로고 탐색, 상점 카피 | 매우 높음: App·로고·검색·마케팅 전면 수정 |
-| `LOCK_TAGLINE` | 한·영 한 문장 소개 | 초안 필요 | gatam / beru | 2026-08-21 | 상점 구조·트레일러 메시지 | 높음 |
-| `LOCK_PROTAGONIST_PUBLIC_NAME` | 이름을 끝까지 `주인공`으로 둘지 화면명 부여 | 미정 | gatam / beru | 2026-08-21 | 대사 호칭·수첩 UI·번역 | 높음 |
-| `LOCK_PROTAGONIST_AGE_BAND` | 정확한 나이 또는 공개 범위 | 소녀 연령대 | gatam / 210·beru | 2026-08-21 | 최종 신체 비율·콘텐츠 고지·상점 아트 | 매우 높음 |
-| `LOCK_MARA_NAMES` | 마라 1·마라 2 최종 이름 | 임시명 | gatam / 210·NOne | 2026-08-21 | 대사 ID alias, 캐릭터 시트, 서명 cue | 매우 높음 |
-| `LOCK_MARA2_APPARENT_AGE` | 아바타 외형 연령 인상 | 미정 | gatam·210 / beru | 2026-08-21 | 마라 2 최종 sheet·상점 노출 | 높음 |
-| `LOCK_CHARACTER_PROPORTIONS` | 6인 키·실루엣·종족 비율 | 방향만 있음 | 210 / gatam | 2026-09-04 | portrait·pose 양산 | 매우 높음 |
-| `LOCK_SIGNATURE_PALETTE` | 5인+SUBJECT 최종 화면 토큰 | 임시 HEX | 210 / beru·gatam | 2026-09-04 | 색 overlay·UI·접근성 QA | 중간~높음 |
-| `LOCK_RENDERER` | Compatibility 또는 Forward+ | 시험 전 | beru / 210 | 2026-09-18 | 최종 shader·texture export | 매우 높음 |
-| `LOCK_LOGO_KEY_ART` | 로고 구조·대표 구도 | 미정 | 210 / beru·gatam | 2026-10-09 | Steam capsule·trailer title card | 매우 높음 |
-| `LOCK_DEMO_EDIT` | compact 또는 extended | A/B 대기 | beru / gatam | VS 뒤 5영업일 | 데모 최종 편집·번역·QA | 매우 높음 |
-| `LOCK_PRICE` | 1.0 정가·출시 할인 | USD 14.99~19.99 가설 | beru | 2026-12-18 | 상점 가격·홍보 | 중간 |
+| ID | 결정 | 현재 | 결정 상태 | 일정 위험 | 책임·검토 | 필요일 | 최근 확인 | 연결 마일스톤 | 재결정 목표 | 늦으면 멈추는 작업 | 잠금 뒤 변경 비용 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `LOCK_TITLE_PUBLIC` | 정식 게임명·영문명 | `ggb` 가칭 | OPEN | AT_RISK | beru / gatam·210 | 2026-08-14 | 2026-08-29 | `STEAM_01_ONBOARDING`, `STEAM_02_STORE_PUBLIC` | REBASELINE_REQUIRED | Steam AppID 표시명, 로고 탐색, 상점 카피 | 매우 높음: App·로고·검색·마케팅 전면 수정 |
+| `LOCK_TAGLINE` | 한·영 한 문장 소개 | 초안 필요 | OPEN | AT_RISK | gatam / beru | 2026-08-21 | 2026-08-29 | `STEAM_02_STORE_PUBLIC` | REBASELINE_REQUIRED | 상점 구조·트레일러 메시지 | 높음 |
+| `LOCK_PROTAGONIST_PUBLIC_NAME` | 이름을 끝까지 `주인공`으로 둘지 화면명 부여 | 미정 | OPEN | AT_RISK | gatam / beru | 2026-08-21 | 2026-08-29 | `PROD_01_VERTICAL_SLICE` | REBASELINE_REQUIRED | 대사 호칭·수첩 UI·번역 | 높음 |
+| `LOCK_PROTAGONIST_AGE_BAND` | 정확한 나이 또는 공개 범위 | 소녀 연령대 | OPEN | AT_RISK | gatam / 210·beru | 2026-08-21 | 2026-08-29 | `PROD_01_VERTICAL_SLICE` | REBASELINE_REQUIRED | 최종 신체 비율·콘텐츠 고지·상점 아트 | 매우 높음 |
+| `LOCK_MARA_NAMES` | 마라 1·마라 2 최종 이름 | 임시명 | OPEN | AT_RISK | gatam / 210·NOne | 2026-08-21 | 2026-08-29 | `PROD_01_VERTICAL_SLICE` | REBASELINE_REQUIRED | 대사 ID alias, 캐릭터 시트, 서명 cue | 매우 높음 |
+| `LOCK_MARA2_APPARENT_AGE` | 아바타 외형 연령 인상 | 미정 | OPEN | AT_RISK | gatam·210 / beru | 2026-08-21 | 2026-08-29 | `PROD_01_VERTICAL_SLICE` | REBASELINE_REQUIRED | 마라 2 최종 sheet·상점 노출 | 높음 |
+| `LOCK_CHARACTER_PROPORTIONS` | 6인 키·실루엣·종족 비율 | 방향만 있음 | OPEN | NONE | 210 / gatam | 2026-09-04 | 2026-08-29 | `PROD_01_VERTICAL_SLICE` | 2026-09-04 | portrait·pose 양산 | 매우 높음 |
+| `LOCK_SIGNATURE_PALETTE` | 5인+SUBJECT 최종 화면 토큰 | 임시 HEX | OPTIONS_READY | NONE | 210 / beru·gatam | 2026-09-04 | 2026-08-29 | `PROD_01_VERTICAL_SLICE` | 2026-09-04 | 색 overlay·UI·접근성 QA | 중간~높음 |
+| `LOCK_RENDERER` | Compatibility 또는 Forward+ | 시험 전 | OPEN | NONE | beru / 210 | 2026-09-18 | 2026-08-29 | `TECH_01_FOUNDATION` | 2026-09-18 | 최종 shader·texture export | 매우 높음 |
+| `LOCK_LOGO_KEY_ART` | 로고 구조·대표 구도 | 미정 | OPEN | NONE | 210 / beru·gatam | 2026-10-09 | 2026-08-29 | `STEAM_02_STORE_PUBLIC` | 2026-10-09 | Steam capsule·trailer title card | 매우 높음 |
+| `LOCK_DEMO_EDIT` | compact 또는 extended | A/B 대기 | OPEN | NONE | beru / gatam | VS 뒤 5영업일 | 2026-08-29 | `M2_DEMO_COMPLETE` | VS 뒤 5영업일 | 데모 최종 편집·번역·QA | 매우 높음 |
+| `LOCK_PRICE` | 1.0 정가·출시 할인 | USD 14.99~19.99 가설 | OPTIONS_READY | NONE | beru | 2026-12-18 | 2026-08-29 | `FULL_02_RELEASE` | 2026-12-18 | 상점 가격·홍보 | 중간 |
 
 기한을 넘겼는데 결정 근거가 없으면 상태를 임의로 `LOCKED`로 바꾸지 않는다. 연결 마일스톤을 `AT_RISK`로 갱신한다.
 

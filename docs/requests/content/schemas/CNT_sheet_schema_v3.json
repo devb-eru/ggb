@@ -1,0 +1,60 @@
+{
+  "schema_revision": "v0.4-sheet-r3",
+  "generated_at": "2026-09-01T03:26:08+09:00",
+  "canonical_tables": {
+    "runtime": {
+      "columns": [
+        "package_id", "node_id", "draft_id", "line_id",
+        "approval_status", "localization_status", "revision", "review_owner", "reviewed_at",
+        "scene_id", "scene_label", "order", "content_type", "speaker_id",
+        "character_art", "portrait_position", "portrait_state", "direction",
+        "ko_KR", "en_US", "next_type", "next_id",
+        "request_id", "content_item_id", "document_id", "knowledge_id", "owner_id",
+        "source_file", "source_anchor", "source_commit", "source_checksum", "design_revision",
+        "location_id", "object_id", "trigger", "display_condition_id", "route_predicate_id",
+        "repeat_policy"
+      ],
+      "primary_key": ["package_id", "node_id"],
+      "immutable_columns": ["ko_KR"],
+      "empty_id_sentinel": "NONE"
+    },
+    "route_edge": {
+      "columns": [
+        "package_id", "route_id", "edge_id", "edge_order", "predicate_id",
+        "predicate_expression", "target_type", "target_id", "is_fallback", "priority",
+        "source_condition", "source_anchor", "design_revision", "validation_status"
+      ],
+      "primary_key": ["package_id", "edge_id"]
+    },
+    "state_predicate": {
+      "columns": [
+        "package_id", "predicate_id", "scope", "state_path", "comparator", "typed_value",
+        "value_type", "logic_group", "registration_status", "source_anchor",
+        "design_revision", "notes"
+      ],
+      "primary_key": ["package_id", "predicate_id"]
+    },
+    "state_effect": {
+      "columns": [
+        "package_id", "effect_id", "event_id", "node_id", "effect_order", "state_path",
+        "operation", "value_type", "typed_value", "writer", "commit_phase", "repeat_policy",
+        "registration_status", "source_anchor", "source_checksum", "design_revision", "notes"
+      ],
+      "primary_key": ["package_id", "effect_id"]
+    }
+  },
+  "supplement_tabs": ["token_view", "script_view", "readable_view", "string_view", "state_effect"],
+  "generated_views": ["token", "script", "readable", "string"],
+  "state_effect_placement": {
+    "CNT-EP01": "18_State_Effect_v3 (canonical)",
+    "CNT-EP02": "12_State_Effect (canonical), 07/18 generated mirrors"
+  },
+  "reserved_global_ids": [
+    "SYS_INTERACTION_END", "SYS_RETURN_TO_PARENT", "SYS_NORMAL_RESET",
+    "EP02_ENTRY_C0", "EP03_ENTRY_D0"
+  ],
+  "registries": {
+    "vocabulary": "game/data/registries/cnt_shared_vocab.json",
+    "state_paths": "game/data/states/state_path_registry.json"
+  }
+}

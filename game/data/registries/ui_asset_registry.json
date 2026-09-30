@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "assets": {
+    "UI_TITLE": {
+      "asset_type": "screen_pack",
+      "scene_path": "res://scenes/ui/start_screen.tscn",
+      "node_path": ".",
+      "placeholder": true,
+      "background_path": "res://assets/ui/title/ui_title_manor_background_v01.png",
+      "visual_revision": "gothic_manor_ui_v02"
+    },
+    "UI_FIRST_RUN_ACCESS": {
+      "asset_type": "screen_pack",
+      "scene_path": "res://scenes/ui/start_screen.tscn",
+      "node_path": "ModalLayer/FirstRunPanel",
+      "placeholder": true
+    },
+    "UI_SETTINGS": {
+      "asset_type": "screen_pack",
+      "scene_path": "res://scenes/ui/start_screen.tscn",
+      "node_path": "ModalLayer/SettingsPanel",
+      "placeholder": true
+    },
+    "UI_SAVE_SLOTS": {
+      "asset_type": "screen_pack",
+      "scene_path": "res://scenes/ui/start_screen.tscn",
+      "node_path": "ModalLayer/SlotPanel",
+      "placeholder": true
+    }
+  }
+}

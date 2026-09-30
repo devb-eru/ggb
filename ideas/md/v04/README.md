@@ -294,7 +294,7 @@ README
 
 핵심 수치:
 
-- canonical 상호작용 대상 62개: `OBJ_*` 57개 + `SERVANT_OBJ_*` 5개.
+- canonical 상호작용 대상 63개: `OBJ_*` 58개 + `SERVANT_OBJ_*` 5개.
 - 서재 canonical 오브젝트 9개.
 - 현실 엔딩 필수 5개·선택 6개.
 - 잔류 엔딩 필수 헌장 3개·선택 오브젝트 11개.

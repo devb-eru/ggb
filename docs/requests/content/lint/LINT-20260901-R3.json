@@ -1,0 +1,56 @@
+{
+  "lint_run_id": "LINT-20260901-R3",
+  "schema_revision": "v0.4-sheet-r3",
+  "tool_version": "codex-sheet-contract-lint/1.0.0",
+  "tool_path": "scripts/content_sheet_contract_lint.py",
+  "checksum_algorithm": "FNV-1a 32-bit over normalized schema v3 payload",
+  "generated_at": "2026-09-01T03:26:08+09:00",
+  "result": "PASS",
+  "source_commit": "595eafe92c7984b5422452df917bb3b1318335cb",
+  "episodes": {
+    "CNT-EP01": {
+      "runtime_rows": 341,
+      "route_count": 43,
+      "route_edge_rows": 120,
+      "predicate_rows": 137,
+      "effect_rows": 27,
+      "source_checksum": "cece866b",
+      "ko_KR_mismatches": 0,
+      "duplicate_node_ids": 0,
+      "unresolved_targets": 0,
+      "unreachable_required_nodes": 0,
+      "nonterminating_router_cycles": 0,
+      "controlled_vocabulary_errors": 0,
+      "unregistered_predicates": 0,
+      "unregistered_effects": 0,
+      "missing_source_evidence": 0
+    },
+    "CNT-EP02": {
+      "runtime_rows": 450,
+      "route_count": 32,
+      "route_edge_rows": 61,
+      "predicate_rows": 359,
+      "effect_rows": 49,
+      "source_checksum": "e9cd1dfa",
+      "ko_KR_mismatches": 0,
+      "duplicate_node_ids": 0,
+      "unresolved_targets": 0,
+      "unreachable_required_nodes": 0,
+      "nonterminating_router_cycles": 0,
+      "controlled_vocabulary_errors": 0,
+      "unregistered_predicates": 0,
+      "unregistered_effects": 0,
+      "missing_source_evidence": 0
+    }
+  },
+  "project_checks": {
+    "non_reserved_cross_episode_id_collisions": 0,
+    "reserved_cross_episode_ids": ["SYS_NORMAL_RESET"],
+    "godot_foundation_smoke": "PASS",
+    "generated_view_formula_errors": 0
+  },
+  "notes": [
+    "EP02_ENTRY_C0 and EP03_ENTRY_D0 are episode_exit edges, not self-referential routers.",
+    "Legacy tabs remain as recovery references; generated v3 views are not canonical sources."
+  ]
+}

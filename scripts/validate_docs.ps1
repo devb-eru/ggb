@@ -1,4 +1,4 @@
-Set-StrictMode -Version Latest
+﻿Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
@@ -28,8 +28,11 @@ function Get-RepoRelativePath {
 
 $markdownRoots = @(
     (Join-Path $repoRoot "README.md"),
+    (Join-Path $repoRoot "CONTRIBUTING.md"),
+    (Join-Path $repoRoot "THIRD_PARTY_NOTICES.md"),
     (Join-Path $repoRoot "docs"),
-    (Join-Path $repoRoot "ideas")
+    (Join-Path $repoRoot "ideas"),
+    (Join-Path $repoRoot "game")
 )
 
 $markdownFiles = foreach ($root in $markdownRoots) {
@@ -75,6 +78,80 @@ foreach ($file in $markdownFiles) {
         if (-not (Test-Path -LiteralPath $candidate)) {
             Add-ValidationError "LINK" $relativePath $target
         }
+    }
+}
+
+$milestonePath = Join-Path $repoRoot "docs/milestones.md"
+$milestoneIds = @{}
+if (-not (Test-Path -LiteralPath $milestonePath -PathType Leaf)) {
+    Add-ValidationError "MILESTONE_REGISTRY" "docs/milestones.md" "file is missing"
+}
+else {
+    $milestoneText = [System.IO.File]::ReadAllText($milestonePath, $utf8)
+    foreach ($match in [regex]::Matches($milestoneText, '(?m)^\| `(?<id>[A-Z][A-Z0-9_]+)` \|')) {
+        $milestoneId = $match.Groups["id"].Value
+        if ($milestoneIds.ContainsKey($milestoneId)) {
+            Add-ValidationError "MILESTONE_DUP" "docs/milestones.md" $milestoneId
+        }
+        else {
+            $milestoneIds[$milestoneId] = $true
+        }
+    }
+    if ($milestoneIds.Count -eq 0) {
+        Add-ValidationError "MILESTONE_REGISTRY" "docs/milestones.md" "no milestone IDs found"
+    }
+}
+
+$objectCatalogPath = Join-Path $repoRoot "docs/game_object_catalog.csv"
+$objectIds = @{}
+$objectRows = @()
+if (-not (Test-Path -LiteralPath $objectCatalogPath -PathType Leaf)) {
+    Add-ValidationError "OBJECT_CATALOG" "docs/game_object_catalog.csv" "file is missing"
+}
+else {
+    $objectRows = @(Import-Csv -LiteralPath $objectCatalogPath -Encoding utf8)
+    foreach ($row in $objectRows) {
+        if ($row.object_id -notmatch '^(?:OBJ|SERVANT_OBJ)_[A-Z0-9_]+$') {
+            Add-ValidationError "OBJECT_ID" "docs/game_object_catalog.csv" $row.object_id
+            continue
+        }
+        if ($objectIds.ContainsKey($row.object_id)) {
+            Add-ValidationError "OBJECT_DUP" "docs/game_object_catalog.csv" $row.object_id
+        }
+        else {
+            $objectIds[$row.object_id] = $true
+        }
+    }
+
+    $clockLocationContracts = @{
+        "OBJ_LIBRARY_OUTER_CLOCK" = "M1_LIBRARY_OUTER"
+        "OBJ_LIBRARY_RECORD_CLOCK" = "M1_LIBRARY_INNER"
+    }
+    foreach ($clockId in $clockLocationContracts.Keys) {
+        $clockRows = @($objectRows | Where-Object { $_.object_id -eq $clockId })
+        if ($clockRows.Count -ne 1) {
+            Add-ValidationError "CLOCK_OBJECT_CONTRACT" "docs/game_object_catalog.csv" "$clockId count=$($clockRows.Count)"
+            continue
+        }
+        if ($clockRows[0].location_ids -ne $clockLocationContracts[$clockId]) {
+            Add-ValidationError "CLOCK_LOCATION_CONTRACT" "docs/game_object_catalog.csv" "$clockId=$($clockRows[0].location_ids)"
+        }
+    }
+}
+
+$objectContractFiles = @(
+    Get-ChildItem -LiteralPath (Join-Path $repoRoot "docs") -File -Filter "*.md" |
+        Where-Object { $_.Name -notlike "project_review_*.md" }
+    Get-ChildItem -LiteralPath (Join-Path $repoRoot "ideas/md/v04") -File -Filter "*.md"
+)
+foreach ($file in $objectContractFiles) {
+    $text = [System.IO.File]::ReadAllText($file.FullName, $utf8)
+    foreach ($match in [regex]::Matches($text, '(?<![A-Z0-9_])(?<id>(?:SERVANT_)?OBJ_[A-Z0-9_]+)(?![A-Z0-9_*])')) {
+        $objectId = $match.Groups["id"].Value
+        if ($objectId.EndsWith("_") -or $objectIds.ContainsKey($objectId)) {
+            continue
+        }
+        Add-ValidationError "OBJECT_REF" (Get-RepoRelativePath $file.FullName) $objectId
     }
 }
 
@@ -136,6 +213,14 @@ foreach ($file in Get-ChildItem -LiteralPath $issueRoot -File -Filter "GGB-*.md"
     else {
         $issueIds[$bodyId] = $relativePath
     }
+
+    $targetMatch = [regex]::Match($text, '(?m)^\| 목표 마일스톤 \| `(?<id>[A-Z][A-Z0-9_]+)` \|$')
+    if (-not $targetMatch.Success) {
+        Add-ValidationError "ISSUE_MILESTONE" $relativePath "target milestone is missing"
+    }
+    elseif (-not $milestoneIds.ContainsKey($targetMatch.Groups["id"].Value)) {
+        Add-ValidationError "ISSUE_MILESTONE" $relativePath $targetMatch.Groups["id"].Value
+    }
 }
 
 foreach ($issueId in $issueIds.Keys) {
@@ -151,8 +236,22 @@ $cnfCount = @($issueIds.Keys | Where-Object { $_ -like "GGB-CNF-*" }).Count
 $errCount = @($issueIds.Keys | Where-Object { $_ -like "GGB-ERR-*" }).Count
 $issueCount = $issueIds.Count
 $registryText = [System.IO.File]::ReadAllText($issueIndexPaths[1], $utf8)
-$verifiedCountPattern = "(?m)^\| VERIFIED \| $cnfCount \| $errCount \| $issueCount \|$"
-if ($registryText -notmatch $verifiedCountPattern) {
+$issueStatusPattern = '(?m)^\| (OPEN|IN_PROGRESS|BLOCKED|RESOLVED|VERIFIED|DEFERRED|WONT_FIX) \| (\d+) \| (\d+) \| (\d+) \|$'
+$issueStatusRows = [regex]::Matches($registryText, $issueStatusPattern)
+$registryCnfCount = 0
+$registryErrCount = 0
+$registryIssueCount = 0
+foreach ($statusRow in $issueStatusRows) {
+    $registryCnfCount += [int]$statusRow.Groups[2].Value
+    $registryErrCount += [int]$statusRow.Groups[3].Value
+    $registryIssueCount += [int]$statusRow.Groups[4].Value
+}
+if (
+    $issueStatusRows.Count -ne 7 -or
+    $registryCnfCount -ne $cnfCount -or
+    $registryErrCount -ne $errCount -or
+    $registryIssueCount -ne $issueCount
+) {
     Add-ValidationError "ISSUE_COUNT" (Get-RepoRelativePath $issueIndexPaths[1]) "expected CNF=$cnfCount ERR=$errCount total=$issueCount"
 }
 
@@ -230,6 +329,9 @@ else {
         if ($row.build_scope -notin $allowedScopes) {
             Add-ValidationError "ASSET_SCOPE" "docs/asset_manifest.csv" "$($row.asset_id)=$($row.build_scope)"
         }
+        if (-not $milestoneIds.ContainsKey($row.target_milestone)) {
+            Add-ValidationError "ASSET_MILESTONE" "docs/asset_manifest.csv" "$($row.asset_id)=$($row.target_milestone)"
+        }
         if ($row.required -notin @("true", "false")) {
             Add-ValidationError "ASSET_REQUIRED" "docs/asset_manifest.csv" "$($row.asset_id)=$($row.required)"
         }
@@ -247,6 +349,27 @@ else {
         ) {
             Add-ValidationError "ASSET_RIGHTS" "docs/asset_manifest.csv" "$($row.asset_id) requires rights_ref=RIGHTS-YYYY-NNNN"
         }
+        if (
+            $row.source_entity_id -match '^(?:OBJ|SERVANT_OBJ)_[A-Z0-9_]+$' -and
+            -not $objectIds.ContainsKey($row.source_entity_id)
+        ) {
+            Add-ValidationError "ASSET_OBJECT_REF" "docs/asset_manifest.csv" "$($row.asset_id)=$($row.source_entity_id)"
+        }
+    }
+
+    foreach ($objectRow in $objectRows) {
+        if (-not $assetIds.ContainsKey($objectRow.art_asset_id)) {
+            Add-ValidationError "OBJECT_ASSET_REF" "docs/game_object_catalog.csv" "$($objectRow.object_id)=$($objectRow.art_asset_id)"
+        }
+    }
+
+    $outerClockAssetRows = @($manifest | Where-Object {
+        $_.asset_id -eq "ART_OBJ_LIBRARY_OUTER_CLOCK" -and
+        $_.source_entity_id -eq "OBJ_LIBRARY_OUTER_CLOCK" -and
+        $_.asset_type -eq "object_state"
+    })
+    if ($outerClockAssetRows.Count -ne 1) {
+        Add-ValidationError "CLOCK_ASSET_CONTRACT" "docs/asset_manifest.csv" "ART_OBJ_LIBRARY_OUTER_CLOCK -> OBJ_LIBRARY_OUTER_CLOCK count=$($outerClockAssetRows.Count)"
     }
 }
 
@@ -257,7 +380,7 @@ $requestRequiredColumns = @(
     "asset_ids", "brief_path", "depends_on", "acceptance_gate", "evidence"
 )
 $requestAllowedTeams = @("ART", "AUD", "CNT")
-$requestAllowedScopes = @("vertical_slice", "demo_remainder", "full_only")
+$requestAllowedScopes = @("vertical_slice", "demo_remainder", "full_only", "store_only")
 $requestAllowedStatuses = @(
     "PLANNED", "DRAFT", "READY_FOR_ACCEPTANCE", "ACCEPTED", "IN_PROGRESS",
     "REVIEW", "APPROVED", "INTEGRATED", "CHANGES_REQUESTED", "CANCELLED"
@@ -297,6 +420,9 @@ else {
         if ($row.status -notin $requestAllowedStatuses) {
             Add-ValidationError "REQUEST_STATUS" "docs/requests/request_register.csv" "$($row.request_id)=$($row.status)"
         }
+        if (-not $milestoneIds.ContainsKey($row.target_milestone)) {
+            Add-ValidationError "REQUEST_MILESTONE" "docs/requests/request_register.csv" "$($row.request_id)=$($row.target_milestone)"
+        }
         if ([string]::IsNullOrWhiteSpace($row.owner) -or [string]::IsNullOrWhiteSpace($row.reviewer)) {
             Add-ValidationError "REQUEST_OWNER" "docs/requests/request_register.csv" $row.request_id
         }
@@ -320,7 +446,7 @@ else {
             }
         }
 
-        if ($row.status -eq "READY_FOR_ACCEPTANCE") {
+        if ($row.status -in @("READY_FOR_ACCEPTANCE", "ACCEPTED", "IN_PROGRESS", "REVIEW", "APPROVED", "INTEGRATED", "CHANGES_REQUESTED")) {
             if ([string]::IsNullOrWhiteSpace($row.brief_path) -or $row.brief_path -eq "TBD") {
                 Add-ValidationError "REQUEST_BRIEF" "docs/requests/request_register.csv" "$($row.request_id) has no brief_path"
                 continue
@@ -341,8 +467,34 @@ else {
             if ($briefText -notmatch [regex]::Escape($row.status)) {
                 Add-ValidationError "REQUEST_BRIEF_STATUS" $row.brief_path $row.status
             }
-            if ($row.evidence -notmatch '(?:^|[;,\s])request_revision=\d+(?:$|[;,\s])') {
+            if ($row.status -eq "ACCEPTED") {
+                if ($briefText -notmatch '팀 패키지의 범위 수락은 \d{4}-\d{2}-\d{2} 완료됐다') {
+                    Add-ValidationError "REQUEST_ACCEPTED_BRIEF" $row.brief_path "record package acceptance separately from allocation and production completion"
+                }
+                if ($briefText -match '(?m)^##+ (?:\d+\. )?팀 수락 조건$|^### 팀 수락$') {
+                    Add-ValidationError "REQUEST_ACCEPTED_BRIEF" $row.brief_path "unchecked allocation gates must not be labeled as pending team acceptance"
+                }
+            }
+            $registerRevisionMatch = [regex]::Match($row.evidence, '(?:^|[;,\s])request_revision=(?<revision>\d+)(?:$|[;,\s])')
+            if (-not $registerRevisionMatch.Success) {
                 Add-ValidationError "REQUEST_REVISION" "docs/requests/request_register.csv" $row.request_id
+            }
+            $briefRevisionMatch = [regex]::Match($briefText, '(?m)^\| (?:의뢰 개정|request revision) \| `(?<revision>\d+)` \|$')
+            if (-not $briefRevisionMatch.Success) {
+                Add-ValidationError "REQUEST_REVISION" $row.brief_path "brief revision is missing"
+            }
+            elseif (
+                $registerRevisionMatch.Success -and
+                $briefRevisionMatch.Groups["revision"].Value -ne $registerRevisionMatch.Groups["revision"].Value
+            ) {
+                Add-ValidationError "REQUEST_REVISION" $row.brief_path "register=$($registerRevisionMatch.Groups['revision'].Value) brief=$($briefRevisionMatch.Groups['revision'].Value)"
+            }
+            $briefMilestoneMatch = [regex]::Match($briefText, '(?m)^\| 목표 마일스톤 \| `(?<id>[A-Z][A-Z0-9_]+)` \|$')
+            if (-not $briefMilestoneMatch.Success) {
+                Add-ValidationError "REQUEST_BRIEF_MILESTONE" $row.brief_path "target milestone is missing"
+            }
+            elseif ($briefMilestoneMatch.Groups["id"].Value -ne $row.target_milestone) {
+                Add-ValidationError "REQUEST_BRIEF_MILESTONE" $row.brief_path "register=$($row.target_milestone) brief=$($briefMilestoneMatch.Groups['id'].Value)"
             }
             if ([string]::IsNullOrWhiteSpace($row.acceptance_gate) -or $row.acceptance_gate -eq "TBD") {
                 Add-ValidationError "REQUEST_ACCEPTANCE" "docs/requests/request_register.csv" $row.request_id
@@ -371,6 +523,74 @@ else {
                         Add-ValidationError "REQUEST_BRIEF_ASSET" $row.brief_path $trimmedAssetId
                     }
                 }
+            }
+        }
+    }
+
+    # ART/AUD requests must form a disjoint, complete partition of their
+    # production manifest rows.
+    $requestedAssetOwners = @{}
+    foreach ($row in $requests | Where-Object { $_.team -in @("ART", "AUD") }) {
+        foreach ($assetId in $row.asset_ids.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries)) {
+            $trimmedAssetId = $assetId.Trim()
+            if ($requestedAssetOwners.ContainsKey($trimmedAssetId)) {
+                Add-ValidationError "REQUEST_ASSET_PARTITION" "docs/requests/request_register.csv" "$trimmedAssetId is owned by $($requestedAssetOwners[$trimmedAssetId]) and $($row.request_id)"
+            }
+            else {
+                $requestedAssetOwners[$trimmedAssetId] = $row.request_id
+            }
+        }
+    }
+    foreach ($assetRow in $manifest | Where-Object { $_.owner -in @("210", "NOne") }) {
+        if (-not $requestedAssetOwners.ContainsKey($assetRow.asset_id)) {
+            Add-ValidationError "REQUEST_ASSET_PARTITION" "docs/asset_manifest.csv" "$($assetRow.asset_id) has no ART/AUD request"
+        }
+    }
+
+    $requestReadmePath = Join-Path $repoRoot "docs/requests/README.md"
+    if (Test-Path -LiteralPath $requestReadmePath -PathType Leaf) {
+        $requestReadmeText = [System.IO.File]::ReadAllText($requestReadmePath, $utf8)
+        if (@($requests | Where-Object { $_.status -eq "ACCEPTED" }).Count -eq $requests.Count) {
+            if ($requestReadmeText -match 'VS01 실측 뒤 수락|데모 제작률 뒤 수락') {
+                Add-ValidationError "REQUEST_ACCEPTED_DOC_STATUS" "docs/requests/README.md" "all requests are ACCEPTED but a batch is still described as waiting for acceptance"
+            }
+            if ($requestReadmeText -notmatch 'ACCEPTED.{0,10}는[^\r\n]*즉시 병렬 제작한다는 뜻이 아니다') {
+                Add-ValidationError "REQUEST_START_GATE" "docs/requests/README.md" "separate scope acceptance from production start gates"
+            }
+        }
+    }
+
+
+    $artVsRequest = @($requests | Where-Object { $_.request_id -eq "REQ-ART-2026-0001" })
+    if ($artVsRequest.Count -ne 1 -or "ART_OBJ_LIBRARY_OUTER_CLOCK" -notin @($artVsRequest[0].asset_ids.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries))) {
+        Add-ValidationError "CLOCK_ART_REQUEST" "docs/requests/request_register.csv" "REQ-ART-2026-0001 must own ART_OBJ_LIBRARY_OUTER_CLOCK"
+    }
+    if ($artVsRequest.Count -eq 1) {
+        $artVsAssetCount = @($artVsRequest[0].asset_ids.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries)).Count
+        $artDemoRequest = @($requests | Where-Object { $_.request_id -eq "REQ-ART-2026-0002" })
+        if ($artDemoRequest.Count -eq 1) {
+            $artDemoBriefPath = Join-Path $repoRoot $artDemoRequest[0].brief_path
+            if (Test-Path -LiteralPath $artDemoBriefPath -PathType Leaf) {
+                $artDemoBriefText = [System.IO.File]::ReadAllText($artDemoBriefPath, $utf8)
+                foreach ($countMatch in [regex]::Matches($artDemoBriefText, '(?:버티컬 슬라이스|VS01에서 이미 요청한) (?<count>\d+)개')) {
+                    if ([int]$countMatch.Groups['count'].Value -ne $artVsAssetCount) {
+                        Add-ValidationError "REQUEST_ART_VS_COUNT" $artDemoRequest[0].brief_path "expected VS asset count=$artVsAssetCount, found=$($countMatch.Groups['count'].Value)"
+                    }
+                }
+            }
+        }
+    }
+
+    $cntVsRequest = @($requests | Where-Object { $_.request_id -eq "REQ-CNT-2026-0001" })
+    if ($cntVsRequest.Count -eq 1) {
+        $cntVsBriefPath = Join-Path $repoRoot $cntVsRequest[0].brief_path
+        if (Test-Path -LiteralPath $cntVsBriefPath -PathType Leaf) {
+            $cntVsBriefText = [System.IO.File]::ReadAllText($cntVsBriefPath, $utf8)
+            if ($cntVsBriefText -notmatch '(?m)^\| `CNT-VS01-PUZA-01`[^\r\n]*`OBJ_LIBRARY_OUTER_CLOCK`') {
+                Add-ValidationError "CLOCK_CNT_REQUEST" $cntVsRequest[0].brief_path "CNT-VS01-PUZA-01 must reference OBJ_LIBRARY_OUTER_CLOCK"
+            }
+            if ($cntVsBriefText -match '(?m)^\| `CNT-VS01-PUZA-01`[^\r\n]*`OBJ_LIBRARY_RECORD_CLOCK`') {
+                Add-ValidationError "CLOCK_CNT_REQUEST" $cntVsRequest[0].brief_path "CNT-VS01-PUZA-01 must not reference OBJ_LIBRARY_RECORD_CLOCK"
             }
         }
     }
@@ -502,15 +722,275 @@ foreach ($root in $currentContractFiles) {
 }
 
 $gameRoot = Join-Path $repoRoot "game"
+
+$projectConfigPath = Join-Path $gameRoot "project.godot"
+if (-not (Test-Path -LiteralPath $projectConfigPath -PathType Leaf)) {
+    Add-ValidationError "GODOT_PROJECT" "game/project.godot" "file is missing"
+}
+else {
+    $projectText = [System.IO.File]::ReadAllText($projectConfigPath, $utf8)
+    $projectNameMatch = [regex]::Match($projectText, '(?m)^config/name="(?<name>[^"]+)"$')
+    if (-not $projectNameMatch.Success -or $projectNameMatch.Groups['name'].Value -eq "임시") {
+        Add-ValidationError "GODOT_APP_NAME" "game/project.godot" "use a non-placeholder internal application name"
+    }
+
+    $mainSceneMatch = [regex]::Match($projectText, '(?m)^run/main_scene="(?<path>res://[^"]+)"$')
+    if (-not $mainSceneMatch.Success) {
+        Add-ValidationError "GODOT_MAIN_SCENE" "game/project.godot" "run/main_scene is missing"
+    }
+    else {
+        $mainSceneUri = $mainSceneMatch.Groups['path'].Value
+        if ($mainSceneUri -eq "res://signal_practice.tscn" -or -not $mainSceneUri.StartsWith("res://scenes/main/")) {
+            Add-ValidationError "GODOT_MAIN_SCENE" "game/project.godot" "$mainSceneUri is not a production bootstrap path"
+        }
+        $mainScenePath = Join-Path $gameRoot $mainSceneUri.Substring(6).Replace("/", "\")
+        if (-not (Test-Path -LiteralPath $mainScenePath -PathType Leaf)) {
+            Add-ValidationError "GODOT_MAIN_SCENE" "game/project.godot" "$mainSceneUri does not exist"
+        }
+    }
+
+    $requiredAutoloads = @(
+        'GameState="*res://scripts/autoload/game_state.gd"',
+        'SaveManager="*res://scripts/autoload/save_manager.gd"',
+        'EventManager="*res://scripts/autoload/event_manager.gd"'
+    )
+    foreach ($autoload in $requiredAutoloads) {
+        if ($projectText -notmatch ('(?m)^' + [regex]::Escape($autoload) + '$')) {
+            Add-ValidationError "GODOT_AUTOLOAD" "game/project.godot" $autoload
+        }
+    }
+
+    $requiredInputActions = @(
+        "interact_confirm", "ui_cancel", "notebook_toggle",
+        "inventory_toggle", "focus_next", "focus_previous"
+    )
+    foreach ($action in $requiredInputActions) {
+        if ($projectText -notmatch ('(?m)^' + [regex]::Escape($action) + '=\{$')) {
+            Add-ValidationError "GODOT_INPUT_ACTION" "game/project.godot" $action
+        }
+    }
+
+    $layoutContracts = @(
+        'window/size/viewport_width=1920',
+        'window/size/viewport_height=1080',
+        'window/size/window_width_override=1280',
+        'window/size/window_height_override=720',
+        'window/stretch/mode="canvas_items"',
+        'window/stretch/aspect="expand"'
+    )
+    foreach ($contract in $layoutContracts) {
+        if ($projectText -notmatch ('(?m)^' + [regex]::Escape($contract) + '$')) {
+            Add-ValidationError "GODOT_LAYOUT" "game/project.godot" $contract
+        }
+    }
+
+    if ($projectText -match '(?m)^rendering_device/driver\.windows="d3d12"$') {
+        Add-ValidationError "GODOT_RENDERER_PROVISIONAL" "game/project.godot" "D3D12 must not be fixed before renderer decision"
+    }
+    if ($projectText -notmatch '(?m)^renderer/rendering_method="gl_compatibility"$') {
+        Add-ValidationError "GODOT_RENDERER_PROVISIONAL" "game/project.godot" "portable provisional baseline is missing"
+    }
+}
+
+$foundationFiles = @(
+    "game/scripts/autoload/game_state.gd",
+    "game/scripts/autoload/event_manager.gd",
+    "game/scripts/autoload/save_manager.gd",
+    "game/scripts/systems/state_writer.gd",
+    "game/scripts/systems/input_router.gd",
+    "game/scripts/systems/interaction_router.gd",
+    "game/scripts/tests/foundation_smoke_runner.gd",
+    "game/scripts/tests/practice_scene_smoke.gd",
+    "game/data/events/system/event_foundation_smoke.tres",
+    "game/data/states/state_path_registry.json",
+    "game/data/states/fixtures/new_game_schema_1.json",
+    "game/data/states/fixtures/normal_reset_schema_1.json",
+    "game/data/states/fixtures/future_schema_2.json",
+    "game/data/states/fixtures/corrupted_primary.txt",
+    "game/export_presets.cfg",
+    "scripts/run_godot_foundation.ps1",
+    "scripts/validate_renderer_candidates.ps1"
+)
+foreach ($relativePath in $foundationFiles) {
+    if (-not (Test-Path -LiteralPath (Join-Path $repoRoot $relativePath) -PathType Leaf)) {
+        Add-ValidationError "GODOT_FOUNDATION_FILE" $relativePath "file is missing"
+    }
+}
+
+foreach ($fixtureName in @("new_game_schema_1.json", "normal_reset_schema_1.json", "future_schema_2.json")) {
+    $fixturePath = Join-Path $gameRoot "data/states/fixtures/$fixtureName"
+    if (Test-Path -LiteralPath $fixturePath -PathType Leaf) {
+        try {
+            $fixture = Get-Content -Raw -LiteralPath $fixturePath -Encoding utf8 | ConvertFrom-Json
+            if ($fixture.save_header.schema_version -lt 1) {
+                Add-ValidationError "GODOT_SAVE_FIXTURE" "game/data/states/fixtures/$fixtureName" "invalid schema_version"
+            }
+        }
+        catch {
+            Add-ValidationError "GODOT_SAVE_FIXTURE" "game/data/states/fixtures/$fixtureName" $_.Exception.Message
+        }
+    }
+}
+
+$stateWriterPath = Join-Path $gameRoot "scripts/systems/state_writer.gd"
+if (Test-Path -LiteralPath $stateWriterPath -PathType Leaf) {
+    $stateWriterText = [System.IO.File]::ReadAllText($stateWriterPath, $utf8)
+    foreach ($token in @("ERR_STATE_PATH_NOT_REGISTERED", "ERR_STATE_STALE_REVISION", "commit_atomic")) {
+        if ($stateWriterText -notmatch [regex]::Escape($token)) {
+            Add-ValidationError "GODOT_STATE_WRITER" "game/scripts/systems/state_writer.gd" $token
+        }
+    }
+}
+
+$saveManagerPath = Join-Path $gameRoot "scripts/autoload/save_manager.gd"
+if (Test-Path -LiteralPath $saveManagerPath -PathType Leaf) {
+    $saveManagerText = [System.IO.File]::ReadAllText($saveManagerPath, $utf8)
+    foreach ($token in @("progress.tmp.json", "progress.bak.json", "HASH_SHA256", "ERR_SAVE_FUTURE_SCHEMA", "raw_text.replace")) {
+        if ($saveManagerText -notmatch [regex]::Escape($token)) {
+            Add-ValidationError "GODOT_SAVE_PIPELINE" "game/scripts/autoload/save_manager.gd" $token
+        }
+    }
+}
+
+$bootstrapPath = Join-Path $gameRoot "scripts/systems/bootstrap.gd"
+if (Test-Path -LiteralPath $bootstrapPath -PathType Leaf) {
+    $bootstrapText = [System.IO.File]::ReadAllText($bootstrapPath, $utf8)
+    foreach ($token in @("NOTIFICATION_APPLICATION_FOCUS_OUT", "_on_focus_recovery_timeout")) {
+        if ($bootstrapText -notmatch [regex]::Escape($token)) {
+            Add-ValidationError "GODOT_FOCUS_GUARD" "game/scripts/systems/bootstrap.gd" $token
+        }
+    }
+
+    $delegatedScreenGuard =
+        $bootstrapText -match [regex]::Escape("_start_screen.set_input_suspended(true)") -and
+        $bootstrapText -match [regex]::Escape("_start_screen.set_input_suspended(false)")
+    $applicationPauseGuard =
+        $bootstrapText -match [regex]::Escape("_suspend_for_focus()") -and
+        $bootstrapText -match [regex]::Escape("get_tree().paused = true") -and
+        $bootstrapText -match [regex]::Escape("get_tree().paused = _paused_before_focus") -and
+        $bootstrapText -match [regex]::Escape("_discard_releases")
+    if (-not ($delegatedScreenGuard -or $applicationPauseGuard)) {
+        Add-ValidationError `
+            "GODOT_FOCUS_GUARD" `
+            "game/scripts/systems/bootstrap.gd" `
+            "complete delegated-screen or application-pause focus guard is required"
+    }
+}
+
+$startScreenPath = Join-Path $gameRoot "scripts/ui/start_screen.gd"
+if (Test-Path -LiteralPath $startScreenPath -PathType Leaf) {
+    $startScreenText = [System.IO.File]::ReadAllText($startScreenPath, $utf8)
+    foreach ($token in @(
+        "func set_input_suspended(suspended: bool)",
+        "Control.MOUSE_FILTER_IGNORE if suspended",
+        "Control.FOCUS_NONE if suspended",
+        "gui_release_focus()"
+    )) {
+        if ($startScreenText -notmatch [regex]::Escape($token)) {
+            Add-ValidationError "GODOT_FOCUS_GUARD" "game/scripts/ui/start_screen.gd" $token
+        }
+    }
+}
+
+$godotSourceFiles = Get-ChildItem -LiteralPath $gameRoot -Recurse -File |
+    Where-Object { $_.Extension -in @(".gd", ".godot", ".tscn", ".tres") }
+foreach ($file in $godotSourceFiles) {
+    $relativePath = Get-RepoRelativePath $file.FullName
+    $text = [System.IO.File]::ReadAllText($file.FullName, $utf8)
+    foreach ($match in [regex]::Matches($text, 'res://(?<path>[^"''\r\n]+)')) {
+        $resourcePath = $match.Groups['path'].Value
+        $candidate = Join-Path $gameRoot $resourcePath.Replace("/", "\")
+        if (-not (Test-Path -LiteralPath $candidate)) {
+            Add-ValidationError "GODOT_RESOURCE_REF" $relativePath "res://$resourcePath"
+        }
+    }
+}
+
+$practiceScenePath = Join-Path $gameRoot "signal_practice.tscn"
+if (Test-Path -LiteralPath $practiceScenePath -PathType Leaf) {
+    $practiceSceneText = [System.IO.File]::ReadAllText($practiceScenePath, $utf8)
+    if ($practiceSceneText -match 'signal="button_down"|method="_on_button_down"') {
+        Add-ValidationError "PRACTICE_INPUT" "game/signal_practice.tscn" "use confirmed pressed signals"
+    }
+}
+
+$practiceKeyPath = Join-Path $gameRoot "key.gd"
+if (Test-Path -LiteralPath $practiceKeyPath -PathType Leaf) {
+    $practiceKeyText = [System.IO.File]::ReadAllText($practiceKeyPath, $utf8)
+    if (
+        $practiceKeyText -match '(?<![A-Za-z0-9_])key_clicked(?![A-Za-z0-9_])' -or
+        $practiceKeyText -notmatch 'disabled\s*=\s*true' -or
+        $practiceKeyText -notmatch '\.add_item\('
+    ) {
+        Add-ValidationError "PRACTICE_KEY_ACQUIRE" "game/key.gd" "acquisition must write inventory, hide, and disable the key"
+    }
+}
+
+$practiceFiles = @("background.gd", "drawer.gd", "key.gd", "lock.gd")
+foreach ($practiceFile in $practiceFiles) {
+    $practicePath = Join-Path $gameRoot $practiceFile
+    if (Test-Path -LiteralPath $practicePath -PathType Leaf) {
+        $practiceText = [System.IO.File]::ReadAllText($practicePath, $utf8)
+        if ($practiceText -match '\$["'']?\.\./') {
+            Add-ValidationError "PRACTICE_SIBLING_NODEPATH" "game/$practiceFile" "direct sibling NodePath remains"
+        }
+    }
+}
+
+$practiceControllerPath = Join-Path $gameRoot "practice_scene_controller.gd"
+if (Test-Path -LiteralPath $practiceControllerPath -PathType Leaf) {
+    $practiceControllerText = [System.IO.File]::ReadAllText($practiceControllerPath, $utf8)
+    foreach ($token in @("@export_node_path", "_apply_background_snapshot", "_key.apply_snapshot")) {
+        if ($practiceControllerText -notmatch [regex]::Escape($token)) {
+            Add-ValidationError "PRACTICE_CONTROLLER" "game/practice_scene_controller.gd" $token
+        }
+    }
+}
+else {
+    Add-ValidationError "PRACTICE_CONTROLLER" "game/practice_scene_controller.gd" "file is missing"
+}
+
+$productionRoots = @(
+    (Join-Path $gameRoot "scenes/main"),
+    (Join-Path $gameRoot "scripts/autoload"),
+    (Join-Path $gameRoot "scripts/systems")
+)
+foreach ($productionRoot in $productionRoots) {
+    if (-not (Test-Path -LiteralPath $productionRoot -PathType Container)) {
+        continue
+    }
+    foreach ($file in Get-ChildItem -LiteralPath $productionRoot -Recurse -File) {
+        $text = [System.IO.File]::ReadAllText($file.FullName, $utf8)
+        if ($text -match 'signal_practice|res://(?:background|drawer|key|lock|practice_inventory)\.gd') {
+            Add-ValidationError "PRACTICE_PRODUCTION_ISOLATION" (Get-RepoRelativePath $file.FullName) "practice dependency"
+        }
+    }
+}
+
 foreach ($file in Get-ChildItem -LiteralPath $gameRoot -Recurse -File) {
     if ($file.Name -like "*tmp*") {
         Add-ValidationError "TEMP_FILE" (Get-RepoRelativePath $file.FullName) "temporary file remains in game tree"
     }
 }
 
+$workflowRoot = Join-Path $repoRoot ".github/workflows"
+if (Test-Path -LiteralPath $workflowRoot -PathType Container) {
+    foreach ($workflow in Get-ChildItem -LiteralPath $workflowRoot -File -Include "*.yml", "*.yaml") {
+        $workflowText = [System.IO.File]::ReadAllText($workflow.FullName, $utf8)
+        foreach ($usesMatch in [regex]::Matches($workflowText, '(?m)^\s*uses:\s*(?<reference>[^#\r\n]+)')) {
+            $reference = $usesMatch.Groups['reference'].Value.Trim()
+            if ($reference -notmatch '^\./' -and $reference -notmatch '@[0-9a-f]{40}$') {
+                Add-ValidationError "ACTION_REF_NOT_PINNED" (Get-RepoRelativePath $workflow.FullName) $reference
+            }
+        }
+    }
+}
+
 Write-Host "Markdown files: $($markdownFiles.Count)"
 Write-Host "Decision IDs: $($decisionIds.Count)"
 Write-Host "Issue IDs: $issueCount (CNF $cnfCount, ERR $errCount)"
+Write-Host "Milestone IDs: $($milestoneIds.Count)"
+Write-Host "Object IDs: $($objectIds.Count)"
 if (Test-Path -LiteralPath $manifestPath) {
     Write-Host "Asset rows: $((Import-Csv -LiteralPath $manifestPath -Encoding utf8).Count)"
 }

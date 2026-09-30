@@ -1,0 +1,29 @@
+{
+  "lint_run_id": "LINT-20260902-EP04",
+  "package_id": "CNT-EP04",
+  "schema_revision": "v0.4-sheet-r3",
+  "spreadsheet_id": "1bqjRwJIHGgE3ouJ-XvbQkpdfnwmG87pFhRRbAQ_vdu4",
+  "generated_at": "2026-09-02T00:00:00+09:00",
+  "counts": {
+    "runtime": 273,
+    "scenes": 14,
+    "branches": 30,
+    "route_edges": 44,
+    "predicates": 37,
+    "effects": 21,
+    "readables": 15,
+    "qa_checks": 30,
+    "transition_contracts": 10
+  },
+  "errors": {
+    "duplicate_node_id": 0,
+    "unresolved_runtime_target": 0,
+    "unresolved_route_target": 0,
+    "unresolved_predicate_reference": 0,
+    "route_without_fallback": 0,
+    "blank_ko_KR": 0,
+    "nonblank_en_US": 0,
+    "generated_view_formula": 0
+  },
+  "status": "PASS"
+}

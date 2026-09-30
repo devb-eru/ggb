@@ -6,14 +6,14 @@ Steamworks·릴리즈 책임자는 `beru`다.
 
 | 항목 | 상태 | 다음 행동 | 내부 목표 |
 | --- | --- | --- | --- |
-| Steamworks 개발자 계정 | BLOCKED | 개인 명의 법적·은행·세금 서류 준비 | 2026-08-14 |
+| Steamworks 개발자 계정 | AT_RISK · EXTERNAL_REVERIFY | 개인 명의 법적·은행·세금 서류와 현재 가입 단계 재확인 | REBASELINE_REQUIRED |
 | 계약 주체 | DECIDED | 개인 명의 정보로 온보딩 준비 | 완료 |
-| 법적·은행·세금 서류 | NOT_READY | 필요한 서류 목록 확인과 준비 | 2026-08-03 |
-| Steam Direct 수수료 | NOT_STARTED | 기본 게임 앱 수수료 결제 | 2026-08-14 |
-| 기본 게임 AppID | BLOCKED | 가입과 수수료 완료 후 생성 | 2026-08-14 |
+| 법적·은행·세금 서류 | AT_RISK · EXTERNAL_REVERIFY | 필요한 서류 목록과 준비 완료 여부 재확인 | REBASELINE_REQUIRED |
+| Steam Direct 수수료 | AT_RISK · EXTERNAL_REVERIFY | 기본 게임 앱 수수료 결제 여부 재확인 | REBASELINE_REQUIRED |
+| 기본 게임 AppID | AT_RISK · EXTERNAL_REVERIFY | 가입과 수수료 완료 여부 확인 뒤 생성 | REBASELINE_REQUIRED |
 | 데모 AppID | BLOCKED | 기본 게임 AppID에서 생성 | 2026-11-20 이전 |
 | Coming Soon 상점 | NOT_STARTED | 한·영 설명과 실제 게임 자산 준비 | 2026-10-30 |
-| 게임명·한 문장 소개 | AT_RISK | [창작 잠금 일정](creative_lock_schedule.md)에 따라 정식명 2026-08-14, 소개 2026-08-21 승인 | 2026-08-21 |
+| 게임명·한 문장 소개 | AT_RISK | [창작 잠금 일정](creative_lock_schedule.md)의 경과 잠금 2건을 재기준화 | REBASELINE_REQUIRED |
 | 가격·출시 할인 | HYPOTHESIS | USD 14.99~19.99 가설을 데모·비교작 실측 뒤 승인 | 2026-12-18 |
 | 임시 성능 기준 | PLANNED_TEST | [성능 예산](technical_performance_budget.md)에 따라 두 렌더러·기준 장비·효과 budget 비교 | 2026-09-18 |
 | 최소·권장 사양 | NOT_READY | 누적 빌드 계측으로 상점 사양 확정 | 2026-12-18 |
@@ -21,6 +21,8 @@ Steamworks·릴리즈 책임자는 `beru`다.
 | 출시 후보 | NOT_STARTED | 정식 1.0 범위·가격 확정 | 2027-02-12 |
 
 Steamworks 가입에는 계약 주체, 은행·세금 정보와 앱당 100 USD의 Steam Direct 수수료가 필요하다. 첫 출시에는 수수료 결제 뒤 30일 대기와 최소 2주의 Coming Soon 공개 기간이 있으므로 계정과 상점 작업을 콘텐츠 완성 뒤로 미루지 않는다. 자세한 현행 조건은 [Steamworks 가입 안내](https://partner.steamgames.com/doc/gettingstarted/onboarding), [출시 옵션](https://partner.steamgames.com/doc/store/types?l=english), [상점·빌드 심사](https://partner.steamgames.com/doc/store/review_process?language=english)를 기준으로 한다.
+
+2026-08-29 저장소 감사에서는 Steamworks 외부 계정 화면과 민감 정보를 조회하지 않았다. 따라서 위 `EXTERNAL_REVERIFY` 항목은 미완료 단정이 아니라 완료 근거가 저장소에 없다는 상태이며, 실제 확인 전 `COMPLETE`나 새 날짜를 기록하지 않는다.
 
 ## 2. 상점과 데모 운영 결정
 

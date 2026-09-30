@@ -6,6 +6,8 @@
 
 대시보드는 GitHub Project 필드를 직접 읽어 보여준다. 별도 문서, 스프레드시트 또는 데이터베이스에 현재 수치를 복제하지 않는다. 따라서 필터 결과와 항목 수는 Project를 열 때마다 최신 값으로 갱신되고, 저장소에는 지표 정의와 뷰 구성만 기록한다.
 
+로컬 문서에 운영 항목 예시나 점검 결과를 남길 때는 반드시 `snapshot_as_of`, 조회한 source와 Project custom field 재확인 여부를 함께 기록한다. 공개 Issue의 OPEN/CLOSED는 Project `Status`를 대신하지 않는다. 외부 조회를 하지 못한 스냅숏은 현재형 `IN_PROGRESS`·`DONE`으로 단정하지 않고 `REVERIFY_REQUIRED`를 병기한다.
+
 ## 2. 핵심 지표
 
 | 지표 | 계산 기준 | 판단 |

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bmky8gmi341mm"]
+
+[ext_resource type="Script" uid="uid://cqy18vvtl3xok" path="res://scripts/systems/bootstrap.gd" id="1_bootstrap"]
+[ext_resource type="Script" uid="uid://c18t564gm5n5b" path="res://scripts/systems/input_router.gd" id="2_input"]
+[ext_resource type="Script" uid="uid://bh3w6b2oarxyt" path="res://scripts/systems/interaction_router.gd" id="3_interaction"]
+[ext_resource type="PackedScene" path="res://scenes/ui/start_screen.tscn" id="4_start"]
+
+[node name="GGBMain" type="Control" unique_id=1295668713]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bootstrap")
+
+[node name="InputRouter" type="Node" parent="." unique_id=528189708]
+script = ExtResource("2_input")
+
+[node name="InteractionRouter" type="Node" parent="." unique_id=1873479292]
+script = ExtResource("3_interaction")
+
+[node name="StartScreen" parent="." unique_id=1707506433 instance=ExtResource("4_start")]
+unique_name_in_owner = true
+layout_mode = 1

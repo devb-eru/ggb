@@ -8,7 +8,7 @@
 
 | 단계 | 실행 시점 | 현재 상태 | 범위 |
 | --- | --- | --- | --- |
-| `V0_DOCS` | 모든 PR·develop/main push | ACTIVE | UTF-8, H1, fence, 로컬 링크, 결정·이슈 ID, 에셋 manifest, 기획 계약 회귀, 임시 파일 |
+| `V0_DOCS` | 모든 PR·develop/main push | ACTIVE | UTF-8, H1, fence, 로컬 링크, 결정·이슈 ID, 에셋 manifest, 기획 계약 회귀, Godot 진입점·리소스 경로 정적 검사, 임시 파일 |
 | `V1_GODOT_IMPORT` | 기술 기반선 이후 | NOT_IMPLEMENTED | headless import, GDScript parse, Resource load |
 | `V2_DATA_CONTRACT` | 첫 사건 Resource 이후 | NOT_IMPLEMENTED | ID·state path·writer·graph·locale 참조 |
 | `V3_SAVE_FIXTURE` | 첫 배포 저장 이후 | NOT_IMPLEMENTED | save/load, checksum, backup, migration, 데모 import |
@@ -27,9 +27,17 @@
 
 성공 시 요약과 `PASS`를 출력하고 종료 코드 0을 반환한다. 오류가 하나라도 있으면 파일·규칙·대상을 출력하고 종료 코드 1을 반환한다.
 
+운영 스크립트는 Node.js 24 환경에서 별도로 실행한다.
+
+```powershell
+node --test scripts/discord_notifications.test.mjs
+```
+
+2026-08-29 Codex 번들 Node.js `v24.19.0` 실행 결과는 15개 통과, 실패 0개다. 이는 운영 스크립트 검증이며 미구현 상태인 Godot `V1~V5`를 통과시킨 것이 아니다.
+
 ## 4. V0 검사 계약
 
-- Markdown은 BOM 없는 strict UTF-8로 읽을 수 있다.
+- 루트 운영 문서와 `docs/`, `ideas/`, `game/`의 Markdown은 BOM 없는 strict UTF-8로 읽을 수 있다.
 - 모든 Markdown에 H1이 하나 이상 있다.
 - 코드 fence 수가 짝수다.
 - 상대 Markdown 링크 대상 파일이 존재한다.
@@ -39,6 +47,10 @@
 - 승인 결정문의 해결된 CNF·ERR 후속 작업이 과거 `READY`·`BLOCKED` 상태로 남지 않는다.
 - 문서 17·통합본·이슈 레지스트리에 현재 검증 기준일이 함께 반영된다.
 - `asset_manifest.csv`에 필수 열, 고유 `asset_id`, 유효 상태·bool·양수 `unit_count`가 있다.
+- 마일스톤 정본은 `milestones.md`의 ID이며, 에셋·의뢰·개별 충돌/오류의 목표 마일스톤이 모두 정본에 존재한다.
+- 정본 오브젝트 ID는 `game_object_catalog.csv`에서 유일하며, 현행 계약 문서와 에셋 source가 등록되지 않은 구체 ID를 참조하지 않는다.
+- 정본 오브젝트의 `art_asset_id`가 모두 에셋 manifest에 존재한다.
+- 외부 서고 중계 시계는 `OBJ_LIBRARY_OUTER_CLOCK`·`M1_LIBRARY_OUTER`, 기록 내실 경계 시계는 `OBJ_LIBRARY_RECORD_CLOCK`·`M1_LIBRARY_INNER`이며 ART·CNT 버티컬 슬라이스 요청이 이를 혼용하지 않는다.
 - `APPROVED` 또는 `INTEGRATED`인 내부 제작물은 `evidence`에 유효한 `rights_ref=RIGHTS-YYYY-NNNN`를 가진다. `PLANNED` placeholder에는 이를 강제하지 않는다.
 - credits registry는 고유 ID·허용 상태를 사용하고, 권리 증거가 없는 내부 제작물을 `VERIFIED`·`INCLUDED`로 표시하지 않는다.
 - Godot 프로젝트가 존재하면 credits registry에 `GODOT_ENGINE` 런타임 라이선스 계획이 존재한다.
@@ -47,6 +59,9 @@
 - 현행 정본에 상태 모델 개정 번호를 런타임 schema로 오인하는 구식 표기가 다시 생기지 않는다.
 - F2 필수 지식 6종, 엔딩 9~15분, J4 의미 placeholder, 전체 플레이타임 합산, 1.0 입력 범위와 Windows 10/11 확정 범위가 구식 문구로 회귀하지 않는다.
 - `game/` 실제 파일 트리에 이름에 `tmp`가 든 중단 저장 파일이 남지 않는다.
+- `game/project.godot`은 임시 앱 이름이나 연습 씬을 기본 실행점으로 사용하지 않고, `res://scenes/main/` 아래에 존재하는 bootstrap 씬을 가리킨다.
+- `.gd`, `.tscn`, `.tres`, `project.godot`에 기록된 모든 `res://` 참조가 실제 파일을 가리킨다.
+- 격리된 `signal_practice.tscn`은 확정 입력에 `pressed`를 사용하며, 열쇠 획득은 연습용 인벤토리 기록·숨김·입력 비활성화를 함께 수행한다.
 
 역사 기록인 `ideas/md/v04/issues/`와 검토 보고서는 구식 표기 검사에서 제외한다. 해당 파일의 과거 근거를 현재 계약으로 오인하지 않는다.
 
@@ -56,9 +71,15 @@
 
 - `REQ-ART-*`, `REQ-AUD-*`, `REQ-CNT-*` ID 형식·중복·team 일치.
 - 상태·배치 범위·담당·검토자와 source ID 존재.
-- `READY_FOR_ACCEPTANCE`의 상세 brief 경로·본문 ID·revision·수락 게이트.
+- `READY_FOR_ACCEPTANCE` 이후 활성 의뢰의 상세 brief 경로·본문 ID·revision·상태·수락 게이트.
+- 의뢰 대장과 상세 brief의 목표 마일스톤·revision 일치, 목표 마일스톤의 정본 존재 여부.
 - 아트·사운드 의뢰의 모든 `asset_id`가 `asset_manifest.csv`에 존재하는지 여부.
+- ART·AUD 의뢰의 `asset_id`가 서로 중복되지 않고 각 팀 소유 매니페스트 행을 빠짐없이 분할하는지 여부.
+- 전 의뢰 수락 뒤에도 배치 설명이 수락 대기로 남거나, 범위 수락을 제작 착수 게이트와 혼용하는지 여부.
+- VS 아트 요청 수가 바뀌었을 때 데모 잔여 의뢰서의 제외 수량이 같은 값인지 여부.
 - 팀별 핵심 필드: 아트의 상태·접근성·납품, 사운드의 용도·길이·음색·loop·자막, 콘텐츠의 trigger·상태 읽기·쓰기·반복 정책.
+
+GitHub Actions의 외부 `uses:` 참조는 tag가 아니라 40자리 commit SHA로 고정한다. SHA 주석의 버전명은 사람용 정보이며 실행 정본은 SHA다.
 
 검증 통과는 팀이 범위를 수락했거나 실제 제작이 시작됐다는 뜻이 아니다. 상태 전이는 팀 회신과 제작 증거로 별도 확인한다.
 
@@ -71,6 +92,8 @@
 - 모든 `.gd`가 parse된다.
 - main scene과 autoload 경로가 존재한다.
 - placeholder 또는 sandbox scene이 production main scene이 아니다.
+
+V0의 경로 검사는 Godot parser를 대신하지 않는다. `V1_GODOT_IMPORT`는 Godot 4.7 실행 파일로 실제 import·GDScript parse·Resource load를 통과해야만 `ACTIVE` 또는 완료로 전환한다.
 
 ### V2 데이터 계약
 

@@ -10,7 +10,13 @@
 | 최소 레이아웃 | 1280x720 |
 | 결정 게이트 | `TECH_01_FOUNDATION` 후보 구성, `PROD_01_VERTICAL_SLICE` 실측 잠금 |
 
-현재 `game/project.godot`의 Forward+·D3D12 설정은 연습 프로젝트의 현재값이지 제품 렌더러 확정 근거가 아니다. 구현 시작 전에는 아래 예산과 시험 절차를 제작 계약으로 사용하고, 실제 기기 결과 없이 Steam 최소 사양을 확정하지 않는다.
+현재 `game/project.godot`은 D3D12 단일 고정을 제거하고 GL Compatibility를 이식성 우선 **임시 실행 기준**으로 사용한다. 이는 제품 렌더러 결정이 아니며, 아래 예산과 시험 절차 및 실제 기기 결과 없이 Steam 최소 사양을 확정하지 않는다.
+
+두 후보의 동일 foundation export·smoke는 저장소 루트에서 다음 명령으로 재현한다. C5·D5·E1 실제 연출과 네 장비 역할 계측이 준비되기 전 결과는 기능 기반선일 뿐 최종 시각·성능 승인으로 간주하지 않는다.
+
+```powershell
+./scripts/validate_renderer_candidates.ps1 -GodotPath "C:/path/to/Godot_v4.7-stable_win64_console.exe"
+```
 
 ## 2. 렌더러 결정 규칙
 

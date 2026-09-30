@@ -1,0 +1,16 @@
+{
+  "fixture_id": "FIX_NORMAL_RESET_SCHEMA_1",
+  "save_header": {
+    "schema_version": 1,
+    "design_revision": "v0.4-state-r12",
+    "build_flavor": "demo",
+    "content_boundary_id": "SAVE_NORMAL_RESET_COMPLETE",
+    "source_app_id": "local"
+  },
+  "expected": {
+    "meta_progress_preserved": true,
+    "loop_inventory": [],
+    "loop_physical_changes": {},
+    "reset_phase": "idle"
+  }
+}
