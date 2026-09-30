@@ -203,7 +203,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	var page_up := event.is_action_pressed("ui_page_up", false, true)
 	var page_down := event.is_action_pressed("ui_page_down", false, true)
 	if _modal_active and (page_up or page_down):
-		var body_scroll := _modal_body.get_child(2) as ScrollContainer
+		var body_scroll := _history_modal_scroll() if _modal_active else null
+		if body_scroll == null and _modal_body.get_child_count() > 2:
+			body_scroll = _modal_body.get_child(2) as ScrollContainer
 		if body_scroll != null:
 			var direction := -1 if page_up else 1
 			body_scroll.scroll_vertical += direction * maxi(40, int(body_scroll.size.y * 0.8))
@@ -1883,7 +1885,7 @@ func _record_prologue_history() -> bool:
 func _record_prologue_text(speaker: String, text: String) -> bool:
 	var slot := SaveManager.inspect_slot(_slot_id)
 	var point := String(slot.get("save_point_id", "SAVE_NEW_GAME"))
-	var result := preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState, SaveManager, _slot_id, point, speaker, text, TranslationServer.get_locale())
+	var result := preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState, SaveManager, _slot_id, point, speaker, text, TranslationServer.get_locale(), "PROLOGUE")
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false
@@ -2126,13 +2128,130 @@ func _open_dialogue_history() -> void:
 
 
 func _show_history_result(result: Dictionary) -> void:
-	var paragraphs: Array[String] = []
 	if not result.get("ok", false):
-		paragraphs.append(_dialogue_ui_text("CH1_HISTORY_READ_ERROR"))
+		_show_modal(_dialogue_ui_text("CH1_HISTORY_TITLE"), _dialogue_ui_text("CH1_HISTORY_READ_ERROR"), [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
+		return
+
+	var chapter_order := ["PROLOGUE", "CHAPTER_1", "CHAPTER_2", "CHAPTER_3", "CHAPTER_4"]
+	var chapter_titles := {
+		"PROLOGUE": _dialogue_ui_text("CH1_HISTORY_CHAPTER_PROLOGUE"),
+		"CHAPTER_1": _dialogue_ui_text("CH1_HISTORY_CHAPTER_1"),
+		"CHAPTER_2": _dialogue_ui_text("CH1_HISTORY_CHAPTER_2"),
+		"CHAPTER_3": _dialogue_ui_text("CH1_HISTORY_CHAPTER_3"),
+		"CHAPTER_4": _dialogue_ui_text("CH1_HISTORY_CHAPTER_4"),
+		"LEGACY": _dialogue_ui_text("CH1_HISTORY_CHAPTER_LEGACY"),
+	}
+	var grouped: Dictionary = {}
 	for entry in result.get("entries", []):
-		paragraphs.append(String(entry["text"]))
-	var body := "\n\n".join(paragraphs) if not paragraphs.is_empty() else _dialogue_ui_text("CH1_HISTORY_EMPTY")
-	_show_modal(_dialogue_ui_text("CH1_HISTORY_TITLE"), body, [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
+		var chapter_id := String(entry.get("chapter_id", "LEGACY"))
+		if not grouped.has(chapter_id):
+			grouped[chapter_id] = []
+		grouped[chapter_id].append(entry.duplicate(true))
+
+	# The history window is a chapter selector. Selecting a chapter replaces the
+	# transcript in the same window; it does not alter or delete saved history.
+	_show_chapter_history_modal(chapter_order, chapter_titles, grouped)
+
+
+func _show_chapter_history_modal(chapter_order: Array, chapter_titles: Dictionary, grouped: Dictionary) -> void:
+	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
+	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
+	if is_instance_valid(_audio_settings_panel): _audio_settings_panel.hide()
+	_modal_panel.show()
+	for child in _modal_body.get_children():
+		_modal_body.remove_child(child)
+		child.queue_free()
+	_place(_modal_panel, Rect2(300, 90, 1320, 900) if _reading_text_scale >= 1.5 else Rect2(510, 150, 900, 780))
+
+	var title_label := Label.new()
+	title_label.text = _dialogue_ui_text("CH1_HISTORY_TITLE")
+	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title_label.add_theme_font_size_override("font_size", int(round(34 * _reading_text_scale)))
+	title_label.add_theme_color_override("font_color", Color(0.94, 0.72, 0.44))
+	_modal_body.add_child(title_label)
+	_modal_body.add_child(HSeparator.new())
+
+	var chapter_buttons := HBoxContainer.new()
+	chapter_buttons.name = "HistoryChapterButtons"
+	chapter_buttons.add_theme_constant_override("separation", 8)
+	chapter_buttons.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_modal_body.add_child(chapter_buttons)
+
+	var body_scroll := ScrollContainer.new()
+	body_scroll.name = "HistoryTranscriptScroll"
+	body_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	body_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body_scroll.custom_minimum_size.y = 100
+	body_scroll.focus_mode = Control.FOCUS_ALL
+	_modal_body.add_child(body_scroll)
+
+	var body_label := Label.new()
+	body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body_label.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
+	body_label.add_theme_color_override("font_color", Color(0.93, 0.92, 0.90))
+	body_scroll.add_child(body_label)
+
+	var selected_chapter := ""
+	for chapter_id in chapter_order:
+		var id := String(chapter_id)
+		var entries: Array = grouped.get(id, [])
+		var button := Button.new()
+		button.name = "HistoryChapter_%s" % id
+		button.text = String(chapter_titles.get(id, id))
+		button.custom_minimum_size = Vector2(0, 52)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.disabled = entries.is_empty()
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.add_theme_font_size_override("font_size", int(round(17 * _reading_text_scale)))
+		button.add_theme_stylebox_override("normal", _style(Color(0.10, 0.035, 0.11, 0.98), Color(0.66, 0.35, 0.34, 0.95), 2, 7))
+		button.add_theme_stylebox_override("hover", _style(Color(0.18, 0.055, 0.14, 0.99), Color(0.86, 0.55, 0.42, 0.98), 2, 7))
+		chapter_buttons.add_child(button)
+		if not entries.is_empty():
+			button.pressed.connect(func() -> void:
+				_show_selected_history_chapter(id, chapter_titles, grouped, body_label, body_scroll, chapter_buttons)
+			)
+			if selected_chapter.is_empty():
+				selected_chapter = id
+
+	var close_button := Button.new()
+	close_button.text = _dialogue_ui_text("UI_NOTE_CLOSE")
+	close_button.custom_minimum_size.y = 58
+	close_button.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
+	close_button.add_theme_stylebox_override("normal", _style(Color(0.10, 0.035, 0.11, 0.98), Color(0.66, 0.35, 0.34, 0.95), 3, 7))
+	close_button.pressed.connect(_close_modal)
+	_modal_body.add_child(close_button)
+
+	_modal_active = true
+	_modal_layer.visible = true
+	if selected_chapter.is_empty():
+		body_label.text = _dialogue_ui_text("CH1_HISTORY_EMPTY")
+	else:
+		_show_selected_history_chapter(selected_chapter, chapter_titles, grouped, body_label, body_scroll, chapter_buttons)
+	call_deferred("_cycle_modal_focus")
+	call_deferred("_focus_visible_control", weakref(chapter_buttons.get_child(0) if chapter_buttons.get_child_count() > 0 else close_button))
+
+
+func _show_selected_history_chapter(chapter_id: String, chapter_titles: Dictionary, grouped: Dictionary, body_label: Label, body_scroll: ScrollContainer, chapter_buttons: HBoxContainer) -> void:
+	var paragraphs: Array[String] = []
+	var entries: Array = grouped.get(chapter_id, [])
+	paragraphs.append("━━━━━━━━ " + String(chapter_titles.get(chapter_id, chapter_id)) + " ━━━━━━━━")
+	for entry in entries:
+		var text := String(entry.get("text", ""))
+		paragraphs.append(text)
+	body_label.text = "\n\n".join(paragraphs) if not entries.is_empty() else _dialogue_ui_text("CH1_HISTORY_EMPTY")
+	body_scroll.scroll_vertical = 0
+	for child in chapter_buttons.get_children():
+		var button := child as Button
+		if button != null:
+			button.button_pressed = button.name == "HistoryChapter_%s" % chapter_id
+
+
+func _history_modal_scroll() -> ScrollContainer:
+	if not _modal_active or not is_instance_valid(_modal_body):
+		return null
+	return _modal_body.get_node_or_null("HistoryTranscriptScroll") as ScrollContainer
 
 
 func _localized_notebook_entry(entry: String) -> String:

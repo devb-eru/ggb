@@ -95,7 +95,8 @@ func render_history(history_value: Variant, locale: String) -> Dictionary:
 			continue
 		rendered_entries.append({
 			"sequence": int(history_entry.get("sequence", -1)),
-			"line_id": line_id,
+			"chapter_id": String(history_entry.get("chapter_id", "LEGACY")),
+				"line_id": line_id,
 			"speaker_id": String(definition["speaker_id"]),
 			"text": get_text(StringName(line_id), locale, history_entry.get("variables", {})),
 		})
