@@ -117,6 +117,7 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(session.stage() == "J3_COMPLETE", "C chapter reaches J3")
 	_expect(GameState.get_value(&"meta_progress.knowledge_entries.MEM_FATHER_DRAWN_DOOR_FRAGMENT") == "episodic_fragment", "tea memory leads to drawn-door fragment without solution")
 	_validate_unique_solutions()
+	await _validate_route_feedback(tree, ready)
 	await _validate_view(tree, session, ready)
 	SaveManager.delete_test_slot(SLOT)
 	GameState.reset_for_test()
@@ -131,6 +132,87 @@ func _make_cleaner(session: BlackMirrorSession) -> void:
 	session.act("c_mix")
 	session.act("c_test")
 	_expect(session.mirror_local()["cleaner_ready"], "5:1:2 in safe order creates cleaner")
+
+
+func _validate_route_feedback(tree: SceneTree, ready: Dictionary) -> void:
+	var before := GameState.get_snapshot()
+	var old_locale := TranslationServer.get_locale()
+	var paths := [[], ["entry"], ["entry", "long_branch", "short_branch", "clockwise_ring"], ["entry", "short_branch", "long_branch", "counterclockwise_ring"], RULES.PATH, ["long_branch"]]
+	for path in paths:
+		TranslationServer.set_locale("en" if path.is_empty() else "ko")
+		var state := ready.duplicate(true)
+		state.loop_state.event_local_states.BLACK_MIRROR.path = path.duplicate()
+		state.loop_state.event_local_states.BLACK_MIRROR.dry_passed = false
+		StateWriter.new(GameState).install_snapshot(state, GameState.revision, &"MIRROR_ROUTE_TEST")
+		var view := VIEW.new()
+		view.configure_session(SLOT, "C4")
+		tree.root.add_child(view)
+		await tree.process_frame
+		view._dismiss_dialogue_for_test()
+		if path == RULES.PATH:
+			view._apply_reading_text_scale(2.0)
+		view._do("c_dry")
+		for frame in range(4):
+			await tree.process_frame
+		_expect(view._modal_active, "dry test automatically opens signal feedback")
+		var diagram = view._modal_body.get_node_or_null("MirrorRouteFeedback")
+		_expect(diagram != null, "dry test contains the route diagram")
+		if diagram != null:
+			var expected: Dictionary = RULES.inspect_trace(90, false, true, path)
+			_expect(diagram.verdict == expected, "visual feedback uses authoritative puzzle verdict")
+			_expect(diagram.segments == path, "visual feedback preserves submitted path")
+			_expect(diagram.steps.size() == maxi(1, mini(path.size(), expected.verified_prefix.size() + 1)), "trace stops at first mismatch without showing unchosen solution")
+			_expect(bool(view._mirror().mirror_local().dry_passed) == bool(expected.ok), "dry result is committed before animation")
+			_expect(not view._mirror().mirror_local().locked and view._mirror().mirror_local().cleaner_ready, "visual dry failure leaves materials and coating intact")
+			diagram.configure(view._mirror().mirror_local(), "standard")
+			diagram._process(0.4)
+			_expect(not diagram.finished and is_equal_approx(diagram.elapsed, 0.4), "light progresses through route over time")
+			if path == RULES.PATH and "--mirror-route-capture" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+				await RenderingServer.frame_post_draw
+				var moving_image := view.get_viewport().get_texture().get_image()
+				_expect(moving_image.save_png("user://mirror-route-moving.png") == OK, "moving particle screenshot saved")
+			diagram._process(20.0)
+			_expect(diagram.finished and not diagram.is_processing(), "animation ends without an infinite particle loop")
+			if "--mirror-route-capture" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+				await RenderingServer.frame_post_draw
+				var capture := "user://mirror-route-%d.png" % paths.find(path)
+				var image := view.get_viewport().get_texture().get_image()
+				_expect(image.save_png(capture) == OK, "route feedback screenshot saved")
+				print("MIRROR_ROUTE_CAPTURE: " + ProjectSettings.globalize_path(capture))
+			var loop_before: Dictionary = GameState.get_snapshot().loop_state.duplicate(true)
+			(view._modal_body.get_child(5) as Button).pressed.emit()
+			_expect(GameState.get_snapshot().loop_state == loop_before, "replay is visual only")
+			for mode in ["reduced", "static"]:
+				diagram.configure(view._mirror().mirror_local(), mode)
+				_expect(diagram.finished and not diagram.is_processing() and diagram.verdict == expected, "motion alternative preserves result and trail: " + mode)
+			await tree.process_frame
+			_expect(diagram.get_global_rect().end.y <= view._modal_panel.get_global_rect().end.y, "diagram fits feedback panel")
+			_expect((view._modal_body.get_child(5) as Button).get_global_rect().end.y <= view._modal_panel.get_global_rect().end.y, "replay remains within panel at requested text scale")
+			_expect(view._modal_panel.get_global_rect().end.y <= view.get_viewport_rect().end.y, "feedback panel remains inside visible viewport")
+			(view._modal_body.get_child(4) as Button).grab_focus()
+			await _support_key(KEY_ENTER, tree)
+			_expect(not view._modal_active, "keyboard closes feedback without waiting")
+			var no_signal := GameState.get_snapshot()
+			no_signal.loop_state.event_local_states.BLACK_MIRROR.signal_ready = false
+			StateWriter.new(GameState).install_snapshot(no_signal, GameState.revision, &"MIRROR_NO_SIGNAL")
+			var before_reject := GameState.get_snapshot()
+			view._do("c_dry")
+			_expect(not view._modal_active and GameState.get_snapshot() == before_reject, "missing bell signal cannot produce visual success or alter progress")
+		view.queue_free()
+		await tree.process_frame
+	var visual = VIEW.ROUTE_FEEDBACK.new()
+	var local: Dictionary = ready.loop_state.event_local_states.BLACK_MIRROR.duplicate(true)
+	for rotation in [0, 90, 180, 270]:
+		for flipped in [true, false]:
+			for anchored in [true, false]:
+				local.merge({"rotation": rotation, "flipped": flipped, "anchored": anchored}, true)
+				visual.configure(local, "static")
+				_expect(visual.verdict == RULES.inspect_trace(rotation, flipped, anchored, local.path), "transform failure uses the same predicate as gameplay")
+				if visual.verdict.category == "anchor_missing":
+					_expect(visual.steps.size() == 1 and visual.steps[0][0].is_equal_approx(visual._overlay_point(visual.ENTRY)), "misaligned signal stops before entering mirror grooves")
+	visual.free()
+	TranslationServer.set_locale(old_locale)
+	StateWriter.new(GameState).install_snapshot(before, GameState.revision, &"MIRROR_ROUTE_RESTORE")
 
 
 func _travel(session: BlackMirrorSession, target: String) -> void:

@@ -17,6 +17,11 @@ const OBJECTIVES := {
 }
 
 const UI := {
+	"route_title": ["마른 천 시험 · 신호의 이동 경로", "Dry Test · Signal Route"],
+	"route_legend": ["빛과 화살표: 선택한 경로를 따른 신호. ○✓: 전체 연결 확인 / ×: 신호가 끊긴 곳.\n움직임 감소·정지 설정에서는 이동 궤적을 정지 화면으로 표시한다.", "Light and arrows trace your chosen route. Circle/check: full connection / X: signal interrupted.\nReduced/static motion shows the same trail as a still image."],
+	"route_selected": ["선택한 순서: ", "Selected order: "],
+	"route_empty": ["아직 놓지 않음", "No route selected"],
+	"route_replay": ["같은 신호 다시 보기", "Replay this signal"],
 	"mirror_door": ["남쪽 거울 회랑", "South Mirror Gallery"],
 	"tool_door": ["청소도구실", "Cleaning Tool Room"],
 	"kitchen_door": ["주방 조합대", "Kitchen Mixing Bench"],
