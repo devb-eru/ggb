@@ -3,7 +3,6 @@ extends RefCounted
 
 const CLOCK := preload("res://data/puzzles/puzzle_clock_network.tres")
 const SAVE_POINT := "SAVE_CAMPAIGN_PROGRESS"
-const HISTORY_CHAPTER_ID := "CHAPTER_1"
 const LOCAL_KEY := "CHAPTER_ONE"
 const MARKS := {"sentence": "내일 아침, 이 문장을 읽어.", "house_glyph": "창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문", "ink_corner": "페이지 모서리의 잉크 한 방울"}
 const CLOCK_ROOMS := {"M2_BEDROOM": "bedroom", "M1_PARLOR": "parlor", "M1_LIBRARY_OUTER": "library_outer", "M1_GREAT_CLOCK": "great_clock"}
@@ -390,12 +389,8 @@ func available_rooms() -> Array:
 	return ROOMS
 
 
-func history_chapter_id() -> String:
-	return HISTORY_CHAPTER_ID
-
-
 func record_viewed_line(speaker: String, text: String, locale: String) -> Dictionary:
-	return preload("res://scripts/systems/dialogue_history_writer.gd").record(_game, _save, slot_id, _save_point(snapshot()), speaker, text, locale, history_chapter_id())
+	return preload("res://scripts/systems/dialogue_history_writer.gd").record(_game, _save, slot_id, _save_point(snapshot()), speaker, text, locale)
 
 
 func _rooms_connected(from: String, to: String, knowledge: Dictionary) -> bool:
