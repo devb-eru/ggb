@@ -28,6 +28,11 @@ var _focus_before_pause: WeakRef
 var _held_inputs: Dictionary = {}
 var _discard_releases: Dictionary = {}
 var _window_minimized := false
+var _developer_panel
+var _developer_catalog := preload("res://scripts/systems/developer_checkpoints.gd").new()
+var _developer_paused_nodes: Array[Dictionary] = []
+var _developer_active := false
+var _developer_previous_flavor: Variant
 var _prologue
 var _audio := preload("res://scripts/systems/game_audio.gd").new()
 
@@ -41,12 +46,25 @@ func _ready() -> void:
 	_apply_audio_settings(_start_screen.get_audio_settings())
 	_audio.request_cue(&"BGM_TITLE")
 	_validate_engine_version()
+	if "--generate-developer-checkpoints" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_generate_developer_checkpoints")
 	_load_coordinator = LoadCoordinator.new(GameState, SaveManager)
 	_reset_coordinator = ResetCoordinator.new(GameState, SaveManager)
 	_writer = StateWriter.new(GameState)
 	_start_screen.new_game_requested.connect(_on_new_game_requested)
 	_start_screen.load_game_requested.connect(_on_load_game_requested)
 	_start_screen.quit_requested.connect(_on_quit_requested)
+	if OS.is_debug_build() and not "--generate-developer-checkpoints" in OS.get_cmdline_user_args():
+		var testing := false
+		for argument in OS.get_cmdline_user_args():
+			if argument.ends_with("-smoke"): testing = true
+		if not testing or "--developer-checkpoint-smoke" in OS.get_cmdline_user_args():
+			_setup_developer_panel()
+			for argument in OS.get_cmdline_user_args():
+				if argument.begins_with("--dev-jump="):
+					call_deferred("_developer_jump", argument.trim_prefix("--dev-jump="))
+		if "--developer-checkpoint-smoke" in OS.get_cmdline_user_args():
+			call_deferred("_run_developer_checkpoint_smoke")
 	print("GGB title bootstrap initialized.")
 	if FOUNDATION_TEST_ARG in OS.get_cmdline_user_args():
 		if OS.is_debug_build():
@@ -77,6 +95,76 @@ func _ready() -> void:
 
 func _apply_audio_settings(settings: Dictionary) -> void:
 	_audio.set_levels(settings.master, settings.bgm, settings.ambience, settings.effects, settings.muted)
+
+
+func _generate_developer_checkpoints() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/developer_checkpoint_generator.gd").new().generate(get_tree())
+	print("DEVELOPER_CHECKPOINT_GENERATION: " + str(result))
+	get_tree().quit(0 if result.get("ok", false) else 1)
+
+
+func _setup_developer_panel() -> void:
+	_developer_panel = preload("res://scripts/ui/developer_panel.gd").new()
+	_developer_panel.rows = _developer_catalog.entries()
+	_developer_panel.jump_requested.connect(_developer_jump)
+	_developer_panel.resume_requested.connect(_developer_resume)
+	_developer_panel.menu_opened.connect(_developer_pause)
+	_developer_panel.menu_closed.connect(_developer_unpause)
+	add_child(_developer_panel)
+	if not _developer_catalog.error.is_empty():
+		_developer_panel.detail.text = _developer_catalog.error
+
+
+func _developer_pause() -> void:
+	_developer_paused_nodes.clear()
+	for node in [_start_screen, _prologue]:
+		if is_instance_valid(node):
+			_developer_paused_nodes.append({"node":weakref(node),"mode":node.process_mode})
+			node.process_mode = Node.PROCESS_MODE_DISABLED
+	_audio.set_pause_reason(&"developer", true)
+
+
+func _developer_unpause() -> void:
+	for entry in _developer_paused_nodes:
+		var node = entry.node.get_ref()
+		if is_instance_valid(node): node.process_mode = entry.mode
+	_developer_paused_nodes.clear()
+	_audio.set_pause_reason(&"developer", false)
+
+
+func _developer_jump(id: String) -> void:
+	_developer_enter(id, false)
+
+
+func _developer_resume() -> void:
+	_developer_enter("", true)
+
+
+func _developer_enter(id: String, resume: bool) -> void:
+	if not OS.is_debug_build(): return
+	var previous_flavor: Variant = ProjectSettings.get_setting("ggb/build_flavor", null)
+	ProjectSettings.set_setting("ggb/build_flavor", "full")
+	var result: Dictionary = _load_coordinator.load_and_install(_developer_catalog.SLOT) if resume else _developer_catalog.activate(id, GameState, SaveManager)
+	if not result.get("ok", false):
+		ProjectSettings.set_setting("ggb/build_flavor", previous_flavor)
+		_developer_panel.detail.text = "개발 시점 진입 실패. 현재 진행을 유지합니다.\n" + str(result.get("error_ids", result))
+		return
+	if not _developer_active: _developer_previous_flavor = previous_flavor
+	_developer_active = true
+	_developer_panel.close()
+	# Remove the old controller before a new one can write into the selected snapshot.
+	if is_instance_valid(_prologue):
+		remove_child(_prologue)
+		_prologue.queue_free()
+		_prologue = null
+	_launch_prologue(_developer_catalog.SLOT, "DEV_CHECKPOINT")
+	_developer_panel.launch_button.text = "개발 테스트 · F10"
+
+
+func _run_developer_checkpoint_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/developer_checkpoint_smoke.gd").new().run(self)
+	print("DEVELOPER_CHECKPOINT_SMOKE: " + ("PASS" if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
 
 
 func _set_menu_audio_pause(paused: bool) -> void:
@@ -251,9 +339,16 @@ func _launch_prologue(slot_id: String, resume_id: String) -> void:
 	_prologue.audio_cue_requested.connect(_audio.request_cue)
 	_prologue.audio_room_requested.connect(_audio.enter_room)
 	_prologue.return_to_title_requested.connect(_on_prologue_return_to_title)
-	_prologue.campaign_requested.connect(_launch_campaign, CONNECT_DEFERRED)
+	_prologue.campaign_requested.connect(_on_campaign_requested.bind(weakref(_prologue)), CONNECT_DEFERRED)
 	_start_screen.visible = false
 	add_child(_prologue)
+
+
+func _on_campaign_requested(slot_id: String, source: WeakRef) -> void:
+	# A queued transition from a replaced controller must not reuse its old save slot.
+	var origin = source.get_ref()
+	if is_instance_valid(origin) and origin == _prologue:
+		_launch_campaign(slot_id)
 
 
 func _launch_campaign(slot_id: String) -> void:
@@ -273,12 +368,16 @@ func _launch_campaign(slot_id: String) -> void:
 	_prologue.audio_cue_requested.connect(_audio.request_cue)
 	_prologue.audio_room_requested.connect(_audio.enter_room)
 	_prologue.return_to_title_requested.connect(_on_prologue_return_to_title)
-	_prologue.campaign_requested.connect(_launch_campaign, CONNECT_DEFERRED)
+	_prologue.campaign_requested.connect(_on_campaign_requested.bind(weakref(_prologue)), CONNECT_DEFERRED)
 	_start_screen.visible = false
 	add_child(_prologue)
 
 
 func _on_prologue_return_to_title() -> void:
+	if _developer_active:
+		ProjectSettings.set_setting("ggb/build_flavor", _developer_previous_flavor)
+		_developer_active = false
+		_developer_panel.launch_button.text = "개발자 · F10"
 	_audio.stop_all()
 	_set_menu_audio_pause(false)
 	if is_instance_valid(_prologue):

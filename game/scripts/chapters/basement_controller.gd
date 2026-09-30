@@ -46,7 +46,11 @@ const FULL_D5_HOLD_EN := [
 const OBJECTIVE_TEXT := {"D_SLEEP": "J3를 기억한 채 잠들어 다음 아침을 맞는다", "D0": "기록 내실의 세 눌림점에서 평면도를 꺼낸다", "D0_A": "C5 투명지와 저택 도면의 방향·기준점을 검증한다", "D1": "세 축의 순서와 깊이를 도면대로 적용한다", "DF": "압력핀 잠김 · 같은 침실에서 잠든다", "D2": "지하창고의 반복 구조를 조사한다", "D4": "태엽 심장의 연동 링과 정상 기동을 확인한다", "D5": "위장 필터 너머 드러난 공간을 확인한다", "DEMO_END": "데모 공개 구간 종료", "D6": "파열된 저택을 확인한 뒤 침실로 돌아간다", "E1_ENTRY": "같은 침실의 다른 아침"}
 
 func _make_session() -> ChapterOneSession:
-	return BASEMENT_SESSION.new(GameState, SaveManager, _slot_id)
+	var created := BASEMENT_SESSION.new(GameState, SaveManager, _slot_id)
+	var source := String(GameState.get_value(&"meta_progress.knowledge_entries.reselect_source_slot_id", ""))
+	if OS.is_debug_build() and (_slot_id.begins_with("__dev_checkpoint") or source.begins_with("__dev_checkpoint")):
+		created.ending_meta_store = EndingMetaStore.new("user://development/profile")
+	return created
 
 func _supported_hint_stages() -> Array:
 	return ["D0_A", "D1", "DF", "D4", "F0_A", "F0_B", "F0_C", "F0_D", "F0_E"]
@@ -1237,7 +1241,7 @@ func _gallery_menu(page: int = 0) -> void:
 	if _dialogue_active or session.stage() != "POST_CREDITS": return
 	var locale := TranslationServer.get_locale()
 	if _modal_active: _close_modal()
-	var store = preload("res://scripts/systems/ending_gallery_store.gd").new()
+	var store = preload("res://scripts/systems/ending_gallery_store.gd").new(session.ending_meta_store.root_path.path_join("ending_gallery"))
 	var entries: Array[Dictionary] = store.list_entries()
 	var actions: Array = [{"label":GALLERY_TEXTS.text("close",locale),"action":_close_modal}]
 	for index in range(page * 4, mini(entries.size(), page * 4 + 4)):
@@ -1252,7 +1256,7 @@ func _gallery_menu(page: int = 0) -> void:
 func _gallery_page(id: String, page: int) -> void:
 	if session.stage() != "POST_CREDITS": return
 	var locale := TranslationServer.get_locale()
-	var entry: Dictionary = preload("res://scripts/systems/ending_gallery_store.gd").new().read_entry(id)
+	var entry: Dictionary = preload("res://scripts/systems/ending_gallery_store.gd").new(session.ending_meta_store.root_path.path_join("ending_gallery")).read_entry(id)
 	if not entry.get("ok", false): return
 	var pages: Array[Dictionary] = preload("res://scripts/systems/ending_gallery_pages.gd").build(entry["state"],locale)
 	if page < 0 or page >= pages.size(): return
