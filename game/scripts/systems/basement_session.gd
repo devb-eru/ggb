@@ -81,6 +81,12 @@ func initialize() -> Dictionary:
 	return _commit(state, String(result.get("text", "")), String(result.get("speaker", "주인공")))
 
 
+func history_chapter_id() -> String:
+	# Everything handled by BasementSession belongs to chapter 4.
+	# This overrides BlackMirrorSession's J3/chapter-3 routing.
+	return "CHAPTER_4"
+
+
 func stage() -> String:
 	var state := snapshot()
 	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
