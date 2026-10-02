@@ -133,6 +133,8 @@ func _validate_retention() -> void:
 	_expect(pinned.ok and pinned.pruned_uids.is_empty() and ARCHIVE.resolve(pinned.archive, pin_ref).ok, "pin and retention are computed together")
 	var unpinned := ARCHIVE.set_reference(pinned.archive, "bookmarks", pin_ref, false, pinned.archive.revision)
 	_expect(unpinned.ok and unpinned.pruned_uids == [pin_ref.uid], "removing final protection restores normal retention")
+	var repeated := ARCHIVE.set_reference(unpinned.archive, "bookmarks", pin_ref, false, unpinned.archive.revision)
+	_expect(repeated.ok and not repeated.changed and repeated.archive == unpinned.archive, "unpin retry remains idempotent after its target is pruned")
 
 
 func _expect(condition: bool, message: String) -> void:

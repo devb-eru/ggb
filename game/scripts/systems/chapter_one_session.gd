@@ -402,7 +402,7 @@ func history_context() -> Dictionary:
 
 func record_viewed_line(speaker: String, text: String, locale: String, context: Dictionary = {}) -> Dictionary:
 	var chapter_id := history_chapter_id() if context.is_empty() else HISTORY_CONTEXT.normalize_chapter(context.get("chapter_id"))
-	return preload("res://scripts/systems/dialogue_history_writer.gd").record(_game, _save, slot_id, _save_point(snapshot()), speaker, text, locale, chapter_id, context.get("observed_fact_ids", []))
+	return preload("res://scripts/systems/dialogue_history_writer.gd").record(_game, _save, slot_id, _save_point(snapshot()), speaker, text, locale, chapter_id, context.get("observed_fact_ids", []), context)
 
 
 func _rooms_connected(from: String, to: String, knowledge: Dictionary) -> bool:

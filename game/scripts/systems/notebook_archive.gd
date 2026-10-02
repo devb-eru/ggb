@@ -44,7 +44,7 @@ static func migrate_verified_legacy(history: Dictionary, verified_source_id: Str
 
 
 static func validate(value: Variant) -> Dictionary:
-	if not value is Dictionary or not _keys(value, ROOT_KEYS) or value.get("schema_version") != VERSION:
+	if not value is Dictionary or not _keys(value, ROOT_KEYS) or not _integer(value.get("schema_version")) or value.schema_version != VERSION:
 		return _error("NB_ARCHIVE_SCHEMA")
 	var archive: Dictionary = value
 	for field in ["source_origin_id", "branch_id"]:
@@ -64,8 +64,14 @@ static func validate(value: Variant) -> Dictionary:
 		ids[entry.entry_uid] = entry
 		previous = int(entry.sequence)
 		if not _strings(entry.get("protection_reasons"), true): return _error("NB_ENTRY_PROTECTION")
-		if entry.get("record_class") == "legacy":
+		if entry.get("record_class") in ["legacy", "unmapped"]:
 			if not entry.get("legacy_payload") is Dictionary: return _error("NB_LEGACY_PAYLOAD")
+			if not _integer(entry.legacy_payload.get("sequence")) or int(entry.legacy_payload.sequence) != int(entry.sequence): return _error("NB_LEGACY_SEQUENCE")
+			if entry.record_class == "unmapped":
+				if not entry.get("snapshot_context") is Dictionary or not _uid(entry.snapshot_context.get("presentation_token")): return _error("NB_UNMAPPED_CONTEXT")
+				var token: String = entry.snapshot_context.presentation_token
+				if tokens.has(token): return _error("NB_DUPLICATE_PRESENTATION")
+				tokens[token] = true
 		elif entry.get("record_class") == "authored":
 			var checked := _validate_observation(entry.get("observation"))
 			if not checked.ok: return checked
@@ -115,8 +121,8 @@ static func append_observation(archive: Dictionary, observation: Dictionary, exp
 
 
 static func make_reference(entry: Dictionary, segment_id: String) -> Dictionary:
-	if entry.get("record_class") == "legacy":
-		return {"kind": "legacy", "source_origin_id": entry.source_origin_id, "uid": entry.entry_uid, "content_version": 0, "segment_id": segment_id}
+	if entry.get("record_class") in ["legacy", "unmapped"]:
+		return {"kind": entry.record_class, "source_origin_id": entry.source_origin_id, "uid": entry.entry_uid, "content_version": 0, "segment_id": segment_id}
 	var observation: Dictionary = entry.observation
 	return {"kind": observation.entry_kind, "source_origin_id": entry.source_origin_id, "uid": entry.entry_uid, "content_version": observation.content_version, "segment_id": segment_id}
 
@@ -131,8 +137,11 @@ static func set_reference(archive: Dictionary, collection: String, reference: Di
 	var ready := _ready(archive, expected_revision)
 	if not ready.ok: return ready
 	if collection not in ["bookmarks", "comparison"]: return _error("NB_REFERENCE_COLLECTION")
-	if not _resolve_in(_index(archive), reference).ok: return _error("NB_REFERENCE_UNAVAILABLE")
+	if not _reference_shape(reference): return _error("NB_REFERENCE_FIELDS")
 	var exists: bool = reference in archive[collection]
+	# An acknowledged removal can prune the now-unprotected target in the same commit.
+	if not enabled and not exists: return {"ok": true, "archive": archive.duplicate(true), "changed": false, "pruned_uids": []}
+	if not _resolve_in(_index(archive), reference).ok: return _error("NB_REFERENCE_UNAVAILABLE")
 	if exists == enabled: return {"ok": true, "archive": archive.duplicate(true), "changed": false, "pruned_uids": []}
 	var limit := BOOKMARK_LIMIT if collection == "bookmarks" else COMPARISON_LIMIT
 	if enabled and archive[collection].size() >= limit: return _error("NB_REFERENCE_LIMIT")
@@ -166,6 +175,34 @@ static func fork(archive: Dictionary) -> Dictionary:
 static func maintain(archive: Dictionary, expected_revision: int) -> Dictionary:
 	var ready := _ready(archive, expected_revision)
 	return _finish(archive.duplicate(true)) if ready.ok else ready
+
+
+static func append_unmapped(archive: Dictionary, payload: Dictionary, context: Dictionary, expected_revision: int) -> Dictionary:
+	# Transitional producer bridge, not legacy migration or authored-content coverage.
+	var ready := _ready(archive, expected_revision)
+	if not ready.ok: return ready
+	if not _uid(context.get("presentation_token")): return _error("NB_UNMAPPED_CONTEXT")
+	for entry in archive.entries:
+		if entry.record_class == "unmapped" and entry.snapshot_context.presentation_token == context.presentation_token:
+			var previous: Dictionary = entry.legacy_payload.duplicate(true)
+			previous.erase("sequence")
+			if previous != payload or entry.snapshot_context != context: return _error("NB_PRESENTATION_CONFLICT")
+			return {"ok": true, "archive": archive.duplicate(true), "entry_uid": entry.entry_uid, "changed": false, "pruned_uids": []}
+	var candidate := archive.duplicate(true)
+	var raw := payload.duplicate(true)
+	raw.sequence = int(candidate.next_sequence)
+	var entry := {"entry_uid": new_uid(), "source_origin_id": archive.source_origin_id, "sequence": raw.sequence, "record_class": "unmapped", "chapter_id": CONTEXT.normalize_chapter(payload.get("chapter_id")), "legacy_payload": raw, "snapshot_context": context.duplicate(true), "protection_reasons": []}
+	candidate.entries.append(entry)
+	candidate.next_sequence = int(candidate.next_sequence) + 1
+	var result := _finish(candidate)
+	result["entry_uid"] = entry.entry_uid
+	return result
+
+
+static func display_payload(entry: Dictionary) -> Dictionary:
+	if entry.get("record_class") in ["legacy", "unmapped"]:
+		return entry.legacy_payload.duplicate(true)
+	return entry.duplicate(true)
 
 
 static func _finish(candidate: Dictionary) -> Dictionary:
@@ -224,19 +261,25 @@ static func _validate_observation(value: Variant) -> Dictionary:
 
 
 static func _resolve_in(index: Dictionary, value: Variant) -> Dictionary:
-	if not value is Dictionary or not _keys(value, ["kind", "source_origin_id", "uid", "content_version", "segment_id"]): return _error("NB_REFERENCE_FIELDS")
-	if not _uid(value.uid) or not _uid(value.source_origin_id) or not value.kind is String or not value.segment_id is String or not _integer(value.content_version): return _error("NB_REFERENCE_FIELDS")
+	if not _reference_shape(value): return _error("NB_REFERENCE_FIELDS")
 	if not index.has(value.uid): return _error("NB_REFERENCE_UNAVAILABLE")
 	var entry: Dictionary = index[value.uid]
 	if entry.source_origin_id != value.source_origin_id: return _error("NB_REFERENCE_ORIGIN")
-	if entry.record_class == "legacy":
-		if value.kind != "legacy" or int(value.content_version) != 0 or value.segment_id != "legacy": return _error("NB_REFERENCE_SEGMENT")
+	if entry.record_class in ["legacy", "unmapped"]:
+		if value.kind != entry.record_class or int(value.content_version) != 0 or value.segment_id != "legacy": return _error("NB_REFERENCE_SEGMENT")
 		return {"ok": true, "entry": entry.duplicate(true), "legacy": true}
 	var observation: Dictionary = entry.observation
 	if observation.entry_kind != value.kind or int(observation.content_version) != int(value.content_version): return _error("NB_REFERENCE_VERSION")
 	for segment in observation.segments:
 		if segment.segment_id == value.segment_id: return {"ok": true, "entry": entry.duplicate(true), "segment": segment.duplicate(true), "legacy": false}
 	return _error("NB_REFERENCE_SEGMENT")
+
+
+static func _reference_shape(value: Variant) -> bool:
+	if not value is Dictionary or not _keys(value, ["kind", "source_origin_id", "uid", "content_version", "segment_id"]): return false
+	if not _uid(value.uid) or not _uid(value.source_origin_id) or not value.kind is String or not value.segment_id is String or not _integer(value.content_version): return false
+	if value.kind in ["legacy", "unmapped"]: return int(value.content_version) == 0 and value.segment_id == "legacy"
+	return value.kind in KINDS and int(value.content_version) > 0 and not value.segment_id.is_empty()
 
 
 static func _ready(archive: Dictionary, revision: int) -> Dictionary:

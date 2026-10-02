@@ -4,7 +4,10 @@ signal save_completed(slot_id: StringName, save_point_id: StringName)
 signal save_failed(slot_id: StringName, error_ids: PackedStringArray)
 signal load_recovered(slot_id: StringName, source: StringName)
 
-const SCHEMA_VERSION := 1
+const SCHEMA_VERSION := 2
+const NOTEBOOK_MIGRATION := preload("res://scripts/systems/notebook_migration.gd")
+const NOTEBOOK_ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
+const NOTEBOOK_ROLLOUT := preload("res://scripts/systems/notebook_rollout.gd")
 const DESIGN_REVISION := "v0.4-state-r12"
 const GAME_VERSION := "0.0.0-dev"
 const BUILD_ID := "local-dev"
@@ -51,7 +54,7 @@ func inspect_slot(slot_id: String) -> Dictionary:
 	var source := "main"
 	if not bool(result.get("ok", false)) and result.get("error_id", &"") != &"ERR_SAVE_FUTURE_SCHEMA":
 		var backup := _read_and_validate(paths["backup"])
-		if bool(backup.get("ok", false)):
+		if bool(backup.get("ok", false)) or backup.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA":
 			result = backup
 			source = "backup"
 	if not bool(result.get("ok", false)):
@@ -71,6 +74,7 @@ func inspect_slot(slot_id: String) -> Dictionary:
 		"source": source,
 		"updated_at_utc": int(header.get("updated_at_utc", 0)),
 		"save_point_id": String(header.get("save_point_id", "")),
+		"run_id": String(header.get("run_id", "")),
 		"day_index": int(loop_state.get("day_index", 0)),
 		"location_id": String(loop_state.get("location_id", "")),
 		"journal_stage": int(meta_progress.get("journal_stage", 0)),
@@ -107,12 +111,23 @@ func save_snapshot(
 	var paths := _slot_paths(slot_id)
 	var now := int(Time.get_unix_time_from_system())
 	var previous := _read_and_validate(paths["main"])
+	if previous.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
+	var previous_backup := _read_and_validate(paths.backup)
+	if previous_backup.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
+	var prepared := NOTEBOOK_MIGRATION.adapt_verified(snapshot, JSON.stringify(_canonicalize(snapshot)).sha256_text(), NOTEBOOK_ROLLOUT.enabled())
+	if not prepared.get("ok", false): return _save_failure(slot_id, &"ERR_SAVE_SNAPSHOT_INVALID")
+	snapshot = prepared.snapshot
+	var write_schema := SCHEMA_VERSION if snapshot.meta_progress.dialogue_history.has("schema_version") else 1
+	if write_schema == SCHEMA_VERSION:
+		for source in [previous, previous_backup]:
+			var preserved := _preserve_legacy_source(source)
+			if not preserved.ok: return _save_failure(slot_id, preserved.error_id)
 	var run_id: String = previous.get("header", {}).get("run_id", "") if previous.get("ok", false) else ""
 	if run_id.is_empty() or transaction_id.begins_with("NEW_GAME_"):
 		run_id = Crypto.new().generate_random_bytes(16).hex_encode()
 	var header := {
 		"run_id": run_id,
-		"schema_version": SCHEMA_VERSION,
+		"schema_version": write_schema,
 		"design_revision": DESIGN_REVISION,
 		"game_version": GAME_VERSION,
 		"build_id": BUILD_ID,
@@ -186,13 +201,19 @@ func load_slot(slot_id: String) -> Dictionary:
 	var paths := _slot_paths(slot_id)
 	var primary := _read_and_validate(paths["main"])
 	if bool(primary.get("ok", false)):
+		primary = _promote_legacy(slot_id, primary)
+		if not primary.get("ok", false): return primary
 		primary["source"] = "main"
 		return primary
 	if primary.get("error_id", &"") == &"ERR_SAVE_FUTURE_SCHEMA":
 		return primary
 
 	var backup := _read_and_validate(paths["backup"])
+	if backup.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return backup
 	if bool(backup.get("ok", false)):
+		if NOTEBOOK_ROLLOUT.enabled():
+			var preserved := _preserve_legacy_source(backup)
+			if not preserved.ok: return preserved
 		_remove_if_exists(paths["main"])
 		var recovery_error := DirAccess.copy_absolute(
 			ProjectSettings.globalize_path(paths["backup"]),
@@ -200,10 +221,27 @@ func load_slot(slot_id: String) -> Dictionary:
 		)
 		if recovery_error != OK:
 			return _load_failure(&"ERR_SAVE_RECOVERY_COPY")
+		backup = _read_and_validate(paths.main)
+		backup = _promote_legacy(slot_id, backup)
+		if not backup.get("ok", false): return _failed_backup_recovery(paths, backup)
+		if backup.snapshot.meta_progress.dialogue_history.has("schema_version"):
+			backup.snapshot.meta_progress.dialogue_history = NOTEBOOK_ROLLOUT.fork_history(backup.snapshot.meta_progress.dialogue_history)
+			var branch_saved := save_snapshot(slot_id, String(backup.header.save_point_id), backup.snapshot, int(backup.header.state_revision), "BACKUP_RECOVERY_BRANCH")
+			if not branch_saved.ok: return _failed_backup_recovery(paths, branch_saved)
+			backup = _read_and_validate(paths.main)
 		backup["source"] = "backup"
 		load_recovered.emit(StringName(slot_id), &"backup")
 		return backup
 	return primary
+
+
+func _failed_backup_recovery(paths: Dictionary, failure: Dictionary) -> Dictionary:
+	# Keep the next load on the recovery path until a distinct branch is durable.
+	var main := _read_and_validate(paths.main)
+	var backup := _read_and_validate(paths.backup)
+	if main.get("ok", false) and backup.get("ok", false) and main.snapshot == backup.snapshot:
+		_remove_if_exists(paths.main)
+	return failure
 
 
 func inspect_demo_import(slot_id: String) -> Dictionary:
@@ -237,6 +275,7 @@ func import_demo_to_new_slot(source_slot_id: String) -> Dictionary:
 				break
 	if target.is_empty() or DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(get_save_root().path_join(target))): return _load_failure(&"ERR_IMPORT_NO_EMPTY_SLOT")
 	var state: Dictionary = source["snapshot"].duplicate(true)
+	state.meta_progress.dialogue_history = NOTEBOOK_ROLLOUT.fork_history(state.meta_progress.dialogue_history)
 	state["meta_progress"]["knowledge_entries"]["demo_import_source"] = {"slot_id":source_slot_id,"checksum":source["header"]["checksum"]}
 	var result := save_snapshot(target, "SAVE_FRACTURE_CONFIRMED", state, int(source["header"]["state_revision"]), "DEMO_IMPORT")
 	if result.get("ok", false): result["slot_id"] = target
@@ -299,6 +338,7 @@ func create_f3_reselect_slot(source_slot_id: String) -> Dictionary:
 	var loaded := load_f3_reselect(source_slot_id)
 	if not loaded.get("ok", false): return loaded
 	var snapshot: Dictionary = loaded["snapshot"].duplicate(true)
+	snapshot.meta_progress.dialogue_history = NOTEBOOK_ROLLOUT.fork_history(snapshot.meta_progress.dialogue_history)
 	snapshot["ending_run"]["reselect_used"] = true
 	snapshot["meta_progress"]["knowledge_entries"]["reselect_source_slot_id"] = source_slot_id
 	snapshot["meta_progress"]["knowledge_entries"]["reselect_source_run_id"] = loaded["header"].get("run_id", "")
@@ -354,6 +394,10 @@ func delete_test_slot(slot_id: String) -> void:
 	_remove_if_exists(paths["backup"])
 	_remove_if_exists(paths["temporary"])
 	var absolute_dir := ProjectSettings.globalize_path("%s/%s" % [get_save_root(), slot_id])
+	if not DirAccess.dir_exists_absolute(absolute_dir): return
+	for filename in DirAccess.get_files_at(absolute_dir):
+		if filename.begins_with("pre_notebook_") and filename.ends_with(".json"):
+			_remove_if_exists(absolute_dir.path_join(filename))
 	DirAccess.remove_absolute(absolute_dir)
 
 
@@ -376,10 +420,13 @@ func _read_and_validate(path: String) -> Dictionary:
 		return _load_failure(&"ERR_SAVE_HEADER_MISSING")
 	if not payload.has("state") or not payload["state"] is Dictionary:
 		return _load_failure(&"ERR_SAVE_STATE_MISSING")
-	var schema_version := int(payload["save_header"].get("schema_version", -1))
+	var schema_value: Variant = payload["save_header"].get("schema_version")
+	if not (schema_value is int or schema_value is float) or not is_finite(float(schema_value)) or float(schema_value) != floor(float(schema_value)):
+		return _load_failure(&"ERR_SAVE_SCHEMA_UNSUPPORTED")
+	var schema_version := int(schema_value)
 	if schema_version > SCHEMA_VERSION:
 		return _load_failure(&"ERR_SAVE_FUTURE_SCHEMA")
-	if schema_version != SCHEMA_VERSION:
+	if schema_version not in [1, SCHEMA_VERSION]:
 		return _load_failure(&"ERR_SAVE_SCHEMA_UNSUPPORTED")
 	if String(payload["save_header"].get("design_revision", "")) != DESIGN_REVISION:
 		return _load_failure(&"ERR_SAVE_DESIGN_REVISION")
@@ -393,11 +440,55 @@ func _read_and_validate(path: String) -> Dictionary:
 	var unsigned_text := raw_text.replace(signed_token, unsigned_token)
 	if stored_checksum != _checksum_text(unsigned_text):
 		return _load_failure(&"ERR_SAVE_CHECKSUM")
+	if schema_version == SCHEMA_VERSION:
+		if not payload.state.get("meta_progress") is Dictionary or not payload.state.meta_progress.get("dialogue_history") is Dictionary:
+			return _load_failure(&"ERR_SAVE_NOTEBOOK_SCHEMA")
+		var notebook_version: Variant = payload.state.meta_progress.dialogue_history.get("schema_version")
+		if not (notebook_version is int or notebook_version is float):
+			return _load_failure(&"ERR_SAVE_NOTEBOOK_SCHEMA")
+		if notebook_version > NOTEBOOK_ARCHIVE.VERSION:
+			return _load_failure(&"ERR_SAVE_FUTURE_SCHEMA")
+		if notebook_version != NOTEBOOK_ARCHIVE.VERSION:
+			return _load_failure(&"ERR_SAVE_NOTEBOOK_SCHEMA")
+	var adapted := NOTEBOOK_MIGRATION.adapt_verified(payload.state, stored_checksum, NOTEBOOK_ROLLOUT.enabled())
+	if not adapted.get("ok", false): return _load_failure(&"ERR_SAVE_NOTEBOOK_MIGRATION")
 	return {
 		"ok": true,
 		"header": payload["save_header"],
-		"snapshot": payload["state"],
+		"snapshot": adapted.snapshot,
+		"source_path": path,
+		"source_schema_version": schema_version,
 	}
+
+
+func _preserve_legacy_source(source: Dictionary) -> Dictionary:
+	if source.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return source
+	if not source.get("ok", false) or source.get("source_schema_version") != 1: return {"ok": true}
+	var path: String = source.source_path
+	var checksum: String = source.header.checksum
+	var target := path.get_base_dir().path_join("pre_notebook_" + checksum + ".json")
+	if FileAccess.file_exists(target):
+		return {"ok": true} if FileAccess.get_file_as_bytes(target) == FileAccess.get_file_as_bytes(path) else _load_failure(&"ERR_SAVE_MIGRATION_BACKUP_COLLISION")
+	if DirAccess.copy_absolute(ProjectSettings.globalize_path(path), ProjectSettings.globalize_path(target)) != OK:
+		return _load_failure(&"ERR_SAVE_MIGRATION_BACKUP")
+	if FileAccess.get_file_as_bytes(target) != FileAccess.get_file_as_bytes(path): return _load_failure(&"ERR_SAVE_MIGRATION_BACKUP_VERIFY")
+	return {"ok": true}
+
+
+func confirm_snapshot_commit(slot_id: String, transaction_id: String) -> Dictionary:
+	if not _is_safe_slot_id(slot_id): return _load_failure(&"ERR_SAVE_SLOT_ID")
+	var saved := _read_and_validate(_slot_paths(slot_id).main)
+	if not saved.get("ok", false): return saved
+	if saved.header.get("transaction_id") != transaction_id: return _load_failure(&"ERR_SAVE_TRANSACTION_UNCONFIRMED")
+	return saved
+
+
+func _promote_legacy(slot_id: String, loaded: Dictionary) -> Dictionary:
+	if not NOTEBOOK_ROLLOUT.enabled(): return loaded
+	if not loaded.get("ok", false) or loaded.get("source_schema_version") != 1: return loaded
+	var saved := save_snapshot(slot_id, String(loaded.header.save_point_id), loaded.snapshot, int(loaded.header.state_revision), "NOTEBOOK_MIGRATION")
+	if not saved.ok: return saved
+	return _read_and_validate(_slot_paths(slot_id).main)
 
 
 func _checksum_text(text: String) -> String:

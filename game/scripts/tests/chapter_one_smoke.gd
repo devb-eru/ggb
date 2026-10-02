@@ -1,5 +1,9 @@
 extends RefCounted
 
+
+func _history_payload(entry: Dictionary) -> Dictionary:
+	return preload("res://scripts/systems/notebook_archive.gd").display_payload(entry)
+
 const SESSION := preload("res://scripts/systems/chapter_one_session.gd")
 const CLOCK := preload("res://data/puzzles/puzzle_clock_network.tres")
 const VIEW := preload("res://scripts/chapters/chapter_one_controller.gd")
@@ -501,7 +505,7 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	var after_failed_choice := GameState.get_snapshot()
 	_expect(not view.session.local_state()["routine_done"] and after_failed_choice["loop_state"]["time_block"] == "morning", "failed choice commit rolls back routine and time")
 	var attempted_history: Array = after_failed_choice["meta_progress"]["dialogue_history"]["entries"]
-	_expect(attempted_history.back()["variables"]["text"] == "Attempt routine", "failed gameplay commit retains actual click record")
+	_expect(_history_payload(attempted_history.back())["variables"]["text"] == "Attempt routine", "failed gameplay commit retains actual click record")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "failed choice commit reload")
 	_expect(not view.session.local_state()["routine_done"], "reload does not turn recorded click into completed action")
 	view.session._save = staged_failure.delegate

@@ -6,6 +6,7 @@ signal state_rolled_back(transaction_id: StringName, revision: int, reason_id: S
 const DESIGN_REVISION := "v0.4-state-r12"
 
 var revision := 0
+var load_epoch := 0
 var _state: Dictionary = {}
 
 
@@ -41,6 +42,8 @@ func commit_validated_snapshot(
 		return -1
 	_state = next_state.duplicate(true)
 	revision += 1
+	if String(transaction_id).begins_with("LOAD_") or String(transaction_id).begins_with("NEW_GAME_"):
+		load_epoch += 1
 	state_committed.emit(transaction_id, revision, changed_paths)
 	return revision
 
@@ -65,6 +68,7 @@ func reset_for_test() -> void:
 		return
 	_state = _make_default_state()
 	revision = 0
+	load_epoch += 1
 
 
 func _make_default_state() -> Dictionary:
@@ -75,7 +79,7 @@ func _make_default_state() -> Dictionary:
 			"knowledge_entries": {},
 			"failure_knowledge": {},
 			"event_history": {},
-			"dialogue_history": {"next_sequence": 0, "entries": []},
+			"dialogue_history": preload("res://scripts/systems/notebook_rollout.gd").new_history(),
 			"servants": {
 				"edgar": _make_servant_state(),
 				"mara1": _make_servant_state(),

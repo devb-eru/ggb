@@ -176,7 +176,13 @@ func _test_load_install_and_recovery(errors: PackedStringArray) -> void:
 	var recovered := coordinator.load_and_install(LOAD_RECOVERY_SLOT)
 	_expect(bool(recovered.get("ok", false)), "backup snapshot was not installed", errors)
 	_expect(bool(recovered.get("recovered", false)), "backup recovery source was not surfaced", errors)
-	_expect(_equivalent(GameState.get_snapshot(), backup_snapshot), "installed backup snapshot differs", errors)
+	var expected_backup := backup_snapshot.duplicate(true)
+	var recovered_archive: Dictionary = GameState.get_value(&"meta_progress.dialogue_history")
+	if recovered_archive.has("schema_version"):
+		_expect(recovered_archive.branch_id != backup_snapshot.meta_progress.dialogue_history.branch_id, "installed backup has a new notebook branch", errors)
+		expected_backup.meta_progress.dialogue_history.branch_id = recovered_archive.branch_id
+		expected_backup.meta_progress.dialogue_history.revision += 1
+	_expect(_equivalent(GameState.get_snapshot(), expected_backup), "installed backup preserves all other snapshot fields", errors)
 
 	_write_future_schema(LOAD_SLOT)
 	var before_future := GameState.get_snapshot()
@@ -290,7 +296,8 @@ func _test_dialogue_repository(errors: PackedStringArray) -> void:
 	var rendered_en := repository.render_history(loaded_history, "en-US")
 	for invalid_variables in [{"count": "two"}, {"count": 2, "extra": true}, {}, [], null]:
 		var malformed := loaded_history.duplicate(true)
-		malformed["entries"][0]["variables"] = invalid_variables
+		var payload: Dictionary = malformed.entries[0].get("legacy_payload", malformed.entries[0])
+		payload.variables = invalid_variables
 		var rejected := repository.render_history(malformed, "en-US")
 		_expect(not rejected["ok"] and "ERR_DIALOGUE_HISTORY_VARIABLES" in rejected["error_ids"] and rejected["entries"].is_empty(), "invalid history variables must not render as successful text", errors)
 	for invalid_sequence in [-1, "0", 0.5, null]:

@@ -133,6 +133,9 @@ Assert-GodotValidation -Result $historyResult -Name "Dialogue history" -Required
 $archiveResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--script", "res://scripts/tests/notebook_archive_smoke.gd", "--quit-after", "1800")
 Assert-GodotValidation -Result $archiveResult -Name "Notebook archive candidates" -RequiredMarker "NOTEBOOK_ARCHIVE_SMOKE: PASS"
 
+$migrationResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-migration-smoke")
+Assert-GodotValidation -Result $migrationResult -Name "Notebook save migration and metadata commands" -RequiredMarker "NOTEBOOK_MIGRATION_SMOKE: PASS"
+
 $blackMirrorResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--black-mirror-smoke")
 Assert-GodotValidation -Result $blackMirrorResult -Name "Black mirror chapter smoke" -RequiredMarker "BLACK_MIRROR_SMOKE: PASS"
 Write-Host "Black mirror mixture, irreversible trace, reset, capture, and J3 validation passed."

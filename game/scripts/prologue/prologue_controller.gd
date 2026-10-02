@@ -1818,6 +1818,9 @@ func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 	_audio_dialogue_index = -1
 	_hide_dialogue_choices()
 	_dialogue_lines = lines.duplicate(true)
+	for line in _dialogue_lines:
+		if not line.has("presentation_token"):
+			line.presentation_token = preload("res://scripts/systems/notebook_archive.gd").new_uid()
 	_dialogue_index = 0
 	_dialogue_after = after
 	_dialogue_active = not _dialogue_lines.is_empty()
@@ -1882,16 +1885,16 @@ func _uses_prologue_history() -> bool:
 func _record_prologue_history() -> bool:
 	if not _uses_prologue_history() or not _dialogue_active or _prologue_history_index == _dialogue_index:
 		return true
-	if not _record_prologue_text(_speaker_label.text, _dialogue_label.text):
+	if not _record_prologue_text(_speaker_label.text, _dialogue_label.text, {"presentation_token": _dialogue_lines[_dialogue_index].presentation_token}):
 		return false
 	_prologue_history_index = _dialogue_index
 	return true
 
 
-func _record_prologue_text(speaker: String, text: String) -> bool:
+func _record_prologue_text(speaker: String, text: String, context: Dictionary = {}) -> bool:
 	var slot := SaveManager.inspect_slot(_slot_id)
 	var point := String(slot.get("save_point_id", "SAVE_NEW_GAME"))
-	var result := preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState, SaveManager, _slot_id, point, speaker, text, TranslationServer.get_locale(), "PROLOGUE")
+	var result := preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState, SaveManager, _slot_id, point, speaker, text, TranslationServer.get_locale(), "PROLOGUE", [], context)
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false

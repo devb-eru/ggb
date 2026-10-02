@@ -76,7 +76,9 @@ func render_history(history_value: Variant, locale: String) -> Dictionary:
 		if not history_entry_value is Dictionary:
 			errors.append("ERR_DIALOGUE_HISTORY_ENTRY_TYPE")
 			continue
-		var history_entry: Dictionary = history_entry_value
+		var history_entry: Dictionary = preload("res://scripts/systems/notebook_archive.gd").display_payload(history_entry_value)
+		if history_entry_value.has("record_class"):
+			history_entry["sequence"] = history_entry_value.get("sequence")
 		if typeof(history_entry.get("sequence")) != TYPE_INT or int(history_entry["sequence"]) <= previous_sequence:
 			errors.append("ERR_DIALOGUE_HISTORY_SEQUENCE")
 			continue

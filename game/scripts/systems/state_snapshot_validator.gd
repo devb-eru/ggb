@@ -52,12 +52,24 @@ func normalize(snapshot: Dictionary) -> Dictionary:
 			meta["journal_stage"] = int(meta["journal_stage"])
 		if meta.get("dialogue_history") is Dictionary:
 			var history: Dictionary = meta["dialogue_history"]
-			if history.has("next_sequence"):
-				history["next_sequence"] = int(history["next_sequence"])
+			for field in ["schema_version", "revision", "next_sequence"]:
+				if history.get(field) is float and is_finite(history[field]) and history[field] == floor(history[field]):
+					history[field] = int(history[field])
+			for collection in ["bookmarks", "comparison"]:
+				if history.get(collection) is Array:
+					for reference in history[collection]:
+						_normalize_notebook_reference(reference)
+			if history.get("source_links") is Array:
+				for link in history.source_links:
+					if link is Dictionary: _normalize_notebook_reference(link.get("target"))
 			if history.get("entries") is Array:
 				for entry_value in history["entries"]:
-					if entry_value is Dictionary and entry_value.has("sequence"):
-						entry_value["sequence"] = int(entry_value["sequence"])
+					if entry_value is Dictionary and entry_value.get("observation") is Dictionary:
+						_normalize_notebook_reference(entry_value.observation)
+					if entry_value is Dictionary:
+						_normalize_notebook_sequence(entry_value)
+						if entry_value.get("legacy_payload") is Dictionary:
+							_normalize_notebook_sequence(entry_value.legacy_payload)
 		if meta.get("servants") is Dictionary:
 			for servant_value in meta["servants"].values():
 				if servant_value is Dictionary:
@@ -68,6 +80,17 @@ func normalize(snapshot: Dictionary) -> Dictionary:
 	if normalized.get("loop_state") is Dictionary and normalized["loop_state"].has("day_index"):
 		normalized["loop_state"]["day_index"] = int(normalized["loop_state"]["day_index"])
 	return normalized
+
+
+func _normalize_notebook_reference(value: Variant) -> void:
+	if value is Dictionary and value.get("content_version") is float:
+		if is_finite(value.content_version) and value.content_version == floor(value.content_version):
+			value.content_version = int(value.content_version)
+
+
+func _normalize_notebook_sequence(value: Dictionary) -> void:
+	if value.get("sequence") is float and is_finite(value.sequence) and value.sequence == floor(value.sequence):
+		value.sequence = int(value.sequence)
 
 
 func _validate_meta_progress(value: Variant, errors: PackedStringArray) -> void:
@@ -103,6 +126,17 @@ func _validate_dialogue_history(value: Variant, errors: PackedStringArray) -> vo
 	if not _require_dictionary(value, "DIALOGUE_HISTORY", errors):
 		return
 	var history: Dictionary = value
+	if history.has("schema_version"):
+		var archive_check := preload("res://scripts/systems/notebook_archive.gd").validate(history)
+		if not archive_check.ok:
+			errors.append(String(archive_check.get("error_id", "NB_ARCHIVE_INVALID")))
+			return
+		var original_entries: Array = []
+		for entry in history.entries:
+			if entry.record_class in ["legacy", "unmapped"]:
+				original_entries.append(entry.legacy_payload)
+		_validate_dialogue_history({"next_sequence": history.next_sequence, "entries": original_entries}, errors)
+		return
 	_validate_exact_keys(history, ["next_sequence", "entries"], "DIALOGUE_HISTORY", errors)
 	if not _require_type(history.get("next_sequence"), TYPE_INT, "DIALOGUE_NEXT_SEQUENCE", errors):
 		return
@@ -122,6 +156,7 @@ func _validate_dialogue_history(value: Variant, errors: PackedStringArray) -> vo
 			if not entry.has(field):
 				errors.append("ERR_SNAPSHOT_DIALOGUE_ENTRY_FIELD")
 		if not entry.has("sequence") or typeof(entry["sequence"]) != TYPE_INT:
+			errors.append("ERR_SNAPSHOT_DIALOGUE_SEQUENCE")
 			continue
 		var sequence := int(entry["sequence"])
 		if sequence < 0 or sequences.has(sequence):

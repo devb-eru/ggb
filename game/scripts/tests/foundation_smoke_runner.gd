@@ -57,6 +57,9 @@ func run() -> Dictionary:
 	var loaded := SaveManager.load_slot(TEST_SLOT)
 	_expect(bool(loaded.get("ok", false)), "saved snapshot did not reload", errors)
 	_expect(_equivalent(loaded.get("snapshot", {}), first_snapshot), "reloaded snapshot differs", errors)
+	var archive_enabled := preload("res://scripts/systems/notebook_rollout.gd").enabled()
+	_expect(loaded.header.schema_version == (2 if archive_enabled else 1), "only opt-in verification upgrades the save envelope", errors)
+	_expect(first_snapshot.meta_progress.dialogue_history.has("schema_version") == archive_enabled, "normal execution preserves legacy writer until producer acceptance", errors)
 
 	var second_write := writer.commit_atomic(
 		[{"state_path": "meta_progress.journal_stage", "operation": "set", "value": 2}],
@@ -76,7 +79,13 @@ func run() -> Dictionary:
 	var recovered := SaveManager.load_slot(TEST_SLOT)
 	_expect(bool(recovered.get("ok", false)), "corrupt primary did not recover", errors)
 	_expect(String(recovered.get("source", "")) == "backup", "recovery source was not backup", errors)
-	_expect(_equivalent(recovered.get("snapshot", {}), first_snapshot), "backup recovery snapshot differs", errors)
+	var expected_backup := first_snapshot.duplicate(true)
+	var recovered_archive: Dictionary = recovered.snapshot.meta_progress.dialogue_history
+	if recovered_archive.has("schema_version"):
+		_expect(recovered_archive.branch_id != first_snapshot.meta_progress.dialogue_history.branch_id, "backup recovery creates a distinct notebook branch", errors)
+		expected_backup.meta_progress.dialogue_history.branch_id = recovered_archive.branch_id
+		expected_backup.meta_progress.dialogue_history.revision += 1
+	_expect(_equivalent(recovered.get("snapshot", {}), expected_backup), "backup recovery changes only archive branch and revision", errors)
 
 	_write_future_schema(TEST_SLOT)
 	var future_result := SaveManager.load_slot(TEST_SLOT)

@@ -59,6 +59,9 @@ func _read_path(path: String, id: String) -> Dictionary:
 	if parser.parse(payload) != OK or not parser.data is Dictionary: return {"ok":false,"error":"gallery_state"}
 	var state := StateSnapshotValidator.new().normalize(parser.data)
 	if not _completed(state): return {"ok":false,"error":"gallery_incomplete"}
+	var adapted := preload("res://scripts/systems/notebook_migration.gd").adapt_verified(state, id, preload("res://scripts/systems/notebook_rollout.gd").enabled())
+	if not adapted.ok: return {"ok":false,"error":"gallery_notebook_migration"}
+	state = adapted.snapshot
 	return {"ok":true,"id":id,"state":state,"branch":state["ending_run"]["branch_id"],"all_seen":state["ending_run"].get("all_ceremony_seen",false)}
 
 func _completed(state: Dictionary) -> bool:

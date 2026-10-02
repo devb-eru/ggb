@@ -1,5 +1,9 @@
 extends RefCounted
 
+
+func _history_payload(entry: Dictionary) -> Dictionary:
+	return preload("res://scripts/systems/notebook_archive.gd").display_payload(entry)
+
 const SESSION := preload("res://scripts/systems/basement_session.gd")
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
 const D4_REACTION := preload("res://scripts/systems/d4_reaction_selector.gd")
@@ -725,7 +729,7 @@ func _validate_full_transition() -> void:
 	var shown_text: String = view._dialogue_label.text
 	_expect(shown_text != String(SESSION.E1_OBJECTS["bed"]), "E1 sensory response renders in English")
 	var viewed_entries: Array = game.get_value("meta_progress.dialogue_history.entries", [])
-	_expect(viewed_entries.size() == history_count + 1 and viewed_entries.back()["variables"]["text"] == shown_text, "E1 actual investigation records displayed sentence")
+	_expect(viewed_entries.size() == history_count + 1 and _history_payload(viewed_entries.back())["variables"]["text"] == shown_text, "E1 actual investigation records displayed sentence")
 	view._dismiss_dialogue_for_test()
 	var before_history: Dictionary = game.get_snapshot()
 	view._open_menu()
@@ -740,7 +744,7 @@ func _validate_full_transition() -> void:
 		view.call(choice_method)
 		var displayed: Array = game.get_value("meta_progress.dialogue_history.entries", [])
 		_expect(displayed.size() == option_count + 1, "relationship choice display recorded: " + choice_method)
-		_expect(String(displayed.back()["variables"]["text"]).contains((view._modal_body.get_child(4) as Button).text), "relationship transcript includes actual option: " + choice_method)
+		_expect(String(_history_payload(displayed.back())["variables"]["text"]).contains((view._modal_body.get_child(4) as Button).text), "relationship transcript includes actual option: " + choice_method)
 		(view._modal_body.get_child(3) as Button).pressed.emit()
 		_expect(game.get_value("meta_progress.dialogue_history.entries", []).size() == option_count + 1, "relationship deferral is not recorded as selected answer")
 		_expect(game.get_snapshot()["meta_progress"]["servants"] == before_choice["meta_progress"]["servants"], "relationship deferral preserves bonds and completion")
@@ -749,7 +753,7 @@ func _validate_full_transition() -> void:
 	var selected_button := view._modal_body.get_child(4) as Button
 	selected_button.pressed.emit()
 	var selected_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
-	_expect(choice_probe["calls"] == 1 and selected_history.back()["variables"]["text"] == "Chosen answer", "recorded choice invokes original action after storing selection")
+	_expect(choice_probe["calls"] == 1 and _history_payload(selected_history.back())["variables"]["text"] == "Chosen answer", "recorded choice invokes original action after storing selection")
 	selected_button.pressed.emit()
 	_expect(choice_probe["calls"] == 1, "closed choice cannot fire stale callback")
 	var original_session: ChapterOneSession = view.session
@@ -1329,7 +1333,7 @@ func _validate_f0a(session: BasementSession) -> void:
 	_expect(view._dialogue_label.text == "Weak-signal route", "F0-A actual success feedback begins in English")
 	view._dismiss_dialogue_for_test()
 	var f0a_history: Array = game.get_value("meta_progress.dialogue_history.entries",[])
-	_expect(not f0a_history.is_empty() and f0a_history.back()["viewed_locale"].begins_with("en"), "F0-A English feedback is persisted with viewed locale")
+	_expect(not f0a_history.is_empty() and _history_payload(f0a_history.back())["viewed_locale"].begins_with("en"), "F0-A English feedback is persisted with viewed locale")
 	TranslationServer.set_locale(f0a_locale)
 	_expect(session.stage() == "F0_B", "F0-A solved moves to next stage")
 	view.queue_free()
@@ -1540,7 +1544,7 @@ func _validate_f1(session: BasementSession) -> void:
 	_expect(view._dialogue_label.text == "I am the one writing this sentence now.", "J5 actual completion feedback is English")
 	view._dismiss_dialogue_for_test()
 	var j5_history: Array = game.get_value("meta_progress.dialogue_history.entries",[])
-	_expect(not j5_history.is_empty() and j5_history.back()["viewed_locale"].begins_with("en"), "J5 English completion is persisted with viewed locale")
+	_expect(not j5_history.is_empty() and _history_payload(j5_history.back())["viewed_locale"].begins_with("en"), "J5 English completion is persisted with viewed locale")
 	TranslationServer.set_locale(previous_locale)
 	view.queue_free()
 	await tree.process_frame
@@ -1590,7 +1594,7 @@ func _validate_f2(session: BasementSession) -> void:
 	_expect(view._dialogue_label.text.begins_with("The confrontation record closes."), "F2 actual completion feedback is English")
 	view._dismiss_dialogue_for_test()
 	var f2_history: Array = game.get_value("meta_progress.dialogue_history.entries",[])
-	_expect(not f2_history.is_empty() and f2_history.back()["viewed_locale"].begins_with("en"), "F2 English completion is persisted with viewed locale")
+	_expect(not f2_history.is_empty() and _history_payload(f2_history.back())["viewed_locale"].begins_with("en"), "F2 English completion is persisted with viewed locale")
 	TranslationServer.set_locale(previous_locale)
 	view.queue_free()
 	await tree.process_frame
@@ -1645,7 +1649,7 @@ func _validate_f3(session: BasementSession) -> void:
 		_expect(view._dialogue_label.text == expected_text.split("\n")[0], "F3 inspection displays English feedback")
 		while view._dialogue_active: view._advance_dialogue()
 		var entries: Array = game.get_value("meta_progress.dialogue_history.entries", [])
-		_expect(entries.back()["variables"]["text"] == expected_text.split("\n")[-1], "F3 sensory paragraph is recorded in displayed English")
+		_expect(_history_payload(entries.back())["variables"]["text"] == expected_text.split("\n")[-1], "F3 sensory paragraph is recorded in displayed English")
 	TranslationServer.set_locale(original_locale)
 	view._render_room()
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
@@ -1771,7 +1775,7 @@ func _validate_edc(session: BasementSession) -> void:
 		(confirm_view._hotspot_layer.get_node("EDC_SUBJECT") as Button).pressed.emit()
 		var english_summary: Dictionary = game.get_value("meta_progress.dialogue_history.entries", []).back().duplicate(true)
 		for procedure in ["wake", "stay"]:
-			_expect(english_summary["variables"]["text"].contains(english_ui.summary(procedure, "en")), "EDC English summary preserves both procedures")
+			_expect(_history_payload(english_summary)["variables"]["text"].contains(english_ui.summary(procedure, "en")), "EDC English summary preserves both procedures")
 		confirm_view._modal_body.get_child(3).pressed.emit()
 		(confirm_view._hotspot_layer.get_node("EDC_" + decision.to_upper()) as Button).pressed.emit()
 		var english_confirmation: Dictionary = game.get_value("meta_progress.dialogue_history.entries", []).back().duplicate(true)
@@ -1783,7 +1787,7 @@ func _validate_edc(session: BasementSession) -> void:
 		if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("user://edc_english_200_" + decision + ".png")
-		_expect(english_confirmation["variables"]["text"].contains(english_ui.confirmation(decision, "en")), "EDC English confirmation preserves branch explanation")
+		_expect(_history_payload(english_confirmation)["variables"]["text"].contains(english_ui.confirmation(decision, "en")), "EDC English confirmation preserves branch explanation")
 		_expect((confirm_view._modal_body.get_child(3) as Button).text == english_ui.text("confirm_cancel", "en") and (confirm_view._modal_body.get_child(4) as Button).text == english_ui.text("confirm_commit", "en"), "EDC English confirmation actions remain explicit")
 		confirm_view._close_modal()
 		confirm_view._apply_reading_text_scale(prior_text_scale)
@@ -1798,7 +1802,7 @@ func _validate_edc(session: BasementSession) -> void:
 		var summary_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
 		_expect(summary_history.size() == before_summary["meta_progress"]["dialogue_history"]["entries"].size() + 1, "EDC summary is recorded when shown")
 		for procedure in ["wake", "stay"]:
-			_expect(summary_history.back()["variables"]["text"].contains(SESSION.FINAL_INSPECTION.SUMMARIES[procedure]), "EDC history preserves both procedure summaries")
+			_expect(_history_payload(summary_history.back())["variables"]["text"].contains(SESSION.FINAL_INSPECTION.SUMMARIES[procedure]), "EDC history preserves both procedure summaries")
 		confirm_view._modal_body.get_child(3).pressed.emit()
 		var after_summary: Dictionary = session.snapshot()
 		after_summary["meta_progress"]["dialogue_history"] = before_summary["meta_progress"]["dialogue_history"].duplicate(true)
@@ -1807,11 +1811,11 @@ func _validate_edc(session: BasementSession) -> void:
 		confirm_view._confirm_ending(decision)
 		await tree.process_frame
 		var preview_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
-		_expect(preview_history.size() == history_before_confirmation + 1 and preview_history.back()["variables"]["text"].contains(rules.CONFIRMATIONS[decision]), "EDC records displayed confirmation for " + decision)
+		_expect(preview_history.size() == history_before_confirmation + 1 and _history_payload(preview_history.back())["variables"]["text"].contains(rules.CONFIRMATIONS[decision]), "EDC records displayed confirmation for " + decision)
 		_expect(session.snapshot()["ending_run"]["final_decision"] == "unset", "Recording EDC preview does not commit branch")
 		confirm_view._modal_body.get_child(4).pressed.emit()
 		var committed_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
-		_expect(committed_history[history_before_confirmation + 1]["variables"]["text"] == "내 선택으로 확정한다", "EDC records confirmation click separately")
+		_expect(_history_payload(committed_history[history_before_confirmation + 1])["variables"]["text"] == "내 선택으로 확정한다", "EDC records confirmation click separately")
 		confirm_view._dismiss_dialogue_for_test()
 		confirm_view.queue_free()
 		await tree.process_frame
@@ -1982,7 +1986,7 @@ func _validate_stay_charter(session: BasementSession) -> void:
 		view._hotspot_layer.get_node("STAY_MEMORY_%d"%index).pressed.emit()
 		_expect(view._dialogue_label.text == texts.principle(index, "en"), "English memory principle displayed by actual action")
 		while view._dialogue_active: view._advance_dialogue()
-		_expect(game.get_value("meta_progress.dialogue_history.entries", []).back()["variables"]["text"] == texts.principle(index, "en"), "English principle remains in viewed history")
+		_expect(_history_payload(game.get_value("meta_progress.dialogue_history.entries", []).back())["variables"]["text"] == texts.principle(index, "en"), "English principle remains in viewed history")
 		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Stay memory partial reload")
 		_expect(session.act("stay_memory",index).get("ok",false) and rules.progress(session.snapshot())["principles"].size() == index+1,"Reloaded principles remain deduplicated")
 	view._hotspot_layer.get_node("STAY_MEMORY_FINISH").pressed.emit()
@@ -2215,7 +2219,7 @@ func _validate_reality_wake(session: BasementSession) -> void:
 		view._hotspot_layer.get_node(object).pressed.emit()
 		var expected_text: String = texts.body(object,"en")[2 if repeated else 1]
 		_expect(view._dialogue_label.text == expected_text, "Physical first and repeated observations use English")
-		_expect(game.get_value("meta_progress.dialogue_history.entries",[]).back()["variables"]["text"] == expected_text, "Read physical observation is retained in dialogue history")
+		_expect(_history_payload(game.get_value("meta_progress.dialogue_history.entries",[]).back())["variables"]["text"] == expected_text, "Read physical observation is retained in dialogue history")
 		_expect(preload("res://scripts/systems/dialogue_observed_facts.gd").has_body_repeat(session.snapshot(), object) == repeated, "Only a displayed repeat records its independent evidence")
 		while view._dialogue_active: view._advance_dialogue()
 	_expect(session.snapshot()["ending_run"]["required_interactions_seen"].size() == 2, "Repeated physical observation is deduplicated")
@@ -2305,7 +2309,7 @@ func _validate_field_notebook(session: BasementSession) -> void:
 			view._open_field_page(page, expanded)
 			var shown: String = (view._modal_body.get_child(2).get_child(0) as Label).text
 			_expect(shown == texts.page_text(before_english, page, expanded, "en"), "Actual notebook panel shows requested English reading depth")
-			_expect(game.get_value("meta_progress.dialogue_history.entries", []).back()["variables"]["text"].contains(shown), "English physical notebook text enters viewed history")
+			_expect(_history_payload(game.get_value("meta_progress.dialogue_history.entries", []).back())["variables"]["text"].contains(shown), "English physical notebook text enters viewed history")
 	view._close_modal()
 	TranslationServer.set_locale(previous_locale)
 	view._render_room()
@@ -2330,7 +2334,7 @@ func _validate_field_notebook(session: BasementSession) -> void:
 		_expect(view._modal_active,"Field page summary opens")
 		var summaries: Array = game.get_value("meta_progress.dialogue_history.entries", [])
 		_expect(summaries.size() == before_page["meta_progress"]["dialogue_history"]["entries"].size() + 1, "Opening notebook summary records one visible panel")
-		_expect(summaries.back()["variables"]["text"] == rules.PAGES[page][0] + "\n" + summary_text + "\n읽기 확인 후 닫기\n펼쳐 읽기\n" + (view._modal_body.get_child(5) as Button).text, "Summary history contains displayed text and navigation only")
+		_expect(_history_payload(summaries.back())["variables"]["text"] == rules.PAGES[page][0] + "\n" + summary_text + "\n읽기 확인 후 닫기\n펼쳐 읽기\n" + (view._modal_body.get_child(5) as Button).text, "Summary history contains displayed text and navigation only")
 		var after_page: Dictionary = session.snapshot()
 		after_page["meta_progress"]["dialogue_history"] = before_page["meta_progress"]["dialogue_history"].duplicate(true)
 		_expect(after_page == before_page, "Opening a page does not mark expanded or confirmed reading")
@@ -2338,7 +2342,7 @@ func _validate_field_notebook(session: BasementSession) -> void:
 		view._open_field_page(page,true)
 		var expanded_state: Dictionary = session.snapshot()
 		var expanded_entries: Array = expanded_state["meta_progress"]["dialogue_history"]["entries"]
-		_expect(expanded_entries.size() == summaries.size() + 1 and expanded_entries.back()["variables"]["text"].contains(rules.page_text(before_page, page, true)), "Only opened expanded page is appended")
+		_expect(expanded_entries.size() == summaries.size() + 1 and _history_payload(expanded_entries.back())["variables"]["text"].contains(rules.page_text(before_page, page, true)), "Only opened expanded page is appended")
 		stale_read.pressed.emit()
 		_expect(session.snapshot() == expanded_state and view._modal_active, "Replaced summary callback cannot confirm stale reading")
 		await tree.process_frame
@@ -2402,7 +2406,7 @@ func _validate_surface(session: BasementSession) -> void:
 			_expect((view._hotspot_layer.get_node("SURFACE_OBJ_"+id) as Button).text == texts.object_text(id,0,"en"), "Surface English object button")
 			view._hotspot_layer.get_node("SURFACE_OBJ_"+id).pressed.emit()
 			_expect(view._dialogue_label.text == texts.object_text(id,1,"en"), "Actual surface object displays English observation")
-			_expect(game.get_value("meta_progress.dialogue_history.entries",[]).back()["variables"]["text"] == texts.object_text(id,1,"en"), "Viewed surface observation is recorded in English")
+			_expect(_history_payload(game.get_value("meta_progress.dialogue_history.entries",[]).back())["variables"]["text"] == texts.object_text(id,1,"en"), "Viewed surface observation is recorded in English")
 			while view._dialogue_active: view._advance_dialogue()
 			_expect((view._hotspot_layer.get_node("SURFACE_OBJ_"+id) as Button).text.ends_with(texts.text("checked","en")), "Acknowledged surface observation shows checked label")
 	_expect((view._hotspot_layer.get_node("SURFACE_AIRLOCK") as Button).text == texts.text("airlock","en"), "English airlock approach action")

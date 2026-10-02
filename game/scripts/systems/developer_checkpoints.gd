@@ -45,7 +45,9 @@ func entries() -> Array[Dictionary]:
 func snapshot_for(id: String) -> Dictionary:
 	if entries().is_empty() or not _document.checkpoints.has(id):
 		return {"ok":false,"error_ids":["DEV_CHECKPOINT_UNKNOWN"]}
-	var snapshot := StateSnapshotValidator.new().normalize(_document.checkpoints[id].snapshot)
+	var adapted := preload("res://scripts/systems/notebook_migration.gd").adapt_verified(_document.checkpoints[id].snapshot, ("development:" + id + ":" + JSON.stringify(_document.checkpoints[id].snapshot, "", true)).sha256_text(), preload("res://scripts/systems/notebook_rollout.gd").enabled())
+	if not adapted.ok: return adapted
+	var snapshot: Dictionary = adapted.snapshot
 	# A fixture starts a new developer run, not the generator's ending-reselect copy.
 	snapshot.meta_progress.knowledge_entries.erase("reselect_source_slot_id")
 	snapshot.meta_progress.knowledge_entries.erase("reselect_source_run_id")
@@ -59,6 +61,7 @@ func activate(id: String, game: Node, saves: Node) -> Dictionary:
 	if not OS.is_debug_build(): return {"ok":false,"error_ids":["DEV_DISABLED"]}
 	var loaded := snapshot_for(id)
 	if not loaded.ok: return loaded
+	loaded.snapshot.meta_progress.dialogue_history = preload("res://scripts/systems/notebook_rollout.gd").fork_history(loaded.snapshot.meta_progress.dialogue_history)
 	var transaction := StringName("NEW_GAME_DEV_JUMP_%d" % (game.revision + 1))
 	var installed := StateWriter.new(game).install_snapshot(loaded.snapshot, game.revision, transaction)
 	if not installed.ok: return installed

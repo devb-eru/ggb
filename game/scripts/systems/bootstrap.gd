@@ -93,6 +93,8 @@ func _ready() -> void:
 		call_deferred("_run_application_focus_smoke")
 	elif "--dialogue-history-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_dialogue_history_smoke")
+	elif "--notebook-migration-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_migration_smoke")
 
 
 func _apply_audio_settings(settings: Dictionary) -> void:
@@ -102,6 +104,12 @@ func _apply_audio_settings(settings: Dictionary) -> void:
 func _run_dialogue_history_smoke() -> void:
 	var result: Dictionary = await preload("res://scripts/tests/dialogue_history_smoke.gd").new().run(get_tree())
 	print("DIALOGUE_HISTORY_SMOKE: " + ("PASS" if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
+
+
+func _run_notebook_migration_smoke() -> void:
+	var result: Dictionary = preload("res://scripts/tests/notebook_migration_smoke.gd").new().run()
+	print("NOTEBOOK_MIGRATION_SMOKE: " + ("PASS" if result.ok else str(result)))
 	get_tree().quit(0 if result.ok else 1)
 
 

@@ -217,6 +217,10 @@ meta_progress:
 
 현재 본편 writer는 자동 정리를 켜지 않았다. UID·보호·출처·저장 이관·원문 소비 경로가 갖춰진 뒤 위 정책을 활성화한다. 새 archive 후보 변환만 통과한 것을 실제 슬롯 이관 완료로 간주하지 않는다.
 
+개발 검증 옵션 `--ggb-dev-notebook-v2`에서는 실제 schema 1 -> 2 이관과 신형 archive 저장을 검사할 수 있다. 일반 실행은 schema 1을 유지하며 release에서는 이 옵션을 무시한다. 원본은 checksum 검증 후 `pre_notebook_<checksum>.json`으로 바이트 보존하고, 원본/백업/F3/demo/개발/갤러리의 읽기 입구를 각각 처리한다. 갤러리 원본과 hash ID는 변경하지 않는다. 미래 형식과 백업 충돌은 덮어쓰지 않는다.
+
+신형 검증 모드의 미연결 생산자는 `unmapped` 보존 래퍼이며 authored 완료로 계산하지 않는다. legacy/unmapped에는 자동 정리를 적용하지 않는다. `notebook_commands.gd`의 고정/비교 쓰기는 실제 슬롯 트랜잭션과 연결했지만 일반 수첩 UI는 아직 연결 전이다. 자료 고정은 gameplay 상태를 바꾸지 않으며, 실패·응답 소실·낡은 scope/revision을 검사한다. 전체 전환 상태는 구현 현황의 단계별 인수 결과가 기준이다.
+
 ### 7.2 초기 저장 지점
 
 | ID | 생성 조건 | 안전 재개점 |
