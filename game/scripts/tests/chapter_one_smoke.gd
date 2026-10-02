@@ -2,6 +2,10 @@ extends RefCounted
 
 
 func _history_payload(entry: Dictionary) -> Dictionary:
+	if entry.get("record_class") == "authored":
+		var text := PackedStringArray()
+		for segment in entry.observation.segments: text.append(segment.captured_text)
+		return {"variables": {"text": "\n".join(text)}, "viewed_locale": entry.observation.segments[0].viewed_locale}
 	return preload("res://scripts/systems/notebook_archive.gd").display_payload(entry)
 
 const SESSION := preload("res://scripts/systems/chapter_one_session.gd")
@@ -312,7 +316,7 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._confirm_clock()
 	_expect(view._modal_body.get_child(2).get_child(0).text.contains("preventing another attempt today"), "English irreversible failure warning")
 	view._close_modal()
-	_expect(GameState.get_snapshot() == before_translation, "clock screen translation preserves puzzle state")
+	_expect_only_history_added(before_translation, 1, "clock screen translation preserves puzzle state")
 	view._clear_hotspots()
 	var j1_ui := session.local_state().duplicate(true)
 	j1_ui["inspected"] = ["desk"]
@@ -333,7 +337,7 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	_expect(view._localized_notebook_entry("\n\n".join(SESSION.J1_FRAGMENTS)).contains("It is not the time that is wrong"), "Legacy J1 notebook translated only for display")
 	for index in range(3):
 		_expect(view._dialogue_texts.get_text("CH1_J1_FRAGMENT_%d" % index, "ko-KR") == SESSION.J1_FRAGMENTS[index], "Korean J1 fragments match canonical source")
-	_expect(GameState.get_snapshot() == before_translation, "J1 translated presentation preserves saved state")
+	_expect_only_history_added(before_translation, 1, "J1 translated presentation preserves saved state")
 	view._update_objective()
 	_expect(view._objective_label.text.contains("black mirror"), "English chapter boundary objective")
 	view._clear_hotspots()
@@ -346,7 +350,7 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._confirm_sleep()
 	_expect((view._modal_body.get_child(0) as Label).text == "Go to sleep", "English sleep confirmation title")
 	view._close_modal()
-	_expect(GameState.get_snapshot() == before_translation, "language rendering and cancelled modals preserve gameplay state")
+	_expect_only_history_added(before_translation, 3, "language rendering and dismissed modals preserve gameplay state")
 	view._open_schedule_board()
 	_expect((view._modal_body.get_child(0) as Label).text == "When the inner archive is empty", "English schedule inference title")
 	view._close_modal()
@@ -499,13 +503,15 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	var staged_failure := RejectThirdSave.new()
 	staged_failure.delegate = view.session._save
 	view.session._save = staged_failure
-	view._show_recorded_choice("Routine", "Attempt, not completion", [{"label": "Cancel", "action": view._close_modal}, {"label": "Attempt routine", "action": view._modal_act.bind("routine")}])
+	# Use an authored prompt with a deterministic failing action to test the save boundary.
+	var attempted_label := view._dialogue_ui_text("P6_SLEEP")
+	view._show_recorded_choice(view._dialogue_ui_text("CH1_SLEEP_TITLE"), view._dialogue_ui_text("CH1_SLEEP_RULE"), [{"label": view._dialogue_ui_text("P6_CANCEL"), "action": view._close_modal}, {"label": attempted_label, "action": view._modal_act.bind("routine")}], view.MODAL_NOTES.options("CH1_SLEEP"))
 	(view._modal_body.get_child(4) as Button).pressed.emit()
 	_expect(staged_failure.calls == 3, "choice records prompt and click before attempted gameplay save")
 	var after_failed_choice := GameState.get_snapshot()
 	_expect(not view.session.local_state()["routine_done"] and after_failed_choice["loop_state"]["time_block"] == "morning", "failed choice commit rolls back routine and time")
 	var attempted_history: Array = after_failed_choice["meta_progress"]["dialogue_history"]["entries"]
-	_expect(_history_payload(attempted_history.back())["variables"]["text"] == "Attempt routine", "failed gameplay commit retains actual click record")
+	_expect(_history_payload(attempted_history.back())["variables"]["text"] == attempted_label, "failed gameplay commit retains actual click record")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "failed choice commit reload")
 	_expect(not view.session.local_state()["routine_done"], "reload does not turn recorded click into completed action")
 	view.session._save = staged_failure.delegate
@@ -644,9 +650,10 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._hotspot_layer.get_node("B3_ACTIVATE").grab_focus()
 	await _press_key(tree, KEY_SPACE)
 	_expect(view._modal_active, "Space opens actual activation confirmation")
-	_expect(GameState.get_snapshot() == before_keyboard_confirm, "opening activation warning does not run clock")
+	_expect_only_history_added(before_keyboard_confirm, 1, "opening activation warning does not run clock")
 	await _press_key(tree, KEY_ESCAPE)
-	_expect(not view._modal_active and GameState.get_snapshot() == before_keyboard_confirm, "Escape cancels activation without bending pin or changing timing")
+	_expect(not view._modal_active, "Escape closes activation warning")
+	_expect_only_history_added(before_keyboard_confirm, 2, "Escape records cancel without bending pin or changing timing")
 	_expect(tree.root.gui_get_focus_owner() == view._hotspot_layer.get_node("B3_ACTIVATE"), "cancelled activation restores triggering button focus")
 	if "--capture-chapter-one" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
@@ -665,6 +672,13 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	bootstrap._on_prologue_return_to_title()
 	await tree.process_frame
 	_expect(session.stage() == "J2_COMPLETE", "return to title does not overwrite chapter state")
+
+
+func _expect_only_history_added(before: Dictionary, count: int, message: String) -> void:
+	var after := GameState.get_snapshot()
+	_expect(after.meta_progress.dialogue_history.entries.size() == before.meta_progress.dialogue_history.entries.size() + count, message + ": exact observation count")
+	after.meta_progress.dialogue_history = before.meta_progress.dialogue_history.duplicate(true)
+	_expect(after == before, message + ": all non-history state unchanged")
 
 
 func _validate_remaining_display_texts(view: ChapterOneController) -> void:

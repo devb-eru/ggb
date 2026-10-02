@@ -21,25 +21,21 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 		_feedback(result)
 		return
 	_set_status("")
-	_show_route_feedback(local, String(result.get("text", "")))
+	_show_route_feedback(local)
 
 
-func _show_route_feedback(local: Dictionary, result_text: String) -> void:
+func _show_route_feedback(local: Dictionary) -> void:
 	var locale := TranslationServer.get_locale()
 	var diagram := ROUTE_FEEDBACK.new()
 	diagram.name = "MirrorRouteFeedback"
 	var mode := String(AccessibilityProfileStore.new().load_profile().get("profile", {}).get("motion_mode", "standard"))
 	diagram.configure(local, mode)
-	var selected: Array[String] = []
-	for segment in local["path"]:
-		selected.append(MIRROR_TEXTS.segment_name(String(segment), locale))
-	var body := _display_feedback(result_text) + "\n\n"
-	body += MIRROR_TEXTS.ui("route_selected", locale) + (" → ".join(selected) if not selected.is_empty() else MIRROR_TEXTS.ui("route_empty", locale))
-	body += "\n\n" + MIRROR_TEXTS.ui("route_legend", locale)
+	var descriptor := MODAL_NOTES.route_options(local)
+	var body := MODAL_NOTES.route_body(descriptor, locale)
 	_show_recorded_choice(MIRROR_TEXTS.ui("route_title", locale), body, [
 		{"label": MIRROR_TEXTS.ui("overlay_back", locale), "action": _close_modal},
 		{"label": MIRROR_TEXTS.ui("route_replay", locale), "action": diagram.replay},
-	])
+	], descriptor)
 	_place(_modal_panel, Rect2(300, 90, 1320, 900))
 	_modal_body.add_child(diagram)
 	_modal_body.move_child(diagram, 3)
@@ -257,20 +253,20 @@ func _open_trace_overlay() -> void:
 
 func _open_patrol() -> void:
 	var locale := TranslationServer.get_locale()
-	_show_modal(MIRROR_TEXTS.ui("patrol_title", locale), MIRROR_TEXTS.ui("patrol_body", locale), [
+	_show_recorded_choice(MIRROR_TEXTS.ui("patrol_title", locale), MIRROR_TEXTS.ui("patrol_body", locale), [
 		{"label": MIRROR_TEXTS.ui("patrol_wait", locale), "action": _modal_act.bind("c_handle_patrol", "wait")},
 		{"label": MIRROR_TEXTS.ui("patrol_question", locale), "action": _modal_act.bind("c_handle_patrol", "question")},
 		{"label": MIRROR_TEXTS.ui("patrol_cloth", locale), "action": _modal_act.bind("c_handle_patrol", "cloth")},
-	])
+	], MODAL_NOTES.options("MIRROR_PATROL"))
 
 
 func _confirm_wet_trace() -> void:
 	var locale := TranslationServer.get_locale()
-	_show_modal(MIRROR_TEXTS.ui("wet_title", locale), MIRROR_TEXTS.ui("wet_body", locale), [
+	_show_recorded_choice(MIRROR_TEXTS.ui("wet_title", locale), MIRROR_TEXTS.ui("wet_body", locale), [
 		{"label": MIRROR_TEXTS.ui("wet_review", locale), "action": _close_modal},
 		{"label": MIRROR_TEXTS.ui("wet_dry", locale), "action": _modal_act.bind("c_dry", null)},
 		{"label": MIRROR_TEXTS.ui("wet_execute", locale), "action": _modal_act.bind("c_wet", true)},
-	])
+	], MODAL_NOTES.options("MIRROR_WET"))
 
 
 func _build_inner(local: Dictionary, journal: int) -> void:

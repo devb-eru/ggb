@@ -5,6 +5,9 @@ const SESSION_SCRIPT := preload("res://scripts/systems/chapter_one_session.gd")
 const HISTORY_SESSIONS := [SESSION_SCRIPT, preload("res://scripts/systems/black_mirror_session.gd")]
 const CLOCK := preload("res://data/puzzles/puzzle_clock_network.tres")
 const DISPLAY_TEXTS := preload("res://scripts/ui/chapter_one_display_texts.gd")
+const MODAL_NOTES := preload("res://scripts/systems/modal_notebook.gd")
+const NOTEBOOK_ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
+const NOTEBOOK_CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const OBJECTIVES := {"A1": "수첩에 다음 아침과 비교할 표식을 남긴다", "AS": "익숙한 일과를 마치고 침실에서 잠든다", "A2": "다음 아침의 수첩 표식을 확인한다", "B1": "사용인 공용실의 문서 두 장 이상으로 빈 시간대를 추론한다", "B2": "일과를 마치고 외부 서고를 통해 기록 내실에 접근한다", "J1": "책상의 압지 조각을 배열해 첫 페이지를 복원한다", "B3_A": "네 방의 시계 탁본을 모아 배선을 연결한다", "B3_B": "역할과 전달 시점을 설정해 시계망을 작동한다", "BF": "남은 조사 후 침실에서 잠든다 · 실패 정보는 남는다", "B4": "공명통에 남은 파형을 수첩에 기록한다", "B5": "기록 내실에서 파형과 두 번째 페이지를 겹친다", "J2_COMPLETE": "첫 장의 기록을 확인한다 · 다음은 검은 거울"}
 
 var session: ChapterOneSession
@@ -14,6 +17,7 @@ var _rendering := false
 var _world_focus := ""
 var _history_recorded_index := -1
 var _choice_modal_generation := 0
+var _recorded_modal_request: Dictionary = {}
 
 
 func _ready() -> void:
@@ -143,6 +147,7 @@ func _advance_dialogue() -> void:
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
+	_recorded_modal_request = {}
 	_choice_modal_generation += 1
 	_remember_world_focus()
 	_remember_history_scroll()
@@ -153,28 +158,54 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 
 
 func _close_modal() -> void:
+	_recorded_modal_request = {}
 	_choice_modal_generation += 1
 	super._close_modal()
 	call_deferred("_restore_world_focus")
 
 
-func _show_recorded_choice(title: String, body: String, actions: Array) -> void:
-	var context := {"generation": _choice_modal_generation + 1, "recorded": false, "text": title + "\n" + body, "history_context": session.history_context() if session != null else {}}
+func _show_recorded_choice(title: String, body: String, actions: Array, descriptor: Dictionary) -> void:
+	var row := NOTEBOOK_CONTENT.definition(descriptor.get("content_id", ""), 1)
+	if row.is_empty() or row.get("choices", []).size() != actions.size():
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		push_error("NB_MODAL_DESCRIPTOR")
+		return
+	var frozen := session.history_context() if session != null else {}
+	frozen.event_occurrence_id = NOTEBOOK_ARCHIVE.new_uid()
+	frozen.conversation_session_id = NOTEBOOK_ARCHIVE.new_uid()
+	frozen.presentation_token = NOTEBOOK_ARCHIVE.new_uid()
+	frozen.notebook_content = descriptor.duplicate(true)
+	var context := {"generation": _choice_modal_generation + 1, "recorded": false, "text": title + "\n" + body, "history_context": frozen,
+		"scope": _recorded_choice_scope(), "locale": TranslationServer.get_locale(), "row": row, "actions": actions.duplicate(true), "pending_index": -1,
+		"selection_recorded": false, "dispatching": false, "options_speaker": _dialogue_ui_text("HISTORY_OPTIONS"), "selected_speaker": _dialogue_ui_text("HISTORY_SELECTED")}
 	var wrapped: Array = []
 	for index in range(actions.size()):
 		var action: Dictionary = actions[index].duplicate()
 		var label := String(action["label"])
 		context["text"] += "\n" + label
-		action["action"] = _recorded_choice_pressed.bind(context, label, action["action"], index == 0)
+		action["action"] = _recorded_choice_pressed.bind(context, index)
 		wrapped.append(action)
 	_show_modal(title, body, wrapped)
+	_recorded_modal_request = context
 	_record_modal_options(context)
 
 
+func _recorded_choice_scope() -> Dictionary:
+	if session == null: return {}
+	var archive: Dictionary = session._game.get_value("meta_progress.dialogue_history", {})
+	return {"slot": session.slot_id, "view_slot": _slot_id, "session": session.get_instance_id(), "load_epoch": session._game.get("load_epoch"),
+		"origin": archive.get("source_origin_id", ""), "branch": archive.get("branch_id", ""), "namespace": SaveManager.get_build_flavor()}
+
+
+func _recorded_choice_live(context: Dictionary) -> bool:
+	return _modal_active and int(context.generation) == _choice_modal_generation and context.scope == _recorded_choice_scope()
+
+
 func _record_modal_options(context: Dictionary) -> bool:
+	if not _recorded_choice_live(context): return false
 	if context["recorded"] or not _history_enabled():
 		return true
-	var result := session.record_viewed_line(_dialogue_ui_text("HISTORY_OPTIONS"), String(context["text"]), TranslationServer.get_locale(), context["history_context"])
+	var result := session.record_viewed_line(context.options_speaker, String(context["text"]), context.locale, context["history_context"])
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false
@@ -182,17 +213,38 @@ func _record_modal_options(context: Dictionary) -> bool:
 	return true
 
 
-func _recorded_choice_pressed(context: Dictionary, label: String, action: Callable, cancel: bool) -> void:
-	if not _modal_active or int(context["generation"]) != _choice_modal_generation:
+func _recorded_choice_pressed(context: Dictionary, index: int) -> void:
+	if not _recorded_choice_live(context) or context.dispatching or index not in range(context.actions.size()):
 		return
 	if not _record_modal_options(context):
 		return
-	if not cancel and _history_enabled():
-		var result := session.record_viewed_line(_dialogue_ui_text("HISTORY_SELECTED"), label, TranslationServer.get_locale(), context["history_context"])
+	var choice: Dictionary = context.row.choices[index]
+	if context.pending_index != index:
+		context.pending_index = index
+		context.selection_recorded = false
+		context.selection_token = NOTEBOOK_ARCHIVE.new_uid()
+	if choice.kind != "ui" and _history_enabled() and not context.selection_recorded:
+		var selected: Dictionary = context.history_context.duplicate(true)
+		selected.presentation_token = context.selection_token
+		selected.notebook_content = NOTEBOOK_CONTENT.descriptor(choice.content_id, 1, {"body": {}})
+		var result := session.record_viewed_line(context.selected_speaker, context.actions[index].label, context.locale, selected)
 		if not result.get("ok", false):
 			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 			return
-	action.call()
+		context.selection_recorded = true
+	context.dispatching = true
+	context.actions[index].action.call()
+	context.dispatching = false
+
+
+func _cancel_prologue_modal() -> void:
+	if not _recorded_modal_request.is_empty() and not _recorded_choice_live(_recorded_modal_request):
+		_close_modal()
+		return
+	if not _recorded_modal_request.is_empty() and int(_recorded_modal_request.row.cancel_index) >= 0:
+		_recorded_choice_pressed(_recorded_modal_request, int(_recorded_modal_request.row.cancel_index))
+	else:
+		super._cancel_prologue_modal()
 
 
 func _update_objective() -> void:
@@ -344,15 +396,15 @@ func _open_mark_choices() -> void:
 	var actions: Array = []
 	for id in SESSION_SCRIPT.MARKS:
 		actions.append({"label": _dialogue_ui_text("CH1_MARK_" + String(id).to_upper()), "action": _modal_act.bind("mark", id)})
-	_show_modal(_dialogue_ui_text("CH1_MARK_TITLE"), _dialogue_ui_text("CH1_MARK_PROMPT"), actions)
+	_show_recorded_choice(_dialogue_ui_text("CH1_MARK_TITLE"), _dialogue_ui_text("CH1_MARK_PROMPT"), actions, MODAL_NOTES.options("CH1_MARK"))
 
 
 func _open_schedule_board() -> void:
-	_show_modal(_dialogue_ui_text("CH1_B1_TITLE"), _dialogue_ui_text("CH1_B1_PROMPT"), [
+	_show_recorded_choice(_dialogue_ui_text("CH1_B1_TITLE"), _dialogue_ui_text("CH1_B1_PROMPT"), [
 		{"label": _dialogue_ui_text("CH1_B1_MORNING"), "action": _modal_act.bind("schedule_window", "morning")},
 		{"label": _dialogue_ui_text("CH1_B1_TEA"), "action": _modal_act.bind("schedule_window", "after_tea_before_bell")},
 		{"label": _dialogue_ui_text("CH1_B1_BELL"), "action": _modal_act.bind("schedule_window", "after_bell")},
-	])
+	], MODAL_NOTES.options("CH1_SCHEDULE"))
 
 
 func _modal_act(action: String, value: Variant = null) -> void:
@@ -361,10 +413,10 @@ func _modal_act(action: String, value: Variant = null) -> void:
 
 
 func _confirm_sleep() -> void:
-	_show_modal(_dialogue_ui_text("CH1_SLEEP_TITLE"), _dialogue_ui_text("CH1_SLEEP_RULE"), [
+	_show_recorded_choice(_dialogue_ui_text("CH1_SLEEP_TITLE"), _dialogue_ui_text("CH1_SLEEP_RULE"), [
 		{"label": _dialogue_ui_text("P6_CANCEL"), "action": _close_modal},
 		{"label": _dialogue_ui_text("P6_SLEEP"), "action": _sleep_now},
-	])
+	], MODAL_NOTES.options("CH1_SLEEP"))
 
 
 func _sleep_now() -> void:
@@ -518,11 +570,11 @@ func _role_selected(index: int, role: String) -> void:
 
 
 func _confirm_clock() -> void:
-	_show_modal(_dialogue_ui_text("CH1_CLOCK_CONFIRM"), _dialogue_ui_text("CH1_CLOCK_WARNING"), [
+	_show_recorded_choice(_dialogue_ui_text("CH1_CLOCK_CONFIRM"), _dialogue_ui_text("CH1_CLOCK_WARNING"), [
 		{"label": _dialogue_ui_text("CH1_CLOCK_RETEST"), "action": _modal_act.bind("test_clock", null)},
 		{"label": _dialogue_ui_text("CH1_CLOCK_COMMIT"), "action": _modal_act.bind("activate_clock", true)},
 		{"label": _dialogue_ui_text("CH1_CLOCK_EDIT"), "action": _close_modal},
-	])
+	], MODAL_NOTES.options("CLOCK_ACTIVATE"))
 
 
 func _direction(degrees: int) -> String:

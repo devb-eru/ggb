@@ -2,6 +2,10 @@ extends RefCounted
 
 
 func _history_payload(entry: Dictionary) -> Dictionary:
+	if entry.get("record_class") == "authored":
+		var text := PackedStringArray()
+		for segment in entry.observation.segments: text.append(segment.captured_text)
+		return {"variables": {"text": "\n".join(text)}, "viewed_locale": entry.observation.segments[0].viewed_locale}
 	return preload("res://scripts/systems/notebook_archive.gd").display_payload(entry)
 
 const SESSION := preload("res://scripts/systems/basement_session.gd")
@@ -29,6 +33,14 @@ class UnavailableEndingMeta extends RefCounted:
 class PendingEndingSession extends BasementSession:
 	func stage() -> String:
 		return "ENDING_BODY_PENDING"
+
+
+class UnavailableHistorySave extends Node:
+	var delegate: Node
+	func get_build_flavor() -> String:
+		return delegate.get_build_flavor()
+	func save_snapshot(_slot: String, _point: String, _state: Dictionary, _revision: int, _transaction: String) -> Dictionary:
+		return {"ok": false, "error_ids": ["ERR_TEST_HISTORY_DISK_UNAVAILABLE"]}
 
 
 func _validate_d4_reaction_selection() -> void:
@@ -746,14 +758,17 @@ func _validate_full_transition() -> void:
 		_expect(displayed.size() == option_count + 1, "relationship choice display recorded: " + choice_method)
 		_expect(String(_history_payload(displayed.back())["variables"]["text"]).contains((view._modal_body.get_child(4) as Button).text), "relationship transcript includes actual option: " + choice_method)
 		(view._modal_body.get_child(3) as Button).pressed.emit()
-		_expect(game.get_value("meta_progress.dialogue_history.entries", []).size() == option_count + 1, "relationship deferral is not recorded as selected answer")
+		var deferred_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+		_expect(deferred_history.size() == option_count + 2, "relationship deferral has its own cancellation record")
+		if deferred_history.back().get("record_class") == "authored": _expect(deferred_history.back().observation.entry_kind == "choice_cancelled", "deferral is not a confirmed answer")
 		_expect(game.get_snapshot()["meta_progress"]["servants"] == before_choice["meta_progress"]["servants"], "relationship deferral preserves bonds and completion")
 	var choice_probe := {"calls": 0}
-	view._show_recorded_choice("Choice test", "Shown only", [{"label": "Cancel", "action": view._close_modal}, {"label": "Chosen answer", "action": func(): choice_probe["calls"] += 1; view._close_modal()}])
+	var probe_label := view._dialogue_ui_text("P6_SLEEP")
+	view._show_recorded_choice(view._dialogue_ui_text("CH1_SLEEP_TITLE"), view._dialogue_ui_text("CH1_SLEEP_RULE"), [{"label": view._dialogue_ui_text("P6_CANCEL"), "action": view._close_modal}, {"label": probe_label, "action": func(): choice_probe["calls"] += 1; view._close_modal()}], view.MODAL_NOTES.options("CH1_SLEEP"))
 	var selected_button := view._modal_body.get_child(4) as Button
 	selected_button.pressed.emit()
 	var selected_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
-	_expect(choice_probe["calls"] == 1 and _history_payload(selected_history.back())["variables"]["text"] == "Chosen answer", "recorded choice invokes original action after storing selection")
+	_expect(choice_probe["calls"] == 1 and _history_payload(selected_history.back())["variables"]["text"] == probe_label, "recorded choice invokes original action after storing selection")
 	selected_button.pressed.emit()
 	_expect(choice_probe["calls"] == 1, "closed choice cannot fire stale callback")
 	var original_session: ChapterOneSession = view.session
@@ -2317,13 +2332,16 @@ func _validate_field_notebook(session: BasementSession) -> void:
 	after_english["meta_progress"]["dialogue_history"] = before_english["meta_progress"]["dialogue_history"].duplicate(true)
 	_expect(after_english == before_english, "English page previews do not mark reading complete or alter relationships")
 	var before_failed_read: Dictionary = session.snapshot()
-	var original_slot: String = view.session.slot_id
-	view.session.slot_id = "../invalid_slot"
+	var original_save: Node = view.session._save
+	var unavailable := UnavailableHistorySave.new()
+	unavailable.delegate = original_save
+	view.session._save = unavailable
 	view._open_field_page("FIELD_NOTEBOOK_PREFACE", false)
 	var retry_button := view._modal_body.get_child(3) as Button
 	retry_button.pressed.emit()
 	_expect(session.snapshot() == before_failed_read and view._modal_active, "Failed reading transcript save preserves state and keeps page open")
-	view.session.slot_id = original_slot
+	view.session._save = original_save
+	unavailable.free()
 	retry_button.pressed.emit()
 	_expect(not view._modal_active, "Reading can retry successfully after persistence is restored")
 	view._dismiss_dialogue_for_test()
