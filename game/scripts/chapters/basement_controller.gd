@@ -19,6 +19,8 @@ const BASEMENT_TEXTS := preload("res://scripts/ui/basement_display_texts.gd")
 const FRACTURE_COMMON_TEXTS := preload("res://scripts/ui/fracture_common_display_texts.gd")
 const RELATIONSHIP_TEXTS := preload("res://scripts/ui/relationship_display_texts.gd")
 const FRACTURE_RESOLUTION_TEXTS := preload("res://scripts/ui/fracture_resolution_display_texts.gd")
+const FRACTURE_SURFACE_TEXTS := preload("res://scripts/ui/fracture_surface_texts.gd")
+var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -33,16 +35,8 @@ var _d6_sleep_transition_route := ""
 var _d6_sleep_transition_failed := false
 const FULL_D5_HOLD_SECONDS := 10.0
 const D6_SLEEP_TRANSITION_SECONDS := 6.0
-const FULL_D5_HOLD_KO := [
-	"손가락을 편다.\n손잡이는 바로 떨어지지 않고 손바닥의 떨림을 한 번 더 끌고 간다.",
-	"톱니의 진동이 손금 사이에 남는다.\n꽃무늬 벽지는 배선 격자에서 천천히 밀려난다.",
-	"촛불은 흔들리지 않는데 열이 사라진다.\n방이 망가진 것이 아니라, 숨기기를 멈추고 있다.",
-]
-const FULL_D5_HOLD_EN := [
-	"You open your fingers.\nThe handle does not fall away at once. It drags the tremor across your palm one last time.",
-	"The gears keep vibrating between the lines of your hand.\nThe floral wallpaper slowly slips away from a wiring grid.",
-	"The candle does not flicker, but its heat disappears.\nThe room is not breaking. It is ceasing to hide.",
-]
+const FULL_D5_HOLD_KO := FRACTURE_SURFACE_TEXTS.HOLD_KO
+const FULL_D5_HOLD_EN := FRACTURE_SURFACE_TEXTS.HOLD_EN
 const OBJECTIVE_TEXT := {"D_SLEEP": "J3를 기억한 채 잠들어 다음 아침을 맞는다", "D0": "기록 내실의 세 눌림점에서 평면도를 꺼낸다", "D0_A": "C5 투명지와 저택 도면의 방향·기준점을 검증한다", "D1": "세 축의 순서와 깊이를 도면대로 적용한다", "DF": "압력핀 잠김 · 같은 침실에서 잠든다", "D2": "지하창고의 반복 구조를 조사한다", "D4": "태엽 심장의 연동 링과 정상 기동을 확인한다", "D5": "위장 필터 너머 드러난 공간을 확인한다", "DEMO_END": "데모 공개 구간 종료", "D6": "파열된 저택을 확인한 뒤 침실로 돌아간다", "E1_ENTRY": "같은 침실의 다른 아침"}
 
 func _make_session() -> ChapterOneSession:
@@ -96,7 +90,102 @@ func _update_objective() -> void:
 	if session != null:
 		_objective_label.text = BASEMENT_TEXTS.objective(session.stage(), TranslationServer.get_locale()) if BASEMENT_TEXTS.OBJECTIVES.has(session.stage()) else OBJECTIVE_TEXT.get(session.stage(), BASEMENT_TEXTS.objective("default", TranslationServer.get_locale()))
 
+func _notebook_surface_enabled() -> bool:
+	return session != null and preload("res://scripts/systems/notebook_rollout.gd").enabled() and session._game.get_value("meta_progress.dialogue_history.schema_version", 0) == 2
+
+
+func _notebook_surface_scope() -> Dictionary:
+	if session == null: return {}
+	var scope := _recorded_choice_scope()
+	scope.node = session.stage()
+	scope.location = session._game.get_value("loop_state.location_id", "")
+	scope.day = session._game.get_value("loop_state.day_index", 0)
+	return scope
+
+
+func _queue_notebook_surface(key: String, text: String) -> void:
+	if _notebook_surface_enabled():
+		_notebook_surfaces.queue(FRACTURE_SURFACE_TEXTS.PREFIX + key, text, TranslationServer.get_locale(), session.history_context())
+
+
+func _notebook_surface_board(key: String, text: String, rect: Rect2) -> void:
+	_board_label(text, rect)
+	_queue_notebook_surface(key, text)
+
+
+func _flush_notebook_surfaces(generation: int, explicit_retry: bool = false) -> bool:
+	if not _notebook_surface_enabled(): return true
+	if _interaction_blocked(): return false
+	if not _notebook_surfaces.live(_notebook_surface_scope(), generation): return not _notebook_surfaces.has_pending()
+	var saved := _notebook_surfaces.flush(session, _notebook_surface_scope(), explicit_retry)
+	var retry := _hotspot_layer.get_node_or_null("NOTEBOOK_SURFACE_RETRY")
+	if saved and retry != null:
+		var restore_focus: bool = retry is Control and retry.has_focus()
+		_hotspot_layer.remove_child(retry)
+		retry.queue_free()
+		if restore_focus: call_deferred("_restore_notebook_surface_focus")
+	elif not saved and retry == null:
+		_add_hotspot("NOTEBOOK_SURFACE_RETRY", FRACTURE_SURFACE_TEXTS.retry_text(TranslationServer.get_locale()), Rect2(280, 945, 1360, 100), _flush_notebook_surfaces.bind(generation, true))
+	return saved
+
+
+func _restore_notebook_surface_focus() -> void:
+	if _interaction_blocked() or not is_inside_tree(): return
+	_restore_world_focus()
+	if get_viewport().gui_get_focus_owner() == null and is_instance_valid(_menu_button) and _menu_button.is_visible_in_tree():
+		_menu_button.grab_focus()
+
+
+func _notebook_surface_allowed() -> bool:
+	return _flush_notebook_surfaces(_notebook_surfaces.generation)
+
+
+func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
+	if not _notebook_surface_allowed(): return
+	super._do(action, value, show_text)
+
+
+func _advance_dialogue() -> void:
+	super._advance_dialogue()
+	if not _dialogue_active: _notebook_surface_allowed()
+
+
+func _close_modal() -> void:
+	super._close_modal()
+	_notebook_surface_allowed()
+
+
+func _notebook_world_choice(group: String, index: int, id: String, rect: Rect2, action: String, value: String) -> void:
+	var locale := TranslationServer.get_locale()
+	var label := FRACTURE_COMMON_TEXTS.ui(FRACTURE_SURFACE_TEXTS.CHOICES[group][index], locale)
+	if not _notebook_surface_enabled():
+		_action(id, label, rect, action, value)
+		return
+	_add_hotspot(id, label, rect, _notebook_world_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, locale, action, value))
+
+
+func _notebook_world_choice_pressed(generation: int, group: String, index: int, label: String, locale: String, action: String, value: String) -> void:
+	if _interaction_blocked() or not _notebook_surfaces.live(_notebook_surface_scope(), generation): return
+	if not _notebook_surface_allowed(): return
+	var options_id := FRACTURE_SURFACE_TEXTS.PREFIX + "OPTIONS_" + group
+	var selection_id := FRACTURE_SURFACE_TEXTS.PREFIX + "SELECT_%s_%d" % [group, index]
+	if not _notebook_surfaces.choose(session, _notebook_surface_scope(), options_id, selection_id, label, locale):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	var result := session.act(action, value)
+	_notebook_surfaces.dispatched(options_id, result.get("ok", false))
+	if result.get("ok", false): _set_status("")
+	_render_room()
+	_feedback(result)
+
+
 func _render_room() -> void:
+	_notebook_surfaces.begin(_notebook_surface_scope())
+	_render_basement_room()
+	call_deferred("_flush_notebook_surfaces", _notebook_surfaces.generation)
+
+
+func _render_basement_room() -> void:
 	set_process(false)
 	super._render_room()
 	if session == null: return
@@ -143,7 +232,8 @@ func _render_room() -> void:
 			_add_d5_transition_art(_demo_stinger_seconds / 60.0 if SaveManager.get_build_flavor() == "demo" else (_d5_hold_seconds / FULL_D5_HOLD_SECONDS if _d5_hold_active else 0.0))
 			if SaveManager.get_build_flavor() == "demo":
 				_objective_label.text = BASEMENT_TEXTS.ui("d5_demo_objective", TranslationServer.get_locale())
-				_board_label(_demo_stinger_beat(mini(5, int(_demo_stinger_seconds / 10.0))), Rect2(350, 300, 1200, 240))
+				var beat := mini(5, int(_demo_stinger_seconds / 10.0))
+				_notebook_surface_board(FRACTURE_SURFACE_TEXTS.demo_key(beat, _basement().d5_reaction()), _demo_stinger_beat(beat), Rect2(350, 300, 1200, 240))
 				if _demo_stinger_save_failed:
 					_action("D5_SAVE_RETRY", BASEMENT_TEXTS.ui("d5_save_retry", TranslationServer.get_locale()), Rect2(510,640,870,130), "d_fracture")
 				else:
@@ -151,10 +241,10 @@ func _render_room() -> void:
 			else:
 				if _d5_hold_active:
 					_objective_label.text = "INPUT HOLD · CAMOUFLAGE FILTER SEPARATING" if TranslationServer.get_locale().begins_with("en") else "입력 고정 · 위장 필터 분리 중"
-					_board_label(_full_d5_hold_beat(), Rect2(350, 300, 1200, 260))
+					_notebook_surface_board("HOLD_%d" % (0 if _d5_hold_seconds < 3.0 else 1 if _d5_hold_seconds < 7.0 else 2), _full_d5_hold_beat(), Rect2(350, 300, 1200, 260))
 					set_process(true)
 				else:
-					_board_label(BASEMENT_TEXTS.ui("d5_idle", TranslationServer.get_locale()), Rect2(350, 300, 1200, 240))
+					_notebook_surface_board("D5_IDLE", BASEMENT_TEXTS.ui("d5_idle", TranslationServer.get_locale()), Rect2(350, 300, 1200, 240))
 					_add_hotspot("D5_CONFIRM", "Release the handle and look around" if TranslationServer.get_locale().begins_with("en") else "손잡이를 놓고 드러난 공간을 확인한다", Rect2(510, 640, 870, 130), _begin_full_fracture_hold)
 		elif session.stage() == "DEMO_END":
 			_board_label(BASEMENT_TEXTS.ui("demo_end", TranslationServer.get_locale()), Rect2(330, 280, 1260, 280))
@@ -234,7 +324,7 @@ func _build_d6_inspection() -> void:
 		_action("D6_RETURN", "통로를 조금 더 본다", Rect2(280, 420, 610, 130), "d6_move", "H0_SERVICE_SPINE", false)
 		_add_hotspot("D6_BED", "침대에서 쉰다", Rect2(980, 420, 610, 130), _confirm_d6_rest.bind("bedroom"))
 	else:
-		_board_label("벽지 뒤에서 드러난 서비스 통로에 두 휴식 경로가 표시되어 있다.", Rect2(350, 280, 1200, 200))
+		_notebook_surface_board("D6_ENTRY", _d6_text(FRACTURE_SURFACE_TEXTS.ENTRY), Rect2(350, 280, 1200, 200))
 		_action("D6_SPINE", "드러난 서비스 통로로", Rect2(510, 600, 870, 130), "d6_move", "H0_SERVICE_SPINE", false)
 	if checkpoint >= 480:
 		_objective_label.text = "휴식 경로: 침실 또는 비상 캡슐 · 조사는 계속할 수 있다"
@@ -264,9 +354,7 @@ func _d6_text(source: String) -> String:
 
 
 func _d6_guidance_text(checkpoint: int) -> String:
-	if checkpoint == 300:
-		return FRACTURE_REST_TEXTS.guidance_300(_basement().d5_reaction(), TranslationServer.get_locale())
-	return _d6_text({180: "[취침 종: 깨진 간격으로 열한 번] 아직 통로를 더 살펴볼 수 있다.", 480: "침실 또는 가까운 비상 캡슐에서 쉴 수 있다. 지금 잠들 필요는 없다."}.get(checkpoint, ""))
+	return FRACTURE_SURFACE_TEXTS.guidance_text(checkpoint, _basement().d5_reaction(), TranslationServer.get_locale())
 
 
 func _localized_notebook_entry(entry: String) -> String:
@@ -285,6 +373,7 @@ func _retry_d6_guidance() -> void:
 
 func _tick_d6_guidance(delta: float) -> void:
 	if session.stage() != "D6" or _interaction_blocked() or _d6_guidance_failed: return
+	if not _notebook_surface_allowed(): return
 	var checkpoint := int(session.snapshot()["loop_state"]["event_local_states"].get("D6", {}).get("guidance_checkpoint", 0))
 	if checkpoint >= 480: return
 	_d6_guidance_seconds = minf(480.0, _d6_guidance_seconds + maxf(delta, 0.0))
@@ -297,9 +386,12 @@ func _tick_d6_guidance(delta: float) -> void:
 		_set_status(_d6_text("안내 기록을 저장하지 못했다. 다시 시도하거나 조사를 계속할 수 있다."))
 	else:
 		_set_status(_d6_guidance_text(next))
+		_queue_notebook_surface(FRACTURE_SURFACE_TEXTS.guidance_key(next, _basement().d5_reaction()), _d6_guidance_text(next))
+		_notebook_surface_allowed()
 
 
 func _confirm_d6_rest(route: String) -> void:
+	if not _notebook_surface_allowed(): return
 	var content := FRACTURE_REST_TEXTS.confirmation(route, TranslationServer.get_locale())
 	_show_recorded_choice(content.title, content.body, [
 		{"label": content.labels[0], "action": _close_modal},
@@ -339,11 +431,13 @@ func _build_d6_sleep_transition() -> void:
 		_add_hotspot("D6_SLEEP_RETRY", _d6_text("수면 전환 저장 재시도"), Rect2(510, 650, 900, 130), _retry_d6_sleep_transition)
 		return
 	var presentation: Dictionary = FRACTURE_REST_TEXTS.sleep_transition(_d6_sleep_transition_route, _d6_sleep_transition_seconds, TranslationServer.get_locale())
-	_board_label(String(presentation["body"]), Rect2(300, 230, 1320, 480))
+	var beat := 0 if _d6_sleep_transition_seconds < 2.0 else 1 if _d6_sleep_transition_seconds < 4.0 else 2
+	_notebook_surface_board("SLEEP_%s_%d" % [_d6_sleep_transition_route.to_upper(), beat], String(presentation["body"]), Rect2(300, 230, 1320, 480))
 	set_process(true)
 
 
 func _retry_d6_sleep_transition() -> void:
+	if not _notebook_surface_allowed(): return
 	_d6_sleep_transition_seconds = 0.0
 	_d6_sleep_transition_failed = false
 	_d6_sleep_transition_active = true
@@ -354,6 +448,7 @@ func _retry_d6_sleep_transition() -> void:
 func _tick_d6_sleep_transition(delta: float) -> void:
 	if not _d6_sleep_transition_active or _interaction_blocked() or session.stage() != "D6":
 		return
+	if not _notebook_surface_allowed(): return
 	var previous_beat := 0 if _d6_sleep_transition_seconds < 2.0 else (1 if _d6_sleep_transition_seconds < 4.0 else 2)
 	_d6_sleep_transition_seconds = minf(D6_SLEEP_TRANSITION_SECONDS, _d6_sleep_transition_seconds + maxf(delta, 0.0))
 	if _d6_sleep_transition_seconds >= D6_SLEEP_TRANSITION_SECONDS:
@@ -418,6 +513,7 @@ func _select_d5_focus(owner: String) -> void:
 func _show_full_fracture_transition() -> void:
 	if _interaction_blocked() or session.stage() != "D5" or SaveManager.get_build_flavor() != "full":
 		return
+	if not _notebook_surface_allowed(): return
 	_update_d5_transition_art(1.0)
 	_show_dialogue(preload("res://scripts/ui/fracture_transition_texts.gd").lines(TranslationServer.get_locale(), _basement().d5_reaction()), _do.bind("d_fracture", null, false))
 
@@ -452,6 +548,7 @@ func _d5_motion_mode() -> String:
 func _begin_full_fracture_hold() -> void:
 	if _interaction_blocked() or session.stage() != "D5" or SaveManager.get_build_flavor() != "full":
 		return
+	if not _notebook_surface_allowed(): return
 	_d5_hold_seconds = 0.0
 	_d5_hold_active = true
 	_set_status("")
@@ -467,6 +564,7 @@ func _full_d5_hold_beat() -> String:
 func _tick_full_d5_hold(delta: float) -> void:
 	if not _d5_hold_active or _interaction_blocked() or session.stage() != "D5" or SaveManager.get_build_flavor() != "full":
 		return
+	if not _notebook_surface_allowed(): return
 	var previous_beat := 0 if _d5_hold_seconds < 3.0 else (1 if _d5_hold_seconds < 7.0 else 2)
 	_d5_hold_seconds = minf(FULL_D5_HOLD_SECONDS, _d5_hold_seconds + maxf(delta, 0.0))
 	_update_d5_transition_art(_d5_hold_seconds / FULL_D5_HOLD_SECONDS)
@@ -481,13 +579,7 @@ func _tick_full_d5_hold(delta: float) -> void:
 
 
 func _demo_stinger_beat(index: int) -> String:
-	var text := BASEMENT_TEXTS.demo_beat(index, TranslationServer.get_locale())
-	if index != 3:
-		return text
-	var line: Dictionary = preload("res://scripts/ui/fracture_transition_texts.gd").reaction(_basement().d5_reaction(), TranslationServer.get_locale())
-	if line.is_empty():
-		return text
-	return text + "\n\n" + String(line["speaker"]) + ": " + String(line["text"])
+	return FRACTURE_SURFACE_TEXTS.demo_text(index, _basement().d5_reaction(), TranslationServer.get_locale())
 
 
 func _build_fracture_intro() -> void:
@@ -548,25 +640,27 @@ func _build_fracture_intro() -> void:
 			_build_mara1_relationship()
 		"LUCA_GUIDE":
 			_objective_label.text = FRACTURE_COMMON_TEXTS.ui("luca_guide_objective", TranslationServer.get_locale())
-			_board_label(FRACTURE_COMMON_TEXTS.ui("luca_guide_board", TranslationServer.get_locale()), Rect2(340, 220, 1250, 220))
+			_notebook_surface_board("LUCA_GUIDE", FRACTURE_COMMON_TEXTS.ui("luca_guide_board", TranslationServer.get_locale()), Rect2(340, 220, 1250, 220))
 			_action("LUCA_GUIDE", FRACTURE_COMMON_TEXTS.ui("luca_guide_action", TranslationServer.get_locale()), Rect2(410, 520, 1100, 120), "move", "M1_KITCHEN")
 			_action("E1_RETURN", FRACTURE_COMMON_TEXTS.ui("e1_return", TranslationServer.get_locale()), Rect2(510, 720, 850, 90), "move", "M2_BEDROOM", false)
 		"LUCA_S2":
 			_objective_label.text = FRACTURE_COMMON_TEXTS.ui("luca_s2_objective", TranslationServer.get_locale())
-			_board_label(FRACTURE_COMMON_TEXTS.ui("luca_s2_board", TranslationServer.get_locale()), Rect2(270, 190, 1380, 230))
+			_notebook_surface_board("LUCA_S2", FRACTURE_COMMON_TEXTS.ui("luca_s2_board", TranslationServer.get_locale()), Rect2(270, 190, 1380, 230))
+			_queue_notebook_surface("OPTIONS_LUCA", FRACTURE_SURFACE_TEXTS.choice_text("LUCA", TranslationServer.get_locale()))
 			for index in range(3):
-				_action("LUCA_S2_%d" % index, FRACTURE_COMMON_TEXTS.ui(["luca_s2_ask", "luca_s2_hold", "luca_s2_withdraw"][index], TranslationServer.get_locale()), Rect2(400, 470 + index * 125, 1100, 100), "e2_luca", ["ask", "hold", "withdraw"][index])
+				_notebook_world_choice("LUCA", index, "LUCA_S2_%d" % index, Rect2(400, 470 + index * 125, 1100, 100), "e2_luca", ["ask", "hold", "withdraw"][index])
 		"E2_INTRO":
 			_objective_label.text = FRACTURE_COMMON_TEXTS.ui("e2_objective", TranslationServer.get_locale())
 			_action("E2_REPORT", FRACTURE_COMMON_TEXTS.ui("e2_report", TranslationServer.get_locale()), Rect2(380, 180, 1170, 100), "e2_report")
 			if session.known("E2_report_seen"):
+				_queue_notebook_surface("OPTIONS_E2", FRACTURE_SURFACE_TEXTS.choice_text("E2", TranslationServer.get_locale()))
 				for index in range(3):
-					_action("E2_Q_%d" % index, FRACTURE_COMMON_TEXTS.ui(["e2_question_house", "e2_question_body", "e2_question_memory"][index], TranslationServer.get_locale()), Rect2(380, 320 + index * 110, 1170, 85), "e2_question", ["house", "body", "memory"][index])
+					_notebook_world_choice("E2", index, "E2_Q_%d" % index, Rect2(380, 320 + index * 110, 1170, 85), "e2_question", ["house", "body", "memory"][index])
 				_action("E2_FINISH", FRACTURE_COMMON_TEXTS.ui("e2_finish", TranslationServer.get_locale()), Rect2(380, 710, 1170, 100), "e2_finish")
 		"E_HUB":
 			_add_hotspot("J4_CONFIRM", FRACTURE_COMMON_TEXTS.ui("hub_finish", TranslationServer.get_locale()), Rect2(570, 885, 800, 60), _show_j4_confirmation)
 			_objective_label.text = FRACTURE_COMMON_TEXTS.ui("hub_objective", TranslationServer.get_locale())
-			_board_label(FRACTURE_COMMON_TEXTS.ui("hub_board", TranslationServer.get_locale()), Rect2(330, 130, 1260, 390))
+			_notebook_surface_board("E_HUB", FRACTURE_COMMON_TEXTS.ui("hub_board", TranslationServer.get_locale()), Rect2(330, 130, 1260, 390))
 			_action("MARA1_ENTRY", FRACTURE_COMMON_TEXTS.ui("hub_mara1", TranslationServer.get_locale()), Rect2(330, 550, 620, 90), "move", "M1_SERVICE_HALL", false)
 			_action("IRIS_ENTRY", FRACTURE_COMMON_TEXTS.ui("hub_iris", TranslationServer.get_locale()), Rect2(990, 550, 620, 90), "move", "M1_GREENHOUSE", false)
 			_action("LUCA_ENTRY", FRACTURE_COMMON_TEXTS.ui("hub_luca", TranslationServer.get_locale()), Rect2(330, 670, 620, 90), "move", "M1_KITCHEN", false)
@@ -913,6 +1007,7 @@ func _show_mara2_choice() -> void:
 
 
 func _show_j4_confirmation() -> void:
+	if not _notebook_surface_allowed(): return
 	var totals: Dictionary = BasementSession.JOURNAL_FOUR.summary(session.snapshot())
 	var body := FRACTURE_RESOLUTION_TEXTS.j4_confirmation(totals, TranslationServer.get_locale())
 	_show_fracture_resolution_modal("조사 종료 확인", body, [
@@ -1032,6 +1127,7 @@ func _reality_disconnect() -> void:
 
 
 func _open_notebook() -> void:
+	if not _notebook_surface_allowed(): return
 	if session != null and session.stage() in ["FIELD_NOTEBOOK","REALITY_SURFACE"]:
 		_open_field_page("FIELD_NOTEBOOK_COVER",false)
 		return
@@ -1139,6 +1235,7 @@ func _process(delta: float) -> void:
 func _tick_demo_stinger(delta: float) -> void:
 	if _interaction_blocked(): return
 	if _demo_stinger_save_failed or session.stage() != "D5" or SaveManager.get_build_flavor() != "demo": return
+	if not _notebook_surface_allowed(): return
 	var previous_beat := int(_demo_stinger_seconds / 10.0)
 	_demo_stinger_seconds = minf(60.0, _demo_stinger_seconds + maxf(0.0, delta))
 	_update_d5_transition_art(_demo_stinger_seconds / 60.0)

@@ -155,7 +155,7 @@ func _route(tree: SceneTree) -> void:
 	_expect(before_release.fracture_state.camouflage_filter != "disabled" and not _has("NB_BASEMENT_NOTE_D4"), "auxiliary preview does not release the filter")
 	_press(2)
 	_expect(view.session.stage() == "D5", "actual confirmed input reaches D5")
-	var last: Dictionary = _archive().entries.back()
+	var last: Dictionary = _entry("NB_BASEMENT_HEART_PULL_AUXILIARY")
 	_expect(last.observation.content_id == "NB_BASEMENT_HEART_PULL_AUXILIARY" and last.observation.node_id == "D4" and last.observation.chapter_id == "CHAPTER_2", "D4 result stays in chapter two after the D5 state change")
 	var heart := _latest("BASEMENT_HEART")
 	_expect(heart.source_refs.size() >= 6 and _has("NB_MODAL_BASEMENT_AUXILIARY_SELECT_2"), "release record cites actually displayed stabilization and its confirmed input")

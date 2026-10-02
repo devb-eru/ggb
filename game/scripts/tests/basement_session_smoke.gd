@@ -43,6 +43,13 @@ class UnavailableHistorySave extends Node:
 		return {"ok": false, "error_ids": ["ERR_TEST_HISTORY_DISK_UNAVAILABLE"]}
 
 
+class UnavailableGameSave extends UnavailableHistorySave:
+	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		if transaction.begins_with("HISTORY_"):
+			return delegate.save_snapshot(slot, point, state, revision, transaction)
+		return {"ok": false, "error_ids": ["ERR_TEST_GAME_DISK_UNAVAILABLE"]}
+
+
 func _validate_d4_reaction_selection() -> void:
 	var base: Dictionary = game.get_snapshot()
 	var untouched := base.duplicate(true)
@@ -352,8 +359,11 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	_expect(game.get_snapshot() == stinger_before, "Rejected stinger actions preserve state")
 	stinger._tick_demo_stinger(59.0)
 	_expect(session.stage() == "D5", "Stinger cannot finish before sixty active seconds")
+	_expect(stinger._notebook_surface_allowed(), "Displayed demo beat commits before testing completion failure")
 	var before_completion: Dictionary = game.get_snapshot()
-	stinger.session.slot_id = "../invalid_slot"
+	var unavailable_game := UnavailableGameSave.new()
+	unavailable_game.delegate = saves
+	stinger.session._save = unavailable_game
 	stinger._tick_demo_stinger(1.0)
 	_expect(stinger._demo_stinger_save_failed and session.stage() == "D5", "Failed completion stays in D5")
 	_expect(game.get_snapshot() == before_completion, "Failed stinger save rolls back completion")
@@ -361,9 +371,10 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	var failed_revision: int = game.revision
 	stinger._tick_demo_stinger(30.0)
 	_expect(game.revision == failed_revision, "Failed stinger does not loop automatic save attempts")
-	stinger.session.slot_id = SLOT
+	stinger.session._save = saves
 	stinger._hotspot_layer.get_node("D5_SAVE_RETRY").pressed.emit()
 	_expect(stinger._hotspot_layer.has_node("RETURN_TITLE"), "Stinger completion displays demo end screen")
+	unavailable_game.free()
 	stinger.queue_free()
 	await tree.process_frame
 	_expect(session.stage() == "DEMO_END", "demo boundary remains distinct from full-game continuation")
@@ -384,6 +395,8 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 	var previous: Variant = ProjectSettings.get_setting("ggb/build_flavor", null)
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	var slot := "__test_full_d5_story"
+	var unavailable_game := UnavailableGameSave.new()
+	unavailable_game.delegate = saves
 	saves.delete_test_slot(slot)
 	var fixture := state.duplicate(true)
 	fixture["meta_progress"]["servants"]["mara1"]["bond"] = 0
@@ -402,6 +415,7 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 		_expect(view._d5_hold_active and not view._dialogue_active and not view._hotspot_layer.has_node("D5_CONFIRM"), "Full D5 starts non-skippable hold: " + language)
 		var art = view._hotspot_layer.get_node_or_null("D5TransitionArt")
 		_expect(art != null and is_equal_approx(art.reveal_progress, 0.0) and art.focus_owner == "MARA1", "D5 hold starts with frozen reaction channel ready: " + language)
+		_expect(view._notebook_surface_allowed(), "Initial hold observation commits before testing the paused timer")
 		var hold_before: Dictionary = game.get_snapshot()
 		view._open_menu()
 		view._tick_full_d5_hold(10.0)
@@ -470,7 +484,7 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 	_expect(view._d6_guidance_seconds == 179.0, "D6 menu pauses guidance")
 	view._close_modal()
 	var before_guidance_failure: Dictionary = game.get_snapshot()
-	view.session.slot_id = "../invalid_slot"
+	view.session._save = unavailable_game
 	view._tick_d6_guidance(1.0)
 	_expect(view._d6_guidance_failed and not view.is_processing(), "D6 failed guidance stops automatic retry")
 	_expect(game.get_snapshot() == before_guidance_failure, "D6 failed guidance rolls back checkpoint")
@@ -478,7 +492,7 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 	var failed_revision: int = game.revision
 	view._tick_d6_guidance(500.0)
 	_expect(game.revision == failed_revision, "D6 failed guidance makes no repeated save attempts")
-	view.session.slot_id = slot
+	view.session._save = saves
 	view._hotspot_layer.get_node("D6_GUIDANCE_RETRY").pressed.emit()
 	_expect(not view._d6_guidance_failed and view.is_processing(), "D6 explicit retry restores timer")
 	_expect(game.get_value("loop_state.event_local_states.D6.guidance_checkpoint") == 180, "D6 retry commits first checkpoint")
@@ -586,15 +600,16 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 			view._render_room()
 			view.set_process(false)
 		if route == "capsule":
+			_expect(view._notebook_surface_allowed(), "Displayed sleep beat commits before testing sleep completion failure")
 			var before_sleep_failure: Dictionary = game.get_snapshot()
-			view.session.slot_id = "../invalid_slot"
+			view.session._save = unavailable_game
 			view._tick_d6_sleep_transition(1.0)
 			_expect(view._d6_sleep_transition_failed and not view._d6_sleep_transition_active, "D6 broken reset save failure stops automatic retry")
 			_expect(game.get_snapshot() == before_sleep_failure and view._hotspot_layer.has_node("D6_SLEEP_RETRY"), "D6 failed sleep keeps selected route and exposes retry")
 			var sleep_failed_revision: int = game.revision
 			view._tick_d6_sleep_transition(10.0)
 			_expect(game.revision == sleep_failed_revision and view.session.stage() == "D6", "D6 failed sleep does not retry by timer")
-			view.session.slot_id = slot
+			view.session._save = saves
 			view._hotspot_layer.get_node("D6_SLEEP_RETRY").pressed.emit()
 			view._tick_d6_sleep_transition(6.0)
 		else:
@@ -605,6 +620,7 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 		_expect(not game.get_value("loop_state.event_local_states").has("D6"), "D6 rest route expires on first broken sleep")
 		_expect(game.get_value("meta_progress.servants") == d6_state["meta_progress"]["servants"], "D6 routes preserve relationships")
 	_validate_d6_legacy_rest(d6_state, game.get_snapshot(), slot)
+	unavailable_game.free()
 	TranslationServer.set_locale(locale)
 	view.queue_free()
 	await tree.process_frame
@@ -2914,4 +2930,6 @@ func _contains_hangul(value: String) -> bool:
 
 
 func _expect(condition: bool, message: String) -> void:
-	if not condition: errors.append(message)
+	if not condition:
+		errors.append(message)
+		print("BASEMENT_ASSERT: ", message)

@@ -33,7 +33,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	var diagnostic := CONTENT.diagnostics()
 	if not diagnostic.ok: return {"ok": false, "errors": diagnostic.error_ids}
-	var ids: Array = diagnostic.content_ids.filter(func(id: String) -> bool: return CONTENT.definition(id, 1).producer_id == "NP09")
+	var ids: Array = diagnostic.content_ids.filter(func(id: String) -> bool: return CONTENT.definition(id, 1).producer_id == "NP09" and not id.begins_with("NB_FRACTURE_SURFACE_"))
 	_seed("D5")
 	view = VIEW.new()
 	view.configure_session(SLOT, "D5")
@@ -232,6 +232,7 @@ func _failures(tree: SceneTree) -> void:
 		var state := _seed("D6")
 		state.loop_state.location_id = "M2_BEDROOM" if route == "bedroom" else "H0_SERVICE_SPINE"
 		_install(state)
+		view._render_room()
 		controlled.reject = true
 		view._confirm_d6_rest(route)
 		var request := view._recorded_modal_request
@@ -261,6 +262,7 @@ func _act(action: String, value: Variant = null) -> Dictionary:
 	var result := view.session.act(action, value)
 	_expect(result.ok, "actual fracture action " + action + ": " + str(result))
 	if result.ok:
+		view._render_room()
 		view._feedback(result)
 		_drain()
 	_collect()
@@ -299,6 +301,7 @@ func _seed(id: String) -> Dictionary:
 	state.loop_state.event_local_states.erase("D5")
 	GameState.reset_for_test()
 	_install(state)
+	if view != null: view._render_room()
 	return state
 
 
@@ -339,7 +342,7 @@ func _collect() -> void:
 		if entry.get("record_class") != "authored":
 			_expect(false, "mapped fracture paths cannot silently become unmapped")
 			continue
-		if entry.observation.producer_id != "NP09": continue
+		if entry.observation.producer_id != "NP09" or entry.observation.content_id.begins_with("NB_FRACTURE_SURFACE_"): continue
 		for segment in entry.observation.segments:
 			covered[entry.observation.content_id + ":" + segment.viewed_locale] = true
 			segments[entry.observation.content_id + ":" + segment.segment_id + ":" + segment.viewed_locale] = true
