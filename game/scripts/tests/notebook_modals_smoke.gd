@@ -225,6 +225,21 @@ func _failures(tree: SceneTree) -> void:
 	view._cancel_prologue_modal()
 	_expect(not view._modal_active and GameState.get_snapshot() == saved, "Esc closes a field page without read confirmation or a choice record")
 	_expect(not _contains("NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_SUMMARY_SELECT_0"), "field-page Esc is not its first button")
+	_seed("EDR_FIELD_NOTEBOOK")
+	controlled = ControlledSave.new()
+	controlled.delegate = SaveManager
+	controlled.reject = true
+	view.session._save = controlled
+	saved = GameState.get_snapshot()
+	view._open_field_page("FIELD_NOTEBOOK_PREFACE", false)
+	view._cancel_prologue_modal()
+	_expect(view._modal_active and GameState.get_snapshot() == saved, "Esc cannot discard a failed page observation")
+	controlled.reject = false
+	view._cancel_prologue_modal()
+	_expect(not view._modal_active and _contains("NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_SUMMARY_OPTIONS") and not _contains("NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_SUMMARY_SELECT_0"), "Esc retry persists the page without confirming its reading")
+	_expect(GameState.get_snapshot().ending_run == saved.ending_run and GameState.get_snapshot().loop_state == saved.loop_state, "successful close retry leaves gameplay unread")
+	view.session._save = SaveManager
+	controlled.free()
 	_seed("EDC")
 	view._confirm_ending("reality")
 	TranslationServer.set_locale("en-US")

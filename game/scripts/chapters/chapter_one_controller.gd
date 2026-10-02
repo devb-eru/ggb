@@ -244,6 +244,7 @@ func _cancel_prologue_modal() -> void:
 	if not _recorded_modal_request.is_empty() and int(_recorded_modal_request.row.cancel_index) >= 0:
 		_recorded_choice_pressed(_recorded_modal_request, int(_recorded_modal_request.row.cancel_index))
 	else:
+		if not _recorded_modal_request.is_empty() and not _record_modal_options(_recorded_modal_request): return
 		super._cancel_prologue_modal()
 
 

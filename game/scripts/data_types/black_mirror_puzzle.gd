@@ -14,14 +14,14 @@ func empty_mixture() -> Dictionary:
 func test_mixture(mix: Dictionary) -> Dictionary:
 	var total := int(mix["water"]) + int(mix["stabilizer"]) + int(mix["active"])
 	if total != 8:
-		return {"ok": false, "text": "눈금이 8단위에 맞지 않는다. 폐기 쟁반에서 비우고 다시 계량한다."}
+		return {"ok": false, "category": "volume", "text": "눈금이 8단위에 맞지 않는다. 폐기 쟁반에서 비우고 다시 계량한다."}
 	if mix["water"] != 5 or mix["stabilizer"] != 1 or mix["active"] != 2:
-		return {"ok": false, "text": "시험지: 중성 아님 · 빗금 문양. 첨가제 사이의 비율과 물의 양을 다시 비교한다."}
+		return {"ok": false, "category": "ratio", "text": "시험지: 중성 아님 · 빗금 문양. 첨가제 사이의 비율과 물의 양을 다시 비교한다."}
 	if mix["order"] != MATERIALS or not mix["dispersed"]:
-		return {"ok": false, "text": "작은 결정이 남는다. 물에서 안정제를 확산시킨 뒤 원액을 넣어야 한다."}
+		return {"ok": false, "category": "order", "text": "작은 결정이 남는다. 물에서 안정제를 확산시킨 뒤 원액을 넣어야 한다."}
 	if int(mix["mixed"]) == 0 or mix["foamy"]:
-		return {"ok": false, "text": "혼합 상태가 고르지 않다. 천천히 섞고 거품이 가라앉는지 확인한다."}
-	return {"ok": true, "text": "시험지: 중성 · 평행선 문양. 무색의 세정액이 천에 고르게 스며든다."}
+		return {"ok": false, "category": "mixing", "text": "혼합 상태가 고르지 않다. 천천히 섞고 거품이 가라앉는지 확인한다."}
+	return {"ok": true, "category": "neutral", "text": "시험지: 중성 · 평행선 문양. 무색의 세정액이 천에 고르게 스며든다."}
 
 
 func inspect_trace(rotation: int, flipped: bool, anchored: bool, path: Array) -> Dictionary:

@@ -154,6 +154,9 @@ Assert-GodotValidation -Result $notebookChapterOneNotesResult -Name "Notebook ch
 $notebookModalsResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-modals-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookModalsResult -Name "Notebook modal disclosure and explicit selection semantics" -RequiredMarker "NOTEBOOK_MODALS_SMOKE: PASS"
 
+$notebookMirrorResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-mirror-smoke", "--ggb-dev-notebook-v2")
+Assert-GodotValidation -Result $notebookMirrorResult -Name "Notebook mirror observations and event-written knowledge" -RequiredMarker "NOTEBOOK_MIRROR_SMOKE: PASS"
+
 $blackMirrorResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--black-mirror-smoke")
 Assert-GodotValidation -Result $blackMirrorResult -Name "Black mirror chapter smoke" -RequiredMarker "BLACK_MIRROR_SMOKE: PASS"
 Write-Host "Black mirror mixture, irreversible trace, reset, capture, and J3 validation passed."
