@@ -32,7 +32,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	var diagnostic := CONTENT.diagnostics()
 	if not diagnostic.ok: return {"ok": false, "errors": diagnostic.error_ids}
-	var ids: Array = diagnostic.content_ids.filter(func(id: String) -> bool: return id.begins_with("NB_CH1_"))
+	var ids: Array = diagnostic.content_ids.filter(func(id: String) -> bool: return CONTENT.definition(id, 1).producer_id == "NP04")
 	for language in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(language)
 		await _route(tree, language)
@@ -107,12 +107,15 @@ func _route(tree: SceneTree, language: String) -> void:
 	var before_journal: int = GameState.get_snapshot().meta_progress.dialogue_history.entries.size()
 	var restored := view.session.act("j1_restore")
 	_expect(restored.ok, "J1 restoration")
-	_expect(GameState.get_snapshot().meta_progress.dialogue_history.entries.size() == before_journal, "event commit is not dialogue display")
+	var written_entries: Array = GameState.get_snapshot().meta_progress.dialogue_history.entries.slice(before_journal)
+	_expect(written_entries.size() == 1 and written_entries[0].observation.producer_id == "NP06" and written_entries[0].observation.segments[0].disclosure == "replay_committed", "J1 event writes one complete note, not a dialogue display")
 	view._feedback(restored)
 	var first: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history.entries.back()
 	_expect(first.observation.content_id == "NB_CH1_CH1_J1_RESTORED" and first.observation.segments.size() == 1, "only first J1 paragraph is disclosed")
-	var hidden_ref := {"kind": "observation", "source_origin_id": first.source_origin_id, "uid": first.entry_uid, "content_version": 1, "segment_id": "line_02"}
-	_expect(not ARCHIVE.resolve(GameState.get_snapshot().meta_progress.dialogue_history, hidden_ref).ok, "unread J1 paragraph cannot be referenced")
+	_expect(first.observation.event_occurrence_id == written_entries[0].observation.event_occurrence_id and first.observation.conversation_session_id != written_entries[0].observation.conversation_session_id, "restored text and first spoken line share an occurrence but not a writing session")
+	var hidden_ref := ARCHIVE.make_reference(first, "line_02")
+	var hidden_segment := ARCHIVE.resolve(GameState.get_snapshot().meta_progress.dialogue_history, hidden_ref)
+	_expect(not hidden_segment.ok and hidden_segment.get("error_id") == "NB_REFERENCE_SEGMENT", "well-formed reference cannot disclose unread J1 paragraph")
 	_drain(view)
 	for room in SESSION.CLOCK_ROOMS:
 		_install(_fixture(room, 1))
@@ -182,6 +185,8 @@ func _route(tree: SceneTree, language: String) -> void:
 func _fixture(room: String, journal: int = 0) -> Dictionary:
 	var state := base.duplicate(true)
 	state.meta_progress.dialogue_history = GameState.get_snapshot().meta_progress.dialogue_history.duplicate(true)
+	var ledger: Dictionary = GameState.get_snapshot().meta_progress.knowledge_entries.get("notebook_knowledge", {})
+	if not ledger.is_empty(): state.meta_progress.knowledge_entries.notebook_knowledge = ledger.duplicate(true)
 	state.meta_progress.journal_stage = journal
 	state.meta_progress.notebook_persistence_confirmed = true
 	state.meta_progress.knowledge_entries.KN_B1_LIBRARY_WINDOW = true
@@ -237,6 +242,7 @@ func _collect(language: String) -> void:
 		_expect(entry.record_class == "authored", "actual producer cannot silently become unmapped")
 		if entry.record_class != "authored": continue
 		var observed: Dictionary = entry.observation
+		if observed.producer_id == "NP06": continue
 		_expect(observed.producer_id == "NP04" and observed.chapter_id == "CHAPTER_1", "NP04 source context")
 		covered[observed.content_id + ":" + language] = true
 		for segment in observed.segments:

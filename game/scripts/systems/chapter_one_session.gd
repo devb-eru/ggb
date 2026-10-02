@@ -6,6 +6,7 @@ const SAVE_POINT := "SAVE_CAMPAIGN_PROGRESS"
 const HISTORY_CHAPTER_ID := "CHAPTER_1"
 const HISTORY_CONTEXT := preload("res://scripts/systems/dialogue_history_context.gd")
 const NOTEBOOK_FEEDBACK := preload("res://scripts/systems/chapter_one_notebook.gd")
+const NOTEBOOK_NOTES := preload("res://scripts/systems/chapter_one_notes.gd")
 const LOCAL_KEY := "CHAPTER_ONE"
 const MARKS := {"sentence": "내일 아침, 이 문장을 읽어.", "house_glyph": "창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문", "ink_corner": "페이지 모서리의 잉크 한 방울"}
 const CLOCK_ROOMS := {"M2_BEDROOM": "bedroom", "M1_PARLOR": "parlor", "M1_LIBRARY_OUTER": "library_outer", "M1_GREAT_CLOCK": "great_clock"}
@@ -111,6 +112,10 @@ func initialize() -> Dictionary:
 
 func act(action: String, value: Variant = null) -> Dictionary:
 	var state := snapshot()
+	var event_context := history_context()
+	if state.meta_progress.dialogue_history.has("schema_version"):
+		event_context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		event_context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
 	var meta: Dictionary = state["meta_progress"]
 	var knowledge: Dictionary = meta["knowledge_entries"]
 	var loop: Dictionary = state["loop_state"]
@@ -145,7 +150,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			if room != "M2_BEDROOM" or stage() != "A1" or not MARKS.has(String(value)):
 				return _reject("지금은 새 표식을 작성할 수 없다.")
 			knowledge["self_authored_mark"] = {"type": String(value), "text": MARKS[String(value)], "day": int(loop["day_index"])}
-			_note(knowledge, "A1", "자기 표식: %s\n다음 아침에 동일성을 확인한다." % MARKS[String(value)])
+			var written := _write_note(state, "A1", "A1_" + String(value).to_upper(), "자기 표식: %s\n다음 아침에 동일성을 확인한다." % MARKS[String(value)], event_context)
+			if not written.ok: return written
 			text = NOTEBOOK_FEEDBACK.FIXED.MARK
 			notebook_id = "MARK"
 		"confirm_mark":
@@ -154,7 +160,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			meta["notebook_persistence_confirmed"] = true
 			if state["fracture_state"]["world_phase"] == "S0":
 				state["fracture_state"]["world_phase"] = "S1"
-			_note(knowledge, "A2", "같은 표식이 남았다. 방의 물리 상태는 되돌아와도 수첩의 기록은 유지된다.")
+			var written := _write_note(state, "A2", "A2", NOTEBOOK_NOTES.SELF_MARK_VERIFIED, event_context)
+			if not written.ok: return written
 			text = NOTEBOOK_FEEDBACK.FIXED.CONFIRM_MARK
 			notebook_id = "CONFIRM_MARK"
 		"routine":
@@ -170,7 +177,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			knowledge["schedule_" + String(value)] = true
 			text = DOCUMENTS[String(value)]
 			text_id = "CH1_B1_TEXT_" + String(value).to_upper()
-			_note(knowledge, "B1_" + String(value), text)
+			var written := _write_note(state, "B1_" + String(value), "B1_" + String(value).to_upper(), text, event_context)
+			if not written.ok: return written
 		"schedule_window":
 			var count := 0
 			for source in ["edgar", "luca", "mara1"]:
@@ -182,7 +190,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			knowledge["KN_B1_LIBRARY_WINDOW"] = true
 			text_id = "CH1_B1_SOLVED"
 			text = "오후 차를 치운 뒤, 저녁 종이 울리기 전에는 기록 내실이 비어 있다."
-			_note(knowledge, "B1", text)
+			var written := _write_note(state, "B1", "B1", text, event_context)
+			if not written.ok: return written
 		"inspect_inner":
 			if room != "M1_LIBRARY_INNER" or local["edgar_state"] != "absent":
 				return _reject("발소리가 가까워졌다. 숨을지, 남아서 말을 걸지 정한다.", "CH1_INNER_PRESSURE")
@@ -263,7 +272,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				knowledge["KN_J1_POST_COMPLETION_GAP"] = true
 				text = "\n\n".join(J1_FRAGMENTS)
 				text_id = "CH1_J1_RESTORED"
-				_note(knowledge, "J1", text)
+				var written := _write_note(state, "J1", "J1", text, event_context)
+				if not written.ok: return written
 		"rub_clock":
 			if int(meta["journal_stage"]) < 1 or not CLOCK_ROOMS.has(room):
 				return _reject("일지의 첫 페이지를 복원한 뒤 각 방의 시계에서 탁본을 뜬다.", "CH1_CLOCK_NEED_J1")
@@ -273,7 +283,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			knowledge["clock_observed_" + clock_id] = true
 			text = CLOCK.CLUES[clock_id]
 			text_id = "CH1_CLOCK_" + clock_id.to_upper()
-			_note(knowledge, "CLOCK_" + clock_id, text)
+			var written := _write_note(state, "CLOCK_" + clock_id, "CLOCK_" + clock_id.to_upper(), text, event_context)
+			if not written.ok: return written
 		"board_swap", "board_rotate", "board_flip", "board_check":
 			if room != "M1_GREAT_CLOCK" or local["rubbed"].size() != 4 or local["clock_locked"]:
 				return _reject("당일 탁본 네 장과 움직일 수 있는 점검함이 필요하다.")
@@ -302,7 +313,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 					knowledge["clock_network_layout_solved"] = true
 					knowledge["clock_verified_board"] = board.duplicate(true)
 					text = NOTEBOOK_FEEDBACK.FIXED.LAYOUT_SOLVED
-					_note(knowledge, "B3_A", text)
+					var written := _write_note(state, "B3_A", "B3_A", text, event_context)
+					if not written.ok: return written
 		"role", "phase", "test_clock", "activate_clock":
 			if room != "M1_GREAT_CLOCK" or not knowledge.get("clock_network_layout_solved", false) or local["rubbed"].size() != 4:
 				return _reject("먼저 당일 탁본으로 배치를 확인한다.")
@@ -337,7 +349,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 						var old_failure: Dictionary = failures.get("B3_B", {})
 						failures["B3_B"] = {"source_event_id": "B3_B", "status": "active", "attempts": int(old_failure.get("attempts", 0)) + 1, "category": check["category"], "verified_roles": check["verified"], "submitted_phase": local["phase"], "text": text}
 						text += "\n봉인핀이 꺾였다. 오늘 다시 움직일 수 없다. 잠들면 핀은 돌아오고, 확인한 결과는 수첩에 남는다."
-						_note(knowledge, "BF", text)
+						var written := _write_note(state, "BF", "BF_" + category, text, event_context)
+						if not written.ok: return written
 						var memory: Array = meta["servants"]["edgar"]["residual_memory"]
 						if "B3_B_FAILURE_HEARD" not in memory:
 							memory.append("B3_B_FAILURE_HEARD")
@@ -363,7 +376,11 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			if meta["failure_knowledge"].has("B3_B"):
 				meta["failure_knowledge"]["B3_B"]["status"] = "resolved"
 			text = "길고 낮은 진입파, 짧게 갈라지는 두 반사파, 바깥을 닫는 느린 잔류파를 투명지에 기록했다."
-			_note(knowledge, "B4", text)
+			var written := _write_note(state, "B4", "B4", text, event_context)
+			if not written.ok: return written
+			if meta["failure_knowledge"].has("B3_B"):
+				written = NOTEBOOK_NOTES.write(state, "BF_RESOLVED", NOTEBOOK_NOTES.FAILURE_RESOLVED, event_context, TranslationServer.get_locale())
+				if not written.ok: return written
 			text_id = "CH1_B4_RECORDED"
 		"wave_rotate", "restore_j2":
 			if int(meta["journal_stage"]) >= 2:
@@ -382,12 +399,16 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				knowledge["KN_J2_WAVE_SEGMENTS"] = true
 				text = J2_TEXT
 				text_id = "CH1_J2_RESTORED"
-				_note(knowledge, "J2", text)
+				var written := _write_note(state, "J2", "J2", text, event_context)
+				if not written.ok: return written
 		_:
 			return _reject("정의되지 않은 행동이다: " + action)
 	if not text_id.is_empty(): notebook_id = text_id
 	if not notebook_id.is_empty(): notebook_feedback = NOTEBOOK_FEEDBACK.paragraphs(notebook_id)
-	return _commit_feedback(state, text, speaker, text_id, {}, notebook_feedback)
+	# The note batch and the ensuing spoken conversation share the occurrence,
+	# not a conversation cursor. Replaying feedback opens a fresh conversation.
+	event_context.erase("conversation_session_id")
+	return _commit_feedback(state, text, speaker, text_id, event_context, notebook_feedback)
 
 
 func sleep() -> Dictionary:
@@ -424,6 +445,11 @@ func _rooms_connected(from: String, to: String, knowledge: Dictionary) -> bool:
 		var other := to if from == "M1_LIBRARY_INNER" else from
 		return other == "M1_LIBRARY_OUTER" or (other == "M1_NORTH_ARCHIVE_HALL" and knowledge.get("north_library_shortcut", false))
 	return from == "M1_CENTRAL_HALL" or to == "M1_CENTRAL_HALL"
+
+
+func _write_note(state: Dictionary, legacy_id: String, content_key: String, text: String, context: Dictionary) -> Dictionary:
+	_note(state.meta_progress.knowledge_entries, legacy_id, text)
+	return NOTEBOOK_NOTES.write(state, content_key, text, context, TranslationServer.get_locale())
 
 
 func _note(knowledge: Dictionary, id: String, text: String) -> void:
