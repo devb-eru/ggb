@@ -45,21 +45,7 @@ func initialize() -> Dictionary:
 	if not knowledge.has("j2_restored_day"):
 		knowledge["j2_restored_day"] = int(state["loop_state"]["day_index"])
 	state["loop_state"]["event_local_states"][MIRROR_KEY] = mirror_local(state)
-	return _commit(state, String(initialized.get("text", "")), String(initialized.get("speaker", "주인공")))
-
-
-func history_chapter_id() -> String:
-	# J3 is the bridge into chapter 3. Keep the earlier black-mirror
-	# investigation in chapter 2, and route J3 dialogue to chapter 3.
-	var state := snapshot()
-	var meta: Dictionary = state["meta_progress"]
-	if int(meta.get("journal_stage", 0)) >= 3:
-		return "CHAPTER_3"
-	var knowledge: Dictionary = meta.get("knowledge_entries", {})
-	var local := mirror_local(state)
-	if knowledge.get("c5_info_complete", false) or local.get("j3_overlay_seen", false) or not local.get("j3_order", []).is_empty():
-		return "CHAPTER_3"
-	return "CHAPTER_2"
+	return _commit_feedback(state, String(initialized.get("text", "")), String(initialized.get("speaker", "주인공")), String(initialized.get("text_id", "")), initialized.get("history_context", {}))
 
 
 func stage() -> String:

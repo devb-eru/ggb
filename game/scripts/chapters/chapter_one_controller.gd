@@ -77,7 +77,11 @@ func _restore_world_focus() -> void:
 func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 	_remember_world_focus()
 	_history_recorded_index = -1
-	super._show_dialogue(lines, after)
+	var captured := lines.duplicate(true)
+	for line in captured:
+		if not line.has("history_context") and session != null:
+			line["history_context"] = session.history_context()
+	super._show_dialogue(captured, after)
 
 
 func _history_enabled() -> bool:
@@ -96,7 +100,8 @@ func _present_dialogue_line() -> void:
 func _record_current_history_line() -> bool:
 	if not _history_enabled() or not _dialogue_active or _history_recorded_index == _dialogue_index:
 		return true
-	var result := session.record_viewed_line(_speaker_label.text, _dialogue_label.text, TranslationServer.get_locale())
+	var context: Dictionary = _dialogue_lines[_dialogue_index].get("history_context", {})
+	var result := session.record_viewed_line(_speaker_label.text, _dialogue_label.text, TranslationServer.get_locale(), context)
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false
@@ -136,6 +141,7 @@ func _advance_dialogue() -> void:
 func _show_modal(title: String, body: String, actions: Array) -> void:
 	_choice_modal_generation += 1
 	_remember_world_focus()
+	_remember_history_scroll()
 	for child in _modal_body.get_children():
 		_modal_body.remove_child(child)
 		child.queue_free()
@@ -149,7 +155,7 @@ func _close_modal() -> void:
 
 
 func _show_recorded_choice(title: String, body: String, actions: Array) -> void:
-	var context := {"generation": _choice_modal_generation + 1, "recorded": false, "text": title + "\n" + body}
+	var context := {"generation": _choice_modal_generation + 1, "recorded": false, "text": title + "\n" + body, "history_context": session.history_context() if session != null else {}}
 	var wrapped: Array = []
 	for index in range(actions.size()):
 		var action: Dictionary = actions[index].duplicate()
@@ -164,7 +170,7 @@ func _show_recorded_choice(title: String, body: String, actions: Array) -> void:
 func _record_modal_options(context: Dictionary) -> bool:
 	if context["recorded"] or not _history_enabled():
 		return true
-	var result := session.record_viewed_line(_dialogue_ui_text("HISTORY_OPTIONS"), String(context["text"]), TranslationServer.get_locale())
+	var result := session.record_viewed_line(_dialogue_ui_text("HISTORY_OPTIONS"), String(context["text"]), TranslationServer.get_locale(), context["history_context"])
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false
@@ -178,7 +184,7 @@ func _recorded_choice_pressed(context: Dictionary, label: String, action: Callab
 	if not _record_modal_options(context):
 		return
 	if not cancel and _history_enabled():
-		var result := session.record_viewed_line(_dialogue_ui_text("HISTORY_SELECTED"), label, TranslationServer.get_locale())
+		var result := session.record_viewed_line(_dialogue_ui_text("HISTORY_SELECTED"), label, TranslationServer.get_locale(), context["history_context"])
 		if not result.get("ok", false):
 			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 			return
@@ -227,7 +233,7 @@ func _feedback(result: Dictionary) -> void:
 	var lines: Array = []
 	for paragraph in text.split("\n"):
 		if not paragraph.is_empty():
-			lines.append({"speaker": speaker, "portrait": "EDGAR" if speaker == "에드가" else "", "text": paragraph})
+			lines.append({"speaker": speaker, "portrait": "EDGAR" if speaker == "에드가" else "", "text": paragraph, "history_context": result.get("history_context", session.history_context())})
 	_show_dialogue(lines)
 
 

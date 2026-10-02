@@ -284,9 +284,9 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 	var before_history_menu := GameState.get_snapshot()
 	view._open_menu()
 	(view._modal_body.get_child(4) as Button).pressed.emit()
-	var history_body := (view._modal_body.get_child(2).get_child(0) as Label).text
+	var history_body := (view._modal_body.find_child("HistoryTranscript", true, false) as Label).text
 	_expect(history_body.contains("Mirror history shown") and not history_body.contains("Mirror history unseen"), "mirror menu opens viewed history only")
-	(view._modal_body.get_child(3) as Button).pressed.emit()
+	(view._modal_body.get_node("HistoryClose") as Button).pressed.emit()
 	_expect(GameState.get_snapshot() == before_history_menu, "mirror history menu is read only")
 	var hint_base := GameState.get_snapshot()
 	for hint_stage in ["C3", "C4"]:

@@ -4,6 +4,7 @@ extends RefCounted
 const CLOCK := preload("res://data/puzzles/puzzle_clock_network.tres")
 const SAVE_POINT := "SAVE_CAMPAIGN_PROGRESS"
 const HISTORY_CHAPTER_ID := "CHAPTER_1"
+const HISTORY_CONTEXT := preload("res://scripts/systems/dialogue_history_context.gd")
 const LOCAL_KEY := "CHAPTER_ONE"
 const MARKS := {"sentence": "내일 아침, 이 문장을 읽어.", "house_glyph": "창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문", "ink_corner": "페이지 모서리의 잉크 한 방울"}
 const CLOCK_ROOMS := {"M2_BEDROOM": "bedroom", "M1_PARLOR": "parlor", "M1_LIBRARY_OUTER": "library_outer", "M1_GREAT_CLOCK": "great_clock"}
@@ -26,6 +27,7 @@ var _game: Node
 var _save: Node
 var _writer: StateWriter
 var _pending_feedback_text_id := ""
+var _pending_feedback_context: Dictionary = {}
 
 
 func _init(game: Node, save: Node, slot: String) -> void:
@@ -101,7 +103,7 @@ func initialize() -> Dictionary:
 		state["loop_state"]["location_id"] = "M2_BEDROOM"
 	state["loop_state"]["event_local_states"][LOCAL_KEY] = local_state(state)
 	var last: Dictionary = local_state(state).get("last_feedback", {})
-	return _commit_feedback(state, String(last.get("text", "같은 아침이다. 방의 흔적과 수첩을 비교해 본다.")), String(last.get("speaker", "주인공")), String(last.get("text_id", "")))
+	return _commit_feedback(state, String(last.get("text", "같은 아침이다. 방의 흔적과 수첩을 비교해 본다.")), String(last.get("speaker", "주인공")), String(last.get("text_id", "")), last.get("history_context", {}))
 
 
 func act(action: String, value: Variant = null) -> Dictionary:
@@ -391,11 +393,16 @@ func available_rooms() -> Array:
 
 
 func history_chapter_id() -> String:
-	return HISTORY_CHAPTER_ID
+	return HISTORY_CONTEXT.chapter_for_stage(stage())
 
 
-func record_viewed_line(speaker: String, text: String, locale: String) -> Dictionary:
-	return preload("res://scripts/systems/dialogue_history_writer.gd").record(_game, _save, slot_id, _save_point(snapshot()), speaker, text, locale, history_chapter_id())
+func history_context() -> Dictionary:
+	return HISTORY_CONTEXT.capture(stage(), String(snapshot()["loop_state"]["location_id"]))
+
+
+func record_viewed_line(speaker: String, text: String, locale: String, context: Dictionary = {}) -> Dictionary:
+	var chapter_id := history_chapter_id() if context.is_empty() else HISTORY_CONTEXT.normalize_chapter(context.get("chapter_id"))
+	return preload("res://scripts/systems/dialogue_history_writer.gd").record(_game, _save, slot_id, _save_point(snapshot()), speaker, text, locale, chapter_id)
 
 
 func _rooms_connected(from: String, to: String, knowledge: Dictionary) -> bool:
@@ -415,9 +422,11 @@ func _note(knowledge: Dictionary, id: String, text: String) -> void:
 
 func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> Dictionary:
 	var text_id := _pending_feedback_text_id
+	# Capture the source event before installing a snapshot that advances the story.
+	var context := history_context() if _pending_feedback_context.is_empty() else _pending_feedback_context.duplicate(true)
 	var local := local_state(state)
 	if not text.is_empty():
-		local["last_feedback"] = {"text": text, "speaker": speaker, "text_id": text_id}
+		local["last_feedback"] = {"text": text, "speaker": speaker, "text_id": text_id, "history_context": context}
 	state["loop_state"]["event_local_states"][LOCAL_KEY] = local
 	var inventory: Array = state["loop_state"]["inventory"]
 	# Rebuild only this chapter's physical items; unrelated inventory is preserved.
@@ -434,15 +443,18 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 	if not saved.get("ok", false):
 		_game.rollback_failed_persistence(installed["previous_snapshot"], int(installed["revision"]), transaction, &"ERR_CAMPAIGN_SAVE")
 		return saved
-	return {"ok": true, "text": text, "speaker": speaker, "text_id": text_id, "stage": stage()}
+	return {"ok": true, "text": text, "speaker": speaker, "text_id": text_id, "stage": stage(), "history_context": context}
 
 
-func _commit_feedback(state: Dictionary, text: String, speaker: String, text_id: String) -> Dictionary:
+func _commit_feedback(state: Dictionary, text: String, speaker: String, text_id: String, context: Dictionary = {}) -> Dictionary:
 	# Keep subclass commit hooks while passing display metadata through the transaction.
 	var previous_id := _pending_feedback_text_id
+	var previous_context := _pending_feedback_context
 	_pending_feedback_text_id = text_id
+	_pending_feedback_context = context
 	var result := _commit(state, text, speaker)
 	_pending_feedback_text_id = previous_id
+	_pending_feedback_context = previous_context
 	return result
 
 

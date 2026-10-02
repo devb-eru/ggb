@@ -6,6 +6,7 @@ const TEXT_CATALOG := preload("res://data/dialogue/system/foundation_text_catalo
 const TITLE_EXTENSION := preload("res://data/dialogue/system/title_extension_text.tres")
 const PROLOGUE_TEXT := preload("res://data/dialogue/prologue/prologue_text.tres")
 const CHAPTER_ONE_TEXT := preload("res://data/dialogue/chapter_one/chapter_one_text.tres")
+const HISTORY_CONTEXT := preload("res://scripts/systems/dialogue_history_context.gd")
 const VARIABLE_TYPES := {
 	"string": TYPE_STRING,
 	"int": TYPE_INT,
@@ -66,6 +67,8 @@ func get_text(line_id: StringName, locale: String, variables: Dictionary = {}) -
 func render_history(history_value: Variant, locale: String) -> Dictionary:
 	var errors := PackedStringArray()
 	var rendered_entries: Array = []
+	if not is_ready():
+		return {"ok": false, "entries": rendered_entries, "error_ids": get_errors()}
 	if not history_value is Dictionary or not history_value.get("entries") is Array:
 		return {"ok": false, "entries": rendered_entries, "error_ids": PackedStringArray(["ERR_DIALOGUE_HISTORY_TYPE"])}
 	var previous_sequence := -1
@@ -95,8 +98,8 @@ func render_history(history_value: Variant, locale: String) -> Dictionary:
 			continue
 		rendered_entries.append({
 			"sequence": int(history_entry.get("sequence", -1)),
-			"chapter_id": String(history_entry.get("chapter_id", "LEGACY")),
-				"line_id": line_id,
+			"chapter_id": HISTORY_CONTEXT.normalize_chapter(history_entry.get("chapter_id")),
+			"line_id": line_id,
 			"speaker_id": String(definition["speaker_id"]),
 			"text": get_text(StringName(line_id), locale, history_entry.get("variables", {})),
 		})

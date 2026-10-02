@@ -127,6 +127,9 @@ $chapterOneSmokeResult = Invoke-GodotValidation @("--headless", "--path", $proje
 Assert-GodotValidation -Result $chapterOneSmokeResult -Name "Chapter one smoke" -RequiredMarker "CHAPTER_ONE_SMOKE: PASS"
 Write-Host "Chapter one reset, failure, shortcut, journal, and load validation passed."
 
+$historyResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--dialogue-history-smoke")
+Assert-GodotValidation -Result $historyResult -Name "Dialogue history" -RequiredMarker "DIALOGUE_HISTORY_SMOKE: PASS"
+
 $blackMirrorResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--black-mirror-smoke")
 Assert-GodotValidation -Result $blackMirrorResult -Name "Black mirror chapter smoke" -RequiredMarker "BLACK_MIRROR_SMOKE: PASS"
 Write-Host "Black mirror mixture, irreversible trace, reset, capture, and J3 validation passed."

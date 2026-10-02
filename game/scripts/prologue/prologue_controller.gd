@@ -156,12 +156,18 @@ var _dialogue_after := Callable()
 var _dialogue_active := false
 var _modal_active := false
 var _p3_journal_prompt_active := false
+var _history_selected := "ALL"
+var _history_scroll_positions: Dictionary = {}
+var _history_warning := ""
+var _history_generation := 0
 
 
 func configure_session(slot_id: String, resume_id: String, test_mode: bool = false) -> void:
 	_slot_id = slot_id
 	_resume_id = resume_id
 	_test_mode = test_mode
+	_history_selected = "ALL"
+	_history_scroll_positions.clear()
 
 
 func _ready() -> void:
@@ -2128,12 +2134,16 @@ func _open_dialogue_history() -> void:
 
 
 func _show_history_result(result: Dictionary) -> void:
+	_remember_history_scroll()
+	_history_warning = ""
 	if not result.get("ok", false):
-		_show_modal(_dialogue_ui_text("CH1_HISTORY_TITLE"), _dialogue_ui_text("CH1_HISTORY_READ_ERROR"), [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
-		return
-
-	var chapter_order := ["PROLOGUE", "CHAPTER_1", "CHAPTER_2", "CHAPTER_3", "CHAPTER_4"]
+		_history_warning = _dialogue_ui_text("CH1_HISTORY_READ_ERROR")
+		var errors: Array = Array(result.get("error_ids", []))
+		if not errors.is_empty():
+			_history_warning += "\n" + _dialogue_texts.get_text("CH1_HISTORY_DIAGNOSTIC", TranslationServer.get_locale(), {"count": errors.size(), "codes": ", ".join(errors)})
+	var chapter_order := ["ALL"]
 	var chapter_titles := {
+		"ALL": _dialogue_ui_text("CH1_HISTORY_CHAPTER_ALL"),
 		"PROLOGUE": _dialogue_ui_text("CH1_HISTORY_CHAPTER_PROLOGUE"),
 		"CHAPTER_1": _dialogue_ui_text("CH1_HISTORY_CHAPTER_1"),
 		"CHAPTER_2": _dialogue_ui_text("CH1_HISTORY_CHAPTER_2"),
@@ -2141,19 +2151,21 @@ func _show_history_result(result: Dictionary) -> void:
 		"CHAPTER_4": _dialogue_ui_text("CH1_HISTORY_CHAPTER_4"),
 		"LEGACY": _dialogue_ui_text("CH1_HISTORY_CHAPTER_LEGACY"),
 	}
-	var grouped: Dictionary = {}
+	var grouped: Dictionary = {"ALL": []}
 	for entry in result.get("entries", []):
-		var chapter_id := String(entry.get("chapter_id", "LEGACY"))
+		var chapter_id: String = preload("res://scripts/systems/dialogue_history_context.gd").normalize_chapter(entry.get("chapter_id"))
 		if not grouped.has(chapter_id):
 			grouped[chapter_id] = []
-		grouped[chapter_id].append(entry.duplicate(true))
-
-	# The history window is a chapter selector. Selecting a chapter replaces the
-	# transcript in the same window; it does not alter or delete saved history.
+		grouped[chapter_id].append(entry)
+		grouped["ALL"].append(entry)
+	for chapter_id in ["PROLOGUE", "CHAPTER_1", "CHAPTER_2", "CHAPTER_3", "CHAPTER_4", "LEGACY"]:
+		if grouped.has(chapter_id):
+			chapter_order.append(chapter_id)
 	_show_chapter_history_modal(chapter_order, chapter_titles, grouped)
 
 
 func _show_chapter_history_modal(chapter_order: Array, chapter_titles: Dictionary, grouped: Dictionary) -> void:
+	_history_generation += 1
 	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
 	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
 	if is_instance_valid(_audio_settings_panel): _audio_settings_panel.hide()
@@ -2171,9 +2183,11 @@ func _show_chapter_history_modal(chapter_order: Array, chapter_titles: Dictionar
 	_modal_body.add_child(title_label)
 	_modal_body.add_child(HSeparator.new())
 
-	var chapter_buttons := HBoxContainer.new()
+	var chapter_buttons := GridContainer.new()
 	chapter_buttons.name = "HistoryChapterButtons"
-	chapter_buttons.add_theme_constant_override("separation", 8)
+	chapter_buttons.columns = 2 if _reading_text_scale >= 1.5 else 3
+	chapter_buttons.add_theme_constant_override("h_separation", 8)
+	chapter_buttons.add_theme_constant_override("v_separation", 8)
 	chapter_buttons.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_modal_body.add_child(chapter_buttons)
 
@@ -2187,35 +2201,45 @@ func _show_chapter_history_modal(chapter_order: Array, chapter_titles: Dictionar
 	_modal_body.add_child(body_scroll)
 
 	var body_label := Label.new()
+	body_label.name = "HistoryTranscript"
 	body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	body_label.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
 	body_label.add_theme_color_override("font_color", Color(0.93, 0.92, 0.90))
 	body_scroll.add_child(body_label)
 
-	var selected_chapter := ""
+	var selected_chapter := _history_selected if _history_selected in chapter_order else "ALL"
+	var selected_button: Button
 	for chapter_id in chapter_order:
 		var id := String(chapter_id)
-		var entries: Array = grouped.get(id, [])
 		var button := Button.new()
 		button.name = "HistoryChapter_%s" % id
 		button.text = String(chapter_titles.get(id, id))
 		button.custom_minimum_size = Vector2(0, 52)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.disabled = entries.is_empty()
+		button.toggle_mode = true
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		button.add_theme_font_size_override("font_size", int(round(17 * _reading_text_scale)))
 		button.add_theme_stylebox_override("normal", _style(Color(0.10, 0.035, 0.11, 0.98), Color(0.66, 0.35, 0.34, 0.95), 2, 7))
 		button.add_theme_stylebox_override("hover", _style(Color(0.18, 0.055, 0.14, 0.99), Color(0.86, 0.55, 0.42, 0.98), 2, 7))
 		chapter_buttons.add_child(button)
-		if not entries.is_empty():
-			button.pressed.connect(func() -> void:
-				_show_selected_history_chapter(id, chapter_titles, grouped, body_label, body_scroll, chapter_buttons)
-			)
-			if selected_chapter.is_empty():
-				selected_chapter = id
+		button.pressed.connect(func() -> void:
+			_remember_history_scroll()
+			_show_selected_history_chapter(id, chapter_titles, grouped, body_label, body_scroll, chapter_buttons)
+		)
+		if id == selected_chapter:
+			selected_button = button
+
+	if not _history_warning.is_empty():
+		var retry_button := Button.new()
+		retry_button.name = "HistoryRetry"
+		retry_button.text = _dialogue_ui_text("CH1_HISTORY_RETRY")
+		retry_button.custom_minimum_size.y = 48
+		retry_button.pressed.connect(_open_dialogue_history)
+		_modal_body.add_child(retry_button)
 
 	var close_button := Button.new()
+	close_button.name = "HistoryClose"
 	close_button.text = _dialogue_ui_text("UI_NOTE_CLOSE")
 	close_button.custom_minimum_size.y = 58
 	close_button.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
@@ -2225,27 +2249,43 @@ func _show_chapter_history_modal(chapter_order: Array, chapter_titles: Dictionar
 
 	_modal_active = true
 	_modal_layer.visible = true
-	if selected_chapter.is_empty():
-		body_label.text = _dialogue_ui_text("CH1_HISTORY_EMPTY")
-	else:
-		_show_selected_history_chapter(selected_chapter, chapter_titles, grouped, body_label, body_scroll, chapter_buttons)
+	_show_selected_history_chapter(selected_chapter, chapter_titles, grouped, body_label, body_scroll, chapter_buttons)
 	call_deferred("_cycle_modal_focus")
-	call_deferred("_focus_visible_control", weakref(chapter_buttons.get_child(0) if chapter_buttons.get_child_count() > 0 else close_button))
+	call_deferred("_focus_visible_control", weakref(selected_button if not grouped["ALL"].is_empty() else close_button))
 
 
-func _show_selected_history_chapter(chapter_id: String, chapter_titles: Dictionary, grouped: Dictionary, body_label: Label, body_scroll: ScrollContainer, chapter_buttons: HBoxContainer) -> void:
+func _show_selected_history_chapter(chapter_id: String, chapter_titles: Dictionary, grouped: Dictionary, body_label: Label, body_scroll: ScrollContainer, chapter_buttons: Container) -> void:
+	_history_selected = chapter_id
+	_history_generation += 1
 	var paragraphs: Array[String] = []
 	var entries: Array = grouped.get(chapter_id, [])
-	paragraphs.append("━━━━━━━━ " + String(chapter_titles.get(chapter_id, chapter_id)) + " ━━━━━━━━")
+	if not _history_warning.is_empty():
+		paragraphs.append(_history_warning)
+	if not entries.is_empty():
+		paragraphs.append(String(chapter_titles[chapter_id]))
 	for entry in entries:
 		var text := String(entry.get("text", ""))
 		paragraphs.append(text)
-	body_label.text = "\n\n".join(paragraphs) if not entries.is_empty() else _dialogue_ui_text("CH1_HISTORY_EMPTY")
-	body_scroll.scroll_vertical = 0
+	body_label.text = "\n\n".join(paragraphs) if not paragraphs.is_empty() else _dialogue_ui_text("CH1_HISTORY_EMPTY")
 	for child in chapter_buttons.get_children():
 		var button := child as Button
 		if button != null:
-			button.button_pressed = button.name == "HistoryChapter_%s" % chapter_id
+			button.set_pressed_no_signal(button.name == "HistoryChapter_%s" % chapter_id)
+	_restore_history_scroll(weakref(body_scroll), chapter_id, _history_generation)
+
+
+func _remember_history_scroll() -> void:
+	var scroll := _history_modal_scroll()
+	if scroll != null:
+		_history_scroll_positions[_history_selected] = scroll.scroll_vertical
+
+
+func _restore_history_scroll(reference: WeakRef, chapter_id: String, generation: int) -> void:
+	await get_tree().process_frame
+	var scroll := reference.get_ref() as ScrollContainer
+	if generation != _history_generation or not is_instance_valid(scroll) or not _modal_active:
+		return
+	scroll.scroll_vertical = int(_history_scroll_positions.get(chapter_id, scroll.get_v_scroll_bar().max_value))
 
 
 func _history_modal_scroll() -> ScrollContainer:
@@ -2272,6 +2312,8 @@ func _open_notebook() -> void:
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
+	_remember_history_scroll()
+	_history_generation += 1
 	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
 	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
 	if is_instance_valid(_audio_settings_panel):
@@ -2347,6 +2389,8 @@ func _focus_visible_control(reference: WeakRef) -> void:
 
 
 func _close_modal() -> void:
+	_remember_history_scroll()
+	_history_generation += 1
 	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
 	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
 	if is_instance_valid(_audio_settings_panel):

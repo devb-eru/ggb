@@ -358,16 +358,16 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._dismiss_dialogue_for_test()
 	var before_history_open := GameState.get_snapshot()
 	view._open_dialogue_history()
-	var history_body := (view._modal_body.get_child(2).get_child(0) as Label).text
+	var history_body := (view._modal_body.find_child("HistoryTranscript", true, false) as Label).text
 	_expect(history_body.contains("Viewed history line") and not history_body.contains("Not yet viewed"), "history viewer excludes unshown sentence")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == before_history_open, "history viewing is read only")
 	view._show_history_result({"ok": false, "entries": [{"text": "Readable history remains"}]})
-	var partial_history := (view._modal_body.get_child(2).get_child(0) as Label).text
+	var partial_history := (view._modal_body.find_child("HistoryTranscript", true, false) as Label).text
 	_expect(partial_history.contains(view._dialogue_ui_text("CH1_HISTORY_READ_ERROR")) and partial_history.contains("Readable history remains"), "partial history failure shows warning and readable entries")
 	view._close_modal()
 	view._show_history_result({"ok": false, "entries": []})
-	_expect((view._modal_body.get_child(2).get_child(0) as Label).text == view._dialogue_ui_text("CH1_HISTORY_READ_ERROR"), "unreadable history is not mislabeled as empty")
+	_expect((view._modal_body.find_child("HistoryTranscript", true, false) as Label).text == view._dialogue_ui_text("CH1_HISTORY_READ_ERROR"), "unreadable history is not mislabeled as empty")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == before_history_open, "history error display preserves original records")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).get("ok", false), "history save reload")
@@ -484,8 +484,8 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	var history_button := view._modal_body.get_child(4) as Button
 	_expect(history_button.text == view._dialogue_ui_text("CH1_HISTORY_TITLE"), "pause menu exposes history action")
 	history_button.pressed.emit()
-	_expect((view._modal_body.get_child(2).get_child(0) as Label).text.contains("Retry second line"), "actual menu action opens recorded transcript")
-	(view._modal_body.get_child(3) as Button).pressed.emit()
+	_expect((view._modal_body.find_child("HistoryTranscript", true, false) as Label).text.contains("Retry second line"), "actual menu action opens recorded transcript")
+	(view._modal_body.get_node("HistoryClose") as Button).pressed.emit()
 	_expect(not view._modal_active and GameState.get_snapshot() == before_menu, "history close button preserves gameplay state")
 	var before_choice_fixture := GameState.get_snapshot()
 	var choice_fixture := before_choice_fixture.duplicate(true)

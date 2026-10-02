@@ -575,9 +575,9 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	var before_history_menu := GameState.get_snapshot()
 	prologue._open_menu()
 	(prologue._modal_body.get_child(4) as Button).pressed.emit()
-	var history_body := (prologue._modal_body.get_child(2).get_child(0) as Label).text
+	var history_body := (prologue._modal_body.find_child("HistoryTranscript", true, false) as Label).text
 	_expect(history_body.contains("Prologue shown line") and not history_body.contains("Prologue unseen line"), "Prologue menu displays viewed history only", errors)
-	(prologue._modal_body.get_child(3) as Button).pressed.emit()
+	(prologue._modal_body.get_node("HistoryClose") as Button).pressed.emit()
 	_expect(GameState.get_snapshot() == before_history_menu, "Prologue history menu is read only", errors)
 	prologue._slot_id = "../invalid_sleep_slot"
 	var before_history_failure := GameState.get_snapshot()
