@@ -185,7 +185,7 @@ save_header:
 
 ### 7.1 대화 기록
 
-[GGB-DEC-2026-0006](decisions/GGB-DEC-2026-0006_대화_기록_영속화.md)에 따라 대화 기록은 진행 슬롯에 명시적으로 저장한다.
+[GGB-DEC-2026-0006](decisions/GGB-DEC-2026-0006_대화_기록_영속화.md)에 따라 대화 기록은 진행 슬롯에 명시적으로 저장한다. 보존·통합 수첩의 목표 계약은 [DEC-0012](decisions/GGB-DEC-2026-0012_통합_수첩_범위와_기록_보존.md)와 [구현 계획](../ideas/md/v04/issues/validation/notebook_history_review_plan.md)을 적용한다. 아래 예시는 이전 기록의 논리 필드 설명이며 신형 archive의 완전한 직렬화 예제가 아니다. 현재 게임은 transcript 저장을 사용하며 새 저장 계층의 실제 연결 상태는 [구현 현황](../ideas/md/v04/issues/validation/notebook_history_implementation_status.md)을 따른다.
 
 ```yaml
 meta_progress:
@@ -204,13 +204,18 @@ meta_progress:
 
 규칙:
 
-- 문장 본문은 저장하지 않고 현재 locale의 `line_id`로 다시 표시한다.
-- `sequence`는 슬롯 안에서 단조 증가하며 정렬 의미를 가진다.
+- 신규 기록은 원 콘텐츠 ID·의미 버전·variant·안전한 변수·실제 공개 segment로 현재 locale에 표시한다. 해당 버전이 없으면 당시 표시 원문과 언어를 fallback으로 쓰며 최신 비밀 본문으로 대체하지 않는다. legacy 원문은 재작성하지 않는다.
+- `entry_uid`는 불변 참조 키다. `sequence`는 분기 내 표시 순서이며 과거 복귀로 값이 재사용돼도 다른 기록에 연결하지 않는다. 원 출처·분기·namespace·load epoch를 구분한다.
 - NORMAL_RESET, BROKEN_RESET, 불러오기와 언어 변경에서 유지한다.
-- 새 게임, 슬롯 삭제 또는 호환 불가 초기화에서만 제거한다.
-- 기본 최대 2,000개 항목이며 `retention=protected`는 자동 제거하지 않는다.
-- `protected`는 일지 복원, 최종 선택, 핵심 관계 outcome처럼 진행 판단에 필요한 대사에만 사용한다.
+- 일반 대사는 최신 2,000개를 유지하고 보호 기록·legacy는 수량 계산에서 제외해 별도로 보존한다. 보호만 2,001개여도 새 일반 기록을 밀어내지 않는다.
+- 일지·최종 선택·관계 outcome·단서/가설/인물의 출처와 책갈피·비교 참조가 원문을 보호한다. 참조와 보호 이유는 같은 슬롯 snapshot에서 저장하며 해제는 해당 이유만 제거한다.
+- 조회/검색/확대는 읽기 전용이다. 고정/비교 명령은 공개된 자료의 참조·보호·기록 메타 revision만 변경한다. 세계·관계·퍼즐·현실 `field_read`는 변경하지 않는다.
+- 새 게임·삭제는 다른 슬롯과 갤러리를 지우지 않는다. 호환 불가 상태는 원본 보존·명시적 복구 경로로 처리하고 자동 초기화하지 않는다.
 - 아직 보지 않은 line이나 후속 선택지는 기록에 생성하지 않는다.
+
+현실 몸 재관찰의 독립 증거는 `meta_progress.knowledge_entries.dialogue_observed_facts`에 둔다. 허용 키는 `BODY_REPEAT:OBJ_REALITY_HAND`, `BODY_REPEAT:OBJ_REALITY_BREATH_MONITOR`, `BODY_REPEAT:OBJ_REALITY_RESTRAINT`이며 값은 `true`만 허용한다. 실제 재관찰 대사가 표시될 때 기존 조사 확인·현재 현실 노드를 검사하고 대사 기록과 함께 저장한다. 저장 실패 시 두 변경을 함께 롤백한다. 갤러리는 이 증거로 재관찰 본문을 보존하되 기존 조사 확인 조건을 우회하지 않는다. 구형 저장의 원문 확인은 읽기 전용 호환 경로로 유지한다.
+
+현재 본편 writer는 자동 정리를 켜지 않았다. UID·보호·출처·저장 이관·원문 소비 경로가 갖춰진 뒤 위 정책을 활성화한다. 새 archive 후보 변환만 통과한 것을 실제 슬롯 이관 완료로 간주하지 않는다.
 
 ### 7.2 초기 저장 지점
 

@@ -2963,7 +2963,7 @@ next_unvalidated_event_node
 
 ### 21.5 대화 기록 상태
 
-`GGB-DEC-2026-0006`의 대화 기록 영속화를 다음 슬롯 데이터로 구현한다.
+`GGB-DEC-2026-0006`의 기록 영속화와 [DEC-0012](../../../docs/decisions/GGB-DEC-2026-0012_통합_수첩_범위와_기록_보존.md)의 차기 수첩 계약을 따른다. 아래 예시는 이전 기록의 논리 필드 설명이며 신형 archive의 전체 직렬화 형식이 아니다. 실제 본편은 아직 transcript 저장을 사용한다. [구현 계획](issues/validation/notebook_history_review_plan.md)과 [구현 현황](issues/validation/notebook_history_implementation_status.md)을 구분한다.
 
 ```yaml
 meta_progress:
@@ -2982,26 +2982,33 @@ meta_progress:
 
 | 필드 | 타입·기본값 | 규칙 |
 | --- | --- | --- |
-| `next_sequence` | int=0 | append 뒤 1 증가, 감소·재사용 금지 |
-| `sequence` | int | 슬롯 안에서 유일하며 표시 순서의 정본 |
+| `next_sequence` | int=0 | 현재 분기에서 append 뒤 1 증가. 과거 복귀로 값이 재사용돼도 UID와 구분 |
+| `sequence` | int | 분기 내 표시 순서. 참조·중복 방지 키가 아님 |
+| `entry_uid` | 128-bit ID | 실제 관찰마다 생성, 재로드·언어 변경·표시 재시도로 변경하지 않음 |
+| 원 출처·분기·scope | ID 집합 | demo/full/development/gallery·슬롯·run·branch와 load epoch를 구분 |
+| 발생·세션·표시 토큰 | ID 집합 | 실제 재방문은 새 발생, 화면 재렌더링·저장 재시도는 같은 표시 |
 | `line_id` | StringName | 등록된 `DLG_*`, `TXT_*`, `SYS_*`만 |
 | `speaker_id` | StringName | 등록된 사용인, `SUBJECT`, `SYSTEM`만 |
 | `choice_id` | StringName 또는 null | 실제 선택한 보기만 저장 |
 | `viewed_locale` | StringName | 최초 열람 locale, 현재 표시 언어와 달라도 됨 |
 | `event_id` | StringName | 대사가 발생한 사건, 공통 시스템 문구는 빈 값 허용 |
 | `viewed_at_utc` | int | 정렬 근거가 아니라 지원·감사용 보조 정보 |
-| `retention` | enum | `normal`, `protected` |
+| 보존 분류·이유 | 분류 + 이유 집합 | 일반/보호/legacy. 출처·책갈피·비교 이유를 함께 계산 |
+| 의미 버전·variant | 콘텐츠 참조 | 당시 의미와 분기를 고정, 현재 관계로 과거 대사를 재생성하지 않음 |
+| 공개 segment·안전 변수 | 검증된 자료 | 실제 표시/재열람 확정 부분만. 획득/게임상 읽기/UI 읽음과 분리 |
+| 당시 표시 원문·언어 | fallback | 해당 버전이 없을 때만 표시. legacy 원문을 새 번역으로 덮어쓰지 않음 |
 
 규칙:
 
-- 저장 본문에는 번역 문자열을 넣지 않고 현재 locale의 `line_id`를 해석한다.
+- 신규 기록은 콘텐츠 ID·의미 버전·variant를 통해 현재 locale에 표시하고, 당시 공개 원문은 fallback으로 보존한다. legacy와 과거 버전을 최신 비밀 본문으로 대체하지 않는다.
 - NORMAL_RESET, BROKEN_RESET, POST_BROKEN_REST와 불러오기는 기록을 지우지 않는다.
-- 새 게임, 슬롯 삭제 또는 호환 불가 초기화만 기록을 제거한다.
-- 기본 최대 2,000개다. 초과하면 가장 오래된 `normal`부터 제거한다.
-- 일지 복원, 핵심 관계 outcome, F3 확인과 최종 선택 대사는 `protected`로 지정한다.
-- 같은 대사가 반복돼도 실제 재생되었다면 새 `sequence`로 append한다.
-- 아직 확인하지 않은 대사, 선택하지 않은 보기와 미래 번역문은 생성하지 않는다.
-- `DialogueHistoryWriter`만 append·prune할 수 있고 일반 UI는 읽기 전용이다.
+- 일반 대사만 최신 2,000개를 유지한다. 보호 기록과 legacy는 별도로 보존하며 일반 창의 수량을 차지하지 않는다. 구형 이관만으로 normal로 분류해 자동 삭제하지 않는다.
+- 일지·핵심 관계·F3/최종 선택·단서/가설/인물 출처와 책갈피/비교 참조가 원문을 보호한다. 고정/해제의 참조·보호 이유·revision은 같은 원자 저장으로 처리한다.
+- 같은 대사가 실제 재발생하면 새 UID·발생·순번으로 추가한다. 같은 표시의 저장 재시도/재렌더링은 토큰으로 중복을 막는다.
+- 표시한 선택지 목록과 확정한 선택은 별도 기록이다. 미선택 후속 답변·숨은 보기·미요청 힌트는 생성하지 않는다.
+- 검색·페이지·확대·재열람은 읽기 전용이다. 명시적 고정/비교 명령만 참조·보호·기록 메타 revision을 바꾸며 물리 상태·관계·퍼즐·`field_read`는 쓰지 않는다.
+- 저장 이관은 원본 checksum 검증→복사본 변환/검증→원자 승격 순이다. 구형 원본을 별도 보존하고 미래 버전은 비파괴 거부한다. 현재/백업/F3/demo import/개발 checkpoint/갤러리 각각 검증한다. 갤러리 원본 hash/파일명은 읽기 어댑터에서 변경하지 않는다.
+- 현재 `notebook_archive.gd`는 위 규칙의 저장 전 후보 변환만 구현했다. 본편 writer 연결과 원문 소비 경로 이관 전에는 실제 prune를 켜지 않는다.
 
 ## 22. 저작 Resource 공통 구조
 
