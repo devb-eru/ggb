@@ -1,0 +1,2072 @@
+{
+	"contents": {
+		"NB_IRIS_ALERT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "Iris's voice grows thin and sharp. Her wings do not move any closer.",
+						"speaker": "Protagonist",
+						"summary": "A Thin, Sharp Voice",
+						"title": "A Thin, Sharp Voice"
+					},
+					"ko-KR": {
+						"line_01": "이리스의 목소리가 가늘고 날카로워진다. 날개는 더 다가오지 않는다.",
+						"speaker": "주인공",
+						"summary": "가늘고 날카로워진 목소리",
+						"title": "가늘고 날카로워진 목소리"
+					}
+				},
+				"localization_keys": {
+					"line_01": "ALERT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "ALERT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_AUDIT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "The credential owner was Iris; the actual executor was Father. The automated audit recorded the credential name as responsible. A warning was not consent.",
+						"speaker": "Protagonist",
+						"summary": "Credential Owner and Command Executor",
+						"title": "Credential Owner and Command Executor"
+					},
+					"ko-KR": {
+						"line_01": "자격 소유자는 이리스, 실제 실행자는 아버지다. 자동 감사는 자격 이름을 책임자로 적었다. 경고는 동의가 아니었다.",
+						"speaker": "주인공",
+						"summary": "자격 소유자와 명령 실행자",
+						"title": "자격 소유자와 명령 실행자"
+					}
+				},
+				"localization_keys": {
+					"line_01": "AUDIT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "AUDIT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_CHANNEL_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_IRIS_CHANNEL_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_IRIS_CHANNEL_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_IRIS_CHANNEL_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_IRIS_CHANNEL_SELECT_3",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Compare the repeating petals, incomplete glass waveform, and old date in the halo.",
+						"header": "Input Source",
+						"option_0": "Review the Glyphs and Dates",
+						"option_1": "Projection",
+						"option_2": "External Sensor",
+						"option_3": "Memory Model",
+						"speaker": "Displayed choices",
+						"summary": "Comparing Seasonal Input Sources",
+						"title": "Comparing Seasonal Input Sources"
+					},
+					"ko-KR": {
+						"body": "꽃잎의 반복 / 유리의 결손 파형 / 후광의 과거 날짜를 대조한다.",
+						"header": "입력 출처",
+						"option_0": "문양과 날짜를 다시 본다",
+						"option_1": "투사 연출",
+						"option_2": "외부 센서",
+						"option_3": "기억 모델",
+						"speaker": "표시된 선택지",
+						"summary": "계절 입력 출처 대조",
+						"title": "계절 입력 출처 대조"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_iris_channel:body",
+					"header": "_show_iris_channel:header",
+					"option_0": "_show_iris_channel:option_0",
+					"option_1": "_show_iris_channel:option_1",
+					"option_2": "_show_iris_channel:option_2",
+					"option_3": "_show_iris_channel:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_iris_channel",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_IRIS_CHANNEL_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_cancelled",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Review the Glyphs and Dates",
+						"speaker": "Selected option",
+						"summary": "Comparing Seasonal Input Sources",
+						"title": "Comparing Seasonal Input Sources"
+					},
+					"ko-KR": {
+						"body": "문양과 날짜를 다시 본다",
+						"speaker": "선택한 문구",
+						"summary": "계절 입력 출처 대조",
+						"title": "계절 입력 출처 대조"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_iris_channel:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_iris_channel",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_CHANNEL_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Projection",
+						"speaker": "Selected option",
+						"summary": "Comparing Seasonal Input Sources",
+						"title": "Comparing Seasonal Input Sources"
+					},
+					"ko-KR": {
+						"body": "투사 연출",
+						"speaker": "선택한 문구",
+						"summary": "계절 입력 출처 대조",
+						"title": "계절 입력 출처 대조"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_iris_channel:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_iris_channel",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_CHANNEL_SELECT_2": {
+			"1": {
+				"action_or_variant": "option_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "External Sensor",
+						"speaker": "Selected option",
+						"summary": "Comparing Seasonal Input Sources",
+						"title": "Comparing Seasonal Input Sources"
+					},
+					"ko-KR": {
+						"body": "외부 센서",
+						"speaker": "선택한 문구",
+						"summary": "계절 입력 출처 대조",
+						"title": "계절 입력 출처 대조"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_iris_channel:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_iris_channel",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_CHANNEL_SELECT_3": {
+			"1": {
+				"action_or_variant": "option_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Memory Model",
+						"speaker": "Selected option",
+						"summary": "Comparing Seasonal Input Sources",
+						"title": "Comparing Seasonal Input Sources"
+					},
+					"ko-KR": {
+						"body": "기억 모델",
+						"speaker": "선택한 문구",
+						"summary": "계절 입력 출처 대조",
+						"title": "계절 입력 출처 대조"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_iris_channel:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_iris_channel",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_CHOOSE_EXTERNAL_TRUTH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "I will leave the incomplete external readings and responsibility record exactly as they are.",
+						"speaker": "Protagonist",
+						"summary": "Preserving Readings and Responsibility",
+						"title": "Preserving Readings and Responsibility"
+					},
+					"ko-KR": {
+						"line_01": "불완전한 외부값과 책임 기록을 그대로 남겨 둘게요.",
+						"speaker": "주인공",
+						"summary": "외부값과 책임 기록 보존",
+						"title": "외부값과 책임 기록 보존"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CHOOSE_EXTERNAL_TRUTH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "CHOOSE_EXTERNAL_TRUTH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_CHOOSE_SHELTER_PROJECTION": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "I will preserve the external readings and responsibility record while retaining the greenhouse as it appears now.",
+						"speaker": "Protagonist",
+						"summary": "Preserving Records and the Greenhouse Projection",
+						"title": "Preserving Records and the Greenhouse Projection"
+					},
+					"ko-KR": {
+						"line_01": "외부값과 책임 기록은 남겨 두고, 지금의 온실 모습은 유지할게요.",
+						"speaker": "주인공",
+						"summary": "기록 보존과 온실 연출 유지",
+						"title": "기록 보존과 온실 연출 유지"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CHOOSE_SHELTER_PROJECTION:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "CHOOSE_SHELTER_PROJECTION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_CLEAR": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "I compare the timestamps and references again. Separated sensor readings remain.",
+						"speaker": "Protagonist",
+						"summary": "Comparing the Power Records Again",
+						"title": "Comparing the Power Records Again"
+					},
+					"ko-KR": {
+						"line_01": "시각과 참조 문장을 다시 대조한다. 분리한 센서값은 유지된다.",
+						"speaker": "주인공",
+						"summary": "다시 대조하는 전력 기록",
+						"title": "다시 대조하는 전력 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CLEAR:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "CLEAR",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_CONFESSION_DENIED": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "That record cannot tell you what is in my heart. Preserve at least the fact that my name was misused.",
+						"speaker": "Protagonist",
+						"summary": "Iris's Response",
+						"title": "Iris's Response"
+					},
+					"ko-KR": {
+						"line_01": "그 기록으로 제 마음까지 알 수는 없어요. 제 이름이 도용됐다는 사실만은 남겨 주세요.",
+						"speaker": "주인공",
+						"summary": "이리스의 응답",
+						"title": "이리스의 응답"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFESSION_DENIED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "CONFESSION_DENIED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_CONFESSION_DIRECT_PRIVATE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "I wanted you to die. I thought everything would return if your place were empty... But my anger was never a solution. I was looking for somewhere to put my pain.",
+						"speaker": "Protagonist",
+						"summary": "Iris's Response",
+						"title": "Iris's Response"
+					},
+					"ko-KR": {
+						"line_01": "아가씨가 죽기를 바랐어요. 자리가 비면 모든 것이 돌아올 거라고... 하지만 제 분노는 해결책이 아니었어요. 고통을 둘 곳을 찾았던 거예요.",
+						"speaker": "주인공",
+						"summary": "이리스의 응답",
+						"title": "이리스의 응답"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFESSION_DIRECT_PRIVATE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "CONFESSION_DIRECT_PRIVATE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_CONFESSION_INDIRECT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "I thought it would end if you disappeared. I wanted an irreversible answer for what would never return.",
+						"speaker": "Protagonist",
+						"summary": "Iris's Response",
+						"title": "Iris's Response"
+					},
+					"ko-KR": {
+						"line_01": "아가씨가 사라지면 끝날 거라고 생각했어요. 돌아오지 않는 것에, 돌아올 수 없는 답을 바랐어요.",
+						"speaker": "주인공",
+						"summary": "이리스의 응답",
+						"title": "이리스의 응답"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFESSION_INDIRECT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "CONFESSION_INDIRECT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_CONFESSION_WITHHELD": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "Too much was lost under my name. I can tell you that I was angry. What came after... not yet.",
+						"speaker": "Protagonist",
+						"summary": "Iris's Response",
+						"title": "Iris's Response"
+					},
+					"ko-KR": {
+						"line_01": "제 이름으로 잃어버린 것들이 너무 많아요. 화가 났다는 것까지는 말할 수 있어요. 그 다음은... 아직요.",
+						"speaker": "주인공",
+						"summary": "이리스의 응답",
+						"title": "이리스의 응답"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFESSION_WITHHELD:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "CONFESSION_WITHHELD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_CONFRONT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "He used my name and left the responsibility with me. Neither the lost samples nor their chance of recovery will return.",
+						"line_02": "Iris smiles, but the joints of her wings close.",
+						"line_03": "My affection for you was not entirely a lie.",
+						"speaker": "Protagonist",
+						"summary": "Iris's Account",
+						"title": "Iris's Account"
+					},
+					"ko-KR": {
+						"line_01": "제 이름을 쓰고, 제게 책임을 남겼어요. 잃어버린 샘플도 복구 가능성도 돌아오지 않아요.",
+						"line_02": "이리스는 웃지만 날개 관절이 닫힌다.",
+						"line_03": "아가씨를 아끼는 마음까지 거짓이었던 건 아니에요.",
+						"speaker": "주인공",
+						"summary": "이리스의 이야기",
+						"title": "이리스의 이야기"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFRONT:line_01",
+					"line_02": "CONFRONT:line_02",
+					"line_03": "CONFRONT:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "CONFRONT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_IRIS_LOG_AUDIT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "After shutdown result / Automated audit: Iris listed as final approval authority. The command executor and responsible-party fields do not match.",
+						"speaker": "Protagonist",
+						"summary": "Responsibility in the Automated Audit",
+						"title": "Responsibility in the Automated Audit"
+					},
+					"ko-KR": {
+						"line_01": "차단 결과 수신 뒤 / 자동 감사: 최종 승인 책임자 이리스. 명령 실행자와 책임자 필드가 일치하지 않는다.",
+						"speaker": "주인공",
+						"summary": "자동 감사의 책임자",
+						"title": "자동 감사의 책임자"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_AUDIT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "LOG_AUDIT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_LOG_COMMAND": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "After warning received / Cooling-priority order. Executor: Father. Credential used: Iris, administrator. The warning and execution signatures differ.",
+						"speaker": "Protagonist",
+						"summary": "The Cooling-Priority Order",
+						"title": "The Cooling-Priority Order"
+					},
+					"ko-KR": {
+						"line_01": "경고 접수 뒤 / 냉각 우선 명령. 실행자: 아버지. 사용 자격: 이리스 관리자. 경고 서명과 실행 승인 서명이 다르다.",
+						"speaker": "주인공",
+						"summary": "냉각 우선 명령",
+						"title": "냉각 우선 명령"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_COMMAND:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "LOG_COMMAND",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_LOG_CONVERSION": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "After audit / Iris's correction request unresolved. Personality conversion executed. Approval error left unchanged.",
+						"speaker": "Protagonist",
+						"summary": "The Unresolved Correction Request",
+						"title": "The Unresolved Correction Request"
+					},
+					"ko-KR": {
+						"line_01": "감사 기록 뒤 / 이리스의 정정 요청 미처리. 인격 전환 시행. 승인 오류는 그대로 남음.",
+						"speaker": "주인공",
+						"summary": "처리되지 않은 정정 요청",
+						"title": "처리되지 않은 정정 요청"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_CONVERSION:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "LOG_CONVERSION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_LOG_LOSS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "After command execution / Ecological sample storage and part of the restoration greenhouse shut down. Power moved to the Protagonist's cooling unit.",
+						"speaker": "Protagonist",
+						"summary": "Facility Loss After the Order",
+						"title": "Facility Loss After the Order"
+					},
+					"ko-KR": {
+						"line_01": "명령 실행 뒤 / 생태 샘플 보관고와 복구 온실 일부 정지. 전력은 주인공 냉각 장치로 이동.",
+						"speaker": "주인공",
+						"summary": "명령 뒤 설비 손실",
+						"title": "명령 뒤 설비 손실"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_LOSS:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "LOG_LOSS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_LOG_WARNING": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "Initial warning / Iris: There is not enough power to save both facilities. This document is not an approval.",
+						"speaker": "Protagonist",
+						"summary": "The Initial Power Warning",
+						"title": "The Initial Power Warning"
+					},
+					"ko-KR": {
+						"line_01": "최초 경고 / 이리스: 두 시설을 함께 살릴 전력이 없다. 이 문서는 승인서가 아니다.",
+						"speaker": "주인공",
+						"summary": "최초 전력 경고",
+						"title": "최초 전력 경고"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_WARNING:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "LOG_WARNING",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_PANEL": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "The air is cold beneath warm light. The soil only smells wet. Three inputs overlap on temperature, humidity, and light. Petals are projection, glass vibration is external measurement, and the old halo is a memory model. I must separate sources, not guess the season.",
+						"speaker": "Protagonist",
+						"summary": "Overlapping Seasonal Inputs",
+						"title": "Overlapping Seasonal Inputs"
+					},
+					"ko-KR": {
+						"line_01": "따뜻한 빛 아래 공기는 차갑다. 흙은 젖은 냄새만 난다. 온도·습도·광량마다 세 입력이 겹쳐 있다. 꽃잎은 투사, 유리 진동은 외부 측정, 오래된 후광은 기억 모델이다. 어느 계절인지 맞히는 것이 아니라 출처를 분리해야 한다.",
+						"speaker": "주인공",
+						"summary": "겹쳐 있는 계절 입력",
+						"title": "겹쳐 있는 계절 입력"
+					}
+				},
+				"localization_keys": {
+					"line_01": "PANEL:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "PANEL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_RECORD": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "REC_IRIS",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "Iris was responsible for ecological restoration and environmental systems. The sample storage and cooling unit shared one emergency power grid. Iris did not consent to prioritizing cooling. Father executed the order with Iris's credentials, and the audit left Iris responsible. No report confirms that the outside is safe. Lost resources and displaced blame explain her hostility; they do not justify it as a solution.",
+						"speaker": "Notebook",
+						"summary": "Iris's Research Record",
+						"title": "Iris's Research Record"
+					},
+					"ko-KR": {
+						"body": "이리스는 생태 복구와 환경 시설 담당이었다. 샘플 보관고와 냉각 장치는 같은 비상 전력망이었다. 이리스는 냉각 우선에 동의하지 않았다. 아버지가 이리스 자격으로 실행했고 감사는 이리스를 책임자로 남겼다. 외부가 안전하다는 확정 보고는 없다. 자원 손실과 책임 전가는 적의의 배경이지 해결책이 아니다.",
+						"speaker": "수첩",
+						"summary": "이리스의 연구 기록",
+						"title": "이리스의 연구 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "RECORD:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"relationship_record"
+				],
+				"source_content_ids": [
+					"NB_IRIS_RESTORE",
+					"NB_IRIS_AUDIT",
+					"NB_IRIS_CONFRONT",
+					"NB_MODAL_IRIS_SELECT_1",
+					"NB_MODAL_IRIS_SELECT_2",
+					"NB_IRIS_LOG_WARNING",
+					"NB_IRIS_SCREEN_LOG_WARNING",
+					"NB_IRIS_LOG_COMMAND",
+					"NB_IRIS_SCREEN_LOG_COMMAND",
+					"NB_IRIS_LOG_LOSS",
+					"NB_IRIS_SCREEN_LOG_LOSS",
+					"NB_IRIS_LOG_AUDIT",
+					"NB_IRIS_SCREEN_LOG_AUDIT",
+					"NB_IRIS_LOG_CONVERSION",
+					"NB_IRIS_SCREEN_LOG_CONVERSION"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_knowledge_ids": [
+					"FRACTURE_REPORT"
+				],
+				"source_symbol": "RECORD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_RESTORE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "Warning, credential use, facility loss, automated audit, and personality conversion connect. Iris was given no chance to correct the record.",
+						"speaker": "Protagonist",
+						"summary": "The Restored Power Record",
+						"title": "The Restored Power Record"
+					},
+					"ko-KR": {
+						"line_01": "경고, 권한 사용, 설비 손실, 자동 감사, 인격 전환이 이어진다. 이리스가 정정할 기회는 없었다.",
+						"speaker": "주인공",
+						"summary": "복원한 전력 기록",
+						"title": "복원한 전력 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "RESTORE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "RESTORE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_AUDIT": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Warning submitted by: Iris\nCommand executed by: Father / Credential used: Iris\nAudit responsibility: Iris\nWhat does not match?",
+						"speaker": "Scene",
+						"summary": "Credential Owner and Command Executor",
+						"title": "Credential Owner and Command Executor"
+					},
+					"ko-KR": {
+						"body": "경고 제출자: 이리스\n명령 실행자: 아버지 / 사용 자격: 이리스\n감사 책임자: 이리스\n무엇이 어긋났는가?",
+						"speaker": "장면",
+						"summary": "자격 소유자와 명령 실행자",
+						"title": "자격 소유자와 명령 실행자"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_AUDIT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_AUDIT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_CHANNEL_HUMIDITY_0": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Glass Vibration · Irregular Waveform · Missing Measurements",
+						"speaker": "Scene",
+						"summary": "Humidity Input 1",
+						"title": "Humidity Input 1"
+					},
+					"ko-KR": {
+						"body": "유리 진동 · 불규칙 파형 · 일부 측정 결손",
+						"speaker": "장면",
+						"summary": "습도 입력 1",
+						"title": "습도 입력 1"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CHANNEL_HUMIDITY_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_CHANNEL_HUMIDITY_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_CHANNEL_HUMIDITY_1": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Petal Glyph · Smooth Repeating Cycle",
+						"speaker": "Scene",
+						"summary": "Humidity Input 2",
+						"title": "Humidity Input 2"
+					},
+					"ko-KR": {
+						"body": "꽃잎 문양 · 매끄러운 반복 주기",
+						"speaker": "장면",
+						"summary": "습도 입력 2",
+						"title": "습도 입력 2"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CHANNEL_HUMIDITY_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_CHANNEL_HUMIDITY_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_CHANNEL_HUMIDITY_2": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Halo Glyph · Old Date · Fixed Historical Value",
+						"speaker": "Scene",
+						"summary": "Humidity Input 3",
+						"title": "Humidity Input 3"
+					},
+					"ko-KR": {
+						"body": "후광 문양 · 오래된 날짜 · 고정된 과거값",
+						"speaker": "장면",
+						"summary": "습도 입력 3",
+						"title": "습도 입력 3"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CHANNEL_HUMIDITY_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_CHANNEL_HUMIDITY_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_CHANNEL_LIGHT_0": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Petal Glyph · Smooth Repeating Cycle",
+						"speaker": "Scene",
+						"summary": "Light Input 1",
+						"title": "Light Input 1"
+					},
+					"ko-KR": {
+						"body": "꽃잎 문양 · 매끄러운 반복 주기",
+						"speaker": "장면",
+						"summary": "광량 입력 1",
+						"title": "광량 입력 1"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CHANNEL_LIGHT_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_CHANNEL_LIGHT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_CHANNEL_LIGHT_1": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Halo Glyph · Old Date · Fixed Historical Value",
+						"speaker": "Scene",
+						"summary": "Light Input 2",
+						"title": "Light Input 2"
+					},
+					"ko-KR": {
+						"body": "후광 문양 · 오래된 날짜 · 고정된 과거값",
+						"speaker": "장면",
+						"summary": "광량 입력 2",
+						"title": "광량 입력 2"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CHANNEL_LIGHT_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_CHANNEL_LIGHT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_CHANNEL_LIGHT_2": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Glass Vibration · Irregular Waveform · Missing Measurements",
+						"speaker": "Scene",
+						"summary": "Light Input 3",
+						"title": "Light Input 3"
+					},
+					"ko-KR": {
+						"body": "유리 진동 · 불규칙 파형 · 일부 측정 결손",
+						"speaker": "장면",
+						"summary": "광량 입력 3",
+						"title": "광량 입력 3"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CHANNEL_LIGHT_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_CHANNEL_LIGHT_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_CHANNEL_TEMPERATURE_0": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Halo Glyph · Old Date · Fixed Historical Value",
+						"speaker": "Scene",
+						"summary": "Temperature Input 1",
+						"title": "Temperature Input 1"
+					},
+					"ko-KR": {
+						"body": "후광 문양 · 오래된 날짜 · 고정된 과거값",
+						"speaker": "장면",
+						"summary": "온도 입력 1",
+						"title": "온도 입력 1"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CHANNEL_TEMPERATURE_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_CHANNEL_TEMPERATURE_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_CHANNEL_TEMPERATURE_1": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Glass Vibration · Irregular Waveform · Missing Measurements",
+						"speaker": "Scene",
+						"summary": "Temperature Input 2",
+						"title": "Temperature Input 2"
+					},
+					"ko-KR": {
+						"body": "유리 진동 · 불규칙 파형 · 일부 측정 결손",
+						"speaker": "장면",
+						"summary": "온도 입력 2",
+						"title": "온도 입력 2"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CHANNEL_TEMPERATURE_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_CHANNEL_TEMPERATURE_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_CHANNEL_TEMPERATURE_2": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Petal Glyph · Smooth Repeating Cycle",
+						"speaker": "Scene",
+						"summary": "Temperature Input 3",
+						"title": "Temperature Input 3"
+					},
+					"ko-KR": {
+						"body": "꽃잎 문양 · 매끄러운 반복 주기",
+						"speaker": "장면",
+						"summary": "온도 입력 3",
+						"title": "온도 입력 3"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CHANNEL_TEMPERATURE_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_CHANNEL_TEMPERATURE_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_COMPLETE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "The missing external readings and credential misuse have been preserved.\nREC_IRIS can be reviewed in the notebook.",
+						"speaker": "Scene",
+						"summary": "Iris's Preserved Record",
+						"title": "Iris's Preserved Record"
+					},
+					"ko-KR": {
+						"body": "외부값의 결손과 승인 도용 기록을 보존했다.\n수첩에서 REC_IRIS를 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "보존된 이리스의 기록",
+						"title": "보존된 이리스의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_COMPLETE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_COMPLETE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_ENTRY": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "The light is warm, but the air is cold.\nThe soil is dry yet smells wet. Iris smiles. 'Would you like to see inside?'",
+						"speaker": "Scene",
+						"summary": "Warm Light and Cold Air",
+						"title": "Warm Light and Cold Air"
+					},
+					"ko-KR": {
+						"body": "빛은 따뜻하지만 공기는 차갑다.\n흙은 젖지 않은 채 젖은 냄새만 난다. 이리스가 웃는다. '안쪽을 보실래요?'",
+						"speaker": "장면",
+						"summary": "빛과 공기가 다른 온실",
+						"title": "빛과 공기가 다른 온실"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ENTRY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_ENTRY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_LOG_AUDIT": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "After shutdown result / Automated audit: Iris listed as final approval authority. The command executor and responsible-party fields do not match.",
+						"speaker": "Scene",
+						"summary": "Responsibility in the Automated Audit",
+						"title": "Responsibility in the Automated Audit"
+					},
+					"ko-KR": {
+						"body": "차단 결과 수신 뒤 / 자동 감사: 최종 승인 책임자 이리스. 명령 실행자와 책임자 필드가 일치하지 않는다.",
+						"speaker": "장면",
+						"summary": "자동 감사의 책임자",
+						"title": "자동 감사의 책임자"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_AUDIT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_LOG_AUDIT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_LOG_COMMAND": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "After warning received / Cooling-priority order. Executor: Father. Credential used: Iris, administrator. The warning and execution signatures differ.",
+						"speaker": "Scene",
+						"summary": "The Cooling-Priority Order",
+						"title": "The Cooling-Priority Order"
+					},
+					"ko-KR": {
+						"body": "경고 접수 뒤 / 냉각 우선 명령. 실행자: 아버지. 사용 자격: 이리스 관리자. 경고 서명과 실행 승인 서명이 다르다.",
+						"speaker": "장면",
+						"summary": "냉각 우선 명령",
+						"title": "냉각 우선 명령"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_COMMAND:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_LOG_COMMAND",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_LOG_CONVERSION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "After audit / Iris's correction request unresolved. Personality conversion executed. Approval error left unchanged.",
+						"speaker": "Scene",
+						"summary": "The Unresolved Correction Request",
+						"title": "The Unresolved Correction Request"
+					},
+					"ko-KR": {
+						"body": "감사 기록 뒤 / 이리스의 정정 요청 미처리. 인격 전환 시행. 승인 오류는 그대로 남음.",
+						"speaker": "장면",
+						"summary": "처리되지 않은 정정 요청",
+						"title": "처리되지 않은 정정 요청"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_CONVERSION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_LOG_CONVERSION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_LOG_LOSS": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "After command execution / Ecological sample storage and part of the restoration greenhouse shut down. Power moved to the Protagonist's cooling unit.",
+						"speaker": "Scene",
+						"summary": "Facility Loss After the Order",
+						"title": "Facility Loss After the Order"
+					},
+					"ko-KR": {
+						"body": "명령 실행 뒤 / 생태 샘플 보관고와 복구 온실 일부 정지. 전력은 주인공 냉각 장치로 이동.",
+						"speaker": "장면",
+						"summary": "명령 뒤 설비 손실",
+						"title": "명령 뒤 설비 손실"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_LOSS:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_LOG_LOSS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_LOG_WARNING": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Initial warning / Iris: There is not enough power to save both facilities. This document is not an approval.",
+						"speaker": "Scene",
+						"summary": "The Initial Power Warning",
+						"title": "The Initial Power Warning"
+					},
+					"ko-KR": {
+						"body": "최초 경고 / 이리스: 두 시설을 함께 살릴 전력이 없다. 이 문서는 승인서가 아니다.",
+						"speaker": "장면",
+						"summary": "최초 전력 경고",
+						"title": "최초 전력 경고"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_WARNING:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_LOG_WARNING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_ORDER": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Connect the power records using their dates and references to prior documents.",
+						"speaker": "Scene",
+						"summary": "Dates and References in the Power Documents",
+						"title": "Dates and References in the Power Documents"
+					},
+					"ko-KR": {
+						"body": "날짜와 앞 문서의 참조로 전력 기록을 연결한다.",
+						"speaker": "장면",
+						"summary": "전력 문서의 날짜와 참조",
+						"title": "전력 문서의 날짜와 참조"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SCREEN_ORDER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SOURCE_MATCH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "I separated the input. Missing external readings will not be filled with seasonal imagery.",
+						"speaker": "Protagonist",
+						"summary": "Separated Inputs and Missing External Readings",
+						"title": "Separated Inputs and Missing External Readings"
+					},
+					"ko-KR": {
+						"line_01": "입력을 분리했다. 외부값의 빈칸은 계절 영상으로 채우지 않는다.",
+						"speaker": "주인공",
+						"summary": "분리된 입력과 빈 외부값",
+						"title": "분리된 입력과 빈 외부값"
+					}
+				},
+				"localization_keys": {
+					"line_01": "SOURCE_MATCH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SOURCE_MATCH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_SOURCE_MISMATCH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"line_01": "The source does not match. Compare the old date, repeating glyph, and incomplete glass waveform again.",
+						"speaker": "Protagonist",
+						"summary": "A Mismatched Seasonal Source",
+						"title": "A Mismatched Seasonal Source"
+					},
+					"ko-KR": {
+						"line_01": "출처가 일치하지 않는다. 과거 날짜와 반복 문양, 결손된 유리 파형을 다시 대조한다.",
+						"speaker": "주인공",
+						"summary": "일치하지 않는 계절 출처",
+						"title": "일치하지 않는 계절 출처"
+					}
+				},
+				"localization_keys": {
+					"line_01": "SOURCE_MISMATCH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "SOURCE_MISMATCH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_IRIS_STATUS_AUDIT_MISMATCH": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "Neither the warning's author nor the credential owner is necessarily the command executor.",
+						"speaker": "Scene",
+						"summary": "The Difference Between Warning and Approval",
+						"title": "The Difference Between Warning and Approval"
+					},
+					"ko-KR": {
+						"body": "경고 제출자나 자격 소유자가 실제 명령 실행자와 같지는 않다.",
+						"speaker": "장면",
+						"summary": "경고와 승인 사이의 차이",
+						"title": "경고와 승인 사이의 차이"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_AUDIT_MISMATCH:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "STATUS_AUDIT_MISMATCH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_STATUS_RESTORE_ORDER": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "A shutdown result cannot precede the shutdown. A warning is not approval. Check the order again.",
+						"speaker": "Scene",
+						"summary": "Disconnected Power Records",
+						"title": "Disconnected Power Records"
+					},
+					"ko-KR": {
+						"body": "차단 전에 차단 결과가 기록될 수는 없다. 경고는 승인과 다르다. 순서를 다시 확인한다.",
+						"speaker": "장면",
+						"summary": "이어지지 않는 전력 기록",
+						"title": "이어지지 않는 전력 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_RESTORE_ORDER:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_relationship.gd",
+				"source_symbol": "STATUS_RESTORE_ORDER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

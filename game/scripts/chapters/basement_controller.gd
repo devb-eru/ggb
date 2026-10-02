@@ -21,6 +21,7 @@ const RELATIONSHIP_TEXTS := preload("res://scripts/ui/relationship_display_texts
 const FRACTURE_RESOLUTION_TEXTS := preload("res://scripts/ui/fracture_resolution_display_texts.gd")
 const FRACTURE_SURFACE_TEXTS := preload("res://scripts/ui/fracture_surface_texts.gd")
 const MARA1_NOTES := preload("res://scripts/systems/mara1_notebook.gd")
+const IRIS_NOTES := preload("res://scripts/systems/iris_notebook.gd")
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
@@ -791,7 +792,7 @@ func _build_iris_relationship() -> void:
 	_objective_label.text = "이리스 · 계절 센서와 빼앗긴 전력"
 	if _current_room == "M1_GREENHOUSE":
 		_location_label.text = "온실"
-		_board_label("빛은 따뜻하지만 공기는 차갑다.\n흙은 젖지 않은 채 젖은 냄새만 난다. 이리스가 웃는다. '안쪽을 보실래요?'", Rect2(300, 210, 1300, 230))
+		_iris_board("ENTRY", Rect2(300, 210, 1300, 230))
 		_action("IRIS_CONTROL", "계절 제어실로", Rect2(400, 530, 1100, 130), "move", "H0_CLIMATE_CONTROL", false)
 		_replace_back("M1_CENTRAL_HALL", "중앙홀로")
 		return
@@ -799,7 +800,7 @@ func _build_iris_relationship() -> void:
 	var rules = BasementSession.IRIS_RELATIONSHIP
 	var local: Dictionary = rules.progress(session.snapshot())
 	if session.known("E3_2_complete"):
-		_board_label("외부값의 결손과 승인 도용 기록을 보존했다.\n수첩에서 REC_IRIS를 확인할 수 있다.", Rect2(300, 250, 1300, 250))
+		_iris_board("COMPLETE", Rect2(300, 250, 1300, 250))
 	elif not local["panel"]:
 		_action("IRIS_PANEL", "세 계기와 입력 출처를 조사한다", Rect2(300, 260, 1300, 240), "iris_panel")
 	elif local["channels"].size() < 9:
@@ -810,15 +811,18 @@ func _build_iris_relationship() -> void:
 				var clue: String = rules.CLUES[rules.CHANNELS[gauge][index]]
 				var key := "%s_%d" % [gauge, index]
 				_add_hotspot("IRIS_CHANNEL_" + key, clue + ("\n확인함" if local["channels"].has(key) else ""), Rect2(280 + index * 510, 200 + row * 170, 470, 135), _show_iris_channel.bind(gauge, index))
+				_queue_notebook_content(IRIS_NOTES.PREFIX + "SCREEN_CHANNEL_" + key.to_upper(), _relationship_text(clue))
 	elif not local["power"]:
-		_board_label("날짜와 앞 문서의 참조로 전력 기록을 연결한다. 선택 %d / 5" % local["order"].size(), Rect2(270, 130, 1380, 90))
+		_board_label(IRIS_NOTES.SCREEN.ORDER + " 선택 %d / 5" % local["order"].size(), Rect2(270, 130, 1380, 90))
+		_queue_notebook_content(IRIS_NOTES.PREFIX + "SCREEN_ORDER", _relationship_text(IRIS_NOTES.SCREEN.ORDER))
 		for index in range(5):
 			var id: String = ["audit", "warning", "conversion", "loss", "command"][index]
 			_action("IRIS_LOG_" + id, rules.LOGS[id], Rect2(270, 250 + index * 90, 1380, 80), "iris_log", id)
+			_queue_notebook_content(IRIS_NOTES.PREFIX + "SCREEN_LOG_" + id.to_upper(), _relationship_text(rules.LOGS[id]))
 		_action("IRIS_CLEAR", "다시 펼친다", Rect2(280, 740, 640, 85), "iris_clear")
 		_action("IRIS_RESTORE", "순서 검증", Rect2(1000, 740, 640, 85), "iris_restore")
 	elif not local["mismatch"]:
-		_board_label("경고 제출자: 이리스\n명령 실행자: 아버지 / 사용 자격: 이리스\n감사 책임자: 이리스\n무엇이 어긋났는가?", Rect2(320, 180, 1250, 250))
+		_iris_board("AUDIT", Rect2(320, 180, 1250, 250))
 		_action("IRIS_AUDIT_WRONG", "경고가 승인으로 바뀌었다", Rect2(330, 510, 1250, 95), "iris_audit", "warning_is_consent")
 		_action("IRIS_AUDIT", "자격 소유자를 실행자로 기록했다", Rect2(330, 650, 1250, 95), "iris_audit", "credential_owner_not_executor")
 	else:
@@ -828,14 +832,26 @@ func _build_iris_relationship() -> void:
 	_replace_back("M1_GREENHOUSE", "온실로 · 진행 보존")
 
 
+func _iris_board(key: String, rect: Rect2) -> void:
+	var text := _relationship_text(IRIS_NOTES.SCREEN[key])
+	_board_label(text, rect)
+	_queue_notebook_content(IRIS_NOTES.PREFIX + "SCREEN_" + key, text)
+
+
 func _show_iris_channel(gauge: String, index: int) -> void:
-	var actions: Array = [{"label": "문양과 날짜를 다시 본다", "action": _close_modal}]
-	for source in BasementSession.IRIS_RELATIONSHIP.SOURCES:
-		actions.append({"label": {"PROJECTION": "투사 연출", "EXTERNAL": "외부 센서", "MEMORY": "기억 모델"}[source], "action": _modal_act.bind("iris_source", [gauge, index, source])})
-	_show_relationship_modal("입력 출처", "꽃잎의 반복 / 유리의 결손 파형 / 후광의 과거 날짜를 대조한다.", actions)
+	if not _notebook_surface_allowed(): return
+	var actions: Array = [{"label": IRIS_NOTES.CHANNEL_LABELS[0], "action": _close_modal}]
+	for source_index in range(BasementSession.IRIS_RELATIONSHIP.SOURCES.size()):
+		var source: String = BasementSession.IRIS_RELATIONSHIP.SOURCES[source_index]
+		actions.append({"label": IRIS_NOTES.CHANNEL_LABELS[source_index + 1], "action": _modal_act.bind("iris_source", [gauge, index, source])})
+	if not _notebook_surface_enabled():
+		_show_relationship_modal(IRIS_NOTES.CHANNEL_TITLE, IRIS_NOTES.CHANNEL_BODY, actions)
+		return
+	_show_recorded_choice(_relationship_text(IRIS_NOTES.CHANNEL_TITLE), _relationship_text(IRIS_NOTES.CHANNEL_BODY), _relationship_actions(actions), IRIS_NOTES.channel_options())
 
 
 func _show_iris_choice() -> void:
+	if not _notebook_surface_allowed(): return
 	_show_relationship_choice("IRIS", "지금의 온실", "두 방식 모두 외부값과 책임 기록을 보존한다. 현재 보이는 계절 연출을 유지할지 정한다.", [
 		{"label": "아직 결정하지 않는다", "action": _close_modal},
 		{"label": "불완전한 외부값과 책임 로그를 그대로 남긴다", "action": _modal_act.bind("iris_choose", "external_truth")},
