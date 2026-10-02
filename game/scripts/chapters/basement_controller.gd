@@ -20,6 +20,7 @@ const FRACTURE_COMMON_TEXTS := preload("res://scripts/ui/fracture_common_display
 const RELATIONSHIP_TEXTS := preload("res://scripts/ui/relationship_display_texts.gd")
 const FRACTURE_RESOLUTION_TEXTS := preload("res://scripts/ui/fracture_resolution_display_texts.gd")
 const FRACTURE_SURFACE_TEXTS := preload("res://scripts/ui/fracture_surface_texts.gd")
+const MARA1_NOTES := preload("res://scripts/systems/mara1_notebook.gd")
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
@@ -85,6 +86,9 @@ func _feedback(result: Dictionary) -> void:
 	if displayed["text"] != original:
 		displayed["speaker"] = CORE_STORY_TEXTS.speaker(String(result.get("speaker", "주인공")), locale)
 	super._feedback(displayed)
+	if not displayed.get("ok", false) and displayed.has("notebook_status"):
+		_queue_notebook_content(String(displayed.notebook_status), _status_label.text, true)
+		_notebook_surface_allowed()
 
 func _update_objective() -> void:
 	if session != null:
@@ -104,8 +108,12 @@ func _notebook_surface_scope() -> Dictionary:
 
 
 func _queue_notebook_surface(key: String, text: String) -> void:
+	_queue_notebook_content(FRACTURE_SURFACE_TEXTS.PREFIX + key, text)
+
+
+func _queue_notebook_content(content_id: String, text: String, new_attempt: bool = false) -> void:
 	if _notebook_surface_enabled():
-		_notebook_surfaces.queue(FRACTURE_SURFACE_TEXTS.PREFIX + key, text, TranslationServer.get_locale(), session.history_context())
+		_notebook_surfaces.queue(content_id, text, TranslationServer.get_locale(), session.history_context(), new_attempt)
 
 
 func _notebook_surface_board(key: String, text: String, rect: Rect2) -> void:
@@ -727,7 +735,7 @@ func _build_mara1_relationship() -> void:
 	_objective_label.text = "마라 1 · 끊긴 배선과 삭제 기록"
 	if _current_room == "M1_SERVICE_HALL":
 		_location_label.text = "사용인 작업 회랑"
-		_board_label("마라 1이 스패너로 배선 덮개를 붙든다.\n마른 종이 냄새가 난다. '이건... 닦는 걸로 끝나지 않겠슴다.'", Rect2(300, 230, 1300, 220))
+		_mara1_board("ENTRY", Rect2(300, 230, 1300, 220))
 		_action("WIRING_ENTER", "배선실로", Rect2(450, 520, 1000, 110), "move", "M1_WIRING_ROOM", false)
 		_replace_back("M1_CENTRAL_HALL", "중앙홀로")
 		return
@@ -735,22 +743,26 @@ func _build_mara1_relationship() -> void:
 	var rules = BasementSession.MARA1_RELATIONSHIP
 	var local: Dictionary = rules.progress(session.snapshot())
 	if session.known("E3_1_complete"):
-		_board_label("기록을 보존했다. 사건과 명령자·수행자의 책임은 남아 있다.\n수첩에서 REC_MARA1을 다시 확인할 수 있다.", Rect2(300, 260, 1300, 250))
+		_mara1_board("COMPLETE", Rect2(300, 260, 1300, 250))
 	elif not local["panel"]:
 		_action("MARA_PANEL", "패널과 세 단자의 신호를 조사한다", Rect2(300, 300, 1300, 220), "mara1_panel")
 	elif not local["bridge"]:
 		for index in range(3):
 			var x := 210 + index * 520
-			_board_label(["대각 나사선 · 솔 마찰음", "손바닥 승인각 · 두 번 확인음", "끊긴 사각 · 늦은 경고음"][index] + ("\n출처 확인함" if local["sources"].has(str(index)) else ""), Rect2(x, 190, 490, 110))
+			var clue: String = MARA1_NOTES.SCREEN["TERMINAL_%d" % index]
+			_board_label(clue + ("\n출처 확인함" if local["sources"].has(str(index)) else ""), Rect2(x, 190, 490, 110))
+			_queue_notebook_content(MARA1_NOTES.PREFIX + "SCREEN_TERMINAL_%d" % index, _relationship_text(clue))
 			for source_index in range(3):
 				var source: String = rules.SOURCES[source_index]
 				_action("MARA_SOURCE_%d_%d" % [index, source_index], source, Rect2(x, 330 + source_index * 105, 490, 85), "mara1_source", [index, source])
 		_action("MARA_BRIDGE", "스패너로 가짜 브리지를 해제한다", Rect2(340, 680, 1220, 100), "mara1_bridge")
 	elif not local["restored"]:
-		_board_label("날짜와 문서 참조, 닦임 방향을 대조해 파편을 순서대로 놓는다.\n선택한 파편 수: %d / 3" % local["order"].size(), Rect2(290, 150, 1340, 120))
+		_board_label(MARA1_NOTES.SCREEN.ORDER + "\n선택한 파편 수: %d / 3" % local["order"].size(), Rect2(290, 150, 1340, 120))
+		_queue_notebook_content(MARA1_NOTES.PREFIX + "SCREEN_ORDER", _relationship_text(MARA1_NOTES.SCREEN.ORDER))
 		for index in range(3):
 			var id: String = ["command", "consent", "failure"][index]
 			_action("MARA_LOG_" + id, rules.LOGS[id], Rect2(220 + index * 520, 310, 490, 260), "mara1_log", id)
+			_queue_notebook_content(MARA1_NOTES.PREFIX + "SCREEN_LOG_" + id.to_upper(), _relationship_text(rules.LOGS[id]))
 		_action("MARA_CLEAR", "파편을 다시 펼친다", Rect2(260, 640, 650, 100), "mara1_clear")
 		_action("MARA_RESTORE", "기록 순서를 검증한다", Rect2(980, 640, 650, 100), "mara1_restore")
 	else:
@@ -760,7 +772,14 @@ func _build_mara1_relationship() -> void:
 	_replace_back("M1_SERVICE_HALL", "작업 회랑으로 · 진행 보존")
 
 
+func _mara1_board(key: String, rect: Rect2) -> void:
+	var text := _relationship_text(MARA1_NOTES.SCREEN[key])
+	_board_label(text, rect)
+	_queue_notebook_content(MARA1_NOTES.PREFIX + "SCREEN_" + key, text)
+
+
 func _show_mara1_choice() -> void:
+	if not _notebook_surface_allowed(): return
 	_show_relationship_choice("MARA1", "기록을 어떻게 남길까", "두 방식 모두 사건과 명령자·수행자의 책임을 보존한다.", [
 		{"label": "아직 결정하지 않는다", "action": _close_modal},
 		{"label": "책임자와 원문을 그대로 남긴다", "action": _modal_act.bind("mara1_choose", "original_attribution")},

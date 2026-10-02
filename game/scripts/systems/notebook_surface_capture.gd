@@ -24,10 +24,13 @@ func begin(current: Dictionary) -> void:
 	generation += 1
 
 
-func queue(id: String, text: String, locale: String, context: Dictionary) -> void:
+func queue(id: String, text: String, locale: String, context: Dictionary, new_attempt: bool = false) -> void:
 	if id not in active: active.append(id)
-	if requests.has(id) and requests[id].attempted: return
+	if requests.has(id) and requests[id].attempted and (not new_attempt or not requests[id].recorded): return
 	var source := context.duplicate(true)
+	if new_attempt:
+		source.event_occurrence_id = ARCHIVE.new_uid()
+		source.conversation_session_id = ARCHIVE.new_uid()
 	if not source.has("event_occurrence_id"): source.event_occurrence_id = occurrence
 	if not source.has("conversation_session_id"): source.conversation_session_id = conversation
 	requests[id] = _request(id, text, locale, source)

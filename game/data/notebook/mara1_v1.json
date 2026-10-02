@@ -1,0 +1,1258 @@
+{
+	"contents": {
+		"NB_MARA1_BRIDGE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "I remove the false bridge with the spanner. Approval and audit separate from the maintenance record, revealing three fragments.",
+						"speaker": "Protagonist",
+						"summary": "Removing the False Bridge",
+						"title": "Removing the False Bridge"
+					},
+					"ko-KR": {
+						"line_01": "스패너로 가짜 브리지를 해제한다. 승인과 감사가 정비 기록에서 분리되고 세 파편이 드러난다.",
+						"speaker": "주인공",
+						"summary": "가짜 브리지 해제",
+						"title": "가짜 브리지 해제"
+					}
+				},
+				"localization_keys": {
+					"line_01": "BRIDGE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "BRIDGE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA1_CHOOSE_ORIGINAL_ATTRIBUTION": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "I preserve the commander and operator's responsibility, the victims' record, and the original text unchanged.",
+						"speaker": "Protagonist",
+						"summary": "Preserving the Record and Responsibility",
+						"title": "Preserving the Record and Responsibility"
+					},
+					"ko-KR": {
+						"line_01": "명령자와 수행자의 책임, 피해 기록과 원문을 그대로 남긴다.",
+						"speaker": "주인공",
+						"summary": "원문과 책임 보존",
+						"title": "원문과 책임 보존"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CHOOSE_ORIGINAL_ATTRIBUTION:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "CHOOSE_ORIGINAL_ATTRIBUTION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA1_CHOOSE_PROTECTED_IDENTIFIERS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "I protect only the victims' identifying information. The original incident text and the responsibility of Father as commander and Mara 1 as operator remain.",
+						"speaker": "Protagonist",
+						"summary": "Protecting Victim Identifiers",
+						"title": "Protecting Victim Identifiers"
+					},
+					"ko-KR": {
+						"line_01": "피해자 식별 정보만 보호한다. 사건 원문, 명령자 아버지와 수행자 마라 1의 책임은 남긴다.",
+						"speaker": "주인공",
+						"summary": "피해자 식별 정보 보호",
+						"title": "피해자 식별 정보 보호"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CHOOSE_PROTECTED_IDENTIFIERS:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "CHOOSE_PROTECTED_IDENTIFIERS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA1_CLEAR": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "I lay out the fragments again. Identified sources remain recorded.",
+						"speaker": "Protagonist",
+						"summary": "Fragments Laid Out Again",
+						"title": "Fragments Laid Out Again"
+					},
+					"ko-KR": {
+						"line_01": "파편을 다시 펼친다. 이미 조사한 출처는 유지된다.",
+						"speaker": "주인공",
+						"summary": "다시 펼친 파편",
+						"title": "다시 펼친 파편"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CLEAR:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "CLEAR",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA1_CONFESS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "The cleanup went a bit too far...",
+						"line_02": "Mara 1's ears and tail go still.",
+						"line_03": "I erased it on your father's order. I knew something was wrong, but I wanted to believe it was maintenance that would save the facility. I can't ask you to forgive me. Please decide how this should remain.",
+						"speaker": "Protagonist",
+						"summary": "Mara 1's Account",
+						"title": "Mara 1's Account"
+					},
+					"ko-KR": {
+						"line_01": "청소가 좀 과했슴다...",
+						"line_02": "마라 1의 귀와 꼬리가 멎는다.",
+						"line_03": "아버님 명령으로 제가 지웠슴다. 이상한 건 알았는데, 시설을 살리는 정비라고 믿고 싶었어요. 용서해 달라는 말은 못 하겠슴다. 이걸 어떻게 남길지, 정해 주십쇼.",
+						"speaker": "주인공",
+						"summary": "마라 1의 고백",
+						"title": "마라 1의 고백"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFESS:line_01",
+					"line_02": "CONFESS:line_02",
+					"line_03": "CONFESS:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "CONFESS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_MARA1_LOG_COMMAND": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "Immediately after failure report · References failure report / Diagonal screw line",
+						"line_02": "Father's order: 'Clean up for operational stability.' Operator: Mara 1. The failure log and contradictions in consent procedure were covered by maintenance history.",
+						"speaker": "Protagonist",
+						"summary": "The Cleanup Order After the Failure",
+						"title": "The Cleanup Order After the Failure"
+					},
+					"ko-KR": {
+						"line_01": "실패 보고 직후 · 실패 보고 참조 / 대각 나사선",
+						"line_02": "아버지의 명령: '운영 안정성을 위해 정리.' 수행자: 마라 1. 실패 로그와 동의 절차 모순을 정비 이력으로 덮음.",
+						"speaker": "주인공",
+						"summary": "실패 뒤의 정리 명령",
+						"title": "실패 뒤의 정리 명령"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_COMMAND:line_01",
+					"line_02": "LOG_COMMAND:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "LOG_COMMAND",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_MARA1_LOG_CONSENT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "Day before conversion · Original approval / Palm approval angle",
+						"line_02": "A promise of life in a new body. The disclosure fields for loss of the original body and conversion into a bio-neural core are blank. A diagonal wipe leading to the next page points downward.",
+						"speaker": "Protagonist",
+						"summary": "Original Approval Before Conversion",
+						"title": "Original Approval Before Conversion"
+					},
+					"ko-KR": {
+						"line_01": "전환 전날 · 승인 원본 / 손바닥 승인각",
+						"line_02": "미래에 새 육체로 살아갈 것이라는 약속. 원래 신체 소실과 생체 신경 코어 결합 전환의 고지란은 비어 있다. 다음 장으로 이어지는 대각 닦임이 아래로 향한다.",
+						"speaker": "주인공",
+						"summary": "전환 전날의 승인 원본",
+						"title": "전환 전날의 승인 원본"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_CONSENT:line_01",
+					"line_02": "LOG_CONSENT:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "LOG_CONSENT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_MARA1_LOG_FAILURE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "Day of conversion · References prior approval / Broken square",
+						"line_02": "Conversion experiment failure. An undisclosed procedure was executed. The upper wipe connects to the lower edge of the original approval. Heat damage has made some victims' names unreadable.",
+						"speaker": "Protagonist",
+						"summary": "Failure Report on Conversion Day",
+						"title": "Failure Report on Conversion Day"
+					},
+					"ko-KR": {
+						"line_01": "전환 당일 · 앞 승인 원본 참조 / 끊긴 사각",
+						"line_02": "전환 실험 실패 발생. 고지되지 않은 절차가 실행됐다. 윗쪽 닦임이 승인 원본의 아랫쪽과 이어진다. 일부 피해자 이름은 열 손상으로 읽히지 않는다.",
+						"speaker": "주인공",
+						"summary": "전환 당일의 실패 보고",
+						"title": "전환 당일의 실패 보고"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_FAILURE:line_01",
+					"line_02": "LOG_FAILURE:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "LOG_FAILURE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_MARA1_PANEL": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "Dry paper smells from beneath the burned insulation. The diagonal screw line carries brush friction, the palm approval angle two confirmation tones, and the broken square a delayed warning. Approval and audit lines have been merged into maintenance output.",
+						"speaker": "Protagonist",
+						"summary": "Three Terminal Sources",
+						"title": "Three Terminal Sources"
+					},
+					"ko-KR": {
+						"line_01": "탄 피복 아래 마른 종이 냄새가 난다. 대각 나사선은 솔 마찰음, 손바닥 승인각은 두 번 확인음, 끊긴 사각은 늦은 경고음이다. 승인과 감사 선이 정비 출력에 합쳐져 있다.",
+						"speaker": "주인공",
+						"summary": "세 단자의 출처",
+						"title": "세 단자의 출처"
+					}
+				},
+				"localization_keys": {
+					"line_01": "PANEL:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "PANEL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA1_RECORD_ORIGINAL_ATTRIBUTION": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "REC_MARA1",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "I preserve the commander and operator's responsibility, the victims' record, and the original text unchanged.\nThe researchers were promised new bodies but were not told their original bodies would be lost or that they would be converted into neural cores. Under an operational-stability order, Mara 1 erased the failure and contradictions in consent. That work remains in her compulsion to clean.",
+						"speaker": "Notebook",
+						"summary": "Mara 1's Research Record",
+						"title": "Mara 1's Research Record"
+					},
+					"ko-KR": {
+						"body": "명령자와 수행자의 책임, 피해 기록과 원문을 그대로 남긴다.\n연구원들은 새 육체를 약속받았으나 원래 신체 소실과 신경 코어 전환은 고지받지 못했다. 마라 1은 운영 안정화 명령으로 실패와 동의 모순을 지웠다. 그 업무는 지금의 청소 강박으로 남았다.",
+						"speaker": "수첩",
+						"summary": "마라 1의 연구 기록",
+						"title": "마라 1의 연구 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "RECORD_ORIGINAL_ATTRIBUTION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"relationship_record"
+				],
+				"source_content_ids": [
+					"NB_MARA1_CONFESS",
+					"NB_MARA1_RESTORE",
+					"NB_MODAL_MARA1_SELECT_1",
+					"NB_MARA1_LOG_CONSENT",
+					"NB_MARA1_SCREEN_LOG_CONSENT",
+					"NB_MARA1_LOG_FAILURE",
+					"NB_MARA1_SCREEN_LOG_FAILURE",
+					"NB_MARA1_LOG_COMMAND",
+					"NB_MARA1_SCREEN_LOG_COMMAND"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_knowledge_ids": [
+					"FRACTURE_REPORT"
+				],
+				"source_symbol": "RECORD_ORIGINAL_ATTRIBUTION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_RECORD_PROTECTED_IDENTIFIERS": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "REC_MARA1",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "I protect only the victims' identifying information. The original incident text and the responsibility of Father as commander and Mara 1 as operator remain.\nThe researchers were promised new bodies but were not told their original bodies would be lost or that they would be converted into neural cores. Under an operational-stability order, Mara 1 erased the failure and contradictions in consent. That work remains in her compulsion to clean.",
+						"speaker": "Notebook",
+						"summary": "Mara 1's Research Record",
+						"title": "Mara 1's Research Record"
+					},
+					"ko-KR": {
+						"body": "피해자 식별 정보만 보호한다. 사건 원문, 명령자 아버지와 수행자 마라 1의 책임은 남긴다.\n연구원들은 새 육체를 약속받았으나 원래 신체 소실과 신경 코어 전환은 고지받지 못했다. 마라 1은 운영 안정화 명령으로 실패와 동의 모순을 지웠다. 그 업무는 지금의 청소 강박으로 남았다.",
+						"speaker": "수첩",
+						"summary": "마라 1의 연구 기록",
+						"title": "마라 1의 연구 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "RECORD_PROTECTED_IDENTIFIERS:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"relationship_record"
+				],
+				"source_content_ids": [
+					"NB_MARA1_CONFESS",
+					"NB_MARA1_RESTORE",
+					"NB_MODAL_MARA1_SELECT_2",
+					"NB_MARA1_LOG_CONSENT",
+					"NB_MARA1_SCREEN_LOG_CONSENT",
+					"NB_MARA1_LOG_FAILURE",
+					"NB_MARA1_SCREEN_LOG_FAILURE",
+					"NB_MARA1_LOG_COMMAND",
+					"NB_MARA1_SCREEN_LOG_COMMAND"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_knowledge_ids": [
+					"FRACTURE_REPORT"
+				],
+				"source_symbol": "RECORD_PROTECTED_IDENTIFIERS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_RESTORE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "Original consent, failure report, and cleanup order connect. Some names cannot be recovered. I do not guess at the blanks.",
+						"speaker": "Protagonist",
+						"summary": "The Reconnected Deletion Record",
+						"title": "The Reconnected Deletion Record"
+					},
+					"ko-KR": {
+						"line_01": "동의 원본, 실패 보고, 정리 명령이 이어진다. 일부 이름은 복구할 수 없다. 빈칸을 추측해서 채우지 않는다.",
+						"speaker": "주인공",
+						"summary": "이어진 삭제 기록",
+						"title": "이어진 삭제 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "RESTORE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "RESTORE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA1_SCREEN_COMPLETE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "The record has been preserved. The incident and the responsibility of both commander and operator remain.\nREC_MARA1 can be reviewed in the notebook.",
+						"speaker": "Scene",
+						"summary": "Mara 1's Preserved Record",
+						"title": "Mara 1's Preserved Record"
+					},
+					"ko-KR": {
+						"body": "기록을 보존했다. 사건과 명령자·수행자의 책임은 남아 있다.\n수첩에서 REC_MARA1을 다시 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "보존된 마라 1의 기록",
+						"title": "보존된 마라 1의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_COMPLETE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SCREEN_COMPLETE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_SCREEN_ENTRY": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1 holds a wiring cover open with her spanner.\nThe air smells of dry paper. 'This one... isn't going away with a bit of cleaning.'",
+						"speaker": "Scene",
+						"summary": "More Than Cleaning",
+						"title": "More Than Cleaning"
+					},
+					"ko-KR": {
+						"body": "마라 1이 스패너로 배선 덮개를 붙든다.\n마른 종이 냄새가 난다. '이건... 닦는 걸로 끝나지 않겠슴다.'",
+						"speaker": "장면",
+						"summary": "닦는 것으로 끝나지 않는 일",
+						"title": "닦는 것으로 끝나지 않는 일"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ENTRY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SCREEN_ENTRY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_SCREEN_LOG_COMMAND": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "Immediately after failure report · References failure report / Diagonal screw line\nFather's order: 'Clean up for operational stability.' Operator: Mara 1. The failure log and contradictions in consent procedure were covered by maintenance history.",
+						"speaker": "Scene",
+						"summary": "The Cleanup Order After the Failure",
+						"title": "The Cleanup Order After the Failure"
+					},
+					"ko-KR": {
+						"body": "실패 보고 직후 · 실패 보고 참조 / 대각 나사선\n아버지의 명령: '운영 안정성을 위해 정리.' 수행자: 마라 1. 실패 로그와 동의 절차 모순을 정비 이력으로 덮음.",
+						"speaker": "장면",
+						"summary": "실패 뒤의 정리 명령",
+						"title": "실패 뒤의 정리 명령"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_COMMAND:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SCREEN_LOG_COMMAND",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_SCREEN_LOG_CONSENT": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "Day before conversion · Original approval / Palm approval angle\nA promise of life in a new body. The disclosure fields for loss of the original body and conversion into a bio-neural core are blank. A diagonal wipe leading to the next page points downward.",
+						"speaker": "Scene",
+						"summary": "Original Approval Before Conversion",
+						"title": "Original Approval Before Conversion"
+					},
+					"ko-KR": {
+						"body": "전환 전날 · 승인 원본 / 손바닥 승인각\n미래에 새 육체로 살아갈 것이라는 약속. 원래 신체 소실과 생체 신경 코어 결합 전환의 고지란은 비어 있다. 다음 장으로 이어지는 대각 닦임이 아래로 향한다.",
+						"speaker": "장면",
+						"summary": "전환 전날의 승인 원본",
+						"title": "전환 전날의 승인 원본"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_CONSENT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SCREEN_LOG_CONSENT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_SCREEN_LOG_FAILURE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "Day of conversion · References prior approval / Broken square\nConversion experiment failure. An undisclosed procedure was executed. The upper wipe connects to the lower edge of the original approval. Heat damage has made some victims' names unreadable.",
+						"speaker": "Scene",
+						"summary": "Failure Report on Conversion Day",
+						"title": "Failure Report on Conversion Day"
+					},
+					"ko-KR": {
+						"body": "전환 당일 · 앞 승인 원본 참조 / 끊긴 사각\n전환 실험 실패 발생. 고지되지 않은 절차가 실행됐다. 윗쪽 닦임이 승인 원본의 아랫쪽과 이어진다. 일부 피해자 이름은 열 손상으로 읽히지 않는다.",
+						"speaker": "장면",
+						"summary": "전환 당일의 실패 보고",
+						"title": "전환 당일의 실패 보고"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_FAILURE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SCREEN_LOG_FAILURE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_SCREEN_ORDER": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "Order the fragments by comparing dates, document references, and wipe direction.",
+						"speaker": "Scene",
+						"summary": "Dates and Wipe Marks on the Fragments",
+						"title": "Dates and Wipe Marks on the Fragments"
+					},
+					"ko-KR": {
+						"body": "날짜와 문서 참조, 닦임 방향을 대조해 파편을 순서대로 놓는다.",
+						"speaker": "장면",
+						"summary": "파편의 날짜와 닦임",
+						"title": "파편의 날짜와 닦임"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SCREEN_ORDER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_SCREEN_TERMINAL_0": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "Diagonal Screw Line · Brush Friction",
+						"speaker": "Scene",
+						"summary": "The Diagonal Screw-Line Signal",
+						"title": "The Diagonal Screw-Line Signal"
+					},
+					"ko-KR": {
+						"body": "대각 나사선 · 솔 마찰음",
+						"speaker": "장면",
+						"summary": "대각 나사선의 신호",
+						"title": "대각 나사선의 신호"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_TERMINAL_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SCREEN_TERMINAL_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_SCREEN_TERMINAL_1": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "Palm Approval Angle · Two Confirmation Tones",
+						"speaker": "Scene",
+						"summary": "The Palm Approval-Angle Signal",
+						"title": "The Palm Approval-Angle Signal"
+					},
+					"ko-KR": {
+						"body": "손바닥 승인각 · 두 번 확인음",
+						"speaker": "장면",
+						"summary": "손바닥 승인각의 신호",
+						"title": "손바닥 승인각의 신호"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_TERMINAL_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SCREEN_TERMINAL_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_SCREEN_TERMINAL_2": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "Broken Square · Delayed Warning Tone",
+						"speaker": "Scene",
+						"summary": "The Broken-Square Signal",
+						"title": "The Broken-Square Signal"
+					},
+					"ko-KR": {
+						"body": "끊긴 사각 · 늦은 경고음",
+						"speaker": "장면",
+						"summary": "끊긴 사각의 신호",
+						"title": "끊긴 사각의 신호"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_TERMINAL_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SCREEN_TERMINAL_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_SOURCE_AUDIT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "Glyph and signal match. AUDIT",
+						"speaker": "Protagonist",
+						"summary": "Audit Source Identified",
+						"title": "Audit Source Identified"
+					},
+					"ko-KR": {
+						"line_01": "문양과 신호가 일치한다. AUDIT",
+						"speaker": "주인공",
+						"summary": "감사 출처 확인",
+						"title": "감사 출처 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "SOURCE_AUDIT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SOURCE_AUDIT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA1_SOURCE_CONSENT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "Glyph and signal match. CONSENT",
+						"speaker": "Protagonist",
+						"summary": "Consent Source Identified",
+						"title": "Consent Source Identified"
+					},
+					"ko-KR": {
+						"line_01": "문양과 신호가 일치한다. CONSENT",
+						"speaker": "주인공",
+						"summary": "동의 출처 확인",
+						"title": "동의 출처 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "SOURCE_CONSENT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SOURCE_CONSENT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA1_SOURCE_MAINT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "Glyph and signal match. MAINT",
+						"speaker": "Protagonist",
+						"summary": "Maintenance Source Identified",
+						"title": "Maintenance Source Identified"
+					},
+					"ko-KR": {
+						"line_01": "문양과 신호가 일치한다. MAINT",
+						"speaker": "주인공",
+						"summary": "정비 출처 확인",
+						"title": "정비 출처 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "SOURCE_MAINT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SOURCE_MAINT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA1_SOURCE_MISMATCH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"line_01": "This terminal belongs to a different source. Only this connection has been safely cut; I can detach it and compare again.",
+						"speaker": "Protagonist",
+						"summary": "A Mismatched Terminal",
+						"title": "A Mismatched Terminal"
+					},
+					"ko-KR": {
+						"line_01": "출처가 다른 단자다. 이 단자만 안전 차단됐다. 선을 떼고 다시 대조할 수 있다.",
+						"speaker": "주인공",
+						"summary": "일치하지 않는 단자",
+						"title": "일치하지 않는 단자"
+					}
+				},
+				"localization_keys": {
+					"line_01": "SOURCE_MISMATCH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "SOURCE_MISMATCH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA1_STATUS_BRIDGE_SOURCES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "If you pull that first, everything goes with it. Check all three sources first, please.",
+						"speaker": "Scene",
+						"summary": "Sources to Check Before Disconnecting",
+						"title": "Sources to Check Before Disconnecting"
+					},
+					"ko-KR": {
+						"body": "그거부터 풀면 다 같이 날아감다. 세 출처를 먼저 봐주십쇼.",
+						"speaker": "장면",
+						"summary": "분리 전 확인할 출처",
+						"title": "분리 전 확인할 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_BRIDGE_SOURCES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "STATUS_BRIDGE_SOURCES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA1_STATUS_RESTORE_ORDER": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "The dates and document references do not connect. Lay out the fragments again and compare them.",
+						"speaker": "Scene",
+						"summary": "Disconnected Document References",
+						"title": "Disconnected Document References"
+					},
+					"ko-KR": {
+						"body": "날짜와 문서 참조가 이어지지 않는다. 파편을 다시 펼쳐 대조한다.",
+						"speaker": "장면",
+						"summary": "이어지지 않는 문서 참조",
+						"title": "이어지지 않는 문서 참조"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_RESTORE_ORDER:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_relationship.gd",
+				"source_symbol": "STATUS_RESTORE_ORDER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

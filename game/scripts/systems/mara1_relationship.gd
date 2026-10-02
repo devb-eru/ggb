@@ -7,6 +7,24 @@ const LOGS := {
 	"failure": "전환 당일 · 앞 승인 원본 참조 / 끊긴 사각\n전환 실험 실패 발생. 고지되지 않은 절차가 실행됐다. 윗쪽 닦임이 승인 원본의 아랫쪽과 이어진다. 일부 피해자 이름은 열 손상으로 읽히지 않는다.",
 	"command": "실패 보고 직후 · 실패 보고 참조 / 대각 나사선\n아버지의 명령: '운영 안정성을 위해 정리.' 수행자: 마라 1. 실패 로그와 동의 절차 모순을 정비 이력으로 덮음.",
 }
+const TEXT := {
+	"PANEL": "탄 피복 아래 마른 종이 냄새가 난다. 대각 나사선은 솔 마찰음, 손바닥 승인각은 두 번 확인음, 끊긴 사각은 늦은 경고음이다. 승인과 감사 선이 정비 출력에 합쳐져 있다.",
+	"SOURCE_MISMATCH": "출처가 다른 단자다. 이 단자만 안전 차단됐다. 선을 떼고 다시 대조할 수 있다.",
+	"SOURCE_MAINT": "문양과 신호가 일치한다. MAINT",
+	"SOURCE_CONSENT": "문양과 신호가 일치한다. CONSENT",
+	"SOURCE_AUDIT": "문양과 신호가 일치한다. AUDIT",
+	"BRIDGE": "스패너로 가짜 브리지를 해제한다. 승인과 감사가 정비 기록에서 분리되고 세 파편이 드러난다.",
+	"CLEAR": "파편을 다시 펼친다. 이미 조사한 출처는 유지된다.",
+	"RESTORE": "동의 원본, 실패 보고, 정리 명령이 이어진다. 일부 이름은 복구할 수 없다. 빈칸을 추측해서 채우지 않는다.",
+	"CONFESS": "청소가 좀 과했슴다...\n마라 1의 귀와 꼬리가 멎는다.\n아버님 명령으로 제가 지웠슴다. 이상한 건 알았는데, 시설을 살리는 정비라고 믿고 싶었어요. 용서해 달라는 말은 못 하겠슴다. 이걸 어떻게 남길지, 정해 주십쇼.",
+	"CHOOSE_ORIGINAL_ATTRIBUTION": "명령자와 수행자의 책임, 피해 기록과 원문을 그대로 남긴다.",
+	"CHOOSE_PROTECTED_IDENTIFIERS": "피해자 식별 정보만 보호한다. 사건 원문, 명령자 아버지와 수행자 마라 1의 책임은 남긴다.",
+}
+const STATUS := {
+	"BRIDGE_SOURCES": "그거부터 풀면 다 같이 날아감다. 세 출처를 먼저 봐주십쇼.",
+	"RESTORE_ORDER": "날짜와 문서 참조가 이어지지 않는다. 파편을 다시 펼쳐 대조한다.",
+}
+const RECORD_BODY := "연구원들은 새 육체를 약속받았으나 원래 신체 소실과 신경 코어 전환은 고지받지 못했다. 마라 1은 운영 안정화 명령으로 실패와 동의 모순을 지웠다. 그 업무는 지금의 청소 강박으로 남았다."
 
 static func progress(state: Dictionary) -> Dictionary:
 	var result := {"panel": false, "sources": {}, "bridge": false, "order": [], "restored": false, "confessed": false}
@@ -21,41 +39,45 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	if meta["knowledge_entries"].get("E3_1_complete", false): return {"ok": false, "text": "기록은 이미 보존했다. 선택을 다시 적용하지 않는다."}
 	var local := progress(state)
 	var text := ""
+	var feedback_key := action.to_upper()
 	match action:
 		"panel":
 			local["panel"] = true
-			text = "탄 피복 아래 마른 종이 냄새가 난다. 대각 나사선은 솔 마찰음, 손바닥 승인각은 두 번 확인음, 끊긴 사각은 늦은 경고음이다. 승인과 감사 선이 정비 출력에 합쳐져 있다."
+			text = TEXT.PANEL
 		"source":
 			if not local["panel"] or not value is Array or value.size() != 2: return {"ok": false, "text": "먼저 패널 단자를 조사한다."}
 			var index := int(value[0])
 			if index < 0 or index >= SOURCES.size(): return {"ok": false, "text": "알 수 없는 단자다."}
 			if String(value[1]) != SOURCES[index]:
-				text = "출처가 다른 단자다. 이 단자만 안전 차단됐다. 선을 떼고 다시 대조할 수 있다."
+				feedback_key = "SOURCE_MISMATCH"
+				text = TEXT[feedback_key]
 			else:
 				local["sources"][str(index)] = SOURCES[index]
 				if local["sources"].size() == 3: meta["knowledge_entries"]["mara1_trace_sources_identified"] = true
-				text = "문양과 신호가 일치한다. " + SOURCES[index]
+				feedback_key = "SOURCE_" + SOURCES[index]
+				text = TEXT[feedback_key]
 		"bridge":
-			if local["sources"].size() != 3: return {"ok": false, "text": "그거부터 풀면 다 같이 날아감다. 세 출처를 먼저 봐주십쇼."}
+			if local["sources"].size() != 3: return {"ok": false, "text": STATUS.BRIDGE_SOURCES, "notebook_status": "BRIDGE_SOURCES"}
 			local["bridge"] = true
 			meta["knowledge_entries"]["mara1_delete_bridge_removed"] = true
-			text = "스패너로 가짜 브리지를 해제한다. 승인과 감사가 정비 기록에서 분리되고 세 파편이 드러난다."
+			text = TEXT.BRIDGE
 		"log":
 			if not local["bridge"] or not LOGS.has(str(value)): return {"ok": false, "text": "브리지를 해제한 뒤 파편을 확인한다."}
 			if str(value) not in local["order"]: local["order"].append(str(value))
 			text = LOGS[str(value)]
+			feedback_key = "LOG_" + str(value).to_upper()
 		"clear":
 			local["order"] = []
-			text = "파편을 다시 펼친다. 이미 조사한 출처는 유지된다."
+			text = TEXT.CLEAR
 		"restore":
-			if local["order"] != ["consent", "failure", "command"]: return {"ok": false, "text": "날짜와 문서 참조가 이어지지 않는다. 파편을 다시 펼쳐 대조한다."}
+			if local["order"] != ["consent", "failure", "command"]: return {"ok": false, "text": STATUS.RESTORE_ORDER, "notebook_status": "RESTORE_ORDER"}
 			local["restored"] = true
 			meta["knowledge_entries"]["mara1_log_order_restored"] = true
-			text = "동의 원본, 실패 보고, 정리 명령이 이어진다. 일부 이름은 복구할 수 없다. 빈칸을 추측해서 채우지 않는다."
+			text = TEXT.RESTORE
 		"confess":
 			if not local["restored"]: return {"ok": false, "text": "로그를 먼저 복원한다."}
 			local["confessed"] = true
-			text = "청소가 좀 과했슴다...\n마라 1의 귀와 꼬리가 멎는다.\n아버님 명령으로 제가 지웠슴다. 이상한 건 알았는데, 시설을 살리는 정비라고 믿고 싶었어요. 용서해 달라는 말은 못 하겠슴다. 이걸 어떻게 남길지, 정해 주십쇼."
+			text = TEXT.CONFESS
 		"choose":
 			if not local["confessed"] or str(value) not in ["original_attribution", "protected_identifiers"]: return {"ok": false, "text": "복원한 기록과 마라 1의 말을 먼저 확인한다."}
 			var protected := str(value) == "protected_identifiers"
@@ -67,11 +89,12 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 			meta["knowledge_entries"]["E3_1_complete"] = true
 			meta["knowledge_entries"]["REC_MARA1"] = true
 			meta["event_history"]["E3_1"] = {"event_id": "E3_1", "lifecycle": "completed", "outcome_id": str(value), "completion_transaction_id": "E3_1_COMPLETION", "relationship_delta_applied": true, "completed_at_story_phase": "BROKEN_RESET"}
-			text = "피해자 식별 정보만 보호한다. 사건 원문, 명령자 아버지와 수행자 마라 1의 책임은 남긴다." if protected else "명령자와 수행자의 책임, 피해 기록과 원문을 그대로 남긴다."
+			feedback_key = "CHOOSE_" + str(value).to_upper()
+			text = TEXT[feedback_key]
 			var notes: Dictionary = meta["knowledge_entries"].get("chapter_notebook", {})
-			notes["REC_MARA1"] = text + "\n연구원들은 새 육체를 약속받았으나 원래 신체 소실과 신경 코어 전환은 고지받지 못했다. 마라 1은 운영 안정화 명령으로 실패와 동의 모순을 지웠다. 그 업무는 지금의 청소 강박으로 남았다."
+			notes["REC_MARA1"] = text + "\n" + RECORD_BODY
 			meta["knowledge_entries"]["chapter_notebook"] = notes
 		_:
 			return {"ok": false, "text": "정의되지 않은 정비 행동이다."}
 	state["loop_state"]["event_local_states"]["E3_1"] = local
-	return {"ok": true, "state": state, "text": text}
+	return {"ok": true, "state": state, "text": text, "feedback_key": feedback_key}

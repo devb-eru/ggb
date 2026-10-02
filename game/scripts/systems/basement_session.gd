@@ -1,6 +1,8 @@
 class_name BasementSession
 extends BlackMirrorSession
 
+const MARA1_NOTES := preload("res://scripts/systems/mara1_notebook.gd")
+
 const BASEMENT := preload("res://data/puzzles/puzzle_basement.tres")
 const BASEMENT_NOTES := preload("res://scripts/systems/basement_notebook.gd")
 const FRACTURE_NOTES := preload("res://scripts/systems/fracture_notebook.gd")
@@ -262,8 +264,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			var result: Dictionary = IRIS_RELATIONSHIP.apply(snapshot(), action.trim_prefix("iris_"), value)
 			return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "기록을 확인한다."))
 		if action.begins_with("mara1_"):
-			var result: Dictionary = MARA1_RELATIONSHIP.apply(snapshot(), action.trim_prefix("mara1_"), value)
-			return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "기록을 확인한다."))
+			return _mara1_action(action.trim_prefix("mara1_"), value)
 		if action == "e1_inspect": return _inspect_e1(String(value))
 		if action.begins_with("e2_"): return _intro_action(action, "" if value == null else str(value))
 		if action != "move": return _reject("어제의 일과와 장치 조작은 끝났다. 달라진 아침을 확인한다.")
@@ -423,6 +424,23 @@ func act(action: String, value: Variant = null) -> Dictionary:
 
 func luca_s2_pending() -> bool:
 	return not known("LUCA_S2_complete") and not snapshot()["meta_progress"]["servants"]["luca"]["core_event_complete"]
+
+
+func _mara1_action(action: String, value: Variant) -> Dictionary:
+	var result := MARA1_RELATIONSHIP.apply(snapshot(), action, value)
+	if not result.ok:
+		var rejected := _reject(result.get("text", "기록을 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = MARA1_NOTES.PREFIX + "STATUS_" + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	if action == "choose":
+		var written := MARA1_NOTES.write(result.state, str(value), context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, MARA1_NOTES.paragraphs(result.feedback_key))
 
 
 func _fracture_commit(state: Dictionary, text: String, ids: Array, notes: Array = [], speaker: String = "주인공") -> Dictionary:

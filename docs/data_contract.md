@@ -187,7 +187,7 @@ save_header:
 
 [GGB-DEC-2026-0006](decisions/GGB-DEC-2026-0006_대화_기록_영속화.md)에 따라 대화 기록은 진행 슬롯에 명시적으로 저장한다. 보존·통합 수첩의 목표 계약은 [DEC-0012](decisions/GGB-DEC-2026-0012_통합_수첩_범위와_기록_보존.md)와 [구현 계획](../ideas/md/v04/issues/validation/notebook_history_review_plan.md)을 적용한다. 아래 예시는 이전 기록의 논리 필드 설명이며 신형 archive의 완전한 직렬화 예제가 아니다. 현재 게임은 transcript 저장을 사용하며 새 저장 계층의 실제 연결 상태는 [구현 현황](../ideas/md/v04/issues/validation/notebook_history_implementation_status.md)을 따른다.
 
-개발 옵션의 authored 기록은 `content_id + content_version + variant_id + 공개 segment`를 고정한다. 현재 언어 재열람은 정확히 같은 의미 버전만 사용하고, 없으면 저장 당시 원문임을 표시한다. 변수는 해당 segment가 선언한 공개 값만 받고 정수 공개 값은 첫 저장부터 JSON 수 표현으로 고정한다. 새 대화·힌트 관찰은 실제 표시문과 일치해야 하며, 사건 작성 원고는 7.1.1절을 따른다. 기존 버전 원고의 덮어쓰기나 문자열 역검색으로 출처를 추정하지 않는다. 현재 이 계약의 실제 연결 대상은 [NP01~NP03 프롤로그, NP04 1장 표시, NP05 등록 선택창, NP06 1장 원고, NP07 거울, NP08 지하, NP09 파열/휴식/기상/보고 등록분, NP20 단계 힌트](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)이며 다른 생산자의 임시 `unmapped`는 인수 완료로 세지 않는다. 선택 문구 확정 기록은 입력 의향의 증거이고, 뒤이어 실행하는 출발·수면 등 게임 상태 저장의 성공을 뜻하지 않는다.
+개발 옵션의 authored 기록은 `content_id + content_version + variant_id + 공개 segment`를 고정한다. 현재 언어 재열람은 정확히 같은 의미 버전만 사용하고, 없으면 저장 당시 원문임을 표시한다. 변수는 해당 segment가 선언한 공개 값만 받고 정수 공개 값은 첫 저장부터 JSON 수 표현으로 고정한다. 새 대화·힌트 관찰은 실제 표시문과 일치해야 하며, 사건 작성 원고는 7.1.1절을 따른다. 기존 버전 원고의 덮어쓰기나 문자열 역검색으로 출처를 추정하지 않는다. 현재 이 계약의 실제 연결 대상은 [NP01~NP03 프롤로그, NP04 1장 표시, NP05 등록 선택창, NP06 1장 원고, NP07 거울, NP08 지하, NP09 파열/휴식/기상/보고 등록분, NP10 마라 1, NP20 단계 힌트](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)이며 다른 생산자의 임시 `unmapped`는 인수 완료로 세지 않는다. 선택 문구 확정 기록은 입력 의향의 증거이고, 뒤이어 실행하는 출발·수면 등 게임 상태 저장의 성공을 뜻하지 않는다.
 
 NP04는 `loop_state.event_local_states.CHAPTER_ONE.last_feedback.notebook_feedback`에 명시적인 문단별 descriptor 목록을 선택적으로 보존한다. 이는 미표시 대사의 관찰 증거가 아니며 사건 진행과 함께 저장한 표시 원고 식별자다. 대화창에서 실제로 표시한 문단만 archive 관찰로 생성한다. 필드 없는 과거 피드백을 텍스트 ID나 한국어 본문으로 소급 매핑하지 않는다. 시계 배치의 공개 변수는 `matched` 또는 `position` 정수만 허용하며, 미래 정답이나 현재 상태로 재계산하지 않는다. 게임 사건 저장 응답 유실은 transaction과 전체 영속 값 일치를 확인한 경우에만 성공으로 인정한다.
 
@@ -258,11 +258,15 @@ NP09 시간 경과 패널·안내·정적 보드·현장 질문은 별도의 `fr
 
 같은 방문의 패널은 발생/세션을 공유하되 표시 토큰은 개별이다. `retry_required`는 실행 중 명시적 재시도 대기 상태이며 저장 스키마 필드가 아니다. 실패 이후 타이머·재그리기·언어 변경은 저장을 자동 재시도하지 않는다. 현재 세대의 재시도 버튼으로만 다시 시도하며 성공 후 해당 버튼에 있던 포커스는 살아 있는 월드 조작 또는 메뉴로 옮긴다. 요청이 전혀 없는 이전 퍼즐은 이 대기 제한으로 막지 않는다.
 
-`notebook_event_notes.gd`는 NP06/NP07/NP08/NP09의 후보 작성 공통 경로다. `source_knowledge_ids`는 현재 ledger의 획득 revision만 연결한다. 선택적인 `source_content_ids`는 현재 archive에서 해당 ID의 최신 authored 관찰과 그 항목에 이미 공개된 segment만 연결한다. 전체 카탈로그의 segment를 순회해 미열람 본문을 출처로 만들지 않는다. 정확한 버전/한국어 공급문을 확인한 뒤 현재 언어의 원고를 작성하며 실패 후보에서 원래 상태를 부분 변경하지 않는다. ledger의 `source_refs`에는 원고 자체의 `observation_ref`가 항상 포함되며, 추가 외부 출처가 없어도 그 자기 참조는 남는다.
+NP10 `mara1_v1.json`은 마라 1의 피드백 14종, 실제 화면 9종, 조건 미충족 안내 2종, 선택별 연구원 기록 2종이다. 기록 버튼 전체 본문을 실제 화면에서 읽을 수 있으면 표시 관찰을 남기지만, 그것만으로 퍼즐 순서를 배치하거나 기록 획득을 확정하지 않는다. 가려진 단자·문서와 아직 표시하지 않은 고백 문단은 관찰에 넣지 않는다. `REC_MARA1`은 실제 선택한 원본 귀속/식별자 보호 원고 하나만 생성하며 관계·완료·호환용 원문·archive·ledger와 같은 후보로 커밋한다. 보류와 재열람, 완료 플래그만 있는 과거 저장은 연구원 원고를 생성하지 않는다.
+
+NP10의 배선 근거 부족/연대순 미완료 안내는 실제 거절 입력마다 별도 관찰이다. `notebook_surface_capture.gd`의 `new_attempt`는 이전 요청이 성공했을 때만 새 토큰을 만든다. 실패한 요청은 같은 토큰으로 재시도하며 재그리기나 타이머로 자동 반복 저장하지 않는다. 진행 중 자료/수리 상태를 불러와도 이전 관찰을 변경하지 않으며 자료 관찰과 퍼즐 배치를 혼동하지 않는다. 앱 재시작 이후 같은 표시 요청의 영속 커서는 별도 후속 범위다.
+
+`notebook_event_notes.gd`는 NP06/NP07/NP08/NP09/NP10의 후보 작성 공통 경로다. `source_knowledge_ids`는 현재 ledger의 획득 revision만 연결한다. 선택적인 `source_content_ids`는 현재 archive에서 해당 ID의 최신 authored 관찰과 그 항목에 이미 공개된 segment만 연결한다. 전체 카탈로그의 segment를 순회해 미열람 본문을 출처로 만들지 않는다. 정확한 버전/한국어 공급문을 확인한 뒤 현재 언어의 원고를 작성하며 실패 후보에서 원래 상태를 부분 변경하지 않는다. ledger의 `source_refs`에는 원고 자체의 `observation_ref`가 항상 포함되며, 추가 외부 출처가 없어도 그 자기 참조는 남는다.
 
 선택적인 `superseded_by_content_ids`는 같은 지식 카드의 최신 revision이 해당 후속 원고를 실제로 획득했을 때 하위 단계의 재작성을 생략한다. C1 가설을 C0 관찰로, 검증한 지하 도면을 처음 확보한 자료로 되돌리지 않는 명시적 규칙이다. 진행 플래그만으로 획득을 추정하지 않으며 반복 행동의 실제 대화 관찰은 생략하지 않는다. 원문/ledger 유효성 검사는 생략 판정보다 먼저 수행한다.
 
-ledger와 archive, 호환용 문자열, 사건 진행을 하나의 저장에 넣는다. 실패 후보는 공개하지 않으며 NP03은 대기 요청을 유지하고 NP06/NP07/NP08/NP09는 사용자 재시도에서 미공개 후보를 다시 만든다. 조회는 쓰기를 실행하지 않는다. 정상 리셋은 ledger/출처를 보존하며, 의미 갱신은 이전 원고를 덮어쓰지 않는다. JSON의 정수 표현은 archive와 ledger 참조를 함께 정규화하고 소수 순번은 거부한다. 미래 ledger schema는 checksum 이후 호환 불가로 반환하여 원본/백업을 덮어쓰지 않는다. 현재 공급 범위와 실행 근거는 [생산자 연결 현황](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)을 따른다. J4/J5·관계 원문과 새 카드 UI는 아직 후속 작업이다.
+ledger와 archive, 호환용 문자열, 사건 진행을 하나의 저장에 넣는다. 실패 후보는 공개하지 않으며 NP03은 대기 요청을 유지하고 NP06/NP07/NP08/NP09/NP10은 사용자 재시도에서 미공개 후보를 다시 만든다. 조회는 쓰기를 실행하지 않는다. 정상 리셋은 ledger/출처를 보존하며, 의미 갱신은 이전 원고를 덮어쓰지 않는다. JSON의 정수 표현은 archive와 ledger 참조를 함께 정규화하고 소수 순번은 거부한다. 미래 ledger schema는 checksum 이후 호환 불가로 반환하여 원본/백업을 덮어쓰지 않는다. 현재 공급 범위와 실행 근거는 [생산자 연결 현황](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)을 따른다. J4/J5·마라 1 이외 관계 원문과 새 카드 UI는 아직 후속 작업이다.
 
 ### 7.2 초기 저장 지점
 
