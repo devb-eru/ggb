@@ -6,6 +6,7 @@ const IRIS_NOTES := preload("res://scripts/systems/iris_notebook.gd")
 const LUCA_NOTES := preload("res://scripts/systems/luca_notebook.gd")
 const EDGAR_NOTES := preload("res://scripts/systems/edgar_notebook.gd")
 const MARA2_NOTES := preload("res://scripts/systems/mara2_notebook.gd")
+const SETTLEMENT_NOTES := preload("res://scripts/systems/settlement_notebook.gd")
 
 const BASEMENT := preload("res://data/puzzles/puzzle_basement.tres")
 const BASEMENT_NOTES := preload("res://scripts/systems/basement_notebook.gd")
@@ -245,11 +246,9 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		var result: Dictionary = CORE_ROOMS.apply(snapshot(), action.trim_prefix("f0a_"), value)
 		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "회로를 확인한다."))
 	if action.begins_with("e6_"):
-		var result: Dictionary = CORE_APPROACH.apply(snapshot(), action.trim_prefix("e6_"), value)
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "코어 경로를 확인한다."))
+		return _settlement_action("E6", action.trim_prefix("e6_"), value)
 	if action.begins_with("e5_"):
-		var result: Dictionary = LAST_EVENING.apply(snapshot(), action.trim_prefix("e5_"), value)
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "저녁 자리를 확인한다."))
+		return _settlement_action("E5", action.trim_prefix("e5_"), value)
 	if action.begins_with("j4_"):
 		var result: Dictionary = JOURNAL_FOUR.apply(snapshot(), action.trim_prefix("j4_"), value)
 		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "기록을 확인한다."))
@@ -424,6 +423,20 @@ func act(action: String, value: Variant = null) -> Dictionary:
 
 func luca_s2_pending() -> bool:
 	return not known("LUCA_S2_complete") and not snapshot()["meta_progress"]["servants"]["luca"]["core_event_complete"]
+
+
+func _settlement_action(group: String, action: String, value: Variant) -> Dictionary:
+	var result: Dictionary = LAST_EVENING.apply(snapshot(), action, value) if group == "E5" else CORE_APPROACH.apply(snapshot(), action, value)
+	if not result.ok: return _reject(result.text)
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	if group == "E6" and action == "mara2" and value == "write":
+		var written := SETTLEMENT_NOTES.write_name(result.state, context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, SETTLEMENT_NOTES.paragraphs(group, result.feedback_keys))
 
 
 func _edgar_action(action: String, value: Variant) -> Dictionary:

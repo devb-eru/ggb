@@ -41,6 +41,24 @@ const OVERLAYS := {
 	"separated": "마라 2의 두 인덱스가 서로의 문장을 확인하며 교차 응답한다.",
 }
 
+const TEXT := {
+	"OPENING_LOW": "주인공이 북쪽 정면석에 앉는다. 사용인들은 업무 위치에 서 있다. 식기 소리가 멎고 긴 침묵이 남는다.",
+	"OPENING_MID": "주인공이 북쪽 정면석에 앉는다. 이야기를 나눈 사용인들은 앉고, 나머지는 서비스 경계에 선다. 가까워진 몇 사람의 선이 닿지만 하나로 섞이지 않는다.",
+	"OPENING_HIGH": "주인공이 북쪽 정면석에 앉는다. 네 사람이 앉는다. 남은 의자에도 원래 문양이 있다. 그 주인은 출입문 곁에서 이곳을 보고 있다.",
+	"OPENING_ALL": "주인공이 북쪽 정면석에 앉는다. 다섯 자리에 이름표가 놓였다. 주인공이 바라보자 마지막까지 서 있던 에드가도 앉는다.",
+	"IRIS_HIGH": "이리스: 아까 둘이 나눈 말을, 여기서 다른 사람의 말로 바꾸지는 않을게요.",
+	"IRIS_MID": "이리스: 그때의 계절이 그리웠어요. 당신이 바라는 계절까지 같다고 생각해서는 안 됐겠죠.",
+	"IRIS_LOW": "이리스는 환경 전력 로그를 접는다. 더 사적인 말은 덧붙이지 않는다.",
+	"ALL": "마라 2: 에드가, 마라 1, 루카, 이리스... 그리고 나는?\n다섯 이름표의 문양은 경계를 유지한 채 한 식탁에 남는다. 누구도 다른 사람의 책임을 대신 용서하지 않는다.",
+	"ENTER_STANDARD": "중앙홀의 시계는 저녁인데 창밖은 아침의 같은 프레임이다.\n에드가: 저녁 준비가 되었습니다.\n식당 문이 열린다. 긴 식탁의 절반은 목재, 절반은 생명 유지 프레임이다.\n루카: 음식은... 향과 온도, 식감 데이터예요. 오늘은... 숨기지 않을게요.",
+	"ENTER_CONSENT": "중앙홀의 시계는 저녁인데 창밖은 아침의 같은 프레임이다.\n에드가: 저녁 준비가 되었습니다. 자리에 가셔도 괜찮겠습니까?\n식당 문이 열린다. 긴 식탁의 절반은 목재, 절반은 생명 유지 프레임이다.\n루카: 음식은... 향과 온도, 식감 데이터예요. 오늘은... 숨기지 않을게요.",
+	"INSPECT_TABLE": "목재와 금속이 맞닿은 경계에 손끝을 댄다. 따뜻한 접시 아래 프레임이 일정하게 진동한다. 배고픔을 달래는 감각과 바깥 몸의 생존은 같은 일이 아니다.",
+	"INSPECT_SEATS": "북쪽 정면은 내 자리. 왼쪽에는 이리스와 마라 2, 오른쪽에는 루카와 마라 1. 출입문 쪽 에드가의 자리에는 수직선이 있다. 사용인의 의자는 내 착석 지점이 아니다.",
+	"INSPECT_HALL": "홀로 돌아와 시계를 본다. 저녁을 가리키는 바늘 아래 아침빛이 멈춰 있다. 종료한 관계 사건을 다시 시작할 수는 없다.",
+	"INSPECT_DINING": "식당의 주인공 자리로 돌아온다. 아무도 대답을 재촉하지 않는다.",
+	"FINISH": "이 저녁의 말을 가지고 코어 접근 준비를 마친다. 아직 남을지 떠날지는 정하지 않았다."
+}
+
 static func progress(state: Dictionary) -> Dictionary:
 	var local := {"entered": false, "seated": false, "question": "", "seen": []}
 	local.merge(state["loop_state"]["event_local_states"].get("E5", {}), true)
@@ -52,31 +70,37 @@ static func tier(state: Dictionary) -> String:
 		if state["meta_progress"]["servants"][owner]["core_event_complete"]: count += 1
 	return "ALL" if count == 5 else ("HIGH" if count == 4 else ("MID" if count >= 2 else "LOW"))
 
-static func scene(state: Dictionary) -> String:
-	var variant := tier(state)
-	var text := "주인공이 북쪽 정면석에 앉는다."
-	match variant:
-		"LOW": text += " 사용인들은 업무 위치에 서 있다. 식기 소리가 멎고 긴 침묵이 남는다."
-		"MID": text += " 이야기를 나눈 사용인들은 앉고, 나머지는 서비스 경계에 선다. 가까워진 몇 사람의 선이 닿지만 하나로 섞이지 않는다."
-		"HIGH": text += " 네 사람이 앉는다. 남은 의자에도 원래 문양이 있다. 그 주인은 출입문 곁에서 이곳을 보고 있다."
-		"ALL": text += " 다섯 자리에 이름표가 놓였다. 주인공이 바라보자 마지막까지 서 있던 에드가도 앉는다."
+static func scene_keys(state: Dictionary) -> Array:
+	var keys: Array = ["OPENING_" + tier(state)]
 	for index in range(5):
 		var owner: String = OWNERS[index]
-		var complete: bool = state["meta_progress"]["servants"][owner]["core_event_complete"]
-		text += "\n" + String(INSERTS[owner] if complete else DISTANCE[owner])
+		var complete: bool = state.meta_progress.servants[owner].core_event_complete
+		keys.append(("INSERT_" if complete else "DISTANCE_") + owner.to_upper())
 		if owner == "iris" and complete:
-			var iris: Dictionary = state["meta_progress"]["servants"]["iris"]
-			if int(iris["bond"]) >= 4:
-				text += "\n이리스: 아까 둘이 나눈 말을, 여기서 다른 사람의 말로 바꾸지는 않을게요."
-			elif int(iris["bond"]) >= 2:
-				text += "\n이리스: 그때의 계절이 그리웠어요. 당신이 바라는 계절까지 같다고 생각해서는 안 됐겠죠."
-			else:
-				text += "\n이리스는 환경 전력 로그를 접는다. 더 사적인 말은 덧붙이지 않는다."
+			var bond: int = state.meta_progress.servants.iris.bond
+			keys.append("IRIS_HIGH" if bond >= 4 else "IRIS_MID" if bond >= 2 else "IRIS_LOW")
 		if complete:
-			var outcome: String = state["meta_progress"]["event_history"].get(EVENTS[index], {}).get("outcome_id", "")
-			if OVERLAYS.has(outcome): text += "\n" + String(OVERLAYS[outcome])
-	if variant == "ALL": text += "\n마라 2: 에드가, 마라 1, 루카, 이리스... 그리고 나는?\n다섯 이름표의 문양은 경계를 유지한 채 한 식탁에 남는다. 누구도 다른 사람의 책임을 대신 용서하지 않는다."
-	return text
+			var outcome: String = state.meta_progress.event_history.get(EVENTS[index], {}).get("outcome_id", "")
+			if OVERLAYS.has(outcome): keys.append("OVERLAY_" + outcome.to_upper())
+	if tier(state) == "ALL": keys.append("ALL")
+	return keys
+
+
+static func feedback_text(key: String) -> String:
+	if key.begins_with("INSERT_"): return INSERTS[key.trim_prefix("INSERT_").to_lower()]
+	if key.begins_with("DISTANCE_"): return DISTANCE[key.trim_prefix("DISTANCE_").to_lower()]
+	if key.begins_with("OVERLAY_"): return OVERLAYS[key.trim_prefix("OVERLAY_").to_lower()]
+	if key.begins_with("QUESTION_"):
+		var question := key.trim_prefix("QUESTION_").to_lower()
+		return "주인공: " + String(QUESTIONS[question]) + "\n" + String(ANSWERS[question])
+	return TEXT[key]
+
+
+static func scene(state: Dictionary) -> String:
+	var lines := PackedStringArray()
+	for key in scene_keys(state): lines.append(feedback_text(key))
+	return "\n".join(lines)
+
 
 static func apply(source: Dictionary, action: String, value: Variant) -> Dictionary:
 	var state := source.duplicate(true)
@@ -84,6 +108,7 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	var knowledge: Dictionary = meta["knowledge_entries"]
 	var local := progress(state)
 	var text := ""
+	var feedback_keys: Array = []
 	if not knowledge.get("J4_complete", false) or not (meta["servants"]["edgar"]["core_event_complete"] or knowledge.get("edgar_minimum_access", false)):
 		return {"ok": false, "text": "일지와 최소 접근 절차를 먼저 확인한다."}
 	if knowledge.get("e5_locked_in", false): return {"ok": false, "text": "저녁의 결산은 이미 마쳤다."}
@@ -93,30 +118,32 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 			local["entered"] = true
 			state["loop_state"]["location_id"] = "M1_DINING_ROOM"
 			meta["event_history"]["E5"] = {"event_id": "E5", "lifecycle": "active", "variant_id": tier(state)}
-			text = "중앙홀의 시계는 저녁인데 창밖은 아침의 같은 프레임이다.\n에드가: 저녁 준비가 되었습니다."
-			if tier(state) in ["HIGH", "ALL"]: text += " 자리에 가셔도 괜찮겠습니까?"
-			text += "\n식당 문이 열린다. 긴 식탁의 절반은 목재, 절반은 생명 유지 프레임이다.\n루카: 음식은... 향과 온도, 식감 데이터예요. 오늘은... 숨기지 않을게요."
+			feedback_keys = ["ENTER_CONSENT" if tier(state) in ["HIGH", "ALL"] else "ENTER_STANDARD"]
+			text = feedback_text(feedback_keys[0])
 		"inspect":
 			if not local["entered"]: return {"ok": false, "text": "식당에 먼저 들어간다."}
 			match str(value):
-				"table": text = "목재와 금속이 맞닿은 경계에 손끝을 댄다. 따뜻한 접시 아래 프레임이 일정하게 진동한다. 배고픔을 달래는 감각과 바깥 몸의 생존은 같은 일이 아니다."
-				"seats": text = "북쪽 정면은 내 자리. 왼쪽에는 이리스와 마라 2, 오른쪽에는 루카와 마라 1. 출입문 쪽 에드가의 자리에는 수직선이 있다. 사용인의 의자는 내 착석 지점이 아니다."
+				"table": text = TEXT.INSPECT_TABLE
+				"seats": text = TEXT.INSPECT_SEATS
 				"hall":
 					state["loop_state"]["location_id"] = "M1_CENTRAL_HALL"
-					text = "홀로 돌아와 시계를 본다. 저녁을 가리키는 바늘 아래 아침빛이 멈춰 있다. 종료한 관계 사건을 다시 시작할 수는 없다."
+					text = TEXT.INSPECT_HALL
 				"dining":
 					state["loop_state"]["location_id"] = "M1_DINING_ROOM"
-					text = "식당의 주인공 자리로 돌아온다. 아무도 대답을 재촉하지 않는다."
+					text = TEXT.INSPECT_DINING
 				_: return {"ok": false, "text": "확인할 대상을 고른다."}
+			feedback_keys = ["INSPECT_" + str(value).to_upper()]
 			if str(value) not in local["seen"]: local["seen"].append(str(value))
 		"sit":
 			if not local["entered"] or local["seated"] or state["loop_state"]["location_id"] != "M1_DINING_ROOM": return {"ok": false, "text": "식당의 자기 자리에서 시작한다."}
 			local["seated"] = true
+			feedback_keys = scene_keys(state)
 			text = scene(state)
 		"question":
 			if not local["seated"] or not String(local["question"]).is_empty() or not QUESTIONS.has(str(value)): return {"ok": false, "text": "공동 질문은 하나만 고른다."}
 			local["question"] = str(value)
-			text = "주인공: " + String(QUESTIONS[str(value)]) + "\n" + String(ANSWERS[str(value)])
+			feedback_keys = ["QUESTION_" + str(value).to_upper()]
+			text = feedback_text(feedback_keys[0])
 		"finish":
 			if value != true or String(local["question"]).is_empty(): return {"ok": false, "text": "대화를 마친 뒤 준비 여부를 직접 확인한다."}
 			knowledge["e5_locked_in"] = true
@@ -125,7 +152,8 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 			for owner in OWNERS:
 				if meta["servants"][owner]["core_event_complete"]: complete.append(owner.to_upper())
 			meta["event_history"]["E5"] = {"event_id": "E5", "lifecycle": "completed", "variant_id": tier(state), "completed_owner_ids": complete}
-			text = "이 저녁의 말을 가지고 코어 접근 준비를 마친다. 아직 남을지 떠날지는 정하지 않았다."
+			feedback_keys = ["FINISH"]
+			text = TEXT.FINISH
 		_: return {"ok": false, "text": "정의되지 않은 저녁 행동이다."}
 	state["loop_state"]["event_local_states"]["E5"] = local
-	return {"ok": true, "state": state, "text": text}
+	return {"ok": true, "state": state, "text": text, "feedback_keys": feedback_keys}

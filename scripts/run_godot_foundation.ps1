@@ -175,6 +175,9 @@ Assert-GodotValidation -Result $notebookIrisResult -Name "Notebook Iris evidence
 $notebookLucaResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-luca-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookLucaResult -Name "Notebook Luca evidence and frozen localized cycle" -RequiredMarker "NOTEBOOK_LUCA_SMOKE: PASS"
 
+$notebookSettlementResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-settlement-smoke", "--ggb-dev-notebook-v2")
+Assert-GodotValidation -Result $notebookSettlementResult -Name "Notebook last evening and core approach evidence" -RequiredMarker "NOTEBOOK_SETTLEMENT_SMOKE: PASS"
+
 $notebookAuthorityArchiveResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-authority-archive-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookAuthorityArchiveResult -Name "Notebook Edgar authority and Mara 2 archive evidence" -RequiredMarker "NOTEBOOK_AUTHORITY_ARCHIVE_SMOKE: PASS"
 

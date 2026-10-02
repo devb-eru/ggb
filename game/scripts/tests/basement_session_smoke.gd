@@ -2743,22 +2743,34 @@ func _validate_e6_ui(session: BasementSession) -> void:
 	_expect(view._objective_label.text == FRACTURE_RESOLUTION_TEXTS.text("코어 접근 · 남은 후속 반응", "en_US"), "E6 objective renders in English")
 	_expect(view._location_label.text.begins_with("Security Machine Room"), "E6 location renders a human-readable English name")
 	_expect((view._hotspot_layer.get_node("E6_ENTER") as Button).text == FRACTURE_RESOLUTION_TEXTS.text("코어 경로 진입 확인", "en_US"), "E6 entry action renders in English")
+	_expect(view._notebook_surface_allowed(), "E6 visible world options are captured before the modal baseline")
 	var after_intro := session.snapshot()
 	before["meta_progress"]["dialogue_history"] = after_intro["meta_progress"]["dialogue_history"].duplicate(true)
 	_expect(after_intro == before, "E6 opening only appends displayed dialogue history")
+	var history_count: int = after_intro["meta_progress"]["dialogue_history"]["entries"].size()
 	view._hotspot_layer.get_node("E6_ENTER").pressed.emit()
 	await tree.process_frame
+	var shown: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+	_expect(shown.size() == history_count + 1, "E6 confirmation records only the displayed options")
+	_expect(String(_history_payload(shown.back())["variables"]["text"]).contains(FRACTURE_RESOLUTION_TEXTS.text("문턱을 넘는다", "en_US")), "E6 displayed record contains the actual entry option")
 	var focus := root.gui_get_focus_owner() as Button
 	_expect(focus != null and focus.text == FRACTURE_RESOLUTION_TEXTS.text("아직 조사한다", "en_US"), "E6 English confirmation defaults to stay")
 	_expect(not _contains_hangul((view._modal_body.get_child(2).get_child(0) as Label).text), "E6 English confirmation body has no Korean")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("user://e6_confirmation.png")
-	view._close_modal()
+	view._cancel_prologue_modal()
+	var cancelled: Array = game.get_value("meta_progress.dialogue_history.entries", [])
+	_expect(cancelled.size() == history_count + 2, "E6 deferral appends one cancellation")
+	_expect(_history_payload(cancelled.back())["variables"]["text"] == FRACTURE_RESOLUTION_TEXTS.text("아직 조사한다", "en_US"), "E6 cancellation preserves the actual deferred wording")
+	if cancelled.back().get("record_class") == "authored":
+		_expect(cancelled.back().observation.entry_kind == "choice_cancelled", "E6 deferral is not entry confirmation")
 	view.queue_free()
 	await tree.process_frame
 	TranslationServer.set_locale(previous_locale)
-	_expect(session.snapshot() == before, "E6 UI cancellation unchanged")
+	var after_cancel := session.snapshot()
+	after_cancel["meta_progress"]["dialogue_history"] = before["meta_progress"]["dialogue_history"].duplicate(true)
+	_expect(after_cancel == before, "E6 cancellation changes no gameplay, relationships, or location")
 
 
 func _validate_e5_ui(session: BasementSession) -> void:

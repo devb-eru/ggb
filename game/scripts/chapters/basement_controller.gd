@@ -25,6 +25,7 @@ const IRIS_NOTES := preload("res://scripts/systems/iris_notebook.gd")
 const LUCA_NOTES := preload("res://scripts/systems/luca_notebook.gd")
 const EDGAR_NOTES := preload("res://scripts/systems/edgar_notebook.gd")
 const MARA2_NOTES := preload("res://scripts/systems/mara2_notebook.gd")
+const SETTLEMENT_NOTES := preload("res://scripts/systems/settlement_notebook.gd")
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
@@ -1839,27 +1840,71 @@ func _build_core_room_network() -> void:
 	_action("F0A_SIGNAL", _core_text("f0a_signal"), Rect2(1020, 930, 720, 60), "f0a_signal")
 
 
+
+func _settlement_board(key: String, rect: Rect2) -> void:
+	var text := _fracture_resolution_text(SETTLEMENT_NOTES.SCREEN[key])
+	_board_label(text, rect)
+	_queue_notebook_content(SETTLEMENT_NOTES.PREFIX + "SCREEN_" + key, text)
+
+
+func _queue_settlement_choices(group: String) -> void:
+	var labels := PackedStringArray()
+	for label in SETTLEMENT_NOTES.CHOICES[group]: labels.append(_fracture_resolution_text(label))
+	_queue_notebook_content(SETTLEMENT_NOTES.PREFIX + group + "_OPTIONS", "\n".join(labels))
+
+
+func _settlement_choice(group: String, index: int, id: String, rect: Rect2, action: String, value: String) -> void:
+	var locale := TranslationServer.get_locale()
+	var label := _fracture_resolution_text(SETTLEMENT_NOTES.CHOICES[group][index])
+	if not _notebook_surface_enabled():
+		_action(id, label, rect, action, value)
+		return
+	_add_hotspot(id, label, rect, _settlement_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, locale, action, value))
+
+
+func _settlement_choice_pressed(generation: int, group: String, index: int, label: String, locale: String, action: String, value: String) -> void:
+	if _interaction_blocked() or not _notebook_surfaces.live(_notebook_surface_scope(), generation): return
+	if not _notebook_surface_allowed(): return
+	var options_id := SETTLEMENT_NOTES.PREFIX + group + "_OPTIONS"
+	var selected_id := SETTLEMENT_NOTES.PREFIX + group + "_SELECT_%d" % index
+	if not _notebook_surfaces.choose(session, _notebook_surface_scope(), options_id, selected_id, label, locale):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	var result := session.act(action, value)
+	_notebook_surfaces.dispatched(options_id, result.get("ok", false))
+	if result.get("ok", false): _set_status("")
+	_render_room()
+	_feedback(result)
+
+
+func _show_settlement_modal(key: String, title: String, body: String, actions: Array) -> void:
+	if not _notebook_surface_allowed(): return
+	_show_recorded_choice(_fracture_resolution_text(title), _fracture_resolution_text(body), _fracture_resolution_actions(actions), SETTLEMENT_NOTES.options(key))
+
+
 func _build_core_approach() -> void:
 	_objective_label.text = "코어 접근 · 남은 후속 반응"
 	var state := session.snapshot()
 	var rules = BasementSession.CORE_APPROACH
 	var location: String = state["loop_state"]["location_id"]
 	if location == "M1_NORTH_ARCHIVE_HALL" and rules.pending(state, "MARA2_FU"):
-		_board_label("마라 2가 자신의 이름을 확인해 달라고 한다.\n기록하거나 불러 주거나 장난으로 답할 수 있다.", Rect2(300, 150, 1300, 150))
+		_settlement_board("MARA2", Rect2(300, 150, 1300, 150))
+		_queue_settlement_choices("MARA2")
 		for index in range(3):
 			var id: String = ["write", "call", "joke"][index]
-			_action("MARA2_FU_" + id, ["수첩에 마라 2(가칭)를 적는다", "이름을 다시 불러 준다", "장난으로 넘긴다"][index], Rect2(350, 335 + index * 110, 1200, 90), "e6_mara2", id)
+			_settlement_choice("MARA2", index, "MARA2_FU_" + id, Rect2(350, 335 + index * 110, 1200, 90), "e6_mara2", id)
 	elif location == "H0_CLOCK_MACHINE":
 		if rules.pending(state, "EDGAR_S3"):
+			_queue_settlement_choices("EDGAR")
 			for index in range(3):
 				var id: String = ["ask", "order", "wait"][index]
-				_action("EDGAR_S3_" + id, ["열어 주세요.", "명령이에요. 열어요.", "아무 말 없이 기다린다"][index], Rect2(350, 250 + index * 100, 1200, 85), "e6_edgar", id)
+				_settlement_choice("EDGAR", index, "EDGAR_S3_" + id, Rect2(350, 250 + index * 100, 1200, 85), "e6_edgar", id)
 		if not session.known("core_access_open"):
 			_action("E6_OPEN", "후속 대화 없이 접근로를 연다", Rect2(350, 570, 1200, 90), "e6_open")
 		else:
 			_add_hotspot("E6_ENTER", "코어 경로 진입 확인", Rect2(350, 570, 1200, 90), _show_core_entry_confirmation)
 	else:
-		_board_label("남은 후속 반응은 선택 사항이다.\n코어 문턱을 넘기 전까지 확인할 수 있다.", Rect2(300, 250, 1300, 200))
+		_settlement_board("OPTIONAL", Rect2(300, 250, 1300, 200))
 	if location != "M1_NORTH_ARCHIVE_HALL" and rules.pending(state, "MARA2_FU"):
 		_action("E6_ARCHIVE", "북쪽 기록 회랑 · 마라 2 후속", Rect2(250, 735, 680, 85), "e6_move", "M1_NORTH_ARCHIVE_HALL", false)
 	if location != "H0_CLOCK_MACHINE":
@@ -1868,7 +1913,7 @@ func _build_core_approach() -> void:
 
 
 func _show_core_entry_confirmation() -> void:
-	_show_fracture_resolution_modal("코어 경로 진입", "진입하면 이전 공간으로 돌아갈 수 없고, 미확인 후속 반응은 종료됩니다. 완료한 관계와 저녁의 결산은 유지됩니다. 현실·잔류 선택은 아직 하지 않습니다.", [
+	_show_settlement_modal("E6_ENTER", "코어 경로 진입", "진입하면 이전 공간으로 돌아갈 수 없고, 미확인 후속 반응은 종료됩니다. 완료한 관계와 저녁의 결산은 유지됩니다. 현실·잔류 선택은 아직 하지 않습니다.", [
 		{"label": "아직 조사한다", "action": _close_modal},
 		{"label": "문턱을 넘는다", "action": _modal_act.bind("e6_enter", true)},
 	])
@@ -1890,16 +1935,17 @@ func _build_last_evening() -> void:
 	if not local["seated"]:
 		_action("E5_SIT", "북쪽 정면의 내 자리에 앉는다", Rect2(350, 510, 1200, 140), "e5_sit")
 	elif String(local["question"]).is_empty():
+		_queue_settlement_choices("QUESTION")
 		var index := 0
 		for question in ["wish", "leave", "stay"]:
-			_action("E5_QUESTION_" + question, rules.QUESTIONS[question], Rect2(350, 475 + index * 110, 1200, 95), "e5_question", question)
+			_settlement_choice("QUESTION", index, "E5_QUESTION_" + question, Rect2(350, 475 + index * 110, 1200, 95), "e5_question", question)
 			index += 1
 	else:
 		_add_hotspot("E5_FINISH", "코어 접근 준비를 마친다", Rect2(350, 600, 1200, 140), _show_e5_confirmation)
 
 
 func _show_e5_confirmation() -> void:
-	_show_fracture_resolution_modal("코어 접근 준비", "저녁의 결산을 마칩니다. 남을지 떠날지는 코어에서 다시 확인합니다.", [
+	_show_settlement_modal("E5_FINISH", "코어 접근 준비", "저녁의 결산을 마칩니다. 남을지 떠날지는 코어에서 다시 확인합니다.", [
 		{"label": "아직 준비되지 않았다", "action": _close_modal},
 		{"label": "준비를 마친다", "action": _modal_act.bind("e5_finish", true)},
 	])

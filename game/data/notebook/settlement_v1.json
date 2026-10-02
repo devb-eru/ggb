@@ -1,0 +1,3494 @@
+{
+	"contents": {
+		"NB_SETTLEMENT_E5_ALL": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 2: Edgar, Mara 1, Luca, Iris... and me?",
+						"line_02": "The five nameplate glyphs remain at one table while keeping their boundaries. No one forgives another person's responsibility for them.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "마라 2: 에드가, 마라 1, 루카, 이리스... 그리고 나는?",
+						"line_02": "다섯 이름표의 문양은 경계를 유지한 채 한 식탁에 남는다. 누구도 다른 사람의 책임을 대신 용서하지 않는다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_ALL:line_01",
+					"line_02": "E5_ALL:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_ALL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_DISTANCE_EDGAR": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: The minimum-access procedure is confirmed. I will guide you to the core route.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 최소 접근 절차를 확인했습니다. 코어 경로까지 안내하겠습니다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_DISTANCE_EDGAR:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_DISTANCE_EDGAR",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_DISTANCE_IRIS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Iris: The environmental power logs are available. Do not judge the outside's safety by the season beyond this window.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "이리스: 환경 전력 로그는 확인할 수 있어요. 창밖의 계절로 바깥 안전을 판단하지는 말아요.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_DISTANCE_IRIS:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_DISTANCE_IRIS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_DISTANCE_LUCA": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Luca: Your vital signs are stable... for now. That does not mean the outside is safe...",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "루카: 지금 생존 신호는... 유지되고 있어요. 외부 안전까지 뜻하는 건... 아니에요.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_DISTANCE_LUCA:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_DISTANCE_LUCA",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_DISTANCE_MARA1": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 1: The wiring is holding. There won't be a blackout during dinner! ...I won't add 'probably' this time.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "마라 1: 배선은 버티고 있슴다. 저녁에 정전은 없을 겁니다! ...아마 같은 말은 안 붙일게요.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_DISTANCE_MARA1:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_DISTANCE_MARA1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_DISTANCE_MARA2": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Anonymous index: record channel responding normally. Available event indices are provided.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "익명 인덱스: 기록 채널 응답 정상. 사용 가능한 사건 인덱스를 제공합니다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_DISTANCE_MARA2:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_DISTANCE_MARA2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_ENTER_CONSENT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "The central-hall clock says evening, but the window still holds the same morning frame.",
+						"line_02": "Edgar: The evening preparations are complete. May I show you to your seat?",
+						"line_03": "The dining-room door opens. Half of the long table is wood; the other half is a life-support frame.",
+						"line_04": "Luca: The food is... scent, temperature, and texture data. Tonight... I won't hide that.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "중앙홀의 시계는 저녁인데 창밖은 아침의 같은 프레임이다.",
+						"line_02": "에드가: 저녁 준비가 되었습니다. 자리에 가셔도 괜찮겠습니까?",
+						"line_03": "식당 문이 열린다. 긴 식탁의 절반은 목재, 절반은 생명 유지 프레임이다.",
+						"line_04": "루카: 음식은... 향과 온도, 식감 데이터예요. 오늘은... 숨기지 않을게요.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_ENTER_CONSENT:line_01",
+					"line_02": "E5_ENTER_CONSENT:line_02",
+					"line_03": "E5_ENTER_CONSENT:line_03",
+					"line_04": "E5_ENTER_CONSENT:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_ENTER_CONSENT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_ENTER_STANDARD": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "The central-hall clock says evening, but the window still holds the same morning frame.",
+						"line_02": "Edgar: The evening preparations are complete.",
+						"line_03": "The dining-room door opens. Half of the long table is wood; the other half is a life-support frame.",
+						"line_04": "Luca: The food is... scent, temperature, and texture data. Tonight... I won't hide that.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "중앙홀의 시계는 저녁인데 창밖은 아침의 같은 프레임이다.",
+						"line_02": "에드가: 저녁 준비가 되었습니다.",
+						"line_03": "식당 문이 열린다. 긴 식탁의 절반은 목재, 절반은 생명 유지 프레임이다.",
+						"line_04": "루카: 음식은... 향과 온도, 식감 데이터예요. 오늘은... 숨기지 않을게요.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_ENTER_STANDARD:line_01",
+					"line_02": "E5_ENTER_STANDARD:line_02",
+					"line_03": "E5_ENTER_STANDARD:line_03",
+					"line_04": "E5_ENTER_STANDARD:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_ENTER_STANDARD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_FINISH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "I carry the words from this evening into the core-approach preparations. I have not decided whether to stay or leave.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "이 저녁의 말을 가지고 코어 접근 준비를 마친다. 아직 남을지 떠날지는 정하지 않았다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_FINISH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_FINISH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_FINISH_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_SETTLEMENT_E5_FINISH_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_SETTLEMENT_E5_FINISH_SELECT_1",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"body": "Conclude the final evening. Whether to remain or leave will be confirmed again at the core.",
+						"header": "Core-Approach Preparations",
+						"option_0": "I Am Not Ready Yet",
+						"option_1": "Complete the Preparations",
+						"speaker": "Displayed choices",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"body": "저녁의 결산을 마칩니다. 남을지 떠날지는 코어에서 다시 확인합니다.",
+						"header": "코어 접근 준비",
+						"option_0": "아직 준비되지 않았다",
+						"option_1": "준비를 마친다",
+						"speaker": "표시된 선택지",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "E5_FINISH_OPTIONS:body",
+					"header": "E5_FINISH_OPTIONS:header",
+					"option_0": "E5_FINISH_OPTIONS:option_0",
+					"option_1": "E5_FINISH_OPTIONS:option_1"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E5_FINISH_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_FINISH_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_cancelled",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"body": "I Am Not Ready Yet",
+						"speaker": "Selected option",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"body": "아직 준비되지 않았다",
+						"speaker": "선택한 문구",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "E5_FINISH_SELECT_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E5_FINISH_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_FINISH_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"body": "Complete the Preparations",
+						"speaker": "Selected option",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"body": "준비를 마친다",
+						"speaker": "선택한 문구",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "E5_FINISH_SELECT_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E5_FINISH_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_INSERT_EDGAR": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: I failed to stop the forced activation and held on to authority that should have been returned. I will not erase that responsibility by calling it management.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 강제 기동을 막지 않았고, 돌려드릴 권한을 붙잡았습니다. 관리였다는 말로 책임을 지우지 않겠습니다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_INSERT_EDGAR:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_INSERT_EDGAR",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_INSERT_IRIS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Iris: Ohoho... My own wishes were mixed into saying I wanted to care for you. Tonight, I will listen to you first.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "이리스: 우후후... 돌봐 주고 싶다는 말 안에, 제 바람도 섞여 있었네요. 오늘은 당신의 말부터 들을게요.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_INSERT_IRIS:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_INSERT_IRIS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_INSERT_LUCA": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Luca: I thought I could protect you... by not telling you the risks. But I was taking away your time to decide...",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "루카: 위험을 말하지 않으면... 보호할 수 있을 줄 알았어요. 결정할 시간을 제가 가져간 건데...",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_INSERT_LUCA:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_INSERT_LUCA",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_INSERT_MARA1": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 1: The hand that fixed things was also the hand that erased them. Turns out cleaning the spanner doesn't make that disappear.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "마라 1: 고친 손이 지운 손이기도 했슴다. 스패너만 닦는다고 없어지는 건 아니더라고요.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_INSERT_MARA1:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_INSERT_MARA1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_INSERT_MARA2": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 2: I memorized everyone else's names, then kept checking only mine! ...I'll ask just once now. You'll remember me, right?",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "마라 2: 남의 이름은 다 외워 놓고 내 이름만 자꾸 확인했어! ...지금은 한 번만 물어볼게. 기억해 줄 거지?",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_INSERT_MARA2:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_INSERT_MARA2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_INSPECT_DINING": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "I return to the Protagonist's seat in the dining room. No one presses me for an answer.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "식당의 주인공 자리로 돌아온다. 아무도 대답을 재촉하지 않는다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_INSPECT_DINING:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_INSPECT_DINING",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_INSPECT_HALL": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "I return to the hall and look at the clock. Morning light is frozen beneath hands that point to evening. Closed relationship events cannot be restarted.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "홀로 돌아와 시계를 본다. 저녁을 가리키는 바늘 아래 아침빛이 멈춰 있다. 종료한 관계 사건을 다시 시작할 수는 없다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_INSPECT_HALL:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_INSPECT_HALL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_INSPECT_SEATS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "The north-facing seat is mine. Iris and Mara 2 are to the left, Luca and Mara 1 to the right. A vertical line marks Edgar's seat by the door. A servant's chair is not my sitting point.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "북쪽 정면은 내 자리. 왼쪽에는 이리스와 마라 2, 오른쪽에는 루카와 마라 1. 출입문 쪽 에드가의 자리에는 수직선이 있다. 사용인의 의자는 내 착석 지점이 아니다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_INSPECT_SEATS:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_INSPECT_SEATS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_INSPECT_TABLE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "I touch the boundary where wood meets metal. The frame beneath the warm plate vibrates steadily. Soothing hunger here is not the same as keeping my body outside alive.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "목재와 금속이 맞닿은 경계에 손끝을 댄다. 따뜻한 접시 아래 프레임이 일정하게 진동한다. 배고픔을 달래는 감각과 바깥 몸의 생존은 같은 일이 아니다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_INSPECT_TABLE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_INSPECT_TABLE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_IRIS_HIGH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Iris: I will not turn what we said in private into someone else's words here.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "이리스: 아까 둘이 나눈 말을, 여기서 다른 사람의 말로 바꾸지는 않을게요.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_IRIS_HIGH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_IRIS_HIGH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_IRIS_LOW": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Iris folds the environmental power log and adds nothing more personal.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "이리스는 환경 전력 로그를 접는다. 더 사적인 말은 덧붙이지 않는다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_IRIS_LOW:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_IRIS_LOW",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_IRIS_MID": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Iris: I missed the seasons from back then. I should not have assumed you wanted the same season.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "이리스: 그때의 계절이 그리웠어요. 당신이 바라는 계절까지 같다고 생각해서는 안 됐겠죠.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_IRIS_MID:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_IRIS_MID",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OPENING_ALL": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "The Protagonist takes the north-facing seat. Nameplates rest at all five places. When she looks toward him, Edgar, the last one standing, sits as well.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "주인공이 북쪽 정면석에 앉는다. 다섯 자리에 이름표가 놓였다. 주인공이 바라보자 마지막까지 서 있던 에드가도 앉는다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OPENING_ALL:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OPENING_ALL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OPENING_HIGH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "The Protagonist takes the north-facing seat. Four servants sit. The remaining chair still bears its original glyph; its owner watches from beside the doorway.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "주인공이 북쪽 정면석에 앉는다. 네 사람이 앉는다. 남은 의자에도 원래 문양이 있다. 그 주인은 출입문 곁에서 이곳을 보고 있다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OPENING_HIGH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OPENING_HIGH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OPENING_LOW": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "The Protagonist takes the north-facing seat. The servants remain at their work positions. The sound of tableware stops, leaving a long silence.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "주인공이 북쪽 정면석에 앉는다. 사용인들은 업무 위치에 서 있다. 식기 소리가 멎고 긴 침묵이 남는다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OPENING_LOW:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OPENING_LOW",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OPENING_MID": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "The Protagonist takes the north-facing seat. The servants she spoke with sit; the others remain at the service boundary. A few lines draw close and touch without merging.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "주인공이 북쪽 정면석에 앉는다. 이야기를 나눈 사용인들은 앉고, 나머지는 서비스 경계에 선다. 가까워진 몇 사람의 선이 닿지만 하나로 섞이지 않는다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OPENING_MID:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OPENING_MID",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OVERLAY_AUTHORITY_RETURNED": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar turns the empty SUBJECT slot toward the Protagonist.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "에드가가 비어 있는 SUBJECT 슬롯을 주인공 쪽으로 돌린다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OVERLAY_AUTHORITY_RETURNED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OVERLAY_AUTHORITY_RETURNED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OVERLAY_EXTERNAL_TRUTH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "The seasonal display before Iris shows real external-sensor readings.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "이리스 앞의 계절 표시는 실제 외부 센서값이다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OVERLAY_EXTERNAL_TRUTH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OVERLAY_EXTERNAL_TRUTH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OVERLAY_FULL_DISCLOSURE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Luca places the risk readings beside the vital signs.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "루카가 생존 신호 옆에 위험 수치도 나란히 놓는다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OVERLAY_FULL_DISCLOSURE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OVERLAY_FULL_DISCLOSURE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OVERLAY_MERGED": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "An unfamiliar accent briefly enters Mara 2's single voice.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "마라 2의 한 목소리에 잠깐 낯선 억양이 섞인다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OVERLAY_MERGED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OVERLAY_MERGED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OVERLAY_ORIGINAL_ATTRIBUTION": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Every responsible name remains in Mara 1's record.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "마라 1의 기록에 모든 책임자 이름이 남아 있다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OVERLAY_ORIGINAL_ATTRIBUTION:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OVERLAY_ORIGINAL_ATTRIBUTION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OVERLAY_PROTECTED_IDENTIFIERS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Protected identities are obscured in Mara 1's record.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "마라 1의 기록에서 보호 대상 식별자는 가려져 있다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OVERLAY_PROTECTED_IDENTIFIERS:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OVERLAY_PROTECTED_IDENTIFIERS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OVERLAY_RESPONSIBILITY_RECORDED": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar places the audit log on the table.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "에드가가 감사 로그를 식탁에 둔다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OVERLAY_RESPONSIBILITY_RECORDED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OVERLAY_RESPONSIBILITY_RECORDED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OVERLAY_SEPARATED": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 2's two indices cross-respond while checking each other's sentences.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "마라 2의 두 인덱스가 서로의 문장을 확인하며 교차 응답한다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OVERLAY_SEPARATED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OVERLAY_SEPARATED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OVERLAY_SHELTER_PROJECTION": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "The projected season before Iris is desaturated. Its projection label remains visible.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "이리스 앞의 투영 계절은 채도를 낮췄다. 투영이라는 표시는 지우지 않는다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OVERLAY_SHELTER_PROJECTION:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OVERLAY_SHELTER_PROJECTION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_OVERLAY_STABILIZE_FIRST": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Luca shows the stabilization time first. The risk record remains beneath it.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "루카가 안정화 완료 시각을 먼저 보여 준다. 위험 기록은 그 아래 남아 있다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_OVERLAY_STABILIZE_FIRST:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_OVERLAY_STABILIZE_FIRST",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_QUESTION_LEAVE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Protagonist: What happens to all of you if I leave?",
+						"line_02": "Luca: The bio-neural cores left here will not shut down at once... But we cannot guarantee how long they will last or what you will find outside.",
+						"line_03": "Edgar: Your awakening and the restoration of our bodies are separate procedures.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "주인공: 내가 떠나면 여러분은 어떻게 돼요?",
+						"line_02": "루카: 여기 남은 생체 신경 코어의 유지가 바로 끝나는 건... 아니에요. 다만 얼마나 오래 가능한지, 바깥에서 무엇을 만날지는... 보장할 수 없어요.",
+						"line_03": "에드가: 귀하의 기상과 저희의 육체 복원은 별개의 절차입니다.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_QUESTION_LEAVE:line_01",
+					"line_02": "E5_QUESTION_LEAVE:line_02",
+					"line_03": "E5_QUESTION_LEAVE:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_QUESTION_LEAVE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_QUESTION_STAY": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Protagonist: What changes if I stay?",
+						"line_02": "Edgar: Staying would not justify the earlier forced activation. If you remain, it must be through a stabilization procedure you understand and accept.",
+						"line_03": "Luca: Even if the morning is familiar... it will not return you to when you did not know.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "주인공: 내가 남으면 무엇이 달라져요?",
+						"line_02": "에드가: 이전의 강제 기동을 정당화하는 선택이 아닙니다. 남는다면 귀하가 알고 동의한 안정화 절차여야 합니다.",
+						"line_03": "루카: 익숙한 아침이어도... 모르던 때로 돌아가는 건 아니에요.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_QUESTION_STAY:line_01",
+					"line_02": "E5_QUESTION_STAY:line_02",
+					"line_03": "E5_QUESTION_STAY:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_QUESTION_STAY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E5_QUESTION_WISH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"line_01": "Protagonist: What do you want from me?",
+						"line_02": "Edgar: I want to secure your safety. That does not give me the right to decide your answer for you.",
+						"line_03": "Luca: I hope you won't be hurt... But what I want and what you decide... are not the same thing.",
+						"speaker": "Protagonist",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"line_01": "주인공: 나한테 무엇을 바라고 있어요?",
+						"line_02": "에드가: 안전을 확보하고 싶습니다. 그렇다고 귀하의 답을 대신 정할 권한은 없습니다.",
+						"line_03": "루카: 다치지 않으셨으면... 해요. 제 바람과 아가씨의 결정은... 같은 것이 아니니까요.",
+						"speaker": "주인공",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E5_QUESTION_WISH:line_01",
+					"line_02": "E5_QUESTION_WISH:line_02",
+					"line_03": "E5_QUESTION_WISH:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/last_evening.gd",
+				"source_symbol": "E5_QUESTION_WISH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_EDGAR_COMPLETE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDGAR_S3",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: Go ahead. This time, I will follow behind you.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 가십시오. 이번에는 제가 뒤에서 따라가겠습니다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_EDGAR_COMPLETE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_EDGAR_COMPLETE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_EDGAR_MINIMUM": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDGAR_S3",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: Minimum authority has been restored. Anything beyond that belongs to you.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 최소 권한은 복구되었습니다. 그 이상은, 아가씨의 몫입니다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_EDGAR_MINIMUM:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_EDGAR_MINIMUM",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_EDGAR_OPEN": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDGAR_S3",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: I will open the door. I am still not certain whether I meant to guard the door or you.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 문은 열겠습니다. 다만, 제가 지키려던 것이 문인지 아가씨인지 아직도 확신하지 못하겠습니다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_EDGAR_OPEN:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_EDGAR_OPEN",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_EDGAR_ORDER": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDGAR_S3",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: I will obey. It is a responsibility I must return to you.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 명령을 받들겠습니다. 제가 돌려드려야 할 책임입니다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_EDGAR_ORDER:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_EDGAR_ORDER",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_EDGAR_RELEASE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDGAR_S3",
+				"locales": {
+					"en-US": {
+						"line_01": "An unlocking tone sounds without a key. The vertical line releases from the doorframe.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "열쇠 없이 잠금 해제음이 울린다. 수직선이 문틀에서 풀린다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_EDGAR_RELEASE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_EDGAR_RELEASE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_EDGAR_WARNING": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDGAR_S3",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: External safety remains unconfirmed. I will give you the warning, but I will not block your authority.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 외부 안전은 확인되지 않았습니다. 경고는 드리되, 권한은 막지 않겠습니다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_EDGAR_WARNING:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_EDGAR_WARNING",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_ENTER": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E6",
+				"locales": {
+					"en-US": {
+						"line_01": "I cross the threshold. The corridor behind me breaks away, and fragments of different rooms interlock ahead. I have not yet chosen reality or staying.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "문턱을 넘는다. 뒤의 복도는 끊어지고, 서로 다른 방의 조각이 앞에서 맞물린다. 아직 현실이나 잔류를 선택한 것은 아니다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_ENTER:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_ENTER",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_ENTER_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_SETTLEMENT_E6_ENTER_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_SETTLEMENT_E6_ENTER_SELECT_1",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E6",
+				"locales": {
+					"en-US": {
+						"body": "After entering, I cannot return to earlier rooms, and unseen follow-ups will close. Completed relationships and the final-evening record will remain. This is not yet the choice between reality and staying.",
+						"header": "Enter the Core Route",
+						"option_0": "Keep Investigating",
+						"option_1": "Cross the Threshold",
+						"speaker": "Displayed choices",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "진입하면 이전 공간으로 돌아갈 수 없고, 미확인 후속 반응은 종료됩니다. 완료한 관계와 저녁의 결산은 유지됩니다. 현실·잔류 선택은 아직 하지 않습니다.",
+						"header": "코어 경로 진입",
+						"option_0": "아직 조사한다",
+						"option_1": "문턱을 넘는다",
+						"speaker": "표시된 선택지",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "E6_ENTER_OPTIONS:body",
+					"header": "E6_ENTER_OPTIONS:header",
+					"option_0": "E6_ENTER_OPTIONS:option_0",
+					"option_1": "E6_ENTER_OPTIONS:option_1"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E6_ENTER_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_ENTER_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_cancelled",
+				"event_id": "E6",
+				"locales": {
+					"en-US": {
+						"body": "Keep Investigating",
+						"speaker": "Selected option",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "아직 조사한다",
+						"speaker": "선택한 문구",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "E6_ENTER_SELECT_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E6_ENTER_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_ENTER_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E6",
+				"locales": {
+					"en-US": {
+						"body": "Cross the Threshold",
+						"speaker": "Selected option",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "문턱을 넘는다",
+						"speaker": "선택한 문구",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "E6_ENTER_SELECT_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E6_ENTER_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_MARA2_CALL": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"line_01": "The Protagonist calls her name again. The double outlines briefly interlock at the same speed.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "주인공이 이름을 다시 부른다. 이중 윤곽이 잠깐 같은 속도로 맞물린다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_MARA2_CALL:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_MARA2_CALL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_MARA2_FIRST": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 2: Check my name first! ...No, would you check it for me?",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "마라 2: 내 이름부터 확인해 봐! ...아니, 확인해 줄래?",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_MARA2_FIRST:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_MARA2_FIRST",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_MARA2_JOKE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"line_01": "The Protagonist answers with a joke. Mara 2 makes a show of laughing even louder.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "주인공이 장난으로 답한다. 마라 2는 짐짓 더 큰 소리로 웃는다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_MARA2_JOKE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_MARA2_JOKE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_MARA2_KNOWN": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 2: You recognized me first again!",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "마라 2: 이번에도 네가 먼저 알아봤네!",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_MARA2_KNOWN:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_MARA2_KNOWN",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_MARA2_MERGED": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"line_01": "Inside her loud laughter, she searches for the boundary of her own voice.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "시끄러운 웃음 속에서 자기 목소리의 경계를 찾는다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_MARA2_MERGED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_MARA2_MERGED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_MARA2_REMEMBER": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 2: You don't have to record that. Just remember it. That might last longer!",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "마라 2: 방금 거, 기록하지 않아도 돼. 대신 네가 기억해. 그게 더 오래 갈 수도 있잖아!",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_MARA2_REMEMBER:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_MARA2_REMEMBER",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_MARA2_SEPARATED": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"line_01": "The two indices take turns pointing to themselves. Neither wants to become a name belonging to neither.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "두 인덱스가 번갈아 자신을 가리킨다. 어느 쪽도 없는 이름이 되지 않으려 한다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_MARA2_SEPARATED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_MARA2_SEPARATED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_MARA2_WRITE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"line_01": "I write 'Mara 2 (working name)' in the notebook. This time, the three quick tones play through to the end.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "수첩에 '마라 2(가칭)'를 적는다. 빠른 세 음이 이번에는 끝까지 이어진다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_MARA2_WRITE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_MARA2_WRITE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_E6_OPEN": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E6",
+				"locales": {
+					"en-US": {
+						"line_01": "The authority frame opens. The route remains available without a final conversation. I have not crossed the threshold yet.",
+						"speaker": "Protagonist",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"line_01": "권한 프레임이 열린다. 마지막 대화를 하지 않아도 길은 열려 있다. 아직 문턱은 넘지 않았다.",
+						"speaker": "주인공",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E6_OPEN:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "E6_OPEN",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_SETTLEMENT_EDGAR_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"default_segments": [
+					"option_0",
+					"option_1",
+					"option_2"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDGAR_S3",
+				"locales": {
+					"en-US": {
+						"option_0": "Please open it.",
+						"option_1": "That is an order. Open it.",
+						"option_2": "Wait Without Speaking",
+						"speaker": "Displayed choices",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"option_0": "열어 주세요.",
+						"option_1": "명령이에요. 열어요.",
+						"option_2": "아무 말 없이 기다린다",
+						"speaker": "표시된 선택지",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"option_0": "EDGAR_OPTIONS:option_0",
+					"option_1": "EDGAR_OPTIONS:option_1",
+					"option_2": "EDGAR_OPTIONS:option_2"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "EDGAR_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {},
+					"option_1": {},
+					"option_2": {}
+				},
+				"visible_segment_ids": [
+					"option_0",
+					"option_1",
+					"option_2"
+				]
+			}
+		},
+		"NB_SETTLEMENT_EDGAR_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDGAR_S3",
+				"locales": {
+					"en-US": {
+						"body": "Please open it.",
+						"speaker": "Selected option",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "열어 주세요.",
+						"speaker": "선택한 문구",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "EDGAR_SELECT_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "EDGAR_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_EDGAR_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDGAR_S3",
+				"locales": {
+					"en-US": {
+						"body": "That is an order. Open it.",
+						"speaker": "Selected option",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "명령이에요. 열어요.",
+						"speaker": "선택한 문구",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "EDGAR_SELECT_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "EDGAR_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_EDGAR_SELECT_2": {
+			"1": {
+				"action_or_variant": "option_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDGAR_S3",
+				"locales": {
+					"en-US": {
+						"body": "Wait Without Speaking",
+						"speaker": "Selected option",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "아무 말 없이 기다린다",
+						"speaker": "선택한 문구",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "EDGAR_SELECT_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "EDGAR_SELECT_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_MARA2_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"default_segments": [
+					"option_0",
+					"option_1",
+					"option_2"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"option_0": "Write Mara 2 (Working Name) in the Notebook",
+						"option_1": "Call Her by Her Name Again",
+						"option_2": "Answer with a Joke",
+						"speaker": "Displayed choices",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"option_0": "수첩에 마라 2(가칭)를 적는다",
+						"option_1": "이름을 다시 불러 준다",
+						"option_2": "장난으로 넘긴다",
+						"speaker": "표시된 선택지",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"option_0": "MARA2_OPTIONS:option_0",
+					"option_1": "MARA2_OPTIONS:option_1",
+					"option_2": "MARA2_OPTIONS:option_2"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MARA2_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {},
+					"option_1": {},
+					"option_2": {}
+				},
+				"visible_segment_ids": [
+					"option_0",
+					"option_1",
+					"option_2"
+				]
+			}
+		},
+		"NB_SETTLEMENT_MARA2_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"body": "Write Mara 2 (Working Name) in the Notebook",
+						"speaker": "Selected option",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "수첩에 마라 2(가칭)를 적는다",
+						"speaker": "선택한 문구",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "MARA2_SELECT_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MARA2_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_MARA2_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"body": "Call Her by Her Name Again",
+						"speaker": "Selected option",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "이름을 다시 불러 준다",
+						"speaker": "선택한 문구",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "MARA2_SELECT_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MARA2_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_MARA2_SELECT_2": {
+			"1": {
+				"action_or_variant": "option_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"body": "Answer with a Joke",
+						"speaker": "Selected option",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "장난으로 넘긴다",
+						"speaker": "선택한 문구",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "MARA2_SELECT_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MARA2_SELECT_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_NAME_RECORD": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "MARA2_FU",
+				"knowledge": {
+					"category": "person",
+					"epistemic_state": "observed",
+					"knowledge_id": "MARA2_NAME",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "Mara 2 (working name)",
+						"speaker": "Notebook",
+						"summary": "The Name I Wrote Down",
+						"title": "The Name I Wrote Down"
+					},
+					"ko-KR": {
+						"body": "마라 2(가칭)",
+						"speaker": "수첩",
+						"summary": "적어 둔 이름",
+						"title": "적어 둔 이름"
+					}
+				},
+				"localization_keys": {
+					"body": "NAME_RECORD:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_content_ids": [
+					"NB_SETTLEMENT_SCREEN_MARA2",
+					"NB_SETTLEMENT_MARA2_OPTIONS",
+					"NB_SETTLEMENT_MARA2_SELECT_0"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_knowledge_ids": [
+					"REC_MARA2"
+				],
+				"source_symbol": "NAME_RECORD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_QUESTION_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"default_segments": [
+					"option_0",
+					"option_1",
+					"option_2"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"option_0": "What do you want from me?",
+						"option_1": "What happens to all of you if I leave?",
+						"option_2": "What changes if I stay?",
+						"speaker": "Displayed choices",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"option_0": "나한테 무엇을 바라고 있어요?",
+						"option_1": "내가 떠나면 여러분은 어떻게 돼요?",
+						"option_2": "내가 남으면 무엇이 달라져요?",
+						"speaker": "표시된 선택지",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"option_0": "QUESTION_OPTIONS:option_0",
+					"option_1": "QUESTION_OPTIONS:option_1",
+					"option_2": "QUESTION_OPTIONS:option_2"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "QUESTION_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {},
+					"option_1": {},
+					"option_2": {}
+				},
+				"visible_segment_ids": [
+					"option_0",
+					"option_1",
+					"option_2"
+				]
+			}
+		},
+		"NB_SETTLEMENT_QUESTION_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"body": "What do you want from me?",
+						"speaker": "Selected option",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"body": "나한테 무엇을 바라고 있어요?",
+						"speaker": "선택한 문구",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "QUESTION_SELECT_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "QUESTION_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_QUESTION_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"body": "What happens to all of you if I leave?",
+						"speaker": "Selected option",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"body": "내가 떠나면 여러분은 어떻게 돼요?",
+						"speaker": "선택한 문구",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "QUESTION_SELECT_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "QUESTION_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_QUESTION_SELECT_2": {
+			"1": {
+				"action_or_variant": "option_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E5",
+				"locales": {
+					"en-US": {
+						"body": "What changes if I stay?",
+						"speaker": "Selected option",
+						"summary": "Records of the Last Evening",
+						"title": "Records of the Last Evening"
+					},
+					"ko-KR": {
+						"body": "내가 남으면 무엇이 달라져요?",
+						"speaker": "선택한 문구",
+						"summary": "마지막 저녁의 기록",
+						"title": "마지막 저녁의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "QUESTION_SELECT_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "QUESTION_SELECT_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_SCREEN_MARA2": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "MARA2_FU",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2 asks me to confirm her name.\nI can write it down, call her by it, or answer with a joke.",
+						"speaker": "Scene",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "마라 2가 자신의 이름을 확인해 달라고 한다.\n기록하거나 불러 주거나 장난으로 답할 수 있다.",
+						"speaker": "장면",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_MARA2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "SCREEN_MARA2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_SETTLEMENT_SCREEN_OPTIONAL": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E6",
+				"locales": {
+					"en-US": {
+						"body": "The remaining follow-up conversations are optional.\nThey remain available until I cross the core threshold.",
+						"speaker": "Scene",
+						"summary": "Records at the Core Threshold",
+						"title": "Records at the Core Threshold"
+					},
+					"ko-KR": {
+						"body": "남은 후속 반응은 선택 사항이다.\n코어 문턱을 넘기 전까지 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "코어 문턱의 기록",
+						"title": "코어 문턱의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_OPTIONAL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/core_approach.gd",
+				"source_symbol": "SCREEN_OPTIONAL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}
