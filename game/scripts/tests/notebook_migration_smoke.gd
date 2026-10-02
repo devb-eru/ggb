@@ -142,6 +142,21 @@ func _validate_failure_and_future() -> void:
 	_expect(not SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", GameState.get_snapshot(), GameState.revision, "TEST_FUTURE_BACKUP").ok, "future backup cannot be overwritten even with valid main")
 	_expect(FileAccess.get_file_as_bytes(_path("progress.bak.json")) == original, "future backup bytes preserved")
 	SaveManager.delete_test_slot(SLOT)
+	future = GameState.get_snapshot()
+	future.meta_progress.knowledge_entries.notebook_knowledge = {"schema_version": 999}
+	_write_source(_path(), future, 2)
+	_write_source(_path("progress.bak.json"), source)
+	original = FileAccess.get_file_as_bytes(_path())
+	_expect(SaveManager.load_slot(SLOT).get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA", "future knowledge ledger cannot fall back to old backup")
+	_expect(not SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", GameState.get_snapshot(), GameState.revision, "TEST_FUTURE_LEDGER").ok, "future knowledge ledger cannot be overwritten")
+	_expect(FileAccess.get_file_as_bytes(_path()) == original, "future ledger source bytes preserved")
+	SaveManager.delete_test_slot(SLOT)
+	_write_source(_path(), source)
+	_write_source(_path("progress.bak.json"), future, 2)
+	original = FileAccess.get_file_as_bytes(_path("progress.bak.json"))
+	_expect(not SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", GameState.get_snapshot(), GameState.revision, "TEST_FUTURE_LEDGER_BACKUP").ok, "future knowledge ledger backup cannot be replaced")
+	_expect(FileAccess.get_file_as_bytes(_path("progress.bak.json")) == original, "future ledger backup bytes preserved")
+	SaveManager.delete_test_slot(SLOT)
 
 
 func _validate_backup() -> void:

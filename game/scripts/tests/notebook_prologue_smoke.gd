@@ -14,7 +14,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	var diagnostics := CONTENT.diagnostics()
 	if not diagnostics.ok: return {"ok": false, "errors": diagnostics.error_ids}
-	var ids: Array = diagnostics.content_ids.filter(func(id: String) -> bool: return id.begins_with("NB_PR_"))
+	var ids: Array = diagnostics.content_ids.filter(func(id: String) -> bool: return id.begins_with("NB_PR_") or id.begins_with("NB_NOTE_P_"))
 	for language in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(language)
 		await _route(tree, language)
@@ -23,7 +23,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
-	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "producer_paths": ["NP01", "NP02"], "other_paths": "NOT_COVERED"}
+	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "producer_paths": ["NP01", "NP02", "NP03"], "other_paths": "NOT_COVERED"}
 
 
 func _view(tree: SceneTree) -> Node:
@@ -131,6 +131,7 @@ func _route(tree: SceneTree, language: String) -> void:
 	view._turn_p4_cup_handle()
 	_drain(view)
 	# Branch fixtures exercise all three answers; a real playthrough still chooses one.
+	view._record_p4_life_support_pulse()
 	for choice in view.P4_FATHER_CHOICE_ORDER:
 		view._current_room = "M1_KITCHEN"
 		view._progress.P4_complete = false
@@ -164,6 +165,12 @@ func _route(tree: SceneTree, language: String) -> void:
 	_drain(view)
 	var state := GameState.get_snapshot()
 	_expect(ARCHIVE.validate(state.meta_progress.dialogue_history).ok, "actual prologue archive validates")
+	var ledger: Dictionary = state.meta_progress.knowledge_entries.get("notebook_knowledge", {})
+	_expect(preload("res://scripts/systems/notebook_knowledge.gd").validate(ledger, state.meta_progress.dialogue_history).ok and ledger.get("revision") == 9, "nine actual note actions survive the first physical reset")
+	_expect(view._save_progress() and GameState.get_snapshot() == state, "departing prologue cannot overwrite permanent notes with reset defaults")
+	view._open_notebook()
+	view._close_modal()
+	_expect(GameState.get_snapshot() == state, "notebook reopen is readonly after reset")
 	_collect(language)
 	_expect(GameState.get_snapshot() == state, "reading all prologue records leaves gameplay unchanged")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "real prologue archive reloads")
@@ -178,6 +185,9 @@ func _collect(language: String) -> void:
 		_expect(entry.record_class == "authored", "live prologue callsite must not silently fall back to unmapped")
 		if entry.record_class != "authored": continue
 		var observation: Dictionary = entry.observation
+		if observation.producer_id == "NP03":
+			_expect(observation.entry_kind == "document_segment" and observation.segments[0].disclosure == "replay_committed", "event-written note is not a spoken or gameplay-read line")
+			_expect(entry.protection_reasons.size() == 2, "note content and real knowledge revision both protect the source")
 		covered[observation.content_id + ":" + language] = true
 		_expect(observation.chapter_id == "PROLOGUE", "first reset lines keep their prologue context")
 		var read := CONTENT.render_entry(entry, "en-US" if language == "ko-KR" else "ko-KR")

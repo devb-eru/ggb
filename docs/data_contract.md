@@ -187,7 +187,7 @@ save_header:
 
 [GGB-DEC-2026-0006](decisions/GGB-DEC-2026-0006_대화_기록_영속화.md)에 따라 대화 기록은 진행 슬롯에 명시적으로 저장한다. 보존·통합 수첩의 목표 계약은 [DEC-0012](decisions/GGB-DEC-2026-0012_통합_수첩_범위와_기록_보존.md)와 [구현 계획](../ideas/md/v04/issues/validation/notebook_history_review_plan.md)을 적용한다. 아래 예시는 이전 기록의 논리 필드 설명이며 신형 archive의 완전한 직렬화 예제가 아니다. 현재 게임은 transcript 저장을 사용하며 새 저장 계층의 실제 연결 상태는 [구현 현황](../ideas/md/v04/issues/validation/notebook_history_implementation_status.md)을 따른다.
 
-개발 옵션의 authored 기록은 `content_id + content_version + variant_id + 표시 segment`를 고정한다. 현재 언어 재열람은 정확히 같은 의미 버전만 사용하고, 없으면 저장 당시 원문임을 표시한다. 변수는 해당 segment가 선언한 공개 값만 받고 정수 공개 값은 첫 저장부터 JSON 수 표현으로 고정한다. 새 관찰은 실제 표시문과 일치해야 하며, 기존 버전 원고의 덮어쓰기나 문자열 역검색으로 출처를 추정하지 않는다. 현재 이 계약의 실제 연결 대상은 [NP01·NP02 프롤로그와 NP20 단계 힌트](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)이며 다른 생산자의 임시 `unmapped`는 인수 완료로 세지 않는다. 선택 문구 확정 기록은 입력 의향의 증거이고, 뒤이어 실행하는 출발·수면 등 게임 상태 저장의 성공을 뜻하지 않는다.
+개발 옵션의 authored 기록은 `content_id + content_version + variant_id + 공개 segment`를 고정한다. 현재 언어 재열람은 정확히 같은 의미 버전만 사용하고, 없으면 저장 당시 원문임을 표시한다. 변수는 해당 segment가 선언한 공개 값만 받고 정수 공개 값은 첫 저장부터 JSON 수 표현으로 고정한다. 새 대화·힌트 관찰은 실제 표시문과 일치해야 하며, 사건 작성 원고는 7.1.1절을 따른다. 기존 버전 원고의 덮어쓰기나 문자열 역검색으로 출처를 추정하지 않는다. 현재 이 계약의 실제 연결 대상은 [NP01~NP03 프롤로그와 NP20 단계 힌트](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)이며 다른 생산자의 임시 `unmapped`는 인수 완료로 세지 않는다. 선택 문구 확정 기록은 입력 의향의 증거이고, 뒤이어 실행하는 출발·수면 등 게임 상태 저장의 성공을 뜻하지 않는다.
 
 ```yaml
 meta_progress:
@@ -222,6 +222,23 @@ meta_progress:
 개발 검증 옵션 `--ggb-dev-notebook-v2`에서는 실제 schema 1 -> 2 이관과 신형 archive 저장을 검사할 수 있다. 일반 실행은 schema 1을 유지하며 release에서는 이 옵션을 무시한다. 원본은 checksum 검증 후 `pre_notebook_<checksum>.json`으로 바이트 보존하고, 원본/백업/F3/demo/개발/갤러리의 읽기 입구를 각각 처리한다. 갤러리 원본과 hash ID는 변경하지 않는다. 미래 형식과 백업 충돌은 덮어쓰지 않는다.
 
 신형 검증 모드의 미연결 생산자는 `unmapped` 보존 래퍼이며 authored 완료로 계산하지 않는다. legacy/unmapped에는 자동 정리를 적용하지 않는다. `notebook_commands.gd`의 고정/비교 쓰기는 실제 슬롯 트랜잭션과 연결했지만 일반 수첩 UI는 아직 연결 전이다. 자료 고정은 gameplay 상태를 바꾸지 않으며, 실패·응답 소실·낡은 scope/revision을 검사한다. 전체 전환 상태는 구현 현황의 단계별 인수 결과가 기준이다.
+
+### 7.1.1 사건 작성 지식 Revision (개발 검증)
+
+선택 필드 `meta_progress.knowledge_entries.notebook_knowledge`는 `{schema_version: 1, revision, revisions: []}`다. 필드가 없는 구형 원고에는 과거 획득 이력을 만들어 넣지 않는다. 같은 archive 2 snapshot에 실제 획득한 원고와 아래 revision을 함께 저장한다. 일반 실행의 기본 저장 형식은 이 변경으로 승격하지 않는다.
+
+| 필드 | 계약 |
+| --- | --- |
+| `knowledge_uid` | 카드별 불변 128-bit ID. 같은 knowledge ID의 후속 revision이 공유 |
+| `revision_uid`, `previous_revision_uid` | 개별 원고 갱신 ID와 바로 이전 ID. 최초는 이전 ID 빈 문자열 |
+| `sequence` | ledger 내부 순서. 단순 표시 변경·재조회·같은 요청 재시도로 증가하지 않음 |
+| `metadata` | `knowledge_id`, `category`, `epistemic_state`, `provenance_state`, `lifetime`. 내용 해석과 출처 확인을 구분 |
+| `observation_ref` | 실제 획득 원고의 종류/출처/UID/정확한 의미 버전/공개 segment |
+| `source_refs` | 원고 자체와 이미 공개된 인용 출처. 각 참조에 `knowledge_source:<revision_uid>` 보호가 일치해야 함 |
+
+NP03 9종 원고는 `document_segment` / `replay_committed`로 획득한다. `event_note_commit`으로 등록한 콘텐츠만 이 공개 방식을 사용할 수 있다. 힌트·문서 뒷면을 수첩 열기로 획득하거나, 기록했다는 사실로 gameplay 읽기 완료를 만들지 않는다. P4 진동은 실제 기록 버튼을 눌렀을 때만 작성한다. 다음에 표시될 대사를 미리 출처로 인용하지 않는다.
+
+ledger와 archive, 호환용 문자열, 사건 진행을 하나의 저장에 넣는다. 실패 후보는 공개하지 않고 재시도 요청을 유지한다. 조회는 쓰기를 실행하지 않는다. 정상 리셋은 ledger/출처를 보존하며, 의미 갱신은 이전 원고를 덮어쓰지 않는다. JSON의 정수 표현은 archive와 ledger 참조를 함께 정규화하고 소수 순번은 거부한다. 미래 ledger schema는 checksum 이후 호환 불가로 반환하여 원본/백업을 덮어쓰지 않는다. 현재 공급 범위와 실행 근거는 [생산자 연결 현황 6절](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)을 따른다. J1~J5·관계 원문과 새 카드 UI는 아직 후속 작업이다.
 
 ### 7.2 초기 저장 지점
 

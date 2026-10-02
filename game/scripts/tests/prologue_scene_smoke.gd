@@ -402,7 +402,7 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect("주방의 규칙적인 진동" in prologue._modal_body.get_child(2).get_child(0).text, "Same note returns to Korean", errors)
 	prologue._close_modal()
 	await tree.process_frame
-	prologue._add_notebook("주방의 규칙적인 진동")
+	prologue._add_notebook("NOTE_P_PULSE")
 	_expect(prologue._progress["notebook_entries"].size() == 2, "Locale change does not duplicate acquisition", errors)
 	prologue._progress["notebook_entries"] = saved_notes
 	TranslationServer.set_locale("en_US")
@@ -620,7 +620,7 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	prologue._progress["P3B_complete"] = true
 	prologue._progress["P4_complete"] = true
 	prologue._progress["p4_memory_anchor_seen"] = true
-	prologue._add_notebook("주방의 규칙적인 진동")
+	prologue._add_notebook("NOTE_P_PULSE")
 	prologue._progress["iris_greeting_seen"] = true
 	prologue._progress["P5_complete"] = true
 	var save_ok: bool = prologue._save_progress("SAVE_P6_COMPLETE", true)

@@ -450,6 +450,13 @@ func _read_and_validate(path: String) -> Dictionary:
 			return _load_failure(&"ERR_SAVE_FUTURE_SCHEMA")
 		if notebook_version != NOTEBOOK_ARCHIVE.VERSION:
 			return _load_failure(&"ERR_SAVE_NOTEBOOK_SCHEMA")
+	var meta: Variant = payload.state.get("meta_progress")
+	if meta is Dictionary and meta.get("knowledge_entries") is Dictionary:
+		var ledger: Variant = meta.knowledge_entries.get("notebook_knowledge")
+		if ledger is Dictionary:
+			var version: Variant = ledger.get("schema_version")
+			if (version is int or version is float) and is_finite(float(version)) and float(version) == floor(float(version)) and version > 1:
+				return _load_failure(&"ERR_SAVE_FUTURE_SCHEMA")
 	var adapted := NOTEBOOK_MIGRATION.adapt_verified(payload.state, stored_checksum, NOTEBOOK_ROLLOUT.enabled())
 	if not adapted.get("ok", false): return _load_failure(&"ERR_SAVE_NOTEBOOK_MIGRATION")
 	return {

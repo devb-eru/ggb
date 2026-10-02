@@ -25,6 +25,29 @@ const RESET_PHASES := [
 const ENDING_DECISIONS := ["unset", "reality", "stay"]
 
 
+static func same_persisted_value(expected: Variant, saved: Variant) -> bool:
+	# JSON changes integral numbers inside untyped event arrays to floats. Compare
+	# exact values recursively, never with approximate numeric or truthy equality.
+	if expected is Dictionary:
+		if not saved is Dictionary or expected.size() != saved.size(): return false
+		for key in expected:
+			if not saved.has(key) or not same_persisted_value(expected[key], saved[key]): return false
+		return true
+	if expected is Array:
+		if not saved is Array or expected.size() != saved.size(): return false
+		for index in range(expected.size()):
+			if not same_persisted_value(expected[index], saved[index]): return false
+		return true
+	if expected is int or expected is float:
+		if not (saved is int or saved is float): return false
+		if not is_finite(float(expected)) or not is_finite(float(saved)): return false
+		if typeof(expected) != typeof(saved) and (absf(float(expected)) >= 9007199254740992.0 or absf(float(saved)) >= 9007199254740992.0): return false
+		return expected == saved
+	if expected is String or expected is StringName:
+		return (saved is String or saved is StringName) and String(expected) == String(saved)
+	return typeof(expected) == typeof(saved) and expected == saved
+
+
 func validate(snapshot: Variant) -> Dictionary:
 	var errors := PackedStringArray()
 	if not snapshot is Dictionary:
@@ -70,6 +93,18 @@ func normalize(snapshot: Dictionary) -> Dictionary:
 						_normalize_notebook_sequence(entry_value)
 						if entry_value.get("legacy_payload") is Dictionary:
 							_normalize_notebook_sequence(entry_value.legacy_payload)
+		if meta.get("knowledge_entries") is Dictionary and meta.knowledge_entries.get("notebook_knowledge") is Dictionary:
+			var ledger: Dictionary = meta.knowledge_entries.notebook_knowledge
+			for field in ["schema_version", "revision"]:
+				if ledger.get(field) is float and is_finite(ledger[field]) and ledger[field] == floor(ledger[field]):
+					ledger[field] = int(ledger[field])
+			if ledger.get("revisions") is Array:
+				for note in ledger.revisions:
+					if not note is Dictionary: continue
+					_normalize_notebook_sequence(note)
+					_normalize_notebook_reference(note.get("observation_ref"))
+					if note.get("source_refs") is Array:
+						for reference in note.source_refs: _normalize_notebook_reference(reference)
 		if meta.get("servants") is Dictionary:
 			for servant_value in meta["servants"].values():
 				if servant_value is Dictionary:
@@ -119,6 +154,17 @@ func _validate_meta_progress(value: Variant, errors: PackedStringArray) -> void:
 	if knowledge is Dictionary and knowledge.has("dialogue_observed_facts"):
 		if not preload("res://scripts/systems/dialogue_observed_facts.gd").valid_facts(knowledge.dialogue_observed_facts):
 			errors.append("ERR_SNAPSHOT_DIALOGUE_OBSERVED_FACTS")
+	if knowledge is Dictionary and knowledge.has("notebook_knowledge"):
+		if not meta.get("dialogue_history") is Dictionary:
+			errors.append("NB_KNOWLEDGE_ARCHIVE")
+		else:
+			var checked := preload("res://scripts/systems/notebook_knowledge.gd").validate(knowledge.notebook_knowledge, meta.dialogue_history)
+			if not checked.ok: errors.append(checked.error_id)
+	elif meta.get("dialogue_history") is Dictionary and meta.dialogue_history.get("source_links") is Array:
+		for link in meta.dialogue_history.source_links:
+			if link is Dictionary and link.get("consumer_kind") is String and link.consumer_kind == "knowledge_source":
+				errors.append("NB_KNOWLEDGE_MISSING_LEDGER")
+				break
 	_validate_servants(meta.get("servants"), errors)
 
 

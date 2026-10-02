@@ -107,6 +107,7 @@ var _slot_id := "slot_01"
 var _resume_id := "P1_ENTRY"
 var _test_mode := false
 var _progress: Dictionary = {}
+var _pending_notebook: Dictionary = {}
 var _selected_item := ""
 var _current_room := "M2_BEDROOM"
 
@@ -166,6 +167,7 @@ var _history_generation := 0
 
 
 func configure_session(slot_id: String, resume_id: String, test_mode: bool = false) -> void:
+	_pending_notebook.clear()
 	_slot_id = slot_id
 	_resume_id = resume_id
 	_test_mode = test_mode
@@ -629,6 +631,7 @@ func _build_modal_ui() -> void:
 
 
 func _load_progress() -> void:
+	_pending_notebook.clear()
 	_progress = _default_progress()
 	if _test_mode:
 		_normalize_window_states()
@@ -653,6 +656,10 @@ func _load_progress() -> void:
 			_progress["p4_phase"] = "memory_anchor"
 	_normalize_window_states()
 	_current_room = String(_progress.get("current_room", "M2_BEDROOM"))
+	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {})
+	# Only a fresh event creates acquisition evidence; loading old prose does not.
+	if not event_states.has("PROLOGUE") and not knowledge.has("prologue_notebook_entries") and not knowledge.get("PROLOGUE_COMPLETE", false):
+		_queue_notebook_observation("NOTE_P_DUTIES")
 
 
 func _default_progress() -> Dictionary:
@@ -828,7 +835,7 @@ func _inspect_bedroom(object_id: String) -> void:
 		"notebook": "P1_INSPECT_NOTEBOOK",
 	}
 	if object_id == "notebook":
-		_add_notebook("수첩의 빈 페이지 아래에 이전 필압 같은 자국이 남아 있다.")
+		_add_notebook("NOTE_P_IMPRESSIONS")
 	var key := "P6_INSPECT_WINDOW" if object_id == "window" and bool(_progress.get("P4_complete", false)) else String(lines[object_id])
 	_show_dialogue([_prologue_line(key, "주인공")])
 	_room_art.set_room(_current_room, _progress)
@@ -1034,7 +1041,7 @@ func _apply_window_tool(item_id: String, zone_id: String) -> void:
 					_set_window_feedback(_dialogue_ui_text("P2_TOOL_TOP_CLEAN"))
 					if _inspected_window == 2 and not bool(_progress.get("bird_observed", false)):
 						_progress["bird_observed"] = true
-						_add_notebook("같은 새가 18초 간격으로 같은 궤도를 두 번 지나갔다.")
+						_add_notebook("NOTE_P_BIRD")
 						_show_dialogue([
 							_prologue_line("P2_TOOL_BIRD", "SYSTEM"),
 							_prologue_line("P2_TOOL_BIRD_LINE", "마라 1", {"portrait": "MARA1"}),
@@ -1082,7 +1089,7 @@ func _apply_window_tool(item_id: String, zone_id: String) -> void:
 
 func _complete_p2() -> void:
 	_progress["P2_complete"] = true
-	_add_notebook("대응접실의 세 창을 닦았다. 주황빛 닦임 자국이 천보다 한순간 먼저 움직였다.")
+	_add_notebook("NOTE_P_WINDOWS")
 	_update_objective()
 	_save_progress()
 	_show_dialogue([
@@ -1148,7 +1155,7 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 		_progress["p3_journal_choice"] = "pending"
 		_p3_journal_prompt_active = true
 		journal_discovered = true
-		_add_notebook("기계 도면집 뒤에서 낡은 연구 장부가 떨어졌다. 안쪽 면에는 내가 그린 듯한 고딕 저택 낙서가 있다.")
+		_add_notebook("NOTE_P_JOURNAL")
 	_selected_item = ""
 	_save_progress()
 	_rebuild_current_room_content()
@@ -1335,7 +1342,7 @@ func _on_portrait_pressed(index: int, expected_owner: String) -> void:
 	_selected_item = ""
 	if placed.size() >= 5:
 		_progress["P3B_complete"] = true
-		_add_notebook("다섯 사용인의 데이터 서명: LOCK, MAINT, BIO, CLIMATE, ARCHIVE. 색이 없어도 문양과 소리로 구별할 수 있다.")
+		_add_notebook("NOTE_P_SIGNATURES")
 		_save_progress()
 		_rebuild_current_room_content()
 		_show_dialogue([
@@ -1389,7 +1396,7 @@ func _build_kitchen() -> void:
 		cup.size = Vector2(140, 140)
 		_hotspot_layer.add_child(cup)
 		_add_hotspot("P4_ASK_LUCA", _dialogue_ui_text("P4_LINK_ASK"), Rect2(1010, 340, 430, 190), _show_p4_father_choices)
-	if bool(_progress.get("p4_life_support_seen", false)) and not bool(_progress.get("p4_life_support_recorded", false)):
+	if bool(_progress.get("p4_life_support_seen", false)) and (not bool(_progress.get("p4_life_support_recorded", false)) or _pending_notebook.has("NOTE_P_PULSE")):
 		_add_hotspot("P4_RECORD_PULSE", _dialogue_ui_text("P4_LINK_RECORD"), Rect2(710, 690, 500, 100), _record_p4_life_support_pulse)
 	if not _intro_seen("P4"):
 		_mark_intro("P4")
@@ -1474,13 +1481,13 @@ func _complete_p4_life_support_foreshadow() -> void:
 
 
 func _record_p4_life_support_pulse() -> void:
-	if _interaction_blocked() or bool(_progress.get("p4_life_support_recorded", false)):
+	if _interaction_blocked() or (bool(_progress.get("p4_life_support_recorded", false)) and not _pending_notebook.has("NOTE_P_PULSE")):
 		return
 	if not bool(_progress.get("p4_life_support_seen", false)):
 		return
 	_progress["p4_life_support_recorded"] = true
-	_add_notebook("주방의 규칙적인 진동")
-	_save_progress()
+	_add_notebook("NOTE_P_PULSE")
+	if not _save_progress(): return
 	_rebuild_current_room_content()
 	_set_status(_dialogue_ui_text("P4_MEMORY_NOTE"))
 
@@ -1634,7 +1641,7 @@ func _observe_weather(observation_id: String) -> void:
 
 func _complete_p5() -> void:
 	_progress["P5_complete"] = true
-	_add_notebook("복도와 온실의 날씨가 동시에 다르다. 소리는 나지만 문턱은 젖지 않는다.")
+	_add_notebook("NOTE_P_WEATHER")
 	_save_progress()
 	_build_greenhouse()
 	_show_dialogue([
@@ -1660,14 +1667,16 @@ func _on_sleep_bed() -> void:
 func _begin_first_sleep() -> void:
 	_close_modal()
 	var previous_progress := _progress.duplicate(true)
+	var previous_pending := _pending_notebook.duplicate(true)
 	_progress["P6_complete"] = true
-	_add_notebook("오늘을 끝내고 잠든다.")
+	_add_notebook("NOTE_P_SLEEP")
 	if _test_mode:
 		_progress["prologue_complete"] = true
 		return
 	var saved := _save_progress("SAVE_P6_COMPLETE", true)
 	if not saved:
 		_progress = previous_progress
+		_pending_notebook = previous_pending
 		_set_status(_dialogue_ui_text("P6_SAVE_ERROR"))
 		return
 	_show_dialogue([
@@ -1688,6 +1697,7 @@ func _perform_normal_reset() -> void:
 		return
 	_progress = _default_progress()
 	_progress["current_room"] = "M2_BEDROOM"
+	_pending_notebook.clear()
 	_fade.color = Color(0.0, 0.0, 0.0, 1.0)
 	_show_after_reset()
 	var reveal := create_tween()
@@ -2363,7 +2373,11 @@ func _open_notebook() -> void:
 	if _dialogue_active or _dialogue_choice_active:
 		return
 	var entries: Array = _progress.get("notebook_entries", [])
+	if not _test_mode and (_is_prologue_complete() or GameState.get_value(&"meta_progress.dialogue_history", {}).has("schema_version")):
+		entries = GameState.get_value(&"meta_progress.knowledge_entries", {}).get("prologue_notebook_entries", [])
 	var body := _dialogue_ui_text("UI_NOTE_EMPTY") if entries.is_empty() else "\n\n".join(entries.map(func(value: Variant) -> String: return "- %s" % _localized_notebook_entry(String(value))))
+	if not _pending_notebook.is_empty():
+		body += "\n\n[아직 저장되지 않은 기록이 있습니다. 사건 화면에서 저장을 다시 시도해 주세요.]" if not TranslationServer.get_locale().begins_with("en") else "\n\n[Some notes are not saved yet. Retry saving from the event screen.]"
 	_show_modal(_dialogue_ui_text("UI_NOTE_TITLE"), body, [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
 
 
@@ -2509,13 +2523,20 @@ func _close_modal() -> void:
 
 func _return_to_title() -> void:
 	_close_modal()
-	_save_progress()
+	if not _save_progress(): return
 	return_to_title_requested.emit()
 
 
 func _save_progress(save_point_id: String = "SAVE_NEW_GAME", prologue_complete: bool = false) -> bool:
+	return _persist_prologue_progress(save_point_id, prologue_complete, SaveManager)
+
+
+func _persist_prologue_progress(save_point_id: String, prologue_complete: bool, saves: Node) -> bool:
 	if _test_mode:
 		return true
+	# The reset already persisted the permanent notebook. The departing prologue
+	# controller's fresh physical defaults must not replace it during handoff.
+	if _is_prologue_complete(): return true
 	var event_states: Dictionary = GameState.get_value(&"loop_state.event_local_states", {}).duplicate(true)
 	event_states["PROLOGUE"] = _progress.duplicate(true)
 	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {}).duplicate(true)
@@ -2536,6 +2557,21 @@ func _save_progress(save_point_id: String = "SAVE_NEW_GAME", prologue_complete: 
 		knowledge["OBS_WEATHER_CONTRADICTION"] = true
 	if prologue_complete or bool(_progress.get("P6_complete", false)):
 		knowledge["PROLOGUE_COMPLETE"] = true
+	var history: Dictionary = GameState.get_value(&"meta_progress.dialogue_history", {}).duplicate(true)
+	var notes := preload("res://scripts/systems/notebook_knowledge.gd")
+	if not _pending_notebook.is_empty():
+		var ledger: Dictionary = knowledge.get(notes.KEY, notes.create())
+		for request in _pending_notebook.values():
+			if request.has("error_id") or request.get("scope") != _notebook_event_scope():
+				_set_status("수첩 저장 실패: %s" % request.get("error_id", "NB_NOTE_STALE_SCOPE"))
+				return false
+			var acquired := notes.acquire(ledger, history, request.observation, request.revision_uid)
+			if not acquired.ok:
+				_set_status("수첩 저장 실패: %s" % acquired.error_id)
+				return false
+			ledger = acquired.ledger
+			history = acquired.archive
+		knowledge[notes.KEY] = ledger
 	var writer := StateWriter.new(GameState)
 	var transaction_id := StringName("PROLOGUE_R%06d" % (GameState.revision + 1))
 	var result := writer.commit_atomic([
@@ -2544,15 +2580,21 @@ func _save_progress(save_point_id: String = "SAVE_NEW_GAME", prologue_complete: 
 		{"state_path": "loop_state.time_block", "operation": "set", "value": String(_progress.get("time_block", "morning"))},
 		{"state_path": "loop_state.inventory", "operation": "set", "value": _inventory_item_ids()},
 		{"state_path": "meta_progress.knowledge_entries", "operation": "set", "value": knowledge},
+		{"state_path": "meta_progress.dialogue_history", "operation": "set", "value": history},
 	], GameState.revision, transaction_id)
 	if not bool(result.get("ok", false)):
 		_set_status("상태 기록 실패: %s" % ", ".join(result.get("error_ids", [])))
 		return false
-	var save_result := SaveManager.save_snapshot(_slot_id, save_point_id, GameState.get_snapshot(), GameState.revision, String(transaction_id))
+	var save_result: Dictionary = saves.save_snapshot(_slot_id, save_point_id, GameState.get_snapshot(), GameState.revision, String(transaction_id))
 	if not bool(save_result.get("ok", false)):
+		var confirmed: Dictionary = saves.confirm_snapshot_commit(_slot_id, String(transaction_id))
+		if confirmed.get("ok", false) and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), confirmed.snapshot):
+			_pending_notebook.clear()
+			return true
 		GameState.rollback_failed_persistence(result["previous_snapshot"], int(result["revision"]), transaction_id, StringName(save_result.get("error_id", &"ERR_SAVE_UNKNOWN")))
 		_set_status("자동 저장 실패: %s" % ", ".join(save_result.get("error_ids", [])))
 		return false
+	_pending_notebook.clear()
 	return true
 
 
@@ -2676,11 +2718,37 @@ func _set_status(message: String) -> void:
 	_status_label.text = message
 
 
-func _add_notebook(entry: String) -> void:
+func _add_notebook(text_id: String) -> void:
+	var entry := _dialogue_texts.get_text(text_id, "ko-KR")
 	var entries: Array = _progress.get("notebook_entries", [])
 	if entry not in entries:
 		entries.append(entry)
+		_queue_notebook_observation(text_id)
 	_progress["notebook_entries"] = entries
+
+
+func _notebook_event_scope() -> Dictionary:
+	var history: Dictionary = GameState.get_value(&"meta_progress.dialogue_history", {})
+	return {"namespace": SaveManager.get_build_flavor(), "slot": _slot_id, "load_epoch": GameState.load_epoch, "origin": history.get("source_origin_id", ""), "branch": history.get("branch_id", "")}
+
+
+func _queue_notebook_observation(text_id: String) -> void:
+	if _test_mode or _pending_notebook.has(text_id): return
+	var history: Dictionary = GameState.get_value(&"meta_progress.dialogue_history", {})
+	if not history.has("schema_version"): return
+	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {})
+	for revision in knowledge.get("notebook_knowledge", {}).get("revisions", []):
+		if revision.metadata.knowledge_id == text_id: return
+	var content := preload("res://scripts/systems/notebook_content.gd")
+	var archive := preload("res://scripts/systems/notebook_archive.gd")
+	var row := content.definition("NB_" + text_id, 1)
+	if row.is_empty():
+		_pending_notebook[text_id] = {"error_id": "NB_NOTE_UNMAPPED"}
+		return
+	var locale := "en-US" if TranslationServer.get_locale().begins_with("en") else "ko-KR"
+	var context := {"node_id": row.event_id, "chapter_id": "PROLOGUE", "location_id": _current_room, "event_occurrence_id": archive.new_uid(), "conversation_session_id": archive.new_uid(), "presentation_token": archive.new_uid()}
+	var observed := content.observe(content.descriptor("NB_" + text_id, 1, {"body": {}}), context, row.locales[locale].speaker, _dialogue_texts.get_text(text_id, locale), locale, "replay_committed")
+	_pending_notebook[text_id] = {"scope": _notebook_event_scope(), "revision_uid": archive.new_uid(), "observation": observed.observation} if observed.ok else observed
 
 
 func _add_unique(key: String, value: String) -> void:

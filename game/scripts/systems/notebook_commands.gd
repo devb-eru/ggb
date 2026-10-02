@@ -30,7 +30,7 @@ static func set_reference(game: Node, saves: Node, slot: String, collection: Str
 	if not saved.get("ok", false):
 		if saves.has_method("confirm_snapshot_commit"):
 			var confirmed: Dictionary = saves.confirm_snapshot_commit(slot, String(transaction))
-			if confirmed.get("ok", false) and confirmed.snapshot == state:
+			if confirmed.get("ok", false) and StateSnapshotValidator.same_persisted_value(state, confirmed.snapshot):
 				return {"ok": true, "changed": true, "recovered_acknowledgement": true}
 		game.rollback_failed_persistence(installed.previous_snapshot, int(installed.revision), transaction, &"ERR_NOTEBOOK_METADATA_SAVE")
 		return saved

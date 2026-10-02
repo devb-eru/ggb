@@ -1,0 +1,482 @@
+{
+	"contents": {
+		"NB_NOTE_P_BIRD": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"knowledge": {
+					"category": "observation",
+					"epistemic_state": "observed",
+					"knowledge_id": "NOTE_P_BIRD",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "The same bird followed the same path twice, eighteen seconds apart.",
+						"speaker": "Notebook",
+						"summary": "The same bird followed the same path twice, eighteen seconds apart.",
+						"title": "A repeating flight path"
+					},
+					"ko-KR": {
+						"body": "같은 새가 18초 간격으로 같은 궤도를 두 번 지나갔다.",
+						"speaker": "수첩",
+						"summary": "같은 새가 18초 간격으로 같은 궤도를 두 번 지나갔다.",
+						"title": "반복되는 궤도"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_P_BIRD"
+				},
+				"location_source": "event_current_room",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP03",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "game/scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_apply_window_tool",
+				"source_text_id": "NOTE_P_BIRD",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_NOTE_P_DUTIES": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "P1",
+				"knowledge": {
+					"category": "observation",
+					"epistemic_state": "observed",
+					"knowledge_id": "NOTE_P_DUTIES",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "Today's duties: the parlor windows, the outer library books, and the north corridor portraits.",
+						"speaker": "Notebook",
+						"summary": "Today's duties: the parlor windows, the outer library books, and the north corridor portraits.",
+						"title": "Today's duties"
+					},
+					"ko-KR": {
+						"body": "오늘의 일과: 대응접실 창문, 외부 서고 책, 북쪽 회랑 초상화.",
+						"speaker": "수첩",
+						"summary": "오늘의 일과: 대응접실 창문, 외부 서고 책, 북쪽 회랑 초상화.",
+						"title": "오늘의 일과"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_P_DUTIES"
+				},
+				"location_source": "event_current_room",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP03",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "game/scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_load_progress",
+				"source_text_id": "NOTE_P_DUTIES",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_NOTE_P_IMPRESSIONS": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "P1",
+				"knowledge": {
+					"category": "observation",
+					"epistemic_state": "observed",
+					"knowledge_id": "NOTE_P_IMPRESSIONS",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "Marks like old pencil impressions remain beneath the notebook's blank pages.",
+						"speaker": "Notebook",
+						"summary": "Marks like old pencil impressions remain beneath the notebook's blank pages.",
+						"title": "Impressions in the paper"
+					},
+					"ko-KR": {
+						"body": "수첩의 빈 페이지 아래에 이전 필압 같은 자국이 남아 있다.",
+						"speaker": "수첩",
+						"summary": "수첩의 빈 페이지 아래에 이전 필압 같은 자국이 남아 있다.",
+						"title": "종이에 남은 필압"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_P_IMPRESSIONS"
+				},
+				"location_source": "event_current_room",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP03",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "game/scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_inspect_bedroom",
+				"source_text_id": "NOTE_P_IMPRESSIONS",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_NOTE_P_JOURNAL": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "P3",
+				"knowledge": {
+					"category": "observation",
+					"epistemic_state": "observed",
+					"knowledge_id": "NOTE_P_JOURNAL",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "An old research ledger fell from behind the mechanical drawings. Inside is a sketch of a Gothic mansion that looks like my own work.",
+						"speaker": "Notebook",
+						"summary": "An old research ledger fell from behind the mechanical drawings. Inside is a sketch of a Gothic mansion that looks like my own work.",
+						"title": "The sketch in the ledger"
+					},
+					"ko-KR": {
+						"body": "기계 도면집 뒤에서 낡은 연구 장부가 떨어졌다. 안쪽 면에는 내가 그린 듯한 고딕 저택 낙서가 있다.",
+						"speaker": "수첩",
+						"summary": "기계 도면집 뒤에서 낡은 연구 장부가 떨어졌다. 안쪽 면에는 내가 그린 듯한 고딕 저택 낙서가 있다.",
+						"title": "장부 속 낙서"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_P_JOURNAL"
+				},
+				"location_source": "event_current_room",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP03",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "game/scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_shelf_pressed",
+				"source_text_id": "NOTE_P_JOURNAL",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_NOTE_P_PULSE": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"knowledge": {
+					"category": "observation",
+					"epistemic_state": "observed",
+					"knowledge_id": "NOTE_P_PULSE",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "The kitchen's rhythmic vibration",
+						"speaker": "Notebook",
+						"summary": "The kitchen's rhythmic vibration",
+						"title": "The kitchen's rhythmic vibration"
+					},
+					"ko-KR": {
+						"body": "주방의 규칙적인 진동",
+						"speaker": "수첩",
+						"summary": "주방의 규칙적인 진동",
+						"title": "주방의 규칙적인 진동"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_P_PULSE"
+				},
+				"location_source": "event_current_room",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP03",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "game/scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_record_p4_life_support_pulse",
+				"source_text_id": "NOTE_P_PULSE",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_NOTE_P_SIGNATURES": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"knowledge": {
+					"category": "observation",
+					"epistemic_state": "observed",
+					"knowledge_id": "NOTE_P_SIGNATURES",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "The five servants' data signatures: LOCK, MAINT, BIO, CLIMATE, ARCHIVE. Patterns and sounds distinguish them even without color.",
+						"speaker": "Notebook",
+						"summary": "The five servants' data signatures: LOCK, MAINT, BIO, CLIMATE, ARCHIVE. Patterns and sounds distinguish them even without color.",
+						"title": "Five patterns"
+					},
+					"ko-KR": {
+						"body": "다섯 사용인의 데이터 서명: LOCK, MAINT, BIO, CLIMATE, ARCHIVE. 색이 없어도 문양과 소리로 구별할 수 있다.",
+						"speaker": "수첩",
+						"summary": "다섯 사용인의 데이터 서명: LOCK, MAINT, BIO, CLIMATE, ARCHIVE. 색이 없어도 문양과 소리로 구별할 수 있다.",
+						"title": "다섯 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_P_SIGNATURES"
+				},
+				"location_source": "event_current_room",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP03",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "game/scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_portrait_pressed",
+				"source_text_id": "NOTE_P_SIGNATURES",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_NOTE_P_SLEEP": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "P6",
+				"knowledge": {
+					"category": "observation",
+					"epistemic_state": "observed",
+					"knowledge_id": "NOTE_P_SLEEP",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "I end the day and go to sleep.",
+						"speaker": "Notebook",
+						"summary": "I end the day and go to sleep.",
+						"title": "The end of today"
+					},
+					"ko-KR": {
+						"body": "오늘을 끝내고 잠든다.",
+						"speaker": "수첩",
+						"summary": "오늘을 끝내고 잠든다.",
+						"title": "오늘의 끝"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_P_SLEEP"
+				},
+				"location_source": "event_current_room",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP03",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "game/scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_begin_first_sleep",
+				"source_text_id": "NOTE_P_SLEEP",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_NOTE_P_WEATHER": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "P5",
+				"knowledge": {
+					"category": "observation",
+					"epistemic_state": "observed",
+					"knowledge_id": "NOTE_P_WEATHER",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "The corridor and greenhouse have different weather at the same time. I can hear it, but the threshold stays dry.",
+						"speaker": "Notebook",
+						"summary": "The corridor and greenhouse have different weather at the same time. I can hear it, but the threshold stays dry.",
+						"title": "Different weather"
+					},
+					"ko-KR": {
+						"body": "복도와 온실의 날씨가 동시에 다르다. 소리는 나지만 문턱은 젖지 않는다.",
+						"speaker": "수첩",
+						"summary": "복도와 온실의 날씨가 동시에 다르다. 소리는 나지만 문턱은 젖지 않는다.",
+						"title": "서로 다른 날씨"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_P_WEATHER"
+				},
+				"location_source": "event_current_room",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP03",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "game/scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_complete_p5",
+				"source_text_id": "NOTE_P_WEATHER",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_NOTE_P_WINDOWS": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"knowledge": {
+					"category": "observation",
+					"epistemic_state": "observed",
+					"knowledge_id": "NOTE_P_WINDOWS",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "I cleaned the parlor's three windows. An orange wiping trace moved a moment before the cloth.",
+						"speaker": "Notebook",
+						"summary": "I cleaned the parlor's three windows. An orange wiping trace moved a moment before the cloth.",
+						"title": "After cleaning the windows"
+					},
+					"ko-KR": {
+						"body": "대응접실의 세 창을 닦았다. 주황빛 닦임 자국이 천보다 한순간 먼저 움직였다.",
+						"speaker": "수첩",
+						"summary": "대응접실의 세 창을 닦았다. 주황빛 닦임 자국이 천보다 한순간 먼저 움직였다.",
+						"title": "창문을 닦은 뒤"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_P_WINDOWS"
+				},
+				"location_source": "event_current_room",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP03",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "game/scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_complete_p2",
+				"source_text_id": "NOTE_P_WINDOWS",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

@@ -133,6 +133,18 @@ static func resolve(archive: Dictionary, reference: Dictionary) -> Dictionary:
 	return _resolve_in(_index(archive), reference)
 
 
+static func resolve_many(archive: Dictionary, references: Array) -> Dictionary:
+	var ready := validate(archive)
+	if not ready.ok: return ready
+	var index := _index(archive)
+	var resolved: Array = []
+	for reference in references:
+		var result := _resolve_in(index, reference)
+		if not result.ok: return result
+		resolved.append(result)
+	return {"ok": true, "items": resolved}
+
+
 static func set_reference(archive: Dictionary, collection: String, reference: Dictionary, enabled: bool, expected_revision: int) -> Dictionary:
 	var ready := _ready(archive, expected_revision)
 	if not ready.ok: return ready
@@ -152,14 +164,21 @@ static func set_reference(archive: Dictionary, collection: String, reference: Di
 
 
 static func add_source_link(archive: Dictionary, consumer_kind: String, consumer_uid: String, target: Dictionary, expected_revision: int) -> Dictionary:
+	return add_source_links(archive, consumer_kind, consumer_uid, [target], expected_revision)
+
+
+static func add_source_links(archive: Dictionary, consumer_kind: String, consumer_uid: String, targets: Array, expected_revision: int) -> Dictionary:
 	var ready := _ready(archive, expected_revision)
 	if not ready.ok: return ready
-	if consumer_kind not in SOURCE_KINDS or not _uid(consumer_uid) or not _resolve_in(_index(archive), target).ok:
+	if consumer_kind not in SOURCE_KINDS or not _uid(consumer_uid):
 		return _error("NB_SOURCE_LINK")
-	var link := {"consumer_kind": consumer_kind, "consumer_uid": consumer_uid, "target": target.duplicate(true)}
-	if link in archive.source_links: return {"ok": true, "archive": archive.duplicate(true), "changed": false, "pruned_uids": []}
 	var candidate := archive.duplicate(true)
-	candidate.source_links.append(link)
+	var index := _index(archive)
+	for target in targets:
+		if not _resolve_in(index, target).ok: return _error("NB_SOURCE_LINK")
+		var link := {"consumer_kind": consumer_kind, "consumer_uid": consumer_uid, "target": target.duplicate(true)}
+		if link not in candidate.source_links: candidate.source_links.append(link)
+	if candidate.source_links == archive.source_links: return {"ok": true, "archive": candidate, "changed": false, "pruned_uids": []}
 	return _finish(candidate)
 
 

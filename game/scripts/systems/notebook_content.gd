@@ -1,7 +1,7 @@
 extends RefCounted
 
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
-const CATALOGS := ["res://data/notebook/hints_v1.json", "res://data/notebook/prologue_v1.json"]
+const CATALOGS := ["res://data/notebook/hints_v1.json", "res://data/notebook/prologue_v1.json", "res://data/notebook/prologue_notes_v1.json"]
 const ALIASES := {"BF": "B3_B", "CF": "C4", "DF": "D1"}
 const TYPES := {"string": TYPE_STRING, "int": TYPE_INT, "float": TYPE_FLOAT, "bool": TYPE_BOOL}
 static var _contents: Dictionary = {}
@@ -31,13 +31,16 @@ static func diagnostics() -> Dictionary:
 	return {"ok": _errors.is_empty(), "error_ids": _errors.duplicate(), "content_ids": _contents.keys(), "authored_ids": _contents.size()}
 
 
-static func observe(descriptor: Dictionary, context: Dictionary, speaker: String, text: String, locale: String) -> Dictionary:
+static func observe(descriptor: Dictionary, context: Dictionary, speaker: String, text: String, locale: String, disclosure: String = "displayed") -> Dictionary:
 	_load()
 	if not _errors.is_empty(): return _error("NB_CONTENT_CATALOG")
 	if not descriptor.get("content_id") is String or not descriptor.get("variant_id") is String or not _integer(descriptor.get("content_version")) or not descriptor.get("segments") is Dictionary:
 		return _error("NB_CONTENT_DESCRIPTOR")
 	var row := definition(descriptor.content_id, int(descriptor.content_version))
 	if row.is_empty(): return _error("NB_CONTENT_VERSION_UNAVAILABLE")
+	if disclosure not in ["displayed", "replay_committed"]: return _error("NB_CONTENT_DISCLOSURE")
+	if disclosure == "replay_committed" and (row.disclosure_owner != "event_note_commit" or not row.has("knowledge")):
+		return _error("NB_CONTENT_DISCLOSURE_OWNER")
 	if descriptor.get("variant_id") != row.action_or_variant or context.get("node_id") not in row.node_ids:
 		return _error("NB_CONTENT_CONTEXT")
 	if context.get("chapter_id") not in preload("res://scripts/systems/dialogue_history_context.gd").CHAPTERS:
@@ -53,7 +56,7 @@ static func observe(descriptor: Dictionary, context: Dictionary, speaker: String
 		if not _variables_match(row.variables[id], variables): return _error("NB_CONTENT_VARIABLES")
 		var serialized := _serialized_variables(variables)
 		var body := _substitute(row.locales[language][id], serialized, row.variables[id])
-		segments.append({"segment_id": id, "disclosure": "displayed", "localization_key": row.localization_keys[id], "safe_variables": serialized, "captured_text": body, "viewed_locale": language})
+		segments.append({"segment_id": id, "disclosure": disclosure, "localization_key": row.localization_keys[id], "safe_variables": serialized, "captured_text": body, "viewed_locale": language})
 		paragraphs.append(body)
 	if segments.is_empty() or segments.size() != descriptor.segments.size(): return _error("NB_CONTENT_SEGMENT")
 	if "\n".join(paragraphs) != text: return _error("NB_CONTENT_DISPLAY_MISMATCH")
@@ -94,7 +97,7 @@ static func render_entry(entry: Dictionary, locale: String) -> Dictionary:
 	var title: String = row.locales[language].title if available else ("보관된 기록" if language == "ko-KR" else "Archived record")
 	var fallback_note := ""
 	if used_fallback:
-		fallback_note = "\n[당시 표시된 원문 · 번역할 내용 버전을 찾지 못했습니다.]" if language == "ko-KR" else "\n[Original displayed text; its translation version is unavailable.]"
+		fallback_note = "\n[당시 보관된 원문 · 번역할 내용 버전을 찾지 못했습니다.]" if language == "ko-KR" else "\n[Original recorded text; its translation version is unavailable.]"
 	return {"ok": true, "entry": {
 		"entry_uid": entry.get("entry_uid", ""), "sequence": int(entry.get("sequence", -1)), "chapter_id": observation.chapter_id,
 		"line_id": observation.content_id, "content_version": int(observation.content_version), "speaker_id": observation.speaker_id,
