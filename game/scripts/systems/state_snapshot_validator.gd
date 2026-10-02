@@ -92,6 +92,10 @@ func _validate_meta_progress(value: Variant, errors: PackedStringArray) -> void:
 	for field in ["knowledge_entries", "failure_knowledge", "event_history"]:
 		_require_type(meta.get(field), TYPE_DICTIONARY, "META_%s" % field.to_upper(), errors)
 	_validate_dialogue_history(meta.get("dialogue_history"), errors)
+	var knowledge: Variant = meta.get("knowledge_entries")
+	if knowledge is Dictionary and knowledge.has("dialogue_observed_facts"):
+		if not preload("res://scripts/systems/dialogue_observed_facts.gd").valid_facts(knowledge.dialogue_observed_facts):
+			errors.append("ERR_SNAPSHOT_DIALOGUE_OBSERVED_FACTS")
 	_validate_servants(meta.get("servants"), errors)
 
 

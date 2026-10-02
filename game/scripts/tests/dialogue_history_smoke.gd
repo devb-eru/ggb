@@ -127,6 +127,7 @@ func run(tree: SceneTree) -> Dictionary:
 		var resumed: Dictionary = session.initialize()
 		_expect(resumed.get("ok", false) and resumed.get("history_context", {}).get("chapter_id") == pair[2], "resumed feedback preserves original chapter")
 
+	_validate_observed_facts()
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
@@ -139,6 +140,38 @@ func _session(journal: int) -> ChapterOneSession:
 	if journal >= 2:
 		return MIRROR.new(GameState, SaveManager, SLOT)
 	return CHAPTER.new(GameState, SaveManager, SLOT)
+
+
+func _validate_observed_facts() -> void:
+	var facts := preload("res://scripts/systems/dialogue_observed_facts.gd")
+	var gallery := preload("res://scripts/systems/ending_gallery_pages.gd")
+	var loaded := CHECKPOINTS.new().snapshot_for("EDR_BODY_CHECK")
+	_expect(loaded.ok, "physical observation checkpoint loads")
+	if not loaded.ok: return
+	var source: Dictionary = loaded.snapshot
+	source.ending_run.required_interactions_seen = ["OBJ_REALITY_HAND"]
+	source.meta_progress.knowledge_entries.erase(facts.KNOWLEDGE_KEY)
+	_expect(StateWriter.new(GameState).install_snapshot(source, GameState.revision, &"OBSERVED_FACT_SEED").ok, "physical observation fixture installs")
+	var session := BASEMENT.new(GameState, SaveManager, "../invalid_history_slot")
+	var context := session.history_context()
+	context.observed_fact_ids = [facts.body_repeat_id("OBJ_REALITY_HAND")]
+	var before := GameState.get_snapshot()
+	var failed := session.record_viewed_line("Protagonist", "Repeated hand observation", "en-US", context)
+	_expect(not failed.ok and GameState.get_snapshot() == before, "failed history save rolls back both transcript and observed fact")
+	session.slot_id = SLOT
+	_expect(session.record_viewed_line("Protagonist", "Repeated hand observation", "en-US", context).ok, "retry persists observation and transcript together")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "observed evidence reloads")
+	var saved := GameState.get_snapshot()
+	_expect(facts.has_body_repeat(saved, "OBJ_REALITY_HAND"), "successful read stores independent repeat fact")
+	saved.meta_progress.dialogue_history.entries = []
+	_expect(gallery._body_repeat_seen(saved, "OBJ_REALITY_HAND"), "gallery repeat does not require retained transcript")
+	_expect(not gallery._body_repeat_seen(saved, "OBJ_REALITY_BREATH_MONITOR"), "one observation cannot disclose another object")
+	var before_invalid := GameState.get_snapshot()
+	context.observed_fact_ids = [facts.body_repeat_id("OBJ_REALITY_BREATH_MONITOR")]
+	_expect(not session.record_viewed_line("Protagonist", "Not a repeat", "en-US", context).ok and GameState.get_snapshot() == before_invalid, "repeat fact requires prior physical acknowledgement")
+	var invalid := before_invalid.duplicate(true)
+	invalid.meta_progress.knowledge_entries[facts.KNOWLEDGE_KEY] = {"BODY_REPEAT:OBJ_REALITY_HAND": "true"}
+	_expect(not StateSnapshotValidator.new().validate(invalid).ok, "observed-fact schema rejects untyped evidence")
 
 
 func _expect(condition: bool, message: String) -> void:

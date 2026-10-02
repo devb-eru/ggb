@@ -100,7 +100,8 @@ func _present_dialogue_line() -> void:
 func _record_current_history_line() -> bool:
 	if not _history_enabled() or not _dialogue_active or _history_recorded_index == _dialogue_index:
 		return true
-	var context: Dictionary = _dialogue_lines[_dialogue_index].get("history_context", {})
+	var context: Dictionary = _dialogue_lines[_dialogue_index].get("history_context", {}).duplicate(true)
+	context["observed_fact_ids"] = _dialogue_lines[_dialogue_index].get("observed_fact_ids", [])
 	var result := session.record_viewed_line(_speaker_label.text, _dialogue_label.text, TranslationServer.get_locale(), context)
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))

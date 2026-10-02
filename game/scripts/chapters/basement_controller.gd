@@ -1013,7 +1013,10 @@ func _build_reality_wake() -> void:
 				var data: Array = WAKE_TEXTS.body(object, locale)
 				var repeated: bool = object in seen
 				if repeated: count += 1
-				_add_hotspot(object, data[0] + (WAKE_TEXTS.text("checked", locale) if repeated else ""), Rect2(400,250+index*170,1120,120), _ending_read.bind([{"speaker":WAKE_TEXTS.text("protagonist", locale) if repeated else "SYSTEM","text":data[2] if repeated else data[1]}],"body",object,"reality_"))
+				var line := {"speaker":WAKE_TEXTS.text("protagonist", locale) if repeated else "SYSTEM", "text":data[2] if repeated else data[1]}
+				if repeated:
+					line["observed_fact_ids"] = [preload("res://scripts/systems/dialogue_observed_facts.gd").body_repeat_id(object)]
+				_add_hotspot(object, data[0] + (WAKE_TEXTS.text("checked", locale) if repeated else ""), Rect2(400,250+index*170,1120,120), _ending_read.bind([line],"body",object,"reality_"))
 				index += 1
 			if count >= 2: _action("REALITY_BODY_FINISH",WAKE_TEXTS.text("body_finish", locale),Rect2(400,800,1120,100),"reality_body_finish",null,false)
 

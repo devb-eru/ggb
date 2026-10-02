@@ -2216,6 +2216,7 @@ func _validate_reality_wake(session: BasementSession) -> void:
 		var expected_text: String = texts.body(object,"en")[2 if repeated else 1]
 		_expect(view._dialogue_label.text == expected_text, "Physical first and repeated observations use English")
 		_expect(game.get_value("meta_progress.dialogue_history.entries",[]).back()["variables"]["text"] == expected_text, "Read physical observation is retained in dialogue history")
+		_expect(preload("res://scripts/systems/dialogue_observed_facts.gd").has_body_repeat(session.snapshot(), object) == repeated, "Only a displayed repeat records its independent evidence")
 		while view._dialogue_active: view._advance_dialogue()
 	_expect(session.snapshot()["ending_run"]["required_interactions_seen"].size() == 2, "Repeated physical observation is deduplicated")
 	if "--capture-basement-session" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
@@ -2558,10 +2559,16 @@ func _validate_credits(session: BasementSession) -> void:
 	if before_gallery["ending_run"]["branch_id"] == "reality":
 		for object in SESSION.REALITY_WAKE.BODY:
 			var body_only := uninspected.duplicate(true)
+			body_only["meta_progress"]["knowledge_entries"].erase("dialogue_observed_facts")
 			body_only["meta_progress"]["dialogue_history"]["entries"] = []
 			body_only["ending_run"]["required_interactions_seen"] = [object]
 			var initial: Array = pages.build(body_only)
 			_expect(initial.size() == 2 and initial[0]["text"] == SESSION.REALITY_WAKE.BODY[object][1], "First body observation alone cannot unlock unseen repeat dialogue in gallery")
+			var durable := body_only.duplicate(true)
+			durable["meta_progress"]["knowledge_entries"]["dialogue_observed_facts"] = {"BODY_REPEAT:" + object: true}
+			_expect(pages.build(durable)[0]["text"] == SESSION.REALITY_WAKE.BODY[object][1] + "\n" + SESSION.REALITY_WAKE.BODY[object][2], "Independent repeat evidence survives without the old transcript")
+			durable["ending_run"]["required_interactions_seen"] = []
+			_expect(pages.build(durable).size() == 1, "Repeat evidence does not substitute for gameplay acknowledgement")
 			for locale in ["ko","en"]:
 				var recorded := body_only.duplicate(true)
 				var repeat_text: String = VIEW.WAKE_TEXTS.body(object,locale)[2]

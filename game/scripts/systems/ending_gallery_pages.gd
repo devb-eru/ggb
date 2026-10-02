@@ -74,6 +74,7 @@ static func build(state: Dictionary, locale: String = "ko") -> Array[Dictionary]
 
 
 static func _body_repeat_seen(state: Dictionary, id: String) -> bool:
+	if preload("res://scripts/systems/dialogue_observed_facts.gd").has_body_repeat(state, id): return true
 	# The required-interaction flag proves the first reading, not a repeat reading.
 	var known_texts := [WAKE.BODY[id][2], WAKE_TEXTS.body(id,"en")[2]]
 	for entry in state.get("meta_progress",{}).get("dialogue_history",{}).get("entries",[]):

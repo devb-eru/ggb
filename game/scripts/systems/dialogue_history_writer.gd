@@ -1,10 +1,13 @@
 extends RefCounted
 
 
-static func record(game: Node, saves: Node, slot: String, point: String, speaker: String, text: String, locale: String, chapter_id: String = "LEGACY") -> Dictionary:
+static func record(game: Node, saves: Node, slot: String, point: String, speaker: String, text: String, locale: String, chapter_id: String = "LEGACY", observed_fact_ids: Variant = []) -> Dictionary:
 	if text.is_empty():
 		return {"ok": true}
 	var state: Dictionary = game.get_snapshot()
+	var facts := preload("res://scripts/systems/dialogue_observed_facts.gd").capture(state, observed_fact_ids)
+	if not facts.ok:
+		return facts
 	var history: Dictionary = state["meta_progress"]["dialogue_history"]
 	var sequence := int(history["next_sequence"])
 	history["entries"].append({
