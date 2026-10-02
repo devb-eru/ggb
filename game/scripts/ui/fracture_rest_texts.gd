@@ -112,6 +112,12 @@ static func text(source: String, locale: String) -> String:
 	return EN.get(source, source) if locale.begins_with("en") else source
 
 
+static func confirmation(route: String, locale: String) -> Dictionary:
+	var sensation := "익숙한 이불 아래로 캡슐의 곡면이 만져진다. 이불 끝을 한 번 더 끌어당긴다." if route == "bedroom" else "금속 표면에 이불의 질감이 투사된다. 손끝이 매끄럽게 미끄러진다. 침대도 처음부터 이런 장치였을까."
+	return {"title": text("잠깐 눈을 감는다", locale), "body": text(sensation, locale) + "\n\n" + text("복구 절차를 실행하면 현재 파열 상태를 기준으로 수면 전환이 시작됩니다.\n결과는 확인되지 않았습니다.", locale),
+		"labels": [text("조금 더 본다", locale), text("잠든다", locale)]}
+
+
 static func guidance_300(reaction_state: Dictionary, locale: String) -> String:
 	var owner := String(reaction_state.get("owner", ""))
 	if not GUIDANCE_300.has(owner):

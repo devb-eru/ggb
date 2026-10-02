@@ -3,6 +3,7 @@ extends BlackMirrorSession
 
 const BASEMENT := preload("res://data/puzzles/puzzle_basement.tres")
 const BASEMENT_NOTES := preload("res://scripts/systems/basement_notebook.gd")
+const FRACTURE_NOTES := preload("res://scripts/systems/fracture_notebook.gd")
 const BASEMENT_KEY := "BASEMENT"
 const MARA1_RELATIONSHIP := preload("res://scripts/systems/mara1_relationship.gd")
 const IRIS_RELATIONSHIP := preload("res://scripts/systems/iris_relationship.gd")
@@ -77,8 +78,7 @@ func initialize() -> Dictionary:
 	state["loop_state"]["event_local_states"][BASEMENT_KEY] = basement_local(state)
 	if state["fracture_state"]["broken_reset_triggered"] and not knowledge.get("E1_wake_seen", false):
 		knowledge["E1_wake_seen"] = true
-		_note(knowledge, "NOTE_E1_WAKE", "같은 아침이어야 한다.")
-		return _commit(state, "종도 새소리도 없다. 냉각 팬이 느려진다. 이불은 어제와 같은 무게인데, 그 아래 금속 고정구가 손목을 따라 떨린다. 커튼 사이 아침빛은 그림자를 만들지 않는다.\n수첩에 흑연 글씨가 남아 있다. '같은 아침이어야 한다.' 마지막 획이 떨린다.")
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E1_WAKE, ["E1_WAKE"], [["NOTE_E1_WAKE", "E1_WAKE", FRACTURE_NOTES.NOTES.E1_WAKE]])
 	return _commit_feedback(state, String(result.get("text", "")), String(result.get("speaker", "주인공")), String(result.get("text_id", "")), result.get("history_context", {}), result.get("notebook_feedback", []))
 
 
@@ -287,7 +287,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		if target == "H0_PERSONALITY_ARCHIVE" and not MARA2_RELATIONSHIP.progress(state)["overlay"]: return _reject("세 초상화의 공통 결손을 먼저 확인한다.")
 		if links.get(source, "") != target and links.get(target, "") != source: return _reject("모두 중앙홀에 모이고 있다.")
 		state["loop_state"]["location_id"] = target
-		return _commit(state, "이중 맥박 표식을 따라 사용인 통로를 지나 주방으로 간다." if target == "M1_KITCHEN" else "조용한 복도를 지나간다.")
+		var move_key := "MOVE_KITCHEN" if target == "M1_KITCHEN" else "MOVE_CORRIDOR"
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT[move_key], [move_key])
 	if action == "move":
 		var target := String(value)
 		var local := basement_local()
@@ -408,8 +409,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		"d_fracture":
 			if stage() != "D5": return _reject("위장 필터를 해제한 뒤 확인한다.")
 			knowledge["d5_complete"] = true
-			text = "시계는 잠깐 정상적으로 움직인다. 벽지의 무늬가 벗겨지며 배선과 진단 문자가 드러난다. 사용인의 윤곽에서 서로 다른 서명이 조금씩 어긋난다."
-			_note(knowledge, "D5", text)
+			text = FRACTURE_NOTES.TEXT.D5_COMPLETE
+			return _fracture_commit(state, text, ["D5_COMPLETE"], [["D5", "D5", text]])
 		_:
 			return _reject("정의되지 않은 지하 조사다.")
 	for note in notes:
@@ -424,13 +425,26 @@ func luca_s2_pending() -> bool:
 	return not known("LUCA_S2_complete") and not snapshot()["meta_progress"]["servants"]["luca"]["core_event_complete"]
 
 
+func _fracture_commit(state: Dictionary, text: String, ids: Array, notes: Array = [], speaker: String = "주인공") -> Dictionary:
+	var context := history_context()
+	if state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	for note in notes:
+		_note(state.meta_progress.knowledge_entries, note[0], note[2])
+		var written := FRACTURE_NOTES.write(state, note[1], note[2], context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(state, text, speaker, "", context, FRACTURE_NOTES.paragraphs(ids))
+
+
 func _intro_action(action: String, value: String) -> Dictionary:
 	if not known("E1_complete"): return _reject("먼저 달라진 아침을 확인한다.")
 	var state := snapshot()
 	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
 	if action == "e2_luca":
 		if stage() != "LUCA_S2": return _reject("루카와의 첫 만남은 이미 지나갔다.")
-		if value == "ask": return _commit(state, "괜찮아요... 아직은요. 이 소리가 빨라지면, 제가 먼저 말할게요. 그건... 꼭 말할게요.", "루카")
+		if value == "ask": return _fracture_commit(state, FRACTURE_NOTES.TEXT.LUCA_ASK, ["LUCA_ASK"], [], "루카")
 		if value not in ["hold", "withdraw"]: return _reject("손을 잡거나 물러날 수 있다.")
 		knowledge["LUCA_S2_complete"] = true
 		knowledge["LUCA_S2_choice"] = value
@@ -439,24 +453,27 @@ func _intro_action(action: String, value: String) -> Dictionary:
 			luca["bond"] = mini(5, int(luca["bond"]) + 1)
 		state["meta_progress"]["event_history"]["LUCA_S2"] = {"lifecycle": "completed", "outcome_id": value, "relationship_delta_applied": true}
 		state["loop_state"]["location_id"] = "M1_CENTRAL_HALL"
-		return _commit(state, "따뜻한 쪽이 어느 쪽인지 헷갈렸어요... 같이 돌아가요." if value == "hold" else "괜찮아요... 천천히 오세요. 같이 돌아가요.", "루카")
+		var key := "LUCA_" + value.to_upper()
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT[key], [key], [], "루카")
 	if stage() != "E2_INTRO": return _reject("중앙홀의 보고를 먼저 확인한다.")
 	if action == "e2_report":
 		knowledge["E2_report_seen"] = true
-		return _commit(state, "보고드리겠습니다. 정상 리셋 복구가 불가능합니다.\n마라 1의 웃음이 두 번 재생되고 멎는다. 루카는 손목과 진단 신호를 번갈아 본다. 이리스의 미소 아래 플라스틱 날개가 닫힌다.\n마라 2가 겹친 이름표를 붙든다. '너무 오래 쓴 표지야! 이제 안쪽 기능실이 보이는 거지.'")
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E2_REPORT, ["E2_REPORT"])
 	if not knowledge.get("E2_report_seen", false): return _reject("에드가의 보고를 먼저 듣는다.")
 	if action == "e2_question" and E2_ANSWERS.has(value):
 		var asked: Array = knowledge.get("E2_questions_seen", []).duplicate()
 		if value not in asked: asked.append(value)
 		knowledge["E2_questions_seen"] = asked
-		return _commit(state, E2_ANSWERS[value], "루카" if value == "body" else "에드가")
+		return _fracture_commit(state, E2_ANSWERS[value], ["E2_ANSWER_" + value.to_upper()], [], "루카" if value == "body" else "에드가")
 	if action == "e2_finish":
 		knowledge["E2_INTRO_complete"] = true
 		knowledge["relationship_hub_open"] = true
 		knowledge["E_HUB_destinations"] = ["E3_1", "E3_2", "E3_3", "E3_4", "E3_5"]
-		_note(knowledge, "NOTE_E2_REPORT", "위장 필터는 복구되지 않는다. 바깥 신체의 생존 신호는 유지되지만 기상 안전은 미확정이다. 사용인의 기억은 물리 리셋에서 제외되어 있었다.")
-		_note(knowledge, "NOTE_ARCHIVE_INDEX", "ARCHIVE / MARA2" if knowledge.get("mara2_archive_index_known", false) else "ARCHIVE / 소유자 미확인 · 겹친 액자 · 이중 윤곽")
-		return _commit(state, "위장 필터는 돌아오지 않습니다. 외부 신체의 생존 신호는 있으나 기상의 안전을 보장하지 못합니다. 저희 기억은 물리 리셋 대상이 아니었습니다.\n각 장치를 조사할지, 바로 기록 결산으로 갈지는 귀하가 결정합니다. 더는 그 선택을 잠그지 않겠습니다.", "에드가")
+		var index_key := "INDEX_KNOWN" if knowledge.get("mara2_archive_index_known", false) else "INDEX_ANONYMOUS"
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E2_FINISH, ["E2_FINISH"], [
+			["NOTE_E2_REPORT", "E2_REPORT", FRACTURE_NOTES.NOTES.E2_REPORT],
+			["NOTE_ARCHIVE_INDEX", index_key, FRACTURE_NOTES.NOTES[index_key]],
+		], "에드가")
 	return _reject("확인할 질문을 선택한다.")
 
 
@@ -467,19 +484,23 @@ func _inspect_e1(object_id: String) -> Dictionary:
 	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
 	var seen: Array = knowledge.get("E1_objects_seen", []).duplicate()
 	if object_id in seen:
-		return _commit(state, "천은 부드럽다. 그 아래가 무엇인지는 이제 안다." if object_id == "bed" else String(E1_OBJECTS[object_id]))
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E1_REPEAT_BED if object_id == "bed" else String(E1_OBJECTS[object_id]), ["E1_REPEAT_BED" if object_id == "bed" else "E1_" + object_id.to_upper()])
 	seen.append(object_id)
 	knowledge["E1_objects_seen"] = seen
 	var text := String(E1_OBJECTS[object_id])
+	var ids: Array = ["E1_" + object_id.to_upper()]
+	var notes: Array = []
 	if seen.size() >= 3 and not knowledge.get("E1_complete", false):
 		knowledge["E1_complete"] = true
 		knowledge["KN_E1_RESET_DID_NOT_RESTORE"] = true
-		_note(knowledge, "NOTE_E1_DIFFERENT_MORNING", "잠들었지만 세계는 복구되지 않았다.")
-		text += "\n침실 문 걸쇠가 풀린다. 잠들었는데도, 돌아오지 않았다."
+		notes.append(["NOTE_E1_DIFFERENT_MORNING", "E1_DIFFERENT", FRACTURE_NOTES.NOTES.E1_DIFFERENT])
+		text += "\n" + FRACTURE_NOTES.TEXT.E1_UNLOCK
+		ids.append("E1_UNLOCK")
 	if seen.size() == 4:
 		knowledge["E1_all_objects_seen"] = true
-		text += "\n달라진 것이 네 개가 아니었다. 달라지지 않은 척하는 방법이 네 군데에서 끝난 것이다."
-	return _commit(state, text)
+		text += "\n" + FRACTURE_NOTES.TEXT.E1_ALL
+		ids.append("E1_ALL")
+	return _fracture_commit(state, text, ids, notes)
 
 
 func _d6_action(action: String, value: String) -> Dictionary:
@@ -492,7 +513,7 @@ func _d6_action(action: String, value: String) -> Dictionary:
 		if value == "M2_BEDROOM" and room != "H0_SERVICE_SPINE":
 			return _reject("드러난 서비스 통로를 지나 침실로 간다.")
 		state["loop_state"]["location_id"] = value
-		return _commit(state, "익숙한 복도의 외피 아래로 휴식 경로가 이어진다.")
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.D6_MOVE, ["D6_MOVE"])
 	if action == "d6_guidance":
 		var local: Dictionary = state["loop_state"]["event_local_states"].get("D6", {}).duplicate(true)
 		var checkpoint := int(local.get("guidance_checkpoint", 0))
@@ -502,26 +523,20 @@ func _d6_action(action: String, value: String) -> Dictionary:
 		state["loop_state"]["event_local_states"]["D6"] = local
 		return _commit(state, "")
 	if action == "d6_inspect" and room == "H0_SERVICE_SPINE":
-		var descriptions := {
-			"wall": "벗겨진 벽지 뒤 금속 격자는 기억하는 방보다 좁다. 손끝에는 종이와 금속의 경계가 동시에 닿는다.",
-			"sign": "서비스 척추 표지의 다섯 기능실 방향과 SUBJECT 방향이 갈라져 있다. 아직 기능실로 들어갈 수는 없다.",
-			"trace": "몸은 없는데 문양만 일정한 간격으로 지나간다. 잠금선, 닦임 자국, 이중 맥박, 꽃잎, 겹친 액자. 알아보는 것은 색만이 아니다.",
-			"capsule": "비상 캡슐 표면에 침실 침대와 같은 직물 무늬가 투사된다. 가까이서는 천의 결 아래 매끄러운 곡면이 느껴진다.",
-			"notebook": "수첩의 낙서 저택을 펼쳐 배선과 겹쳐 본다. 복도 끝에서 꺾인 선이 같다. 내가 그린 선을 누군가 이곳의 길로 만들었다. 종이를 접어도 벽의 선은 사라지지 않는다."
-		}
+		var descriptions := FRACTURE_NOTES.INSPECTIONS
 		if not descriptions.has(value): return _reject("통로에서 조사할 대상을 확인한다.")
 		var seen: Array = knowledge.get("D6_objects_seen", []).duplicate()
 		if value not in seen: seen.append(value)
 		knowledge["D6_objects_seen"] = seen
-		_note(knowledge, "D6_" + value, descriptions[value])
-		return _commit(state, descriptions[value])
+		var key := "D6_" + value.to_upper()
+		return _fracture_commit(state, descriptions[value], [key], [["D6_" + value, key, descriptions[value]]])
 	if action == "d6_rest":
 		if not ((value == "bedroom" and room == "M2_BEDROOM") or (value == "capsule" and room == "H0_SERVICE_SPINE")):
 			return _reject("현재 위치의 휴식 장치를 확인한다.")
 		var rest: Dictionary = state["loop_state"]["event_local_states"].get("D6", {}).duplicate(true)
 		rest["fracture_rest_route"] = "emergency_capsule" if value == "capsule" else "bedroom"
 		state["loop_state"]["event_local_states"]["D6"] = rest
-		return _commit(state, "조금 눈을 감는다. 이번에는 무엇이 돌아올지 알 수 없다.")
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.D6_REST, ["D6_REST"])
 	return _reject("이전 일과와 장치 조작은 끝났다. 드러난 통로와 휴식 경로를 확인한다.")
 
 
@@ -541,7 +556,7 @@ func sleep() -> Dictionary:
 			var result := reset.resume_pending_reset(slot_id)
 			return initialize() if result.get("ok", false) else result
 		&"POST_BROKEN_REST":
-			return _commit(snapshot(), "잠깐 쉬어도 균열과 수리한 곳은 돌아가지 않는다.")
+			return _fracture_commit(snapshot(), FRACTURE_NOTES.TEXT.POST_REST, ["POST_REST"])
 	return _reject("현재 수면 경로를 확인할 수 없다.")
 
 

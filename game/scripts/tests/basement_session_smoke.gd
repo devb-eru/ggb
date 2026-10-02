@@ -545,10 +545,15 @@ func _validate_full_d5_story(state: Dictionary) -> void:
 			await tree.process_frame
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("user://d6_rest_en_200.png")
-		view._close_modal()
+		view._cancel_prologue_modal()
 		root.size = previous_size
 		view._apply_reading_text_scale(1.0)
-		_expect(game.get_snapshot() == before_cancel, "D6 rest cancellation is neutral")
+		var after_cancel: Dictionary = game.get_snapshot()
+		var cancel_entries: Array = after_cancel.meta_progress.dialogue_history.entries
+		_expect(cancel_entries.size() == before_cancel.meta_progress.dialogue_history.entries.size() + 2, "D6 preview and explicit cancellation are recorded separately")
+		_expect(_history_payload(cancel_entries.back()).variables.text == D6_TEXTS.text("조금 더 본다", TranslationServer.get_locale()), "D6 Esc preserves the displayed cancellation wording")
+		after_cancel.meta_progress.dialogue_history = before_cancel.meta_progress.dialogue_history.duplicate(true)
+		_expect(after_cancel == before_cancel, "D6 rest cancellation preserves every non-history field")
 		view._start_d6_rest(route)
 		_expect(view._d6_sleep_transition_active and view.session.stage() == "D6", "D6 rest confirmation starts HOLD before broken reset")
 		_expect(not view._hotspot_layer.has_node("D6_BED") and not view._hotspot_layer.has_node("D6_CAPSULE"), "D6 sleep HOLD removes world actions")

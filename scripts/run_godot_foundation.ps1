@@ -160,6 +160,9 @@ Assert-GodotValidation -Result $notebookMirrorResult -Name "Notebook mirror obse
 $notebookBasementResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-basement-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookBasementResult -Name "Notebook basement observations, irreversible choices and event notes" -RequiredMarker "NOTEBOOK_BASEMENT_SMOKE: PASS"
 
+$notebookFractureResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-fracture-smoke", "--ggb-dev-notebook-v2")
+Assert-GodotValidation -Result $notebookFractureResult -Name "Notebook fracture dialogue, rest confirmation and event notes" -RequiredMarker "NOTEBOOK_FRACTURE_SMOKE: PASS"
+
 $blackMirrorResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--black-mirror-smoke")
 Assert-GodotValidation -Result $blackMirrorResult -Name "Black mirror chapter smoke" -RequiredMarker "BLACK_MIRROR_SMOKE: PASS"
 Write-Host "Black mirror mixture, irreversible trace, reset, capture, and J3 validation passed."

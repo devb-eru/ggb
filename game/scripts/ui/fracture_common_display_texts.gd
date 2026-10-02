@@ -36,6 +36,13 @@ const UI := {
 }
 
 const FEEDBACK_EN := {
+	"종도 새소리도 없다. 냉각 팬이 느려진다. 이불은 어제와 같은 무게인데, 그 아래 금속 고정구가 손목을 따라 떨린다. 커튼 사이 아침빛은 그림자를 만들지 않는다.": "There is no bell or birdsong. The cooling fan slows. The blanket weighs the same as yesterday, but the metal restraint beneath it trembles along my wrist. The morning light between the curtains casts no shadow.",
+	"수첩에 흑연 글씨가 남아 있다. '같은 아침이어야 한다.' 마지막 획이 떨린다.": "Graphite writing remains in the notebook. 'It should be the same morning.' The final stroke trembles.",
+	"같은 아침이어야 한다.": "It should be the same morning.",
+	"잠들었지만 세계는 복구되지 않았다.": "I slept, but the world was not restored.",
+	"위장 필터는 복구되지 않는다. 바깥 신체의 생존 신호는 유지되지만 기상 안전은 미확정이다. 사용인의 기억은 물리 리셋에서 제외되어 있었다.": "The camouflage filter cannot be restored. The body outside still shows vital signs, but the safety of waking remains unconfirmed. The servants' memories were excluded from the physical reset.",
+	"ARCHIVE / 소유자 미확인 · 겹친 액자 · 이중 윤곽": "ARCHIVE / Owner unidentified · Overlapping frames · Double outline",
+	"잠깐 쉬어도 균열과 수리한 곳은 돌아가지 않는다.": "A short rest does not undo the fractures or the repairs.",
 	"먼저 달라진 아침을 확인한다.": "Inspect the changed morning first.",
 	"루카와의 첫 만남은 이미 지나갔다.": "The first meeting with Luca has already passed.",
 	"괜찮아요... 아직은요. 이 소리가 빨라지면, 제가 먼저 말할게요. 그건... 꼭 말할게요.": "I'm all right... for now. If that sound gets faster, I'll tell you first. I... promise I will.",

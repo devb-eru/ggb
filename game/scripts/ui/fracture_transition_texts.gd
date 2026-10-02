@@ -1,5 +1,7 @@
 extends RefCounted
 
+const NOTES := preload("res://scripts/systems/fracture_notebook.gd")
+
 const KO := [
 	"마지막 링이 XIII에서 멈춘다. 기계는 멎지 않는다. 처음으로 고른 작동음이 이어진다.",
 	"SYNC COMPLETE\nXIII SYNCHRONIZED\n완료 표시 아래에 다음 문장이 나타난다. CAMOUFLAGE FILTER OFF.",
@@ -70,27 +72,38 @@ const REACTIONS := {
 	},
 }
 
-static func reaction(reaction_state: Dictionary, locale: String) -> Dictionary:
+static func reaction_key(reaction_state: Dictionary) -> String:
 	var owner := String(reaction_state.get("owner", ""))
-	if not REACTIONS.has(owner):
-		return {}
-	var english := locale.begins_with("en")
+	if not REACTIONS.has(owner): return ""
 	var mode := String(reaction_state.get("mode", "bond"))
 	if mode != "alert" or not REACTIONS[owner].has("alert_ko"):
 		mode = "bond"
-	return {
+	return "REACTION_" + owner + "_" + mode.to_upper()
+
+
+static func reaction(reaction_state: Dictionary, locale: String) -> Dictionary:
+	var key := reaction_key(reaction_state)
+	if key.is_empty(): return {}
+	var owner := String(reaction_state.owner)
+	var mode := "alert" if key.ends_with("_ALERT") else "bond"
+	var english := locale.begins_with("en")
+	var result := {
 		"speaker": REACTIONS[owner]["speaker_en" if english else "speaker_ko"],
 		"text": REACTIONS[owner][mode + ("_en" if english else "_ko")],
 		"d4_reaction_owner": owner,
 		"d5_focus_allowed": false,
 	}
+	if NOTES.ROLLOUT.enabled(): result.notebook_content = NOTES.displayed(key)
+	return result
 
 
 static func lines(locale: String, reaction_state: Dictionary = {}) -> Array:
 	var result: Array = []
 	var source: Array = EN if locale.begins_with("en") else KO
 	for index in range(source.size()):
-		result.append({"speaker": "주인공" if index == 5 else "SYSTEM", "text": source[index], "d5_focus_allowed": index >= 6 and index <= 10})
+		var line := {"speaker": "주인공" if index == 5 else "SYSTEM", "text": source[index], "d5_focus_allowed": index >= 6 and index <= 10}
+		if NOTES.ROLLOUT.enabled(): line.notebook_content = NOTES.displayed("TRANSITION_%02d" % (index + 1))
+		result.append(line)
 		if index == 10:
 			var frozen := reaction(reaction_state, locale)
 			if not frozen.is_empty():

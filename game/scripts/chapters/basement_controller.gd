@@ -300,11 +300,11 @@ func _tick_d6_guidance(delta: float) -> void:
 
 
 func _confirm_d6_rest(route: String) -> void:
-	var sensation := "익숙한 이불 아래로 캡슐의 곡면이 만져진다. 이불 끝을 한 번 더 끌어당긴다." if route == "bedroom" else "금속 표면에 이불의 질감이 투사된다. 손끝이 매끄럽게 미끄러진다. 침대도 처음부터 이런 장치였을까."
-	_show_modal(_d6_text("잠깐 눈을 감는다"), _d6_text(sensation) + "\n\n" + _d6_text("복구 절차를 실행하면 현재 파열 상태를 기준으로 수면 전환이 시작됩니다.\n결과는 확인되지 않았습니다."), [
-		{"label": _d6_text("조금 더 본다"), "action": _close_modal},
-		{"label": _d6_text("잠든다"), "action": _start_d6_rest.bind(route)},
-	])
+	var content := FRACTURE_REST_TEXTS.confirmation(route, TranslationServer.get_locale())
+	_show_recorded_choice(content.title, content.body, [
+		{"label": content.labels[0], "action": _close_modal},
+		{"label": content.labels[1], "action": _start_d6_rest.bind(route)},
+	], MODAL_NOTES.options("FRACTURE_REST_" + route.to_upper()))
 
 
 func _start_d6_rest(route: String) -> void:
