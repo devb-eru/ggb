@@ -28,6 +28,7 @@ func run(tree: SceneTree) -> Dictionary:
 	if not diagnostics.ok: return {"ok": false, "errors": diagnostics.error_ids}
 	_validate_versioned_content()
 	_validate_segments()
+	_validate_enums()
 	for language in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(language)
 		for stage in ["B3_A", "B3_B", "BF", "C3", "C4", "CF", "D0_A", "D1", "DF", "D4", "F0_A", "F0_B", "F0_C", "F0_D", "F0_E"]:
@@ -115,6 +116,50 @@ func _validate_segments() -> void:
 		var reloaded := StateSnapshotValidator.new().normalize(JSON.parse_string(JSON.stringify(state)))
 		_expect(reloaded == state, "numeric public variables keep their frozen JSON representation across reload")
 		_expect(CONTENT.render_entry(reloaded.meta_progress.dialogue_history.entries[0], "en-US").entry.segments[0].text == "Front {back} 2", "integer placeholder preserves display formatting after reload")
+	CONTENT._contents.erase(id)
+
+
+func _validate_enums() -> void:
+	var id := "TEST_NOTEBOOK_ENUM"
+	var row := CONTENT.definition("NB_HINT_B3_A_H1", 1)
+	row.visible_segment_ids = ["body"]
+	row.localization_keys = {"body": "TEST_ENUM_BODY"}
+	row.variables = {"body": {"phase": "enum:phase"}}
+	row.enums = {"phase": {"ko-KR": {"a": "첫 위상", "b": "{phase}"}, "en-US": {"a": "First Phase", "b": "{phase}"}}}
+	row.locales["ko-KR"].body = "현재 {phase}"
+	row.locales["en-US"].body = "Current {phase}"
+	_expect(CONTENT._valid_row(row), "closed bilingual enum is a valid declared variable type")
+	CONTENT._contents[id] = {"1": row}
+	var descriptor := CONTENT.descriptor(id, 1, {"body": {"phase": "a"}})
+	var observed := CONTENT.observe(descriptor, _context("B3_A"), "주인공", "현재 첫 위상", "ko-KR")
+	_expect(observed.ok, "enum stores a stable public token instead of translated text")
+	if observed.ok:
+		var archive := ARCHIVE.create()
+		archive = ARCHIVE.append_observation(archive, observed.observation, 0).archive
+		var original := archive.duplicate(true)
+		var entry: Dictionary = archive.entries[0]
+		_expect(entry.observation.segments[0].safe_variables == {"phase": "a"}, "enum saves only declared token")
+		_expect(CONTENT.render_entry(entry, "en-US").entry.segments[0].text == "Current First Phase" and archive == original, "enum replay localizes without changing source")
+		entry.observation.content_version = 999
+		var fallback := CONTENT.render_entry(entry, "en-US")
+		_expect(fallback.ok and fallback.entry.fallback and fallback.entry.segments[0].text == "현재 첫 위상", "missing enum version preserves the full captured original")
+	for value in ["missing", "첫 위상", 1, {"hidden": true}]:
+		descriptor.segments.body.phase = value
+		_expect(not CONTENT.observe(descriptor, _context("B3_A"), "주인공", "현재 첫 위상", "ko-KR").ok, "undeclared enum token or non-string rejected")
+	descriptor.segments.body = {"phase": "b"}
+	_expect(CONTENT.observe(descriptor, _context("B3_A"), "Protagonist", "Current {phase}", "en-US").ok, "localized enum labels are not recursively interpreted as templates")
+	var broken := row.duplicate(true)
+	broken.enums.phase["en-US"].erase("b")
+	_expect(not CONTENT._valid_row(broken), "different language token sets are rejected")
+	broken = row.duplicate(true)
+	broken.enums.phase["en-US"].a = 9
+	_expect(not CONTENT._valid_row(broken), "non-string enum translation is rejected")
+	broken = row.duplicate(true)
+	broken.variables.body.phase = "enum:absent"
+	_expect(not CONTENT._valid_row(broken), "undefined enum type is rejected")
+	broken = row.duplicate(true)
+	broken.enums = []
+	_expect(not CONTENT._valid_row(broken), "malformed enum container is rejected")
 	CONTENT._contents.erase(id)
 
 

@@ -1,7 +1,7 @@
 extends RefCounted
 
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
-const CATALOGS := ["res://data/notebook/hints_v1.json", "res://data/notebook/prologue_v1.json", "res://data/notebook/prologue_notes_v1.json", "res://data/notebook/chapter_one_v1.json", "res://data/notebook/chapter_one_notes_v1.json", "res://data/notebook/modals_v1.json", "res://data/notebook/mirror_v1.json", "res://data/notebook/basement_v1.json", "res://data/notebook/fracture_v1.json", "res://data/notebook/fracture_surfaces_v1.json", "res://data/notebook/mara1_v1.json", "res://data/notebook/iris_v1.json"]
+const CATALOGS := ["res://data/notebook/hints_v1.json", "res://data/notebook/prologue_v1.json", "res://data/notebook/prologue_notes_v1.json", "res://data/notebook/chapter_one_v1.json", "res://data/notebook/chapter_one_notes_v1.json", "res://data/notebook/modals_v1.json", "res://data/notebook/mirror_v1.json", "res://data/notebook/basement_v1.json", "res://data/notebook/fracture_v1.json", "res://data/notebook/fracture_surfaces_v1.json", "res://data/notebook/mara1_v1.json", "res://data/notebook/iris_v1.json", "res://data/notebook/luca_v1.json"]
 const ALIASES := {"BF": "B3_B", "CF": "C4", "DF": "D1"}
 const TYPES := {"string": TYPE_STRING, "int": TYPE_INT, "float": TYPE_FLOAT, "bool": TYPE_BOOL}
 static var _contents: Dictionary = {}
@@ -53,9 +53,9 @@ static func observe(descriptor: Dictionary, context: Dictionary, speaker: String
 	for id in row.visible_segment_ids:
 		if not descriptor.segments.has(id): continue
 		var variables: Variant = descriptor.segments[id]
-		if not _variables_match(row.variables[id], variables): return _error("NB_CONTENT_VARIABLES")
+		if not _variables_match(row.variables[id], variables, row.get("enums", {})): return _error("NB_CONTENT_VARIABLES")
 		var serialized := _serialized_variables(variables)
-		var body := _substitute(row.locales[language][id], serialized, row.variables[id])
+		var body := _substitute(row.locales[language][id], serialized, row.variables[id], row.get("enums", {}), language)
 		segments.append({"segment_id": id, "disclosure": disclosure, "localization_key": row.localization_keys[id], "safe_variables": serialized, "captured_text": body, "viewed_locale": language})
 		paragraphs.append(body)
 	if segments.is_empty() or segments.size() != descriptor.segments.size(): return _error("NB_CONTENT_SEGMENT")
@@ -86,10 +86,10 @@ static func render_entry(entry: Dictionary, locale: String) -> Dictionary:
 		var body: String = segment.captured_text
 		var fallback: bool = not available
 		if not row.is_empty():
-			if id not in row.visible_segment_ids or row.localization_keys[id] != segment.localization_key or not _variables_match(row.variables[id], segment.safe_variables):
+			if id not in row.visible_segment_ids or row.localization_keys[id] != segment.localization_key or not _variables_match(row.variables[id], segment.safe_variables, row.get("enums", {})):
 				return _error("NB_CONTENT_SEGMENT_IDENTITY")
 		if available:
-			body = _substitute(row.locales[language][id], segment.safe_variables, row.variables[id])
+			body = _substitute(row.locales[language][id], segment.safe_variables, row.variables[id], row.get("enums", {}), language)
 		used_fallback = used_fallback or fallback
 		rendered.append({"segment_id": id, "text": body, "fallback": fallback, "viewed_locale": segment.viewed_locale})
 		paragraphs.append(body)
@@ -136,6 +136,7 @@ static func _load() -> void:
 
 static func _valid_row(row: Variant) -> bool:
 	if not row is Dictionary: return false
+	if not _valid_enums(row.get("enums", {})): return false
 	for field in ["producer_id", "source_file", "source_symbol", "event_id", "action_or_variant", "speaker_id", "location_source", "entry_kind", "disclosure_owner", "mapping_status", "owner"]:
 		if not row.get(field) is String or row[field].is_empty(): return false
 	if row.mapping_status != "AUTHORED_ID" or row.entry_kind not in ARCHIVE.KINDS: return false
@@ -157,18 +158,38 @@ static func _valid_row(row: Variant) -> bool:
 			if not row.locales[locale].get(segment) is String or row.locales[locale][segment].is_empty(): return false
 			var specs: Dictionary = row.variables[segment]
 			for key in specs:
-				if not key is String or specs[key] not in TYPES: return false
+				if not key is String or not specs[key] is String: return false
+				if specs[key] not in TYPES and (not specs[key].begins_with("enum:") or not row.get("enums", {}).has(specs[key].trim_prefix("enum:"))): return false
 			var expected := specs.keys()
 			expected.sort()
 			if _placeholders(row.locales[locale][segment]) != expected: return false
 	return true
 
 
-static func _variables_match(specs: Dictionary, values: Variant) -> bool:
+static func _valid_enums(enums: Variant) -> bool:
+	if not enums is Dictionary: return false
+	for name in enums:
+		if not name is String or name.is_empty() or not enums[name] is Dictionary or enums[name].size() != 2: return false
+		var translations: Dictionary = enums[name]
+		for locale in ["ko-KR", "en-US"]:
+			if not translations.get(locale) is Dictionary or translations[locale].is_empty(): return false
+			for token in translations[locale]:
+				if not token is String or token.is_empty() or not translations[locale][token] is String or translations[locale][token].is_empty(): return false
+		var ko: Array = translations["ko-KR"].keys()
+		var en: Array = translations["en-US"].keys()
+		ko.sort()
+		en.sort()
+		if ko != en: return false
+	return true
+
+
+static func _variables_match(specs: Dictionary, values: Variant, enums: Dictionary = {}) -> bool:
 	if not values is Dictionary or values.size() != specs.size(): return false
 	for key in specs:
 		if not values.has(key): return false
-		if specs[key] == "int":
+		if String(specs[key]).begins_with("enum:"):
+			if not values[key] is String or not enums.get(String(specs[key]).trim_prefix("enum:"), {}).get("ko-KR", {}).has(values[key]): return false
+		elif specs[key] == "int":
 			if not _integer(values[key]): return false
 		elif typeof(values[key]) != TYPES[specs[key]]: return false
 		if values[key] is float and not is_finite(values[key]): return false
@@ -193,7 +214,7 @@ static func _serialized_variables(variables: Dictionary) -> Dictionary:
 	return result
 
 
-static func _substitute(template: String, variables: Dictionary, specs: Dictionary) -> String:
+static func _substitute(template: String, variables: Dictionary, specs: Dictionary, enums: Dictionary = {}, locale: String = "ko-KR") -> String:
 	# A callback-like single pass prevents variable values from becoming new templates.
 	var regex := RegEx.new()
 	regex.compile("\\{([A-Za-z][A-Za-z0-9_]*)\\}")
@@ -202,6 +223,8 @@ static func _substitute(template: String, variables: Dictionary, specs: Dictiona
 	for found in regex.search_all(template):
 		var key := found.get_string(1)
 		var value: Variant = int(variables[key]) if specs[key] == "int" else variables[key]
+		if String(specs[key]).begins_with("enum:"):
+			value = enums[String(specs[key]).trim_prefix("enum:")][locale][variables[key]]
 		result += template.substr(offset, found.get_start() - offset) + str(value)
 		offset = found.get_end()
 	return result + template.substr(offset)

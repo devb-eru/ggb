@@ -1,0 +1,1483 @@
+{
+	"contents": {
+		"NB_LUCA_CONFESS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "I agreed to cryogenic preservation... I believed we could save you. I didn't know you would remain connected this long while the decision kept being delayed.",
+						"line_02": "I spoke around the risks because I feared you would leave... Keeping you alive and delaying your decision were not the same thing.",
+						"line_03": "Your body outside is alive. I cannot guarantee safety after waking. This time... please choose the order in which you learn the risks.",
+						"speaker": "Protagonist",
+						"summary": "Luca's Account",
+						"title": "Luca's Account"
+					},
+					"ko-KR": {
+						"line_01": "냉각 보존에는 동의했어요... 살릴 수 있다고 믿었어요. 이렇게 오래 접속시키고 결정을 미루게 될 줄은 몰랐어요.",
+						"line_02": "위험을 말하면 아가씨가 떠날까 봐... 돌려 말했어요. 살려 둔 것과 결정을 미룬 건 같은 일이 아닌데요.",
+						"line_03": "바깥 몸은 살아 있어요. 깨어난 뒤의 안전은 보장할 수 없어요. 이번엔... 어떤 순서로 확인할지 아가씨가 정해 주세요.",
+						"speaker": "주인공",
+						"summary": "루카의 이야기",
+						"title": "루카의 이야기"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFESS:line_01",
+					"line_02": "CONFESS:line_02",
+					"line_03": "CONFESS:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "CONFESS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_LUCA_CYCLE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {
+					"phase": {
+						"en-US": {
+							"aux_1": "Auxiliary Response 1",
+							"main_1": "Main Pulse 1",
+							"main_2": "Main Pulse 2",
+							"safety": "Safety Valve Check",
+							"unassigned": "Unassigned"
+						},
+						"ko-KR": {
+							"aux_1": "보조관 응답 1",
+							"main_1": "주관 맥박 1",
+							"main_2": "주관 맥박 2",
+							"safety": "안전 밸브 확인",
+							"unassigned": "미배치"
+						}
+					}
+				},
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "{slot_0} -> {slot_1} -> {slot_2} -> {slot_3}",
+						"speaker": "Protagonist",
+						"summary": "Reviewing the Arranged Cycle",
+						"title": "Reviewing the Arranged Cycle"
+					},
+					"ko-KR": {
+						"line_01": "{slot_0} → {slot_1} → {slot_2} → {slot_3}",
+						"speaker": "주인공",
+						"summary": "배치한 주기 확인",
+						"title": "배치한 주기 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CYCLE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "CYCLE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {
+						"slot_0": "enum:phase",
+						"slot_1": "enum:phase",
+						"slot_2": "enum:phase",
+						"slot_3": "enum:phase"
+					}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_LOG_APPROVAL": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "Awakening safety decision: Requires joint approval from environmental and operations leads. Stable vital signs and approval to awaken are separate.",
+						"speaker": "Protagonist",
+						"summary": "Joint Approval for Awakening",
+						"title": "Joint Approval for Awakening"
+					},
+					"ko-KR": {
+						"line_01": "기상 안전 판정: 환경 담당과 운영 책임자의 공동 승인 필요. 생존 신호 유지와 기상 안전 승인은 서로 다르다.",
+						"speaker": "주인공",
+						"summary": "기상 공동 승인",
+						"title": "기상 공동 승인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_APPROVAL:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "LOG_APPROVAL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_LOG_BLANK": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "Joint approval criteria after Father's death: Blank. Final release date: Blank. Reason for extension: Awaiting safety confirmation. The same sentence repeats.",
+						"speaker": "Protagonist",
+						"summary": "Missing Awakening Criteria",
+						"title": "Missing Awakening Criteria"
+					},
+					"ko-KR": {
+						"line_01": "아버지 사후 공동 승인 기준: 공란. 최종 해제 날짜: 공란. 연장 사유: 안전 확인 대기. 같은 문장이 반복되어 있다.",
+						"speaker": "주인공",
+						"summary": "비어 있는 기상 기준",
+						"title": "비어 있는 기상 기준"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_BLANK:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "LOG_BLANK",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_LOG_PRESERVATION": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "Cooling purpose: Preserve the body until the toxic atmosphere and radiation risk from the collapse diminish.",
+						"speaker": "Protagonist",
+						"summary": "The Purpose of Cooling",
+						"title": "The Purpose of Cooling"
+					},
+					"ko-KR": {
+						"line_01": "냉각 유지 목적: 멸망기의 독성 대기와 방사선 위험이 낮아질 때까지 신체를 보존한다.",
+						"speaker": "주인공",
+						"summary": "냉각 유지 목적",
+						"title": "냉각 유지 목적"
+					}
+				},
+				"localization_keys": {
+					"line_01": "LOG_PRESERVATION:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "LOG_PRESERVATION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_MATCH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "I compare the current avatar's signal with the external body. Two main pulses, then an auxiliary response, and finally a safety-valve check.",
+						"speaker": "Protagonist",
+						"summary": "Signals from Avatar and External Body",
+						"title": "Signals from Avatar and External Body"
+					},
+					"ko-KR": {
+						"line_01": "현재 아바타와 외부 신체의 신호를 대조한다. 두 번의 주관 맥박 뒤에 보조관 응답, 마지막은 안전 밸브 확인이다.",
+						"speaker": "주인공",
+						"summary": "아바타와 외부 신체의 신호",
+						"title": "아바타와 외부 신체의 신호"
+					}
+				},
+				"localization_keys": {
+					"line_01": "MATCH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "MATCH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_PANEL": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "A metallic taste reaches my tongue. The pulse in my wrist and the pipes slips once. The strong paired pulse is BIO MAIN; the dotted response is AUX. The decorative knot has no pulse.",
+						"speaker": "Protagonist",
+						"summary": "Pulses in My Wrist and the Pipes",
+						"title": "Pulses in My Wrist and the Pipes"
+					},
+					"ko-KR": {
+						"line_01": "혀끝에 금속 맛이 돈다. 손목과 배관의 맥박이 한 번 어긋난다. 굵은 이중 맥박은 BIO MAIN, 점선 응답은 AUX다. 장식 매듭에는 맥박이 없다.",
+						"speaker": "주인공",
+						"summary": "손목과 배관의 맥박",
+						"title": "손목과 배관의 맥박"
+					}
+				},
+				"localization_keys": {
+					"line_01": "PANEL:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "PANEL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_PANEL_S2": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "What I called cold earlier wasn't my hand. It was the signal from outside.",
+						"speaker": "Protagonist",
+						"summary": "What the Cold Signal Meant",
+						"title": "What the Cold Signal Meant"
+					},
+					"ko-KR": {
+						"line_01": "아까 차갑다고 한 건 손이 아니라 바깥쪽 신호였어요.",
+						"speaker": "주인공",
+						"summary": "차갑다는 말의 대상",
+						"title": "차갑다는 말의 대상"
+					}
+				},
+				"localization_keys": {
+					"line_01": "PANEL_S2:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "PANEL_S2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_PIPE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "I compare the selected pipes at the diagnostic panel.",
+						"speaker": "Protagonist",
+						"summary": "Comparing Pipes at the Diagnostic Panel",
+						"title": "Comparing Pipes at the Diagnostic Panel"
+					},
+					"ko-KR": {
+						"line_01": "선택한 관을 진단 패널에서 대조한다.",
+						"speaker": "주인공",
+						"summary": "진단 패널의 관 대조",
+						"title": "진단 패널의 관 대조"
+					}
+				},
+				"localization_keys": {
+					"line_01": "PIPE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "PIPE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_RECORD": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "REC_LUCA",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "The Protagonist's external body was cryogenically preserved until the collapse-era toxic atmosphere and radiation risks diminished. Luca agreed to preservation but did not anticipate prolonged confinement in the simulation. After Father's death, neither awakening criteria nor a final release date was established. The servants repeatedly deferred awakening in the name of safety. Vital signs remain stable, but atmospheric, radiation, and neurological risks mean reality cannot be guaranteed safe.",
+						"speaker": "Notebook",
+						"summary": "Luca's Research Record",
+						"title": "Luca's Research Record"
+					},
+					"ko-KR": {
+						"body": "주인공의 외부 신체는 멸망기의 독성 대기·방사선 위험이 낮아질 때까지 냉각 보존되었다. 루카는 보존에 동의했지만 장기 시뮬레이션 감금은 예상하지 못했다. 아버지 사후 기상 기준과 최종 해제 날짜가 확정되지 않았다. 사용인들은 안전을 이유로 각성 결정을 반복 유예했다. 현재 생존 신호는 유지되지만 외부 대기·방사선·신경계 위험이 남아 현실의 안전은 보장할 수 없다.",
+						"speaker": "수첩",
+						"summary": "루카의 연구 기록",
+						"title": "루카의 연구 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "RECORD:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"relationship_record"
+				],
+				"source_content_ids": [
+					"NB_LUCA_CONFESS",
+					"NB_LUCA_MATCH",
+					"NB_LUCA_RUN_SUCCESS",
+					"NB_MODAL_LUCA_SELECT_1",
+					"NB_MODAL_LUCA_SELECT_2",
+					"NB_LUCA_LOG_PRESERVATION",
+					"NB_LUCA_SCREEN_LOG_PRESERVATION",
+					"NB_LUCA_LOG_APPROVAL",
+					"NB_LUCA_SCREEN_LOG_APPROVAL",
+					"NB_LUCA_LOG_BLANK",
+					"NB_LUCA_SCREEN_LOG_BLANK"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_knowledge_ids": [
+					"FRACTURE_REPORT"
+				],
+				"source_symbol": "RECORD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_RISK": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "Atmospheric toxicity, radiation, and neurological risks after prolonged cooling remain. The safety decision is not final.",
+						"speaker": "Protagonist",
+						"summary": "Remaining Awakening Risks",
+						"title": "Remaining Awakening Risks"
+					},
+					"ko-KR": {
+						"line_01": "대기 독성·방사선·장기 냉각 이후 신경계 위험은 남아 있어요. 안전 판정은 확정되지 않았어요.",
+						"speaker": "주인공",
+						"summary": "남아 있는 기상 위험",
+						"title": "남아 있는 기상 위험"
+					}
+				},
+				"localization_keys": {
+					"line_01": "RISK:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "RISK",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_RUN_FAILURE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "The safety valve opens and pressure returns to zero. Vital signs remain stable. I can rearrange the same step.",
+						"speaker": "Protagonist",
+						"summary": "Pressure Released by the Safety Valve",
+						"title": "Pressure Released by the Safety Valve"
+					},
+					"ko-KR": {
+						"line_01": "안전 밸브가 열려 압력이 0으로 돌아간다. 생존 신호는 유지된다. 같은 단계에서 다시 배치할 수 있다.",
+						"speaker": "주인공",
+						"summary": "안전 밸브의 압력 복귀",
+						"title": "안전 밸브의 압력 복귀"
+					}
+				},
+				"localization_keys": {
+					"line_01": "RUN_FAILURE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "RUN_FAILURE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_RUN_SUCCESS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "The cycle matches. I check the safety valve and release the record lock.",
+						"speaker": "Protagonist",
+						"summary": "The Stable Cycle and Record Lock",
+						"title": "The Stable Cycle and Record Lock"
+					},
+					"ko-KR": {
+						"line_01": "주기가 맞았다. 안전 밸브를 확인하고 기록 잠금을 해제한다.",
+						"speaker": "주인공",
+						"summary": "안정된 주기와 기록 잠금",
+						"title": "안정된 주기와 기록 잠금"
+					}
+				},
+				"localization_keys": {
+					"line_01": "RUN_SUCCESS:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "RUN_SUCCESS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_SCREEN_COMPLETE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Current vital signs are stable. The safety of awakening remains unconfirmed.\nREC_LUCA can be reviewed in the notebook.",
+						"speaker": "Scene",
+						"summary": "Luca's Preserved Record",
+						"title": "Luca's Preserved Record"
+					},
+					"ko-KR": {
+						"body": "현재 생존 신호는 유지된다. 기상 안전은 확정되지 않았다.\n수첩에서 REC_LUCA를 다시 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "보존된 루카의 기록",
+						"title": "보존된 루카의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_COMPLETE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "SCREEN_COMPLETE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SCREEN_CYCLE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Two Main Pulses -> Auxiliary Response -> Safety Valve\nThere is no time limit. The arranged cycle can be previewed at any time.",
+						"speaker": "Scene",
+						"summary": "Reviewing the Arranged Cycle",
+						"title": "Reviewing the Arranged Cycle"
+					},
+					"ko-KR": {
+						"body": "두 번의 주관 맥박 → 보조관 응답 → 안전 밸브\n시간 제한은 없다. 배치한 주기를 언제든 미리 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "배치한 주기 확인",
+						"title": "배치한 주기 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CYCLE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "SCREEN_CYCLE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SCREEN_ENTRY": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "The pipes beneath the counter pulse at almost the same rhythm as my wrist.\nLuca opens the door. 'This time... we'll start with your readings.'",
+						"speaker": "Scene",
+						"summary": "Life-Support Signals Beneath the Kitchen",
+						"title": "Life-Support Signals Beneath the Kitchen"
+					},
+					"ko-KR": {
+						"body": "조리대 아래의 배관이 손목과 비슷한 주기로 뛴다.\n루카가 문을 연다. '이번에는... 아가씨 기준부터 볼게요.'",
+						"speaker": "장면",
+						"summary": "주방 아래 생명 유지 신호",
+						"title": "주방 아래 생명 유지 신호"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ENTRY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "SCREEN_ENTRY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SCREEN_LOG_APPROVAL": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Awakening safety decision: Requires joint approval from environmental and operations leads. Stable vital signs and approval to awaken are separate.",
+						"speaker": "Scene",
+						"summary": "Joint Approval for Awakening",
+						"title": "Joint Approval for Awakening"
+					},
+					"ko-KR": {
+						"body": "기상 안전 판정: 환경 담당과 운영 책임자의 공동 승인 필요. 생존 신호 유지와 기상 안전 승인은 서로 다르다.",
+						"speaker": "장면",
+						"summary": "기상 공동 승인",
+						"title": "기상 공동 승인"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_APPROVAL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "SCREEN_LOG_APPROVAL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SCREEN_LOG_BLANK": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Joint approval criteria after Father's death: Blank. Final release date: Blank. Reason for extension: Awaiting safety confirmation. The same sentence repeats.",
+						"speaker": "Scene",
+						"summary": "Missing Awakening Criteria",
+						"title": "Missing Awakening Criteria"
+					},
+					"ko-KR": {
+						"body": "아버지 사후 공동 승인 기준: 공란. 최종 해제 날짜: 공란. 연장 사유: 안전 확인 대기. 같은 문장이 반복되어 있다.",
+						"speaker": "장면",
+						"summary": "비어 있는 기상 기준",
+						"title": "비어 있는 기상 기준"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_BLANK:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "SCREEN_LOG_BLANK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SCREEN_LOG_PRESERVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Cooling purpose: Preserve the body until the toxic atmosphere and radiation risk from the collapse diminish.",
+						"speaker": "Scene",
+						"summary": "The Purpose of Cooling",
+						"title": "The Purpose of Cooling"
+					},
+					"ko-KR": {
+						"body": "냉각 유지 목적: 멸망기의 독성 대기와 방사선 위험이 낮아질 때까지 신체를 보존한다.",
+						"speaker": "장면",
+						"summary": "냉각 유지 목적",
+						"title": "냉각 유지 목적"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_LOG_PRESERVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "SCREEN_LOG_PRESERVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SCREEN_PIPE_AUX": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "AUX · One Dotted Response",
+						"speaker": "Scene",
+						"summary": "The Auxiliary Pipe's Response",
+						"title": "The Auxiliary Pipe's Response"
+					},
+					"ko-KR": {
+						"body": "AUX · 점선 한 번 응답",
+						"speaker": "장면",
+						"summary": "보조관의 응답",
+						"title": "보조관의 응답"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_PIPE_AUX:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "SCREEN_PIPE_AUX",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SCREEN_PIPE_DECORATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Decorative Knot · No Pulse",
+						"speaker": "Scene",
+						"summary": "The Decorative Pipe Without a Pulse",
+						"title": "The Decorative Pipe Without a Pulse"
+					},
+					"ko-KR": {
+						"body": "장식 매듭 · 맥박 없음",
+						"speaker": "장면",
+						"summary": "맥박 없는 장식관",
+						"title": "맥박 없는 장식관"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_PIPE_DECORATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "SCREEN_PIPE_DECORATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SCREEN_PIPE_MAIN": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "BIO MAIN · Strong Paired Pulse",
+						"speaker": "Scene",
+						"summary": "The Main Pipe's Paired Pulse",
+						"title": "The Main Pipe's Paired Pulse"
+					},
+					"ko-KR": {
+						"body": "BIO MAIN · 굵은 이중 맥박",
+						"speaker": "장면",
+						"summary": "주관의 이중 맥박",
+						"title": "주관의 이중 맥박"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_PIPE_MAIN:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "SCREEN_PIPE_MAIN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SLOT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "I place the valve phase. The test can be previewed at any time.",
+						"speaker": "Protagonist",
+						"summary": "Assigning a Valve Phase",
+						"title": "Assigning a Valve Phase"
+					},
+					"ko-KR": {
+						"line_01": "밸브의 위상을 놓는다. 시험은 언제든 미리 재생할 수 있다.",
+						"speaker": "주인공",
+						"summary": "밸브 위상 배치",
+						"title": "밸브 위상 배치"
+					}
+				},
+				"localization_keys": {
+					"line_01": "SLOT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "SLOT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_SLOT_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_LUCA_SLOT_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_LUCA_SLOT_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_LUCA_SLOT_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_LUCA_SLOT_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_LUCA_SLOT_SELECT_4",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Match the order, not the timing. The full cycle can be previewed.",
+						"header": "Valve Phase",
+						"option_0": "Do Not Assign Yet",
+						"option_1": "Main Pulse 1",
+						"option_2": "Main Pulse 2",
+						"option_3": "Auxiliary Response 1",
+						"option_4": "Safety Valve Check",
+						"speaker": "Displayed choices",
+						"summary": "Choosing a Valve Phase",
+						"title": "Choosing a Valve Phase"
+					},
+					"ko-KR": {
+						"body": "시간이 아니라 순서를 맞춘다. 전체 주기는 미리 확인할 수 있다.",
+						"header": "밸브 위상",
+						"option_0": "아직 배치하지 않는다",
+						"option_1": "주관 맥박 1",
+						"option_2": "주관 맥박 2",
+						"option_3": "보조관 응답 1",
+						"option_4": "안전 밸브 확인",
+						"speaker": "표시된 선택지",
+						"summary": "밸브 위상 선택",
+						"title": "밸브 위상 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_luca_slot:body",
+					"header": "_show_luca_slot:header",
+					"option_0": "_show_luca_slot:option_0",
+					"option_1": "_show_luca_slot:option_1",
+					"option_2": "_show_luca_slot:option_2",
+					"option_3": "_show_luca_slot:option_3",
+					"option_4": "_show_luca_slot:option_4"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_luca_slot",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4"
+				]
+			}
+		},
+		"NB_LUCA_SLOT_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_cancelled",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Do Not Assign Yet",
+						"speaker": "Selected option",
+						"summary": "Choosing a Valve Phase",
+						"title": "Choosing a Valve Phase"
+					},
+					"ko-KR": {
+						"body": "아직 배치하지 않는다",
+						"speaker": "선택한 문구",
+						"summary": "밸브 위상 선택",
+						"title": "밸브 위상 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_luca_slot:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_luca_slot",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SLOT_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Main Pulse 1",
+						"speaker": "Selected option",
+						"summary": "Choosing a Valve Phase",
+						"title": "Choosing a Valve Phase"
+					},
+					"ko-KR": {
+						"body": "주관 맥박 1",
+						"speaker": "선택한 문구",
+						"summary": "밸브 위상 선택",
+						"title": "밸브 위상 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_luca_slot:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_luca_slot",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SLOT_SELECT_2": {
+			"1": {
+				"action_or_variant": "option_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Main Pulse 2",
+						"speaker": "Selected option",
+						"summary": "Choosing a Valve Phase",
+						"title": "Choosing a Valve Phase"
+					},
+					"ko-KR": {
+						"body": "주관 맥박 2",
+						"speaker": "선택한 문구",
+						"summary": "밸브 위상 선택",
+						"title": "밸브 위상 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_luca_slot:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_luca_slot",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SLOT_SELECT_3": {
+			"1": {
+				"action_or_variant": "option_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Auxiliary Response 1",
+						"speaker": "Selected option",
+						"summary": "Choosing a Valve Phase",
+						"title": "Choosing a Valve Phase"
+					},
+					"ko-KR": {
+						"body": "보조관 응답 1",
+						"speaker": "선택한 문구",
+						"summary": "밸브 위상 선택",
+						"title": "밸브 위상 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_luca_slot:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_luca_slot",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SLOT_SELECT_4": {
+			"1": {
+				"action_or_variant": "option_4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Safety Valve Check",
+						"speaker": "Selected option",
+						"summary": "Choosing a Valve Phase",
+						"title": "Choosing a Valve Phase"
+					},
+					"ko-KR": {
+						"body": "안전 밸브 확인",
+						"speaker": "선택한 문구",
+						"summary": "밸브 위상 선택",
+						"title": "밸브 위상 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "_show_luca_slot:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_show_luca_slot",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_STABLE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"line_01": "I check the safety valve and vital signs again. Current circulation remains stable.",
+						"speaker": "Protagonist",
+						"summary": "Circulation Maintained for Now",
+						"title": "Circulation Maintained for Now"
+					},
+					"ko-KR": {
+						"line_01": "안전 밸브와 생존 신호를 다시 확인한다. 현재 순환은 유지된다.",
+						"speaker": "주인공",
+						"summary": "현재 유지되는 순환",
+						"title": "현재 유지되는 순환"
+					}
+				},
+				"localization_keys": {
+					"line_01": "STABLE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "STABLE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_LUCA_STATUS_MATCH_SOURCES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "The decorative pipe without a pulse is not a diagnostic signal. Check the two biological signals again.",
+						"speaker": "Scene",
+						"summary": "Biological Signals to Check Again",
+						"title": "Biological Signals to Check Again"
+					},
+					"ko-KR": {
+						"body": "맥박이 없는 장식관은 진단 신호가 아니다. 두 생체 신호를 다시 확인한다.",
+						"speaker": "장면",
+						"summary": "다시 확인할 생체 신호",
+						"title": "다시 확인할 생체 신호"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_MATCH_SOURCES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_relationship.gd",
+				"source_symbol": "STATUS_MATCH_SOURCES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

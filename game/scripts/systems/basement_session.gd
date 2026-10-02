@@ -3,6 +3,7 @@ extends BlackMirrorSession
 
 const MARA1_NOTES := preload("res://scripts/systems/mara1_notebook.gd")
 const IRIS_NOTES := preload("res://scripts/systems/iris_notebook.gd")
+const LUCA_NOTES := preload("res://scripts/systems/luca_notebook.gd")
 
 const BASEMENT := preload("res://data/puzzles/puzzle_basement.tres")
 const BASEMENT_NOTES := preload("res://scripts/systems/basement_notebook.gd")
@@ -259,8 +260,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			var result: Dictionary = EDGAR_RELATIONSHIP.apply(snapshot(), action.trim_prefix("edgar_"), value)
 			return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "기록을 확인한다."))
 		if action.begins_with("luca_"):
-			var result: Dictionary = LUCA_RELATIONSHIP.apply(snapshot(), action.trim_prefix("luca_"), value)
-			return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "기록을 확인한다."))
+			return _luca_action(action.trim_prefix("luca_"), value)
 		if action.begins_with("iris_"):
 			return _iris_action(action.trim_prefix("iris_"), value)
 		if action.begins_with("mara1_"):
@@ -424,6 +424,23 @@ func act(action: String, value: Variant = null) -> Dictionary:
 
 func luca_s2_pending() -> bool:
 	return not known("LUCA_S2_complete") and not snapshot()["meta_progress"]["servants"]["luca"]["core_event_complete"]
+
+
+func _luca_action(action: String, value: Variant) -> Dictionary:
+	var result := LUCA_RELATIONSHIP.apply(snapshot(), action, value)
+	if not result.ok:
+		var rejected := _reject(result.get("text", "기록을 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = LUCA_NOTES.PREFIX + "STATUS_" + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	if action == "choose":
+		var written := LUCA_NOTES.write(result.state, context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, LUCA_NOTES.paragraphs(result.feedback_keys, result.cycle_values))
 
 
 func _iris_action(action: String, value: Variant) -> Dictionary:

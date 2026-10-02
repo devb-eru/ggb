@@ -172,6 +172,9 @@ Assert-GodotValidation -Result $notebookMara1Result -Name "Notebook Mara 1 evide
 $notebookIrisResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-iris-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookIrisResult -Name "Notebook Iris evidence and conditional disclosure" -RequiredMarker "NOTEBOOK_IRIS_SMOKE: PASS"
 
+$notebookLucaResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-luca-smoke", "--ggb-dev-notebook-v2")
+Assert-GodotValidation -Result $notebookLucaResult -Name "Notebook Luca evidence and frozen localized cycle" -RequiredMarker "NOTEBOOK_LUCA_SMOKE: PASS"
+
 $blackMirrorResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--black-mirror-smoke")
 Assert-GodotValidation -Result $blackMirrorResult -Name "Black mirror chapter smoke" -RequiredMarker "BLACK_MIRROR_SMOKE: PASS"
 Write-Host "Black mirror mixture, irreversible trace, reset, capture, and J3 validation passed."

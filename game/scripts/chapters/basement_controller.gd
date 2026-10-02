@@ -22,6 +22,7 @@ const FRACTURE_RESOLUTION_TEXTS := preload("res://scripts/ui/fracture_resolution
 const FRACTURE_SURFACE_TEXTS := preload("res://scripts/ui/fracture_surface_texts.gd")
 const MARA1_NOTES := preload("res://scripts/systems/mara1_notebook.gd")
 const IRIS_NOTES := preload("res://scripts/systems/iris_notebook.gd")
+const LUCA_NOTES := preload("res://scripts/systems/luca_notebook.gd")
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
@@ -863,7 +864,7 @@ func _build_luca_relationship() -> void:
 	_objective_label.text = "루카 · 생명 유지 장치와 유예된 기상"
 	if _current_room == "M1_KITCHEN":
 		_location_label.text = "주방"
-		_board_label("조리대 아래의 배관이 손목과 비슷한 주기로 뛴다.\n루카가 문을 연다. '이번에는... 아가씨 기준부터 볼게요.'", Rect2(300, 240, 1300, 220))
+		_luca_board("ENTRY", Rect2(300, 240, 1300, 220))
 		_action("LIFE_SUPPORT_ENTER", "생명 유지실로", Rect2(400, 530, 1100, 130), "move", "H0_LIFE_SUPPORT", false)
 		_replace_back("M1_CENTRAL_HALL", "중앙홀로")
 		return
@@ -871,17 +872,18 @@ func _build_luca_relationship() -> void:
 	var rules = BasementSession.LUCA_RELATIONSHIP
 	var local: Dictionary = rules.progress(session.snapshot())
 	if session.known("E3_3_complete"):
-		_board_label("현재 생존 신호는 유지된다. 기상 안전은 확정되지 않았다.\n수첩에서 REC_LUCA를 다시 확인할 수 있다.", Rect2(300, 260, 1300, 240))
+		_luca_board("COMPLETE", Rect2(300, 260, 1300, 240))
 	elif not local["panel"]:
 		_action("LUCA_PANEL", "배관의 맥박과 진단 패널 조사", Rect2(300, 300, 1300, 220), "luca_panel")
 	elif not local["matched"]:
 		for index in range(3):
 			var id: String = ["decoration", "main", "aux"][index]
-			var label: String = ["장식 매듭 · 맥박 없음", "BIO MAIN · 굵은 이중 맥박", "AUX · 점선 한 번 응답"][index]
+			var label: String = LUCA_NOTES.SCREEN["PIPE_" + id.to_upper()]
 			_action("LUCA_PIPE_" + id, label + (" · 연결 선택" if id in local["pipes"] else ""), Rect2(320, 240 + index * 135, 1300, 105), "luca_pipe", id)
+			_queue_notebook_content(LUCA_NOTES.PREFIX + "SCREEN_PIPE_" + id.to_upper(), _relationship_text(label))
 		_action("LUCA_MATCH", "선택한 두 관을 진단 패널에 연결", Rect2(320, 690, 1300, 100), "luca_match")
 	elif not local["stable"]:
-		_board_label("두 번의 주관 맥박 → 보조관 응답 → 안전 밸브\n시간 제한은 없다. 배치한 주기를 언제든 미리 확인할 수 있다.", Rect2(250, 140, 1420, 130))
+		_luca_board("CYCLE", Rect2(250, 140, 1420, 130))
 		for index in range(4):
 			var phase: String = local["slots"].get(str(index), "")
 			_add_hotspot("LUCA_SLOT_%d" % index, "슬롯 %d\n%s" % [index + 1, rules.PHASE_LABELS.get(phase, "미배치")], Rect2(260 + index * 360, 350, 320, 150), _show_luca_slot.bind(index))
@@ -891,20 +893,33 @@ func _build_luca_relationship() -> void:
 		for index in range(3):
 			var id: String = ["preservation", "approval", "blank"][index]
 			_action("LUCA_LOG_" + id, rules.LOGS[id] + (" · 확인함" if id in local["logs"] else ""), Rect2(300, 210 + index * 180, 1300, 140), "luca_log", id)
+			_queue_notebook_content(LUCA_NOTES.PREFIX + "SCREEN_LOG_" + id.to_upper(), _relationship_text(rules.LOGS[id]))
 	else:
 		_action("LUCA_CONFESS", "루카의 이야기를 듣는다", Rect2(330, 270, 1250, 150), "luca_confess")
 		if local["confessed"]: _add_hotspot("LUCA_CHOICE", "위험 기록을 읽을 순서를 정한다", Rect2(330, 510, 1250, 150), _show_luca_choice)
 	_replace_back("M1_KITCHEN", "주방으로 · 진행 보존")
 
 
+func _luca_board(key: String, rect: Rect2) -> void:
+	var text := _relationship_text(LUCA_NOTES.SCREEN[key])
+	_board_label(text, rect)
+	_queue_notebook_content(LUCA_NOTES.PREFIX + "SCREEN_" + key, text)
+
+
 func _show_luca_slot(index: int) -> void:
-	var actions: Array = [{"label": "아직 배치하지 않는다", "action": _close_modal}]
-	for phase in BasementSession.LUCA_RELATIONSHIP.PHASES:
-		actions.append({"label": BasementSession.LUCA_RELATIONSHIP.PHASE_LABELS[phase], "action": _modal_act.bind("luca_slot", [index, phase])})
-	_show_relationship_modal("밸브 위상", "시간이 아니라 순서를 맞춘다. 전체 주기는 미리 확인할 수 있다.", actions)
+	if not _notebook_surface_allowed(): return
+	var actions: Array = [{"label": LUCA_NOTES.SLOT_LABELS[0], "action": _close_modal}]
+	for phase_index in range(BasementSession.LUCA_RELATIONSHIP.PHASES.size()):
+		var phase: String = BasementSession.LUCA_RELATIONSHIP.PHASES[phase_index]
+		actions.append({"label": LUCA_NOTES.SLOT_LABELS[phase_index + 1], "action": _modal_act.bind("luca_slot", [index, phase])})
+	if not _notebook_surface_enabled():
+		_show_relationship_modal(LUCA_NOTES.SLOT_TITLE, LUCA_NOTES.SLOT_BODY, actions)
+		return
+	_show_recorded_choice(_relationship_text(LUCA_NOTES.SLOT_TITLE), _relationship_text(LUCA_NOTES.SLOT_BODY), _relationship_actions(actions), LUCA_NOTES.slot_options())
 
 
 func _show_luca_choice() -> void:
+	if not _notebook_surface_allowed(): return
 	_show_relationship_choice("LUCA", "확인할 순서", "두 선택 모두 같은 위험 기록을 읽는다. 지금 생존한다는 사실이 기상 안전을 보장하지는 않는다.", [
 		{"label": "아직 결정하지 않는다", "action": _close_modal},
 		{"label": "위험 수치를 먼저 전부 읽는다", "action": _modal_act.bind("luca_choose", "full_disclosure")},
