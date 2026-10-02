@@ -284,11 +284,17 @@ NP15 `settlement_v1.json`은 E5/E6/EDGAR_S3/MARA2_FU의 등록분 75종이다. �
 
 이름을 적는 `e6_mara2:write`만 `MARA2_NAME` 원고·관계·후속 완료·호환 문자열·ledger를 원자 저장한다. 기존 REC_MARA2 revision과 실제 표시한 이름 보드/목록/선택만 추가 출처이며, 뒤의 응답은 선행 인용하지 않는다. `call/joke`나 기존 이름 플래그를 불러오는 동작은 새 이름 원고를 만들지 않는다. E6 진입 결과는 전환 전 문맥인 E6·3장에 남고 엔딩 결정은 실행하지 않는다. J4/최소 접근 원고는 이 등록분에 포함하지 않는다.
 
-`notebook_event_notes.gd`는 NP06~NP15 등록 원고의 후보 작성 공통 경로다. `source_knowledge_ids`는 현재 ledger의 획득 revision만 연결한다. 선택적인 `source_content_ids`는 현재 archive에서 해당 ID의 최신 authored 관찰과 그 항목에 이미 공개된 segment만 연결한다. 전체 카탈로그의 segment를 순회해 미열람 본문을 출처로 만들지 않는다. 정확한 버전/한국어 공급문을 확인한 뒤 현재 언어의 원고를 작성하며 실패 후보에서 원래 상태를 부분 변경하지 않는다. ledger의 `source_refs`에는 원고 자체의 `observation_ref`가 항상 포함되며, 추가 외부 출처가 없어도 그 자기 참조는 남는다.
+`notebook_event_notes.gd`는 NP06~NP15 등록 단일 `body` 원고의 후보 작성 공통 경로다. 다중 문단 원고를 첫 본문만으로 축약하지 않도록 `NB_EVENT_NOTE_COMPOSITION_REQUIRED`로 거절한다. `source_knowledge_ids`는 현재 ledger의 획득 revision만 연결한다. 선택적인 `source_content_ids`는 현재 archive에서 해당 ID의 최신 authored 관찰과 그 항목에 이미 공개된 segment만 연결한다. 전체 카탈로그의 segment를 순회해 미열람 본문을 출처로 만들지 않는다. 정확한 버전/한국어 공급문을 확인한 뒤 현재 언어의 원고를 작성하며 실패 후보에서 원래 상태를 부분 변경하지 않는다. ledger의 `source_refs`에는 원고 자체의 `observation_ref`가 항상 포함되며, 추가 외부 출처가 없어도 그 자기 참조는 남는다.
+
+J4는 `journal_four_notebook.gd`가 현재의 명시적인 획득 정보로 복합 원고를 구성한다. 원고 정의 `NB_J4_DOCUMENT`의 19개 문단 중 실제 포함한 문단만 하나의 observation으로 원자 저장한다. `observation_ref`는 첫 문단이며 모든 자기 문단을 `source_refs`에 포함해 보호한다. 다중 문단 acquire는 동일 언어/공개 방식, 선언된 순서·변수·표시문 전체의 재구성 일치를 검사한다. 동일 revision 재시도는 전체 observation과 전체 출처가 같아야 하며 공개 문단의 자기 참조 누락도 거부한다. ledger schema는 1, archive schema는 2로 유지하며 기존 단일 문단 자료도 유효하다.
+
+알려진 REC revision은 ID/버전과 저장 당시 원고가 일치할 때만 해당 동결 번역을 인용한다. 이 정보가 없는 이전 문자열은 카탈로그의 `original_only_segments`에 명시한 문단에서만 그대로 보존한다. 해당 문단의 변수는 `original_text: string` 하나이며 템플릿은 공백을 제외하면 `{original_text}`만 허용한다. 재열람은 `original_only`와 원문 안내를 제공하고 문자열 안의 중괄호를 다시 치환하지 않는다. 기존 기록의 획득 시점·언어·출처 ID를 추정하지 않으며 새로운 연구원 기록을 소급 발급하지 않는다. 본문 없는 획득 인덱스는 기존 인덱스만 보존한다.
+
+J4 전체 한국어 원고가 기존 게임 규칙의 출력과 정확히 같아야 저장할 수 있다. J4 기본/확장/전원 문단 조건은 기존 규칙대로 유지한다. 이 복원 원고 획득은 대화 문장 표시 증거가 아니며 J4 확인창/피드백·E3_4M 표시 ID 연결은 별도 후속이다. `CONTENT.presentation`은 검증된 descriptor의 표시문을 계산할 뿐 공개/획득/저장 상태를 변경하지 않는다.
 
 선택적인 `superseded_by_content_ids`는 같은 지식 카드의 최신 revision이 해당 후속 원고를 실제로 획득했을 때 하위 단계의 재작성을 생략한다. C1 가설을 C0 관찰로, 검증한 지하 도면을 처음 확보한 자료로 되돌리지 않는 명시적 규칙이다. 진행 플래그만으로 획득을 추정하지 않으며 반복 행동의 실제 대화 관찰은 생략하지 않는다. 원문/ledger 유효성 검사는 생략 판정보다 먼저 수행한다.
 
-ledger와 archive, 호환용 문자열, 사건 진행을 하나의 저장에 넣는다. 실패 후보는 공개하지 않으며 NP03은 대기 요청을 유지하고 NP06~NP15 등록 원고는 사용자 재시도에서 미공개 후보를 다시 만든다. 조회는 쓰기를 실행하지 않는다. 정상 리셋은 ledger/출처를 보존하며, 의미 갱신은 이전 원고를 덮어쓰지 않는다. JSON의 정수 표현은 archive와 ledger 참조를 함께 정규화하고 소수 순번은 거부한다. 미래 ledger schema는 checksum 이후 호환 불가로 반환하여 원본/백업을 덮어쓰지 않는다. 현재 공급 범위와 실행 근거는 [생산자 연결 현황](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)을 따른다. J4/J5·최소 코어 접근·코어/엔딩 원고와 새 카드 UI는 아직 후속 작업이다.
+ledger와 archive, 호환용 문자열, 사건 진행을 하나의 저장에 넣는다. 실패 후보는 공개하지 않으며 NP03은 대기 요청을 유지하고 NP06~NP15 등록 원고는 사용자 재시도에서 미공개 후보를 다시 만든다. 조회는 쓰기를 실행하지 않는다. 정상 리셋은 ledger/출처를 보존하며, 의미 갱신은 이전 원고를 덮어쓰지 않는다. JSON의 정수 표현은 archive와 ledger 참조를 함께 정규화하고 소수 순번은 거부한다. 미래 ledger schema는 checksum 이후 호환 불가로 반환하여 원본/백업을 덮어쓰지 않는다. 현재 공급 범위와 실행 근거는 [생산자 연결 현황](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)을 따른다. J4 확인/문장 표시·J5·최소 코어 접근·코어/엔딩 원고와 새 카드 UI는 아직 후속 작업이다.
 
 ### 7.2 초기 저장 지점
 

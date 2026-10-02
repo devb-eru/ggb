@@ -9,6 +9,8 @@ const ORDER := ["promise", "transition", "roles", "activation"]
 const PAGES := {"promise": "약속 · 미래의 삶을 약속한 날짜 조각", "transition": "전환 · 약속 뒤 생체 신경 코어와 인격 프로세스 결합", "roles": "역할 고정 · 전환된 연구원들이 저택의 관리자가 됨", "activation": "주인공 기동 · 역할이 고정된 뒤 사용인들이 의식을 강제로 깨움"}
 const BASE_TEXT := "나는 그들에게 미래의 삶을 약속했다.\n그 약속이 육체를 뜻하는지, 기억의 지속을 뜻하는지 끝까지 분명하게 말하지 않았다.\n\n그들은 집을 움직일 수 있다. 계절을 고치고, 심장을 유지하고, 문을 잠글 수 있다.\n하지만 집 밖으로 나가는 문과 누가 이 삶의 주인인지 정하는 권한은 주지 않았다.\n\n그들이 너를 깨운 것은 보호만도, 복수만도 아니었다. 너를 붙잡으면 내가 남긴 약속도 아직 끝나지 않았다고 믿을 수 있었기 때문이다."
 const LAST_TEXT := "마지막 문은 내가 열 수 없도록 남겨 두었다. 그것을 배려라고 부를 생각은 없다.\n너에게 선택권을 돌려준 것이 아니라, 내가 끝내 빼앗지 못한 한 조각이 남아 있었을 뿐이다.\n이번에는 누구도 네 대답을 대신 적어서는 안 된다."
+const INDEX_TEXT := "복원 인덱스: 사용인들은 연구원 인격이다. 저택의 관리 권한과 주인공 자신의 결정을 실행하는 권한은 서로 다르다."
+const FULL_TEXT := "마라 2는 다른 네 사람의 이름과 감정 주석을 자기 저장 영역에 나누어 보관했다. 공간이 모자랄 때마다 자기 이름의 확인 기록부터 비웠다. 나는 중단시킬 권한을 끝까지 나누지 않았다."
 
 static func summary(state: Dictionary) -> Dictionary:
 	var complete: Array = []
@@ -77,13 +79,13 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 					var full: bool = count == 5 and totals["core_complete_ids"].size() == 5
 					var variant := "J4_FULL" if full else ("J4_EXPANDED" if count >= 2 else "J4_BASE")
 					knowledge["j4_variant"] = variant
-					text = "복원 인덱스: 사용인들은 연구원 인격이다. 저택의 관리 권한과 주인공 자신의 결정을 실행하는 권한은 서로 다르다.\n\n" + BASE_TEXT
+					text = INDEX_TEXT + "\n\n" + BASE_TEXT
 					if count >= 2:
 						for index in range(5):
 							if meta["servants"][OWNERS[index]]["researcher_record_acquired"]:
 								var key: String = "REC_" + String(OWNERS[index]).to_upper()
 								text += "\n\n" + str(knowledge.get("chapter_notebook", {}).get(key, key + " · 획득한 기록 인덱스"))
-					if full: text += "\n\n마라 2는 다른 네 사람의 이름과 감정 주석을 자기 저장 영역에 나누어 보관했다. 공간이 모자랄 때마다 자기 이름의 확인 기록부터 비웠다. 나는 중단시킬 권한을 끝까지 나누지 않았다."
+					if full: text += "\n\n" + FULL_TEXT
 					text += "\n\n" + LAST_TEXT
 					meta["journal_stage"] = 4
 					if not meta["servants"]["edgar"]["core_event_complete"]:

@@ -10,6 +10,8 @@ static func write(state: Dictionary, content_id: String, source_text: String, co
 	if not archive.has("schema_version"): return {"ok": true}
 	var row := CONTENT.definition(content_id, 1)
 	if row.is_empty(): return {"ok": false, "error_ids": ["NB_EVENT_NOTE_UNMAPPED"]}
+	if row.visible_segment_ids != ["body"]:
+		return {"ok": false, "error_ids": ["NB_EVENT_NOTE_COMPOSITION_REQUIRED"]}
 	if row.locales["ko-KR"].body != source_text:
 		return {"ok": false, "error_ids": ["NB_EVENT_NOTE_SOURCE_MISMATCH"]}
 	var knowledge: Dictionary = state.meta_progress.knowledge_entries

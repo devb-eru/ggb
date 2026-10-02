@@ -1,7 +1,7 @@
 extends RefCounted
 
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
-const CATALOGS := ["res://data/notebook/hints_v1.json", "res://data/notebook/prologue_v1.json", "res://data/notebook/prologue_notes_v1.json", "res://data/notebook/chapter_one_v1.json", "res://data/notebook/chapter_one_notes_v1.json", "res://data/notebook/modals_v1.json", "res://data/notebook/mirror_v1.json", "res://data/notebook/basement_v1.json", "res://data/notebook/fracture_v1.json", "res://data/notebook/fracture_surfaces_v1.json", "res://data/notebook/mara1_v1.json", "res://data/notebook/iris_v1.json", "res://data/notebook/luca_v1.json", "res://data/notebook/edgar_v1.json", "res://data/notebook/mara2_v1.json", "res://data/notebook/settlement_v1.json"]
+const CATALOGS := ["res://data/notebook/hints_v1.json", "res://data/notebook/prologue_v1.json", "res://data/notebook/prologue_notes_v1.json", "res://data/notebook/chapter_one_v1.json", "res://data/notebook/chapter_one_notes_v1.json", "res://data/notebook/modals_v1.json", "res://data/notebook/mirror_v1.json", "res://data/notebook/basement_v1.json", "res://data/notebook/fracture_v1.json", "res://data/notebook/fracture_surfaces_v1.json", "res://data/notebook/mara1_v1.json", "res://data/notebook/iris_v1.json", "res://data/notebook/luca_v1.json", "res://data/notebook/edgar_v1.json", "res://data/notebook/mara2_v1.json", "res://data/notebook/settlement_v1.json", "res://data/notebook/journal_four_v1.json"]
 const ALIASES := {"BF": "B3_B", "CF": "C4", "DF": "D1"}
 const TYPES := {"string": TYPE_STRING, "int": TYPE_INT, "float": TYPE_FLOAT, "bool": TYPE_BOOL}
 static var _contents: Dictionary = {}
@@ -29,6 +29,26 @@ static func definition(id: String, version: int) -> Dictionary:
 static func diagnostics() -> Dictionary:
 	_load()
 	return {"ok": _errors.is_empty(), "error_ids": _errors.duplicate(), "content_ids": _contents.keys(), "authored_ids": _contents.size()}
+
+
+static func presentation(descriptor: Dictionary, locale: String) -> Dictionary:
+	if not descriptor.get("content_id") is String or not _integer(descriptor.get("content_version")) or not descriptor.get("segments") is Dictionary:
+		return _error("NB_CONTENT_DESCRIPTOR")
+	var row := definition(descriptor.content_id, int(descriptor.content_version))
+	var language := _locale(locale)
+	if row.is_empty() or not row.locales.has(language): return _error("NB_CONTENT_VERSION_UNAVAILABLE")
+	if descriptor.get("variant_id") != row.action_or_variant: return _error("NB_CONTENT_IDENTITY")
+	var paragraphs := PackedStringArray()
+	var segments: Array = []
+	for id in row.visible_segment_ids:
+		if not descriptor.segments.has(id): continue
+		var variables: Variant = descriptor.segments[id]
+		if not _variables_match(row.variables[id], variables, row.get("enums", {})): return _error("NB_CONTENT_VARIABLES")
+		var body := _substitute(row.locales[language][id], variables, row.variables[id], row.get("enums", {}), language)
+		paragraphs.append(body)
+		segments.append({"segment_id": id, "text": body})
+	if segments.is_empty() or segments.size() != descriptor.segments.size(): return _error("NB_CONTENT_SEGMENT")
+	return {"ok": true, "speaker": row.locales[language].speaker, "text": "\n".join(paragraphs), "segments": segments}
 
 
 static func observe(descriptor: Dictionary, context: Dictionary, speaker: String, text: String, locale: String, disclosure: String = "displayed") -> Dictionary:
@@ -81,6 +101,7 @@ static func render_entry(entry: Dictionary, locale: String) -> Dictionary:
 	var rendered: Array = []
 	var paragraphs := PackedStringArray()
 	var used_fallback := false
+	var used_original := false
 	for segment in observation.segments:
 		var id: String = segment.segment_id
 		var body: String = segment.captured_text
@@ -90,19 +111,23 @@ static func render_entry(entry: Dictionary, locale: String) -> Dictionary:
 				return _error("NB_CONTENT_SEGMENT_IDENTITY")
 		if available:
 			body = _substitute(row.locales[language][id], segment.safe_variables, row.variables[id], row.get("enums", {}), language)
+		var original_only: bool = id in row.get("original_only_segments", [])
+		used_original = used_original or original_only
 		used_fallback = used_fallback or fallback
-		rendered.append({"segment_id": id, "text": body, "fallback": fallback, "viewed_locale": segment.viewed_locale})
+		rendered.append({"segment_id": id, "text": body, "fallback": fallback or original_only, "viewed_locale": segment.viewed_locale, "original_only": original_only})
 		paragraphs.append(body)
 	var speaker: String = row.locales[language].speaker if available else ("당시 화자" if language == "ko-KR" else "Recorded speaker")
 	var title: String = row.locales[language].title if available else ("보관된 기록" if language == "ko-KR" else "Archived record")
 	var fallback_note := ""
 	if used_fallback:
 		fallback_note = "\n[당시 보관된 원문 · 번역할 내용 버전을 찾지 못했습니다.]" if language == "ko-KR" else "\n[Original recorded text; its translation version is unavailable.]"
+	if used_original:
+		fallback_note += "\n[일부 인용은 식별 정보가 없는 이전 원문 그대로 보존됩니다.]" if language == "ko-KR" else "\n[Some quotations preserve earlier original text without identifiable source metadata.]"
 	return {"ok": true, "entry": {
 		"entry_uid": entry.get("entry_uid", ""), "sequence": int(entry.get("sequence", -1)), "chapter_id": observation.chapter_id,
 		"line_id": observation.content_id, "content_version": int(observation.content_version), "speaker_id": observation.speaker_id,
 		"entry_kind": observation.entry_kind, "title": title, "text": speaker + ": " + "\n".join(paragraphs) + fallback_note, "segments": rendered,
-		"record_class": "authored", "fallback": used_fallback,
+		"record_class": "authored", "fallback": used_fallback or used_original,
 	}}
 
 
@@ -163,6 +188,15 @@ static func _valid_row(row: Variant) -> bool:
 			var expected := specs.keys()
 			expected.sort()
 			if _placeholders(row.locales[locale][segment]) != expected: return false
+	if row.has("original_only_segments"):
+		if not row.original_only_segments is Array: return false
+		var unique := {}
+		for segment in row.original_only_segments:
+			if not segment is String or segment not in row.visible_segment_ids or unique.has(segment): return false
+			if row.variables[segment] != {"original_text": "string"}: return false
+			for locale in ["ko-KR", "en-US"]:
+				if row.locales[locale][segment].strip_edges() != "{original_text}": return false
+			unique[segment] = true
 	return true
 
 

@@ -69,6 +69,12 @@ static func validate(value: Variant, archive: Dictionary) -> Dictionary:
 		var definition := CONTENT.definition(own.entry.observation.content_id, int(own.entry.observation.content_version))
 		if not definition.is_empty() and definition.get("knowledge") != value.revisions[index].metadata:
 			return _error("NB_KNOWLEDGE_IDENTITY")
+		var revision: Dictionary = value.revisions[index]
+		if revision.observation_ref.segment_id != own.entry.observation.segments[0].segment_id:
+			return _error("NB_KNOWLEDGE_OBSERVATION")
+		for segment in own.entry.observation.segments:
+			if ARCHIVE.make_reference(own.entry, segment.segment_id) not in revision.source_refs:
+				return _error("NB_KNOWLEDGE_SOURCE")
 	return {"ok": true}
 
 
@@ -79,21 +85,30 @@ static func acquire(ledger: Dictionary, archive: Dictionary, observation: Dictio
 	if not checked.ok: return checked
 	if not _uid(revision_uid): return _error("NB_KNOWLEDGE_REVISION")
 	var definition := CONTENT.definition(observation.content_id, int(observation.content_version))
-	if definition.is_empty() or not valid_metadata(definition.get("knowledge")) or observation.entry_kind != "document_segment" or observation.segments.size() != 1:
+	if definition.is_empty() or not valid_metadata(definition.get("knowledge")) or observation.entry_kind != "document_segment":
 		return _error("NB_KNOWLEDGE_DEFINITION")
 	checked = CONTENT.render_entry({"record_class": "authored", "observation": observation}, "ko-KR")
 	if not checked.ok: return checked
 	var segment: Dictionary = observation.segments[0]
 	if not definition.locales.has(segment.viewed_locale): return _error("NB_KNOWLEDGE_LOCALE")
-	var descriptor := CONTENT.descriptor(observation.content_id, int(observation.content_version), {segment.segment_id: segment.safe_variables})
-	checked = CONTENT.observe(descriptor, observation, definition.locales[segment.viewed_locale].speaker, segment.captured_text, segment.viewed_locale, segment.disclosure)
+	var disclosed := {}
+	var texts := PackedStringArray()
+	for part in observation.segments:
+		if part.viewed_locale != segment.viewed_locale or part.disclosure != segment.disclosure:
+			return _error("NB_KNOWLEDGE_DISCLOSURE")
+		disclosed[part.segment_id] = part.safe_variables
+		texts.append(part.captured_text)
+	var descriptor := CONTENT.descriptor(observation.content_id, int(observation.content_version), disclosed)
+	checked = CONTENT.observe(descriptor, observation, definition.locales[segment.viewed_locale].speaker, "\n".join(texts), segment.viewed_locale, segment.disclosure)
 	if not checked.ok: return checked
+	if checked.observation != observation: return _error("NB_KNOWLEDGE_OBSERVATION")
 	# Reuse is idempotent only for the same immutable observation and exact sources.
 	var latest: Dictionary = {}
 	for previous in ledger.revisions:
 		if previous.revision_uid == revision_uid:
 			var resolved := ARCHIVE.resolve(archive, previous.observation_ref)
-			var refs: Array = [previous.observation_ref]
+			var refs: Array = []
+			for part in observation.segments: refs.append(ARCHIVE.make_reference(resolved.entry, part.segment_id))
 			for ref in source_refs:
 				if ref not in refs: refs.append(ref)
 			if resolved.entry.observation != observation or previous.metadata != definition.knowledge or previous.source_refs != refs:
@@ -113,10 +128,12 @@ static func acquire(ledger: Dictionary, archive: Dictionary, observation: Dictio
 	var entry: Dictionary = next_archive.entries.back()
 	if entry.entry_uid != appended.entry_uid: return _error("NB_KNOWLEDGE_OBSERVATION")
 	var own := ARCHIVE.make_reference(entry, observation.segments[0].segment_id)
-	var references: Array = [own]
+	var own_references: Array = []
+	for part in observation.segments: own_references.append(ARCHIVE.make_reference(entry, part.segment_id))
+	var references: Array = own_references.duplicate(true)
 	for ref in source_refs:
 		if ref not in references: references.append(ref.duplicate(true))
-	var linked := ARCHIVE.add_source_link(next_archive, "knowledge_source", revision_uid, own, int(next_archive.revision))
+	var linked := ARCHIVE.add_source_links(next_archive, "knowledge_source", revision_uid, own_references, int(next_archive.revision))
 	if not linked.ok: return linked
 	next_archive = linked.archive
 	var next_ledger := ledger.duplicate(true)

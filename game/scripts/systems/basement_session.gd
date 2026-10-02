@@ -7,6 +7,7 @@ const LUCA_NOTES := preload("res://scripts/systems/luca_notebook.gd")
 const EDGAR_NOTES := preload("res://scripts/systems/edgar_notebook.gd")
 const MARA2_NOTES := preload("res://scripts/systems/mara2_notebook.gd")
 const SETTLEMENT_NOTES := preload("res://scripts/systems/settlement_notebook.gd")
+const JOURNAL_NOTES := preload("res://scripts/systems/journal_four_notebook.gd")
 
 const BASEMENT := preload("res://data/puzzles/puzzle_basement.tres")
 const BASEMENT_NOTES := preload("res://scripts/systems/basement_notebook.gd")
@@ -251,7 +252,11 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		return _settlement_action("E5", action.trim_prefix("e5_"), value)
 	if action.begins_with("j4_"):
 		var result: Dictionary = JOURNAL_FOUR.apply(snapshot(), action.trim_prefix("j4_"), value)
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "기록을 확인한다."))
+		if not result.ok: return _reject(result.get("text", "기록을 확인한다."))
+		if action == "j4_read":
+			var written := JOURNAL_NOTES.write(result.state, result.text, history_context(), TranslationServer.get_locale())
+			if not written.ok: return written
+		return _commit(result.state, result.text)
 	if known("j4_confirmed"): return _reject("사용인 조사 단계가 종료되었다. 기록 정리와 다음 저녁으로 이어진다.")
 	if snapshot()["fracture_state"]["broken_reset_triggered"]:
 		if action.begins_with("mara2_"):
