@@ -152,6 +152,9 @@ var _dialogue_lines: Array = []
 var _dialogue_index := 0
 var _prologue_history_index := -1
 var _choice_history_recorded := false
+var _choice_history_context: Dictionary = {}
+var _choice_selected_tokens: Dictionary = {}
+var _prologue_confirmation: Dictionary = {}
 var _dialogue_after := Callable()
 var _dialogue_active := false
 var _modal_active := false
@@ -228,7 +231,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif _inspection_active:
 			_close_window_inspection()
 		elif _modal_active:
-			_close_modal()
+			_cancel_prologue_modal()
 		else:
 			_open_notebook()
 		get_viewport().set_input_as_handled()
@@ -238,7 +241,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif _inspection_active:
 			_close_window_inspection()
 		elif _modal_active:
-			_close_modal()
+			_cancel_prologue_modal()
 		elif _dialogue_active:
 			_advance_dialogue()
 		else:
@@ -741,10 +744,10 @@ func _show_p1_intro() -> void:
 	var texts := _dialogue_texts
 	var locale := TranslationServer.get_locale()
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": texts.get_text(&"P1_WAKE_LIGHT", locale)},
-		{"speaker": "SYSTEM", "text": texts.get_text(&"P1_WAKE_KNOCK", locale)},
-		{"speaker": "에드가", "portrait": "EDGAR", "text": texts.get_text(&"P1_WAKE_EDGAR", locale)},
-		{"speaker": "에드가", "portrait": "EDGAR", "text": texts.get_text(&"P1_WAKE_TASKS", locale)},
+		_prologue_line("P1_WAKE_LIGHT", "SYSTEM"),
+		_prologue_line("P1_WAKE_KNOCK", "SYSTEM"),
+		_prologue_line("P1_WAKE_EDGAR", "에드가", {"portrait": "EDGAR"}),
+		_prologue_line("P1_WAKE_TASKS", "에드가", {"portrait": "EDGAR"}),
 	], func() -> void: _set_status(texts.get_text(&"P1_WAKE_OBJECTIVE", locale)))
 
 
@@ -802,8 +805,8 @@ func _build_bedroom() -> void:
 		if not _intro_seen("P6"):
 			_mark_intro("P6")
 			_show_dialogue([
-				{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P6_NIGHT_EDGAR_DONE")},
-				{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P6_NIGHT_EDGAR_REST")},
+				_prologue_line("P6_NIGHT_EDGAR_DONE", "에드가", {"portrait": "EDGAR"}),
+				_prologue_line("P6_NIGHT_EDGAR_REST", "에드가", {"portrait": "EDGAR"}),
 			])
 		return
 
@@ -826,7 +829,8 @@ func _inspect_bedroom(object_id: String) -> void:
 	}
 	if object_id == "notebook":
 		_add_notebook("수첩의 빈 페이지 아래에 이전 필압 같은 자국이 남아 있다.")
-	_show_dialogue([{"speaker": "주인공", "text": _dialogue_ui_text(String(lines[object_id]))}])
+	var key := "P6_INSPECT_WINDOW" if object_id == "window" and bool(_progress.get("P4_complete", false)) else String(lines[object_id])
+	_show_dialogue([_prologue_line(key, "주인공")])
 	_room_art.set_room(_current_room, _progress)
 	_save_progress()
 
@@ -835,12 +839,13 @@ func _leave_bedroom_morning() -> void:
 	if _dialogue_active or _modal_active:
 		return
 	if Array(_progress.get("p1_inspections", [])).size() < 2:
-		_show_modal(
+		_show_prologue_confirmation(
+			"P1_EXIT",
 			_dialogue_ui_text("P1_EXIT_TITLE"),
 			_dialogue_ui_text("P1_EXIT_CONFIRM"),
 			[
-				{"label": _dialogue_ui_text("P1_EXIT_START"), "action": _complete_p1},
-				{"label": _dialogue_ui_text("P1_EXIT_STAY"), "action": _close_modal},
+				{"id": "confirm", "label": _dialogue_ui_text("P1_EXIT_START"), "action": _complete_p1},
+				{"id": "cancel", "label": _dialogue_ui_text("P1_EXIT_STAY"), "action": _close_modal},
 			]
 		)
 		return
@@ -855,8 +860,8 @@ func _complete_p1() -> void:
 	_save_progress()
 	_enter_room("M1_CENTRAL_HALL")
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P1_HALL_VIEW")},
-		{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P1_HALL_EDGAR")},
+		_prologue_line("P1_HALL_VIEW", "SYSTEM"),
+		_prologue_line("P1_HALL_EDGAR", "에드가", {"portrait": "EDGAR"}),
 	])
 
 
@@ -875,16 +880,21 @@ func _build_hall() -> void:
 	_progress["time_block"] = "evening_free"
 	_add_hotspot("GREENHOUSE", _task_label(_dialogue_ui_text("PF_GREENHOUSE"), "P5_complete"), Rect2(1415, 405, 275, 190), _enter_room.bind("M1_GREENHOUSE_VESTIBULE"))
 	_add_hotspot("BEDROOM", _dialogue_ui_text("PF_BEDROOM"), Rect2(720, 220, 420, 150), _enter_room.bind("M2_BEDROOM"))
-	_add_hotspot("PARLOR", _dialogue_ui_text("PF_PARLOR"), Rect2(120, 430, 330, 160), _evening_ambient.bind(_dialogue_ui_text("PF_LIGHT")))
-	_add_hotspot("LIBRARY", _dialogue_ui_text("PF_LIBRARY"), Rect2(1110, 460, 310, 160), _evening_ambient.bind(_dialogue_ui_text("PF_PAGES")))
+	_add_hotspot("PARLOR", _dialogue_ui_text("PF_PARLOR"), Rect2(120, 430, 330, 160), _evening_ambient.bind("PF_LIGHT"))
+	_add_hotspot("LIBRARY", _dialogue_ui_text("PF_LIBRARY"), Rect2(1110, 460, 310, 160), _evening_ambient.bind("PF_PAGES"))
 
 
 func _report_tasks() -> void:
 	var missing: Array[String] = []
+	var mask := 0
+	var index := 0
 	for pair in [["P2_complete", "UI_DUTY_PARLOR"], ["P3_complete", "UI_DUTY_LIBRARY"], ["P3B_complete", "UI_DUTY_ARCHIVE"]]:
 		if not bool(_progress.get(pair[0], false)):
 			missing.append(_dialogue_ui_text(pair[1]))
-	_show_dialogue([{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("UI_DUTY_REMAINING", {"tasks": ", ".join(missing)})}])
+			mask |= 1 << index
+		index += 1
+	if mask == 0: return
+	_show_dialogue([_prologue_line("DUTY_%d" % mask, "에드가", {"portrait": "EDGAR"}, {"tasks": ", ".join(missing)})])
 
 
 func _build_parlor() -> void:
@@ -900,14 +910,14 @@ func _build_parlor() -> void:
 	for index in range(3):
 		var stage := int(windows[index])
 		_add_hotspot("WINDOW_%d" % index, _dialogue_ui_text("P2_WINDOW_LABEL", {"index": index + 1, "state": _window_stage_name(stage)}), Rect2(300 + index * 420, 250, 300, 390), _on_window_pressed.bind(index))
-	_add_hotspot("CLOCK", _dialogue_ui_text("P2_CLOCK_LABEL"), Rect2(1450, 185, 180, 190), _show_dialogue.bind([{"speaker": "주인공", "text": _dialogue_ui_text("P2_CLOCK_OBSERVATION")}]))
+	_add_hotspot("CLOCK", _dialogue_ui_text("P2_CLOCK_LABEL"), Rect2(1450, 185, 180, 190), _show_dialogue.bind([_prologue_line("P2_CLOCK_OBSERVATION", "주인공")]))
 	_add_back_to_hall()
 	if not _intro_seen("P2"):
 		_mark_intro("P2")
 		_add_unique("introduced", "MARA1")
 		_show_dialogue([
-			{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_INTRO")},
-			{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_GUIDE")},
+			_prologue_line("P2_TOOL_INTRO", "마라 1", {"portrait": "MARA1"}),
+			_prologue_line("P2_TOOL_GUIDE", "마라 1", {"portrait": "MARA1"}),
 		])
 
 
@@ -993,7 +1003,7 @@ func _apply_window_tool(item_id: String, zone_id: String) -> void:
 			_set_window_feedback(_dialogue_ui_text("P2_TOOL_SPANNER_FEEDBACK"))
 			if not bool(_progress.get("p2_spanner_hint_seen", false)):
 				_progress["p2_spanner_hint_seen"] = true
-				_show_dialogue([{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_SPANNER_LINE")}])
+				_show_dialogue([_prologue_line("P2_TOOL_SPANNER_LINE", "마라 1", {"portrait": "MARA1"})])
 		"COARSE_BRUSH":
 			state["top_dust"] = true
 			state["dust_spread"] = true
@@ -1001,7 +1011,7 @@ func _apply_window_tool(item_id: String, zone_id: String) -> void:
 			_set_window_feedback(_dialogue_ui_text("P2_TOOL_BRUSH_FEEDBACK"))
 			if not bool(_progress.get("p2_brush_hint_seen", false)):
 				_progress["p2_brush_hint_seen"] = true
-				_show_dialogue([{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_BRUSH_LINE")}])
+				_show_dialogue([_prologue_line("P2_TOOL_BRUSH_LINE", "마라 1", {"portrait": "MARA1"})])
 		"WATER":
 			if zone_id == "MIDDLE" and not bool(state.get("top_dust", true)) and bool(state.get("middle_stain", true)):
 				state["middle_stain"] = false
@@ -1026,8 +1036,8 @@ func _apply_window_tool(item_id: String, zone_id: String) -> void:
 						_progress["bird_observed"] = true
 						_add_notebook("같은 새가 18초 간격으로 같은 궤도를 두 번 지나갔다.")
 						_show_dialogue([
-							{"speaker": "SYSTEM", "text": _dialogue_ui_text("P2_TOOL_BIRD")},
-							{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_BIRD_LINE")},
+							_prologue_line("P2_TOOL_BIRD", "SYSTEM"),
+							_prologue_line("P2_TOOL_BIRD_LINE", "마라 1", {"portrait": "MARA1"}),
 						])
 				"MIDDLE":
 					if bool(state.get("top_dust", true)):
@@ -1076,7 +1086,7 @@ func _complete_p2() -> void:
 	_update_objective()
 	_save_progress()
 	_show_dialogue([
-		{"speaker": "마라 1", "portrait": "MARA1", "text": _dialogue_ui_text("P2_TOOL_COMPLETE_LINE")},
+		_prologue_line("P2_TOOL_COMPLETE_LINE", "마라 1", {"portrait": "MARA1"}),
 	], func() -> void:
 		_close_window_inspection(false)
 		_enter_room("M1_CENTRAL_HALL")
@@ -1112,8 +1122,8 @@ func _build_library() -> void:
 	if not _intro_seen("P3"):
 		_mark_intro("P3")
 		_show_dialogue([
-			{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P3_INTRO")},
-			{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P3_RESTRICTED")},
+			_prologue_line("P3_INTRO", "에드가", {"portrait": "EDGAR"}),
+			_prologue_line("P3_RESTRICTED", "에드가", {"portrait": "EDGAR"}),
 		], _resume_p3_journal_choice if needs_journal_choice else Callable())
 	elif needs_journal_choice:
 		call_deferred("_resume_p3_journal_choice")
@@ -1144,8 +1154,8 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 	_rebuild_current_room_content()
 	if journal_discovered:
 		_show_dialogue([
-			{"speaker": "SYSTEM", "text": _dialogue_ui_text("P3_DISCOVER")},
-			{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P3_LEDGER")},
+			_prologue_line("P3_DISCOVER", "SYSTEM"),
+			_prologue_line("P3_LEDGER", "에드가", {"portrait": "EDGAR"}),
 		], _show_p3_journal_choices)
 		return
 	_finish_p3_book_placement()
@@ -1187,6 +1197,10 @@ func _show_dialogue_choice_set(
 	_dialogue_after = Callable()
 	_dialogue_choice_mode = mode
 	_choice_history_recorded = false
+	_choice_selected_tokens.clear()
+	var event: String = {"p3_journal": "P3", "p4_father": "P4"}.get(mode, "")
+	var archive := preload("res://scripts/systems/notebook_archive.gd")
+	_choice_history_context = {"node_id": event, "chapter_id": "PROLOGUE", "location_id": _current_room, "event_occurrence_id": archive.new_uid(), "conversation_session_id": archive.new_uid(), "presentation_token": archive.new_uid()}
 	_dialogue_choice_active = true
 	_dialogue_layer.visible = true
 	_dialogue_choice_blocker.visible = true
@@ -1212,11 +1226,15 @@ func _show_dialogue_choice_set(
 func _record_choice_history() -> bool:
 	if not _uses_prologue_history() or _choice_history_recorded:
 		return true
-	var lines: Array[String] = [_dialogue_label.text]
+	var lines: Array[String] = [_dialogue_choice_header.text, _dialogue_label.text]
+	var segments := {"header": {}, "prompt": {}}
 	for button in _dialogue_choice_buttons:
 		if button.visible:
 			lines.append(String(button.get_meta("choice_label", "")))
-	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), "\n".join(lines)):
+			segments[String(button.get_meta("choice_id", ""))] = {}
+	var context := _choice_history_context.duplicate(true)
+	context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(context.node_id) + "_OPTIONS", 1, segments)
+	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), "\n".join(lines), context):
 		return false
 	_choice_history_recorded = true
 	return true
@@ -1240,9 +1258,8 @@ func _answer_p3_journal_choice(choice_id: String) -> void:
 	_progress["p3_journal_questions_asked"] = asked_questions
 	_progress["p3_journal_choice"] = "pending"
 	_save_progress()
-	var response := String(_localized_p3_choices()[choice_id]["response"])
-	_show_dialogue([
-		{"speaker": "에드가", "portrait": "EDGAR", "text": response},
+	_show_prologue_answer([
+		_prologue_line("P3_A_" + choice_id.to_upper(), "에드가", {"portrait": "EDGAR"}),
 	], _show_p3_journal_choices)
 
 
@@ -1253,8 +1270,8 @@ func _resume_p3_journal_choice() -> void:
 	_progress["p3_journal_choice"] = "pending"
 	_save_progress()
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P3_RESUME")},
-		{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P3_LEDGER")},
+		_prologue_line("P3_RESUME", "SYSTEM"),
+		_prologue_line("P3_LEDGER", "에드가", {"portrait": "EDGAR"}),
 	], _show_p3_journal_choices)
 
 
@@ -1264,7 +1281,7 @@ func _finish_p3_book_placement() -> void:
 		_progress["P3_complete"] = true
 		_save_progress()
 		_rebuild_current_room_content()
-		_show_dialogue([{"speaker": "에드가", "portrait": "EDGAR", "text": _dialogue_ui_text("P3_COMPLETE")}], func() -> void: _enter_room("M1_CENTRAL_HALL"))
+		_show_dialogue([_prologue_line("P3_COMPLETE", "에드가", {"portrait": "EDGAR"})], func() -> void: _enter_room("M1_CENTRAL_HALL"))
 		return
 	_save_progress()
 	_rebuild_current_room_content()
@@ -1276,7 +1293,7 @@ func _on_shelf_item_dropped(item_id: String, shelf_id: String) -> void:
 
 
 func _inspect_inner_door() -> void:
-	_show_dialogue([{"speaker": "주인공", "text": _dialogue_ui_text("P3_DOOR")}])
+	_show_dialogue([_prologue_line("P3_DOOR", "주인공")])
 
 
 func _build_archive() -> void:
@@ -1297,8 +1314,8 @@ func _build_archive() -> void:
 		_mark_intro("P3B")
 		_add_unique("introduced", "MARA2")
 		_show_dialogue([
-			{"speaker": "마라 2", "portrait": "MARA2", "text": _dialogue_ui_text("P3B_INTRO")},
-			{"speaker": "마라 2", "portrait": "MARA2", "text": _dialogue_ui_text("P3B_HINT")},
+			_prologue_line("P3B_INTRO", "마라 2", {"portrait": "MARA2"}),
+			_prologue_line("P3B_HINT", "마라 2", {"portrait": "MARA2"}),
 		])
 
 
@@ -1310,7 +1327,7 @@ func _on_portrait_pressed(index: int, expected_owner: String) -> void:
 		return
 	var selected_owner := _selected_item.trim_prefix("LABEL_")
 	if selected_owner != expected_owner:
-		_show_dialogue([{"speaker": "마라 2", "portrait": "MARA2", "text": _dialogue_ui_text("P3B_WRONG")}])
+		_show_dialogue([_prologue_line("P3B_WRONG", "마라 2", {"portrait": "MARA2"})])
 		return
 	var placed: Dictionary = _progress.get("p3b_placed", {})
 	placed[str(index)] = selected_owner
@@ -1322,9 +1339,9 @@ func _on_portrait_pressed(index: int, expected_owner: String) -> void:
 		_save_progress()
 		_rebuild_current_room_content()
 		_show_dialogue([
-			{"speaker": "SYSTEM", "text": _dialogue_ui_text("P3B_PATTERNS")},
-			{"speaker": "마라 2", "portrait": "MARA2", "text": _dialogue_ui_text("P3B_COMPLETE")},
-			{"speaker": "마라 2", "portrait": "MARA2", "text": _dialogue_ui_text("P3B_NAME")},
+			_prologue_line("P3B_PATTERNS", "SYSTEM"),
+			_prologue_line("P3B_COMPLETE", "마라 2", {"portrait": "MARA2"}),
+			_prologue_line("P3B_NAME", "마라 2", {"portrait": "MARA2"}),
 		], func() -> void: _enter_room("M1_CENTRAL_HALL"))
 		return
 	_save_progress()
@@ -1378,8 +1395,8 @@ func _build_kitchen() -> void:
 		_mark_intro("P4")
 		_add_unique("introduced", "LUCA")
 		_show_dialogue([
-			{"speaker": "루카", "portrait": "LUCA", "text": _dialogue_ui_text("P4_LINK_INTRO")},
-			{"speaker": "루카", "portrait": "LUCA", "text": _dialogue_ui_text("P4_LINK_GUIDE")},
+			_prologue_line("P4_LINK_INTRO", "루카", {"portrait": "LUCA"}),
+			_prologue_line("P4_LINK_GUIDE", "루카", {"portrait": "LUCA"}),
 		])
 	elif bool(_progress.get("p4_life_support_pending", false)):
 		call_deferred("_resume_p4_life_support_foreshadow")
@@ -1443,9 +1460,9 @@ func _resume_p4_life_support_foreshadow() -> void:
 	if _interaction_blocked() or _current_room != "M1_KITCHEN" or not bool(_progress.get("p4_life_support_pending", false)):
 		return
 	_show_dialogue([
-		{"speaker": "SYSTEM", "p4_pulse": "pulse", "audio_cue": "AUD_SIG_LUCA", "text": _dialogue_ui_text("P4_MEMORY_PULSE")},
-		{"speaker": "SYSTEM", "p4_pulse": "ears", "text": _dialogue_ui_text("P4_MEMORY_EARS")},
-		{"speaker": "SYSTEM", "p4_pulse": "reply", "text": _dialogue_ui_text("P4_MEMORY_REPLY")},
+		_prologue_line("P4_MEMORY_PULSE", "SYSTEM", {"p4_pulse": "pulse", "audio_cue": "AUD_SIG_LUCA"}),
+		_prologue_line("P4_MEMORY_EARS", "SYSTEM", {"p4_pulse": "ears"}),
+		_prologue_line("P4_MEMORY_REPLY", "SYSTEM", {"p4_pulse": "reply"}),
 	], _complete_p4_life_support_foreshadow)
 
 
@@ -1481,13 +1498,13 @@ func _resume_p4_memory_anchor() -> void:
 		return
 	_progress["p4_memory_anchor_seen"] = true
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_GROOVE")},
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_SCRAPE")},
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_HAND")},
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_ABSENCE")},
-		{"speaker": "주인공", "text": _dialogue_ui_text("P4_MEMORY_WHY")},
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_MEMORY_PAUSE")},
-		{"speaker": "루카", "portrait": "LUCA", "text": _dialogue_ui_text("P4_MEMORY_HABIT")},
+		_prologue_line("P4_MEMORY_GROOVE", "SYSTEM"),
+		_prologue_line("P4_MEMORY_SCRAPE", "SYSTEM"),
+		_prologue_line("P4_MEMORY_HAND", "SYSTEM"),
+		_prologue_line("P4_MEMORY_ABSENCE", "SYSTEM"),
+		_prologue_line("P4_MEMORY_WHY", "주인공"),
+		_prologue_line("P4_MEMORY_PAUSE", "SYSTEM"),
+		_prologue_line("P4_MEMORY_HABIT", "루카", {"portrait": "LUCA"}),
 	], _finish_p4_memory_anchor)
 
 
@@ -1500,14 +1517,14 @@ func _turn_p4_cup_handle() -> void:
 	if _interaction_blocked() or int(_progress.get("tea_step", 0)) < TEA_STEPS.size():
 		return
 	if bool(_progress.get("p4_handle_return_used", false)):
-		_show_dialogue([{"speaker": "주인공", "text": _dialogue_ui_text("P4_MEMORY_ALREADY")}])
+		_show_dialogue([_prologue_line("P4_MEMORY_ALREADY", "주인공")])
 		return
 	_progress["p4_handle_return_used"] = true
 	_save_progress()
 	_rebuild_current_room_content()
 	_show_dialogue([
-		{"speaker": "SYSTEM", "cup_pose": "turned", "text": _dialogue_ui_text("P4_MEMORY_TURN")},
-		{"speaker": "SYSTEM", "cup_pose": "returned", "text": _dialogue_ui_text("P4_MEMORY_RETURN")},
+		_prologue_line("P4_MEMORY_TURN", "SYSTEM", {"cup_pose": "turned"}),
+		_prologue_line("P4_MEMORY_RETURN", "SYSTEM", {"cup_pose": "returned"}),
 	])
 
 
@@ -1558,11 +1575,11 @@ func _resume_p4_question_answer() -> void:
 
 
 func _present_p4_question_answer(choice_id: String) -> void:
-	var lines: Array = [{"speaker": "루카", "portrait": "LUCA", "text": String(_localized_p4_choices()[choice_id]["response"])}]
+	var lines: Array = [_prologue_line("P4_A_" + choice_id.to_upper(), "루카", {"portrait": "LUCA"})]
 	if choice_id == "luca_tenure":
-		lines.append({"speaker": "SYSTEM", "text": _dialogue_ui_text("P4_TENURE_PAUSE")})
-		lines.append({"speaker": "루카", "portrait": "LUCA", "text": _dialogue_ui_text("P4_SERVE")})
-	_show_dialogue(lines, _finish_p4_after_question)
+		lines.append(_prologue_line("P4_TENURE_PAUSE", "SYSTEM"))
+		lines.append(_prologue_line("P4_SERVE", "루카", {"portrait": "LUCA"}))
+	_show_prologue_answer(lines, _finish_p4_after_question)
 
 
 func _finish_p4_after_question() -> void:
@@ -1578,8 +1595,8 @@ func _show_p4_iris_greeting() -> void:
 		return
 	_add_unique("introduced", "IRIS")
 	_show_dialogue([
-		{"speaker": "이리스", "portrait": "IRIS", "text": _dialogue_ui_text("P4_LINK_IRIS_HELLO")},
-		{"speaker": "이리스", "portrait": "IRIS", "text": _dialogue_ui_text("P4_LINK_IRIS_INVITE")},
+		_prologue_line("P4_LINK_IRIS_HELLO", "이리스", {"portrait": "IRIS"}),
+		_prologue_line("P4_LINK_IRIS_INVITE", "이리스", {"portrait": "IRIS"}),
 	], _complete_p4_iris_greeting)
 
 
@@ -1592,25 +1609,25 @@ func _complete_p4_iris_greeting() -> void:
 func _build_greenhouse() -> void:
 	_clear_hotspots()
 	var observations: Array = _progress.get("p5_observations", [])
-	_add_hotspot("CORRIDOR_WINDOW", _observed_label(_dialogue_ui_text("P5_CORRIDOR_LABEL"), "corridor", observations), Rect2(230, 245, 300, 350), _observe_weather.bind("corridor", _dialogue_ui_text("P5_CORRIDOR")))
-	_add_hotspot("GREENHOUSE_GLASS", _observed_label(_dialogue_ui_text("P5_GLASS_LABEL"), "glass", observations), Rect2(670, 205, 420, 430), _observe_weather.bind("glass", _dialogue_ui_text("P5_GLASS")))
-	_add_hotspot("THRESHOLD", _observed_label(_dialogue_ui_text("P5_THRESHOLD_LABEL"), "threshold", observations), Rect2(1140, 570, 350, 150), _observe_weather.bind("threshold", _dialogue_ui_text("P5_THRESHOLD")))
+	_add_hotspot("CORRIDOR_WINDOW", _observed_label(_dialogue_ui_text("P5_CORRIDOR_LABEL"), "corridor", observations), Rect2(230, 245, 300, 350), _observe_weather.bind("corridor"))
+	_add_hotspot("GREENHOUSE_GLASS", _observed_label(_dialogue_ui_text("P5_GLASS_LABEL"), "glass", observations), Rect2(670, 205, 420, 430), _observe_weather.bind("glass"))
+	_add_hotspot("THRESHOLD", _observed_label(_dialogue_ui_text("P5_THRESHOLD_LABEL"), "threshold", observations), Rect2(1140, 570, 350, 150), _observe_weather.bind("threshold"))
 	if observations.size() >= 3 and not bool(_progress.get("P5_complete", false)):
 		_add_hotspot("RECORD", _dialogue_ui_text("P5_RECORD"), Rect2(700, 760, 500, 100), _complete_p5)
 	_add_back_to_hall()
 	if not _intro_seen("P5"):
 		_mark_intro("P5")
 		_show_dialogue([
-			{"speaker": "이리스", "portrait": "IRIS", "text": _dialogue_ui_text("P5_HELLO")},
-			{"speaker": "이리스", "portrait": "IRIS", "text": _dialogue_ui_text("P5_OUTSIDE")},
+			_prologue_line("P5_HELLO", "이리스", {"portrait": "IRIS"}),
+			_prologue_line("P5_OUTSIDE", "이리스", {"portrait": "IRIS"}),
 		])
 
 
-func _observe_weather(observation_id: String, text: String) -> void:
+func _observe_weather(observation_id: String) -> void:
 	if _interaction_blocked():
 		return
 	_add_unique("p5_observations", observation_id)
-	_show_dialogue([{"speaker": "주인공", "text": text}])
+	_show_dialogue([_prologue_line("P5_" + observation_id.to_upper(), "주인공")])
 	_save_progress()
 	_build_greenhouse()
 
@@ -1621,20 +1638,21 @@ func _complete_p5() -> void:
 	_save_progress()
 	_build_greenhouse()
 	_show_dialogue([
-		{"speaker": "주인공", "text": _dialogue_ui_text("P5_QUESTION")},
-		{"speaker": "이리스", "portrait": "IRIS", "text": _dialogue_ui_text("P5_ANSWER")},
+		_prologue_line("P5_QUESTION", "주인공"),
+		_prologue_line("P5_ANSWER", "이리스", {"portrait": "IRIS"}),
 	], func() -> void: _enter_room("M1_CENTRAL_HALL"))
 
 
 func _on_sleep_bed() -> void:
 	if _interaction_blocked():
 		return
-	_show_modal(
+	_show_prologue_confirmation(
+		"P6_SLEEP",
 		_dialogue_ui_text("P6_TITLE"),
 		_dialogue_ui_text("P6_BODY"),
 		[
-			{"label": _dialogue_ui_text("P6_SLEEP"), "action": _begin_first_sleep},
-			{"label": _dialogue_ui_text("P6_CANCEL"), "action": _close_modal},
+			{"id": "confirm", "label": _dialogue_ui_text("P6_SLEEP"), "action": _begin_first_sleep},
+			{"id": "cancel", "label": _dialogue_ui_text("P6_CANCEL"), "action": _close_modal},
 		]
 	)
 
@@ -1653,8 +1671,8 @@ func _begin_first_sleep() -> void:
 		_set_status(_dialogue_ui_text("P6_SAVE_ERROR"))
 		return
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P6_DARK")},
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("P6_SOUND")},
+		_prologue_line("P6_DARK", "SYSTEM"),
+		_prologue_line("P6_SOUND", "SYSTEM"),
 	], _perform_normal_reset)
 
 
@@ -1687,9 +1705,9 @@ func _show_after_reset() -> void:
 	_room_art.set_room("M2_BEDROOM", _progress)
 	_objective_label.text = _dialogue_ui_text("R1_OBJECTIVE")
 	_show_dialogue([
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("R1_WAKE")},
-		{"speaker": "주인공", "text": _dialogue_ui_text("R1_SAME")},
-		{"speaker": "SYSTEM", "text": _dialogue_ui_text("R1_NOTES")},
+		_prologue_line("R1_WAKE", "SYSTEM"),
+		_prologue_line("R1_SAME", "주인공"),
+		_prologue_line("R1_NOTES", "SYSTEM"),
 	], func() -> void: campaign_requested.emit(_slot_id))
 
 
@@ -1707,8 +1725,8 @@ func _set_room_background(room_id: String) -> void:
 	_background.texture = texture
 
 
-func _evening_ambient(text: String) -> void:
-	_show_dialogue([{"speaker": "주인공", "text": text}])
+func _evening_ambient(text_id: String) -> void:
+	_show_dialogue([_prologue_line(text_id, "주인공")])
 
 
 func _add_back_to_hall() -> void:
@@ -1840,6 +1858,26 @@ func _dialogue_ui_text(text_id: String, variables: Dictionary = {}) -> String:
 	return _dialogue_texts.get_text(text_id, TranslationServer.get_locale(), variables)
 
 
+func _prologue_line(key: String, speaker: String, extras: Dictionary = {}, variables: Dictionary = {}) -> Dictionary:
+	var content := preload("res://scripts/systems/notebook_content.gd")
+	var id := "NB_PR_" + key
+	var row := content.definition(id, 1)
+	var line := extras.duplicate(true)
+	line.speaker = speaker
+	line.text = _dialogue_ui_text(row.get("source_text_id", key), variables)
+	line.notebook_content = content.descriptor(id, 1, {"body": {}})
+	line.history_context = {"node_id": row.get("event_id", ""), "chapter_id": "PROLOGUE", "location_id": _current_room}
+	return line
+
+
+func _show_prologue_answer(lines: Array, after: Callable) -> void:
+	for line in lines:
+		if line.history_context.node_id != _choice_history_context.get("node_id", ""): continue
+		for field in ["event_occurrence_id", "conversation_session_id"]:
+			line.history_context[field] = _choice_history_context[field]
+	_show_dialogue(lines, after)
+
+
 func _localized_speaker(speaker: String) -> String:
 	var names := {
 		"SYSTEM": "SYSTEM", "주인공": "SUBJECT", "SUBJECT": "SUBJECT",
@@ -1892,7 +1930,10 @@ func _uses_prologue_history() -> bool:
 func _record_prologue_history() -> bool:
 	if not _uses_prologue_history() or not _dialogue_active or _prologue_history_index == _dialogue_index:
 		return true
-	if not _record_prologue_text(_speaker_label.text, _dialogue_label.text, {"presentation_token": _dialogue_lines[_dialogue_index].presentation_token}):
+	var line: Dictionary = _dialogue_lines[_dialogue_index]
+	var context: Dictionary = line.get("history_context", {}).duplicate(true)
+	if line.has("notebook_content"): context.notebook_content = line.notebook_content
+	if not _record_prologue_text(_speaker_label.text, _dialogue_label.text, context):
 		return false
 	_prologue_history_index = _dialogue_index
 	return true
@@ -1970,7 +2011,12 @@ func _on_dialogue_choice_pressed(index: int) -> void:
 	if _uses_prologue_history():
 		if not _record_choice_history():
 			return
-		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), String(_dialogue_choice_buttons[index].get_meta("choice_label", ""))):
+		if not _choice_selected_tokens.has(choice_id):
+			_choice_selected_tokens[choice_id] = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		var context := _choice_history_context.duplicate(true)
+		context.presentation_token = _choice_selected_tokens[choice_id]
+		context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(context.node_id) + "_SELECT_" + choice_id.to_upper(), 1, {"body": {}})
+		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), String(_dialogue_choice_buttons[index].get_meta("choice_label", "")), context):
 			return
 	match _dialogue_choice_mode:
 		"p3_journal":
@@ -2321,7 +2367,55 @@ func _open_notebook() -> void:
 	_show_modal(_dialogue_ui_text("UI_NOTE_TITLE"), body, [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
 
 
+func _show_prologue_confirmation(key: String, title: String, body: String, actions: Array) -> void:
+	var content := preload("res://scripts/systems/notebook_content.gd")
+	var archive := preload("res://scripts/systems/notebook_archive.gd")
+	var row := content.definition("NB_PR_" + key + "_OPTIONS", 1)
+	var context := {"node_id": row.get("event_id", ""), "chapter_id": "PROLOGUE", "location_id": _current_room, "event_occurrence_id": archive.new_uid(), "conversation_session_id": archive.new_uid(), "presentation_token": archive.new_uid()}
+	var request := {"key": key, "generation": _history_generation + 1, "recorded": false, "context": context, "text": title + "\n" + body, "labels": {}, "tokens": {}, "actions": {}}
+	var segments := {"header": {}, "prompt": {}}
+	var wrapped: Array = []
+	for action in actions:
+		request.text += "\n" + String(action.label)
+		request.labels[action.id] = action.label
+		request.actions[action.id] = action.action
+		segments[action.id] = {}
+		wrapped.append({"label": action.label, "action": _prologue_confirmation_pressed.bind(request, action.id)})
+	request.context.notebook_content = content.descriptor("NB_PR_" + key + "_OPTIONS", 1, segments)
+	_show_modal(title, body, wrapped)
+	_prologue_confirmation = request
+	_record_prologue_confirmation_options(request)
+
+
+func _record_prologue_confirmation_options(request: Dictionary) -> bool:
+	if request.recorded or not _uses_prologue_history(): return true
+	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), request.text, request.context): return false
+	request.recorded = true
+	return true
+
+
+func _prologue_confirmation_pressed(request: Dictionary, choice: String) -> void:
+	if not _modal_active or request.generation != _history_generation: return
+	if not _record_prologue_confirmation_options(request): return
+	if _uses_prologue_history():
+		if not request.tokens.has(choice): request.tokens[choice] = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		var context: Dictionary = request.context.duplicate(true)
+		context.presentation_token = request.tokens[choice]
+		context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(request.key) + "_" + choice.to_upper(), 1, {"body": {}})
+		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), request.labels[choice], context): return
+	_prologue_confirmation = {}
+	request.actions[choice].call()
+
+
+func _cancel_prologue_modal() -> void:
+	if not _prologue_confirmation.is_empty():
+		_prologue_confirmation_pressed(_prologue_confirmation, "cancel")
+	else:
+		_close_modal()
+
+
 func _show_modal(title: String, body: String, actions: Array) -> void:
+	_prologue_confirmation = {}
 	_remember_history_scroll()
 	_history_generation += 1
 	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
@@ -2400,6 +2494,7 @@ func _focus_visible_control(reference: WeakRef) -> void:
 
 
 func _close_modal() -> void:
+	_prologue_confirmation = {}
 	_remember_history_scroll()
 	_history_generation += 1
 	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
@@ -2825,7 +2920,7 @@ func run_smoke_scenario() -> PackedStringArray:
 	_enter_room("M1_GREENHOUSE_VESTIBULE")
 	_dismiss_dialogue_for_test()
 	for pair in [["corridor", "corridor"], ["glass", "glass"], ["threshold", "threshold"]]:
-		_observe_weather(pair[0], pair[1])
+		_observe_weather(pair[0])
 		_dismiss_dialogue_for_test()
 	_complete_p5()
 	_dismiss_dialogue_for_test()

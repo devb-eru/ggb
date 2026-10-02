@@ -97,6 +97,8 @@ func _ready() -> void:
 		call_deferred("_run_notebook_migration_smoke")
 	elif "--notebook-content-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_content_smoke")
+	elif "--notebook-prologue-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_prologue_smoke")
 
 
 func _apply_audio_settings(settings: Dictionary) -> void:
@@ -118,6 +120,12 @@ func _run_notebook_migration_smoke() -> void:
 func _run_notebook_content_smoke() -> void:
 	var result: Dictionary = await preload("res://scripts/tests/notebook_content_smoke.gd").new().run(get_tree())
 	print("NOTEBOOK_CONTENT_SMOKE: " + ("PASS " + str(result) if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
+
+
+func _run_notebook_prologue_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/notebook_prologue_smoke.gd").new().run(get_tree())
+	print("NOTEBOOK_PROLOGUE_SMOKE: " + ("PASS " + str(result) if result.ok else str(result)))
 	get_tree().quit(0 if result.ok else 1)
 
 

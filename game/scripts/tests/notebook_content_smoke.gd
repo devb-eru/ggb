@@ -23,7 +23,8 @@ func run(tree: SceneTree) -> Dictionary:
 	GameState.reset_for_test()
 	SaveManager.delete_test_slot(SLOT)
 	var diagnostics := CONTENT.diagnostics()
-	_expect(diagnostics.ok and diagnostics.authored_ids == 60, "60 authored hint IDs with bilingual versioned content")
+	var hint_ids: Array = diagnostics.content_ids.filter(func(id: String) -> bool: return id.begins_with("NB_HINT_"))
+	_expect(diagnostics.ok and hint_ids.size() == 60, "60 authored hint IDs with bilingual versioned content")
 	if not diagnostics.ok: return {"ok": false, "errors": diagnostics.error_ids}
 	_validate_versioned_content()
 	_validate_segments()
@@ -37,7 +38,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
-	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": diagnostics.authored_ids, "covered_id_locales": covered.size(), "producer_groups_complete": ["NP20"], "other_groups": "NOT_COVERED"}
+	return {"ok": errors.is_empty(), "errors": errors, "authored_hint_ids": hint_ids.size(), "covered_id_locales": covered.size(), "producer_groups_covered": ["NP20"], "other_groups": "NOT_COVERED"}
 
 
 func _context(stage: String) -> Dictionary:

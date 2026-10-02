@@ -1,0 +1,4332 @@
+{
+	"contents": {
+		"NB_PR_DUTY_1": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "PG",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "There are duties remaining: Parlor · windows. You may choose the order, but I must confirm their completion.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Remaining duties"
+					},
+					"ko-KR": {
+						"body": "아직 남은 일과가 있습니다. 대응접실 · 창문. 순서는 자유지만 확인 없이 넘길 수는 없습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "남은 일과"
+					}
+				},
+				"localization_keys": {
+					"body": "UI_DUTY_REMAINING"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"PG"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_report_tasks",
+				"source_text_id": "UI_DUTY_REMAINING",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_DUTY_2": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "PG",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "There are duties remaining: Outer library · books. You may choose the order, but I must confirm their completion.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Remaining duties"
+					},
+					"ko-KR": {
+						"body": "아직 남은 일과가 있습니다. 외부 서고 · 책. 순서는 자유지만 확인 없이 넘길 수는 없습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "남은 일과"
+					}
+				},
+				"localization_keys": {
+					"body": "UI_DUTY_REMAINING"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"PG"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_report_tasks",
+				"source_text_id": "UI_DUTY_REMAINING",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_DUTY_3": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "PG",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "There are duties remaining: Parlor · windows, Outer library · books. You may choose the order, but I must confirm their completion.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Remaining duties"
+					},
+					"ko-KR": {
+						"body": "아직 남은 일과가 있습니다. 대응접실 · 창문, 외부 서고 · 책. 순서는 자유지만 확인 없이 넘길 수는 없습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "남은 일과"
+					}
+				},
+				"localization_keys": {
+					"body": "UI_DUTY_REMAINING"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"PG"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_report_tasks",
+				"source_text_id": "UI_DUTY_REMAINING",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_DUTY_4": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "PG",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "There are duties remaining: North corridor · portraits. You may choose the order, but I must confirm their completion.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Remaining duties"
+					},
+					"ko-KR": {
+						"body": "아직 남은 일과가 있습니다. 북쪽 회랑 · 초상화. 순서는 자유지만 확인 없이 넘길 수는 없습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "남은 일과"
+					}
+				},
+				"localization_keys": {
+					"body": "UI_DUTY_REMAINING"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"PG"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_report_tasks",
+				"source_text_id": "UI_DUTY_REMAINING",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_DUTY_5": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "PG",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "There are duties remaining: Parlor · windows, North corridor · portraits. You may choose the order, but I must confirm their completion.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Remaining duties"
+					},
+					"ko-KR": {
+						"body": "아직 남은 일과가 있습니다. 대응접실 · 창문, 북쪽 회랑 · 초상화. 순서는 자유지만 확인 없이 넘길 수는 없습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "남은 일과"
+					}
+				},
+				"localization_keys": {
+					"body": "UI_DUTY_REMAINING"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"PG"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_report_tasks",
+				"source_text_id": "UI_DUTY_REMAINING",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_DUTY_6": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "PG",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "There are duties remaining: Outer library · books, North corridor · portraits. You may choose the order, but I must confirm their completion.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Remaining duties"
+					},
+					"ko-KR": {
+						"body": "아직 남은 일과가 있습니다. 외부 서고 · 책, 북쪽 회랑 · 초상화. 순서는 자유지만 확인 없이 넘길 수는 없습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "남은 일과"
+					}
+				},
+				"localization_keys": {
+					"body": "UI_DUTY_REMAINING"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"PG"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_report_tasks",
+				"source_text_id": "UI_DUTY_REMAINING",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_DUTY_7": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "PG",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "There are duties remaining: Parlor · windows, Outer library · books, North corridor · portraits. You may choose the order, but I must confirm their completion.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Remaining duties"
+					},
+					"ko-KR": {
+						"body": "아직 남은 일과가 있습니다. 대응접실 · 창문, 외부 서고 · 책, 북쪽 회랑 · 초상화. 순서는 자유지만 확인 없이 넘길 수는 없습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "남은 일과"
+					}
+				},
+				"localization_keys": {
+					"body": "UI_DUTY_REMAINING"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"PG"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_report_tasks",
+				"source_text_id": "UI_DUTY_REMAINING",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_EXIT_CANCEL": {
+			"1": {
+				"action_or_variant": "cancel",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "choice_cancelled",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Look around a little longer",
+						"speaker": "Selected option",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "조금 더 살펴본다",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_EXIT_STAY"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_leave_bedroom_morning/_prologue_confirmation_pressed",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_EXIT_CONFIRM": {
+			"1": {
+				"action_or_variant": "confirm",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "choice_confirmed",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Begin the day's duties",
+						"speaker": "Selected option",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "일과를 시작한다",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_EXIT_START"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_leave_bedroom_morning/_prologue_confirmation_pressed",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_EXIT_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "options_presented",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"cancel": "Look around a little longer",
+						"confirm": "Begin the day's duties",
+						"header": "Edgar's inquiry",
+						"prompt": "You have not finished inspecting your room. Shall you begin your duties nonetheless?",
+						"speaker": "Displayed choices",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"cancel": "조금 더 살펴본다",
+						"confirm": "일과를 시작한다",
+						"header": "에드가의 확인",
+						"prompt": "아직 방 안을 충분히 살펴보지 않았습니다. 그래도 일과를 시작합니까?",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"cancel": "P1_EXIT_STAY",
+					"confirm": "P1_EXIT_START",
+					"header": "P1_EXIT_TITLE",
+					"prompt": "P1_EXIT_CONFIRM"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_leave_bedroom_morning",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"cancel": {},
+					"confirm": {},
+					"header": {},
+					"prompt": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"prompt",
+					"confirm",
+					"cancel"
+				]
+			}
+		},
+		"NB_PR_P1_HALL_EDGAR": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "I will leave the order to you. You can review completed duties in the central hall.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "순서는 정하지 않겠습니다. 완료한 일은 중앙홀에서 확인할 수 있습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_HALL_EDGAR"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_complete_p1",
+				"source_text_id": "P1_HALL_EDGAR",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_HALL_VIEW": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "From the foot of the stairs, three routes through the mansion come into view.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "계단 아래에서 저택의 세 방향이 한눈에 들어온다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_HALL_VIEW"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_complete_p1",
+				"source_text_id": "P1_HALL_VIEW",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_INSPECT_BED": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "I just got up, yet not a wrinkle remains. Beneath the fabric, I feel a curved surface harder than a mattress.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "막 일어난 자리인데도 주름 하나 없이 반듯하다. 천 아래에는 매트리스보다 단단한 곡면이 닿는다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_INSPECT_BED"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_inspect_bedroom",
+				"source_text_id": "P1_INSPECT_BED",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_INSPECT_NOTEBOOK": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Sketches of a Gothic mansion, then blank pages. Before I even write, pencil impressions already reach into the next sheet.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "고딕 저택 낙서와 빈 페이지. 연필 압흔은 내가 쓰기 전부터 다음 장까지 이어져 있다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_INSPECT_NOTEBOOK"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_inspect_bedroom",
+				"source_text_id": "P1_INSPECT_NOTEBOOK",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_INSPECT_PHOTO": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "A photograph of Father and me. His face is familiar, but I cannot remember being here with him. Only the surface of the photograph feels cold.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "아버지와 함께 찍힌 사진이다. 익숙한 얼굴인데 이 장면으로 이어지는 기억은 없다. 사진 표면만 차갑다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_INSPECT_PHOTO"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_inspect_bedroom",
+				"source_text_id": "P1_INSPECT_PHOTO",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_INSPECT_WINDOW": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The garden is bright. Yet the glass feels oddly lukewarm in the sunlight, and the distant bird never changes altitude.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "정원은 맑다. 그런데 유리는 햇빛보다 미지근하고, 멀리 있는 새는 한 번도 고도를 바꾸지 않는다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_INSPECT_WINDOW"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_inspect_bedroom",
+				"source_text_id": "P1_INSPECT_WINDOW",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_WAKE_EDGAR": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "It is time to rise, my lady. Your schedule for today is ready.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "기상 시각입니다, 아가씨. 오늘 일정은 준비되어 있습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_WAKE_EDGAR"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_p1_intro",
+				"source_text_id": "P1_WAKE_EDGAR",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_WAKE_KNOCK": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "[Outside the door] The tip of a rapier touches the floor. Exactly three knocks follow.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "[문밖] 레이피어 끝이 바닥에 닿고, 정확히 세 번의 노크가 이어진다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_WAKE_KNOCK"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_p1_intro",
+				"source_text_id": "P1_WAKE_KNOCK",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_WAKE_LIGHT": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Morning light slips through the curtains, finding the same spot before your eyelids open.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "커튼 사이의 아침빛이 눈꺼풀보다 먼저 같은 자리를 밝힌다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_WAKE_LIGHT"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_p1_intro",
+				"source_text_id": "P1_WAKE_LIGHT",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P1_WAKE_TASKS": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Please come out after inspecting your room. The parlor windows, the books in the outer library, and the portraits in the northern archive corridor require your attention.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Morning greetings"
+					},
+					"ko-KR": {
+						"body": "방 안을 확인하신 뒤 나와 주십시오. 대응접실의 창문, 외부 서고의 책, 북쪽 기록 회랑의 초상화를 부탁드립니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "아침 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_WAKE_TASKS"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_p1_intro",
+				"source_text_id": "P1_WAKE_TASKS",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P2_CLOCK_OBSERVATION": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P2",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "All twelve divisions are the same width, but there is one more erased notch beneath the last.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "At the windows"
+					},
+					"ko-KR": {
+						"body": "열두 칸이 모두 같은 폭인데, 마지막 칸 아래에 지워진 홈이 하나 더 있다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "창가에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_CLOCK_OBSERVATION"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P2"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_parlor",
+				"source_text_id": "P2_CLOCK_OBSERVATION",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P2_TOOL_BIRD": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P2",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The same bird crosses the window again, with the same wingbeats.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "At the windows"
+					},
+					"ko-KR": {
+						"body": "같은 새가 같은 날갯짓으로 다시 창을 가로지른다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "창가에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_BIRD"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P2"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_apply_window_tool",
+				"source_text_id": "P2_TOOL_BIRD",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P2_TOOL_BIRD_LINE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P2",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "You take your time, but you've got sharp eyes. Don't try wiping that bird away too. ...Just kidding. Probably.",
+						"speaker": "Mara 1",
+						"summary": "Words and impressions observed then",
+						"title": "At the windows"
+					},
+					"ko-KR": {
+						"body": "일은 천천히 하시는데 눈은 좋으심다. 저 새까지 닦아낼 생각은 하지 마십쇼. ...농담입니다. 아마도.",
+						"speaker": "마라 1",
+						"summary": "당시 확인한 말과 감각",
+						"title": "창가에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_BIRD_LINE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P2"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_apply_window_tool",
+				"source_text_id": "P2_TOOL_BIRD_LINE",
+				"speaker_id": "MARA1",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P2_TOOL_BRUSH_LINE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P2",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "My lady, the soft cloth, not that brush! Just gather the scattered dust again, starting at the top.",
+						"speaker": "Mara 1",
+						"summary": "Words and impressions observed then",
+						"title": "At the windows"
+					},
+					"ko-KR": {
+						"body": "아가씨, 그 솔 말고 부드러운 천 말임다! 퍼진 먼지는 위에서부터 다시 모으면 됨다.",
+						"speaker": "마라 1",
+						"summary": "당시 확인한 말과 감각",
+						"title": "창가에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_BRUSH_LINE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P2"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_apply_window_tool",
+				"source_text_id": "P2_TOOL_BRUSH_LINE",
+				"speaker_id": "MARA1",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P2_TOOL_COMPLETE_LINE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P2",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Spotless! Keep this up and I'll only complain half as much about being short-handed.",
+						"speaker": "Mara 1",
+						"summary": "Words and impressions observed then",
+						"title": "At the windows"
+					},
+					"ko-KR": {
+						"body": "깔끔함다! 다음에도 이 정도면 제가 일손 부족 얘기는 반만 하겠슴다.",
+						"speaker": "마라 1",
+						"summary": "당시 확인한 말과 감각",
+						"title": "창가에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_COMPLETE_LINE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P2"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_complete_p2",
+				"source_text_id": "P2_TOOL_COMPLETE_LINE",
+				"speaker_id": "MARA1",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P2_TOOL_GUIDE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P2",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Pick the soft cloth and work down from the dust at the top. No spanners. I nearly tried that myself.",
+						"speaker": "Mara 1",
+						"summary": "Words and impressions observed then",
+						"title": "At the windows"
+					},
+					"ko-KR": {
+						"body": "부드러운 천을 고르고 위의 먼지부터 아래로. 스패너는 쓰지 마십쇼. 저도 방금 쓸 뻔했으니까.",
+						"speaker": "마라 1",
+						"summary": "당시 확인한 말과 감각",
+						"title": "창가에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_GUIDE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P2"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_parlor",
+				"source_text_id": "P2_TOOL_GUIDE",
+				"speaker_id": "MARA1",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P2_TOOL_INTRO": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P2",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "There you are, my lady! I'll handle the high ones. Could you take these three lower panes?",
+						"speaker": "Mara 1",
+						"summary": "Words and impressions observed then",
+						"title": "At the windows"
+					},
+					"ko-KR": {
+						"body": "오셨슴까, 아가씨. 전 위쪽을 맡을 테니 아래쪽 세 장만 부탁드림다.",
+						"speaker": "마라 1",
+						"summary": "당시 확인한 말과 감각",
+						"title": "창가에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_INTRO"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P2"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_parlor",
+				"source_text_id": "P2_TOOL_INTRO",
+				"speaker_id": "MARA1",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P2_TOOL_SPANNER_LINE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P2",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Clean with that and you'll open the wall before the window. The cloth, please. The cloth.",
+						"speaker": "Mara 1",
+						"summary": "Words and impressions observed then",
+						"title": "At the windows"
+					},
+					"ko-KR": {
+						"body": "그걸로 닦으면 창문보다 벽부터 열릴 검다. 천을 쓰십쇼, 천.",
+						"speaker": "마라 1",
+						"summary": "당시 확인한 말과 감각",
+						"title": "창가에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_SPANNER_LINE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P2"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_apply_window_tool",
+				"source_text_id": "P2_TOOL_SPANNER_LINE",
+				"speaker_id": "MARA1",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3B_COMPLETE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3B",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Correct! Now you know every name here. Ask again if you forget. I'll remember them!",
+						"speaker": "Mara 2",
+						"summary": "Words and impressions observed then",
+						"title": "Beside the portraits"
+					},
+					"ko-KR": {
+						"body": "정답! 이제 여기 있는 이름은 전부 알겠네. 잊어버리면 다시 물어봐. 내가 기억하고 있을 테니까!",
+						"speaker": "마라 2",
+						"summary": "당시 확인한 말과 감각",
+						"title": "초상화 곁에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_COMPLETE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_portrait_pressed",
+				"source_text_id": "P3B_COMPLETE",
+				"speaker_id": "MARA2",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3B_HINT": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3B",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Don't just look at colors. Check ears, props, frame patterns, and function labels together. Mistakes are fine. They give me so much longer to tease you!",
+						"speaker": "Mara 2",
+						"summary": "Words and impressions observed then",
+						"title": "Beside the portraits"
+					},
+					"ko-KR": {
+						"body": "색 말고 귀, 소품, 프레임 문양, 기능 라벨을 같이 봐. 틀려도 괜찮아. 내가 아주 오래 놀릴 수 있으니까!",
+						"speaker": "마라 2",
+						"summary": "당시 확인한 말과 감각",
+						"title": "초상화 곁에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_HINT"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_archive",
+				"source_text_id": "P3B_HINT",
+				"speaker_id": "MARA2",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3B_INTRO": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3B",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Late! So late! There are only five portraits. You're not going to get them wrong, are you?!",
+						"speaker": "Mara 2",
+						"summary": "Words and impressions observed then",
+						"title": "Beside the portraits"
+					},
+					"ko-KR": {
+						"body": "늦었어! 엄청 늦었어! 다섯 장밖에 안 되는데 설마 못 맞히는 건 아니지?!",
+						"speaker": "마라 2",
+						"summary": "당시 확인한 말과 감각",
+						"title": "초상화 곁에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_INTRO"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_archive",
+				"source_text_id": "P3B_INTRO",
+				"speaker_id": "MARA2",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3B_NAME": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3B",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2. Archive. Purple double frame. ...Right? Of course it's right. I wrote the name myself!",
+						"speaker": "Mara 2",
+						"summary": "Words and impressions observed then",
+						"title": "Beside the portraits"
+					},
+					"ko-KR": {
+						"body": "마라 2. 기록실. 보라 이중 프레임. ...맞지? 내가 쓴 이름이니까 당연히 맞지!",
+						"speaker": "마라 2",
+						"summary": "당시 확인한 말과 감각",
+						"title": "초상화 곁에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_NAME"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_portrait_pressed",
+				"source_text_id": "P3B_NAME",
+				"speaker_id": "MARA2",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3B_PATTERNS": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3B",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Vertical lines, diagonal wiping traces, a double pulse, a petal halo, and a double frame respond in turn.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Beside the portraits"
+					},
+					"ko-KR": {
+						"body": "수직선, 대각 닦임, 이중 맥박, 꽃잎 후광, 이중 액자가 차례로 반응한다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "초상화 곁에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_PATTERNS"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_portrait_pressed",
+				"source_text_id": "P3B_PATTERNS",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3B_WRONG": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3B",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Trust color alone and you'll get it wrong! Check the appearance and function label together. That's basic!",
+						"speaker": "Mara 2",
+						"summary": "Words and impressions observed then",
+						"title": "Beside the portraits"
+					},
+					"ko-KR": {
+						"body": "색 하나만 믿으면 틀려! 외형과 기능 라벨을 같이 봐. 기본이잖아!",
+						"speaker": "마라 2",
+						"summary": "당시 확인한 말과 감각",
+						"title": "초상화 곁에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_WRONG"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_portrait_pressed",
+				"source_text_id": "P3B_WRONG",
+				"speaker_id": "MARA2",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_A_AUTHOR": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "These are the master's records.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "주인님의 기록입니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_A_AUTHOR"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_answer_p3_journal_choice",
+				"source_text_id": "P3_A_AUTHOR",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_A_LOCKED": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Damaged records are easily misread.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "손상된 기록은 잘못 읽히기 쉽습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_A_LOCKED"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_answer_p3_journal_choice",
+				"source_text_id": "P3_A_LOCKED",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_COMPLETE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The sorting is complete. Please leave the inner archive as it is.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "분류가 끝났습니다. 기록 내실은 그대로 두십시오.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_COMPLETE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_finish_p3_book_placement",
+				"source_text_id": "P3_COMPLETE",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_DISCOVER": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "An old journal falls from inside the return slot. Its cover is illegible, and the ink overlaps as though pushed in one direction.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "반납 슬롯 안쪽에서 낡은 일지 한 권이 떨어진다. 표지는 읽히지 않고, 본문 잉크는 한 방향으로 밀린 것처럼 겹쳐 있다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_DISCOVER"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_shelf_pressed",
+				"source_text_id": "P3_DISCOVER",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_DOOR": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The inner latch resists before the handle does. Instead of a keyhole, the frame has a vertical groove as thin as a rapier blade.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "손잡이보다 안쪽 걸쇠가 먼저 버틴다. 문틀에는 열쇠구멍 대신 레이피어 날처럼 가는 세로 홈이 있다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_DOOR"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_inspect_inner_door",
+				"source_text_id": "P3_DOOR",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_INTRO": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "These are the outer library's returned books. Match the spine patterns to the shelf markings.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "외부 서고의 반납분입니다. 책등 문양과 선반 표식을 맞춰 주십시오.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_INTRO"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_library",
+				"source_text_id": "P3_INTRO",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_LEDGER": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "It is an old research ledger. It is not available for reading at present. I suggest you put it back.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "오래된 연구 장부입니다. 현재는 열람 대상이 아닙니다. 제자리에 두시는 편이 좋겠습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_LEDGER"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_shelf_pressed/_resume_p3_journal_choice",
+				"source_text_id": "P3_LEDGER",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "options_presented",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"author": "Who wrote this ledger?",
+						"header": "Ask about the ledger",
+						"locked": "Why is it locked?",
+						"prompt": "Edgar holds out his hand, as if asking me to put the ledger down. What should I ask?",
+						"silent": "Put it down without a word",
+						"speaker": "Displayed choices",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"author": "누가 쓴 장부입니까?",
+						"header": "장부에 대해 묻는다",
+						"locked": "왜 잠겨 있습니까?",
+						"prompt": "에드가는 장부를 내려놓으라는 듯 손을 내민다. 무엇을 물어볼까.",
+						"silent": "말없이 내려놓는다",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"author": "P3_Q_AUTHOR",
+					"header": "P3_HEADER",
+					"locked": "P3_Q_LOCKED",
+					"prompt": "P3_PROMPT",
+					"silent": "P3_Q_SILENT"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_dialogue_choice_set/_record_choice_history",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"author": {},
+					"header": {},
+					"locked": {},
+					"prompt": {},
+					"silent": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"prompt",
+					"author",
+					"locked",
+					"silent"
+				]
+			}
+		},
+		"NB_PR_P3_RESTRICTED": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The inner archive is not part of your duties.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "기록 내실은 정리 대상이 아닙니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_RESTRICTED"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_library",
+				"source_text_id": "P3_RESTRICTED",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_RESUME": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The old ledger I could not put down is still in my hands. I cannot read its cover.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "내려놓지 못한 낡은 장부가 아직 손안에 있다. 표지의 글자는 읽히지 않는다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_RESUME"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p3_journal_choice",
+				"source_text_id": "P3_RESUME",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_SELECT_AUTHOR": {
+			"1": {
+				"action_or_variant": "selected_author",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "choice_confirmed",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Who wrote this ledger?",
+						"speaker": "Selected option",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "누가 쓴 장부입니까?",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_Q_AUTHOR"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_dialogue_choice_pressed",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_SELECT_LOCKED": {
+			"1": {
+				"action_or_variant": "selected_locked",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "choice_confirmed",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Why is it locked?",
+						"speaker": "Selected option",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "왜 잠겨 있습니까?",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_Q_LOCKED"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_dialogue_choice_pressed",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P3_SELECT_SILENT": {
+			"1": {
+				"action_or_variant": "selected_silent",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "choice_confirmed",
+				"event_id": "P3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Put it down without a word",
+						"speaker": "Selected option",
+						"summary": "Words and impressions observed then",
+						"title": "In the outer library"
+					},
+					"ko-KR": {
+						"body": "말없이 내려놓는다",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인한 말과 감각",
+						"title": "외부 서고에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_Q_SILENT"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_dialogue_choice_pressed",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_A_FATHER_TEA": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Yes... he liked a similar fragrance.\nWhether it was exactly the same... I'm no longer sure.",
+						"speaker": "Luka",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "네... 비슷한 향을 좋아하셨어요.\n정확히 같은지는... 이제 자신이 없지만요.",
+						"speaker": "루카",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_A_FATHER_TEA"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_present_p4_question_answer",
+				"source_text_id": "P4_A_FATHER_TEA",
+				"speaker_id": "LUCA",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_A_LUCA_TENURE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "A long time... a very long time.\nBut when I count the days, I always get the same number...",
+						"speaker": "Luka",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "오래요... 아주 오래요.\n그런데 며칠이라고 세면, 늘 같은 수가 나와서...",
+						"speaker": "루카",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_A_LUCA_TENURE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_present_p4_question_answer",
+				"source_text_id": "P4_A_LUCA_TENURE",
+				"speaker_id": "LUCA",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_A_MANSION_AGE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "As long as you can remember... or so I've been told.",
+						"speaker": "Luka",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "아가씨가 기억하는 만큼 오래됐다고... 들었어요.",
+						"speaker": "루카",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_A_MANSION_AGE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_present_p4_question_answer",
+				"source_text_id": "P4_A_MANSION_AGE",
+				"speaker_id": "LUCA",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_LINK_GUIDE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Warm the cup first... just one spoonful of tea leaves. After pouring the water, please wait for one run of the hourglass...",
+						"speaker": "Luka",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "잔을 먼저 데우고... 찻잎은 한 스푼만. 물을 부은 뒤에는 모래시계 한 칸을 기다려 주세요...",
+						"speaker": "루카",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_LINK_GUIDE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_kitchen",
+				"source_text_id": "P4_LINK_GUIDE",
+				"speaker_id": "LUCA",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_LINK_INTRO": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Oh, my lady... you're here... I was going to make the tea, but they said it was on your schedule today... Could we do it together?",
+						"speaker": "Luka",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "아, 아가씨... 오셨네요... 차는 제가 준비하려고 했는데, 오늘 일과에 들어 있다고 해서요... 같이 해도 괜찮을까요?",
+						"speaker": "루카",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_LINK_INTRO"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_kitchen",
+				"source_text_id": "P4_LINK_INTRO",
+				"speaker_id": "LUCA",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_LINK_IRIS_HELLO": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4_IRIS_GREETING",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Heehee, you're here too, my lady. I'm glad you look so peaceful today.",
+						"speaker": "Iris",
+						"summary": "Words and impressions observed then",
+						"title": "Iris's greeting"
+					},
+					"ko-KR": {
+						"body": "우후후, 아가씨도 계셨네요. 오늘도 참 평온한 얼굴이라 다행이에요.",
+						"speaker": "이리스",
+						"summary": "당시 확인한 말과 감각",
+						"title": "이리스의 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_LINK_IRIS_HELLO"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4_IRIS_GREETING"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_p4_iris_greeting",
+				"source_text_id": "P4_LINK_IRIS_HELLO",
+				"speaker_id": "IRIS",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_LINK_IRIS_INVITE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4_IRIS_GREETING",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "If you have time, stop by the greenhouse. Today it's raining only inside. It's quite lovely.",
+						"speaker": "Iris",
+						"summary": "Words and impressions observed then",
+						"title": "Iris's greeting"
+					},
+					"ko-KR": {
+						"body": "시간이 남으면 온실 앞에 들러 보세요. 오늘은 안쪽에만 비가 와서, 제법 예쁘답니다.",
+						"speaker": "이리스",
+						"summary": "당시 확인한 말과 감각",
+						"title": "이리스의 인사"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_LINK_IRIS_INVITE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4_IRIS_GREETING"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_p4_iris_greeting",
+				"source_text_id": "P4_LINK_IRIS_INVITE",
+				"speaker_id": "IRIS",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_ABSENCE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "No face comes to mind. Nor any words from that moment.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "얼굴도, 그때의 대사도 떠오르지 않는다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_ABSENCE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p4_memory_anchor",
+				"source_text_id": "P4_MEMORY_ABSENCE",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_ALREADY": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The handle points toward the seat on the left again. Touching it more doesn't seem likely to change anything.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "손잡이는 다시 왼쪽 자리를 향하고 있다. 더 건드려도 달라질 것 같지 않다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_ALREADY"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_turn_p4_cup_handle",
+				"source_text_id": "P4_MEMORY_ALREADY",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_EARS": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The light-green patches inside Luka's round ears blink twice at the same interval.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "같은 간격으로 루카의 둥근 귀 안쪽, 연두색 부분이 두 번 점멸한다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_EARS"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p4_life_support_foreshadow",
+				"source_text_id": "P4_MEMORY_EARS",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_GROOVE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Without being told, my thumb finds a shallow groove inside the teacup's handle.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "지시받지 않았는데도 엄지가 찻잔 손잡이 안쪽의 얕은 홈을 찾아낸다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_GROOVE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p4_memory_anchor",
+				"source_text_id": "P4_MEMORY_GROOVE",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_HABIT": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "When you set it that way... it was always right.",
+						"speaker": "Luka",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "그렇게 두시면... 늘 맞았어요.",
+						"speaker": "루카",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_HABIT"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p4_memory_anchor",
+				"source_text_id": "P4_MEMORY_HABIT",
+				"speaker_id": "LUCA",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_HAND": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The afterimage of a larger hand overlaps the familiar scent of tea leaves.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "낯익은 찻잎 향 위로 더 큰 손의 잔상이 겹친다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_HAND"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p4_memory_anchor",
+				"source_text_id": "P4_MEMORY_HAND",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_PAUSE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Luka stills the tea towel in her hands and glances at me.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "루카는 손에 든 찻수건을 멈춘 채 잠깐 주인공을 바라본다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_PAUSE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p4_memory_anchor",
+				"source_text_id": "P4_MEMORY_PAUSE",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_PULSE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "While the tea steeps, two low pulses sound from the base of the kettle.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "차가 우러나는 동안 주전자 바닥에서 낮은 맥박이 두 번 울린다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_PULSE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p4_life_support_foreshadow",
+				"source_text_id": "P4_MEMORY_PULSE",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_REPLY": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "A delayed answering tone comes from beneath the floor. It resembles the pulse at my wrist, but the rhythm is not quite the same.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "바닥 아래에서 한 번 늦은 응답음이 돌아온다. 손목의 맥박과 비슷하지만, 완전히 같은 박자는 아니다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_REPLY"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p4_life_support_foreshadow",
+				"source_text_id": "P4_MEMORY_REPLY",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_RETURN": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "As I let go, porcelain scrapes once against the saucer, and the handle returns to its original angle on the left.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "손을 떼는 순간 도자기가 받침을 한 번 긁으며, 손잡이가 원래의 왼쪽 각도로 되돌아간다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_RETURN"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_turn_p4_cup_handle",
+				"source_text_id": "P4_MEMORY_RETURN",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_SCRAPE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "My hand turns the cup toward the seat on the left. Porcelain scrapes briefly against the saucer.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "손이 찻잔을 왼쪽 자리 쪽으로 돌린다. 도자기가 받침 위에서 짧게 긁힌다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_SCRAPE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p4_memory_anchor",
+				"source_text_id": "P4_MEMORY_SCRAPE",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_TURN": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "I slowly turn the cup's handle the other way.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "찻잔 손잡이를 반대쪽으로 천천히 돌려 본다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_TURN"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_turn_p4_cup_handle",
+				"source_text_id": "P4_MEMORY_TURN",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_MEMORY_WHY": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Why does it have to face this way?",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "왜 이쪽이어야 하지?",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_MEMORY_WHY"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_resume_p4_memory_anchor",
+				"source_text_id": "P4_MEMORY_WHY",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "options_presented",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"father_tea": "Was this Father's favorite tea?",
+						"header": "Ask before the tea cools",
+						"luca_tenure": "Have you worked here a long time, Luka?",
+						"mansion_age": "How long has this mansion been here?",
+						"prompt": "Luka waits without taking her eyes off the teacup. It feels like I can ask just one question.",
+						"speaker": "Displayed choices",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"father_tea": "아버지가 좋아한 차인가요?",
+						"header": "차가 식기 전에 묻는다",
+						"luca_tenure": "루카는 여기서 오래 일했나요?",
+						"mansion_age": "이 저택은 언제부터 있었나요?",
+						"prompt": "루카는 대답을 기다리면서도 찻잔에서 시선을 떼지 않는다. 한 가지만 물어볼 수 있을 것 같다.",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"father_tea": "P4_Q_FATHER_TEA",
+					"header": "P4_HEADER",
+					"luca_tenure": "P4_Q_LUCA_TENURE",
+					"mansion_age": "P4_Q_MANSION_AGE",
+					"prompt": "P4_PROMPT"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_dialogue_choice_set/_record_choice_history",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"father_tea": {},
+					"header": {},
+					"luca_tenure": {},
+					"mansion_age": {},
+					"prompt": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"prompt",
+					"father_tea",
+					"mansion_age",
+					"luca_tenure"
+				]
+			}
+		},
+		"NB_PR_P4_SELECT_FATHER_TEA": {
+			"1": {
+				"action_or_variant": "selected_father_tea",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "choice_confirmed",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Was this Father's favorite tea?",
+						"speaker": "Selected option",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "아버지가 좋아한 차인가요?",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_Q_FATHER_TEA"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_dialogue_choice_pressed",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_SELECT_LUCA_TENURE": {
+			"1": {
+				"action_or_variant": "selected_luca_tenure",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "choice_confirmed",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Have you worked here a long time, Luka?",
+						"speaker": "Selected option",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "루카는 여기서 오래 일했나요?",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_Q_LUCA_TENURE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_dialogue_choice_pressed",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_SELECT_MANSION_AGE": {
+			"1": {
+				"action_or_variant": "selected_mansion_age",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "choice_confirmed",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "How long has this mansion been here?",
+						"speaker": "Selected option",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "이 저택은 언제부터 있었나요?",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_Q_MANSION_AGE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_dialogue_choice_pressed",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_SERVE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "I'll serve it... before the tea gets cold.",
+						"speaker": "Luka",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "차가 식기 전에... 내어 갈게요.",
+						"speaker": "루카",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_SERVE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_present_p4_question_answer",
+				"source_text_id": "P4_SERVE",
+				"speaker_id": "LUCA",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P4_TENURE_PAUSE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Luka closes her lips, as though only now realizing what she said. Her fingers hurry to gather the cups neatly.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Preparing tea"
+					},
+					"ko-KR": {
+						"body": "루카는 자신이 한 말을 뒤늦게 알아차린 듯 입술을 다문다. 손끝이 급히 찻잔을 가지런히 모은다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "차를 준비하며"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_TENURE_PAUSE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_present_p4_question_answer",
+				"source_text_id": "P4_TENURE_PAUSE",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P5_ANSWER": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P5",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "If it feels cold to you, my lady, it is real. If you feel nothing... perhaps it needs another name.",
+						"speaker": "Iris",
+						"summary": "Words and impressions observed then",
+						"title": "Outside the greenhouse"
+					},
+					"ko-KR": {
+						"body": "아가씨가 차갑다고 느끼면 진짜고, 아무것도 느끼지 못하면... 다른 이름이 필요하겠죠.",
+						"speaker": "이리스",
+						"summary": "당시 확인한 말과 감각",
+						"title": "온실 앞에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_ANSWER"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P5"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_complete_p5",
+				"source_text_id": "P5_ANSWER",
+				"speaker_id": "IRIS",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P5_CORRIDOR": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P5",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "It is clear outside the corridor, and the railing is completely dry.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Outside the greenhouse"
+					},
+					"ko-KR": {
+						"body": "복도 밖은 맑고 난간은 완전히 말라 있다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "온실 앞에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_CORRIDOR"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P5"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_observe_weather",
+				"source_text_id": "P5_CORRIDOR",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P5_GLASS": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P5",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Rain and wet leaves are visible behind the glass. The sound of rain comes from the ceiling pipes.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Outside the greenhouse"
+					},
+					"ko-KR": {
+						"body": "유리 안쪽에는 빗줄기와 젖은 잎이 보인다. 빗소리는 천장 배관 쪽에서 난다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "온실 앞에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_GLASS"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P5"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_observe_weather",
+				"source_text_id": "P5_GLASS",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P5_HELLO": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P5",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Heehee, you really came. Some days it rains only on the inside.",
+						"speaker": "Iris",
+						"summary": "Words and impressions observed then",
+						"title": "Outside the greenhouse"
+					},
+					"ko-KR": {
+						"body": "우후후, 정말 오셨네요. 비는 안쪽에서만 오는 날도 있어요.",
+						"speaker": "이리스",
+						"summary": "당시 확인한 말과 감각",
+						"title": "온실 앞에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_HELLO"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P5"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_greenhouse",
+				"source_text_id": "P5_HELLO",
+				"speaker_id": "IRIS",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P5_OUTSIDE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P5",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Outside isn't always the outdoors, after all.",
+						"speaker": "Iris",
+						"summary": "Words and impressions observed then",
+						"title": "Outside the greenhouse"
+					},
+					"ko-KR": {
+						"body": "밖이 언제나 바깥인 건 아니니까요.",
+						"speaker": "이리스",
+						"summary": "당시 확인한 말과 감각",
+						"title": "온실 앞에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_OUTSIDE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P5"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_greenhouse",
+				"source_text_id": "P5_OUTSIDE",
+				"speaker_id": "IRIS",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P5_QUESTION": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P5",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Is this rain real?",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Outside the greenhouse"
+					},
+					"ko-KR": {
+						"body": "이 비는 진짜인가요?",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "온실 앞에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_QUESTION"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P5"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_complete_p5",
+				"source_text_id": "P5_QUESTION",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P5_THRESHOLD": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P5",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The soil at the threshold is dry, and the season plate is fixed on 'Spring · clear'.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Outside the greenhouse"
+					},
+					"ko-KR": {
+						"body": "문턱의 흙은 마르고 계절판은 '봄·맑음'에 고정되어 있다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "온실 앞에서"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_THRESHOLD"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P5"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_observe_weather",
+				"source_text_id": "P5_THRESHOLD",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P6_DARK": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P6",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "My sight goes dark before the bed envelops me.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Before sleep"
+					},
+					"ko-KR": {
+						"body": "침대가 몸을 감싸기 전에 시야가 먼저 어두워진다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "잠들기 전에"
+					}
+				},
+				"localization_keys": {
+					"body": "P6_DARK"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P6"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_begin_first_sleep",
+				"source_text_id": "P6_DARK",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P6_INSPECT_WINDOW": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P6",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The garden is bright. Yet the glass feels oddly lukewarm in the sunlight, and the distant bird never changes altitude.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Before sleep"
+					},
+					"ko-KR": {
+						"body": "정원은 맑다. 그런데 유리는 햇빛보다 미지근하고, 멀리 있는 새는 한 번도 고도를 바꾸지 않는다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "잠들기 전에"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_INSPECT_WINDOW"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P6"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_inspect_bedroom",
+				"source_text_id": "P1_INSPECT_WINDOW",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P6_NIGHT_EDGAR_DONE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P6",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Today's schedule is complete. I have also checked the condition of your bedroom.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Before sleep"
+					},
+					"ko-KR": {
+						"body": "오늘 일정은 종료되었습니다. 침실 상태도 확인했습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "잠들기 전에"
+					}
+				},
+				"localization_keys": {
+					"body": "P6_NIGHT_EDGAR_DONE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P6"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_bedroom",
+				"source_text_id": "P6_NIGHT_EDGAR_DONE",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P6_NIGHT_EDGAR_REST": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P6",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "I suggest you rest now.",
+						"speaker": "Edgar",
+						"summary": "Words and impressions observed then",
+						"title": "Before sleep"
+					},
+					"ko-KR": {
+						"body": "이제 쉬시는 편이 좋겠습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인한 말과 감각",
+						"title": "잠들기 전에"
+					}
+				},
+				"localization_keys": {
+					"body": "P6_NIGHT_EDGAR_REST"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P6"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_bedroom",
+				"source_text_id": "P6_NIGHT_EDGAR_REST",
+				"speaker_id": "EDGAR",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P6_SLEEP_CANCEL": {
+			"1": {
+				"action_or_variant": "cancel",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "choice_cancelled",
+				"event_id": "P6",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Investigate a little longer",
+						"speaker": "Selected option",
+						"summary": "Words and impressions observed then",
+						"title": "Before sleep"
+					},
+					"ko-KR": {
+						"body": "조금 더 조사한다",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인한 말과 감각",
+						"title": "잠들기 전에"
+					}
+				},
+				"localization_keys": {
+					"body": "P6_CANCEL"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P6"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_sleep_bed/_prologue_confirmation_pressed",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P6_SLEEP_CONFIRM": {
+			"1": {
+				"action_or_variant": "confirm",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "choice_confirmed",
+				"event_id": "P6",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Go to sleep",
+						"speaker": "Selected option",
+						"summary": "Words and impressions observed then",
+						"title": "Before sleep"
+					},
+					"ko-KR": {
+						"body": "잠든다",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인한 말과 감각",
+						"title": "잠들기 전에"
+					}
+				},
+				"localization_keys": {
+					"body": "P6_SLEEP"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P6"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_sleep_bed/_prologue_confirmation_pressed",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_P6_SLEEP_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "options_presented",
+				"event_id": "P6",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"cancel": "Investigate a little longer",
+						"confirm": "Go to sleep",
+						"header": "End the day",
+						"prompt": "It feels as though my sight will go dark before the bed envelops me.",
+						"speaker": "Displayed choices",
+						"summary": "Words and impressions observed then",
+						"title": "Before sleep"
+					},
+					"ko-KR": {
+						"cancel": "조금 더 조사한다",
+						"confirm": "잠든다",
+						"header": "오늘을 끝냅니다",
+						"prompt": "침대가 몸을 감싸기 전에 시야가 먼저 어두워질 것 같은 기분이 듭니다.",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인한 말과 감각",
+						"title": "잠들기 전에"
+					}
+				},
+				"localization_keys": {
+					"cancel": "P6_CANCEL",
+					"confirm": "P6_SLEEP",
+					"header": "P6_TITLE",
+					"prompt": "P6_BODY"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P6"
+				],
+				"owner": "development/content",
+				"producer_id": "NP02",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_on_sleep_bed",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"cancel": {},
+					"confirm": {},
+					"header": {},
+					"prompt": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"prompt",
+					"confirm",
+					"cancel"
+				]
+			}
+		},
+		"NB_PR_P6_SOUND": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "P6",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "A low clock note. Two pulses. The last of three quick notes cuts off.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Before sleep"
+					},
+					"ko-KR": {
+						"body": "낮은 시계음. 두 번의 맥박. 빠른 세 음의 마지막이 잘린다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "잠들기 전에"
+					}
+				},
+				"localization_keys": {
+					"body": "P6_SOUND"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P6"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_begin_first_sleep",
+				"source_text_id": "P6_SOUND",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_PF_LIGHT": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "PF",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The parlor windows still bear the traces of this morning's cleaning, but the light outside has not shifted at all.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Evening observations"
+					},
+					"ko-KR": {
+						"body": "대응접실의 창문은 아침에 닦은 흔적 그대로인데, 바깥빛만 한 치도 움직이지 않았다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "저녁 조사"
+					}
+				},
+				"localization_keys": {
+					"body": "PF_LIGHT"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"PF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_hall/_evening_ambient",
+				"source_text_id": "PF_LIGHT",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_PF_PAGES": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "PF",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Pages rustle behind the inner archive's glass door. No one is visible inside.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Evening observations"
+					},
+					"ko-KR": {
+						"body": "기록 내실의 유리문 뒤에서 종이 넘기는 소리가 난다. 안에는 아무도 보이지 않는다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "저녁 조사"
+					}
+				},
+				"localization_keys": {
+					"body": "PF_PAGES"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"PF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_build_hall/_evening_ambient",
+				"source_text_id": "PF_PAGES",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_R1_NOTES": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "R1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "But the words in the notebook have not disappeared.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Morning again"
+					},
+					"ko-KR": {
+						"body": "하지만 수첩 안의 문장들은 사라지지 않았다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "다시 온 아침"
+					}
+				},
+				"localization_keys": {
+					"body": "R1_NOTES"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"R1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_after_reset",
+				"source_text_id": "R1_NOTES",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_R1_SAME": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "R1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The light between the curtains and the folds in the bedspread are exactly where they were yesterday morning.",
+						"speaker": "Protagonist",
+						"summary": "Words and impressions observed then",
+						"title": "Morning again"
+					},
+					"ko-KR": {
+						"body": "커튼 사이의 빛도, 침대보의 주름도, 어제 아침과 같은 자리에 있다.",
+						"speaker": "주인공",
+						"summary": "당시 확인한 말과 감각",
+						"title": "다시 온 아침"
+					}
+				},
+				"localization_keys": {
+					"body": "R1_SAME"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"R1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_after_reset",
+				"source_text_id": "R1_SAME",
+				"speaker_id": "SUBJECT",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PR_R1_WAKE": {
+			"1": {
+				"action_or_variant": "spoken",
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "dialogue",
+				"event_id": "R1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "I open my eyes to birdsong.",
+						"speaker": "SYSTEM",
+						"summary": "Words and impressions observed then",
+						"title": "Morning again"
+					},
+					"ko-KR": {
+						"body": "새가 우는 소리에 눈을 뜬다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인한 말과 감각",
+						"title": "다시 온 아침"
+					}
+				},
+				"localization_keys": {
+					"body": "R1_WAKE"
+				},
+				"location_source": "_current_room:captured_before_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"R1"
+				],
+				"owner": "development/content",
+				"producer_id": "NP01",
+				"protection_reasons": [],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "_show_after_reset",
+				"source_text_id": "R1_WAKE",
+				"speaker_id": "SYSTEM",
+				"text_source": "res://data/dialogue/prologue/prologue_text.tres",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

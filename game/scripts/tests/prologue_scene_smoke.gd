@@ -1,8 +1,12 @@
 extends RefCounted
 
 
-func _history_payload(entry: Dictionary) -> Dictionary:
-	return preload("res://scripts/systems/notebook_archive.gd").display_payload(entry)
+func _history_text(entry: Dictionary) -> String:
+	if entry.get("record_class") == "authored":
+		var paragraphs := PackedStringArray()
+		for segment in entry.observation.segments: paragraphs.append(segment.captured_text)
+		return "\n".join(paragraphs)
+	return preload("res://scripts/systems/notebook_archive.gd").display_payload(entry).variables.text
 
 const PROLOGUE_SCENE := preload("res://scenes/prologue/prologue.tscn")
 const CAPTURE_ARG := "--capture-prologue"
@@ -558,16 +562,18 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	prologue._dismiss_dialogue_for_test()
 	var before_failed_sleep: Dictionary = prologue._progress.duplicate(true)
 	var choice_start: int = GameState.get_value(&"meta_progress.dialogue_history.entries", []).size()
-	prologue._show_dialogue_choice_set("p3_journal", "Journal", "주인공", "A shown question prompt", "", ["author"], {"author": {"label": "Shown author question"}, "locked": {"label": "Unshown option"}})
+	var shown_label: String = prologue._dialogue_ui_text("P3_Q_AUTHOR")
+	var hidden_label: String = prologue._dialogue_ui_text("P3_Q_LOCKED")
+	prologue._show_dialogue_choice_set("p3_journal", prologue._dialogue_ui_text("P3_HEADER"), "주인공", prologue._dialogue_ui_text("P3_PROMPT"), "", ["author"], prologue._localized_p3_choices())
 	var shown_choices: Array = GameState.get_value(&"meta_progress.dialogue_history.entries", [])
-	_expect(shown_choices.size() == choice_start + 1 and _history_payload(shown_choices.back())["variables"]["text"].contains("Shown author question") and not _history_payload(shown_choices.back())["variables"]["text"].contains("Unshown option"), "Choice history includes only displayed options", errors)
+	_expect(shown_choices.size() == choice_start + 1 and _history_text(shown_choices.back()).contains(shown_label) and not _history_text(shown_choices.back()).contains(hidden_label), "Choice history includes only displayed options", errors)
 	prologue._slot_id = "../invalid_choice_history"
 	prologue._dialogue_choice_buttons[0].pressed.emit()
 	_expect(prologue._dialogue_choice_active and GameState.get_value(&"meta_progress.dialogue_history.entries", []).size() == choice_start + 1, "Failed selected-option save keeps choices open", errors)
 	prologue._slot_id = RESET_TEST_SLOT
 	prologue._dialogue_choice_buttons[0].pressed.emit()
 	var selected_choices: Array = GameState.get_value(&"meta_progress.dialogue_history.entries", [])
-	_expect(selected_choices.size() == choice_start + 3 and _history_payload(selected_choices[choice_start + 1])["variables"]["text"] == "Shown author question", "Choice retry records selection once before displayed answer", errors)
+	_expect(selected_choices.size() == choice_start + 3 and _history_text(selected_choices[choice_start + 1]) == shown_label, "Choice retry records selection once before displayed answer", errors)
 	prologue._dismiss_dialogue_for_test()
 	before_failed_sleep = prologue._progress.duplicate(true)
 	var history_count: int = GameState.get_value(&"meta_progress.dialogue_history.entries", []).size()

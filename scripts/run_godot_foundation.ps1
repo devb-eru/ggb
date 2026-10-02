@@ -139,6 +139,9 @@ Assert-GodotValidation -Result $migrationResult -Name "Notebook save migration a
 $notebookContentResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-content-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookContentResult -Name "Notebook authored hint content" -RequiredMarker "NOTEBOOK_CONTENT_SMOKE: PASS"
 
+$notebookPrologueResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-prologue-smoke", "--ggb-dev-notebook-v2")
+Assert-GodotValidation -Result $notebookPrologueResult -Name "Notebook authored prologue dialogue and choices" -RequiredMarker "NOTEBOOK_PROLOGUE_SMOKE: PASS"
+
 $blackMirrorResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--black-mirror-smoke")
 Assert-GodotValidation -Result $blackMirrorResult -Name "Black mirror chapter smoke" -RequiredMarker "BLACK_MIRROR_SMOKE: PASS"
 Write-Host "Black mirror mixture, irreversible trace, reset, capture, and J3 validation passed."

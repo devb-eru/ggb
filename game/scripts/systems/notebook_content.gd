@@ -1,7 +1,7 @@
 extends RefCounted
 
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
-const CATALOGS := ["res://data/notebook/hints_v1.json"]
+const CATALOGS := ["res://data/notebook/hints_v1.json", "res://data/notebook/prologue_v1.json"]
 const ALIASES := {"BF": "B3_B", "CF": "C4", "DF": "D1"}
 const TYPES := {"string": TYPE_STRING, "int": TYPE_INT, "float": TYPE_FLOAT, "bool": TYPE_BOOL}
 static var _contents: Dictionary = {}
@@ -12,8 +12,13 @@ static var _loaded := false
 static func hint_descriptor(stage: String, level: int) -> Dictionary:
 	if level < 0 or level >= 5: return {}
 	var id := "NB_HINT_%s_H%d" % [ALIASES.get(stage, stage), level + 1]
-	if definition(id, 1).is_empty(): return {}
-	return {"content_id": id, "content_version": 1, "variant_id": "requested_H%d" % (level + 1), "segments": {"body": {}}}
+	return descriptor(id, 1, {"body": {}})
+
+
+static func descriptor(id: String, version: int, segments: Dictionary) -> Dictionary:
+	var row := definition(id, version)
+	if row.is_empty(): return {}
+	return {"content_id": id, "content_version": version, "variant_id": row.action_or_variant, "segments": segments.duplicate(true)}
 
 
 static func definition(id: String, version: int) -> Dictionary:
