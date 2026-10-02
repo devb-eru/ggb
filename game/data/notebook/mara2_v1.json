@@ -1,0 +1,6133 @@
+{
+	"contents": {
+		"NB_MARA2_ALIGN": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "I align the three-tone start with the double-outline reference line.",
+						"speaker": "Protagonist",
+						"summary": "Start Marks and Outline References",
+						"title": "Start Marks and Outline References"
+					},
+					"ko-KR": {
+						"line_01": "3음 시작점과 이중 윤곽의 기준선을 맞춘다.",
+						"speaker": "주인공",
+						"summary": "시작점과 윤곽의 기준선",
+						"title": "시작점과 윤곽의 기준선"
+					}
+				},
+				"localization_keys": {
+					"line_01": "ALIGN:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "ALIGN",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_ALIGN_A_OUTLINE_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_3",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Align the three-tone start mark with the double-outline reference line.",
+						"header": "Portrait A",
+						"option_0": "Review the Marks",
+						"option_1": "Reference Point 1",
+						"option_2": "Reference Point 2",
+						"option_3": "Reference Point 3",
+						"speaker": "Displayed choices",
+						"summary": "Choosing a Portrait's Reference Point",
+						"title": "Choosing a Portrait's Reference Point"
+					},
+					"ko-KR": {
+						"body": "3음 시작 표식과 이중 윤곽 기준선을 맞춘다.",
+						"header": "초상화 A",
+						"option_0": "표식을 다시 본다",
+						"option_1": "기준점 1",
+						"option_2": "기준점 2",
+						"option_3": "기준점 3",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 기준점 선택",
+						"title": "초상화의 기준점 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "ALIGN_A_OUTLINE_OPTIONS:body",
+					"header": "ALIGN_A_OUTLINE_OPTIONS:header",
+					"option_0": "ALIGN_A_OUTLINE_OPTIONS:option_0",
+					"option_1": "ALIGN_A_OUTLINE_OPTIONS:option_1",
+					"option_2": "ALIGN_A_OUTLINE_OPTIONS:option_2",
+					"option_3": "ALIGN_A_OUTLINE_OPTIONS:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ALIGN_A_OUTLINE_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_MARA2_ALIGN_A_START_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_3",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Align the three-tone start mark with the double-outline reference line.",
+						"header": "Portrait A",
+						"option_0": "Review the Marks",
+						"option_1": "Reference Point 1",
+						"option_2": "Reference Point 2",
+						"option_3": "Reference Point 3",
+						"speaker": "Displayed choices",
+						"summary": "Choosing a Portrait's Reference Point",
+						"title": "Choosing a Portrait's Reference Point"
+					},
+					"ko-KR": {
+						"body": "3음 시작 표식과 이중 윤곽 기준선을 맞춘다.",
+						"header": "초상화 A",
+						"option_0": "표식을 다시 본다",
+						"option_1": "기준점 1",
+						"option_2": "기준점 2",
+						"option_3": "기준점 3",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 기준점 선택",
+						"title": "초상화의 기준점 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "ALIGN_A_START_OPTIONS:body",
+					"header": "ALIGN_A_START_OPTIONS:header",
+					"option_0": "ALIGN_A_START_OPTIONS:option_0",
+					"option_1": "ALIGN_A_START_OPTIONS:option_1",
+					"option_2": "ALIGN_A_START_OPTIONS:option_2",
+					"option_3": "ALIGN_A_START_OPTIONS:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ALIGN_A_START_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_MARA2_ALIGN_B_OUTLINE_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_3",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Align the three-tone start mark with the double-outline reference line.",
+						"header": "Portrait B",
+						"option_0": "Review the Marks",
+						"option_1": "Reference Point 1",
+						"option_2": "Reference Point 2",
+						"option_3": "Reference Point 3",
+						"speaker": "Displayed choices",
+						"summary": "Choosing a Portrait's Reference Point",
+						"title": "Choosing a Portrait's Reference Point"
+					},
+					"ko-KR": {
+						"body": "3음 시작 표식과 이중 윤곽 기준선을 맞춘다.",
+						"header": "초상화 B",
+						"option_0": "표식을 다시 본다",
+						"option_1": "기준점 1",
+						"option_2": "기준점 2",
+						"option_3": "기준점 3",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 기준점 선택",
+						"title": "초상화의 기준점 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "ALIGN_B_OUTLINE_OPTIONS:body",
+					"header": "ALIGN_B_OUTLINE_OPTIONS:header",
+					"option_0": "ALIGN_B_OUTLINE_OPTIONS:option_0",
+					"option_1": "ALIGN_B_OUTLINE_OPTIONS:option_1",
+					"option_2": "ALIGN_B_OUTLINE_OPTIONS:option_2",
+					"option_3": "ALIGN_B_OUTLINE_OPTIONS:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ALIGN_B_OUTLINE_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_MARA2_ALIGN_B_START_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_3",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Align the three-tone start mark with the double-outline reference line.",
+						"header": "Portrait B",
+						"option_0": "Review the Marks",
+						"option_1": "Reference Point 1",
+						"option_2": "Reference Point 2",
+						"option_3": "Reference Point 3",
+						"speaker": "Displayed choices",
+						"summary": "Choosing a Portrait's Reference Point",
+						"title": "Choosing a Portrait's Reference Point"
+					},
+					"ko-KR": {
+						"body": "3음 시작 표식과 이중 윤곽 기준선을 맞춘다.",
+						"header": "초상화 B",
+						"option_0": "표식을 다시 본다",
+						"option_1": "기준점 1",
+						"option_2": "기준점 2",
+						"option_3": "기준점 3",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 기준점 선택",
+						"title": "초상화의 기준점 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "ALIGN_B_START_OPTIONS:body",
+					"header": "ALIGN_B_START_OPTIONS:header",
+					"option_0": "ALIGN_B_START_OPTIONS:option_0",
+					"option_1": "ALIGN_B_START_OPTIONS:option_1",
+					"option_2": "ALIGN_B_START_OPTIONS:option_2",
+					"option_3": "ALIGN_B_START_OPTIONS:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ALIGN_B_START_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_MARA2_ALIGN_C_OUTLINE_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_3",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Align the three-tone start mark with the double-outline reference line.",
+						"header": "Portrait C",
+						"option_0": "Review the Marks",
+						"option_1": "Reference Point 1",
+						"option_2": "Reference Point 2",
+						"option_3": "Reference Point 3",
+						"speaker": "Displayed choices",
+						"summary": "Choosing a Portrait's Reference Point",
+						"title": "Choosing a Portrait's Reference Point"
+					},
+					"ko-KR": {
+						"body": "3음 시작 표식과 이중 윤곽 기준선을 맞춘다.",
+						"header": "초상화 C",
+						"option_0": "표식을 다시 본다",
+						"option_1": "기준점 1",
+						"option_2": "기준점 2",
+						"option_3": "기준점 3",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 기준점 선택",
+						"title": "초상화의 기준점 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "ALIGN_C_OUTLINE_OPTIONS:body",
+					"header": "ALIGN_C_OUTLINE_OPTIONS:header",
+					"option_0": "ALIGN_C_OUTLINE_OPTIONS:option_0",
+					"option_1": "ALIGN_C_OUTLINE_OPTIONS:option_1",
+					"option_2": "ALIGN_C_OUTLINE_OPTIONS:option_2",
+					"option_3": "ALIGN_C_OUTLINE_OPTIONS:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ALIGN_C_OUTLINE_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_MARA2_ALIGN_C_START_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_ALIGN_SELECT_3",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Align the three-tone start mark with the double-outline reference line.",
+						"header": "Portrait C",
+						"option_0": "Review the Marks",
+						"option_1": "Reference Point 1",
+						"option_2": "Reference Point 2",
+						"option_3": "Reference Point 3",
+						"speaker": "Displayed choices",
+						"summary": "Choosing a Portrait's Reference Point",
+						"title": "Choosing a Portrait's Reference Point"
+					},
+					"ko-KR": {
+						"body": "3음 시작 표식과 이중 윤곽 기준선을 맞춘다.",
+						"header": "초상화 C",
+						"option_0": "표식을 다시 본다",
+						"option_1": "기준점 1",
+						"option_2": "기준점 2",
+						"option_3": "기준점 3",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 기준점 선택",
+						"title": "초상화의 기준점 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "ALIGN_C_START_OPTIONS:body",
+					"header": "ALIGN_C_START_OPTIONS:header",
+					"option_0": "ALIGN_C_START_OPTIONS:option_0",
+					"option_1": "ALIGN_C_START_OPTIONS:option_1",
+					"option_2": "ALIGN_C_START_OPTIONS:option_2",
+					"option_3": "ALIGN_C_START_OPTIONS:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ALIGN_C_START_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_MARA2_ALIGN_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_cancelled",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Review the Marks",
+						"speaker": "Selected option",
+						"summary": "Choosing a Portrait's Reference Point",
+						"title": "Choosing a Portrait's Reference Point"
+					},
+					"ko-KR": {
+						"body": "표식을 다시 본다",
+						"speaker": "선택한 문구",
+						"summary": "초상화의 기준점 선택",
+						"title": "초상화의 기준점 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "ALIGN:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ALIGN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_ALIGN_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Reference Point 1",
+						"speaker": "Selected option",
+						"summary": "Choosing a Portrait's Reference Point",
+						"title": "Choosing a Portrait's Reference Point"
+					},
+					"ko-KR": {
+						"body": "기준점 1",
+						"speaker": "선택한 문구",
+						"summary": "초상화의 기준점 선택",
+						"title": "초상화의 기준점 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "ALIGN:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ALIGN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_ALIGN_SELECT_2": {
+			"1": {
+				"action_or_variant": "option_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Reference Point 2",
+						"speaker": "Selected option",
+						"summary": "Choosing a Portrait's Reference Point",
+						"title": "Choosing a Portrait's Reference Point"
+					},
+					"ko-KR": {
+						"body": "기준점 2",
+						"speaker": "선택한 문구",
+						"summary": "초상화의 기준점 선택",
+						"title": "초상화의 기준점 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "ALIGN:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ALIGN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_ALIGN_SELECT_3": {
+			"1": {
+				"action_or_variant": "option_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Reference Point 3",
+						"speaker": "Selected option",
+						"summary": "Choosing a Portrait's Reference Point",
+						"title": "Choosing a Portrait's Reference Point"
+					},
+					"ko-KR": {
+						"body": "기준점 3",
+						"speaker": "선택한 문구",
+						"summary": "초상화의 기준점 선택",
+						"title": "초상화의 기준점 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "ALIGN:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ALIGN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_BACKUP_EDGAR": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar Backup Region / 3cell: Arc",
+						"line_02": "The owner signatures differ, but every original reference points to Mara 2's double frame.",
+						"speaker": "Protagonist",
+						"summary": "EDGAR Backup Record",
+						"title": "EDGAR Backup Record"
+					},
+					"ko-KR": {
+						"line_01": "EDGAR 보조 영역 / 3칸: 호",
+						"line_02": "소유자 서명은 달라도 원본 참조는 마라 2의 이중 액자다.",
+						"speaker": "주인공",
+						"summary": "EDGAR 보조 기록",
+						"title": "EDGAR 보조 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "BACKUP_EDGAR:line_01",
+					"line_02": "BACKUP_EDGAR:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "BACKUP_EDGAR",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_MARA2_BACKUP_IRIS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "Iris Backup Region / 3cell: Arc, 11cell: Dot",
+						"line_02": "The owner signatures differ, but every original reference points to Mara 2's double frame.",
+						"speaker": "Protagonist",
+						"summary": "IRIS Backup Record",
+						"title": "IRIS Backup Record"
+					},
+					"ko-KR": {
+						"line_01": "IRIS 보조 영역 / 3칸: 호, 11칸: 점",
+						"line_02": "소유자 서명은 달라도 원본 참조는 마라 2의 이중 액자다.",
+						"speaker": "주인공",
+						"summary": "IRIS 보조 기록",
+						"title": "IRIS 보조 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "BACKUP_IRIS:line_01",
+					"line_02": "BACKUP_IRIS:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "BACKUP_IRIS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_MARA2_BACKUP_LUCA": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "Luca Backup Region / 11cell: Dot",
+						"line_02": "The owner signatures differ, but every original reference points to Mara 2's double frame.",
+						"speaker": "Protagonist",
+						"summary": "LUCA Backup Record",
+						"title": "LUCA Backup Record"
+					},
+					"ko-KR": {
+						"line_01": "LUCA 보조 영역 / 11칸: 점",
+						"line_02": "소유자 서명은 달라도 원본 참조는 마라 2의 이중 액자다.",
+						"speaker": "주인공",
+						"summary": "LUCA 보조 기록",
+						"title": "LUCA 보조 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "BACKUP_LUCA:line_01",
+					"line_02": "BACKUP_LUCA:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "BACKUP_LUCA",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_MARA2_BACKUP_MARA1": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 1 Backup Region / 7cell: Line",
+						"line_02": "The owner signatures differ, but every original reference points to Mara 2's double frame.",
+						"speaker": "Protagonist",
+						"summary": "MARA1 Backup Record",
+						"title": "MARA1 Backup Record"
+					},
+					"ko-KR": {
+						"line_01": "MARA1 보조 영역 / 7칸: 선",
+						"line_02": "소유자 서명은 달라도 원본 참조는 마라 2의 이중 액자다.",
+						"speaker": "주인공",
+						"summary": "MARA1 보조 기록",
+						"title": "MARA1 보조 기록"
+					}
+				},
+				"localization_keys": {
+					"line_01": "BACKUP_MARA1:line_01",
+					"line_02": "BACKUP_MARA1:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "BACKUP_MARA1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_MARA2_CELL": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "I place a copied fragment in the missing cell.",
+						"speaker": "Protagonist",
+						"summary": "A Copy Placed in a Missing Cell",
+						"title": "A Copy Placed in a Missing Cell"
+					},
+					"ko-KR": {
+						"line_01": "결손 칸에 사본 조각을 놓는다.",
+						"speaker": "주인공",
+						"summary": "결손 칸에 놓은 사본",
+						"title": "결손 칸에 놓은 사본"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CELL:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "CELL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_CELL_11_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_3",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Compare fragments that share the same original reference.",
+						"header": "Missing Cell 11",
+						"option_0": "Review the Backup Records",
+						"option_1": "Line",
+						"option_2": "Dot",
+						"option_3": "Arc",
+						"speaker": "Displayed choices",
+						"summary": "Choosing a Missing Cell's Fragment",
+						"title": "Choosing a Missing Cell's Fragment"
+					},
+					"ko-KR": {
+						"body": "원본 참조가 같은 조각을 대조한다.",
+						"header": "결손 11칸",
+						"option_0": "보조 기록을 다시 본다",
+						"option_1": "선",
+						"option_2": "점",
+						"option_3": "호",
+						"speaker": "표시된 선택지",
+						"summary": "결손 칸의 조각 선택",
+						"title": "결손 칸의 조각 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "CELL_11_OPTIONS:body",
+					"header": "CELL_11_OPTIONS:header",
+					"option_0": "CELL_11_OPTIONS:option_0",
+					"option_1": "CELL_11_OPTIONS:option_1",
+					"option_2": "CELL_11_OPTIONS:option_2",
+					"option_3": "CELL_11_OPTIONS:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CELL_11_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_MARA2_CELL_3_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_3",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Compare fragments that share the same original reference.",
+						"header": "Missing Cell 3",
+						"option_0": "Review the Backup Records",
+						"option_1": "Line",
+						"option_2": "Dot",
+						"option_3": "Arc",
+						"speaker": "Displayed choices",
+						"summary": "Choosing a Missing Cell's Fragment",
+						"title": "Choosing a Missing Cell's Fragment"
+					},
+					"ko-KR": {
+						"body": "원본 참조가 같은 조각을 대조한다.",
+						"header": "결손 3칸",
+						"option_0": "보조 기록을 다시 본다",
+						"option_1": "선",
+						"option_2": "점",
+						"option_3": "호",
+						"speaker": "표시된 선택지",
+						"summary": "결손 칸의 조각 선택",
+						"title": "결손 칸의 조각 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "CELL_3_OPTIONS:body",
+					"header": "CELL_3_OPTIONS:header",
+					"option_0": "CELL_3_OPTIONS:option_0",
+					"option_1": "CELL_3_OPTIONS:option_1",
+					"option_2": "CELL_3_OPTIONS:option_2",
+					"option_3": "CELL_3_OPTIONS:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CELL_3_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_MARA2_CELL_7_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_CELL_SELECT_3",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Compare fragments that share the same original reference.",
+						"header": "Missing Cell 7",
+						"option_0": "Review the Backup Records",
+						"option_1": "Line",
+						"option_2": "Dot",
+						"option_3": "Arc",
+						"speaker": "Displayed choices",
+						"summary": "Choosing a Missing Cell's Fragment",
+						"title": "Choosing a Missing Cell's Fragment"
+					},
+					"ko-KR": {
+						"body": "원본 참조가 같은 조각을 대조한다.",
+						"header": "결손 7칸",
+						"option_0": "보조 기록을 다시 본다",
+						"option_1": "선",
+						"option_2": "점",
+						"option_3": "호",
+						"speaker": "표시된 선택지",
+						"summary": "결손 칸의 조각 선택",
+						"title": "결손 칸의 조각 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "CELL_7_OPTIONS:body",
+					"header": "CELL_7_OPTIONS:header",
+					"option_0": "CELL_7_OPTIONS:option_0",
+					"option_1": "CELL_7_OPTIONS:option_1",
+					"option_2": "CELL_7_OPTIONS:option_2",
+					"option_3": "CELL_7_OPTIONS:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CELL_7_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_MARA2_CELL_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_cancelled",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Review the Backup Records",
+						"speaker": "Selected option",
+						"summary": "Choosing a Missing Cell's Fragment",
+						"title": "Choosing a Missing Cell's Fragment"
+					},
+					"ko-KR": {
+						"body": "보조 기록을 다시 본다",
+						"speaker": "선택한 문구",
+						"summary": "결손 칸의 조각 선택",
+						"title": "결손 칸의 조각 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "CELL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CELL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_CELL_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Line",
+						"speaker": "Selected option",
+						"summary": "Choosing a Missing Cell's Fragment",
+						"title": "Choosing a Missing Cell's Fragment"
+					},
+					"ko-KR": {
+						"body": "선",
+						"speaker": "선택한 문구",
+						"summary": "결손 칸의 조각 선택",
+						"title": "결손 칸의 조각 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "CELL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CELL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_CELL_SELECT_2": {
+			"1": {
+				"action_or_variant": "option_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Dot",
+						"speaker": "Selected option",
+						"summary": "Choosing a Missing Cell's Fragment",
+						"title": "Choosing a Missing Cell's Fragment"
+					},
+					"ko-KR": {
+						"body": "점",
+						"speaker": "선택한 문구",
+						"summary": "결손 칸의 조각 선택",
+						"title": "결손 칸의 조각 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "CELL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CELL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_CELL_SELECT_3": {
+			"1": {
+				"action_or_variant": "option_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Arc",
+						"speaker": "Selected option",
+						"summary": "Choosing a Missing Cell's Fragment",
+						"title": "Choosing a Missing Cell's Fragment"
+					},
+					"ko-KR": {
+						"body": "호",
+						"speaker": "선택한 문구",
+						"summary": "결손 칸의 조각 선택",
+						"title": "결손 칸의 조각 선택"
+					}
+				},
+				"localization_keys": {
+					"body": "CELL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CELL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_CHECKSUM_COUNT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "Checksum matches: {matches} / 12",
+						"speaker": "Protagonist",
+						"summary": "The Observed Checksum Match Count",
+						"title": "The Observed Checksum Match Count"
+					},
+					"ko-KR": {
+						"line_01": "체크섬 일치: {matches} / 12",
+						"speaker": "주인공",
+						"summary": "확인한 체크섬 일치 수",
+						"title": "확인한 체크섬 일치 수"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CHECKSUM_COUNT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "CHECKSUM_COUNT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {
+						"matches": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_CHECKSUM_SOLVED": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "I found the original source of the distributed annotations. I have not chosen how to preserve them yet.",
+						"speaker": "Protagonist",
+						"summary": "The Original Distributed Annotations",
+						"title": "The Original Distributed Annotations"
+					},
+					"ko-KR": {
+						"line_01": "분산된 주석의 원본을 찾았다. 아직 보존 방식은 정하지 않았다.",
+						"speaker": "주인공",
+						"summary": "분산된 주석의 원본",
+						"title": "분산된 주석의 원본"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CHECKSUM_SOLVED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "CHECKSUM_SOLVED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_CHOOSE_MERGED": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "The two outlines merge. 'Now if I'm wrong, it's my memory that's wrong!' Her breathing quickens after the laugh, and the Protagonist lowers the output. Her complete name still does not return.",
+						"speaker": "Protagonist",
+						"summary": "Rejoining the Original and Annotations",
+						"title": "Rejoining the Original and Annotations"
+					},
+					"ko-KR": {
+						"line_01": "두 윤곽이 겹친다. '이제 틀려도 제 기억이 틀린 거네요!' 웃음 뒤 숨이 가빠져 주인공이 출력을 낮춘다. 완전한 이름은 아직 떠오르지 않는다.",
+						"speaker": "주인공",
+						"summary": "다시 합친 원본과 주석",
+						"title": "다시 합친 원본과 주석"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CHOOSE_MERGED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "CHOOSE_MERGED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_CHOOSE_SEPARATED": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "A fine reference line settles between the two outlines. 'If both claim to be me, that makes two geniuses!' Mara 2 does not correct the nameplate the Protagonist placed.",
+						"speaker": "Protagonist",
+						"summary": "References Between Two Separate Records",
+						"title": "References Between Two Separate Records"
+					},
+					"ko-KR": {
+						"line_01": "두 윤곽 사이에 가는 참조선이 놓인다. '둘 다 나라고 우기면 천재가 두 명인 셈이죠!' 주인공이 놓은 이름표를 마라 2는 고치지 않는다.",
+						"speaker": "주인공",
+						"summary": "분리한 두 기록의 참조선",
+						"title": "분리한 두 기록의 참조선"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CHOOSE_SEPARATED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "CHOOSE_SEPARATED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_CLEAR": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "I compare the portrait order again. Separated sources remain.",
+						"speaker": "Protagonist",
+						"summary": "Comparing the Portraits Again",
+						"title": "Comparing the Portraits Again"
+					},
+					"ko-KR": {
+						"line_01": "초상화 순서를 다시 비교한다. 분리한 출처는 유지된다.",
+						"speaker": "주인공",
+						"summary": "다시 비교하는 초상화",
+						"title": "다시 비교하는 초상화"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CLEAR:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "CLEAR",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_CONFESS": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "When capacity dropped, the emotional annotations of the other four began failing first. I calculated that I could divide up my own region. I didn't ask anyone.",
+						"line_02": "The original shape of my name, private memories, and the words for asking for help disappeared first. Looking at the nameplates is... how I check that I'm still here.",
+						"line_03": "I calculated fastest, so I was the first to break.",
+						"speaker": "Protagonist",
+						"summary": "Mara 2's Account",
+						"title": "Mara 2's Account"
+					},
+					"ko-KR": {
+						"line_01": "용량이 줄어들자 다른 네 사람의 감정 주석부터 망가졌어요. 내 영역을 나눠 주면 된다고 계산했어요. 아무한테도 안 물었죠.",
+						"line_02": "이름의 원형, 사적인 기억, 도와 달라는 말부터 사라졌어요. 이름표를 보는 건... 아직 내가 있는지 확인하는 거예요.",
+						"line_03": "내가 제일 빨리 계산했고, 그래서 내가 제일 먼저 망가졌어요.",
+						"speaker": "주인공",
+						"summary": "마라 2의 이야기",
+						"title": "마라 2의 이야기"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFESS:line_01",
+					"line_02": "CONFESS:line_02",
+					"line_03": "CONFESS:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "CONFESS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_MARA2_CONFESS_ALERT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "Let's call what I just said... a genius's joke!",
+						"speaker": "Protagonist",
+						"summary": "Mara 2's Response",
+						"title": "Mara 2's Response"
+					},
+					"ko-KR": {
+						"line_01": "방금 말은... 천재의 농담이라고 해두죠!",
+						"speaker": "주인공",
+						"summary": "마라 2의 응답",
+						"title": "마라 2의 응답"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFESS_ALERT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "CONFESS_ALERT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_CONFESS_HIGH": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "Remember me.",
+						"speaker": "Protagonist",
+						"summary": "Mara 2's Response",
+						"title": "Mara 2's Response"
+					},
+					"ko-KR": {
+						"line_01": "나를 기억해 줘.",
+						"speaker": "주인공",
+						"summary": "마라 2의 응답",
+						"title": "마라 2의 응답"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFESS_HIGH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "CONFESS_HIGH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_CONFESS_MID": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "I'm afraid the name field will be empty next time.",
+						"speaker": "Protagonist",
+						"summary": "Mara 2's Response",
+						"title": "Mara 2's Response"
+					},
+					"ko-KR": {
+						"line_01": "다음에는 이름 칸도 비어 있을까 봐.",
+						"speaker": "주인공",
+						"summary": "마라 2의 응답",
+						"title": "마라 2의 응답"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFESS_MID:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "CONFESS_MID",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_OVERLAY": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "Cells 3, 7, and 11 are empty in all three moments. This is not accidental damage. The exclamation vanishes from the end of Mara 2's sentence.",
+						"speaker": "Protagonist",
+						"summary": "Shared Gaps Across Three Moments",
+						"title": "Shared Gaps Across Three Moments"
+					},
+					"ko-KR": {
+						"line_01": "세 시점 모두 3·7·11칸이 비어 있다. 우연한 손상이 아니다. 마라 2의 말끝에서 느낌표가 사라진다.",
+						"speaker": "주인공",
+						"summary": "세 시점의 공통 결손",
+						"title": "세 시점의 공통 결손"
+					}
+				},
+				"localization_keys": {
+					"line_01": "OVERLAY:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "OVERLAY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_PORTRAIT": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "I place the double-frame fragments in degradation order.",
+						"speaker": "Protagonist",
+						"summary": "Fragments Placed in Degradation Order",
+						"title": "Fragments Placed in Degradation Order"
+					},
+					"ko-KR": {
+						"line_01": "보라 이중 액자 조각을 열화 순서에 놓는다.",
+						"speaker": "주인공",
+						"summary": "열화 순서에 놓은 조각",
+						"title": "열화 순서에 놓은 조각"
+					}
+				},
+				"localization_keys": {
+					"line_01": "PORTRAIT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "PORTRAIT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_RECORD": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "REC_MARA2",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "Mara 2 managed the personality archive and memory checksums. When the other four personalities' emotional annotations and long-term memories began to fail, she secretly donated her own annotation region as backup storage. She lost the original shape of her name, private memories, and ways of asking for help first. Repeatedly checking nameplates was a self-identification test. Both original and emotional annotations are preserved, but full recovery is not guaranteed.",
+						"speaker": "Notebook",
+						"summary": "Mara 2's Research Record",
+						"title": "Mara 2's Research Record"
+					},
+					"ko-KR": {
+						"body": "마라 2는 인격 아카이브·기억 체크섬 담당이었다. 다른 네 인격의 감정 주석과 장기 기억이 손상되자 자기 감정 주석 영역을 몰래 보조 저장소로 양도했다. 그 결과 자기 이름의 원형·사적 기억·도움 요청 방식부터 잃었다. 이름표 반복 확인은 자기 식별 검사였다. 원본과 감정 주석은 모두 보존했으나 완전한 회복을 보장하지 않는다.",
+						"speaker": "수첩",
+						"summary": "마라 2의 연구 기록",
+						"title": "마라 2의 연구 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "RECORD:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"relationship_record"
+				],
+				"source_content_ids": [
+					"NB_MARA2_OVERLAY",
+					"NB_MARA2_CHECKSUM_SOLVED",
+					"NB_MARA2_CONFESS",
+					"NB_MODAL_MARA2_SELECT_1",
+					"NB_MODAL_MARA2_SELECT_2",
+					"NB_MARA2_BACKUP_EDGAR",
+					"NB_MARA2_BACKUP_MARA1",
+					"NB_MARA2_BACKUP_LUCA",
+					"NB_MARA2_BACKUP_IRIS",
+					"NB_MARA2_SCREEN_PORTRAIT_A",
+					"NB_MARA2_SCREEN_PORTRAIT_B",
+					"NB_MARA2_SCREEN_PORTRAIT_C"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_knowledge_ids": [
+					"FRACTURE_REPORT"
+				],
+				"source_symbol": "RECORD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_10_LINE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "10 · Line",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 10",
+						"title": "Checksum Cell 10"
+					},
+					"ko-KR": {
+						"body": "10 · 선",
+						"speaker": "장면",
+						"summary": "체크섬 10칸",
+						"title": "체크섬 10칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_10_LINE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_10_LINE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_11_ARC": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "11 · Arc",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 11",
+						"title": "Checksum Cell 11"
+					},
+					"ko-KR": {
+						"body": "11 · 호",
+						"speaker": "장면",
+						"summary": "체크섬 11칸",
+						"title": "체크섬 11칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_11_ARC:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_11_ARC",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_11_DOT": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "11 · Dot",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 11",
+						"title": "Checksum Cell 11"
+					},
+					"ko-KR": {
+						"body": "11 · 점",
+						"speaker": "장면",
+						"summary": "체크섬 11칸",
+						"title": "체크섬 11칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_11_DOT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_11_DOT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_11_LINE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "11 · Line",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 11",
+						"title": "Checksum Cell 11"
+					},
+					"ko-KR": {
+						"body": "11 · 선",
+						"speaker": "장면",
+						"summary": "체크섬 11칸",
+						"title": "체크섬 11칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_11_LINE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_11_LINE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_11_MISSING": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "11 · Missing",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 11",
+						"title": "Checksum Cell 11"
+					},
+					"ko-KR": {
+						"body": "11 · 결손",
+						"speaker": "장면",
+						"summary": "체크섬 11칸",
+						"title": "체크섬 11칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_11_MISSING:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_11_MISSING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_12_ARC": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "12 · Arc",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 12",
+						"title": "Checksum Cell 12"
+					},
+					"ko-KR": {
+						"body": "12 · 호",
+						"speaker": "장면",
+						"summary": "체크섬 12칸",
+						"title": "체크섬 12칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_12_ARC:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_12_ARC",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_1_LINE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "1 · Line",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 1",
+						"title": "Checksum Cell 1"
+					},
+					"ko-KR": {
+						"body": "1 · 선",
+						"speaker": "장면",
+						"summary": "체크섬 1칸",
+						"title": "체크섬 1칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_1_LINE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_1_LINE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_2_DOT": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "2 · Dot",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 2",
+						"title": "Checksum Cell 2"
+					},
+					"ko-KR": {
+						"body": "2 · 점",
+						"speaker": "장면",
+						"summary": "체크섬 2칸",
+						"title": "체크섬 2칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_2_DOT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_2_DOT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_3_ARC": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "3 · Arc",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 3",
+						"title": "Checksum Cell 3"
+					},
+					"ko-KR": {
+						"body": "3 · 호",
+						"speaker": "장면",
+						"summary": "체크섬 3칸",
+						"title": "체크섬 3칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_3_ARC:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_3_ARC",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_3_DOT": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "3 · Dot",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 3",
+						"title": "Checksum Cell 3"
+					},
+					"ko-KR": {
+						"body": "3 · 점",
+						"speaker": "장면",
+						"summary": "체크섬 3칸",
+						"title": "체크섬 3칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_3_DOT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_3_DOT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_3_LINE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "3 · Line",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 3",
+						"title": "Checksum Cell 3"
+					},
+					"ko-KR": {
+						"body": "3 · 선",
+						"speaker": "장면",
+						"summary": "체크섬 3칸",
+						"title": "체크섬 3칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_3_LINE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_3_LINE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_3_MISSING": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "3 · Missing",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 3",
+						"title": "Checksum Cell 3"
+					},
+					"ko-KR": {
+						"body": "3 · 결손",
+						"speaker": "장면",
+						"summary": "체크섬 3칸",
+						"title": "체크섬 3칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_3_MISSING:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_3_MISSING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_4_DOT": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "4 · Dot",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 4",
+						"title": "Checksum Cell 4"
+					},
+					"ko-KR": {
+						"body": "4 · 점",
+						"speaker": "장면",
+						"summary": "체크섬 4칸",
+						"title": "체크섬 4칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_4_DOT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_4_DOT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_5_LINE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "5 · Line",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 5",
+						"title": "Checksum Cell 5"
+					},
+					"ko-KR": {
+						"body": "5 · 선",
+						"speaker": "장면",
+						"summary": "체크섬 5칸",
+						"title": "체크섬 5칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_5_LINE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_5_LINE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_6_ARC": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "6 · Arc",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 6",
+						"title": "Checksum Cell 6"
+					},
+					"ko-KR": {
+						"body": "6 · 호",
+						"speaker": "장면",
+						"summary": "체크섬 6칸",
+						"title": "체크섬 6칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_6_ARC:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_6_ARC",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_7_ARC": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "7 · Arc",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 7",
+						"title": "Checksum Cell 7"
+					},
+					"ko-KR": {
+						"body": "7 · 호",
+						"speaker": "장면",
+						"summary": "체크섬 7칸",
+						"title": "체크섬 7칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_7_ARC:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_7_ARC",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_7_DOT": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "7 · Dot",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 7",
+						"title": "Checksum Cell 7"
+					},
+					"ko-KR": {
+						"body": "7 · 점",
+						"speaker": "장면",
+						"summary": "체크섬 7칸",
+						"title": "체크섬 7칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_7_DOT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_7_DOT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_7_LINE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "7 · Line",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 7",
+						"title": "Checksum Cell 7"
+					},
+					"ko-KR": {
+						"body": "7 · 선",
+						"speaker": "장면",
+						"summary": "체크섬 7칸",
+						"title": "체크섬 7칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_7_LINE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_7_LINE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_7_MISSING": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "7 · Missing",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 7",
+						"title": "Checksum Cell 7"
+					},
+					"ko-KR": {
+						"body": "7 · 결손",
+						"speaker": "장면",
+						"summary": "체크섬 7칸",
+						"title": "체크섬 7칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_7_MISSING:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_7_MISSING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_8_DOT": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "8 · Dot",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 8",
+						"title": "Checksum Cell 8"
+					},
+					"ko-KR": {
+						"body": "8 · 점",
+						"speaker": "장면",
+						"summary": "체크섬 8칸",
+						"title": "체크섬 8칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_8_DOT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_8_DOT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_CELL_9_ARC": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "9 · Arc",
+						"speaker": "Scene",
+						"summary": "Checksum Cell 9",
+						"title": "Checksum Cell 9"
+					},
+					"ko-KR": {
+						"body": "9 · 호",
+						"speaker": "장면",
+						"summary": "체크섬 9칸",
+						"title": "체크섬 9칸"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_CELL_9_ARC:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_CELL_9_ARC",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_COMPLETE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "The original and its emotional annotations have been preserved.\nREC_MARA2 can be reviewed in the notebook.",
+						"speaker": "Scene",
+						"summary": "Mara 2's Preserved Record",
+						"title": "Mara 2's Preserved Record"
+					},
+					"ko-KR": {
+						"body": "원본과 감정 주석을 보존했다.\n수첩에서 REC_MARA2를 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "보존된 마라 2의 기록",
+						"title": "보존된 마라 2의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_COMPLETE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_COMPLETE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_ENTRY": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2 straightens a nameplate with a doubled outline.\n'Welcome to a genius's workshop! If you break something by touching it, that's definitely not my fault!'",
+						"speaker": "Scene",
+						"summary": "The Genius's Workshop",
+						"title": "The Genius's Workshop"
+					},
+					"ko-KR": {
+						"body": "마라 2가 이중 윤곽의 이름표를 바로 세운다.\n'천재의 작업실에 온 걸 환영해요! 손대다 망가뜨려도 제 탓은 아니고요!'",
+						"speaker": "장면",
+						"summary": "천재의 작업실",
+						"title": "천재의 작업실"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ENTRY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_ENTRY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_OVERLAY": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "The same cells, 3, 7, and 11, are empty in all three moments.\nMara 2 opens the door first and does not look back.",
+						"speaker": "Scene",
+						"summary": "Shared Gaps Across Three Moments",
+						"title": "Shared Gaps Across Three Moments"
+					},
+					"ko-KR": {
+						"body": "세 시점 모두 같은 3·7·11칸이 비어 있다.\n마라 2가 먼저 문을 연다. 뒤돌아보지 않는다.",
+						"speaker": "장면",
+						"summary": "세 시점의 공통 결손",
+						"title": "세 시점의 공통 결손"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_OVERLAY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_OVERLAY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_PORTRAIT_A": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Portrait A\nDegradation stage 2\nThree-tone start mark 2 · Outline reference 3",
+						"speaker": "Scene",
+						"summary": "Portrait A's Marks",
+						"title": "Portrait A's Marks"
+					},
+					"ko-KR": {
+						"body": "초상화 A\n열화 단계 2\n3음 시작 표식 2 · 윤곽 기준선 3",
+						"speaker": "장면",
+						"summary": "초상화 A의 표식",
+						"title": "초상화 A의 표식"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_PORTRAIT_A:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_PORTRAIT_A",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_PORTRAIT_B": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Portrait B\nDegradation stage 3\nThree-tone start mark 3 · Outline reference 1",
+						"speaker": "Scene",
+						"summary": "Portrait B's Marks",
+						"title": "Portrait B's Marks"
+					},
+					"ko-KR": {
+						"body": "초상화 B\n열화 단계 3\n3음 시작 표식 3 · 윤곽 기준선 1",
+						"speaker": "장면",
+						"summary": "초상화 B의 표식",
+						"title": "초상화 B의 표식"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_PORTRAIT_B:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_PORTRAIT_B",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_PORTRAIT_C": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Portrait C\nDegradation stage 1\nThree-tone start mark 1 · Outline reference 2",
+						"speaker": "Scene",
+						"summary": "Portrait C's Marks",
+						"title": "Portrait C's Marks"
+					},
+					"ko-KR": {
+						"body": "초상화 C\n열화 단계 1\n3음 시작 표식 1 · 윤곽 기준선 2",
+						"speaker": "장면",
+						"summary": "초상화 C의 표식",
+						"title": "초상화 C의 표식"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_PORTRAIT_C:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_PORTRAIT_C",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_A_EDGAR": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Vertical Line · Low Clock Tone",
+						"speaker": "Scene",
+						"summary": "Portrait A's Glyph",
+						"title": "Portrait A's Glyph"
+					},
+					"ko-KR": {
+						"body": "수직선 · 낮은 시계음",
+						"speaker": "장면",
+						"summary": "초상화 A의 문양",
+						"title": "초상화 A의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_A_EDGAR:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_A_EDGAR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_A_IRIS": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Petals · Glass and Wind",
+						"speaker": "Scene",
+						"summary": "Portrait A's Glyph",
+						"title": "Portrait A's Glyph"
+					},
+					"ko-KR": {
+						"body": "꽃잎 · 유리와 바람",
+						"speaker": "장면",
+						"summary": "초상화 A의 문양",
+						"title": "초상화 A의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_A_IRIS:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_A_IRIS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_A_LUCA": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Paired Pulse",
+						"speaker": "Scene",
+						"summary": "Portrait A's Glyph",
+						"title": "Portrait A's Glyph"
+					},
+					"ko-KR": {
+						"body": "이중 맥박",
+						"speaker": "장면",
+						"summary": "초상화 A의 문양",
+						"title": "초상화 A의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_A_LUCA:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_A_LUCA",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_A_MARA1": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Diagonal Line · Brush Sound",
+						"speaker": "Scene",
+						"summary": "Portrait A's Glyph",
+						"title": "Portrait A's Glyph"
+					},
+					"ko-KR": {
+						"body": "대각선 · 솔 소리",
+						"speaker": "장면",
+						"summary": "초상화 A의 문양",
+						"title": "초상화 A의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_A_MARA1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_A_MARA1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_A_MARA2": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Stacked Frames · Rapid Three Tones",
+						"speaker": "Scene",
+						"summary": "Portrait A's Glyph",
+						"title": "Portrait A's Glyph"
+					},
+					"ko-KR": {
+						"body": "이중 액자 · 빠른 3음",
+						"speaker": "장면",
+						"summary": "초상화 A의 문양",
+						"title": "초상화 A의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_A_MARA2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_A_MARA2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_B_EDGAR": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Vertical Line · Low Clock Tone",
+						"speaker": "Scene",
+						"summary": "Portrait B's Glyph",
+						"title": "Portrait B's Glyph"
+					},
+					"ko-KR": {
+						"body": "수직선 · 낮은 시계음",
+						"speaker": "장면",
+						"summary": "초상화 B의 문양",
+						"title": "초상화 B의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_B_EDGAR:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_B_EDGAR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_B_IRIS": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Petals · Glass and Wind",
+						"speaker": "Scene",
+						"summary": "Portrait B's Glyph",
+						"title": "Portrait B's Glyph"
+					},
+					"ko-KR": {
+						"body": "꽃잎 · 유리와 바람",
+						"speaker": "장면",
+						"summary": "초상화 B의 문양",
+						"title": "초상화 B의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_B_IRIS:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_B_IRIS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_B_LUCA": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Paired Pulse",
+						"speaker": "Scene",
+						"summary": "Portrait B's Glyph",
+						"title": "Portrait B's Glyph"
+					},
+					"ko-KR": {
+						"body": "이중 맥박",
+						"speaker": "장면",
+						"summary": "초상화 B의 문양",
+						"title": "초상화 B의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_B_LUCA:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_B_LUCA",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_B_MARA1": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Diagonal Line · Brush Sound",
+						"speaker": "Scene",
+						"summary": "Portrait B's Glyph",
+						"title": "Portrait B's Glyph"
+					},
+					"ko-KR": {
+						"body": "대각선 · 솔 소리",
+						"speaker": "장면",
+						"summary": "초상화 B의 문양",
+						"title": "초상화 B의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_B_MARA1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_B_MARA1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_B_MARA2": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Stacked Frames · Rapid Three Tones",
+						"speaker": "Scene",
+						"summary": "Portrait B's Glyph",
+						"title": "Portrait B's Glyph"
+					},
+					"ko-KR": {
+						"body": "이중 액자 · 빠른 3음",
+						"speaker": "장면",
+						"summary": "초상화 B의 문양",
+						"title": "초상화 B의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_B_MARA2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_B_MARA2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_C_EDGAR": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Vertical Line · Low Clock Tone",
+						"speaker": "Scene",
+						"summary": "Portrait C's Glyph",
+						"title": "Portrait C's Glyph"
+					},
+					"ko-KR": {
+						"body": "수직선 · 낮은 시계음",
+						"speaker": "장면",
+						"summary": "초상화 C의 문양",
+						"title": "초상화 C의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_C_EDGAR:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_C_EDGAR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_C_IRIS": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Petals · Glass and Wind",
+						"speaker": "Scene",
+						"summary": "Portrait C's Glyph",
+						"title": "Portrait C's Glyph"
+					},
+					"ko-KR": {
+						"body": "꽃잎 · 유리와 바람",
+						"speaker": "장면",
+						"summary": "초상화 C의 문양",
+						"title": "초상화 C의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_C_IRIS:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_C_IRIS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_C_LUCA": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Paired Pulse",
+						"speaker": "Scene",
+						"summary": "Portrait C's Glyph",
+						"title": "Portrait C's Glyph"
+					},
+					"ko-KR": {
+						"body": "이중 맥박",
+						"speaker": "장면",
+						"summary": "초상화 C의 문양",
+						"title": "초상화 C의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_C_LUCA:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_C_LUCA",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_C_MARA1": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Diagonal Line · Brush Sound",
+						"speaker": "Scene",
+						"summary": "Portrait C's Glyph",
+						"title": "Portrait C's Glyph"
+					},
+					"ko-KR": {
+						"body": "대각선 · 솔 소리",
+						"speaker": "장면",
+						"summary": "초상화 C의 문양",
+						"title": "초상화 C의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_C_MARA1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_C_MARA1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_SOURCE_C_MARA2": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Stacked Frames · Rapid Three Tones",
+						"speaker": "Scene",
+						"summary": "Portrait C's Glyph",
+						"title": "Portrait C's Glyph"
+					},
+					"ko-KR": {
+						"body": "이중 액자 · 빠른 3음",
+						"speaker": "장면",
+						"summary": "초상화 C의 문양",
+						"title": "초상화 C의 문양"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_SOURCE_C_MARA2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SCREEN_SOURCE_C_MARA2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"line_01": "I separate the same personality's signal across three moments. My channel is... just decorative noise, obviously!",
+						"speaker": "Protagonist",
+						"summary": "Personality Signals Across Three Moments",
+						"title": "Personality Signals Across Three Moments"
+					},
+					"ko-KR": {
+						"line_01": "세 시점에서 같은 인격의 신호를 분리한다. 내 채널은... 장식용 잡음이라고 해도 되는데!",
+						"speaker": "주인공",
+						"summary": "세 시점의 인격 신호",
+						"title": "세 시점의 인격 신호"
+					}
+				},
+				"localization_keys": {
+					"line_01": "SOURCE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "SOURCE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_A_EDGAR_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Vertical Line · Low Clock Tone",
+						"header": "Portrait A",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "수직선 · 낮은 시계음",
+						"header": "초상화 A",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_A_EDGAR_OPTIONS:body",
+					"header": "SOURCE_A_EDGAR_OPTIONS:header",
+					"option_0": "SOURCE_A_EDGAR_OPTIONS:option_0",
+					"option_1": "SOURCE_A_EDGAR_OPTIONS:option_1",
+					"option_2": "SOURCE_A_EDGAR_OPTIONS:option_2",
+					"option_3": "SOURCE_A_EDGAR_OPTIONS:option_3",
+					"option_4": "SOURCE_A_EDGAR_OPTIONS:option_4",
+					"option_5": "SOURCE_A_EDGAR_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_A_EDGAR_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_A_IRIS_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Petals · Glass and Wind",
+						"header": "Portrait A",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "꽃잎 · 유리와 바람",
+						"header": "초상화 A",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_A_IRIS_OPTIONS:body",
+					"header": "SOURCE_A_IRIS_OPTIONS:header",
+					"option_0": "SOURCE_A_IRIS_OPTIONS:option_0",
+					"option_1": "SOURCE_A_IRIS_OPTIONS:option_1",
+					"option_2": "SOURCE_A_IRIS_OPTIONS:option_2",
+					"option_3": "SOURCE_A_IRIS_OPTIONS:option_3",
+					"option_4": "SOURCE_A_IRIS_OPTIONS:option_4",
+					"option_5": "SOURCE_A_IRIS_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_A_IRIS_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_A_LUCA_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Paired Pulse",
+						"header": "Portrait A",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "이중 맥박",
+						"header": "초상화 A",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_A_LUCA_OPTIONS:body",
+					"header": "SOURCE_A_LUCA_OPTIONS:header",
+					"option_0": "SOURCE_A_LUCA_OPTIONS:option_0",
+					"option_1": "SOURCE_A_LUCA_OPTIONS:option_1",
+					"option_2": "SOURCE_A_LUCA_OPTIONS:option_2",
+					"option_3": "SOURCE_A_LUCA_OPTIONS:option_3",
+					"option_4": "SOURCE_A_LUCA_OPTIONS:option_4",
+					"option_5": "SOURCE_A_LUCA_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_A_LUCA_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_A_MARA1_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Diagonal Line · Brush Sound",
+						"header": "Portrait A",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "대각선 · 솔 소리",
+						"header": "초상화 A",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_A_MARA1_OPTIONS:body",
+					"header": "SOURCE_A_MARA1_OPTIONS:header",
+					"option_0": "SOURCE_A_MARA1_OPTIONS:option_0",
+					"option_1": "SOURCE_A_MARA1_OPTIONS:option_1",
+					"option_2": "SOURCE_A_MARA1_OPTIONS:option_2",
+					"option_3": "SOURCE_A_MARA1_OPTIONS:option_3",
+					"option_4": "SOURCE_A_MARA1_OPTIONS:option_4",
+					"option_5": "SOURCE_A_MARA1_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_A_MARA1_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_A_MARA2_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Stacked Frames · Rapid Three Tones",
+						"header": "Portrait A",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "이중 액자 · 빠른 3음",
+						"header": "초상화 A",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_A_MARA2_OPTIONS:body",
+					"header": "SOURCE_A_MARA2_OPTIONS:header",
+					"option_0": "SOURCE_A_MARA2_OPTIONS:option_0",
+					"option_1": "SOURCE_A_MARA2_OPTIONS:option_1",
+					"option_2": "SOURCE_A_MARA2_OPTIONS:option_2",
+					"option_3": "SOURCE_A_MARA2_OPTIONS:option_3",
+					"option_4": "SOURCE_A_MARA2_OPTIONS:option_4",
+					"option_5": "SOURCE_A_MARA2_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_A_MARA2_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_B_EDGAR_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Vertical Line · Low Clock Tone",
+						"header": "Portrait B",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "수직선 · 낮은 시계음",
+						"header": "초상화 B",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_B_EDGAR_OPTIONS:body",
+					"header": "SOURCE_B_EDGAR_OPTIONS:header",
+					"option_0": "SOURCE_B_EDGAR_OPTIONS:option_0",
+					"option_1": "SOURCE_B_EDGAR_OPTIONS:option_1",
+					"option_2": "SOURCE_B_EDGAR_OPTIONS:option_2",
+					"option_3": "SOURCE_B_EDGAR_OPTIONS:option_3",
+					"option_4": "SOURCE_B_EDGAR_OPTIONS:option_4",
+					"option_5": "SOURCE_B_EDGAR_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_B_EDGAR_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_B_IRIS_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Petals · Glass and Wind",
+						"header": "Portrait B",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "꽃잎 · 유리와 바람",
+						"header": "초상화 B",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_B_IRIS_OPTIONS:body",
+					"header": "SOURCE_B_IRIS_OPTIONS:header",
+					"option_0": "SOURCE_B_IRIS_OPTIONS:option_0",
+					"option_1": "SOURCE_B_IRIS_OPTIONS:option_1",
+					"option_2": "SOURCE_B_IRIS_OPTIONS:option_2",
+					"option_3": "SOURCE_B_IRIS_OPTIONS:option_3",
+					"option_4": "SOURCE_B_IRIS_OPTIONS:option_4",
+					"option_5": "SOURCE_B_IRIS_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_B_IRIS_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_B_LUCA_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Paired Pulse",
+						"header": "Portrait B",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "이중 맥박",
+						"header": "초상화 B",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_B_LUCA_OPTIONS:body",
+					"header": "SOURCE_B_LUCA_OPTIONS:header",
+					"option_0": "SOURCE_B_LUCA_OPTIONS:option_0",
+					"option_1": "SOURCE_B_LUCA_OPTIONS:option_1",
+					"option_2": "SOURCE_B_LUCA_OPTIONS:option_2",
+					"option_3": "SOURCE_B_LUCA_OPTIONS:option_3",
+					"option_4": "SOURCE_B_LUCA_OPTIONS:option_4",
+					"option_5": "SOURCE_B_LUCA_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_B_LUCA_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_B_MARA1_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Diagonal Line · Brush Sound",
+						"header": "Portrait B",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "대각선 · 솔 소리",
+						"header": "초상화 B",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_B_MARA1_OPTIONS:body",
+					"header": "SOURCE_B_MARA1_OPTIONS:header",
+					"option_0": "SOURCE_B_MARA1_OPTIONS:option_0",
+					"option_1": "SOURCE_B_MARA1_OPTIONS:option_1",
+					"option_2": "SOURCE_B_MARA1_OPTIONS:option_2",
+					"option_3": "SOURCE_B_MARA1_OPTIONS:option_3",
+					"option_4": "SOURCE_B_MARA1_OPTIONS:option_4",
+					"option_5": "SOURCE_B_MARA1_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_B_MARA1_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_B_MARA2_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Stacked Frames · Rapid Three Tones",
+						"header": "Portrait B",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "이중 액자 · 빠른 3음",
+						"header": "초상화 B",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_B_MARA2_OPTIONS:body",
+					"header": "SOURCE_B_MARA2_OPTIONS:header",
+					"option_0": "SOURCE_B_MARA2_OPTIONS:option_0",
+					"option_1": "SOURCE_B_MARA2_OPTIONS:option_1",
+					"option_2": "SOURCE_B_MARA2_OPTIONS:option_2",
+					"option_3": "SOURCE_B_MARA2_OPTIONS:option_3",
+					"option_4": "SOURCE_B_MARA2_OPTIONS:option_4",
+					"option_5": "SOURCE_B_MARA2_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_B_MARA2_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_C_EDGAR_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Vertical Line · Low Clock Tone",
+						"header": "Portrait C",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "수직선 · 낮은 시계음",
+						"header": "초상화 C",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_C_EDGAR_OPTIONS:body",
+					"header": "SOURCE_C_EDGAR_OPTIONS:header",
+					"option_0": "SOURCE_C_EDGAR_OPTIONS:option_0",
+					"option_1": "SOURCE_C_EDGAR_OPTIONS:option_1",
+					"option_2": "SOURCE_C_EDGAR_OPTIONS:option_2",
+					"option_3": "SOURCE_C_EDGAR_OPTIONS:option_3",
+					"option_4": "SOURCE_C_EDGAR_OPTIONS:option_4",
+					"option_5": "SOURCE_C_EDGAR_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_C_EDGAR_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_C_IRIS_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Petals · Glass and Wind",
+						"header": "Portrait C",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "꽃잎 · 유리와 바람",
+						"header": "초상화 C",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_C_IRIS_OPTIONS:body",
+					"header": "SOURCE_C_IRIS_OPTIONS:header",
+					"option_0": "SOURCE_C_IRIS_OPTIONS:option_0",
+					"option_1": "SOURCE_C_IRIS_OPTIONS:option_1",
+					"option_2": "SOURCE_C_IRIS_OPTIONS:option_2",
+					"option_3": "SOURCE_C_IRIS_OPTIONS:option_3",
+					"option_4": "SOURCE_C_IRIS_OPTIONS:option_4",
+					"option_5": "SOURCE_C_IRIS_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_C_IRIS_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_C_LUCA_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Paired Pulse",
+						"header": "Portrait C",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "이중 맥박",
+						"header": "초상화 C",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_C_LUCA_OPTIONS:body",
+					"header": "SOURCE_C_LUCA_OPTIONS:header",
+					"option_0": "SOURCE_C_LUCA_OPTIONS:option_0",
+					"option_1": "SOURCE_C_LUCA_OPTIONS:option_1",
+					"option_2": "SOURCE_C_LUCA_OPTIONS:option_2",
+					"option_3": "SOURCE_C_LUCA_OPTIONS:option_3",
+					"option_4": "SOURCE_C_LUCA_OPTIONS:option_4",
+					"option_5": "SOURCE_C_LUCA_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_C_LUCA_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_C_MARA1_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Diagonal Line · Brush Sound",
+						"header": "Portrait C",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "대각선 · 솔 소리",
+						"header": "초상화 C",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_C_MARA1_OPTIONS:body",
+					"header": "SOURCE_C_MARA1_OPTIONS:header",
+					"option_0": "SOURCE_C_MARA1_OPTIONS:option_0",
+					"option_1": "SOURCE_C_MARA1_OPTIONS:option_1",
+					"option_2": "SOURCE_C_MARA1_OPTIONS:option_2",
+					"option_3": "SOURCE_C_MARA1_OPTIONS:option_3",
+					"option_4": "SOURCE_C_MARA1_OPTIONS:option_4",
+					"option_5": "SOURCE_C_MARA1_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_C_MARA1_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_C_MARA2_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_2",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_3",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_4",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MARA2_SOURCE_SELECT_5",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Stacked Frames · Rapid Three Tones",
+						"header": "Portrait C",
+						"option_0": "Review the Glyph",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "Displayed choices",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "이중 액자 · 빠른 3음",
+						"header": "초상화 C",
+						"option_0": "문양을 다시 본다",
+						"option_1": "EDGAR",
+						"option_2": "MARA1",
+						"option_3": "LUCA",
+						"option_4": "IRIS",
+						"option_5": "MARA2",
+						"speaker": "표시된 선택지",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE_C_MARA2_OPTIONS:body",
+					"header": "SOURCE_C_MARA2_OPTIONS:header",
+					"option_0": "SOURCE_C_MARA2_OPTIONS:option_0",
+					"option_1": "SOURCE_C_MARA2_OPTIONS:option_1",
+					"option_2": "SOURCE_C_MARA2_OPTIONS:option_2",
+					"option_3": "SOURCE_C_MARA2_OPTIONS:option_3",
+					"option_4": "SOURCE_C_MARA2_OPTIONS:option_4",
+					"option_5": "SOURCE_C_MARA2_OPTIONS:option_5"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE_C_MARA2_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_cancelled",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "Review the Glyph",
+						"speaker": "Selected option",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "문양을 다시 본다",
+						"speaker": "선택한 문구",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "EDGAR",
+						"speaker": "Selected option",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "EDGAR",
+						"speaker": "선택한 문구",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_SELECT_2": {
+			"1": {
+				"action_or_variant": "option_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "MARA1",
+						"speaker": "Selected option",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "MARA1",
+						"speaker": "선택한 문구",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_SELECT_3": {
+			"1": {
+				"action_or_variant": "option_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "LUCA",
+						"speaker": "Selected option",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "LUCA",
+						"speaker": "선택한 문구",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_SELECT_4": {
+			"1": {
+				"action_or_variant": "option_4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "IRIS",
+						"speaker": "Selected option",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "IRIS",
+						"speaker": "선택한 문구",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SOURCE_SELECT_5": {
+			"1": {
+				"action_or_variant": "option_5",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "MARA2",
+						"speaker": "Selected option",
+						"summary": "The Source of a Portrait's Signal",
+						"title": "The Source of a Portrait's Signal"
+					},
+					"ko-KR": {
+						"body": "MARA2",
+						"speaker": "선택한 문구",
+						"summary": "초상화의 신호 출처",
+						"title": "초상화의 신호 출처"
+					}
+				},
+				"localization_keys": {
+					"body": "SOURCE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SOURCE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_STATUS_OVERLAY_ORDER": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "The degradation recovers, then worsens again. Compare from the least damaged moment onward.",
+						"speaker": "Scene",
+						"summary": "Discontinuous Degradation",
+						"title": "Discontinuous Degradation"
+					},
+					"ko-KR": {
+						"body": "열화가 회복됐다 다시 악화된다. 손상이 적은 시점부터 대조한다.",
+						"speaker": "장면",
+						"summary": "이어지지 않는 열화",
+						"title": "이어지지 않는 열화"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_OVERLAY_ORDER:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "STATUS_OVERLAY_ORDER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_STATUS_OVERLAY_OUTLINE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "The double outline does not converge into one person. Check the frame reference line.",
+						"speaker": "Scene",
+						"summary": "Outlines That Do Not Converge",
+						"title": "Outlines That Do Not Converge"
+					},
+					"ko-KR": {
+						"body": "이중 윤곽이 한 인물로 겹치지 않는다. 액자 기준선을 확인한다.",
+						"speaker": "장면",
+						"summary": "겹쳐지지 않는 윤곽",
+						"title": "겹쳐지지 않는 윤곽"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_OVERLAY_OUTLINE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "STATUS_OVERLAY_OUTLINE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_STATUS_OVERLAY_START": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "The three tones split into two tones and noise. Check the start mark again.",
+						"speaker": "Scene",
+						"summary": "The Three Tones Split Apart",
+						"title": "The Three Tones Split Apart"
+					},
+					"ko-KR": {
+						"body": "3음이 2음과 잡음으로 갈라진다. 시작 표식을 다시 확인한다.",
+						"speaker": "장면",
+						"summary": "갈라진 세 음",
+						"title": "갈라진 세 음"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_OVERLAY_START:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "STATUS_OVERLAY_START",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_STATUS_SOURCE_MISMATCH": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "The glyph cycle does not match. Another owner's signal is mixed in.",
+						"speaker": "Scene",
+						"summary": "Mismatched Owner Signals",
+						"title": "Mismatched Owner Signals"
+					},
+					"ko-KR": {
+						"body": "문양 주기가 일치하지 않는다. 다른 소유자 신호가 섞였다.",
+						"speaker": "장면",
+						"summary": "서로 다른 소유자 신호",
+						"title": "서로 다른 소유자 신호"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_SOURCE_MISMATCH:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_relationship.gd",
+				"source_symbol": "STATUS_SOURCE_MISMATCH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

@@ -23,6 +23,8 @@ const FRACTURE_SURFACE_TEXTS := preload("res://scripts/ui/fracture_surface_texts
 const MARA1_NOTES := preload("res://scripts/systems/mara1_notebook.gd")
 const IRIS_NOTES := preload("res://scripts/systems/iris_notebook.gd")
 const LUCA_NOTES := preload("res://scripts/systems/luca_notebook.gd")
+const EDGAR_NOTES := preload("res://scripts/systems/edgar_notebook.gd")
+const MARA2_NOTES := preload("res://scripts/systems/mara2_notebook.gd")
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
@@ -931,7 +933,7 @@ func _build_edgar_relationship() -> void:
 	_objective_label.text = "에드가 · 보안 코어와 선택 권한"
 	if _current_room == "M1_GREAT_CLOCK":
 		_location_label.text = "대시계"
-		_board_label("대시계 뒤 수직 잠금선이 드러난다.\n에드가가 레이피어로 네 선의 경계를 짚는다. '확인하실 기록이 있습니다.'", Rect2(300, 240, 1300, 210))
+		_edgar_board("ENTRY", Rect2(300, 240, 1300, 210))
 		_action("EDGAR_MACHINE", "보안 기계실로", Rect2(400, 530, 1100, 130), "move", "H0_CLOCK_MACHINE", false)
 		_replace_back("M1_CENTRAL_HALL", "중앙홀로")
 		return
@@ -939,12 +941,14 @@ func _build_edgar_relationship() -> void:
 	var rules = BasementSession.EDGAR_RELATIONSHIP
 	var local: Dictionary = rules.progress(session.snapshot())
 	if session.known("E3_4_complete"):
-		_board_label("선택권은 SUBJECT, 주인공에게 있다.\n수첩의 REC_EDGAR에서 책임 기록을 확인할 수 있다.", Rect2(300, 270, 1300, 220))
+		_edgar_board("COMPLETE", Rect2(300, 270, 1300, 220))
 	elif not local["audit"]:
 		_board_label("네 권한 변경 이력을 선행 사건 순서로 놓는다. 선택 %d / 4" % local["order"].size(), Rect2(300, 120, 1300, 90))
+		_queue_notebook_content(EDGAR_NOTES.PREFIX + "SCREEN_ORDER", _relationship_text(EDGAR_NOTES.SCREEN.ORDER))
 		for index in range(4):
 			var id: String = ["vacancy", "protocol", "extension", "consent"][index]
 			_action("EDGAR_LOG_" + id, rules.LOGS[id], Rect2(300, 240 + index * 105, 1300, 95), "edgar_log", id)
+			_queue_notebook_content(EDGAR_NOTES.PREFIX + "SCREEN_LOG_" + id.to_upper(), _relationship_text(rules.LOGS[id]))
 		_action("EDGAR_CLEAR", "다시 펼친다", Rect2(300, 720, 600, 90), "edgar_clear")
 		_action("EDGAR_AUDIT", "이력 순서를 확인한다", Rect2(1000, 720, 600, 90), "edgar_audit")
 	elif not local["validated"]:
@@ -953,6 +957,7 @@ func _build_edgar_relationship() -> void:
 			var function: String = functions[index]
 			var owner: String = local["owners"].get(function, "미배치")
 			_add_hotspot("EDGAR_OWNER_" + function, rules.CLUES[function] + "\n현재 토큰: " + owner, Rect2(300, 180 + index * 125, 1300, 105), _show_edgar_owner.bind(function))
+			_queue_notebook_content(EDGAR_NOTES.PREFIX + "SCREEN_FUNCTION_" + function, _relationship_text(rules.CLUES[function]))
 		_action("EDGAR_VALIDATE", "현재 권한 배치 검증", Rect2(300, 720, 1300, 100), "edgar_validate")
 	else:
 		_action("EDGAR_CONFESS", "명령과 에드가의 결정을 대조한다", Rect2(300, 270, 1300, 150), "edgar_confess")
@@ -960,14 +965,26 @@ func _build_edgar_relationship() -> void:
 	_replace_back("M1_GREAT_CLOCK", "대시계로 · 진행 보존")
 
 
+func _edgar_board(key: String, rect: Rect2) -> void:
+	var text := _relationship_text(EDGAR_NOTES.SCREEN[key])
+	_board_label(text, rect)
+	_queue_notebook_content(EDGAR_NOTES.PREFIX + "SCREEN_" + key, text)
+
+
 func _show_edgar_owner(function: String) -> void:
-	var actions: Array = [{"label": "근거를 다시 읽는다", "action": _close_modal}]
+	if not _notebook_surface_allowed(): return
+	var actions: Array = [{"label": EDGAR_NOTES.OWNER_LABELS[0], "action": _close_modal}]
 	for owner in BasementSession.EDGAR_RELATIONSHIP.OWNERS.values():
 		actions.append({"label": owner, "action": _modal_act.bind("edgar_owner", [function, owner])})
-	_show_relationship_modal(function, BasementSession.EDGAR_RELATIONSHIP.CLUES[function], actions)
+	var body: String = BasementSession.EDGAR_RELATIONSHIP.CLUES[function]
+	if not _notebook_surface_enabled():
+		_show_relationship_modal(function, body, actions)
+		return
+	_show_recorded_choice(_relationship_text(function), _relationship_text(body), _relationship_actions(actions), EDGAR_NOTES.options("OWNER_" + function))
 
 
 func _show_edgar_choice() -> void:
+	if not _notebook_surface_allowed(): return
 	_show_relationship_choice("EDGAR", "책임의 기록", "두 선택 모두 현재 선택권은 주인공에게 반환된다. 용서 여부나 엔딩을 결정하는 선택이 아니다.", [
 		{"label": "기록을 다시 읽는다", "action": _close_modal},
 		{"label": "당신이 한 결정도 공식 기록에 남겨요.", "action": _modal_act.bind("edgar_choose", "responsibility_recorded")},
@@ -981,7 +998,7 @@ func _build_mara2_relationship() -> void:
 	var local: Dictionary = rules.progress(session.snapshot())
 	if _current_room in ["M1_NORTH_ARCHIVE_HALL", "M1_COLOR_ROOM_ENTRY"]:
 		_location_label.text = "북쪽 기록 회랑" if _current_room == "M1_NORTH_ARCHIVE_HALL" else "색분해실 입구"
-		_board_label("마라 2가 이중 윤곽의 이름표를 바로 세운다.\n'천재의 작업실에 온 걸 환영해요! 손대다 망가뜨려도 제 탓은 아니고요!'", Rect2(300, 240, 1300, 230))
+		_mara2_board("ENTRY", Rect2(300, 240, 1300, 230))
 		_action("MARA2_FORWARD", "안쪽으로", Rect2(400, 540, 1100, 120), "move", "M1_COLOR_ROOM_ENTRY" if _current_room == "M1_NORTH_ARCHIVE_HALL" else "H0_COLOR_SEPARATION", false)
 		_replace_back("M1_CENTRAL_HALL" if _current_room == "M1_NORTH_ARCHIVE_HALL" else "M1_NORTH_ARCHIVE_HALL", "회랑으로")
 		return
@@ -994,25 +1011,27 @@ func _build_mara2_relationship() -> void:
 				for index in range(5):
 					var owner: String = rules.OWNERS[(index + column) % 5]
 					_add_hotspot("MARA2_SOURCE_" + portrait + owner, rules.SIGNS[owner] + (" · 확인" if local["sources"].has(portrait + "_" + owner) else ""), Rect2(230 + column * 510, 260 + index * 105, 470, 90), _show_mara2_source.bind(portrait, owner))
+					_queue_notebook_content(MARA2_NOTES.PREFIX + "SCREEN_SOURCE_" + portrait + "_" + owner, _relationship_text(rules.SIGNS[owner]))
 		elif not local["overlay"]:
 			for index in range(3):
 				var id: String = ["A", "B", "C"][index]
-				var data: Dictionary = rules.PORTRAITS[id]
 				var x := 230 + index * 510
-				_board_label("초상화 %s\n열화 단계 %d\n3음 시작 표식 %d · 윤곽 기준선 %d" % [id, data["wear"], data["start"] + 1, data["outline"] + 1], Rect2(x, 170, 470, 170))
+				var text := _relationship_text(MARA2_NOTES.portrait_text(id))
+				_board_label(text, Rect2(x, 170, 470, 170))
+				_queue_notebook_content(MARA2_NOTES.PREFIX + "SCREEN_PORTRAIT_" + id, text)
 				_action("MARA2_ORDER_" + id, "이 시점의 조각 놓기", Rect2(x, 370, 470, 85), "mara2_portrait", id)
 				_add_hotspot("MARA2_START_" + id, "3음 시작점", Rect2(x, 485, 470, 85), _show_mara2_alignment.bind(id, "start"))
 				_add_hotspot("MARA2_OUTLINE_" + id, "이중 윤곽 기준점", Rect2(x, 600, 470, 85), _show_mara2_alignment.bind(id, "outline"))
 			_action("MARA2_CLEAR", "시점 순서 다시 놓기", Rect2(250, 760, 630, 80), "mara2_clear")
 			_action("MARA2_OVERLAY", "기록 중첩 검증", Rect2(1000, 760, 630, 80), "mara2_overlay")
 		else:
-			_board_label("세 시점 모두 같은 3·7·11칸이 비어 있다.\n마라 2가 먼저 문을 연다. 뒤돌아보지 않는다.", Rect2(300, 260, 1300, 230))
+			_mara2_board("OVERLAY", Rect2(300, 260, 1300, 230))
 			_action("ARCHIVE_ENTER", "인격 아카이브로", Rect2(400, 550, 1100, 130), "move", "H0_PERSONALITY_ARCHIVE", false)
 		_replace_back("M1_COLOR_ROOM_ENTRY", "입구로 · 진행 보존")
 		return
 	_location_label.text = "인격 아카이브"
 	if session.known("E3_5_complete"):
-		_board_label("원본과 감정 주석을 보존했다.\n수첩에서 REC_MARA2를 확인할 수 있다.", Rect2(300, 270, 1300, 230))
+		_mara2_board("COMPLETE", Rect2(300, 270, 1300, 230))
 	elif not local["solved"]:
 		for index in range(4):
 			var owner: String = rules.OWNERS[index]
@@ -1022,6 +1041,7 @@ func _build_mara2_relationship() -> void:
 			var label := "%d · %s" % [index + 1, local["cells"].get(str(index), "결손")]
 			if index in rules.GAPS: _add_hotspot("MARA2_CELL_%d" % index, label, rect, _show_mara2_cell.bind(index))
 			else: _board_label(label, rect)
+			_queue_notebook_content(MARA2_NOTES.PREFIX + MARA2_NOTES.cell_key(index, local["cells"].get(str(index), "결손")), _relationship_text(label))
 		_action("MARA2_CHECKSUM", "12칸 체크섬 비교", Rect2(400, 720, 1100, 100), "mara2_checksum")
 	else:
 		_action("MARA2_CONFESS", "자기 저장 영역 양도 기록을 듣는다", Rect2(300, 270, 1300, 150), "mara2_confess")
@@ -1029,26 +1049,46 @@ func _build_mara2_relationship() -> void:
 	_replace_back("H0_COLOR_SEPARATION", "색분해실로 · 진행 보존")
 
 
+func _mara2_board(key: String, rect: Rect2) -> void:
+	var text := _relationship_text(MARA2_NOTES.SCREEN[key])
+	_board_label(text, rect)
+	_queue_notebook_content(MARA2_NOTES.PREFIX + "SCREEN_" + key, text)
+
+
 func _show_mara2_source(portrait: String, owner: String) -> void:
-	var actions: Array = [{"label": "문양을 다시 본다", "action": _close_modal}]
+	if not _notebook_surface_allowed(): return
+	var actions: Array = [{"label": MARA2_NOTES.SOURCE_LABELS[0], "action": _close_modal}]
 	for candidate in BasementSession.MARA2_RELATIONSHIP.OWNERS:
 		actions.append({"label": candidate, "action": _modal_act.bind("mara2_source", [portrait, owner, candidate])})
-	_show_relationship_modal("초상화 " + portrait, BasementSession.MARA2_RELATIONSHIP.SIGNS[owner], actions)
+	var body: String = BasementSession.MARA2_RELATIONSHIP.SIGNS[owner]
+	if not _notebook_surface_enabled():
+		_show_relationship_modal("초상화 " + portrait, body, actions)
+		return
+	_show_recorded_choice(_relationship_text("초상화 " + portrait), _relationship_text(body), _relationship_actions(actions), MARA2_NOTES.options("SOURCE_" + portrait + "_" + owner))
 
 
 func _show_mara2_alignment(portrait: String, kind: String) -> void:
-	var actions: Array = [{"label": "표식을 다시 본다", "action": _close_modal}]
-	for index in range(3): actions.append({"label": "기준점 %d" % [index + 1], "action": _modal_act.bind("mara2_align", [portrait, kind, index])})
-	_show_relationship_modal("초상화 " + portrait, "3음 시작 표식과 이중 윤곽 기준선을 맞춘다.", actions)
+	if not _notebook_surface_allowed(): return
+	var actions: Array = [{"label": MARA2_NOTES.ALIGN_LABELS[0], "action": _close_modal}]
+	for index in range(3): actions.append({"label": MARA2_NOTES.ALIGN_LABELS[index + 1], "action": _modal_act.bind("mara2_align", [portrait, kind, index])})
+	if not _notebook_surface_enabled():
+		_show_relationship_modal("초상화 " + portrait, MARA2_NOTES.ALIGN_BODY, actions)
+		return
+	_show_recorded_choice(_relationship_text("초상화 " + portrait), _relationship_text(MARA2_NOTES.ALIGN_BODY), _relationship_actions(actions), MARA2_NOTES.options("ALIGN_" + portrait + "_" + kind.to_upper()))
 
 
 func _show_mara2_cell(index: int) -> void:
-	var actions: Array = [{"label": "보조 기록을 다시 본다", "action": _close_modal}]
-	for glyph in ["선", "점", "호"]: actions.append({"label": glyph, "action": _modal_act.bind("mara2_cell", [index, glyph])})
-	_show_relationship_modal("결손 %d칸" % [index + 1], "원본 참조가 같은 조각을 대조한다.", actions)
+	if not _notebook_surface_allowed(): return
+	var actions: Array = [{"label": MARA2_NOTES.CELL_LABELS[0], "action": _close_modal}]
+	for glyph in MARA2_NOTES.CELL_LABELS.slice(1): actions.append({"label": glyph, "action": _modal_act.bind("mara2_cell", [index, glyph])})
+	if not _notebook_surface_enabled():
+		_show_relationship_modal("결손 %d칸" % [index + 1], MARA2_NOTES.CELL_BODY, actions)
+		return
+	_show_recorded_choice(_relationship_text("결손 %d칸" % [index + 1]), _relationship_text(MARA2_NOTES.CELL_BODY), _relationship_actions(actions), MARA2_NOTES.options("CELL_%d" % (index + 1)))
 
 
 func _show_mara2_choice() -> void:
+	if not _notebook_surface_allowed(): return
 	_show_relationship_choice("MARA2", "기록의 보존", "둘 다 원본과 감정 주석을 보존한다. 병합은 완전 회복의 약속이 아니며, 분리는 포기가 아니다.", [
 		{"label": "설명을 다시 생각한다", "action": _close_modal},
 		{"label": "감정 주석을 원본에 다시 합친다.", "action": _modal_act.bind("mara2_choose", "merged")},

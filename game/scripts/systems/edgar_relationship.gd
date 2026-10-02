@@ -12,6 +12,29 @@ const LOGS := {
 }
 const RECORD := "에드가는 연구 윤리·운영 책임자로 불완전한 전환 동의를 취합했다. 아버지는 최종 창조자 권한과 기상 해제 절차를 완수하지 못했다. 그 뒤 수면 연장은 에드가 자신의 결정이었다. 강제 기동을 막지 못했고 선택 권한을 계속 반환하지 않았다. 보호는 SYSTEM, 감시는 CUSTODIAN, 기억은 RESIDENT, 선택은 SUBJECT에 귀속된다. 현재 선택권은 주인공에게 돌아갔다."
 
+const TEXT := {
+	"CLEAR": "네 변경 이력을 다시 펼친다.",
+	"AUDIT": "처음 명령과 이후 운영자의 결정이 분리된다. 네 기능이 같은 권한은 아니다.",
+	"OWNER": "기능 아래 소유자 토큰을 놓는다. 같은 토큰은 한 곳에서만 사용한다.",
+	"VALIDATED": "선택 권한선이 관리 회로에서 빠져나온다. 종이와 연필 질감의 SUBJECT 단자로 연결된다.",
+	"RESET_INVALID": "모순인 카드만 되돌린다. 다른 배치는 유지된다.",
+	"WRONG_PROTECTION": CLUES.PROTECTION,
+	"WRONG_SURVEILLANCE": CLUES.SURVEILLANCE,
+	"WRONG_MEMORY": CLUES.MEMORY,
+	"WRONG_CHOICE": CLUES.CHOICE,
+	"CHOICE_SYSTEM": "보호 명령은 종료 여부를 결정할 수 없다.",
+	"CHOICE_CUSTODIAN": "관리 권한과 당사자 동의가 충돌한다.",
+	"SURVEILLANCE_SUBJECT": "관찰자와 관찰 대상이 뒤바뀌었다.",
+	"MEMORY_CUSTODIAN": "보관자가 원 소유자로 등록되어 있다.",
+	"CONFESS": "레이피어 끝이 권한선의 경계를 짚는다. 꼬리가 한 번 바닥을 친다.\n주인공이 묻는다. '아버지가 시켰습니까?'\n[대시계 저음: 네 번, 정지]\n처음에는 명령이었습니다. 그 이후는 제 판단입니다. 강제 기동에 반대했지만, 정지시키지도 선택권을 반환하지도 않았습니다.",
+	"CONFESS_HIGH": "보호한다는 말로 선택을 빼앗았습니다. 사과드립니다.",
+	"CONFESS_MID": "귀하가 잃어버린 시간도 제 책임입니다.",
+	"CONFESS_ALERT": "다음 행동은 무엇입니까? ...대신 결정하려는 질문이 되어서는 안 됩니다.",
+	"CHOOSE_DIRECT": "에드가가 레이피어를 내려놓고 SUBJECT 단자를 주인공에게 넘긴다.\n귀하의 권한입니다.",
+	"CHOOSE_RECORDED": "에드가가 자신의 운영 서명을 감사 기록에 남긴다.\n제 판단과 책임으로 기록합니다. 선택 권한은 귀하에게 있습니다.",
+}
+const STATUS := {"AUDIT_ORDER": "권한이 비기 전에 공백 이후 결정을 둘 수는 없다. 각 문서의 선행 사건을 대조한다."}
+
 static func progress(state: Dictionary) -> Dictionary:
 	var local := {"order": [], "audit": false, "owners": {}, "validated": false, "confessed": false}
 	local.merge(state["loop_state"]["event_local_states"].get("E3_4", {}), true)
@@ -26,52 +49,60 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	var local := progress(state)
 	if local["validated"] and action in ["clear", "owner", "validate"]: return {"ok": false, "text": "검증한 현재 권한은 유지한다. 책임 보고를 확인할 수 있다."}
 	var text := ""
+	var feedback_keys: Array = [action.to_upper()]
 	match action:
 		"log":
 			if not LOGS.has(str(value)): return {"ok": false, "text": "확인할 변경 이력을 선택한다."}
 			if str(value) not in local["order"]: local["order"].append(str(value))
 			text = LOGS[str(value)]
+			feedback_keys = ["LOG_" + str(value).to_upper()]
 		"clear":
 			local["order"] = []
-			text = "네 변경 이력을 다시 펼친다."
+			text = TEXT.CLEAR
 		"audit":
-			if local["order"] != ORDER: return {"ok": false, "text": "권한이 비기 전에 공백 이후 결정을 둘 수는 없다. 각 문서의 선행 사건을 대조한다."}
+			if local["order"] != ORDER: return {"ok": false, "text": STATUS.AUDIT_ORDER, "notebook_status": "AUDIT_ORDER"}
 			local["audit"] = true
 			knowledge["edgar_lock_audit_read"] = true
-			text = "처음 명령과 이후 운영자의 결정이 분리된다. 네 기능이 같은 권한은 아니다."
+			text = TEXT.AUDIT
 		"owner":
 			if not local["audit"] or not value is Array or value.size() != 2 or not OWNERS.has(str(value[0])) or str(value[1]) not in OWNERS.values(): return {"ok": false, "text": "이력을 확인한 뒤 기능과 소유자를 배치한다."}
 			for function in local["owners"].keys():
 				if local["owners"][function] == str(value[1]): local["owners"].erase(function)
 			local["owners"][str(value[0])] = str(value[1])
-			text = "기능 아래 소유자 토큰을 놓는다. 같은 토큰은 한 곳에서만 사용한다."
+			text = TEXT.OWNER
 		"validate":
 			if not local["audit"]: return {"ok": false, "text": "변경 이력을 먼저 확인한다."}
 			var contradictions: PackedStringArray = []
+			feedback_keys = []
 			for function in OWNERS:
 				var owner := str(local["owners"].get(function, ""))
 				if owner == OWNERS[function]: continue
-				var reason: String = CLUES[function]
-				if function == "CHOICE" and owner == "SYSTEM": reason = "보호 명령은 종료 여부를 결정할 수 없다."
-				elif function == "CHOICE" and owner == "CUSTODIAN": reason = "관리 권한과 당사자 동의가 충돌한다."
-				elif function == "SURVEILLANCE" and owner == "SUBJECT": reason = "관찰자와 관찰 대상이 뒤바뀌었다."
-				elif function == "MEMORY" and owner == "CUSTODIAN": reason = "보관자가 원 소유자로 등록되어 있다."
-				contradictions.append(reason)
+				var key: String = "WRONG_" + function
+				if function == "CHOICE" and owner == "SYSTEM": key = "CHOICE_SYSTEM"
+				elif function == "CHOICE" and owner == "CUSTODIAN": key = "CHOICE_CUSTODIAN"
+				elif function == "SURVEILLANCE" and owner == "SUBJECT": key = "SURVEILLANCE_SUBJECT"
+				elif function == "MEMORY" and owner == "CUSTODIAN": key = "MEMORY_CUSTODIAN"
+				contradictions.append(TEXT[key])
+				feedback_keys.append(key)
 				local["owners"].erase(function)
 			if contradictions.is_empty():
 				local["validated"] = true
 				knowledge["edgar_authority_owners_matched"] = true
 				knowledge["edgar_authority_layout_validated"] = true
-				text = "선택 권한선이 관리 회로에서 빠져나온다. 종이와 연필 질감의 SUBJECT 단자로 연결된다."
-			else: text = "\n".join(contradictions) + "\n모순인 카드만 되돌린다. 다른 배치는 유지된다."
+				text = TEXT.VALIDATED
+				feedback_keys = ["VALIDATED"]
+			else:
+				text = "\n".join(contradictions) + "\n" + TEXT.RESET_INVALID
+				feedback_keys.append("RESET_INVALID")
 		"confess":
 			if not local["validated"]: return {"ok": false, "text": "현재 권한 배치를 먼저 검증한다."}
 			local["confessed"] = true
 			var edgar: Dictionary = meta["servants"]["edgar"]
-			text = "레이피어 끝이 권한선의 경계를 짚는다. 꼬리가 한 번 바닥을 친다.\n주인공이 묻는다. '아버지가 시켰습니까?'\n[대시계 저음: 네 번, 정지]\n처음에는 명령이었습니다. 그 이후는 제 판단입니다. 강제 기동에 반대했지만, 정지시키지도 선택권을 반환하지도 않았습니다."
-			if int(edgar["bond"]) >= 4: text += "\n보호한다는 말로 선택을 빼앗았습니다. 사과드립니다."
-			elif int(edgar["bond"]) >= 2: text += "\n귀하가 잃어버린 시간도 제 책임입니다."
-			if int(edgar["alert"]) >= 4: text += "\n다음 행동은 무엇입니까? ...대신 결정하려는 질문이 되어서는 안 됩니다."
+			text = TEXT.CONFESS
+			if int(edgar["bond"]) >= 4: feedback_keys.append("CONFESS_HIGH")
+			elif int(edgar["bond"]) >= 2: feedback_keys.append("CONFESS_MID")
+			if int(edgar["alert"]) >= 4: feedback_keys.append("CONFESS_ALERT")
+			for key in feedback_keys.slice(1): text += "\n" + TEXT[key]
 		"choose":
 			if not local["confessed"] or str(value) not in ["responsibility_recorded", "authority_returned"]: return {"ok": false, "text": "에드가의 책임 보고를 먼저 확인한다."}
 			var direct := str(value) == "authority_returned"
@@ -85,8 +116,9 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 			var notes: Dictionary = knowledge.get("chapter_notebook", {})
 			notes["REC_EDGAR"] = RECORD
 			knowledge["chapter_notebook"] = notes
-			text = "에드가가 레이피어를 내려놓고 SUBJECT 단자를 주인공에게 넘긴다.\n귀하의 권한입니다." if direct else "에드가가 자신의 운영 서명을 감사 기록에 남긴다.\n제 판단과 책임으로 기록합니다. 선택 권한은 귀하에게 있습니다."
+			feedback_keys = ["CHOOSE_DIRECT" if direct else "CHOOSE_RECORDED"]
+			text = TEXT[feedback_keys[0]]
 		_:
 			return {"ok": false, "text": "정의되지 않은 권한 조사다."}
 	state["loop_state"]["event_local_states"]["E3_4"] = local
-	return {"ok": true, "state": state, "text": text}
+	return {"ok": true, "state": state, "text": text, "feedback_keys": feedback_keys}
