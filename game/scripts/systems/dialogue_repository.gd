@@ -83,6 +83,13 @@ func render_history(history_value: Variant, locale: String) -> Dictionary:
 			errors.append("ERR_DIALOGUE_HISTORY_SEQUENCE")
 			continue
 		previous_sequence = int(history_entry["sequence"])
+		if history_entry_value.get("record_class") == "authored":
+			var authored := preload("res://scripts/systems/notebook_content.gd").render_entry(history_entry_value, locale)
+			if authored.ok:
+				rendered_entries.append(authored.entry)
+			else:
+				errors.append(String(authored.error_id))
+			continue
 		if not history_entry.get("line_id") is String or not history_entry.get("speaker_id") is String:
 			errors.append("ERR_DIALOGUE_HISTORY_ID_TYPE")
 			continue

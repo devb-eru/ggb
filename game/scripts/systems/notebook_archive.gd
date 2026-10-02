@@ -73,7 +73,7 @@ static func validate(value: Variant) -> Dictionary:
 				if tokens.has(token): return _error("NB_DUPLICATE_PRESENTATION")
 				tokens[token] = true
 		elif entry.get("record_class") == "authored":
-			var checked := _validate_observation(entry.get("observation"))
+			var checked := validate_observation(entry.get("observation"))
 			if not checked.ok: return checked
 			var token: String = entry.observation.presentation_token
 			if tokens.has(token): return _error("NB_DUPLICATE_PRESENTATION")
@@ -102,7 +102,7 @@ static func validate(value: Variant) -> Dictionary:
 static func append_observation(archive: Dictionary, observation: Dictionary, expected_revision: int) -> Dictionary:
 	var ready := _ready(archive, expected_revision)
 	if not ready.ok: return ready
-	var checked := _validate_observation(observation)
+	var checked := validate_observation(observation)
 	if not checked.ok: return checked
 	for entry in archive.entries:
 		if entry.get("record_class") == "authored" and entry.observation.presentation_token == observation.presentation_token:
@@ -235,7 +235,7 @@ static func _reasons(archive: Dictionary, entry: Dictionary) -> Array:
 	return values
 
 
-static func _validate_observation(value: Variant) -> Dictionary:
+static func validate_observation(value: Variant) -> Dictionary:
 	var fields := ["producer_id", "event_id", "node_id", "location_id", "chapter_id", "event_occurrence_id", "conversation_session_id", "presentation_token", "entry_kind", "content_id", "content_version", "variant_id", "speaker_id", "segments", "content_protection"]
 	if not value is Dictionary or not _keys(value, fields): return _error("NB_OBSERVATION_FIELDS")
 	for field in ["producer_id", "event_id", "node_id", "location_id", "content_id", "variant_id", "speaker_id"]:

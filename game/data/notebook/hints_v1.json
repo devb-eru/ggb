@@ -1,0 +1,2900 @@
+{
+	"contents": {
+		"NB_HINT_B3_A_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "B3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Compare the screw holes and edge lines on all four rubbings. A sheet's orientation need not match its clock's position.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clock wiring · H1"
+					},
+					"ko-KR": {
+						"body": "네 탁본의 나사 구멍과 가장자리 선을 비교해 보자. 종이의 방향이 시계의 위치와 꼭 같지는 않다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "시계망 배선 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_B3_A_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_B3_A_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"B3_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "B3_A:0",
+				"text_source": "res://scripts/ui/clock_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_B3_A_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "B3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Every line on the bedroom rubbing ends before reaching an edge. Compare it with a piece that can carry a signal into another room.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clock wiring · H2"
+					},
+					"ko-KR": {
+						"body": "침실 탁본에서는 모든 선이 가장자리에 닿기 전에 끝난다. 다른 방으로 신호를 넘기는 조각과 나란히 놓고 차이를 보자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "시계망 배선 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_B3_A_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_B3_A_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"B3_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "B3_A:1",
+				"text_source": "res://scripts/ui/clock_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_B3_A_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "B3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Graphite has smudged onto the back of the outer-library rubbing. If rotation cannot join its lines, compare it after flipping it over.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clock wiring · H3"
+					},
+					"ko-KR": {
+						"body": "외부 서고 탁본의 뒷면에 흑연이 번져 있다. 회전만으로 선이 이어지지 않는다면 이 조각은 뒤집어 비교해 보자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "시계망 배선 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_B3_A_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_B3_A_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"B3_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "B3_A:2",
+				"text_source": "res://scripts/ui/clock_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_B3_A_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "B3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Use one connection as your reference: the parlor leads into the outer library. Match that boundary first, then examine the remaining pieces.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clock wiring · H4"
+					},
+					"ko-KR": {
+						"body": "연결 하나를 기준으로 삼자. 대응접실에서 나온 선은 외부 서고로 이어진다. 이 두 조각의 경계를 먼저 맞추고 나머지를 살펴보자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "시계망 배선 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_B3_A_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_B3_A_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"B3_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "B3_A:3",
+				"text_source": "res://scripts/ui/clock_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_B3_A_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "B3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Exclude the bedroom and flip the outer-library piece. Build the path parlor → outer library → western great clock. Use the weak vibration to check the pieces' orientations.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clock wiring · H5"
+					},
+					"ko-KR": {
+						"body": "침실은 연결에서 제외하고, 외부 서고는 뒤집는다. 대응접실→외부 서고→서쪽 대시계의 경로를 만들자. 각 조각의 방향은 약한 진동으로 확인할 수 있다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "시계망 배선 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_B3_A_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_B3_A_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"B3_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "B3_A:4",
+				"text_source": "res://scripts/ui/clock_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_B3_B_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "B3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Compare which clock starts the signal, which relays it, and which sounds it out. The disconnected clock needs a different role.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clock roles and phase · H1"
+					},
+					"ko-KR": {
+						"body": "각 시계가 신호를 시작하는지, 전달하는지, 소리로 내보내는지 비교해 보자. 연결이 없는 시계에는 다른 역할이 필요하다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "시계 역할과 위상 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_B3_B_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_B3_B_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"B3_B",
+					"BF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "B3_B:0",
+				"text_source": "res://scripts/ui/clock_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_B3_B_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "B3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Compare the signal direction established by the rubbings with each clock's function. The journal's final sentence also echoes the empty notch after XII on the great clock.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clock roles and phase · H2"
+					},
+					"ko-KR": {
+						"body": "탁본에서 확인한 신호 방향과 시계의 기능을 함께 보자. 일지의 마지막 문장과 대시계의 XII 뒤 빈 홈도 서로 닮아 있다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "시계 역할과 위상 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_B3_B_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_B3_B_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"B3_B",
+					"BF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "B3_B:1",
+				"text_source": "res://scripts/ui/clock_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_B3_B_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "B3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Roles and timing are separate settings. The weak test checks role connections only. For phase, consider the sound that remains one step after everything seems finished.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clock roles and phase · H3"
+					},
+					"ko-KR": {
+						"body": "역할과 전달 시점은 서로 다른 설정이다. 약한 시험은 역할 연결만 확인한다. 위상은 '모두 끝난 뒤에도 한 칸 남은 소리'를 기준으로 생각하자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "시계 역할과 위상 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_B3_B_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_B3_B_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"B3_B",
+					"BF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "B3_B:2",
+				"text_source": "res://scripts/ui/clock_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_B3_B_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "B3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The parlor is the reference clock. Start from that signal source and use the weak test to check the next connection. You do not need to activate the network yet.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clock roles and phase · H4"
+					},
+					"ko-KR": {
+						"body": "대응접실을 기준 시계로 삼는다. 신호가 시작되는 이 위치를 출발점으로 놓고, 약한 시험으로 다음 연결을 확인하자. 실제 작동은 아직 필요하지 않다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "시계 역할과 위상 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_B3_B_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_B3_B_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"B3_B",
+					"BF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "B3_B:3",
+				"text_source": "res://scripts/ui/clock_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_B3_B_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "B3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Reference: parlor. Relay: outer library. Output: western great clock. Excluded: bedroom. Compare phase 0 with +1: the required signal comes one step after normal completion, not at the same time. A failed real activation locks today's pin.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clock roles and phase · H5"
+					},
+					"ko-KR": {
+						"body": "기준은 대응접실, 중계는 외부 서고, 출력은 서쪽 대시계, 제외는 침실이다. 위상의 0과 +1을 비교하자. 필요한 것은 정상 종과 동시가 아니라 정상 완료 뒤 한 칸 늦은 전달이다. 실제 오작동은 오늘의 핀을 잠근다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "시계 역할과 위상 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_B3_B_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_B3_B_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"B3_B",
+					"BF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "B3_B:4",
+				"text_source": "res://scripts/ui/clock_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_C3_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "C3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Separate the cleaning record and chemical labels into total quantity, ingredient ratios, and pouring order. These are separate constraints. An incorrect mixture can be discarded and remade on the same day.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Mirror solution · H1"
+					},
+					"ko-KR": {
+						"body": "청소 기록과 약품 라벨을 총량, 재료 사이 비율, 투입 순서로 나누어 보자. 이 셋은 별개의 조건이다. 잘못 만든 용액은 폐기하고 같은 날 다시 만들 수 있다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "거울 세정제 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_C3_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_C3_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "C3:0",
+				"text_source": "res://scripts/ui/mirror_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_C3_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "C3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Active solution A is twice stabilizer S. Instead of guessing A first, group each unit of stabilizer with the active solution it requires.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Mirror solution · H2"
+					},
+					"ko-KR": {
+						"body": "원액 A는 안정제 S의 두 배다. 원액을 먼저 정하기보다 안정제 한 단위에 원액이 얼마나 따라오는지 묶어 보자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "거울 세정제 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_C3_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_C3_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "C3:1",
+				"text_source": "res://scripts/ui/mirror_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_C3_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "C3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Water W is two units greater than stabilizer and active solution combined. All three total eight. Compare how increasing stabilizer by one unit also increases the other ingredients.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Mirror solution · H3"
+					},
+					"ko-KR": {
+						"body": "물 W는 안정제와 원액을 합친 양보다 두 단위 많다. 세 재료의 합은 여덟이다. 안정제 한 단위를 늘렸을 때 다른 두 재료도 얼마나 늘어나는지 비교하자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "거울 세정제 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_C3_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_C3_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "C3:2",
+				"text_source": "res://scripts/ui/mirror_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_C3_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "C3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Use one unit of stabilizer S as a reference. Active solution is twice that, and water is two more than their sum. Check the result against the bottle's eight-unit mark.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Mirror solution · H4"
+					},
+					"ko-KR": {
+						"body": "안정제 S를 한 단위로 놓고 검산하자. 원액은 그 두 배이고, 물은 둘의 합보다 두 단위 많아야 한다. 병의 여덟 눈금과 맞는지 확인한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "거울 세정제 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_C3_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_C3_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "C3:3",
+				"text_source": "res://scripts/ui/mirror_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_C3_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "C3",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Pour five units of water first, disperse one unit of stabilizer, then add two units of active solution. Mix slowly once and test it. Correct quantities cannot rescue a mixture made in the wrong order.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Mirror solution · H5"
+					},
+					"ko-KR": {
+						"body": "물을 다섯 단위 먼저 넣고 안정제 한 단위를 확산시킨 뒤 원액 두 단위를 넣는다. 천천히 한 번 혼합하고 시험지로 확인하자. 순서가 잘못된 용액은 양만 맞춰도 거울용이 되지 않는다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "거울 세정제 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_C3_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_C3_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C3"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "C3:4",
+				"text_source": "res://scripts/ui/mirror_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_C4_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "C4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Compare the B4 waveform with the J2 passage. Consider how the long entry, two short reflections, and closing resonance relate to the mirror's straight line, fork, and loop.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Black mirror · H1"
+					},
+					"ko-KR": {
+						"body": "B4 파형과 J2 문장을 함께 보자. 긴 진입, 두 번의 짧은 반사, 닫히는 잔향이 거울의 직선·분기·고리와 어떻게 이어지는지 살펴보자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "검은 거울 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_C4_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_C4_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C4",
+					"CF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "C4:0",
+				"text_source": "res://scripts/ui/mirror_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_C4_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "C4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Check the overlay separately from the tracing order. Compare the thirteenth large wave with the vibration point below the mirror. A correct route cannot compensate for a misplaced starting point.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Black mirror · H2"
+					},
+					"ko-KR": {
+						"body": "중첩과 닦기 순서를 따로 확인하자. 열세 번째 큰 파동은 거울 아래쪽 진동점과 비교한다. 겹치는 시작점이 어긋나면 올바른 경로도 소용없다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "검은 거울 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_C4_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_C4_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C4",
+					"CF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "C4:1",
+				"text_source": "res://scripts/ui/mirror_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_C4_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "C4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "This record does not use the same transformation as the library rubbing. Compare rotations without turning it over. Before applying solution, check with a dry cloth.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Black mirror · H3"
+					},
+					"ko-KR": {
+						"body": "이 자료는 서재 탁본과 같은 변환을 요구하지 않는다. 앞뒤를 바꾸지 않은 채 회전해 비교하자. 거울 작업 전에는 마른 천 시험으로 확인할 수 있다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "검은 거울 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_C4_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_C4_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C4",
+					"CF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "C4:2",
+				"text_source": "res://scripts/ui/mirror_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_C4_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "C4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Rotate 90 degrees clockwise without mirroring, then align the thirteenth wave with the lower vibration point. Check that your route includes both sides of the fork.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Black mirror · H4"
+					},
+					"ko-KR": {
+						"body": "좌우 반전 없이 시계 방향 90도로 돌리고 열세 번째 파동을 하단 진동점에 맞춘다. 이제 분기의 양쪽을 빠뜨리지 않는 경로인지 확인하자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "검은 거울 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_C4_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_C4_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C4",
+					"CF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "C4:3",
+				"text_source": "res://scripts/ui/mirror_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_C4_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "C4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Plan straight entry, short branch, long branch, then the loop clockwise. Recheck the overlay and anchor and use the dry test. If the coating has already hardened, hints cannot repair it; sleep and prepare again.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Black mirror · H5"
+					},
+					"ko-KR": {
+						"body": "직선 진입, 분기의 짧은 쪽, 긴 쪽, 고리의 시계 방향 순서로 계획한다. 중첩·기준점을 다시 확인하고 마른 시험을 거친다. 이미 코팅이 굳었다면 힌트로 복구할 수 없으며 잠든 뒤 다시 준비해야 한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "검은 거울 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_C4_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_C4_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C4",
+					"CF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "C4:4",
+				"text_source": "res://scripts/ui/mirror_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D0_A_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The C5 transparency came from a mirror. Before placing it on the house plan, compare the lettering and the three landmarks.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Mansion plan · H1"
+					},
+					"ko-KR": {
+						"body": "C5 투명지는 거울에서 얻은 자료다. 집의 도면에 곧바로 놓기 전에 글자의 방향과 세 기준점을 비교하자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "저택 도면 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_D0_A_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D0_A_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D0_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D0_A:0",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D0_A_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Use the great clock that rings without a bell as your reference. Do not stop at one matching point: check the greenhouse and bedroom too.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Mansion plan · H2"
+					},
+					"ko-KR": {
+						"body": "종이 없어도 울리는 대시계를 기준으로 삼자. 그 점 하나만 맞추는 것으로 끝내지 말고 온실과 침실도 함께 확인한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "저택 도면 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_D0_A_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D0_A_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D0_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D0_A:1",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D0_A_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Compare this transparency after mirroring it horizontally. This is not a repetition of the transformation used to place the waveform on the black mirror.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Mansion plan · H3"
+					},
+					"ko-KR": {
+						"body": "이번 투명지는 좌우를 바꿔 비교해야 한다. 검은 거울에 파형을 놓았던 변환을 그대로 반복하는 퍼즐이 아니다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "저택 도면 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_D0_A_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D0_A_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D0_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D0_A:2",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D0_A_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "After mirroring horizontally, rotate 90 degrees counterclockwise. If the control advances clockwise by 90 degrees, that is three turns.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Mansion plan · H4"
+					},
+					"ko-KR": {
+						"body": "좌우 반전 뒤 반시계 방향으로 90도 돌려 보자. 화면이 시계 방향 90도씩만 움직인다면 세 번 회전한 상태다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "저택 도면 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_D0_A_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D0_A_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D0_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D0_A:3",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D0_A_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "With horizontal mirroring and a 90-degree counterclockwise rotation, anchor the great clock. Verify the greenhouse and bedroom too to read the depths: straight II, branch I, ring III.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Mansion plan · H5"
+					},
+					"ko-KR": {
+						"body": "좌우 반전과 반시계 90도 회전 상태에서 대시계 기준점을 고정한다. 온실·침실까지 맞는지 검증하면 직선 II, 분기 I, 환형 III의 깊이를 읽을 수 있다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "저택 도면 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_D0_A_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D0_A_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D0_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D0_A:4",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D1_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The arrows on the plan give the order of pushing; the Roman numerals give depths. Treat axis identity, depth, and execution as separate choices.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Basement axes · H1"
+					},
+					"ko-KR": {
+						"body": "도면의 화살표는 축을 미는 순서이고 로마 숫자는 깊이다. 축의 종류, 깊이, 실행을 서로 다른 선택으로 구분하자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "지하창고 축 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_D1_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D1_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D1",
+					"DF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D1:0",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D1_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Follow the flow from the straight line through the branch to the closing ring. Re-read the verified plan instead of trying every possible order.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Basement axes · H2"
+					},
+					"ko-KR": {
+						"body": "직선에서 시작해 분기를 지나 고리로 닫히는 흐름을 따라가자. 처음부터 모든 순서를 시험할 필요 없이 검증한 도면을 다시 읽을 수 있다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "지하창고 축 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_D1_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D1_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D1",
+					"DF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D1:1",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D1_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "An axis's depth can be changed only before it is pushed. Do not try to undo a pushed axis; compare the recorded depths with the remaining axes' notches.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Basement axes · H3"
+					},
+					"ko-KR": {
+						"body": "각 축은 밀기 전까지만 깊이를 바꿀 수 있다. 이미 밀린 축을 되돌리려 하지 말고, 수첩의 깊이와 아직 남은 축의 홈을 비교하자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "지하창고 축 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_D1_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D1_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D1",
+					"DF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D1:2",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D1_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The first axis is straight at depth II, or 2. Branch corresponds to I and ring to III. Selecting depth does not transmit pressure; pushing still requires separate confirmation.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Basement axes · H4"
+					},
+					"ko-KR": {
+						"body": "첫 축은 직선이고 깊이는 II, 즉 2다. 그다음 분기는 I, 환형은 III와 대응한다. 깊이 설정만으로 압력이 전달되지는 않으며 밀기는 별도로 확인해야 한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "지하창고 축 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_D1_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D1_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D1",
+					"DF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D1:3",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D1_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D1",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Push straight 2, then branch 1, then ring 3; turn the central handle half a turn clockwise. If the pin has already dropped, sleep and prepare again. Applying verified settings still leaves each push for you to confirm.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Basement axes · H5"
+					},
+					"ko-KR": {
+						"body": "직선 2 → 분기 1 → 환형 3 순서로 각각 밀고 중앙 손잡이를 시계 방향 반 바퀴 돌린다. 이미 핀이 내려갔다면 잠든 뒤 재준비해야 한다. 검증된 설정을 적용해도 실제 밀기는 직접 확인한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "지하창고 축 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_D1_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D1_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D1",
+					"DF"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D1:4",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D4_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Do not assume one handle moves only one ring. Observe both the rings that move and the one that stays still.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clockwork heart · H1"
+					},
+					"ko-KR": {
+						"body": "손잡이 하나가 링 하나만 움직인다고 가정하지 말자. 움직이는 두 링과 움직이지 않는 링을 함께 관찰한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "태엽 심장 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_D4_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D4_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D4:0",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D4_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The outer handle moves outer and middle; the middle handle moves middle and inner. The inner handle moves only the inner ring. Work from outside inward to avoid disturbing completed work.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clockwork heart · H2"
+					},
+					"ko-KR": {
+						"body": "외곽 손잡이는 외곽·중간을, 중간 손잡이는 중간·안쪽을 움직인다. 안쪽 손잡이는 안쪽 링만 움직인다. 영향을 덜 되돌리려면 바깥부터 맞추는 편이 낫다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "태엽 심장 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_D4_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D4_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D4:1",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D4_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The targets are the outer XIII notch, middle branch junction, and inner lowest heart node. Four positions cycle, so passed symbols return. Before connecting power, resetting lets you recheck the coupling.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clockwork heart · H3"
+					},
+					"ko-KR": {
+						"body": "외곽 XIII 홈, 중간 분기 접점, 안쪽 가장 낮은 심장 노드가 목표다. 네 위치가 순환하므로 이미 지나친 문양도 다시 돌아온다. 동력 연결 전의 초기화로 연동을 재확인할 수 있다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "태엽 심장 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_D4_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D4_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D4:2",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D4_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "After aligning the rings, wind the normal lever to XII to reach STABLE. Consider whether that display ends every operation: recall the extra signal after normal completion in the clock network.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clockwork heart · H4"
+					},
+					"ko-KR": {
+						"body": "링을 맞춘 뒤 정상 레버를 XII까지 감으면 STABLE이 표시된다. 이 표시가 모든 동작의 끝인지, 시계망에서 정상 완료 뒤 남았던 한 번을 떠올려 보자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "태엽 심장 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_D4_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D4_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D4:3",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_D4_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "D4",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "From the reset starting position, turn outer A once, middle B once, and inner C twice. These are not extra turns to add blindly to your current position. Fix the rings, complete normal XII startup, then inspect the hidden auxiliary lever and execute it once.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Clockwork heart · H5"
+					},
+					"ko-KR": {
+						"body": "초기 위치로 되돌린 상태라면 외곽 A 한 번, 중간 B 한 번, 안쪽 C 두 번으로 정렬된다. 현재 위치에 무조건 더하는 횟수가 아니다. 링을 고정하고 XII 정상 기동을 확인한 뒤 숨은 보조 레버를 조사해 한 번 더 실행한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "태엽 심장 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_D4_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_D4_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D4"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "D4:4",
+				"text_source": "res://scripts/ui/basement_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_A_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Compare what each room receives and outputs, not its appearance. Read P5, P4, the bedroom, and the journal as evidence about one circuit.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Broken room connections · H1"
+					},
+					"ko-KR": {
+						"body": "방의 겉모습보다 무엇을 받아 무엇을 내보내는지 비교하자. P5·P4·침실·일지 기록을 같은 회로의 자료로 읽는다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "깨진 방 연결 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_F0_A_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_A_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_A:0",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_A_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Outside air enters from the north; the core's management request is in the west. Match room functions to these two fixed ports.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Broken room connections · H2"
+					},
+					"ko-KR": {
+						"body": "외부 대기는 북쪽으로 들어오고 중앙 코어의 관리 요청은 서쪽에 있다. 이 두 고정 포트에 맞는 방의 기능을 찾자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "깨진 방 연결 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_F0_A_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_A_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_A:1",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_A_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Environmental control feeds life support, which sustains the body's neural signal. The library's presentation feedback must return to the greenhouse to close the circuit.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Broken room connections · H3"
+					},
+					"ko-KR": {
+						"body": "환경 제어는 생명 유지 공급으로, 그 공급은 몸의 신경 신호로 이어진다. 기록 내실의 연출 피드백이 온실로 돌아와야 회로가 닫힌다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "깨진 방 연결 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_F0_A_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_A_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_A:2",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_A_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Place the greenhouse north and the inner library west. As you place the remaining rooms, use the weak signal to check connections to the next physical port.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Broken room connections · H4"
+					},
+					"ko-KR": {
+						"body": "북쪽은 온실, 서쪽은 기록 내실이다. 나머지 두 방을 놓을 때 다음 물리 포트로 이어지는 방향인지 약한 신호로 확인한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "깨진 방 연결 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_F0_A_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_A_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_A:3",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_A_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Connect north greenhouse → east kitchen → south bedroom → west inner library → north greenhouse. Each arrow points to the next compass slot; preserve the library's central request port too.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Broken room connections · H5"
+					},
+					"ko-KR": {
+						"body": "북쪽 온실→동쪽 주방→남쪽 침실→서쪽 기록 내실→북쪽 온실로 연결한다. 각 화살표는 다음 방위 슬롯을 가리키며 내실의 중앙 요청 포트도 유지한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "깨진 방 연결 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_F0_A_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_A_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_A:4",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_B_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Records that create a pleasing scene differ from records that sustain a body or personality. Inspect where each sample's connection ends, not just its name.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Maintenance samples · H1"
+					},
+					"ko-KR": {
+						"body": "보기 좋은 장면을 만드는 기록과 몸·인격을 유지하는 기록은 다르다. 표본의 이름뿐 아니라 연결선이 어디에서 끝나는지 조사하자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "유지 신호 표본 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_F0_B_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_B_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_B:0",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_B_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Compare which signals persist when a scene stops or a day repeats. Separate scent, menu, and role animation from actual maintenance output.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Maintenance samples · H2"
+					},
+					"ko-KR": {
+						"body": "장면을 멈추거나 하루가 반복되어도 남는 신호가 있는지 비교한다. 향·메뉴·역할 애니메이션과 실제 유지 장치의 출력을 구분하자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "유지 신호 표본 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_F0_B_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_B_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_B:1",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_B_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Check whether the greenhouse sample reaches the supply equipment from the outside intake and whether the kitchen sample reaches bedroom cooling. Inspect a sample before sending it for verification.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Maintenance samples · H3"
+					},
+					"ko-KR": {
+						"body": "온실 표본은 외부 흡입구에서 공급 장치로, 주방 표본은 침실 냉각 장치로 이어지는지 본다. 표본을 선택한 뒤 전송해 검증한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "유지 신호 표본 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_F0_B_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_B_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_B:2",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_B_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "In the bedroom, you need the biological signal that persists when animation stops. In the library, look for the index retaining earlier entries, not the book-spine layout.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Maintenance samples · H4"
+					},
+					"ko-KR": {
+						"body": "침실에서는 애니메이션을 멈춰도 이어지는 생체 신호가 필요하다. 기록 내실에서는 책등 배치가 아니라 이전 항목을 유지하는 인덱스를 찾는다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "유지 신호 표본 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_F0_B_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_B_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_B:3",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_B_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The four maintenance samples are outside-air readings, life-support fluid flow, current biological signal, and persistent memory index. Access denial after verifying all four may concern a missing port, not the number of relationship events completed.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Maintenance samples · H5"
+					},
+					"ko-KR": {
+						"body": "외부 대기 수치·생명 유지 유체 흐름·현재 생체 신호·지속 기억 인덱스가 네 유지 표본이다. 네 채널이 맞아도 접근 거부는 남은 포트 문제일 수 있다. 관계 이벤트 수로 해결하는 조건이 아니다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "유지 신호 표본 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_F0_B_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_B_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_B:4",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_C_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "B4 shows input after completion, C5 shows paths and authentication loops, and D4 shows a vacant port. The three layers serve different purposes.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Three-record overlay · H1"
+					},
+					"ko-KR": {
+						"body": "B4는 완료 뒤 추가 입력, C5는 경로와 인증 고리, D4는 포트의 빈자리를 보여 준다. 세 장이 모두 같은 역할을 하는 자료는 아니다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "세 기록 중첩 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_F0_C_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_C_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_C:0",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_C_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Anchor B4 at the twelfth-bell completion line, C5 at the closed-loop center, and D4 at the central heart port. Opacity helps reading; it is not a solution condition.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Three-record overlay · H2"
+					},
+					"ko-KR": {
+						"body": "B4의 열두 번째 종 완료선, C5의 닫힌 고리 중심, D4의 중앙 심장 포트를 기준으로 삼는다. 투명도는 읽기 보조이지 정답 조건이 아니다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "세 기록 중첩 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_F0_C_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_C_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_C:1",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_C_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "D4 is the fixed reference. Rotate B4 without mirroring. Since C5 came from the mirror, compare horizontal mirroring together with rotation.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Three-record overlay · H3"
+					},
+					"ko-KR": {
+						"body": "D4는 움직이지 않는 기준판이다. B4는 반전 없이 회전하고, C5는 거울에서 얻은 회로라 좌우 반전과 회전을 함께 비교한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "세 기록 중첩 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_F0_C_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_C_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_C:2",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_C_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Rotate B4 by 180 degrees without mirroring. Mirror C5 horizontally, then rotate it 90 degrees counterclockwise. Align each layer's anchor with its intended reference.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Three-record overlay · H4"
+					},
+					"ko-KR": {
+						"body": "B4는 180도 회전·반전 없음이다. C5는 좌우 반전 뒤 반시계 방향 90도로 맞춘다. 각 자료의 기준점을 원래 의미에 맞춰 고정해야 한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "세 기록 중첩 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_F0_C_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_C_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_C:3",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_C_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Keep D4 fixed, rotate B4 180 degrees, and mirror C5 plus rotate it 90 degrees counterclockwise. Verify the aligned anchors, then inspect PATH → SPLIT → AUTH. Aligning the image alone does not complete the investigation.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Three-record overlay · H5"
+					},
+					"ko-KR": {
+						"body": "D4는 고정, B4는 180도, C5는 좌우 반전+반시계90도다. 세 기준점을 맞춰 완전 중첩을 검증한 뒤 PATH 경로→SPLIT 분기→AUTH 인증 고리 순서로 조사한다. 그림을 겹친 것만으로 조사가 끝나지는 않는다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "세 기록 중첩 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_F0_C_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_C_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_C:4",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_D_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "A record's author and its role are not necessarily the same. Color identifies its source; assign the slot by what the record does.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Record roles · H1"
+					},
+					"ko-KR": {
+						"body": "기록을 만든 사람과 기록의 역할은 같지 않을 수 있다. 색은 출처를 구분하지만 슬롯의 정답은 기록이 한 일을 읽어 판단한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "기록의 역할 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_F0_D_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_D_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_D:0",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_D_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Distinguish creator, custodian, continuing resident, automatic execution, and the subject living with the consequences. This is not a ranking of affection or trust.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Record roles · H2"
+					},
+					"ko-KR": {
+						"body": "만든 자, 관리한 자, 계속 존재하는 자, 자동 실행, 결과를 겪는 주체를 구분하자. 호감이나 신뢰 순위를 매기는 판이 아니다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "기록의 역할 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_F0_D_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_D_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_D:1",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_D_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The father's design and Edgar's access permission have different functions. Researcher records concern continuing resident personalities; the D4 command executes under set conditions.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Record roles · H3"
+					},
+					"ko-KR": {
+						"body": "아버지의 설계와 에드가의 접근 허가는 서로 다른 기능이다. 연구원 기록은 거주 인격의 지속을 말하고 D4 명령은 조건에 따라 실행된다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "기록의 역할 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_F0_D_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_D_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_D:2",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_D_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The protagonist's notebook is written by the person living with this life's consequences. Even without personal servant records, anonymous indices preserve the functional evidence.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Record roles · H4"
+					},
+					"ko-KR": {
+						"body": "주인공 수첩은 이 삶의 결과를 겪는 사람이 직접 남긴 기록이다. 사용인 기록이 부족해도 익명 인덱스로 기능은 확인할 수 있다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "기록의 역할 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_F0_D_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_D_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_D:3",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_D_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Father's journal: CREATOR. Edgar's passphrase: CUSTODIAN. Researcher records: RESIDENT. D4 command: SYSTEM. Protagonist's notebook: SUBJECT. Read incomplete role labels alongside their functional descriptions.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Record roles · H5"
+					},
+					"ko-KR": {
+						"body": "아버지 일지=CREATOR, 에드가 암구호=CUSTODIAN, 연구원 기록=RESIDENT, D4 명령=SYSTEM, 주인공 수첩=SUBJECT다. 빈칸이 있는 역할 이름은 기능 문장과 함께 읽는다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "기록의 역할 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_F0_D_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_D_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_D:4",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_E_H1": {
+			"1": {
+				"action_or_variant": "requested_H1",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "The old mark and the current blank line are separate checks. Look at who writes now, rather than which outcome they prefer.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Past and present authentication · H1"
+					},
+					"ko-KR": {
+						"body": "과거 표시와 현재의 빈 줄은 다른 확인 절차다. 무엇을 선택하느냐보다 누가 지금 기록하는지 살펴보자.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "과거와 현재 인증 · H1"
+					}
+				},
+				"localization_key": "NB_HINT_F0_E_H1_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_E_H1_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_E:0",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_E_H2": {
+			"1": {
+				"action_or_variant": "requested_H2",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Check the mark you made in A1. Reconstruct the sequence for the type you actually chose: sentence, house glyph, or ink trace.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Past and present authentication · H2"
+					},
+					"ko-KR": {
+						"body": "A1에서 직접 남겼던 표시를 수첩에서 확인한다. 문장·저택 문양·잉크 흔적 중 실제로 선택한 유형을 기준으로 조각 순서를 되짚는다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "과거와 현재 인증 · H2"
+					}
+				},
+				"localization_key": "NB_HINT_F0_E_H2_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_E_H2_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_E:1",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_E_H3": {
+			"1": {
+				"action_or_variant": "requested_H3",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Verifying the old mark still leaves the current-author check. Importing the father's, system's, or servants' words is different from writing yourself now.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Past and present authentication · H3"
+					},
+					"ko-KR": {
+						"body": "과거 표시를 확인해도 현재 작성자 확인은 남는다. 아버지·시스템·사용인의 문장을 가져오는 것과 지금 직접 쓰는 것은 다르다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "과거와 현재 인증 · H3"
+					}
+				},
+				"localization_key": "NB_HINT_F0_E_H3_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_E_H3_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_E:2",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_E_H4": {
+			"1": {
+				"action_or_variant": "requested_H4",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Verify authorship by having the present protagonist write directly. This authentication neither declares departure nor promises to remain.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Past and present authentication · H4"
+					},
+					"ko-KR": {
+						"body": "현재의 주인공이 직접 쓰는 동작으로 작성자를 확인한다. 이 인증은 밖으로 나가겠다는 선언도, 저택에 남겠다는 약속도 아니다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "과거와 현재 인증 · H4"
+					}
+				},
+				"localization_key": "NB_HINT_F0_E_H4_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_E_H4_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_E:3",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_HINT_F0_E_H5": {
+			"1": {
+				"action_or_variant": "requested_H5",
+				"disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+				"entry_kind": "hint_revealed",
+				"event_id": "F0",
+				"knowledge_ref": "",
+				"locales": {
+					"en-US": {
+						"body": "Restore the old pieces in their original order and verify the protagonist as the current author. Reality, staying, and undecided all lead to the same next stage. No provisional preference is the correct answer; the final choice comes later.",
+						"speaker": "Protagonist",
+						"summary": "A hint you requested",
+						"title": "Past and present authentication · H5"
+					},
+					"ko-KR": {
+						"body": "과거 조각을 원래 표시 순서로 맞추고 현재 작성자를 주인공으로 확인한다. 이후 현실·잔류·미정 세 임시 의향은 모두 같은 진행으로 합류한다. 정답 의향은 없으며 최종 선택은 나중에 다시 한다.",
+						"speaker": "주인공",
+						"summary": "직접 요청한 도움말",
+						"title": "과거와 현재 인증 · H5"
+					}
+				},
+				"localization_key": "NB_HINT_F0_E_H5_BODY",
+				"localization_keys": {
+					"body": "NB_HINT_F0_E_H5_BODY"
+				},
+				"location_source": "session.history_context:loop_state.location_id",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "development/content",
+				"producer_id": "NP20",
+				"protection_reasons": [
+					"hint"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_read_clock_hint",
+				"speaker_id": "SUBJECT",
+				"text_key": "F0_E:4",
+				"text_source": "res://scripts/ui/core_hint_texts.gd",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

@@ -19,7 +19,13 @@ static func record(game: Node, saves: Node, slot: String, point: String, speaker
 	if history.has("schema_version"):
 		var frozen := context.duplicate(true)
 		if not frozen.has("presentation_token"): frozen.presentation_token = ARCHIVE.new_uid()
-		var appended := ARCHIVE.append_unmapped(history, payload, frozen, int(history.revision))
+		var appended: Dictionary
+		if frozen.has("notebook_content"):
+			var observed := preload("res://scripts/systems/notebook_content.gd").observe(frozen.notebook_content, frozen, speaker, text, locale)
+			if not observed.ok: return observed
+			appended = ARCHIVE.append_observation(history, observed.observation, int(history.revision))
+		else:
+			appended = ARCHIVE.append_unmapped(history, payload, frozen, int(history.revision))
 		if not appended.ok: return appended
 		if not appended.changed: return {"ok": true, "entry_uid": appended.entry_uid}
 		state.meta_progress.dialogue_history = appended.archive

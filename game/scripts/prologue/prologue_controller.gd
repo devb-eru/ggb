@@ -1818,9 +1818,16 @@ func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 	_audio_dialogue_index = -1
 	_hide_dialogue_choices()
 	_dialogue_lines = lines.duplicate(true)
+	var occurrence := preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	var conversation := preload("res://scripts/systems/notebook_archive.gd").new_uid()
 	for line in _dialogue_lines:
 		if not line.has("presentation_token"):
 			line.presentation_token = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		var context: Dictionary = line.get("history_context", {}).duplicate(true)
+		if not context.has("event_occurrence_id"): context.event_occurrence_id = occurrence
+		if not context.has("conversation_session_id"): context.conversation_session_id = conversation
+		context.presentation_token = line.presentation_token
+		line.history_context = context
 	_dialogue_index = 0
 	_dialogue_after = after
 	_dialogue_active = not _dialogue_lines.is_empty()
@@ -2335,6 +2342,7 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 	var rule := HSeparator.new()
 	_modal_body.add_child(rule)
 	var body_label := Label.new()
+	body_label.name = "ModalBodyText"
 	body_label.text = body
 	body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body_label.size_flags_vertical = Control.SIZE_EXPAND_FILL

@@ -187,6 +187,8 @@ save_header:
 
 [GGB-DEC-2026-0006](decisions/GGB-DEC-2026-0006_대화_기록_영속화.md)에 따라 대화 기록은 진행 슬롯에 명시적으로 저장한다. 보존·통합 수첩의 목표 계약은 [DEC-0012](decisions/GGB-DEC-2026-0012_통합_수첩_범위와_기록_보존.md)와 [구현 계획](../ideas/md/v04/issues/validation/notebook_history_review_plan.md)을 적용한다. 아래 예시는 이전 기록의 논리 필드 설명이며 신형 archive의 완전한 직렬화 예제가 아니다. 현재 게임은 transcript 저장을 사용하며 새 저장 계층의 실제 연결 상태는 [구현 현황](../ideas/md/v04/issues/validation/notebook_history_implementation_status.md)을 따른다.
 
+개발 옵션의 authored 기록은 `content_id + content_version + variant_id + 표시 segment`를 고정한다. 현재 언어 재열람은 정확히 같은 의미 버전만 사용하고, 없으면 저장 당시 원문임을 표시한다. 변수는 해당 segment가 선언한 공개 값만 받고 정수 공개 값은 첫 저장부터 JSON 수 표현으로 고정한다. 새 관찰은 실제 표시문과 일치해야 하며, 기존 버전 원고의 덮어쓰기나 문자열 역검색으로 출처를 추정하지 않는다. 현재 이 계약의 실제 연결 대상은 [NP20 단계 힌트](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)이며 다른 생산자의 임시 `unmapped`는 인수 완료로 세지 않는다.
+
 ```yaml
 meta_progress:
   dialogue_history:

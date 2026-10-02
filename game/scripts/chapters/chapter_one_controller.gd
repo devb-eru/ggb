@@ -103,6 +103,8 @@ func _record_current_history_line() -> bool:
 	var context: Dictionary = _dialogue_lines[_dialogue_index].get("history_context", {}).duplicate(true)
 	context["observed_fact_ids"] = _dialogue_lines[_dialogue_index].get("observed_fact_ids", [])
 	context["presentation_token"] = _dialogue_lines[_dialogue_index].presentation_token
+	if _dialogue_lines[_dialogue_index].has("notebook_content"):
+		context["notebook_content"] = _dialogue_lines[_dialogue_index].notebook_content
 	var result := session.record_viewed_line(_speaker_label.text, _dialogue_label.text, TranslationServer.get_locale(), context)
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
@@ -602,7 +604,7 @@ func _show_clock_hint_menu(level: int) -> void:
 	if level < 5:
 		actions.append({"label": ("Read hint H%d" if english else "H%d 힌트를 읽는다") % (level + 1), "action": _read_clock_hint.bind(level)})
 	else:
-		body = "You have read all five hints. Review your notes and use the available reversible checks before committing." if english else "다섯 단계의 힌트를 모두 읽었다. 수첩을 다시 보고, 돌이킬 수 없는 실행 전에 가능한 사전 시험을 활용하자."
+		body = "You have reached the final hint. Review the hints you requested and use the available reversible checks before committing." if english else "마지막 단계의 힌트까지 살펴봤다. 직접 요청한 도움말을 다시 보고, 돌이킬 수 없는 실행 전에 가능한 사전 시험을 활용하자."
 	_show_modal(_puzzle_hint_title(), body, actions)
 	_cycle_modal_focus()
 
@@ -614,4 +616,5 @@ func _read_clock_hint(level: int) -> void:
 	if text.is_empty():
 		return
 	_close_modal()
-	_show_dialogue([{"speaker": "주인공", "text": text}], _show_clock_hint_menu.bind(level + 1))
+	var descriptor := preload("res://scripts/systems/notebook_content.gd").hint_descriptor(session.stage(), level)
+	_show_dialogue([{"speaker": "주인공", "text": text, "notebook_content": descriptor}], _show_clock_hint_menu.bind(level + 1))
