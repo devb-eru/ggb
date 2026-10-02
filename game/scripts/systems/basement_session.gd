@@ -2,6 +2,7 @@ class_name BasementSession
 extends BlackMirrorSession
 
 const BASEMENT := preload("res://data/puzzles/puzzle_basement.tres")
+const BASEMENT_NOTES := preload("res://scripts/systems/basement_notebook.gd")
 const BASEMENT_KEY := "BASEMENT"
 const MARA1_RELATIONSHIP := preload("res://scripts/systems/mara1_relationship.gd")
 const IRIS_RELATIONSHIP := preload("res://scripts/systems/iris_relationship.gd")
@@ -297,6 +298,10 @@ func act(action: String, value: Variant = null) -> Dictionary:
 	if stage() == "D_SLEEP": return _reject("복원한 세 번째 일지를 기억한 채 잠들고 다음 아침에 조사한다.")
 	if stage() in ["DEMO_END", "E1_ENTRY"]: return _reject("이전 지하 장치 절차는 끝났다.")
 	var state := snapshot()
+	var event_context := history_context()
+	if state.meta_progress.dialogue_history.has("schema_version"):
+		event_context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		event_context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
 	var meta: Dictionary = state["meta_progress"]
 	var knowledge: Dictionary = meta["knowledge_entries"]
 	var loop: Dictionary = state["loop_state"]
@@ -304,6 +309,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 	loop["event_local_states"][BASEMENT_KEY] = local
 	var room := String(loop["location_id"])
 	var text := ""
+	var feedback_key := ""
+	var notes: Array = []
 	match action:
 		"d_drawer_point":
 			if room != "M1_LIBRARY_INNER" or String(value) not in ["bedroom", "greenhouse", "great_clock"]: return _reject("기록 내실 책상의 세 눌림점을 확인한다.")
@@ -311,7 +318,9 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			if value not in local["drawer_points"]: local["drawer_points"].append(value)
 			if local["drawer_points"].size() == 3:
 				local["floorplan_ready"] = true
-				text = "이중 바닥에서 평면도를 꺼내 C5 투명지와 일지 좌표를 함께 펼쳤다. 자료는 모였지만 방향은 아직 검증하지 않았다."
+				text = BASEMENT_NOTES.FIXED.FLOORPLAN
+				feedback_key = "FLOORPLAN"
+				notes.append(["", "FLOORPLAN", text])
 		"d_rotate", "d_flip", "d_anchor", "d_overlay":
 			if room != "M1_LIBRARY_INNER" or not local["floorplan_ready"]: return _reject("서재 작업대에 세 자료를 준비한다.")
 			if action == "d_rotate": local["rotation"] = (int(local["rotation"]) + 90) % 360
@@ -322,10 +331,11 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			else:
 				var checked: Dictionary = BASEMENT.inspect_overlay(local["rotation"], local["flipped"], local["anchor"])
 				text = checked["text"]
+				feedback_key = "OVERLAY_SUCCESS" if checked.ok else "OVERLAY_MISMATCH"
 				if checked["ok"]:
 					knowledge["basement_overlay_solved"] = true
 					knowledge["basement_axis_depths"] = checked["depths"]
-					_note(knowledge, "D0_A", text)
+					notes.append(["D0_A", "PLAN", text])
 		"d_axis_depth", "d_axis_push", "d_axis_central":
 			if room != "B1_AXIS_CHAMBER" or not known("basement_overlay_solved"): return _reject("지하의 세 축 장치에서 도면을 적용한다.")
 			var confirmed := false
@@ -339,17 +349,19 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			if not result["ok"]: return _reject(result["text"])
 			local["axes"] = result["state"]
 			text = result["text"]
+			feedback_key = result.feedback_key
 			if result["hard_failure"]:
 				var old: Dictionary = meta["failure_knowledge"].get("D1", {})
 				var record: Dictionary = local["axes"]["failure"].duplicate(true)
 				record["status"] = "active"
 				record["attempts"] = int(old.get("attempts", 0)) + 1
 				meta["failure_knowledge"]["D1"] = record
-				_note(knowledge, "DF", text + "\n당일 입력 잠김. 잠든 뒤 도면과 검증한 깊이는 남는다.")
+				notes.append(["DF", "FAILURE_" + String(record.category).to_upper(), text + "\n" + BASEMENT_NOTES.FIXED.FAILURE_SUFFIX])
 			elif local["axes"]["open"]:
 				knowledge["basement_access_fast_path"] = true
 				if meta["failure_knowledge"].has("D1"): meta["failure_knowledge"]["D1"]["status"] = "resolved"
-				_note(knowledge, "D2", "세 축과 중앙 반 바퀴로 지하창고 접근 경로를 검증했다.")
+				notes.append(["D2", "ACCESS", BASEMENT_NOTES.FIXED.ACCESS])
+				if meta.failure_knowledge.has("D1"): notes.append(["", "RESOLVED", BASEMENT_NOTES.RESOLVED])
 		"d_shortcut", "d_fastpath":
 			if not can_use_basement_shortcut(action == "d_fastpath"): return _reject("수면 뒤 닫힌 지하창고를 다시 준비할 때 사용하는 동선이다. 이미 열린 문이나 파열 이후에는 이전 절차를 반복하지 않는다.")
 			if room != "M2_BEDROOM" or local["axes"]["locked"]: return _reject("리셋 뒤 같은 침실에서 준비 동선을 시작한다.")
@@ -363,30 +375,36 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			loop["location_id"] = "B1_AXIS_CHAMBER"
 			if action == "d_shortcut":
 				local["axes"]["depths"].merge(meta["failure_knowledge"]["D1"].get("verified_depths", {}), true)
-				text = "일과를 마치고 평면도를 다시 꺼냈다. 검증한 깊이만 미리 맞췄다. 축을 미는 것은 직접 결정한다."
+				text = BASEMENT_NOTES.FIXED.SHORTCUT
+				feedback_key = "SHORTCUT"
 			else:
 				local["axes"]["open"] = true
 				local["axes"]["pushed"] = BASEMENT.AXES.duplicate()
 				local["axes"]["depths"] = BASEMENT.DEPTHS.duplicate()
-				text = "기록한 순서로 물리 장치를 다시 작동했다. 지하창고 문이 열린다."
+				text = BASEMENT_NOTES.FIXED.FASTPATH
+				feedback_key = "FASTPATH"
 		"d_storage":
 			if room != "B1_STORAGE" or String(value) not in ["barrel", "cable", "filter", "drawing"]: return _reject("지하창고의 선반을 조사한다.")
 			if value not in local["storage_seen"]: local["storage_seen"].append(value)
-			text = {"barrel": "빈 와인통 안쪽에 같은 나사 간격이 반복된다.", "cable": "케이블 릴의 선이 선반 뒤로 모인다. 먼지 아래 방향이 하나로 이어진다.", "filter": "장식 테두리와 닮은 부품. 안쪽에는 위장 필터라는 표식이 있다.", "drawing": "찢어진 낙서 조각의 중심과 선반의 빈자리가 겹친다."}[String(value)]
-			if local["storage_seen"].size() >= 2: text += "\n반복 구조의 중심에 태엽 심장실 문이 드러난다."
+			text = BASEMENT_NOTES.STORAGE[String(value)]
+			feedback_key = "STORAGE_" + String(value).to_upper()
+			if local["storage_seen"].size() >= 2:
+				text += "\n" + BASEMENT_NOTES.FIXED.DOOR
+				feedback_key += "_DOOR"
 		"d_heart":
 			if room != "B1_CLOCKWORK_HEART" or not value is Dictionary: return _reject("태엽 심장실에서 조작한다.")
 			var result: Dictionary = BASEMENT.heart_action(local["heart"], String(value.get("action", "")), value.get("value"), bool(value.get("confirmed", false)))
 			if not result["ok"]: return _reject(result["text"])
 			local["heart"] = result["state"]
 			text = result["text"]
+			feedback_key = result.feedback_key
 			if result["filter_off"]:
 				state["fracture_state"]["camouflage_filter"] = "disabled"
 				knowledge["d4_filter_release"] = true
 				var d5_local: Dictionary = loop["event_local_states"].get("D5", {}).duplicate(true)
 				d5_local["D4_REACTION"] = D4_REACTION.select(state)
 				loop["event_local_states"]["D5"] = d5_local
-				_note(knowledge, "D4", "XII 뒤 보조 입력을 실행했다. 위장 필터 해제. 정상 안정화만으로는 닿지 않는 공간이었다.")
+				notes.append(["D4", "D4", BASEMENT_NOTES.FIXED.D4])
 		"d_fracture":
 			if stage() != "D5": return _reject("위장 필터를 해제한 뒤 확인한다.")
 			knowledge["d5_complete"] = true
@@ -394,7 +412,12 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			_note(knowledge, "D5", text)
 		_:
 			return _reject("정의되지 않은 지하 조사다.")
-	return _commit(state, text)
+	for note in notes:
+		if not String(note[0]).is_empty(): _note(knowledge, note[0], note[2])
+		var written := BASEMENT_NOTES.write(state, note[1], note[2], event_context, TranslationServer.get_locale())
+		if not written.ok: return written
+	event_context.erase("conversation_session_id")
+	return _commit_feedback(state, text, "주인공", "", event_context, BASEMENT_NOTES.paragraphs(feedback_key))
 
 
 func luca_s2_pending() -> bool:

@@ -1792,17 +1792,17 @@ func _confirmation_notebook() -> void:
 	_open_notebook()
 
 func _confirm_axis(axis: String) -> void:
-	_show_modal(BASEMENT_TEXTS.ui("axis_modal_title", TranslationServer.get_locale()), BASEMENT_TEXTS.ui("axis_modal_body", TranslationServer.get_locale()), [
+	_show_recorded_choice(BASEMENT_TEXTS.axis_confirmation_title(axis, TranslationServer.get_locale()), BASEMENT_TEXTS.ui("axis_modal_body", TranslationServer.get_locale()), [
 		{"label": BASEMENT_TEXTS.ui("review_plan", TranslationServer.get_locale()), "action": _confirmation_notebook},
 		{"label": BASEMENT_TEXTS.ui("review_depth", TranslationServer.get_locale()), "action": _close_modal},
 		{"label": BASEMENT_TEXTS.ui("axis_push", TranslationServer.get_locale()), "action": _modal_act.bind("d_axis_push", {"value": axis, "confirmed": true})},
-	])
+	], MODAL_NOTES.options("BASEMENT_AXIS_" + axis.to_upper()))
 
 func _confirm_central(direction: String) -> void:
-	_show_modal(BASEMENT_TEXTS.ui("central_modal_title", TranslationServer.get_locale()), BASEMENT_TEXTS.ui("central_modal_body", TranslationServer.get_locale()), [
+	_show_recorded_choice(BASEMENT_TEXTS.central_confirmation_title(direction, TranslationServer.get_locale()), BASEMENT_TEXTS.ui("central_modal_body", TranslationServer.get_locale()), [
 		{"label": BASEMENT_TEXTS.ui("review_direction", TranslationServer.get_locale()), "action": _close_modal},
 		{"label": BASEMENT_TEXTS.ui("move_selected", TranslationServer.get_locale()), "action": _modal_act.bind("d_axis_central", {"value": direction, "confirmed": true})},
-	])
+	], MODAL_NOTES.options("BASEMENT_CENTRAL_" + direction.to_upper()))
 
 func _build_heart() -> void:
 	var heart: Dictionary = _basement().basement_local()["heart"]
@@ -1814,8 +1814,8 @@ func _build_heart() -> void:
 	_add_hotspot("AUXILIARY", BASEMENT_TEXTS.ui("auxiliary_check", TranslationServer.get_locale()), Rect2(510, 805, 880, 88), _confirm_auxiliary)
 
 func _confirm_auxiliary() -> void:
-	_show_modal(BASEMENT_TEXTS.ui("auxiliary_modal_title", TranslationServer.get_locale()), BASEMENT_TEXTS.ui("auxiliary_modal_body", TranslationServer.get_locale()), [
+	_show_recorded_choice(BASEMENT_TEXTS.ui("auxiliary_modal_title", TranslationServer.get_locale()), BASEMENT_TEXTS.ui("auxiliary_modal_body", TranslationServer.get_locale()), [
 		{"label": BASEMENT_TEXTS.ui("do_not_pull", TranslationServer.get_locale()), "action": _close_modal},
 		{"label": BASEMENT_TEXTS.ui("review_record", TranslationServer.get_locale()), "action": _confirmation_notebook},
 		{"label": BASEMENT_TEXTS.ui("pull_auxiliary", TranslationServer.get_locale()), "action": _modal_act.bind("d_heart", {"action": "pull_auxiliary", "confirmed": true})},
-	])
+	], MODAL_NOTES.options("BASEMENT_AUXILIARY"))

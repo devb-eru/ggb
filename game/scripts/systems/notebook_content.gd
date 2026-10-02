@@ -1,7 +1,7 @@
 extends RefCounted
 
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
-const CATALOGS := ["res://data/notebook/hints_v1.json", "res://data/notebook/prologue_v1.json", "res://data/notebook/prologue_notes_v1.json", "res://data/notebook/chapter_one_v1.json", "res://data/notebook/chapter_one_notes_v1.json", "res://data/notebook/modals_v1.json", "res://data/notebook/mirror_v1.json"]
+const CATALOGS := ["res://data/notebook/hints_v1.json", "res://data/notebook/prologue_v1.json", "res://data/notebook/prologue_notes_v1.json", "res://data/notebook/chapter_one_v1.json", "res://data/notebook/chapter_one_notes_v1.json", "res://data/notebook/modals_v1.json", "res://data/notebook/mirror_v1.json", "res://data/notebook/basement_v1.json"]
 const ALIASES := {"BF": "B3_B", "CF": "C4", "DF": "D1"}
 const TYPES := {"string": TYPE_STRING, "int": TYPE_INT, "float": TYPE_FLOAT, "bool": TYPE_BOOL}
 static var _contents: Dictionary = {}

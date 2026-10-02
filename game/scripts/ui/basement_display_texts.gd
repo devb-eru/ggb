@@ -211,6 +211,12 @@ static func storage_name(id: String, locale: String) -> String:
 static func axis_name(id: String, locale: String) -> String:
 	return _pair(AXES, id, locale)
 
+static func axis_confirmation_title(axis: String, locale: String) -> String:
+	return ui("axis_modal_title", locale) + " · " + axis_name(axis, locale)
+
+static func central_confirmation_title(direction: String, locale: String) -> String:
+	return ui("central_modal_title", locale) + " · " + ui("central_cw" if direction == "clockwise" else "central_ccw", locale)
+
 static func anchor_name(id: String, locale: String) -> String:
 	return _pair(ANCHORS, id if ANCHORS.has(id) else "", locale)
 

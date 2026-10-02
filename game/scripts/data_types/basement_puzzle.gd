@@ -22,6 +22,7 @@ func axis_action(previous: Dictionary, action: String, value: Variant = null, co
 	if state["locked"]: return _rejected(previous, "압력핀이 내려갔다. 같은 침실에서 잠든 뒤 다시 준비한다.")
 	if state["open"]: return _rejected(previous, "지하창고 문이 이미 열렸다.")
 	var text := ""
+	var feedback_key := ""
 	match action:
 		"depth":
 			if not value is Array or value.size() != 2 or value[0] not in AXES or int(value[1]) not in [1, 2, 3]:
@@ -40,25 +41,31 @@ func axis_action(previous: Dictionary, action: String, value: Variant = null, co
 			else:
 				state["pushed"].append(axis)
 				text = AXIS_NAMES[axis] + "의 게이지가 안정된다. 손바닥보다 치아에 압력이 먼저 닿는다."
+				feedback_key = "AXIS_PASS_" + axis.to_upper()
 		"central":
 			if state["pushed"] != AXES: return _rejected(previous, "세 축의 압력을 먼저 안정시킨다.")
 			if String(value) not in ["clockwise", "counterclockwise"]: return _rejected(previous, "중앙 손잡이 방향을 선택한다.")
 			if value == "counterclockwise":
 				if not state["reverse_warning_seen"]:
 					state["reverse_warning_seen"] = true
+					feedback_key = "CENTRAL_WARNING"
 					text = "역회전 방지턱에 닿았다. 아직 멈출 수 있다. 강행하면 중앙 잠금이 내려간다."
 				elif confirmed:
 					_fail_axis(state, "direction_wrong", "central", "역방향을 강행하자 중앙 잠금이 내려간다.")
 				else:
+					feedback_key = "CENTRAL_RELEASE"
 					text = "손잡이에서 힘을 뺀다. 시계 방향을 다시 선택할 수 있다."
 			elif confirmed:
 				state["open"] = true
+				feedback_key = "CENTRAL_OPEN"
 				text = "중앙 손잡이를 시계 방향으로 반 바퀴 돌린다. 세 압력이 균형을 이루고 지하창고 문이 열린다."
 			else: return _rejected(previous, "시계 방향 반 바퀴 실행을 확인한다.")
 		_:
 			return _rejected(previous, "알 수 없는 축 조작이다.")
-	if state["locked"]: text = state["failure"]["text"]
-	return {"ok": true, "state": state, "text": text, "hard_failure": state["locked"]}
+	if state["locked"]:
+		text = state["failure"]["text"]
+		feedback_key = "AXIS_FAILURE_" + String(state.failure.category).to_upper()
+	return {"ok": true, "state": state, "text": text, "hard_failure": state["locked"], "feedback_key": feedback_key}
 
 
 func _fail_axis(state: Dictionary, category: String, axis: String, text: String) -> void:
@@ -76,6 +83,7 @@ func heart_action(previous: Dictionary, action: String, value: Variant = null, c
 	var state := previous.duplicate(true)
 	if state["filter_off"]: return _rejected(previous, "위장 필터는 이미 해제되었다.")
 	var text := ""
+	var feedback_key := ""
 	match action:
 		"turn", "reset":
 			if state["fixed"] or int(state["wind"]) > 0: return _rejected(previous, "링이 고정되어 있다. 기동 전이라면 고정을 해제할 수 있다.")
@@ -83,6 +91,7 @@ func heart_action(previous: Dictionary, action: String, value: Variant = null, c
 			elif HANDLES.has(String(value)):
 				for index in range(3): state["rings"][index] = (int(state["rings"][index]) + HANDLES[String(value)][index]) % 4
 				text = {"A": "외곽과 중간 링이 함께 움직인다.", "B": "중간과 안쪽 링이 함께 움직인다.", "C": "안쪽 링만 움직인다."}[String(value)]
+				feedback_key = "HEART_TURN_" + String(value)
 			else: return _rejected(previous, "표시된 손잡이를 선택한다.")
 		"fix":
 			if state["rings"] != RING_TARGET: return _rejected(previous, "XIII 홈, 분기 접점, 최하단 심장 문양이 아직 맞지 않는다.")
@@ -112,7 +121,8 @@ func heart_action(previous: Dictionary, action: String, value: Variant = null, c
 			text = "XIII. CAMOUFLAGE FILTER OFF. 벽의 안쪽에서 낯선 공간이 드러난다."
 		_:
 			return _rejected(previous, "알 수 없는 심장 조작이다.")
-	return {"ok": true, "state": state, "text": text, "filter_off": state["filter_off"]}
+	if not text.is_empty() and feedback_key.is_empty(): feedback_key = "HEART_" + action.to_upper()
+	return {"ok": true, "state": state, "text": text, "filter_off": state["filter_off"], "feedback_key": feedback_key}
 
 
 func _rejected(state: Dictionary, text: String) -> Dictionary:
