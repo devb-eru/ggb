@@ -179,7 +179,8 @@ func _atomic_session(locale: String) -> void:
 	_expect(ledger.revisions.filter(func(row: Dictionary) -> bool: return row.metadata.knowledge_id == "J4").size() == 1, "single acquired J4 revision")
 	var entry: Dictionary = ARCHIVE.resolve(committed.meta_progress.dialogue_history, ledger.revisions.back().observation_ref).entry
 	_expect(entry.observation.location_id == before.loop_state.location_id and entry.observation.segments[0].viewed_locale == locale, "acquisition freezes pre-transition location and language")
-	_expect(not session.act("j4_read").ok and session.snapshot() == committed, "repeat restored read cannot duplicate the note")
+	var before_repeat := session.snapshot()
+	_expect(not session.act("j4_read").ok and session.snapshot() == before_repeat, "repeat restored read cannot duplicate the note")
 	var servants: Dictionary = committed.meta_progress.servants.duplicate(true)
 	_expect(session.act("j4_minimum").ok and session.stage() == "E5", "zero-record path still reaches evening")
 	_expect(session.snapshot().meta_progress.servants == servants and session.snapshot().meta_progress.knowledge_entries[KNOWLEDGE.KEY] == ledger, "minimum access does not add a relationship or researcher record")

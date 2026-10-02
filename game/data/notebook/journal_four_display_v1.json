@@ -1,0 +1,4704 @@
+{
+	"contents": {
+		"NB_J4_DISPLAY_CLEAR": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "I lay out the dated fragments again. Missing researcher records are empty indices, not wrong answers.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "날짜 조각을 다시 펼친다. 없는 연구원 기록은 오답이 아니라 빈 인덱스다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CLEAR:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CLEAR",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_CONFIRM": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Buffer power is reassigned to the core route and the final evening. Progress in remaining events is archived. This is neither failure nor completion.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "완충 전력을 코어 경로와 마지막 저녁에 재배분한다. 남은 사건의 진행은 보관된다. 이는 실패나 완료가 아니다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "CONFIRM:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E_HUB"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CONFIRM",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_CONFIRM_OPTIONS": {
+			"1": {
+				"action_or_variant": "shown",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_J4_DISPLAY_CONFIRM_SELECT_0",
+						"kind": "cancel"
+					},
+					{
+						"content_id": "NB_J4_DISPLAY_CONFIRM_SELECT_1",
+						"kind": "confirm"
+					}
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"enums": {
+					"remaining_owners": {
+						"en-US": {
+							"mask_00": "None",
+							"mask_01": "Diagonal Line · Mara 1",
+							"mask_02": "Petal · Iris",
+							"mask_03": "Diagonal Line · Mara 1, Petal · Iris",
+							"mask_04": "Paired Pulse · Luca",
+							"mask_05": "Diagonal Line · Mara 1, Paired Pulse · Luca",
+							"mask_06": "Petal · Iris, Paired Pulse · Luca",
+							"mask_07": "Diagonal Line · Mara 1, Petal · Iris, Paired Pulse · Luca",
+							"mask_08": "Vertical Line · Edgar",
+							"mask_09": "Diagonal Line · Mara 1, Vertical Line · Edgar",
+							"mask_10": "Petal · Iris, Vertical Line · Edgar",
+							"mask_11": "Diagonal Line · Mara 1, Petal · Iris, Vertical Line · Edgar",
+							"mask_12": "Paired Pulse · Luca, Vertical Line · Edgar",
+							"mask_13": "Diagonal Line · Mara 1, Paired Pulse · Luca, Vertical Line · Edgar",
+							"mask_14": "Petal · Iris, Paired Pulse · Luca, Vertical Line · Edgar",
+							"mask_15": "Diagonal Line · Mara 1, Petal · Iris, Paired Pulse · Luca, Vertical Line · Edgar",
+							"mask_16": "Double Frame · Mara 2",
+							"mask_17": "Diagonal Line · Mara 1, Double Frame · Mara 2",
+							"mask_18": "Petal · Iris, Double Frame · Mara 2",
+							"mask_19": "Diagonal Line · Mara 1, Petal · Iris, Double Frame · Mara 2",
+							"mask_20": "Paired Pulse · Luca, Double Frame · Mara 2",
+							"mask_21": "Diagonal Line · Mara 1, Paired Pulse · Luca, Double Frame · Mara 2",
+							"mask_22": "Petal · Iris, Paired Pulse · Luca, Double Frame · Mara 2",
+							"mask_23": "Diagonal Line · Mara 1, Petal · Iris, Paired Pulse · Luca, Double Frame · Mara 2",
+							"mask_24": "Vertical Line · Edgar, Double Frame · Mara 2",
+							"mask_25": "Diagonal Line · Mara 1, Vertical Line · Edgar, Double Frame · Mara 2",
+							"mask_26": "Petal · Iris, Vertical Line · Edgar, Double Frame · Mara 2",
+							"mask_27": "Diagonal Line · Mara 1, Petal · Iris, Vertical Line · Edgar, Double Frame · Mara 2",
+							"mask_28": "Paired Pulse · Luca, Vertical Line · Edgar, Double Frame · Mara 2",
+							"mask_29": "Diagonal Line · Mara 1, Paired Pulse · Luca, Vertical Line · Edgar, Double Frame · Mara 2",
+							"mask_30": "Petal · Iris, Paired Pulse · Luca, Vertical Line · Edgar, Double Frame · Mara 2",
+							"mask_31": "Diagonal Line · Mara 1, Petal · Iris, Paired Pulse · Luca, Vertical Line · Edgar, Double Frame · Mara 2"
+						},
+						"ko-KR": {
+							"mask_00": "없음",
+							"mask_01": "대각선 · 마라 1",
+							"mask_02": "꽃잎 · 이리스",
+							"mask_03": "대각선 · 마라 1, 꽃잎 · 이리스",
+							"mask_04": "이중 맥박 · 루카",
+							"mask_05": "대각선 · 마라 1, 이중 맥박 · 루카",
+							"mask_06": "꽃잎 · 이리스, 이중 맥박 · 루카",
+							"mask_07": "대각선 · 마라 1, 꽃잎 · 이리스, 이중 맥박 · 루카",
+							"mask_08": "수직선 · 에드가",
+							"mask_09": "대각선 · 마라 1, 수직선 · 에드가",
+							"mask_10": "꽃잎 · 이리스, 수직선 · 에드가",
+							"mask_11": "대각선 · 마라 1, 꽃잎 · 이리스, 수직선 · 에드가",
+							"mask_12": "이중 맥박 · 루카, 수직선 · 에드가",
+							"mask_13": "대각선 · 마라 1, 이중 맥박 · 루카, 수직선 · 에드가",
+							"mask_14": "꽃잎 · 이리스, 이중 맥박 · 루카, 수직선 · 에드가",
+							"mask_15": "대각선 · 마라 1, 꽃잎 · 이리스, 이중 맥박 · 루카, 수직선 · 에드가",
+							"mask_16": "이중 액자 · 마라 2",
+							"mask_17": "대각선 · 마라 1, 이중 액자 · 마라 2",
+							"mask_18": "꽃잎 · 이리스, 이중 액자 · 마라 2",
+							"mask_19": "대각선 · 마라 1, 꽃잎 · 이리스, 이중 액자 · 마라 2",
+							"mask_20": "이중 맥박 · 루카, 이중 액자 · 마라 2",
+							"mask_21": "대각선 · 마라 1, 이중 맥박 · 루카, 이중 액자 · 마라 2",
+							"mask_22": "꽃잎 · 이리스, 이중 맥박 · 루카, 이중 액자 · 마라 2",
+							"mask_23": "대각선 · 마라 1, 꽃잎 · 이리스, 이중 맥박 · 루카, 이중 액자 · 마라 2",
+							"mask_24": "수직선 · 에드가, 이중 액자 · 마라 2",
+							"mask_25": "대각선 · 마라 1, 수직선 · 에드가, 이중 액자 · 마라 2",
+							"mask_26": "꽃잎 · 이리스, 수직선 · 에드가, 이중 액자 · 마라 2",
+							"mask_27": "대각선 · 마라 1, 꽃잎 · 이리스, 수직선 · 에드가, 이중 액자 · 마라 2",
+							"mask_28": "이중 맥박 · 루카, 수직선 · 에드가, 이중 액자 · 마라 2",
+							"mask_29": "대각선 · 마라 1, 이중 맥박 · 루카, 수직선 · 에드가, 이중 액자 · 마라 2",
+							"mask_30": "꽃잎 · 이리스, 이중 맥박 · 루카, 수직선 · 에드가, 이중 액자 · 마라 2",
+							"mask_31": "대각선 · 마라 1, 꽃잎 · 이리스, 이중 맥박 · 루카, 수직선 · 에드가, 이중 액자 · 마라 2"
+						}
+					}
+				},
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"counts": "Completed: {completed} / 5 · Researcher records: {records} / 5",
+						"header": "End the Investigation?",
+						"minimum": "Edgar's full event will be replaced by the minimum-access procedure. It grants no record, relationship reward, or completion count.",
+						"no_time": "Estimated time remaining: No optional events remain",
+						"option_0": "Continue Investigating",
+						"option_1": "Organize the Records",
+						"remaining": "Incomplete: {owners}",
+						"speaker": "Displayed choices",
+						"summary": "The observed journal and access procedure",
+						"time": "Estimated time remaining: {lower}-{upper} min",
+						"title": "The Journal's Promise and Access Authority",
+						"warning": "Any remaining servant events will become unavailable. Main progression and both final choices remain open."
+					},
+					"ko-KR": {
+						"counts": "완료: {completed} / 5 · 연구원 기록: {records} / 5",
+						"header": "조사 종료 확인",
+						"minimum": "에드가 전체 사건은 최소 접근 절차로 대체됩니다. 최소 절차는 기록·관계·완료 수를 제공하지 않습니다.",
+						"no_time": "남은 예상 시간: 남은 선택 사건 없음",
+						"option_0": "계속 조사한다",
+						"option_1": "기록을 정리한다",
+						"remaining": "미완료: {owners}",
+						"speaker": "표시된 선택지",
+						"summary": "확인한 일지와 접근 절차",
+						"time": "남은 예상 시간: {lower}~{upper}분",
+						"title": "일지의 약속과 접근 권한",
+						"warning": "남은 사용인 사건은 이후 완료할 수 없습니다. 메인 진행과 두 최종 선택지는 유지됩니다."
+					}
+				},
+				"localization_keys": {
+					"counts": "CONFIRM_OPTIONS:counts",
+					"header": "CONFIRM_OPTIONS:header",
+					"minimum": "CONFIRM_OPTIONS:minimum",
+					"no_time": "CONFIRM_OPTIONS:no_time",
+					"option_0": "CONFIRM_OPTIONS:option_0",
+					"option_1": "CONFIRM_OPTIONS:option_1",
+					"remaining": "CONFIRM_OPTIONS:remaining",
+					"time": "CONFIRM_OPTIONS:time",
+					"warning": "CONFIRM_OPTIONS:warning"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E_HUB"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CONFIRM_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"counts": {
+						"completed": "int",
+						"records": "int"
+					},
+					"header": {},
+					"minimum": {},
+					"no_time": {},
+					"option_0": {},
+					"option_1": {},
+					"remaining": {
+						"owners": "enum:remaining_owners"
+					},
+					"time": {
+						"lower": "int",
+						"upper": "int"
+					},
+					"warning": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"warning",
+					"counts",
+					"remaining",
+					"no_time",
+					"time",
+					"minimum",
+					"option_0",
+					"option_1"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_CONFIRM_SELECT_0": {
+			"1": {
+				"action_or_variant": "option_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_cancelled",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Continue Investigating",
+						"speaker": "Selected option",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "계속 조사한다",
+						"speaker": "선택한 문구",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "CONFIRM_SELECT_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E_HUB"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CONFIRM_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_CONFIRM_SELECT_1": {
+			"1": {
+				"action_or_variant": "option_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Organize the Records",
+						"speaker": "Selected option",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "기록을 정리한다",
+						"speaker": "선택한 문구",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "CONFIRM_SELECT_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E_HUB"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CONFIRM_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_MINIMUM": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "E3_4M",
+				"locales": {
+					"en-US": {
+						"line_01": "At the entrance to the great-clock machine room, Edgar hands me a vertical pin.",
+						"line_02": "This will open the route as far as the core approach. You must verify anything beyond it yourself. If I explain now, my excuses will be what remains first.",
+						"line_03": "The Protagonist inserts the pin. No researcher record or relationship completion is added.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "대시계 기계실 입구에서 에드가가 수직 핀을 건넨다.",
+						"line_02": "이것으로 코어 접근로까지는 열립니다. 그 이상은 귀하께서 확인해야 합니다. 지금 설명하면 제 변명이 먼저 남습니다.",
+						"line_03": "주인공이 핀을 꽂는다. 연구원 기록이나 관계 완료는 추가되지 않는다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "MINIMUM:line_01",
+					"line_02": "MINIMUM:line_02",
+					"line_03": "MINIMUM:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_4M"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MINIMUM",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_ORDER": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "The four-event axis connects. The contradiction remains: a future was promised, but authority to choose was never shared.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "네 사건 축이 이어진다. 미래를 약속했지만 선택 권한을 나누지 않았다는 모순이 남는다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "ORDER:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ORDER",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_PAGE_ACTIVATION": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Protagonist Activated · After Their Roles Were Fixed, the Servants Forced Her Consciousness Awake",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "주인공 기동 · 역할이 고정된 뒤 사용인들이 의식을 강제로 깨움",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "PAGE_ACTIVATION:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "PAGE_ACTIVATION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_PAGE_PROMISE": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Promise · Dated Fragment Promising a Future Life",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "약속 · 미래의 삶을 약속한 날짜 조각",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "PAGE_PROMISE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "PAGE_PROMISE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_PAGE_ROLES": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Roles Fixed · Converted Researchers Became the Mansion's Custodians",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "역할 고정 · 전환된 연구원들이 저택의 관리자가 됨",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "PAGE_ROLES:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "PAGE_ROLES",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_PAGE_TRANSITION": {
+			"1": {
+				"action_or_variant": "feedback",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Conversion · Bio-Neural Cores Joined to Personality Processes After the Promise",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "전환 · 약속 뒤 생체 신경 코어와 인격 프로세스 결합",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "PAGE_TRANSITION:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "PAGE_TRANSITION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_BODY": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Restored index: the servants are researcher personalities. Authority to maintain the mansion is separate from authority to enact the Protagonist's own decision.",
+						"line_02": "I promised them a life in the future.",
+						"line_03": "I never made clear whether that promise meant bodies or merely the continuation of memory.",
+						"line_04": "They can move the house, repair its seasons, keep a heart beating, and lock its doors.",
+						"line_05": "But I gave them neither the door out of the house nor the authority to decide who owns this life.",
+						"line_06": "They woke you for more than protection and more than revenge. By holding on to you, they could believe the promise I left behind was not yet over.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "복원 인덱스: 사용인들은 연구원 인격이다. 저택의 관리 권한과 주인공 자신의 결정을 실행하는 권한은 서로 다르다.",
+						"line_02": "나는 그들에게 미래의 삶을 약속했다.",
+						"line_03": "그 약속이 육체를 뜻하는지, 기억의 지속을 뜻하는지 끝까지 분명하게 말하지 않았다.",
+						"line_04": "그들은 집을 움직일 수 있다. 계절을 고치고, 심장을 유지하고, 문을 잠글 수 있다.",
+						"line_05": "하지만 집 밖으로 나가는 문과 누가 이 삶의 주인인지 정하는 권한은 주지 않았다.",
+						"line_06": "그들이 너를 깨운 것은 보호만도, 복수만도 아니었다. 너를 붙잡으면 내가 남긴 약속도 아직 끝나지 않았다고 믿을 수 있었기 때문이다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_BODY:line_01",
+					"line_02": "READ_BODY:line_02",
+					"line_03": "READ_BODY:line_03",
+					"line_04": "READ_BODY:line_04",
+					"line_05": "READ_BODY:line_05",
+					"line_06": "READ_BODY:line_06"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_BODY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {},
+					"line_06": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05",
+					"line_06"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_EDGAR_INDEX": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "REC_EDGAR · Acquired Record Index",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "REC_EDGAR · 획득한 기록 인덱스",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_EDGAR_INDEX:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_EDGAR_INDEX",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_EDGAR_ORIGINAL": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "{original_text}",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "{original_text}",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "READ_EDGAR_ORIGINAL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"original_only_segments": [
+					"body"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_EDGAR_ORIGINAL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {
+						"original_text": "string"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_EDGAR_RECORD": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "As research ethics and operations lead, Edgar collected incomplete consent for conversion. Father failed to complete final creator authority and the awakening-release procedure. The later extension of sleep was Edgar's own decision. He did not stop forced activation and continued withholding authority to choose. Protection belongs to SYSTEM, surveillance to CUSTODIAN, memory to RESIDENT, and choice to SUBJECT. Present authority has returned to the Protagonist.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "에드가는 연구 윤리·운영 책임자로 불완전한 전환 동의를 취합했다. 아버지는 최종 창조자 권한과 기상 해제 절차를 완수하지 못했다. 그 뒤 수면 연장은 에드가 자신의 결정이었다. 강제 기동을 막지 못했고 선택 권한을 계속 반환하지 않았다. 보호는 SYSTEM, 감시는 CUSTODIAN, 기억은 RESIDENT, 선택은 SUBJECT에 귀속된다. 현재 선택권은 주인공에게 돌아갔다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_EDGAR_RECORD:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_EDGAR_RECORD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_FULL": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 2 divided her own storage to preserve the other four names and emotional annotations. Whenever space ran short, she erased the records that confirmed her own name first. I never shared the authority to stop it.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "마라 2는 다른 네 사람의 이름과 감정 주석을 자기 저장 영역에 나누어 보관했다. 공간이 모자랄 때마다 자기 이름의 확인 기록부터 비웠다. 나는 중단시킬 권한을 끝까지 나누지 않았다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_FULL:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_FULL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_IRIS_INDEX": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "REC_IRIS · Acquired Record Index",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "REC_IRIS · 획득한 기록 인덱스",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_IRIS_INDEX:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_IRIS_INDEX",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_IRIS_ORIGINAL": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "{original_text}",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "{original_text}",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "READ_IRIS_ORIGINAL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"original_only_segments": [
+					"body"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_IRIS_ORIGINAL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {
+						"original_text": "string"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_IRIS_RECORD": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Iris was responsible for ecological restoration and environmental systems. The sample storage and cooling unit shared one emergency power grid. Iris did not consent to prioritizing cooling. Father executed the order with Iris's credentials, and the audit left Iris responsible. No report confirms that the outside is safe. Lost resources and displaced blame explain her hostility; they do not justify it as a solution.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "이리스는 생태 복구와 환경 시설 담당이었다. 샘플 보관고와 냉각 장치는 같은 비상 전력망이었다. 이리스는 냉각 우선에 동의하지 않았다. 아버지가 이리스 자격으로 실행했고 감사는 이리스를 책임자로 남겼다. 외부가 안전하다는 확정 보고는 없다. 자원 손실과 책임 전가는 적의의 배경이지 해결책이 아니다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_IRIS_RECORD:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_IRIS_RECORD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_LAST": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "I left the final door where I could not open it. I will not call that consideration.",
+						"line_02": "I did not return your choice. One fragment simply remained that I failed to take from you.",
+						"line_03": "This time, no one must write your answer for you.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "마지막 문은 내가 열 수 없도록 남겨 두었다. 그것을 배려라고 부를 생각은 없다.",
+						"line_02": "너에게 선택권을 돌려준 것이 아니라, 내가 끝내 빼앗지 못한 한 조각이 남아 있었을 뿐이다.",
+						"line_03": "이번에는 누구도 네 대답을 대신 적어서는 안 된다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_LAST:line_01",
+					"line_02": "READ_LAST:line_02",
+					"line_03": "READ_LAST:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_LAST",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_LUCA_INDEX": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "REC_LUCA · Acquired Record Index",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "REC_LUCA · 획득한 기록 인덱스",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_LUCA_INDEX:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_LUCA_INDEX",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_LUCA_ORIGINAL": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "{original_text}",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "{original_text}",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "READ_LUCA_ORIGINAL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"original_only_segments": [
+					"body"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_LUCA_ORIGINAL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {
+						"original_text": "string"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_LUCA_RECORD": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "The Protagonist's external body was cryogenically preserved until the collapse-era toxic atmosphere and radiation risks diminished. Luca agreed to preservation but did not anticipate prolonged confinement in the simulation. After Father's death, neither awakening criteria nor a final release date was established. The servants repeatedly deferred awakening in the name of safety. Vital signs remain stable, but atmospheric, radiation, and neurological risks mean reality cannot be guaranteed safe.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "주인공의 외부 신체는 멸망기의 독성 대기·방사선 위험이 낮아질 때까지 냉각 보존되었다. 루카는 보존에 동의했지만 장기 시뮬레이션 감금은 예상하지 못했다. 아버지 사후 기상 기준과 최종 해제 날짜가 확정되지 않았다. 사용인들은 안전을 이유로 각성 결정을 반복 유예했다. 현재 생존 신호는 유지되지만 외부 대기·방사선·신경계 위험이 남아 현실의 안전은 보장할 수 없다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_LUCA_RECORD:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_LUCA_RECORD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_MARA1_ATTRIBUTION": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "I preserve the commander and operator's responsibility, the victims' record, and the original text unchanged.",
+						"line_02": "The researchers were promised new bodies but were not told their original bodies would be lost or that they would be converted into neural cores. Under an operational-stability order, Mara 1 erased the failure and contradictions in consent. That work remains in her compulsion to clean.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "명령자와 수행자의 책임, 피해 기록과 원문을 그대로 남긴다.",
+						"line_02": "연구원들은 새 육체를 약속받았으나 원래 신체 소실과 신경 코어 전환은 고지받지 못했다. 마라 1은 운영 안정화 명령으로 실패와 동의 모순을 지웠다. 그 업무는 지금의 청소 강박으로 남았다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_MARA1_ATTRIBUTION:line_01",
+					"line_02": "READ_MARA1_ATTRIBUTION:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_MARA1_ATTRIBUTION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_MARA1_INDEX": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "REC_MARA1 · Acquired Record Index",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "REC_MARA1 · 획득한 기록 인덱스",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_MARA1_INDEX:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_MARA1_INDEX",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_MARA1_ORIGINAL": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "{original_text}",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "{original_text}",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "READ_MARA1_ORIGINAL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"original_only_segments": [
+					"body"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_MARA1_ORIGINAL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {
+						"original_text": "string"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_MARA1_PROTECTED": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "I protect only the victims' identifying information. The original incident text and the responsibility of Father as commander and Mara 1 as operator remain.",
+						"line_02": "The researchers were promised new bodies but were not told their original bodies would be lost or that they would be converted into neural cores. Under an operational-stability order, Mara 1 erased the failure and contradictions in consent. That work remains in her compulsion to clean.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "피해자 식별 정보만 보호한다. 사건 원문, 명령자 아버지와 수행자 마라 1의 책임은 남긴다.",
+						"line_02": "연구원들은 새 육체를 약속받았으나 원래 신체 소실과 신경 코어 전환은 고지받지 못했다. 마라 1은 운영 안정화 명령으로 실패와 동의 모순을 지웠다. 그 업무는 지금의 청소 강박으로 남았다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_MARA1_PROTECTED:line_01",
+					"line_02": "READ_MARA1_PROTECTED:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_MARA1_PROTECTED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_MARA2_INDEX": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "REC_MARA2 · Acquired Record Index",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "REC_MARA2 · 획득한 기록 인덱스",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_MARA2_INDEX:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_MARA2_INDEX",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_MARA2_ORIGINAL": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "{original_text}",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "{original_text}",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "READ_MARA2_ORIGINAL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"original_only_segments": [
+					"body"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_MARA2_ORIGINAL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {
+						"original_text": "string"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_MARA2_RECORD": {
+			"1": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 2 managed the personality archive and memory checksums. When the other four personalities' emotional annotations and long-term memories began to fail, she secretly donated her own annotation region as backup storage. She lost the original shape of her name, private memories, and ways of asking for help first. Repeatedly checking nameplates was a self-identification test. Both original and emotional annotations are preserved, but full recovery is not guaranteed.",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "마라 2는 인격 아카이브·기억 체크섬 담당이었다. 다른 네 인격의 감정 주석과 장기 기억이 손상되자 자기 감정 주석 영역을 몰래 보조 저장소로 양도했다. 그 결과 자기 이름의 원형·사적 기억·도움 요청 방식부터 잃었다. 이름표 반복 확인은 자기 식별 검사였다. 원본과 감정 주석은 모두 보존했으나 완전한 회복을 보장하지 않는다.",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "READ_MARA2_RECORD:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_MARA2_RECORD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_GUIDE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Records not acquired remain empty indices.\nFather's journal and the system dates are enough to order the four events.",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "획득하지 않은 기록은 빈 인덱스다.\n아버지 일지와 시스템 날짜만으로도 네 사건을 배열할 수 있다.",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_GUIDE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_GUIDE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_MINIMUM": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_4M",
+				"locales": {
+					"en-US": {
+						"body": "Edgar's full relationship event is now closed.\nThe minimum-access pin grants neither a record nor a relationship reward.",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "에드가의 전체 관계 사건은 종료되었다.\n최소 접근 핀은 기록이나 관계 보상이 아니다.",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_MINIMUM:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_4M"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_MINIMUM",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_PROMISE_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Promise -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 약속 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_PROMISE_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_PROMISE_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_PROMISE_ROLES_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Promise -> Roles Fixed -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 약속 → 역할 고정 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_PROMISE_ROLES_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_PROMISE_ROLES_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_PROMISE_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Promise -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 약속 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_PROMISE_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_PROMISE_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_PROMISE_TRANSITION_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Promise -> Conversion -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 약속 → 전환 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_PROMISE_TRANSITION_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_PROMISE_TRANSITION_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_ROLES_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Roles Fixed -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 역할 고정 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_ROLES_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_ROLES_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_ROLES_PROMISE_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Roles Fixed -> Promise -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 역할 고정 → 약속 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_ROLES_PROMISE_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_ROLES_PROMISE_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_ROLES_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Roles Fixed -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 역할 고정 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_ROLES_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_ROLES_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_ROLES_TRANSITION_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Roles Fixed -> Conversion -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 역할 고정 → 전환 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_ROLES_TRANSITION_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_ROLES_TRANSITION_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_TRANSITION_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Conversion -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 전환 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_TRANSITION_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_TRANSITION_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_TRANSITION_PROMISE_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Conversion -> Promise -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 전환 → 약속 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_TRANSITION_PROMISE_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_TRANSITION_PROMISE_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_TRANSITION_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Conversion -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 전환 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_TRANSITION_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_TRANSITION_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ACTIVATION_TRANSITION_ROLES_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Protagonist Activated -> Conversion -> Roles Fixed -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 주인공 기동 → 전환 → 역할 고정 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ACTIVATION_TRANSITION_ROLES_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ACTIVATION_TRANSITION_ROLES_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_EMPTY": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: None",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 없음",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_EMPTY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_EMPTY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_ACTIVATION_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Protagonist Activated -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 주인공 기동 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_ACTIVATION_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_ACTIVATION_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_ACTIVATION_ROLES_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Protagonist Activated -> Roles Fixed -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 주인공 기동 → 역할 고정 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_ACTIVATION_ROLES_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_ACTIVATION_ROLES_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_ACTIVATION_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Protagonist Activated -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 주인공 기동 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_ACTIVATION_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_ACTIVATION_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_ACTIVATION_TRANSITION_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Protagonist Activated -> Conversion -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 주인공 기동 → 전환 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_ACTIVATION_TRANSITION_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_ACTIVATION_TRANSITION_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_ROLES_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Roles Fixed -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 역할 고정 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_ROLES_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_ROLES_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_ROLES_ACTIVATION_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Roles Fixed -> Protagonist Activated -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 역할 고정 → 주인공 기동 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_ROLES_ACTIVATION_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_ROLES_ACTIVATION_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_ROLES_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Roles Fixed -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 역할 고정 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_ROLES_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_ROLES_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_ROLES_TRANSITION_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Roles Fixed -> Conversion -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 역할 고정 → 전환 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_ROLES_TRANSITION_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_ROLES_TRANSITION_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_TRANSITION_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Conversion -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 전환 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_TRANSITION_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_TRANSITION_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_TRANSITION_ACTIVATION_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Conversion -> Protagonist Activated -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 전환 → 주인공 기동 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_TRANSITION_ACTIVATION_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_TRANSITION_ACTIVATION_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_TRANSITION_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Conversion -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 전환 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_TRANSITION_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_TRANSITION_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_PROMISE_TRANSITION_ROLES_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Promise -> Conversion -> Roles Fixed -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 약속 → 전환 → 역할 고정 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_PROMISE_TRANSITION_ROLES_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_PROMISE_TRANSITION_ROLES_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_ACTIVATION_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Protagonist Activated -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 주인공 기동 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_ACTIVATION_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_ACTIVATION_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_ACTIVATION_PROMISE_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Protagonist Activated -> Promise -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 주인공 기동 → 약속 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_ACTIVATION_PROMISE_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_ACTIVATION_PROMISE_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_ACTIVATION_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Protagonist Activated -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 주인공 기동 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_ACTIVATION_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_ACTIVATION_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_ACTIVATION_TRANSITION_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Protagonist Activated -> Conversion -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 주인공 기동 → 전환 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_ACTIVATION_TRANSITION_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_ACTIVATION_TRANSITION_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_PROMISE_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Promise -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 약속 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_PROMISE_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_PROMISE_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_PROMISE_ACTIVATION_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Promise -> Protagonist Activated -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 약속 → 주인공 기동 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_PROMISE_ACTIVATION_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_PROMISE_ACTIVATION_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_PROMISE_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Promise -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 약속 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_PROMISE_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_PROMISE_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_PROMISE_TRANSITION_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Promise -> Conversion -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 약속 → 전환 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_PROMISE_TRANSITION_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_PROMISE_TRANSITION_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_TRANSITION_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Conversion -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 전환 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_TRANSITION_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_TRANSITION_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_TRANSITION_ACTIVATION_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Conversion -> Protagonist Activated -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 전환 → 주인공 기동 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_TRANSITION_ACTIVATION_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_TRANSITION_ACTIVATION_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_TRANSITION_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Conversion -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 전환 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_TRANSITION_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_TRANSITION_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_ROLES_TRANSITION_PROMISE_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Roles Fixed -> Conversion -> Promise -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 역할 고정 → 전환 → 약속 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_ROLES_TRANSITION_PROMISE_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_ROLES_TRANSITION_PROMISE_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_ACTIVATION_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Protagonist Activated -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 주인공 기동 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_ACTIVATION_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_ACTIVATION_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_ACTIVATION_PROMISE_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Protagonist Activated -> Promise -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 주인공 기동 → 약속 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_ACTIVATION_PROMISE_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_ACTIVATION_PROMISE_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_ACTIVATION_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Protagonist Activated -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 주인공 기동 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_ACTIVATION_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_ACTIVATION_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_ACTIVATION_ROLES_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Protagonist Activated -> Roles Fixed -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 주인공 기동 → 역할 고정 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_ACTIVATION_ROLES_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_ACTIVATION_ROLES_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_PROMISE_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Promise -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 약속 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_PROMISE_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_PROMISE_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_PROMISE_ACTIVATION_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Promise -> Protagonist Activated -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 약속 → 주인공 기동 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_PROMISE_ACTIVATION_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_PROMISE_ACTIVATION_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_PROMISE_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Promise -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 약속 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_PROMISE_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_PROMISE_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_PROMISE_ROLES_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Promise -> Roles Fixed -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 약속 → 역할 고정 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_PROMISE_ROLES_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_PROMISE_ROLES_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Roles Fixed",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 역할 고정",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_ROLES_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Roles Fixed -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 역할 고정 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_ROLES_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_ROLES_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_ROLES_ACTIVATION_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Roles Fixed -> Protagonist Activated -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 역할 고정 → 주인공 기동 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_ROLES_ACTIVATION_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_ROLES_ACTIVATION_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_ROLES_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Roles Fixed -> Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 역할 고정 → 약속",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_ROLES_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_ROLES_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_ORDER_TRANSITION_ROLES_PROMISE_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Current order: Conversion -> Roles Fixed -> Promise -> Protagonist Activated",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "현재 배열: 전환 → 역할 고정 → 약속 → 주인공 기동",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_ORDER_TRANSITION_ROLES_PROMISE_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_ORDER_TRANSITION_ROLES_PROMISE_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_PAGE_ACTIVATION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Protagonist Activated · After Their Roles Were Fixed, the Servants Forced Her Consciousness Awake",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "주인공 기동 · 역할이 고정된 뒤 사용인들이 의식을 강제로 깨움",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_PAGE_ACTIVATION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_PAGE_ACTIVATION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_PAGE_PROMISE": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Promise · Dated Fragment Promising a Future Life",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "약속 · 미래의 삶을 약속한 날짜 조각",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_PAGE_PROMISE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_PAGE_PROMISE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_PAGE_ROLES": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Roles Fixed · Converted Researchers Became the Mansion's Custodians",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "역할 고정 · 전환된 연구원들이 저택의 관리자가 됨",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_PAGE_ROLES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_PAGE_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_SCREEN_PAGE_TRANSITION": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "Conversion · Bio-Neural Cores Joined to Personality Processes After the Promise",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "전환 · 약속 뒤 생체 신경 코어와 인격 프로세스 결합",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_PAGE_TRANSITION:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_PAGE_TRANSITION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_STATUS_ORDER": {
+			"1": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"body": "The earlier and later events do not align. Compare the promise with conversion, then the fixed roles with activation.",
+						"speaker": "Scene",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"body": "앞 사건과 뒤 사건이 맞지 않는다. 약속과 전환, 고정된 역할과 기동을 대조한다.",
+						"speaker": "장면",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_ORDER:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "STATUS_ORDER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

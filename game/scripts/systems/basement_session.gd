@@ -8,6 +8,7 @@ const EDGAR_NOTES := preload("res://scripts/systems/edgar_notebook.gd")
 const MARA2_NOTES := preload("res://scripts/systems/mara2_notebook.gd")
 const SETTLEMENT_NOTES := preload("res://scripts/systems/settlement_notebook.gd")
 const JOURNAL_NOTES := preload("res://scripts/systems/journal_four_notebook.gd")
+const JOURNAL_DISPLAY := preload("res://scripts/systems/journal_four_display_notebook.gd")
 
 const BASEMENT := preload("res://data/puzzles/puzzle_basement.tres")
 const BASEMENT_NOTES := preload("res://scripts/systems/basement_notebook.gd")
@@ -251,12 +252,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 	if action.begins_with("e5_"):
 		return _settlement_action("E5", action.trim_prefix("e5_"), value)
 	if action.begins_with("j4_"):
-		var result: Dictionary = JOURNAL_FOUR.apply(snapshot(), action.trim_prefix("j4_"), value)
-		if not result.ok: return _reject(result.get("text", "기록을 확인한다."))
-		if action == "j4_read":
-			var written := JOURNAL_NOTES.write(result.state, result.text, history_context(), TranslationServer.get_locale())
-			if not written.ok: return written
-		return _commit(result.state, result.text)
+		return _journal_action(action.trim_prefix("j4_"), value)
 	if known("j4_confirmed"): return _reject("사용인 조사 단계가 종료되었다. 기록 정리와 다음 저녁으로 이어진다.")
 	if snapshot()["fracture_state"]["broken_reset_triggered"]:
 		if action.begins_with("mara2_"):
@@ -428,6 +424,25 @@ func act(action: String, value: Variant = null) -> Dictionary:
 
 func luca_s2_pending() -> bool:
 	return not known("LUCA_S2_complete") and not snapshot()["meta_progress"]["servants"]["luca"]["core_event_complete"]
+
+
+func _journal_action(action: String, value: Variant) -> Dictionary:
+	var result := JOURNAL_FOUR.apply(snapshot(), action, value)
+	if not result.ok:
+		var rejected := _reject(result.get("text", "기록을 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = JOURNAL_DISPLAY.PREFIX + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	var descriptors := JOURNAL_DISPLAY.paragraphs(result.feedback_key)
+	if action == "read":
+		var written := JOURNAL_NOTES.write(result.state, result.text, context, TranslationServer.get_locale())
+		if not written.ok: return written
+		descriptors = JOURNAL_DISPLAY.read_paragraphs(written.get("descriptor", {}))
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, descriptors)
 
 
 func _settlement_action(group: String, action: String, value: Variant) -> Dictionary:

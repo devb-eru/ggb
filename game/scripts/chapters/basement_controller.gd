@@ -26,6 +26,7 @@ const LUCA_NOTES := preload("res://scripts/systems/luca_notebook.gd")
 const EDGAR_NOTES := preload("res://scripts/systems/edgar_notebook.gd")
 const MARA2_NOTES := preload("res://scripts/systems/mara2_notebook.gd")
 const SETTLEMENT_NOTES := preload("res://scripts/systems/settlement_notebook.gd")
+const JOURNAL_DISPLAY := preload("res://scripts/systems/journal_four_display_notebook.gd")
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
@@ -85,6 +86,10 @@ func _feedback(result: Dictionary) -> void:
 		_set_status(BASEMENT_TEXTS.ui("d5_demo_running", TranslationServer.get_locale()))
 		return
 	var displayed := result.duplicate(true)
+	var descriptors: Array = result.get("notebook_feedback", [])
+	if result.get("ok", false) and not descriptors.is_empty() and String(descriptors[0].get("content_id", "")).begins_with(JOURNAL_DISPLAY.PREFIX):
+		_show_journal_feedback(result, descriptors)
+		return
 	var original := String(result.get("text", ""))
 	var locale := TranslationServer.get_locale()
 	displayed["text"] = _d6_text(ENDING_TEXTS.feedback(CORE_STORY_TEXTS.feedback(FRACTURE_RESOLUTION_TEXTS.feedback(RELATIONSHIP_TEXTS.feedback(FRACTURE_COMMON_TEXTS.feedback(BASEMENT_TEXTS.feedback(original, locale), locale), locale), locale), locale), locale))
@@ -94,6 +99,25 @@ func _feedback(result: Dictionary) -> void:
 	if not displayed.get("ok", false) and displayed.has("notebook_status"):
 		_queue_notebook_content(String(displayed.notebook_status), _status_label.text, true)
 		_notebook_surface_allowed()
+
+
+func _show_journal_feedback(result: Dictionary, descriptors: Array) -> void:
+	var lines: Array = []
+	var originals := PackedStringArray()
+	for descriptor in descriptors:
+		var original := NOTEBOOK_CONTENT.presentation(descriptor, "ko-KR")
+		var shown := NOTEBOOK_CONTENT.presentation(descriptor, TranslationServer.get_locale())
+		if not original.ok or not shown.ok or shown.segments.size() != 1:
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return
+		originals.append(original.text)
+		lines.append({"speaker": shown.speaker, "portrait": "", "text": shown.text, "notebook_content": descriptor.duplicate(true), "history_context": result.history_context})
+	if originals != String(result.text).split("\n", false):
+		push_error("NB_J4_FEEDBACK_SOURCE_MISMATCH")
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	# Unknown old quotations bypass prose-based translation; their frozen text is literal.
+	_show_dialogue(lines)
 
 func _update_objective() -> void:
 	if session != null:
@@ -1101,10 +1125,14 @@ func _show_j4_confirmation() -> void:
 	if not _notebook_surface_allowed(): return
 	var totals: Dictionary = BasementSession.JOURNAL_FOUR.summary(session.snapshot())
 	var body := FRACTURE_RESOLUTION_TEXTS.j4_confirmation(totals, TranslationServer.get_locale())
-	_show_fracture_resolution_modal("조사 종료 확인", body, [
+	var actions: Array = [
 		{"label": "계속 조사한다", "action": _close_modal},
 		{"label": "기록을 정리한다", "action": _modal_act.bind("j4_confirm", true)},
-	])
+	]
+	if _notebook_surface_enabled():
+		_show_recorded_choice(_fracture_resolution_text(JOURNAL_DISPLAY.MODAL_TITLE), body, _fracture_resolution_actions(actions), JOURNAL_DISPLAY.confirmation(totals))
+	else:
+		_show_fracture_resolution_modal(JOURNAL_DISPLAY.MODAL_TITLE, body, actions)
 	var confirm := _modal_body.get_child(4) as Button
 	confirm.disabled = true
 	get_tree().create_timer(0.5, false).timeout.connect(_enable_j4_confirm.bind(weakref(confirm)))
@@ -1951,10 +1979,16 @@ func _show_e5_confirmation() -> void:
 	])
 
 
+func _journal_board(key: String, text: String, rect: Rect2) -> void:
+	var displayed := _fracture_resolution_text(text)
+	_board_label(displayed, rect)
+	_queue_notebook_content(JOURNAL_DISPLAY.PREFIX + key, displayed)
+
+
 func _build_journal_four() -> void:
 	_objective_label.text = "네 번째 일지 · 약속과 권한"
 	if session.stage() == "E3_4M":
-		_board_label("에드가의 전체 관계 사건은 종료되었다.\n최소 접근 핀은 기록이나 관계 보상이 아니다.", Rect2(300, 250, 1300, 250))
+		_journal_board("SCREEN_MINIMUM", JOURNAL_DISPLAY.SCREEN.MINIMUM, Rect2(300, 250, 1300, 250))
 		_action("EDGAR_MINIMUM", "코어 접근 핀을 받아 꽂는다", Rect2(400, 590, 1100, 120), "j4_minimum")
 	else:
 		var rules = BasementSession.JOURNAL_FOUR
@@ -1962,13 +1996,12 @@ func _build_journal_four() -> void:
 		if local["ordered"]:
 			_action("J4_READ", "약속과 권한의 모순 문장을 읽는다", Rect2(300, 320, 1300, 230), "j4_read")
 		else:
-			_board_label("획득하지 않은 기록은 빈 인덱스다.\n아버지 일지와 시스템 날짜만으로도 네 사건을 배열할 수 있다.", Rect2(280, 140, 1360, 120))
-			var selected: PackedStringArray = []
-			for page in local["pages"]: selected.append(String(rules.PAGES[page]).split(" · ")[0])
-			_board_label("현재 배열: " + ("없음" if selected.is_empty() else " → ".join(selected)), Rect2(300, 695, 1300, 50))
+			_journal_board("SCREEN_GUIDE", JOURNAL_DISPLAY.SCREEN.GUIDE, Rect2(280, 140, 1360, 120))
+			_journal_board(JOURNAL_DISPLAY.order_key(local.pages), JOURNAL_DISPLAY.order_text(local.pages), Rect2(300, 695, 1300, 50))
 			for index in range(4):
 				var id: String = ["roles", "promise", "activation", "transition"][index]
 				_action("J4_PAGE_" + id, rules.PAGES[id], Rect2(300, 290 + index * 100, 1300, 85), "j4_page", id)
+				_queue_notebook_content(JOURNAL_DISPLAY.PREFIX + "SCREEN_PAGE_" + id.to_upper(), _fracture_resolution_text(rules.PAGES[id]))
 			_action("J4_CLEAR", "다시 펼친다", Rect2(300, 750, 610, 90), "j4_clear")
 			_action("J4_ORDER", "순서를 확인한다", Rect2(1000, 750, 610, 90), "j4_order")
 

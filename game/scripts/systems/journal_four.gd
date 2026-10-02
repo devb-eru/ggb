@@ -11,6 +11,13 @@ const BASE_TEXT := "나는 그들에게 미래의 삶을 약속했다.\n그 약�
 const LAST_TEXT := "마지막 문은 내가 열 수 없도록 남겨 두었다. 그것을 배려라고 부를 생각은 없다.\n너에게 선택권을 돌려준 것이 아니라, 내가 끝내 빼앗지 못한 한 조각이 남아 있었을 뿐이다.\n이번에는 누구도 네 대답을 대신 적어서는 안 된다."
 const INDEX_TEXT := "복원 인덱스: 사용인들은 연구원 인격이다. 저택의 관리 권한과 주인공 자신의 결정을 실행하는 권한은 서로 다르다."
 const FULL_TEXT := "마라 2는 다른 네 사람의 이름과 감정 주석을 자기 저장 영역에 나누어 보관했다. 공간이 모자랄 때마다 자기 이름의 확인 기록부터 비웠다. 나는 중단시킬 권한을 끝까지 나누지 않았다."
+const TEXT := {
+	"CONFIRM": "완충 전력을 코어 경로와 마지막 저녁에 재배분한다. 남은 사건의 진행은 보관된다. 이는 실패나 완료가 아니다.",
+	"MINIMUM": "대시계 기계실 입구에서 에드가가 수직 핀을 건넨다.\n이것으로 코어 접근로까지는 열립니다. 그 이상은 귀하께서 확인해야 합니다. 지금 설명하면 제 변명이 먼저 남습니다.\n주인공이 핀을 꽂는다. 연구원 기록이나 관계 완료는 추가되지 않는다.",
+	"CLEAR": "날짜 조각을 다시 펼친다. 없는 연구원 기록은 오답이 아니라 빈 인덱스다.",
+	"ORDER": "네 사건 축이 이어진다. 미래를 약속했지만 선택 권한을 나누지 않았다는 모순이 남는다.",
+	"ORDER_MISMATCH": "앞 사건과 뒤 사건이 맞지 않는다. 약속과 전환, 고정된 역할과 기동을 대조한다.",
+}
 
 static func summary(state: Dictionary) -> Dictionary:
 	var complete: Array = []
@@ -41,6 +48,7 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	var knowledge: Dictionary = meta["knowledge_entries"]
 	var local := progress(state)
 	var text := ""
+	var feedback_key := ""
 	if not state["fracture_state"]["broken_reset_triggered"] or not knowledge.get("E2_INTRO_complete", false): return {"ok": false, "text": "파열 이후 합의를 먼저 확인한다."}
 	if action == "confirm":
 		if value != true or knowledge.get("j4_confirmed", false) or not knowledge.get("relationship_hub_open", false) or state["loop_state"]["location_id"] != "M1_CENTRAL_HALL": return {"ok": false, "text": "중앙홀에서 남은 사건을 확인한 뒤 진행한다."}
@@ -50,13 +58,15 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 		knowledge["relationship_hub_open"] = false
 		for event in totals["incomplete_ids"]:
 			meta["event_history"][event] = {"event_id": event, "lifecycle": "superseded", "reason": "J4_confirmed"}
-		text = "완충 전력을 코어 경로와 마지막 저녁에 재배분한다. 남은 사건의 진행은 보관된다. 이는 실패나 완료가 아니다."
+		text = TEXT.CONFIRM
+		feedback_key = "CONFIRM"
 	else:
 		if not knowledge.get("j4_confirmed", false): return {"ok": false, "text": "조사 종료를 먼저 확인한다."}
 		if action == "minimum":
 			if int(meta["journal_stage"]) < 4 or meta["servants"]["edgar"]["core_event_complete"] or knowledge.get("edgar_minimum_access", false): return {"ok": false, "text": "최소 접근 절차가 필요한 상태가 아니다."}
 			knowledge["edgar_minimum_access"] = true
-			text = "대시계 기계실 입구에서 에드가가 수직 핀을 건넨다.\n이것으로 코어 접근로까지는 열립니다. 그 이상은 귀하께서 확인해야 합니다. 지금 설명하면 제 변명이 먼저 남습니다.\n주인공이 핀을 꽂는다. 연구원 기록이나 관계 완료는 추가되지 않는다."
+			text = TEXT.MINIMUM
+			feedback_key = "MINIMUM"
 		else:
 			if int(meta["journal_stage"]) >= 4: return {"ok": false, "text": "네 번째 일지는 이미 복원했다."}
 			match action:
@@ -64,14 +74,17 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 					if not PAGES.has(str(value)): return {"ok": false, "text": "일지의 날짜 조각을 확인한다."}
 					if str(value) not in local["pages"]: local["pages"].append(str(value))
 					text = PAGES[str(value)]
+					feedback_key = "PAGE_" + str(value).to_upper()
 				"clear":
 					local["pages"] = []
 					local["ordered"] = false
-					text = "날짜 조각을 다시 펼친다. 없는 연구원 기록은 오답이 아니라 빈 인덱스다."
+					text = TEXT.CLEAR
+					feedback_key = "CLEAR"
 				"order":
-					if local["pages"] != ORDER: return {"ok": false, "text": "앞 사건과 뒤 사건이 맞지 않는다. 약속과 전환, 고정된 역할과 기동을 대조한다."}
+					if local["pages"] != ORDER: return {"ok": false, "text": TEXT.ORDER_MISMATCH, "notebook_status": "STATUS_ORDER"}
 					local["ordered"] = true
-					text = "네 사건 축이 이어진다. 미래를 약속했지만 선택 권한을 나누지 않았다는 모순이 남는다."
+					text = TEXT.ORDER
+					feedback_key = "ORDER"
 				"read":
 					if not local["ordered"]: return {"ok": false, "text": "페이지를 배열한 뒤 모순 문장을 조사한다."}
 					var totals := summary(state)
@@ -97,4 +110,4 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 				_:
 					return {"ok": false, "text": "정의되지 않은 결산 행동이다."}
 	state["loop_state"]["event_local_states"]["J4"] = local
-	return {"ok": true, "state": state, "text": text}
+	return {"ok": true, "state": state, "text": text, "feedback_key": feedback_key}

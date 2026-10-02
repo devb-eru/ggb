@@ -83,4 +83,4 @@ static func write(state: Dictionary, source_text: String, context: Dictionary, l
 	if not acquired.ok: return acquired
 	knowledge[KNOWLEDGE.KEY] = acquired.ledger
 	state.meta_progress.dialogue_history = acquired.archive
-	return {"ok": true, "changed": acquired.changed}
+	return {"ok": true, "changed": acquired.changed, "descriptor": composed.descriptor}
