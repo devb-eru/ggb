@@ -187,7 +187,9 @@ save_header:
 
 [GGB-DEC-2026-0006](decisions/GGB-DEC-2026-0006_대화_기록_영속화.md)에 따라 대화 기록은 진행 슬롯에 명시적으로 저장한다. 보존·통합 수첩의 목표 계약은 [DEC-0012](decisions/GGB-DEC-2026-0012_통합_수첩_범위와_기록_보존.md)와 [구현 계획](../ideas/md/v04/issues/validation/notebook_history_review_plan.md)을 적용한다. 아래 예시는 이전 기록의 논리 필드 설명이며 신형 archive의 완전한 직렬화 예제가 아니다. 현재 게임은 transcript 저장을 사용하며 새 저장 계층의 실제 연결 상태는 [구현 현황](../ideas/md/v04/issues/validation/notebook_history_implementation_status.md)을 따른다.
 
-개발 옵션의 authored 기록은 `content_id + content_version + variant_id + 공개 segment`를 고정한다. 현재 언어 재열람은 정확히 같은 의미 버전만 사용하고, 없으면 저장 당시 원문임을 표시한다. 변수는 해당 segment가 선언한 공개 값만 받고 정수 공개 값은 첫 저장부터 JSON 수 표현으로 고정한다. 새 대화·힌트 관찰은 실제 표시문과 일치해야 하며, 사건 작성 원고는 7.1.1절을 따른다. 기존 버전 원고의 덮어쓰기나 문자열 역검색으로 출처를 추정하지 않는다. 현재 이 계약의 실제 연결 대상은 [NP01~NP03 프롤로그와 NP20 단계 힌트](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)이며 다른 생산자의 임시 `unmapped`는 인수 완료로 세지 않는다. 선택 문구 확정 기록은 입력 의향의 증거이고, 뒤이어 실행하는 출발·수면 등 게임 상태 저장의 성공을 뜻하지 않는다.
+개발 옵션의 authored 기록은 `content_id + content_version + variant_id + 공개 segment`를 고정한다. 현재 언어 재열람은 정확히 같은 의미 버전만 사용하고, 없으면 저장 당시 원문임을 표시한다. 변수는 해당 segment가 선언한 공개 값만 받고 정수 공개 값은 첫 저장부터 JSON 수 표현으로 고정한다. 새 대화·힌트 관찰은 실제 표시문과 일치해야 하며, 사건 작성 원고는 7.1.1절을 따른다. 기존 버전 원고의 덮어쓰기나 문자열 역검색으로 출처를 추정하지 않는다. 현재 이 계약의 실제 연결 대상은 [NP01~NP03 프롤로그, NP04 1장 표시, NP20 단계 힌트](../ideas/md/v04/issues/validation/notebook_content_mapping_status.md)이며 다른 생산자의 임시 `unmapped`는 인수 완료로 세지 않는다. 선택 문구 확정 기록은 입력 의향의 증거이고, 뒤이어 실행하는 출발·수면 등 게임 상태 저장의 성공을 뜻하지 않는다.
+
+NP04는 `loop_state.event_local_states.CHAPTER_ONE.last_feedback.notebook_feedback`에 명시적인 문단별 descriptor 목록을 선택적으로 보존한다. 이는 미표시 대사의 관찰 증거가 아니며 사건 진행과 함께 저장한 표시 원고 식별자다. 대화창에서 실제로 표시한 문단만 archive 관찰로 생성한다. 필드 없는 과거 피드백을 텍스트 ID나 한국어 본문으로 소급 매핑하지 않는다. 시계 배치의 공개 변수는 `matched` 또는 `position` 정수만 허용하며, 미래 정답이나 현재 상태로 재계산하지 않는다. 게임 사건 저장 응답 유실은 transaction과 전체 영속 값 일치를 확인한 경우에만 성공으로 인정한다.
 
 ```yaml
 meta_progress:

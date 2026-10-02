@@ -23,19 +23,23 @@ func inspect_layout(board: Dictionary) -> Dictionary:
 	var pieces: Array = board.get("pieces", [])
 	var rotations: Array = board.get("rotations", [])
 	if pieces.size() != 4 or rotations.size() != 4:
-		return {"ok": false, "matched": 0, "reason": "네 탁본과 방향을 모두 확인해야 한다."}
+		return {"ok": false, "matched": 0, "reason": "네 탁본과 방향을 모두 확인해야 한다.", "faults": [{"kind": "missing", "position": 0}]}
 	var matched := 0
 	var faults: Array[String] = []
+	var fault_codes: Array = []
 	for index in range(4):
 		if String(pieces[index]) != String(SOLUTION[ROLES[index]]):
 			faults.append("%d번 자리의 배선이 옆 조각과 이어지지 않는다." % (index + 1))
+			fault_codes.append({"kind": "piece", "position": index + 1})
 		elif int(rotations[index]) != 0:
 			faults.append("%d번 자리의 모서리 홈과 나사 구멍이 어긋난다." % (index + 1))
+			fault_codes.append({"kind": "rotation", "position": index + 1})
 		elif pieces[index] == "library_outer" and not bool(board.get("library_back", false)):
 			faults.append("외부 서고의 선이 서쪽 공명통이 아닌 동쪽으로 향한다. 뒷면에도 흑연이 묻어 있다.")
+			fault_codes.append({"kind": "back", "position": index + 1})
 		else:
 			matched += 1
-	return {"ok": matched == 4, "matched": matched, "reason": "\n".join(faults)}
+	return {"ok": matched == 4, "matched": matched, "reason": "\n".join(faults), "faults": fault_codes}
 
 
 func inspect_roles(roles: Dictionary) -> Dictionary:

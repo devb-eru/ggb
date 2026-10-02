@@ -78,7 +78,7 @@ func initialize() -> Dictionary:
 		knowledge["E1_wake_seen"] = true
 		_note(knowledge, "NOTE_E1_WAKE", "같은 아침이어야 한다.")
 		return _commit(state, "종도 새소리도 없다. 냉각 팬이 느려진다. 이불은 어제와 같은 무게인데, 그 아래 금속 고정구가 손목을 따라 떨린다. 커튼 사이 아침빛은 그림자를 만들지 않는다.\n수첩에 흑연 글씨가 남아 있다. '같은 아침이어야 한다.' 마지막 획이 떨린다.")
-	return _commit_feedback(state, String(result.get("text", "")), String(result.get("speaker", "주인공")), String(result.get("text_id", "")), result.get("history_context", {}))
+	return _commit_feedback(state, String(result.get("text", "")), String(result.get("speaker", "주인공")), String(result.get("text_id", "")), result.get("history_context", {}), result.get("notebook_feedback", []))
 
 
 func stage() -> String:
@@ -550,8 +550,12 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 		var copy: Dictionary = _save.capture_f3_reselect(slot_id)
 		if not copy.get("ok", false):
 			result["text"] = "현재 진행은 저장되었습니다. 다른 선택 확인용 사본은 저장하지 못했습니다."
+			result["text_id"] = ""
+			result.erase("notebook_feedback")
 	if result.get("ok", false) and state["ending_run"].get("current_node_id", "") in ["CREDITS_REALITY", "CREDITS_STAY"]:
 		var meta := ensure_ending_meta()
 		if not meta.get("ok", false):
 			result["text"] = "마지막 장면은 저장되었습니다. 감상 기록 저장은 재시도가 필요합니다."
+			result["text_id"] = ""
+			result.erase("notebook_feedback")
 	return result

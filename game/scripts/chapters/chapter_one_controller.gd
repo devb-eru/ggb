@@ -238,6 +238,13 @@ func _feedback(result: Dictionary) -> void:
 	for paragraph in text.split("\n"):
 		if not paragraph.is_empty():
 			lines.append({"speaker": speaker, "portrait": "EDGAR" if speaker == "에드가" else "", "text": paragraph, "history_context": result.get("history_context", session.history_context())})
+	var descriptors: Array = result.get("notebook_feedback", [])
+	if not descriptors.is_empty():
+		if descriptors.size() != lines.size():
+			push_error("NB_CH1_FEEDBACK_SEGMENT_COUNT")
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return
+		for index in range(lines.size()): lines[index].notebook_content = descriptors[index].duplicate(true)
 	_show_dialogue(lines)
 
 
@@ -299,13 +306,20 @@ func _render_room() -> void:
 			_build_great_clock(local)
 		"M1_NORTH_ARCHIVE_HALL":
 			_action("NORTH_LINK", DISPLAY_TEXTS.ui("north_link", locale) + "\n" + DISPLAY_TEXTS.ui("north_known" if session.known("north_library_shortcut") else "north_locked", locale), Rect2(580, 250, 700, 260), "move", "M1_LIBRARY_INNER", false)
-			_add_hotspot("MARA2_MEMORY", DISPLAY_TEXTS.ui("mara2_memory_action", locale), Rect2(600, 570, 600, 110), _show_dialogue.bind([{"speaker": "마라 2", "portrait": "MARA2", "text": DISPLAY_TEXTS.ui("mara2_memory_line", locale)}]))
+			_add_hotspot("MARA2_MEMORY", DISPLAY_TEXTS.ui("mara2_memory_action", locale), Rect2(600, 570, 600, 110), _show_mara2_memory)
 	if _current_room == "M1_LIBRARY_INNER":
 		_action("BACK", DISPLAY_TEXTS.ui("back_outer", locale), Rect2(700, 944, 400, 72), "move", "M1_LIBRARY_OUTER", false)
 	elif _current_room != "M1_CENTRAL_HALL":
 		_action("BACK", DISPLAY_TEXTS.ui("back_hall", locale), Rect2(700, 944, 400, 72), "move", "M1_CENTRAL_HALL", false)
 	_rendering = false
 	call_deferred("_restore_world_focus")
+
+
+func _show_mara2_memory() -> void:
+	var line := {"speaker": "마라 2", "portrait": "MARA2", "text": DISPLAY_TEXTS.ui("mara2_memory_line", TranslationServer.get_locale())}
+	var descriptors := preload("res://scripts/systems/chapter_one_notebook.gd").paragraphs("MARA2_MEMORY")
+	if not descriptors.is_empty(): line.notebook_content = descriptors[0]
+	_show_dialogue([line])
 
 
 func _action(id: String, label: String, rect: Rect2, action: String, value: Variant = null, show_text: bool = true) -> void:

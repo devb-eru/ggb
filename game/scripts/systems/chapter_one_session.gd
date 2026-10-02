@@ -5,6 +5,7 @@ const CLOCK := preload("res://data/puzzles/puzzle_clock_network.tres")
 const SAVE_POINT := "SAVE_CAMPAIGN_PROGRESS"
 const HISTORY_CHAPTER_ID := "CHAPTER_1"
 const HISTORY_CONTEXT := preload("res://scripts/systems/dialogue_history_context.gd")
+const NOTEBOOK_FEEDBACK := preload("res://scripts/systems/chapter_one_notebook.gd")
 const LOCAL_KEY := "CHAPTER_ONE"
 const MARKS := {"sentence": "내일 아침, 이 문장을 읽어.", "house_glyph": "창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문", "ink_corner": "페이지 모서리의 잉크 한 방울"}
 const CLOCK_ROOMS := {"M2_BEDROOM": "bedroom", "M1_PARLOR": "parlor", "M1_LIBRARY_OUTER": "library_outer", "M1_GREAT_CLOCK": "great_clock"}
@@ -28,6 +29,7 @@ var _save: Node
 var _writer: StateWriter
 var _pending_feedback_text_id := ""
 var _pending_feedback_context: Dictionary = {}
+var _pending_notebook_feedback: Array = []
 
 
 func _init(game: Node, save: Node, slot: String) -> void:
@@ -103,7 +105,8 @@ func initialize() -> Dictionary:
 		state["loop_state"]["location_id"] = "M2_BEDROOM"
 	state["loop_state"]["event_local_states"][LOCAL_KEY] = local_state(state)
 	var last: Dictionary = local_state(state).get("last_feedback", {})
-	return _commit_feedback(state, String(last.get("text", "같은 아침이다. 방의 흔적과 수첩을 비교해 본다.")), String(last.get("speaker", "주인공")), String(last.get("text_id", "")), last.get("history_context", {}))
+	var descriptors: Array = NOTEBOOK_FEEDBACK.paragraphs("WAKE") if last.is_empty() else last.get("notebook_feedback", [])
+	return _commit_feedback(state, String(last.get("text", NOTEBOOK_FEEDBACK.FIXED.WAKE)), String(last.get("speaker", "주인공")), String(last.get("text_id", "")), last.get("history_context", {}), descriptors)
 
 
 func act(action: String, value: Variant = null) -> Dictionary:
@@ -117,6 +120,8 @@ func act(action: String, value: Variant = null) -> Dictionary:
 	var text := ""
 	var text_id := ""
 	var speaker := "주인공"
+	var notebook_id := ""
+	var notebook_feedback: Array = []
 	match action:
 		"move":
 			var target := String(value)
@@ -134,13 +139,15 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				if room == "M1_NORTH_ARCHIVE_HALL" and not knowledge.get("north_library_shortcut", false):
 					return _reject("연결문 걸쇠는 안쪽에서 잠겨 있다.")
 			loop["location_id"] = target
-			text = "문턱을 넘는다."
+			text = NOTEBOOK_FEEDBACK.FIXED.MOVE
+			notebook_id = "MOVE"
 		"mark":
 			if room != "M2_BEDROOM" or stage() != "A1" or not MARKS.has(String(value)):
 				return _reject("지금은 새 표식을 작성할 수 없다.")
 			knowledge["self_authored_mark"] = {"type": String(value), "text": MARKS[String(value)], "day": int(loop["day_index"])}
 			_note(knowledge, "A1", "자기 표식: %s\n다음 아침에 동일성을 확인한다." % MARKS[String(value)])
-			text = "표식을 남겼다. 아직 내일의 내가 읽기 전이라 증거는 완성되지 않았다."
+			text = NOTEBOOK_FEEDBACK.FIXED.MARK
+			notebook_id = "MARK"
 		"confirm_mark":
 			if room != "M2_BEDROOM" or stage() != "A2":
 				return _reject("표식을 남긴 뒤 잠들어 다음 아침에 비교해야 한다.")
@@ -148,13 +155,15 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			if state["fracture_state"]["world_phase"] == "S0":
 				state["fracture_state"]["world_phase"] = "S1"
 			_note(knowledge, "A2", "같은 표식이 남았다. 방의 물리 상태는 되돌아와도 수첩의 기록은 유지된다.")
-			text = "내가 쓴 표식이다. 수첩은 방과 다른 시간 위에 놓여 있다."
+			text = NOTEBOOK_FEEDBACK.FIXED.CONFIRM_MARK
+			notebook_id = "CONFIRM_MARK"
 		"routine":
 			if not knowledge.has("self_authored_mark"):
 				return _reject("다음 아침과 비교할 표식을 먼저 남긴다.")
 			local["routine_done"] = true
 			loop["time_block"] = "evening_free"
-			text = "젖은 천이 어제와 같은 호를 그린다. 책등 세 권과 다섯 이름표를 정리하고, 물이 끓는 동안 모래시계를 뒤집는다. 익숙한 일과가 끝났다."
+			text = NOTEBOOK_FEEDBACK.FIXED.ROUTINE
+			notebook_id = "ROUTINE"
 		"read_schedule":
 			if room != "M1_SERVANT_COMMON" or not meta["notebook_persistence_confirmed"] or not DOCUMENTS.has(String(value)):
 				return _reject("수첩의 지속을 확인한 뒤 사용인 공용실에서 조사한다.", "CH1_B1_NEED_CONFIRM")
@@ -285,13 +294,14 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			else:
 				local["layout_attempts"] = int(local["layout_attempts"]) + 1
 				var checked: Dictionary = CLOCK.inspect_layout(board)
+				notebook_feedback = NOTEBOOK_FEEDBACK.layout(checked, int(local["layout_attempts"]) >= 2)
 				text = "일치한 구간: %d / 4" % int(checked["matched"])
 				if int(local["layout_attempts"]) >= 2:
 					text += "\n" + String(checked["reason"])
 				if checked["ok"]:
 					knowledge["clock_network_layout_solved"] = true
 					knowledge["clock_verified_board"] = board.duplicate(true)
-					text = "대응접실 → 외부 서고 → 서쪽 대시계. 침실은 단절. 네 조각의 배치를 검증했다."
+					text = NOTEBOOK_FEEDBACK.FIXED.LAYOUT_SOLVED
 					_note(knowledge, "B3_A", text)
 		"role", "phase", "test_clock", "activate_clock":
 			if room != "M1_GREAT_CLOCK" or not knowledge.get("clock_network_layout_solved", false) or local["rubbed"].size() != 4:
@@ -375,7 +385,9 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				_note(knowledge, "J2", text)
 		_:
 			return _reject("정의되지 않은 행동이다: " + action)
-	return _commit_feedback(state, text, speaker, text_id)
+	if not text_id.is_empty(): notebook_id = text_id
+	if not notebook_id.is_empty(): notebook_feedback = NOTEBOOK_FEEDBACK.paragraphs(notebook_id)
+	return _commit_feedback(state, text, speaker, text_id, {}, notebook_feedback)
 
 
 func sleep() -> Dictionary:
@@ -427,6 +439,7 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 	var local := local_state(state)
 	if not text.is_empty():
 		local["last_feedback"] = {"text": text, "speaker": speaker, "text_id": text_id, "history_context": context}
+		if not _pending_notebook_feedback.is_empty(): local.last_feedback.notebook_feedback = _pending_notebook_feedback.duplicate(true)
 	state["loop_state"]["event_local_states"][LOCAL_KEY] = local
 	var inventory: Array = state["loop_state"]["inventory"]
 	# Rebuild only this chapter's physical items; unrelated inventory is preserved.
@@ -441,20 +454,28 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 		return installed
 	var saved: Dictionary = _save.save_snapshot(slot_id, _save_point(state), _game.get_snapshot(), _game.revision, String(transaction))
 	if not saved.get("ok", false):
-		_game.rollback_failed_persistence(installed["previous_snapshot"], int(installed["revision"]), transaction, &"ERR_CAMPAIGN_SAVE")
-		return saved
-	return {"ok": true, "text": text, "speaker": speaker, "text_id": text_id, "stage": stage(), "history_context": context}
+		var committed := false
+		if _save.has_method("confirm_snapshot_commit"):
+			var confirmed: Dictionary = _save.confirm_snapshot_commit(slot_id, String(transaction))
+			committed = confirmed.get("ok", false) and StateSnapshotValidator.same_persisted_value(_game.get_snapshot(), confirmed.snapshot)
+		if not committed:
+			_game.rollback_failed_persistence(installed["previous_snapshot"], int(installed["revision"]), transaction, &"ERR_CAMPAIGN_SAVE")
+			return saved
+	return {"ok": true, "text": text, "speaker": speaker, "text_id": text_id, "stage": stage(), "history_context": context, "notebook_feedback": _pending_notebook_feedback.duplicate(true)}
 
 
-func _commit_feedback(state: Dictionary, text: String, speaker: String, text_id: String, context: Dictionary = {}) -> Dictionary:
+func _commit_feedback(state: Dictionary, text: String, speaker: String, text_id: String, context: Dictionary = {}, notebook_feedback: Array = []) -> Dictionary:
 	# Keep subclass commit hooks while passing display metadata through the transaction.
 	var previous_id := _pending_feedback_text_id
 	var previous_context := _pending_feedback_context
+	var previous_notebook := _pending_notebook_feedback
 	_pending_feedback_text_id = text_id
 	_pending_feedback_context = context
+	_pending_notebook_feedback = notebook_feedback
 	var result := _commit(state, text, speaker)
 	_pending_feedback_text_id = previous_id
 	_pending_feedback_context = previous_context
+	_pending_notebook_feedback = previous_notebook
 	return result
 
 
