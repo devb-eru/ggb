@@ -1681,7 +1681,7 @@ func _open_field_page(page: String, expanded: bool) -> void:
 func _advance_field_page(page: String, expanded: bool, next_page: String) -> void:
 	if _dialogue_active or not _modal_active:
 		return
-	var result := session.act("field_read", {"page":page,"expanded":expanded})
+	var result := _act_with_modal_completion("field_read", {"page":page,"expanded":expanded})
 	if not result.get("ok",false):
 		_set_status(_display_feedback(String(result.get("text",str(result.get("error_ids",[]))))))
 		return

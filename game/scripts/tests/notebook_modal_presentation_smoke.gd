@@ -117,7 +117,47 @@ func _cases(tree: SceneTree) -> void:
 		view.queue_free()
 		await tree.process_frame
 	await _failures(tree)
+	await _idempotent_field_read(tree)
 	await _diagrams(tree)
+
+
+func _idempotent_field_read(tree: SceneTree) -> void:
+	_seed("EDR_FIELD_NOTEBOOK")
+	var view = _view(tree, 2)
+	var page := "FIELD_NOTEBOOK_PREFACE"
+	view._open_field_page(page, true)
+	view._recorded_choice_pressed(view._recorded_modal_request, 0)
+	_expect(not view._modal_active and CURSOR.read(GameState.get_snapshot()).phase == "completed", "first field acknowledgement completes its modal atomically")
+	var read_state: Dictionary = GameState.get_snapshot().loop_state.event_local_states.FIELD_NOTEBOOK.duplicate(true)
+	view._open_field_page(page, true)
+	var controlled := ControlledSave.new()
+	controlled.reject_game = true
+	view.session._save = controlled
+	view._recorded_choice_pressed(view._recorded_modal_request, 0)
+	var pending := CURSOR.read(GameState.get_snapshot())
+	_expect(view._modal_active and pending.phase == "selection_pending", "failed reread retains pending modal even though read state was already satisfied")
+	var selected := _selected_count()
+	view.session._save = SaveManager
+	controlled.free()
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "failed reread reloads")
+	view = _view(tree, 2)
+	_expect(view._modal_active and view._recorded_modal_request.selection_token == pending.modal.selection_token, "failed reread resumes original explicit choice")
+	view._recorded_choice_pressed(view._recorded_modal_request, 0)
+	_expect(not view._modal_active and CURSOR.read(GameState.get_snapshot()).phase == "completed", "successful idempotent reread does not reopen pending choices")
+	_expect(_selected_count() == selected and StateSnapshotValidator.same_persisted_value(read_state, GameState.get_snapshot().loop_state.event_local_states.FIELD_NOTEBOOK), "reread retry does not duplicate selection or game reading state")
+	_expect(CURSOR.read(SaveManager.load_slot(SLOT).snapshot).phase == "completed", "successful reread completion is on disk, not only dismissed in memory")
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "completed reread reloads")
+	view = _view(tree, 2)
+	_expect(not view._modal_active and _selected_count() == selected, "completed reread is not replayed on reload")
+	view._open_field_page(page, true)
+	view._recorded_choice_pressed(view._recorded_modal_request, 2)
+	_expect(view._modal_active and CURSOR.read(GameState.get_snapshot()).phase == "choosing" and view._recorded_modal_request.title != view.FIELD_TEXTS.title(page, TranslationServer.get_locale()), "idempotent next-page acknowledgement opens only the explicitly requested next page")
+	view.queue_free()
+	await tree.process_frame
 
 
 func _failures(tree: SceneTree) -> void:

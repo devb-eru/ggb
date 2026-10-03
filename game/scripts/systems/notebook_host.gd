@@ -19,6 +19,7 @@ var _command_scope := ""
 var _revision := -1
 var _checked_revision := -1
 var _slot := ""
+var _session_id := 0
 var _mode := Node.PROCESS_MODE_INHERIT
 var _visible := true
 var _audio_paused := false
@@ -43,6 +44,7 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	saves = save_service
 	_controller = weakref(controller)
 	_slot = controller._slot_id
+	if controller.has_method("_make_session") and controller.session != null: _session_id = controller.session.get_instance_id()
 	_entry_tab = tab
 	_scope = _current_scope()
 	_command_scope = COMMANDS.scope(game, saves, _slot)
@@ -173,7 +175,7 @@ func _finish_close() -> void:
 			var focused = _focus.get_ref() if _focus != null else null
 			if is_instance_valid(focused) and focused.is_visible_in_tree() and not (focused is BaseButton and focused.disabled): focused.grab_focus()
 			elif controller._notebook_button.is_visible_in_tree(): controller._notebook_button.grab_focus()
-			if _after_close.is_valid(): _after_close.call_deferred()
+			if _after_close.is_valid(): call_deferred("_dispatch_tool", _after_close)
 			else: controller.call_deferred("_resume_after_notebook", controller._prologue_surface_scope())
 		else:
 			# Never resume an old controller against a newly loaded slot.
@@ -201,6 +203,14 @@ func _leave_for_tool(action: Callable) -> void:
 	if not _same_live_scope(): return
 	_after_close = action
 	request_close()
+
+
+func _dispatch_tool(action: Callable) -> void:
+	# Closing the notebook and running its tool occupy different input frames.
+	if _invalid or not _same_live_scope() or not action.is_valid(): return
+	var controller = _controller.get_ref()
+	if controller._notebook_is_open() or controller._interaction_blocked() or action.get_object() != controller: return
+	action.call()
 
 
 func refresh() -> void:
@@ -267,7 +277,8 @@ func _current_scope() -> Dictionary:
 func _same_live_scope() -> bool:
 	var controller = _controller.get_ref()
 	if not is_instance_valid(controller) or not controller.is_inside_tree() or controller.is_queued_for_deletion() or controller._slot_id != _slot: return false
-	if controller.has_method("_make_session") and controller.session != null and controller.session.slot_id != _slot: return false
+	if controller.has_method("_make_session"):
+		if controller.session == null or controller.session.slot_id != _slot or controller.session.get_instance_id() != _session_id: return false
 	if int(game.load_epoch) != _scope.load_epoch: return false
 	if not _view_scope.is_empty() and view_profile != _view_scope.profile: return false
 	var namespace_now: String = "development" if _slot.begins_with("__dev_") else saves.get_build_flavor()

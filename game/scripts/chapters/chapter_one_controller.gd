@@ -463,7 +463,7 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 		if not completion.is_empty():
 			if _presentation_scope != _recorded_choice_scope(): return
 			session._presentation_commit_override = completion
-	var result := session.act(action, value)
+	var result := _act_with_modal_completion(action, value)
 	session._presentation_commit_override = {}
 	if result.get("ok", false):
 		_set_status("")
@@ -623,6 +623,17 @@ func _open_schedule_board() -> void:
 func _modal_act(action: String, value: Variant = null) -> void:
 	_close_modal()
 	_do(action, value)
+
+
+func _act_with_modal_completion(action: String, value: Variant) -> Dictionary:
+	if not _presentation_enabled() or _modal_dispatch_context.is_empty(): return session.act(action, value)
+	var cursor := _modal_cursor(_modal_dispatch_context, "completed")
+	if not cursor.ok: return {"ok": false, "text": _dialogue_ui_text("CH1_HISTORY_SAVE_ERROR")}
+	var previous: Dictionary = session._presentation_commit_override
+	session._presentation_commit_override = cursor.value
+	var result := session.act(action, value)
+	session._presentation_commit_override = previous
+	return result
 
 
 func _confirm_sleep() -> void:

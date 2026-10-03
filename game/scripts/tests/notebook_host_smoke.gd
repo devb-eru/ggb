@@ -44,6 +44,7 @@ func run(tree: SceneTree) -> Dictionary:
 		await _prologue(tree)
 	await _view_preferences(tree)
 	await _campaign(tree)
+	await _deferred_tools(tree)
 	await _visual_materials(tree)
 	await _physical(tree)
 	SaveManager.delete_test_slot(SLOT)
@@ -51,6 +52,38 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	print("NOTEBOOK_HOST_CHECKS: %d" % checks)
 	return {"ok": errors.is_empty(), "errors": errors, "not_covered": ["OS_IME", "native_mouse_keyboard_completion", "app_restart_gameplay_cursor"]}
+
+
+func _deferred_tools(tree: SceneTree) -> void:
+	for tool_id in ["CleanerQuantityTable", "ClockHintsButton"]:
+		for boundary in ["live", "reload", "slot", "session", "reopen", "menu"]:
+			var view = await _campaign_view(tree, "C3")
+			view._open_notebook()
+			var tool := view._notebook_host.panel.find_child(tool_id, true, false) as Button
+			_expect(tool != null, "deferred tool is exposed: " + tool_id)
+			var generation: int = view._choice_modal_generation
+			if tool != null: tool.pressed.emit()
+			_expect(not view._notebook_is_open() and not view._modal_active, "tool closes notebook before deferred dispatch: " + boundary)
+			match boundary:
+				"reload": _expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "reload between tool request and dispatch")
+				"slot": view._slot_id = "__test_notebook_other_slot"
+				"session": view.session = view._make_session()
+				"reopen": view._open_notebook()
+				"menu": view._open_menu()
+			var before := GameState.get_snapshot()
+			await tree.process_frame
+			await tree.process_frame
+			if boundary == "live":
+				_expect(view._modal_active and view._choice_modal_generation == generation + 1, "live tool executes exactly once: " + tool_id)
+			elif boundary == "menu":
+				_expect(view._modal_active and view._choice_modal_generation == generation + 1 and view._modal_body.get_child(0).text == view._dialogue_ui_text("UI_P_MENU"), "deferred tool cannot replace a newer menu: " + tool_id)
+			else:
+				_expect(not view._modal_active and view._choice_modal_generation == generation, "stale tool cannot open or replace a surface: " + tool_id + " / " + boundary)
+			if boundary == "reopen": _expect(view._notebook_is_open(), "older tool cannot replace the newly opened notebook")
+			_expect(GameState.get_snapshot() == before, "tool dispatch neither reveals a hint nor mutates gameplay: " + boundary)
+			view.queue_free()
+			await tree.process_frame
+			await tree.process_frame
 
 
 func _view_preferences(tree: SceneTree) -> void:
