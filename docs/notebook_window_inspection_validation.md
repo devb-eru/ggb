@@ -68,7 +68,9 @@ godot --headless --path <empty> --main-pack <notebook.pck> -- --notebook-prologu
 
 `--prologue-smoke --ggb-dev-notebook-v2` 조합은 실패했다. `prologue_scene_smoke.gd`의 P4 fixture는 `_dismiss_dialogue_for_test`로 표시만 닫은 뒤 진행 변수를 직접 바꿔 이전 P1 커서를 유지한다. 새 모드가 저장된 대사를 우선 복원하므로, 이 fixture의 구형 P4 자동 재개 가정과 충돌한다. 또한 588행의 `HistoryTranscript` 직접 접근은 공통 수첩 호스트 경로에서 null을 참조한다. 작성 정보 없는 임의 문자열 대사도 새 authored 커서 fixture와 구별해야 한다.
 
-이 실행을 제품 회귀 PASS에 포함하지 않는다. 후속 정비는 실제 대사 완료/새 표시 경로로 fixture를 만들고, 공통 수첩 조회·닫기 API를 사용하며, 임의 raw 대사와 authored 대사의 계약을 나누는 것이다. 기존 단언을 삭제하거나 제품 코드가 오래된 테스트를 우회하도록 바꾸지 않는다. 이번 단계에서는 구형 종합 검사를 기존 모드로 실행하고, 새 모드는 별도 프롤로그 원고/표시/커서 검사로 검증한다. 해당 조합의 전면 정비는 미완료다.
+이 실행을 제품 회귀 PASS에 포함하지 않는다. 당시 후속 정비안은 실제 대사 완료/새 표시 경로로 fixture를 만들고, 공통 수첩 조회·닫기 API를 사용하며, 임의 raw 대사와 authored 대사의 계약을 나누는 것이었다. 기존 단언을 삭제하거나 제품 코드가 오래된 테스트를 우회하도록 바꾸지 않는다. 창문 단계에서는 구형 종합 검사를 기존 모드로 실행하고, 새 모드는 별도 프롤로그 원고/표시/커서 검사로 검증했다.
+
+후속 [프롤로그 종합 회귀 정비](notebook_prologue_regression_validation.md)에서 해당 조합을 수정·재실행하여 v2와 기존 모드 모두 통과했다. 이 해결은 별도 후속 패키지의 결과이며 위 창문 패키지의 실패 이력을 덮어쓰지 않는다. UI 내부 라인 번호는 당시 `60aabc1` 기준이다.
 
 ## 한계와 후속 범위
 

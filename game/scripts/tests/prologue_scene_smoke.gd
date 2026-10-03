@@ -1,5 +1,6 @@
 extends RefCounted
 
+var checks := 0
 
 func _history_text(entry: Dictionary) -> String:
 	if entry.get("record_class") == "authored":
@@ -18,6 +19,35 @@ const CAPTURE_P3_FILE := "user://p3_journal_choice_1280x720.png"
 const CAPTURE_P4_ARG := "--capture-p4-father-choice"
 const CAPTURE_P4_FILE := "user://p4_father_choice_1280x720.png"
 const RESET_TEST_SLOT := "__test_prologue_reset"
+
+class ControlledSave extends Node:
+	var reject := false
+	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		if reject: return {"ok": false, "error_ids": ["ERR_TEST_PROLOGUE_SAVE"]}
+		return SaveManager.save_snapshot(slot, point, state, revision, transaction)
+	func confirm_snapshot_commit(slot: String, transaction: String) -> Dictionary:
+		return SaveManager.confirm_snapshot_commit(slot, transaction)
+
+
+func _drain_dialogue(view: Node, errors: PackedStringArray) -> void:
+	for index in range(128):
+		if not view._dialogue_active: return
+		var before := [view._dialogue_lines.duplicate(true), view._dialogue_index]
+		view._advance_dialogue()
+		if view._dialogue_active and before == [view._dialogue_lines, view._dialogue_index]:
+			_expect(false, "Dialogue cannot advance: " + view._status_label.text, errors)
+			return
+	_expect(false, "Dialogue exceeded bounded continuation", errors)
+
+
+func _raw_line(view: Node, text: String) -> Dictionary:
+	return {"speaker": "주인공", "text": text, "history_context": {"node_id": "P3", "chapter_id": "PROLOGUE", "location_id": view._current_room}}
+
+
+func _reject_save(view: Node, saves: ControlledSave, reject: bool, invalid_slot: String = "") -> void:
+	saves.reject = reject
+	# V2 callbacks must retain the original scope while persistence fails.
+	view._slot_id = invalid_slot if reject and not view._prologue_cursor_enabled() else RESET_TEST_SLOT
 
 class DisplayFixture extends RefCounted:
 	var state := {"mode": "windowed", "width": 1280, "height": 720}
@@ -450,6 +480,7 @@ func run(tree: SceneTree) -> Dictionary:
 	await tree.process_frame
 	await _validate_p4_resume_and_choices(tree, errors)
 	await _validate_reset_integration(tree, errors)
+	print("PROLOGUE_SCENE_CHECKS: ", checks)
 	return {"ok": errors.is_empty(), "errors": errors}
 
 
@@ -497,29 +528,33 @@ func _validate_p4_resume_and_choices(tree: SceneTree, errors: PackedStringArray)
 	scene.configure_session(SLOT, "P1_ENTRY", false)
 	tree.root.add_child(scene)
 	await tree.process_frame
-	scene._dismiss_dialogue_for_test()
+	_drain_dialogue(scene, errors)
 	for event_id in ["P1_complete", "P2_complete", "P3_complete", "P3B_complete"]:
 		scene._progress[event_id] = true
 	scene._progress["intros_seen"] = ["P4"]
 	scene._progress["tea_step"] = scene.TEA_STEPS.size()
 	scene._progress["p4_phase"] = "memory_anchor"
 	scene._progress["p4_memory_anchor_seen"] = true
-	scene._current_room = "M1_KITCHEN"
-	scene._progress["current_room"] = "M1_KITCHEN"
+	scene._enter_room("M1_KITCHEN")
+	_expect(scene._prologue_surface_allowed(), "P4 fixture room observations saved", errors)
+	scene._resume_p4_memory_anchor()
 	_expect(scene._save_progress(), "P4 interrupted memory save failed", errors)
 	scene.queue_free()
 	await tree.process_frame
 	GameState.reset_for_test()
 	var load_result := LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT)
 	_expect(bool(load_result.get("ok", false)), "P4 interrupted memory load failed", errors)
+	var loaded_state := GameState.get_snapshot()
 	scene = PROLOGUE_SCENE.instantiate()
 	scene.configure_session(SLOT, "P1_ENTRY", false)
 	tree.root.add_child(scene)
 	await tree.process_frame
 	await tree.process_frame
 	_expect(scene._dialogue_active and scene._dialogue_lines.size() == 7, "P4 memory sensory sequence was skipped after reload", errors)
-	while scene._dialogue_active:
-		scene._advance_dialogue()
+	if scene._prologue_cursor_enabled():
+		_expect(StateSnapshotValidator.same_persisted_value(loaded_state, GameState.get_snapshot()), "P4 cursor restoration preserves the complete snapshot without duplicate observations", errors)
+		_expect(scene._dialogue_lines[0].notebook_content.content_id == "NB_PR_P4_MEMORY_GROOVE", "P4 reload resumes the authored memory rather than stale P1", errors)
+	_drain_dialogue(scene, errors)
 	_expect(scene._progress["p4_phase"] == "memory_anchor_ready", "P4 memory completion was not persisted", errors)
 	scene._on_tea_step(0)
 	_expect(scene._progress["tea_step"] == scene.TEA_STEPS.size(), "P4 repeated tea input changed completed steps", errors)
@@ -538,8 +573,7 @@ func _validate_p4_resume_and_choices(tree: SceneTree, errors: PackedStringArray)
 		_expect(scene._dialogue_active and scene._dialogue_lines[0]["text"] == scene.P4_FATHER_CHOICES[choice_id]["response"], "P4 answer resume failed: " + choice_id, errors)
 		scene._answer_p4_father_choice("father_tea")
 		_expect(scene._progress["p4_father_question"] == choice_id, "P4 second question replaced selection", errors)
-		while scene._dialogue_active:
-			scene._advance_dialogue()
+		_drain_dialogue(scene, errors)
 		_expect(scene._progress["P4_complete"] and scene._progress["iris_greeting_seen"], "P4 choice did not reach evening: " + choice_id, errors)
 	scene.queue_free()
 	await tree.process_frame
@@ -559,7 +593,9 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	bootstrap.add_child(prologue)
 	await tree.process_frame
 	await tree.process_frame
-	prologue._dismiss_dialogue_for_test()
+	_drain_dialogue(prologue, errors)
+	var controlled := ControlledSave.new()
+	prologue._prologue_surface_saves = controlled
 	var before_failed_sleep: Dictionary = prologue._progress.duplicate(true)
 	var choice_start: int = GameState.get_value(&"meta_progress.dialogue_history.entries", []).size()
 	var shown_label: String = prologue._dialogue_ui_text("P3_Q_AUTHOR")
@@ -567,10 +603,10 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	prologue._show_dialogue_choice_set("p3_journal", prologue._dialogue_ui_text("P3_HEADER"), "주인공", prologue._dialogue_ui_text("P3_PROMPT"), "", ["author"], prologue._localized_p3_choices())
 	var shown_choices: Array = GameState.get_value(&"meta_progress.dialogue_history.entries", [])
 	_expect(shown_choices.size() == choice_start + 1 and _history_text(shown_choices.back()).contains(shown_label) and not _history_text(shown_choices.back()).contains(hidden_label), "Choice history includes only displayed options", errors)
-	prologue._slot_id = "../invalid_choice_history"
+	_reject_save(prologue, controlled, true, "../invalid_choice_history")
 	prologue._dialogue_choice_buttons[0].pressed.emit()
 	_expect(prologue._dialogue_choice_active and GameState.get_value(&"meta_progress.dialogue_history.entries", []).size() == choice_start + 1, "Failed selected-option save keeps choices open", errors)
-	prologue._slot_id = RESET_TEST_SLOT
+	_reject_save(prologue, controlled, false)
 	prologue._dialogue_choice_buttons[0].pressed.emit()
 	var selected_choices: Array = GameState.get_value(&"meta_progress.dialogue_history.entries", [])
 	_expect(selected_choices.size() == choice_start + 3 and _history_text(selected_choices[choice_start + 1]) == shown_label, "Choice retry records selection once before displayed answer", errors)
@@ -578,36 +614,60 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	before_failed_sleep = prologue._progress.duplicate(true)
 	var history_count: int = GameState.get_value(&"meta_progress.dialogue_history.entries", []).size()
 	var before_point := String(SaveManager.inspect_slot(RESET_TEST_SLOT).get("save_point_id", ""))
-	prologue._show_dialogue([{"speaker": "주인공", "text": "Prologue shown line"}, {"speaker": "주인공", "text": "Prologue unseen line"}])
+	prologue._show_dialogue([_raw_line(prologue, "Prologue shown line"), _raw_line(prologue, "Prologue unseen line")])
 	_expect(GameState.get_value(&"meta_progress.dialogue_history.entries", []).size() == history_count + 1, "Prologue only records displayed sentence", errors)
+	if prologue._prologue_cursor_enabled():
+		_expect(GameState.get_snapshot().meta_progress.dialogue_history.entries.back().record_class == "unmapped", "Raw fixture stays unmapped rather than claiming authored coverage", errors)
 	_expect(SaveManager.inspect_slot(RESET_TEST_SLOT).get("save_point_id", "") == before_point, "Prologue history preserves existing save point", errors)
 	prologue._dismiss_dialogue_for_test()
 	var before_history_menu := GameState.get_snapshot()
 	prologue._open_menu()
-	(prologue._modal_body.get_child(4) as Button).pressed.emit()
-	var history_body := (prologue._modal_body.find_child("HistoryTranscript", true, false) as Label).text
-	_expect(history_body.contains("Prologue shown line") and not history_body.contains("Prologue unseen line"), "Prologue menu displays viewed history only", errors)
-	(prologue._modal_body.get_node("HistoryClose") as Button).pressed.emit()
+	prologue._open_dialogue_history()
+	if prologue._notebook_is_open():
+		var host = prologue._notebook_host
+		var records: Dictionary = host.model.page({"tab": "dialogue"}, 0, host.model.cache_key())
+		var shown: Array = records.items.filter(func(row: Dictionary) -> bool: return host.model.detail(row.key, host.model.cache_key()).text.contains("Prologue shown line"))
+		_expect(shown.size() == 1 and not records.items.any(func(row: Dictionary) -> bool: return host.model.detail(row.key, host.model.cache_key()).text.contains("Prologue unseen line")), "Common notebook exposes only displayed sentence", errors)
+		if not shown.is_empty():
+			host.panel.show_detail(shown[0].key)
+			var visible_text := ""
+			var body: Node = host.panel._detail.find_child("NotebookMaterialBody", true, false)
+			_expect(body != null, "Common notebook material body exists", errors)
+			if body != null:
+				for label in body.get_children():
+					if label is Label or label is RichTextLabel: visible_text += label.text
+			_expect(visible_text.contains("Prologue shown line") and not visible_text.contains("Prologue unseen line"), "Common notebook renders only displayed sentence", errors)
+		host.request_close()
+		await tree.process_frame
+		await tree.process_frame
+		_expect(not prologue._notebook_is_open(), "Common notebook returns to prologue", errors)
+	else:
+		var body := prologue._modal_body.find_child("HistoryTranscript", true, false) as Label
+		_expect(body != null, "Legacy transcript exists", errors)
+		if body != null:
+			_expect(body.text.contains("Prologue shown line") and not body.text.contains("Prologue unseen line"), "Prologue menu displays viewed history only", errors)
+		(prologue._modal_body.get_node("HistoryClose") as Button).pressed.emit()
 	_expect(GameState.get_snapshot() == before_history_menu, "Prologue history menu is read only", errors)
-	prologue._slot_id = "../invalid_sleep_slot"
+	prologue._close_modal()
+	_reject_save(prologue, controlled, true, "../invalid_sleep_slot")
 	var before_history_failure := GameState.get_snapshot()
-	prologue._show_dialogue([{"speaker": "주인공", "text": "History retry first"}, {"speaker": "주인공", "text": "History retry second"}])
+	prologue._show_dialogue([_raw_line(prologue, "History retry first"), _raw_line(prologue, "History retry second")])
 	_expect(GameState.get_snapshot() == before_history_failure, "Failed prologue history save rolls back state", errors)
 	prologue._dialogue_next.pressed.emit()
 	_expect(prologue._dialogue_index == 0 and GameState.get_snapshot() == before_history_failure, "Failed history retry cannot skip current prologue sentence", errors)
-	prologue._slot_id = RESET_TEST_SLOT
+	_reject_save(prologue, controlled, false)
 	prologue._dialogue_next.pressed.emit()
 	_expect(prologue._dialogue_index == 1, "Recovered prologue history advances one sentence", errors)
 	var retried_history: Array = GameState.get_value(&"meta_progress.dialogue_history.entries", [])
 	_expect(retried_history.size() == before_history_failure["meta_progress"]["dialogue_history"]["entries"].size() + 2, "Prologue retry records each shown sentence once", errors)
 	prologue._dialogue_next.pressed.emit()
 	_expect(not prologue._dialogue_active, "Recovered prologue dialogue can finish", errors)
-	prologue._slot_id = "../invalid_sleep_slot"
+	_reject_save(prologue, controlled, true, "../invalid_sleep_slot")
 	prologue._begin_first_sleep()
 	_expect(prologue._progress == before_failed_sleep, "Failed sleep restores local completion and notes", errors)
 	_expect(not prologue._dialogue_active, "Failed sleep does not begin transition dialogue", errors)
 	_expect(not GameState.get_value(&"meta_progress.knowledge_entries", {}).get("PROLOGUE_COMPLETE", false), "Failed sleep does not persist completion", errors)
-	prologue._slot_id = RESET_TEST_SLOT
+	_reject_save(prologue, controlled, false)
 	_expect(prologue._save_progress(), "Ordinary save after failed sleep succeeds", errors)
 	_expect(not GameState.get_value(&"meta_progress.knowledge_entries", {}).get("PROLOGUE_COMPLETE", false), "Later ordinary save does not leak failed completion", errors)
 	prologue._begin_first_sleep()
@@ -641,11 +701,13 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	_expect("주방의 규칙적인 진동" in knowledge.get("prologue_notebook_entries", []), "normal reset lost written notebook text", errors)
 	prologue.queue_free()
 	await tree.process_frame
+	controlled.free()
 	SaveManager.delete_test_slot(RESET_TEST_SLOT)
 	GameState.reset_for_test()
 
 
 func _expect(condition: bool, message: String, errors: PackedStringArray) -> void:
+	checks += 1
 	if not condition:
 		errors.append(message)
 
