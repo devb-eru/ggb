@@ -67,14 +67,22 @@ func _draw() -> void:
 	if drawing.is_empty(): return
 	var ink := Color(0.93, 0.93, 0.90)
 	for path in drawing.paths:
+		var width: float = path.width * float(view.zoom)
 		for index in range(path.points.size() - 1):
-			if path.dashed: draw_dashed_line(_point(path.points[index]), _point(path.points[index + 1]), ink, path.width, 7.0)
-			else: draw_line(_point(path.points[index]), _point(path.points[index + 1]), ink, path.width, true)
+			if path.dashed: draw_dashed_line(_point(path.points[index]), _point(path.points[index + 1]), ink, width, 7.0)
+			else: draw_line(_point(path.points[index]), _point(path.points[index + 1]), ink, width, true)
 	for circle in drawing.circles:
 		var radius: float = circle.radius * minf(size.x, size.y) / 9.0 * float(view.zoom)
-		if circle.dashed:
+		if circle.get("filled", false):
+			draw_circle(_point(circle.point), radius, ink, true, -1, true)
+		elif circle.dashed:
 			for index in range(12): draw_arc(_point(circle.point), radius, TAU * index / 12, TAU * (index + 0.6) / 12, 5, ink, circle.width, true)
 		else: draw_arc(_point(circle.point), radius, 0, TAU, 64, ink, circle.width, true)
 	for point in drawing.squares:
 		draw_rect(Rect2(_point(point) - Vector2(7, 7), Vector2(14, 14)), ink, false, 2)
+	var font := get_theme_font("font")
+	for line in drawing.get("text_runs", []):
+		var natural := font.get_string_size(line.text, HORIZONTAL_ALIGNMENT_LEFT, -1, 24).x
+		var fit := minf(1.0, minf(size.x, size.y) * 7.0 / 9.0 / maxf(natural, 1.0))
+		draw_string(font, _point(line.point), line.text, HORIZONTAL_ALIGNMENT_LEFT, -1, maxi(8, roundi(24.0 * fit * float(view.zoom))), ink)
 	if has_focus(): draw_rect(Rect2(Vector2(2, 2), size - Vector2(4, 4)), Color.WHITE, false, 2)

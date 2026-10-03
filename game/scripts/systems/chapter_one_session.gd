@@ -150,7 +150,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			if room != "M2_BEDROOM" or stage() != "A1" or not MARKS.has(String(value)):
 				return _reject("지금은 새 표식을 작성할 수 없다.")
 			knowledge["self_authored_mark"] = {"type": String(value), "text": MARKS[String(value)], "day": int(loop["day_index"])}
-			var written := _write_note(state, "A1", "A1_" + String(value).to_upper(), "자기 표식: %s\n다음 아침에 동일성을 확인한다." % MARKS[String(value)], event_context)
+			var written := _write_note(state, "A1", "A1_" + String(value).to_upper(), NOTEBOOK_NOTES.mark_text(String(value)), event_context)
 			if not written.ok: return written
 			text = NOTEBOOK_FEEDBACK.FIXED.MARK
 			notebook_id = "MARK"

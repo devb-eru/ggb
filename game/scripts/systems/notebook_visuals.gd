@@ -2,6 +2,7 @@ extends RefCounted
 
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ORIGINALS := {"NB_CH1_NOTE_B4": "wave", "NB_MIRROR_NOTE_C5_INFO": "circuit", "NB_BASEMENT_NOTE_D4": "ports"}
+const SELF_MARKS := ["NB_CH1_NOTE_A1_SENTENCE", "NB_CH1_NOTE_A1_HOUSE_GLYPH", "NB_CH1_NOTE_A1_INK_CORNER"]
 const CORE := ["NB_CORE_SCREEN_C_LAYER_B4", "NB_CORE_SCREEN_C_LAYER_C5", "NB_CORE_SCREEN_C_LAYER_D4"]
 const OVERLAYS := ["NB_PUZZLE_OVERLAY_0", "NB_PUZZLE_OVERLAY_1", "NB_PUZZLE_OVERLAY_2", "NB_PUZZLE_OVERLAY_3", "NB_PUZZLE_OVERLAY_4"]
 const BRANCHES := [[[0, 1], [0, -0.1]], [[0, -0.1], [-0.6, -0.45]], [[0, -0.1], [1, -0.55]]]
@@ -10,8 +11,9 @@ const BRANCHES := [[[0, 1], [0, -0.1]], [[0, -0.1], [-0.6, -0.45]], [[0, -0.1], 
 static func supports(entry: Dictionary, segment: String) -> bool:
 	if entry.get("record_class") != "authored": return false
 	var observed: Dictionary = entry.observation
-	if int(observed.content_version) != 1: return false
 	if not observed.segments.any(func(part: Dictionary) -> bool: return part.segment_id == segment): return false
+	if observed.content_id in SELF_MARKS: return int(observed.content_version) == 2 and segment == "body"
+	if int(observed.content_version) != 1: return false
 	return (segment == "body" and (ORIGINALS.has(observed.content_id) or observed.content_id in CORE)) or (segment == "state" and observed.content_id in OVERLAYS)
 
 
@@ -24,13 +26,29 @@ static func material(entry: Dictionary, segment: String, locale: String) -> Dict
 	var part: Dictionary = observed.segments.filter(func(value: Dictionary) -> bool: return value.segment_id == segment)[0]
 	var en := locale.begins_with("en")
 	var result := {"paths": [], "circles": [], "squares": [], "title": "", "description": "", "version": 1}
-	if ORIGINALS.has(observed.content_id):
+	if observed.content_id in SELF_MARKS:
+		if not _self_mark(result, CONTENT.definition(observed.content_id, 2).get("visual", {}), part.viewed_locale, en): return {}
+	elif ORIGINALS.has(observed.content_id):
 		_original(result, ORIGINALS[observed.content_id], en)
 	elif observed.content_id in CORE:
 		if not _core(result, CONTENT.definition(observed.content_id, 1).get("visual", {}), part.safe_variables, en): return {}
 	else:
 		if not _overlay(result, part.safe_variables, en): return {}
 	return result
+
+
+static func _self_mark(result: Dictionary, visual: Dictionary, original_locale: String, en: bool) -> bool:
+	if visual.get("kind") != "self_mark_v2" or not visual.has_all(["paths", "circles", "squares", "text_runs", "description"]): return false
+	for field in ["paths", "circles", "squares"]: result[field] = visual[field].duplicate(true)
+	var language := "en-US" if original_locale.begins_with("en") else "ko-KR"
+	result.text_runs = visual.text_runs[language].duplicate(true)
+	result.title = "The mark I wrote" if en else "직접 남긴 표식"
+	result.version = 2
+	result.description = visual.description["en-US" if en else "ko-KR"]
+	if visual.mark_type == "sentence":
+		result.description += "\n" + ("The image keeps the language used when writing. The record text supplies the current-language reading; type outlines are not a measured handwriting facsimile." if en else "그림은 작성 당시 언어를 유지합니다. 현재 언어의 내용은 기록 원문에서 읽을 수 있으며, 글자 윤곽은 실제 필체를 측정한 복제본이 아닙니다.")
+	result.description += "\n" + ("Inspecting this record does not change what was written or confirm that it survives the following morning." if en else "이 기록을 살펴보는 것만으로 원래 표시가 바뀌거나 다음 아침의 유지가 확정되지는 않습니다.")
+	return true
 
 
 static func _original(result: Dictionary, kind: String, en: bool) -> void:

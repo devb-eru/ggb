@@ -1,0 +1,494 @@
+{
+	"format_version": 1,
+	"contents": {
+		"NB_CH1_NOTE_A1_HOUSE_GLYPH": {
+			"2": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "A1",
+				"knowledge": {
+					"category": "hypothesis",
+					"epistemic_state": "hypothesis",
+					"knowledge_id": "CH1_SELF_MARK",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"legacy_key": "A1",
+				"locales": {
+					"en-US": {
+						"body": "My mark: Three windows, a pointed roof, a door leaning left\nCheck that it is unchanged the following morning.\nI drew the roof first, then the body and three windows, and finally a door leaning left. The roof apex and lower door have thicker strokes where I pressed harder, with shallow impressions in the paper.",
+						"speaker": "Notebook",
+						"summary": "The mark experiment",
+						"title": "The mark experiment"
+					},
+					"ko-KR": {
+						"body": "자기 표식: 창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문\n다음 아침에 동일성을 확인한다.\n지붕을 먼저 긋고 몸체와 창문 셋을 그린 뒤, 왼쪽으로 기운 문을 덧그렸다. 지붕 꼭짓점과 문 아래쪽은 힘이 실려 선이 두껍고, 종이에 얕은 눌림이 남았다.",
+						"speaker": "수첩",
+						"summary": "표식 실험",
+						"title": "표식 실험"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_CH1_NOTE_A1_HOUSE_GLYPH_V2"
+				},
+				"location_source": "history_context:captured_before_commit",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP06",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "scripts/systems/chapter_one_session.gd",
+				"source_knowledge_ids": [],
+				"source_symbol": "act/mark:authored_v2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				],
+				"visual": {
+					"kind": "self_mark_v2",
+					"mark_type": "house_glyph",
+					"paths": [
+						{
+							"points": [
+								[
+									-2.4,
+									-0.8
+								],
+								[
+									0,
+									-2.6
+								],
+								[
+									2.4,
+									-0.8
+								]
+							],
+							"width": 3,
+							"dashed": false
+						},
+						{
+							"points": [
+								[
+									-2,
+									-0.8
+								],
+								[
+									-2,
+									2
+								],
+								[
+									2,
+									2
+								],
+								[
+									2,
+									-0.8
+								]
+							],
+							"width": 2,
+							"dashed": false
+						},
+						{
+							"points": [
+								[
+									-1.5,
+									-0.4
+								],
+								[
+									-0.8999999999999999,
+									-0.4
+								],
+								[
+									-0.8999999999999999,
+									0.3
+								],
+								[
+									-1.5,
+									0.3
+								],
+								[
+									-1.5,
+									-0.4
+								]
+							],
+							"width": 2,
+							"dashed": false
+						},
+						{
+							"points": [
+								[
+									-0.3,
+									-0.4
+								],
+								[
+									0.3,
+									-0.4
+								],
+								[
+									0.3,
+									0.3
+								],
+								[
+									-0.3,
+									0.3
+								],
+								[
+									-0.3,
+									-0.4
+								]
+							],
+							"width": 2,
+							"dashed": false
+						},
+						{
+							"points": [
+								[
+									0.8999999999999999,
+									-0.4
+								],
+								[
+									1.5,
+									-0.4
+								],
+								[
+									1.5,
+									0.3
+								],
+								[
+									0.8999999999999999,
+									0.3
+								],
+								[
+									0.8999999999999999,
+									-0.4
+								]
+							],
+							"width": 2,
+							"dashed": false
+						},
+						{
+							"points": [
+								[
+									-0.7,
+									2
+								],
+								[
+									-0.9,
+									0.7
+								],
+								[
+									0.1,
+									0.7
+								],
+								[
+									0.3,
+									2
+								]
+							],
+							"width": 4,
+							"dashed": false
+						},
+						{
+							"points": [
+								[
+									-0.4,
+									-2.3
+								],
+								[
+									0,
+									-2.6
+								],
+								[
+									0.4,
+									-2.3
+								]
+							],
+							"width": 4,
+							"dashed": false
+						}
+					],
+					"circles": [],
+					"squares": [],
+					"text_runs": {
+						"ko-KR": [],
+						"en-US": []
+					},
+					"description": {
+						"ko-KR": "지붕을 먼저 긋고 몸체와 창문 셋을 그린 뒤, 왼쪽으로 기운 문을 덧그렸다. 지붕 꼭짓점과 문 아래쪽은 힘이 실려 선이 두껍고, 종이에 얕은 눌림이 남았다.",
+						"en-US": "I drew the roof first, then the body and three windows, and finally a door leaning left. The roof apex and lower door have thicker strokes where I pressed harder, with shallow impressions in the paper."
+					}
+				}
+			}
+		},
+		"NB_CH1_NOTE_A1_INK_CORNER": {
+			"2": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "A1",
+				"knowledge": {
+					"category": "hypothesis",
+					"epistemic_state": "hypothesis",
+					"knowledge_id": "CH1_SELF_MARK",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"legacy_key": "A1",
+				"locales": {
+					"en-US": {
+						"body": "My mark: A drop of ink at the corner of the page\nCheck that it is unchanged the following morning.\nI touched the page corner once, touched again a little farther in, then placed the final ink dot. The spread around the last dot is uneven. The straight corner lines are paper edges, not strokes of the mark.",
+						"speaker": "Notebook",
+						"summary": "The mark experiment",
+						"title": "The mark experiment"
+					},
+					"ko-KR": {
+						"body": "자기 표식: 페이지 모서리의 잉크 한 방울\n다음 아침에 동일성을 확인한다.\n페이지 모서리에 한 번 닿고, 조금 안쪽에 다시 닿은 뒤 마지막 잉크점을 찍었다. 마지막 점 주변의 번짐은 고르지 않다. 곧은 모서리 선은 종이의 경계이며 표식의 획이 아니다.",
+						"speaker": "수첩",
+						"summary": "표식 실험",
+						"title": "표식 실험"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_CH1_NOTE_A1_INK_CORNER_V2"
+				},
+				"location_source": "history_context:captured_before_commit",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP06",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "scripts/systems/chapter_one_session.gd",
+				"source_knowledge_ids": [],
+				"source_symbol": "act/mark:authored_v2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				],
+				"visual": {
+					"kind": "self_mark_v2",
+					"mark_type": "ink_corner",
+					"paths": [
+						{
+							"points": [
+								[
+									2.4,
+									-2.6
+								],
+								[
+									2.4,
+									2.4
+								],
+								[
+									-2.6,
+									2.4
+								]
+							],
+							"width": 1,
+							"dashed": true
+						},
+						{
+							"points": [
+								[
+									1.25,
+									1
+								],
+								[
+									1.5,
+									0.88
+								],
+								[
+									1.69,
+									1.12
+								],
+								[
+									1.91,
+									1.04
+								],
+								[
+									2.01,
+									1.32
+								],
+								[
+									1.86,
+									1.58
+								],
+								[
+									1.59,
+									1.68
+								],
+								[
+									1.4,
+									1.45
+								],
+								[
+									1.2,
+									1.48
+								],
+								[
+									1.25,
+									1
+								]
+							],
+							"width": 2,
+							"dashed": false
+						}
+					],
+					"circles": [
+						{
+							"point": [
+								2.25,
+								2.25
+							],
+							"radius": 0.08,
+							"width": 2,
+							"dashed": false,
+							"filled": true
+						},
+						{
+							"point": [
+								1.95,
+								1.94
+							],
+							"radius": 0.13,
+							"width": 2,
+							"dashed": false,
+							"filled": true
+						},
+						{
+							"point": [
+								1.61,
+								1.3
+							],
+							"radius": 0.25,
+							"width": 2,
+							"dashed": false,
+							"filled": true
+						}
+					],
+					"squares": [],
+					"text_runs": {
+						"ko-KR": [],
+						"en-US": []
+					},
+					"description": {
+						"ko-KR": "페이지 모서리에 한 번 닿고, 조금 안쪽에 다시 닿은 뒤 마지막 잉크점을 찍었다. 마지막 점 주변의 번짐은 고르지 않다. 곧은 모서리 선은 종이의 경계이며 표식의 획이 아니다.",
+						"en-US": "I touched the page corner once, touched again a little farther in, then placed the final ink dot. The spread around the last dot is uneven. The straight corner lines are paper edges, not strokes of the mark."
+					}
+				}
+			}
+		},
+		"NB_CH1_NOTE_A1_SENTENCE": {
+			"2": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "A1",
+				"knowledge": {
+					"category": "hypothesis",
+					"epistemic_state": "hypothesis",
+					"knowledge_id": "CH1_SELF_MARK",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"legacy_key": "A1",
+				"locales": {
+					"en-US": {
+						"body": "My mark: Tomorrow morning, read this sentence.\nCheck that it is unchanged the following morning.\nI wrote 'Tomorrow morning,', followed by 'read this sentence.' The detailed shape and depth of the handwriting were not measured separately.",
+						"speaker": "Notebook",
+						"summary": "The mark experiment",
+						"title": "The mark experiment"
+					},
+					"ko-KR": {
+						"body": "자기 표식: 내일 아침, 이 문장을 읽어.\n다음 아침에 동일성을 확인한다.\n'내일 아침,'을 쓰고, '이 문장을', '읽어.'를 이어 썼다. 획과 압흔의 세부 형태는 별도로 측정하지 않았다.",
+						"speaker": "수첩",
+						"summary": "표식 실험",
+						"title": "표식 실험"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_CH1_NOTE_A1_SENTENCE_V2"
+				},
+				"location_source": "history_context:captured_before_commit",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP06",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "scripts/systems/chapter_one_session.gd",
+				"source_knowledge_ids": [],
+				"source_symbol": "act/mark:authored_v2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				],
+				"visual": {
+					"kind": "self_mark_v2",
+					"mark_type": "sentence",
+					"paths": [],
+					"circles": [],
+					"squares": [],
+					"text_runs": {
+						"ko-KR": [
+							{
+								"point": [
+									-3.5,
+									-1
+								],
+								"text": "내일 아침,"
+							},
+							{
+								"point": [
+									-3.5,
+									0.5
+								],
+								"text": "이 문장을 읽어."
+							}
+						],
+						"en-US": [
+							{
+								"point": [
+									-3.5,
+									-1
+								],
+								"text": "Tomorrow morning,"
+							},
+							{
+								"point": [
+									-3.5,
+									0.5
+								],
+								"text": "read this sentence."
+							}
+						]
+					},
+					"description": {
+						"ko-KR": "'내일 아침,'을 쓰고, '이 문장을', '읽어.'를 이어 썼다. 획과 압흔의 세부 형태는 별도로 측정하지 않았다.",
+						"en-US": "I wrote 'Tomorrow morning,', followed by 'read this sentence.' The detailed shape and depth of the handwriting were not measured separately."
+					}
+				}
+			}
+		}
+	}
+}
