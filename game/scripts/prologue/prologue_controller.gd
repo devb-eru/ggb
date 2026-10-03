@@ -23,6 +23,7 @@ const WINDOW_INSPECTION_ART_SCRIPT := preload("res://scripts/prologue/prologue_w
 const INVENTORY_DRAG_SLOT_SCRIPT := preload("res://scripts/ui/inventory_drag_slot.gd")
 const INVENTORY_DROP_TARGET_SCRIPT := preload("res://scripts/ui/inventory_drop_target.gd")
 const PROLOGUE_SURFACES := preload("res://scripts/systems/notebook_prologue_surfaces.gd")
+const PROLOGUE_CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
 
 const ROOM_NAMES := {
 	"M2_BEDROOM": "주인공의 침실",
@@ -157,6 +158,14 @@ var _choice_history_recorded := false
 var _choice_history_context: Dictionary = {}
 var _choice_selected_tokens: Dictionary = {}
 var _prologue_confirmation: Dictionary = {}
+var _prologue_cursor_scope: Dictionary = {}
+var _prologue_restoring_room := false
+var _prologue_restored_cursor: Dictionary = {}
+var _prologue_choice_capture: Dictionary = {}
+var _prologue_dispatch_active := false
+var _prologue_dispatch_point := "SAVE_NEW_GAME"
+var _prologue_dispatch_complete := false
+var _prologue_dispatch_surfaces: Array = []
 var _dialogue_after := Callable()
 var _dialogue_active := false
 var _modal_active := false
@@ -227,7 +236,7 @@ func _resume_after_notebook(scope: Dictionary) -> void:
 
 
 func _prologue_surface_enabled() -> bool:
-	return _uses_prologue_history() and not _is_prologue_complete() and preload("res://scripts/systems/notebook_rollout.gd").enabled() and GameState.get_value("meta_progress.dialogue_history.schema_version",0) == 2
+	return not _prologue_restoring_room and _uses_prologue_history() and not _is_prologue_complete() and preload("res://scripts/systems/notebook_rollout.gd").enabled() and GameState.get_value("meta_progress.dialogue_history.schema_version",0) == 2
 
 
 func _prologue_surface_node() -> String:
@@ -244,6 +253,9 @@ func _prologue_surface_scope() -> Dictionary:
 
 
 func _begin_prologue_surfaces() -> void:
+	if _prologue_restoring_room:
+		_prologue_surfaces.begin({})
+		return
 	if not _prologue_surface_enabled(): return
 	_flush_prologue_surfaces(_prologue_surfaces.generation)
 	_clear_prologue_surface_retry()
@@ -276,6 +288,15 @@ func _prologue_surface_allowed() -> bool:
 
 
 func _flush_prologue_surfaces(generation: int, explicit_retry: bool = false) -> bool:
+	if _prologue_restoring_room: return true
+	if _prologue_dispatch_active:
+		if not _dialogue_active and not _dialogue_choice_active and not _modal_active:
+			for id in _prologue_surfaces.requests:
+				var request: Dictionary = _prologue_surfaces.requests[id]
+				if request.recorded or (id not in _prologue_surfaces.active and not request.attempted): continue
+				if not _prologue_dispatch_surfaces.any(func(item: Dictionary) -> bool: return item.context.presentation_token == request.context.presentation_token):
+					_prologue_dispatch_surfaces.append(request)
+		return true
 	if _notebook_is_open(): return false
 	if not _prologue_surface_enabled(): return true
 	if _dialogue_active or _dialogue_choice_active or _modal_active:
@@ -354,6 +375,7 @@ func _ready() -> void:
 	_build_ui()
 	_load_progress()
 	_apply_accessibility_profile()
+	if _restore_prologue_cursor(): return
 	if _is_prologue_complete():
 		_show_after_reset()
 		return
@@ -927,14 +949,25 @@ func _apply_window_text_scale() -> void:
 
 func _show_p1_intro() -> void:
 	_add_unique("introduced", "EDGAR")
-	var texts := _dialogue_texts
-	var locale := TranslationServer.get_locale()
 	_show_dialogue([
 		_prologue_line("P1_WAKE_LIGHT", "SYSTEM"),
 		_prologue_line("P1_WAKE_KNOCK", "SYSTEM"),
 		_prologue_line("P1_WAKE_EDGAR", "에드가", {"portrait": "EDGAR"}),
 		_prologue_line("P1_WAKE_TASKS", "에드가", {"portrait": "EDGAR"}),
-	], func() -> void: _set_status(texts.get_text(&"P1_WAKE_OBJECTIVE", locale)))
+	], _show_p1_objective)
+
+
+func _show_p1_objective() -> void:
+	_set_status(_dialogue_ui_text("P1_WAKE_OBJECTIVE"))
+
+
+func _return_to_hall_after_dialogue() -> void:
+	_close_window_inspection(false)
+	_enter_room("M1_CENTRAL_HALL")
+
+
+func _finish_prologue_handoff() -> void:
+	campaign_requested.emit(_slot_id)
 
 
 func _enter_room(room_id: String) -> void:
@@ -1283,10 +1316,7 @@ func _complete_p2() -> void:
 	_save_progress()
 	_show_dialogue([
 		_prologue_line("P2_TOOL_COMPLETE_LINE", "마라 1", {"portrait": "MARA1"}),
-	], func() -> void:
-		_close_window_inspection(false)
-		_enter_room("M1_CENTRAL_HALL")
-	)
+	], _return_to_hall_after_dialogue)
 
 
 func _set_window_feedback(key: String) -> void:
@@ -1326,7 +1356,7 @@ func _build_library() -> void:
 			_prologue_line("P3_INTRO", "에드가", {"portrait": "EDGAR"}),
 			_prologue_line("P3_RESTRICTED", "에드가", {"portrait": "EDGAR"}),
 		], _resume_p3_journal_choice if needs_journal_choice else Callable())
-	elif needs_journal_choice:
+	elif needs_journal_choice and not _prologue_restoring_room:
 		call_deferred("_resume_p3_journal_choice")
 
 
@@ -1393,6 +1423,7 @@ func _show_dialogue_choice_set(
 	choice_order: Array,
 	choice_data: Dictionary
 ) -> void:
+	if _prologue_restoring_room: return
 	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
 	_dialogue_active = false
 	_dialogue_lines.clear()
@@ -1403,6 +1434,9 @@ func _show_dialogue_choice_set(
 	var event: String = {"p3_journal": "P3", "p4_father": "P4"}.get(mode, "")
 	var archive := preload("res://scripts/systems/notebook_archive.gd")
 	_choice_history_context = {"node_id": event, "chapter_id": "PROLOGUE", "location_id": _current_room, "event_occurrence_id": archive.new_uid(), "conversation_session_id": archive.new_uid(), "presentation_token": archive.new_uid()}
+	_prologue_cursor_scope = _notebook_event_scope()
+	_prologue_choice_capture = {"mode": mode, "header": header, "prompt": prompt, "speaker": speaker, "portrait": portrait_id, "order": choice_order.duplicate(), "labels": {}, "tokens": {}, "last_selected": "", "focus": 0}
+	for id in choice_order: _prologue_choice_capture.labels[id] = choice_data[id].label
 	_dialogue_choice_active = true
 	_dialogue_layer.visible = true
 	_dialogue_choice_blocker.visible = true
@@ -1421,11 +1455,19 @@ func _show_dialogue_choice_set(
 		button.visible = not choice_id.is_empty()
 	_refresh_dialogue_choice_labels()
 	var initial_index := _first_unasked_p3_choice_index() if mode == "p3_journal" else 0
+	initial_index = mini(initial_index, choice_order.size() - 1)
+	if not _prologue_restored_cursor.is_empty():
+		_choice_history_context = _prologue_restored_cursor.lines[0].history_context.duplicate(true)
+		_choice_history_recorded = true
+		_prologue_choice_capture = PROLOGUE_CURSOR.localized_choice(_prologue_restored_cursor, TranslationServer.get_locale())
+		_choice_selected_tokens = _prologue_choice_capture.tokens.duplicate()
+		initial_index = int(_prologue_choice_capture.focus)
 	_focus_dialogue_choice(initial_index)
 	_record_choice_history()
 
 
 func _record_choice_history() -> bool:
+	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope(): return false
 	if not _uses_prologue_history() or _choice_history_recorded:
 		return true
 	var lines: Array[String] = [_dialogue_choice_header.text, _dialogue_label.text]
@@ -1436,10 +1478,39 @@ func _record_choice_history() -> bool:
 			segments[String(button.get_meta("choice_id", ""))] = {}
 	var context := _choice_history_context.duplicate(true)
 	context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(context.node_id) + "_OPTIONS", 1, segments)
-	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), "\n".join(lines), context):
+	var spec := _prologue_choice_spec(_dialogue_ui_text("HISTORY_OPTIONS"), "\n".join(lines), context)
+	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), "\n".join(lines), context, spec):
 		return false
 	_choice_history_recorded = true
 	return true
+
+
+func _prologue_choice_spec(speaker: String = "", text: String = "", context: Dictionary = {}) -> Dictionary:
+	if not _prologue_cursor_enabled(): return {}
+	if not context.is_empty():
+		_prologue_choice_capture["options_line"] = {"speaker": speaker, "text": text, "presentation_token": context.presentation_token, "history_context": context.duplicate(true), "notebook_content": context.notebook_content}
+	var choice := _prologue_choice_capture.duplicate(true)
+	var line: Dictionary = choice.get("options_line", _prologue_restored_cursor.get("lines", [{}])[0]).duplicate(true)
+	choice.erase("options_line")
+	choice.tokens = _choice_selected_tokens.duplicate()
+	choice.focus = _dialogue_choice_focus_index
+	return {"kind": "choice", "line": line, "choice": choice, "phase": "choosing" if choice.last_selected.is_empty() else "selection_pending"}
+
+
+func _restore_prologue_choice(value: Dictionary) -> void:
+	var choice := PROLOGUE_CURSOR.localized_choice(value, TranslationServer.get_locale())
+	if choice.mode in ["p3_journal", "p4_father"]:
+		var data := {}
+		for id in choice.order: data[id] = {"label": choice.labels[id]}
+		_p3_journal_prompt_active = choice.mode == "p3_journal"
+		_show_dialogue_choice_set(choice.mode, choice.header, choice.speaker, choice.prompt, choice.portrait, choice.order, data)
+		_prologue_choice_capture.options_line = value.lines[0].duplicate(true)
+	else:
+		var confirm := _complete_p1 if choice.mode == "P1_EXIT" else _begin_first_sleep
+		_show_prologue_confirmation(choice.mode, choice.header, choice.prompt, [
+			{"id": "confirm", "label": choice.labels.confirm, "action": confirm},
+			{"id": "cancel", "label": choice.labels.cancel, "action": _close_modal},
+		])
 
 
 func _answer_p3_journal_choice(choice_id: String) -> void:
@@ -1468,6 +1539,7 @@ func _answer_p3_journal_choice(choice_id: String) -> void:
 func _resume_p3_journal_choice() -> void:
 	if _notebook_is_open() or _current_room != "M1_LIBRARY_OUTER" or _dialogue_active or _modal_active or _p3_journal_prompt_active:
 		return
+	if not _progress.get("p3_journal_seen", false) or _progress.get("p3_journal_choice", "") not in ["", "pending"]: return
 	_p3_journal_prompt_active = true
 	_progress["p3_journal_choice"] = "pending"
 	_save_progress()
@@ -1483,7 +1555,7 @@ func _finish_p3_book_placement() -> void:
 		_progress["P3_complete"] = true
 		_save_progress()
 		_rebuild_current_room_content()
-		_show_dialogue([_prologue_line("P3_COMPLETE", "에드가", {"portrait": "EDGAR"})], func() -> void: _enter_room("M1_CENTRAL_HALL"))
+		_show_dialogue([_prologue_line("P3_COMPLETE", "에드가", {"portrait": "EDGAR"})], _return_to_hall_after_dialogue)
 		return
 	_save_progress()
 	_rebuild_current_room_content()
@@ -1546,7 +1618,7 @@ func _on_portrait_pressed(index: int, expected_owner: String) -> void:
 			_prologue_line("P3B_PATTERNS", "SYSTEM"),
 			_prologue_line("P3B_COMPLETE", "마라 2", {"portrait": "MARA2"}),
 			_prologue_line("P3B_NAME", "마라 2", {"portrait": "MARA2"}),
-		], func() -> void: _enter_room("M1_CENTRAL_HALL"))
+		], _return_to_hall_after_dialogue)
 		return
 	_save_progress()
 	_rebuild_current_room_content()
@@ -1852,7 +1924,7 @@ func _complete_p5() -> void:
 	_show_dialogue([
 		_prologue_line("P5_QUESTION", "주인공"),
 		_prologue_line("P5_ANSWER", "이리스", {"portrait": "IRIS"}),
-	], func() -> void: _enter_room("M1_CENTRAL_HALL"))
+	], _return_to_hall_after_dialogue)
 
 
 func _on_sleep_bed() -> void:
@@ -1891,14 +1963,19 @@ func _begin_first_sleep() -> void:
 
 
 func _perform_normal_reset() -> void:
+	var scope := _notebook_event_scope()
 	_fade.visible = true
 	var tween := create_tween()
 	tween.tween_property(_fade, "color", Color(0.0, 0.0, 0.0, 1.0), 1.2)
 	await tween.finished
+	if scope != _notebook_event_scope():
+		_fade.visible = false
+		return
 	var result: Dictionary = get_parent().request_sleep_transition(_slot_id)
 	if not bool(result.get("ok", false)):
 		_fade.visible = false
 		_set_status("리셋 절차 오류: %s" % ", ".join(result.get("error_ids", [])))
+		_restore_prologue_cursor()
 		return
 	_progress = _default_progress()
 	_progress["current_room"] = "M2_BEDROOM"
@@ -1923,7 +2000,7 @@ func _show_after_reset() -> void:
 		_prologue_line("R1_WAKE", "SYSTEM"),
 		_prologue_line("R1_SAME", "주인공"),
 		_prologue_line("R1_NOTES", "SYSTEM"),
-	], func() -> void: campaign_requested.emit(_slot_id))
+	], _finish_prologue_handoff)
 
 
 func _set_room_background(room_id: String) -> void:
@@ -2065,6 +2142,7 @@ func _refresh_inventory_selection() -> void:
 
 
 func _show_dialogue(lines: Array, after: Callable = Callable(), start_index: int = 0) -> void:
+	if _prologue_restoring_room: return
 	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
 	_prologue_history_index = -1
 	_audio_dialogue_index = -1
@@ -2081,6 +2159,9 @@ func _show_dialogue(lines: Array, after: Callable = Callable(), start_index: int
 		context.presentation_token = line.presentation_token
 		line.history_context = context
 	_dialogue_index = clampi(start_index, 0, maxi(0, _dialogue_lines.size() - 1))
+	if _prologue_cursor_enabled():
+		_prologue_cursor_scope = _notebook_event_scope()
+		if not _prologue_restored_cursor.is_empty(): _prologue_history_index = _dialogue_index
 	_dialogue_after = after
 	_dialogue_active = not _dialogue_lines.is_empty()
 	_dialogue_layer.visible = _dialogue_active
@@ -2161,21 +2242,120 @@ func _uses_prologue_history() -> bool:
 	return not _test_mode
 
 
+func _prologue_cursor_enabled() -> bool:
+	return _uses_prologue_history() and GameState.get_value("meta_progress.dialogue_history.schema_version", 0) == 2
+
+
+func _prologue_dialogue_spec(phase: String = "reading") -> Dictionary:
+	if not _prologue_cursor_enabled(): return {}
+	var route := PROLOGUE_CURSOR.route(self, _dialogue_after)
+	return {"kind": "dialogue", "lines": _dialogue_lines, "index": _dialogue_index, "after": route.get("value", {"invalid": true}) if route.ok else {"invalid": true}, "phase": phase}
+
+
+func _prologue_build_cursor(state: Dictionary, spec: Dictionary) -> Dictionary:
+	if spec.kind == "choice":
+		return PROLOGUE_CURSOR.create_prologue_choice(state, spec.line, spec.choice, TranslationServer.get_locale(), spec.phase)
+	return PROLOGUE_CURSOR.create(state, "prologue_controller", spec.lines, spec.index, TranslationServer.get_locale(), spec.after, spec.phase)
+
+
+func _prologue_save_cursor(cursor: Dictionary) -> bool:
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	var point := String(SaveManager.inspect_slot(_slot_id).get("save_point_id", "SAVE_NEW_GAME"))
+	var result := preload("res://scripts/systems/dialogue_history_writer.gd").save_cursor(GameState, saves, _slot_id, point, cursor)
+	if not result.ok: _set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+	return result.ok
+
+
+func _finish_prologue_dialogue() -> void:
+	var built := _prologue_build_cursor(GameState.get_snapshot(), _prologue_dialogue_spec("finish_pending"))
+	if not built.ok or not _prologue_save_cursor(built.value): return
+	var after := _dialogue_after
+	if after.is_null() or after.get_method() == &"_finish_prologue_handoff":
+		var completed: Dictionary = built.value.duplicate(true)
+		completed.phase = "completed"
+		completed.after = {}
+		if not _prologue_save_cursor(completed): return
+		_dialogue_active = false
+		_dialogue_layer.hide()
+		_dialogue_after = Callable()
+		if after.is_valid(): after.call()
+	elif after.get_method() == &"_perform_normal_reset":
+		_dialogue_active = false
+		_dialogue_layer.hide()
+		after.call()
+	else:
+		_dialogue_active = false
+		_dialogue_layer.hide()
+		_run_prologue_action(after)
+	_prologue_surface_allowed()
+
+
+func _run_prologue_action(action: Callable) -> void:
+	if not _prologue_cursor_enabled():
+		action.call()
+		return
+	# Delay progress-only writes until the next presentation or completed cursor exists.
+	_prologue_dispatch_active = true
+	_prologue_dispatch_point = String(SaveManager.inspect_slot(_slot_id).get("save_point_id", "SAVE_NEW_GAME"))
+	_prologue_dispatch_complete = false
+	action.call()
+	_prologue_dispatch_active = false
+	if _dialogue_active or _dialogue_choice_active or not _prologue_confirmation.is_empty(): return
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	if not _persist_prologue_progress(_prologue_dispatch_point, _prologue_dispatch_complete, saves, {}, true):
+		_restore_prologue_cursor()
+
+
+func _restore_prologue_cursor() -> bool:
+	if not _prologue_cursor_enabled(): return false
+	var state := GameState.get_snapshot()
+	var value := PROLOGUE_CURSOR.read(state)
+	if not PROLOGUE_CURSOR.matches(value, state) or not PROLOGUE_CURSOR.observed(value, state) or value.family != "prologue_controller": return false
+	if _prologue_cursor_scope != _notebook_event_scope(): _prologue_dispatch_surfaces.clear()
+	_prologue_restoring_room = true
+	_pending_notebook.clear()
+	_load_progress()
+	_p3_journal_prompt_active = false
+	_hide_dialogue_choices()
+	_dialogue_active = false
+	_dialogue_layer.hide()
+	_modal_active = false
+	_modal_layer.hide()
+	if _is_prologue_complete(): _show_after_reset()
+	else: _enter_room(_current_room)
+	# Room construction must not mutate saved intro flags while restoring a view.
+	_load_progress()
+	_prologue_restoring_room = false
+	_prologue_cursor_scope = _notebook_event_scope()
+	_prologue_restored_cursor = value
+	if value.phase != "completed":
+		if value.kind == "dialogue":
+			_show_dialogue(PROLOGUE_CURSOR.localized_lines(value, TranslationServer.get_locale()), PROLOGUE_CURSOR.callable_for(self, value.after), int(value.index))
+		else:
+			_restore_prologue_choice(value)
+	_prologue_restored_cursor = {}
+	return true
+
+
 func _record_prologue_history() -> bool:
+	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope(): return false
 	if not _uses_prologue_history() or not _dialogue_active or _prologue_history_index == _dialogue_index:
 		return true
 	var line: Dictionary = _dialogue_lines[_dialogue_index]
 	var context: Dictionary = line.get("history_context", {}).duplicate(true)
 	if line.has("notebook_content"): context.notebook_content = line.notebook_content
-	if not _record_prologue_text(_speaker_label.text, _dialogue_label.text, context):
+	if not _record_prologue_text(_speaker_label.text, _dialogue_label.text, context, _prologue_dialogue_spec()):
 		return false
 	_prologue_history_index = _dialogue_index
 	return true
 
 
-func _record_prologue_text(speaker: String, text: String, context: Dictionary = {}) -> bool:
+func _record_prologue_text(speaker: String, text: String, context: Dictionary = {}, presentation: Dictionary = {}) -> bool:
 	var slot := SaveManager.inspect_slot(_slot_id)
 	var point := String(slot.get("save_point_id", "SAVE_NEW_GAME"))
+	if _prologue_cursor_enabled() and not presentation.is_empty():
+		var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+		return _persist_prologue_progress(_prologue_dispatch_point if _prologue_dispatch_active else point, _prologue_dispatch_complete, saves, {"speaker": speaker, "text": text, "context": context, "presentation": presentation})
 	var result := preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState, SaveManager, _slot_id, point, speaker, text, TranslationServer.get_locale(), "PROLOGUE", [], context)
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
@@ -2238,6 +2418,7 @@ func _on_dialogue_choice_focused(index: int) -> void:
 
 func _on_dialogue_choice_pressed(index: int) -> void:
 	if _notebook_is_open(): return
+	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope(): return
 	if not _dialogue_choice_active or index < 0 or index >= _dialogue_choice_buttons.size():
 		return
 	var choice_id := String(_dialogue_choice_buttons[index].get_meta("choice_id", ""))
@@ -2246,18 +2427,19 @@ func _on_dialogue_choice_pressed(index: int) -> void:
 	if _uses_prologue_history():
 		if not _record_choice_history():
 			return
-		if not _choice_selected_tokens.has(choice_id):
+		if not _choice_selected_tokens.has(choice_id) or (_prologue_cursor_enabled() and _prologue_choice_capture.get("last_selected", "") != choice_id):
 			_choice_selected_tokens[choice_id] = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		_prologue_choice_capture.last_selected = choice_id
 		var context := _choice_history_context.duplicate(true)
 		context.presentation_token = _choice_selected_tokens[choice_id]
 		context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(context.node_id) + "_SELECT_" + choice_id.to_upper(), 1, {"body": {}})
-		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), String(_dialogue_choice_buttons[index].get_meta("choice_label", "")), context):
+		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), String(_dialogue_choice_buttons[index].get_meta("choice_label", "")), context, _prologue_choice_spec()):
 			return
 	match _dialogue_choice_mode:
 		"p3_journal":
-			_answer_p3_journal_choice(choice_id)
+			_run_prologue_action(_answer_p3_journal_choice.bind(choice_id))
 		"p4_father":
-			_answer_p4_father_choice(choice_id)
+			_run_prologue_action(_answer_p4_father_choice.bind(choice_id))
 
 
 func _focus_p3_silent_choice() -> void:
@@ -2277,9 +2459,13 @@ func _handle_dialogue_choice_cancel() -> void:
 
 func _advance_dialogue() -> void:
 	if _notebook_is_open(): return
+	if _prologue_cursor_enabled() and is_instance_valid(_fade) and _fade.visible: return
 	if not _record_prologue_history():
 		return
 	if not _dialogue_active:
+		return
+	if _prologue_cursor_enabled() and _dialogue_index == _dialogue_lines.size() - 1:
+		_finish_prologue_dialogue()
 		return
 	_dialogue_index += 1
 	if _dialogue_index < _dialogue_lines.size():
@@ -2615,20 +2801,32 @@ func _open_legacy_notebook() -> void:
 
 
 func _show_prologue_confirmation(key: String, title: String, body: String, actions: Array) -> void:
+	if _prologue_restoring_room: return
 	var content := preload("res://scripts/systems/notebook_content.gd")
 	var archive := preload("res://scripts/systems/notebook_archive.gd")
 	var row := content.definition("NB_PR_" + key + "_OPTIONS", 1)
 	var context := {"node_id": row.get("event_id", ""), "chapter_id": "PROLOGUE", "location_id": _current_room, "event_occurrence_id": archive.new_uid(), "conversation_session_id": archive.new_uid(), "presentation_token": archive.new_uid()}
 	var request := {"key": key, "generation": _history_generation + 1, "recorded": false, "context": context, "text": title + "\n" + body, "labels": {}, "tokens": {}, "actions": {}}
+	request.scope = _notebook_event_scope()
+	request.choice = {"mode": key, "header": title, "prompt": body, "speaker": "SYSTEM", "portrait": "", "order": [], "labels": {}, "tokens": {}, "last_selected": "", "focus": 0}
 	var segments := {"header": {}, "prompt": {}}
 	var wrapped: Array = []
 	for action in actions:
 		request.text += "\n" + String(action.label)
 		request.labels[action.id] = action.label
+		request.choice.order.append(action.id)
+		request.choice.labels[action.id] = action.label
 		request.actions[action.id] = action.action
 		segments[action.id] = {}
 		wrapped.append({"label": action.label, "action": _prologue_confirmation_pressed.bind(request, action.id)})
 	request.context.notebook_content = content.descriptor("NB_PR_" + key + "_OPTIONS", 1, segments)
+	request.line = {"speaker": _dialogue_ui_text("HISTORY_OPTIONS"), "text": request.text, "presentation_token": context.presentation_token, "history_context": request.context.duplicate(true), "notebook_content": request.context.notebook_content}
+	if not _prologue_restored_cursor.is_empty():
+		request.choice = PROLOGUE_CURSOR.localized_choice(_prologue_restored_cursor, TranslationServer.get_locale())
+		request.line = _prologue_restored_cursor.lines[0].duplicate(true)
+		request.context = request.line.history_context.duplicate(true)
+		request.tokens = request.choice.tokens.duplicate()
+		request.recorded = true
 	_show_modal(title, body, wrapped)
 	_prologue_confirmation = request
 	_record_prologue_confirmation_options(request)
@@ -2636,7 +2834,8 @@ func _show_prologue_confirmation(key: String, title: String, body: String, actio
 
 func _record_prologue_confirmation_options(request: Dictionary) -> bool:
 	if request.recorded or not _uses_prologue_history(): return true
-	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), request.text, request.context): return false
+	var spec := {"kind": "choice", "line": request.line, "choice": request.choice, "phase": "choosing"} if _prologue_cursor_enabled() else {}
+	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), request.text, request.context, spec): return false
 	request.recorded = true
 	return true
 
@@ -2644,15 +2843,20 @@ func _record_prologue_confirmation_options(request: Dictionary) -> bool:
 func _prologue_confirmation_pressed(request: Dictionary, choice: String) -> void:
 	if _notebook_is_open(): return
 	if not _modal_active or request.generation != _history_generation: return
+	if request.scope != _notebook_event_scope(): return
+	if not request.actions.has(choice): return
 	if not _record_prologue_confirmation_options(request): return
 	if _uses_prologue_history():
-		if not request.tokens.has(choice): request.tokens[choice] = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		if not request.tokens.has(choice) or request.choice.last_selected != choice: request.tokens[choice] = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		request.choice.last_selected = choice
+		request.choice.tokens = request.tokens.duplicate()
 		var context: Dictionary = request.context.duplicate(true)
 		context.presentation_token = request.tokens[choice]
 		context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(request.key) + "_" + choice.to_upper(), 1, {"body": {}})
-		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), request.labels[choice], context): return
+		var spec := {"kind": "choice", "line": request.line, "choice": request.choice, "phase": "selection_pending"} if _prologue_cursor_enabled() else {}
+		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), request.labels[choice], context, spec): return
 	_prologue_confirmation = {}
-	request.actions[choice].call()
+	_run_prologue_action(request.actions[choice])
 
 
 func _cancel_prologue_modal() -> void:
@@ -2768,15 +2972,25 @@ func _return_to_title() -> void:
 
 
 func _save_progress(save_point_id: String = "SAVE_NEW_GAME", prologue_complete: bool = false) -> bool:
-	return _persist_prologue_progress(save_point_id, prologue_complete, SaveManager)
+	if _prologue_restoring_room: return true
+	if _prologue_dispatch_active:
+		if save_point_id != "SAVE_NEW_GAME": _prologue_dispatch_point = save_point_id
+		_prologue_dispatch_complete = _prologue_dispatch_complete or prologue_complete
+		return true
+	if _prologue_cursor_enabled():
+		if _dialogue_active and _prologue_history_index != _dialogue_index: return _record_prologue_history()
+		if _dialogue_choice_active and not _choice_history_recorded: return _record_choice_history()
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	return _persist_prologue_progress(save_point_id, prologue_complete, saves)
 
 
-func _persist_prologue_progress(save_point_id: String, prologue_complete: bool, saves: Node) -> bool:
+func _persist_prologue_progress(save_point_id: String, prologue_complete: bool, saves: Node, recording: Dictionary = {}, complete_cursor: bool = false) -> bool:
 	if _test_mode:
 		return true
 	# The reset already persisted the permanent notebook. The departing prologue
 	# controller's fresh physical defaults must not replace it during handoff.
-	if _is_prologue_complete(): return true
+	if _is_prologue_complete() and recording.is_empty() and not complete_cursor: return true
+	var previous := GameState.get_snapshot()
 	var event_states: Dictionary = GameState.get_value(&"loop_state.event_local_states", {}).duplicate(true)
 	event_states["PROLOGUE"] = _progress.duplicate(true)
 	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {}).duplicate(true)
@@ -2814,28 +3028,62 @@ func _persist_prologue_progress(save_point_id: String, prologue_complete: bool, 
 		knowledge[notes.KEY] = ledger
 	var writer := StateWriter.new(GameState)
 	var transaction_id := StringName("PROLOGUE_R%06d" % (GameState.revision + 1))
-	var result := writer.commit_atomic([
-		{"state_path": "loop_state.event_local_states", "operation": "set", "value": event_states},
-		{"state_path": "loop_state.location_id", "operation": "set", "value": _current_room},
-		{"state_path": "loop_state.time_block", "operation": "set", "value": String(_progress.get("time_block", "morning"))},
-		{"state_path": "loop_state.inventory", "operation": "set", "value": _inventory_item_ids()},
-		{"state_path": "meta_progress.knowledge_entries", "operation": "set", "value": knowledge},
-		{"state_path": "meta_progress.dialogue_history", "operation": "set", "value": history},
-	], GameState.revision, transaction_id)
+	var candidate := previous.duplicate(true)
+	if not _is_prologue_complete():
+		candidate.loop_state.event_local_states = event_states
+		candidate.loop_state.location_id = _current_room
+		candidate.loop_state.time_block = String(_progress.get("time_block", "morning"))
+		candidate.loop_state.inventory = _inventory_item_ids()
+		candidate.meta_progress.knowledge_entries = knowledge
+		candidate.meta_progress.dialogue_history = history
+	for request in _prologue_dispatch_surfaces:
+		var appended := preload("res://scripts/systems/dialogue_history_writer.gd").append_to_snapshot(candidate, request.speaker, request.text, request.locale, "PROLOGUE", [], request.context)
+		if not appended.ok:
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return false
+	if not recording.is_empty():
+		var built := _prologue_build_cursor(candidate, recording.presentation)
+		if not built.ok:
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return false
+		var context: Dictionary = recording.context.duplicate(true)
+		context.presentation_cursor = built.value
+		var appended := preload("res://scripts/systems/dialogue_history_writer.gd").append_to_snapshot(candidate, recording.speaker, recording.text, TranslationServer.get_locale(), "PROLOGUE", [], context)
+		if not appended.ok:
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return false
+	elif complete_cursor:
+		var cursor := PROLOGUE_CURSOR.read(previous)
+		if not PROLOGUE_CURSOR.matches(cursor, previous) or not PROLOGUE_CURSOR.observed(cursor, previous) or cursor.family != "prologue_controller": return false
+		cursor.phase = "completed"
+		cursor.after = {}
+		PROLOGUE_CURSOR.install(candidate, cursor)
+	elif _prologue_cursor_enabled():
+		PROLOGUE_CURSOR.carry(candidate, previous)
+	var result := writer.install_snapshot(candidate, GameState.revision, transaction_id)
 	if not bool(result.get("ok", false)):
 		_set_status("상태 기록 실패: %s" % ", ".join(result.get("error_ids", [])))
 		return false
 	var save_result: Dictionary = saves.save_snapshot(_slot_id, save_point_id, GameState.get_snapshot(), GameState.revision, String(transaction_id))
 	if not bool(save_result.get("ok", false)):
-		var confirmed: Dictionary = saves.confirm_snapshot_commit(_slot_id, String(transaction_id))
+		var confirmed: Dictionary = saves.confirm_snapshot_commit(_slot_id, String(transaction_id)) if saves.has_method("confirm_snapshot_commit") else {}
 		if confirmed.get("ok", false) and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), confirmed.snapshot):
 			_pending_notebook.clear()
+			_confirm_prologue_dispatch_surfaces()
 			return true
 		GameState.rollback_failed_persistence(result["previous_snapshot"], int(result["revision"]), transaction_id, StringName(save_result.get("error_id", &"ERR_SAVE_UNKNOWN")))
 		_set_status("자동 저장 실패: %s" % ", ".join(save_result.get("error_ids", [])))
 		return false
 	_pending_notebook.clear()
+	_confirm_prologue_dispatch_surfaces()
 	return true
+
+
+func _confirm_prologue_dispatch_surfaces() -> void:
+	for request in _prologue_dispatch_surfaces:
+		request.attempted = true
+		request.recorded = true
+	_prologue_dispatch_surfaces.clear()
 
 
 func _inventory_item_ids() -> Array:

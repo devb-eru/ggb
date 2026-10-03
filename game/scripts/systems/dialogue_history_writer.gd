@@ -8,6 +8,14 @@ static func record(game: Node, saves: Node, slot: String, point: String, speaker
 	if text.is_empty():
 		return {"ok": true}
 	var state: Dictionary = game.get_snapshot()
+	var appended := append_to_snapshot(state, speaker, text, locale, chapter_id, observed_fact_ids, context)
+	if not appended.ok: return appended
+	if not appended.changed: return {"ok": true, "entry_uid": appended.entry_uid}
+	return _commit_snapshot(game, saves, slot, point, state, appended.entry_uid)
+
+
+static func append_to_snapshot(state: Dictionary, speaker: String, text: String, locale: String, chapter_id: String, observed_fact_ids: Variant, context: Dictionary) -> Dictionary:
+	# The caller owns a detached candidate and must commit it with its gameplay writes.
 	var cursor: Dictionary = context.get("presentation_cursor", {})
 	if context.has("presentation_cursor") and not PRESENTATION.matches(cursor, state):
 		return {"ok": false, "error_ids": ["NB_PRESENTATION_STALE"]}
@@ -32,7 +40,7 @@ static func record(game: Node, saves: Node, slot: String, point: String, speaker
 		else:
 			appended = ARCHIVE.append_unmapped(history, payload, frozen, int(history.revision))
 		if not appended.ok: return appended
-		if not appended.changed and cursor.is_empty(): return {"ok": true, "entry_uid": appended.entry_uid}
+		if not appended.changed and cursor.is_empty(): return {"ok": true, "changed": false, "entry_uid": appended.entry_uid}
 		state.meta_progress.dialogue_history = appended.archive
 		entry_uid = appended.entry_uid
 	else:
@@ -40,7 +48,7 @@ static func record(game: Node, saves: Node, slot: String, point: String, speaker
 		history.entries.append(payload)
 		history.next_sequence = int(history.next_sequence) + 1
 	if not cursor.is_empty(): PRESENTATION.install(state, cursor)
-	return _commit_snapshot(game, saves, slot, point, state, entry_uid)
+	return {"ok": true, "changed": true, "entry_uid": entry_uid}
 
 
 static func save_cursor(game: Node, saves: Node, slot: String, point: String, cursor: Dictionary) -> Dictionary:

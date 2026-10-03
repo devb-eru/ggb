@@ -2,8 +2,10 @@ extends RefCounted
 
 # Pending presentation is gameplay-local state, never a source of notebook disclosure.
 const KEY := "NOTEBOOK_PRESENTATION"
-const VERSION := 1
-const FAMILIES := ["chapter_one_controller", "black_mirror_controller", "basement_controller"]
+const VERSION := 2
+const FAMILIES := ["chapter_one_controller", "black_mirror_controller", "basement_controller", "prologue_controller"]
+const PROLOGUE_ROUTES := ["_show_p1_objective", "_return_to_hall_after_dialogue", "_resume_p3_journal_choice", "_show_p3_journal_choices", "_complete_p4_life_support_foreshadow", "_finish_p4_memory_anchor", "_finish_p4_after_question", "_complete_p4_iris_greeting", "_perform_normal_reset", "_finish_prologue_handoff"]
+const PROLOGUE_CHOICES := {"p3_journal": ["author", "locked", "silent"], "p4_father": ["father_tea", "mansion_age", "luca_tenure"], "P1_EXIT": ["confirm", "cancel"], "P6_SLEEP": ["confirm", "cancel"]}
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const LINE_KEYS := ["speaker", "text", "portrait", "history_context", "presentation_token", "notebook_content", "observed_fact_ids", "audio_cue", "d5_focus_allowed", "d4_reaction_owner", "cup_pose", "p4_pulse"]
 
@@ -53,6 +55,7 @@ static func valid_route(value: Variant) -> bool:
 	if not value is Dictionary: return false
 	if value.is_empty(): return true
 	if not _keys(value, ["method", "args"]) or not value.method is String or not value.args is Array: return false
+	if value.method in PROLOGUE_ROUTES: return value.args.is_empty()
 	match value.method:
 		"_do":
 			return value.args.size() == 3 and value.args[0] is String and not value.args[0].is_empty() and value.args[0].length() <= 80 and _json(value.args[1]) and value.args[2] is bool and not value.args[2]
@@ -77,13 +80,24 @@ static func create(state: Dictionary, owner_family: String, lines: Array, index:
 
 
 static func valid(value: Variant) -> bool:
-	if not value is Dictionary or not _keys(value, ["schema_version", "kind", "family", "source_origin_id", "branch_id", "anchor", "phase", "index", "locale", "lines", "after"]): return false
-	if not _integer(value.schema_version) or value.schema_version != VERSION or value.kind != "dialogue" or value.family not in FAMILIES: return false
+	if not value is Dictionary: return false
+	var fields := ["schema_version", "kind", "family", "source_origin_id", "branch_id", "anchor", "phase", "index", "locale", "lines", "after"]
+	if value.get("kind") == "choice": fields.append("choice")
+	if not _keys(value, fields): return false
+	if not _integer(value.schema_version) or int(value.schema_version) not in [1, VERSION] or value.kind not in ["dialogue", "choice"] or value.family not in FAMILIES: return false
+	if value.schema_version == 1 and (value.family == "prologue_controller" or value.kind != "dialogue"): return false
 	if not _hex(value.source_origin_id, 32) or not _hex(value.branch_id, 32) or not _hex(value.anchor, 64): return false
-	if value.phase not in ["reading", "finish_pending", "completed"] or value.locale not in ["ko-KR", "en-US"]: return false
+	if value.locale not in ["ko-KR", "en-US"]: return false
+	if value.kind == "dialogue" and value.phase not in ["reading", "finish_pending", "completed"]: return false
+	if value.kind == "choice" and (value.family != "prologue_controller" or value.phase not in ["choosing", "selection_pending", "completed"] or not valid_prologue_choice(value.choice)): return false
 	if not value.lines is Array or value.lines.is_empty() or value.lines.size() > 128 or not _integer(value.index) or value.index < 0 or value.index >= value.lines.size(): return false
 	if value.phase != "reading" and value.index != value.lines.size() - 1: return false
-	if not valid_route(value.after) or (value.phase == "completed" and not value.after.is_empty()): return false
+	if not valid_route(value.after): return false
+	if value.kind == "choice":
+		if value.lines.size() != 1 or not value.after.is_empty(): return false
+		if value.phase == "selection_pending" and value.choice.last_selected.is_empty(): return false
+	if value.phase == "completed" and not value.after.is_empty(): return false
+	if not value.after.is_empty() and (value.after.method in PROLOGUE_ROUTES) != (value.family == "prologue_controller"): return false
 	var tokens := {}
 	for line in value.lines:
 		if not line is Dictionary or not _json(line): return false
@@ -106,6 +120,44 @@ static func valid(value: Variant) -> bool:
 	return JSON.stringify(value).to_utf8_buffer().size() <= 1048576
 
 
+static func valid_prologue_choice(value: Variant) -> bool:
+	if not value is Dictionary or not _keys(value, ["mode", "header", "prompt", "speaker", "portrait", "order", "labels", "tokens", "last_selected", "focus"]): return false
+	if not _json(value) or not value.mode is String or not PROLOGUE_CHOICES.has(value.mode): return false
+	if not value.order is Array or value.order.is_empty() or not value.labels is Dictionary or not value.tokens is Dictionary: return false
+	if value.mode in ["P1_EXIT", "P6_SLEEP"] and value.order != PROLOGUE_CHOICES[value.mode]: return false
+	var previous := -1
+	for id in value.order:
+		var index: int = PROLOGUE_CHOICES[value.mode].find(id)
+		if index <= previous: return false
+		previous = index
+	for field in ["header", "prompt", "speaker", "portrait", "last_selected"]:
+		if not value[field] is String: return false
+	if not _keys(value.labels, value.order) or not _integer(value.focus) or value.focus < 0 or value.focus >= value.order.size(): return false
+	for id in value.order:
+		if not value.labels[id] is String: return false
+	for id in value.tokens:
+		if id not in value.order or not _hex(value.tokens[id], 32): return false
+	return value.last_selected.is_empty() or value.tokens.has(value.last_selected)
+
+
+static func create_prologue_choice(state: Dictionary, line: Dictionary, choice: Dictionary, locale: String, phase: String = "choosing") -> Dictionary:
+	var value: Dictionary = create(state, "prologue_controller", [line], 0, locale, {}).value
+	value.kind = "choice"
+	value.phase = phase
+	value.choice = choice.duplicate(true)
+	return {"ok": valid(value), "value": value}
+
+
+static func localized_choice(value: Dictionary, locale: String) -> Dictionary:
+	var choice: Dictionary = value.choice.duplicate(true)
+	var shown := CONTENT.presentation(value.lines[0].get("notebook_content", {}), locale)
+	if shown.ok:
+		for segment in shown.segments:
+			if segment.segment_id in ["header", "prompt"]: choice[segment.segment_id] = segment.text
+			elif choice.labels.has(segment.segment_id): choice.labels[segment.segment_id] = segment.text
+	return choice
+
+
 static func matches(value: Dictionary, state: Dictionary) -> bool:
 	if not valid(value): return false
 	var archive: Dictionary = state.meta_progress.dialogue_history
@@ -114,10 +166,12 @@ static func matches(value: Dictionary, state: Dictionary) -> bool:
 
 static func observed(value: Dictionary, state: Dictionary) -> bool:
 	if not valid(value): return false
-	var token: String = value.lines[int(value.index)].presentation_token
+	var required: Array = [value.lines[int(value.index)].presentation_token]
+	if value.kind == "choice" and not value.choice.last_selected.is_empty(): required.append(value.choice.tokens[value.choice.last_selected])
 	for entry in state.meta_progress.dialogue_history.get("entries", []):
 		var context: Dictionary = entry.get("observation", entry.get("snapshot_context", {}))
-		if context.get("presentation_token") == token: return true
+		required.erase(context.get("presentation_token"))
+		if required.is_empty(): return true
 	return false
 
 

@@ -149,6 +149,14 @@ func _ready() -> void:
 		call_deferred("_run_notebook_host_smoke")
 	elif "--notebook-presentation-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_presentation_smoke")
+	elif "--notebook-prologue-presentation-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_prologue_presentation_smoke")
+
+
+func _run_notebook_prologue_presentation_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/notebook_prologue_presentation_smoke.gd").new().run(get_tree())
+	print("NOTEBOOK_PROLOGUE_PRESENTATION_SMOKE: " + ("PASS" if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
 
 
 func _run_notebook_presentation_smoke() -> void:
@@ -557,7 +565,8 @@ func _launch_prologue(slot_id: String, resume_id: String) -> void:
 	_audio.stop_all()
 	_set_menu_audio_pause(false)
 	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {})
-	if bool(knowledge.get("PROLOGUE_COMPLETE", false)):
+	var pending_prologue := preload("res://scripts/systems/notebook_presentation.gd").resume_family(GameState.get_snapshot()) == "prologue_controller"
+	if bool(knowledge.get("PROLOGUE_COMPLETE", false)) and not pending_prologue:
 		if String(GameState.get_value(&"reset_state.phase", "idle")) != "idle" or int(GameState.get_value(&"loop_state.day_index", 0)) == 0:
 			var reset_result := request_sleep_transition(slot_id)
 			if not reset_result.get("ok", false):
@@ -588,6 +597,9 @@ func _on_campaign_requested(slot_id: String, source: WeakRef) -> void:
 
 
 func _launch_campaign(slot_id: String) -> void:
+	if preload("res://scripts/systems/notebook_presentation.gd").resume_family(GameState.get_snapshot()) == "prologue_controller":
+		_launch_prologue(slot_id, "P1_ENTRY")
+		return
 	_audio.stop_all()
 	_set_menu_audio_pause(false)
 	if is_instance_valid(_prologue):

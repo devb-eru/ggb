@@ -7,6 +7,12 @@ const SLOT := "__test_notebook_prologue"
 var errors := PackedStringArray()
 var covered := {}
 
+class FailedSave extends Node:
+	func save_snapshot(_slot: String, _point: String, _state: Dictionary, _revision: int, _transaction: String) -> Dictionary:
+		return {"ok": false, "error_id": "TEST_PROLOGUE_SAVE"}
+	func confirm_snapshot_commit(_slot: String, _transaction: String) -> Dictionary:
+		return {"ok": false}
+
 
 func run(tree: SceneTree) -> Dictionary:
 	var locale := TranslationServer.get_locale()
@@ -174,7 +180,7 @@ func _route(tree: SceneTree, language: String) -> void:
 	_collect(language)
 	_expect(GameState.get_snapshot() == state, "reading all prologue records leaves gameplay unchanged")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "real prologue archive reloads")
-	_expect(GameState.get_snapshot() == state, "prologue UIDs and captured source survive first reset and reload")
+	_expect(StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), state), "prologue UIDs and captured source survive first reset and reload")
 	view.queue_free()
 	await tree.process_frame
 
@@ -214,11 +220,13 @@ func _validate_departure_confirmation(view: Node) -> void:
 	view._leave_bedroom_morning()
 	var stale: Callable = _modal_button(view, view._dialogue_ui_text("P1_EXIT_START")).pressed.get_connections()[0].callable
 	var before := GameState.get_snapshot()
-	view._slot_id = "../invalid_modal_notebook"
+	var rejected := FailedSave.new()
+	view._prologue_surface_saves = rejected
 	_cancel_key(view)
 	_expect(view._modal_active and GameState.get_snapshot() == before, "failed modal cancellation remains retryable")
 	var token: String = view._prologue_confirmation.tokens.cancel
-	view._slot_id = SLOT
+	view._prologue_surface_saves = null
+	rejected.free()
 	_cancel_key(view)
 	var cancelled := GameState.get_snapshot()
 	_expect(not view._modal_active and not view._progress.P1_complete, "cancel preserves bedroom progress")
@@ -245,11 +253,13 @@ func _partial_choice_and_retry(tree: SceneTree) -> void:
 	var hidden := ARCHIVE.make_reference(entry, "locked")
 	_expect(not ARCHIVE.resolve(GameState.get_snapshot().meta_progress.dialogue_history, hidden).ok, "unshown option cannot be compared")
 	var token: String = entry.observation.presentation_token
-	view._slot_id = "../invalid_notebook_choice"
+	var rejected := FailedSave.new()
+	view._prologue_surface_saves = rejected
 	_press_choice(view, "author")
 	_expect(view._dialogue_choice_active and GameState.get_snapshot().meta_progress.dialogue_history.entries.size() == count + 1, "failed selected record keeps original choice open")
 	var selected_token: String = view._choice_selected_tokens.author
-	view._slot_id = SLOT
+	view._prologue_surface_saves = null
+	rejected.free()
 	_press_choice(view, "author")
 	var history: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history
 	_expect(history.entries.size() == count + 3, "choice retry commits selection then only its displayed answer")
