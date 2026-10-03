@@ -14,6 +14,8 @@ const OBJECTIVES := {"A1": "수첩에 다음 아침과 비교할 표식을 남�
 var session: ChapterOneSession
 var _swap_from := -1
 var _edgar_timer: Timer
+var _edgar_focus_suspended := false
+var _edgar_paused_before_focus := false
 var _rendering := false
 var _world_focus := ""
 var _history_recorded_index := -1
@@ -96,10 +98,14 @@ func _ready() -> void:
 
 
 func _notification(what: int) -> void:
+	super._notification(what)
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and is_instance_valid(_edgar_timer):
+		if not _edgar_focus_suspended: _edgar_paused_before_focus = _edgar_timer.paused
+		_edgar_focus_suspended = true
 		_edgar_timer.paused = true
 	elif what == NOTIFICATION_APPLICATION_FOCUS_IN and is_instance_valid(_edgar_timer):
-		_edgar_timer.paused = false
+		if _edgar_focus_suspended: _edgar_timer.paused = _edgar_paused_before_focus
+		_edgar_focus_suspended = false
 
 
 func _make_session() -> ChapterOneSession:
@@ -192,11 +198,13 @@ func _open_menu() -> void:
 
 
 func _open_dialogue_history() -> void:
+	if _try_open_unified_notebook("dialogue"): return
 	var result := _dialogue_texts.render_history(session.snapshot()["meta_progress"]["dialogue_history"], TranslationServer.get_locale())
 	_show_history_result(result)
 
 
 func _advance_dialogue() -> void:
+	if _notebook_is_open(): return
 	if not _record_current_history_line():
 		return
 	super._advance_dialogue()
@@ -219,6 +227,9 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 
 
 func _close_modal() -> void:
+	if _notebook_is_open():
+		_notebook_host.request_close()
+		return
 	_recorded_modal_request = {}
 	_choice_modal_generation += 1
 	super._close_modal()
@@ -261,7 +272,7 @@ func _recorded_choice_scope() -> Dictionary:
 
 
 func _recorded_choice_live(context: Dictionary) -> bool:
-	return _modal_active and int(context.generation) == _choice_modal_generation and context.scope == _recorded_choice_scope()
+	return not _notebook_is_open() and _modal_active and int(context.generation) == _choice_modal_generation and context.scope == _recorded_choice_scope()
 
 
 func _record_modal_options(context: Dictionary) -> bool:
@@ -687,7 +698,23 @@ func _board_label(text: String, rect: Rect2) -> void:
 	panel.add_child(label)
 
 
-func _open_notebook() -> void:
+func _notebook_open_block_reason() -> String:
+	var reason := super._notebook_open_block_reason()
+	if not reason.is_empty(): return reason
+	if (_dialogue_active and _history_recorded_index != _dialogue_index) or (not _recorded_modal_request.is_empty() and not _recorded_modal_request.recorded):
+		return "표시 중인 기록의 저장을 먼저 완료해 주세요." if not TranslationServer.get_locale().begins_with("en") else "Finish saving the displayed record first."
+	return ""
+
+
+func _notebook_tools() -> Array:
+	var tools := super._notebook_tools()
+	if tools.is_empty(): return tools
+	if session != null and session.stage() in _supported_hint_stages():
+		tools.append({"id": "ClockHintsButton", "label": "Organize my thoughts" if TranslationServer.get_locale().begins_with("en") else "생각을 정리한다", "action": _show_clock_hint_menu.bind(0)})
+	return tools
+
+
+func _open_legacy_notebook() -> void:
 	if _interaction_blocked():
 		return
 	var knowledge: Dictionary = session.snapshot()["meta_progress"]["knowledge_entries"]

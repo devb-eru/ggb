@@ -223,6 +223,12 @@ func comparison(expected_key: String) -> Dictionary:
 	return {"ok": true, "items": items}
 
 
+func reference_state(key: String, expected_key: String) -> Dictionary:
+	if not _ready or expected_key != cache_key() or not _rows.has(key): return _error("NB_QUERY_STALE")
+	var ref: Dictionary = _rows[key].reference
+	return {"ok": true, "reference": ref.duplicate(true), "bookmarks": ref in _archive.bookmarks, "comparison": ref in _archive.comparison}
+
+
 func _matching(filters: Dictionary) -> Array:
 	var signature := JSON.stringify(filters, "", true)
 	if _result_cache.has(signature): return _result_cache[signature]

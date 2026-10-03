@@ -145,6 +145,14 @@ func _ready() -> void:
 		call_deferred("_run_notebook_authority_archive_smoke")
 	elif "--notebook-query-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_query_smoke")
+	elif "--notebook-host-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_host_smoke")
+
+
+func _run_notebook_host_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/notebook_host_smoke.gd").new().run(get_tree())
+	print("NOTEBOOK_HOST_SMOKE: " + ("PASS" if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
 
 
 func _run_notebook_query_smoke() -> void:
@@ -333,7 +341,11 @@ func _setup_developer_panel() -> void:
 
 func _developer_pause() -> void:
 	_developer_paused_nodes.clear()
-	for node in [_start_screen, _prologue]:
+	var targets: Array = [_start_screen, _prologue]
+	if is_instance_valid(_prologue) and _prologue._notebook_is_open():
+		_prologue._notebook_host.release_pending_inputs()
+		targets.append(_prologue._notebook_host)
+	for node in targets:
 		if is_instance_valid(node):
 			_developer_paused_nodes.append({"node":weakref(node),"mode":node.process_mode})
 			node.process_mode = Node.PROCESS_MODE_DISABLED
@@ -623,6 +635,7 @@ func _on_focus_recovery_timeout(resume_serial: int) -> void:
 			else:
 				_start_screen.set_input_suspended(false)
 		elif is_instance_valid(_prologue) and is_instance_valid(_prologue._menu_button):
+			if _prologue._notebook_is_open() and _focus_first_control(_prologue._notebook_host.panel): return
 			for field in ["_display_settings_panel", "_key_settings_panel", "_audio_settings_panel", "_modal_body", "_dialogue_layer"]:
 				var region: Control = _prologue.get(field)
 				if is_instance_valid(region) and region.is_visible_in_tree() and _focus_first_control(region): return

@@ -2,6 +2,8 @@ extends PanelContainer
 
 # The host owns suspension, persistence and scope changes. This panel only reads.
 signal close_requested
+signal reference_requested(collection: String, reference: Dictionary, enabled: bool)
+signal refresh_requested
 
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
 var query
@@ -36,6 +38,10 @@ var _pair_body: HBoxContainer
 var _pair_controls: HFlowContainer
 var _pair_panels: Array[VBoxContainer] = []
 var _pair_switch: Button
+var _tools: HFlowContainer
+var _command: VBoxContainer
+var _notice: Label
+var _reference_editable := false
 
 
 func _ready() -> void:
@@ -81,6 +87,76 @@ func dismiss() -> void:
 	_clear(_detail)
 	for panel in _pair_panels: _clear(panel)
 	for selector in _pair_selectors: selector.clear()
+	_clear(_tools)
+	clear_command()
+	_notice.text = ""
+	_reference_editable = false
+
+
+func set_reference_editable(enabled: bool) -> void:
+	_reference_editable = enabled
+	if not _selected.is_empty(): show_detail(_selected, false, true)
+
+
+func add_tool(label: String, action: Callable, id: String) -> void:
+	_button(_tools, label, action, id)
+	_cycle_focus.call_deferred()
+
+
+func show_notice(message: String) -> void:
+	_notice.text = message
+	_cycle_focus.call_deferred()
+
+
+func show_command(message: String, confirm: Callable, cancel: Callable) -> void:
+	clear_command()
+	_label(_command, message)
+	var buttons := HFlowContainer.new()
+	_command.add_child(buttons)
+	_button(buttons, _l("실행 / 다시 시도", "Apply / retry"), confirm, "NotebookCommandConfirm")
+	var back := _button(buttons, _l("취소", "Cancel"), cancel, "NotebookCommandCancel")
+	back.grab_focus()
+	_cycle_focus.call_deferred()
+
+
+func clear_command() -> void:
+	_clear(_command)
+	_cycle_focus.call_deferred()
+
+
+func capture_view() -> Dictionary:
+	return {"filters": _filters.duplicate(true), "anchor": query.anchor_for(_selected, _filters) if _valid() else {}, "page": _page, "selected": _selected, "scroll": _detail_scroll.scroll_vertical, "pair": _pair.duplicate(), "comparing": _comparison_mode, "side": _compact_side, "detail": _detail_visible, "back": _back_stack.duplicate(true)}
+
+
+func replace_model(model, view: Dictionary) -> void:
+	query = model
+	_key = model.cache_key()
+	_locale = "en-US" if TranslationServer.get_locale().begins_with("en") else "ko-KR"
+	_filters = view.filters.duplicate(true)
+	_search.text = _filters.get("needle", "")
+	_page = view.page
+	_selected = ""
+	_clear(_detail)
+	clear_command()
+	_apply_labels()
+	_refresh()
+	_load_basket()
+	for side in range(2): select_pair(side, view.pair[side])
+	_back_stack = view.back.duplicate(true)
+	if not view.selected.is_empty():
+		var restored: Dictionary = query.anchor_page(_filters, view.anchor, _key)
+		if not _back_stack.is_empty() and query.detail(view.selected, _key).ok:
+			show_detail(view.selected, false, true)
+			_detail_scroll.set_deferred("scroll_vertical", view.scroll)
+		elif restored.ok and not restored.key.is_empty():
+			_page = restored.page
+			_refresh()
+			show_detail(restored.key)
+			_detail_scroll.set_deferred("scroll_vertical", view.scroll)
+	_comparison_mode = view.comparing
+	_compact_side = view.side
+	_detail_visible = view.detail and not _selected.is_empty()
+	_render_pair()
 
 
 func set_tab(tab: String) -> void:
@@ -190,10 +266,39 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if _comparison_mode:
 			_comparison_mode = false
 			_responsive()
+		elif not _back_stack.is_empty():
+			_back()
 		elif _detail_visible:
 			_return_to_list()
+		elif not _search.text.is_empty():
+			_clear_search()
 		else:
 			close_requested.emit()
+	elif event.is_action_pressed("ui_page_up") or event.is_action_pressed("ui_page_down"):
+		var scroll := _detail_scroll if _detail_visible else _list_scroll
+		if _comparison_mode:
+			var side := _compact_side
+			var focused := get_viewport().gui_get_focus_owner()
+			if focused != null and (_pair_panels[1] == focused or _pair_panels[1].is_ancestor_of(focused)): side = 1
+			scroll = _pair_panels[side].get_parent() as ScrollContainer
+		var direction := -1 if event.is_action_pressed("ui_page_up") else 1
+		scroll.scroll_vertical += direction * maxi(40, int(scroll.size.y * 0.8))
+		get_viewport().set_input_as_handled()
+
+
+func _search_input(event: InputEvent) -> void:
+	if not event is InputEventKey or not event.pressed or event.echo or event.keycode != KEY_ESCAPE or _search.has_ime_text(): return
+	if not _search.text.is_empty(): _clear_search()
+	_close.grab_focus()
+	_search.accept_event()
+
+
+func _clear_search() -> void:
+	_search.clear()
+	_search_delay = -1.0
+	_filters.erase("needle")
+	_page = 0
+	_refresh()
 
 
 func _build() -> void:
@@ -210,6 +315,7 @@ func _build() -> void:
 	_search.text_changed.connect(func(_value: String) -> void: _search_delay = 0.2)
 	# Enter in the search field never opens a result or confirms a game choice.
 	_search.text_submitted.connect(func(_value: String) -> void: _search_delay = 0.2)
+	_search.gui_input.connect(_search_input)
 	_close = _button(top, "", func() -> void: close_requested.emit(), "NotebookClose")
 	var tabs := HFlowContainer.new()
 	_content.add_child(tabs)
@@ -242,6 +348,13 @@ func _build() -> void:
 		_comparison_mode = not _comparison_mode
 		_render_pair(), "NotebookCompare")
 	_return_list = _button(controls, "", _return_to_list, "NotebookReturnList")
+	_button(controls, "", func() -> void: refresh_requested.emit(), "NotebookRefresh")
+	_tools = HFlowContainer.new()
+	_content.add_child(_tools)
+	_notice = _label(_content, "")
+	_notice.name = "NotebookNotice"
+	_command = VBoxContainer.new()
+	_content.add_child(_command)
 	_status = _label(_content, "")
 	_status.name = "NotebookStatus"
 	var pages := HBoxContainer.new()
@@ -298,6 +411,7 @@ func _apply_labels() -> void:
 	find_child("NotebookBookmarks", true, false).text = _l("책갈피만", "Bookmarks only")
 	find_child("NotebookPreviousRevisions", true, false).text = _l("이전·반박된 기록", "Previous / refuted records")
 	find_child("NotebookCompare", true, false).text = _l("담아 둔 자료 비교", "Compare saved materials")
+	find_child("NotebookRefresh", true, false).text = _l("갱신", "Refresh")
 	find_child("NotebookSwapPair", true, false).text = _l("A/B 교환", "Swap A/B")
 	_pair_switch.text = _l("A/B 화면 전환", "Switch A/B view")
 	var notebook_theme := Theme.new()
@@ -361,6 +475,12 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 	if not result.speaker.is_empty(): _label(target, result.speaker)
 	_label(target, result.text)
 	if with_links:
+		if _reference_editable:
+			var state: Dictionary = query.reference_state(result.key, _key)
+			if state.ok:
+				for collection in ["bookmarks", "comparison"]:
+					var title := _l("책갈피 해제" if state[collection] else "책갈피 추가", "Remove bookmark" if state[collection] else "Add bookmark") if collection == "bookmarks" else _l("비교 묶음에서 빼기" if state[collection] else "비교에 담기", "Remove from comparison" if state[collection] else "Add to comparison")
+					_button(target, title, func() -> void: reference_requested.emit(collection, state.reference, not state[collection]), "NotebookReference_" + collection)
 		if not _back_stack.is_empty(): _button(target, _l("이전 자료로", "Back to previous material"), _back, "NotebookBack")
 		for key in result.sources:
 			_button(target, _l("연결된 원문 보기", "Read linked source"), show_detail.bind(key, true), "NotebookSource")
@@ -369,6 +489,7 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 func _load_basket() -> void:
 	var basket: Dictionary = query.comparison(_key)
 	if not basket.ok: return
+	_pair = ["", ""]
 	for side in range(2):
 		var selector: OptionButton = _pair_selectors[side]
 		selector.clear()
@@ -431,6 +552,24 @@ func _responsive() -> void:
 	_pair_body.visible = _comparison_mode
 	_pair_switch.visible = compact
 	for side in range(2): _pair_panels[side].get_parent().visible = not compact or side == _compact_side
+	_cycle_focus.call_deferred()
+
+
+func _cycle_focus() -> void:
+	if not is_inside_tree() or not is_visible_in_tree(): return
+	var controls: Array[Control] = []
+	_collect_focus(self, controls)
+	for index in range(controls.size()):
+		controls[index].focus_next = controls[index].get_path_to(controls[(index + 1) % controls.size()])
+		controls[index].focus_previous = controls[index].get_path_to(controls[posmod(index - 1, controls.size())])
+
+
+func _collect_focus(node: Node, controls: Array[Control]) -> void:
+	for child in node.get_children():
+		if child is Control and not child.is_visible_in_tree(): continue
+		if child is Control and child.focus_mode == Control.FOCUS_ALL:
+			if not child is BaseButton or not child.disabled: controls.append(child)
+		if not child is Window: _collect_focus(child, controls)
 
 
 func _valid() -> bool:

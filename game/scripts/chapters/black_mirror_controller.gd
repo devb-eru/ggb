@@ -74,10 +74,17 @@ func _supported_hint_stages() -> Array:
 	return ["C3", "C4", "CF"]
 
 
-func _open_notebook() -> void:
+func _notebook_tools() -> Array:
+	var tools := super._notebook_tools()
+	if not tools.is_empty() and session != null and session.stage() == "C3":
+		tools.append({"id": "CleanerQuantityTable", "label": "Compare quantities" if TranslationServer.get_locale().begins_with("en") else "세정제 양 비교", "action": _open_cleaner_quantity_table})
+	return tools
+
+
+func _open_legacy_notebook() -> void:
 	if _interaction_blocked():
 		return
-	super._open_notebook()
+	super._open_legacy_notebook()
 	if session.stage() == "C3":
 		var button := Button.new()
 		button.name = "CleanerQuantityTable"

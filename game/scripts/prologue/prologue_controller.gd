@@ -169,6 +169,54 @@ var _prologue_surfaces := preload("res://scripts/systems/notebook_surface_captur
 var _prologue_surface_saves: Node
 var _prologue_surface_retry: Button
 var _prologue_surface_focus: WeakRef
+var _notebook_host
+var _menu_audio_paused := false
+
+
+func _unified_notebook_enabled() -> bool:
+	return not _test_mode and preload("res://scripts/systems/notebook_rollout.gd").enabled() and GameState.get_value("meta_progress.dialogue_history.schema_version", 0) == 2
+
+
+func _notebook_is_open() -> bool:
+	return is_instance_valid(_notebook_host)
+
+
+func _try_open_unified_notebook(tab: String) -> bool:
+	if not _unified_notebook_enabled(): return false
+	if _notebook_is_open(): return true
+	var blocked := _notebook_open_block_reason()
+	if not blocked.is_empty():
+		_set_status(blocked)
+		return true
+	_notebook_host = preload("res://scripts/systems/notebook_host.gd").new()
+	get_parent().add_child(_notebook_host)
+	if not _notebook_host.begin(self, GameState, SaveManager, tab):
+		_notebook_host.queue_free()
+		_notebook_host = null
+		_set_status("기록을 열지 못했습니다. 저장 상태를 확인해 주세요." if not TranslationServer.get_locale().begins_with("en") else "Unable to open records. Check save status.")
+	return true
+
+
+func _notebook_open_block_reason() -> String:
+	if (is_instance_valid(_fade) and _fade.visible) or GameState.get_value("reset_state.phase", "idle") != "idle":
+		return "전환이 끝난 뒤 수첩을 열 수 있습니다." if not TranslationServer.get_locale().begins_with("en") else "Open the notebook after this transition finishes."
+	if _uses_prologue_history() and ((_dialogue_active and _prologue_history_index != _dialogue_index) or (_dialogue_choice_active and not _choice_history_recorded)):
+		return "표시 중인 기록의 저장을 먼저 완료해 주세요." if not TranslationServer.get_locale().begins_with("en") else "Finish saving the displayed record first."
+	return ""
+
+
+func _notebook_tools() -> Array:
+	if _dialogue_active or _dialogue_choice_active or _modal_active or _inspection_active: return []
+	return [{"id": "NotebookLegacyNotes", "label": "기존 수첩 원문" if not TranslationServer.get_locale().begins_with("en") else "Earlier notebook text", "action": _open_legacy_notebook}]
+
+
+func _remember_menu_audio_pause(paused: bool) -> void:
+	_menu_audio_paused = paused
+
+
+func _resume_after_notebook(scope: Dictionary) -> void:
+	if is_queued_for_deletion() or _notebook_is_open() or scope != _prologue_surface_scope() or not _prologue_surface_enabled(): return
+	_resume_after_surface_retry(_prologue_surfaces.generation, scope)
 
 
 func _prologue_surface_enabled() -> bool:
@@ -221,6 +269,7 @@ func _prologue_surface_allowed() -> bool:
 
 
 func _flush_prologue_surfaces(generation: int, explicit_retry: bool = false) -> bool:
+	if _notebook_is_open(): return false
 	if not _prologue_surface_enabled(): return true
 	if _dialogue_active or _dialogue_choice_active or _modal_active:
 		if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
@@ -307,6 +356,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _notebook_is_open(): return
 	if is_instance_valid(_display_settings_panel) and _display_settings_panel.visible:
 		if event.is_action_pressed("ui_cancel", false, true):
 			_open_menu()
@@ -346,7 +396,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("notebook_toggle", false, true):
-		if _dialogue_choice_active:
+		if _unified_notebook_enabled():
+			_open_notebook()
+		elif _dialogue_choice_active:
 			_handle_dialogue_choice_cancel()
 		elif _inspection_active:
 			_close_window_inspection()
@@ -370,6 +422,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _build_ui() -> void:
+	if not menu_audio_pause_requested.is_connected(_remember_menu_audio_pause): menu_audio_pause_requested.connect(_remember_menu_audio_pause)
 	_background = TextureRect.new()
 	_background.name = "MansionBackground"
 	_background.texture = MANSION_BACKGROUND
@@ -409,6 +462,7 @@ func _build_ui() -> void:
 	_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_fade.visible = false
 	add_child(_fade)
+	if _unified_notebook_enabled(): move_child(_notebook_button, get_child_count() - 1)
 
 
 func _build_window_inspection_ui() -> void:
@@ -1405,7 +1459,7 @@ func _answer_p3_journal_choice(choice_id: String) -> void:
 
 
 func _resume_p3_journal_choice() -> void:
-	if _current_room != "M1_LIBRARY_OUTER" or _dialogue_active or _modal_active or _p3_journal_prompt_active:
+	if _notebook_is_open() or _current_room != "M1_LIBRARY_OUTER" or _dialogue_active or _modal_active or _p3_journal_prompt_active:
 		return
 	_p3_journal_prompt_active = true
 	_progress["p3_journal_choice"] = "pending"
@@ -1715,7 +1769,7 @@ func _answer_p4_father_choice(choice_id: String) -> void:
 
 
 func _resume_p4_question_answer() -> void:
-	if _dialogue_active or _dialogue_choice_active or bool(_progress.get("P4_complete", false)):
+	if _notebook_is_open() or _dialogue_active or _dialogue_choice_active or bool(_progress.get("P4_complete", false)):
 		return
 	var choice_id := String(_progress.get("p4_father_question", ""))
 	if P4_FATHER_CHOICES.has(choice_id):
@@ -2176,6 +2230,7 @@ func _on_dialogue_choice_focused(index: int) -> void:
 
 
 func _on_dialogue_choice_pressed(index: int) -> void:
+	if _notebook_is_open(): return
 	if not _dialogue_choice_active or index < 0 or index >= _dialogue_choice_buttons.size():
 		return
 	var choice_id := String(_dialogue_choice_buttons[index].get_meta("choice_id", ""))
@@ -2214,6 +2269,7 @@ func _handle_dialogue_choice_cancel() -> void:
 
 
 func _advance_dialogue() -> void:
+	if _notebook_is_open(): return
 	if not _record_prologue_history():
 		return
 	if not _dialogue_active:
@@ -2359,6 +2415,7 @@ func _apply_game_audio_settings(settings: Dictionary) -> void:
 
 
 func _open_dialogue_history() -> void:
+	if _try_open_unified_notebook("dialogue"): return
 	var result := _dialogue_texts.render_history(GameState.get_value(&"meta_progress.dialogue_history", {}), TranslationServer.get_locale())
 	_show_history_result(result)
 
@@ -2534,6 +2591,11 @@ func _localized_notebook_entry(entry: String) -> String:
 
 
 func _open_notebook() -> void:
+	if _try_open_unified_notebook("clues"): return
+	_open_legacy_notebook()
+
+
+func _open_legacy_notebook() -> void:
 	if _dialogue_active or _dialogue_choice_active:
 		return
 	var entries: Array = _progress.get("notebook_entries", [])
@@ -2573,6 +2635,7 @@ func _record_prologue_confirmation_options(request: Dictionary) -> bool:
 
 
 func _prologue_confirmation_pressed(request: Dictionary, choice: String) -> void:
+	if _notebook_is_open(): return
 	if not _modal_active or request.generation != _history_generation: return
 	if not _record_prologue_confirmation_options(request): return
 	if _uses_prologue_history():
@@ -2673,6 +2736,9 @@ func _focus_visible_control(reference: WeakRef) -> void:
 
 
 func _close_modal() -> void:
+	if _notebook_is_open():
+		_notebook_host.request_close()
+		return
 	_prologue_confirmation = {}
 	_remember_history_scroll()
 	_history_generation += 1
@@ -2934,7 +3000,7 @@ func _mark_intro(intro_id: String) -> void:
 
 
 func _interaction_blocked() -> bool:
-	return _dialogue_active or _dialogue_choice_active or _modal_active or not _prologue_surface_allowed()
+	return _notebook_is_open() or _dialogue_active or _dialogue_choice_active or _modal_active or not _prologue_surface_allowed()
 
 
 func _place(control: Control, rect: Rect2) -> void:

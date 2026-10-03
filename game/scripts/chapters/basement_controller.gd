@@ -1089,7 +1089,14 @@ func _show_j4_confirmation() -> void:
 		_show_fracture_resolution_modal(JOURNAL_DISPLAY.MODAL_TITLE, body, actions)
 	var confirm := _modal_body.get_child(4) as Button
 	confirm.disabled = true
-	get_tree().create_timer(0.5, false).timeout.connect(_enable_j4_confirm.bind(weakref(confirm)))
+	var delay := Timer.new()
+	delay.name = "J4ConfirmDelay"
+	delay.one_shot = true
+	delay.wait_time = 0.5
+	add_child(delay)
+	delay.timeout.connect(_enable_j4_confirm.bind(weakref(confirm)))
+	delay.timeout.connect(delay.queue_free)
+	delay.start()
 
 
 func _enable_j4_confirm(reference: WeakRef) -> void:
@@ -1245,7 +1252,18 @@ func _reality_disconnect() -> void:
 	_show_dialogue(typed.lines, _reality_fade)
 
 
+func _notebook_open_block_reason() -> String:
+	var reason := super._notebook_open_block_reason()
+	if not reason.is_empty(): return reason
+	if _d5_hold_active or _d6_sleep_transition_active or (session != null and session.stage() == "D5" and SaveManager.get_build_flavor() == "demo" and _demo_stinger_seconds < 60.0):
+		return "현재 장면을 확인한 뒤 수첩을 열 수 있습니다." if not TranslationServer.get_locale().begins_with("en") else "Open the notebook after the current scene finishes."
+	return ""
+
+
 func _open_notebook() -> void:
+	if _unified_notebook_enabled() and session != null and session.stage() not in ["FIELD_NOTEBOOK", "REALITY_SURFACE"] and not String(session.snapshot().loop_state.location_id).begins_with("R0_"):
+		super._open_notebook()
+		return
 	if not _notebook_surface_allowed(): return
 	if session != null and session.stage() in ["FIELD_NOTEBOOK","REALITY_SURFACE"]:
 		_open_field_page("FIELD_NOTEBOOK_COVER",false)
@@ -1759,7 +1777,7 @@ func _notification(what: int) -> void:
 	super._notification(what)
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and session != null and session.stage() == "EDC":
 		# An interrupted confirmation never executes on focus return.
-		if _modal_active: _close_modal()
+		if _modal_active and not _notebook_is_open(): _close_modal()
 	if what == NOTIFICATION_APPLICATION_FOCUS_IN and session != null and session.stage() == "EDC":
 		call_deferred("_restore_world_focus")
 

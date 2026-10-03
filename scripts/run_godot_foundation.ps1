@@ -131,6 +131,9 @@ $historyResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, 
 
 $queryResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-query-smoke")
 Assert-GodotValidation -Result $queryResult -Name "Notebook read model and shared panel" -RequiredMarker "NOTEBOOK_QUERY_SMOKE: PASS"
+
+$hostResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-host-smoke", "--ggb-dev-notebook-v2")
+Assert-GodotValidation -Result $hostResult -Name "Notebook suspension and reference commands" -RequiredMarker "NOTEBOOK_HOST_SMOKE: PASS"
 Assert-GodotValidation -Result $historyResult -Name "Dialogue history" -RequiredMarker "DIALOGUE_HISTORY_SMOKE: PASS"
 
 $archiveResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--script", "res://scripts/tests/notebook_archive_smoke.gd", "--quit-after", "1800")
