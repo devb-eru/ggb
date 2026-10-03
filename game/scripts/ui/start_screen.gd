@@ -113,6 +113,10 @@ var _gallery_entries: Array[Dictionary] = []
 var _gallery_pages: Array[Dictionary] = []
 var _gallery_page_index := 0
 var _gallery_scroll: ScrollContainer
+var _gallery_notebook_button: Button
+var _gallery_notebook_host
+var _gallery_entry_index := -1
+var gallery_store := EndingGalleryStore.new()
 var _import_button: Button
 var _import_controls: HBoxContainer
 var _import_choices: OptionButton
@@ -373,6 +377,12 @@ func _setup_gallery() -> void:
 	_gallery_controls.add_child(_gallery_next)
 	_gallery_next.pressed.connect(func(): _show_gallery_page(_gallery_page_index+1))
 	_gallery_controls.hide()
+	_gallery_notebook_button = Button.new()
+	_gallery_notebook_button.name = "GalleryNotebookButton"
+	_gallery_notebook_button.text = GALLERY_TEXTS.text("notebook_open", _locale)
+	_launch_return_button.get_parent().add_child(_gallery_notebook_button)
+	_gallery_notebook_button.pressed.connect(_open_gallery_notebook)
+	_gallery_notebook_button.hide()
 
 func _gallery_scroll_input(event: InputEvent) -> void:
 	if not _gallery_scroll.has_focus() or not _gallery_scroll.is_visible_in_tree(): return
@@ -385,7 +395,8 @@ func _gallery_scroll_input(event: InputEvent) -> void:
 func _open_gallery() -> void:
 	_gallery_previous.text = GALLERY_TEXTS.text("previous",_locale)
 	_gallery_next.text = GALLERY_TEXTS.text("next",_locale)
-	_gallery_entries = preload("res://scripts/systems/ending_gallery_store.gd").new().list_entries()
+	_gallery_entries = gallery_store.list_entries()
+	_gallery_entry_index = -1
 	_gallery_choices.clear()
 	_gallery_scroll.scroll_vertical = 0
 	_gallery_pages.clear()
@@ -402,8 +413,24 @@ func _open_gallery() -> void:
 
 func _select_gallery_entry(index: int) -> void:
 	if index < 0 or index >= _gallery_entries.size(): return
+	_gallery_entry_index = index
+	_gallery_notebook_button.text = GALLERY_TEXTS.text("notebook_open", _locale)
+	_gallery_notebook_button.visible = preload("res://scripts/systems/notebook_rollout.gd").enabled()
 	_gallery_pages = preload("res://scripts/systems/ending_gallery_pages.gd").build(_gallery_entries[index]["state"],_locale)
 	_show_gallery_page(0)
+
+func _open_gallery_notebook() -> void:
+	if not preload("res://scripts/systems/notebook_rollout.gd").enabled() or not _gallery_controls.visible or is_instance_valid(_gallery_notebook_host): return
+	if _gallery_entry_index < 0 or _gallery_entry_index >= _gallery_entries.size(): return
+	_gallery_notebook_host = preload("res://scripts/systems/notebook_gallery_host.gd").new()
+	get_parent().add_child(_gallery_notebook_host)
+	_gallery_notebook_host.closed.connect(func() -> void:
+		_gallery_notebook_host = null
+		if _gallery_controls.is_visible_in_tree(): _gallery_notebook_button.grab_focus())
+	if not _gallery_notebook_host.begin(self, gallery_store, _gallery_entries[_gallery_entry_index].id, _locale, float(_profile.get("text_scale", 1.0))):
+		_gallery_notebook_host.queue_free()
+		_gallery_notebook_host = null
+		_launch_body.text = GALLERY_TEXTS.text("notebook_unavailable", _locale)
 
 func _show_gallery_page(index: int) -> void:
 	if index < 0 or index >= _gallery_pages.size(): return
@@ -707,6 +734,7 @@ func _apply_profile() -> void:
 
 
 func _open_modal(panel: Control, focus_target: Control, remember_focus: bool = true) -> void:
+	if is_instance_valid(_gallery_notebook_button): _gallery_notebook_button.hide()
 	if is_instance_valid(_import_controls): _import_controls.hide()
 	if is_instance_valid(_gallery_controls): _gallery_controls.hide()
 	if remember_focus:
@@ -720,6 +748,7 @@ func _open_modal(panel: Control, focus_target: Control, remember_focus: bool = t
 
 
 func _close_modal() -> void:
+	if is_instance_valid(_gallery_notebook_button): _gallery_notebook_button.hide()
 	if is_instance_valid(_import_controls): _import_controls.hide()
 	if is_instance_valid(_gallery_controls): _gallery_controls.hide()
 	for modal in _modal_panels():
@@ -774,7 +803,7 @@ func _all_interactive_controls() -> Array[Control]:
 	controls.append_array(_key_panel.interactive_controls())
 	controls.append_array(_display_panel.interactive_controls())
 	if is_instance_valid(_gallery_button):
-		controls.append_array([_gallery_button,_gallery_choices,_gallery_previous,_gallery_next])
+		controls.append_array([_gallery_button,_gallery_choices,_gallery_previous,_gallery_next,_gallery_notebook_button])
 	if is_instance_valid(_import_button): controls.append_array([_import_button,_import_choices,_import_confirm])
 	return controls
 

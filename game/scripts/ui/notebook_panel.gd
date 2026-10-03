@@ -49,6 +49,7 @@ var _tools: HFlowContainer
 var _command: VBoxContainer
 var _notice: Label
 var _reference_editable := false
+var _temporary_comparison := false
 var _seen: Dictionary = {}
 var _seen_groups: Dictionary = {}
 var _restoring_view := false
@@ -129,12 +130,14 @@ func dismiss() -> void:
 	clear_command()
 	_notice.text = ""
 	_reference_editable = false
+	_temporary_comparison = false
 	_seen.clear()
 	_seen_groups.clear()
 
 
-func set_reference_editable(enabled: bool) -> void:
+func set_reference_editable(enabled: bool, temporary_comparison: bool = false) -> void:
 	_reference_editable = enabled
+	_temporary_comparison = temporary_comparison
 	if not _selected.is_empty(): show_detail(_selected, false, true, false)
 
 
@@ -727,12 +730,16 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 					var labels := {"previous": _l("이전 발언", "Previous line"), "next": _l("다음 발언", "Next line"), "last": _l("마지막 발언", "Last line")}
 					var button := _button(links, labels[direction], _navigate_line.bind(navigation[direction], direction), "NotebookLine_" + direction)
 					button.disabled = String(navigation[direction]).is_empty() or navigation[direction] == result.key
-		if _reference_editable:
+		if _reference_editable or _temporary_comparison:
 			var state: Dictionary = query.reference_state(result.key, _key)
 			if state.ok:
 				for collection in ["bookmarks", "comparison"]:
+					if collection == "bookmarks" and not _reference_editable: continue
 					var title := _l("책갈피 해제" if state[collection] else "책갈피 추가", "Remove bookmark" if state[collection] else "Add bookmark") if collection == "bookmarks" else _l("비교 묶음에서 빼기" if state[collection] else "비교에 담기", "Remove from comparison" if state[collection] else "Add to comparison")
-					_button(target, title, func() -> void: reference_requested.emit(collection, state.reference, not state[collection]), "NotebookReference_" + collection)
+					if collection == "comparison" and _temporary_comparison: title = _l("임시 비교에서 빼기" if state.comparison else "임시 비교에 담기", "Remove from temporary comparison" if state.comparison else "Add to temporary comparison")
+					var expected := _key
+					_button(target, title, func() -> void:
+						if _valid() and _key == expected: reference_requested.emit(collection, state.reference, not state[collection]), "NotebookReference_" + collection)
 		if not _back_stack.is_empty(): _button(target, _l("이전 자료로", "Back to previous material"), _back, "NotebookBack")
 		for key in result.sources:
 			_button(target, _l("연결된 원문 보기", "Read linked source"), show_detail.bind(key, true), "NotebookSource_" + String(key).sha256_text())

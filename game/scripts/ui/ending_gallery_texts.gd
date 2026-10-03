@@ -7,6 +7,12 @@ const SURFACE := preload("res://scripts/ui/reality_surface_texts.gd")
 const CHARTER := preload("res://scripts/ui/stay_charter_texts.gd")
 const STORY := preload("res://scripts/ui/stay_story_texts.gd")
 const LABELS := {
+	"notebook_open": ["이 기록의 수첩", "Notebook from this record"],
+	"notebook_readonly": ["선택한 엔딩에 보관된 기록만 읽습니다. 본편·원본·책갈피는 바뀌지 않습니다. 임시 비교는 닫으면 사라집니다.", "Only records preserved with this ending are shown. Your game, original archive and bookmarks are unchanged. Temporary comparisons are discarded on closing."],
+	"notebook_unavailable": ["이 보관본의 수첩을 열지 못했습니다. 원본은 변경하지 않았습니다.", "Unable to open this archived notebook. The original has not been changed."],
+	"notebook_view_reset": ["이전 열람 위치를 복원하지 못했습니다. 보관 원문은 그대로 유지됩니다.", "The previous viewing position could not be restored. Archived records are unchanged."],
+	"notebook_view_failed": ["갤러리 열람 위치를 저장하지 못했습니다. 보관 원문과 본편 저장에는 영향이 없습니다.", "Gallery viewing preferences were not saved. Archived records and game saves are unaffected."],
+	"notebook_comparison_limit": ["임시 비교에는 최대 12개 자료를 담을 수 있습니다. 한 자료를 빼고 다시 담아 주세요.", "Temporary comparison holds up to 12 materials. Remove one before adding another."],
 	"entry_location": ["코어실", "Core room"],
 	"entry_objective": ["확정된 절차의 시작", "Begin the confirmed procedure"],
 	"identity_objective": ["전원 이름 인증", "Verify all five names"],

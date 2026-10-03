@@ -42,6 +42,8 @@ var _investigation_keys: Array = []
 var _record_continuity := false
 var _unrestored_morning := false
 var _reference_keys: Dictionary = {}
+var _gallery_comparison: Array = []
+var _gallery_comparison_enabled := false
 
 
 func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String, legacy_knowledge: Dictionary = {}, current_node: String = "") -> Dictionary:
@@ -183,6 +185,8 @@ func close() -> void:
 	_record_continuity = false
 	_unrestored_morning = false
 	_reference_keys.clear()
+	_gallery_comparison.clear()
+	_gallery_comparison_enabled = false
 
 
 func cache_key() -> String:
@@ -400,10 +404,34 @@ func visible_filters(filters: Dictionary) -> Dictionary:
 func comparison(expected_key: String) -> Dictionary:
 	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
 	var items: Array = []
+	if _gallery_comparison_enabled:
+		for key in _gallery_comparison:
+			if _rows.has(key): items.append({"key": key, "title": _rows[key].title})
+		return {"ok": true, "items": items}
 	for ref in _archive.comparison:
 		var key := reference_key(ref)
 		if _rows.has(key): items.append({"key": key, "title": _rows[key].title})
 	return {"ok": true, "items": items}
+
+
+func enable_gallery_comparison() -> bool:
+	if not _ready or _scope.namespace != "gallery": return false
+	_gallery_comparison = comparison(cache_key()).items.map(func(item: Dictionary) -> String: return item.key)
+	_gallery_comparison_enabled = true
+	_generation += 1
+	return true
+
+
+func edit_gallery_comparison(reference: Dictionary, enabled: bool, expected_key: String) -> Dictionary:
+	if not _ready or expected_key != cache_key() or not _gallery_comparison_enabled or _scope.namespace != "gallery": return _error("NB_QUERY_STALE")
+	var key := reference_key(reference)
+	if not _rows.has(key): return _error("NB_QUERY_UNAVAILABLE")
+	if enabled and key not in _gallery_comparison:
+		if _gallery_comparison.size() >= ARCHIVE.COMPARISON_LIMIT: return _error("NB_GALLERY_COMPARISON_LIMIT")
+		_gallery_comparison.append(key)
+	elif not enabled: _gallery_comparison.erase(key)
+	_generation += 1
+	return {"ok": true}
 
 
 func public_label(field: String, id: String) -> String:
@@ -474,7 +502,7 @@ func reference_state(key: String, expected_key: String) -> Dictionary:
 	if not _ready or expected_key != cache_key() or not _rows.has(key): return _error("NB_QUERY_STALE")
 	var ref: Dictionary = _rows[key].reference
 	var canonical := reference_key(ref)
-	return {"ok": true, "reference": ref.duplicate(true), "bookmarks": _reference_keys.bookmarks.has(canonical), "comparison": _reference_keys.comparison.has(canonical)}
+	return {"ok": true, "reference": ref.duplicate(true), "bookmarks": _reference_keys.bookmarks.has(canonical), "comparison": canonical in _gallery_comparison if _gallery_comparison_enabled else _reference_keys.comparison.has(canonical)}
 
 
 func _matching(filters: Dictionary) -> Array:

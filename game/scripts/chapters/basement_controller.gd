@@ -32,6 +32,7 @@ const CORE_NOTES := preload("res://scripts/systems/core_notebook.gd")
 const FINAL_NOTES := preload("res://scripts/systems/final_notebook.gd")
 const REALITY_NOTES := preload("res://scripts/systems/reality_notebook.gd")
 var _surface_active_seconds := 0.0
+var _gallery_notebook_host
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
 var _demo_stinger_save_failed := false
@@ -1566,7 +1567,22 @@ func _gallery_page(id: String, page: int) -> void:
 	var actions: Array = [{"label":GALLERY_TEXTS.text("back",locale),"action":_gallery_menu}]
 	if page > 0: actions.append({"label":GALLERY_TEXTS.text("previous_record",locale),"action":_gallery_page.bind(id,page-1)})
 	if page+1 < pages.size(): actions.append({"label":GALLERY_TEXTS.text("next_record",locale),"action":_gallery_page.bind(id,page+1)})
+	if preload("res://scripts/systems/notebook_rollout.gd").enabled(): actions.append({"label":GALLERY_TEXTS.text("notebook_open",locale),"action":_open_gallery_notebook.bind(id)})
 	_show_modal("%s · %d/%d" % [pages[page]["title"],page+1,pages.size()], pages[page]["text"], actions)
+
+
+func _open_gallery_notebook(id: String) -> void:
+	if not preload("res://scripts/systems/notebook_rollout.gd").enabled() or session.stage() != "POST_CREDITS" or is_instance_valid(_gallery_notebook_host): return
+	var store := EndingGalleryStore.new(session.ending_meta_store.root_path.path_join("ending_gallery"))
+	_gallery_notebook_host = preload("res://scripts/systems/notebook_gallery_host.gd").new()
+	get_parent().add_child(_gallery_notebook_host)
+	_gallery_notebook_host.closed.connect(func() -> void:
+		_gallery_notebook_host = null
+		_gallery_menu.call_deferred())
+	if not _gallery_notebook_host.begin(self, store, id, TranslationServer.get_locale(), _reading_text_scale):
+		_gallery_notebook_host.queue_free()
+		_gallery_notebook_host = null
+		_set_status(GALLERY_TEXTS.text("notebook_unavailable", TranslationServer.get_locale()))
 
 
 func _reselect_source() -> String:
