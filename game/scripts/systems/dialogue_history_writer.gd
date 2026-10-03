@@ -1,12 +1,16 @@
 extends RefCounted
 
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
+const PRESENTATION := preload("res://scripts/systems/notebook_presentation.gd")
 
 
 static func record(game: Node, saves: Node, slot: String, point: String, speaker: String, text: String, locale: String, chapter_id: String = "LEGACY", observed_fact_ids: Variant = [], context: Dictionary = {}) -> Dictionary:
 	if text.is_empty():
 		return {"ok": true}
 	var state: Dictionary = game.get_snapshot()
+	var cursor: Dictionary = context.get("presentation_cursor", {})
+	if context.has("presentation_cursor") and not PRESENTATION.matches(cursor, state):
+		return {"ok": false, "error_ids": ["NB_PRESENTATION_STALE"]}
 	var facts := preload("res://scripts/systems/dialogue_observed_facts.gd").capture(state, observed_fact_ids)
 	if not facts.ok:
 		return facts
@@ -18,6 +22,7 @@ static func record(game: Node, saves: Node, slot: String, point: String, speaker
 	var entry_uid := ""
 	if history.has("schema_version"):
 		var frozen := context.duplicate(true)
+		frozen.erase("presentation_cursor")
 		if not frozen.has("presentation_token"): frozen.presentation_token = ARCHIVE.new_uid()
 		var appended: Dictionary
 		if frozen.has("notebook_content"):
@@ -27,13 +32,26 @@ static func record(game: Node, saves: Node, slot: String, point: String, speaker
 		else:
 			appended = ARCHIVE.append_unmapped(history, payload, frozen, int(history.revision))
 		if not appended.ok: return appended
-		if not appended.changed: return {"ok": true, "entry_uid": appended.entry_uid}
+		if not appended.changed and cursor.is_empty(): return {"ok": true, "entry_uid": appended.entry_uid}
 		state.meta_progress.dialogue_history = appended.archive
 		entry_uid = appended.entry_uid
 	else:
 		payload.sequence = int(history.next_sequence)
 		history.entries.append(payload)
 		history.next_sequence = int(history.next_sequence) + 1
+	if not cursor.is_empty(): PRESENTATION.install(state, cursor)
+	return _commit_snapshot(game, saves, slot, point, state, entry_uid)
+
+
+static func save_cursor(game: Node, saves: Node, slot: String, point: String, cursor: Dictionary) -> Dictionary:
+	var state: Dictionary = game.get_snapshot()
+	if not PRESENTATION.matches(cursor, state) or not PRESENTATION.observed(cursor, state):
+		return {"ok": false, "error_ids": ["NB_PRESENTATION_STALE"]}
+	PRESENTATION.install(state, cursor)
+	return _commit_snapshot(game, saves, slot, point, state, "")
+
+
+static func _commit_snapshot(game: Node, saves: Node, slot: String, point: String, state: Dictionary, entry_uid: String) -> Dictionary:
 	var transaction := StringName("HISTORY_R%06d" % (game.revision + 1))
 	var installed: Dictionary = StateWriter.new(game).install_snapshot(state, game.revision, transaction)
 	if not installed.get("ok", false):

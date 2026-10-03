@@ -82,6 +82,10 @@ func _notebook_surface_allowed() -> bool:
 	return _flush_notebook_surfaces(_notebook_surfaces.generation)
 
 
+const PRESENTATION := preload("res://scripts/systems/notebook_presentation.gd")
+var _presentation_scope := {}
+
+
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_build_ui()
@@ -92,9 +96,14 @@ func _ready() -> void:
 	_edgar_timer.timeout.connect(_on_edgar_timeout)
 	add_child(_edgar_timer)
 	session = _make_session()
+	var handoff := PRESENTATION.completed_handoff(session.snapshot(), PRESENTATION.family(self))
+	if handoff:
+		session._presentation_commit_override = PRESENTATION.read(session.snapshot())
+		session._presentation_commit_override.family = PRESENTATION.family(self)
 	var result := session.initialize()
+	session._presentation_commit_override = {}
 	_render_room()
-	_feedback(result)
+	if not _restore_presentation(): _feedback(result)
 
 
 func _notification(what: int) -> void:
@@ -144,14 +153,38 @@ func _restore_world_focus() -> void:
 			return
 
 
-func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
+func _show_dialogue(lines: Array, after: Callable = Callable(), start_index: int = 0) -> void:
 	_remember_world_focus()
 	_history_recorded_index = -1
+	_presentation_scope = _recorded_choice_scope()
 	var captured := lines.duplicate(true)
 	for line in captured:
 		if not line.has("history_context") and session != null:
 			line["history_context"] = session.history_context()
-	super._show_dialogue(captured, after)
+	super._show_dialogue(captured, after, start_index)
+
+
+func _presentation_enabled() -> bool:
+	return _history_enabled() and session.snapshot().meta_progress.dialogue_history.has("schema_version") and PRESENTATION.family(self) in PRESENTATION.FAMILIES
+
+
+func _restore_presentation() -> bool:
+	if not _presentation_enabled(): return false
+	var state: Dictionary = session.snapshot()
+	var cursor := PRESENTATION.read(state)
+	if not PRESENTATION.matches(cursor, state) or cursor.family != PRESENTATION.family(self) or not PRESENTATION.observed(cursor, state): return false
+	if cursor.phase == "completed": return true
+	_presentation_scope = _recorded_choice_scope()
+	_history_recorded_index = int(cursor.index)
+	super._show_dialogue(PRESENTATION.localized_lines(cursor, TranslationServer.get_locale()), PRESENTATION.callable_for(self, cursor.after), int(cursor.index))
+	return true
+
+
+func _presentation_cursor(phase: String = "reading") -> Dictionary:
+	if _presentation_scope != _recorded_choice_scope(): return {"ok": false}
+	var continuation := PRESENTATION.route(self, _dialogue_after)
+	if not continuation.ok: return {"ok": false}
+	return PRESENTATION.create(session.snapshot(), PRESENTATION.family(self), _dialogue_lines, _dialogue_index, TranslationServer.get_locale(), continuation.value, phase)
 
 
 func _history_enabled() -> bool:
@@ -168,9 +201,17 @@ func _present_dialogue_line() -> void:
 
 
 func _record_current_history_line() -> bool:
-	if not _history_enabled() or not _dialogue_active or _history_recorded_index == _dialogue_index:
+	if not _history_enabled() or not _dialogue_active:
 		return true
+	if _presentation_enabled() and _presentation_scope != _recorded_choice_scope(): return false
+	if _history_recorded_index == _dialogue_index: return true
 	var context: Dictionary = _dialogue_lines[_dialogue_index].get("history_context", {}).duplicate(true)
+	if _presentation_enabled():
+		var cursor := _presentation_cursor()
+		if not cursor.ok:
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return false
+		context.presentation_cursor = cursor.value
 	context["observed_fact_ids"] = _dialogue_lines[_dialogue_index].get("observed_fact_ids", [])
 	context["presentation_token"] = _dialogue_lines[_dialogue_index].presentation_token
 	if _dialogue_lines[_dialogue_index].has("notebook_content"):
@@ -207,6 +248,13 @@ func _advance_dialogue() -> void:
 	if _notebook_is_open(): return
 	if not _record_current_history_line():
 		return
+	if _presentation_enabled() and _dialogue_active and _dialogue_index == _dialogue_lines.size() - 1:
+		var cursor := _presentation_cursor("completed" if _dialogue_after.is_null() else "finish_pending")
+		if not cursor.ok: return
+		var saved := preload("res://scripts/systems/dialogue_history_writer.gd").save_cursor(session._game, session._save, session.slot_id, session._save_point(session.snapshot()), cursor.value)
+		if not saved.ok:
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return
 	super._advance_dialogue()
 	if not _dialogue_active:
 		call_deferred("_restore_world_focus")
@@ -332,16 +380,22 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 	if not _notebook_surface_allowed(): return
 	if _interaction_blocked():
 		return
+	if not show_text and _presentation_enabled():
+		var completion := PRESENTATION.completion_for_action(session.snapshot(), PRESENTATION.family(self), action, value)
+		if not completion.is_empty():
+			if _presentation_scope != _recorded_choice_scope(): return
+			session._presentation_commit_override = completion
 	var result := session.act(action, value)
+	session._presentation_commit_override = {}
 	if result.get("ok", false):
 		_set_status("")
 	_render_room()
 	if show_text:
-		_feedback(result)
-		if action == "activate_clock" and result.get("ok", false) and session.stage() == "BF" and _dialogue_active:
+		if action == "activate_clock" and result.get("ok", false) and session.stage() == "BF":
 			var failure: Dictionary = session.snapshot()["meta_progress"]["failure_knowledge"].get("B3_B", {})
 			if int(failure.get("attempts", 0)) >= 2:
-				_dialogue_after = _offer_clock_failure_support
+				result["presentation_after"] = _offer_clock_failure_support
+		_feedback(result)
 	elif not result.get("ok", false):
 		var text_id := String(result.get("text_id", ""))
 		var fallback := String(result.get("text", str(result.get("error_ids", []))))
@@ -373,7 +427,7 @@ func _feedback(result: Dictionary) -> void:
 			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 			return
 		for index in range(lines.size()): lines[index].notebook_content = descriptors[index].duplicate(true)
-	_show_dialogue(lines)
+	_show_dialogue(lines, result.get("presentation_after", Callable()))
 
 
 func _display_feedback(text: String) -> String:

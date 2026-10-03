@@ -147,6 +147,14 @@ func _ready() -> void:
 		call_deferred("_run_notebook_query_smoke")
 	elif "--notebook-host-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_host_smoke")
+	elif "--notebook-presentation-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_presentation_smoke")
+
+
+func _run_notebook_presentation_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/notebook_presentation_smoke.gd").new().run(get_tree())
+	print("NOTEBOOK_PRESENTATION_SMOKE: " + ("PASS" if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
 
 
 func _run_notebook_host_smoke() -> void:
@@ -587,9 +595,13 @@ func _launch_campaign(slot_id: String) -> void:
 		_prologue.queue_free()
 	var mirror_chapter := int(GameState.get_value(&"meta_progress.journal_stage", 0)) >= 2
 	var basement_chapter := int(GameState.get_value(&"meta_progress.journal_stage", 0)) >= 3
-	_prologue = BASEMENT_SCRIPT.new() if basement_chapter else (BLACK_MIRROR_SCRIPT.new() if mirror_chapter else CHAPTER_ONE_SCRIPT.new())
+	var script := BASEMENT_SCRIPT if basement_chapter else (BLACK_MIRROR_SCRIPT if mirror_chapter else CHAPTER_ONE_SCRIPT)
+	var resumed_family := preload("res://scripts/systems/notebook_presentation.gd").resume_family(GameState.get_snapshot())
+	if not resumed_family.is_empty():
+		script = {"chapter_one_controller": CHAPTER_ONE_SCRIPT, "black_mirror_controller": BLACK_MIRROR_SCRIPT, "basement_controller": BASEMENT_SCRIPT}[resumed_family]
+	_prologue = script.new()
 	_prologue.process_mode = Node.PROCESS_MODE_PAUSABLE
-	_prologue.name = "Basement" if basement_chapter else ("BlackMirror" if mirror_chapter else "ChapterOne")
+	_prologue.name = "Basement" if script == BASEMENT_SCRIPT else ("BlackMirror" if script == BLACK_MIRROR_SCRIPT else "ChapterOne")
 	_prologue.configure_session(slot_id, "MORNING_ROUTE")
 	_prologue.audio_settings_changed.connect(_apply_audio_settings)
 	_prologue.menu_audio_pause_requested.connect(_set_menu_audio_pause)

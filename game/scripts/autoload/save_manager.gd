@@ -225,7 +225,9 @@ func load_slot(slot_id: String) -> Dictionary:
 		backup = _promote_legacy(slot_id, backup)
 		if not backup.get("ok", false): return _failed_backup_recovery(paths, backup)
 		if backup.snapshot.meta_progress.dialogue_history.has("schema_version"):
+			var before_fork: Dictionary = backup.snapshot.duplicate(true)
 			backup.snapshot.meta_progress.dialogue_history = NOTEBOOK_ROLLOUT.fork_history(backup.snapshot.meta_progress.dialogue_history)
+			preload("res://scripts/systems/notebook_presentation.gd").carry(backup.snapshot, before_fork)
 			var branch_saved := save_snapshot(slot_id, String(backup.header.save_point_id), backup.snapshot, int(backup.header.state_revision), "BACKUP_RECOVERY_BRANCH")
 			if not branch_saved.ok: return _failed_backup_recovery(paths, branch_saved)
 			backup = _read_and_validate(paths.main)
@@ -451,6 +453,11 @@ func _read_and_validate(path: String) -> Dictionary:
 		if notebook_version != NOTEBOOK_ARCHIVE.VERSION:
 			return _load_failure(&"ERR_SAVE_NOTEBOOK_SCHEMA")
 	var meta: Variant = payload.state.get("meta_progress")
+	var cursor: Dictionary = preload("res://scripts/systems/notebook_presentation.gd").read(payload.state)
+	if cursor is Dictionary:
+		var version: Variant = cursor.get("schema_version")
+		if (version is int or version is float) and is_finite(float(version)) and float(version) == floor(float(version)) and version > preload("res://scripts/systems/notebook_presentation.gd").VERSION:
+			return _load_failure(&"ERR_SAVE_FUTURE_SCHEMA")
 	if meta is Dictionary and meta.get("knowledge_entries") is Dictionary:
 		var ledger: Variant = meta.knowledge_entries.get("notebook_knowledge")
 		if ledger is Dictionary:

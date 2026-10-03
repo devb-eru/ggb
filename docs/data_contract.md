@@ -646,3 +646,26 @@ UI sidecar의 파일 재로드와 컨트롤러 재생성 검증은 진행 중 �
 `notebook_gallery_host.gd`는 GameState/SaveManager를 참조하지 않는다. 유일한 쓰기는 별도 UI 편의 저장이다. 편의 파일 실패는 기록 열람을 막지 않고 안내하며, 미래 버전 편의 파일은 덮어쓰지 않는다. 게임 저장과 보관 envelope schema는 변경하지 않는다.
 
 검증 범위와 실행 상태는 [갤러리 수첩 검증](gallery_notebook_validation.md)을 따른다. 엔진 내 신호/키 이벤트 검사를 실제 Windows 입력, 화면 캡처 또는 성능 인수로 계산하지 않는다.
+
+### 9.11. 본편 대사 표시 위치의 영속 복원
+
+v2 대화 보관 구조를 사용하는 ChapterOne, BlackMirror, Basement의 공통 대사 큐에 적용한다. 프롤로그 대사, 선택 모달, 개별 조사 본문 큐의 앱 재시작 복원까지 완료했다는 계약은 아니다. 기존 legacy 보관 구조와 수첩 기본 비활성 정책은 유지한다.
+
+| 항목 | 계약 |
+| --- | --- |
+| 저장 위치 | `loop_state.event_local_states.NOTEBOOK_PRESENTATION`, 독립 `schema_version=1`. UI 편의 sidecar나 영구 지식이 아닌 현재 게임 진행 상태다. 물리 리셋의 로컬 상태 정리 대상이며 영구 기록을 삭제하지 않는다. |
+| 고정 내용 | 컨트롤러 family, 원본/분기 식별자, 세계 상태 anchor, `reading/finish_pending/completed`, 문장 index, 당시 locale, 대사 큐, 제한된 후속 동작을 보존한다. 각 문장은 원문 descriptor, 화자/텍스트, 사건/대화 session, 동일 presentation token과 연출 메타데이터를 유지한다. |
+| 공개 경계 | 대기 중인 다음 문장은 저장돼도 보관 대사/검색/지식으로 공개되지 않는다. 현재 실제 표시 문장만 기존 history writer에 전달한다. `presentation_cursor`는 관찰 snapshot context와 미분류 원문 payload에서 제외한다. |
+| 원자성 | 실제 문장 기록과 커서 전진은 하나의 StateWriter/SaveManager 트랜잭션이다. 저장 실패는 두 상태를 함께 롤백하고 표시된 문장을 재시도 대상으로 남긴다. 응답 소실은 디스크 커밋과 전체 snapshot의 동등성을 확인한 경우만 성공으로 복구한다. |
+| 재개 | 검증된 커서가 같은 세계·원본·분기와 일치하고 현재 토큰의 관찰이 실제 보관돼 있을 때 같은 index로 복원한다. 이미 기록된 현재 문장은 다시 append하지 않는다. 정확한 descriptor 버전이 있으면 현재 언어로 표시하고 미등록 원문은 기존 문자열을 유지한다. |
+| 종료 | 마지막 문장 닫기도 저장 성공 후 실행한다. 후속 동작이 없으면 `completed`, 있으면 `finish_pending`이다. 후자는 재실행 시 마지막 문장만 복원하고 사용자의 다음 입력 없이 동작을 실행하지 않는다. |
+| 진행 동작 커밋 | 검증된 pending 큐의 정확한 `_do` 후속 동작 또는 현실 연결 해제의 지정된 완료 동작만 세계 진행과 `completed` 커서를 같은 후보 snapshot에 저장한다. 진행 저장이 실패하면 pending 상태를 유지하고 재실행 후 명시적 재시도를 기다린다. 성공 후 재실행은 이전 대사를 다시 표시하거나 동작을 재실행하지 않는다. |
+| 후속 동작 | 저장된 Callable이나 임의 스크립트 경로를 실행하지 않는다. `_do(action, value, false)`, `_show_clock_hint_menu(1..5)`, `_offer_clock_failure_support()`, `_reality_fade()`만 고정 registry에서 복원한다. 인자는 JSON 값만 허용한다. |
+| 무효화 | 다른 slot/session/load epoch/namespace/origin/branch의 늦은 UI 입력을 거부한다. 커서 anchor는 대화 보관 내용과 커서 자신만 제외한 게임 상태의 정규화 hash다. 시간·장소·사건 진행이 다른 저장에 예전 큐를 합치지 않는다. |
+| 허용된 재기준화 | 정상 backup 복구는 새 branch로 토큰을 유지한다. D5 시선 선택은 같은 대사 큐와 변경된 세계 상태를 함께 저장한다. J2/J3 완료 후 컨트롤러 초기화는 검증된 완료 커서를 새 family에 원자적으로 인계한다. 일반 게임 행동이나 임의 과거 상태에는 자동 재기준화하지 않는다. |
+| 장 전환 | J2/J3 플래그가 다음 장을 가리켜도 읽는 중인 이전 장의 유효한 큐가 있으면 그 컨트롤러부터 재개한다. 마지막 문장을 명시적으로 닫은 뒤 다음 장으로 이동하고, 다음 장 재실행에서도 이전 피드백을 반복하지 않는다. |
+| 호환·손상 | 큐는 1..128문장, 직렬화 1MiB 이내, JSON 깊이/문자열/컬렉션과 필드를 제한한다. 미래 커서 버전의 primary/backup은 기존 저장으로 덮거나 구형 backup으로 대신 로드하지 않는다. 잘못된 구조는 검증 오류다. |
+
+데모 인계와 F3 재선택은 세계 맥락이 달라지는 별도 진행 분기이므로 일반 커서 carry 대상이 아니다. 새 branch와 세계 anchor에 맞지 않는 이전 큐는 실행하지 않는다. 갤러리는 이 필드를 대화 공개 근거나 게임 재개 지시로 사용하지 않는다.
+
+검증은 [대사 위치 복원 검증](notebook_presentation_validation.md)을 따른다. 단순 모달 재진입과 대화 큐 복원은 구분하며 선택 결과의 자동 실행, 자유 메모, 실제 입력 인수는 이 변경에 포함하지 않는다.

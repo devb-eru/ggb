@@ -266,6 +266,9 @@ func _validate_loop_state(value: Variant, errors: PackedStringArray) -> void:
 	_require_unique_string_array(loop_state.get("inventory"), "LOOP_INVENTORY", errors)
 	for field in ["physical_changes", "event_local_states", "shortcut_context"]:
 		_require_type(loop_state.get(field), TYPE_DICTIONARY, "LOOP_%s" % field.to_upper(), errors)
+	if loop_state.get("event_local_states") is Dictionary and loop_state.event_local_states.has("NOTEBOOK_PRESENTATION"):
+		if not preload("res://scripts/systems/notebook_presentation.gd").valid(loop_state.event_local_states.NOTEBOOK_PRESENTATION):
+			errors.append("NB_PRESENTATION_SCHEMA")
 
 
 func _validate_fracture_state(value: Variant, errors: PackedStringArray) -> void:

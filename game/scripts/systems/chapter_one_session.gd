@@ -31,6 +31,7 @@ var _writer: StateWriter
 var _pending_feedback_text_id := ""
 var _pending_feedback_context: Dictionary = {}
 var _pending_notebook_feedback: Array = []
+var _presentation_commit_override: Dictionary = {}
 
 
 func _init(game: Node, save: Node, slot: String) -> void:
@@ -474,6 +475,8 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 		inventory.erase(item_id)
 		if clock_id in local["rubbed"]:
 			inventory.append(item_id)
+	if not _presentation_commit_override.is_empty():
+		preload("res://scripts/systems/notebook_presentation.gd").install(state, _presentation_commit_override)
 	var transaction := StringName("CH1_R%06d" % (_game.revision + 1))
 	var installed := _writer.install_snapshot(state, _game.revision, transaction)
 	if not installed.get("ok", false):

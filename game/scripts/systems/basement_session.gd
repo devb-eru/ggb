@@ -182,6 +182,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		var local: Dictionary = state["loop_state"]["event_local_states"].get("D5", {}).duplicate(true)
 		local["D5_FOCUS_OWNER"] = str(value)
 		state["loop_state"]["event_local_states"]["D5"] = local
+		preload("res://scripts/systems/notebook_presentation.gd").carry(state, snapshot())
 		return _commit(state, "")
 	if stage() == "D6":
 		return _d6_action(action, str(value))

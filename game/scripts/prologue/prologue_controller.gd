@@ -2064,7 +2064,7 @@ func _refresh_inventory_selection() -> void:
 		))
 
 
-func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
+func _show_dialogue(lines: Array, after: Callable = Callable(), start_index: int = 0) -> void:
 	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
 	_prologue_history_index = -1
 	_audio_dialogue_index = -1
@@ -2080,7 +2080,7 @@ func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
 		if not context.has("conversation_session_id"): context.conversation_session_id = conversation
 		context.presentation_token = line.presentation_token
 		line.history_context = context
-	_dialogue_index = 0
+	_dialogue_index = clampi(start_index, 0, maxi(0, _dialogue_lines.size() - 1))
 	_dialogue_after = after
 	_dialogue_active = not _dialogue_lines.is_empty()
 	_dialogue_layer.visible = _dialogue_active
