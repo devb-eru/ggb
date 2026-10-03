@@ -49,7 +49,7 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	_revision = game.revision
 	_checked_revision = _revision
 	var state: Dictionary = game.get_snapshot()
-	var opened := model.open(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope, TranslationServer.get_locale(), state.meta_progress.knowledge_entries)
+	var opened := model.open(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope, TranslationServer.get_locale(), state.meta_progress.knowledge_entries, controller._notebook_context_node())
 	if not opened.ok: return false
 	_view_scope = VIEW_STORE.persistent_scope(_scope, view_profile)
 	var loaded := view_store.load_view(_view_scope, model.view_frontier())
@@ -207,7 +207,7 @@ func refresh() -> void:
 	if _closing or not _same_live_scope() or _current_scope() != _scope: return
 	var ui: Dictionary = panel.capture_view()
 	var state: Dictionary = game.get_snapshot()
-	var result := model.open(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope, TranslationServer.get_locale(), state.meta_progress.knowledge_entries)
+	var result := model.open(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope, TranslationServer.get_locale(), state.meta_progress.knowledge_entries, _controller.get_ref()._notebook_context_node())
 	if not result.ok:
 		panel.show_notice(_l("자료를 갱신하지 못했습니다. 저장 복구 상태를 확인해 주세요.", "Unable to refresh records. Check save recovery status."))
 		return

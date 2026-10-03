@@ -1,7 +1,7 @@
 extends RefCounted
 
 # Convenience state only. No game snapshot, content, or durable reference is written here.
-const VERSION := 3
+const VERSION := 4
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
 const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
 const SCOPE_KEYS := ["profile", "namespace", "slot", "run_id", "source_origin_id", "branch_id"]
@@ -88,7 +88,7 @@ func _read(path: String, scope: Dictionary) -> Dictionary:
 	var envelope: Variant = parser.data
 	if not envelope is Dictionary: return _error("NB_VIEW_FORMAT")
 	if _integer(envelope.get("version")) and envelope.version > VERSION: return _error("NB_VIEW_FUTURE")
-	if not _keys(envelope, ["version", "payload", "checksum"]) or not _integer(envelope.version) or int(envelope.version) not in [1, 2, VERSION]: return _error("NB_VIEW_FORMAT")
+	if not _keys(envelope, ["version", "payload", "checksum"]) or not _integer(envelope.version) or int(envelope.version) not in [1, 2, 3, VERSION]: return _error("NB_VIEW_FORMAT")
 	if not envelope.payload is String or not envelope.checksum is String or envelope.payload.sha256_text() != envelope.checksum: return _error("NB_VIEW_CHECKSUM")
 	if parser.parse(envelope.payload) != OK: return _error("NB_VIEW_PAYLOAD")
 	var payload: Variant = parser.data
@@ -131,7 +131,9 @@ static func _valid_view(value: Variant) -> bool:
 		if not value.pair[side] is String or not _body(value.pair_body[side]): return false
 	if not _body(value.body) or not _focus(value.focus) or not value.back is Array or value.back.size() > 32: return false
 	for step in value.back:
-		if not step is Dictionary or not _keys(step, ["key", "scroll", "body", "focus"]) or not step.key is String or not _integer(step.scroll) or step.scroll < 0 or not _body(step.body) or not _focus(step.focus): return false
+		var fields := ["key", "scroll", "body", "focus"]
+		if not step is Dictionary or not (_keys(step, fields) or _keys(step, fields + ["view"])) or not step.key is String or not _integer(step.scroll) or step.scroll < 0 or not _body(step.body) or not _focus(step.focus): return false
+		if step.has("view") and (not step.view is Dictionary or not _keys(step.view, ["detail", "comparing"]) or not step.view.detail is bool or not step.view.comparing is bool): return false
 	return true
 
 

@@ -59,6 +59,7 @@ func _view_preferences(tree: SceneTree) -> void:
 	var disk_before: Dictionary = SaveManager.load_slot(SLOT).snapshot
 	view._open_notebook()
 	var host = view._notebook_host
+	_expect(host.model.investigation_available() and host.model._investigation == "C3", "actual cleaner controller supplies current investigation")
 	var store = host.view_store
 	var scope: Dictionary = host._view_scope.duplicate(true)
 	var frontier: Dictionary = host.model.view_frontier()
@@ -462,6 +463,17 @@ func _visual_materials(tree: SceneTree) -> void:
 	var before := GameState.get_snapshot()
 	var local: Dictionary = before.loop_state.event_local_states.F0_C.duplicate(true)
 	_expect(not local.locked and local.B4.turn == 1 and local.C5.flip and local.D4.anchor == 1, "actual core puzzle has an unverified rotation, reflection and anchor draft")
+	var lines: Array = view._dialogue_lines.duplicate(true)
+	var line_index: int = view._dialogue_index
+	view._dialogue_lines = [{"history_context": {"node_id": "F0_B"}}]
+	view._dialogue_index = 0
+	view._dialogue_active = true
+	_expect(view._notebook_context_node() == "F0_B" and view.session.stage() == "F0_C", "displayed source context takes precedence over an advanced session stage")
+	view._dialogue_lines = [{}]
+	_expect(view._notebook_context_node().is_empty(), "unclassified active line does not infer the next investigation")
+	view._dialogue_lines = lines
+	view._dialogue_index = line_index
+	view._dialogue_active = false
 	view._open_notebook()
 	var host = view._notebook_host
 	_expect(is_instance_valid(host), "notebook opens over the actual pending overlay board")
@@ -470,6 +482,17 @@ func _visual_materials(tree: SceneTree) -> void:
 		await tree.process_frame
 		return
 	var query = host.model
+	_expect(query._investigation == "F0_C", "actual overlay context is frozen in notebook model")
+	var related: Dictionary = query.investigation_page(0, query.cache_key())
+	_expect(related.count >= 3, "actual displayed overlay layers are available through current materials")
+	var old_filters: Dictionary = host.panel._filters.duplicate(true)
+	host.panel._open_browser("investigation")
+	if not related.items.is_empty():
+		host.panel._browser.material_selected.emit(related.items[0].key)
+		_expect(host.panel._filters == old_filters and GameState.get_snapshot() == before, "actual related navigation does not alter filters or pending puzzle")
+		host.panel._back()
+		for frame in range(3): await tree.process_frame
+	else: host.panel._close_browser()
 	var materials: Array = []
 	for index in range(query.page({"tab": "records"}, 0, query.cache_key()).pages):
 		for item in query.page({"tab": "records"}, index, query.cache_key()).items:

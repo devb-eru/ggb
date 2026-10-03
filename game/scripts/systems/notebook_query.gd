@@ -7,8 +7,9 @@ const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const REPOSITORY := preload("res://scripts/systems/dialogue_repository.gd")
 const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
 const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
+const INVESTIGATION := preload("res://scripts/systems/notebook_investigation.gd")
 const PAGE_SIZE := 50
-const POLICY_VERSION := 6
+const POLICY_VERSION := 7
 const SEARCH_FIELDS := ["text", "title", "summary", "speaker", "location_label", "source_label"]
 const TABS := ["clues", "dialogue", "records", "people"]
 const PERSON_IDS := ["EDGAR", "MARA1", "MARA", "MARA2", "LUCA", "IRIS"]
@@ -36,9 +37,11 @@ var _related: Dictionary = {}
 var _public_speakers: Dictionary = {}
 var _public_values: Dictionary = {}
 var _person_first: Dictionary = {}
+var _investigation := ""
+var _investigation_keys: Array = []
 
 
-func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String, legacy_knowledge: Dictionary = {}) -> Dictionary:
+func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String, legacy_knowledge: Dictionary = {}, current_node: String = "") -> Dictionary:
 	close()
 	if not _valid_scope(scope, archive): return _error("NB_QUERY_SCOPE")
 	var checked := KNOWLEDGE.validate(ledger, archive)
@@ -46,6 +49,7 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 	_archive = archive.duplicate(true)
 	_scope = scope.duplicate(true)
 	_locale = "en-US" if locale.begins_with("en") else "ko-KR"
+	_investigation = INVESTIGATION.topic(current_node)
 	_knowledge_revision = int(ledger.revision)
 	var revisions := {}
 	var latest := {}
@@ -128,6 +132,16 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 			if source == key or not _rows.has(source): continue
 			if not _related.has(source): _related[source] = []
 			_related[source].append({"key": key, "title": row.title})
+	var relevant := {}
+	for key in _order:
+		var row: Dictionary = _rows[key]
+		if not INVESTIGATION.includes(_investigation, _entries[row.reference.uid]): continue
+		relevant[key] = true
+		for ref in row.sources:
+			var source := reference_key(ref)
+			if _rows.has(source): relevant[source] = true
+	_investigation_keys = relevant.keys()
+	_investigation_keys.sort_custom(func(a: String, b: String) -> bool: return _less(_sort_key(_rows[a], {}), _sort_key(_rows[b], {})))
 	_ready = true
 	return {"ok": true, "key": cache_key(), "diagnostics": diagnostics()}
 
@@ -153,10 +167,27 @@ func close() -> void:
 	_public_speakers.clear()
 	_public_values.clear()
 	_person_first.clear()
+	_investigation = ""
+	_investigation_keys.clear()
 
 
 func cache_key() -> String:
-	return JSON.stringify([_scope, _archive.get("revision", -1), _legacy_digest, _locale, POLICY_VERSION, _generation], "", true).sha256_text()
+	return JSON.stringify([_scope, _archive.get("revision", -1), _legacy_digest, _locale, _investigation, POLICY_VERSION, _generation], "", true).sha256_text()
+
+
+func investigation_available() -> bool:
+	return _ready and not _investigation.is_empty()
+
+
+func investigation_page(page_index: int, expected_key: String) -> Dictionary:
+	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
+	var last := maxi(0, ceili(float(_investigation_keys.size()) / PAGE_SIZE) - 1)
+	var current := clampi(page_index, 0, last)
+	var items: Array = []
+	for key in _investigation_keys.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE):
+		var row: Dictionary = _rows[key]
+		items.append({"key": key, "title": row.title, "speaker": row.speaker, "previous": row.previous, "epistemic": row.epistemic, "location_label": public_label("locations", row.location)})
+	return {"ok": true, "items": items, "page": current, "pages": last + 1, "count": _investigation_keys.size()}
 
 
 func matches_scope(scope: Dictionary) -> bool:

@@ -223,7 +223,7 @@ func _complete_restore() -> void:
 	var view := _pending_restore.duplicate(true)
 	_pending_restore.clear()
 	for side in range(2): select_pair(side, view.pair[side], false)
-	_back_stack = view.back.filter(func(step: Dictionary) -> bool: return not query.review_group(step.key).is_empty())
+	_back_stack = view.back.filter(func(step: Dictionary) -> bool: return step.key.is_empty() or not query.review_group(step.key).is_empty())
 	var body: Dictionary = view.body
 	if not view.selected.is_empty():
 		var restored: Dictionary = query.anchor_page(_filters, view.anchor, _key)
@@ -291,6 +291,7 @@ func set_filters(filters: Dictionary) -> bool:
 	_page = 0
 	_selected = ""
 	_detail_visible = false
+	_back_stack.clear()
 	_clear(_detail)
 	_search.set_text(String(_filters.get("needle", "")))
 	_refresh()
@@ -301,7 +302,7 @@ func show_detail(key: String, linked: bool = false, preserve_stack: bool = false
 	if not _valid(): return false
 	if mark_seen: _cancel_restoration()
 	var result: Dictionary = query.detail(key, _key)
-	var previous := {"key": _selected, "scroll": _detail_scroll.scroll_vertical, "body": _capture_body(_detail_scroll), "focus": _capture_focus()}
+	var previous := {"key": _selected, "scroll": _detail_scroll.scroll_vertical, "body": _capture_body(_detail_scroll), "focus": _capture_focus(), "view": {"detail": _detail_visible, "comparing": _comparison_mode}}
 	_clear(_detail)
 	_matches.clear()
 	_match_index = -1
@@ -311,9 +312,10 @@ func show_detail(key: String, linked: bool = false, preserve_stack: bool = false
 		_detail_visible = true
 		_responsive()
 		return false
-	if linked and not _selected.is_empty():
+	if linked:
 		_back_stack.append(previous)
 		if _back_stack.size() > 32: _back_stack.pop_front()
+		_comparison_mode = false
 	elif not linked and not preserve_stack:
 		_back_stack.clear()
 	_selected = key
@@ -510,6 +512,7 @@ func _build() -> void:
 	_return_list = _button(controls, "", _return_to_list, "NotebookReturnList")
 	_button(controls, "", func() -> void: refresh_requested.emit(), "NotebookRefresh")
 	_button(controls, "", _open_browser.bind("filters"), "NotebookFilters")
+	_button(controls, "", _open_browser.bind("investigation"), "NotebookInvestigation")
 	_button(controls, "", func() -> void: _open_browser("people" if _filters.tab == "people" else "sessions"), "NotebookBrowseGroups")
 	_tools = HFlowContainer.new()
 	_content.add_child(_tools)
@@ -577,6 +580,7 @@ func _build() -> void:
 	_content.add_child(_browser)
 	_browser.dismissed.connect(_close_browser)
 	_browser.filter_selected.connect(_select_browse)
+	_browser.material_selected.connect(_select_investigation)
 	_browser.layout_changed.connect(func() -> void: _cycle_focus.call_deferred())
 	_visual = VISUAL_VIEWER.new()
 	_visual.name = "NotebookVisualViewer"
@@ -598,6 +602,7 @@ func _apply_labels() -> void:
 	find_child("NotebookCompare", true, false).text = _l("담아 둔 자료 비교", "Compare saved materials")
 	find_child("NotebookRefresh", true, false).text = _l("갱신", "Refresh")
 	find_child("NotebookFilters", true, false).text = _l("필터", "Filters")
+	find_child("NotebookInvestigation", true, false).text = _l("현재 조사 관련 자료", "Current investigation materials")
 	find_child("NotebookSwapPair", true, false).text = _l("A/B 교환", "Swap A/B")
 	_pair_switch.text = _l("A/B 화면 전환", "Switch A/B view")
 	find_child("NotebookMatchPrevious", true, false).text = _l("이전 일치", "Previous match")
@@ -645,6 +650,7 @@ func _refresh() -> void:
 	_next.disabled = _page + 1 >= result.pages
 	for tab in _tabs: _tabs[tab].set_pressed_no_signal(_filters.tab == tab)
 	var browse_button: Button = find_child("NotebookBrowseGroups", true, false)
+	find_child("NotebookInvestigation", true, false).disabled = not query.investigation_available()
 	browse_button.visible = _filters.tab in ["dialogue", "people"]
 	browse_button.text = _l("인물 목록", "People") if _filters.tab == "people" else _l("대화 묶음", "Conversations")
 	find_child("NotebookBookmarks", true, false).set_pressed_no_signal(_filters.get("bookmarks_only", false))
@@ -882,8 +888,18 @@ func _return_to_list() -> void:
 
 func _back() -> void:
 	if _back_stack.is_empty(): return
+	_cancel_restoration()
 	var previous: Dictionary = _back_stack.pop_back()
-	show_detail(previous.key, false, true)
+	if previous.key.is_empty():
+		_selected = ""
+		_detail_visible = false
+		_clear(_detail)
+		_responsive()
+	else: show_detail(previous.key, false, true, previous.get("view", {}).get("detail", true))
+	if previous.has("view"):
+		_detail_visible = previous.view.detail and not _selected.is_empty()
+		_comparison_mode = previous.view.comparing
+		_responsive()
 	_restore_link_position.call_deferred(_view_generation, previous)
 
 
@@ -891,6 +907,7 @@ func _responsive() -> void:
 	if not is_instance_valid(_body): return
 	var compact := size.x < 1050 * _font_scale
 	var browsing: bool = (is_instance_valid(_browser) and _browser.visible) or (is_instance_valid(_visual) and _visual.visible)
+	_status.visible = not browsing
 	_match_controls.visible = not browsing and not _comparison_mode and _detail_visible and not String(_filters.get("needle", "")).strip_edges().is_empty()
 	_update_match_controls()
 	_body.visible = not _comparison_mode and not browsing
@@ -910,6 +927,7 @@ func _responsive() -> void:
 
 func _open_browser(mode: String) -> void:
 	if not _valid(): return
+	if mode == "investigation" and not query.investigation_available(): return
 	_visual.dismiss()
 	_cancel_restoration()
 	_browser.present(mode, query, _locale, _filters)
@@ -917,9 +935,18 @@ func _open_browser(mode: String) -> void:
 
 
 func _close_browser() -> void:
+	var mode: String = _browser._mode
 	_browser.dismiss()
 	_responsive()
-	find_child("NotebookFilters", true, false).grab_focus()
+	find_child("NotebookInvestigation" if mode == "investigation" else "NotebookFilters", true, false).grab_focus()
+
+
+func _select_investigation(key: String) -> void:
+	if not _valid(): return
+	_browser.dismiss()
+	_responsive()
+	find_child("NotebookInvestigation", true, false).grab_focus()
+	show_detail(key, true)
 
 
 func _select_browse(filters: Dictionary, detail_key: String) -> void:
@@ -1091,6 +1118,10 @@ func _restore_link_position(generation: int, previous: Dictionary) -> void:
 	if not is_inside_tree(): return
 	await get_tree().process_frame
 	if generation != _view_generation or not _valid() or _selected != previous.key: return
+	if previous.has("view"):
+		_detail_visible = previous.view.detail and not _selected.is_empty()
+		_comparison_mode = previous.view.comparing
+		_responsive()
 	_restore_body(_detail_scroll, previous.body)
 	_restore_focus(previous.focus)
 	_changed()

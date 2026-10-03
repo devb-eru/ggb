@@ -164,7 +164,7 @@ func _test_panel(tree: SceneTree, fixture: Dictionary) -> void:
 	var loaded := store.load_view(scope, fixture.query.view_frontier())
 	_expect(loaded.source == "primary" and loaded.state.general.visuals == view.visuals, "actual file round trip preserves zoom and normalized pan")
 	var envelope: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(store.paths(scope).main))
-	_expect(envelope.version == 3, "visual convenience state writes version three")
+	_expect(envelope.version == STORE.VERSION, "visual convenience state writes the current sidecar version")
 	var old: Dictionary = JSON.parse_string(envelope.payload)
 	old.state.general.erase("visuals")
 	envelope.version = 2

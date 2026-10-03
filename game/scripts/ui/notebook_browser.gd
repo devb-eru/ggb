@@ -1,6 +1,7 @@
 extends VBoxContainer
 
 signal filter_selected(filters: Dictionary, detail_key: String)
+signal material_selected(key: String)
 signal dismissed
 signal layout_changed
 
@@ -26,16 +27,19 @@ func _ready() -> void:
 	_heading = _label(self, "")
 	_actions = HFlowContainer.new()
 	add_child(_actions)
-	_status = _label(self, "")
 	var scroll := ScrollContainer.new()
 	scroll.name = "NotebookBrowseScroll"
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.follow_focus = true
 	add_child(scroll)
+	var body := VBoxContainer.new()
+	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(body)
+	_status = _label(body, "")
 	_items = VBoxContainer.new()
 	_items.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(_items)
+	body.add_child(_items)
 	_paging = HFlowContainer.new()
 	add_child(_paging)
 	hide()
@@ -84,6 +88,7 @@ func _draw() -> void:
 	_clear(_paging)
 	_back = _button(_actions, _l("돌아가기", "Back"), func() -> void: dismissed.emit(), "NotebookBrowseBack")
 	if _mode == "filters": _draw_filters()
+	elif _mode == "investigation": _draw_investigation()
 	else: _draw_groups()
 	_back.grab_focus()
 	layout_changed.emit()
@@ -152,6 +157,33 @@ func _draw_groups() -> void:
 	previous.disabled = _page == 0
 	_label(_paging, "%d / %d" % [_page + 1, result.pages])
 	var next := _button(_paging, _l("다음 묶음 페이지", "Next group page"), func() -> void:
+		_page += 1
+		_draw(), "NotebookBrowseNext")
+	next.disabled = _page + 1 >= result.pages
+
+
+func _draw_investigation() -> void:
+	_heading.text = _l("현재 조사 관련 자료", "Current investigation materials")
+	_status.text = _l("이미 확인한 자료와 직접 연결된 출처만 표시합니다. 정답 목록이 아니며 기존 검색·필터는 바뀌지 않습니다. 분류 정보가 없는 이전 원문은 전체 수첩에서 읽을 수 있습니다.", "Only disclosed materials and their direct sources are shown. This is not an answer list; existing search and filters stay unchanged. Unclassified earlier text remains in the full notebook.")
+	var result: Dictionary = query.investigation_page(_page, _query_key)
+	if not result.ok: return
+	_page = result.page
+	_was_complete = true
+	if result.items.is_empty(): _label(_items, _l("지금 묶어 볼 수 있는 보관 자료가 없습니다.", "There are no retained materials to group here."))
+	for item in result.items:
+		var label: String = item.title
+		if item.previous: label = _l("[이전 내용] ", "[Earlier revision] ") + label
+		if item.epistemic == "refuted": label = _l("[반박됨] ", "[Refuted] ") + label
+		if not String(item.speaker).is_empty(): label += " / " + item.speaker
+		label += "\n" + item.location_label
+		var button := _button(_items, label, func() -> void: material_selected.emit(item.key), "NotebookInvestigationRow_" + String(item.key).sha256_text())
+		button.set_meta("reference_key", item.key)
+	var previous := _button(_paging, _l("이전 자료 페이지", "Previous material page"), func() -> void:
+		_page -= 1
+		_draw(), "NotebookBrowsePrevious")
+	previous.disabled = _page == 0
+	_label(_paging, "%d / %d" % [_page + 1, result.pages])
+	var next := _button(_paging, _l("다음 자료 페이지", "Next material page"), func() -> void:
 		_page += 1
 		_draw(), "NotebookBrowseNext")
 	next.disabled = _page + 1 >= result.pages

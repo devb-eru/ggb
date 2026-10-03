@@ -205,6 +205,13 @@ func _notebook_open_block_reason() -> String:
 	return ""
 
 
+func _notebook_context_node() -> String:
+	if _dialogue_active and _dialogue_index >= 0 and _dialogue_index < _dialogue_lines.size():
+		return String(_dialogue_lines[_dialogue_index].get("history_context", {}).get("node_id", ""))
+	if _dialogue_choice_active: return String(_choice_history_context.get("node_id", ""))
+	return _prologue_surface_node() if _uses_prologue_history() else ""
+
+
 func _notebook_tools() -> Array:
 	if _dialogue_active or _dialogue_choice_active or _modal_active or _inspection_active: return []
 	return [{"id": "NotebookLegacyNotes", "label": "기존 수첩 원문" if not TranslationServer.get_locale().begins_with("en") else "Earlier notebook text", "action": _open_legacy_notebook}]

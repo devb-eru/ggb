@@ -706,6 +706,14 @@ func _notebook_open_block_reason() -> String:
 	return ""
 
 
+func _notebook_context_node() -> String:
+	var displayed := super._notebook_context_node()
+	if _dialogue_active or _dialogue_choice_active: return displayed
+	if _modal_active and not _recorded_modal_request.is_empty():
+		return String(_recorded_modal_request.history_context.get("node_id", ""))
+	return session.stage() if session != null else ""
+
+
 func _notebook_tools() -> Array:
 	var tools := super._notebook_tools()
 	if tools.is_empty(): return tools
