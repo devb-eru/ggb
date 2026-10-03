@@ -133,7 +133,7 @@ func _route(tree: SceneTree, language: String) -> void:
 	# Branch fixtures exercise all three answers; a real playthrough still chooses one.
 	view._record_p4_life_support_pulse()
 	for choice in view.P4_FATHER_CHOICE_ORDER:
-		view._current_room = "M1_KITCHEN"
+		view._enter_room("M1_KITCHEN")
 		view._progress.P4_complete = false
 		view._progress.p4_father_question = ""
 		view._progress.iris_greeting_seen = false

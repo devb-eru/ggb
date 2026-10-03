@@ -62,7 +62,7 @@ func live(current: Dictionary, expected_generation: int) -> bool:
 	return scope == current and generation == expected_generation
 
 
-func flush(session: RefCounted, current: Dictionary, explicit_retry: bool = false) -> bool:
+func flush(session: Object, current: Dictionary, explicit_retry: bool = false) -> bool:
 	if scope != current: return false
 	if retry_required and not explicit_retry: return false
 	for id in requests:
@@ -75,7 +75,7 @@ func flush(session: RefCounted, current: Dictionary, explicit_retry: bool = fals
 	return true
 
 
-func choose(session: RefCounted, current: Dictionary, group: String, id: String, text: String, locale: String) -> bool:
+func choose(session: Object, current: Dictionary, group: String, id: String, text: String, locale: String) -> bool:
 	if group not in active or not flush(session, current): return false
 	var selected: Dictionary = selections.get(group, {})
 	if selected.is_empty() or selected.id != id or selected.dispatched:
@@ -103,7 +103,7 @@ func _request(id: String, text: String, locale: String, source: Dictionary) -> D
 		"speaker": row.get("locales", {}).get(language, {}).get("speaker", ""), "attempted": false, "recorded": false}
 
 
-func _write(session: RefCounted, request: Dictionary) -> bool:
+func _write(session: Object, request: Dictionary) -> bool:
 	if request.recorded: return true
 	request.attempted = true
 	var result: Dictionary = session.record_viewed_line(request.speaker, request.text, request.locale, request.context)

@@ -150,7 +150,9 @@ func _validate_live_retry(tree: SceneTree) -> void:
 	tree.current_scene.add_child(view)
 	await tree.process_frame
 	_drain(view)
-	view._current_room = "M1_KITCHEN"
+	view._enter_room("M1_KITCHEN")
+	_drain(view)
+	_expect(view._prologue_surface_allowed(), "displayed kitchen sources saved before the note-only failure fixture")
 	view._progress.p4_life_support_seen = true
 	_expect(view._save_progress(), "sensory exposure saves before optional record action")
 	var before := GameState.get_snapshot()

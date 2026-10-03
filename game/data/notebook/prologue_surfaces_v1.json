@@ -1,0 +1,4555 @@
+{
+	"contents": {
+		"NB_PROLOGUE_SURFACE_P1_LABEL_BED": {
+			"1": {
+				"action_or_variant": "P1_LABEL_BED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P1",
+				"locales": {
+					"en-US": {
+						"body": "Bed",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Bed"
+					},
+					"ko-KR": {
+						"body": "침대",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "침대"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_LABEL_BED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P1_LABEL_BED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P1_LABEL_NOTEBOOK": {
+			"1": {
+				"action_or_variant": "P1_LABEL_NOTEBOOK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P1",
+				"locales": {
+					"en-US": {
+						"body": "Sketch notebook",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Sketch notebook"
+					},
+					"ko-KR": {
+						"body": "낙서 수첩",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "낙서 수첩"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_LABEL_NOTEBOOK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P1_LABEL_NOTEBOOK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P1_LABEL_PHOTO": {
+			"1": {
+				"action_or_variant": "P1_LABEL_PHOTO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P1",
+				"locales": {
+					"en-US": {
+						"body": "Father's photograph",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Father's photograph"
+					},
+					"ko-KR": {
+						"body": "아버지 사진",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "아버지 사진"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_LABEL_PHOTO:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P1_LABEL_PHOTO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P1_LABEL_WINDOW": {
+			"1": {
+				"action_or_variant": "P1_LABEL_WINDOW",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P1",
+				"locales": {
+					"en-US": {
+						"body": "Bedroom window",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Bedroom window"
+					},
+					"ko-KR": {
+						"body": "침실 창문",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "침실 창문"
+					}
+				},
+				"localization_keys": {
+					"body": "P1_LABEL_WINDOW:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P1_LABEL_WINDOW",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_CLOCK_LABEL": {
+			"1": {
+				"action_or_variant": "P2_CLOCK_LABEL",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "Parlor clock",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Parlor clock"
+					},
+					"ko-KR": {
+						"body": "대응접실 시계",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "대응접실 시계"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_CLOCK_LABEL:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_CLOCK_LABEL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_ALREADY": {
+			"1": {
+				"action_or_variant": "P2_TOOL_ALREADY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "This window is already clean.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "이미 깨끗한 창이다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_ALREADY:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_ALREADY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_BOTTOM_CLEAN": {
+			"1": {
+				"action_or_variant": "P2_TOOL_BOTTOM_CLEAN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "I wiped away the moisture below with the soft cloth's dry side.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "부드러운 천의 마른 면으로 아래 물기를 걷어냈다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_BOTTOM_CLEAN:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_BOTTOM_CLEAN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_BOTTOM_ORDER": {
+			"1": {
+				"action_or_variant": "P2_TOOL_BOTTOM_ORDER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "Starting at the bottom made dirt fall from above again. Work from top to bottom.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "아래부터 닦자 위쪽 오염이 다시 떨어졌다. 위에서 아래 순서로 진행해야 한다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_BOTTOM_ORDER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_BOTTOM_ORDER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_BRUSH": {
+			"1": {
+				"action_or_variant": "P2_TOOL_BRUSH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "Coarse brush",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Coarse brush"
+					},
+					"ko-KR": {
+						"body": "거친 솔",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "거친 솔"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_BRUSH:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_BRUSH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_BRUSH_FEEDBACK": {
+			"1": {
+				"action_or_variant": "P2_TOOL_BRUSH_FEEDBACK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "The coarse brush spread the dust sideways. The soft cloth can clear it right away.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "거친 솔이 먼지를 양옆으로 퍼뜨렸다. 부드러운 천으로 바로 복구할 수 있다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_BRUSH_FEEDBACK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_BRUSH_FEEDBACK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_CLOTH": {
+			"1": {
+				"action_or_variant": "P2_TOOL_CLOTH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "Soft cloth",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Soft cloth"
+					},
+					"ko-KR": {
+						"body": "부드러운 천",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "부드러운 천"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_CLOTH:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_CLOTH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_MIDDLE_ALREADY": {
+			"1": {
+				"action_or_variant": "P2_TOOL_MIDDLE_ALREADY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "The middle is already clean.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "가운데는 이미 깨끗하다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_MIDDLE_ALREADY:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_MIDDLE_ALREADY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_MIDDLE_CLEAN": {
+			"1": {
+				"action_or_variant": "P2_TOOL_MIDDLE_CLEAN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "I wiped away the middle stain in circles.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "가운데 얼룩을 원형으로 닦아냈다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_MIDDLE_CLEAN:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_MIDDLE_CLEAN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_MIDDLE_ORDER": {
+			"1": {
+				"action_or_variant": "P2_TOOL_MIDDLE_ORDER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "Starting lower down made dust fall from above again. Work from top to bottom.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "아래부터 닦자 위쪽 먼지가 다시 떨어졌다. 위에서 아래 순서로 진행해야 한다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_MIDDLE_ORDER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_MIDDLE_ORDER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_SPANNER": {
+			"1": {
+				"action_or_variant": "P2_TOOL_SPANNER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1's spanner",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Mara 1's spanner"
+					},
+					"ko-KR": {
+						"body": "마라 1의 스패너",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "마라 1의 스패너"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_SPANNER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_SPANNER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_SPANNER_FEEDBACK": {
+			"1": {
+				"action_or_variant": "P2_TOOL_SPANNER_FEEDBACK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "The spanner cannot clean the window. Mara 1 hastily reaches out.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "스패너는 창문에 사용할 수 없다. 마라 1이 황급히 손을 내민다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_SPANNER_FEEDBACK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_SPANNER_FEEDBACK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_TOP_CLEAN": {
+			"1": {
+				"action_or_variant": "P2_TOOL_TOP_CLEAN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "I gathered the dust downward and cleared the top.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "위쪽 먼지를 아래 방향으로 모아 걷어냈다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_TOP_CLEAN:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_TOP_CLEAN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_WATER": {
+			"1": {
+				"action_or_variant": "P2_TOOL_WATER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "Water bottle",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Water bottle"
+					},
+					"ko-KR": {
+						"body": "물병",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "물병"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_WATER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_WATER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_WATER_BOTTOM": {
+			"1": {
+				"action_or_variant": "P2_TOOL_WATER_BOTTOM",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "The clean lower area is wet again. Use the dry side of the soft cloth.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "깨끗한 아래쪽이 다시 젖었다. 부드러운 천의 마른 면이 필요하다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_WATER_BOTTOM:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_WATER_BOTTOM",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_WATER_STAIN": {
+			"1": {
+				"action_or_variant": "P2_TOOL_WATER_STAIN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "The water loosened the stain. Wipe the moisture below with the dry side of the soft cloth.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "물로 얼룩이 풀렸다. 아래에 흐른 물기를 부드러운 천의 마른 면으로 걷어내야 한다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_WATER_STAIN:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_WATER_STAIN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_TOOL_WATER_WRONG": {
+			"1": {
+				"action_or_variant": "P2_TOOL_WATER_WRONG",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "Water only smears the dirt while dust remains. Clear the dust at the top first.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning Result"
+					},
+					"ko-KR": {
+						"body": "먼지가 남은 상태에서 물을 쓰면 얼룩만 번진다. 위쪽 먼지부터 정리해야 한다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문 청소 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_TOOL_WATER_WRONG:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_TOOL_WATER_WRONG",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL": {
+			"1": {
+				"action_or_variant": "P2_WINDOW_LABEL",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"stage": {
+						"en-US": {
+							"0": "Dust at the top",
+							"1": "Stain in the middle",
+							"2": "Moisture at the bottom",
+							"3": "Complete"
+						},
+						"ko-KR": {
+							"0": "위쪽 먼지",
+							"1": "가운데 얼룩",
+							"2": "아래쪽 물기",
+							"3": "완료"
+						}
+					}
+				},
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"body": "Window {index} · Close-up\n{stage}",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window Cleaning State"
+					},
+					"ko-KR": {
+						"body": "{index}번 창 · 확대\n{stage}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "창문의 청소 상태"
+					}
+				},
+				"localization_keys": {
+					"body": "P2_WINDOW_LABEL:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P2_WINDOW_LABEL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"index": "int",
+						"stage": "enum:stage"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3B_EDGAR": {
+			"1": {
+				"action_or_variant": "P3B_EDGAR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Edgar · LOCK",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Edgar · LOCK"
+					},
+					"ko-KR": {
+						"body": "에드가 · LOCK",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "에드가 · LOCK"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_EDGAR:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3B_EDGAR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3B_IRIS": {
+			"1": {
+				"action_or_variant": "P3B_IRIS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Iris · CLIMATE",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Iris · CLIMATE"
+					},
+					"ko-KR": {
+						"body": "이리스 · CLIMATE",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "이리스 · CLIMATE"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_IRIS:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3B_IRIS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3B_LUCA": {
+			"1": {
+				"action_or_variant": "P3B_LUCA",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Luka · BIO",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Luka · BIO"
+					},
+					"ko-KR": {
+						"body": "루카 · BIO",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "루카 · BIO"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_LUCA:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3B_LUCA",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3B_MARA1": {
+			"1": {
+				"action_or_variant": "P3B_MARA1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1 · MAINT",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Mara 1 · MAINT"
+					},
+					"ko-KR": {
+						"body": "마라 1 · MAINT",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "마라 1 · MAINT"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_MARA1:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3B_MARA1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3B_MARA2": {
+			"1": {
+				"action_or_variant": "P3B_MARA2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2 · ARCHIVE",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Mara 2 · ARCHIVE"
+					},
+					"ko-KR": {
+						"body": "마라 2 · ARCHIVE",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "마라 2 · ARCHIVE"
+					}
+				},
+				"localization_keys": {
+					"body": "P3B_MARA2:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3B_MARA2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_INNER_DOOR": {
+			"1": {
+				"action_or_variant": "P3_INNER_DOOR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "Inner archive glass door\nLocked",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Inner archive glass door\nLocked"
+					},
+					"ko-KR": {
+						"body": "기록 내실 유리문\n잠김",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "기록 내실 유리문\n잠김"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_INNER_DOOR:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_INNER_DOOR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_NAME_BOOK_FLORA": {
+			"1": {
+				"action_or_variant": "P3_NAME_BOOK_FLORA",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "Greenhouse flora",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Greenhouse flora"
+					},
+					"ko-KR": {
+						"body": "온실 식물지",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "온실 식물지"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_NAME_BOOK_FLORA:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_NAME_BOOK_FLORA",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_NAME_BOOK_LEDGER": {
+			"1": {
+				"action_or_variant": "P3_NAME_BOOK_LEDGER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "Dining duty ledger",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Dining duty ledger"
+					},
+					"ko-KR": {
+						"body": "식탁 업무록",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "식탁 업무록"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_NAME_BOOK_LEDGER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_NAME_BOOK_LEDGER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_NAME_BOOK_MECHANICAL": {
+			"1": {
+				"action_or_variant": "P3_NAME_BOOK_MECHANICAL",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "Mechanical drawings",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Mechanical drawings"
+					},
+					"ko-KR": {
+						"body": "기계 도면집",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "기계 도면집"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_NAME_BOOK_MECHANICAL:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_NAME_BOOK_MECHANICAL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_PLACED_CLOCK": {
+			"1": {
+				"action_or_variant": "P3_PLACED_CLOCK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"book": {
+						"en-US": {
+							"BOOK_FLORA": "Greenhouse flora",
+							"BOOK_LEDGER": "Dining duty ledger",
+							"BOOK_MECHANICAL": "Mechanical drawings"
+						},
+						"ko-KR": {
+							"BOOK_FLORA": "온실 식물지",
+							"BOOK_LEDGER": "식탁 업무록",
+							"BOOK_MECHANICAL": "기계 도면집"
+						}
+					}
+				},
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "{book}\n[Shelved]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Clock · vertical lines\nMechanical engineering"
+					},
+					"ko-KR": {
+						"body": "{book}\n[정리됨]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "시계·수직선\n기계공학"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_PLACED_CLOCK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_PLACED_CLOCK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"book": "enum:book"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_PLACED_CUP": {
+			"1": {
+				"action_or_variant": "P3_PLACED_CUP",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"book": {
+						"en-US": {
+							"BOOK_FLORA": "Greenhouse flora",
+							"BOOK_LEDGER": "Dining duty ledger",
+							"BOOK_MECHANICAL": "Mechanical drawings"
+						},
+						"ko-KR": {
+							"BOOK_FLORA": "온실 식물지",
+							"BOOK_LEDGER": "식탁 업무록",
+							"BOOK_MECHANICAL": "기계 도면집"
+						}
+					}
+				},
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "{book}\n[Shelved]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Teacup · double ring\nHousehold records"
+					},
+					"ko-KR": {
+						"body": "{book}\n[정리됨]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "찻잔·이중고리\n생활 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_PLACED_CUP:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_PLACED_CUP",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"book": "enum:book"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_PLACED_FLOWER": {
+			"1": {
+				"action_or_variant": "P3_PLACED_FLOWER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"book": {
+						"en-US": {
+							"BOOK_FLORA": "Greenhouse flora",
+							"BOOK_LEDGER": "Dining duty ledger",
+							"BOOK_MECHANICAL": "Mechanical drawings"
+						},
+						"ko-KR": {
+							"BOOK_FLORA": "온실 식물지",
+							"BOOK_LEDGER": "식탁 업무록",
+							"BOOK_MECHANICAL": "기계 도면집"
+						}
+					}
+				},
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "{book}\n[Shelved]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Petals · halo\nPlants and environment"
+					},
+					"ko-KR": {
+						"body": "{book}\n[정리됨]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "꽃잎·후광\n식물·환경"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_PLACED_FLOWER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_PLACED_FLOWER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"book": "enum:book"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_SHELF_CLOCK": {
+			"1": {
+				"action_or_variant": "P3_SHELF_CLOCK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "Clock · vertical lines\nMechanical engineering",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Clock · vertical lines\nMechanical engineering"
+					},
+					"ko-KR": {
+						"body": "시계·수직선\n기계공학",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "시계·수직선\n기계공학"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_SHELF_CLOCK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_SHELF_CLOCK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_SHELF_CUP": {
+			"1": {
+				"action_or_variant": "P3_SHELF_CUP",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "Teacup · double ring\nHousehold records",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Teacup · double ring\nHousehold records"
+					},
+					"ko-KR": {
+						"body": "찻잔·이중고리\n생활 기록",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "찻잔·이중고리\n생활 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_SHELF_CUP:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_SHELF_CUP",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_SHELF_FLOWER": {
+			"1": {
+				"action_or_variant": "P3_SHELF_FLOWER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "Petals · halo\nPlants and environment",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Petals · halo\nPlants and environment"
+					},
+					"ko-KR": {
+						"body": "꽃잎·후광\n식물·환경",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "꽃잎·후광\n식물·환경"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_SHELF_FLOWER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_SHELF_FLOWER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_SILENT_STATUS": {
+			"1": {
+				"action_or_variant": "P3_SILENT_STATUS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "I put the ledger down without a word. Edgar checks that the clasp is closed.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "An Observation in the Library"
+					},
+					"ko-KR": {
+						"body": "말없이 장부를 내려놓았다. 에드가는 잠금쇠가 닫힌 것을 확인한다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "서재에서 확인한 일"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_SILENT_STATUS:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_SILENT_STATUS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P3_WRONG": {
+			"1": {
+				"action_or_variant": "P3_WRONG",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3",
+				"locales": {
+					"en-US": {
+						"body": "The book fits, but its spine does not line up. Compare its pattern with the shelf marking again.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "An Observation in the Library"
+					},
+					"ko-KR": {
+						"body": "책은 들어가지만 책등 높이가 맞지 않는다. 문양과 선반 표식을 다시 비교한다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "서재에서 확인한 일"
+					}
+				},
+				"localization_keys": {
+					"body": "P3_WRONG:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P3_WRONG",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_HANDLE_LEFT": {
+			"1": {
+				"action_or_variant": "P4_HANDLE_LEFT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "Cup handle\nToward the left seat",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Cup Handle Direction"
+					},
+					"ko-KR": {
+						"body": "찻잔 손잡이\n왼쪽 자리 방향",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "찻잔 손잡이의 방향"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_HANDLE_LEFT:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_HANDLE_LEFT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_HANDLE_RETURNED": {
+			"1": {
+				"action_or_variant": "P4_HANDLE_RETURNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "Cup handle\nToward the left seat · returned",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "The Returned Handle"
+					},
+					"ko-KR": {
+						"body": "찻잔 손잡이\n왼쪽 자리 방향 · 되돌아옴",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "되돌아온 손잡이"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_HANDLE_RETURNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_HANDLE_RETURNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_0_DONE": {
+			"1": {
+				"action_or_variant": "P4_STEP_0_DONE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "1. Warm the empty cup\nHot water · Complete",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "1. 빈 잔 데우기\n뜨거운 물 · 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_0_DONE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_0_DONE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_0_PENDING": {
+			"1": {
+				"action_or_variant": "P4_STEP_0_PENDING",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "1. Warm the empty cup\nHot water",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "1. 빈 잔 데우기\n뜨거운 물",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_0_PENDING:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_0_PENDING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_1_DONE": {
+			"1": {
+				"action_or_variant": "P4_STEP_1_DONE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "2. Discard the warming water\nEmpty teacup · Complete",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "2. 데운 물 버리기\n빈 찻잔 · 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_1_DONE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_1_DONE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_1_PENDING": {
+			"1": {
+				"action_or_variant": "P4_STEP_1_PENDING",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "2. Discard the warming water\nEmpty teacup",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "2. 데운 물 버리기\n빈 찻잔",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_1_PENDING:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_1_PENDING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_2_DONE": {
+			"1": {
+				"action_or_variant": "P4_STEP_2_DONE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "3. Add one spoonful of tea\nTea leaves · Complete",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "3. 찻잎 한 스푼\n찻잎 · 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_2_DONE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_2_DONE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_2_PENDING": {
+			"1": {
+				"action_or_variant": "P4_STEP_2_PENDING",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "3. Add one spoonful of tea\nTea leaves",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "3. 찻잎 한 스푼\n찻잎",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_2_PENDING:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_2_PENDING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_3_DONE": {
+			"1": {
+				"action_or_variant": "P4_STEP_3_DONE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "4. Pour hot water\nHot water · Complete",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "4. 뜨거운 물 붓기\n뜨거운 물 · 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_3_DONE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_3_DONE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_3_PENDING": {
+			"1": {
+				"action_or_variant": "P4_STEP_3_PENDING",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "4. Pour hot water\nHot water",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "4. 뜨거운 물 붓기\n뜨거운 물",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_3_PENDING:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_3_PENDING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_4_DONE": {
+			"1": {
+				"action_or_variant": "P4_STEP_4_DONE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "5. Wait for the hourglass\nHourglass · Complete",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "5. 모래시계 기다리기\n모래시계 · 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_4_DONE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_4_DONE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_4_PENDING": {
+			"1": {
+				"action_or_variant": "P4_STEP_4_PENDING",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "5. Wait for the hourglass\nHourglass",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "5. 모래시계 기다리기\n모래시계",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_4_PENDING:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_4_PENDING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_STEP_5_PENDING": {
+			"1": {
+				"action_or_variant": "P4_STEP_5_PENDING",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "6. Pour into the cup\nTeapot",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Steps"
+					},
+					"ko-KR": {
+						"body": "6. 잔에 따르기\n찻주전자",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_STEP_5_PENDING:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_STEP_5_PENDING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_TEA_DONE": {
+			"1": {
+				"action_or_variant": "P4_TEA_DONE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"step": {
+						"en-US": {
+							"0": "Warm the empty cup",
+							"1": "Discard the warming water",
+							"2": "Add one spoonful of tea",
+							"3": "Pour hot water",
+							"4": "Wait for the hourglass",
+							"5": "Pour into the cup"
+						},
+						"ko-KR": {
+							"0": "빈 잔 데우기",
+							"1": "데운 물 버리기",
+							"2": "찻잎 한 스푼",
+							"3": "뜨거운 물 붓기",
+							"4": "모래시계 기다리기",
+							"5": "잔에 따르기"
+						}
+					}
+				},
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "{step}: complete",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Order and Result"
+					},
+					"ko-KR": {
+						"body": "{step}: 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비의 순서와 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_TEA_DONE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_TEA_DONE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"step": "enum:step"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_TEA_ITEM_CUP": {
+			"1": {
+				"action_or_variant": "P4_TEA_ITEM_CUP",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "Empty teacup",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Empty teacup"
+					},
+					"ko-KR": {
+						"body": "빈 찻잔",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "빈 찻잔"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_TEA_ITEM_CUP:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_TEA_ITEM_CUP",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_TEA_ITEM_HOT_WATER": {
+			"1": {
+				"action_or_variant": "P4_TEA_ITEM_HOT_WATER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "Hot water",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Hot water"
+					},
+					"ko-KR": {
+						"body": "뜨거운 물",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "뜨거운 물"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_TEA_ITEM_HOT_WATER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_TEA_ITEM_HOT_WATER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_TEA_ITEM_SPOON": {
+			"1": {
+				"action_or_variant": "P4_TEA_ITEM_SPOON",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "Measuring spoon",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Measuring spoon"
+					},
+					"ko-KR": {
+						"body": "계량 숟가락",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "계량 숟가락"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_TEA_ITEM_SPOON:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_TEA_ITEM_SPOON",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_TEA_ITEM_TEAPOT": {
+			"1": {
+				"action_or_variant": "P4_TEA_ITEM_TEAPOT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "Teapot",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Teapot"
+					},
+					"ko-KR": {
+						"body": "찻주전자",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "찻주전자"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_TEA_ITEM_TEAPOT:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_TEA_ITEM_TEAPOT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_TEA_ITEM_TEA_LEAVES": {
+			"1": {
+				"action_or_variant": "P4_TEA_ITEM_TEA_LEAVES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "Tea leaves",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea leaves"
+					},
+					"ko-KR": {
+						"body": "찻잎",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "찻잎"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_TEA_ITEM_TEA_LEAVES:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_TEA_ITEM_TEA_LEAVES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_TEA_ITEM_TIMER": {
+			"1": {
+				"action_or_variant": "P4_TEA_ITEM_TIMER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "Hourglass",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Hourglass"
+					},
+					"ko-KR": {
+						"body": "모래시계",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "모래시계"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_TEA_ITEM_TIMER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_TEA_ITEM_TIMER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_TEA_ORDER": {
+			"1": {
+				"action_or_variant": "P4_TEA_ORDER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"step": {
+						"en-US": {
+							"0": "Warm the empty cup",
+							"1": "Discard the warming water",
+							"2": "Add one spoonful of tea",
+							"3": "Pour hot water",
+							"4": "Wait for the hourglass",
+							"5": "Pour into the cup"
+						},
+						"ko-KR": {
+							"0": "빈 잔 데우기",
+							"1": "데운 물 버리기",
+							"2": "찻잎 한 스푼",
+							"3": "뜨거운 물 붓기",
+							"4": "모래시계 기다리기",
+							"5": "잔에 따르기"
+						}
+					}
+				},
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "That is out of order. The next step is '{step}'.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Order and Result"
+					},
+					"ko-KR": {
+						"body": "순서가 맞지 않는다. 지금 필요한 단계는 '{step}'이다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비의 순서와 결과"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_TEA_ORDER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_TEA_ORDER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"step": "enum:step"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P4_TEA_REQUIRES": {
+			"1": {
+				"action_or_variant": "P4_TEA_REQUIRES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"item": {
+						"en-US": {
+							"0": "Hot water",
+							"1": "Empty teacup",
+							"2": "Tea leaves",
+							"3": "Hot water",
+							"4": "Hourglass",
+							"5": "Teapot"
+						},
+						"ko-KR": {
+							"0": "뜨거운 물",
+							"1": "빈 찻잔",
+							"2": "찻잎",
+							"3": "뜨거운 물",
+							"4": "모래시계",
+							"5": "찻주전자"
+						}
+					},
+					"step": {
+						"en-US": {
+							"0": "Warm the empty cup",
+							"1": "Discard the warming water",
+							"2": "Add one spoonful of tea",
+							"3": "Pour hot water",
+							"4": "Wait for the hourglass",
+							"5": "Pour into the cup"
+						},
+						"ko-KR": {
+							"0": "빈 잔 데우기",
+							"1": "데운 물 버리기",
+							"2": "찻잎 한 스푼",
+							"3": "뜨거운 물 붓기",
+							"4": "모래시계 기다리기",
+							"5": "잔에 따르기"
+						}
+					}
+				},
+				"event_id": "P4",
+				"locales": {
+					"en-US": {
+						"body": "'{step}' requires {item}.",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Tea Preparation Tools"
+					},
+					"ko-KR": {
+						"body": "'{step}' 단계에는 {item}이(가) 필요하다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "차 준비에 필요한 도구"
+					}
+				},
+				"localization_keys": {
+					"body": "P4_TEA_REQUIRES:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P4_TEA_REQUIRES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"item": "enum:item",
+						"step": "enum:step"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P5_CORRIDOR_LABEL_CHECKED": {
+			"1": {
+				"action_or_variant": "P5_CORRIDOR_LABEL_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P5",
+				"locales": {
+					"en-US": {
+						"body": "Corridor window\nClear sky\n[Checked]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Weather at the Greenhouse Entrance"
+					},
+					"ko-KR": {
+						"body": "복도 창\n맑은 하늘\n[확인함]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "온실 앞에서 보이는 날씨"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_CORRIDOR_LABEL_CHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P5_CORRIDOR_LABEL_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P5_CORRIDOR_LABEL_UNCHECKED": {
+			"1": {
+				"action_or_variant": "P5_CORRIDOR_LABEL_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P5",
+				"locales": {
+					"en-US": {
+						"body": "Corridor window\nClear sky",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Weather at the Greenhouse Entrance"
+					},
+					"ko-KR": {
+						"body": "복도 창\n맑은 하늘",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "온실 앞에서 보이는 날씨"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_CORRIDOR_LABEL_UNCHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P5_CORRIDOR_LABEL_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P5_GLASS_LABEL_CHECKED": {
+			"1": {
+				"action_or_variant": "P5_GLASS_LABEL_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P5",
+				"locales": {
+					"en-US": {
+						"body": "Greenhouse glass\nRain inside\n[Checked]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Weather at the Greenhouse Entrance"
+					},
+					"ko-KR": {
+						"body": "온실 유리\n안쪽의 비\n[확인함]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "온실 앞에서 보이는 날씨"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_GLASS_LABEL_CHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P5_GLASS_LABEL_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P5_GLASS_LABEL_UNCHECKED": {
+			"1": {
+				"action_or_variant": "P5_GLASS_LABEL_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P5",
+				"locales": {
+					"en-US": {
+						"body": "Greenhouse glass\nRain inside",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Weather at the Greenhouse Entrance"
+					},
+					"ko-KR": {
+						"body": "온실 유리\n안쪽의 비",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "온실 앞에서 보이는 날씨"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_GLASS_LABEL_UNCHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P5_GLASS_LABEL_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P5_THRESHOLD_LABEL_CHECKED": {
+			"1": {
+				"action_or_variant": "P5_THRESHOLD_LABEL_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P5",
+				"locales": {
+					"en-US": {
+						"body": "Threshold · season plate\nSpring · clear\n[Checked]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Weather at the Greenhouse Entrance"
+					},
+					"ko-KR": {
+						"body": "문턱·계절판\n봄·맑음\n[확인함]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "온실 앞에서 보이는 날씨"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_THRESHOLD_LABEL_CHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P5_THRESHOLD_LABEL_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P5_THRESHOLD_LABEL_UNCHECKED": {
+			"1": {
+				"action_or_variant": "P5_THRESHOLD_LABEL_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P5",
+				"locales": {
+					"en-US": {
+						"body": "Threshold · season plate\nSpring · clear",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Weather at the Greenhouse Entrance"
+					},
+					"ko-KR": {
+						"body": "문턱·계절판\n봄·맑음",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "온실 앞에서 보이는 날씨"
+					}
+				},
+				"localization_keys": {
+					"body": "P5_THRESHOLD_LABEL_UNCHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P5_THRESHOLD_LABEL_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_P6_NIGHT_WINDOW": {
+			"1": {
+				"action_or_variant": "P6_NIGHT_WINDOW",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P6",
+				"locales": {
+					"en-US": {
+						"body": "Window at night",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window at night"
+					},
+					"ko-KR": {
+						"body": "밤의 창문",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "밤의 창문"
+					}
+				},
+				"localization_keys": {
+					"body": "P6_NIGHT_WINDOW:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "P6_NIGHT_WINDOW",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PF_LIBRARY": {
+			"1": {
+				"action_or_variant": "PF_LIBRARY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "PF",
+				"locales": {
+					"en-US": {
+						"body": "Toward the locked library",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Toward the locked library"
+					},
+					"ko-KR": {
+						"body": "잠긴 서재 방향",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "잠긴 서재 방향"
+					}
+				},
+				"localization_keys": {
+					"body": "PF_LIBRARY:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PF_LIBRARY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PF_PARLOR": {
+			"1": {
+				"action_or_variant": "PF_PARLOR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "PF",
+				"locales": {
+					"en-US": {
+						"body": "The quiet parlor",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "The quiet parlor"
+					},
+					"ko-KR": {
+						"body": "조용해진 대응접실",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "조용해진 대응접실"
+					}
+				},
+				"localization_keys": {
+					"body": "PF_PARLOR:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PF_PARLOR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PORTRAIT_EDGAR_ASSIGNED": {
+			"1": {
+				"action_or_variant": "PORTRAIT_EDGAR_ASSIGNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"owner": {
+						"en-US": {
+							"EDGAR": "Edgar · LOCK",
+							"IRIS": "Iris · CLIMATE",
+							"LUCA": "Luka · BIO",
+							"MARA1": "Mara 1 · MAINT",
+							"MARA2": "Mara 2 · ARCHIVE"
+						},
+						"ko-KR": {
+							"EDGAR": "에드가 · LOCK",
+							"IRIS": "이리스 · CLIMATE",
+							"LUCA": "루카 · BIO",
+							"MARA1": "마라 1 · MAINT",
+							"MARA2": "마라 2 · ARCHIVE"
+						}
+					}
+				},
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Dragon horns · rapier\n[{owner}]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Portrait and Attached Nameplate"
+					},
+					"ko-KR": {
+						"body": "용의 뿔·레이피어\n[{owner}]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "초상화와 붙인 이름표"
+					}
+				},
+				"localization_keys": {
+					"body": "PORTRAIT_EDGAR_ASSIGNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PORTRAIT_EDGAR_ASSIGNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"owner": "enum:owner"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PORTRAIT_EDGAR_UNASSIGNED": {
+			"1": {
+				"action_or_variant": "PORTRAIT_EDGAR_UNASSIGNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Dragon horns · rapier",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Portrait Appearance Marks"
+					},
+					"ko-KR": {
+						"body": "용의 뿔·레이피어",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "초상화의 외형 표식"
+					}
+				},
+				"localization_keys": {
+					"body": "PORTRAIT_EDGAR_UNASSIGNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PORTRAIT_EDGAR_UNASSIGNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PORTRAIT_IRIS_ASSIGNED": {
+			"1": {
+				"action_or_variant": "PORTRAIT_IRIS_ASSIGNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"owner": {
+						"en-US": {
+							"EDGAR": "Edgar · LOCK",
+							"IRIS": "Iris · CLIMATE",
+							"LUCA": "Luka · BIO",
+							"MARA1": "Mara 1 · MAINT",
+							"MARA2": "Mara 2 · ARCHIVE"
+						},
+						"ko-KR": {
+							"EDGAR": "에드가 · LOCK",
+							"IRIS": "이리스 · CLIMATE",
+							"LUCA": "루카 · BIO",
+							"MARA1": "마라 1 · MAINT",
+							"MARA2": "마라 2 · ARCHIVE"
+						}
+					}
+				},
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Platinum hair · panel wings\n[{owner}]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Portrait and Attached Nameplate"
+					},
+					"ko-KR": {
+						"body": "백금발·판형 날개\n[{owner}]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "초상화와 붙인 이름표"
+					}
+				},
+				"localization_keys": {
+					"body": "PORTRAIT_IRIS_ASSIGNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PORTRAIT_IRIS_ASSIGNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"owner": "enum:owner"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PORTRAIT_IRIS_UNASSIGNED": {
+			"1": {
+				"action_or_variant": "PORTRAIT_IRIS_UNASSIGNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Platinum hair · panel wings",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Portrait Appearance Marks"
+					},
+					"ko-KR": {
+						"body": "백금발·판형 날개",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "초상화의 외형 표식"
+					}
+				},
+				"localization_keys": {
+					"body": "PORTRAIT_IRIS_UNASSIGNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PORTRAIT_IRIS_UNASSIGNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PORTRAIT_LUCA_ASSIGNED": {
+			"1": {
+				"action_or_variant": "PORTRAIT_LUCA_ASSIGNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"owner": {
+						"en-US": {
+							"EDGAR": "Edgar · LOCK",
+							"IRIS": "Iris · CLIMATE",
+							"LUCA": "Luka · BIO",
+							"MARA1": "Mara 1 · MAINT",
+							"MARA2": "Mara 2 · ARCHIVE"
+						},
+						"ko-KR": {
+							"EDGAR": "에드가 · LOCK",
+							"IRIS": "이리스 · CLIMATE",
+							"LUCA": "루카 · BIO",
+							"MARA1": "마라 1 · MAINT",
+							"MARA2": "마라 2 · ARCHIVE"
+						}
+					}
+				},
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Mouse ears · double pulse\n[{owner}]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Portrait and Attached Nameplate"
+					},
+					"ko-KR": {
+						"body": "쥐 귀·이중 맥박\n[{owner}]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "초상화와 붙인 이름표"
+					}
+				},
+				"localization_keys": {
+					"body": "PORTRAIT_LUCA_ASSIGNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PORTRAIT_LUCA_ASSIGNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"owner": "enum:owner"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PORTRAIT_LUCA_UNASSIGNED": {
+			"1": {
+				"action_or_variant": "PORTRAIT_LUCA_UNASSIGNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Mouse ears · double pulse",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Portrait Appearance Marks"
+					},
+					"ko-KR": {
+						"body": "쥐 귀·이중 맥박",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "초상화의 외형 표식"
+					}
+				},
+				"localization_keys": {
+					"body": "PORTRAIT_LUCA_UNASSIGNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PORTRAIT_LUCA_UNASSIGNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PORTRAIT_MARA1_ASSIGNED": {
+			"1": {
+				"action_or_variant": "PORTRAIT_MARA1_ASSIGNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"owner": {
+						"en-US": {
+							"EDGAR": "Edgar · LOCK",
+							"IRIS": "Iris · CLIMATE",
+							"LUCA": "Luka · BIO",
+							"MARA1": "Mara 1 · MAINT",
+							"MARA2": "Mara 2 · ARCHIVE"
+						},
+						"ko-KR": {
+							"EDGAR": "에드가 · LOCK",
+							"IRIS": "이리스 · CLIMATE",
+							"LUCA": "루카 · BIO",
+							"MARA1": "마라 1 · MAINT",
+							"MARA2": "마라 2 · ARCHIVE"
+						}
+					}
+				},
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Fox ears · spanner\n[{owner}]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Portrait and Attached Nameplate"
+					},
+					"ko-KR": {
+						"body": "여우 귀·스패너\n[{owner}]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "초상화와 붙인 이름표"
+					}
+				},
+				"localization_keys": {
+					"body": "PORTRAIT_MARA1_ASSIGNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PORTRAIT_MARA1_ASSIGNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"owner": "enum:owner"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PORTRAIT_MARA1_UNASSIGNED": {
+			"1": {
+				"action_or_variant": "PORTRAIT_MARA1_UNASSIGNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Fox ears · spanner",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Portrait Appearance Marks"
+					},
+					"ko-KR": {
+						"body": "여우 귀·스패너",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "초상화의 외형 표식"
+					}
+				},
+				"localization_keys": {
+					"body": "PORTRAIT_MARA1_UNASSIGNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PORTRAIT_MARA1_UNASSIGNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PORTRAIT_MARA2_ASSIGNED": {
+			"1": {
+				"action_or_variant": "PORTRAIT_MARA2_ASSIGNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"owner": {
+						"en-US": {
+							"EDGAR": "Edgar · LOCK",
+							"IRIS": "Iris · CLIMATE",
+							"LUCA": "Luka · BIO",
+							"MARA1": "Mara 1 · MAINT",
+							"MARA2": "Mara 2 · ARCHIVE"
+						},
+						"ko-KR": {
+							"EDGAR": "에드가 · LOCK",
+							"IRIS": "이리스 · CLIMATE",
+							"LUCA": "루카 · BIO",
+							"MARA1": "마라 1 · MAINT",
+							"MARA2": "마라 2 · ARCHIVE"
+						}
+					}
+				},
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Bat ears · double frame\n[{owner}]",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Portrait and Attached Nameplate"
+					},
+					"ko-KR": {
+						"body": "박쥐 귀·이중 액자\n[{owner}]",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "초상화와 붙인 이름표"
+					}
+				},
+				"localization_keys": {
+					"body": "PORTRAIT_MARA2_ASSIGNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PORTRAIT_MARA2_ASSIGNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"owner": "enum:owner"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_PORTRAIT_MARA2_UNASSIGNED": {
+			"1": {
+				"action_or_variant": "PORTRAIT_MARA2_UNASSIGNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "P3B",
+				"locales": {
+					"en-US": {
+						"body": "Bat ears · double frame",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Portrait Appearance Marks"
+					},
+					"ko-KR": {
+						"body": "박쥐 귀·이중 액자",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "초상화의 외형 표식"
+					}
+				},
+				"localization_keys": {
+					"body": "PORTRAIT_MARA2_UNASSIGNED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "PORTRAIT_MARA2_UNASSIGNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_INLINE": {
+			"1": {
+				"action_or_variant": "WINDOW_INSPECTION_INLINE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"stage": {
+						"en-US": {
+							"0": "Dust at the top",
+							"1": "Stain in the middle",
+							"2": "Moisture at the bottom",
+							"3": "Complete"
+						},
+						"ko-KR": {
+							"0": "위쪽 먼지",
+							"1": "가운데 얼룩",
+							"2": "아래쪽 물기",
+							"3": "완료"
+						}
+					},
+					"state": {
+						"en-US": {
+							"P2_CLEAR": "Clean",
+							"P2_DRY": "Dry",
+							"P2_DUST": "Dust",
+							"P2_SPREAD": "Dust spread sideways",
+							"P2_STAIN": "Stain",
+							"P2_WET": "Wet"
+						},
+						"ko-KR": {
+							"P2_CLEAR": "정리됨",
+							"P2_DRY": "마른 상태",
+							"P2_DUST": "먼지",
+							"P2_SPREAD": "먼지가 양옆으로 퍼짐",
+							"P2_STAIN": "얼룩",
+							"P2_WET": "물기"
+						}
+					}
+				},
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"bottom": "Bottom · {bottom}",
+						"header": "Window {index} close-up · {stage}",
+						"middle": "Middle · {middle}",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window in Close View",
+						"top": "Top · {top}"
+					},
+					"ko-KR": {
+						"bottom": "아래 · {bottom}",
+						"header": "창 {index} 확대 · {stage}",
+						"middle": "가운데 · {middle}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "확대해서 본 창문",
+						"top": "위쪽 · {top}"
+					}
+				},
+				"localization_keys": {
+					"bottom": "WINDOW_INSPECTION_INLINE:bottom",
+					"header": "WINDOW_INSPECTION_INLINE:header",
+					"middle": "WINDOW_INSPECTION_INLINE:middle",
+					"top": "WINDOW_INSPECTION_INLINE:top"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "WINDOW_INSPECTION_INLINE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"bottom": {
+						"bottom": "enum:state"
+					},
+					"header": {
+						"index": "int",
+						"stage": "enum:stage"
+					},
+					"middle": {
+						"middle": "enum:state"
+					},
+					"top": {
+						"top": "enum:state"
+					}
+				},
+				"visible_segment_ids": [
+					"header",
+					"top",
+					"middle",
+					"bottom"
+				]
+			}
+		},
+		"NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_MULTILINE": {
+			"1": {
+				"action_or_variant": "WINDOW_INSPECTION_MULTILINE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"stage": {
+						"en-US": {
+							"0": "Dust at the top",
+							"1": "Stain in the middle",
+							"2": "Moisture at the bottom",
+							"3": "Complete"
+						},
+						"ko-KR": {
+							"0": "위쪽 먼지",
+							"1": "가운데 얼룩",
+							"2": "아래쪽 물기",
+							"3": "완료"
+						}
+					},
+					"state": {
+						"en-US": {
+							"P2_CLEAR": "Clean",
+							"P2_DRY": "Dry",
+							"P2_DUST": "Dust",
+							"P2_SPREAD": "Dust spread sideways",
+							"P2_STAIN": "Stain",
+							"P2_WET": "Wet"
+						},
+						"ko-KR": {
+							"P2_CLEAR": "정리됨",
+							"P2_DRY": "마른 상태",
+							"P2_DUST": "먼지",
+							"P2_SPREAD": "먼지가 양옆으로 퍼짐",
+							"P2_STAIN": "얼룩",
+							"P2_WET": "물기"
+						}
+					}
+				},
+				"event_id": "P2",
+				"locales": {
+					"en-US": {
+						"bottom": "Bottom\n{bottom}",
+						"header": "Window {index} close-up · {stage}",
+						"middle": "Middle\n{middle}",
+						"speaker": "Scene",
+						"summary": "Marks and conditions displayed at that time",
+						"title": "Window in Close View",
+						"top": "Top\n{top}"
+					},
+					"ko-KR": {
+						"bottom": "아래\n{bottom}",
+						"header": "창 {index} 확대 · {stage}",
+						"middle": "가운데\n{middle}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 표식과 상태",
+						"title": "확대해서 본 창문",
+						"top": "위쪽\n{top}"
+					}
+				},
+				"localization_keys": {
+					"bottom": "WINDOW_INSPECTION_MULTILINE:bottom",
+					"header": "WINDOW_INSPECTION_MULTILINE:header",
+					"middle": "WINDOW_INSPECTION_MULTILINE:middle",
+					"top": "WINDOW_INSPECTION_MULTILINE:top"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"P1",
+					"P2",
+					"P3",
+					"P3B",
+					"P4",
+					"PF",
+					"P5",
+					"P6"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/prologue/prologue_controller.gd",
+				"source_symbol": "WINDOW_INSPECTION_MULTILINE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"bottom": {
+						"bottom": "enum:state"
+					},
+					"header": {
+						"index": "int",
+						"stage": "enum:stage"
+					},
+					"middle": {
+						"middle": "enum:state"
+					},
+					"top": {
+						"top": "enum:state"
+					}
+				},
+				"visible_segment_ids": [
+					"header",
+					"top",
+					"middle",
+					"bottom"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

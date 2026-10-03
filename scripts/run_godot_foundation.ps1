@@ -200,6 +200,9 @@ Assert-GodotValidation -Result $notebookPuzzleSurfacesResult -Name "Notebook puz
 $notebookChapterSurfacesResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-chapter-surfaces-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookChapterSurfacesResult -Name "Notebook chapter labels, journal fragments and clock boards" -RequiredMarker "NOTEBOOK_CHAPTER_SURFACES_SMOKE: PASS"
 
+$notebookPrologueSurfacesResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-prologue-surfaces-smoke", "--ggb-dev-notebook-v2")
+Assert-GodotValidation -Result $notebookPrologueSurfacesResult -Name "Notebook prologue labels, window conditions and tea feedback" -RequiredMarker "NOTEBOOK_PROLOGUE_SURFACES_SMOKE: PASS"
+
 $notebookAuthorityArchiveResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-authority-archive-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookAuthorityArchiveResult -Name "Notebook Edgar authority and Mara 2 archive evidence" -RequiredMarker "NOTEBOOK_AUTHORITY_ARCHIVE_SMOKE: PASS"
 

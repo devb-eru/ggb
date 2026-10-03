@@ -22,6 +22,7 @@ const ROOM_ART_SCRIPT := preload("res://scripts/prologue/prologue_room_art.gd")
 const WINDOW_INSPECTION_ART_SCRIPT := preload("res://scripts/prologue/prologue_window_inspection_art.gd")
 const INVENTORY_DRAG_SLOT_SCRIPT := preload("res://scripts/ui/inventory_drag_slot.gd")
 const INVENTORY_DROP_TARGET_SCRIPT := preload("res://scripts/ui/inventory_drop_target.gd")
+const PROLOGUE_SURFACES := preload("res://scripts/systems/notebook_prologue_surfaces.gd")
 
 const ROOM_NAMES := {
 	"M2_BEDROOM": "주인공의 침실",
@@ -164,9 +165,126 @@ var _history_selected := "ALL"
 var _history_scroll_positions: Dictionary = {}
 var _history_warning := ""
 var _history_generation := 0
+var _prologue_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
+var _prologue_surface_saves: Node
+var _prologue_surface_retry: Button
+var _prologue_surface_focus: WeakRef
+
+
+func _prologue_surface_enabled() -> bool:
+	return _uses_prologue_history() and not _is_prologue_complete() and preload("res://scripts/systems/notebook_rollout.gd").enabled() and GameState.get_value("meta_progress.dialogue_history.schema_version",0) == 2
+
+
+func _prologue_surface_node() -> String:
+	if _current_room == "M2_BEDROOM": return "P6" if _progress.get("P4_complete",false) else "P1"
+	return {"M1_PARLOR":"P2","M1_LIBRARY_OUTER":"P3","M1_NORTH_ARCHIVE_HALL":"P3B","M1_KITCHEN":"P4","M1_GREENHOUSE_VESTIBULE":"P5","M1_CENTRAL_HALL":"PF"}.get(_current_room,"P1")
+
+
+func _prologue_surface_scope() -> Dictionary:
+	var scope := _notebook_event_scope()
+	scope.location = _current_room
+	scope.node = _prologue_surface_node()
+	scope.day = GameState.get_value("loop_state.day_index",0)
+	return scope
+
+
+func _begin_prologue_surfaces() -> void:
+	if not _prologue_surface_enabled(): return
+	_flush_prologue_surfaces(_prologue_surfaces.generation)
+	_clear_prologue_surface_retry()
+	_prologue_surfaces.begin(_prologue_surface_scope())
+	call_deferred("_flush_prologue_surfaces",_prologue_surfaces.generation)
+
+
+func _queue_prologue_surface(descriptor: Dictionary, text: String, new_attempt: bool = false) -> void:
+	if not _prologue_surface_enabled(): return
+	var context := {"node_id":_prologue_surface_node(),"chapter_id":"PROLOGUE","location_id":_current_room}
+	_prologue_surfaces.queue_descriptor(descriptor,text,TranslationServer.get_locale(),context,new_attempt)
+	call_deferred("_flush_prologue_surfaces",_prologue_surfaces.generation)
+
+
+func _surface_text(key: String, variables: Dictionary = {}, safe_variables: Dictionary = {}) -> String:
+	var text := _dialogue_ui_text(key,variables)
+	_queue_prologue_surface(PROLOGUE_SURFACES.surface(key,safe_variables),text)
+	return text
+
+
+func _surface_status(key: String, variables: Dictionary = {}, safe_variables: Dictionary = {}) -> void:
+	var text := _dialogue_ui_text(key,variables)
+	_set_status(text)
+	_queue_prologue_surface(PROLOGUE_SURFACES.surface(key,safe_variables),text,true)
+	_flush_prologue_surfaces(_prologue_surfaces.generation)
+
+
+func _prologue_surface_allowed() -> bool:
+	return _flush_prologue_surfaces(_prologue_surfaces.generation)
+
+
+func _flush_prologue_surfaces(generation: int, explicit_retry: bool = false) -> bool:
+	if not _prologue_surface_enabled(): return true
+	if _dialogue_active or _dialogue_choice_active or _modal_active:
+		if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
+		return false
+	if not _prologue_surfaces.live(_prologue_surface_scope(),generation): return _prologue_surfaces.scope.is_empty()
+	var saved := _prologue_surfaces.flush(self,_prologue_surface_scope(),explicit_retry)
+	if saved:
+		var had_focus := is_instance_valid(_prologue_surface_retry) and _prologue_surface_retry.has_focus()
+		_clear_prologue_surface_retry()
+		if had_focus:
+			call_deferred("_restore_prologue_surface_focus")
+	else:
+		if not is_instance_valid(_prologue_surface_retry):
+			var focused := get_viewport().gui_get_focus_owner()
+			_prologue_surface_focus = weakref(focused) if focused != null else weakref(_menu_button)
+			_prologue_surface_retry = _make_button(preload("res://scripts/ui/fracture_surface_texts.gd").retry_text(TranslationServer.get_locale()),Rect2(260,944,1380,94),_retry_prologue_surfaces.bind(generation))
+			_prologue_surface_retry.name = "PROLOGUE_SURFACE_RETRY"
+			_prologue_surface_retry.z_index = 100
+			add_child(_prologue_surface_retry)
+			call_deferred("_focus_visible_control",weakref(_prologue_surface_retry))
+		_prologue_surface_retry.show()
+	return saved
+
+
+func _retry_prologue_surfaces(generation: int) -> void:
+	if _flush_prologue_surfaces(generation,true):
+		call_deferred("_resume_after_surface_retry",generation,_prologue_surface_scope())
+
+
+func _resume_after_surface_retry(generation: int, scope: Dictionary) -> void:
+	if not _prologue_surfaces.live(_prologue_surface_scope(),generation) or scope != _prologue_surface_scope() or _interaction_blocked(): return
+	if _current_room == "M1_LIBRARY_OUTER":
+		if _progress.get("p3_journal_seen",false) and String(_progress.get("p3_journal_choice","")) in ["","pending"]: _resume_p3_journal_choice()
+	elif _current_room == "M1_KITCHEN":
+		if _progress.get("p4_life_support_pending",false): _resume_p4_life_support_foreshadow()
+		elif _progress.get("P4_complete",false) and not _progress.get("iris_greeting_seen",false): _show_p4_iris_greeting()
+		elif _progress.get("p4_phase","") == "memory_anchor": _resume_p4_memory_anchor()
+		elif _progress.get("p4_phase","") == "question_answered": _resume_p4_question_answer()
+		elif _progress.get("p4_phase","") == "question" and _progress.get("p4_father_question","") == "": _show_p4_father_choices()
+
+
+func _restore_prologue_surface_focus() -> void:
+	if _dialogue_active or _dialogue_choice_active or _modal_active: return
+	var target = _prologue_surface_focus.get_ref() if _prologue_surface_focus != null else null
+	if not is_instance_valid(target) or not target.is_inside_tree() or not target.is_visible_in_tree(): target = _menu_button
+	if is_instance_valid(target): target.grab_focus()
+
+
+func _clear_prologue_surface_retry() -> void:
+	if is_instance_valid(_prologue_surface_retry):
+		remove_child(_prologue_surface_retry)
+		_prologue_surface_retry.queue_free()
+	_prologue_surface_retry = null
+
+
+func record_viewed_line(speaker: String, text: String, locale: String, context: Dictionary) -> Dictionary:
+	var point := String(SaveManager.inspect_slot(_slot_id).get("save_point_id","SAVE_NEW_GAME"))
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	return preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState,saves,_slot_id,point,speaker,text,locale,"PROLOGUE",[],context)
 
 
 func configure_session(slot_id: String, resume_id: String, test_mode: bool = false) -> void:
+	_clear_prologue_surface_retry()
+	_prologue_surfaces.begin({})
 	_pending_notebook.clear()
 	_slot_id = slot_id
 	_resume_id = resume_id
@@ -759,8 +877,10 @@ func _show_p1_intro() -> void:
 
 
 func _enter_room(room_id: String) -> void:
+	if not _prologue_surface_allowed(): return
 	_close_window_inspection(false)
 	_current_room = room_id
+	_begin_prologue_surfaces()
 	audio_room_requested.emit(room_id)
 	_progress["current_room"] = room_id
 	_location_label.text = _dialogue_ui_text("ROOM_" + room_id) if ROOM_NAMES.has(room_id) else room_id
@@ -789,6 +909,7 @@ func _enter_room(room_id: String) -> void:
 
 
 func _rebuild_current_room_content() -> void:
+	_begin_prologue_surfaces()
 	_clear_hotspots()
 	_room_art.set_room(_current_room, _progress)
 	match _current_room:
@@ -807,7 +928,7 @@ func _build_bedroom() -> void:
 	if bool(_progress.get("P4_complete", false)):
 		_progress["time_block"] = "night"
 		_add_hotspot("BED", _dialogue_ui_text("P6_NIGHT_BED"), Rect2(245, 640, 480, 170), _on_sleep_bed)
-		_add_hotspot("WINDOW", _dialogue_ui_text("P6_NIGHT_WINDOW"), Rect2(1280, 210, 300, 380), _inspect_bedroom.bind("window"))
+		_add_hotspot("WINDOW", _surface_text("P6_NIGHT_WINDOW"), Rect2(1280, 210, 300, 380), _inspect_bedroom.bind("window"))
 		_add_hotspot("HALL", _dialogue_ui_text("P6_NIGHT_EXPLORE"), Rect2(790, 870, 360, 92), _enter_room.bind("M1_CENTRAL_HALL"))
 		if not _intro_seen("P6"):
 			_mark_intro("P6")
@@ -817,15 +938,15 @@ func _build_bedroom() -> void:
 			])
 		return
 
-	_add_hotspot("BED", _dialogue_ui_text("P1_LABEL_BED"), Rect2(180, 610, 560, 210), _inspect_bedroom.bind("bed"))
-	_add_hotspot("WINDOW", _dialogue_ui_text("P1_LABEL_WINDOW"), Rect2(1250, 180, 330, 410), _inspect_bedroom.bind("window"))
-	_add_hotspot("PHOTO", _dialogue_ui_text("P1_LABEL_PHOTO"), Rect2(930, 245, 190, 245), _inspect_bedroom.bind("photo"))
-	_add_hotspot("NOTEBOOK", _dialogue_ui_text("P1_LABEL_NOTEBOOK"), Rect2(610, 690, 180, 115), _inspect_bedroom.bind("notebook"))
+	_add_hotspot("BED", _surface_text("P1_LABEL_BED"), Rect2(180, 610, 560, 210), _inspect_bedroom.bind("bed"))
+	_add_hotspot("WINDOW", _surface_text("P1_LABEL_WINDOW"), Rect2(1250, 180, 330, 410), _inspect_bedroom.bind("window"))
+	_add_hotspot("PHOTO", _surface_text("P1_LABEL_PHOTO"), Rect2(930, 245, 190, 245), _inspect_bedroom.bind("photo"))
+	_add_hotspot("NOTEBOOK", _surface_text("P1_LABEL_NOTEBOOK"), Rect2(610, 690, 180, 115), _inspect_bedroom.bind("notebook"))
 	_add_hotspot("EXIT", _dialogue_ui_text("P1_LABEL_EXIT"), Rect2(825, 850, 300, 100), _leave_bedroom_morning)
 
 
 func _inspect_bedroom(object_id: String) -> void:
-	if _dialogue_active or _modal_active:
+	if _interaction_blocked():
 		return
 	_add_unique("p1_inspections", object_id)
 	var lines := {
@@ -843,7 +964,7 @@ func _inspect_bedroom(object_id: String) -> void:
 
 
 func _leave_bedroom_morning() -> void:
-	if _dialogue_active or _modal_active:
+	if _interaction_blocked():
 		return
 	if Array(_progress.get("p1_inspections", [])).size() < 2:
 		_show_prologue_confirmation(
@@ -887,8 +1008,8 @@ func _build_hall() -> void:
 	_progress["time_block"] = "evening_free"
 	_add_hotspot("GREENHOUSE", _task_label(_dialogue_ui_text("PF_GREENHOUSE"), "P5_complete"), Rect2(1415, 405, 275, 190), _enter_room.bind("M1_GREENHOUSE_VESTIBULE"))
 	_add_hotspot("BEDROOM", _dialogue_ui_text("PF_BEDROOM"), Rect2(720, 220, 420, 150), _enter_room.bind("M2_BEDROOM"))
-	_add_hotspot("PARLOR", _dialogue_ui_text("PF_PARLOR"), Rect2(120, 430, 330, 160), _evening_ambient.bind("PF_LIGHT"))
-	_add_hotspot("LIBRARY", _dialogue_ui_text("PF_LIBRARY"), Rect2(1110, 460, 310, 160), _evening_ambient.bind("PF_PAGES"))
+	_add_hotspot("PARLOR", _surface_text("PF_PARLOR"), Rect2(120, 430, 330, 160), _evening_ambient.bind("PF_LIGHT"))
+	_add_hotspot("LIBRARY", _surface_text("PF_LIBRARY"), Rect2(1110, 460, 310, 160), _evening_ambient.bind("PF_PAGES"))
 
 
 func _report_tasks() -> void:
@@ -908,16 +1029,17 @@ func _build_parlor() -> void:
 	_normalize_window_states()
 	_sync_window_stages()
 	_update_inventory([
-		{"id": "SOFT_CLOTH", "label": _dialogue_ui_text("P2_TOOL_CLOTH")},
-		{"id": "COARSE_BRUSH", "label": _dialogue_ui_text("P2_TOOL_BRUSH")},
-		{"id": "WATER", "label": _dialogue_ui_text("P2_TOOL_WATER")},
-		{"id": "SPANNER", "label": _dialogue_ui_text("P2_TOOL_SPANNER")},
+		{"id": "SOFT_CLOTH", "label": _surface_text("P2_TOOL_CLOTH")},
+		{"id": "COARSE_BRUSH", "label": _surface_text("P2_TOOL_BRUSH")},
+		{"id": "WATER", "label": _surface_text("P2_TOOL_WATER")},
+		{"id": "SPANNER", "label": _surface_text("P2_TOOL_SPANNER")},
 	])
 	var windows: Array = _progress.get("windows", [0, 0, 0])
 	for index in range(3):
 		var stage := int(windows[index])
 		_add_hotspot("WINDOW_%d" % index, _dialogue_ui_text("P2_WINDOW_LABEL", {"index": index + 1, "state": _window_stage_name(stage)}), Rect2(300 + index * 420, 250, 300, 390), _on_window_pressed.bind(index))
-	_add_hotspot("CLOCK", _dialogue_ui_text("P2_CLOCK_LABEL"), Rect2(1450, 185, 180, 190), _show_dialogue.bind([_prologue_line("P2_CLOCK_OBSERVATION", "주인공")]))
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface("P2_WINDOW_LABEL",{"index":index+1,"stage":str(stage)}),_hotspot_layer.get_node("WINDOW_%d" % index).text)
+	_add_hotspot("CLOCK", _surface_text("P2_CLOCK_LABEL"), Rect2(1450, 185, 180, 190), _show_dialogue.bind([_prologue_line("P2_CLOCK_OBSERVATION", "주인공")]))
 	_add_back_to_hall()
 	if not _intro_seen("P2"):
 		_mark_intro("P2")
@@ -935,6 +1057,7 @@ func _on_window_pressed(index: int) -> void:
 
 
 func _open_window_inspection(index: int) -> void:
+	if _interaction_blocked(): return
 	_normalize_window_states()
 	if index < 0 or index >= Array(_progress.get("window_states", [])).size():
 		return
@@ -943,12 +1066,13 @@ func _open_window_inspection(index: int) -> void:
 	_inspection_layer.visible = true
 	_selected_item = ""
 	_refresh_inventory_selection()
-	_set_window_feedback(_dialogue_ui_text("P2_DRAG"))
-	_refresh_window_inspection()
+	_set_window_feedback("P2_DRAG")
+	_refresh_window_inspection(true)
 	_set_status(_dialogue_ui_text("P2_INSPECTING", {"index": index + 1}))
 
 
 func _close_window_inspection(update_status: bool = true) -> void:
+	if _inspection_active and not _prologue_surface_allowed(): return
 	if _inspection_layer != null:
 		_inspection_layer.visible = false
 	_inspection_active = false
@@ -956,9 +1080,10 @@ func _close_window_inspection(update_status: bool = true) -> void:
 	if update_status and _status_label != null:
 		_set_status(_dialogue_ui_text("P2_CLOSED"))
 	_refresh_inventory_selection()
+	if update_status and _current_room == "M1_PARLOR": _rebuild_current_room_content()
 
 
-func _refresh_window_inspection() -> void:
+func _refresh_window_inspection(new_observation: bool = false) -> void:
 	if not _inspection_active or _inspected_window < 0:
 		return
 	var states: Array = _progress.get("window_states", [])
@@ -979,12 +1104,14 @@ func _refresh_window_inspection() -> void:
 			target_value.text = target_value.text.replace("\n", " · ")
 		target_value.set_drop_enabled(not clean)
 	_window_hint_label.text = _dialogue_ui_text("P2_CLEAN_HINT" if clean else "P2_ACTIVE_HINT")
+	_queue_prologue_surface(PROLOGUE_SURFACES.window(_inspected_window,_stage_from_window_state(state),state,_reading_text_scale > 1.0),_window_title.text+"\n"+top.text+"\n"+middle.text+"\n"+bottom.text,new_observation)
 	_refresh_inventory_selection()
 
 
 func _on_window_zone_pressed(zone_id: String) -> void:
+	if _interaction_blocked(): return
 	if _selected_item.is_empty():
-		_set_window_feedback(_dialogue_ui_text("P2_SELECT_HINT"))
+		_set_window_feedback("P2_SELECT_HINT")
 		return
 	_on_window_item_dropped(_selected_item, "WINDOW_ZONE_%s" % zone_id)
 
@@ -997,17 +1124,18 @@ func _on_window_item_dropped(item_id: String, target_id: String) -> void:
 
 
 func _apply_window_tool(item_id: String, zone_id: String) -> void:
+	if _interaction_blocked(): return
 	var states: Array = _progress.get("window_states", [])
 	if _inspected_window < 0 or _inspected_window >= states.size():
 		return
 	var state: Dictionary = states[_inspected_window].duplicate(true)
 	if _is_window_clean(state):
-		_set_window_feedback(_dialogue_ui_text("P2_TOOL_ALREADY"))
+		_set_window_feedback("P2_TOOL_ALREADY")
 		return
 	var feedback_kind := "neutral"
 	match item_id:
 		"SPANNER":
-			_set_window_feedback(_dialogue_ui_text("P2_TOOL_SPANNER_FEEDBACK"))
+			_set_window_feedback("P2_TOOL_SPANNER_FEEDBACK")
 			if not bool(_progress.get("p2_spanner_hint_seen", false)):
 				_progress["p2_spanner_hint_seen"] = true
 				_show_dialogue([_prologue_line("P2_TOOL_SPANNER_LINE", "마라 1", {"portrait": "MARA1"})])
@@ -1015,7 +1143,7 @@ func _apply_window_tool(item_id: String, zone_id: String) -> void:
 			state["top_dust"] = true
 			state["dust_spread"] = true
 			feedback_kind = "wrong"
-			_set_window_feedback(_dialogue_ui_text("P2_TOOL_BRUSH_FEEDBACK"))
+			_set_window_feedback("P2_TOOL_BRUSH_FEEDBACK")
 			if not bool(_progress.get("p2_brush_hint_seen", false)):
 				_progress["p2_brush_hint_seen"] = true
 				_show_dialogue([_prologue_line("P2_TOOL_BRUSH_LINE", "마라 1", {"portrait": "MARA1"})])
@@ -1024,21 +1152,21 @@ func _apply_window_tool(item_id: String, zone_id: String) -> void:
 				state["middle_stain"] = false
 				state["bottom_wet"] = true
 				feedback_kind = "water"
-				_set_window_feedback(_dialogue_ui_text("P2_TOOL_WATER_STAIN"))
+				_set_window_feedback("P2_TOOL_WATER_STAIN")
 			elif zone_id == "BOTTOM" and not bool(state.get("top_dust", true)) and not bool(state.get("middle_stain", true)):
 				state["bottom_wet"] = true
 				feedback_kind = "water"
-				_set_window_feedback(_dialogue_ui_text("P2_TOOL_WATER_BOTTOM"))
+				_set_window_feedback("P2_TOOL_WATER_BOTTOM")
 			else:
 				feedback_kind = "wrong"
-				_set_window_feedback(_dialogue_ui_text("P2_TOOL_WATER_WRONG"))
+				_set_window_feedback("P2_TOOL_WATER_WRONG")
 		"SOFT_CLOTH":
 			match zone_id:
 				"TOP":
 					state["top_dust"] = false
 					state["dust_spread"] = false
 					feedback_kind = "correct"
-					_set_window_feedback(_dialogue_ui_text("P2_TOOL_TOP_CLEAN"))
+					_set_window_feedback("P2_TOOL_TOP_CLEAN")
 					if _inspected_window == 2 and not bool(_progress.get("bird_observed", false)):
 						_progress["bird_observed"] = true
 						_add_notebook("NOTE_P_BIRD")
@@ -1049,25 +1177,25 @@ func _apply_window_tool(item_id: String, zone_id: String) -> void:
 				"MIDDLE":
 					if bool(state.get("top_dust", true)):
 						feedback_kind = "falling_dust"
-						_set_window_feedback(_dialogue_ui_text("P2_TOOL_MIDDLE_ORDER"))
+						_set_window_feedback("P2_TOOL_MIDDLE_ORDER")
 					elif bool(state.get("middle_stain", true)):
 						state["middle_stain"] = false
 						feedback_kind = "correct"
-						_set_window_feedback(_dialogue_ui_text("P2_TOOL_MIDDLE_CLEAN"))
+						_set_window_feedback("P2_TOOL_MIDDLE_CLEAN")
 					else:
-						_set_window_feedback(_dialogue_ui_text("P2_TOOL_MIDDLE_ALREADY"))
+						_set_window_feedback("P2_TOOL_MIDDLE_ALREADY")
 				"BOTTOM":
 					if bool(state.get("top_dust", true)) or bool(state.get("middle_stain", true)):
 						feedback_kind = "falling_dust"
-						_set_window_feedback(_dialogue_ui_text("P2_TOOL_BOTTOM_ORDER"))
+						_set_window_feedback("P2_TOOL_BOTTOM_ORDER")
 					elif bool(state.get("bottom_wet", false)):
 						state["bottom_wet"] = false
 						feedback_kind = "correct"
-						_set_window_feedback(_dialogue_ui_text("P2_TOOL_BOTTOM_CLEAN"))
+						_set_window_feedback("P2_TOOL_BOTTOM_CLEAN")
 					else:
-						_set_window_feedback(_dialogue_ui_text("P2_TOOL_BOTTOM_ALREADY"))
+						_set_window_feedback("P2_TOOL_BOTTOM_ALREADY")
 		_:
-			_set_window_feedback(_dialogue_ui_text("P2_TOOL_INVALID"))
+			_set_window_feedback("P2_TOOL_INVALID")
 	states[_inspected_window] = state
 	_progress["window_states"] = states
 	_sync_window_stages()
@@ -1100,9 +1228,13 @@ func _complete_p2() -> void:
 	)
 
 
-func _set_window_feedback(message: String) -> void:
+func _set_window_feedback(key: String) -> void:
+	var message := _dialogue_ui_text(key)
 	_window_feedback_label.text = message
 	_set_status(message)
+	if key in PROLOGUE_SURFACES.WINDOW_FEEDBACK:
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface(key),message,true)
+		_flush_prologue_surfaces(_prologue_surfaces.generation)
 
 
 func _build_library() -> void:
@@ -1110,7 +1242,7 @@ func _build_library() -> void:
 	var placed: Dictionary = _progress.get("p3_placed", {})
 	for book_id in P3_BOOKS:
 		if book_id not in placed.values():
-			inventory.append({"id": book_id, "label": _dialogue_ui_text("P3_NAME_" + String(book_id))})
+			inventory.append({"id": book_id, "label": _surface_text("P3_NAME_" + String(book_id))})
 	_update_inventory(inventory)
 	var shelves := [
 		["SHELF_CLOCK", _dialogue_ui_text("P3_SHELF_CLOCK"), Rect2(315, 300, 285, 300)],
@@ -1121,7 +1253,8 @@ func _build_library() -> void:
 		var occupant := String(placed.get(shelf[0], ""))
 		var label := String(shelf[1]) if occupant.is_empty() else _dialogue_ui_text("P3_PLACED", {"book": _dialogue_ui_text("P3_NAME_" + occupant)})
 		_add_inventory_drop_hotspot(String(shelf[0]), label, shelf[2], _on_shelf_pressed.bind(String(shelf[0])), _on_shelf_item_dropped)
-	_add_hotspot("INNER_DOOR", _dialogue_ui_text("P3_INNER_DOOR"), Rect2(1460, 210, 205, 460), _inspect_inner_door)
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface("P3_"+String(shelf[0]) if occupant.is_empty() else "P3_PLACED_"+String(shelf[0]).trim_prefix("SHELF_"),{} if occupant.is_empty() else {"book":occupant}),label)
+	_add_hotspot("INNER_DOOR", _surface_text("P3_INNER_DOOR"), Rect2(1460, 210, 205, 460), _inspect_inner_door)
 	_add_back_to_hall()
 	var needs_journal_choice := bool(_progress.get("p3_journal_seen", false)) \
 		and String(_progress.get("p3_journal_choice", "")) in ["", "pending"] \
@@ -1144,7 +1277,7 @@ func _on_shelf_pressed(shelf_id: String) -> void:
 		return
 	var expected := String(P3_BOOKS[_selected_item]["shelf"])
 	if shelf_id != expected:
-		_set_status(_dialogue_ui_text("P3_WRONG"))
+		_surface_status("P3_WRONG")
 		return
 	var placed: Dictionary = _progress.get("p3_placed", {})
 	placed[shelf_id] = _selected_item
@@ -1199,6 +1332,7 @@ func _show_dialogue_choice_set(
 	choice_order: Array,
 	choice_data: Dictionary
 ) -> void:
+	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
 	_dialogue_active = false
 	_dialogue_lines.clear()
 	_dialogue_after = Callable()
@@ -1256,7 +1390,7 @@ func _answer_p3_journal_choice(choice_id: String) -> void:
 		_p3_journal_prompt_active = false
 		_progress["p3_journal_choice"] = "silent"
 		_save_progress()
-		_set_status(_dialogue_ui_text("P3_SILENT_STATUS"))
+		_surface_status("P3_SILENT_STATUS")
 		_finish_p3_book_placement()
 		return
 	var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
@@ -1295,6 +1429,7 @@ func _finish_p3_book_placement() -> void:
 
 
 func _on_shelf_item_dropped(item_id: String, shelf_id: String) -> void:
+	if _interaction_blocked(): return
 	_selected_item = item_id
 	_on_shelf_pressed(shelf_id)
 
@@ -1308,7 +1443,7 @@ func _build_archive() -> void:
 	var placed: Dictionary = _progress.get("p3b_placed", {})
 	for owner_id in P3B_LABELS:
 		if owner_id not in placed.values():
-			inventory.append({"id": "LABEL_%s" % owner_id, "label": _dialogue_ui_text("P3B_" + String(owner_id))})
+			inventory.append({"id": "LABEL_%s" % owner_id, "label": _surface_text("P3B_" + String(owner_id))})
 	_update_inventory(inventory)
 	var visuals := [_dialogue_ui_text("P3B_V_EDGAR"), _dialogue_ui_text("P3B_V_MARA1"), _dialogue_ui_text("P3B_V_LUCA"), _dialogue_ui_text("P3B_V_IRIS"), _dialogue_ui_text("P3B_V_MARA2")]
 	for index in range(5):
@@ -1316,6 +1451,7 @@ func _build_archive() -> void:
 		var assigned := _owner_at_portrait(index)
 		var suffix := "\n[%s]" % _dialogue_ui_text("P3B_" + assigned) if not assigned.is_empty() else ""
 		_add_inventory_drop_hotspot("PORTRAIT_%d" % index, "%s%s" % [visuals[index], suffix], Rect2(205 + index * 280, 260 + (index % 2) * 35, 235, 310), _on_portrait_pressed.bind(index, owner), _on_portrait_item_dropped)
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface("PORTRAIT_"+owner+("_UNASSIGNED" if assigned.is_empty() else "_ASSIGNED"),{} if assigned.is_empty() else {"owner":assigned}),"%s%s" % [visuals[index],suffix])
 	_add_back_to_hall()
 	if not _intro_seen("P3B"):
 		_mark_intro("P3B")
@@ -1356,6 +1492,7 @@ func _on_portrait_pressed(index: int, expected_owner: String) -> void:
 
 
 func _on_portrait_item_dropped(item_id: String, target_id: String) -> void:
+	if _interaction_blocked(): return
 	var index := int(target_id.trim_prefix("PORTRAIT_"))
 	if index < 0 or index >= P3B_OWNERS.size():
 		return
@@ -1372,23 +1509,25 @@ func _build_kitchen() -> void:
 	var step := int(_progress.get("tea_step", 0))
 	if step < TEA_STEPS.size():
 		_update_inventory([
-			{"id": "CUP", "label": _dialogue_ui_text("P4_TEA_ITEM_CUP")},
-			{"id": "HOT_WATER", "label": _dialogue_ui_text("P4_TEA_ITEM_HOT_WATER")},
-			{"id": "TEA_LEAVES", "label": _dialogue_ui_text("P4_TEA_ITEM_TEA_LEAVES")},
-			{"id": "SPOON", "label": _dialogue_ui_text("P4_TEA_ITEM_SPOON")},
-			{"id": "TIMER", "label": _dialogue_ui_text("P4_TEA_ITEM_TIMER")},
-			{"id": "TEAPOT", "label": _dialogue_ui_text("P4_TEA_ITEM_TEAPOT")},
+			{"id": "CUP", "label": _surface_text("P4_TEA_ITEM_CUP")},
+			{"id": "HOT_WATER", "label": _surface_text("P4_TEA_ITEM_HOT_WATER")},
+			{"id": "TEA_LEAVES", "label": _surface_text("P4_TEA_ITEM_TEA_LEAVES")},
+			{"id": "SPOON", "label": _surface_text("P4_TEA_ITEM_SPOON")},
+			{"id": "TIMER", "label": _surface_text("P4_TEA_ITEM_TIMER")},
+			{"id": "TEAPOT", "label": _surface_text("P4_TEA_ITEM_TEAPOT")},
 		])
 		for index in range(TEA_STEPS.size()):
 			var done := index < step
 			var label := "%d. %s\n%s%s" % [index + 1, _dialogue_ui_text("P4_TEA_STEP_%d" % index), _dialogue_ui_text("P4_TEA_ITEM_" + String(TEA_STEP_ITEMS[index])), " · " + _dialogue_ui_text("UI_DUTY_COMPLETE") if done else ""]
 			_add_inventory_drop_hotspot("TEA_%d" % index, label, Rect2(320 + (index % 3) * 390, 300 + (index / 3) * 170, 330, 120), _on_tea_target_pressed.bind(index), _on_tea_item_dropped)
+			_queue_prologue_surface(PROLOGUE_SURFACES.surface("P4_STEP_%d_%s" % [index,"DONE" if done else "PENDING"]),label)
 	else:
 		_update_inventory([])
 		var handle_label := _dialogue_ui_text("P4_LINK_HANDLE")
 		if bool(_progress.get("p4_handle_return_used", false)):
 			handle_label += _dialogue_ui_text("P4_LINK_RETURNED")
 		_add_hotspot("P4_CUP_HANDLE", handle_label, Rect2(420, 320, 440, 230), _turn_p4_cup_handle)
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface("P4_HANDLE_RETURNED" if _progress.get("p4_handle_return_used",false) else "P4_HANDLE_LEFT"),handle_label)
 		var cup := Control.new()
 		cup.set_script(load("res://scripts/prologue/prologue_cup_art.gd"))
 		cup.name = "P4_CUP_ART"
@@ -1424,10 +1563,10 @@ func _on_tea_step(index: int) -> void:
 	if step >= TEA_STEPS.size():
 		return
 	if index != step:
-		_set_status(_dialogue_ui_text("P4_TEA_ORDER", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % step)}))
+		_surface_status("P4_TEA_ORDER", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % step)}, {"step":str(step)})
 		return
 	_progress["tea_step"] = step + 1
-	_set_status(_dialogue_ui_text("P4_TEA_DONE", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % index)}))
+	_surface_status("P4_TEA_DONE", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % index)}, {"step":str(index)})
 	if step + 1 >= TEA_STEPS.size():
 		_begin_p4_memory_anchor()
 		return
@@ -1438,6 +1577,7 @@ func _on_tea_step(index: int) -> void:
 
 
 func _on_tea_target_pressed(index: int) -> void:
+	if _interaction_blocked(): return
 	if _selected_item.is_empty():
 		_set_status(_dialogue_ui_text("P4_TEA_DRAG"))
 		return
@@ -1445,11 +1585,12 @@ func _on_tea_target_pressed(index: int) -> void:
 
 
 func _on_tea_item_dropped(item_id: String, target_id: String) -> void:
+	if _interaction_blocked(): return
 	var index := int(target_id.trim_prefix("TEA_"))
 	if index < 0 or index >= TEA_STEPS.size():
 		return
 	if item_id != String(TEA_STEP_ITEMS[index]):
-		_set_status(_dialogue_ui_text("P4_TEA_REQUIRES", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % index), "item": _dialogue_ui_text("P4_TEA_ITEM_" + String(TEA_STEP_ITEMS[index]))}))
+		_surface_status("P4_TEA_REQUIRES", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % index), "item": _dialogue_ui_text("P4_TEA_ITEM_" + String(TEA_STEP_ITEMS[index]))}, {"step":str(index),"item":str(index)})
 		return
 	_selected_item = item_id
 	_on_tea_step(index)
@@ -1544,7 +1685,7 @@ func _localized_p4_choices() -> Dictionary:
 
 
 func _show_p4_father_choices() -> void:
-	if _dialogue_active or _modal_active or bool(_progress.get("P4_complete", false)):
+	if _interaction_blocked() or bool(_progress.get("P4_complete", false)):
 		return
 	if int(_progress.get("tea_step", 0)) < TEA_STEPS.size() or not bool(_progress.get("p4_memory_anchor_seen", false)):
 		return
@@ -1614,11 +1755,14 @@ func _complete_p4_iris_greeting() -> void:
 
 
 func _build_greenhouse() -> void:
+	_begin_prologue_surfaces()
 	_clear_hotspots()
 	var observations: Array = _progress.get("p5_observations", [])
 	_add_hotspot("CORRIDOR_WINDOW", _observed_label(_dialogue_ui_text("P5_CORRIDOR_LABEL"), "corridor", observations), Rect2(230, 245, 300, 350), _observe_weather.bind("corridor"))
 	_add_hotspot("GREENHOUSE_GLASS", _observed_label(_dialogue_ui_text("P5_GLASS_LABEL"), "glass", observations), Rect2(670, 205, 420, 430), _observe_weather.bind("glass"))
 	_add_hotspot("THRESHOLD", _observed_label(_dialogue_ui_text("P5_THRESHOLD_LABEL"), "threshold", observations), Rect2(1140, 570, 350, 150), _observe_weather.bind("threshold"))
+	for target in [["CORRIDOR_WINDOW","P5_CORRIDOR_LABEL","corridor"],["GREENHOUSE_GLASS","P5_GLASS_LABEL","glass"],["THRESHOLD","P5_THRESHOLD_LABEL","threshold"]]:
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface(target[1]+("_CHECKED" if target[2] in observations else "_UNCHECKED")),_hotspot_layer.get_node(target[0]).text)
 	if observations.size() >= 3 and not bool(_progress.get("P5_complete", false)):
 		_add_hotspot("RECORD", _dialogue_ui_text("P5_RECORD"), Rect2(700, 760, 500, 100), _complete_p5)
 	_add_back_to_hall()
@@ -1744,13 +1888,24 @@ func _add_back_to_hall() -> void:
 
 
 func _add_hotspot(id: String, label: String, rect: Rect2, action: Callable) -> void:
-	var button := _make_button(label, rect, action)
+	var wrapped := _dispatch_prologue_hotspot.bind(action,_prologue_surfaces.generation,_prologue_surface_scope()) if _uses_prologue_history() else action
+	var button := _make_button(label, rect, wrapped)
 	button.name = id
 	button.mouse_filter = Control.MOUSE_FILTER_STOP
 	button.add_theme_stylebox_override("normal", _style(Color(0.04, 0.02, 0.065, 0.72), Color(0.69, 0.39, 0.34, 0.84), 3, 7))
 	button.add_theme_stylebox_override("hover", _style(Color(0.15, 0.045, 0.14, 0.90), Color(0.95, 0.59, 0.31, 1.0), 5, 7))
 	button.add_theme_stylebox_override("focus", _style(Color(0.10, 0.03, 0.12, 0.88), Color(0.59, 0.78, 0.98, 1.0), 5, 7))
 	_hotspot_layer.add_child(button)
+
+
+func _dispatch_prologue_hotspot(action: Callable, generation: int, scope: Dictionary) -> void:
+	if _prologue_surface_enabled() and (not _prologue_surfaces.live(_prologue_surface_scope(),generation) or scope != _prologue_surface_scope()): return
+	if _interaction_blocked(): return
+	action.call()
+
+
+func _dispatch_prologue_drop(item_id: String, target_id: String, action: Callable, generation: int, scope: Dictionary) -> void:
+	_dispatch_prologue_hotspot(action.bind(item_id,target_id),generation,scope)
 
 
 func _add_inventory_drop_hotspot(id: String, label: String, rect: Rect2, click_action: Callable, drop_action: Callable) -> void:
@@ -1764,8 +1919,14 @@ func _add_inventory_drop_hotspot(id: String, label: String, rect: Rect2, click_a
 	target.add_theme_stylebox_override("hover", _style(Color(0.15, 0.045, 0.14, 0.90), Color(0.95, 0.59, 0.31, 1.0), 5, 7))
 	target.add_theme_stylebox_override("focus", _style(Color(0.10, 0.03, 0.12, 0.88), Color(0.59, 0.78, 0.98, 1.0), 5, 7))
 	_place(target, rect)
-	target.pressed.connect(click_action)
-	target.inventory_item_dropped.connect(drop_action)
+	if _uses_prologue_history():
+		var generation: int = _prologue_surfaces.generation
+		var scope := _prologue_surface_scope()
+		target.pressed.connect(_dispatch_prologue_hotspot.bind(click_action,generation,scope))
+		target.inventory_item_dropped.connect(_dispatch_prologue_drop.bind(drop_action,generation,scope))
+	else:
+		target.pressed.connect(click_action)
+		target.inventory_item_dropped.connect(drop_action)
 	_hotspot_layer.add_child(target)
 
 
@@ -1812,6 +1973,7 @@ func _on_inventory_slot_pressed(index: int) -> void:
 
 
 func _on_inventory_drag_started(item_id: String) -> void:
+	if _interaction_blocked(): return
 	_selected_item = item_id
 	var display_name := item_id
 	for slot in _inventory_slots:
@@ -1842,6 +2004,7 @@ func _refresh_inventory_selection() -> void:
 
 
 func _show_dialogue(lines: Array, after: Callable = Callable()) -> void:
+	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
 	_prologue_history_index = -1
 	_audio_dialogue_index = -1
 	_hide_dialogue_choices()
@@ -2065,6 +2228,7 @@ func _advance_dialogue() -> void:
 	_dialogue_after = Callable()
 	if after.is_valid():
 		after.call()
+	_prologue_surface_allowed()
 
 
 func _dismiss_dialogue_for_test() -> void:
@@ -2429,6 +2593,7 @@ func _cancel_prologue_modal() -> void:
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
+	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
 	_prologue_confirmation = {}
 	_remember_history_scroll()
 	_history_generation += 1
@@ -2519,10 +2684,12 @@ func _close_modal() -> void:
 	menu_audio_pause_requested.emit(false)
 	_modal_active = false
 	_modal_layer.visible = false
+	_prologue_surface_allowed()
 
 
 func _return_to_title() -> void:
 	_close_modal()
+	if not _prologue_surface_allowed(): return
 	if not _save_progress(): return
 	return_to_title_requested.emit()
 
@@ -2767,7 +2934,7 @@ func _mark_intro(intro_id: String) -> void:
 
 
 func _interaction_blocked() -> bool:
-	return _dialogue_active or _dialogue_choice_active or _modal_active
+	return _dialogue_active or _dialogue_choice_active or _modal_active or not _prologue_surface_allowed()
 
 
 func _place(control: Control, rect: Rect2) -> void:
