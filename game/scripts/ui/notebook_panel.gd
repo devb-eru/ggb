@@ -676,6 +676,8 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 	_material_label(target, result.title, "title", matches)
 	_material_label(target, result.location_label, "location_label", matches, 0, _l("장소: ", "Location: "))
 	_material_label(target, result.source_label, "source_label", matches, 0, _l("자료 유형: ", "Material type: "))
+	if not result.lifetime_label.is_empty(): _material_label(target, result.lifetime_label, "lifetime_label", matches, 0, _l("정보의 유지 범위: ", "Information lifetime: "))
+	if not result.memory_notice.is_empty(): _material_label(target, result.memory_notice, "memory_notice", matches)
 	var kind := _kind_label(result.kind)
 	if not kind.is_empty(): _label(target, kind)
 	if result.previous: _label(target, _l("이전에 작성된 내용", "Earlier revision"))
@@ -778,7 +780,7 @@ func _refresh_search_detail() -> void:
 
 
 func _update_match_controls() -> void:
-	var names := {"text": _l("본문", "Text"), "title": _l("제목", "Title"), "summary": _l("요약", "Summary"), "speaker": _l("화자", "Speaker"), "location_label": _l("장소", "Location"), "source_label": _l("자료 유형", "Material type")}
+	var names := {"text": _l("본문", "Text"), "title": _l("제목", "Title"), "summary": _l("요약", "Summary"), "speaker": _l("화자", "Speaker"), "location_label": _l("장소", "Location"), "source_label": _l("자료 유형", "Material type"), "lifetime_label": _l("정보의 유지 범위", "Information lifetime"), "memory_notice": _l("확인한 반복·휴식", "Observed repetition / rest")}
 	_match_status.text = _l("이 자료에는 현재 검색어와 일치하는 내용이 없습니다.", "No matches for the current search in this material.")
 	if not _matches.is_empty():
 		_match_status.text = _l("검색 일치 %d개", "%d search matches") % _matches.size()

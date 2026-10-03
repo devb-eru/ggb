@@ -9,8 +9,8 @@ const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
 const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
 const INVESTIGATION := preload("res://scripts/systems/notebook_investigation.gd")
 const PAGE_SIZE := 50
-const POLICY_VERSION := 7
-const SEARCH_FIELDS := ["text", "title", "summary", "speaker", "location_label", "source_label"]
+const POLICY_VERSION := 8
+const SEARCH_FIELDS := ["text", "title", "summary", "speaker", "location_label", "source_label", "lifetime_label", "memory_notice"]
 const TABS := ["clues", "dialogue", "records", "people"]
 const PERSON_IDS := ["EDGAR", "MARA1", "MARA", "MARA2", "LUCA", "IRIS"]
 const FILTER_FIELDS := ["chapters", "locations", "speakers", "categories", "epistemic", "provenance", "sources", "people", "sessions"]
@@ -39,6 +39,9 @@ var _public_values: Dictionary = {}
 var _person_first: Dictionary = {}
 var _investigation := ""
 var _investigation_keys: Array = []
+var _record_continuity := false
+var _unrestored_morning := false
+var _reference_keys: Dictionary = {}
 
 
 func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String, legacy_knowledge: Dictionary = {}, current_node: String = "") -> Dictionary:
@@ -47,6 +50,9 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 	var checked := KNOWLEDGE.validate(ledger, archive)
 	if not checked.ok: return checked
 	_archive = archive.duplicate(true)
+	for collection in ["bookmarks", "comparison"]:
+		_reference_keys[collection] = {}
+		for ref in _archive[collection]: _reference_keys[collection][reference_key(ref)] = true
 	_scope = scope.duplicate(true)
 	_locale = "en-US" if locale.begins_with("en") else "ko-KR"
 	_investigation = INVESTIGATION.topic(current_node)
@@ -72,6 +78,10 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 		if not metadata.ok:
 			_errors[entry.entry_uid] = metadata.error_id
 			continue
+		# Only the exact, actually acquired proof can disclose a rule of the world.
+		if not metadata.fallback and int(observed.content_version) == 1 and revisions.has(entry.entry_uid):
+			if observed.content_id == "NB_CH1_NOTE_A2": _record_continuity = true
+			if observed.content_id == "NB_FRACTURE_NOTE_E1_DIFFERENT": _unrestored_morning = true
 		var revision: Dictionary = revisions.get(entry.entry_uid, {})
 		var knowledge: Dictionary = revision.get("metadata", {})
 		var kind: String = observed.entry_kind
@@ -101,9 +111,10 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 				"title": metadata.title, "summary": metadata.summary, "kind": kind,
 				"category": knowledge.get("category", ""), "epistemic": knowledge.get("epistemic_state", ""),
 				"provenance": knowledge.get("provenance_state", ""), "previous": previous,
+				"lifetime": knowledge.get("lifetime", "") if not metadata.fallback else "",
 				"revision_uid": revision.get("revision_uid", ""), "sources": revision.get("source_refs", []).duplicate(true),
 				"legacy": false, "person": person, "fallback": metadata.fallback,
-				"bookmarked": ref in _archive.bookmarks,
+				"bookmarked": _reference_keys.bookmarks.has(key),
 				"review_group": JSON.stringify([revision.get("knowledge_uid", entry.entry_uid), segment.segment_id]).sha256_text(),
 				"people": people.duplicate(), "source_kind": _source_kind(kind, knowledge.get("category", "")),
 			}
@@ -169,6 +180,9 @@ func close() -> void:
 	_person_first.clear()
 	_investigation = ""
 	_investigation_keys.clear()
+	_record_continuity = false
+	_unrestored_morning = false
+	_reference_keys.clear()
 
 
 func cache_key() -> String:
@@ -262,7 +276,21 @@ func detail(key: String, expected_key: String) -> Dictionary:
 	for ref in row.sources:
 		var target := reference_key(ref)
 		if _rows.has(target) and target != key and target not in links: links.append(target)
-	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links, "location_label": public_label("locations", row.location), "source_label": public_label("sources", row.source_kind), "related": related_to(key), "session": row.session, "has_visual": not fallback and VISUALS.supports(entry, row.reference.segment_id)}
+	var memory := _memory_labels(row)
+	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links, "location_label": public_label("locations", row.location), "source_label": public_label("sources", row.source_kind), "lifetime_label": memory.lifetime, "memory_notice": memory.notice, "related": related_to(key), "session": row.session, "has_visual": not fallback and VISUALS.supports(entry, row.reference.segment_id)}
+
+
+func _memory_labels(row: Dictionary) -> Dictionary:
+	var result := {"lifetime": "", "notice": ""}
+	if row.get("lifetime", "").is_empty() or row.legacy or row.fallback: return result
+	var en := _locale == "en-US"
+	if _record_continuity:
+		result.lifetime = ("기록 유지 · 내용의 정답 여부와는 별개" if not en else "Retained record; this does not verify its meaning") if row.lifetime == "persistent" else ("현장 상태의 기록 · 현재 상태는 재확인 필요" if not en else "Physical-state record; current conditions need checking")
+	if _unrestored_morning:
+		result.notice = "확인한 휴식 뒤에는 세계가 복구되지 않았습니다. 기록의 유지와 현장 상태는 별개입니다." if not en else "After the observed rest, the world was not restored. Retained records and physical conditions are separate."
+	elif _record_continuity:
+		result.notice = "확인한 아침에는 수첩은 남고 방의 물리 상태는 되돌아왔습니다. 이 자료는 당시 관찰이며 현재 현장을 대신하지 않습니다." if not en else "On the observed morning, the notebook remained while the room's physical state reset. This is a past observation, not a live view of the scene."
+	return result
 
 
 func visual(key: String, expected_key: String) -> Dictionary:
@@ -445,7 +473,8 @@ func groups(mode: String, filters: Dictionary, page_index: int, expected_key: St
 func reference_state(key: String, expected_key: String) -> Dictionary:
 	if not _ready or expected_key != cache_key() or not _rows.has(key): return _error("NB_QUERY_STALE")
 	var ref: Dictionary = _rows[key].reference
-	return {"ok": true, "reference": ref.duplicate(true), "bookmarks": ref in _archive.bookmarks, "comparison": ref in _archive.comparison}
+	var canonical := reference_key(ref)
+	return {"ok": true, "reference": ref.duplicate(true), "bookmarks": _reference_keys.bookmarks.has(canonical), "comparison": _reference_keys.comparison.has(canonical)}
 
 
 func _matching(filters: Dictionary) -> Array:
@@ -492,7 +521,7 @@ func _add_legacy(entry: Dictionary) -> void:
 		"session": entry.entry_uid, "session_end": int(entry.sequence), "chapter": entry.get("chapter_id", "LEGACY"), "location": "", "speaker_id": "", "speaker": "",
 		"title": "이전·미분류 기록" if _locale == "ko-KR" else "Earlier / unclassified record", "summary": "", "kind": "legacy",
 		"category": "", "epistemic": "", "provenance": "", "previous": false, "revision_uid": "", "sources": [],
-		"legacy": true, "person": false, "fallback": true, "bookmarked": ref in _archive.bookmarks,
+		"legacy": true, "person": false, "fallback": true, "bookmarked": _reference_keys.bookmarks.has(key),
 		"review_group": JSON.stringify([entry.entry_uid, "legacy"]).sha256_text(),
 		"people": [], "source_kind": "legacy",
 	}
@@ -529,7 +558,11 @@ static func valid_filters(filters: Dictionary) -> bool:
 
 
 static func reference_key(reference: Dictionary) -> String:
-	return JSON.stringify(reference, "", true)
+	var canonical := reference.duplicate(false)
+	var version: Variant = canonical.get("content_version")
+	if version is float and is_finite(version) and version == floor(version) and abs(version) < 9007199254740992.0:
+		canonical.content_version = int(version)
+	return JSON.stringify(canonical, "", true)
 
 
 static func _field_values(row: Dictionary, field: String) -> Array:

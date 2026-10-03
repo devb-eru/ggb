@@ -1,6 +1,6 @@
 extends RefCounted
 
-const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
+const OBSERVATION := preload("res://scripts/systems/notebook_observation_schema.gd")
 const CATALOGS := ["res://data/notebook/hints_v1.json", "res://data/notebook/prologue_v1.json", "res://data/notebook/prologue_notes_v1.json", "res://data/notebook/chapter_one_v1.json", "res://data/notebook/chapter_one_notes_v1.json", "res://data/notebook/modals_v1.json", "res://data/notebook/mirror_v1.json", "res://data/notebook/basement_v1.json", "res://data/notebook/fracture_v1.json", "res://data/notebook/fracture_surfaces_v1.json", "res://data/notebook/mara1_v1.json", "res://data/notebook/iris_v1.json", "res://data/notebook/luca_v1.json", "res://data/notebook/edgar_v1.json", "res://data/notebook/mara2_v1.json", "res://data/notebook/settlement_v1.json", "res://data/notebook/journal_four_v1.json", "res://data/notebook/journal_four_display_v1.json", "res://data/notebook/core_v1.json", "res://data/notebook/final_v1.json", "res://data/notebook/reality_v1.json", "res://data/notebook/stay_v1.json", "res://data/notebook/puzzle_surfaces_v1.json", "res://data/notebook/chapter_surfaces_v1.json", "res://data/notebook/prologue_surfaces_v1.json"]
 const ALIASES := {"BF": "B3_B", "CF": "C4", "DF": "D1"}
 const TYPES := {"string": TYPE_STRING, "int": TYPE_INT, "float": TYPE_FLOAT, "bool": TYPE_BOOL}
@@ -34,7 +34,7 @@ static func diagnostics() -> Dictionary:
 
 static func review_metadata(observation: Dictionary, locale: String) -> Dictionary:
 	# Only metadata of an observed version may enter the read-only query index.
-	var checked := ARCHIVE.validate_observation(observation)
+	var checked := OBSERVATION.validate(observation)
 	if not checked.ok: return checked
 	_load()
 	var row: Dictionary = _contents.get(observation.content_id, {}).get(str(int(observation.content_version)), {})
@@ -64,7 +64,7 @@ static func review_metadata(observation: Dictionary, locale: String) -> Dictiona
 static func render_segment(entry: Dictionary, segment_id: String, locale: String) -> Dictionary:
 	if entry.get("record_class") != "authored" or not entry.get("observation") is Dictionary: return _error("NB_CONTENT_ENTRY")
 	var observed: Dictionary = entry.get("observation", {})
-	var checked := ARCHIVE.validate_observation(observed)
+	var checked := OBSERVATION.validate(observed)
 	if not checked.ok: return checked
 	var selected: Array = observed.get("segments", []).filter(func(part: Dictionary) -> bool: return part.segment_id == segment_id)
 	if selected.size() != 1: return _error("NB_CONTENT_SEGMENT")
@@ -134,7 +134,7 @@ static func observe(descriptor: Dictionary, context: Dictionary, speaker: String
 static func render_entry(entry: Dictionary, locale: String) -> Dictionary:
 	if entry.get("record_class") != "authored" or not entry.get("observation") is Dictionary: return _error("NB_CONTENT_ENTRY")
 	var observation: Dictionary = entry.observation
-	var valid := ARCHIVE.validate_observation(observation)
+	var valid := OBSERVATION.validate(observation)
 	if not valid.ok: return valid
 	_load()
 	var row := definition(observation.content_id, int(observation.content_version))
@@ -207,7 +207,7 @@ static func _valid_row(row: Variant) -> bool:
 	if not _valid_enums(row.get("enums", {})): return false
 	for field in ["producer_id", "source_file", "source_symbol", "event_id", "action_or_variant", "speaker_id", "location_source", "entry_kind", "disclosure_owner", "mapping_status", "owner"]:
 		if not row.get(field) is String or row[field].is_empty(): return false
-	if row.mapping_status != "AUTHORED_ID" or row.entry_kind not in ARCHIVE.KINDS: return false
+	if row.mapping_status != "AUTHORED_ID" or row.entry_kind not in OBSERVATION.KINDS: return false
 	for field in ["node_ids", "visible_segment_ids", "protection_reasons"]:
 		if not row.get(field) is Array: return false
 		var seen := {}

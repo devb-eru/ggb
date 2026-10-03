@@ -30,6 +30,10 @@ func run(tree: SceneTree) -> Dictionary:
 	for message in search.errors: _expect(false, "search: " + message)
 	var investigation := await preload("res://scripts/tests/notebook_investigation_smoke.gd").new().run(tree)
 	for message in investigation.errors: _expect(false, "investigation: " + message)
+	var people := preload("res://scripts/tests/notebook_person_retention_smoke.gd").new().run()
+	for message in people.errors: _expect(false, "person retention: " + message)
+	var memory := await preload("res://scripts/tests/notebook_memory_disclosure_smoke.gd").new().run(tree)
+	for message in memory.errors: _expect(false, "memory disclosure: " + message)
 	_expect(GameState.get_snapshot() == state_before, "all read operations preserve live game state")
 	print("NOTEBOOK_QUERY_CHECKS: %d" % checks)
 	return {"ok": errors.is_empty(), "errors": errors}

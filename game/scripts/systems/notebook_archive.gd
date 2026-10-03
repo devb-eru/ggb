@@ -7,7 +7,10 @@ const BOOKMARK_LIMIT := 50
 const COMPARISON_LIMIT := 12
 const CONTEXT := preload("res://scripts/systems/dialogue_history_context.gd")
 const LEGACY_NOTES := preload("res://scripts/systems/notebook_legacy_notes.gd")
-const KINDS := ["dialogue", "options_presented", "choice_confirmed", "choice_cancelled", "document_segment", "hint_revealed"]
+const OBSERVATION := preload("res://scripts/systems/notebook_observation_schema.gd")
+const CONTENT := preload("res://scripts/systems/notebook_content.gd")
+const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
+const KINDS := OBSERVATION.KINDS
 const SOURCE_KINDS := ["knowledge_source", "person_source", "document_source"]
 const ROOT_KEYS := ["schema_version", "source_origin_id", "branch_id", "revision", "next_sequence", "entries", "bookmarks", "comparison", "source_links"]
 
@@ -247,6 +250,7 @@ static func display_payload(entry: Dictionary) -> Dictionary:
 
 
 static func _finish(candidate: Dictionary) -> Dictionary:
+	_protect_first_people(candidate)
 	var normal: Array = []
 	for entry in candidate.entries:
 		entry.protection_reasons = _reasons(candidate, entry)
@@ -259,6 +263,26 @@ static func _finish(candidate: Dictionary) -> Dictionary:
 	var checked := validate(candidate)
 	if not checked.ok: return checked
 	return {"ok": true, "archive": candidate, "changed": true, "pruned_uids": pruned}
+
+
+static func _protect_first_people(candidate: Dictionary) -> void:
+	var missing := {}
+	for person in LABELS.PEOPLE:
+		missing[person] = ("notebook-person:" + candidate.source_origin_id + ":" + person).sha256_text().left(32)
+	for link in candidate.source_links:
+		if link.consumer_kind != "person_source": continue
+		for person in missing.keys():
+			if link.consumer_uid == missing[person]: missing.erase(person)
+	# Protect the earliest still-provable utterance before any normal entry is pruned.
+	for entry in candidate.entries:
+		if missing.is_empty(): break
+		if entry.record_class != "authored": continue
+		var person := LABELS.person(entry.observation.speaker_id)
+		if not missing.has(person): continue
+		var metadata := CONTENT.review_metadata(entry.observation, "ko-KR")
+		if not metadata.ok or metadata.fallback or metadata.speaker.is_empty(): continue
+		candidate.source_links.append({"consumer_kind": "person_source", "consumer_uid": missing[person], "target": make_reference(entry, entry.observation.segments[0].segment_id)})
+		missing.erase(person)
 
 
 static func _reasons(archive: Dictionary, entry: Dictionary) -> Array:
@@ -277,28 +301,7 @@ static func _reasons(archive: Dictionary, entry: Dictionary) -> Array:
 
 
 static func validate_observation(value: Variant) -> Dictionary:
-	var fields := ["producer_id", "event_id", "node_id", "location_id", "chapter_id", "event_occurrence_id", "conversation_session_id", "presentation_token", "entry_kind", "content_id", "content_version", "variant_id", "speaker_id", "segments", "content_protection"]
-	if not value is Dictionary or not _keys(value, fields): return _error("NB_OBSERVATION_FIELDS")
-	for field in ["producer_id", "event_id", "node_id", "location_id", "content_id", "variant_id", "speaker_id"]:
-		if not value[field] is String or value[field].is_empty(): return _error("NB_OBSERVATION_ID")
-	for field in ["event_occurrence_id", "conversation_session_id", "presentation_token"]:
-		if not _uid(value[field]): return _error("NB_OBSERVATION_TOKEN")
-	if value.entry_kind not in KINDS or value.chapter_id not in CONTEXT.CHAPTERS: return _error("NB_OBSERVATION_KIND")
-	if not _integer(value.content_version) or int(value.content_version) < 1: return _error("NB_CONTENT_VERSION")
-	if not _strings(value.content_protection, true): return _error("NB_CONTENT_PROTECTION")
-	if not value.segments is Array or value.segments.is_empty(): return _error("NB_SEGMENTS")
-	var ids := {}
-	for segment in value.segments:
-		if not segment is Dictionary or not _keys(segment, ["segment_id", "disclosure", "localization_key", "safe_variables", "captured_text", "viewed_locale"]): return _error("NB_SEGMENT_FIELDS")
-		for field in ["segment_id", "localization_key", "captured_text", "viewed_locale"]:
-			if not segment[field] is String or segment[field].is_empty(): return _error("NB_SEGMENT_TEXT")
-		if segment.disclosure not in ["displayed", "replay_committed"] or ids.has(segment.segment_id): return _error("NB_SEGMENT_DISCLOSURE")
-		ids[segment.segment_id] = true
-		if not segment.safe_variables is Dictionary: return _error("NB_SEGMENT_VARIABLES")
-		for key in segment.safe_variables:
-			if not key is String or typeof(segment.safe_variables[key]) not in [TYPE_STRING, TYPE_INT, TYPE_FLOAT, TYPE_BOOL]: return _error("NB_SEGMENT_VARIABLES")
-			if typeof(segment.safe_variables[key]) == TYPE_FLOAT and not is_finite(segment.safe_variables[key]): return _error("NB_SEGMENT_VARIABLES")
-	return {"ok": true}
+	return OBSERVATION.validate(value)
 
 
 static func _resolve_in(index: Dictionary, value: Variant) -> Dictionary:
