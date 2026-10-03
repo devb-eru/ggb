@@ -27,6 +27,25 @@ func run(tree: SceneTree) -> Dictionary:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--cursor-phase="): phase = arg.trim_prefix("--cursor-phase=")
 	TranslationServer.set_locale("ko-KR" if phase == "seed" else "en-US")
+	if "--window-inspection-legacy-only" in OS.get_cmdline_user_args():
+		var view = _window_fresh(tree, 0)
+		_expect(not view._prologue_cursor_enabled(), "legacy fixture uses original history")
+		view._on_inventory_slot_pressed(0)
+		view._on_window_zone_pressed("TOP")
+		_expect(not view._progress.window_states[0].top_dust, "legacy window tool still works")
+		_expect(not GameState.get_snapshot().loop_state.event_local_states.has(CURSOR.WINDOW_KEY), "legacy writes no new inspection cursor")
+		view = await _reload(tree, view)
+		_expect(not view._inspection_active, "legacy retains room-level resume")
+		view.queue_free()
+		await tree.process_frame
+		SaveManager.delete_test_slot(SLOT)
+		print("NOTEBOOK_WINDOW_LEGACY_CHECKS: ", checks)
+		return {"ok": errors.is_empty(), "errors": errors}
+	if "--window-inspection-only" in OS.get_cmdline_user_args():
+		if phase == "seed": await _window_cases(tree)
+		await _window_process(tree, phase)
+		print("NOTEBOOK_WINDOW_INSPECTION_CHECKS: ", phase, " ", checks)
+		return {"ok": errors.is_empty(), "errors": errors}
 	if phase == "seed":
 		await _cases(tree)
 		if not errors.is_empty(): return {"ok": false, "errors": errors}
@@ -98,6 +117,151 @@ func run(tree: SceneTree) -> Dictionary:
 		_expect(false, "unknown phase")
 	print("NOTEBOOK_PROLOGUE_PRESENTATION_CHECKS: ", phase, " ", checks)
 	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _window_fresh(tree: SceneTree, index: int) -> Node:
+	var view = _fresh(tree)
+	_drain(view)
+	view._progress.P1_complete = true
+	view._progress.current_room = "M1_PARLOR"
+	view._mark_intro("P2")
+	view._prologue_surfaces.begin({})
+	view._enter_room("M1_PARLOR")
+	_expect(view._prologue_surface_allowed(), "parlor labels saved before inspection")
+	view._open_window_inspection(index)
+	_expect(view._prologue_surface_allowed(), "window observation saved before baseline")
+	return view
+
+
+func _window_cases(tree: SceneTree) -> void:
+	for index in range(3):
+		var view = _window_fresh(tree, index)
+		view._on_inventory_slot_pressed(2)
+		var before := GameState.get_snapshot()
+		_expect(before.loop_state.event_local_states[CURSOR.WINDOW_KEY].window == index, "specific window saved")
+		view = await _reload(tree, view)
+		_expect(view._inspection_active and view._inspected_window == index and view._selected_item == "WATER", "window and selected tool reload")
+		_expect(_same(before, GameState.get_snapshot()), "inspection restoration is read-only")
+		view._on_inventory_slot_pressed(3)
+		view._on_window_zone_pressed("MIDDLE")
+		_expect(view._dialogue_active and view._inspection_active, "tool dialogue overlays inspection")
+		before = GameState.get_snapshot()
+		var token: String = CURSOR.read(before).lines[0].presentation_token
+		view = await _reload(tree, view)
+		_expect(view._dialogue_active and view._inspection_active and view._selected_item == "SPANNER", "dialogue and underlying inspection both restored")
+		_expect(_same(before, GameState.get_snapshot()) and _count_token(token) == 1, "nested restoration neither replays tool nor duplicates dialogue")
+		_drain(view)
+		_expect(view._inspection_active, "dialogue completion returns to same inspection")
+		_expect(view._prologue_surface_allowed(), "nested feedback flushed")
+		var failing := ControlledSave.new()
+		failing.reject = true
+		view._prologue_surface_saves = failing
+		before = GameState.get_snapshot()
+		view._on_inventory_slot_pressed(0)
+		_expect(view._selected_item == "SPANNER" and _same(before, GameState.get_snapshot()), "selection save failure restores previous tool")
+		view._close_window_inspection()
+		_expect(view._inspection_active and _same(before, GameState.get_snapshot()), "failed close keeps inspection open")
+		view._prologue_surface_saves = null
+		failing.free()
+		view._close_window_inspection()
+		_expect(not view._inspection_active and not GameState.get_snapshot().loop_state.event_local_states.has(CURSOR.WINDOW_KEY), "explicit close removes only inspection state")
+		view = await _reload(tree, view)
+		_expect(not view._inspection_active, "closed inspection never reopens")
+		view.queue_free()
+		await tree.process_frame
+	var view = _window_fresh(tree, 0)
+	view._on_inventory_slot_pressed(0)
+	var failing := ControlledSave.new()
+	failing.reject = true
+	view._prologue_surface_saves = failing
+	var before := GameState.get_snapshot()
+	view._on_window_zone_pressed("TOP")
+	_expect(_same(before, GameState.get_snapshot()) and view._progress.window_states[0].top_dust, "failed tool progress restores physical UI instead of claiming a clean zone")
+	_expect(not view._progress.P2_complete, "failed tool cannot finish the tutorial")
+	view._prologue_surface_saves = null
+	failing.free()
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "failed tool reload")
+	view = _view(tree, SLOT)
+	_expect(view._inspection_active and view._progress.window_states[0].top_dust, "failed physical action was not replayed")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "new load invalidates old inspection")
+	before = GameState.get_snapshot()
+	view._on_window_zone_pressed("TOP")
+	view._on_inventory_slot_pressed(2)
+	view._on_inventory_drag_started("WATER")
+	view._on_window_item_dropped("SOFT_CLOTH", "WINDOW_ZONE_TOP")
+	view._close_window_inspection()
+	_expect(_same(before, GameState.get_snapshot()), "old inspection inputs cannot edit a reloaded slot")
+	view.queue_free()
+	await tree.process_frame
+	for invalid in [{"schema_version": 2, "window": 0, "selected_item": ""}, {"schema_version": 1, "window": 3, "selected_item": ""}, {"schema_version": 1, "window": 0, "selected_item": "BOOK_MECHANICAL"}]:
+		var bad := before.duplicate(true)
+		bad.loop_state.event_local_states[CURSOR.WINDOW_KEY] = invalid
+		_expect(not StateSnapshotValidator.new().validate(bad).ok, "invalid inspection schema rejected")
+	view = _window_fresh(tree, 0)
+	for state in view._progress.window_states:
+		state.top_dust = false
+		state.middle_stain = false
+		state.bottom_wet = false
+		state.dust_spread = false
+	view._progress.window_states[0].bottom_wet = true
+	view._sync_window_stages()
+	_expect(view._save_progress(), "last wet zone fixture saved")
+	view._on_inventory_slot_pressed(0)
+	before = GameState.get_snapshot()
+	failing = ControlledSave.new()
+	failing.reject = true
+	view._prologue_surface_saves = failing
+	view._on_window_zone_pressed("BOTTOM")
+	_expect(_same(before, GameState.get_snapshot()) and view._progress.window_states[0].bottom_wet and not view._progress.P2_complete, "failed final wipe cannot complete P2")
+	view._prologue_surface_saves = null
+	failing.free()
+	view = await _reload(tree, view)
+	_expect(view._inspection_active and view._progress.window_states[0].bottom_wet and not view._progress.P2_complete, "restart preserves incomplete last wipe")
+	view._on_window_zone_pressed("BOTTOM")
+	_expect(view._progress.P2_complete and not view._progress.window_states[0].bottom_wet, "explicit final wipe retry completes P2")
+	_drain(view)
+	view = await _reload(tree, view)
+	_expect(not view._inspection_active and view._progress.P2_complete, "completed P2 returns to room instead of reopening old inspection")
+	view.queue_free()
+	await tree.process_frame
+
+
+func _window_process(tree: SceneTree, phase: String) -> void:
+	var path := EXPECTED.trim_suffix(".json") + "_window.json"
+	if phase == "seed":
+		var view = _window_fresh(tree, 1)
+		view._on_inventory_slot_pressed(0)
+		view._on_window_zone_pressed("TOP")
+		_expect(view._prologue_surface_allowed(), "clean-zone observation saved")
+		view._on_inventory_slot_pressed(2)
+		view._on_window_zone_pressed("MIDDLE")
+		_expect(view._prologue_surface_allowed(), "wet-zone observation saved")
+		view._on_inventory_drag_started("SOFT_CLOTH")
+		var file := FileAccess.open(path, FileAccess.WRITE)
+		file.store_string(JSON.stringify({"pid": OS.get_process_id(), "state": GameState.get_snapshot()}))
+		file.close()
+		view.queue_free()
+		await tree.process_frame
+		return
+	var expected: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
+	_expect(int(expected.pid) != OS.get_process_id(), "inspection resumes in another process")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "inspection process loads slot")
+	var view = _view(tree, SLOT)
+	if phase == "resume":
+		_expect(view._inspection_active and view._inspected_window == 1 and view._selected_item == "SOFT_CLOTH", "window and selected cloth restored")
+		_expect(view._progress.window_states[1].bottom_wet and not view.get_viewport().gui_is_dragging(), "wet glass preserved without replaying drag or drying")
+		_expect(_same(expected.state, GameState.get_snapshot()), "new process restoration does not write game or observation")
+		_expect(not view._window_title.text.contains("창문"), "inspection reconstructed in current language")
+		view._close_window_inspection()
+		_expect(not view._inspection_active, "resumed inspection explicitly closes")
+	elif phase == "completed":
+		_expect(not view._inspection_active and not GameState.get_snapshot().loop_state.event_local_states.has(CURSOR.WINDOW_KEY), "closed inspection stays closed in third process")
+		SaveManager.delete_test_slot(SLOT)
+	else: _expect(false, "unknown window phase")
+	view.queue_free()
+	await tree.process_frame
 
 
 func _cases(tree: SceneTree) -> void:

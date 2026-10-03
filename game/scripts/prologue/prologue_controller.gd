@@ -149,6 +149,7 @@ var _window_art
 var _window_drop_targets: Dictionary = {}
 var _inspected_window := -1
 var _inspection_active := false
+var _inspection_scope := {}
 var _fade: ColorRect
 
 var _dialogue_lines: Array = []
@@ -376,6 +377,7 @@ func _ready() -> void:
 	_load_progress()
 	_apply_accessibility_profile()
 	if _restore_prologue_cursor(): return
+	if _restore_window_without_cursor(): return
 	if _is_prologue_complete():
 		_show_after_reset()
 		return
@@ -1158,23 +1160,78 @@ func _open_window_inspection(index: int) -> void:
 	_inspected_window = index
 	_inspection_active = true
 	_inspection_layer.visible = true
+	_inspection_scope = _notebook_event_scope()
 	_selected_item = ""
 	_refresh_inventory_selection()
 	_set_window_feedback("P2_DRAG")
 	_refresh_window_inspection(true)
 	_set_status(_dialogue_ui_text("P2_INSPECTING", {"index": index + 1}))
+	if _prologue_cursor_enabled(): _save_progress()
 
 
 func _close_window_inspection(update_status: bool = true) -> void:
+	if _inspection_active and not _window_input_live(): return
 	if _inspection_active and not _prologue_surface_allowed(): return
+	if _inspection_active and update_status and _prologue_cursor_enabled():
+		_inspection_active = false
+		if not _save_progress():
+			_inspection_active = true
+			return
 	if _inspection_layer != null:
 		_inspection_layer.visible = false
 	_inspection_active = false
 	_inspected_window = -1
+	_inspection_scope = {}
 	if update_status and _status_label != null:
 		_set_status(_dialogue_ui_text("P2_CLOSED"))
 	_refresh_inventory_selection()
 	if update_status and _current_room == "M1_PARLOR": _rebuild_current_room_content()
+
+
+func _window_input_live() -> bool:
+	return _prologue_restoring_room or _test_mode or _inspection_scope == _notebook_event_scope()
+
+
+func _saved_window_view() -> Dictionary:
+	if not _prologue_cursor_enabled(): return {}
+	var value: Variant = GameState.get_value("loop_state.event_local_states." + PROLOGUE_CURSOR.WINDOW_KEY, {})
+	if not PROLOGUE_CURSOR.valid_window(value) or _is_prologue_complete() or _current_room != "M1_PARLOR": return {}
+	if not String(value.selected_item).is_empty() and value.selected_item not in GameState.get_value("loop_state.inventory", []): return {}
+	return value.duplicate(true)
+
+
+func _restore_window_view(value: Dictionary) -> void:
+	if value.is_empty(): return
+	_inspected_window = int(value.window)
+	_selected_item = value.selected_item
+	_inspection_scope = _notebook_event_scope()
+	_inspection_active = true
+	_inspection_layer.show()
+	var was_restoring := _prologue_restoring_room
+	_prologue_restoring_room = true
+	_refresh_window_inspection()
+	_window_feedback_label.text = _dialogue_ui_text("P2_DRAG")
+	_prologue_restoring_room = was_restoring
+	# Restoring is read-only; subsequent explicit input needs a fresh capture scope.
+	_prologue_surfaces.begin(_prologue_surface_scope())
+
+
+func _restore_window_without_cursor() -> bool:
+	var view := _saved_window_view()
+	if view.is_empty(): return false
+	_prologue_restoring_room = true
+	_enter_room(_current_room)
+	_load_progress()
+	_prologue_restoring_room = false
+	_restore_window_view(view)
+	return true
+
+
+func _save_window_selection(previous: String) -> void:
+	if not _inspection_active or not _prologue_cursor_enabled(): return
+	if not _window_input_live() or not _save_progress():
+		_selected_item = previous
+		_refresh_inventory_selection()
 
 
 func _refresh_window_inspection(new_observation: bool = false) -> void:
@@ -1203,6 +1260,7 @@ func _refresh_window_inspection(new_observation: bool = false) -> void:
 
 
 func _on_window_zone_pressed(zone_id: String) -> void:
+	if not _window_input_live(): return
 	if _interaction_blocked(): return
 	if _selected_item.is_empty():
 		_set_window_feedback("P2_SELECT_HINT")
@@ -1211,6 +1269,7 @@ func _on_window_zone_pressed(zone_id: String) -> void:
 
 
 func _on_window_item_dropped(item_id: String, target_id: String) -> void:
+	if not _window_input_live(): return
 	if _dialogue_active or _modal_active or not _inspection_active:
 		return
 	var zone_id := target_id.trim_prefix("WINDOW_ZONE_")
@@ -1218,6 +1277,7 @@ func _on_window_item_dropped(item_id: String, target_id: String) -> void:
 
 
 func _apply_window_tool(item_id: String, zone_id: String) -> void:
+	if not _window_input_live(): return
 	if _interaction_blocked(): return
 	var states: Array = _progress.get("window_states", [])
 	if _inspected_window < 0 or _inspected_window >= states.size():
@@ -1304,7 +1364,14 @@ func _apply_window_tool(item_id: String, zone_id: String) -> void:
 			_window_art.play_feedback(Color(0.25, 0.62, 0.90))
 		"correct":
 			_window_art.play_feedback(Color(0.92, 0.72, 0.30))
-	_save_progress()
+	if not _save_progress():
+		_load_progress()
+		var was_restoring := _prologue_restoring_room
+		_prologue_restoring_room = true
+		_room_art.set_room("M1_PARLOR", _progress)
+		_refresh_window_inspection()
+		_prologue_restoring_room = was_restoring
+		return
 	if _all_windows_clean() and not bool(_progress.get("P2_complete", false)):
 		_complete_p2()
 
@@ -2100,18 +2167,23 @@ func _update_inventory(items: Array) -> void:
 
 
 func _on_inventory_slot_pressed(index: int) -> void:
+	if _inspection_active and not _window_input_live(): return
 	if _interaction_blocked() or index >= _inventory_slots.size():
 		return
 	var item_id := String(_inventory_slots[index].get_meta("item_id", ""))
 	if item_id.is_empty():
 		return
+	var previous := _selected_item
 	_selected_item = item_id
 	_set_status(_dialogue_ui_text("UI_INV_SELECTED", {"item": _inventory_slots[index].text}))
 	_refresh_inventory_selection()
+	_save_window_selection(previous)
 
 
 func _on_inventory_drag_started(item_id: String) -> void:
+	if _inspection_active and not _window_input_live(): return
 	if _interaction_blocked(): return
+	var previous := _selected_item
 	_selected_item = item_id
 	var display_name := item_id
 	for slot in _inventory_slots:
@@ -2120,6 +2192,7 @@ func _on_inventory_drag_started(item_id: String) -> void:
 			break
 	_set_status(_dialogue_ui_text("UI_INV_DRAGGING", {"item": display_name}))
 	_refresh_inventory_selection()
+	_save_window_selection(previous)
 
 
 func _refresh_inventory_selection() -> void:
@@ -2311,6 +2384,7 @@ func _restore_prologue_cursor() -> bool:
 	var state := GameState.get_snapshot()
 	var value := PROLOGUE_CURSOR.read(state)
 	if not PROLOGUE_CURSOR.matches(value, state) or not PROLOGUE_CURSOR.observed(value, state) or value.family != "prologue_controller": return false
+	var window_view := _saved_window_view()
 	if _prologue_cursor_scope != _notebook_event_scope(): _prologue_dispatch_surfaces.clear()
 	_prologue_restoring_room = true
 	_pending_notebook.clear()
@@ -2334,6 +2408,7 @@ func _restore_prologue_cursor() -> bool:
 		else:
 			_restore_prologue_choice(value)
 	_prologue_restored_cursor = {}
+	_restore_window_view(window_view)
 	return true
 
 
@@ -2993,6 +3068,10 @@ func _persist_prologue_progress(save_point_id: String, prologue_complete: bool, 
 	var previous := GameState.get_snapshot()
 	var event_states: Dictionary = GameState.get_value(&"loop_state.event_local_states", {}).duplicate(true)
 	event_states["PROLOGUE"] = _progress.duplicate(true)
+	if _prologue_cursor_enabled() and _inspection_active and _current_room == "M1_PARLOR":
+		event_states[PROLOGUE_CURSOR.WINDOW_KEY] = {"schema_version": 1, "window": _inspected_window, "selected_item": _selected_item}
+	else:
+		event_states.erase(PROLOGUE_CURSOR.WINDOW_KEY)
 	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {}).duplicate(true)
 	knowledge["prologue_notebook_entries"] = Array(_progress.get("notebook_entries", [])).duplicate(true)
 	for servant_id in Array(_progress.get("introduced", [])):

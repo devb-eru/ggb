@@ -269,6 +269,9 @@ func _validate_loop_state(value: Variant, errors: PackedStringArray) -> void:
 	if loop_state.get("event_local_states") is Dictionary and loop_state.event_local_states.has("NOTEBOOK_PRESENTATION"):
 		if not preload("res://scripts/systems/notebook_presentation.gd").valid(loop_state.event_local_states.NOTEBOOK_PRESENTATION):
 			errors.append("NB_PRESENTATION_SCHEMA")
+	if loop_state.get("event_local_states") is Dictionary and loop_state.event_local_states.has("NOTEBOOK_WINDOW_INSPECTION"):
+		if not preload("res://scripts/systems/notebook_presentation.gd").valid_window(loop_state.event_local_states.NOTEBOOK_WINDOW_INSPECTION):
+			errors.append("NB_WINDOW_INSPECTION_SCHEMA")
 
 
 func _validate_fracture_state(value: Variant, errors: PackedStringArray) -> void:

@@ -2,6 +2,7 @@ extends RefCounted
 
 # Pending presentation is gameplay-local state, never a source of notebook disclosure.
 const KEY := "NOTEBOOK_PRESENTATION"
+const WINDOW_KEY := "NOTEBOOK_WINDOW_INSPECTION"
 const VERSION := 4
 const FAMILIES := ["chapter_one_controller", "black_mirror_controller", "basement_controller", "prologue_controller"]
 const PROLOGUE_ROUTES := ["_show_p1_objective", "_return_to_hall_after_dialogue", "_resume_p3_journal_choice", "_show_p3_journal_choices", "_complete_p4_life_support_foreshadow", "_finish_p4_memory_anchor", "_finish_p4_after_question", "_complete_p4_iris_greeting", "_perform_normal_reset", "_finish_prologue_handoff"]
@@ -16,6 +17,10 @@ static func read(state: Dictionary) -> Dictionary:
 	if not loop is Dictionary or not loop.get("event_local_states") is Dictionary: return {}
 	var value: Variant = loop.event_local_states.get(KEY, {})
 	return value.duplicate(true) if value is Dictionary else {}
+
+
+static func valid_window(value: Variant) -> bool:
+	return value is Dictionary and _keys(value, ["schema_version", "window", "selected_item"]) and _integer(value.schema_version) and value.schema_version == 1 and _integer(value.window) and value.window >= 0 and value.window < 3 and value.selected_item in ["", "SOFT_CLOTH", "COARSE_BRUSH", "WATER", "SPANNER"]
 
 
 static func family(owner: Object) -> String:
