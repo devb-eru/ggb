@@ -22,6 +22,8 @@ func run(tree: SceneTree) -> Dictionary:
 	await _test_panel(tree, fixture)
 	var views := await preload("res://scripts/tests/notebook_view_smoke.gd").new().run(tree, fixture)
 	for message in views.errors: _expect(false, "view sidecar: " + message)
+	var browse := await preload("res://scripts/tests/notebook_browse_smoke.gd").new().run(tree, fixture)
+	for message in browse.errors: _expect(false, "browsing: " + message)
 	_expect(GameState.get_snapshot() == state_before, "all read operations preserve live game state")
 	print("NOTEBOOK_QUERY_CHECKS: %d" % checks)
 	return {"ok": errors.is_empty(), "errors": errors}
@@ -49,9 +51,14 @@ func _append(archive: Dictionary, observation: Dictionary) -> Dictionary:
 func _fixture() -> Dictionary:
 	var archive := ARCHIVE.create()
 	var session := ARCHIVE.new_uid()
+	var occurrence := ARCHIVE.new_uid()
 	for index in range(105):
-		if index == 100: session = ARCHIVE.new_uid()
-		archive = _append(archive, _observe("NB_PR_DUTY_1", {"body": {}}, 1, session))
+		if index == 100:
+			session = ARCHIVE.new_uid()
+			occurrence = ARCHIVE.new_uid()
+		var observed := _observe("NB_PR_DUTY_1", {"body": {}}, 1, session)
+		observed.event_occurrence_id = occurrence
+		archive = _append(archive, observed)
 	var ledger := KNOWLEDGE.create()
 	var acquired := KNOWLEDGE.acquire(ledger, archive, _observe("NB_NOTE_P_PULSE"), ARCHIVE.new_uid(), [ARCHIVE.make_reference(archive.entries[0], "body")])
 	_expect(acquired.ok, "fixture linked clue")

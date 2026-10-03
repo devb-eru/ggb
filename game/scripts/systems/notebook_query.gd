@@ -5,12 +5,13 @@ const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const REPOSITORY := preload("res://scripts/systems/dialogue_repository.gd")
+const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
 const PAGE_SIZE := 50
-const POLICY_VERSION := 3
+const POLICY_VERSION := 4
 const TABS := ["clues", "dialogue", "records", "people"]
 const PERSON_IDS := ["EDGAR", "MARA1", "MARA", "MARA2", "LUCA", "IRIS"]
-const FILTER_FIELDS := ["chapters", "locations", "speakers", "categories", "epistemic"]
-const FIELD_MAP := {"chapters": "chapter", "locations": "location", "speakers": "speaker_id", "categories": "category", "epistemic": "epistemic"}
+const FILTER_FIELDS := ["chapters", "locations", "speakers", "categories", "epistemic", "provenance", "sources", "people", "sessions"]
+const FIELD_MAP := {"chapters": "chapter", "locations": "location", "speakers": "speaker_id", "categories": "category", "epistemic": "epistemic", "provenance": "provenance", "sources": "source_kind", "people": "people", "sessions": "session"}
 
 var _archive: Dictionary = {}
 var _scope: Dictionary = {}
@@ -29,6 +30,9 @@ var _result_cache: Dictionary = {}
 var _legacy_note_count := 0
 var _legacy_digest := ""
 var _knowledge_revision := 0
+var _related: Dictionary = {}
+var _public_speakers: Dictionary = {}
+var _public_values: Dictionary = {}
 
 
 func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String, legacy_knowledge: Dictionary = {}) -> Dictionary:
@@ -49,7 +53,7 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 	for entry in _archive.entries:
 		_entries[entry.entry_uid] = entry
 		if entry.record_class == "authored":
-			var session: String = entry.observation.conversation_session_id
+			var session := _session_key(entry)
 			session_ends[session] = maxi(session_ends.get(session, -1), int(entry.sequence))
 	for entry in _archive.entries:
 		if entry.record_class != "authored":
@@ -70,16 +74,23 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 		if knowledge.get("category") in ["observation", "hypothesis", "failure"]: tab = "clues"
 		if knowledge.get("category") == "person": tab = "people"
 		var previous: bool = not revision.is_empty() and latest[revision.knowledge_uid] != revision.revision_uid
+		var session := _session_key(entry)
+		var people: Array = []
+		var speaker_person := LABELS.person(metadata.speaker_id)
+		if not speaker_person.is_empty(): people.append(speaker_person)
+		var record_person: String = LABELS.PERSON_RECORDS.get(knowledge.get("knowledge_id", ""), "") if not metadata.fallback else ""
+		if not record_person.is_empty() and record_person not in people: people.append(record_person)
+		if knowledge.get("category") == "person" and people.is_empty(): people.append("unidentified")
 		for index in range(observed.segments.size()):
 			var segment: Dictionary = observed.segments[index]
 			var ref := ARCHIVE.make_reference(entry, segment.segment_id)
 			var key := reference_key(ref)
-			var person: bool = metadata.speaker_id in PERSON_IDS
+			var person: bool = not people.is_empty()
 			_rows[key] = {
 				"key": key, "reference": ref, "tab": tab, "sequence": int(entry.sequence), "segment_order": index,
-				"session": observed.conversation_session_id, "session_end": session_ends[observed.conversation_session_id],
+				"session": session, "session_end": session_ends[session],
 				"chapter": observed.chapter_id, "location": observed.location_id,
-				"speaker_id": metadata.speaker_id if person else "", "speaker": metadata.speaker,
+				"speaker_id": metadata.speaker_id if not String(metadata.speaker).is_empty() else "", "speaker": metadata.speaker,
 				"title": metadata.title, "summary": metadata.summary, "kind": kind,
 				"category": knowledge.get("category", ""), "epistemic": knowledge.get("epistemic_state", ""),
 				"provenance": knowledge.get("provenance_state", ""), "previous": previous,
@@ -87,6 +98,7 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 				"legacy": false, "person": person, "fallback": metadata.fallback,
 				"bookmarked": ref in _archive.bookmarks,
 				"review_group": JSON.stringify([revision.get("knowledge_uid", entry.entry_uid), segment.segment_id]).sha256_text(),
+				"people": people.duplicate(), "source_kind": _source_kind(kind, knowledge.get("category", "")),
 			}
 			_order.append(key)
 	var projected := ARCHIVE.LEGACY_NOTES.project(legacy_knowledge, _archive.source_origin_id)
@@ -96,6 +108,21 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 		_entries[entry.entry_uid] = entry
 		_add_legacy_note(entry, false)
 	for index in range(projected.errors.size()): _errors["legacy-note-%d" % index] = projected.errors[index]
+	for key in _order:
+		var row: Dictionary = _rows[key]
+		for field in FILTER_FIELDS:
+			if not _public_values.has(field): _public_values[field] = {}
+			for value in _field_values(row, field):
+				if not value.is_empty(): _public_values[field][value] = true
+		if not String(row.speaker).is_empty():
+			if not _public_speakers.has(row.speaker_id): _public_speakers[row.speaker_id] = []
+			if row.speaker not in _public_speakers[row.speaker_id]: _public_speakers[row.speaker_id].append(row.speaker)
+		if row.revision_uid.is_empty(): continue
+		for ref in row.sources:
+			var source := reference_key(ref)
+			if source == key or not _rows.has(source): continue
+			if not _related.has(source): _related[source] = []
+			_related[source].append({"key": key, "title": row.title})
 	_ready = true
 	return {"ok": true, "key": cache_key(), "diagnostics": diagnostics()}
 
@@ -117,6 +144,9 @@ func close() -> void:
 	_legacy_note_count = 0
 	_legacy_digest = ""
 	_knowledge_revision = 0
+	_related.clear()
+	_public_speakers.clear()
+	_public_values.clear()
 
 
 func cache_key() -> String:
@@ -139,7 +169,7 @@ func index_step(expected_key: String, limit: int = 20) -> Dictionary:
 		var result := detail(key, expected_key)
 		if result.ok:
 			var row: Dictionary = _rows[key]
-			_search[key] = (row.title + "\n" + row.summary + "\n" + row.speaker + "\n" + result.text).to_lower()
+			_search[key] = (row.title + "\n" + row.summary + "\n" + row.speaker + "\n" + public_label("locations", row.location) + "\n" + public_label("sources", row.source_kind) + "\n" + result.text).to_lower()
 		_search_cursor += 1
 	_result_cache.clear()
 	return {"ok": true, "complete": _search_cursor == _order.size(), "indexed": _search_cursor}
@@ -196,7 +226,7 @@ func detail(key: String, expected_key: String) -> Dictionary:
 	for ref in row.sources:
 		var target := reference_key(ref)
 		if _rows.has(target) and target != key and target not in links: links.append(target)
-	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links}
+	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links, "location_label": public_label("locations", row.location), "source_label": public_label("sources", row.source_kind), "related": related_to(key), "session": row.session}
 
 
 func facets(filters: Dictionary, expected_key: String) -> Dictionary:
@@ -206,8 +236,8 @@ func facets(filters: Dictionary, expected_key: String) -> Dictionary:
 	for field in FILTER_FIELDS: values[field] = []
 	for key in _matching(filters):
 		for field in FILTER_FIELDS:
-			var value: String = _rows[key][FIELD_MAP[field]]
-			if not value.is_empty() and value not in values[field]: values[field].append(value)
+			for value in _field_values(_rows[key], field):
+				if not value.is_empty() and value not in values[field]: values[field].append(value)
 	return {"ok": true, "values": values}
 
 
@@ -266,7 +296,7 @@ func visible_filters(filters: Dictionary) -> Dictionary:
 	if not _ready or not valid_filters(filters): return {"tab": "clues"}
 	var result := filters.duplicate(true)
 	result.tab = result.get("tab", "clues")
-	var allowed := facets({"tab": result.get("tab", "clues"), "include_previous": true, "include_refuted": true}, cache_key())
+	var allowed := facets({"tab": result.get("tab", "clues"), "include_previous": true, "include_refuted": true, "all_sections": result.get("all_sections", false)}, cache_key())
 	for field in FILTER_FIELDS:
 		if result.has(field): result[field] = result[field].filter(func(value: String) -> bool: return value in allowed.values[field])
 	return result
@@ -279,6 +309,65 @@ func comparison(expected_key: String) -> Dictionary:
 		var key := reference_key(ref)
 		if _rows.has(key): items.append({"key": key, "title": _rows[key].title})
 	return {"ok": true, "items": items}
+
+
+func public_label(field: String, id: String) -> String:
+	if not _ready or not _public_values.get(field, {}).has(id): return "표시명 미확인" if _locale == "ko-KR" else "Display name unconfirmed"
+	if field == "speakers":
+		var names: Array = _public_speakers.get(id, [])
+		if not names.is_empty(): return " / ".join(names)
+	return LABELS.value(field, id, _locale)
+
+
+func related_to(key: String) -> Array:
+	return _related.get(key, []).duplicate(true)
+
+
+func dialogue_neighbors(key: String, expected_key: String) -> Dictionary:
+	if not _ready or expected_key != cache_key() or not _rows.has(key): return _error("NB_QUERY_STALE")
+	var row: Dictionary = _rows[key]
+	var lines: Array = []
+	for candidate in _order:
+		if _rows[candidate].session == row.session and _rows[candidate].kind == "dialogue": lines.append(candidate)
+	var previous := ""
+	var next := ""
+	for candidate in lines:
+		if _less([_rows[candidate].sequence, _rows[candidate].segment_order], [row.sequence, row.segment_order]): previous = candidate
+		elif candidate != key and next.is_empty(): next = candidate
+	return {"ok": true, "previous": previous, "next": next, "last": lines.back() if not lines.is_empty() else ""}
+
+
+func groups(mode: String, filters: Dictionary, page_index: int, expected_key: String) -> Dictionary:
+	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
+	if mode not in ["people", "sessions"] or not valid_filters(filters): return _error("NB_QUERY_FILTER")
+	var browsing := filters.duplicate(true)
+	browsing.tab = "people" if mode == "people" else "dialogue"
+	browsing.erase("all_sections")
+	browsing.erase(mode)
+	var grouped := {}
+	for key in _matching(browsing):
+		var row: Dictionary = _rows[key]
+		var ids: Array = row.people if mode == "people" else [row.session]
+		for id in ids:
+			if not grouped.has(id):
+				grouped[id] = {"id": id, "title": public_label("people", id) if mode == "people" else row.title, "count": 0, "spoken": 0, "documents": 0, "locations": [], "names": [], "last": key, "last_line": "", "sequence": row.sequence, "legacy": row.legacy}
+			var group: Dictionary = grouped[id]
+			group.count += 1
+			if row.kind == "dialogue":
+				group.spoken += 1
+				if group.last_line.is_empty() or row.sequence >= _rows[group.last_line].sequence: group.last_line = key
+			else: group.documents += 1
+			if row.sequence >= group.sequence:
+				group.last = key
+				group.sequence = row.sequence
+			var location := public_label("locations", row.location)
+			if location not in group.locations: group.locations.append(location)
+			if not String(row.speaker).is_empty() and row.speaker not in group.names: group.names.append(row.speaker)
+	var groups_list: Array = grouped.values()
+	groups_list.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.sequence > b.sequence)
+	var last := maxi(0, ceili(float(groups_list.size()) / PAGE_SIZE) - 1)
+	var current := clampi(page_index, 0, last)
+	return {"ok": true, "items": groups_list.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE), "page": current, "pages": last + 1, "count": groups_list.size(), "complete": String(browsing.get("needle", "")).strip_edges().is_empty() or _search_cursor == _order.size()}
 
 
 func reference_state(key: String, expected_key: String) -> Dictionary:
@@ -295,7 +384,7 @@ func _matching(filters: Dictionary) -> Array:
 	var needle := String(filters.get("needle", "")).strip_edges().to_lower()
 	for key in _order:
 		var row: Dictionary = _rows[key]
-		if row.tab != tab and not (tab == "people" and row.person): continue
+		if not filters.get("all_sections", false) and row.tab != tab and not (tab == "people" and row.person): continue
 		if row.previous and not filters.get("include_previous", false): continue
 		if row.epistemic == "refuted" and not filters.get("include_refuted", false): continue
 		if filters.get("bookmarks_only", false) and not row.bookmarked: continue
@@ -303,7 +392,7 @@ func _matching(filters: Dictionary) -> Array:
 		var matches := true
 		for field in FILTER_FIELDS:
 			var allowed: Array = filters.get(field, [])
-			if not allowed.is_empty() and row[FIELD_MAP[field]] not in allowed: matches = false
+			if not allowed.is_empty() and not _field_values(row, field).any(func(value: String) -> bool: return value in allowed): matches = false
 		if matches: keys.append(key)
 	keys.sort_custom(func(left: String, right: String) -> bool: return _less(_sort_key(_rows[left], filters), _sort_key(_rows[right], filters)))
 	if _result_cache.size() >= 8: _result_cache.clear()
@@ -328,11 +417,12 @@ func _add_legacy(entry: Dictionary) -> void:
 	var key := reference_key(ref)
 	_rows[key] = {
 		"key": key, "reference": ref, "tab": "dialogue", "sequence": int(entry.sequence), "segment_order": 0,
-		"session": "", "session_end": int(entry.sequence), "chapter": entry.get("chapter_id", "LEGACY"), "location": "", "speaker_id": "", "speaker": "",
+		"session": entry.entry_uid, "session_end": int(entry.sequence), "chapter": entry.get("chapter_id", "LEGACY"), "location": "", "speaker_id": "", "speaker": "",
 		"title": "이전·미분류 기록" if _locale == "ko-KR" else "Earlier / unclassified record", "summary": "", "kind": "legacy",
 		"category": "", "epistemic": "", "provenance": "", "previous": false, "revision_uid": "", "sources": [],
 		"legacy": true, "person": false, "fallback": true, "bookmarked": ref in _archive.bookmarks,
 		"review_group": JSON.stringify([entry.entry_uid, "legacy"]).sha256_text(),
+		"people": [], "source_kind": "legacy",
 	}
 	_order.append(key)
 
@@ -353,11 +443,11 @@ func _add_legacy_note(entry: Dictionary, captured: bool) -> void:
 
 
 static func valid_filters(filters: Dictionary) -> bool:
-	var allowed := ["tab", "needle", "bookmarks_only", "include_previous", "include_refuted"] + FILTER_FIELDS
+	var allowed := ["tab", "needle", "bookmarks_only", "include_previous", "include_refuted", "all_sections"] + FILTER_FIELDS
 	for key in filters:
 		if key not in allowed: return false
 	if filters.get("tab", "clues") not in TABS or not filters.get("needle", "") is String: return false
-	for field in ["bookmarks_only", "include_previous", "include_refuted"]:
+	for field in ["bookmarks_only", "include_previous", "include_refuted", "all_sections"]:
 		if not filters.get(field, false) is bool: return false
 	for field in FILTER_FIELDS:
 		if not filters.get(field, []) is Array: return false
@@ -368,6 +458,24 @@ static func valid_filters(filters: Dictionary) -> bool:
 
 static func reference_key(reference: Dictionary) -> String:
 	return JSON.stringify(reference, "", true)
+
+
+static func _field_values(row: Dictionary, field: String) -> Array:
+	var value: Variant = row[FIELD_MAP[field]]
+	return value if value is Array else [value]
+
+
+static func _session_key(entry: Dictionary) -> String:
+	var observed: Dictionary = entry.observation
+	return JSON.stringify([entry.source_origin_id, observed.event_occurrence_id, observed.conversation_session_id]).sha256_text()
+
+
+static func _source_kind(kind: String, category: String) -> String:
+	if kind == "hint_revealed": return "hint"
+	if category == "journal": return "journal"
+	if category in ["observation", "hypothesis", "failure", "person"]: return "note"
+	if kind == "document_segment": return "document"
+	return "spoken"
 
 
 static func _valid_scope(scope: Dictionary, archive: Dictionary) -> bool:

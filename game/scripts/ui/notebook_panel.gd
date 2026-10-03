@@ -8,6 +8,7 @@ signal material_viewed(key: String)
 signal view_changed
 
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
+const BROWSER := preload("res://scripts/ui/notebook_browser.gd")
 var query
 var _key := ""
 var _locale := "ko-KR"
@@ -49,6 +50,9 @@ var _seen_groups: Dictionary = {}
 var _restoring_view := false
 var _view_generation := 0
 var _pending_restore: Dictionary = {}
+var _browser
+var _filter_controls: HFlowContainer
+var _pages: HBoxContainer
 
 
 func _ready() -> void:
@@ -61,6 +65,7 @@ func _ready() -> void:
 func present(model, locale: String, entry_tab: String = "clues", font_scale: float = 1.0) -> bool:
 	if not is_node_ready() or entry_tab not in QUERY.TABS or not model.diagnostics().ready: return false
 	query = model
+	_browser.dismiss()
 	_cancel_restoration()
 	_restoring_view = true
 	_seen.clear()
@@ -88,6 +93,7 @@ func present(model, locale: String, entry_tab: String = "clues", font_scale: flo
 
 
 func dismiss() -> void:
+	_browser.dismiss()
 	_cancel_restoration()
 	set_process(false)
 	hide()
@@ -171,6 +177,7 @@ func replace_model(model, view: Dictionary) -> void:
 
 func restore_view(view: Dictionary) -> void:
 	if not _valid() or view.is_empty(): return
+	_browser.dismiss()
 	_cancel_restoration()
 	_restoring_view = true
 	_pending_restore = view.duplicate(true)
@@ -235,8 +242,11 @@ func _finish_restore_layout(generation: int, view: Dictionary, body: Dictionary)
 
 func set_tab(tab: String) -> void:
 	if tab not in QUERY.TABS or not _valid(): return
+	_browser.dismiss()
 	_cancel_restoration()
 	_filters.tab = tab
+	_filters.erase("sessions")
+	_filters.erase("all_sections")
 	_page = 0
 	_selected = ""
 	_detail_visible = false
@@ -250,6 +260,7 @@ func set_filters(filters: Dictionary) -> bool:
 	if not _valid(): return false
 	var result: Dictionary = query.page(filters, 0, _key)
 	if not result.ok: return false
+	_browser.dismiss()
 	_cancel_restoration()
 	_filters = filters.duplicate(true)
 	_page = 0
@@ -310,6 +321,7 @@ func visible_pair() -> Array:
 
 func _process(delta: float) -> void:
 	if not _valid():
+		_browser.dismiss()
 		_clear(_list)
 		_clear(_detail)
 		for panel in _pair_panels: _clear(panel)
@@ -345,6 +357,16 @@ func _process(delta: float) -> void:
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not is_visible_in_tree() or not event is InputEventKey or not event.pressed or event.echo: return
+	if _browser.visible:
+		if event.keycode == KEY_ESCAPE:
+			_close_browser()
+			get_viewport().set_input_as_handled()
+		elif event.is_action_pressed("ui_page_up") or event.is_action_pressed("ui_page_down"):
+			var scroll: ScrollContainer = _browser.get_node("NotebookBrowseScroll")
+			var direction := -1 if event.is_action_pressed("ui_page_up") else 1
+			scroll.scroll_vertical += direction * maxi(40, int(scroll.size.y * 0.8))
+			get_viewport().set_input_as_handled()
+		return
 	if _search.has_focus() or _search.has_ime_text(): return
 	if event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
@@ -413,6 +435,7 @@ func _build() -> void:
 		button.toggle_mode = true
 		_tabs[tab] = button
 	var controls := HFlowContainer.new()
+	_filter_controls = controls
 	_content.add_child(controls)
 	_chapter = OptionButton.new()
 	_chapter.name = "NotebookChapterFilter"
@@ -442,6 +465,8 @@ func _build() -> void:
 		_render_pair(), "NotebookCompare")
 	_return_list = _button(controls, "", _return_to_list, "NotebookReturnList")
 	_button(controls, "", func() -> void: refresh_requested.emit(), "NotebookRefresh")
+	_button(controls, "", _open_browser.bind("filters"), "NotebookFilters")
+	_button(controls, "", func() -> void: _open_browser("people" if _filters.tab == "people" else "sessions"), "NotebookBrowseGroups")
 	_tools = HFlowContainer.new()
 	_content.add_child(_tools)
 	_notice = _label(_content, "")
@@ -451,6 +476,7 @@ func _build() -> void:
 	_status = _label(_content, "")
 	_status.name = "NotebookStatus"
 	var pages := HBoxContainer.new()
+	_pages = pages
 	_content.add_child(pages)
 	_previous = _button(pages, "", _change_page.bind(-1), "NotebookPreviousPage")
 	_next = _button(pages, "", _change_page.bind(1), "NotebookNextPage")
@@ -495,6 +521,12 @@ func _build() -> void:
 		body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		scroll.add_child(body)
 		_pair_panels.append(body)
+	_browser = BROWSER.new()
+	_browser.name = "NotebookBrowser"
+	_content.add_child(_browser)
+	_browser.dismissed.connect(_close_browser)
+	_browser.filter_selected.connect(_select_browse)
+	_browser.layout_changed.connect(func() -> void: _cycle_focus.call_deferred())
 
 
 func _apply_labels() -> void:
@@ -509,6 +541,7 @@ func _apply_labels() -> void:
 	find_child("NotebookPreviousRevisions", true, false).text = _l("이전·반박된 기록", "Previous / refuted records")
 	find_child("NotebookCompare", true, false).text = _l("담아 둔 자료 비교", "Compare saved materials")
 	find_child("NotebookRefresh", true, false).text = _l("갱신", "Refresh")
+	find_child("NotebookFilters", true, false).text = _l("필터", "Filters")
 	find_child("NotebookSwapPair", true, false).text = _l("A/B 교환", "Swap A/B")
 	_pair_switch.text = _l("A/B 화면 전환", "Switch A/B view")
 	var notebook_theme := Theme.new()
@@ -537,19 +570,32 @@ func _refresh() -> void:
 		button.set_meta("reference_key", item.key)
 		button.set_meta("base_label", label)
 		button.set_meta("legacy", item.legacy)
-	if result.items.is_empty(): _label(_list, _l("표시할 기록이 없습니다.", "No records to show.") if result.complete else _l("검색 중입니다...", "Search in progress..."))
+	if result.items.is_empty():
+		_label(_list, _l("표시할 기록이 없습니다.", "No records to show.") if result.complete else _l("검색 중입니다...", "Search in progress..."))
+		if result.complete:
+			_button(_list, _l("이 분류의 필터 해제", "Clear this section's filters"), func() -> void: set_filters({"tab": _filters.tab}), "NotebookEmptyClear")
+			if not String(_filters.get("needle", "")).is_empty():
+				_button(_list, _l("획득한 전체 기록에서 검색", "Search all disclosed records"), func() -> void: set_filters({"tab": _filters.tab, "needle": _filters.needle, "all_sections": true}), "NotebookSearchAll")
 	_status.text = (_l("%d개 / %d·%d 페이지", "%d records / page %d of %d") % [result.count, result.page + 1, result.pages]) if result.complete else _l("공개된 기록을 검색하는 중입니다...", "Searching disclosed records...")
 	if query.diagnostics().error_count > 0: _status.text += _l(" · 일부 기록을 표시하지 못했습니다.", " · Some records could not be displayed.")
+	if _filters.get("all_sections", false): _status.text += _l(" · 전체 분류 검색", " · All sections")
+	if not _filters.get("sessions", []).is_empty(): _status.text += _l(" · 선택한 대화 묶음", " · Selected conversation")
+	if not _filters.get("people", []).is_empty():
+		var names: Array = _filters.people.map(func(id: String) -> String: return query.public_label("people", id))
+		_status.text += " · " + " / ".join(names)
 	_previous.disabled = _page == 0
 	_next.disabled = _page + 1 >= result.pages
 	for tab in _tabs: _tabs[tab].set_pressed_no_signal(_filters.tab == tab)
+	var browse_button: Button = find_child("NotebookBrowseGroups", true, false)
+	browse_button.visible = _filters.tab in ["dialogue", "people"]
+	browse_button.text = _l("인물 목록", "People") if _filters.tab == "people" else _l("대화 묶음", "Conversations")
 	find_child("NotebookBookmarks", true, false).set_pressed_no_signal(_filters.get("bookmarks_only", false))
 	find_child("NotebookPreviousRevisions", true, false).set_pressed_no_signal(_filters.get("include_previous", false))
 	_chapter.clear()
 	_chapter.add_item(_l("장: 전체", "Chapter: all"))
 	_chapter.set_item_metadata(0, "")
 	# Available chapter labels do not disappear merely because search has no match.
-	var facet_filter := {"tab": _filters.tab, "include_previous": true, "include_refuted": true}
+	var facet_filter := {"tab": _filters.tab, "include_previous": true, "include_refuted": true, "all_sections": _filters.get("all_sections", false)}
 	var facets: Dictionary = query.facets(facet_filter, _key)
 	var chapters := {"PROLOGUE": _l("프롤로그", "Prologue"), "CHAPTER_1": _l("1장", "Chapter 1"), "CHAPTER_2": _l("2장", "Chapter 2"), "CHAPTER_3": _l("3장", "Chapter 3"), "CHAPTER_4": _l("4장", "Chapter 4"), "LEGACY": _l("이전·미분류", "Earlier / unclassified")}
 	for chapter in facets.values.chapters:
@@ -563,6 +609,7 @@ func _refresh() -> void:
 
 func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool) -> void:
 	_label(target, result.title)
+	_label(target, _l("장소: ", "Location: ") + result.location_label + " · " + result.source_label)
 	var kind := _kind_label(result.kind)
 	if not kind.is_empty(): _label(target, kind)
 	if result.previous: _label(target, _l("이전에 작성된 내용", "Earlier revision"))
@@ -587,6 +634,15 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 		paragraph.set_meta("paragraph", index)
 		if parts[index].is_empty(): paragraph.custom_minimum_size.y = 18 * _font_scale
 	if with_links:
+		if result.kind in ["dialogue", "options_presented", "choice_confirmed", "choice_cancelled"]:
+			var navigation: Dictionary = query.dialogue_neighbors(result.key, _key)
+			if navigation.ok and not navigation.last.is_empty():
+				var links := HFlowContainer.new()
+				target.add_child(links)
+				for direction in ["previous", "next", "last"]:
+					var labels := {"previous": _l("이전 발언", "Previous line"), "next": _l("다음 발언", "Next line"), "last": _l("마지막 발언", "Last line")}
+					var button := _button(links, labels[direction], _navigate_line.bind(navigation[direction], direction), "NotebookLine_" + direction)
+					button.disabled = String(navigation[direction]).is_empty() or navigation[direction] == result.key
 		if _reference_editable:
 			var state: Dictionary = query.reference_state(result.key, _key)
 			if state.ok:
@@ -596,6 +652,18 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 		if not _back_stack.is_empty(): _button(target, _l("이전 자료로", "Back to previous material"), _back, "NotebookBack")
 		for key in result.sources:
 			_button(target, _l("연결된 원문 보기", "Read linked source"), show_detail.bind(key, true), "NotebookSource_" + String(key).sha256_text())
+		for related in result.related:
+			_button(target, _l("관련 기록: ", "Related record: ") + related.title, show_detail.bind(related.key, true), "NotebookRelated_" + String(related.key).sha256_text())
+
+
+func _navigate_line(key: String, direction: String) -> void:
+	if not show_detail(key): return
+	for candidate in [direction, "previous", "next", "last"]:
+		var button := _detail.find_child("NotebookLine_" + candidate, true, false) as Button
+		if button != null and not button.disabled:
+			button.grab_focus()
+			return
+	_close.grab_focus()
 
 
 func _load_basket() -> void:
@@ -662,15 +730,43 @@ func _back() -> void:
 func _responsive() -> void:
 	if not is_instance_valid(_body): return
 	var compact := size.x < 1050 * _font_scale
-	_body.visible = not _comparison_mode
+	var browsing: bool = is_instance_valid(_browser) and _browser.visible
+	_body.visible = not _comparison_mode and not browsing
 	_list_scroll.visible = not compact or not _detail_visible
 	_detail_scroll.visible = not compact or _detail_visible
 	_return_list.visible = _detail_visible or _comparison_mode
-	_pair_controls.visible = _comparison_mode
-	_pair_body.visible = _comparison_mode
+	_pair_controls.visible = _comparison_mode and not browsing
+	_pair_body.visible = _comparison_mode and not browsing
+	_filter_controls.visible = not browsing
+	_pages.visible = not browsing
+	_tools.visible = not browsing
+	_search.editable = not browsing
 	_pair_switch.visible = compact
 	for side in range(2): _pair_panels[side].get_parent().visible = not compact or side == _compact_side
 	_cycle_focus.call_deferred()
+
+
+func _open_browser(mode: String) -> void:
+	if not _valid(): return
+	_cancel_restoration()
+	_browser.present(mode, query, _locale, _filters)
+	_responsive()
+
+
+func _close_browser() -> void:
+	_browser.dismiss()
+	_responsive()
+	find_child("NotebookFilters", true, false).grab_focus()
+
+
+func _select_browse(filters: Dictionary, detail_key: String) -> void:
+	if not _valid(): return
+	set_filters(filters)
+	if not detail_key.is_empty():
+		_page = query.anchor_page(_filters, query.anchor_for(detail_key, _filters), _key).page
+		_refresh()
+		show_detail(detail_key)
+	find_child("NotebookFilters", true, false).grab_focus()
 
 
 func _cycle_focus() -> void:

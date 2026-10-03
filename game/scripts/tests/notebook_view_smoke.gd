@@ -254,6 +254,15 @@ func _test_files(store, scope: Dictionary, frontier: Dictionary, state: Dictiona
 		broken.general.body = malformed
 		_expect(not STORE.valid_state(broken), "invalid body anchor rejected without script error")
 	var bad := state.duplicate(true)
+	bad.general.filters.sources = ["spoken"]
+	bad.general.filters.people = ["EDGAR"]
+	bad.general.filters.sessions = ["public-session-key"]
+	bad.general.filters.provenance = ["identified"]
+	bad.general.filters.all_sections = true
+	_expect(STORE.valid_state(bad), "extended public browse filters have a valid durable view representation")
+	bad.general.filters.sources = [false]
+	_expect(not STORE.valid_state(bad), "extended filters reject non-string facet values")
+	bad = state.duplicate(true)
 	bad.general.body.fraction = 2.0
 	_expect(not STORE.valid_state(bad), "out-of-range paragraph fraction rejected")
 	bad = state.duplicate(true)
