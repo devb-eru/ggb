@@ -12,6 +12,7 @@ const BROWSER := preload("res://scripts/ui/notebook_browser.gd")
 const VISUAL_VIEWER := preload("res://scripts/ui/notebook_visual_viewer.gd")
 const VISUAL_CANVAS := preload("res://scripts/ui/notebook_visual_canvas.gd")
 const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
+const SEARCH_TEXT := preload("res://scripts/ui/notebook_search_text.gd")
 var query
 var _key := ""
 var _locale := "ko-KR"
@@ -59,6 +60,10 @@ var _pages: HBoxContainer
 var _visual
 var _visual_views: Dictionary = {}
 var _visual_focus := {"control": "", "key": ""}
+var _matches: Array = []
+var _match_index := -1
+var _match_controls: HFlowContainer
+var _match_status: Label
 
 
 func _ready() -> void:
@@ -74,6 +79,8 @@ func present(model, locale: String, entry_tab: String = "clues", font_scale: flo
 	_browser.dismiss()
 	_visual.dismiss()
 	_visual_views.clear()
+	_matches.clear()
+	_match_index = -1
 	_cancel_restoration()
 	_restoring_view = true
 	_seen.clear()
@@ -104,6 +111,8 @@ func dismiss() -> void:
 	_browser.dismiss()
 	_visual.dismiss()
 	_visual_views.clear()
+	_matches.clear()
+	_match_index = -1
 	_cancel_restoration()
 	set_process(false)
 	hide()
@@ -294,7 +303,10 @@ func show_detail(key: String, linked: bool = false, preserve_stack: bool = false
 	var result: Dictionary = query.detail(key, _key)
 	var previous := {"key": _selected, "scroll": _detail_scroll.scroll_vertical, "body": _capture_body(_detail_scroll), "focus": _capture_focus()}
 	_clear(_detail)
+	_matches.clear()
+	_match_index = -1
 	if not result.ok:
+		_selected = ""
 		_label(_detail, _l("이 자료를 표시하지 못했습니다. 다른 기록은 계속 읽을 수 있습니다.", "This material could not be displayed. Other records remain available."))
 		_detail_visible = true
 		_responsive()
@@ -308,8 +320,11 @@ func show_detail(key: String, linked: bool = false, preserve_stack: bool = false
 	_detail_visible = true
 	_detail_scroll.scroll_vertical = 0
 	_render_detail(_detail, result, true)
+	_matches = QUERY.match_ranges(result, _filters.get("needle", ""))
+	_match_index = -1
 	_responsive()
 	if mark_seen: _mark_viewed(key)
+	if mark_seen and not linked and not preserve_stack and not _matches.is_empty(): _move_match(1)
 	_changed()
 	return true
 
@@ -362,6 +377,7 @@ func _process(delta: float) -> void:
 			_search_delay = -1.0
 			_page = 0
 			_refresh()
+			_refresh_search_detail()
 	if not String(_filters.get("needle", "")).strip_edges().is_empty():
 		var diagnostic: Dictionary = query.diagnostics()
 		if diagnostic.indexed < diagnostic.index_total:
@@ -435,6 +451,7 @@ func _clear_search() -> void:
 	_filters.erase("needle")
 	_page = 0
 	_refresh()
+	_refresh_search_detail()
 
 
 func _build() -> void:
@@ -507,6 +524,13 @@ func _build() -> void:
 	_content.add_child(pages)
 	_previous = _button(pages, "", _change_page.bind(-1), "NotebookPreviousPage")
 	_next = _button(pages, "", _change_page.bind(1), "NotebookNextPage")
+	_match_controls = HFlowContainer.new()
+	_match_controls.name = "NotebookSearchMatches"
+	_content.add_child(_match_controls)
+	_match_status = _label(_match_controls, "")
+	_match_status.name = "NotebookMatchStatus"
+	_button(_match_controls, "", _move_match.bind(-1), "NotebookMatchPrevious")
+	_button(_match_controls, "", _move_match.bind(1), "NotebookMatchNext")
 	_body = HBoxContainer.new()
 	_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_content.add_child(_body)
@@ -576,6 +600,8 @@ func _apply_labels() -> void:
 	find_child("NotebookFilters", true, false).text = _l("필터", "Filters")
 	find_child("NotebookSwapPair", true, false).text = _l("A/B 교환", "Swap A/B")
 	_pair_switch.text = _l("A/B 화면 전환", "Switch A/B view")
+	find_child("NotebookMatchPrevious", true, false).text = _l("이전 일치", "Previous match")
+	find_child("NotebookMatchNext", true, false).text = _l("다음 일치", "Next match")
 	var notebook_theme := Theme.new()
 	notebook_theme.default_font_size = roundi(18 * _font_scale)
 	theme = notebook_theme
@@ -640,8 +666,10 @@ func _refresh() -> void:
 
 
 func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool) -> void:
-	_label(target, result.title)
-	_label(target, _l("장소: ", "Location: ") + result.location_label + " · " + result.source_label)
+	var matches := QUERY.match_ranges(result, _filters.get("needle", ""))
+	_material_label(target, result.title, "title", matches)
+	_material_label(target, result.location_label, "location_label", matches, 0, _l("장소: ", "Location: "))
+	_material_label(target, result.source_label, "source_label", matches, 0, _l("자료 유형: ", "Material type: "))
 	var kind := _kind_label(result.kind)
 	if not kind.is_empty(): _label(target, kind)
 	if result.previous: _label(target, _l("이전에 작성된 내용", "Earlier revision"))
@@ -654,8 +682,8 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 		_label(target, _l("자료를 담을 때 보존한 원문", "Original text preserved when added") if result.note_snapshot else _l("기존 수첩에 남아 있는 마지막 값", "Last value remaining in the earlier notebook"))
 	elif result.legacy: _label(target, _l("이전 원문 · 당시 언어·획득 시점 미확인", "Earlier original text; original language / acquisition time unknown"))
 	elif result.fallback: _label(target, _l("당시 보관된 원문", "Original recorded text") + " (" + result.viewed_locale + ")")
-	if not result.summary.is_empty(): _label(target, result.summary)
-	if not result.speaker.is_empty(): _label(target, result.speaker)
+	if not result.summary.is_empty(): _material_label(target, result.summary, "summary", matches)
+	if not result.speaker.is_empty(): _material_label(target, result.speaker, "speaker", matches)
 	if result.has_visual:
 		var visual: Dictionary = query.visual(result.key, _key)
 		if visual.ok and not visual.material.is_empty():
@@ -675,10 +703,12 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 	paragraphs.add_theme_constant_override("separation", 0)
 	target.add_child(paragraphs)
 	var parts := String(result.text).split("\n", true)
+	var offset := 0
 	for index in range(parts.size()):
-		var paragraph := _label(paragraphs, parts[index])
+		var paragraph := _material_label(paragraphs, parts[index], "text", matches, offset)
 		paragraph.set_meta("paragraph", index)
 		if parts[index].is_empty(): paragraph.custom_minimum_size.y = 18 * _font_scale
+		offset += parts[index].length() + 1
 	if with_links:
 		if result.kind in ["dialogue", "options_presented", "choice_confirmed", "choice_cancelled"]:
 			var navigation: Dictionary = query.dialogue_neighbors(result.key, _key)
@@ -710,6 +740,90 @@ func _navigate_line(key: String, direction: String) -> void:
 			button.grab_focus()
 			return
 	_close.grab_focus()
+
+
+func _material_label(parent: Node, text: String, field: String, matches: Array, offset: int = 0, prefix: String = "") -> Control:
+	if String(_filters.get("needle", "")).strip_edges().is_empty(): return _label(parent, prefix + text)
+	var ranges: Array = []
+	for hit in matches:
+		if hit.field != field: continue
+		var start := maxi(offset, int(hit.offset))
+		var end := mini(offset + text.length(), int(hit.offset) + int(hit.length))
+		if start < end: ranges.append({"offset": prefix.length() + start - offset, "length": end - start})
+	var label := SEARCH_TEXT.new()
+	parent.add_child(label)
+	label.configure(prefix + text, ranges)
+	label.set_meta("search_field", field)
+	label.set_meta("source_offset", offset)
+	label.set_meta("source_length", text.length())
+	label.set_meta("prefix_length", prefix.length())
+	return label
+
+
+func _refresh_search_detail() -> void:
+	if not _valid() or _selected.is_empty(): return
+	var previous := {"key": _selected, "body": _capture_body(_detail_scroll), "focus": _capture_focus()}
+	var showing := _detail_visible
+	show_detail(_selected, false, true, false)
+	_detail_visible = showing
+	_responsive()
+	_restore_link_position.call_deferred(_view_generation, previous)
+	if _comparison_mode: _render_pair(false)
+
+
+func _update_match_controls() -> void:
+	var names := {"text": _l("본문", "Text"), "title": _l("제목", "Title"), "summary": _l("요약", "Summary"), "speaker": _l("화자", "Speaker"), "location_label": _l("장소", "Location"), "source_label": _l("자료 유형", "Material type")}
+	_match_status.text = _l("이 자료에는 현재 검색어와 일치하는 내용이 없습니다.", "No matches for the current search in this material.")
+	if not _matches.is_empty():
+		_match_status.text = _l("검색 일치 %d개", "%d search matches") % _matches.size()
+		if _match_index >= 0: _match_status.text = (_l("일치 %d/%d · ", "Match %d/%d · ") % [_match_index + 1, _matches.size()]) + names[_matches[_match_index].field]
+	find_child("NotebookMatchPrevious", true, false).disabled = _match_index <= 0
+	find_child("NotebookMatchNext", true, false).disabled = _matches.is_empty() or _match_index + 1 >= _matches.size()
+
+
+func _move_match(direction: int) -> void:
+	if not _valid() or not _match_controls.is_visible_in_tree() or _matches.is_empty(): return
+	_cancel_restoration()
+	_match_index = clampi(_match_index + direction, 0, _matches.size() - 1)
+	var focused := get_viewport().gui_get_focus_owner()
+	_update_match_controls()
+	if focused is Button and focused.disabled and focused.get_parent() == _match_controls:
+		var other := find_child("NotebookMatchPrevious" if direction > 0 else "NotebookMatchNext", true, false) as Button
+		if not other.disabled: other.grab_focus()
+		else: _return_list.grab_focus()
+	elif focused == null or not focused.is_visible_in_tree():
+		var next := find_child("NotebookMatchNext", true, false) as Button
+		if not next.disabled: next.grab_focus()
+		else: _return_list.grab_focus()
+	_jump_to_match.call_deferred(_view_generation, _selected, _match_index)
+
+
+func _jump_to_match(generation: int, key: String, index: int) -> void:
+	if not _valid() or generation != _view_generation or key != _selected or index != _match_index or not _match_controls.is_visible_in_tree(): return
+	var hit: Dictionary = _matches[index]
+	var target: RichTextLabel
+	var column := 0
+	for node in _detail.find_children("*", "RichTextLabel", true, false):
+		if not node.has_meta("search_field"): continue
+		var start: int = node.get_meta("source_offset")
+		var end: int = start + int(node.get_meta("source_length"))
+		var overlap_start := maxi(start, int(hit.offset))
+		var overlap_end := mini(end, int(hit.offset) + int(hit.length))
+		if node.get_meta("search_field") == hit.field and overlap_start < overlap_end:
+			var local_offset := overlap_start - start + int(node.get_meta("prefix_length"))
+			node.mark(local_offset, overlap_end - overlap_start)
+			if target == null:
+				target = node
+				column = local_offset
+		else: node.mark(-1, 0)
+	# Wrapped character geometry is valid only after the containers settle.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not _valid() or generation != _view_generation or key != _selected or index != _match_index or not is_instance_valid(target) or not _match_controls.is_visible_in_tree(): return
+	var line := target.get_character_line(column)
+	var y := target.get_global_rect().position.y - _detail.get_global_rect().position.y + target.get_line_offset(line)
+	_detail_scroll.scroll_vertical = maxi(0, roundi(y))
+	_changed()
 
 
 func _load_basket() -> void:
@@ -777,6 +891,8 @@ func _responsive() -> void:
 	if not is_instance_valid(_body): return
 	var compact := size.x < 1050 * _font_scale
 	var browsing: bool = (is_instance_valid(_browser) and _browser.visible) or (is_instance_valid(_visual) and _visual.visible)
+	_match_controls.visible = not browsing and not _comparison_mode and _detail_visible and not String(_filters.get("needle", "")).strip_edges().is_empty()
+	_update_match_controls()
 	_body.visible = not _comparison_mode and not browsing
 	_list_scroll.visible = not compact or not _detail_visible
 	_detail_scroll.visible = not compact or _detail_visible

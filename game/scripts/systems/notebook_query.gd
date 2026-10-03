@@ -8,7 +8,8 @@ const REPOSITORY := preload("res://scripts/systems/dialogue_repository.gd")
 const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
 const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
 const PAGE_SIZE := 50
-const POLICY_VERSION := 5
+const POLICY_VERSION := 6
+const SEARCH_FIELDS := ["text", "title", "summary", "speaker", "location_label", "source_label"]
 const TABS := ["clues", "dialogue", "records", "people"]
 const PERSON_IDS := ["EDGAR", "MARA1", "MARA", "MARA2", "LUCA", "IRIS"]
 const FILTER_FIELDS := ["chapters", "locations", "speakers", "categories", "epistemic", "provenance", "sources", "people", "sessions"]
@@ -34,6 +35,7 @@ var _knowledge_revision := 0
 var _related: Dictionary = {}
 var _public_speakers: Dictionary = {}
 var _public_values: Dictionary = {}
+var _person_first: Dictionary = {}
 
 
 func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String, legacy_knowledge: Dictionary = {}) -> Dictionary:
@@ -111,6 +113,8 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 	for index in range(projected.errors.size()): _errors["legacy-note-%d" % index] = projected.errors[index]
 	for key in _order:
 		var row: Dictionary = _rows[key]
+		for person in row.people:
+			_person_first[person] = mini(_person_first.get(person, row.sequence), row.sequence)
 		for field in FILTER_FIELDS:
 			if not _public_values.has(field): _public_values[field] = {}
 			for value in _field_values(row, field):
@@ -148,6 +152,7 @@ func close() -> void:
 	_related.clear()
 	_public_speakers.clear()
 	_public_values.clear()
+	_person_first.clear()
 
 
 func cache_key() -> String:
@@ -169,8 +174,7 @@ func index_step(expected_key: String, limit: int = 20) -> Dictionary:
 		var key: String = _order[_search_cursor]
 		var result := detail(key, expected_key)
 		if result.ok:
-			var row: Dictionary = _rows[key]
-			_search[key] = (row.title + "\n" + row.summary + "\n" + row.speaker + "\n" + public_label("locations", row.location) + "\n" + public_label("sources", row.source_kind) + "\n" + result.text).to_lower()
+			_search[key] = SEARCH_FIELDS.map(func(field: String) -> String: return String(result[field]).to_lower())
 		_search_cursor += 1
 	_result_cache.clear()
 	return {"ok": true, "complete": _search_cursor == _order.size(), "indexed": _search_cursor}
@@ -240,6 +244,25 @@ func visual(key: String, expected_key: String) -> Dictionary:
 		_errors[key] = "NB_QUERY_VISUAL_UNAVAILABLE"
 		return _error("NB_QUERY_VISUAL_UNAVAILABLE")
 	return {"ok": true, "material": material}
+
+
+func search_matches(key: String, needle: String, expected_key: String) -> Dictionary:
+	var result := detail(key, expected_key)
+	if not result.ok: return result
+	return {"ok": true, "matches": match_ranges(result, needle)}
+
+
+static func match_ranges(detail_result: Dictionary, needle: String) -> Array:
+	var matches: Array = []
+	var term := needle.strip_edges().to_lower()
+	if term.is_empty(): return matches
+	for field in SEARCH_FIELDS:
+		var text := String(detail_result.get(field, "")).to_lower()
+		var offset := text.find(term)
+		while offset >= 0:
+			matches.append({"field": field, "offset": offset, "length": term.length()})
+			offset = text.find(term, offset + term.length())
+	return matches
 
 
 func facets(filters: Dictionary, expected_key: String) -> Dictionary:
@@ -377,7 +400,12 @@ func groups(mode: String, filters: Dictionary, page_index: int, expected_key: St
 			if location not in group.locations: group.locations.append(location)
 			if not String(row.speaker).is_empty() and row.speaker not in group.names: group.names.append(row.speaker)
 	var groups_list: Array = grouped.values()
-	groups_list.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.sequence > b.sequence)
+	if mode == "people":
+		# Use all available observations, not just those surviving the active filter.
+		groups_list.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+			if _person_first[a.id] == _person_first[b.id]: return a.id < b.id
+			return _person_first[a.id] < _person_first[b.id])
+	else: groups_list.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.sequence > b.sequence)
 	var last := maxi(0, ceili(float(groups_list.size()) / PAGE_SIZE) - 1)
 	var current := clampi(page_index, 0, last)
 	return {"ok": true, "items": groups_list.slice(current * PAGE_SIZE, (current + 1) * PAGE_SIZE), "page": current, "pages": last + 1, "count": groups_list.size(), "complete": String(browsing.get("needle", "")).strip_edges().is_empty() or _search_cursor == _order.size()}
@@ -401,7 +429,7 @@ func _matching(filters: Dictionary) -> Array:
 		if row.previous and not filters.get("include_previous", false): continue
 		if row.epistemic == "refuted" and not filters.get("include_refuted", false): continue
 		if filters.get("bookmarks_only", false) and not row.bookmarked: continue
-		if not needle.is_empty() and (not _search.has(key) or not String(_search[key]).contains(needle)): continue
+		if not needle.is_empty() and (not _search.has(key) or not _search[key].any(func(text: String) -> bool: return text.contains(needle))): continue
 		var matches := true
 		for field in FILTER_FIELDS:
 			var allowed: Array = filters.get(field, [])
