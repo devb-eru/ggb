@@ -7,10 +7,15 @@ const MIRROR := preload("res://scripts/chapters/black_mirror_controller.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
+const VIEW_STORE := preload("res://scripts/systems/notebook_view_store.gd")
 const SLOT := "__test_notebook_host"
 var errors := PackedStringArray()
 var checks := 0
 var serial := 0
+
+class FailedViewStore extends "res://scripts/systems/notebook_view_store.gd":
+	func save_view(_scope: Dictionary, _frontier: Dictionary, _state: Dictionary) -> Dictionary:
+		return {"ok": false, "error_id": "NB_VIEW_TEST_FAILURE"}
 
 class ControlledSave extends Node:
 	var delegate: Node
@@ -37,13 +42,105 @@ func run(tree: SceneTree) -> Dictionary:
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
 		await _prologue(tree)
+	await _view_preferences(tree)
 	await _campaign(tree)
 	await _physical(tree)
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	print("NOTEBOOK_HOST_CHECKS: %d" % checks)
-	return {"ok": errors.is_empty(), "errors": errors, "not_covered": ["OS_IME", "native_mouse_keyboard_completion", "durable_cursor_sidecar"]}
+	return {"ok": errors.is_empty(), "errors": errors, "not_covered": ["OS_IME", "native_mouse_keyboard_completion", "app_restart_gameplay_cursor"]}
+
+
+func _view_preferences(tree: SceneTree) -> void:
+	var view = await _campaign_view(tree, "C3")
+	var before := GameState.get_snapshot()
+	var disk_before: Dictionary = SaveManager.load_slot(SLOT).snapshot
+	view._open_notebook()
+	var host = view._notebook_host
+	var store = host.view_store
+	var scope: Dictionary = host._view_scope.duplicate(true)
+	var frontier: Dictionary = host.model.view_frontier()
+	var files: Dictionary = store.paths(scope)
+	var rows: Dictionary = host.model.page({"tab": "clues"}, 0, host.model.cache_key())
+	_expect(not rows.items.is_empty(), "actual notebook has public clue materials")
+	if rows.items.is_empty():
+		view._close_modal()
+		view.queue_free()
+		await tree.process_frame
+		return
+	var clue: String = rows.items[0].key
+	host.panel.show_detail(clue)
+	await tree.process_frame
+	view._close_modal()
+	await tree.process_frame
+	var initial: Dictionary = store.load_view(scope, frontier)
+	_expect(initial.source == "primary" and initial.state.general.selected == clue and clue in initial.state.seen, "host close flushes selected card and its read state to a real scoped sidecar")
+	_expect(GameState.get_snapshot() == before and StateSnapshotValidator.same_persisted_value(SaveManager.load_slot(SLOT).snapshot, disk_before), "reading and preference writes change neither runtime nor saved gameplay")
+	view._open_dialogue_history()
+	host = view._notebook_host
+	_expect(host.panel._selected == host.model.latest_dialogue_key(), "first actual history-menu entry opens last line of latest session")
+	rows = host.model.page({"tab": "dialogue"}, 0, host.model.cache_key())
+	_expect(not rows.items.is_empty(), "actual history has session lines")
+	var line: String = rows.items[0].key
+	host.panel.show_detail(line)
+	view._close_modal()
+	await tree.process_frame
+	var both: Dictionary = store.load_view(scope, frontier)
+	_expect(both.state.dialogue.selected == line and StateSnapshotValidator.same_persisted_value(both.state.general, initial.state.general), "history entry keeps an independent last-view cursor")
+	view._open_dialogue_history()
+	host = view._notebook_host
+	for frame in range(8): await tree.process_frame
+	_expect(host.panel._selected == line and host.panel._seen.has(line), "reopening actual history restores its own stable line and badge")
+	host.panel.set_filters({"tab": "clues"})
+	host.panel.show_detail(clue)
+	view._close_modal()
+	await tree.process_frame
+	var after_history: Dictionary = store.load_view(scope, frontier)
+	_expect(StateSnapshotValidator.same_persisted_value(after_history.state.general, initial.state.general) and after_history.state.dialogue.selected == line, "visiting another tab from history cannot overwrite general or dialogue entry state")
+	view._open_notebook()
+	host = view._notebook_host
+	for frame in range(8): await tree.process_frame
+	_expect(host.panel._selected == clue and host.panel._filters.tab == "clues" and host.panel._seen.has(clue), "N entry restores general material after history-menu use")
+	view._close_modal()
+	await tree.process_frame
+	view.queue_free()
+	await tree.process_frame
+	var loaded := SaveManager.load_slot(SLOT)
+	var epoch := GameState.load_epoch
+	_expect(loaded.ok and StateWriter.new(GameState).install_snapshot(loaded.snapshot, GameState.revision, &"LOAD_NB_VIEW_TEST").ok and GameState.load_epoch > epoch, "real slot reload installs snapshot with a new runtime epoch")
+	view = MIRROR.new()
+	view.configure_session(SLOT, "MORNING_ROUTE")
+	tree.current_scene.add_child(view)
+	await tree.process_frame
+	_drain(view)
+	before = GameState.get_snapshot()
+	disk_before = SaveManager.load_slot(SLOT).snapshot
+	view._open_notebook()
+	host = view._notebook_host
+	for frame in range(8): await tree.process_frame
+	_expect(host._view_scope == scope and host.panel._selected == clue and host.panel._seen.has(clue), "fresh controller and load epoch retain same-run UI preferences")
+	_expect(GameState.get_snapshot() == before, "restoring read state cannot grant knowledge or first-reveal effects")
+	var persisted := FileAccess.get_file_as_bytes(files.main)
+	host.view_store = FailedViewStore.new()
+	host.panel.show_detail(clue)
+	_expect(not host._flush_view() and not host.panel._notice.text.is_empty(), "preference write failure is visible and non-blocking")
+	view._close_modal()
+	await tree.process_frame
+	_expect(view.visible and not view._notebook_is_open() and FileAccess.get_file_as_bytes(files.main) == persisted, "failed sidecar write restores world and keeps last valid preferences")
+	_expect(GameState.get_snapshot() == before and StateSnapshotValidator.same_persisted_value(SaveManager.load_slot(SLOT).snapshot, disk_before), "sidecar failure never rewrites gameplay save")
+	view._open_notebook()
+	host = view._notebook_host
+	for frame in range(8): await tree.process_frame
+	host.panel.show_detail(clue)
+	persisted = FileAccess.get_file_as_bytes(files.main)
+	GameState.load_epoch += 1
+	host._process(0.0)
+	_expect(FileAccess.get_file_as_bytes(files.main) == persisted and not view.visible, "invalidated live scope cannot flush pending UI data or resume old controller")
+	view.queue_free()
+	await tree.process_frame
+	for path in files.values():
+		if FileAccess.file_exists(path): DirAccess.remove_absolute(path)
 
 
 func _prologue(tree: SceneTree) -> void:

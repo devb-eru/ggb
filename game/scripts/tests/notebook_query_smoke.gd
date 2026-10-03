@@ -20,6 +20,8 @@ func run(tree: SceneTree) -> Dictionary:
 	var legacy := preload("res://scripts/tests/notebook_legacy_notes_smoke.gd").new().run()
 	for message in legacy.errors: _expect(false, "legacy adapter: " + message)
 	await _test_panel(tree, fixture)
+	var views := await preload("res://scripts/tests/notebook_view_smoke.gd").new().run(tree, fixture)
+	for message in views.errors: _expect(false, "view sidecar: " + message)
 	_expect(GameState.get_snapshot() == state_before, "all read operations preserve live game state")
 	print("NOTEBOOK_QUERY_CHECKS: %d" % checks)
 	return {"ok": errors.is_empty(), "errors": errors}

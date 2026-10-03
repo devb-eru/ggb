@@ -5,6 +5,7 @@ const PANEL := preload("res://scripts/ui/notebook_panel.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const COMMANDS := preload("res://scripts/systems/notebook_commands.gd")
+const VIEW_STORE := preload("res://scripts/systems/notebook_view_store.gd")
 
 var game: Node
 var saves: Node
@@ -27,6 +28,14 @@ var _held: Dictionary = {}
 var _after_close := Callable()
 var _entry_tab := "clues"
 var _suspended := false
+var view_store := VIEW_STORE.new()
+var view_profile := "local"
+var _view_scope: Dictionary = {}
+var _view_state := VIEW_STORE.empty_state()
+var _view_dirty := false
+var _view_writable := true
+var _view_delay := -1.0
+var _view_error := ""
 
 
 func begin(controller: Control, game_state: Node, save_service: Node, tab: String) -> bool:
@@ -42,6 +51,11 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	var state: Dictionary = game.get_snapshot()
 	var opened := model.open(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope, TranslationServer.get_locale(), state.meta_progress.knowledge_entries)
 	if not opened.ok: return false
+	_view_scope = VIEW_STORE.persistent_scope(_scope, view_profile)
+	var loaded := view_store.load_view(_view_scope, model.view_frontier())
+	_view_state = loaded.state.duplicate(true)
+	_view_writable = loaded.writable
+	_reconcile_seen()
 	layer = 40
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	var root := ColorRect.new()
@@ -70,9 +84,18 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	controller.menu_audio_pause_requested.emit(true)
 	_suspended = true
 	panel.present(model, TranslationServer.get_locale(), tab, controller._reading_text_scale)
+	panel.set_review_state(_view_state.seen, _view_state.groups)
 	panel.set_reference_editable(true)
 	for tool in controller._notebook_tools():
 		panel.add_tool(tool.label, _leave_for_tool.bind(tool.action), tool.id)
+	var previous: Dictionary = _view_state.dialogue if tab == "dialogue" else _view_state.general
+	if not previous.is_empty(): panel.restore_view(previous)
+	elif tab == "dialogue": panel.open_latest_dialogue()
+	panel.material_viewed.connect(_material_viewed)
+	panel.view_changed.connect(_remember_view)
+	if not String(loaded.warning_id).is_empty():
+		panel.show_notice(_l("이전 열람 위치를 복원하지 못했거나 과거 저장으로 돌아왔습니다. 본문과 고정 자료는 유지됩니다.", "The earlier view could not be restored or this is an earlier save. Records and saved references are unaffected."))
+	_remember_view()
 	return true
 
 
@@ -124,11 +147,17 @@ func _process(_delta: float) -> void:
 	elif game.revision != _checked_revision:
 		_checked_revision = game.revision
 		panel.show_notice(_l("새 변경 사항이 있습니다. 갱신 후 계속할 수 있습니다.", "Changes are available. Refresh before changing saved references."))
+	if _view_delay >= 0.0 and not _invalid:
+		_view_delay -= _delta
+		if _view_delay <= 0.0: _flush_view()
 	if _closing: _finish_close()
 
 
 func _finish_close() -> void:
 	if not _closing or not _held.is_empty() or not _suspended: return
+	if not _invalid and _same_live_scope():
+		_remember_view()
+		_flush_view()
 	_suspended = false
 	model.close()
 	panel.dismiss()
@@ -140,6 +169,7 @@ func _finish_close() -> void:
 			controller.process_mode = _mode
 			controller.visible = _visible
 			controller.menu_audio_pause_requested.emit(_audio_paused)
+			if not _view_error.is_empty(): controller._set_status(_view_error)
 			var focused = _focus.get_ref() if _focus != null else null
 			if is_instance_valid(focused) and focused.is_visible_in_tree() and not (focused is BaseButton and focused.disabled): focused.grab_focus()
 			elif controller._notebook_button.is_visible_in_tree(): controller._notebook_button.grab_focus()
@@ -153,6 +183,9 @@ func _finish_close() -> void:
 
 
 func _exit_tree() -> void:
+	if _suspended and not _invalid and _same_live_scope():
+		_remember_view()
+		_flush_view()
 	model.close()
 	if _suspended:
 		var controller = _controller.get_ref()
@@ -181,6 +214,8 @@ func refresh() -> void:
 	_revision = game.revision
 	_checked_revision = _revision
 	pending.clear()
+	_reconcile_seen()
+	panel.set_review_state(_view_state.seen, _view_state.groups)
 	panel.replace_model(model, ui)
 	panel.set_reference_editable(true)
 
@@ -234,8 +269,49 @@ func _same_live_scope() -> bool:
 	if not is_instance_valid(controller) or not controller.is_inside_tree() or controller.is_queued_for_deletion() or controller._slot_id != _slot: return false
 	if controller.has_method("_make_session") and controller.session != null and controller.session.slot_id != _slot: return false
 	if int(game.load_epoch) != _scope.load_epoch: return false
+	if not _view_scope.is_empty() and view_profile != _view_scope.profile: return false
 	var namespace_now: String = "development" if _slot.begins_with("__dev_") else saves.get_build_flavor()
 	return namespace_now == _scope.namespace and game.get_value("meta_progress.dialogue_history.source_origin_id", "") == _scope.source_origin_id and game.get_value("meta_progress.dialogue_history.branch_id", "") == _scope.branch_id
+
+
+func _reconcile_seen() -> void:
+	var catalog := model.review_catalog()
+	var groups := {}
+	for group in catalog.values(): groups[group] = true
+	_view_state.seen = _view_state.seen.filter(func(key: String) -> bool: return catalog.has(key))
+	_view_state.groups = _view_state.groups.filter(func(group: String) -> bool: return groups.has(group))
+
+
+func _material_viewed(key: String) -> void:
+	if not _same_live_scope() or _invalid: return
+	var group: String = model.review_group(key)
+	if group.is_empty(): return
+	if key not in _view_state.seen: _view_state.seen.append(key)
+	if group not in _view_state.groups: _view_state.groups.append(group)
+	_remember_view()
+
+
+func _remember_view() -> void:
+	if not _suspended or _invalid or not _same_live_scope() or not is_instance_valid(panel) or panel._restoring_view or not panel._valid(): return
+	var view: Dictionary = panel.capture_view()
+	if _entry_tab != "dialogue": _view_state.general = view.duplicate(true)
+	if view.filters.get("tab") == "dialogue": _view_state.dialogue = view.duplicate(true)
+	_view_dirty = true
+	_view_delay = 0.35
+
+
+func _flush_view() -> bool:
+	_view_delay = -1.0
+	if not _view_dirty: return true
+	if _invalid or not _same_live_scope() or _current_scope() != _scope: return false
+	var saved: Dictionary = view_store.save_view(_view_scope, model.view_frontier(), _view_state) if _view_writable else {"ok": false}
+	if saved.ok:
+		_view_dirty = false
+		_view_error = ""
+		return true
+	_view_error = _l("수첩 열람 위치를 저장하지 못했습니다. 게임 진행·본문·고정 자료는 영향을 받지 않습니다.", "Notebook view preferences were not saved. Progress, records and saved references are unaffected.")
+	if is_instance_valid(panel): panel.show_notice(_view_error)
+	return false
 
 
 func _clear_pressed(node: Node) -> void:

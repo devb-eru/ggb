@@ -4,6 +4,8 @@ extends PanelContainer
 signal close_requested
 signal reference_requested(collection: String, reference: Dictionary, enabled: bool)
 signal refresh_requested
+signal material_viewed(key: String)
+signal view_changed
 
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
 var query
@@ -42,6 +44,11 @@ var _tools: HFlowContainer
 var _command: VBoxContainer
 var _notice: Label
 var _reference_editable := false
+var _seen: Dictionary = {}
+var _seen_groups: Dictionary = {}
+var _restoring_view := false
+var _view_generation := 0
+var _pending_restore: Dictionary = {}
 
 
 func _ready() -> void:
@@ -54,6 +61,10 @@ func _ready() -> void:
 func present(model, locale: String, entry_tab: String = "clues", font_scale: float = 1.0) -> bool:
 	if not is_node_ready() or entry_tab not in QUERY.TABS or not model.diagnostics().ready: return false
 	query = model
+	_cancel_restoration()
+	_restoring_view = true
+	_seen.clear()
+	_seen_groups.clear()
 	_key = model.cache_key()
 	_locale = "en-US" if locale.begins_with("en") else "ko-KR"
 	_font_scale = clampf(font_scale, 1.0, 2.0)
@@ -72,10 +83,12 @@ func present(model, locale: String, entry_tab: String = "clues", font_scale: flo
 	show()
 	set_process(true)
 	_close.grab_focus()
+	_restoring_view = false
 	return true
 
 
 func dismiss() -> void:
+	_cancel_restoration()
 	set_process(false)
 	hide()
 	query = null
@@ -91,11 +104,13 @@ func dismiss() -> void:
 	clear_command()
 	_notice.text = ""
 	_reference_editable = false
+	_seen.clear()
+	_seen_groups.clear()
 
 
 func set_reference_editable(enabled: bool) -> void:
 	_reference_editable = enabled
-	if not _selected.is_empty(): show_detail(_selected, false, true)
+	if not _selected.is_empty(): show_detail(_selected, false, true, false)
 
 
 func add_tool(label: String, action: Callable, id: String) -> void:
@@ -125,42 +140,102 @@ func clear_command() -> void:
 
 
 func capture_view() -> Dictionary:
-	return {"filters": _filters.duplicate(true), "anchor": query.anchor_for(_selected, _filters) if _valid() else {}, "page": _page, "selected": _selected, "scroll": _detail_scroll.scroll_vertical, "pair": _pair.duplicate(), "comparing": _comparison_mode, "side": _compact_side, "detail": _detail_visible, "back": _back_stack.duplicate(true)}
+	return {"filters": _filters.duplicate(true), "anchor": query.anchor_for(_selected, _filters) if _valid() else {}, "page": _page, "selected": _selected, "scroll": _detail_scroll.scroll_vertical, "list_scroll": _list_scroll.scroll_vertical, "list_anchor": _capture_list_anchor(), "body": _capture_body(_detail_scroll), "pair": _pair.duplicate(), "pair_body": [_capture_body(_pair_panels[0].get_parent()), _capture_body(_pair_panels[1].get_parent())], "comparing": _comparison_mode, "side": _compact_side, "detail": _detail_visible, "back": _back_stack.duplicate(true), "focus": _capture_focus()}
+
+
+func set_review_state(seen: Array, groups: Array) -> void:
+	_seen.clear()
+	_seen_groups.clear()
+	for key in seen: _seen[key] = true
+	for group in groups: _seen_groups[group] = true
+	_update_badges()
+
+
+func open_latest_dialogue() -> void:
+	if not _valid(): return
+	var key: String = query.latest_dialogue_key()
+	if key.is_empty(): return
+	_page = query.anchor_page({"tab": "dialogue"}, query.anchor_for(key, {"tab": "dialogue"}), _key).page
+	_refresh()
+	show_detail(key, false, false, false)
 
 
 func replace_model(model, view: Dictionary) -> void:
 	query = model
 	_key = model.cache_key()
 	_locale = "en-US" if TranslationServer.get_locale().begins_with("en") else "ko-KR"
-	_filters = view.filters.duplicate(true)
-	_search.text = _filters.get("needle", "")
-	_page = view.page
-	_selected = ""
-	_clear(_detail)
 	clear_command()
 	_apply_labels()
+	restore_view(view)
+
+
+func restore_view(view: Dictionary) -> void:
+	if not _valid() or view.is_empty(): return
+	_cancel_restoration()
+	_restoring_view = true
+	_pending_restore = view.duplicate(true)
+	_filters = query.visible_filters(view.filters)
+	_search.text = _filters.get("needle", "")
+	_search_delay = -1.0
+	_page = 0
+	_selected = ""
+	_back_stack.clear()
+	_comparison_mode = false
+	_detail_visible = false
+	_clear(_detail)
 	_refresh()
 	_load_basket()
-	for side in range(2): select_pair(side, view.pair[side])
-	_back_stack = view.back.duplicate(true)
+	if query.page(_filters, 0, _key).complete: _complete_restore()
+
+
+func _complete_restore() -> void:
+	if not _valid() or _pending_restore.is_empty(): return
+	var view := _pending_restore.duplicate(true)
+	_pending_restore.clear()
+	for side in range(2): select_pair(side, view.pair[side], false)
+	_back_stack = view.back.filter(func(step: Dictionary) -> bool: return not query.review_group(step.key).is_empty())
+	var body: Dictionary = view.body
 	if not view.selected.is_empty():
 		var restored: Dictionary = query.anchor_page(_filters, view.anchor, _key)
-		if not _back_stack.is_empty() and query.detail(view.selected, _key).ok:
-			show_detail(view.selected, false, true)
-			_detail_scroll.set_deferred("scroll_vertical", view.scroll)
+		if not _back_stack.is_empty() and not query.review_group(view.selected).is_empty():
+			show_detail(view.selected, false, true, false)
 		elif restored.ok and not restored.key.is_empty():
 			_page = restored.page
 			_refresh()
-			show_detail(restored.key)
-			_detail_scroll.set_deferred("scroll_vertical", view.scroll)
+			show_detail(restored.key, false, true, false)
+		if _selected != view.selected:
+			body = {"paragraph": -1, "fraction": 0.0}
+			show_notice(_l("이 저장에서 이전 열람 위치를 확인할 수 없어 가까운 자료로 이동했습니다.", "The earlier position is unavailable in this save. Showing the nearest material."))
+	else:
+		var restored: Dictionary = query.anchor_page(_filters, view.list_anchor, _key)
+		_page = restored.page
+		_refresh()
+	if not view.list_anchor.is_empty():
+		_page = query.anchor_page(_filters, view.list_anchor, _key).page
+		_refresh()
 	_comparison_mode = view.comparing
-	_compact_side = view.side
+	_compact_side = int(view.side)
 	_detail_visible = view.detail and not _selected.is_empty()
-	_render_pair()
+	_render_pair(false)
+	_finish_restore_layout.call_deferred(_view_generation, view, body)
+
+
+func _finish_restore_layout(generation: int, view: Dictionary, body: Dictionary) -> void:
+	if not is_inside_tree(): return
+	await get_tree().process_frame
+	if generation != _view_generation or not _valid() or not is_inside_tree(): return
+	_restore_body(_detail_scroll, body)
+	_restore_list_anchor(view.list_anchor)
+	for side in range(2):
+		if _pair[side] == view.pair[side]: _restore_body(_pair_panels[side].get_parent(), view.pair_body[side])
+	_restore_focus(view.focus)
+	_restoring_view = false
+	_changed()
 
 
 func set_tab(tab: String) -> void:
 	if tab not in QUERY.TABS or not _valid(): return
+	_cancel_restoration()
 	_filters.tab = tab
 	_page = 0
 	_selected = ""
@@ -175,6 +250,7 @@ func set_filters(filters: Dictionary) -> bool:
 	if not _valid(): return false
 	var result: Dictionary = query.page(filters, 0, _key)
 	if not result.ok: return false
+	_cancel_restoration()
 	_filters = filters.duplicate(true)
 	_page = 0
 	_selected = ""
@@ -185,9 +261,11 @@ func set_filters(filters: Dictionary) -> bool:
 	return true
 
 
-func show_detail(key: String, linked: bool = false, preserve_stack: bool = false) -> bool:
+func show_detail(key: String, linked: bool = false, preserve_stack: bool = false, mark_seen: bool = true) -> bool:
 	if not _valid(): return false
+	if mark_seen: _cancel_restoration()
 	var result: Dictionary = query.detail(key, _key)
+	var previous := {"key": _selected, "scroll": _detail_scroll.scroll_vertical, "body": _capture_body(_detail_scroll), "focus": _capture_focus()}
 	_clear(_detail)
 	if not result.ok:
 		_label(_detail, _l("이 자료를 표시하지 못했습니다. 다른 기록은 계속 읽을 수 있습니다.", "This material could not be displayed. Other records remain available."))
@@ -195,7 +273,8 @@ func show_detail(key: String, linked: bool = false, preserve_stack: bool = false
 		_responsive()
 		return false
 	if linked and not _selected.is_empty():
-		_back_stack.append({"key": _selected, "scroll": _detail_scroll.scroll_vertical})
+		_back_stack.append(previous)
+		if _back_stack.size() > 32: _back_stack.pop_front()
 	elif not linked and not preserve_stack:
 		_back_stack.clear()
 	_selected = key
@@ -203,10 +282,12 @@ func show_detail(key: String, linked: bool = false, preserve_stack: bool = false
 	_detail_scroll.scroll_vertical = 0
 	_render_detail(_detail, result, true)
 	_responsive()
+	if mark_seen: _mark_viewed(key)
+	_changed()
 	return true
 
 
-func select_pair(side: int, key: String) -> bool:
+func select_pair(side: int, key: String, mark_seen: bool = true) -> bool:
 	if not _valid() or side not in [0, 1]: return false
 	var basket: Dictionary = query.comparison(_key)
 	if not basket.ok: return false
@@ -214,11 +295,12 @@ func select_pair(side: int, key: String) -> bool:
 	for item in basket.items:
 		if item.key == key: found = true
 	if not found: return false
+	if mark_seen: _cancel_restoration()
 	var other := 1 - side
 	if not key.is_empty() and key == _pair[other]:
 		_pair[other] = _pair[side]
 	_pair[side] = key
-	_render_pair()
+	_render_pair(mark_seen)
 	return true
 
 
@@ -247,6 +329,7 @@ func _process(delta: float) -> void:
 		_search_delay -= delta
 		if _search_delay <= 0.0:
 			_filters.needle = _search.text
+			_search_delay = -1.0
 			_page = 0
 			_refresh()
 	if not String(_filters.get("needle", "")).strip_edges().is_empty():
@@ -254,7 +337,9 @@ func _process(delta: float) -> void:
 		if diagnostic.indexed < diagnostic.index_total:
 			query.index_step(_key, 12)
 			# Do not reorder partial matches under the player's cursor.
-			if query.diagnostics().indexed == diagnostic.index_total: _refresh()
+			if query.diagnostics().indexed == diagnostic.index_total:
+				_refresh()
+				if not _pending_restore.is_empty(): _complete_restore()
 			else: _status.text = _l("공개된 기록을 검색하는 중입니다...", "Searching disclosed records...")
 
 
@@ -266,6 +351,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if _comparison_mode:
 			_comparison_mode = false
 			_responsive()
+			_changed()
 		elif not _back_stack.is_empty():
 			_back()
 		elif _detail_visible:
@@ -294,6 +380,7 @@ func _search_input(event: InputEvent) -> void:
 
 
 func _clear_search() -> void:
+	_cancel_restoration()
 	_search.clear()
 	_search_delay = -1.0
 	_filters.erase("needle")
@@ -312,7 +399,9 @@ func _build() -> void:
 	_search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_search.clear_button_enabled = true
 	top.add_child(_search)
-	_search.text_changed.connect(func(_value: String) -> void: _search_delay = 0.2)
+	_search.text_changed.connect(func(_value: String) -> void:
+		_cancel_restoration()
+		_search_delay = 0.2)
 	# Enter in the search field never opens a result or confirms a game choice.
 	_search.text_submitted.connect(func(_value: String) -> void: _search_delay = 0.2)
 	_search.gui_input.connect(_search_input)
@@ -329,22 +418,26 @@ func _build() -> void:
 	_chapter.name = "NotebookChapterFilter"
 	controls.add_child(_chapter)
 	_chapter.item_selected.connect(func(index: int) -> void:
+		_cancel_restoration()
 		var chapter: String = _chapter.get_item_metadata(index)
 		_filters.chapters = [] if chapter.is_empty() else [chapter]
 		_page = 0
 		_refresh())
 	var bookmarks := _button(controls, "", func() -> void:
+		_cancel_restoration()
 		_filters.bookmarks_only = not _filters.get("bookmarks_only", false)
 		_page = 0
 		_refresh(), "NotebookBookmarks")
 	bookmarks.toggle_mode = true
 	var previous_revisions := _button(controls, "", func() -> void:
+		_cancel_restoration()
 		_filters.include_previous = not _filters.get("include_previous", false)
 		_filters.include_refuted = _filters.include_previous
 		_page = 0
 		_refresh(), "NotebookPreviousRevisions")
 	previous_revisions.toggle_mode = true
 	_button(controls, "", func() -> void:
+		_cancel_restoration()
 		_comparison_mode = not _comparison_mode
 		_render_pair(), "NotebookCompare")
 	_return_list = _button(controls, "", _return_to_list, "NotebookReturnList")
@@ -384,11 +477,15 @@ func _build() -> void:
 		selector.item_selected.connect(func(index: int) -> void:
 			select_pair(side, String(selector.get_item_metadata(index))))
 	_button(_pair_controls, "", func() -> void:
+		_cancel_restoration()
 		_pair.reverse()
 		_render_pair(), "NotebookSwapPair")
 	_pair_switch = _button(_pair_controls, "", func() -> void:
+		_cancel_restoration()
 		_compact_side = 1 - _compact_side
-		_responsive(), "NotebookPairSwitch")
+		_responsive()
+		_mark_visible_pair()
+		_changed(), "NotebookPairSwitch")
 	_pair_body = HBoxContainer.new()
 	_pair_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_content.add_child(_pair_body)
@@ -438,6 +535,8 @@ func _refresh() -> void:
 		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		button.tooltip_text = label
 		button.set_meta("reference_key", item.key)
+		button.set_meta("base_label", label)
+		button.set_meta("legacy", item.legacy)
 	if result.items.is_empty(): _label(_list, _l("표시할 기록이 없습니다.", "No records to show.") if result.complete else _l("검색 중입니다...", "Search in progress..."))
 	_status.text = (_l("%d개 / %d·%d 페이지", "%d records / page %d of %d") % [result.count, result.page + 1, result.pages]) if result.complete else _l("공개된 기록을 검색하는 중입니다...", "Searching disclosed records...")
 	if query.diagnostics().error_count > 0: _status.text += _l(" · 일부 기록을 표시하지 못했습니다.", " · Some records could not be displayed.")
@@ -458,6 +557,8 @@ func _refresh() -> void:
 		_chapter.set_item_metadata(_chapter.item_count - 1, chapter)
 		if chapter in _filters.get("chapters", []): _chapter.select(_chapter.item_count - 1)
 	_responsive()
+	_update_badges()
+	_changed()
 
 
 func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool) -> void:
@@ -476,7 +577,15 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 	elif result.fallback: _label(target, _l("당시 보관된 원문", "Original recorded text") + " (" + result.viewed_locale + ")")
 	if not result.summary.is_empty(): _label(target, result.summary)
 	if not result.speaker.is_empty(): _label(target, result.speaker)
-	_label(target, result.text)
+	var paragraphs := VBoxContainer.new()
+	paragraphs.name = "NotebookMaterialBody"
+	paragraphs.add_theme_constant_override("separation", 0)
+	target.add_child(paragraphs)
+	var parts := String(result.text).split("\n", true)
+	for index in range(parts.size()):
+		var paragraph := _label(paragraphs, parts[index])
+		paragraph.set_meta("paragraph", index)
+		if parts[index].is_empty(): paragraph.custom_minimum_size.y = 18 * _font_scale
 	if with_links:
 		if _reference_editable:
 			var state: Dictionary = query.reference_state(result.key, _key)
@@ -486,7 +595,7 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 					_button(target, title, func() -> void: reference_requested.emit(collection, state.reference, not state[collection]), "NotebookReference_" + collection)
 		if not _back_stack.is_empty(): _button(target, _l("이전 자료로", "Back to previous material"), _back, "NotebookBack")
 		for key in result.sources:
-			_button(target, _l("연결된 원문 보기", "Read linked source"), show_detail.bind(key, true), "NotebookSource")
+			_button(target, _l("연결된 원문 보기", "Read linked source"), show_detail.bind(key, true), "NotebookSource_" + String(key).sha256_text())
 
 
 func _load_basket() -> void:
@@ -505,7 +614,7 @@ func _load_basket() -> void:
 	_render_pair()
 
 
-func _render_pair() -> void:
+func _render_pair(mark_seen: bool = true) -> void:
 	if not _valid(): return
 	for side in range(2):
 		var selector: OptionButton = _pair_selectors[side]
@@ -518,18 +627,24 @@ func _render_pair() -> void:
 			if result.ok: _render_detail(_pair_panels[side], result, false)
 			else: _label(_pair_panels[side], _l("자료를 표시하지 못했습니다.", "Unable to display this material."))
 	_responsive()
+	if mark_seen: _mark_visible_pair()
+	_changed()
 
 
 func _change_page(offset: int) -> void:
+	_cancel_restoration()
 	_page += offset
 	_refresh()
 	_list_scroll.scroll_vertical = 0
+	_changed()
 
 
 func _return_to_list() -> void:
+	_cancel_restoration()
 	_detail_visible = false
 	_comparison_mode = false
 	_responsive()
+	_changed()
 	for node in _list.get_children():
 		if node is Button and node.get_meta("reference_key", "") == _selected:
 			node.grab_focus()
@@ -541,7 +656,7 @@ func _back() -> void:
 	if _back_stack.is_empty(): return
 	var previous: Dictionary = _back_stack.pop_back()
 	show_detail(previous.key, false, true)
-	_detail_scroll.set_deferred("scroll_vertical", previous.scroll)
+	_restore_link_position.call_deferred(_view_generation, previous)
 
 
 func _responsive() -> void:
@@ -579,6 +694,123 @@ func _valid() -> bool:
 	return query != null and not _key.is_empty() and query.diagnostics().ready and query.cache_key() == _key
 
 
+func _cancel_restoration() -> void:
+	_view_generation += 1
+	_restoring_view = false
+	_pending_restore.clear()
+
+
+func _changed() -> void:
+	if _valid() and not _restoring_view and is_visible_in_tree(): view_changed.emit()
+
+
+func _mark_viewed(key: String) -> void:
+	if not _valid() or _restoring_view or key.is_empty(): return
+	var group: String = query.review_group(key)
+	if group.is_empty() or _seen.has(key): return
+	_seen[key] = true
+	_seen_groups[group] = true
+	_update_badges()
+	material_viewed.emit(key)
+
+
+func _mark_visible_pair() -> void:
+	if not _comparison_mode: return
+	for side in range(2):
+		if _pair_panels[side].get_parent().is_visible_in_tree(): _mark_viewed(_pair[side])
+
+
+func _update_badges() -> void:
+	if not _valid() or not is_instance_valid(_list): return
+	for node in _list.get_children():
+		if not node is Button or not node.has_meta("base_label"): continue
+		var key: String = node.get_meta("reference_key")
+		var badge := ""
+		if not _seen.has(key):
+			if _seen_groups.has(query.review_group(key)): badge = _l("[갱신] ", "[Updated] ")
+			elif node.get_meta("legacy", false): badge = _l("[미열람] ", "[Unread] ")
+			else: badge = _l("[신규] ", "[New] ")
+		node.text = badge + String(node.get_meta("base_label"))
+		node.tooltip_text = node.text
+
+
+func _capture_focus() -> Dictionary:
+	var focus := get_viewport().gui_get_focus_owner() if is_inside_tree() else null
+	if focus == null or not is_ancestor_of(focus): return {"control": "", "key": ""}
+	return {"control": String(focus.name), "key": String(focus.get_meta("reference_key", ""))}
+
+
+func _restore_focus(focus: Dictionary) -> void:
+	var target: Control
+	if not String(focus.key).is_empty():
+		for node in _list.get_children():
+			if node is Button and node.get_meta("reference_key", "") == focus.key: target = node
+	elif String(focus.control).begins_with("Notebook"):
+		target = find_child(focus.control, true, false) as Control
+	if is_instance_valid(target) and target.is_visible_in_tree() and target.focus_mode == Control.FOCUS_ALL and not (target is BaseButton and target.disabled): target.grab_focus()
+	elif _detail_visible and _return_list.is_visible_in_tree(): _return_list.grab_focus()
+	else: _close.grab_focus()
+
+
+func _capture_list_anchor() -> Dictionary:
+	if not _valid(): return {}
+	for node in _list.get_children():
+		if not node is Button: continue
+		var start: float = node.position.y
+		if start + node.size.y < _list_scroll.scroll_vertical: continue
+		var anchor: Dictionary = query.anchor_for(node.get_meta("reference_key", ""), _filters)
+		if not anchor.is_empty(): anchor.fraction = clampf((_list_scroll.scroll_vertical - start) / maxf(node.size.y, 1.0), 0.0, 1.0)
+		return anchor
+	return {}
+
+
+func _restore_list_anchor(anchor: Dictionary) -> void:
+	if anchor.is_empty():
+		_list_scroll.scroll_vertical = 0
+		return
+	var restored: Dictionary = query.anchor_page(_filters, anchor, _key)
+	for node in _list.get_children():
+		if node is Button and node.get_meta("reference_key", "") == restored.key:
+			var fraction: float = anchor.fraction if restored.key == anchor.key else 0.0
+			_list_scroll.scroll_vertical = roundi(node.position.y + node.size.y * fraction)
+			return
+
+
+func _paragraphs(scroll: ScrollContainer) -> Array:
+	var body := scroll.find_child("NotebookMaterialBody", true, false)
+	return body.get_children() if body != null else []
+
+
+func _capture_body(scroll: ScrollContainer) -> Dictionary:
+	var result := {"paragraph": -1, "fraction": 0.0}
+	if scroll.get_child_count() == 0: return result
+	for paragraph in _paragraphs(scroll):
+		var start: float = paragraph.get_global_rect().position.y - scroll.get_child(0).get_global_rect().position.y
+		if scroll.scroll_vertical < start: return result
+		result = {"paragraph": int(paragraph.get_meta("paragraph")), "fraction": clampf((scroll.scroll_vertical - start) / maxf(paragraph.size.y, 1.0), 0.0, 1.0)}
+		if scroll.scroll_vertical < start + paragraph.size.y: return result
+	return result
+
+
+func _restore_body(scroll: ScrollContainer, anchor: Dictionary) -> void:
+	var paragraphs := _paragraphs(scroll)
+	if int(anchor.paragraph) < 0 or paragraphs.is_empty():
+		scroll.scroll_vertical = 0
+		return
+	var paragraph = paragraphs[mini(int(anchor.paragraph), paragraphs.size() - 1)]
+	var start: float = paragraph.get_global_rect().position.y - scroll.get_child(0).get_global_rect().position.y
+	scroll.scroll_vertical = roundi(start + paragraph.size.y * float(anchor.fraction))
+
+
+func _restore_link_position(generation: int, previous: Dictionary) -> void:
+	if not is_inside_tree(): return
+	await get_tree().process_frame
+	if generation != _view_generation or not _valid() or _selected != previous.key: return
+	_restore_body(_detail_scroll, previous.body)
+	_restore_focus(previous.focus)
+	_changed()
+
+
 func _scroll(parent: Node, node_name: String) -> ScrollContainer:
 	var scroll := ScrollContainer.new()
 	scroll.name = node_name
@@ -586,6 +818,7 @@ func _scroll(parent: Node, node_name: String) -> ScrollContainer:
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.follow_focus = true
+	scroll.get_v_scroll_bar().value_changed.connect(func(_value: float) -> void: _changed())
 	parent.add_child(scroll)
 	return scroll
 
@@ -595,6 +828,7 @@ func _button(parent: Node, text: String, action: Callable, node_name: String) ->
 	button.name = node_name
 	button.text = text
 	button.pressed.connect(action)
+	button.focus_entered.connect(_changed)
 	parent.add_child(button)
 	return button
 

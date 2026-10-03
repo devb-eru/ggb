@@ -6,7 +6,7 @@ const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const REPOSITORY := preload("res://scripts/systems/dialogue_repository.gd")
 const PAGE_SIZE := 50
-const POLICY_VERSION := 2
+const POLICY_VERSION := 3
 const TABS := ["clues", "dialogue", "records", "people"]
 const PERSON_IDS := ["EDGAR", "MARA1", "MARA", "MARA2", "LUCA", "IRIS"]
 const FILTER_FIELDS := ["chapters", "locations", "speakers", "categories", "epistemic"]
@@ -28,6 +28,7 @@ var _repository
 var _result_cache: Dictionary = {}
 var _legacy_note_count := 0
 var _legacy_digest := ""
+var _knowledge_revision := 0
 
 
 func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String, legacy_knowledge: Dictionary = {}) -> Dictionary:
@@ -38,6 +39,7 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 	_archive = archive.duplicate(true)
 	_scope = scope.duplicate(true)
 	_locale = "en-US" if locale.begins_with("en") else "ko-KR"
+	_knowledge_revision = int(ledger.revision)
 	var revisions := {}
 	var latest := {}
 	for revision in ledger.revisions:
@@ -84,6 +86,7 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 				"revision_uid": revision.get("revision_uid", ""), "sources": revision.get("source_refs", []).duplicate(true),
 				"legacy": false, "person": person, "fallback": metadata.fallback,
 				"bookmarked": ref in _archive.bookmarks,
+				"review_group": JSON.stringify([revision.get("knowledge_uid", entry.entry_uid), segment.segment_id]).sha256_text(),
 			}
 			_order.append(key)
 	var projected := ARCHIVE.LEGACY_NOTES.project(legacy_knowledge, _archive.source_origin_id)
@@ -113,6 +116,7 @@ func close() -> void:
 	_repository = null
 	_legacy_note_count = 0
 	_legacy_digest = ""
+	_knowledge_revision = 0
 
 
 func cache_key() -> String:
@@ -143,7 +147,7 @@ func index_step(expected_key: String, limit: int = 20) -> Dictionary:
 
 func page(filters: Dictionary, page_index: int, expected_key: String) -> Dictionary:
 	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
-	if not _valid_filters(filters): return _error("NB_QUERY_FILTER")
+	if not valid_filters(filters): return _error("NB_QUERY_FILTER")
 	var keys := _matching(filters)
 	var count := keys.size()
 	var last := maxi(0, ceili(float(count) / PAGE_SIZE) - 1)
@@ -197,7 +201,7 @@ func detail(key: String, expected_key: String) -> Dictionary:
 
 func facets(filters: Dictionary, expected_key: String) -> Dictionary:
 	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
-	if not _valid_filters(filters): return _error("NB_QUERY_FILTER")
+	if not valid_filters(filters): return _error("NB_QUERY_FILTER")
 	var values := {}
 	for field in FILTER_FIELDS: values[field] = []
 	for key in _matching(filters):
@@ -209,7 +213,7 @@ func facets(filters: Dictionary, expected_key: String) -> Dictionary:
 
 func anchor_page(filters: Dictionary, anchor: Dictionary, expected_key: String) -> Dictionary:
 	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
-	if not _valid_filters(filters): return _error("NB_QUERY_FILTER")
+	if not valid_filters(filters): return _error("NB_QUERY_FILTER")
 	var keys := _matching(filters)
 	var index := keys.find(anchor.get("key", ""))
 	if index < 0 and not keys.is_empty():
@@ -224,8 +228,48 @@ func anchor_page(filters: Dictionary, anchor: Dictionary, expected_key: String) 
 
 
 func anchor_for(key: String, filters: Dictionary) -> Dictionary:
-	if not _ready or not _rows.has(key) or not _valid_filters(filters): return {}
-	return {"key": key, "sort": _sort_key(_rows[key], filters)}
+	if not _ready or not _rows.has(key) or not valid_filters(filters): return {}
+	return {"key": key, "sort": _sort_key(_rows[key], filters), "fraction": 0.0}
+
+
+func review_catalog() -> Dictionary:
+	var catalog := {}
+	if _ready:
+		for key in _order: catalog[key] = _rows[key].review_group
+	return catalog
+
+
+func review_group(key: String) -> String:
+	return _rows[key].review_group if _ready and _rows.has(key) else ""
+
+
+func view_frontier() -> Dictionary:
+	if not _ready: return {}
+	return {"archive_revision": int(_archive.revision), "next_sequence": int(_archive.next_sequence), "last_uid": "" if _archive.entries.is_empty() else _archive.entries.back().entry_uid, "knowledge_revision": _knowledge_revision, "legacy_digest": _legacy_digest}
+
+
+func latest_dialogue_key() -> String:
+	if not _ready: return ""
+	var keys := _matching({"tab": "dialogue"})
+	if keys.is_empty(): return ""
+	var selected: String = keys[0]
+	var last_line := ""
+	var end: int = _rows[selected].session_end
+	for key in keys:
+		if _rows[key].session_end != end: break
+		selected = key
+		if _rows[key].kind == "dialogue": last_line = key
+	return last_line if not last_line.is_empty() else selected
+
+
+func visible_filters(filters: Dictionary) -> Dictionary:
+	if not _ready or not valid_filters(filters): return {"tab": "clues"}
+	var result := filters.duplicate(true)
+	result.tab = result.get("tab", "clues")
+	var allowed := facets({"tab": result.get("tab", "clues"), "include_previous": true, "include_refuted": true}, cache_key())
+	for field in FILTER_FIELDS:
+		if result.has(field): result[field] = result[field].filter(func(value: String) -> bool: return value in allowed.values[field])
+	return result
 
 
 func comparison(expected_key: String) -> Dictionary:
@@ -288,6 +332,7 @@ func _add_legacy(entry: Dictionary) -> void:
 		"title": "이전·미분류 기록" if _locale == "ko-KR" else "Earlier / unclassified record", "summary": "", "kind": "legacy",
 		"category": "", "epistemic": "", "provenance": "", "previous": false, "revision_uid": "", "sources": [],
 		"legacy": true, "person": false, "fallback": true, "bookmarked": ref in _archive.bookmarks,
+		"review_group": JSON.stringify([entry.entry_uid, "legacy"]).sha256_text(),
 	}
 	_order.append(key)
 
@@ -303,9 +348,11 @@ func _add_legacy_note(entry: Dictionary, captured: bool) -> void:
 	# A pin's archive sequence is not the unknown acquisition time of the note.
 	row.sequence = -_legacy_note_count
 	row.note_snapshot = captured
+	var source: Dictionary = entry[ARCHIVE.LEGACY_NOTES.MARKER]
+	row.review_group = JSON.stringify([entry.source_origin_id, source.container, source.locator]).sha256_text()
 
 
-func _valid_filters(filters: Dictionary) -> bool:
+static func valid_filters(filters: Dictionary) -> bool:
 	var allowed := ["tab", "needle", "bookmarks_only", "include_previous", "include_refuted"] + FILTER_FIELDS
 	for key in filters:
 		if key not in allowed: return false
