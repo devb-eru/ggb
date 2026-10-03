@@ -7,6 +7,7 @@ const TYPES := {"string": TYPE_STRING, "int": TYPE_INT, "float": TYPE_FLOAT, "bo
 static var _contents: Dictionary = {}
 static var _errors := PackedStringArray()
 static var _loaded := false
+static var _review_identifier: RegEx
 
 
 static func hint_descriptor(stage: String, level: int) -> Dictionary:
@@ -29,6 +30,48 @@ static func definition(id: String, version: int) -> Dictionary:
 static func diagnostics() -> Dictionary:
 	_load()
 	return {"ok": _errors.is_empty(), "error_ids": _errors.duplicate(), "content_ids": _contents.keys(), "authored_ids": _contents.size()}
+
+
+static func review_metadata(observation: Dictionary, locale: String) -> Dictionary:
+	# Only metadata of an observed version may enter the read-only query index.
+	var checked := ARCHIVE.validate_observation(observation)
+	if not checked.ok: return checked
+	_load()
+	var row: Dictionary = _contents.get(observation.content_id, {}).get(str(int(observation.content_version)), {})
+	var language := _locale(locale)
+	var generic := "보관된 기록" if language == "ko-KR" else "Archived record"
+	if row.is_empty():
+		return {"ok": true, "title": generic, "summary": "", "speaker": "", "speaker_id": "", "fallback": true}
+	if not _matches_identity(row, observation): return _error("NB_CONTENT_IDENTITY")
+	for segment in observation.segments:
+		var id: String = segment.segment_id
+		if id not in row.visible_segment_ids or row.localization_keys[id] != segment.localization_key or not _variables_match(row.variables[id], segment.safe_variables, row.get("enums", {})):
+			return _error("NB_CONTENT_SEGMENT_IDENTITY")
+	var complete: bool = observation.segments.size() == row.visible_segment_ids.size()
+	var translated: Dictionary = row.locales[language]
+	if _review_identifier == null:
+		_review_identifier = RegEx.new()
+		_review_identifier.compile("\\b(?:NB_[A-Z0-9_]+|[A-FJP][0-9]+(?:[_-][A-Z0-9]+)*)\\b")
+	var title: String = translated.title if complete and _review_identifier.search(translated.title) == null else generic
+	var summary: String = translated.summary if complete and _review_identifier.search(translated.summary) == null else ""
+	return {
+		"ok": true, "title": title,
+		"summary": summary, "speaker": translated.speaker,
+		"speaker_id": observation.speaker_id, "fallback": false,
+	}
+
+
+static func render_segment(entry: Dictionary, segment_id: String, locale: String) -> Dictionary:
+	if entry.get("record_class") != "authored" or not entry.get("observation") is Dictionary: return _error("NB_CONTENT_ENTRY")
+	var observed: Dictionary = entry.get("observation", {})
+	var checked := ARCHIVE.validate_observation(observed)
+	if not checked.ok: return checked
+	var selected: Array = observed.get("segments", []).filter(func(part: Dictionary) -> bool: return part.segment_id == segment_id)
+	if selected.size() != 1: return _error("NB_CONTENT_SEGMENT")
+	var projected := entry.duplicate(false)
+	projected.observation = observed.duplicate(false)
+	projected.observation.segments = selected
+	return render_entry(projected, locale)
 
 
 static func presentation(descriptor: Dictionary, locale: String) -> Dictionary:

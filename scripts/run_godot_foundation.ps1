@@ -128,6 +128,9 @@ Assert-GodotValidation -Result $chapterOneSmokeResult -Name "Chapter one smoke" 
 Write-Host "Chapter one reset, failure, shortcut, journal, and load validation passed."
 
 $historyResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--dialogue-history-smoke")
+
+$queryResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-query-smoke")
+Assert-GodotValidation -Result $queryResult -Name "Notebook read model and shared panel" -RequiredMarker "NOTEBOOK_QUERY_SMOKE: PASS"
 Assert-GodotValidation -Result $historyResult -Name "Dialogue history" -RequiredMarker "DIALOGUE_HISTORY_SMOKE: PASS"
 
 $archiveResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--script", "res://scripts/tests/notebook_archive_smoke.gd", "--quit-after", "1800")
