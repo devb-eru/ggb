@@ -1,0 +1,3356 @@
+{
+	"contents": {
+		"NB_CH1_SURFACE_B1_DOC_EDGAR_READ": {
+			"1": {
+				"action_or_variant": "B1_DOC_EDGAR_READ",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B1",
+				"locales": {
+					"en-US": {
+						"body": "Edgar's work ledger · Read",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Edgar's work ledger"
+					},
+					"ko-KR": {
+						"body": "에드가 업무 장부 · 읽음",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "에드가 업무 장부"
+					}
+				},
+				"localization_keys": {
+					"body": "B1_DOC_EDGAR_READ:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "B1_DOC_EDGAR_READ",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_B1_DOC_EDGAR_UNREAD": {
+			"1": {
+				"action_or_variant": "B1_DOC_EDGAR_UNREAD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B1",
+				"locales": {
+					"en-US": {
+						"body": "Edgar's work ledger",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Edgar's work ledger"
+					},
+					"ko-KR": {
+						"body": "에드가 업무 장부",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "에드가 업무 장부"
+					}
+				},
+				"localization_keys": {
+					"body": "B1_DOC_EDGAR_UNREAD:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "B1_DOC_EDGAR_UNREAD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_B1_DOC_LUCA_READ": {
+			"1": {
+				"action_or_variant": "B1_DOC_LUCA_READ",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B1",
+				"locales": {
+					"en-US": {
+						"body": "Luka's delivery sheet · Read",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Luka's delivery sheet"
+					},
+					"ko-KR": {
+						"body": "루카 전달표 · 읽음",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "루카 전달표"
+					}
+				},
+				"localization_keys": {
+					"body": "B1_DOC_LUCA_READ:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "B1_DOC_LUCA_READ",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_B1_DOC_LUCA_UNREAD": {
+			"1": {
+				"action_or_variant": "B1_DOC_LUCA_UNREAD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B1",
+				"locales": {
+					"en-US": {
+						"body": "Luka's delivery sheet",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Luka's delivery sheet"
+					},
+					"ko-KR": {
+						"body": "루카 전달표",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "루카 전달표"
+					}
+				},
+				"localization_keys": {
+					"body": "B1_DOC_LUCA_UNREAD:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "B1_DOC_LUCA_UNREAD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_B1_DOC_MARA1_READ": {
+			"1": {
+				"action_or_variant": "B1_DOC_MARA1_READ",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B1",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1's cleaning schedule · Read",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Mara 1's cleaning schedule"
+					},
+					"ko-KR": {
+						"body": "마라 1 청소표 · 읽음",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "마라 1 청소표"
+					}
+				},
+				"localization_keys": {
+					"body": "B1_DOC_MARA1_READ:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "B1_DOC_MARA1_READ",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_B1_DOC_MARA1_UNREAD": {
+			"1": {
+				"action_or_variant": "B1_DOC_MARA1_UNREAD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B1",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1's cleaning schedule",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Mara 1's cleaning schedule"
+					},
+					"ko-KR": {
+						"body": "마라 1 청소표",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "마라 1 청소표"
+					}
+				},
+				"localization_keys": {
+					"body": "B1_DOC_MARA1_UNREAD:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "B1_DOC_MARA1_UNREAD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_B1_DOC_MARA2_READ": {
+			"1": {
+				"action_or_variant": "B1_DOC_MARA2_READ",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B1",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2's archive checkout sheet (optional) · Read",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Mara 2's archive checkout sheet (optional)"
+					},
+					"ko-KR": {
+						"body": "마라 2 기록 반출표 (선택) · 읽음",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "마라 2 기록 반출표 (선택)"
+					}
+				},
+				"localization_keys": {
+					"body": "B1_DOC_MARA2_READ:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "B1_DOC_MARA2_READ",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_B1_DOC_MARA2_UNREAD": {
+			"1": {
+				"action_or_variant": "B1_DOC_MARA2_UNREAD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B1",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2's archive checkout sheet (optional)",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Mara 2's archive checkout sheet (optional)"
+					},
+					"ko-KR": {
+						"body": "마라 2 기록 반출표 (선택)",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "마라 2 기록 반출표 (선택)"
+					}
+				},
+				"localization_keys": {
+					"body": "B1_DOC_MARA2_UNREAD:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "B1_DOC_MARA2_UNREAD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_B2_ENTRY": {
+			"1": {
+				"action_or_variant": "B2_ENTRY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "The footsteps outside the door stop. The latch turns.",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Footsteps in the Inner Archive"
+					},
+					"ko-KR": {
+						"body": "문밖의 발소리가 멎는다. 잠금쇠가 돌아간다.",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "기록 내실의 발소리"
+					}
+				},
+				"localization_keys": {
+					"body": "B2_ENTRY:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "B2_ENTRY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_B2_HIDDEN_BOARD": {
+			"1": {
+				"action_or_variant": "B2_HIDDEN_BOARD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "Inside the maintenance alcove\nEdgar is checking the desk. Before long, his footsteps recede.",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Footsteps in the Inner Archive"
+					},
+					"ko-KR": {
+						"body": "점검 벽감 안\n에드가가 책상을 확인하고 있다. 잠시 뒤 발소리가 멀어진다.",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "기록 내실의 발소리"
+					}
+				},
+				"localization_keys": {
+					"body": "B2_HIDDEN_BOARD:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "B2_HIDDEN_BOARD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_CARD_BEDROOM": {
+			"1": {
+				"action_or_variant": "CLOCK_CARD_BEDROOM",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "Up ↑",
+							"180": "Down ↓",
+							"270": "Left ←",
+							"90": "Right →"
+						},
+						"ko-KR": {
+							"0": "위 ↑",
+							"180": "아래 ↓",
+							"270": "왼쪽 ←",
+							"90": "오른쪽 →"
+						}
+					}
+				},
+				"event_id": "B3_A",
+				"locales": {
+					"en-US": {
+						"body": "Slot {position} · Bedroom\nCorner groove: {direction}\nLine broken at the center\nFront",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Bedroom Rubbing"
+					},
+					"ko-KR": {
+						"body": "{position}번 자리 · 침실\n모서리 홈: {direction}\n중앙에서 끊긴 선\n앞면",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "침실의 탁본"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_CARD_BEDROOM:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_CARD_BEDROOM",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"direction": "enum:direction",
+						"position": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_CARD_GREAT_CLOCK": {
+			"1": {
+				"action_or_variant": "CLOCK_CARD_GREAT_CLOCK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "Up ↑",
+							"180": "Down ↓",
+							"270": "Left ←",
+							"90": "Right →"
+						},
+						"ko-KR": {
+							"0": "위 ↑",
+							"180": "아래 ↓",
+							"270": "왼쪽 ←",
+							"90": "오른쪽 →"
+						}
+					}
+				},
+				"event_id": "B3_A",
+				"locales": {
+					"en-US": {
+						"body": "Slot {position} · West great clock\nCorner groove: {direction}\nLine → Empty resonance chamber\nFront",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "West great clock Rubbing"
+					},
+					"ko-KR": {
+						"body": "{position}번 자리 · 서쪽 대시계\n모서리 홈: {direction}\n선 → 빈 공명통\n앞면",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "서쪽 대시계의 탁본"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_CARD_GREAT_CLOCK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_CARD_GREAT_CLOCK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"direction": "enum:direction",
+						"position": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_CARD_LIBRARY_BACK": {
+			"1": {
+				"action_or_variant": "CLOCK_CARD_LIBRARY_BACK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "Up ↑",
+							"180": "Down ↓",
+							"270": "Left ←",
+							"90": "Right →"
+						},
+						"ko-KR": {
+							"0": "위 ↑",
+							"180": "아래 ↓",
+							"270": "왼쪽 ←",
+							"90": "오른쪽 →"
+						}
+					}
+				},
+				"event_id": "B3_A",
+				"locales": {
+					"en-US": {
+						"body": "Slot {position} · Outer library\nCorner groove: {direction}\n← Relay line\nBack",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Outer library Rubbing"
+					},
+					"ko-KR": {
+						"body": "{position}번 자리 · 외부 서고\n모서리 홈: {direction}\n← 중계선\n뒷면",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "외부 서고의 탁본"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_CARD_LIBRARY_BACK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_CARD_LIBRARY_BACK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"direction": "enum:direction",
+						"position": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_CARD_LIBRARY_OUTER": {
+			"1": {
+				"action_or_variant": "CLOCK_CARD_LIBRARY_OUTER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "Up ↑",
+							"180": "Down ↓",
+							"270": "Left ←",
+							"90": "Right →"
+						},
+						"ko-KR": {
+							"0": "위 ↑",
+							"180": "아래 ↓",
+							"270": "왼쪽 ←",
+							"90": "오른쪽 →"
+						}
+					}
+				},
+				"event_id": "B3_A",
+				"locales": {
+					"en-US": {
+						"body": "Slot {position} · Outer library\nCorner groove: {direction}\nRelay line →\nFront",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Outer library Rubbing"
+					},
+					"ko-KR": {
+						"body": "{position}번 자리 · 외부 서고\n모서리 홈: {direction}\n중계선 →\n앞면",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "외부 서고의 탁본"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_CARD_LIBRARY_OUTER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_CARD_LIBRARY_OUTER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"direction": "enum:direction",
+						"position": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_CARD_PARLOR": {
+			"1": {
+				"action_or_variant": "CLOCK_CARD_PARLOR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "Up ↑",
+							"180": "Down ↓",
+							"270": "Left ←",
+							"90": "Right →"
+						},
+						"ko-KR": {
+							"0": "위 ↑",
+							"180": "아래 ↓",
+							"270": "왼쪽 ←",
+							"90": "오른쪽 →"
+						}
+					}
+				},
+				"event_id": "B3_A",
+				"locales": {
+					"en-US": {
+						"body": "Slot {position} · Parlor\nCorner groove: {direction}\nThick start line →\nFront",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Parlor Rubbing"
+					},
+					"ko-KR": {
+						"body": "{position}번 자리 · 대응접실\n모서리 홈: {direction}\n굵은 시작선 →\n앞면",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "대응접실의 탁본"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_CARD_PARLOR:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_CARD_PARLOR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"direction": "enum:direction",
+						"position": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_COLLECT": {
+			"1": {
+				"action_or_variant": "CLOCK_COLLECT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_A",
+				"locales": {
+					"en-US": {
+						"body": "Today's rubbings: {count} / 4\nBedroom · Parlor · Outer library · West great clock\nInspect the clock in each room.",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Today's Clock Rubbings"
+					},
+					"ko-KR": {
+						"body": "당일 탁본: {count} / 4\n침실 · 대응접실 · 외부 서고 · 서쪽 대시계\n각 방에서 시계를 직접 조사한다.",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "당일 시계 탁본"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_COLLECT:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_COLLECT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"count": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_LAYOUT": {
+			"1": {
+				"action_or_variant": "CLOCK_LAYOUT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_A",
+				"locales": {
+					"en-US": {
+						"body": "Assemble the rubbings: align the upper corner grooves, then connect [start → passage → resonance chamber]. The disconnected piece belongs in the fourth slot.\nSelect two pieces to swap them. Screws, patterns and room names do not rely on color.",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Inspection Notice"
+					},
+					"ko-KR": {
+						"body": "탁본 조립: 위쪽 모서리 홈을 맞춘 뒤 [시작 → 통과 → 공명통]으로 연결한다. 단절된 조각은 네 번째 칸.\n조각을 눌러 두 자리를 교환한다. 나사·문양과 방 이름은 색 없이도 읽을 수 있다.",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망 점검함의 안내"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_LAYOUT:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_LAYOUT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_LOCKED": {
+			"1": {
+				"action_or_variant": "CLOCK_LOCKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "BF",
+				"locales": {
+					"en-US": {
+						"body": "Sealing pin broken · Clock network locked today\nSleeping restores the pin. The notebook's failure record remains.",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Inspection Notice"
+					},
+					"ko-KR": {
+						"body": "봉인핀 파손 · 오늘 시계망 잠김\n잠들면 핀은 원래대로 돌아온다. 수첩의 실패 기록은 남는다.",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망 점검함의 안내"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_LOCKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_LOCKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_MENU_EXCLUDED": {
+			"1": {
+				"action_or_variant": "CLOCK_MENU_EXCLUDED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"bedroom": "Excluded · Bedroom",
+						"great_clock": "Excluded · West great clock",
+						"library_outer": "Excluded · Outer library",
+						"parlor": "Excluded · Parlor",
+						"placeholder": "Excluded · Select clock",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Displayed Role Candidates"
+					},
+					"ko-KR": {
+						"bedroom": "제외 · 침실",
+						"great_clock": "제외 · 서쪽 대시계",
+						"library_outer": "제외 · 외부 서고",
+						"parlor": "제외 · 대응접실",
+						"placeholder": "제외 · 시계 선택",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "표시된 역할 후보"
+					}
+				},
+				"localization_keys": {
+					"bedroom": "CLOCK_MENU_EXCLUDED:bedroom",
+					"great_clock": "CLOCK_MENU_EXCLUDED:great_clock",
+					"library_outer": "CLOCK_MENU_EXCLUDED:library_outer",
+					"parlor": "CLOCK_MENU_EXCLUDED:parlor",
+					"placeholder": "CLOCK_MENU_EXCLUDED:placeholder"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_MENU_EXCLUDED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"bedroom": {},
+					"great_clock": {},
+					"library_outer": {},
+					"parlor": {},
+					"placeholder": {}
+				},
+				"visible_segment_ids": [
+					"placeholder",
+					"bedroom",
+					"parlor",
+					"library_outer",
+					"great_clock"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_MENU_OUTPUT": {
+			"1": {
+				"action_or_variant": "CLOCK_MENU_OUTPUT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"bedroom": "Output · Bedroom",
+						"great_clock": "Output · West great clock",
+						"library_outer": "Output · Outer library",
+						"parlor": "Output · Parlor",
+						"placeholder": "Output · Select clock",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Displayed Role Candidates"
+					},
+					"ko-KR": {
+						"bedroom": "출력 · 침실",
+						"great_clock": "출력 · 서쪽 대시계",
+						"library_outer": "출력 · 외부 서고",
+						"parlor": "출력 · 대응접실",
+						"placeholder": "출력 · 시계 선택",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "표시된 역할 후보"
+					}
+				},
+				"localization_keys": {
+					"bedroom": "CLOCK_MENU_OUTPUT:bedroom",
+					"great_clock": "CLOCK_MENU_OUTPUT:great_clock",
+					"library_outer": "CLOCK_MENU_OUTPUT:library_outer",
+					"parlor": "CLOCK_MENU_OUTPUT:parlor",
+					"placeholder": "CLOCK_MENU_OUTPUT:placeholder"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_MENU_OUTPUT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"bedroom": {},
+					"great_clock": {},
+					"library_outer": {},
+					"parlor": {},
+					"placeholder": {}
+				},
+				"visible_segment_ids": [
+					"placeholder",
+					"bedroom",
+					"parlor",
+					"library_outer",
+					"great_clock"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_MENU_REFERENCE": {
+			"1": {
+				"action_or_variant": "CLOCK_MENU_REFERENCE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"bedroom": "Reference · Bedroom",
+						"great_clock": "Reference · West great clock",
+						"library_outer": "Reference · Outer library",
+						"parlor": "Reference · Parlor",
+						"placeholder": "Reference · Select clock",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Displayed Role Candidates"
+					},
+					"ko-KR": {
+						"bedroom": "기준 · 침실",
+						"great_clock": "기준 · 서쪽 대시계",
+						"library_outer": "기준 · 외부 서고",
+						"parlor": "기준 · 대응접실",
+						"placeholder": "기준 · 시계 선택",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "표시된 역할 후보"
+					}
+				},
+				"localization_keys": {
+					"bedroom": "CLOCK_MENU_REFERENCE:bedroom",
+					"great_clock": "CLOCK_MENU_REFERENCE:great_clock",
+					"library_outer": "CLOCK_MENU_REFERENCE:library_outer",
+					"parlor": "CLOCK_MENU_REFERENCE:parlor",
+					"placeholder": "CLOCK_MENU_REFERENCE:placeholder"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_MENU_REFERENCE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"bedroom": {},
+					"great_clock": {},
+					"library_outer": {},
+					"parlor": {},
+					"placeholder": {}
+				},
+				"visible_segment_ids": [
+					"placeholder",
+					"bedroom",
+					"parlor",
+					"library_outer",
+					"great_clock"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_MENU_RELAY": {
+			"1": {
+				"action_or_variant": "CLOCK_MENU_RELAY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"bedroom": "Relay · Bedroom",
+						"great_clock": "Relay · West great clock",
+						"library_outer": "Relay · Outer library",
+						"parlor": "Relay · Parlor",
+						"placeholder": "Relay · Select clock",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Displayed Role Candidates"
+					},
+					"ko-KR": {
+						"bedroom": "중계 · 침실",
+						"great_clock": "중계 · 서쪽 대시계",
+						"library_outer": "중계 · 외부 서고",
+						"parlor": "중계 · 대응접실",
+						"placeholder": "중계 · 시계 선택",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "표시된 역할 후보"
+					}
+				},
+				"localization_keys": {
+					"bedroom": "CLOCK_MENU_RELAY:bedroom",
+					"great_clock": "CLOCK_MENU_RELAY:great_clock",
+					"library_outer": "CLOCK_MENU_RELAY:library_outer",
+					"parlor": "CLOCK_MENU_RELAY:parlor",
+					"placeholder": "CLOCK_MENU_RELAY:placeholder"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_MENU_RELAY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"bedroom": {},
+					"great_clock": {},
+					"library_outer": {},
+					"parlor": {},
+					"placeholder": {}
+				},
+				"visible_segment_ids": [
+					"placeholder",
+					"bedroom",
+					"parlor",
+					"library_outer",
+					"great_clock"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_PHASE_0_SELECTED": {
+			"1": {
+				"action_or_variant": "CLOCK_PHASE_0_SELECTED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "-1 · Before the last chime · Selected",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Transmission Timing"
+					},
+					"ko-KR": {
+						"body": "-1 · 마지막 종 전 · 선택",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 전달 시점"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_PHASE_0_SELECTED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_PHASE_0_SELECTED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_PHASE_0_UNSELECTED": {
+			"1": {
+				"action_or_variant": "CLOCK_PHASE_0_UNSELECTED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "-1 · Before the last chime",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Transmission Timing"
+					},
+					"ko-KR": {
+						"body": "-1 · 마지막 종 전",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 전달 시점"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_PHASE_0_UNSELECTED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_PHASE_0_UNSELECTED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_PHASE_1_SELECTED": {
+			"1": {
+				"action_or_variant": "CLOCK_PHASE_1_SELECTED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "0 · With the twelfth chime · Selected",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Transmission Timing"
+					},
+					"ko-KR": {
+						"body": "0 · 열두 번째 종과 동시 · 선택",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 전달 시점"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_PHASE_1_SELECTED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_PHASE_1_SELECTED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_PHASE_1_UNSELECTED": {
+			"1": {
+				"action_or_variant": "CLOCK_PHASE_1_UNSELECTED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "0 · With the twelfth chime",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Transmission Timing"
+					},
+					"ko-KR": {
+						"body": "0 · 열두 번째 종과 동시",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 전달 시점"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_PHASE_1_UNSELECTED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_PHASE_1_UNSELECTED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_PHASE_2_SELECTED": {
+			"1": {
+				"action_or_variant": "CLOCK_PHASE_2_SELECTED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "+1 · One step after the normal chimes · Selected",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Transmission Timing"
+					},
+					"ko-KR": {
+						"body": "+1 · 정상 종 뒤 한 칸 · 선택",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 전달 시점"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_PHASE_2_SELECTED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_PHASE_2_SELECTED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_PHASE_2_UNSELECTED": {
+			"1": {
+				"action_or_variant": "CLOCK_PHASE_2_UNSELECTED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "+1 · One step after the normal chimes",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Transmission Timing"
+					},
+					"ko-KR": {
+						"body": "+1 · 정상 종 뒤 한 칸",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 전달 시점"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_PHASE_2_UNSELECTED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_PHASE_2_UNSELECTED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_PHASE_3_SELECTED": {
+			"1": {
+				"action_or_variant": "CLOCK_PHASE_3_SELECTED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "HALF · Between chimes · Selected",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Transmission Timing"
+					},
+					"ko-KR": {
+						"body": "HALF · 종 사이 · 선택",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 전달 시점"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_PHASE_3_SELECTED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_PHASE_3_SELECTED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_PHASE_3_UNSELECTED": {
+			"1": {
+				"action_or_variant": "CLOCK_PHASE_3_UNSELECTED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "HALF · Between chimes",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Transmission Timing"
+					},
+					"ko-KR": {
+						"body": "HALF · 종 사이",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 전달 시점"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_PHASE_3_UNSELECTED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_PHASE_3_UNSELECTED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_ROLES": {
+			"1": {
+				"action_or_variant": "CLOCK_ROLES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "Layout and roles are separate settings. The weak test checks wiring, not transmission timing.",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Inspection Notice"
+					},
+					"ko-KR": {
+						"body": "배치와 역할은 별도 설정이다. 약한 시험은 배선만 확인하며 전달 시점은 확인하지 않는다.",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망 점검함의 안내"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_ROLES:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_ROLES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_ROLE_EXCLUDED": {
+			"1": {
+				"action_or_variant": "CLOCK_ROLE_EXCLUDED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"clock": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"great_clock": "West great clock",
+							"library_outer": "Outer library",
+							"parlor": "Parlor",
+							"unset": "Select clock"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"great_clock": "서쪽 대시계",
+							"library_outer": "외부 서고",
+							"parlor": "대응접실",
+							"unset": "시계 선택"
+						}
+					}
+				},
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "Excluded · {clock}",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Role Assignment"
+					},
+					"ko-KR": {
+						"body": "제외 · {clock}",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 역할 배정"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_ROLE_EXCLUDED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_ROLE_EXCLUDED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"clock": "enum:clock"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_ROLE_OUTPUT": {
+			"1": {
+				"action_or_variant": "CLOCK_ROLE_OUTPUT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"clock": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"great_clock": "West great clock",
+							"library_outer": "Outer library",
+							"parlor": "Parlor",
+							"unset": "Select clock"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"great_clock": "서쪽 대시계",
+							"library_outer": "외부 서고",
+							"parlor": "대응접실",
+							"unset": "시계 선택"
+						}
+					}
+				},
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "Output · {clock}",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Role Assignment"
+					},
+					"ko-KR": {
+						"body": "출력 · {clock}",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 역할 배정"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_ROLE_OUTPUT:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_ROLE_OUTPUT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"clock": "enum:clock"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_ROLE_REFERENCE": {
+			"1": {
+				"action_or_variant": "CLOCK_ROLE_REFERENCE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"clock": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"great_clock": "West great clock",
+							"library_outer": "Outer library",
+							"parlor": "Parlor",
+							"unset": "Select clock"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"great_clock": "서쪽 대시계",
+							"library_outer": "외부 서고",
+							"parlor": "대응접실",
+							"unset": "시계 선택"
+						}
+					}
+				},
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "Reference · {clock}",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Role Assignment"
+					},
+					"ko-KR": {
+						"body": "기준 · {clock}",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 역할 배정"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_ROLE_REFERENCE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_ROLE_REFERENCE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"clock": "enum:clock"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_CLOCK_ROLE_RELAY": {
+			"1": {
+				"action_or_variant": "CLOCK_ROLE_RELAY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"clock": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"great_clock": "West great clock",
+							"library_outer": "Outer library",
+							"parlor": "Parlor",
+							"unset": "Select clock"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"great_clock": "서쪽 대시계",
+							"library_outer": "외부 서고",
+							"parlor": "대응접실",
+							"unset": "시계 선택"
+						}
+					}
+				},
+				"event_id": "B3_B",
+				"locales": {
+					"en-US": {
+						"body": "Relay · {clock}",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Clock Network Role Assignment"
+					},
+					"ko-KR": {
+						"body": "중계 · {clock}",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "시계망의 역할 배정"
+					}
+				},
+				"localization_keys": {
+					"body": "CLOCK_ROLE_RELAY:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "CLOCK_ROLE_RELAY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"clock": "enum:clock"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_INNER_ALCOVE": {
+			"1": {
+				"action_or_variant": "INNER_ALCOVE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "Maintenance alcove · Hiding place",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Maintenance alcove · Hiding place"
+					},
+					"ko-KR": {
+						"body": "점검 벽감 · 숨을 공간",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "점검 벽감 · 숨을 공간"
+					}
+				},
+				"localization_keys": {
+					"body": "INNER_ALCOVE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "INNER_ALCOVE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_INNER_DESK": {
+			"1": {
+				"action_or_variant": "INNER_DESK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "Journal desk",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Journal desk"
+					},
+					"ko-KR": {
+						"body": "일지 책상",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "일지 책상"
+					}
+				},
+				"localization_keys": {
+					"body": "INNER_DESK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "INNER_DESK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_INNER_DOOR": {
+			"1": {
+				"action_or_variant": "INNER_DOOR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "Door to the Inner Archive",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Door to the Inner Archive"
+					},
+					"ko-KR": {
+						"body": "기록 내실문",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "기록 내실문"
+					}
+				},
+				"localization_keys": {
+					"body": "INNER_DOOR:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "INNER_DOOR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_INNER_DRAWER": {
+			"1": {
+				"action_or_variant": "INNER_DRAWER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "Small drawer",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Small drawer"
+					},
+					"ko-KR": {
+						"body": "작은 서랍",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "작은 서랍"
+					}
+				},
+				"localization_keys": {
+					"body": "INNER_DRAWER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "INNER_DRAWER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_INNER_GAP": {
+			"1": {
+				"action_or_variant": "INNER_GAP",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "Journal's final margin",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Journal's final margin"
+					},
+					"ko-KR": {
+						"body": "일지의 마지막 여백",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "일지의 마지막 여백"
+					}
+				},
+				"localization_keys": {
+					"body": "INNER_GAP:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "INNER_GAP",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_INNER_INDEX": {
+			"1": {
+				"action_or_variant": "INNER_INDEX",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "Index cabinet",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Index cabinet"
+					},
+					"ko-KR": {
+						"body": "색인함",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "색인함"
+					}
+				},
+				"localization_keys": {
+					"body": "INNER_INDEX:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "INNER_INDEX",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_INNER_LINK": {
+			"1": {
+				"action_or_variant": "INNER_LINK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "Connecting-door latch behind the portrait",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Connecting-door latch behind the portrait"
+					},
+					"ko-KR": {
+						"body": "초상화 뒤 연결문 걸쇠",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "초상화 뒤 연결문 걸쇠"
+					}
+				},
+				"localization_keys": {
+					"body": "INNER_LINK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "INNER_LINK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J1_FRAGMENT_0_BACK": {
+			"1": {
+				"action_or_variant": "J1_FRAGMENT_0_BACK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J1",
+				"locales": {
+					"en-US": {
+						"body": "If you remember yesterday,\ndo not begin by trusting the time shown on a face.\nBack · smeared ink",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "First Journal Fragment"
+					},
+					"ko-KR": {
+						"body": "네가 어제를 기억한다면,\n얼굴이 가리키는 시각부터 믿지는 마라.\n뒷면 · 번진 잉크",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "첫 일지의 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "J1_FRAGMENT_0_BACK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J1_FRAGMENT_0_BACK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J1_FRAGMENT_0_FRONT": {
+			"1": {
+				"action_or_variant": "J1_FRAGMENT_0_FRONT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J1",
+				"locales": {
+					"en-US": {
+						"body": "If you remember yesterday,\ndo not begin by trusting the time shown on a face.\nFront · grooves are legible",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "First Journal Fragment"
+					},
+					"ko-KR": {
+						"body": "네가 어제를 기억한다면,\n얼굴이 가리키는 시각부터 믿지는 마라.\n앞면 · 홈이 읽힘",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "첫 일지의 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "J1_FRAGMENT_0_FRONT:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J1_FRAGMENT_0_FRONT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J1_FRAGMENT_1_BACK": {
+			"1": {
+				"action_or_variant": "J1_FRAGMENT_1_BACK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J1",
+				"locales": {
+					"en-US": {
+						"body": "One counts the day.\nOne stands still, passing a tremor to the next room.\nOne has lost its voice, yet makes the final door resound.\nBack · smeared ink",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "First Journal Fragment"
+					},
+					"ko-KR": {
+						"body": "하나는 하루를 세고,\n하나는 멈춘 채 떨림을 다음 방으로 넘기며,\n하나는 목소리를 잃은 채 마지막 문을 울린다.\n뒷면 · 번진 잉크",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "첫 일지의 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "J1_FRAGMENT_1_BACK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J1_FRAGMENT_1_BACK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J1_FRAGMENT_1_FRONT": {
+			"1": {
+				"action_or_variant": "J1_FRAGMENT_1_FRONT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J1",
+				"locales": {
+					"en-US": {
+						"body": "One counts the day.\nOne stands still, passing a tremor to the next room.\nOne has lost its voice, yet makes the final door resound.\nFront · grooves are legible",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "First Journal Fragment"
+					},
+					"ko-KR": {
+						"body": "하나는 하루를 세고,\n하나는 멈춘 채 떨림을 다음 방으로 넘기며,\n하나는 목소리를 잃은 채 마지막 문을 울린다.\n앞면 · 홈이 읽힘",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "첫 일지의 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "J1_FRAGMENT_1_FRONT:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J1_FRAGMENT_1_FRONT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J1_FRAGMENT_2_BACK": {
+			"1": {
+				"action_or_variant": "J1_FRAGMENT_2_BACK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J1",
+				"locales": {
+					"en-US": {
+						"body": "It is not the time that is wrong.\nIt is the sound one space beyond what you thought was the end. ·\nBack · smeared ink",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "First Journal Fragment"
+					},
+					"ko-KR": {
+						"body": "틀린 것은 시간이 아니다.\n모두 끝났다고 믿은 뒤에도, 한 칸 남아 있는 소리다. ·\n뒷면 · 번진 잉크",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "첫 일지의 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "J1_FRAGMENT_2_BACK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J1_FRAGMENT_2_BACK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J1_FRAGMENT_2_FRONT": {
+			"1": {
+				"action_or_variant": "J1_FRAGMENT_2_FRONT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J1",
+				"locales": {
+					"en-US": {
+						"body": "It is not the time that is wrong.\nIt is the sound one space beyond what you thought was the end. ·\nFront · grooves are legible",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "First Journal Fragment"
+					},
+					"ko-KR": {
+						"body": "틀린 것은 시간이 아니다.\n모두 끝났다고 믿은 뒤에도, 한 칸 남아 있는 소리다. ·\n앞면 · 홈이 읽힘",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "첫 일지의 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "J1_FRAGMENT_2_FRONT:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J1_FRAGMENT_2_FRONT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J1_ORDER_0": {
+			"1": {
+				"action_or_variant": "J1_ORDER_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J1",
+				"locales": {
+					"en-US": {
+						"body": "Selected order: ",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Current Journal Fragment Order"
+					},
+					"ko-KR": {
+						"body": "선택한 순서: ",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "일지 조각의 현재 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "J1_ORDER_0:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J1_ORDER_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J1_ORDER_1": {
+			"1": {
+				"action_or_variant": "J1_ORDER_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"fragment": {
+						"en-US": {
+							"0": "If you remember yesterday,",
+							"1": "One counts the day.",
+							"2": "It is not the time that is wrong."
+						},
+						"ko-KR": {
+							"0": "네가 어제를 기억한다면,",
+							"1": "하나는 하루를 세고,",
+							"2": "틀린 것은 시간이 아니다."
+						}
+					}
+				},
+				"event_id": "J1",
+				"locales": {
+					"en-US": {
+						"body": "Selected order: {part0}",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Current Journal Fragment Order"
+					},
+					"ko-KR": {
+						"body": "선택한 순서: {part0}",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "일지 조각의 현재 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "J1_ORDER_1:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J1_ORDER_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"part0": "enum:fragment"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J1_ORDER_2": {
+			"1": {
+				"action_or_variant": "J1_ORDER_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"fragment": {
+						"en-US": {
+							"0": "If you remember yesterday,",
+							"1": "One counts the day.",
+							"2": "It is not the time that is wrong."
+						},
+						"ko-KR": {
+							"0": "네가 어제를 기억한다면,",
+							"1": "하나는 하루를 세고,",
+							"2": "틀린 것은 시간이 아니다."
+						}
+					}
+				},
+				"event_id": "J1",
+				"locales": {
+					"en-US": {
+						"body": "Selected order: {part0} → {part1}",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Current Journal Fragment Order"
+					},
+					"ko-KR": {
+						"body": "선택한 순서: {part0} → {part1}",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "일지 조각의 현재 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "J1_ORDER_2:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J1_ORDER_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"part0": "enum:fragment",
+						"part1": "enum:fragment"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J1_ORDER_3": {
+			"1": {
+				"action_or_variant": "J1_ORDER_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"fragment": {
+						"en-US": {
+							"0": "If you remember yesterday,",
+							"1": "One counts the day.",
+							"2": "It is not the time that is wrong."
+						},
+						"ko-KR": {
+							"0": "네가 어제를 기억한다면,",
+							"1": "하나는 하루를 세고,",
+							"2": "틀린 것은 시간이 아니다."
+						}
+					}
+				},
+				"event_id": "J1",
+				"locales": {
+					"en-US": {
+						"body": "Selected order: {part0} → {part1} → {part2}",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Current Journal Fragment Order"
+					},
+					"ko-KR": {
+						"body": "선택한 순서: {part0} → {part1} → {part2}",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "일지 조각의 현재 순서"
+					}
+				},
+				"localization_keys": {
+					"body": "J1_ORDER_3:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J1_ORDER_3",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"part0": "enum:fragment",
+						"part1": "enum:fragment",
+						"part2": "enum:fragment"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_J2_BOARD": {
+			"1": {
+				"action_or_variant": "J2_BOARD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "Up ↑",
+							"180": "Down ↓",
+							"270": "Left ←",
+							"90": "Right →"
+						},
+						"ko-KR": {
+							"0": "위 ↑",
+							"180": "아래 ↓",
+							"270": "왼쪽 ←",
+							"90": "오른쪽 →"
+						}
+					}
+				},
+				"event_id": "B5",
+				"locales": {
+					"en-US": {
+						"body": "Page: long groove begins at the top → branches into two sentences → wraps around the outer paragraph\nTransparent sheet starts: {direction}",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Journal and Waveform Orientation"
+					},
+					"ko-KR": {
+						"body": "페이지: 긴 홈이 위에서 시작 → 두 문장으로 갈라짐 → 바깥 문단을 감쌈\n투명지 시작점: {direction}",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "일지와 파형의 방향"
+					}
+				},
+				"localization_keys": {
+					"body": "J2_BOARD:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "J2_BOARD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"direction": "enum:direction"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_NORTH_KNOWN": {
+			"1": {
+				"action_or_variant": "NORTH_KNOWN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "Library Connecting Door\nI remember how it opens",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Library Connecting Door"
+					},
+					"ko-KR": {
+						"body": "서재 연결문\n구조를 기억한다",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "서재 연결문"
+					}
+				},
+				"localization_keys": {
+					"body": "NORTH_KNOWN:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "NORTH_KNOWN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CH1_SURFACE_NORTH_LOCKED": {
+			"1": {
+				"action_or_variant": "NORTH_LOCKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "B2",
+				"locales": {
+					"en-US": {
+						"body": "Library Connecting Door\nLatched from the inside",
+						"speaker": "Scene",
+						"summary": "Material displayed at that time",
+						"title": "Library Connecting Door"
+					},
+					"ko-KR": {
+						"body": "서재 연결문\n안쪽 걸쇠 잠김",
+						"speaker": "장면",
+						"summary": "당시 화면에 표시된 자료",
+						"title": "서재 연결문"
+					}
+				},
+				"localization_keys": {
+					"body": "NORTH_LOCKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP21",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "NORTH_LOCKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

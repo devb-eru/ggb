@@ -137,8 +137,16 @@ func _ready() -> void:
 		call_deferred("_run_notebook_stay_smoke")
 	elif "--notebook-puzzle-surfaces-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_puzzle_surfaces_smoke")
+	elif "--notebook-chapter-surfaces-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_chapter_surfaces_smoke")
 	elif "--notebook-authority-archive-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_authority_archive_smoke")
+
+
+func _run_notebook_chapter_surfaces_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/notebook_chapter_surfaces_smoke.gd").new().run(get_tree())
+	print("NOTEBOOK_CHAPTER_SURFACES_SMOKE: " + ("PASS" if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
 
 
 func _run_notebook_puzzle_surfaces_smoke() -> void:

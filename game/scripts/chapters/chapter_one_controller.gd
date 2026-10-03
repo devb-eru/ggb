@@ -8,6 +8,7 @@ const DISPLAY_TEXTS := preload("res://scripts/ui/chapter_one_display_texts.gd")
 const MODAL_NOTES := preload("res://scripts/systems/modal_notebook.gd")
 const NOTEBOOK_ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const NOTEBOOK_CONTENT := preload("res://scripts/systems/notebook_content.gd")
+const CHAPTER_SURFACES := preload("res://scripts/systems/notebook_chapter_surfaces.gd")
 const OBJECTIVES := {"A1": "수첩에 다음 아침과 비교할 표식을 남긴다", "AS": "익숙한 일과를 마치고 침실에서 잠든다", "A2": "다음 아침의 수첩 표식을 확인한다", "B1": "사용인 공용실의 문서 두 장 이상으로 빈 시간대를 추론한다", "B2": "일과를 마치고 외부 서고를 통해 기록 내실에 접근한다", "J1": "책상의 압지 조각을 배열해 첫 페이지를 복원한다", "B3_A": "네 방의 시계 탁본을 모아 배선을 연결한다", "B3_B": "역할과 전달 시점을 설정해 시계망을 작동한다", "BF": "남은 조사 후 침실에서 잠든다 · 실패 정보는 남는다", "B4": "공명통에 남은 파형을 수첩에 기록한다", "B5": "기록 내실에서 파형과 두 번째 페이지를 겹친다", "J2_COMPLETE": "첫 장의 기록을 확인한다 · 다음은 검은 거울"}
 
 var session: ChapterOneSession
@@ -39,6 +40,17 @@ func _notebook_surface_scope() -> Dictionary:
 func _queue_notebook_content(content_id: String, text: String, new_attempt: bool = false) -> void:
 	if _notebook_surface_enabled():
 		_notebook_surfaces.queue(content_id, text, TranslationServer.get_locale(), session.history_context(), new_attempt)
+
+
+func _queue_chapter_surface(descriptor: Dictionary, text: String) -> void:
+	# Later controllers repaint the base view before replacing it; those labels were not disclosed.
+	if _notebook_surface_enabled() and session.stage() in CHAPTER_SURFACES.NODES:
+		_notebook_surfaces.queue_descriptor(descriptor, text, TranslationServer.get_locale(), session.history_context())
+
+
+func _chapter_board(key: String, text: String, rect: Rect2, values: Dictionary = {}) -> void:
+	_board_label(text, rect)
+	_queue_chapter_surface(CHAPTER_SURFACES.surface(key, values), text)
 
 
 func _flush_notebook_surfaces(generation: int, explicit_retry: bool = false) -> bool:
@@ -401,9 +413,11 @@ func _render_room() -> void:
 				if session.known("schedule_" + owner):
 					label += _dialogue_ui_text("CH1_B1_READ")
 				_action("DOC_" + owner, label, Rect2(260 + (index % 2) * 720, 210 + (index / 2) * 165, 640, 115), "read_schedule", owner)
+				_queue_chapter_surface(CHAPTER_SURFACES.surface("B1_DOC_%s_%s" % [owner.to_upper(), "READ" if session.known("schedule_"+owner) else "UNREAD"]), label)
 			_add_hotspot("B1_BOARD", _dialogue_ui_text("CH1_B1_BOARD"), Rect2(610, 610, 650, 110), _open_schedule_board)
 		"M1_LIBRARY_OUTER":
 			_action("INNER_DOOR", DISPLAY_TEXTS.ui("inner_door", locale), Rect2(1180, 230, 350, 390), "move", "M1_LIBRARY_INNER", false)
+			_queue_chapter_surface(CHAPTER_SURFACES.surface("INNER_DOOR"), DISPLAY_TEXTS.ui("inner_door", locale))
 			_clock_hotspot()
 		"M1_LIBRARY_INNER":
 			_build_inner(local, int(state["meta_progress"]["journal_stage"]))
@@ -413,6 +427,7 @@ func _render_room() -> void:
 			_build_great_clock(local)
 		"M1_NORTH_ARCHIVE_HALL":
 			_action("NORTH_LINK", DISPLAY_TEXTS.ui("north_link", locale) + "\n" + DISPLAY_TEXTS.ui("north_known" if session.known("north_library_shortcut") else "north_locked", locale), Rect2(580, 250, 700, 260), "move", "M1_LIBRARY_INNER", false)
+			_queue_chapter_surface(CHAPTER_SURFACES.surface("NORTH_KNOWN" if session.known("north_library_shortcut") else "NORTH_LOCKED"), _hotspot_layer.get_node("NORTH_LINK").text)
 			_add_hotspot("MARA2_MEMORY", DISPLAY_TEXTS.ui("mara2_memory_action", locale), Rect2(600, 570, 600, 110), _show_mara2_memory)
 	if _current_room == "M1_LIBRARY_INNER":
 		_action("BACK", DISPLAY_TEXTS.ui("back_outer", locale), Rect2(700, 944, 400, 72), "move", "M1_LIBRARY_OUTER", false)
@@ -502,21 +517,25 @@ func _build_inner(local: Dictionary, journal: int) -> void:
 	var ids := ["desk", "index", "drawer", "alcove", "gap", "link"]
 	for index in range(ids.size()):
 		_action("INNER_" + ids[index], _dialogue_ui_text("CH1_INNER_LABEL_" + ids[index].to_upper()), Rect2(150 + (index % 3) * 540, 145 + (index / 3) * 94, 485, 70), "inspect_inner", ids[index])
+		_queue_chapter_surface(CHAPTER_SURFACES.surface("INNER_"+ids[index].to_upper()), _dialogue_ui_text("CH1_INNER_LABEL_"+ids[index].to_upper()))
 	if journal == 0 and "desk" in local["inspected"]:
 		for index in range(3):
 			var fragment_id: int = [2, 0, 1][index]
 			var fragment := _dialogue_ui_text("CH1_J1_FRAGMENT_%d" % fragment_id)
 			var face := _dialogue_ui_text("CH1_J1_FRONT" if bool(local["j1_front"][fragment_id]) else "CH1_J1_BACK")
 			_action("J1_PIECE_%d" % fragment_id, fragment + "\n" + face, Rect2(130 + index * 565, 368, 535, 200), "j1_piece", fragment_id, false)
+			_queue_chapter_surface(CHAPTER_SURFACES.fragment(fragment_id, bool(local["j1_front"][fragment_id])), fragment+"\n"+face)
 			_action("J1_FLIP_%d" % fragment_id, _dialogue_ui_text("CH1_J1_FLIP"), Rect2(160 + index * 565, 580, 470, 56), "j1_flip", fragment_id, false)
 		var order: Array[String] = []
 		for id in local["j1_order"]:
 			order.append(_dialogue_ui_text("CH1_J1_FRAGMENT_%d" % int(id)).split("\n")[0])
-		_board_label(_dialogue_ui_text("CH1_J1_ORDER") + " → ".join(order), Rect2(170, 660, 1550, 70))
+		var order_text := _dialogue_ui_text("CH1_J1_ORDER") + " → ".join(order)
+		_board_label(order_text, Rect2(170, 660, 1550, 70))
+		_queue_chapter_surface(CHAPTER_SURFACES.order(local["j1_order"]), order_text)
 		_action("J1_CLEAR", _dialogue_ui_text("CH1_J1_CLEAR"), Rect2(450, 768, 450, 75), "j1_clear", null, false)
 		_action("J1_RESTORE", _dialogue_ui_text("CH1_J1_VERIFY"), Rect2(990, 768, 450, 75), "j1_restore")
 	elif session.known("b4_waveform_acquired") and journal < 2:
-		_board_label(_dialogue_ui_text("CH1_J2_BOARD") + _direction(int(local["wave_rotation"])), Rect2(260, 390, 1370, 190))
+		_chapter_board("J2_BOARD", _dialogue_ui_text("CH1_J2_BOARD") + _direction(int(local["wave_rotation"])), Rect2(260, 390, 1370, 190), {"direction":str(int(local["wave_rotation"]))})
 		_action("B5_ROTATE", _dialogue_ui_text("CH1_J2_ROTATE"), Rect2(300, 650, 580, 95), "wave_rotate", null, false)
 		_action("J2_RESTORE", _dialogue_ui_text("CH1_J2_COMPARE"), Rect2(990, 650, 580, 95), "restore_j2")
 	else:
@@ -525,11 +544,11 @@ func _build_inner(local: Dictionary, journal: int) -> void:
 
 func _build_edgar_pressure(local: Dictionary) -> void:
 	if local["edgar_state"] == "hidden":
-		_board_label(_dialogue_ui_text("CH1_B2_HIDDEN_BOARD"), Rect2(390, 330, 1080, 230))
+		_chapter_board("B2_HIDDEN_BOARD", _dialogue_ui_text("CH1_B2_HIDDEN_BOARD"), Rect2(390, 330, 1080, 230))
 		if _edgar_timer.is_stopped():
 			_edgar_timer.start()
 		return
-	_board_label(_dialogue_ui_text("CH1_B2_ENTRY"), Rect2(400, 250, 1120, 160))
+	_chapter_board("B2_ENTRY", _dialogue_ui_text("CH1_B2_ENTRY"), Rect2(400, 250, 1120, 160))
 	if "alcove" in local["inspected"]:
 		_action("B2_HIDE", _dialogue_ui_text("CH1_B2_HIDE"), Rect2(380, 490, 540, 140), "edgar_hide")
 	_action("B2_CAUGHT", _dialogue_ui_text("CH1_B2_TALK"), Rect2(1000, 490, 540, 140), "edgar_talk")
@@ -554,14 +573,14 @@ func _clock_hotspot() -> void:
 
 func _build_great_clock(local: Dictionary) -> void:
 	if local["clock_locked"]:
-		_board_label(_dialogue_ui_text("CH1_CLOCK_LOCKED"), Rect2(300, 340, 1290, 230))
+		_chapter_board("CLOCK_LOCKED", _dialogue_ui_text("CH1_CLOCK_LOCKED"), Rect2(300, 340, 1290, 230))
 		return
 	if local["signal_generated"] or session.known("b4_waveform_acquired"):
 		_action("B4_RECORD", _dialogue_ui_text("CH1_B4_RECORD"), Rect2(440, 330, 1030, 220), "record_wave")
 		return
 	if local["rubbed"].size() < 4:
 		_clock_hotspot()
-		_board_label(_dialogue_ui_text("CH1_CLOCK_COLLECT") % local["rubbed"].size(), Rect2(350, 370, 1220, 250))
+		_chapter_board("CLOCK_COLLECT", _dialogue_ui_text("CH1_CLOCK_COLLECT") % local["rubbed"].size(), Rect2(350, 370, 1220, 250), {"count":local["rubbed"].size()})
 		return
 	if not session.known("clock_network_layout_solved"):
 		_build_layout_board(local)
@@ -571,13 +590,14 @@ func _build_great_clock(local: Dictionary) -> void:
 
 func _build_layout_board(local: Dictionary) -> void:
 	var board: Dictionary = local["board"]
-	_board_label(_dialogue_ui_text("CH1_CLOCK_LAYOUT"), Rect2(150, 145, 1620, 105))
+	_chapter_board("CLOCK_LAYOUT", _dialogue_ui_text("CH1_CLOCK_LAYOUT"), Rect2(150, 145, 1620, 105))
 	for index in range(4):
 		var clock_id: String = board["pieces"][index]
 		var back: bool = clock_id == "library_outer" and board["library_back"]
 		var pattern := _dialogue_ui_text("CH1_CLOCK_PATTERN_" + ("LIBRARY_BACK" if back else clock_id.to_upper()))
 		var label := _dialogue_ui_text("CH1_CLOCK_CARD") % [index + 1, _dialogue_ui_text("CH1_CLOCK_NAME_" + clock_id.to_upper()), _direction(int(board["rotations"][index])), pattern, _dialogue_ui_text("CH1_CLOCK_BACK") if back else _dialogue_ui_text("CH1_CLOCK_FRONT")]
 		_add_hotspot("B3_PIECE_%d" % index, label, Rect2(135 + index * 445, 320, 405, 245), _swap_piece.bind(index))
+		_queue_chapter_surface(CHAPTER_SURFACES.card(index, board), label)
 		_action("B3_ROTATE_%d" % index, _dialogue_ui_text("CH1_CLOCK_ROTATE"), Rect2(155 + index * 445, 585, 365, 65), "board_rotate", index, false)
 	_action("B3_FLIP", _dialogue_ui_text("CH1_CLOCK_FLIP"), Rect2(220, 706, 570, 90), "board_flip", null, false)
 	_action("B3_CHECK", _dialogue_ui_text("CH1_CLOCK_CHECK"), Rect2(1020, 706, 630, 90), "board_check")
@@ -586,6 +606,7 @@ func _build_layout_board(local: Dictionary) -> void:
 func _swap_piece(index: int) -> void:
 	if _interaction_blocked():
 		return
+	if not _notebook_surface_allowed(): return
 	if _swap_from < 0:
 		_swap_from = index
 		_set_status(_dialogue_ui_text("CH1_CLOCK_SWAP") % (index + 1))
@@ -596,7 +617,7 @@ func _swap_piece(index: int) -> void:
 
 
 func _build_roles_board(local: Dictionary) -> void:
-	_board_label(_dialogue_ui_text("CH1_CLOCK_ROLES"), Rect2(180, 145, 1570, 80))
+	_chapter_board("CLOCK_ROLES", _dialogue_ui_text("CH1_CLOCK_ROLES"), Rect2(180, 145, 1570, 80))
 	for index in range(4):
 		var role: String = CLOCK.ROLES[index]
 		var selected: String = local["roles"].get(role, "")
@@ -608,21 +629,36 @@ func _build_roles_board(local: Dictionary) -> void:
 		button.select(CLOCK.CLOCKS.find(selected) + 1)
 		button.add_theme_font_size_override("font_size", 22)
 		_place(button, Rect2(180 + index * 430, 325, 385, 105))
-		button.item_selected.connect(_role_selected.bind(role))
+		button.item_selected.connect(_role_selected.bind(role, _notebook_surfaces.generation, _notebook_surface_scope()))
 		_hotspot_layer.add_child(button)
+		_queue_chapter_surface(CHAPTER_SURFACES.role(role, selected), button.text)
+		button.get_popup().about_to_popup.connect(_role_menu_displayed.bind(button, role, _notebook_surfaces.generation, _notebook_surface_scope()))
 	var names: Array[String] = []
 	for phase_index in range(4):
 		names.append(_dialogue_ui_text("CH1_CLOCK_PHASE_%d" % phase_index))
 	for index in range(4):
 		var phase: String = CLOCK.PHASES[index]
 		_action("PHASE_%d" % index, names[index] + (_dialogue_ui_text("CH1_CLOCK_SELECTED") if local["phase"] == phase else ""), Rect2(180 + index * 430, 480, 385, 112), "phase", phase, false)
+		_queue_chapter_surface(CHAPTER_SURFACES.surface("CLOCK_PHASE_%d_%s" % [index,"SELECTED" if local["phase"] == phase else "UNSELECTED"]), _hotspot_layer.get_node("PHASE_%d" % index).text)
 	_action("B3_TEST", _dialogue_ui_text("CH1_CLOCK_TEST"), Rect2(380, 700, 490, 100), "test_clock")
 	_add_hotspot("B3_ACTIVATE", _dialogue_ui_text("CH1_CLOCK_ACTIVATE"), Rect2(1020, 700, 530, 100), _confirm_clock)
 
 
-func _role_selected(index: int, role: String) -> void:
-	if index > 0:
-		_do("role", [role, CLOCK.CLOCKS[index - 1]], false)
+func _role_menu_displayed(button: OptionButton, role: String, generation: int, scope: Dictionary) -> void:
+	if not is_instance_valid(button) or not _notebook_surfaces.live(_notebook_surface_scope(), generation) or scope != _notebook_surface_scope(): return
+	var labels := PackedStringArray()
+	for index in range(button.item_count): labels.append(button.get_item_text(index))
+	_queue_chapter_surface(CHAPTER_SURFACES.surface("CLOCK_MENU_"+role.to_upper()), "\n".join(labels))
+	call_deferred("_flush_notebook_surfaces", generation)
+
+
+func _role_selected(index: int, role: String, generation: int = -1, scope: Dictionary = {}) -> void:
+	if generation >= 0 and (not _notebook_surfaces.live(_notebook_surface_scope(), generation) or scope != _notebook_surface_scope()): return
+	if index <= 0 or index > CLOCK.CLOCKS.size() or _interaction_blocked() or not _notebook_surface_allowed():
+		var button := _hotspot_layer.get_node_or_null("ROLE_"+role) as OptionButton
+		if button != null: button.select(CLOCK.CLOCKS.find(session.local_state().roles.get(role, ""))+1)
+		return
+	_do("role", [role, CLOCK.CLOCKS[index - 1]], false)
 
 
 func _confirm_clock() -> void:
