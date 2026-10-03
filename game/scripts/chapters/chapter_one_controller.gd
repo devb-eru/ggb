@@ -22,6 +22,8 @@ var _history_recorded_index := -1
 var _choice_modal_generation := 0
 var _recorded_modal_request: Dictionary = {}
 var _modal_dispatch_context: Dictionary = {}
+var _utility_request: Dictionary = {}
+var _utility_restoring := false
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 
 
@@ -175,6 +177,7 @@ func _restore_presentation() -> bool:
 	var cursor := PRESENTATION.read(state)
 	if not PRESENTATION.matches(cursor, state) or cursor.family != PRESENTATION.family(self) or not PRESENTATION.observed(cursor, state): return false
 	if cursor.phase == "completed": return true
+	if cursor.kind == "utility": return _restore_utility(cursor.utility)
 	if cursor.kind == "modal": return _restore_recorded_modal(cursor)
 	_presentation_scope = _recorded_choice_scope()
 	_history_recorded_index = int(cursor.index)
@@ -227,6 +230,7 @@ func _record_current_history_line() -> bool:
 
 
 func _open_menu() -> void:
+	if not _utility_request.is_empty(): return
 	if session == null:
 		super._open_menu()
 		return
@@ -266,6 +270,7 @@ func _advance_dialogue() -> void:
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
+	_utility_request = {}
 	_recorded_modal_request = {}
 	_choice_modal_generation += 1
 	_remember_world_focus()
@@ -280,6 +285,7 @@ func _close_modal() -> void:
 	if _notebook_is_open():
 		_notebook_host.request_close()
 		return
+	if not _utility_request.is_empty() and not _save_utility(_utility_request, "completed"): return
 	if _presentation_enabled() and not _recorded_modal_request.is_empty() and _recorded_choice_live(_recorded_modal_request) and _modal_dispatch_context.is_empty():
 		if not _record_modal_options(_recorded_modal_request): return
 		var cursor := _modal_cursor(_recorded_modal_request, "completed")
@@ -289,6 +295,7 @@ func _close_modal() -> void:
 	_recorded_modal_request = {}
 	_choice_modal_generation += 1
 	super._close_modal()
+	_utility_request = {}
 	call_deferred("_restore_world_focus")
 	_notebook_surface_allowed()
 
@@ -363,6 +370,63 @@ func _restore_recorded_modal(cursor: Dictionary) -> bool:
 		"options_speaker": _dialogue_ui_text("HISTORY_OPTIONS"), "selected_speaker": _dialogue_ui_text("HISTORY_SELECTED"),
 		"title": data.title, "body": data.body, "view": data.view, "focus": int(data.focus)}
 	_present_recorded_modal(context)
+	return true
+
+
+func _restore_utility(utility: Dictionary) -> bool:
+	if utility.stage != session.stage(): return false
+	_utility_restoring = true
+	match utility.type:
+		"hints": _show_clock_hint_menu(int(utility.level))
+		"failure": _offer_clock_failure_support()
+		"quantities":
+			if has_method("_open_cleaner_quantity_table"): call("_open_cleaner_quantity_table", utility.ratio, utility.difference)
+	_utility_restoring = false
+	return not _utility_request.is_empty()
+
+
+func _show_utility_modal(title: String, body: String, actions: Array, type: String, level: int = 0, ratio: bool = false, difference: bool = false) -> void:
+	if not _presentation_enabled():
+		_show_modal(title, body, actions)
+		return
+	var request := {"utility": {"type": type, "stage": session.stage(), "level": level, "ratio": ratio, "difference": difference},
+		"scope": _recorded_choice_scope(), "generation": _choice_modal_generation + 1, "anchor": PRESENTATION.anchor(session.snapshot())}
+	var wrapped: Array = []
+	for action in actions:
+		wrapped.append({"label": action.label, "action": _utility_action.bind(request, action.action)})
+	_show_modal(title, body, wrapped)
+	_utility_request = request
+	if not _utility_restoring: _save_utility(request)
+
+
+func _utility_live(request: Dictionary) -> bool:
+	return _recorded_choice_live(request) and request.utility.stage == session.stage() and request.anchor == PRESENTATION.anchor(session.snapshot())
+
+
+func _save_utility(request: Dictionary, phase: String = "viewing") -> bool:
+	if not _utility_live(request): return false
+	var cursor := PRESENTATION.create_utility(session.snapshot(), PRESENTATION.family(self), request.utility, TranslationServer.get_locale(), phase)
+	if not cursor.ok or not preload("res://scripts/systems/dialogue_history_writer.gd").save_cursor(session._game, session._save, session.slot_id, session._save_point(session.snapshot()), cursor.value).ok:
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return false
+	_set_status("")
+	return true
+
+
+func _utility_action(request: Dictionary, action: Callable) -> void:
+	if not _utility_live(request) or not action.is_valid() or action.get_object() != self: return
+	if not _save_utility(request): return
+	action.call()
+
+
+func _update_quantity_view(ratio: bool, difference: bool, request: Dictionary) -> bool:
+	if not _presentation_enabled(): return true
+	if request.is_empty() or not _utility_live(request) or _utility_request.is_empty() or _utility_request.utility.type != "quantities": return false
+	var candidate: Dictionary = _utility_request.duplicate(true)
+	candidate.utility.ratio = ratio
+	candidate.utility.difference = difference
+	if not _save_utility(candidate): return false
+	_utility_request.utility = candidate.utility
 	return true
 
 
@@ -912,11 +976,11 @@ func _offer_clock_failure_support() -> void:
 	var english := TranslationServer.get_locale().begins_with("en")
 	var level := mini(attempts, 4)
 	var body := ("The clock network has locked %d times. You can request stronger support before sleeping. This does not repair today's pin or alter your choices." if english else "시계망이 %d번 잠겼다. 잠들기 전에 더 구체적인 도움을 요청할 수 있다. 오늘의 핀을 복구하거나 선택을 대신하지는 않는다.") % attempts
-	_show_modal("Review the failed attempt" if english else "실패한 시도를 정리한다", body, [
+	_show_utility_modal("Review the failed attempt" if english else "실패한 시도를 정리한다", body, [
 		{"label": "Continue investigating" if english else "조사를 계속한다", "action": _close_modal},
 		{"label": ("Request stronger hint H%d" if english else "더 구체적인 H%d 힌트를 요청한다") % (level + 1), "action": _read_clock_hint.bind(level)},
 		{"label": "Start with observation hints" if english else "관찰 힌트부터 살펴본다", "action": _show_clock_hint_menu.bind(0)},
-	])
+	], "failure")
 
 
 func _supported_hint_stages() -> Array:
@@ -941,7 +1005,7 @@ func _show_clock_hint_menu(level: int) -> void:
 		actions.append({"label": ("Read hint H%d" if english else "H%d 힌트를 읽는다") % (level + 1), "action": _read_clock_hint.bind(level)})
 	else:
 		body = "You have reached the final hint. Review the hints you requested and use the available reversible checks before committing." if english else "마지막 단계의 힌트까지 살펴봤다. 직접 요청한 도움말을 다시 보고, 돌이킬 수 없는 실행 전에 가능한 사전 시험을 활용하자."
-	_show_modal(_puzzle_hint_title(), body, actions)
+	_show_utility_modal(_puzzle_hint_title(), body, actions, "hints", level)
 	_cycle_modal_focus()
 
 
@@ -952,5 +1016,6 @@ func _read_clock_hint(level: int) -> void:
 	if text.is_empty():
 		return
 	_close_modal()
+	if _modal_active: return
 	var descriptor := preload("res://scripts/systems/notebook_content.gd").hint_descriptor(session.stage(), level)
 	_show_dialogue([{"speaker": "주인공", "text": text, "notebook_content": descriptor}], _show_clock_hint_menu.bind(level + 1))

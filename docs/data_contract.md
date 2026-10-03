@@ -654,7 +654,7 @@ v2 대화 보관 구조를 사용하는 ChapterOne, BlackMirror, Basement의 공
 
 | 항목 | 계약 |
 | --- | --- |
-| 저장 위치 | `loop_state.event_local_states.NOTEBOOK_PRESENTATION`, 현재 쓰기 `schema_version=3`, 기존 대사/프롤로그 `schema_version=1/2` 읽기 호환. UI 편의 sidecar나 영구 지식이 아닌 현재 게임 진행 상태다. 물리 리셋의 로컬 상태 정리 대상이며 영구 기록을 삭제하지 않는다. |
+| 저장 위치 | `loop_state.event_local_states.NOTEBOOK_PRESENTATION`, 현재 쓰기 `schema_version=4`, 기존 대사/프롤로그/모달 `schema_version=1/2/3` 읽기 호환. UI 편의 sidecar나 영구 지식이 아닌 현재 게임 진행 상태다. 물리 리셋의 로컬 상태 정리 대상이며 영구 기록을 삭제하지 않는다. |
 | 고정 내용 | 컨트롤러 family, 원본/분기 식별자, 세계 상태 anchor, `reading/finish_pending/completed`, 문장 index, 당시 locale, 대사 큐, 제한된 후속 동작을 보존한다. 각 문장은 원문 descriptor, 화자/텍스트, 사건/대화 session, 동일 presentation token과 연출 메타데이터를 유지한다. |
 | 공개 경계 | 대기 중인 다음 문장은 저장돼도 보관 대사/검색/지식으로 공개되지 않는다. 현재 실제 표시 문장만 기존 history writer에 전달한다. `presentation_cursor`는 관찰 snapshot context와 미분류 원문 payload에서 제외한다. |
 | 원자성 | 실제 문장 기록과 커서 전진은 하나의 StateWriter/SaveManager 트랜잭션이다. 저장 실패는 두 상태를 함께 롤백하고 표시된 문장을 재시도 대상으로 남긴다. 응답 소실은 디스크 커밋과 전체 snapshot의 동등성을 확인한 경우만 성공으로 복구한다. |
@@ -712,3 +712,21 @@ v2 대화 보관 구조를 사용하는 ChapterOne, BlackMirror, Basement의 공
 | 격리 | 슬롯/컨트롤러/로드 세대/namespace/origin/branch가 바뀐 버튼은 거부한다. 직접 파기된 창의 콜백도 세대 검사로 차단한다. |
 
 검증 범위와 잔여 화면은 [본편 모달 복원 검증](notebook_modal_presentation_validation.md)을 따른다. 본문 스크롤의 앱 재시작 위치, 기록 경로 밖의 조사창, 실제 OS 입력 인수는 별도 확인 대상이다.
+
+### 9.14. 비관찰 보조창의 영속 복원
+
+`kind=utility`는 힌트 요청 목록(`hints`), B3 반복 실패 지원(`failure`), C3 세정제 양 비교표(`quantities`)에 한정한다. 본문을 관찰했다고 간주하거나 메뉴 조작을 대화 기록으로 추가하지 않는다. 게임 snapshot의 표시 커서만 저장하며 퍼즐 상태·관계·읽기 완료·영구 기록에는 쓰지 않는다.
+
+| 경계 | 계약 |
+| --- | --- |
+| 필드 | `utility={type, stage, level, ratio, difference}`의 exact-key 구조. `lines=[]`, `index=0`, `after={}`, `phase=viewing/completed`만 허용한다. 함수명·Callable·본문·숨은 해답을 저장하지 않는다. |
+| 복원 | 같은 family/origin/branch/세계 anchor와 현재 퍼즐 단계를 검사한 뒤 컨트롤러의 고정된 세 화면 중 하나를 현재 언어로 다시 만든다. 재생성 자체는 snapshot이나 관찰 기록을 쓰지 않는다. |
+| 힌트 | `level=0`은 최초 요청 메뉴. 1~5는 바로 이전 단계의 실제 힌트 관찰이 archive에 있어야 복원·저장할 수 있다. 메뉴 복원으로 다음 힌트를 요청하지 않는다. 기존 H1~H5 원고·강한 도움 조건은 변경하지 않는다. |
+| 실패 지원 | 현재 `BF`, 실패 상태 active, 누적 실패 2회 이상일 때만 창을 다시 만든다. 잠금 해제·핀 복구·수면·강한 힌트 요청은 자동 실행하지 않는다. |
+| 양 비교 | 두 체크 상태만 저장한다. 실제 원액/안정제/물의 입력값이나 정답 판정을 복원 과정에서 호출하지 않는다. 체크 저장 실패 시 화면도 마지막 성공 상태로 되돌린다. |
+| 입력 경계 | 슬롯·로드 세대·세션·화면 세대·namespace·기록 계통·세계 anchor가 다른 버튼과 체크 콜백은 거부한다. 열린 보조창을 다른 메뉴로 덮지 않고 먼저 닫도록 한다. 수첩의 일시중단·복귀는 유지한다. |
+| 저장 실패 | 기존 StateWriter/SaveManager 원자 저장을 사용한다. 실패를 완료로 취급하지 않으며 명시적 버튼 재시도로 다시 저장한다. 닫기 저장 실패는 창을 유지하고, 힌트 표시로 넘어가지 않는다. 성공한 닫기 뒤 재실행하면 창을 다시 열지 않는다. |
+
+이 kind의 `observed()` 검사는 화면 본문 관찰이 아니라 복원 자격을 뜻한다. 다른 kind의 실제 토큰 검증은 그대로 유지한다. 통합 수첩 Query·책갈피·비교 보존의 대상 자료를 새로 만드는 예외가 아니다. 개발 수첩 host에서 보조 도구를 처음 여는 검사는 유효한 표시 커서만 snapshot 비교에서 분리하고 나머지 모든 상태를 비교한다.
+
+검증은 [보조창 복원 검증](notebook_utility_presentation_validation.md)을 따른다. 프롤로그 창문 확대, 본문 스크롤·일반 포커스의 프로세스 재시작 복원, 갤러리 탐색 편의 상태는 이번 추가 대상이 아니다.

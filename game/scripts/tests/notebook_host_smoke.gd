@@ -80,7 +80,13 @@ func _deferred_tools(tree: SceneTree) -> void:
 			else:
 				_expect(not view._modal_active and view._choice_modal_generation == generation, "stale tool cannot open or replace a surface: " + tool_id + " / " + boundary)
 			if boundary == "reopen": _expect(view._notebook_is_open(), "older tool cannot replace the newly opened notebook")
-			_expect(GameState.get_snapshot() == before, "tool dispatch neither reveals a hint nor mutates gameplay: " + boundary)
+			var after := GameState.get_snapshot()
+			if boundary == "live":
+				var cursor := preload("res://scripts/systems/notebook_presentation.gd").read(after)
+				_expect(preload("res://scripts/systems/notebook_presentation.gd").valid(cursor) and cursor.kind == "utility", "live tool persists only its resumable display")
+				after.loop_state.event_local_states.erase("NOTEBOOK_PRESENTATION")
+				before.loop_state.event_local_states.erase("NOTEBOOK_PRESENTATION")
+			_expect(after == before, "tool dispatch neither reveals a hint nor mutates gameplay: " + boundary)
 			view.queue_free()
 			await tree.process_frame
 			await tree.process_frame
@@ -395,7 +401,12 @@ func _campaign(tree: SceneTree) -> void:
 	else: view._close_modal()
 	await tree.process_frame
 	_expect(not view._notebook_is_open() and view._modal_active, "quantity tool exits readonly overlay and opens existing helper")
-	_expect(GameState.get_snapshot().loop_state == before.loop_state, "opening helper does not decide puzzle")
+	var after_tool := GameState.get_snapshot()
+	var tool_cursor := preload("res://scripts/systems/notebook_presentation.gd").read(after_tool)
+	_expect(preload("res://scripts/systems/notebook_presentation.gd").valid(tool_cursor) and tool_cursor.kind == "utility", "helper saves a valid presentation cursor")
+	after_tool.loop_state.event_local_states.erase("NOTEBOOK_PRESENTATION")
+	before.loop_state.event_local_states.erase("NOTEBOOK_PRESENTATION")
+	_expect(after_tool == before, "opening helper changes no puzzle, relationships or archive")
 	view._close_modal()
 	view._open_notebook()
 	host = view._notebook_host

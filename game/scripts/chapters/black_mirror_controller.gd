@@ -120,11 +120,11 @@ func _open_legacy_notebook() -> void:
 		_cycle_modal_focus()
 
 
-func _open_cleaner_quantity_table() -> void:
+func _open_cleaner_quantity_table(saved_ratio: bool = false, saved_difference: bool = false) -> void:
 	if session == null or session.stage() != "C3":
 		return
 	var english := TranslationServer.get_locale().begins_with("en")
-	_show_modal("Compare quantities" if english else "세정제 양 비교", "", [{"label": "Close" if english else "닫기", "action": _close_modal}])
+	_show_utility_modal("Compare quantities" if english else "세정제 양 비교", "", [{"label": "Close" if english else "닫기", "action": _close_modal}], "quantities", 0, saved_ratio, saved_difference)
 	var scroll := _modal_body.get_child(2) as ScrollContainer
 	scroll.custom_minimum_size.y = 180
 	var label := scroll.get_child(0) as Label
@@ -140,7 +140,18 @@ func _open_cleaner_quantity_table() -> void:
 	difference.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
 	_modal_body.add_child(ratio)
 	_modal_body.add_child(difference)
+	ratio.set_pressed_no_signal(saved_ratio)
+	difference.set_pressed_no_signal(saved_difference)
+	var previous := [saved_ratio, saved_difference]
+	var request := _utility_request
 	var refresh := func(_pressed: bool = false):
+		if ratio.button_pressed != previous[0] or difference.button_pressed != previous[1]:
+			if _update_quantity_view(ratio.button_pressed, difference.button_pressed, request):
+				previous[0] = ratio.button_pressed
+				previous[1] = difference.button_pressed
+			else:
+				ratio.set_pressed_no_signal(previous[0])
+				difference.set_pressed_no_signal(previous[1])
 		var table := preload("res://scripts/ui/cleaner_quantity_table.gd")
 		label.text = table.describe(table.candidates(ratio.button_pressed, difference.button_pressed), TranslationServer.get_locale())
 		scroll.scroll_vertical = 0

@@ -30,6 +30,11 @@ func run(tree: SceneTree) -> Dictionary:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--cursor-phase="): phase = arg.trim_prefix("--cursor-phase=")
 	TranslationServer.set_locale("ko-KR" if phase == "seed" else "en-US")
+	if "--utility-only" in OS.get_cmdline_user_args():
+		if phase == "seed": await _utilities(tree)
+		await _utility_process(tree, phase)
+		print("NOTEBOOK_UTILITY_CHECKS: ", checks)
+		return {"ok": errors.is_empty(), "errors": errors}
 	if "--modal-diagram-only" in OS.get_cmdline_user_args():
 		await _diagrams(tree)
 		return {"ok": errors.is_empty(), "errors": errors}
@@ -117,8 +122,171 @@ func _cases(tree: SceneTree) -> void:
 		view.queue_free()
 		await tree.process_frame
 	await _failures(tree)
+	await _utilities(tree)
 	await _idempotent_field_read(tree)
 	await _diagrams(tree)
+
+
+func _utility_process(tree: SceneTree, phase: String) -> void:
+	var path := EXPECTED.trim_suffix(".json") + "_utility.json"
+	if phase == "seed":
+		_seed("C3")
+		var view = _view(tree, 1)
+		_expect(view._notebook_surface_allowed(), "process fixture captures board")
+		view._open_cleaner_quantity_table()
+		view._modal_body.get_node("QuantityWaterDifference").button_pressed = true
+		var file := FileAccess.open(path, FileAccess.WRITE)
+		file.store_string(JSON.stringify({"pid": OS.get_process_id(), "state": GameState.get_snapshot()}))
+		file.close()
+		view.queue_free()
+		await tree.process_frame
+		return
+	var expected: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
+	_expect(int(expected.pid) != OS.get_process_id(), "utility resumes in another process")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "utility process loads actual save")
+	var view = _view(tree, 1)
+	if phase == "resume":
+		_expect(view._modal_active and view._modal_body.get_child(0).text == "Compare quantities", "utility reconstructs current-language UI")
+		_expect(not view._modal_body.get_node("QuantityRatio").button_pressed and view._modal_body.get_node("QuantityWaterDifference").button_pressed, "utility process retains exact checkbox state")
+		_expect(StateSnapshotValidator.same_persisted_value(expected.state, GameState.get_snapshot()), "utility process writes no observation or gameplay")
+		view._close_modal()
+		_expect(not view._modal_active and CURSOR.read(GameState.get_snapshot()).phase == "completed", "utility process explicitly closes")
+	elif phase == "completed":
+		_expect(not view._modal_active and CURSOR.read(GameState.get_snapshot()).phase == "completed", "closed utility never auto-opens in next process")
+		SaveManager.delete_test_slot(SLOT)
+	else: _expect(false, "unknown utility phase")
+	view.queue_free()
+	await tree.process_frame
+
+
+func _utilities(tree: SceneTree) -> void:
+	for version in [1, 2, 3]:
+		_seed("A1")
+		var old_view = _view(tree, 0)
+		if version == 3: old_view._open_mark_choices()
+		else: old_view._show_dialogue([{"speaker": "SYSTEM", "text": "Historical presentation fixture."}])
+		var old_state := GameState.get_snapshot()
+		old_state.loop_state.event_local_states[CURSOR.KEY].schema_version = version
+		_expect(CURSOR.valid(CURSOR.read(old_state)), "old schema validates: " + str(version))
+		_expect(StateWriter.new(GameState).install_snapshot(old_state, GameState.revision, &"UTILITY_OLD_CURSOR_FIXTURE").ok, "old schema installs")
+		_expect(SaveManager.save_snapshot(SLOT, old_view.session._save_point(old_state), old_state, GameState.revision, "UTILITY_OLD_CURSOR").ok, "old schema saves to actual slot")
+		old_view.queue_free()
+		await tree.process_frame
+		_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "old schema JSON reloads")
+		old_view = VIEWS[0].new()
+		old_view.configure_session(SLOT, "MORNING_ROUTE")
+		tree.current_scene.add_child(old_view)
+		_expect(old_view._modal_active if version == 3 else old_view._dialogue_active, "old modal/dialogue restored without manual reopening")
+		_expect(StateSnapshotValidator.same_persisted_value(old_state, GameState.get_snapshot()), "old schema restore does not rewrite or disclose")
+		old_view.queue_free()
+		await tree.process_frame
+	for spec in [["B3_B", 0], ["C3", 1], ["C4", 1], ["D1", 2], ["F0_A", 2]]:
+		_seed(spec[0])
+		var view = _view(tree, spec[1])
+		_expect(view._notebook_surface_allowed(), "utility baseline captures world labels")
+		var before := GameState.get_snapshot()
+		view._show_clock_hint_menu(0)
+		var state := GameState.get_snapshot()
+		var cursor := CURSOR.read(state)
+		_expect(cursor.get("kind") == "utility" and CURSOR.matches(cursor, state), "hint menu has durable display state " + spec[0])
+		_expect(_without_cursor(before) == _without_cursor(state), "hint menu reveals no content or game change")
+		view._open_menu()
+		_expect(not view._utility_request.is_empty() and GameState.get_snapshot() == state, "another menu cannot discard the active utility layer")
+		var invalid := cursor.duplicate(true)
+		invalid.schema_version = 3
+		_expect(not CURSOR.valid(invalid), "utility cannot masquerade as old schema")
+		invalid = cursor.duplicate(true)
+		invalid.after = {"method": "_do", "args": ["sleep", null, false]}
+		_expect(not CURSOR.valid(invalid), "utility cannot carry an executable continuation")
+		invalid = cursor.duplicate(true)
+		invalid.utility.level = 5
+		_expect(not CURSOR.observed(invalid, state), "unseen final hint cannot authorize resumed menu")
+		view.queue_free()
+		await tree.process_frame
+		_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "hint utility JSON reload")
+		view = _view(tree, spec[1])
+		_expect(view._modal_active and not view._dialogue_active and view._utility_request.utility.level == 0, "hint menu restored without requesting hint")
+		_expect(StateSnapshotValidator.same_persisted_value(state, GameState.get_snapshot()), "hint restore no writes")
+		view._modal_body.get_child(4).pressed.emit()
+		_expect(view._dialogue_active, "explicit button requests H1")
+		view._advance_dialogue()
+		_expect(view._modal_active and view._utility_request.utility.level == 1, "acknowledgement returns to next request menu")
+		state = GameState.get_snapshot()
+		_expect(CURSOR.observed(CURSOR.read(state), state), "H1 authorizes resumed next request")
+		view.queue_free()
+		await tree.process_frame
+		_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "H1 menu reload")
+		view = _view(tree, spec[1])
+		_expect(view._modal_active and view._utility_request.utility.level == 1 and not view._dialogue_active, "no automatic H2 disclosure after reload")
+		_expect(StateSnapshotValidator.same_persisted_value(state, GameState.get_snapshot()), "H1 restore preserves archive and puzzle")
+		var stale = view._modal_body.get_child(4)
+		_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "reload while old utility remains")
+		before = GameState.get_snapshot()
+		stale.pressed.emit()
+		_expect(GameState.get_snapshot() == before and not view._dialogue_active, "old utility button cannot disclose after reload")
+		view.queue_free()
+		await tree.process_frame
+	_seed("C3")
+	var view = _view(tree, 1)
+	_expect(view._notebook_surface_allowed(), "quantity baseline captures labels")
+	var before := GameState.get_snapshot()
+	view._open_cleaner_quantity_table()
+	var ratio = view._modal_body.get_node("QuantityRatio")
+	ratio.button_pressed = true
+	var state := GameState.get_snapshot()
+	_expect(CURSOR.read(state).utility.ratio and not CURSOR.read(state).utility.difference, "quantity toggle persists")
+	_expect(_without_cursor(before) == _without_cursor(state), "quantity toggle leaves actual amounts, relationship and observations unchanged")
+	var controlled := ControlledSave.new()
+	controlled.reject = true
+	view.session._save = controlled
+	var difference = view._modal_body.get_node("QuantityWaterDifference")
+	difference.button_pressed = true
+	_expect(not difference.button_pressed and GameState.get_snapshot() == state, "failed quantity save restores previous check state")
+	view._close_modal()
+	_expect(view._modal_active and GameState.get_snapshot() == state, "failed dismissal retains utility and game state")
+	view.session._save = SaveManager
+	controlled.free()
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "quantity JSON reload")
+	view = _view(tree, 1)
+	_expect(view._modal_active and view._modal_body.get_node("QuantityRatio").button_pressed and not view._modal_body.get_node("QuantityWaterDifference").button_pressed, "quantity filters restored without applying mixture")
+	_expect(StateSnapshotValidator.same_persisted_value(state, GameState.get_snapshot()), "quantity restore no writes")
+	var stale_ratio = view._modal_body.get_node("QuantityRatio")
+	view._open_cleaner_quantity_table()
+	state = GameState.get_snapshot()
+	stale_ratio.button_pressed = false
+	_expect(GameState.get_snapshot() == state and not view._modal_body.get_node("QuantityRatio").button_pressed, "old quantity toggle cannot overwrite a newer tool")
+	view._close_modal()
+	_expect(not view._modal_active and CURSOR.read(GameState.get_snapshot()).phase == "completed", "utility dismissal durable")
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "closed utility reload")
+	view = _view(tree, 1)
+	_expect(not view._modal_active, "closed utility is not reopened")
+	view.queue_free()
+	await tree.process_frame
+	_seed("BF")
+	state = GameState.get_snapshot()
+	state.meta_progress.failure_knowledge.B3_B.attempts = 2
+	_expect(StateWriter.new(GameState).install_snapshot(state, GameState.revision, &"UTILITY_FAILURE_FIXTURE").ok, "repeated failure fixture")
+	view = _view(tree, 0)
+	view._offer_clock_failure_support()
+	_expect(view._modal_active and CURSOR.read(GameState.get_snapshot()).get("utility", {}).get("type") == "failure", "repeated failure support persisted")
+	state = GameState.get_snapshot()
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "failure support reload")
+	view = _view(tree, 0)
+	_expect(view._modal_active and not view._dialogue_active and StateSnapshotValidator.same_persisted_value(state, GameState.get_snapshot()), "failure support restores without stronger hint or repairing pins")
+	view.queue_free()
+	await tree.process_frame
+
+
+func _without_cursor(state: Dictionary) -> Dictionary:
+	var result := state.duplicate(true)
+	result.loop_state.event_local_states.erase(CURSOR.KEY)
+	return result
 
 
 func _idempotent_field_read(tree: SceneTree) -> void:

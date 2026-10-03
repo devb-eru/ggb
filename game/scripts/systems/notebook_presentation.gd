@@ -2,7 +2,7 @@ extends RefCounted
 
 # Pending presentation is gameplay-local state, never a source of notebook disclosure.
 const KEY := "NOTEBOOK_PRESENTATION"
-const VERSION := 3
+const VERSION := 4
 const FAMILIES := ["chapter_one_controller", "black_mirror_controller", "basement_controller", "prologue_controller"]
 const PROLOGUE_ROUTES := ["_show_p1_objective", "_return_to_hall_after_dialogue", "_resume_p3_journal_choice", "_show_p3_journal_choices", "_complete_p4_life_support_foreshadow", "_finish_p4_memory_anchor", "_finish_p4_after_question", "_complete_p4_iris_greeting", "_perform_normal_reset", "_finish_prologue_handoff"]
 const PROLOGUE_CHOICES := {"p3_journal": ["author", "locked", "silent"], "p4_father": ["father_tea", "mansion_age", "luca_tenure"], "P1_EXIT": ["confirm", "cancel"], "P6_SLEEP": ["confirm", "cancel"]}
@@ -85,12 +85,15 @@ static func valid(value: Variant) -> bool:
 	var fields := ["schema_version", "kind", "family", "source_origin_id", "branch_id", "anchor", "phase", "index", "locale", "lines", "after"]
 	if value.get("kind") == "choice": fields.append("choice")
 	if value.get("kind") == "modal": fields.append("modal")
+	if value.get("kind") == "utility": fields.append("utility")
 	if not _keys(value, fields): return false
-	if not _integer(value.schema_version) or int(value.schema_version) not in [1, 2, VERSION] or value.kind not in ["dialogue", "choice", "modal"] or value.family not in FAMILIES: return false
+	if not _integer(value.schema_version) or int(value.schema_version) not in [1, 2, 3, VERSION] or value.kind not in ["dialogue", "choice", "modal", "utility"] or value.family not in FAMILIES: return false
 	if value.kind == "modal" and (value.schema_version < 3 or value.family == "prologue_controller" or value.phase not in ["choosing", "selection_pending", "completed"] or not MODAL.valid(value.modal)): return false
 	if value.schema_version == 1 and (value.family == "prologue_controller" or value.kind != "dialogue"): return false
 	if not _hex(value.source_origin_id, 32) or not _hex(value.branch_id, 32) or not _hex(value.anchor, 64): return false
 	if value.locale not in ["ko-KR", "en-US"]: return false
+	if value.kind == "utility":
+		return value.schema_version == VERSION and value.family != "prologue_controller" and value.phase in ["viewing", "completed"] and value.lines is Array and value.lines.is_empty() and _integer(value.index) and value.index == 0 and value.after is Dictionary and value.after.is_empty() and valid_utility(value.utility)
 	if value.kind == "dialogue" and value.phase not in ["reading", "finish_pending", "completed"]: return false
 	if value.kind == "choice" and (value.family != "prologue_controller" or value.phase not in ["choosing", "selection_pending", "completed"] or not valid_prologue_choice(value.choice)): return false
 	if not value.lines is Array or value.lines.is_empty() or value.lines.size() > 128 or not _integer(value.index) or value.index < 0 or value.index >= value.lines.size(): return false
@@ -173,6 +176,14 @@ static func matches(value: Dictionary, state: Dictionary) -> bool:
 
 static func observed(value: Dictionary, state: Dictionary) -> bool:
 	if not valid(value): return false
+	if value.kind == "utility":
+		# These menus contain no observation. A resumed hint level still needs its original disclosure.
+		if value.utility.type != "hints" or value.utility.level == 0: return true
+		var descriptor := CONTENT.hint_descriptor(value.utility.stage, int(value.utility.level) - 1)
+		for entry in state.meta_progress.dialogue_history.get("entries", []):
+			var observation: Dictionary = entry.get("observation", {})
+			if not descriptor.is_empty() and observation.get("content_id") == descriptor.content_id: return true
+		return false
 	var required: Array = [value.lines[int(value.index)].presentation_token]
 	if value.kind == "choice" and not value.choice.last_selected.is_empty(): required.append(value.choice.tokens[value.choice.last_selected])
 	if value.kind == "modal" and not value.modal.selection_token.is_empty(): required.append(value.modal.selection_token)
@@ -181,6 +192,25 @@ static func observed(value: Dictionary, state: Dictionary) -> bool:
 		required.erase(context.get("presentation_token"))
 		if required.is_empty(): return true
 	return false
+
+
+static func valid_utility(value: Variant) -> bool:
+	if not value is Dictionary or not _keys(value, ["type", "stage", "level", "ratio", "difference"]): return false
+	if not value.stage is String or value.stage.is_empty() or value.stage.length() > 32 or not _integer(value.level): return false
+	if not value.ratio is bool or not value.difference is bool: return false
+	match value.type:
+		"hints": return value.level >= 0 and value.level <= 5 and not value.ratio and not value.difference
+		"failure": return value.stage == "BF" and value.level == 0 and not value.ratio and not value.difference
+		"quantities": return value.stage == "C3" and value.level == 0
+	return false
+
+
+static func create_utility(state: Dictionary, owner_family: String, utility: Dictionary, locale: String, phase: String = "viewing") -> Dictionary:
+	var archive: Dictionary = state.meta_progress.dialogue_history
+	var value := {"schema_version": VERSION, "kind": "utility", "family": owner_family,
+		"source_origin_id": archive.get("source_origin_id", ""), "branch_id": archive.get("branch_id", ""), "anchor": anchor(state),
+		"phase": phase, "index": 0, "locale": "en-US" if locale.begins_with("en") else "ko-KR", "lines": [], "after": {}, "utility": utility.duplicate(true)}
+	return {"ok": valid(value), "value": value}
 
 
 static func install(state: Dictionary, value: Dictionary) -> void:
