@@ -29,6 +29,7 @@ const SETTLEMENT_NOTES := preload("res://scripts/systems/settlement_notebook.gd"
 const JOURNAL_DISPLAY := preload("res://scripts/systems/journal_four_display_notebook.gd")
 const CORE_NOTES := preload("res://scripts/systems/core_notebook.gd")
 const FINAL_NOTES := preload("res://scripts/systems/final_notebook.gd")
+const REALITY_NOTES := preload("res://scripts/systems/reality_notebook.gd")
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
@@ -136,6 +137,8 @@ func _notebook_surface_scope() -> Dictionary:
 	scope.node = session.stage()
 	scope.location = session._game.get_value("loop_state.location_id", "")
 	scope.day = session._game.get_value("loop_state.day_index", 0)
+	if session._game.get_value("ending_run.branch_committed", false):
+		scope.ending_node = session._game.get_value("ending_run.current_node_id", "")
 	return scope
 
 
@@ -1181,20 +1184,20 @@ func _build_ending_entry() -> void:
 	var node: String = session.snapshot()["ending_run"]["current_node_id"]
 	_objective_label.text = GALLERY_TEXTS.text("identity_objective" if node == "ED_ALL_CEREMONY" else "entry_objective",locale)
 	if node != "ED_ALL_CEREMONY":
-		_board_label(GALLERY_TEXTS.entry(node,locale), Rect2(250,170,1420,510))
+		_reality_board("ENTRY_SCREEN_" + node, GALLERY_TEXTS.entry(node,locale), Rect2(250,170,1420,510))
 		_add_hotspot("ENDING_CONTINUE", GALLERY_TEXTS.text("entry_continue",locale), Rect2(450,770,1020,100), _ending_read.bind([{"speaker":"SYSTEM", "text":GALLERY_TEXTS.entry(node,locale)}], "continue", node))
 		return
 	var local: Dictionary = rules.progress(session.snapshot())
 	var index: int = local["identity_index"]
-	_board_label(GALLERY_TEXTS.text("identity_neutral",locale), Rect2(250,150,1420,130))
+	_reality_board("CEREMONY_IDENTITY_NEUTRAL", GALLERY_TEXTS.text("identity_neutral",locale), Rect2(250,150,1420,130))
 	if index < rules.OWNERS.size():
 		var identity := {"speaker":GALLERY_TEXTS.WAKE.name_for(rules.OWNERS[index],locale),"text":GALLERY_TEXTS.identity(index,locale)}
-		_board_label(GALLERY_TEXTS.text("identity_progress",locale) % [index + 1, identity["speaker"]], Rect2(300,360,1320,140))
+		_reality_board("CEREMONY_PROGRESS_" + String(rules.OWNERS[index]).to_upper(), GALLERY_TEXTS.text("identity_progress",locale) % [index + 1, identity["speaker"]], Rect2(300,360,1320,140))
 		_add_hotspot("ENDING_IDENTITY", GALLERY_TEXTS.text("identity_listen",locale), Rect2(450,650,1020,120), _ending_read.bind([identity], "identity", rules.OWNERS[index]))
 	elif not local["authority_seen"]:
 		_add_hotspot("ENDING_AUTHORITY", GALLERY_TEXTS.text("authority_listen",locale), Rect2(450,450,1020,120), _ending_read.bind([{"speaker":GALLERY_TEXTS.WAKE.name_for("edgar",locale), "portrait":"EDGAR", "text":GALLERY_TEXTS.text("authority",locale)}], "authority", null))
 	else:
-		_board_label(GALLERY_TEXTS.text("signature_guide",locale), Rect2(250,320,1420,120))
+		_reality_board("CEREMONY_SIGNATURE_GUIDE", GALLERY_TEXTS.text("signature_guide",locale), Rect2(250,320,1420,120))
 		var signature = ENDING_SIGNATURE.new()
 		signature.name = "ENDING_SIGNATURE"
 		_hotspot_layer.add_child(signature)
@@ -1206,7 +1209,44 @@ func _build_ending_entry() -> void:
 
 func _ending_read(lines: Array, action: String, value: Variant, prefix: String = "ending_") -> void:
 	if _interaction_blocked(): return
-	_show_dialogue(lines, _do.bind(prefix + action, value, false))
+	if not _notebook_surface_allowed(): return
+	var typed := REALITY_NOTES.typed_lines(session.snapshot(), lines, action, value, prefix, session.history_context(), TranslationServer.get_locale())
+	if not typed.ok:
+		push_error(str(typed.error_ids))
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	_show_dialogue(typed.lines, _do.bind(prefix + action, value, false))
+
+
+func _queue_reality_surface(key: String, text: String) -> void:
+	if _notebook_surface_enabled():
+		_notebook_surfaces.queue(REALITY_NOTES.PREFIX + key, text, TranslationServer.get_locale(), REALITY_NOTES.context(session.snapshot(), session.history_context()))
+
+
+func _reality_board(key: String, text: String, rect: Rect2) -> void:
+	_board_label(text, rect)
+	_queue_reality_surface(key, text)
+
+
+func _reality_world_choice(group: String, index: int, id: String, label: String, rect: Rect2, action: String, value: Variant) -> void:
+	if not _notebook_surface_enabled():
+		_action(id, label, rect, action, value, false)
+		return
+	_add_hotspot(id, label, rect, _reality_world_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, TranslationServer.get_locale(), action, value))
+
+
+func _reality_world_choice_pressed(generation: int, group: String, index: int, label: String, locale: String, action: String, value: Variant) -> void:
+	if _interaction_blocked() or not _notebook_surfaces.live(_notebook_surface_scope(), generation): return
+	if not _notebook_surface_allowed(): return
+	var options_id := REALITY_NOTES.PREFIX + group + "_OPTIONS"
+	if not _notebook_surfaces.choose(session, _notebook_surface_scope(), options_id, REALITY_NOTES.PREFIX + "%s_SELECT_%d" % [group,index], label, locale):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	var result := session.act(action, value)
+	_notebook_surfaces.dispatched(options_id, result.get("ok",false))
+	if result.get("ok",false): _set_status("")
+	_render_room()
+	_feedback(result)
 
 
 func _build_reality_wake() -> void:
@@ -1225,12 +1265,12 @@ func _build_reality_wake() -> void:
 	match node:
 		"EDR_FAREWELL":
 			var owner: String = rules.OWNERS[rules.index(state)]
-			_board_label(WAKE_TEXTS.text("handoff_board", locale) % WAKE_TEXTS.name_for(owner, locale), Rect2(300,230,1320,270))
+			_reality_board("HANDOFF_BOARD_" + owner.to_upper(), WAKE_TEXTS.text("handoff_board", locale) % WAKE_TEXTS.name_for(owner, locale), Rect2(300,230,1320,270))
 			_add_hotspot("REALITY_FAREWELL", WAKE_TEXTS.text("farewell", locale), Rect2(450,680,1020,120), _ending_read.bind(WAKE_TEXTS.farewell(state,owner,locale)["lines"], "farewell", owner, "reality_"))
 		"EDR_DISCONNECT":
 			_add_hotspot("REALITY_DISCONNECT", WAKE_TEXTS.text("disconnect", locale), Rect2(450,450,1020,150), _reality_disconnect)
 		"EDR_WAKE_BODY":
-			_board_label(WAKE_TEXTS.text("wake_board", locale), Rect2(300,260,1320,300))
+			_reality_board("WAKE_BOARD", WAKE_TEXTS.text("wake_board", locale), Rect2(300,260,1320,300))
 			_add_hotspot("REALITY_WAKE", WAKE_TEXTS.text("wake", locale), Rect2(450,730,1020,120), _ending_read.bind([{"speaker":"SYSTEM","text":WAKE_TEXTS.text("wake_body", locale)}],"continue",node,"reality_"))
 		"EDR_BODY_CHECK":
 			var seen: Array = state["ending_run"].get("required_interactions_seen", [])
@@ -1244,18 +1284,26 @@ func _build_reality_wake() -> void:
 				if repeated:
 					line["observed_fact_ids"] = [preload("res://scripts/systems/dialogue_observed_facts.gd").body_repeat_id(object)]
 				_add_hotspot(object, data[0] + (WAKE_TEXTS.text("checked", locale) if repeated else ""), Rect2(400,250+index*170,1120,120), _ending_read.bind([line],"body",object,"reality_"))
+				_queue_reality_surface("BODY_LABEL_%s_%s" % [object,"REPEAT" if repeated else "FIRST"], data[0] + (WAKE_TEXTS.text("checked",locale) if repeated else ""))
 				index += 1
 			if count >= 2: _action("REALITY_BODY_FINISH",WAKE_TEXTS.text("body_finish", locale),Rect2(400,800,1120,100),"reality_body_finish",null,false)
 
 
 func _reality_disconnect() -> void:
 	if _interaction_blocked(): return
+	if not _notebook_surface_allowed(): return
 	var locale := TranslationServer.get_locale()
-	_show_dialogue([
+	var lines := [
 		{"speaker":"SYSTEM","text":WAKE_TEXTS.text("disconnect_heat", locale)},
 		{"speaker":"SYSTEM","text":WAKE_TEXTS.text("disconnect_pressure", locale)},
 		{"speaker":"SYSTEM","text":WAKE_TEXTS.text("disconnect_taste", locale)},
-	], _reality_fade)
+	]
+	var typed := REALITY_NOTES.typed_lines(session.snapshot(), lines, "continue", "EDR_DISCONNECT", "reality_", session.history_context(), locale)
+	if not typed.ok:
+		push_error(str(typed.error_ids))
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	_show_dialogue(typed.lines, _reality_fade)
 
 
 func _open_notebook() -> void:
@@ -1288,6 +1336,7 @@ func _build_field_notebook() -> void:
 		for id in rules.EXIT:
 			if id not in seen: complete = false
 			_add_hotspot(id,FIELD_TEXTS.exit_text(id,0,locale)+(FIELD_TEXTS.text("checked",locale) if id in seen else ""),Rect2(400,210+index*170,1120,120),_ending_read.bind([{"speaker":"SYSTEM","text":FIELD_TEXTS.exit_text(id,1,locale)}],"inspect",id,"field_"))
+			_queue_reality_surface("EXIT_LABEL_%s_%s" % [id,"CHECKED" if id in seen else "UNCHECKED"], FIELD_TEXTS.exit_text(id,0,locale)+(FIELD_TEXTS.text("checked",locale) if id in seen else ""))
 			index += 1
 		if complete: _action("FIELD_UNLOCK",FIELD_TEXTS.text("unlock",locale),Rect2(400,780,1120,100),"field_unlock",null,false)
 		return
@@ -1295,6 +1344,7 @@ func _build_field_notebook() -> void:
 	var index := 0
 	for id in rules.PAGES:
 		_add_hotspot(id,FIELD_TEXTS.title(id,locale)+(FIELD_TEXTS.text("read",locale) if id in pages else (FIELD_TEXTS.text("required",locale) if id in rules.REQUIRED else "")),Rect2(200+(index%3)*520,170+(index/3)*180,480,140),_open_field_page.bind(id,false))
+		_queue_reality_surface("FIELD_LABEL_%s_%s" % [id,"READ" if id in pages else "UNREAD"], FIELD_TEXTS.title(id,locale)+(FIELD_TEXTS.text("read",locale) if id in pages else (FIELD_TEXTS.text("required",locale) if id in rules.REQUIRED else "")))
 		index += 1
 	if rules.REQUIRED[0] in seen and rules.REQUIRED[1] in seen: _action("FIELD_FINISH",FIELD_TEXTS.text("finish",locale),Rect2(400,790,1120,100),"field_finish",null,false)
 
@@ -1315,22 +1365,27 @@ func _build_reality_surface() -> void:
 	_objective_label.text = SURFACE_TEXTS.text("objective",locale)
 	if node == "EDR_FINAL_FRAME":
 		_objective_label.text = SURFACE_TEXTS.text("final_objective",locale)
-		_board_label(SURFACE_TEXTS.final_frame(progress["look"],locale),Rect2(250,260,1420,250))
+		_reality_board("FINAL_FRAME_" + String(progress.look).to_upper(), SURFACE_TEXTS.final_frame(progress["look"],locale),Rect2(250,260,1420,250))
+		var labels: Array[String] = []
+		for direction in ["left","center","right"]: labels.append(SURFACE_TEXTS.view_text(direction,0,locale))
+		_queue_reality_surface("LOOK_OPTIONS", "\n".join(labels))
 		var index := 0
 		for direction in ["left","center","right"]:
-			_action("SURFACE_LOOK_"+direction,SURFACE_TEXTS.view_text(direction,0,locale),Rect2(250+index*500,650,440,100),"surface_look",direction,false)
+			_reality_world_choice("LOOK",index,"SURFACE_LOOK_"+direction,SURFACE_TEXTS.view_text(direction,0,locale),Rect2(250+index*500,650,440,100),"surface_look",direction)
 			index += 1
 		set_process(true)
 		return
 	if node == "EDR_AIRLOCK_CONFIRM":
-		_board_label(SURFACE_TEXTS.text("airlock_board",locale),Rect2(300,250,1320,260))
-		_action("SURFACE_CANCEL",SURFACE_TEXTS.text("cancel",locale),Rect2(300,630,620,120),"surface_cancel",null,false)
-		_action("SURFACE_ENTER",SURFACE_TEXTS.text("enter",locale),Rect2(1000,630,620,120),"surface_enter",null,false)
+		_reality_board("AIRLOCK_BOARD", SURFACE_TEXTS.text("airlock_board",locale),Rect2(300,250,1320,260))
+		_queue_reality_surface("AIRLOCK_OPTIONS", SURFACE_TEXTS.text("cancel",locale) + "\n" + SURFACE_TEXTS.text("enter",locale))
+		_reality_world_choice("AIRLOCK",0,"SURFACE_CANCEL",SURFACE_TEXTS.text("cancel",locale),Rect2(300,630,620,120),"surface_cancel",null)
+		_reality_world_choice("AIRLOCK",1,"SURFACE_ENTER",SURFACE_TEXTS.text("enter",locale),Rect2(1000,630,620,120),"surface_enter",null)
 		return
 	var index := 0
 	for id in rules.OBJECTS:
 		if rules.OBJECTS[id][0] != location: continue
 		_add_hotspot("SURFACE_OBJ_"+id,SURFACE_TEXTS.object_text(id,0,locale)+(SURFACE_TEXTS.text("checked",locale) if id in progress["seen"] else ""),Rect2(350,200+index*160,1220,110),_ending_read.bind([{"speaker":"SYSTEM","text":SURFACE_TEXTS.object_text(id,1,locale)}],"inspect",id,"surface_"))
+		_queue_reality_surface("OBJECT_LABEL_%s_%s" % [String(id).to_upper(),"CHECKED" if id in progress.seen else "UNCHECKED"], SURFACE_TEXTS.object_text(id,0,locale)+(SURFACE_TEXTS.text("checked",locale) if id in progress.seen else ""))
 		index += 1
 	if node == "EDR_FACILITY_FREE_LOOK":
 		var target := "R0_CRYO_CHAMBER" if location == "R0_FACILITY_EXIT" else "R0_FACILITY_EXIT"
@@ -1354,6 +1409,7 @@ func _process(delta: float) -> void:
 	if session.stage() == "D5" and SaveManager.get_build_flavor() == "demo":
 		_tick_demo_stinger(minf(delta, 0.1))
 		return
+	if session.stage() == "REALITY_SURFACE" and not _notebook_surface_allowed(): return
 	_surface_active_seconds += minf(delta,0.1)
 	if _surface_active_seconds >= 1.0:
 		_surface_active_seconds -= 1.0
@@ -1558,6 +1614,7 @@ func _on_surface_tick() -> void:
 		set_process(false)
 		return
 	if not get_window().has_focus() or _interaction_blocked(): return
+	if not _notebook_surface_allowed(): return
 	var result := session.act("surface_tick")
 	if not result.get("ok",false):
 		_feedback(result)
@@ -1568,6 +1625,7 @@ func _on_surface_tick() -> void:
 func _open_field_page(page: String, expanded: bool) -> void:
 	if _dialogue_active: return
 	if _modal_active: _close_modal()
+	if not _notebook_surface_allowed(): return
 	var rules = BasementSession.FIELD_NOTEBOOK
 	var locale := TranslationServer.get_locale()
 	var text: String = FIELD_TEXTS.page_text(session.snapshot(),page,expanded,locale)
@@ -1611,8 +1669,11 @@ func _reality_fade() -> void:
 
 func _finish_ending_signature() -> void:
 	if _interaction_blocked(): return
-	var reality: bool = session.snapshot()["ending_run"]["branch_id"] == "reality"
-	var text := "다섯 서명이 저전력 보존 인덱스로 접힌다. 문양과 이름은 지워지지 않는다." if reality else "다섯 서명이 서로의 경계를 유지한 채 저택 각 방향으로 흩어진다. 누구의 이름도 하나로 합쳐지지 않는다."
+	if not _notebook_surface_allowed():
+		var signature = _hotspot_layer.get_node_or_null("ENDING_SIGNATURE")
+		if signature != null: signature.allow_retry()
+		return
+	var text: String = REALITY_NOTES.SIGNATURE[session.snapshot().ending_run.branch_id][1 if TranslationServer.get_locale().begins_with("en") else 0]
 	_ending_read([{"speaker":"SYSTEM", "text":text}], "sign", null)
 
 

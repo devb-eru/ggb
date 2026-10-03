@@ -42,6 +42,11 @@ func finish_signature() -> void:
 	_complete = true
 	signed.emit()
 
+func allow_retry() -> void:
+	# Preserve the stroke when the controller cannot persist the visible ceremony.
+	_complete = false
+	_drawing = false
+
 func _draw() -> void:
 	draw_style_box(_paper(), Rect2(Vector2.ZERO, size))
 	draw_line(Vector2(30, size.y * 0.65), Vector2(size.x - 30, size.y * 0.65), Color(0.5,0.5,0.5), 2.0)

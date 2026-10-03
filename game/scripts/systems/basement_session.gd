@@ -29,6 +29,7 @@ const CORE_ROLES := preload("res://scripts/systems/core_record_roles.gd")
 const CORE_SELF := preload("res://scripts/systems/core_self_authority.gd")
 const CORE_NOTES := preload("res://scripts/systems/core_notebook.gd")
 const FINAL_NOTES := preload("res://scripts/systems/final_notebook.gd")
+const REALITY_NOTES := preload("res://scripts/systems/reality_notebook.gd")
 const FATHER_RECORD := preload("res://scripts/systems/father_final_record.gd")
 const CONFRONTATION := preload("res://scripts/systems/researcher_confrontation.gd")
 const FINAL_INSPECTION := preload("res://scripts/systems/final_inspection.gd")
@@ -205,6 +206,11 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
 	if action.begins_with("field_"):
 		var result: Dictionary = FIELD_NOTEBOOK.apply(snapshot(), action.trim_prefix("field_"), value)
+		if result.get("ok", false) and action == "field_read":
+			var page := str(value.get("page", "")) if value is Dictionary else str(value)
+			var expanded: bool = value.get("expanded", false) if value is Dictionary else false
+			var written := REALITY_NOTES.write_field(result.state, page, expanded, REALITY_NOTES.context(snapshot(), history_context()), TranslationServer.get_locale())
+			if not written.ok: return written
 		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
 	if action.begins_with("reality_"):
 		var result: Dictionary = REALITY_WAKE.apply(snapshot(), action.trim_prefix("reality_"), value)

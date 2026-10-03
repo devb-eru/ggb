@@ -48,20 +48,30 @@ static func farewell(state: Dictionary, owner: String) -> Dictionary:
 	var servant: Dictionary = state["meta_progress"]["servants"][owner]
 	var complete: bool = servant["core_event_complete"]
 	var lines: Array = [{"speaker":"SYSTEM", "text":"연결 해제 전 남긴 인계 기록이다. 보존 중인 인격에게 질문을 보내는 통로는 아니다."}]
+	var keys: Array = ["FAREWELL_NOTICE"]
 	lines.append({"speaker":NAMES[owner] if complete or owner not in ["mara1","mara2"] else "SYSTEM", "text":COMPLETE[owner] if complete else INCOMPLETE[owner]})
+	keys.append("FAREWELL_%s_%s" % [owner.to_upper(), "COMPLETE" if complete else "INCOMPLETE"])
 	var event: Dictionary = state["meta_progress"]["event_history"].get(EVENTS[owner], {})
 	var outcome: String = event.get("outcome_id", "")
 	var warning: bool = complete and (not OVERLAYS[owner].has(outcome) or event.get("lifecycle", "") != "completed" or not servant["researcher_record_acquired"])
-	if complete and not warning: lines.append({"speaker":"SYSTEM", "text":OVERLAYS[owner][outcome]})
+	if complete and not warning:
+		lines.append({"speaker":"SYSTEM", "text":OVERLAYS[owner][outcome]})
+		keys.append("OVERLAY_%s_%s" % [owner.to_upper(), outcome.to_upper()])
 	if owner == "mara2" and state["meta_progress"]["knowledge_entries"].get("mara2_name_written", false):
 		lines.append({"speaker":"SYSTEM", "text":"현실 수첩 인계 페이지의 이름 필드가 강조된다. 주인공이 적었던 이름과 연결된 표식이다."})
-	if owner == "iris": lines.append({"speaker":"이리스", "text":IRIS[CONFRONTATION.iris_state(state)]})
+		keys.append("MARA2_NAME")
+	if owner == "iris":
+		var mode := CONFRONTATION.iris_state(state)
+		lines.append({"speaker":"이리스", "text":IRIS[mode]})
+		keys.append("IRIS_" + mode.to_upper())
 	if complete:
 		var bond := int(servant["bond"])
 		lines.append({"speaker":"SYSTEM", "text":"기록 속 시선은 공식적인 인계 위치에 머문다." if bond < 2 else ("잠깐 시선을 맞추고 인계 물건을 손에 직접 건넨다. 말끝이 늦어진다." if bond >= 4 else "시선을 유지한 채 인계를 마친다.")})
+		keys.append("BOND_" + ("LOW" if bond < 2 else "HIGH" if bond >= 4 else "MID"))
 	var alert := int(servant["alert"])
 	lines.append({"speaker":"SYSTEM", "text":"확인 뒤 한 걸음 물러난다." if alert < 2 else ("가까이 남지만 제어권에는 손대지 않는다." if alert >= 4 else "기록 속에서 절차를 한 번 확인한다. 주인공에게 추가 확인을 요구하지 않는다.")})
-	return {"lines":lines, "warning":warning}
+	keys.append("ALERT_" + ("LOW" if alert < 2 else "HIGH" if alert >= 4 else "MID"))
+	return {"lines":lines, "warning":warning, "notebook_keys":keys}
 
 static func apply(source: Dictionary, action: String, value: Variant) -> Dictionary:
 	var run: Dictionary = source["ending_run"]

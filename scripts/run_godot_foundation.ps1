@@ -189,6 +189,8 @@ Assert-GodotValidation -Result $notebookCoreResult -Name "Notebook core puzzle e
 
 $notebookFinalResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-final-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookFinalResult -Name "Notebook final records, relation disclosures and neutral ending review" -RequiredMarker "NOTEBOOK_FINAL_SMOKE: PASS"
+$notebookRealityResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-reality-smoke", "--ggb-dev-notebook-v2")
+Assert-GodotValidation -Result $notebookRealityResult -Name "Notebook reality handoff, physical pages and final views" -RequiredMarker "NOTEBOOK_REALITY_SMOKE: PASS"
 
 $notebookAuthorityArchiveResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-authority-archive-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookAuthorityArchiveResult -Name "Notebook Edgar authority and Mara 2 archive evidence" -RequiredMarker "NOTEBOOK_AUTHORITY_ARCHIVE_SMOKE: PASS"

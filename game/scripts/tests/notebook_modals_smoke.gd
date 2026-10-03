@@ -273,6 +273,11 @@ func _install(state: Dictionary) -> void:
 	serial += 1
 	var installed := StateWriter.new(GameState).install_snapshot(state, GameState.revision, StringName("NB_MODAL_FIXTURE_%d" % serial))
 	_expect(installed.ok, "valid modal fixture " + str(installed.get("error_ids", [])))
+	# A new physical-page scope must show its world surface before opening a modal.
+	if view != null and view.session.stage() in ["FIELD_NOTEBOOK", "REALITY_SURFACE"]:
+		view._render_room()
+		_expect(view._notebook_surface_allowed(), "physical page fixture surface captured")
+		view.set_process(false)
 
 
 func _history() -> Dictionary:
