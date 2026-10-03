@@ -6,8 +6,9 @@ const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const REPOSITORY := preload("res://scripts/systems/dialogue_repository.gd")
 const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
+const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
 const PAGE_SIZE := 50
-const POLICY_VERSION := 4
+const POLICY_VERSION := 5
 const TABS := ["clues", "dialogue", "records", "people"]
 const PERSON_IDS := ["EDGAR", "MARA1", "MARA", "MARA2", "LUCA", "IRIS"]
 const FILTER_FIELDS := ["chapters", "locations", "speakers", "categories", "epistemic", "provenance", "sources", "people", "sessions"]
@@ -226,7 +227,19 @@ func detail(key: String, expected_key: String) -> Dictionary:
 	for ref in row.sources:
 		var target := reference_key(ref)
 		if _rows.has(target) and target != key and target not in links: links.append(target)
-	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links, "location_label": public_label("locations", row.location), "source_label": public_label("sources", row.source_kind), "related": related_to(key), "session": row.session}
+	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links, "location_label": public_label("locations", row.location), "source_label": public_label("sources", row.source_kind), "related": related_to(key), "session": row.session, "has_visual": not fallback and VISUALS.supports(entry, row.reference.segment_id)}
+
+
+func visual(key: String, expected_key: String) -> Dictionary:
+	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
+	if not _rows.has(key): return _error("NB_QUERY_UNAVAILABLE")
+	var row: Dictionary = _rows[key]
+	var entry: Dictionary = _entries[row.reference.uid]
+	var material := VISUALS.material(entry, row.reference.segment_id, _locale)
+	if material.is_empty() and VISUALS.supports(entry, row.reference.segment_id):
+		_errors[key] = "NB_QUERY_VISUAL_UNAVAILABLE"
+		return _error("NB_QUERY_VISUAL_UNAVAILABLE")
+	return {"ok": true, "material": material}
 
 
 func facets(filters: Dictionary, expected_key: String) -> Dictionary:

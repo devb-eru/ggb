@@ -1,8 +1,9 @@
 extends RefCounted
 
 # Convenience state only. No game snapshot, content, or durable reference is written here.
-const VERSION := 2
+const VERSION := 3
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
+const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
 const SCOPE_KEYS := ["profile", "namespace", "slot", "run_id", "source_origin_id", "branch_id"]
 const VIEW_KEYS := ["filters", "anchor", "page", "selected", "scroll", "list_scroll", "list_anchor", "body", "pair", "pair_body", "comparing", "side", "detail", "back", "focus"]
 var root_path: String
@@ -87,7 +88,7 @@ func _read(path: String, scope: Dictionary) -> Dictionary:
 	var envelope: Variant = parser.data
 	if not envelope is Dictionary: return _error("NB_VIEW_FORMAT")
 	if _integer(envelope.get("version")) and envelope.version > VERSION: return _error("NB_VIEW_FUTURE")
-	if not _keys(envelope, ["version", "payload", "checksum"]) or not _integer(envelope.version) or int(envelope.version) not in [1, VERSION]: return _error("NB_VIEW_FORMAT")
+	if not _keys(envelope, ["version", "payload", "checksum"]) or not _integer(envelope.version) or int(envelope.version) not in [1, 2, VERSION]: return _error("NB_VIEW_FORMAT")
 	if not envelope.payload is String or not envelope.checksum is String or envelope.payload.sha256_text() != envelope.checksum: return _error("NB_VIEW_CHECKSUM")
 	if parser.parse(envelope.payload) != OK: return _error("NB_VIEW_PAYLOAD")
 	var payload: Variant = parser.data
@@ -111,7 +112,11 @@ static func valid_state(value: Variant) -> bool:
 static func _valid_view(value: Variant) -> bool:
 	if not value is Dictionary: return false
 	if value.is_empty(): return true
-	if not _keys(value, VIEW_KEYS) or not value.filters is Dictionary: return false
+	if not (_keys(value, VIEW_KEYS) or _keys(value, VIEW_KEYS + ["visuals"])) or not value.filters is Dictionary: return false
+	if value.has("visuals"):
+		if not value.visuals is Dictionary or value.visuals.size() > 64: return false
+		for key in value.visuals:
+			if not key is String or key.is_empty() or not VISUALS.valid_view(value.visuals[key]): return false
 	if not QUERY.valid_filters(value.filters): return false
 	if not _anchor(value.anchor) or not _anchor(value.list_anchor): return false
 	for field in ["selected"]:

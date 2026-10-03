@@ -44,6 +44,7 @@ func run(tree: SceneTree) -> Dictionary:
 		await _prologue(tree)
 	await _view_preferences(tree)
 	await _campaign(tree)
+	await _visual_materials(tree)
 	await _physical(tree)
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
@@ -447,6 +448,47 @@ func _physical(tree: SceneTree) -> void:
 	view._open_dialogue_history()
 	_expect(view._notebook_is_open(), "history menu in reality still accesses captured observations")
 	view._close_modal()
+	view.queue_free()
+	await tree.process_frame
+
+
+func _visual_materials(tree: SceneTree) -> void:
+	var view = await _campaign_view(tree, "F0_C")
+	view._do("f0c", {"action": "rotate", "layer": "B4"}, false)
+	view._do("f0c", {"action": "flip", "layer": "C5"}, false)
+	view._do("f0c", {"action": "anchor", "layer": "D4", "value": 1}, false)
+	_drain(view)
+	for frame in range(5): await tree.process_frame
+	var before := GameState.get_snapshot()
+	var local: Dictionary = before.loop_state.event_local_states.F0_C.duplicate(true)
+	_expect(not local.locked and local.B4.turn == 1 and local.C5.flip and local.D4.anchor == 1, "actual core puzzle has an unverified rotation, reflection and anchor draft")
+	view._open_notebook()
+	var host = view._notebook_host
+	_expect(is_instance_valid(host), "notebook opens over the actual pending overlay board")
+	if not is_instance_valid(host):
+		view.queue_free()
+		await tree.process_frame
+		return
+	var query = host.model
+	var materials: Array = []
+	for index in range(query.page({"tab": "records"}, 0, query.cache_key()).pages):
+		for item in query.page({"tab": "records"}, index, query.cache_key()).items:
+			if query.detail(item.key, query.cache_key()).has_visual: materials.append(item.key)
+	_expect(materials.size() >= 3, "actual displayed layer producers supply three notebook visuals")
+	if not materials.is_empty():
+		host.panel.show_detail(materials[0])
+		host.panel._open_visual(materials[0])
+		_expect(host.panel._visual.visible, "actual observed layer enlarges from live notebook")
+		host.panel._visual.find_child("NotebookVisualIn", true, false).pressed.emit()
+		host.panel._visual.find_child("NotebookVisualDown", true, false).pressed.emit()
+		view.notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+		view.notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
+		_expect(host.panel._visual.visible and GameState.get_snapshot() == before, "visual inspection and focus loss never verify or alter pending puzzle input")
+		host.panel._close_visual()
+	view._close_modal()
+	await tree.process_frame
+	_expect(view.visible and view.session.stage() == "F0_C" and view.session.snapshot().loop_state.event_local_states.F0_C == local, "closing notebook restores exactly the same unverified overlay draft")
+	_expect(GameState.get_snapshot() == before, "returning from visual replay neither rerecords board nor advances gameplay")
 	view.queue_free()
 	await tree.process_frame
 

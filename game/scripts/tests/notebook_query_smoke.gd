@@ -24,6 +24,8 @@ func run(tree: SceneTree) -> Dictionary:
 	for message in views.errors: _expect(false, "view sidecar: " + message)
 	var browse := await preload("res://scripts/tests/notebook_browse_smoke.gd").new().run(tree, fixture)
 	for message in browse.errors: _expect(false, "browsing: " + message)
+	var visuals := await preload("res://scripts/tests/notebook_visual_smoke.gd").new().run(tree)
+	for message in visuals.errors: _expect(false, "visuals: " + message)
 	_expect(GameState.get_snapshot() == state_before, "all read operations preserve live game state")
 	print("NOTEBOOK_QUERY_CHECKS: %d" % checks)
 	return {"ok": errors.is_empty(), "errors": errors}

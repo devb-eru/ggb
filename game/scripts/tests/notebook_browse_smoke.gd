@@ -134,7 +134,7 @@ func _test_sidecar(query, archive: Dictionary) -> void:
 	_expect(store.save_view(scope, query.view_frontier(), STORE.empty_state()).ok, "new sidecar writes")
 	var files := store.paths(scope)
 	var envelope: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(files.main))
-	_expect(envelope.version == 2, "extended query filters use sidecar version two")
+	_expect(envelope.version == STORE.VERSION, "sidecar writes the current convenience format")
 	envelope.version = 1
 	var file := FileAccess.open(files.main, FileAccess.WRITE)
 	file.store_string(JSON.stringify(envelope))

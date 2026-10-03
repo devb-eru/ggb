@@ -9,6 +9,9 @@ signal view_changed
 
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
 const BROWSER := preload("res://scripts/ui/notebook_browser.gd")
+const VISUAL_VIEWER := preload("res://scripts/ui/notebook_visual_viewer.gd")
+const VISUAL_CANVAS := preload("res://scripts/ui/notebook_visual_canvas.gd")
+const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
 var query
 var _key := ""
 var _locale := "ko-KR"
@@ -53,6 +56,9 @@ var _pending_restore: Dictionary = {}
 var _browser
 var _filter_controls: HFlowContainer
 var _pages: HBoxContainer
+var _visual
+var _visual_views: Dictionary = {}
+var _visual_focus := {"control": "", "key": ""}
 
 
 func _ready() -> void:
@@ -66,6 +72,8 @@ func present(model, locale: String, entry_tab: String = "clues", font_scale: flo
 	if not is_node_ready() or entry_tab not in QUERY.TABS or not model.diagnostics().ready: return false
 	query = model
 	_browser.dismiss()
+	_visual.dismiss()
+	_visual_views.clear()
 	_cancel_restoration()
 	_restoring_view = true
 	_seen.clear()
@@ -94,6 +102,8 @@ func present(model, locale: String, entry_tab: String = "clues", font_scale: flo
 
 func dismiss() -> void:
 	_browser.dismiss()
+	_visual.dismiss()
+	_visual_views.clear()
 	_cancel_restoration()
 	set_process(false)
 	hide()
@@ -146,7 +156,7 @@ func clear_command() -> void:
 
 
 func capture_view() -> Dictionary:
-	return {"filters": _filters.duplicate(true), "anchor": query.anchor_for(_selected, _filters) if _valid() else {}, "page": _page, "selected": _selected, "scroll": _detail_scroll.scroll_vertical, "list_scroll": _list_scroll.scroll_vertical, "list_anchor": _capture_list_anchor(), "body": _capture_body(_detail_scroll), "pair": _pair.duplicate(), "pair_body": [_capture_body(_pair_panels[0].get_parent()), _capture_body(_pair_panels[1].get_parent())], "comparing": _comparison_mode, "side": _compact_side, "detail": _detail_visible, "back": _back_stack.duplicate(true), "focus": _capture_focus()}
+	return {"filters": _filters.duplicate(true), "anchor": query.anchor_for(_selected, _filters) if _valid() else {}, "page": _page, "selected": _selected, "scroll": _detail_scroll.scroll_vertical, "list_scroll": _list_scroll.scroll_vertical, "list_anchor": _capture_list_anchor(), "body": _capture_body(_detail_scroll), "pair": _pair.duplicate(), "pair_body": [_capture_body(_pair_panels[0].get_parent()), _capture_body(_pair_panels[1].get_parent())], "comparing": _comparison_mode, "side": _compact_side, "detail": _detail_visible, "back": _back_stack.duplicate(true), "focus": _visual_focus.duplicate() if _visual.visible else _capture_focus(), "visuals": _visual_views.duplicate(true)}
 
 
 func set_review_state(seen: Array, groups: Array) -> void:
@@ -178,6 +188,10 @@ func replace_model(model, view: Dictionary) -> void:
 func restore_view(view: Dictionary) -> void:
 	if not _valid() or view.is_empty(): return
 	_browser.dismiss()
+	_visual.dismiss()
+	_visual_views.clear()
+	for key in view.get("visuals", {}):
+		if not query.review_group(key).is_empty() and VISUALS.valid_view(view.visuals[key]): _visual_views[key] = view.visuals[key].duplicate()
 	_cancel_restoration()
 	_restoring_view = true
 	_pending_restore = view.duplicate(true)
@@ -243,6 +257,7 @@ func _finish_restore_layout(generation: int, view: Dictionary, body: Dictionary)
 func set_tab(tab: String) -> void:
 	if tab not in QUERY.TABS or not _valid(): return
 	_browser.dismiss()
+	_visual.dismiss()
 	_cancel_restoration()
 	_filters.tab = tab
 	_filters.erase("sessions")
@@ -261,6 +276,7 @@ func set_filters(filters: Dictionary) -> bool:
 	var result: Dictionary = query.page(filters, 0, _key)
 	if not result.ok: return false
 	_browser.dismiss()
+	_visual.dismiss()
 	_cancel_restoration()
 	_filters = filters.duplicate(true)
 	_page = 0
@@ -322,6 +338,8 @@ func visible_pair() -> Array:
 func _process(delta: float) -> void:
 	if not _valid():
 		_browser.dismiss()
+		_visual.dismiss()
+		_visual_views.clear()
 		_clear(_list)
 		_clear(_detail)
 		for panel in _pair_panels: _clear(panel)
@@ -357,6 +375,15 @@ func _process(delta: float) -> void:
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not is_visible_in_tree() or not event is InputEventKey or not event.pressed or event.echo: return
+	if _visual.visible:
+		if event.keycode == KEY_ESCAPE:
+			_close_visual()
+			get_viewport().set_input_as_handled()
+		elif event.is_action_pressed("ui_page_up") or event.is_action_pressed("ui_page_down"):
+			var scroll: ScrollContainer = _visual.get_node("NotebookVisualScroll")
+			scroll.scroll_vertical += (-1 if event.is_action_pressed("ui_page_up") else 1) * maxi(40, int(scroll.size.y * 0.8))
+			get_viewport().set_input_as_handled()
+		return
 	if _browser.visible:
 		if event.keycode == KEY_ESCAPE:
 			_close_browser()
@@ -527,6 +554,11 @@ func _build() -> void:
 	_browser.dismissed.connect(_close_browser)
 	_browser.filter_selected.connect(_select_browse)
 	_browser.layout_changed.connect(func() -> void: _cycle_focus.call_deferred())
+	_visual = VISUAL_VIEWER.new()
+	_visual.name = "NotebookVisualViewer"
+	_content.add_child(_visual)
+	_visual.closed.connect(_close_visual)
+	_visual.view_changed.connect(_remember_visual)
 
 
 func _apply_labels() -> void:
@@ -624,6 +656,20 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 	elif result.fallback: _label(target, _l("당시 보관된 원문", "Original recorded text") + " (" + result.viewed_locale + ")")
 	if not result.summary.is_empty(): _label(target, result.summary)
 	if not result.speaker.is_empty(): _label(target, result.speaker)
+	if result.has_visual:
+		var visual: Dictionary = query.visual(result.key, _key)
+		if visual.ok and not visual.material.is_empty():
+			var preview := VISUAL_CANVAS.new()
+			preview.name = "NotebookVisualPreview"
+			preview.custom_minimum_size = Vector2(0, 200)
+			target.add_child(preview)
+			preview.configure(visual.material)
+			preview.focus_mode = Control.FOCUS_NONE
+			preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			_label(target, visual.material.description)
+			_button(target, _l("시각 자료 확대", "Enlarge visual material"), _open_visual.bind(result.key), "NotebookVisualOpen_" + String(result.key).sha256_text())
+		elif not visual.ok:
+			_label(target, _l("이 시각 자료를 재현하지 못했습니다. 보관 원문은 계속 읽을 수 있습니다.", "This visual could not be replayed. The recorded text remains available."))
 	var paragraphs := VBoxContainer.new()
 	paragraphs.name = "NotebookMaterialBody"
 	paragraphs.add_theme_constant_override("separation", 0)
@@ -730,7 +776,7 @@ func _back() -> void:
 func _responsive() -> void:
 	if not is_instance_valid(_body): return
 	var compact := size.x < 1050 * _font_scale
-	var browsing: bool = is_instance_valid(_browser) and _browser.visible
+	var browsing: bool = (is_instance_valid(_browser) and _browser.visible) or (is_instance_valid(_visual) and _visual.visible)
 	_body.visible = not _comparison_mode and not browsing
 	_list_scroll.visible = not compact or not _detail_visible
 	_detail_scroll.visible = not compact or _detail_visible
@@ -748,6 +794,7 @@ func _responsive() -> void:
 
 func _open_browser(mode: String) -> void:
 	if not _valid(): return
+	_visual.dismiss()
 	_cancel_restoration()
 	_browser.present(mode, query, _locale, _filters)
 	_responsive()
@@ -767,6 +814,32 @@ func _select_browse(filters: Dictionary, detail_key: String) -> void:
 		_refresh()
 		show_detail(detail_key)
 	find_child("NotebookFilters", true, false).grab_focus()
+
+
+func _open_visual(key: String) -> void:
+	if not _valid(): return
+	_cancel_restoration()
+	_visual_focus = _capture_focus()
+	if not _visual.present(query, key, _locale, _visual_views.get(key, {})): return
+	_browser.dismiss()
+	_responsive()
+	_mark_viewed(key)
+	_changed()
+
+
+func _remember_visual(key: String, view: Dictionary) -> void:
+	if not _valid() or query.review_group(key).is_empty() or not VISUALS.valid_view(view): return
+	_visual_views.erase(key)
+	_visual_views[key] = view.duplicate()
+	if _visual_views.size() > 64: _visual_views.erase(_visual_views.keys()[0])
+	_changed()
+
+
+func _close_visual() -> void:
+	_visual.dismiss()
+	_responsive()
+	_restore_focus(_visual_focus)
+	_changed()
 
 
 func _cycle_focus() -> void:
