@@ -6,9 +6,24 @@ const MIRROR_RULES := preload("res://data/puzzles/puzzle_black_mirror.tres")
 const OVERLAY_DIAGRAM := preload("res://scripts/chapters/mirror_overlay_diagram.gd")
 const MIRROR_TEXTS := preload("res://scripts/ui/black_mirror_display_texts.gd")
 const ROUTE_FEEDBACK := preload("res://scripts/chapters/mirror_route_feedback.gd")
+const PUZZLE_NOTES := preload("res://scripts/systems/notebook_puzzle_surfaces.gd")
+
+
+func _queue_puzzle_surface(descriptor: Dictionary, text: String) -> void:
+	if not _notebook_surface_enabled() or descriptor.is_empty(): return
+	var row := PUZZLE_NOTES.CONTENT.definition(descriptor.content_id, 1)
+	# Derived E/F views discard these intermediate controls before presentation.
+	if session.stage() not in row.node_ids: return
+	_notebook_surfaces.queue_descriptor(descriptor, text, TranslationServer.get_locale(), session.history_context())
+
+
+func _puzzle_surface_board(descriptor: Dictionary, text: String, rect: Rect2) -> void:
+	_board_label(text, rect)
+	_queue_puzzle_surface(descriptor, text)
 
 
 func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
+	if not _notebook_surface_allowed(): return
 	if action != "c_dry":
 		super._do(action, value, show_text)
 		return
@@ -150,7 +165,7 @@ func _render_room() -> void:
 		"M1_TOOL_ROOM":
 			_location_label.text = MIRROR_TEXTS.ui("location_tool", locale)
 			_action("C2_RECORD", MIRROR_TEXTS.ui("cleaning_record", locale), Rect2(370, 270, 1120, 190), "c_read_cleaning")
-			_board_label(MIRROR_TEXTS.ui("tool_room_board", locale), Rect2(370, 500, 1120, 170))
+			_puzzle_surface_board(PUZZLE_NOTES.surface("C_TOOL_ROOM_BOARD"), MIRROR_TEXTS.ui("tool_room_board", locale), Rect2(370, 500, 1120, 170))
 			_replace_back("M1_SERVANT_COMMON", MIRROR_TEXTS.ui("back_common", locale))
 		"M1_KITCHEN":
 			_location_label.text = MIRROR_TEXTS.ui("location_kitchen", locale)
@@ -162,7 +177,8 @@ func _render_room() -> void:
 			_replace_back("M1_PARLOR", MIRROR_TEXTS.ui("back_parlor", locale))
 		"M1_COLOR_ROOM_ENTRY":
 			_location_label.text = MIRROR_TEXTS.ui("location_color", locale)
-			_board_label(MIRROR_TEXTS.ui("color_open" if session.known("color_room_entry_inspectable") else "color_closed", locale), Rect2(390, 350, 1120, 250))
+			var color_key := "color_open" if session.known("color_room_entry_inspectable") else "color_closed"
+			_puzzle_surface_board(PUZZLE_NOTES.surface("C_" + color_key.to_upper()), MIRROR_TEXTS.ui(color_key, locale), Rect2(390, 350, 1120, 250))
 			_replace_back("M1_NORTH_ARCHIVE_HALL", MIRROR_TEXTS.ui("back_north", locale))
 	call_deferred("_restore_world_focus")
 
@@ -183,7 +199,7 @@ func _build_loop_bedroom(local: Dictionary) -> void:
 
 func _build_great_clock(_local: Dictionary) -> void:
 	var locale := TranslationServer.get_locale()
-	_board_label(MIRROR_TEXTS.ui("bell_board", locale), Rect2(330, 300, 1250, 200))
+	_puzzle_surface_board(PUZZLE_NOTES.surface("C_BELL_BOARD"), MIRROR_TEXTS.ui("bell_board", locale), Rect2(330, 300, 1250, 200))
 	_action("C_BELL_REPLAY", MIRROR_TEXTS.ui("bell_replay", locale), Rect2(440, 600, 1030, 130), "c_bell")
 
 
@@ -192,7 +208,7 @@ func _build_chemical_bench(local: Dictionary) -> void:
 	_action("C21_LABELS", MIRROR_TEXTS.ui("chemical_record", locale), Rect2(240, 150, 720, 80), "c_read_chemicals")
 	_action("C_PREPARE", MIRROR_TEXTS.ui("prepare", locale), Rect2(1050, 150, 600, 80), "c_prepare")
 	var mix: Dictionary = local["mixture"]
-	_board_label(MIRROR_TEXTS.mixture_status(mix, locale), Rect2(310, 290, 1310, 140))
+	_puzzle_surface_board(PUZZLE_NOTES.mixture(mix), MIRROR_TEXTS.mixture_status(mix, locale), Rect2(310, 290, 1310, 140))
 	for index in range(3):
 		var material: String = MIRROR_RULES.MATERIALS[index]
 		_action("POUR_" + material, ("Pour 1 unit of " if MIRROR_TEXTS.is_english(locale) else "") + MIRROR_TEXTS.material_name(material, locale) + ("" if MIRROR_TEXTS.is_english(locale) else " 1단위 붓기"), Rect2(270 + index * 490, 475, 430, 85), "c_pour", material, false)
@@ -201,7 +217,7 @@ func _build_chemical_bench(local: Dictionary) -> void:
 	for index in range(actions.size()):
 		_action(actions[index], MIRROR_TEXTS.ui(labels[index], locale), Rect2(250 + (index % 3) * 510, 620 + (index / 3) * 115, 450, 85), actions[index])
 	if local["cleaner_ready"]:
-		_board_label(MIRROR_TEXTS.ui("cleaner_ready", locale) + " · " + MIRROR_TEXTS.ui("cleaner_mirror" if local["signal_ready"] else "cleaner_clock", locale), Rect2(750, 850, 820, 62))
+		_puzzle_surface_board(PUZZLE_NOTES.surface("C_READY_" + ("SIGNAL" if local["signal_ready"] else "CLOCK")), MIRROR_TEXTS.ui("cleaner_ready", locale) + " · " + MIRROR_TEXTS.ui("cleaner_mirror" if local["signal_ready"] else "cleaner_clock", locale), Rect2(750, 850, 820, 62))
 
 
 func _build_black_mirror(local: Dictionary) -> void:
@@ -213,7 +229,7 @@ func _build_black_mirror(local: Dictionary) -> void:
 		_action("C1", MIRROR_TEXTS.ui("hypothesis", locale), Rect2(470, 300, 1000, 280), "c_hypothesis")
 		return
 	if local["locked"]:
-		_board_label(MIRROR_TEXTS.ui("locked_board", locale), Rect2(430, 340, 1070, 240))
+		_puzzle_surface_board(PUZZLE_NOTES.surface("C_LOCKED_BOARD"), MIRROR_TEXTS.ui("locked_board", locale), Rect2(430, 340, 1070, 240))
 		return
 	if session.known("mirror_tracing_acquired"):
 		if not local["surface_open"]:
@@ -221,10 +237,13 @@ func _build_black_mirror(local: Dictionary) -> void:
 		for index in range(5):
 			var owner: String = MIRROR_SESSION.CHANNELS.keys()[index]
 			var text: String = MIRROR_TEXTS.channel(owner, locale)
-			_action("SCAN_" + owner, text + (MIRROR_TEXTS.ui("scan_done", locale) if owner in local["channels_scanned"] else ""), Rect2(230 + (index % 2) * 780, 170 + (index / 2) * 170, 720, 130), "c_scan", owner)
+			var checked: bool = owner in local["channels_scanned"]
+			var label := text + (MIRROR_TEXTS.ui("scan_done", locale) if checked else "")
+			_action("SCAN_" + owner, label, Rect2(230 + (index % 2) * 780, 170 + (index / 2) * 170, 720, 130), "c_scan", owner)
+			_queue_puzzle_surface(PUZZLE_NOTES.surface("C_CHANNEL_%s_%s" % [owner, "CHECKED" if checked else "UNCHECKED"]), label)
 		_action("C5_INFO", MIRROR_TEXTS.ui("record_channels", locale), Rect2(420, 750, 1110, 115), "c_record")
 		return
-	_board_label(MIRROR_TEXTS.trace_status(local, locale), Rect2(170, 140, 1580, 120))
+	_puzzle_surface_board(PUZZLE_NOTES.trace(local), MIRROR_TEXTS.trace_status(local, locale), Rect2(170, 140, 1580, 120))
 	var transforms := ["c_rotate", "c_flip", "c_anchor", "c_clear_plan"]
 	var transform_labels := ["rotate", "flip", "anchor", "clear_plan"]
 	for index in range(4):
@@ -240,9 +259,10 @@ func _build_black_mirror(local: Dictionary) -> void:
 
 
 func _open_trace_overlay() -> void:
+	if not _notebook_surface_allowed(): return
 	var local := _mirror().mirror_local()
 	var locale := TranslationServer.get_locale()
-	_show_modal(MIRROR_TEXTS.ui("overlay_title", locale), MIRROR_TEXTS.ui("overlay_body", locale), [{"label": MIRROR_TEXTS.ui("overlay_back", locale), "action": _close_modal}])
+	_show_recorded_choice(MIRROR_TEXTS.ui("overlay_title", locale), MIRROR_TEXTS.ui("overlay_body", locale) + "\n" + MIRROR_TEXTS.trace_status(local, locale), [{"label": MIRROR_TEXTS.ui("overlay_back", locale), "action": _close_modal}], PUZZLE_NOTES.trace(local, true))
 	var diagram := OVERLAY_DIAGRAM.new()
 	diagram.turn_degrees = local["rotation"]
 	diagram.mirrored = local["flipped"]
@@ -279,8 +299,9 @@ func _build_inner(local: Dictionary, journal: int) -> void:
 	for index in range(4):
 		var part: int = [2, 0, 3, 1][index]
 		_action("J3_PART_%d" % part, MIRROR_TEXTS.j3_part(part, locale), Rect2(170 + (index % 2) * 860, 315 + (index / 2) * 190, 790, 155), "j3_piece", part, false)
+		_queue_puzzle_surface(PUZZLE_NOTES.surface("J3_PART_%d" % part), MIRROR_TEXTS.j3_part(part, locale))
 	var order: Array[String] = []
 	for part in mirror_local["j3_order"]: order.append(MIRROR_TEXTS.j3_part(part, locale).split("\n")[0])
-	_board_label((" -> " if MIRROR_TEXTS.is_english(locale) else " → ").join(order), Rect2(240, 700, 1430, 95))
+	_puzzle_surface_board(PUZZLE_NOTES.j3_order(mirror_local["j3_order"]), (" -> " if MIRROR_TEXTS.is_english(locale) else " → ").join(order), Rect2(240, 700, 1430, 95))
 	_action("J3_CLEAR", MIRROR_TEXTS.ui("j3_clear", locale), Rect2(300, 825, 610, 80), "j3_clear", null, false)
 	_action("J3_RESTORE", MIRROR_TEXTS.ui("j3_restore", locale), Rect2(1020, 825, 610, 80), "j3_restore")

@@ -1,0 +1,3536 @@
+{
+	"contents": {
+		"NB_PUZZLE_AXIS_BRANCH_DEPTH": {
+			"1": {
+				"action_or_variant": "AXIS_BRANCH_DEPTH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D1",
+				"locales": {
+					"en-US": {
+						"body": "Branch Axis · Depth {depth}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Branch Axis Display"
+					},
+					"ko-KR": {
+						"body": "분기축 · 깊이 {depth}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "분기축의 표시"
+					}
+				},
+				"localization_keys": {
+					"body": "AXIS_BRANCH_DEPTH:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "AXIS_BRANCH_DEPTH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"depth": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_AXIS_BRANCH_PUSHED": {
+			"1": {
+				"action_or_variant": "AXIS_BRANCH_PUSHED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D1",
+				"locales": {
+					"en-US": {
+						"body": "Branch Axis · Pushed",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Branch Axis Display"
+					},
+					"ko-KR": {
+						"body": "분기축 · 밀기 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "분기축의 표시"
+					}
+				},
+				"localization_keys": {
+					"body": "AXIS_BRANCH_PUSHED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "AXIS_BRANCH_PUSHED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_AXIS_LINE_DEPTH": {
+			"1": {
+				"action_or_variant": "AXIS_LINE_DEPTH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D1",
+				"locales": {
+					"en-US": {
+						"body": "Straight Axis · Depth {depth}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Straight Axis Display"
+					},
+					"ko-KR": {
+						"body": "직선축 · 깊이 {depth}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "직선축의 표시"
+					}
+				},
+				"localization_keys": {
+					"body": "AXIS_LINE_DEPTH:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "AXIS_LINE_DEPTH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"depth": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_AXIS_LINE_PUSHED": {
+			"1": {
+				"action_or_variant": "AXIS_LINE_PUSHED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D1",
+				"locales": {
+					"en-US": {
+						"body": "Straight Axis · Pushed",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Straight Axis Display"
+					},
+					"ko-KR": {
+						"body": "직선축 · 밀기 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "직선축의 표시"
+					}
+				},
+				"localization_keys": {
+					"body": "AXIS_LINE_PUSHED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "AXIS_LINE_PUSHED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_AXIS_RING_DEPTH": {
+			"1": {
+				"action_or_variant": "AXIS_RING_DEPTH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D1",
+				"locales": {
+					"en-US": {
+						"body": "Ring Axis · Depth {depth}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Ring Axis Display"
+					},
+					"ko-KR": {
+						"body": "환형축 · 깊이 {depth}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "환형축의 표시"
+					}
+				},
+				"localization_keys": {
+					"body": "AXIS_RING_DEPTH:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "AXIS_RING_DEPTH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"depth": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_AXIS_RING_PUSHED": {
+			"1": {
+				"action_or_variant": "AXIS_RING_PUSHED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D1",
+				"locales": {
+					"en-US": {
+						"body": "Ring Axis · Pushed",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Ring Axis Display"
+					},
+					"ko-KR": {
+						"body": "환형축 · 밀기 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "환형축의 표시"
+					}
+				},
+				"localization_keys": {
+					"body": "AXIS_RING_PUSHED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "AXIS_RING_PUSHED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_BELL_BOARD": {
+			"1": {
+				"action_or_variant": "C_BELL_BOARD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C_BELL",
+				"locales": {
+					"en-US": {
+						"body": "The second journal described a signal that briefly loosens the surface, not a key.\nI can replay it using the verified settings in my notebook.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "The Great Clock Signal"
+					},
+					"ko-KR": {
+						"body": "두 번째 일지가 말한 것은 열쇠가 아니라 표면을 잠시 느슨하게 만드는 신호다.\n수첩에 검증한 설정으로 신호를 다시 보낼 수 있다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "대시계의 신호"
+					}
+				},
+				"localization_keys": {
+					"body": "C_BELL_BOARD:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_BELL_BOARD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_CHANNEL_EDGAR_CHECKED": {
+			"1": {
+				"action_or_variant": "C_CHANNEL_EDGAR_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Edgar · vertical lock line · low clock tone · Compared",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Edgar Diagnostic Signature"
+					},
+					"ko-KR": {
+						"body": "에드가 · 수직 잠금선 · 낮은 시계음 · 대조 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "에드가의 진단면 서명"
+					}
+				},
+				"localization_keys": {
+					"body": "C_CHANNEL_EDGAR_CHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_CHANNEL_EDGAR_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_CHANNEL_EDGAR_UNCHECKED": {
+			"1": {
+				"action_or_variant": "C_CHANNEL_EDGAR_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Edgar · vertical lock line · low clock tone",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Edgar Diagnostic Signature"
+					},
+					"ko-KR": {
+						"body": "에드가 · 수직 잠금선 · 낮은 시계음",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "에드가의 진단면 서명"
+					}
+				},
+				"localization_keys": {
+					"body": "C_CHANNEL_EDGAR_UNCHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_CHANNEL_EDGAR_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_CHANNEL_IRIS_CHECKED": {
+			"1": {
+				"action_or_variant": "C_CHANNEL_IRIS_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Iris · petal halo · glass and wind · Compared",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Iris Diagnostic Signature"
+					},
+					"ko-KR": {
+						"body": "이리스 · 꽃잎 · 유리와 바람 · 대조 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "이리스의 진단면 서명"
+					}
+				},
+				"localization_keys": {
+					"body": "C_CHANNEL_IRIS_CHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_CHANNEL_IRIS_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_CHANNEL_IRIS_UNCHECKED": {
+			"1": {
+				"action_or_variant": "C_CHANNEL_IRIS_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Iris · petal halo · glass and wind",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Iris Diagnostic Signature"
+					},
+					"ko-KR": {
+						"body": "이리스 · 꽃잎 · 유리와 바람",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "이리스의 진단면 서명"
+					}
+				},
+				"localization_keys": {
+					"body": "C_CHANNEL_IRIS_UNCHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_CHANNEL_IRIS_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_CHANNEL_LUCA_CHECKED": {
+			"1": {
+				"action_or_variant": "C_CHANNEL_LUCA_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Luca · double pulse · vital tone · Compared",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Luca Diagnostic Signature"
+					},
+					"ko-KR": {
+						"body": "루카 · 이중 맥박 · 생체음 · 대조 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "루카의 진단면 서명"
+					}
+				},
+				"localization_keys": {
+					"body": "C_CHANNEL_LUCA_CHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_CHANNEL_LUCA_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_CHANNEL_LUCA_UNCHECKED": {
+			"1": {
+				"action_or_variant": "C_CHANNEL_LUCA_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Luca · double pulse · vital tone",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Luca Diagnostic Signature"
+					},
+					"ko-KR": {
+						"body": "루카 · 이중 맥박 · 생체음",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "루카의 진단면 서명"
+					}
+				},
+				"localization_keys": {
+					"body": "C_CHANNEL_LUCA_UNCHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_CHANNEL_LUCA_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_CHANNEL_MARA1_CHECKED": {
+			"1": {
+				"action_or_variant": "C_CHANNEL_MARA1_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1 · diagonal wipe · dry brush · Compared",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Mara 1 Diagnostic Signature"
+					},
+					"ko-KR": {
+						"body": "마라 1 · 대각 닦임 · 마른 솔 · 대조 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "마라 1의 진단면 서명"
+					}
+				},
+				"localization_keys": {
+					"body": "C_CHANNEL_MARA1_CHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_CHANNEL_MARA1_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_CHANNEL_MARA1_UNCHECKED": {
+			"1": {
+				"action_or_variant": "C_CHANNEL_MARA1_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1 · diagonal wipe · dry brush",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Mara 1 Diagnostic Signature"
+					},
+					"ko-KR": {
+						"body": "마라 1 · 대각 닦임 · 마른 솔",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "마라 1의 진단면 서명"
+					}
+				},
+				"localization_keys": {
+					"body": "C_CHANNEL_MARA1_UNCHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_CHANNEL_MARA1_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_CHANNEL_MARA2_CHECKED": {
+			"1": {
+				"action_or_variant": "C_CHANNEL_MARA2_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2 · double frame · quick three-note trill · Compared",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Mara 2 Diagnostic Signature"
+					},
+					"ko-KR": {
+						"body": "마라 2 · 이중 액자 · 빠른 세 음 · 대조 완료",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "마라 2의 진단면 서명"
+					}
+				},
+				"localization_keys": {
+					"body": "C_CHANNEL_MARA2_CHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_CHANNEL_MARA2_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_CHANNEL_MARA2_UNCHECKED": {
+			"1": {
+				"action_or_variant": "C_CHANNEL_MARA2_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2 · double frame · quick three-note trill",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Mara 2 Diagnostic Signature"
+					},
+					"ko-KR": {
+						"body": "마라 2 · 이중 액자 · 빠른 세 음",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "마라 2의 진단면 서명"
+					}
+				},
+				"localization_keys": {
+					"body": "C_CHANNEL_MARA2_UNCHECKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_CHANNEL_MARA2_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_COLOR_CLOSED": {
+			"1": {
+				"action_or_variant": "C_COLOR_CLOSED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "A lens and filter plate disguised as decoration. I cannot tell what they do yet.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Color Separation Room Entrance"
+					},
+					"ko-KR": {
+						"body": "장식처럼 보이는 렌즈와 필터판. 아직 기능을 알 수 없다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "색분해실 입구"
+					}
+				},
+				"localization_keys": {
+					"body": "C_COLOR_CLOSED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_COLOR_CLOSED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_COLOR_OPEN": {
+			"1": {
+				"action_or_variant": "C_COLOR_OPEN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C5_INFO",
+				"locales": {
+					"en-US": {
+						"body": "Five glyphs overlap on the outer lens. Its inner function is still unavailable.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Color Separation Room Entrance"
+					},
+					"ko-KR": {
+						"body": "외부 렌즈에 다섯 문양이 겹친다. 내부 기능은 아직 열리지 않았다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "색분해실 입구"
+					}
+				},
+				"localization_keys": {
+					"body": "C_COLOR_OPEN:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_COLOR_OPEN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_LOCKED_BOARD": {
+			"1": {
+				"action_or_variant": "C_LOCKED_BOARD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "CF",
+				"locales": {
+					"en-US": {
+						"body": "Coating hardened or tool confiscated for today\nThe record remains. After sleeping, I can gather fresh materials.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Mirror Inspection Lock"
+					},
+					"ko-KR": {
+						"body": "당일 코팅 경화 또는 도구 회수\n기록은 남았다. 잠든 뒤 재료를 다시 준비할 수 있다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "거울 조사 잠금"
+					}
+				},
+				"localization_keys": {
+					"body": "C_LOCKED_BOARD:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_LOCKED_BOARD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_READY_CLOCK": {
+			"1": {
+				"action_or_variant": "C_READY_CLOCK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C3",
+				"locales": {
+					"en-US": {
+						"body": "Neutral cleaning solution ready · Next destination: West Great Clock",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Prepared Cleaning Solution"
+					},
+					"ko-KR": {
+						"body": "중성 세정제 확보 · 다음 목적지는 서쪽 대시계",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "준비된 세정제"
+					}
+				},
+				"localization_keys": {
+					"body": "C_READY_CLOCK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_READY_CLOCK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_READY_SIGNAL": {
+			"1": {
+				"action_or_variant": "C_READY_SIGNAL",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C3",
+				"locales": {
+					"en-US": {
+						"body": "Neutral cleaning solution ready · Compare the route in the mirror gallery",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Prepared Cleaning Solution"
+					},
+					"ko-KR": {
+						"body": "중성 세정제 확보 · 거울 회랑에서 경로를 대조한다",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "준비된 세정제"
+					}
+				},
+				"localization_keys": {
+					"body": "C_READY_SIGNAL:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_READY_SIGNAL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_C_TOOL_ROOM_BOARD": {
+			"1": {
+				"action_or_variant": "C_TOOL_ROOM_BOARD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "C2",
+				"locales": {
+					"en-US": {
+						"body": "The record remains readable while the servant is away.\nA graduated bottle, soft cloth, and fastening tools lie in careful order.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Tool Room Cleaning Notice"
+					},
+					"ko-KR": {
+						"body": "기록은 사용인이 자리를 비워도 읽을 수 있다.\n눈금병과 부드러운 천, 고정 공구가 가지런히 놓여 있다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "도구실의 청소 안내"
+					}
+				},
+				"localization_keys": {
+					"body": "C_TOOL_ROOM_BOARD:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "C_TOOL_ROOM_BOARD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_D_AXIS_LOCKED": {
+			"1": {
+				"action_or_variant": "D_AXIS_LOCKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D1",
+				"locales": {
+					"en-US": {
+						"body": "Pressure pins lowered · Inputs locked for today\nThe verified notebook record remains. Sleep in the same bedroom.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Basement Axis Lock"
+					},
+					"ko-KR": {
+						"body": "압력핀 하강 · 당일 입력 잠김\n수첩의 검증 결과는 남는다. 같은 침실에서 잠든다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "지하 축 장치의 잠금"
+					}
+				},
+				"localization_keys": {
+					"body": "D_AXIS_LOCKED:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_AXIS_LOCKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_D_DRAWER_BOARD": {
+			"1": {
+				"action_or_variant": "D_DRAWER_BOARD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D0",
+				"locales": {
+					"en-US": {
+						"body": "Three impressions in the desk's false bottom\nCompare the bedroom, greenhouse, and great-clock landmarks from the C5 transparency and J3.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Impressions on the Archive Desk"
+					},
+					"ko-KR": {
+						"body": "책상 이중 바닥의 세 눌림점\nC5 투명지와 J3의 침실·온실·대시계 기준점을 비교한다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "서재 책상의 눌림점"
+					}
+				},
+				"localization_keys": {
+					"body": "D_DRAWER_BOARD:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_DRAWER_BOARD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_D_POINT_BEDROOM": {
+			"1": {
+				"action_or_variant": "D_POINT_BEDROOM",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D0",
+				"locales": {
+					"en-US": {
+						"body": "Bedroom Point",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Bedroom Point"
+					},
+					"ko-KR": {
+						"body": "침실 점",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "침실 점"
+					}
+				},
+				"localization_keys": {
+					"body": "D_POINT_BEDROOM:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_POINT_BEDROOM",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_D_POINT_GREAT_CLOCK": {
+			"1": {
+				"action_or_variant": "D_POINT_GREAT_CLOCK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D0",
+				"locales": {
+					"en-US": {
+						"body": "Great-Clock Point",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Great-Clock Point"
+					},
+					"ko-KR": {
+						"body": "대시계 점",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "대시계 점"
+					}
+				},
+				"localization_keys": {
+					"body": "D_POINT_GREAT_CLOCK:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_POINT_GREAT_CLOCK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_D_POINT_GREENHOUSE": {
+			"1": {
+				"action_or_variant": "D_POINT_GREENHOUSE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D0",
+				"locales": {
+					"en-US": {
+						"body": "Greenhouse Point",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Greenhouse Point"
+					},
+					"ko-KR": {
+						"body": "온실 점",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "온실 점"
+					}
+				},
+				"localization_keys": {
+					"body": "D_POINT_GREENHOUSE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_POINT_GREENHOUSE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_D_STORAGE_BARREL": {
+			"1": {
+				"action_or_variant": "D_STORAGE_BARREL",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D2",
+				"locales": {
+					"en-US": {
+						"body": "Empty Wine Barrel",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Empty Wine Barrel"
+					},
+					"ko-KR": {
+						"body": "빈 와인통",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "빈 와인통"
+					}
+				},
+				"localization_keys": {
+					"body": "D_STORAGE_BARREL:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_STORAGE_BARREL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_D_STORAGE_CABLE": {
+			"1": {
+				"action_or_variant": "D_STORAGE_CABLE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D2",
+				"locales": {
+					"en-US": {
+						"body": "Cable Reel",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Cable Reel"
+					},
+					"ko-KR": {
+						"body": "케이블 릴",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "케이블 릴"
+					}
+				},
+				"localization_keys": {
+					"body": "D_STORAGE_CABLE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_STORAGE_CABLE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_D_STORAGE_DRAWING": {
+			"1": {
+				"action_or_variant": "D_STORAGE_DRAWING",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D2",
+				"locales": {
+					"en-US": {
+						"body": "Drawing Fragment",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Drawing Fragment"
+					},
+					"ko-KR": {
+						"body": "낙서 조각",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "낙서 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "D_STORAGE_DRAWING:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_STORAGE_DRAWING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_D_STORAGE_FILTER": {
+			"1": {
+				"action_or_variant": "D_STORAGE_FILTER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "D2",
+				"locales": {
+					"en-US": {
+						"body": "Camouflage Filter Component",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Camouflage Filter Component"
+					},
+					"ko-KR": {
+						"body": "위장 필터 부품",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "위장 필터 부품"
+					}
+				},
+				"localization_keys": {
+					"body": "D_STORAGE_FILTER:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_STORAGE_FILTER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_FLOORPLAN": {
+			"1": {
+				"action_or_variant": "FLOORPLAN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"great_clock": "Great Clock",
+							"greenhouse": "Greenhouse",
+							"unset": "Not Selected"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"great_clock": "대시계",
+							"greenhouse": "온실",
+							"unset": "미선택"
+						}
+					},
+					"flipped": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Horizontally mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "좌우 반전"
+						}
+					}
+				},
+				"event_id": "D0_A",
+				"locales": {
+					"en-US": {
+						"body": "Floorplan and C5 transparency\nRotation {rotation}° · {flipped} · Anchor: {anchor}\nCheck both the three landmarks and the direction of the mirror-reversed lettering.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Floorplan and Transparency"
+					},
+					"ko-KR": {
+						"body": "평면도와 C5 투명지\n회전 {rotation}° · {flipped} · 고정점 {anchor}\n세 기준점뿐 아니라 거울에 뒤집힌 글자의 방향도 확인한다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "평면도와 투명지"
+					}
+				},
+				"localization_keys": {
+					"body": "FLOORPLAN:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "FLOORPLAN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"anchor": "enum:anchor",
+						"flipped": "enum:flipped",
+						"rotation": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_HEART": {
+			"1": {
+				"action_or_variant": "HEART",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"ring0": {
+						"en-US": {
+							"0": "XII Mark",
+							"1": "XIII Notch",
+							"2": "Small Notch",
+							"3": "Empty Border"
+						},
+						"ko-KR": {
+							"0": "XII 표시",
+							"1": "XIII 홈",
+							"2": "작은 홈",
+							"3": "빈 테두리"
+						}
+					},
+					"ring1": {
+						"en-US": {
+							"0": "Closed Branch",
+							"1": "Straight Junction",
+							"2": "C5 Branch Junction",
+							"3": "Ring Junction"
+						},
+						"ko-KR": {
+							"0": "닫힌 갈래",
+							"1": "직선 접점",
+							"2": "C5 분기 접점",
+							"3": "환형 접점"
+						}
+					},
+					"ring2": {
+						"en-US": {
+							"0": "Empty Center",
+							"1": "Window Glyph",
+							"2": "Door Glyph",
+							"3": "Lowest Heart"
+						},
+						"ko-KR": {
+							"0": "빈 중심",
+							"1": "창 문양",
+							"2": "문 문양",
+							"3": "최하단 심장"
+						}
+					}
+				},
+				"event_id": "D4",
+				"locales": {
+					"en-US": {
+						"body": "Outer · Middle · Inner\n{ring0} / {ring1} / {ring2}\nNormal Lever: {wind} / XII",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Clockwork Heart Glyphs and Lever"
+					},
+					"ko-KR": {
+						"body": "외곽 · 중간 · 안쪽\n{ring0} / {ring1} / {ring2}\n정상 레버: {wind} / XII",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "태엽 심장의 문양과 레버"
+					}
+				},
+				"localization_keys": {
+					"body": "HEART:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP08",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "HEART",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"ring0": "enum:ring0",
+						"ring1": "enum:ring1",
+						"ring2": "enum:ring2",
+						"wind": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_J3_ORDER_1": {
+			"1": {
+				"action_or_variant": "J3_ORDER_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"part": {
+						"en-US": {
+							"0": "The mirror does not return the direction you give it unchanged.",
+							"1": "The heart of the house beats at its lowest point.",
+							"2": "Align three points on one sheet: the bedroom's silent point, where the greenhouse season stops,",
+							"3": "Only in the orientation where all three points align"
+						},
+						"ko-KR": {
+							"0": "거울은 네가 건넨 방향을 그대로 돌려주지 않는다.",
+							"1": "집의 심장은 가장 낮은 곳에서 뛴다.",
+							"2": "침실의 고요한 점, 온실의 계절이 멈추는 점,",
+							"3": "세 점이 모두 맞는 방향에서만"
+						}
+					}
+				},
+				"event_id": "J3",
+				"locales": {
+					"en-US": {
+						"body": "{part0}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Current Journal Fragment Order"
+					},
+					"ko-KR": {
+						"body": "{part0}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "일지 조각의 현재 배치"
+					}
+				},
+				"localization_keys": {
+					"body": "J3_ORDER_1:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "J3_ORDER_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"part0": "enum:part"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_J3_ORDER_2": {
+			"1": {
+				"action_or_variant": "J3_ORDER_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"part": {
+						"en-US": {
+							"0": "The mirror does not return the direction you give it unchanged.",
+							"1": "The heart of the house beats at its lowest point.",
+							"2": "Align three points on one sheet: the bedroom's silent point, where the greenhouse season stops,",
+							"3": "Only in the orientation where all three points align"
+						},
+						"ko-KR": {
+							"0": "거울은 네가 건넨 방향을 그대로 돌려주지 않는다.",
+							"1": "집의 심장은 가장 낮은 곳에서 뛴다.",
+							"2": "침실의 고요한 점, 온실의 계절이 멈추는 점,",
+							"3": "세 점이 모두 맞는 방향에서만"
+						}
+					}
+				},
+				"event_id": "J3",
+				"locales": {
+					"en-US": {
+						"body": "{part0} -> {part1}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Current Journal Fragment Order"
+					},
+					"ko-KR": {
+						"body": "{part0} → {part1}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "일지 조각의 현재 배치"
+					}
+				},
+				"localization_keys": {
+					"body": "J3_ORDER_2:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "J3_ORDER_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"part0": "enum:part",
+						"part1": "enum:part"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_J3_ORDER_3": {
+			"1": {
+				"action_or_variant": "J3_ORDER_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"part": {
+						"en-US": {
+							"0": "The mirror does not return the direction you give it unchanged.",
+							"1": "The heart of the house beats at its lowest point.",
+							"2": "Align three points on one sheet: the bedroom's silent point, where the greenhouse season stops,",
+							"3": "Only in the orientation where all three points align"
+						},
+						"ko-KR": {
+							"0": "거울은 네가 건넨 방향을 그대로 돌려주지 않는다.",
+							"1": "집의 심장은 가장 낮은 곳에서 뛴다.",
+							"2": "침실의 고요한 점, 온실의 계절이 멈추는 점,",
+							"3": "세 점이 모두 맞는 방향에서만"
+						}
+					}
+				},
+				"event_id": "J3",
+				"locales": {
+					"en-US": {
+						"body": "{part0} -> {part1} -> {part2}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Current Journal Fragment Order"
+					},
+					"ko-KR": {
+						"body": "{part0} → {part1} → {part2}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "일지 조각의 현재 배치"
+					}
+				},
+				"localization_keys": {
+					"body": "J3_ORDER_3:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "J3_ORDER_3",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"part0": "enum:part",
+						"part1": "enum:part",
+						"part2": "enum:part"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_J3_ORDER_4": {
+			"1": {
+				"action_or_variant": "J3_ORDER_4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"part": {
+						"en-US": {
+							"0": "The mirror does not return the direction you give it unchanged.",
+							"1": "The heart of the house beats at its lowest point.",
+							"2": "Align three points on one sheet: the bedroom's silent point, where the greenhouse season stops,",
+							"3": "Only in the orientation where all three points align"
+						},
+						"ko-KR": {
+							"0": "거울은 네가 건넨 방향을 그대로 돌려주지 않는다.",
+							"1": "집의 심장은 가장 낮은 곳에서 뛴다.",
+							"2": "침실의 고요한 점, 온실의 계절이 멈추는 점,",
+							"3": "세 점이 모두 맞는 방향에서만"
+						}
+					}
+				},
+				"event_id": "J3",
+				"locales": {
+					"en-US": {
+						"body": "{part0} -> {part1} -> {part2} -> {part3}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Current Journal Fragment Order"
+					},
+					"ko-KR": {
+						"body": "{part0} → {part1} → {part2} → {part3}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "일지 조각의 현재 배치"
+					}
+				},
+				"localization_keys": {
+					"body": "J3_ORDER_4:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "J3_ORDER_4",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"part0": "enum:part",
+						"part1": "enum:part",
+						"part2": "enum:part",
+						"part3": "enum:part"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_J3_PART_0": {
+			"1": {
+				"action_or_variant": "J3_PART_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J3",
+				"locales": {
+					"en-US": {
+						"body": "The mirror does not return the direction you give it unchanged.\nBefore laying the visible route over the house, trace which side began in your hand.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "A Sentence Fragment of the Third Journal"
+					},
+					"ko-KR": {
+						"body": "거울은 네가 건넨 방향을 그대로 돌려주지 않는다.\n보이는 길을 집 위에 놓기 전에, 어느 쪽이 네 손에서 시작됐는지 먼저 되짚어라.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "세 번째 일지의 문장 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "J3_PART_0:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "J3_PART_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_J3_PART_1": {
+			"1": {
+				"action_or_variant": "J3_PART_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J3",
+				"locales": {
+					"en-US": {
+						"body": "The heart of the house beats at its lowest point.\nBut simply descending will not reach it.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "A Sentence Fragment of the Third Journal"
+					},
+					"ko-KR": {
+						"body": "집의 심장은 가장 낮은 곳에서 뛴다.\n하지만 아래로 내려가는 것만으로는 닿지 못한다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "세 번째 일지의 문장 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "J3_PART_1:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "J3_PART_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_J3_PART_2": {
+			"1": {
+				"action_or_variant": "J3_PART_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J3",
+				"locales": {
+					"en-US": {
+						"body": "Align three points on one sheet: the bedroom's silent point, where the greenhouse season stops,\nand the great clock that rings without a bell.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "A Sentence Fragment of the Third Journal"
+					},
+					"ko-KR": {
+						"body": "침실의 고요한 점, 온실의 계절이 멈추는 점,\n종이 없는데도 울리는 큰 시계를 한 장 위에 맞춰라.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "세 번째 일지의 문장 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "J3_PART_2:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "J3_PART_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_J3_PART_3": {
+			"1": {
+				"action_or_variant": "J3_PART_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "J3",
+				"locales": {
+					"en-US": {
+						"body": "Only in the orientation where all three points align\nwill the entrance admit that it was part of the house.",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "A Sentence Fragment of the Third Journal"
+					},
+					"ko-KR": {
+						"body": "세 점이 모두 맞는 방향에서만\n입구는 집의 일부였다고 인정할 것이다.",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "세 번째 일지의 문장 조각"
+					}
+				},
+				"localization_keys": {
+					"body": "J3_PART_3:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "J3_PART_3",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_MIXTURE": {
+			"1": {
+				"action_or_variant": "MIXTURE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"dispersion": {
+						"en-US": {
+							"no": "Unverified",
+							"yes": "Complete"
+						},
+						"ko-KR": {
+							"no": "미확인",
+							"yes": "완료"
+						}
+					},
+					"foam": {
+						"en-US": {
+							"no": "No foam",
+							"yes": "Foamy"
+						},
+						"ko-KR": {
+							"no": "거품 없음",
+							"yes": "거품 있음"
+						}
+					}
+				},
+				"event_id": "C3",
+				"locales": {
+					"en-US": {
+						"body": "8-unit bottle: Water {water} / Stabilizer {stabilizer} / Active {active}\nDispersion: {dispersed} · Mixed: {mixed} time(s) · {foam}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Current Cleaning Mixture"
+					},
+					"ko-KR": {
+						"body": "8단위 병: 물 {water} / 안정제 {stabilizer} / 원액 {active}\n확산: {dispersed} · 혼합: {mixed}회 · {foam}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "세정제의 현재 배합"
+					}
+				},
+				"localization_keys": {
+					"body": "MIXTURE:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "MIXTURE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"active": "int",
+						"dispersed": "enum:dispersion",
+						"foam": "enum:foam",
+						"mixed": "int",
+						"stabilizer": "int",
+						"water": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_OVERLAY_0": {
+			"1": {
+				"action_or_variant": "OVERLAY_0",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"kind": "ui"
+					}
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"no": "Not anchored",
+							"yes": "Anchored"
+						},
+						"ko-KR": {
+							"no": "미고정",
+							"yes": "고정"
+						}
+					},
+					"flip": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "반전"
+						}
+					},
+					"route": {
+						"en-US": {
+							"clockwise_ring": "Clockwise loop",
+							"counterclockwise_ring": "Counterclockwise loop",
+							"entry": "Straight entry",
+							"long_branch": "Long branch",
+							"short_branch": "Short branch"
+						},
+						"ko-KR": {
+							"clockwise_ring": "고리 시계 방향",
+							"counterclockwise_ring": "고리 반시계 방향",
+							"entry": "직선 진입",
+							"long_branch": "긴 분기",
+							"short_branch": "짧은 분기"
+						}
+					}
+				},
+				"event_id": "C4",
+				"locales": {
+					"en-US": {
+						"body": "Thick solid line and circle: mirror circuit and lower vibration point\nThin dotted line and square: tracing waveform and thirteenth large wave\nCompare whether both references and the asymmetric fork align together.",
+						"header": "Mirror Grooves and Tracing",
+						"option_0": "Return to the current layout",
+						"speaker": "Displayed choices",
+						"state": "Tracing {rotation}° · {flipped} · Lower reference {anchored}\nRoute: ",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Mirror Grooves and Tracing"
+					},
+					"ko-KR": {
+						"body": "굵은 실선·원: 거울 회로와 하단 진동점\n가는 점선·사각: 투명지 파형과 열세 번째 큰 파동\n두 기준과 비대칭 분기가 함께 맞는지 비교한다.",
+						"header": "거울 홈과 투명지",
+						"option_0": "현재 배치로 돌아간다",
+						"speaker": "표시된 선택지",
+						"state": "투명지 {rotation}° · {flipped} · 하단 기준점 {anchored}\n계획: ",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "거울 홈과 투명지"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_0:body",
+					"header": "OVERLAY_0:header",
+					"option_0": "OVERLAY_0:option_0",
+					"state": "OVERLAY_0:state"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "OVERLAY_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"state": {
+						"anchored": "enum:anchor",
+						"flipped": "enum:flip",
+						"rotation": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"state",
+					"option_0"
+				]
+			}
+		},
+		"NB_PUZZLE_OVERLAY_1": {
+			"1": {
+				"action_or_variant": "OVERLAY_1",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"kind": "ui"
+					}
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"no": "Not anchored",
+							"yes": "Anchored"
+						},
+						"ko-KR": {
+							"no": "미고정",
+							"yes": "고정"
+						}
+					},
+					"flip": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "반전"
+						}
+					},
+					"route": {
+						"en-US": {
+							"clockwise_ring": "Clockwise loop",
+							"counterclockwise_ring": "Counterclockwise loop",
+							"entry": "Straight entry",
+							"long_branch": "Long branch",
+							"short_branch": "Short branch"
+						},
+						"ko-KR": {
+							"clockwise_ring": "고리 시계 방향",
+							"counterclockwise_ring": "고리 반시계 방향",
+							"entry": "직선 진입",
+							"long_branch": "긴 분기",
+							"short_branch": "짧은 분기"
+						}
+					}
+				},
+				"event_id": "C4",
+				"locales": {
+					"en-US": {
+						"body": "Thick solid line and circle: mirror circuit and lower vibration point\nThin dotted line and square: tracing waveform and thirteenth large wave\nCompare whether both references and the asymmetric fork align together.",
+						"header": "Mirror Grooves and Tracing",
+						"option_0": "Return to the current layout",
+						"speaker": "Displayed choices",
+						"state": "Tracing {rotation}° · {flipped} · Lower reference {anchored}\nRoute: {route0}",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Mirror Grooves and Tracing"
+					},
+					"ko-KR": {
+						"body": "굵은 실선·원: 거울 회로와 하단 진동점\n가는 점선·사각: 투명지 파형과 열세 번째 큰 파동\n두 기준과 비대칭 분기가 함께 맞는지 비교한다.",
+						"header": "거울 홈과 투명지",
+						"option_0": "현재 배치로 돌아간다",
+						"speaker": "표시된 선택지",
+						"state": "투명지 {rotation}° · {flipped} · 하단 기준점 {anchored}\n계획: {route0}",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "거울 홈과 투명지"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_1:body",
+					"header": "OVERLAY_1:header",
+					"option_0": "OVERLAY_1:option_0",
+					"state": "OVERLAY_1:state"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "OVERLAY_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"state": {
+						"anchored": "enum:anchor",
+						"flipped": "enum:flip",
+						"rotation": "int",
+						"route0": "enum:route"
+					}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"state",
+					"option_0"
+				]
+			}
+		},
+		"NB_PUZZLE_OVERLAY_2": {
+			"1": {
+				"action_or_variant": "OVERLAY_2",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"kind": "ui"
+					}
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"no": "Not anchored",
+							"yes": "Anchored"
+						},
+						"ko-KR": {
+							"no": "미고정",
+							"yes": "고정"
+						}
+					},
+					"flip": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "반전"
+						}
+					},
+					"route": {
+						"en-US": {
+							"clockwise_ring": "Clockwise loop",
+							"counterclockwise_ring": "Counterclockwise loop",
+							"entry": "Straight entry",
+							"long_branch": "Long branch",
+							"short_branch": "Short branch"
+						},
+						"ko-KR": {
+							"clockwise_ring": "고리 시계 방향",
+							"counterclockwise_ring": "고리 반시계 방향",
+							"entry": "직선 진입",
+							"long_branch": "긴 분기",
+							"short_branch": "짧은 분기"
+						}
+					}
+				},
+				"event_id": "C4",
+				"locales": {
+					"en-US": {
+						"body": "Thick solid line and circle: mirror circuit and lower vibration point\nThin dotted line and square: tracing waveform and thirteenth large wave\nCompare whether both references and the asymmetric fork align together.",
+						"header": "Mirror Grooves and Tracing",
+						"option_0": "Return to the current layout",
+						"speaker": "Displayed choices",
+						"state": "Tracing {rotation}° · {flipped} · Lower reference {anchored}\nRoute: {route0} -> {route1}",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Mirror Grooves and Tracing"
+					},
+					"ko-KR": {
+						"body": "굵은 실선·원: 거울 회로와 하단 진동점\n가는 점선·사각: 투명지 파형과 열세 번째 큰 파동\n두 기준과 비대칭 분기가 함께 맞는지 비교한다.",
+						"header": "거울 홈과 투명지",
+						"option_0": "현재 배치로 돌아간다",
+						"speaker": "표시된 선택지",
+						"state": "투명지 {rotation}° · {flipped} · 하단 기준점 {anchored}\n계획: {route0} → {route1}",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "거울 홈과 투명지"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_2:body",
+					"header": "OVERLAY_2:header",
+					"option_0": "OVERLAY_2:option_0",
+					"state": "OVERLAY_2:state"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "OVERLAY_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"state": {
+						"anchored": "enum:anchor",
+						"flipped": "enum:flip",
+						"rotation": "int",
+						"route0": "enum:route",
+						"route1": "enum:route"
+					}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"state",
+					"option_0"
+				]
+			}
+		},
+		"NB_PUZZLE_OVERLAY_3": {
+			"1": {
+				"action_or_variant": "OVERLAY_3",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"kind": "ui"
+					}
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"no": "Not anchored",
+							"yes": "Anchored"
+						},
+						"ko-KR": {
+							"no": "미고정",
+							"yes": "고정"
+						}
+					},
+					"flip": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "반전"
+						}
+					},
+					"route": {
+						"en-US": {
+							"clockwise_ring": "Clockwise loop",
+							"counterclockwise_ring": "Counterclockwise loop",
+							"entry": "Straight entry",
+							"long_branch": "Long branch",
+							"short_branch": "Short branch"
+						},
+						"ko-KR": {
+							"clockwise_ring": "고리 시계 방향",
+							"counterclockwise_ring": "고리 반시계 방향",
+							"entry": "직선 진입",
+							"long_branch": "긴 분기",
+							"short_branch": "짧은 분기"
+						}
+					}
+				},
+				"event_id": "C4",
+				"locales": {
+					"en-US": {
+						"body": "Thick solid line and circle: mirror circuit and lower vibration point\nThin dotted line and square: tracing waveform and thirteenth large wave\nCompare whether both references and the asymmetric fork align together.",
+						"header": "Mirror Grooves and Tracing",
+						"option_0": "Return to the current layout",
+						"speaker": "Displayed choices",
+						"state": "Tracing {rotation}° · {flipped} · Lower reference {anchored}\nRoute: {route0} -> {route1} -> {route2}",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Mirror Grooves and Tracing"
+					},
+					"ko-KR": {
+						"body": "굵은 실선·원: 거울 회로와 하단 진동점\n가는 점선·사각: 투명지 파형과 열세 번째 큰 파동\n두 기준과 비대칭 분기가 함께 맞는지 비교한다.",
+						"header": "거울 홈과 투명지",
+						"option_0": "현재 배치로 돌아간다",
+						"speaker": "표시된 선택지",
+						"state": "투명지 {rotation}° · {flipped} · 하단 기준점 {anchored}\n계획: {route0} → {route1} → {route2}",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "거울 홈과 투명지"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_3:body",
+					"header": "OVERLAY_3:header",
+					"option_0": "OVERLAY_3:option_0",
+					"state": "OVERLAY_3:state"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "OVERLAY_3",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"state": {
+						"anchored": "enum:anchor",
+						"flipped": "enum:flip",
+						"rotation": "int",
+						"route0": "enum:route",
+						"route1": "enum:route",
+						"route2": "enum:route"
+					}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"state",
+					"option_0"
+				]
+			}
+		},
+		"NB_PUZZLE_OVERLAY_4": {
+			"1": {
+				"action_or_variant": "OVERLAY_4",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"kind": "ui"
+					}
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"no": "Not anchored",
+							"yes": "Anchored"
+						},
+						"ko-KR": {
+							"no": "미고정",
+							"yes": "고정"
+						}
+					},
+					"flip": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "반전"
+						}
+					},
+					"route": {
+						"en-US": {
+							"clockwise_ring": "Clockwise loop",
+							"counterclockwise_ring": "Counterclockwise loop",
+							"entry": "Straight entry",
+							"long_branch": "Long branch",
+							"short_branch": "Short branch"
+						},
+						"ko-KR": {
+							"clockwise_ring": "고리 시계 방향",
+							"counterclockwise_ring": "고리 반시계 방향",
+							"entry": "직선 진입",
+							"long_branch": "긴 분기",
+							"short_branch": "짧은 분기"
+						}
+					}
+				},
+				"event_id": "C4",
+				"locales": {
+					"en-US": {
+						"body": "Thick solid line and circle: mirror circuit and lower vibration point\nThin dotted line and square: tracing waveform and thirteenth large wave\nCompare whether both references and the asymmetric fork align together.",
+						"header": "Mirror Grooves and Tracing",
+						"option_0": "Return to the current layout",
+						"speaker": "Displayed choices",
+						"state": "Tracing {rotation}° · {flipped} · Lower reference {anchored}\nRoute: {route0} -> {route1} -> {route2} -> {route3}",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Mirror Grooves and Tracing"
+					},
+					"ko-KR": {
+						"body": "굵은 실선·원: 거울 회로와 하단 진동점\n가는 점선·사각: 투명지 파형과 열세 번째 큰 파동\n두 기준과 비대칭 분기가 함께 맞는지 비교한다.",
+						"header": "거울 홈과 투명지",
+						"option_0": "현재 배치로 돌아간다",
+						"speaker": "표시된 선택지",
+						"state": "투명지 {rotation}° · {flipped} · 하단 기준점 {anchored}\n계획: {route0} → {route1} → {route2} → {route3}",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "거울 홈과 투명지"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_4:body",
+					"header": "OVERLAY_4:header",
+					"option_0": "OVERLAY_4:option_0",
+					"state": "OVERLAY_4:state"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "OVERLAY_4",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"state": {
+						"anchored": "enum:anchor",
+						"flipped": "enum:flip",
+						"rotation": "int",
+						"route0": "enum:route",
+						"route1": "enum:route",
+						"route2": "enum:route",
+						"route3": "enum:route"
+					}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"state",
+					"option_0"
+				]
+			}
+		},
+		"NB_PUZZLE_TRACE_0": {
+			"1": {
+				"action_or_variant": "TRACE_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"no": "Not anchored",
+							"yes": "Anchored"
+						},
+						"ko-KR": {
+							"no": "미고정",
+							"yes": "고정"
+						}
+					},
+					"flip": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "반전"
+						}
+					},
+					"route": {
+						"en-US": {
+							"clockwise_ring": "Clockwise loop",
+							"counterclockwise_ring": "Counterclockwise loop",
+							"entry": "Straight entry",
+							"long_branch": "Long branch",
+							"short_branch": "Short branch"
+						},
+						"ko-KR": {
+							"clockwise_ring": "고리 시계 방향",
+							"counterclockwise_ring": "고리 반시계 방향",
+							"entry": "직선 진입",
+							"long_branch": "긴 분기",
+							"short_branch": "짧은 분기"
+						}
+					}
+				},
+				"event_id": "C4",
+				"locales": {
+					"en-US": {
+						"body": "Tracing {rotation}° · {flipped} · Lower reference {anchored}\nRoute: ",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Tracing Orientation and Selected Route"
+					},
+					"ko-KR": {
+						"body": "투명지 {rotation}° · {flipped} · 하단 기준점 {anchored}\n계획: ",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "투명지 방향과 선택 경로"
+					}
+				},
+				"localization_keys": {
+					"body": "TRACE_0:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "TRACE_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"anchored": "enum:anchor",
+						"flipped": "enum:flip",
+						"rotation": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_TRACE_1": {
+			"1": {
+				"action_or_variant": "TRACE_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"no": "Not anchored",
+							"yes": "Anchored"
+						},
+						"ko-KR": {
+							"no": "미고정",
+							"yes": "고정"
+						}
+					},
+					"flip": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "반전"
+						}
+					},
+					"route": {
+						"en-US": {
+							"clockwise_ring": "Clockwise loop",
+							"counterclockwise_ring": "Counterclockwise loop",
+							"entry": "Straight entry",
+							"long_branch": "Long branch",
+							"short_branch": "Short branch"
+						},
+						"ko-KR": {
+							"clockwise_ring": "고리 시계 방향",
+							"counterclockwise_ring": "고리 반시계 방향",
+							"entry": "직선 진입",
+							"long_branch": "긴 분기",
+							"short_branch": "짧은 분기"
+						}
+					}
+				},
+				"event_id": "C4",
+				"locales": {
+					"en-US": {
+						"body": "Tracing {rotation}° · {flipped} · Lower reference {anchored}\nRoute: {route0}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Tracing Orientation and Selected Route"
+					},
+					"ko-KR": {
+						"body": "투명지 {rotation}° · {flipped} · 하단 기준점 {anchored}\n계획: {route0}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "투명지 방향과 선택 경로"
+					}
+				},
+				"localization_keys": {
+					"body": "TRACE_1:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "TRACE_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"anchored": "enum:anchor",
+						"flipped": "enum:flip",
+						"rotation": "int",
+						"route0": "enum:route"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_TRACE_2": {
+			"1": {
+				"action_or_variant": "TRACE_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"no": "Not anchored",
+							"yes": "Anchored"
+						},
+						"ko-KR": {
+							"no": "미고정",
+							"yes": "고정"
+						}
+					},
+					"flip": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "반전"
+						}
+					},
+					"route": {
+						"en-US": {
+							"clockwise_ring": "Clockwise loop",
+							"counterclockwise_ring": "Counterclockwise loop",
+							"entry": "Straight entry",
+							"long_branch": "Long branch",
+							"short_branch": "Short branch"
+						},
+						"ko-KR": {
+							"clockwise_ring": "고리 시계 방향",
+							"counterclockwise_ring": "고리 반시계 방향",
+							"entry": "직선 진입",
+							"long_branch": "긴 분기",
+							"short_branch": "짧은 분기"
+						}
+					}
+				},
+				"event_id": "C4",
+				"locales": {
+					"en-US": {
+						"body": "Tracing {rotation}° · {flipped} · Lower reference {anchored}\nRoute: {route0} -> {route1}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Tracing Orientation and Selected Route"
+					},
+					"ko-KR": {
+						"body": "투명지 {rotation}° · {flipped} · 하단 기준점 {anchored}\n계획: {route0} → {route1}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "투명지 방향과 선택 경로"
+					}
+				},
+				"localization_keys": {
+					"body": "TRACE_2:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "TRACE_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"anchored": "enum:anchor",
+						"flipped": "enum:flip",
+						"rotation": "int",
+						"route0": "enum:route",
+						"route1": "enum:route"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_TRACE_3": {
+			"1": {
+				"action_or_variant": "TRACE_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"no": "Not anchored",
+							"yes": "Anchored"
+						},
+						"ko-KR": {
+							"no": "미고정",
+							"yes": "고정"
+						}
+					},
+					"flip": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "반전"
+						}
+					},
+					"route": {
+						"en-US": {
+							"clockwise_ring": "Clockwise loop",
+							"counterclockwise_ring": "Counterclockwise loop",
+							"entry": "Straight entry",
+							"long_branch": "Long branch",
+							"short_branch": "Short branch"
+						},
+						"ko-KR": {
+							"clockwise_ring": "고리 시계 방향",
+							"counterclockwise_ring": "고리 반시계 방향",
+							"entry": "직선 진입",
+							"long_branch": "긴 분기",
+							"short_branch": "짧은 분기"
+						}
+					}
+				},
+				"event_id": "C4",
+				"locales": {
+					"en-US": {
+						"body": "Tracing {rotation}° · {flipped} · Lower reference {anchored}\nRoute: {route0} -> {route1} -> {route2}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Tracing Orientation and Selected Route"
+					},
+					"ko-KR": {
+						"body": "투명지 {rotation}° · {flipped} · 하단 기준점 {anchored}\n계획: {route0} → {route1} → {route2}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "투명지 방향과 선택 경로"
+					}
+				},
+				"localization_keys": {
+					"body": "TRACE_3:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "TRACE_3",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"anchored": "enum:anchor",
+						"flipped": "enum:flip",
+						"rotation": "int",
+						"route0": "enum:route",
+						"route1": "enum:route",
+						"route2": "enum:route"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_PUZZLE_TRACE_4": {
+			"1": {
+				"action_or_variant": "TRACE_4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"no": "Not anchored",
+							"yes": "Anchored"
+						},
+						"ko-KR": {
+							"no": "미고정",
+							"yes": "고정"
+						}
+					},
+					"flip": {
+						"en-US": {
+							"no": "Not mirrored",
+							"yes": "Mirrored"
+						},
+						"ko-KR": {
+							"no": "반전 없음",
+							"yes": "반전"
+						}
+					},
+					"route": {
+						"en-US": {
+							"clockwise_ring": "Clockwise loop",
+							"counterclockwise_ring": "Counterclockwise loop",
+							"entry": "Straight entry",
+							"long_branch": "Long branch",
+							"short_branch": "Short branch"
+						},
+						"ko-KR": {
+							"clockwise_ring": "고리 시계 방향",
+							"counterclockwise_ring": "고리 반시계 방향",
+							"entry": "직선 진입",
+							"long_branch": "긴 분기",
+							"short_branch": "짧은 분기"
+						}
+					}
+				},
+				"event_id": "C4",
+				"locales": {
+					"en-US": {
+						"body": "Tracing {rotation}° · {flipped} · Lower reference {anchored}\nRoute: {route0} -> {route1} -> {route2} -> {route3}",
+						"speaker": "Scene",
+						"summary": "The arrangement and labels displayed at that time",
+						"title": "Tracing Orientation and Selected Route"
+					},
+					"ko-KR": {
+						"body": "투명지 {rotation}° · {flipped} · 하단 기준점 {anchored}\n계획: {route0} → {route1} → {route2} → {route3}",
+						"speaker": "장면",
+						"summary": "당시 화면에서 확인한 배치와 표시",
+						"title": "투명지 방향과 선택 경로"
+					}
+				},
+				"localization_keys": {
+					"body": "TRACE_4:body"
+				},
+				"location_source": "actual_display_before_action",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP07",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/black_mirror_controller.gd",
+				"source_symbol": "TRACE_4",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"anchored": "enum:anchor",
+						"flipped": "enum:flip",
+						"rotation": "int",
+						"route0": "enum:route",
+						"route1": "enum:route",
+						"route2": "enum:route",
+						"route3": "enum:route"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

@@ -230,8 +230,8 @@ static func floorplan_status(local: Dictionary, locale: String) -> String:
 
 static func axis_status(axis: String, axes: Dictionary, locale: String) -> String:
 	if not is_english(locale):
-		return axis_name(axis, locale) + (" · 밀기 완료" if axis in axes["pushed"] else " · 깊이 " + str(axes["depths"][axis]))
-	return axis_name(axis, locale) + (" · Pushed" if axis in axes["pushed"] else " · Depth " + str(axes["depths"][axis]))
+		return axis_name(axis, locale) + (" · 밀기 완료" if axis in axes["pushed"] else " · 깊이 " + str(int(axes["depths"][axis])))
+	return axis_name(axis, locale) + (" · Pushed" if axis in axes["pushed"] else " · Depth " + str(int(axes["depths"][axis])))
 
 static func heart_status(heart: Dictionary, locale: String) -> String:
 	var labels: Array[String] = []

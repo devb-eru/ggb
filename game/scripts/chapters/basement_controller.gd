@@ -31,7 +31,6 @@ const JOURNAL_DISPLAY := preload("res://scripts/systems/journal_four_display_not
 const CORE_NOTES := preload("res://scripts/systems/core_notebook.gd")
 const FINAL_NOTES := preload("res://scripts/systems/final_notebook.gd")
 const REALITY_NOTES := preload("res://scripts/systems/reality_notebook.gd")
-var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
@@ -128,28 +127,9 @@ func _update_objective() -> void:
 	if session != null:
 		_objective_label.text = BASEMENT_TEXTS.objective(session.stage(), TranslationServer.get_locale()) if BASEMENT_TEXTS.OBJECTIVES.has(session.stage()) else OBJECTIVE_TEXT.get(session.stage(), BASEMENT_TEXTS.objective("default", TranslationServer.get_locale()))
 
-func _notebook_surface_enabled() -> bool:
-	return session != null and preload("res://scripts/systems/notebook_rollout.gd").enabled() and session._game.get_value("meta_progress.dialogue_history.schema_version", 0) == 2
-
-
-func _notebook_surface_scope() -> Dictionary:
-	if session == null: return {}
-	var scope := _recorded_choice_scope()
-	scope.node = session.stage()
-	scope.location = session._game.get_value("loop_state.location_id", "")
-	scope.day = session._game.get_value("loop_state.day_index", 0)
-	if session._game.get_value("ending_run.branch_committed", false):
-		scope.ending_node = session._game.get_value("ending_run.current_node_id", "")
-	return scope
-
 
 func _queue_notebook_surface(key: String, text: String) -> void:
 	_queue_notebook_content(FRACTURE_SURFACE_TEXTS.PREFIX + key, text)
-
-
-func _queue_notebook_content(content_id: String, text: String, new_attempt: bool = false) -> void:
-	if _notebook_surface_enabled():
-		_notebook_surfaces.queue(content_id, text, TranslationServer.get_locale(), session.history_context(), new_attempt)
 
 
 func _queue_core_surface(key: String, text: String, values: Dictionary = {}) -> void:
@@ -165,48 +145,6 @@ func _core_board(key: String, text: String, rect: Rect2, values: Dictionary = {}
 func _notebook_surface_board(key: String, text: String, rect: Rect2) -> void:
 	_board_label(text, rect)
 	_queue_notebook_surface(key, text)
-
-
-func _flush_notebook_surfaces(generation: int, explicit_retry: bool = false) -> bool:
-	if not _notebook_surface_enabled(): return true
-	if _interaction_blocked(): return false
-	if not _notebook_surfaces.live(_notebook_surface_scope(), generation): return not _notebook_surfaces.has_pending()
-	var saved := _notebook_surfaces.flush(session, _notebook_surface_scope(), explicit_retry)
-	var retry := _hotspot_layer.get_node_or_null("NOTEBOOK_SURFACE_RETRY")
-	if saved and retry != null:
-		var restore_focus: bool = retry is Control and retry.has_focus()
-		_hotspot_layer.remove_child(retry)
-		retry.queue_free()
-		if restore_focus: call_deferred("_restore_notebook_surface_focus")
-	elif not saved and retry == null:
-		_add_hotspot("NOTEBOOK_SURFACE_RETRY", FRACTURE_SURFACE_TEXTS.retry_text(TranslationServer.get_locale()), Rect2(280, 945, 1360, 100), _flush_notebook_surfaces.bind(generation, true))
-	return saved
-
-
-func _restore_notebook_surface_focus() -> void:
-	if _interaction_blocked() or not is_inside_tree(): return
-	_restore_world_focus()
-	if get_viewport().gui_get_focus_owner() == null and is_instance_valid(_menu_button) and _menu_button.is_visible_in_tree():
-		_menu_button.grab_focus()
-
-
-func _notebook_surface_allowed() -> bool:
-	return _flush_notebook_surfaces(_notebook_surfaces.generation)
-
-
-func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
-	if not _notebook_surface_allowed(): return
-	super._do(action, value, show_text)
-
-
-func _advance_dialogue() -> void:
-	super._advance_dialogue()
-	if not _dialogue_active: _notebook_surface_allowed()
-
-
-func _close_modal() -> void:
-	super._close_modal()
-	_notebook_surface_allowed()
 
 
 func _notebook_world_choice(group: String, index: int, id: String, rect: Rect2, action: String, value: String) -> void:
@@ -234,9 +172,7 @@ func _notebook_world_choice_pressed(generation: int, group: String, index: int, 
 
 
 func _render_room() -> void:
-	_notebook_surfaces.begin(_notebook_surface_scope())
 	_render_basement_room()
-	call_deferred("_flush_notebook_surfaces", _notebook_surfaces.generation)
 
 
 func _render_basement_room() -> void:
@@ -339,6 +275,7 @@ func _render_basement_room() -> void:
 				var id: String = ["barrel", "cable", "filter", "drawing"][index]
 				var label: String = BASEMENT_TEXTS.storage_name(id, TranslationServer.get_locale())
 				_action("STORE_" + id, label, Rect2(310 + (index % 2) * 700, 220 + (index / 2) * 190, 600, 130), "d_storage", id)
+				_queue_puzzle_surface(PUZZLE_NOTES.surface("D_STORAGE_" + id.to_upper()), label)
 			_action("HEART_DOOR", BASEMENT_TEXTS.ui("heart_door", TranslationServer.get_locale()), Rect2(500, 680, 900, 120), "move", "B1_CLOCKWORK_HEART", false)
 			_replace_back("B1_AXIS_CHAMBER", BASEMENT_TEXTS.ui("back_axes", TranslationServer.get_locale()))
 		"B1_CLOCKWORK_HEART":
@@ -2232,12 +2169,13 @@ func _build_loop_bedroom(local: Dictionary) -> void:
 func _build_inner(_local: Dictionary, _journal: int) -> void:
 	var local := _basement().basement_local()
 	if not local["floorplan_ready"]:
-		_board_label(BASEMENT_TEXTS.ui("drawer_board", TranslationServer.get_locale()), Rect2(290, 210, 1350, 220))
+		_puzzle_surface_board(PUZZLE_NOTES.surface("D_DRAWER_BOARD"), BASEMENT_TEXTS.ui("drawer_board", TranslationServer.get_locale()), Rect2(290, 210, 1350, 220))
 		for index in range(3):
 			var id: String = ["bedroom", "greenhouse", "great_clock"][index]
 			_action("DRAWER_" + id, BASEMENT_TEXTS.ui("point_" + id, TranslationServer.get_locale()), Rect2(280 + index * 510, 540, 450, 140), "d_drawer_point", id)
+			_queue_puzzle_surface(PUZZLE_NOTES.surface("D_POINT_" + id.to_upper()), BASEMENT_TEXTS.ui("point_" + id, TranslationServer.get_locale()))
 		return
-	_board_label(BASEMENT_TEXTS.floorplan_status(local, TranslationServer.get_locale()), Rect2(260, 180, 1390, 210))
+	_puzzle_surface_board(PUZZLE_NOTES.floorplan(local), BASEMENT_TEXTS.floorplan_status(local, TranslationServer.get_locale()), Rect2(260, 180, 1390, 210))
 	_action("D_ROTATE", BASEMENT_TEXTS.ui("rotate_90", TranslationServer.get_locale()), Rect2(360, 440, 520, 90), "d_rotate", null, false)
 	_action("D_FLIP", BASEMENT_TEXTS.ui("flip_horizontal", TranslationServer.get_locale()), Rect2(1030, 440, 520, 90), "d_flip", null, false)
 	for index in range(3):
@@ -2248,14 +2186,14 @@ func _build_inner(_local: Dictionary, _journal: int) -> void:
 func _build_axes() -> void:
 	var axes: Dictionary = _basement().basement_local()["axes"]
 	if axes["locked"]:
-		_board_label(BASEMENT_TEXTS.ui("axis_locked", TranslationServer.get_locale()), Rect2(380, 310, 1140, 250))
+		_puzzle_surface_board(PUZZLE_NOTES.surface("D_AXIS_LOCKED"), BASEMENT_TEXTS.ui("axis_locked", TranslationServer.get_locale()), Rect2(380, 310, 1140, 250))
 		return
 	if axes["open"]:
 		_action("STORAGE_ENTER", BASEMENT_TEXTS.ui("storage_enter", TranslationServer.get_locale()), Rect2(470, 330, 980, 250), "move", "B1_STORAGE", false)
 		return
 	for index in range(3):
 		var axis: String = BASEMENT_RULES.AXES[index]
-		_board_label(BASEMENT_TEXTS.axis_status(axis, axes, TranslationServer.get_locale()), Rect2(240 + index * 520, 230, 460, 110))
+		_puzzle_surface_board(PUZZLE_NOTES.axis(axis, axes), BASEMENT_TEXTS.axis_status(axis, axes, TranslationServer.get_locale()), Rect2(240 + index * 520, 230, 460, 110))
 		for depth in range(1, 4):
 			_action("DEPTH_%s_%d" % [axis, depth], str(depth), Rect2(245 + index * 520 + (depth - 1) * 155, 410, 140, 85), "d_axis_depth", [axis, depth], false)
 		_add_hotspot("PUSH_" + axis, BASEMENT_TEXTS.ui("axis_push", TranslationServer.get_locale()), Rect2(250 + index * 520, 560, 430, 100), _confirm_axis.bind(axis))
@@ -2281,7 +2219,7 @@ func _confirm_central(direction: String) -> void:
 
 func _build_heart() -> void:
 	var heart: Dictionary = _basement().basement_local()["heart"]
-	_board_label(BASEMENT_TEXTS.heart_status(heart, TranslationServer.get_locale()), Rect2(270, 175, 1370, 180))
+	_puzzle_surface_board(PUZZLE_NOTES.heart(heart), BASEMENT_TEXTS.heart_status(heart, TranslationServer.get_locale()), Rect2(270, 175, 1370, 180))
 	var operations := ["turn", "turn", "turn", "reset", "fix", "unfix", "wind", "stabilize", "inspect_auxiliary"]
 	var names := ["handle_a", "handle_b", "handle_c", "reset_rings", "fix_rings", "unfix_rings", "wind_lever", "stabilize", "inspect_panel"]
 	for index in range(operations.size()):

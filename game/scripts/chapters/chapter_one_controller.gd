@@ -18,6 +18,54 @@ var _world_focus := ""
 var _history_recorded_index := -1
 var _choice_modal_generation := 0
 var _recorded_modal_request: Dictionary = {}
+var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
+
+
+func _notebook_surface_enabled() -> bool:
+	return session != null and preload("res://scripts/systems/notebook_rollout.gd").enabled() and session._game.get_value("meta_progress.dialogue_history.schema_version", 0) == 2
+
+
+func _notebook_surface_scope() -> Dictionary:
+	if session == null: return {}
+	var scope := _recorded_choice_scope()
+	scope.node = session.stage()
+	scope.location = session._game.get_value("loop_state.location_id", "")
+	scope.day = session._game.get_value("loop_state.day_index", 0)
+	if session._game.get_value("ending_run.branch_committed", false):
+		scope.ending_node = session._game.get_value("ending_run.current_node_id", "")
+	return scope
+
+
+func _queue_notebook_content(content_id: String, text: String, new_attempt: bool = false) -> void:
+	if _notebook_surface_enabled():
+		_notebook_surfaces.queue(content_id, text, TranslationServer.get_locale(), session.history_context(), new_attempt)
+
+
+func _flush_notebook_surfaces(generation: int, explicit_retry: bool = false) -> bool:
+	if not _notebook_surface_enabled(): return true
+	if _interaction_blocked(): return false
+	if not _notebook_surfaces.live(_notebook_surface_scope(), generation): return not _notebook_surfaces.has_pending()
+	var saved := _notebook_surfaces.flush(session, _notebook_surface_scope(), explicit_retry)
+	var retry := _hotspot_layer.get_node_or_null("NOTEBOOK_SURFACE_RETRY")
+	if saved and retry != null:
+		var restore_focus: bool = retry is Control and retry.has_focus()
+		_hotspot_layer.remove_child(retry)
+		retry.queue_free()
+		if restore_focus: call_deferred("_restore_notebook_surface_focus")
+	elif not saved and retry == null:
+		_add_hotspot("NOTEBOOK_SURFACE_RETRY", preload("res://scripts/ui/fracture_surface_texts.gd").retry_text(TranslationServer.get_locale()), Rect2(280, 945, 1360, 100), _flush_notebook_surfaces.bind(generation, true))
+	return saved
+
+
+func _restore_notebook_surface_focus() -> void:
+	if _interaction_blocked() or not is_inside_tree(): return
+	_restore_world_focus()
+	if get_viewport().gui_get_focus_owner() == null and is_instance_valid(_menu_button) and _menu_button.is_visible_in_tree():
+		_menu_button.grab_focus()
+
+
+func _notebook_surface_allowed() -> bool:
+	return _flush_notebook_surfaces(_notebook_surfaces.generation)
 
 
 func _ready() -> void:
@@ -144,6 +192,7 @@ func _advance_dialogue() -> void:
 		call_deferred("_restore_world_focus")
 		if session != null and session.stage() in ["J2_COMPLETE", "J3_COMPLETE"]:
 			campaign_requested.emit(_slot_id)
+		_notebook_surface_allowed()
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
@@ -162,6 +211,7 @@ func _close_modal() -> void:
 	_choice_modal_generation += 1
 	super._close_modal()
 	call_deferred("_restore_world_focus")
+	_notebook_surface_allowed()
 
 
 func _show_recorded_choice(title: String, body: String, actions: Array, descriptor: Dictionary, history_context: Dictionary = {}) -> void:
@@ -256,6 +306,7 @@ func _update_objective() -> void:
 
 
 func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
+	if not _notebook_surface_allowed(): return
 	if _interaction_blocked():
 		return
 	var result := session.act(action, value)
@@ -310,6 +361,8 @@ func _render_room() -> void:
 	if _rendering or session == null:
 		return
 	_rendering = true
+	_notebook_surfaces.begin(_notebook_surface_scope())
+	call_deferred("_flush_notebook_surfaces", _notebook_surfaces.generation)
 	_remember_world_focus()
 	var state := session.snapshot()
 	if _current_room != state["loop_state"]["location_id"]:
@@ -423,6 +476,7 @@ func _confirm_sleep() -> void:
 
 func _sleep_now() -> void:
 	_close_modal()
+	if not _notebook_surface_allowed(): return
 	var result := session.sleep()
 	_render_room()
 	_feedback(result)
