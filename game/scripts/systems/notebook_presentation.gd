@@ -2,11 +2,12 @@ extends RefCounted
 
 # Pending presentation is gameplay-local state, never a source of notebook disclosure.
 const KEY := "NOTEBOOK_PRESENTATION"
-const VERSION := 2
+const VERSION := 3
 const FAMILIES := ["chapter_one_controller", "black_mirror_controller", "basement_controller", "prologue_controller"]
 const PROLOGUE_ROUTES := ["_show_p1_objective", "_return_to_hall_after_dialogue", "_resume_p3_journal_choice", "_show_p3_journal_choices", "_complete_p4_life_support_foreshadow", "_finish_p4_memory_anchor", "_finish_p4_after_question", "_complete_p4_iris_greeting", "_perform_normal_reset", "_finish_prologue_handoff"]
 const PROLOGUE_CHOICES := {"p3_journal": ["author", "locked", "silent"], "p4_father": ["father_tea", "mansion_age", "luca_tenure"], "P1_EXIT": ["confirm", "cancel"], "P6_SLEEP": ["confirm", "cancel"]}
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
+const MODAL := preload("res://scripts/systems/notebook_modal_presentation.gd")
 const LINE_KEYS := ["speaker", "text", "portrait", "history_context", "presentation_token", "notebook_content", "observed_fact_ids", "audio_cue", "d5_focus_allowed", "d4_reaction_owner", "cup_pose", "p4_pulse"]
 
 
@@ -83,8 +84,10 @@ static func valid(value: Variant) -> bool:
 	if not value is Dictionary: return false
 	var fields := ["schema_version", "kind", "family", "source_origin_id", "branch_id", "anchor", "phase", "index", "locale", "lines", "after"]
 	if value.get("kind") == "choice": fields.append("choice")
+	if value.get("kind") == "modal": fields.append("modal")
 	if not _keys(value, fields): return false
-	if not _integer(value.schema_version) or int(value.schema_version) not in [1, VERSION] or value.kind not in ["dialogue", "choice"] or value.family not in FAMILIES: return false
+	if not _integer(value.schema_version) or int(value.schema_version) not in [1, 2, VERSION] or value.kind not in ["dialogue", "choice", "modal"] or value.family not in FAMILIES: return false
+	if value.kind == "modal" and (value.schema_version < 3 or value.family == "prologue_controller" or value.phase not in ["choosing", "selection_pending", "completed"] or not MODAL.valid(value.modal)): return false
 	if value.schema_version == 1 and (value.family == "prologue_controller" or value.kind != "dialogue"): return false
 	if not _hex(value.source_origin_id, 32) or not _hex(value.branch_id, 32) or not _hex(value.anchor, 64): return false
 	if value.locale not in ["ko-KR", "en-US"]: return false
@@ -96,6 +99,10 @@ static func valid(value: Variant) -> bool:
 	if value.kind == "choice":
 		if value.lines.size() != 1 or not value.after.is_empty(): return false
 		if value.phase == "selection_pending" and value.choice.last_selected.is_empty(): return false
+	if value.kind == "modal":
+		if not _json(value.modal): return false
+		if value.lines.size() != 1 or not value.after.is_empty(): return false
+		if value.phase == "selection_pending" and value.modal.selection_token.is_empty(): return false
 	if value.phase == "completed" and not value.after.is_empty(): return false
 	if not value.after.is_empty() and (value.after.method in PROLOGUE_ROUTES) != (value.family == "prologue_controller"): return false
 	var tokens := {}
@@ -168,6 +175,7 @@ static func observed(value: Dictionary, state: Dictionary) -> bool:
 	if not valid(value): return false
 	var required: Array = [value.lines[int(value.index)].presentation_token]
 	if value.kind == "choice" and not value.choice.last_selected.is_empty(): required.append(value.choice.tokens[value.choice.last_selected])
+	if value.kind == "modal" and not value.modal.selection_token.is_empty(): required.append(value.modal.selection_token)
 	for entry in state.meta_progress.dialogue_history.get("entries", []):
 		var context: Dictionary = entry.get("observation", entry.get("snapshot_context", {}))
 		required.erase(context.get("presentation_token"))

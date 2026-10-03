@@ -41,16 +41,40 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 
 func _show_route_feedback(local: Dictionary) -> void:
 	var locale := TranslationServer.get_locale()
-	var diagram := ROUTE_FEEDBACK.new()
-	diagram.name = "MirrorRouteFeedback"
-	var mode := String(AccessibilityProfileStore.new().load_profile().get("profile", {}).get("motion_mode", "standard"))
-	diagram.configure(local, mode)
 	var descriptor := MODAL_NOTES.route_options(local)
 	var body := MODAL_NOTES.route_body(descriptor, locale)
 	_show_recorded_choice(MIRROR_TEXTS.ui("route_title", locale), body, [
 		{"label": MIRROR_TEXTS.ui("overlay_back", locale), "action": _close_modal},
-		{"label": MIRROR_TEXTS.ui("route_replay", locale), "action": diagram.replay},
-	], descriptor)
+		{"label": MIRROR_TEXTS.ui("route_replay", locale), "action": _replay_route_feedback},
+	], descriptor, {}, _mirror_modal_view("mirror_route", local))
+
+
+func _mirror_modal_view(kind: String, local: Dictionary) -> Dictionary:
+	return {"kind": kind, "local": {"rotation": local.rotation, "flipped": local.flipped, "anchored": local.anchored, "path": local.path.duplicate()}}
+
+
+func _replay_route_feedback() -> void:
+	var diagram := _modal_body.get_node_or_null("MirrorRouteFeedback")
+	if diagram != null: diagram.replay()
+
+
+func _restore_recorded_modal_extras(view: Dictionary) -> void:
+	super._restore_recorded_modal_extras(view)
+	if view.is_empty(): return
+	var local: Dictionary = view.local
+	if view.kind == "mirror_overlay":
+		var overlay := OVERLAY_DIAGRAM.new()
+		overlay.name = "MirrorOverlayDiagram"
+		overlay.turn_degrees = int(local.rotation)
+		overlay.mirrored = local.flipped
+		overlay.fixed_anchor = local.anchored
+		_modal_body.add_child(overlay)
+		_modal_body.move_child(overlay, 3)
+		return
+	var diagram := ROUTE_FEEDBACK.new()
+	diagram.name = "MirrorRouteFeedback"
+	var mode := String(AccessibilityProfileStore.new().load_profile().get("profile", {}).get("motion_mode", "standard"))
+	diagram.configure(local, mode)
 	_place(_modal_panel, Rect2(300, 90, 1320, 900))
 	_modal_body.add_child(diagram)
 	_modal_body.move_child(diagram, 3)
@@ -269,13 +293,7 @@ func _open_trace_overlay() -> void:
 	if not _notebook_surface_allowed(): return
 	var local := _mirror().mirror_local()
 	var locale := TranslationServer.get_locale()
-	_show_recorded_choice(MIRROR_TEXTS.ui("overlay_title", locale), MIRROR_TEXTS.ui("overlay_body", locale) + "\n" + MIRROR_TEXTS.trace_status(local, locale), [{"label": MIRROR_TEXTS.ui("overlay_back", locale), "action": _close_modal}], PUZZLE_NOTES.trace(local, true))
-	var diagram := OVERLAY_DIAGRAM.new()
-	diagram.turn_degrees = local["rotation"]
-	diagram.mirrored = local["flipped"]
-	diagram.fixed_anchor = local["anchored"]
-	_modal_body.add_child(diagram)
-	_modal_body.move_child(diagram, 3)
+	_show_recorded_choice(MIRROR_TEXTS.ui("overlay_title", locale), MIRROR_TEXTS.ui("overlay_body", locale) + "\n" + MIRROR_TEXTS.trace_status(local, locale), [{"label": MIRROR_TEXTS.ui("overlay_back", locale), "action": _close_modal}], PUZZLE_NOTES.trace(local, true), {}, _mirror_modal_view("mirror_overlay", local))
 
 
 func _open_patrol() -> void:

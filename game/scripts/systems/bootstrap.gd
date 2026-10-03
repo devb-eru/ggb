@@ -151,6 +151,14 @@ func _ready() -> void:
 		call_deferred("_run_notebook_presentation_smoke")
 	elif "--notebook-prologue-presentation-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_prologue_presentation_smoke")
+	elif "--notebook-modal-presentation-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_modal_presentation_smoke")
+
+
+func _run_notebook_modal_presentation_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/notebook_modal_presentation_smoke.gd").new().run(get_tree())
+	print("NOTEBOOK_MODAL_PRESENTATION_SMOKE: " + ("PASS" if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
 
 
 func _run_notebook_prologue_presentation_smoke() -> void:

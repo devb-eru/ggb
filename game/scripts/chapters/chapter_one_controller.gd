@@ -21,6 +21,7 @@ var _world_focus := ""
 var _history_recorded_index := -1
 var _choice_modal_generation := 0
 var _recorded_modal_request: Dictionary = {}
+var _modal_dispatch_context: Dictionary = {}
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 
 
@@ -174,6 +175,7 @@ func _restore_presentation() -> bool:
 	var cursor := PRESENTATION.read(state)
 	if not PRESENTATION.matches(cursor, state) or cursor.family != PRESENTATION.family(self) or not PRESENTATION.observed(cursor, state): return false
 	if cursor.phase == "completed": return true
+	if cursor.kind == "modal": return _restore_recorded_modal(cursor)
 	_presentation_scope = _recorded_choice_scope()
 	_history_recorded_index = int(cursor.index)
 	super._show_dialogue(PRESENTATION.localized_lines(cursor, TranslationServer.get_locale()), PRESENTATION.callable_for(self, cursor.after), int(cursor.index))
@@ -278,6 +280,12 @@ func _close_modal() -> void:
 	if _notebook_is_open():
 		_notebook_host.request_close()
 		return
+	if _presentation_enabled() and not _recorded_modal_request.is_empty() and _recorded_choice_live(_recorded_modal_request) and _modal_dispatch_context.is_empty():
+		if not _record_modal_options(_recorded_modal_request): return
+		var cursor := _modal_cursor(_recorded_modal_request, "completed")
+		if not cursor.ok or not preload("res://scripts/systems/dialogue_history_writer.gd").save_cursor(session._game, session._save, session.slot_id, session._save_point(session.snapshot()), cursor.value).ok:
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return
 	_recorded_modal_request = {}
 	_choice_modal_generation += 1
 	super._close_modal()
@@ -285,7 +293,7 @@ func _close_modal() -> void:
 	_notebook_surface_allowed()
 
 
-func _show_recorded_choice(title: String, body: String, actions: Array, descriptor: Dictionary, history_context: Dictionary = {}) -> void:
+func _show_recorded_choice(title: String, body: String, actions: Array, descriptor: Dictionary, history_context: Dictionary = {}, view: Dictionary = {}) -> void:
 	var row := NOTEBOOK_CONTENT.definition(descriptor.get("content_id", ""), 1)
 	if row.is_empty() or row.get("choices", []).size() != actions.size():
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
@@ -299,17 +307,63 @@ func _show_recorded_choice(title: String, body: String, actions: Array, descript
 	frozen.notebook_content = descriptor.duplicate(true)
 	var context := {"generation": _choice_modal_generation + 1, "recorded": false, "text": title + "\n" + body, "history_context": frozen,
 		"scope": _recorded_choice_scope(), "locale": TranslationServer.get_locale(), "row": row, "actions": actions.duplicate(true), "pending_index": -1,
-		"selection_recorded": false, "dispatching": false, "options_speaker": _dialogue_ui_text("HISTORY_OPTIONS"), "selected_speaker": _dialogue_ui_text("HISTORY_SELECTED")}
+		"selection_recorded": false, "dispatching": false, "options_speaker": _dialogue_ui_text("HISTORY_OPTIONS"), "selected_speaker": _dialogue_ui_text("HISTORY_SELECTED"),
+		"title": title, "body": body, "view": view.duplicate(true), "focus": 0}
+	_present_recorded_modal(context)
+	_record_modal_options(context)
+
+
+func _present_recorded_modal(context: Dictionary) -> void:
+	context.generation = _choice_modal_generation + 1
 	var wrapped: Array = []
-	for index in range(actions.size()):
-		var action: Dictionary = actions[index].duplicate()
-		var label := String(action["label"])
-		context["text"] += "\n" + label
+	context.text = context.title + "\n" + context.body
+	for index in range(context.actions.size()):
+		var action: Dictionary = context.actions[index].duplicate()
+		context.text += "\n" + String(action.label)
 		action["action"] = _recorded_choice_pressed.bind(context, index)
 		wrapped.append(action)
-	_show_modal(title, body, wrapped)
+	_show_modal(context.title, context.body, wrapped)
 	_recorded_modal_request = context
-	_record_modal_options(context)
+	_restore_recorded_modal_extras(context.view)
+	var buttons: Array = _modal_body.get_children().filter(func(child: Node) -> bool: return child is Button)
+	if int(context.focus) in range(buttons.size()):
+		call_deferred("_focus_visible_control", weakref(buttons[int(context.focus)]))
+
+
+func _restore_recorded_modal_extras(_view: Dictionary) -> void:
+	pass
+
+
+func _modal_cursor(context: Dictionary, phase: String) -> Dictionary:
+	if context.scope != _recorded_choice_scope(): return {"ok": false}
+	var modal := PRESENTATION.MODAL.capture(self, context)
+	if modal.is_empty(): return {"ok": false}
+	var line := {"speaker": context.options_speaker, "text": context.text, "history_context": context.history_context.duplicate(true),
+		"presentation_token": context.history_context.presentation_token, "notebook_content": context.history_context.notebook_content.duplicate(true)}
+	var cursor: Dictionary = PRESENTATION.create(session.snapshot(), PRESENTATION.family(self), [line], 0, context.locale, {}).value
+	cursor.kind = "modal"
+	cursor.phase = phase
+	cursor.modal = modal
+	return {"ok": PRESENTATION.valid(cursor), "value": cursor}
+
+
+func _restore_recorded_modal(cursor: Dictionary) -> bool:
+	var line: Dictionary = cursor.lines[0]
+	var row := NOTEBOOK_CONTENT.definition(line.notebook_content.get("content_id", ""), 1)
+	if row.is_empty() or row.get("choices", []).size() != cursor.modal.routes.size(): return false
+	var data := PRESENTATION.MODAL.localized(cursor.modal, line.notebook_content, TranslationServer.get_locale())
+	var actions := []
+	for index in range(data.routes.size()):
+		var route: Dictionary = data.routes[index]
+		if not has_method(route.method): return false
+		actions.append({"label": data.labels[index], "action": Callable(self, route.method).bindv(route.args)})
+	var context := {"recorded": true, "history_context": line.history_context.duplicate(true),
+		"scope": _recorded_choice_scope(), "locale": TranslationServer.get_locale(), "row": row, "actions": actions,
+		"pending_index": int(data.pending_index), "selection_token": data.selection_token, "selection_recorded": not data.selection_token.is_empty(), "dispatching": false,
+		"options_speaker": _dialogue_ui_text("HISTORY_OPTIONS"), "selected_speaker": _dialogue_ui_text("HISTORY_SELECTED"),
+		"title": data.title, "body": data.body, "view": data.view, "focus": int(data.focus)}
+	_present_recorded_modal(context)
+	return true
 
 
 func _recorded_choice_scope() -> Dictionary:
@@ -327,7 +381,14 @@ func _record_modal_options(context: Dictionary) -> bool:
 	if not _recorded_choice_live(context): return false
 	if context["recorded"] or not _history_enabled():
 		return true
-	var result := session.record_viewed_line(context.options_speaker, String(context["text"]), context.locale, context["history_context"])
+	var frozen: Dictionary = context.history_context.duplicate(true)
+	if _presentation_enabled():
+		var cursor := _modal_cursor(context, "choosing")
+		if not cursor.ok:
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return false
+		frozen.presentation_cursor = cursor.value
+	var result := session.record_viewed_line(context.options_speaker, String(context["text"]), context.locale, frozen)
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false
@@ -341,6 +402,7 @@ func _recorded_choice_pressed(context: Dictionary, index: int) -> void:
 	if not _record_modal_options(context):
 		return
 	var choice: Dictionary = context.row.choices[index]
+	context.focus = index
 	if context.pending_index != index:
 		context.pending_index = index
 		context.selection_recorded = false
@@ -349,14 +411,30 @@ func _recorded_choice_pressed(context: Dictionary, index: int) -> void:
 		var selected: Dictionary = context.history_context.duplicate(true)
 		selected.presentation_token = context.selection_token
 		selected.notebook_content = NOTEBOOK_CONTENT.descriptor(choice.content_id, 1, {"body": {}})
+		if _presentation_enabled():
+			context.selection_recorded = true
+			var cursor := _modal_cursor(context, "selection_pending")
+			context.selection_recorded = false
+			if not cursor.ok:
+				_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+				return
+			selected.presentation_cursor = cursor.value
 		var result := session.record_viewed_line(context.selected_speaker, context.actions[index].label, context.locale, selected)
 		if not result.get("ok", false):
 			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 			return
 		context.selection_recorded = true
 	context.dispatching = true
+	var action: Callable = context.actions[index].action
+	if String(action.get_method()) != "_close_modal": _modal_dispatch_context = context
 	context.actions[index].action.call()
+	_modal_dispatch_context = {}
 	context.dispatching = false
+	# A saved answer is not a successful world action. Never replay it automatically.
+	if _presentation_enabled() and context.scope == _recorded_choice_scope() and not _modal_active and not _dialogue_active and not _notebook_is_open():
+		var pending := PRESENTATION.read(session.snapshot())
+		if pending.get("kind") == "modal" and pending.phase == "selection_pending" and PRESENTATION.matches(pending, session.snapshot()) and PRESENTATION.observed(pending, session.snapshot()):
+			_restore_recorded_modal(pending)
 
 
 func _cancel_prologue_modal() -> void:

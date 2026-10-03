@@ -1088,6 +1088,16 @@ func _show_j4_confirmation() -> void:
 		_show_recorded_choice(_fracture_resolution_text(JOURNAL_DISPLAY.MODAL_TITLE), body, _fracture_resolution_actions(actions), JOURNAL_DISPLAY.confirmation(totals))
 	else:
 		_show_fracture_resolution_modal(JOURNAL_DISPLAY.MODAL_TITLE, body, actions)
+		_delay_j4_confirmation()
+
+
+func _restore_recorded_modal_extras(view: Dictionary) -> void:
+	super._restore_recorded_modal_extras(view)
+	if _recorded_modal_request.get("history_context", {}).get("notebook_content", {}).get("content_id", "") == JOURNAL_DISPLAY.PREFIX + "CONFIRM_OPTIONS":
+		_delay_j4_confirmation()
+
+
+func _delay_j4_confirmation() -> void:
 	var confirm := _modal_body.get_child(4) as Button
 	confirm.disabled = true
 	var delay := Timer.new()
@@ -2235,6 +2245,7 @@ func _build_axes() -> void:
 	_add_hotspot("CENTRAL_CCW", BASEMENT_TEXTS.ui("central_ccw", TranslationServer.get_locale()), Rect2(1030, 755, 580, 105), _confirm_central.bind("counterclockwise"))
 
 func _confirmation_notebook() -> void:
+	if _try_open_unified_notebook("clues"): return
 	_close_modal()
 	_open_notebook()
 

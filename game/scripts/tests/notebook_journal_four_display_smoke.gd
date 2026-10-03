@@ -121,6 +121,7 @@ func _confirmation_route(tree: SceneTree, mask: int) -> void:
 	var before := _gameplay()
 	_press("J4_CONFIRM")
 	_expect(_count("CONFIRM_OPTIONS") == 1 and _count("CONFIRM_SELECT_1") == 0, "opening shows options, not a selection")
+	_expect(preload("res://scripts/systems/notebook_presentation.gd").read(GameState.get_snapshot()).kind == "modal", "confirmation presentation persisted separately from gameplay")
 	_expect((view._modal_body.get_child(4) as Button).disabled, "existing confirmation delay preserved")
 	_expect(_gameplay() == before, "opening confirmation does not change progress")
 	view._cancel_prologue_modal()
@@ -330,6 +331,7 @@ func _ledger() -> Dictionary: return GameState.get_snapshot().meta_progress.know
 func _gameplay() -> Dictionary:
 	var state := GameState.get_snapshot()
 	state.meta_progress.erase("dialogue_history")
+	state.loop_state.event_local_states.erase(preload("res://scripts/systems/notebook_presentation.gd").KEY)
 	return state
 
 

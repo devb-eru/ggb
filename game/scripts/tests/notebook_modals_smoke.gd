@@ -223,7 +223,8 @@ func _failures(tree: SceneTree) -> void:
 	view._open_field_page("FIELD_NOTEBOOK_PREFACE", false)
 	saved = GameState.get_snapshot()
 	view._cancel_prologue_modal()
-	_expect(not view._modal_active and GameState.get_snapshot() == saved, "Esc closes a field page without read confirmation or a choice record")
+	_expect(not view._modal_active and _without_cursor(GameState.get_snapshot()) == _without_cursor(saved), "Esc closes a field page without read confirmation or a choice record")
+	_expect(preload("res://scripts/systems/notebook_presentation.gd").read(GameState.get_snapshot()).phase == "completed", "Esc persists presentation completion only")
 	_expect(not _contains("NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_SUMMARY_SELECT_0"), "field-page Esc is not its first button")
 	_seed("EDR_FIELD_NOTEBOOK")
 	controlled = ControlledSave.new()
@@ -237,7 +238,7 @@ func _failures(tree: SceneTree) -> void:
 	controlled.reject = false
 	view._cancel_prologue_modal()
 	_expect(not view._modal_active and _contains("NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_SUMMARY_OPTIONS") and not _contains("NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_SUMMARY_SELECT_0"), "Esc retry persists the page without confirming its reading")
-	_expect(GameState.get_snapshot().ending_run == saved.ending_run and GameState.get_snapshot().loop_state == saved.loop_state, "successful close retry leaves gameplay unread")
+	_expect(GameState.get_snapshot().ending_run == saved.ending_run and _without_cursor(GameState.get_snapshot()).loop_state == _without_cursor(saved).loop_state, "successful close retry leaves gameplay unread")
 	view.session._save = SaveManager
 	controlled.free()
 	_seed("EDC")
@@ -253,6 +254,12 @@ func _failures(tree: SceneTree) -> void:
 		_expect(rendered.ok and not rendered.entry.fallback, "exact version rereads in the new language")
 	_expect(GameState.get_snapshot() == snapshot, "rereading cannot execute a modal choice")
 	await tree.process_frame
+
+
+func _without_cursor(state: Dictionary) -> Dictionary:
+	var result := state.duplicate(true)
+	result.loop_state.event_local_states.erase(preload("res://scripts/systems/notebook_presentation.gd").KEY)
+	return result
 
 
 func _seed(id: String) -> Dictionary:

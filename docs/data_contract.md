@@ -653,7 +653,7 @@ v2 대화 보관 구조를 사용하는 ChapterOne, BlackMirror, Basement의 공
 
 | 항목 | 계약 |
 | --- | --- |
-| 저장 위치 | `loop_state.event_local_states.NOTEBOOK_PRESENTATION`, 현재 쓰기 `schema_version=2`, 기존 본편 대사 `schema_version=1` 읽기 호환. UI 편의 sidecar나 영구 지식이 아닌 현재 게임 진행 상태다. 물리 리셋의 로컬 상태 정리 대상이며 영구 기록을 삭제하지 않는다. |
+| 저장 위치 | `loop_state.event_local_states.NOTEBOOK_PRESENTATION`, 현재 쓰기 `schema_version=3`, 기존 대사/프롤로그 `schema_version=1/2` 읽기 호환. UI 편의 sidecar나 영구 지식이 아닌 현재 게임 진행 상태다. 물리 리셋의 로컬 상태 정리 대상이며 영구 기록을 삭제하지 않는다. |
 | 고정 내용 | 컨트롤러 family, 원본/분기 식별자, 세계 상태 anchor, `reading/finish_pending/completed`, 문장 index, 당시 locale, 대사 큐, 제한된 후속 동작을 보존한다. 각 문장은 원문 descriptor, 화자/텍스트, 사건/대화 session, 동일 presentation token과 연출 메타데이터를 유지한다. |
 | 공개 경계 | 대기 중인 다음 문장은 저장돼도 보관 대사/검색/지식으로 공개되지 않는다. 현재 실제 표시 문장만 기존 history writer에 전달한다. `presentation_cursor`는 관찰 snapshot context와 미분류 원문 payload에서 제외한다. |
 | 원자성 | 실제 문장 기록과 커서 전진은 하나의 StateWriter/SaveManager 트랜잭션이다. 저장 실패는 두 상태를 함께 롤백하고 표시된 문장을 재시도 대상으로 남긴다. 응답 소실은 디스크 커밋과 전체 snapshot의 동등성을 확인한 경우만 성공으로 복구한다. |
@@ -691,3 +691,21 @@ v2 대화 보관 구조를 사용하는 ChapterOne, BlackMirror, Basement의 공
 `dialogue_history_writer.append_to_snapshot`은 호출자가 소유한 후보만 변경한다. 호출자는 append 실패 후보를 버리고 성공 후보를 `StateWriter/SaveManager`로 커밋해야 한다. helper 호출만으로 내구성 있는 저장이 된 것으로 취급하지 않는다. 기존 `record`는 같은 helper와 저장 절차를 사용한다.
 
 선택 구조는 정해진 선택 ID의 중복 없는 순서 부분집합과 exact-key 필드만 허용한다. `selection_pending`의 복원에는 목록 토큰과 마지막 선택 토큰의 관찰이 모두 필요하다. JSON 정수형 숫자의 왕복 호환과 기존 schema 1 읽기는 유지한다. 검증 근거는 [프롤로그 복원 검증](notebook_prologue_presentation_validation.md)을 따른다.
+
+### 9.13. 기록된 본편 선택창의 영속 복원
+
+개발 옵션의 `_show_recorded_choice` 경로에 `kind=modal`을 사용한다. 메뉴·개발 도구·기록되지 않는 도움말 창까지 자동 포함하는 계약은 아니다. 본편 확인창, 관계 선택, 현실 수첩 페이지, 거울 경로/겹침 도식은 표시 자료와 함께 복원한다.
+
+| 경계 | 계약 |
+| --- | --- |
+| 저장 | 표시한 제목·본문·라벨, 원문 descriptor, 당시 사건/session/목록 토큰, 허용한 버튼 동작, 선택 보류 토큰, 마지막 선택 버튼과 도식 상태를 저장한다. 목록 관찰과 커서는 같은 후보에 저장한다. |
+| 실행 | 저장된 Callable, Node, 임의 함수명은 실행하지 않는다. `notebook_modal_presentation.gd`의 제한된 메서드·인자 규격으로 컨트롤러 소유 버튼만 재구성한다. 재구성 자체는 게임 행동을 실행하지 않는다. |
+| 선택 | 실제 누른 문구와 `selection_pending`은 함께 저장한다. 성공한 선택 기록을 게임 진행 성공으로 간주하지 않는다. 게임 저장 실패 뒤 원래 선택창을 복원하며 자동 재시도하지 않는다. |
+| 재시도 | 같은 보류 답은 같은 토큰을 재사용한다. 다른 답을 고른 뒤 돌아온 A-B-A는 새 선택 의도로 기록한다. 이전 선택 기록을 삭제하지 않는다. |
+| 닫기 | 단순 닫기는 게임 읽기 확인이나 선택 기록을 추가하지 않고 완료 커서만 저장한다. 저장 실패 시 창을 유지한다. 진행 동작 내부의 창 닫기는 먼저 완료를 저장하지 않는다. |
+| 복원 | 같은 세계 anchor/origin/branch와 실제 목록·선택 토큰을 검증한다. 신규 session/선택 토큰을 만들거나 원문을 append하지 않는다. 같은 descriptor의 현재 언어로 표시한다. |
+| 자료 | 거울 경로는 실행 전 경로/방향/반전/기준점을 동결하며 현재 퍼즐 상태에서 재추정하지 않는다. 재생 버튼은 기록이나 퍼즐을 변경하지 않는다. 겹침 도식도 같은 원칙으로 재구성한다. |
+| 결산·엔딩 | J4 확인 지연은 복원 창에서도 적용한다. 현실 수첩 표시와 읽기 확인은 분리되며 복원/닫기로 페이지 읽음·엔딩 결정을 실행하지 않는다. 수첩 검토 버튼은 통합 수첩을 열어 원래 확인창을 보존한다. |
+| 격리 | 슬롯/컨트롤러/로드 세대/namespace/origin/branch가 바뀐 버튼은 거부한다. 직접 파기된 창의 콜백도 세대 검사로 차단한다. |
+
+검증 범위와 잔여 화면은 [본편 모달 복원 검증](notebook_modal_presentation_validation.md)을 따른다. 본문 스크롤의 앱 재시작 위치, 기록 경로 밖의 조사창, 실제 OS 입력 인수는 별도 확인 대상이다.
