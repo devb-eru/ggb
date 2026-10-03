@@ -20,6 +20,7 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	if not MARKS.has(mark.get("type","")): return {"ok":false,"text":"A1 표시의 유형 기록을 확인할 수 없다. 저장 자료 확인이 필요하다."}
 	var local := progress(state)
 	var text := ""
+	var evidence: Array = []
 	match action:
 		"piece":
 			if local["past_verified"] or str(value) not in MARKS[mark["type"]]: return {"ok":false,"text":"당시 표시의 조각을 선택한다."}
@@ -30,21 +31,24 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 			local["sequence"] = []
 			text = "표시 조각을 다시 펼친다."
 		"past":
-			if local["sequence"] != MARKS[mark["type"]]: return {"ok":false,"text":"이전 표시와 순서가 다르다. 수첩의 원래 표시를 다시 확인한다."}
+			if local["sequence"] != MARKS[mark["type"]]: return {"ok":false,"text":"이전 표시와 순서가 다르다. 수첩의 원래 표시를 다시 확인한다.", "notebook_status": "E_PAST"}
 			local["past_verified"] = true
 			text = "PAST SELF / CONTINUITY VERIFIED\n과거 자기 기록의 연속성이 확인되었다. 현재의 빈 줄은 아직 쓰이지 않았다."
+			evidence.append({"key": "E_PAST"})
 		"author":
 			if not local["past_verified"]: return {"ok":false,"text":"과거 자기 기록을 먼저 확인한다."}
-			if str(value) != "subject": return {"ok":false,"text":"문장 내용이 아니라 작성 주체가 다르다. 현재의 주인공이 직접 작성해야 한다."}
+			if str(value) != "subject": return {"ok":false,"text":"문장 내용이 아니라 작성 주체가 다르다. 현재의 주인공이 직접 작성해야 한다.", "notebook_status": "E_AUTHOR"}
 			local["current_verified"] = true
 			knowledge["subject_authority_restored"] = true
 			text = "주인공이 빈 줄에 직접 쓴다.\n이 문장은 지금의 내가 쓴다.\nCURRENT AUTHOR: SUBJECT / AUTHORITY RESTORED\n현재 작성자: 주인공 · 권한 복원. 아직 현실이나 잔류를 고른 것은 아니다."
+			evidence.append({"key": "E_AUTHOR"})
 		"intent":
 			if not local["current_verified"] or not INTENTS.has(str(value)): return {"ok":false,"text":"현재 작성자 확인 뒤 마음의 방향을 기록한다."}
 			knowledge["f0_provisional_intent"] = str(value)
 			knowledge["F0_E_complete"] = true
 			meta["event_history"]["F0_E"] = {"event_id":"F0_E","lifecycle":"completed","variant_id":"INTENT_"+str(value).to_upper()}
 			text = "주인공: "+REACTIONS[str(value)]+"\n비공개 임시 의향 기록 · 구속력 없음\n주인공 권한 복원 · 최종 결정 미정\n이 기록은 사용인에게 전달되지 않는다. 마지막 선택에서 다시 결정할 수 있다."
+			evidence.append({"key": "E_INTENT_" + str(value).to_upper()})
 		_: return {"ok":false,"text":"정의되지 않은 인증 행동이다."}
 	state["loop_state"]["event_local_states"]["F0_E"] = local
-	return {"ok":true,"state":state,"text":text}
+	return {"ok":true,"state":state,"text":text,"evidence":evidence}

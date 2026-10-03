@@ -27,6 +27,7 @@ const EDGAR_NOTES := preload("res://scripts/systems/edgar_notebook.gd")
 const MARA2_NOTES := preload("res://scripts/systems/mara2_notebook.gd")
 const SETTLEMENT_NOTES := preload("res://scripts/systems/settlement_notebook.gd")
 const JOURNAL_DISPLAY := preload("res://scripts/systems/journal_four_display_notebook.gd")
+const CORE_NOTES := preload("res://scripts/systems/core_notebook.gd")
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
@@ -87,8 +88,9 @@ func _feedback(result: Dictionary) -> void:
 		return
 	var displayed := result.duplicate(true)
 	var descriptors: Array = result.get("notebook_feedback", [])
-	if result.get("ok", false) and not descriptors.is_empty() and String(descriptors[0].get("content_id", "")).begins_with(JOURNAL_DISPLAY.PREFIX):
-		_show_journal_feedback(result, descriptors)
+	var first_id := String(descriptors[0].get("content_id", "")) if not descriptors.is_empty() else ""
+	if result.get("ok", false) and (first_id.begins_with(JOURNAL_DISPLAY.PREFIX) or first_id.begins_with(CORE_NOTES.PREFIX)):
+		_show_notebook_feedback(result, descriptors)
 		return
 	var original := String(result.get("text", ""))
 	var locale := TranslationServer.get_locale()
@@ -101,7 +103,7 @@ func _feedback(result: Dictionary) -> void:
 		_notebook_surface_allowed()
 
 
-func _show_journal_feedback(result: Dictionary, descriptors: Array) -> void:
+func _show_notebook_feedback(result: Dictionary, descriptors: Array) -> void:
 	var lines: Array = []
 	var originals := PackedStringArray()
 	for descriptor in descriptors:
@@ -113,7 +115,7 @@ func _show_journal_feedback(result: Dictionary, descriptors: Array) -> void:
 		originals.append(original.text)
 		lines.append({"speaker": shown.speaker, "portrait": "", "text": shown.text, "notebook_content": descriptor.duplicate(true), "history_context": result.history_context})
 	if originals != String(result.text).split("\n", false):
-		push_error("NB_J4_FEEDBACK_SOURCE_MISMATCH")
+		push_error("NB_TYPED_FEEDBACK_SOURCE_MISMATCH")
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return
 	# Unknown old quotations bypass prose-based translation; their frozen text is literal.
@@ -143,6 +145,16 @@ func _queue_notebook_surface(key: String, text: String) -> void:
 func _queue_notebook_content(content_id: String, text: String, new_attempt: bool = false) -> void:
 	if _notebook_surface_enabled():
 		_notebook_surfaces.queue(content_id, text, TranslationServer.get_locale(), session.history_context(), new_attempt)
+
+
+func _queue_core_surface(key: String, text: String, values: Dictionary = {}) -> void:
+	if _notebook_surface_enabled():
+		_notebook_surfaces.queue_descriptor(CORE_NOTES.descriptor("SCREEN_" + key, values), text, TranslationServer.get_locale(), session.history_context())
+
+
+func _core_board(key: String, text: String, rect: Rect2, values: Dictionary = {}) -> void:
+	_board_label(text, rect)
+	_queue_core_surface(key, text, values)
 
 
 func _notebook_surface_board(key: String, text: String, rect: Rect2) -> void:
@@ -1761,23 +1773,33 @@ func _build_core_self() -> void:
 	if not local["past_verified"]:
 		var shown_sequence: PackedStringArray = []
 		for canonical_piece in local["sequence"]: shown_sequence.append(CORE_STORY_TEXTS.mark_piece(mark["type"],canonical_piece,locale))
-		_board_label(_core_text("f0e_mark") % [CORE_STORY_TEXTS.feedback(str(mark.get("text","")),locale)," → ".join(shown_sequence)], Rect2(300,130,1300,160))
+		var mark_text := _core_text("f0e_mark") % [CORE_STORY_TEXTS.feedback(str(mark.get("text","")),locale)," → ".join(shown_sequence)]
+		if _notebook_surface_enabled():
+			var descriptor := CORE_NOTES.mark_surface(mark, local.sequence, locale)
+			var shown := NOTEBOOK_CONTENT.presentation(descriptor, locale)
+			if shown.ok:
+				mark_text = shown.text
+				_notebook_surfaces.queue_descriptor(descriptor, mark_text, locale, session.history_context())
+		_board_label(mark_text, Rect2(300,130,1300,160))
 		var pieces: Array = rules.MARKS[mark["type"]]
 		for i in range(3):
 			var piece: String = pieces[[2,0,1][i]]
 			_action("F0E_PIECE_%d"%i,CORE_STORY_TEXTS.mark_piece(mark["type"],piece,locale),Rect2(400,330+i*115,1100,95),"f0e_piece",piece,false)
+			_queue_core_surface("E_PIECE_%s_%d" % [String(mark.type).to_upper(), pieces.find(piece)], CORE_STORY_TEXTS.mark_piece(mark.type, piece, locale))
 		_action("F0E_CLEAR",_core_text("rearrange"),Rect2(400,710,520,85),"f0e_clear",null,false)
 		_action("F0E_PAST",_core_text("verify_past"),Rect2(980,710,520,85),"f0e_past")
 	elif not local["current_verified"]:
-		_board_label(_core_text("f0e_author_board"),Rect2(300,140,1300,150))
+		_core_board("E_AUTHOR", _core_text("f0e_author_board"),Rect2(300,140,1300,150))
+		_queue_core_choices("AUTHOR")
 		for i in range(4):
 			var writer: String = ["father","system","subject","servant"][i]
-			_action("F0E_AUTHOR_"+writer,_core_text("author_"+writer),Rect2(400,330+i*115,1100,95),"f0e_author",writer)
+			_core_choice("AUTHOR", i, "F0E_AUTHOR_"+writer, _core_text("author_"+writer), Rect2(400,330+i*115,1100,95),"f0e_author",writer)
 	else:
-		_board_label(_core_text("f0e_intent_board"),Rect2(300,150,1300,150))
+		_core_board("E_INTENT", _core_text("f0e_intent_board"),Rect2(300,150,1300,150))
+		_queue_core_choices("INTENT")
 		for i in range(3):
 			var intent: String = ["reality","stay","undecided"][i]
-			_action("F0E_INTENT_"+intent,CORE_STORY_TEXTS.intent(intent,locale),Rect2(400,370+i*130,1100,105),"f0e_intent",intent)
+			_core_choice("INTENT", i, "F0E_INTENT_"+intent,CORE_STORY_TEXTS.intent(intent,locale),Rect2(400,370+i*130,1100,105),"f0e_intent",intent)
 
 
 func _build_core_roles() -> void:
@@ -1785,17 +1807,20 @@ func _build_core_roles() -> void:
 	_objective_label.text = _core_text("f0d_objective")
 	var rules = BasementSession.CORE_ROLES
 	var local: Dictionary = rules.progress(session.snapshot())
-	_board_label(_core_text("f0d_board"), Rect2(220,105,1480,100))
+	_core_board("D_GUIDE", _core_text("f0d_board"), Rect2(220,105,1480,100))
 	for index in range(5):
 		var record: String = ["notebook","command","father","residents","passphrase"][index]
 		var title: String = CORE_STORY_TEXTS.record_name(record,locale)
 		if record == "residents" and not session.snapshot()["meta_progress"]["servants"]["mara2"]["researcher_record_acquired"]: title += " · " + _core_text("anonymous_index")
 		if local["selected"] == record: title += " [" + _core_text("selected") + "]"
 		_action("F0D_CARD_"+record, title, Rect2(180,235+index*115,620,95), "f0d_select", record)
+		var anonymous: bool = record == "residents" and not session.snapshot().meta_progress.servants.mara2.researcher_record_acquired
+		_queue_core_surface("D_CARD" + ("_YES" if local.selected == record else "_NO") + ("_ANON" if anonymous else ""), title, {"record":record})
 		var placed: String = local["slots"][index]
 		var slot_title: String = rules.LABELS[index]+"\n"+(_core_text("empty_slot") if placed.is_empty() else CORE_STORY_TEXTS.record_name(placed,locale))
 		if local["locked"] == index: slot_title += " [" + _core_text("locked") + "]"
 		_action("F0D_SLOT_%d"%index, slot_title, Rect2(880,235+index*115,650,95), "f0d_place", index, false)
+		_queue_core_surface("D_SLOT" + ("_YES" if local.locked == index else "_NO"), slot_title, {"role":str(index), "record":"empty" if placed.is_empty() else placed})
 		if local["failures"] >= 3 and local["locked"] < 0:
 			_action("F0D_LOCK_%d"%index, _core_text("lock_confirm"), Rect2(1560,235+index*115,220,95), "f0d_lock", index)
 	_action("F0D_VERIFY", _core_text("verify_roles"), Rect2(350,850,1200,85), "f0d_verify")
@@ -1810,13 +1835,15 @@ func _build_core_overlay() -> void:
 	board.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_hotspot_layer.add_child(board)
 	_place(board, Rect2(150,170,850,660))
-	_board_label(_core_text("f0c_board"), Rect2(150,835,850,125))
+	_core_board("C_GUIDE", _core_text("f0c_board"), Rect2(150,835,850,125))
 	for index in range(3):
 		var layer: String = rules.LAYERS[index]
 		var y := 160 + index*230
 		var anchor_names := [_core_text("anchor_unset"), _core_text("anchor_origin"), _core_text("anchor_right"), _core_text("anchor_down")]
 		var anchor_index := clampi(int(local[layer]["anchor"]) + 1, 0, 3)
-		_board_label("%s · %d° · %s · %s" % [layer,local[layer]["turn"]*90,_core_text("flip_yes") if local[layer]["flip"] else _core_text("flip_no"),anchor_names[anchor_index]], Rect2(1050,y,720,55))
+		var layer_label := "%s · %d° · %s · %s" % [layer,local[layer]["turn"]*90,_core_text("flip_yes") if local[layer]["flip"] else _core_text("flip_no"),anchor_names[anchor_index]]
+		_board_label(layer_label, Rect2(1050,y,720,55))
+		_queue_core_surface("C_LAYER_" + layer, layer_label + "\n" + _core_text("opacity") % local[layer].opacity, {"degrees":int(local[layer].turn) * 90, "flipped":"yes" if local[layer].flip else "no", "anchor":str(int(local[layer].anchor)), "opacity":int(local[layer].opacity)})
 		if not local["locked"]:
 			if layer != "D4":
 				_action(layer+"_ROTATE", _core_text("rotate_90"), Rect2(1050,y+65,340,55), "f0c", {"action":"rotate","layer":layer}, false)
@@ -1830,6 +1857,7 @@ func _build_core_overlay() -> void:
 			var point: String = rules.INVESTIGATION[index]
 			var point_label: String = _core_text(point.to_lower())
 			_action("F0C_"+point, point_label, Rect2(1020+index*250,885,230,75), "f0c", {"action":"inspect","value":point})
+			_queue_core_surface("C_" + point, point_label)
 
 
 func _build_core_samples() -> void:
@@ -1837,16 +1865,17 @@ func _build_core_samples() -> void:
 	_objective_label.text = _core_text("f0b_objective")
 	var rules = BasementSession.CORE_SAMPLES
 	var local: Dictionary = rules.progress(session.snapshot())
-	_board_label(_core_text("f0b_board"), Rect2(240, 110, 1440, 110))
+	_core_board("B_GUIDE", _core_text("f0b_board"), Rect2(240, 110, 1440, 110))
 	for index in range(4):
 		var room: String = rules.ROOMS[index]
 		var y := 245 + index * 160
-		_board_label(CORE_STORY_TEXTS.room_name(room,locale) + (" · " + _core_text("verified") if room in local["verified"] else ""), Rect2(160, y, 290, 125))
+		_core_board("B_ROOM" + ("_YES" if room in local.verified else "_NO"), CORE_STORY_TEXTS.room_name(room,locale) + (" · " + _core_text("verified") if room in local["verified"] else ""), Rect2(160, y, 290, 125), {"room":room})
 		for column in range(2):
 			var sample: int = [1, 0][column] if index % 2 == 0 else column
 			var label: String = CORE_STORY_TEXTS.sample_label(room,sample,locale)
 			if local["selected"].get(room, -1) == sample: label += " [" + _core_text("selected") + "]"
 			_action("F0B_%s_%d" % [room, sample], label, Rect2(480 + column * 460, y, 430, 125), "f0b_inspect", [room, sample])
+			_queue_core_surface("B_SAMPLE_%s_%d" % [room.to_upper(), sample] + ("_YES" if local.selected.get(room, -1) == sample else "_NO"), label)
 		if room not in local["verified"]:
 			_action("F0B_SEND_" + room, _core_text("send"), Rect2(1410, y, 330, 125), "f0b_send", room)
 
@@ -1856,17 +1885,48 @@ func _build_core_room_network() -> void:
 	_objective_label.text = _core_text("f0a_objective")
 	var rules = BasementSession.CORE_ROOMS
 	var local: Dictionary = rules.progress(session.snapshot())
-	_board_label(_core_text("f0a_board"), Rect2(650, 345, 620, 245))
+	_core_board("A_GUIDE", _core_text("f0a_board"), Rect2(650, 345, 620, 245))
 	var positions := [Vector2(675, 110), Vector2(1275, 345), Vector2(675, 650), Vector2(75, 345)]
 	for slot in range(4):
 		var pos: Vector2 = positions[slot]
 		var room: String = local["tiles"][slot]
 		var label := "%s · %s%s\n%s\n%s → %s" % [CORE_STORY_TEXTS.direction(slot,locale), CORE_STORY_TEXTS.room_name(room,locale), " [" + _core_text("selected") + "]" if local["selected"] == slot else "", CORE_STORY_TEXTS.port(room,locale), "Output" if CORE_STORY_TEXTS.is_english(locale) else "출력", CORE_STORY_TEXTS.direction(local["directions"][slot],locale)]
 		_action("F0A_TILE_%d" % slot, label, Rect2(pos, Vector2(550, 150)), "f0a_select", slot, false)
+		_queue_core_surface("A_TILE" + ("_YES" if local.selected == slot else "_NO"), label, {"direction":str(slot), "room":room, "port":room, "output":str(int(local.directions[slot]))})
 		_action("F0A_ROTATE_%d" % slot, _core_text("f0a_rotate"), Rect2(pos + Vector2(0, 160), Vector2(550, 65)), "f0a_rotate", slot, false)
 	_action("F0A_NOTES", _core_text("f0a_notes"), Rect2(180, 930, 720, 60), "f0a_notes")
 	_action("F0A_SIGNAL", _core_text("f0a_signal"), Rect2(1020, 930, 720, 60), "f0a_signal")
 
+
+
+func _queue_core_choices(group: String) -> void:
+	var labels := PackedStringArray()
+	var values: Array = CORE_NOTES.OWNERS if group == "AUTHOR" else CORE_NOTES.INTENTS
+	for value in values:
+		labels.append(_core_text("author_" + value) if group == "AUTHOR" else CORE_STORY_TEXTS.intent(value, TranslationServer.get_locale()))
+	_queue_notebook_content(CORE_NOTES.PREFIX + "E_" + group + "_OPTIONS", "\n".join(labels))
+
+
+func _core_choice(group: String, index: int, id: String, label: String, rect: Rect2, action: String, value: String) -> void:
+	if not _notebook_surface_enabled():
+		_action(id, label, rect, action, value)
+		return
+	_add_hotspot(id, label, rect, _core_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, TranslationServer.get_locale(), action, value))
+
+
+func _core_choice_pressed(generation: int, group: String, index: int, label: String, locale: String, action: String, value: String) -> void:
+	if _interaction_blocked() or not _notebook_surfaces.live(_notebook_surface_scope(), generation): return
+	if not _notebook_surface_allowed(): return
+	var options_id := CORE_NOTES.PREFIX + "E_" + group + "_OPTIONS"
+	var selected_id := CORE_NOTES.PREFIX + "E_" + group + "_SELECT_%d" % index
+	if not _notebook_surfaces.choose(session, _notebook_surface_scope(), options_id, selected_id, label, locale):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	var result := session.act(action, value)
+	_notebook_surfaces.dispatched(options_id, result.get("ok", false))
+	if result.get("ok", false): _set_status("")
+	_render_room()
+	_feedback(result)
 
 
 func _settlement_board(key: String, rect: Rect2) -> void:

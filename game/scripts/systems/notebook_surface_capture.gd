@@ -42,6 +42,22 @@ func has_pending() -> bool:
 	return false
 
 
+func queue_descriptor(descriptor: Dictionary, text: String, locale: String, context: Dictionary, new_attempt: bool = false) -> void:
+	# A variable surface has one identity per disclosed value set, not per repaint.
+	var key := JSON.stringify([descriptor, locale], "", true)
+	if key not in active: active.append(key)
+	if requests.has(key) and requests[key].attempted and (not new_attempt or not requests[key].recorded): return
+	var source := context.duplicate(true)
+	if new_attempt:
+		source.event_occurrence_id = ARCHIVE.new_uid()
+		source.conversation_session_id = ARCHIVE.new_uid()
+	if not source.has("event_occurrence_id"): source.event_occurrence_id = occurrence
+	if not source.has("conversation_session_id"): source.conversation_session_id = conversation
+	var request := _request(descriptor.content_id, text, locale, source)
+	request.context.notebook_content = descriptor.duplicate(true)
+	requests[key] = request
+
+
 func live(current: Dictionary, expected_generation: int) -> bool:
 	return scope == current and generation == expected_generation
 

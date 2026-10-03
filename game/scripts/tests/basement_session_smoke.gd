@@ -217,6 +217,7 @@ func _validate_basement_hints(expected_stage: String) -> void:
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
 	_expect(view.session.stage() == expected_stage, "basement hint stage: " + expected_stage)
+	_expect(view._notebook_surface_allowed(), "visible board stored before hint baseline: " + expected_stage)
 	var before: Dictionary = game.get_snapshot()
 	view._open_notebook()
 	var button := view._modal_body.get_node_or_null("ClockHintsButton") as Button
@@ -232,7 +233,7 @@ func _validate_basement_hints(expected_stage: String) -> void:
 			view._dialogue_next.pressed.emit()
 		view._close_modal()
 	var after: Dictionary = game.get_snapshot()
-	_expect(after.meta_progress.dialogue_history.entries.size() == before.meta_progress.dialogue_history.entries.size() + 5, "basement hints persist only shown lines")
+	_expect(after.meta_progress.dialogue_history.entries.size() == before.meta_progress.dialogue_history.entries.size() + 5, "basement hints persist only shown lines: " + expected_stage)
 	after.meta_progress.dialogue_history = before.meta_progress.dialogue_history.duplicate(true)
 	_expect(after == before, "basement hints preserve axes rings locks and relationships")
 	view.queue_free()

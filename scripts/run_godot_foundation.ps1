@@ -184,6 +184,9 @@ Assert-GodotValidation -Result $notebookJournalFourResult -Name "Notebook compos
 $notebookJournalFourDisplayResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-journal-four-display-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookJournalFourDisplayResult -Name "Notebook J4 confirmation, actual reading and minimum access" -RequiredMarker "NOTEBOOK_JOURNAL_FOUR_DISPLAY_SMOKE: PASS"
 
+$notebookCoreResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-core-smoke", "--ggb-dev-notebook-v2")
+Assert-GodotValidation -Result $notebookCoreResult -Name "Notebook core puzzle evidence and nonbinding authority" -RequiredMarker "NOTEBOOK_CORE_SMOKE: PASS"
+
 $notebookAuthorityArchiveResult = Invoke-GodotValidation @("--headless", "--path", $projectRoot, "--", "--notebook-authority-archive-smoke", "--ggb-dev-notebook-v2")
 Assert-GodotValidation -Result $notebookAuthorityArchiveResult -Name "Notebook Edgar authority and Mara 2 archive evidence" -RequiredMarker "NOTEBOOK_AUTHORITY_ARCHIVE_SMOKE: PASS"
 

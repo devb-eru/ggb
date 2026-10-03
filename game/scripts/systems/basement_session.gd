@@ -27,6 +27,7 @@ const CORE_SAMPLES := preload("res://scripts/systems/core_samples.gd")
 const CORE_OVERLAY := preload("res://scripts/systems/core_overlay.gd")
 const CORE_ROLES := preload("res://scripts/systems/core_record_roles.gd")
 const CORE_SELF := preload("res://scripts/systems/core_self_authority.gd")
+const CORE_NOTES := preload("res://scripts/systems/core_notebook.gd")
 const FATHER_RECORD := preload("res://scripts/systems/father_final_record.gd")
 const CONFRONTATION := preload("res://scripts/systems/researcher_confrontation.gd")
 const FINAL_INSPECTION := preload("res://scripts/systems/final_inspection.gd")
@@ -225,28 +226,29 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "원본 기록을 확인한다."))
 	if action.begins_with("f0e_"):
 		var result: Dictionary = CORE_SELF.apply(snapshot(), action.trim_prefix("f0e_"), value)
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "작성자를 확인한다."))
+		return _core_result(result)
 	if action.begins_with("f0d_"):
 		var result: Dictionary = CORE_ROLES.apply(snapshot(), action.trim_prefix("f0d_"), value)
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "기록 역할을 확인한다."))
+		return _core_result(result)
 	if action == "f0c":
 		if not known("f0_system_samples_verified") or known("f0_overlay_complete") or snapshot()["loop_state"]["location_id"] != "H0_CORE_PATH": return _reject("표본을 검증한 뒤 중첩 자료를 조사한다.")
 		if not value is Dictionary: return _reject("자료 조작을 선택한다.")
 		var state := snapshot()
 		var local: Dictionary = state["loop_state"]["event_local_states"].get("F0_C", CORE_OVERLAY.initial())
 		var result: Dictionary = CORE_OVERLAY.act(local, str(value.get("action", "")), str(value.get("layer", "")), value.get("value"))
-		if not result.get("ok", false): return _reject(result.get("text", "자료를 확인한다."))
+		if not result.get("ok", false): return _core_result(result)
 		state["loop_state"]["event_local_states"]["F0_C"] = result["state"]
 		if result["state"]["complete"]:
 			state["meta_progress"]["knowledge_entries"]["f0_overlay_complete"] = true
 			state["meta_progress"]["event_history"]["F0_C"] = {"event_id": "F0_C", "lifecycle": "completed"}
-		return _commit(state, result["text"])
+		result.state = state
+		return _core_result(result)
 	if action.begins_with("f0b_"):
 		var result: Dictionary = CORE_SAMPLES.apply(snapshot(), action.trim_prefix("f0b_"), value)
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "표본을 확인한다."))
+		return _core_result(result)
 	if action.begins_with("f0a_"):
 		var result: Dictionary = CORE_ROOMS.apply(snapshot(), action.trim_prefix("f0a_"), value)
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "회로를 확인한다."))
+		return _core_result(result)
 	if action.begins_with("e6_"):
 		return _settlement_action("E6", action.trim_prefix("e6_"), value)
 	if action.begins_with("e5_"):
@@ -424,6 +426,22 @@ func act(action: String, value: Variant = null) -> Dictionary:
 
 func luca_s2_pending() -> bool:
 	return not known("LUCA_S2_complete") and not snapshot()["meta_progress"]["servants"]["luca"]["core_event_complete"]
+
+
+func _core_result(result: Dictionary) -> Dictionary:
+	if not result.get("ok", false):
+		var rejected := _reject(result.get("text", "자료를 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = CORE_NOTES.PREFIX + "STATUS_" + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	var evidence: Array = result.get("evidence", [])
+	var written := CORE_NOTES.write(result.state, evidence, context, TranslationServer.get_locale())
+	if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, CORE_NOTES.paragraphs(evidence))
 
 
 func _journal_action(action: String, value: Variant) -> Dictionary:

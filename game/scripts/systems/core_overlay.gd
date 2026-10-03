@@ -29,7 +29,7 @@ static func evaluate(state: Dictionary) -> Dictionary:
 	if count <= 1: feedback = "세 자료의 진동 주기가 다르다."
 	elif count <= 3: feedback = "중심은 맞지만 분기선이 끊긴다."
 	elif count <= 5: feedback = "빈 포트 외곽 일부가 나타난다."
-	return {"matched": count, "checks": checks, "aligned": count == 6, "text": feedback}
+	return {"matched": count, "checks": checks, "aligned": count == 6, "text": feedback, "evidence": [{"key": "C_VERIFY_%d" % (0 if count <= 1 else (1 if count <= 3 else (2 if count <= 5 else 3)))}]}
 
 static func act(source: Dictionary, action: String, layer: String = "", value: Variant = null) -> Dictionary:
 	var state := source.duplicate(true)
@@ -37,14 +37,14 @@ static func act(source: Dictionary, action: String, layer: String = "", value: V
 	if action == "inspect":
 		if not state["locked"]: return {"ok": false, "text": "세 자료를 먼저 완전히 중첩한다."}
 		var index: int = state["inspected"].size()
-		if str(value) != INVESTIGATION[index]: return {"ok": false, "text": "경로를 따라 분기를 확인하고 인증 고리를 조사한다."}
+		if str(value) != INVESTIGATION[index]: return {"ok": false, "text": "경로를 따라 분기를 확인하고 인증 고리를 조사한다.", "notebook_status": "C_SEQUENCE"}
 		state["inspected"].append(str(value))
 		state["complete"] = state["inspected"].size() == 3
-		return {"ok": true, "state": state, "text": "이름 없는 포트가 열린다." if state["complete"] else str(value) + " 조사 완료"}
+		return {"ok": true, "state": state, "text": "이름 없는 포트가 열린다." if state["complete"] else str(value) + " 조사 완료", "evidence": [{"key": "C_INSPECT_" + str(value)}]}
 	if action == "verify":
 		var result := evaluate(state)
 		state["locked"] = result["aligned"]
-		return {"ok": true, "state": state, "text": result["text"]}
+		return {"ok": true, "state": state, "text": result["text"], "evidence": result.evidence}
 	if layer not in LAYERS: return {"ok": false, "text": "B4·C5·D4 자료 중 하나를 선택한다."}
 	if action == "opacity":
 		if not value is int or value < 20 or value > 100: return {"ok": false, "text": "투명도는 20~100 범위다."}

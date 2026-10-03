@@ -19,20 +19,33 @@ static func evaluate(local: Dictionary) -> Dictionary:
 	var visited: Array = []
 	var path: PackedStringArray = []
 	var broken: PackedStringArray = []
+	var evidence: Array = [{"key": "A_SIGNAL_HEADER"}]
+	var rejected: Array = []
 	for slot in range(4):
 		if tiles[slot] not in ROOMS or int(directions[slot]) not in range(4): return {"ok": false, "text": "유효하지 않은 포트다."}
 		if tiles[slot] in visited: return {"ok": false, "text": "같은 방을 두 번 배치할 수 없다."}
 		visited.append(tiles[slot])
 		var target := int(directions[slot])
 		path.append("%s %s → %s %s" % [DIRECTIONS[slot], NAMES[tiles[slot]], DIRECTIONS[target], NAMES[tiles[target]]])
+		evidence.append({"key": "A_SIGNAL_PATH", "vars": {"direction": str(slot), "room": tiles[slot], "target_direction": str(target), "target_room": tiles[target]}})
 		var expected_next: String = ROOMS[(ROOMS.find(tiles[slot]) + 1) % 4]
-		if tiles[target] != expected_next: broken.append("%s 출력: %s의 수신 기능과 맞지 않음" % [DIRECTIONS[slot], NAMES[tiles[target]]])
-	if tiles[0] != "greenhouse": broken.append("북쪽 외부 대기 입력: 환경 제어 수신 불일치")
-	if tiles[3] != "library": broken.append("서쪽 중앙 코어 요청: 관리 인덱스 응답 없음")
+		if tiles[target] != expected_next:
+			broken.append("%s 출력: %s의 수신 기능과 맞지 않음" % [DIRECTIONS[slot], NAMES[tiles[target]]])
+			rejected.append({"key": "A_SIGNAL_RECEIVER", "vars": {"direction": str(slot), "room": tiles[target]}})
+	if tiles[0] != "greenhouse":
+		broken.append("북쪽 외부 대기 입력: 환경 제어 수신 불일치")
+		rejected.append({"key": "A_SIGNAL_NORTH"})
+	if tiles[3] != "library":
+		broken.append("서쪽 중앙 코어 요청: 관리 인덱스 응답 없음")
+		rejected.append({"key": "A_SIGNAL_WEST"})
 	# Adjacent ring connectors cannot jump across or terminate on their own tile.
 	for slot in range(4):
-		if int(directions[slot]) != (slot + 1) % 4: broken.append("%s 회랑 연결: 출력이 다음 실물 포트에 닿지 않음" % DIRECTIONS[slot])
-	return {"ok": broken.is_empty(), "text": "약한 신호 경로\n" + "\n".join(path) + ("\n물질 공급과 데이터 피드백이 한 회로로 돌아온다. 중앙 요청 포트까지 연결되었다." if broken.is_empty() else "\n\n끊긴 포트\n" + "\n".join(broken))}
+		if int(directions[slot]) != (slot + 1) % 4:
+			broken.append("%s 회랑 연결: 출력이 다음 실물 포트에 닿지 않음" % DIRECTIONS[slot])
+			rejected.append({"key": "A_SIGNAL_CORRIDOR", "vars": {"direction": str(slot)}})
+	evidence.append({"key": "A_SIGNAL_COMPLETE" if broken.is_empty() else "A_SIGNAL_BROKEN"})
+	evidence.append_array(rejected)
+	return {"ok": broken.is_empty(), "text": "약한 신호 경로\n" + "\n".join(path) + ("\n물질 공급과 데이터 피드백이 한 회로로 돌아온다. 중앙 요청 포트까지 연결되었다." if broken.is_empty() else "\n\n끊긴 포트\n" + "\n".join(broken)), "evidence": evidence}
 
 static func apply(source: Dictionary, action: String, value: Variant) -> Dictionary:
 	var state := source.duplicate(true)
@@ -41,6 +54,7 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	if knowledge.get("f0_room_feedback_loop_solved", false): return {"ok": false, "text": "네 방의 연결은 이미 검증했다."}
 	var local := progress(state)
 	var text := ""
+	var evidence: Array = []
 	match action:
 		"select":
 			if not value is int or value not in range(4): return {"ok": false, "text": "네 방 슬롯 중 하나를 고른다."}
@@ -61,15 +75,18 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 			if not value is int or value not in range(4): return {"ok": false, "text": "회전할 타일을 고른다."}
 			local["directions"][value] = (int(local["directions"][value]) + 1) % 4
 			text = "%s 타일 출력 → %s" % [DIRECTIONS[value], DIRECTIONS[local["directions"][value]]]
-		"notes": text = NOTES
+		"notes":
+			text = NOTES
+			evidence = [{"key": "A_NOTES"}]
 		"signal":
 			local["attempts"] += 1
 			var result := evaluate(local)
 			text = result["text"]
+			evidence = result.evidence
 			local["feedback"] = text
 			if result["ok"]:
 				knowledge["f0_room_feedback_loop_solved"] = true
 				state["meta_progress"]["event_history"]["F0_A"] = {"event_id": "F0_A", "lifecycle": "completed"}
 		_: return {"ok": false, "text": "정의되지 않은 회로 조작이다."}
 	state["loop_state"]["event_local_states"]["F0_A"] = local
-	return {"ok": true, "state": state, "text": text}
+	return {"ok": true, "state": state, "text": text, "evidence": evidence}

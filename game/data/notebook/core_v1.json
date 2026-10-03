@@ -1,0 +1,6665 @@
+{
+	"contents": {
+		"NB_CORE_A_NOTES": {
+			"1": {
+				"action_or_variant": "A_NOTES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"line_01": "[Room function notes]",
+						"line_02": "P5: The indoor season persisted even when it differed from the outside air.",
+						"line_03": "P4: Pulses in the fluid supply beneath the kitchen connect to the body in the bedroom.",
+						"line_04": "P1 · E1: Neural signals originate from the body in the bedroom.",
+						"line_05": "J4: Memory indices and administrative authority converge in the records room.",
+						"line_06": "[Fixed ports]",
+						"line_07": "Outside air enters from the north. The central core request terminal is on the west.",
+						"line_08": "Each room's output arrow points to a compass slot. In addition to the central request, the records room must return seasonal presentation data to the greenhouse.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "[방 기능 자료]",
+						"line_02": "P5: 실내 계절은 외부 대기와 달라도 유지되었다.",
+						"line_03": "P4: 주방 아래 유체 공급의 맥박은 침실의 몸과 이어진다.",
+						"line_04": "P1·E1: 침실의 몸에서 신경 신호가 나온다.",
+						"line_05": "J4: 기억 인덱스와 관리 권한은 기록 내실로 모인다.",
+						"line_06": "[고정 포트]",
+						"line_07": "외부 대기는 북쪽에서 들어온다. 중앙 코어의 관리 요청 단자는 서쪽에 있다.",
+						"line_08": "네 방의 출력 화살표는 방위 슬롯을 가리킨다. 내실은 중앙 요청과 별개로 계절 연출 데이터를 온실에 돌려보내야 한다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "A_NOTES:line_01",
+					"line_02": "A_NOTES:line_02",
+					"line_03": "A_NOTES:line_03",
+					"line_04": "A_NOTES:line_04",
+					"line_05": "A_NOTES:line_05",
+					"line_06": "A_NOTES:line_06",
+					"line_07": "A_NOTES:line_07",
+					"line_08": "A_NOTES:line_08"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "A_NOTES",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {},
+					"line_06": {},
+					"line_07": {},
+					"line_08": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05",
+					"line_06",
+					"line_07",
+					"line_08"
+				]
+			}
+		},
+		"NB_CORE_A_SIGNAL_BROKEN": {
+			"1": {
+				"action_or_variant": "A_SIGNAL_BROKEN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"line_01": "Disconnected ports",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "끊긴 포트",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "A_SIGNAL_BROKEN:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "A_SIGNAL_BROKEN",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_A_SIGNAL_COMPLETE": {
+			"1": {
+				"action_or_variant": "A_SIGNAL_COMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"line_01": "Material supply and data feedback now form one circuit. The central request port is connected.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "물질 공급과 데이터 피드백이 한 회로로 돌아온다. 중앙 요청 포트까지 연결되었다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "A_SIGNAL_COMPLETE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "A_SIGNAL_COMPLETE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_A_SIGNAL_CORRIDOR": {
+			"1": {
+				"action_or_variant": "A_SIGNAL_CORRIDOR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "North",
+							"1": "East",
+							"2": "South",
+							"3": "West"
+						},
+						"ko-KR": {
+							"0": "북",
+							"1": "동",
+							"2": "남",
+							"3": "서"
+						}
+					}
+				},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"line_01": "{direction} corridor connection: output does not reach the next physical port",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "{direction} 회랑 연결: 출력이 다음 실물 포트에 닿지 않음",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "A_SIGNAL_CORRIDOR:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "A_SIGNAL_CORRIDOR",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {
+						"direction": "enum:direction"
+					}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_A_SIGNAL_HEADER": {
+			"1": {
+				"action_or_variant": "A_SIGNAL_HEADER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"line_01": "Weak-signal route",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "약한 신호 경로",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "A_SIGNAL_HEADER:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "A_SIGNAL_HEADER",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_A_SIGNAL_NORTH": {
+			"1": {
+				"action_or_variant": "A_SIGNAL_NORTH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"line_01": "North outside-air input: environmental-control receiver mismatch",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "북쪽 외부 대기 입력: 환경 제어 수신 불일치",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "A_SIGNAL_NORTH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "A_SIGNAL_NORTH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_A_SIGNAL_PATH": {
+			"1": {
+				"action_or_variant": "A_SIGNAL_PATH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "North",
+							"1": "East",
+							"2": "South",
+							"3": "West"
+						},
+						"ko-KR": {
+							"0": "북",
+							"1": "동",
+							"2": "남",
+							"3": "서"
+						}
+					},
+					"room": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"greenhouse": "Greenhouse",
+							"kitchen": "Kitchen",
+							"library": "Records room"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"greenhouse": "온실",
+							"kitchen": "주방",
+							"library": "기록 내실"
+						}
+					}
+				},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"line_01": "{direction} {room} → {target_direction} {target_room}",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "{direction} {room} → {target_direction} {target_room}",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "A_SIGNAL_PATH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "A_SIGNAL_PATH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {
+						"direction": "enum:direction",
+						"room": "enum:room",
+						"target_direction": "enum:direction",
+						"target_room": "enum:room"
+					}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_A_SIGNAL_RECEIVER": {
+			"1": {
+				"action_or_variant": "A_SIGNAL_RECEIVER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "North",
+							"1": "East",
+							"2": "South",
+							"3": "West"
+						},
+						"ko-KR": {
+							"0": "북",
+							"1": "동",
+							"2": "남",
+							"3": "서"
+						}
+					},
+					"room": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"greenhouse": "Greenhouse",
+							"kitchen": "Kitchen",
+							"library": "Records room"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"greenhouse": "온실",
+							"kitchen": "주방",
+							"library": "기록 내실"
+						}
+					}
+				},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"line_01": "{direction} output: incompatible with {room}'s receiving function",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "{direction} 출력: {room}의 수신 기능과 맞지 않음",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "A_SIGNAL_RECEIVER:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "A_SIGNAL_RECEIVER",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {
+						"direction": "enum:direction",
+						"room": "enum:room"
+					}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_A_SIGNAL_WEST": {
+			"1": {
+				"action_or_variant": "A_SIGNAL_WEST",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"line_01": "West central-core request: no administrative-index response",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "서쪽 중앙 코어 요청: 관리 인덱스 응답 없음",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "A_SIGNAL_WEST:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "A_SIGNAL_WEST",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_B_COMPLETE": {
+			"1": {
+				"action_or_variant": "B_COMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "4 CHANNELS VERIFIED / ACCESS DENIED",
+						"line_02": "Four maintenance channels verified / access denied",
+						"line_03": "The low pulse steadies, but the door does not open. An unnamed space remains beside the four connection lines.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "4 CHANNELS VERIFIED / ACCESS DENIED",
+						"line_02": "네 유지 채널 검증 완료 / 접근 권한 없음",
+						"line_03": "낮은 맥박은 안정되었지만 문은 열리지 않는다. 네 개의 연결선 옆에 이름 없는 빈자리가 남는다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_COMPLETE:line_01",
+					"line_02": "B_COMPLETE:line_02",
+					"line_03": "B_COMPLETE:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_COMPLETE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_CORE_B_COUNT": {
+			"1": {
+				"action_or_variant": "B_COUNT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "Verified channels: {count} / 4",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "검증된 채널 {count} / 4",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_COUNT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_COUNT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {
+						"count": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_B_HINT": {
+			"1": {
+				"action_or_variant": "B_HINT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "Protagonist: I need to separate what sustains a body from what stages the mansion.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "주인공: 몸을 유지하는 것과 저택을 연출하는 것을 나눠 봐야 해.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_HINT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_HINT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_B_MAINTENANCE": {
+			"1": {
+				"action_or_variant": "B_MAINTENANCE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {
+					"room": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"greenhouse": "Greenhouse",
+							"kitchen": "Kitchen",
+							"library": "Records room"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"greenhouse": "온실",
+							"kitchen": "주방",
+							"library": "기록 내실"
+						}
+					}
+				},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "{room}: MAINTENANCE DATA · sustaining data",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "{room}: MAINTENANCE DATA · 실제 유지 데이터",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_MAINTENANCE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_MAINTENANCE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {
+						"room": "enum:room"
+					}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_B_PRESENTATION": {
+			"1": {
+				"action_or_variant": "B_PRESENTATION",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {
+					"room": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"greenhouse": "Greenhouse",
+							"kitchen": "Kitchen",
+							"library": "Records room"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"greenhouse": "온실",
+							"kitchen": "주방",
+							"library": "기록 내실"
+						}
+					}
+				},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "{room}: PRESENTATION DATA · presentation sample returned",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "{room}: PRESENTATION DATA · 표현용 데이터 반환",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_PRESENTATION:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_PRESENTATION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {
+						"room": "enum:room"
+					}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_B_RETRY": {
+			"1": {
+				"action_or_variant": "B_RETRY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "The sample and other verified channels remain intact. You can inspect the destination again.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "표본과 다른 검증 채널은 손상되지 않았다. 연결 끝을 다시 조사할 수 있다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_RETRY:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_RETRY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_B_SAMPLE_BEDROOM_0": {
+			"1": {
+				"action_or_variant": "B_SAMPLE_BEDROOM_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "Bedroom · Current vital signal",
+						"line_02": "A faint signal continues even when the protagonist stops moving. Neural input from the bedroom capsule is transmitted to the records room.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "침실 · 현재 생체 신호",
+						"line_02": "주인공의 움직임을 멈춰도 미세한 신호는 계속된다. 침실 캡슐의 신경 입력이 기록 내실로 전송된다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_SAMPLE_BEDROOM_0:line_01",
+					"line_02": "B_SAMPLE_BEDROOM_0:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_SAMPLE_BEDROOM_0",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_B_SAMPLE_BEDROOM_1": {
+			"1": {
+				"action_or_variant": "B_SAMPLE_BEDROOM_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "Bedroom · Young-lady role animation",
+						"line_02": "She blinks at the same instant every time. When the frames stop, so does the value. The connection ends at the surface figure in the mirror.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "침실 · 아가씨 역할 애니메이션",
+						"line_02": "매번 같은 순간에 눈을 깜빡인다. 프레임을 멈추면 값도 멈춘다. 연결 끝은 거울 속 표층 인물이다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_SAMPLE_BEDROOM_1:line_01",
+					"line_02": "B_SAMPLE_BEDROOM_1:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_SAMPLE_BEDROOM_1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_B_SAMPLE_GREENHOUSE_0": {
+			"1": {
+				"action_or_variant": "B_SAMPLE_GREENHOUSE_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "Greenhouse · Outside-air readings",
+						"line_02": "The sensor readings change independently of the indoor season. The line runs from the outside intake, through environmental control, and into the life-support supply.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "온실 · 외부 대기 수치",
+						"line_02": "센서값이 실내 계절과 무관하게 변한다. 연결선은 외부 흡입구에서 환경 조절기를 지나 생명 유지 공급으로 이어진다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_SAMPLE_GREENHOUSE_0:line_01",
+					"line_02": "B_SAMPLE_GREENHOUSE_0:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_SAMPLE_GREENHOUSE_0",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_B_SAMPLE_GREENHOUSE_1": {
+			"1": {
+				"action_or_variant": "B_SAMPLE_GREENHOUSE_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "Greenhouse · Floral scent setting",
+						"line_02": "The scent names repeat in the same order even when no flowers are displayed. The output ends at the greenhouse scene's sensory effects.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "온실 · 꽃향기 설정",
+						"line_02": "꽃이 없는 화면에서도 향 이름은 같은 순서로 반복된다. 출력은 온실 장면의 감각 효과에서 끝난다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_SAMPLE_GREENHOUSE_1:line_01",
+					"line_02": "B_SAMPLE_GREENHOUSE_1:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_SAMPLE_GREENHOUSE_1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_B_SAMPLE_KITCHEN_0": {
+			"1": {
+				"action_or_variant": "B_SAMPLE_KITCHEN_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "Kitchen · Life-support fluid flow",
+						"line_02": "Two low pulses are followed by a response beneath the floor. The pipe runs through the kitchen and reaches the cryogenic unit in the bedroom.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "주방 · 생명 유지 유체 흐름",
+						"line_02": "두 번의 낮은 맥박 뒤 바닥 아래 응답이 온다. 파이프 경로는 주방을 지나 침실 냉각 장치에 닿는다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_SAMPLE_KITCHEN_0:line_01",
+					"line_02": "B_SAMPLE_KITCHEN_0:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_SAMPLE_KITCHEN_0",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_B_SAMPLE_KITCHEN_1": {
+			"1": {
+				"action_or_variant": "B_SAMPLE_KITCHEN_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "Kitchen · Repeated tea-menu record",
+						"line_02": "The menu date changes, then returns to the same tea. The output ends at the cup's simulated aroma and temperature.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "주방 · 차 메뉴 반복 기록",
+						"line_02": "메뉴 날짜는 바뀌지만 같은 차 이름으로 되돌아온다. 출력선은 찻잔의 향과 온도 표현으로 끝난다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_SAMPLE_KITCHEN_1:line_01",
+					"line_02": "B_SAMPLE_KITCHEN_1:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_SAMPLE_KITCHEN_1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_B_SAMPLE_LIBRARY_0": {
+			"1": {
+				"action_or_variant": "B_SAMPLE_LIBRARY_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "Records room · Persistent-memory index",
+						"line_02": "Previous index entries remain after the shelves reset. It connects neural input to personality storage and preserves continuity of the present personality.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "기록 내실 · 지속 기억 인덱스",
+						"line_02": "서가가 리셋되어도 인덱스의 이전 항목은 남는다. 신경 입력과 인격 저장 영역을 연결해 현재 인격의 연속성을 유지한다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_SAMPLE_LIBRARY_0:line_01",
+					"line_02": "B_SAMPLE_LIBRARY_0:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_SAMPLE_LIBRARY_0",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_B_SAMPLE_LIBRARY_1": {
+			"1": {
+				"action_or_variant": "B_SAMPLE_LIBRARY_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"line_01": "Records room · Gothic collection list",
+						"line_02": "This command changes covers and spines. The line ends at the arrangement of the Gothic shelves and never reaches personality storage.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "기록 내실 · 고딕 장서 목록",
+						"line_02": "표지와 책등을 바꾸는 명령이다. 연결선은 고딕 서가의 배치에서 끝나고 인격 저장 영역에 닿지 않는다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "B_SAMPLE_LIBRARY_1:line_01",
+					"line_02": "B_SAMPLE_LIBRARY_1:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "B_SAMPLE_LIBRARY_1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_C_INSPECT_AUTH": {
+			"1": {
+				"action_or_variant": "C_INSPECT_AUTH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"line_01": "The unnamed port opens.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "이름 없는 포트가 열린다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "C_INSPECT_AUTH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "C_INSPECT_AUTH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_C_INSPECT_PATH": {
+			"1": {
+				"action_or_variant": "C_INSPECT_PATH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"line_01": "PATH inspected",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "PATH 조사 완료",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "C_INSPECT_PATH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "C_INSPECT_PATH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_C_INSPECT_SPLIT": {
+			"1": {
+				"action_or_variant": "C_INSPECT_SPLIT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"line_01": "SPLIT inspected",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "SPLIT 조사 완료",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "C_INSPECT_SPLIT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "C_INSPECT_SPLIT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_C_VERIFY_0": {
+			"1": {
+				"action_or_variant": "C_VERIFY_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"line_01": "The three records vibrate at different periods.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "세 자료의 진동 주기가 다르다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "C_VERIFY_0:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "C_VERIFY_0",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_C_VERIFY_1": {
+			"1": {
+				"action_or_variant": "C_VERIFY_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"line_01": "The centers align, but the branch lines break.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "중심은 맞지만 분기선이 끊긴다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "C_VERIFY_1:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "C_VERIFY_1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_C_VERIFY_2": {
+			"1": {
+				"action_or_variant": "C_VERIFY_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"line_01": "Part of the empty port's outline appears.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "빈 포트 외곽 일부가 나타난다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "C_VERIFY_2:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "C_VERIFY_2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_C_VERIFY_3": {
+			"1": {
+				"action_or_variant": "C_VERIFY_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"line_01": "Full alignment. The PATH, SPLIT, and AUTH inspection points appear.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "완전 중첩. PATH·SPLIT·AUTH 조사점이 드러난다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "C_VERIFY_3:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "C_VERIFY_3",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_D_ANONYMOUS": {
+			"1": {
+				"action_or_variant": "D_ANONYMOUS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "Anonymous index: Functional data remains, but there is no personal voice or emotional annotation.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "익명 인덱스: 기능 정보는 보존되어 있다. 개인 음성과 감정 주석은 없다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_ANONYMOUS:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_ANONYMOUS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_D_COMPLETE": {
+			"1": {
+				"action_or_variant": "D_COMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "SUBJECT RECORD FOUND / CONTINUITY VERIFIED / CURRENT AUTHORITY REQUIRED",
+						"line_02": "Protagonist record found · past continuity verified · present authority required",
+						"line_03": "The five roles are distinct. Only the protagonist's notebook requests a present response.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "SUBJECT RECORD FOUND / CONTINUITY VERIFIED / CURRENT AUTHORITY REQUIRED",
+						"line_02": "주인공 기록 발견 · 과거 연속성 확인 · 현재 권한 확인 필요",
+						"line_03": "다섯 역할이 구분되었다. 주인공 수첩에만 현재의 응답을 요구한다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_COMPLETE:line_01",
+					"line_02": "D_COMPLETE:line_02",
+					"line_03": "D_COMPLETE:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_COMPLETE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_CORE_D_COUNT": {
+			"1": {
+				"action_or_variant": "D_COUNT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "Roles matched: {count} / 5",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "일치한 역할 {count} / 5",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_COUNT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_COUNT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {
+						"count": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_D_HINT_0": {
+			"1": {
+				"action_or_variant": "D_HINT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "CR_AT_R : made the house",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "CR_AT_R : 집을 만들었다",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_HINT_0:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_HINT_0",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_D_HINT_1": {
+			"1": {
+				"action_or_variant": "D_HINT_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "C_ST_D_AN : guarded the door and granted access",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "C_ST_D_AN : 문을 지키고 허가했다",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_HINT_1:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_HINT_1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_D_HINT_2": {
+			"1": {
+				"action_or_variant": "D_HINT_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "R_S_D_NT : continues to exist inside the house",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "R_S_D_NT : 집 안에서 계속 존재한다",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_HINT_2:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_HINT_2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_D_HINT_3": {
+			"1": {
+				"action_or_variant": "D_HINT_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "SY_T_M : executes automatically when conditions are met",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "SY_T_M : 조건에 따라 자동 실행된다",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_HINT_3:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_HINT_3",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_D_HINT_4": {
+			"1": {
+				"action_or_variant": "D_HINT_4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "S_BJ_CT : lives with the outcome of this life",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "S_BJ_CT : 이 삶의 결과를 겪는다",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_HINT_4:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_HINT_4",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_D_INDEX_RECORD": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_D",
+				"knowledge": {
+					"category": "person",
+					"epistemic_state": "observed",
+					"knowledge_id": "ANON_PURPLE_RESIDENT_INDEX",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "Anonymous index: Functional data remains, but there is no personal voice or emotional annotation.",
+						"speaker": "Notebook",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "익명 인덱스: 기능 정보는 보존되어 있다. 개인 음성과 감정 주석은 없다.",
+						"speaker": "수첩",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "D_INDEX_RECORD:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_content_ids": [],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_knowledge_ids": [
+					"J4"
+				],
+				"source_symbol": "D_INDEX_RECORD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_D_LOCK": {
+			"1": {
+				"action_or_variant": "D_LOCK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "One correct role slot is locked. The other slots can still be changed.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "올바른 역할 슬롯 하나를 고정했다. 다른 슬롯은 계속 바꿀 수 있다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_LOCK:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_LOCK",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_D_LOCK_OFFER": {
+			"1": {
+				"action_or_variant": "D_LOCK_OFFER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "You may select and lock one currently correct slot.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "현재 올바르게 놓인 슬롯 하나를 선택해 고정할 수 있다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_LOCK_OFFER:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_LOCK_OFFER",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_CORE_D_RECORD_COMMAND": {
+			"1": {
+				"action_or_variant": "D_RECORD_COMMAND",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "D4 recovery command",
+						"line_02": "An automatic execution record that removes the disguise filter when specified conditions are met.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "D4 복구 명령",
+						"line_02": "특정 조건이 충족되면 위장 필터를 해제하는 자동 실행 기록이다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_RECORD_COMMAND:line_01",
+					"line_02": "D_RECORD_COMMAND:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_RECORD_COMMAND",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_D_RECORD_FATHER": {
+			"1": {
+				"action_or_variant": "D_RECORD_FATHER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "Father's journal",
+						"line_02": "Design plans and creation records. He made the mansion's rules, but he is not the present decision-maker.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "아버지 일지",
+						"line_02": "설계 도면과 생성 기록. 저택의 규칙을 만들었지만 현재의 선택 주체는 아니다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_RECORD_FATHER:line_01",
+					"line_02": "D_RECORD_FATHER:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_RECORD_FATHER",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_D_RECORD_NOTEBOOK": {
+			"1": {
+				"action_or_variant": "D_RECORD_NOTEBOOK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "Protagonist's notebook",
+						"line_02": "The direct record of the protagonist who lived through yesterday and today. It was written by the person who will live with this choice.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "주인공 수첩",
+						"line_02": "어제와 오늘을 겪는 주인공의 직접 기록. 이 삶의 선택 결과를 겪는 사람이 남겼다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_RECORD_NOTEBOOK:line_01",
+					"line_02": "D_RECORD_NOTEBOOK:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_RECORD_NOTEBOOK",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_D_RECORD_PASSPHRASE": {
+			"1": {
+				"action_or_variant": "D_RECORD_PASSPHRASE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar's access passphrase",
+						"line_02": "A custodial record that guards the door and grants access. It cannot make the final decision about the protagonist's life.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "에드가 접근 암구호",
+						"line_02": "문을 지키고 접근을 허가하는 관리 기록. 주인공의 삶에 대한 최종 결정을 대신할 수 없다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_RECORD_PASSPHRASE:line_01",
+					"line_02": "D_RECORD_PASSPHRASE:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_RECORD_PASSPHRASE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_D_RECORD_RESIDENTS": {
+			"1": {
+				"action_or_variant": "D_RECORD_RESIDENTS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"line_01": "Researcher record bundle",
+						"line_02": "An index of researcher personalities who continue to exist inside the mansion. Their continuity is separate from restoration into physical bodies.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "연구원 기록 묶음",
+						"line_02": "저택 안에 계속 존재하는 연구원 인격의 인덱스. 외부 신체 복원과는 별개의 지속 기록이다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "D_RECORD_RESIDENTS:line_01",
+					"line_02": "D_RECORD_RESIDENTS:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "D_RECORD_RESIDENTS",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_E_AUTHOR": {
+			"1": {
+				"action_or_variant": "E_AUTHOR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"line_01": "The protagonist writes directly on the blank line.",
+						"line_02": "I am the one writing this sentence now.",
+						"line_03": "CURRENT AUTHOR: SUBJECT / AUTHORITY RESTORED",
+						"line_04": "Present author: Protagonist · authority restored. This is not yet a choice between reality and staying.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "주인공이 빈 줄에 직접 쓴다.",
+						"line_02": "이 문장은 지금의 내가 쓴다.",
+						"line_03": "CURRENT AUTHOR: SUBJECT / AUTHORITY RESTORED",
+						"line_04": "현재 작성자: 주인공 · 권한 복원. 아직 현실이나 잔류를 고른 것은 아니다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E_AUTHOR:line_01",
+					"line_02": "E_AUTHOR:line_02",
+					"line_03": "E_AUTHOR:line_03",
+					"line_04": "E_AUTHOR:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_AUTHOR",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_CORE_E_AUTHOR_OPTIONS": {
+			"1": {
+				"action_or_variant": "E_AUTHOR_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"option_0": "Load Father's existing sentence",
+						"option_1": "Use an automatic system sentence",
+						"option_2": "Write it myself, now",
+						"option_3": "Insert a servant record",
+						"speaker": "Displayed choices",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"option_0": "아버지의 기존 문장 불러오기",
+						"option_1": "시스템 자동 문장 사용",
+						"option_2": "지금의 내가 직접 쓴다",
+						"option_3": "사용인 기록 넣기",
+						"speaker": "표시된 선택지",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"option_0": "E_AUTHOR_OPTIONS:option_0",
+					"option_1": "E_AUTHOR_OPTIONS:option_1",
+					"option_2": "E_AUTHOR_OPTIONS:option_2",
+					"option_3": "E_AUTHOR_OPTIONS:option_3"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_AUTHOR_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {}
+				},
+				"visible_segment_ids": [
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3"
+				]
+			}
+		},
+		"NB_CORE_E_AUTHOR_RECORD": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "F0_CURRENT_AUTHOR",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "I am the one writing this sentence now.",
+						"speaker": "Notebook",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "이 문장은 지금의 내가 쓴다.",
+						"speaker": "수첩",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_AUTHOR_RECORD:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_content_ids": [
+					"NB_CORE_E_PAST",
+					"NB_CORE_E_AUTHOR_OPTIONS",
+					"NB_CORE_E_AUTHOR_SELECT_2"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_knowledge_ids": [
+					"A1"
+				],
+				"source_symbol": "E_AUTHOR_RECORD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_AUTHOR_SELECT_0": {
+			"1": {
+				"action_or_variant": "E_AUTHOR_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Load Father's existing sentence",
+						"speaker": "Selected option",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "아버지의 기존 문장 불러오기",
+						"speaker": "선택한 문구",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_AUTHOR_SELECT_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_AUTHOR_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_AUTHOR_SELECT_1": {
+			"1": {
+				"action_or_variant": "E_AUTHOR_SELECT_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Use an automatic system sentence",
+						"speaker": "Selected option",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "시스템 자동 문장 사용",
+						"speaker": "선택한 문구",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_AUTHOR_SELECT_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_AUTHOR_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_AUTHOR_SELECT_2": {
+			"1": {
+				"action_or_variant": "E_AUTHOR_SELECT_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Write it myself, now",
+						"speaker": "Selected option",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "지금의 내가 직접 쓴다",
+						"speaker": "선택한 문구",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_AUTHOR_SELECT_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_AUTHOR_SELECT_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_AUTHOR_SELECT_3": {
+			"1": {
+				"action_or_variant": "E_AUTHOR_SELECT_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Insert a servant record",
+						"speaker": "Selected option",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "사용인 기록 넣기",
+						"speaker": "선택한 문구",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_AUTHOR_SELECT_3:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_AUTHOR_SELECT_3",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_INTENT_OPTIONS": {
+			"1": {
+				"action_or_variant": "E_INTENT_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"option_0": "For now, I lean toward going outside.",
+						"option_1": "For now, I lean toward staying here.",
+						"option_2": "I have not decided yet.",
+						"speaker": "Displayed choices",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"option_0": "지금은 밖으로 나가는 쪽으로 마음이 기운다.",
+						"option_1": "지금은 이곳에 남는 쪽으로 마음이 기운다.",
+						"option_2": "아직 정하지 않았다.",
+						"speaker": "표시된 선택지",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"option_0": "E_INTENT_OPTIONS:option_0",
+					"option_1": "E_INTENT_OPTIONS:option_1",
+					"option_2": "E_INTENT_OPTIONS:option_2"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_INTENT_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {},
+					"option_1": {},
+					"option_2": {}
+				},
+				"visible_segment_ids": [
+					"option_0",
+					"option_1",
+					"option_2"
+				]
+			}
+		},
+		"NB_CORE_E_INTENT_REALITY": {
+			"1": {
+				"action_or_variant": "E_INTENT_REALITY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"line_01": "Protagonist: I want to see the outside for myself.",
+						"line_02": "Private provisional intent · nonbinding",
+						"line_03": "Protagonist authority restored · final decision unset",
+						"line_04": "This record is not shared with the servants. You can decide again at the final choice.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "주인공: 밖을 직접 보고 싶다.",
+						"line_02": "비공개 임시 의향 기록 · 구속력 없음",
+						"line_03": "주인공 권한 복원 · 최종 결정 미정",
+						"line_04": "이 기록은 사용인에게 전달되지 않는다. 마지막 선택에서 다시 결정할 수 있다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E_INTENT_REALITY:line_01",
+					"line_02": "E_INTENT_REALITY:line_02",
+					"line_03": "E_INTENT_REALITY:line_03",
+					"line_04": "E_INTENT_REALITY:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_INTENT_REALITY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_CORE_E_INTENT_REALITY_RECORD": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "F0_PROVISIONAL_INTENT",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "For now, I lean toward going outside.",
+						"speaker": "Notebook",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "지금은 밖으로 나가는 쪽으로 마음이 기운다.",
+						"speaker": "수첩",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_INTENT_REALITY_RECORD:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_content_ids": [
+					"NB_CORE_E_INTENT_OPTIONS",
+					"NB_CORE_E_INTENT_SELECT_0"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_knowledge_ids": [
+					"F0_CURRENT_AUTHOR"
+				],
+				"source_symbol": "E_INTENT_REALITY_RECORD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_INTENT_SELECT_0": {
+			"1": {
+				"action_or_variant": "E_INTENT_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "For now, I lean toward going outside.",
+						"speaker": "Selected option",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "지금은 밖으로 나가는 쪽으로 마음이 기운다.",
+						"speaker": "선택한 문구",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_INTENT_SELECT_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_INTENT_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_INTENT_SELECT_1": {
+			"1": {
+				"action_or_variant": "E_INTENT_SELECT_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "For now, I lean toward staying here.",
+						"speaker": "Selected option",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "지금은 이곳에 남는 쪽으로 마음이 기운다.",
+						"speaker": "선택한 문구",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_INTENT_SELECT_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_INTENT_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_INTENT_SELECT_2": {
+			"1": {
+				"action_or_variant": "E_INTENT_SELECT_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "I have not decided yet.",
+						"speaker": "Selected option",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "아직 정하지 않았다.",
+						"speaker": "선택한 문구",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_INTENT_SELECT_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_INTENT_SELECT_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_INTENT_STAY": {
+			"1": {
+				"action_or_variant": "E_INTENT_STAY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"line_01": "Protagonist: Continuing to live here could still be my choice.",
+						"line_02": "Private provisional intent · nonbinding",
+						"line_03": "Protagonist authority restored · final decision unset",
+						"line_04": "This record is not shared with the servants. You can decide again at the final choice.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "주인공: 여기서 계속 살아가는 것도 내 선택일 수 있어.",
+						"line_02": "비공개 임시 의향 기록 · 구속력 없음",
+						"line_03": "주인공 권한 복원 · 최종 결정 미정",
+						"line_04": "이 기록은 사용인에게 전달되지 않는다. 마지막 선택에서 다시 결정할 수 있다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E_INTENT_STAY:line_01",
+					"line_02": "E_INTENT_STAY:line_02",
+					"line_03": "E_INTENT_STAY:line_03",
+					"line_04": "E_INTENT_STAY:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_INTENT_STAY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_CORE_E_INTENT_STAY_RECORD": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "F0_PROVISIONAL_INTENT",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "For now, I lean toward staying here.",
+						"speaker": "Notebook",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "지금은 이곳에 남는 쪽으로 마음이 기운다.",
+						"speaker": "수첩",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_INTENT_STAY_RECORD:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_content_ids": [
+					"NB_CORE_E_INTENT_OPTIONS",
+					"NB_CORE_E_INTENT_SELECT_1"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_knowledge_ids": [
+					"F0_CURRENT_AUTHOR"
+				],
+				"source_symbol": "E_INTENT_STAY_RECORD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_INTENT_UNDECIDED": {
+			"1": {
+				"action_or_variant": "E_INTENT_UNDECIDED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"line_01": "Protagonist: I will decide after I have seen everything.",
+						"line_02": "Private provisional intent · nonbinding",
+						"line_03": "Protagonist authority restored · final decision unset",
+						"line_04": "This record is not shared with the servants. You can decide again at the final choice.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "주인공: 모든 걸 본 뒤 정하겠다.",
+						"line_02": "비공개 임시 의향 기록 · 구속력 없음",
+						"line_03": "주인공 권한 복원 · 최종 결정 미정",
+						"line_04": "이 기록은 사용인에게 전달되지 않는다. 마지막 선택에서 다시 결정할 수 있다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E_INTENT_UNDECIDED:line_01",
+					"line_02": "E_INTENT_UNDECIDED:line_02",
+					"line_03": "E_INTENT_UNDECIDED:line_03",
+					"line_04": "E_INTENT_UNDECIDED:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_INTENT_UNDECIDED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_CORE_E_INTENT_UNDECIDED_RECORD": {
+			"1": {
+				"action_or_variant": "recorded",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "F0_PROVISIONAL_INTENT",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "I have not decided yet.",
+						"speaker": "Notebook",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "아직 정하지 않았다.",
+						"speaker": "수첩",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "E_INTENT_UNDECIDED_RECORD:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_content_ids": [
+					"NB_CORE_E_INTENT_OPTIONS",
+					"NB_CORE_E_INTENT_SELECT_2"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_knowledge_ids": [
+					"F0_CURRENT_AUTHOR"
+				],
+				"source_symbol": "E_INTENT_UNDECIDED_RECORD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_E_PAST": {
+			"1": {
+				"action_or_variant": "E_PAST",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"line_01": "PAST SELF / CONTINUITY VERIFIED",
+						"line_02": "Continuity with the past self-record is verified. The blank present line has not yet been written.",
+						"speaker": "Protagonist",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"line_01": "PAST SELF / CONTINUITY VERIFIED",
+						"line_02": "과거 자기 기록의 연속성이 확인되었다. 현재의 빈 줄은 아직 쓰이지 않았다.",
+						"speaker": "주인공",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"line_01": "E_PAST:line_01",
+					"line_02": "E_PAST:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "E_PAST",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_A_GUIDE": {
+			"1": {
+				"action_or_variant": "SCREEN_A_GUIDE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"body": "Outside-air input: North\nCore request terminal: West\nFixed corridor: North → East → South → West → North\nSelect two tiles to swap them.\nRotate each output separately.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "외부 대기 입력: 북\n코어 요청 단자: 서\n고정 회랑: 북→동→남→서→북\n타일 두 개를 눌러 교환한다.\n출력 방향은 별도로 회전한다.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_A_GUIDE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_A_GUIDE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_A_TILE_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_A_TILE_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "North",
+							"1": "East",
+							"2": "South",
+							"3": "West"
+						},
+						"ko-KR": {
+							"0": "북",
+							"1": "동",
+							"2": "남",
+							"3": "서"
+						}
+					},
+					"port": {
+						"en-US": {
+							"bedroom": "Neural signal · dotted line",
+							"greenhouse": "Environmental control · solid line",
+							"kitchen": "Life-support fluid · solid line",
+							"library": "Presentation feedback · dotted line + central core request"
+						},
+						"ko-KR": {
+							"bedroom": "신경 신호 · 점선",
+							"greenhouse": "환경 제어 · 실선",
+							"kitchen": "생명 유지 유체 · 실선",
+							"library": "연출 피드백 · 점선 + 중앙 코어 요청"
+						}
+					},
+					"room": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"greenhouse": "Greenhouse",
+							"kitchen": "Kitchen",
+							"library": "Records room"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"greenhouse": "온실",
+							"kitchen": "주방",
+							"library": "기록 내실"
+						}
+					}
+				},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"body": "{direction} · {room}\n{port}\nOutput → {output}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{direction} · {room}\n{port}\n출력 → {output}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_A_TILE_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_A_TILE_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"direction": "enum:direction",
+						"output": "enum:direction",
+						"port": "enum:port",
+						"room": "enum:room"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_A_TILE_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_A_TILE_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"direction": {
+						"en-US": {
+							"0": "North",
+							"1": "East",
+							"2": "South",
+							"3": "West"
+						},
+						"ko-KR": {
+							"0": "북",
+							"1": "동",
+							"2": "남",
+							"3": "서"
+						}
+					},
+					"port": {
+						"en-US": {
+							"bedroom": "Neural signal · dotted line",
+							"greenhouse": "Environmental control · solid line",
+							"kitchen": "Life-support fluid · solid line",
+							"library": "Presentation feedback · dotted line + central core request"
+						},
+						"ko-KR": {
+							"bedroom": "신경 신호 · 점선",
+							"greenhouse": "환경 제어 · 실선",
+							"kitchen": "생명 유지 유체 · 실선",
+							"library": "연출 피드백 · 점선 + 중앙 코어 요청"
+						}
+					},
+					"room": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"greenhouse": "Greenhouse",
+							"kitchen": "Kitchen",
+							"library": "Records room"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"greenhouse": "온실",
+							"kitchen": "주방",
+							"library": "기록 내실"
+						}
+					}
+				},
+				"event_id": "F0_A",
+				"locales": {
+					"en-US": {
+						"body": "{direction} · {room} [Selected]\n{port}\nOutput → {output}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{direction} · {room} [선택]\n{port}\n출력 → {output}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_A_TILE_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_A"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_A_TILE_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"direction": "enum:direction",
+						"output": "enum:direction",
+						"port": "enum:port",
+						"room": "enum:room"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_GUIDE": {
+			"1": {
+				"action_or_variant": "SCREEN_B_GUIDE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Inspect each candidate's destination, then transmit one sample per room.\nVerified channels remain intact. Judge by connection function, not color.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "후보를 눌러 연결 목적지를 조사하고 방별로 표본을 전송한다.\n검증한 채널은 유지된다. 색이 아니라 연결 기능으로 판단한다.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_GUIDE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_GUIDE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_ROOM_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_B_ROOM_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"room": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"greenhouse": "Greenhouse",
+							"kitchen": "Kitchen",
+							"library": "Records room"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"greenhouse": "온실",
+							"kitchen": "주방",
+							"library": "기록 내실"
+						}
+					}
+				},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "{room}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{room}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_ROOM_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_ROOM_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"room": "enum:room"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_ROOM_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_B_ROOM_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"room": {
+						"en-US": {
+							"bedroom": "Bedroom",
+							"greenhouse": "Greenhouse",
+							"kitchen": "Kitchen",
+							"library": "Records room"
+						},
+						"ko-KR": {
+							"bedroom": "침실",
+							"greenhouse": "온실",
+							"kitchen": "주방",
+							"library": "기록 내실"
+						}
+					}
+				},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "{room} · Verified",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{room} · 검증 완료",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_ROOM_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_ROOM_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"room": "enum:room"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_BEDROOM_0_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_BEDROOM_0_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Current vital signal",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "현재 생체 신호",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_BEDROOM_0_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_BEDROOM_0_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_BEDROOM_0_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_BEDROOM_0_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Current vital signal [Selected]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "현재 생체 신호 [선택]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_BEDROOM_0_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_BEDROOM_0_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_BEDROOM_1_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_BEDROOM_1_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Young-lady role animation",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "아가씨 역할 애니메이션",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_BEDROOM_1_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_BEDROOM_1_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_BEDROOM_1_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_BEDROOM_1_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Young-lady role animation [Selected]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "아가씨 역할 애니메이션 [선택]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_BEDROOM_1_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_BEDROOM_1_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_GREENHOUSE_0_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_GREENHOUSE_0_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Outside-air readings",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "외부 대기 수치",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_GREENHOUSE_0_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_GREENHOUSE_0_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_GREENHOUSE_0_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_GREENHOUSE_0_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Outside-air readings [Selected]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "외부 대기 수치 [선택]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_GREENHOUSE_0_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_GREENHOUSE_0_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_GREENHOUSE_1_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_GREENHOUSE_1_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Floral scent setting",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "꽃향기 설정",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_GREENHOUSE_1_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_GREENHOUSE_1_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_GREENHOUSE_1_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_GREENHOUSE_1_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Floral scent setting [Selected]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "꽃향기 설정 [선택]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_GREENHOUSE_1_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_GREENHOUSE_1_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_KITCHEN_0_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_KITCHEN_0_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Life-support fluid flow",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "생명 유지 유체 흐름",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_KITCHEN_0_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_KITCHEN_0_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_KITCHEN_0_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_KITCHEN_0_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Life-support fluid flow [Selected]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "생명 유지 유체 흐름 [선택]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_KITCHEN_0_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_KITCHEN_0_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_KITCHEN_1_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_KITCHEN_1_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Repeated tea-menu record",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "차 메뉴 반복 기록",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_KITCHEN_1_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_KITCHEN_1_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_KITCHEN_1_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_KITCHEN_1_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Repeated tea-menu record [Selected]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "차 메뉴 반복 기록 [선택]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_KITCHEN_1_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_KITCHEN_1_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_LIBRARY_0_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_LIBRARY_0_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Persistent-memory index",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "지속 기억 인덱스",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_LIBRARY_0_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_LIBRARY_0_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_LIBRARY_0_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_LIBRARY_0_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Persistent-memory index [Selected]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "지속 기억 인덱스 [선택]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_LIBRARY_0_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_LIBRARY_0_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_LIBRARY_1_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_LIBRARY_1_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Gothic collection list",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "고딕 장서 목록",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_LIBRARY_1_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_LIBRARY_1_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_B_SAMPLE_LIBRARY_1_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_B_SAMPLE_LIBRARY_1_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_B",
+				"locales": {
+					"en-US": {
+						"body": "Gothic collection list [Selected]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "고딕 장서 목록 [선택]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_B_SAMPLE_LIBRARY_1_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_B"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_B_SAMPLE_LIBRARY_1_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_C_AUTH": {
+			"1": {
+				"action_or_variant": "SCREEN_C_AUTH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"body": "AUTH · Authentication ring",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "AUTH · 인증 고리",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_C_AUTH:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_C_AUTH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_C_GUIDE": {
+			"1": {
+				"action_or_variant": "SCREEN_C_GUIDE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"body": "B4 dotted line: bell waveform / C5 heavy line: mirror circuit\nD4 thin line: fixed-port afterimage\nReference marks: twelfth-bell end line · closed-loop center · central heart port\nRotation is clockwise; reflection is applied to the source first.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "B4 점선: 종 파형 / C5 굵은 선: 거울 회로\nD4 가는 선: 고정 포트 잔상\n기준 표식: 열두 번째 종 완료선 · 닫힌 고리 중심 · 중앙 심장 포트\n회전은 시계 방향, 반전은 원본에 먼저 적용한다.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_C_GUIDE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_C_GUIDE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_C_LAYER_B4": {
+			"1": {
+				"action_or_variant": "SCREEN_C_LAYER_B4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"-1": "Unset",
+							"0": "Origin aligned",
+							"1": "One step right",
+							"2": "One step down"
+						},
+						"ko-KR": {
+							"-1": "미지정",
+							"0": "원점 정렬",
+							"1": "오른쪽 한 칸",
+							"2": "아래쪽 한 칸"
+						}
+					},
+					"flipped": {
+						"en-US": {
+							"no": "No",
+							"yes": "Yes"
+						},
+						"ko-KR": {
+							"no": "없음",
+							"yes": "있음"
+						}
+					}
+				},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"body": "B4 · {degrees}° · {flipped} · {anchor}\nOpacity {opacity}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "B4 · {degrees}° · {flipped} · {anchor}\n투명도 {opacity}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_C_LAYER_B4:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_C_LAYER_B4",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"anchor": "enum:anchor",
+						"degrees": "int",
+						"flipped": "enum:flipped",
+						"opacity": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				],
+				"visual": {
+					"anchor_offsets": {
+						"-1": [
+							0,
+							0
+						],
+						"0": [
+							0,
+							0
+						],
+						"1": [
+							1,
+							0
+						],
+						"2": [
+							0,
+							1
+						]
+					},
+					"kind": "core_overlay_v1",
+					"layer": "B4",
+					"markers": [
+						[
+							0,
+							0
+						],
+						[
+							2,
+							1
+						],
+						[
+							1,
+							2
+						],
+						[
+							3,
+							0
+						],
+						[
+							-3,
+							0
+						],
+						[
+							0,
+							3
+						],
+						[
+							0,
+							-3
+						]
+					],
+					"path": [
+						[
+							0,
+							0
+						],
+						[
+							-2,
+							-1
+						]
+					],
+					"pattern": "dashed",
+					"ring_center": [],
+					"ring_radius": 0.0,
+					"stroke_width": 3,
+					"transform_order": [
+						"reflect_x",
+						"rotate_clockwise",
+						"anchor_offset"
+					],
+					"variables": {
+						"anchor": "anchor",
+						"degrees": "degrees",
+						"flipped": "flipped",
+						"opacity": "opacity"
+					}
+				}
+			}
+		},
+		"NB_CORE_SCREEN_C_LAYER_C5": {
+			"1": {
+				"action_or_variant": "SCREEN_C_LAYER_C5",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"-1": "Unset",
+							"0": "Origin aligned",
+							"1": "One step right",
+							"2": "One step down"
+						},
+						"ko-KR": {
+							"-1": "미지정",
+							"0": "원점 정렬",
+							"1": "오른쪽 한 칸",
+							"2": "아래쪽 한 칸"
+						}
+					},
+					"flipped": {
+						"en-US": {
+							"no": "No",
+							"yes": "Yes"
+						},
+						"ko-KR": {
+							"no": "없음",
+							"yes": "있음"
+						}
+					}
+				},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"body": "C5 · {degrees}° · {flipped} · {anchor}\nOpacity {opacity}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "C5 · {degrees}° · {flipped} · {anchor}\n투명도 {opacity}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_C_LAYER_C5:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_C_LAYER_C5",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"anchor": "enum:anchor",
+						"degrees": "int",
+						"flipped": "enum:flipped",
+						"opacity": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				],
+				"visual": {
+					"anchor_offsets": {
+						"-1": [
+							0,
+							0
+						],
+						"0": [
+							0,
+							0
+						],
+						"1": [
+							1,
+							0
+						],
+						"2": [
+							0,
+							1
+						]
+					},
+					"kind": "core_overlay_v1",
+					"layer": "C5",
+					"markers": [
+						[
+							0,
+							0
+						],
+						[
+							2,
+							1
+						],
+						[
+							1,
+							2
+						],
+						[
+							3,
+							0
+						],
+						[
+							-3,
+							0
+						],
+						[
+							0,
+							3
+						],
+						[
+							0,
+							-3
+						]
+					],
+					"path": [
+						[
+							0,
+							3
+						],
+						[
+							0,
+							0
+						],
+						[
+							3,
+							0
+						],
+						[
+							0,
+							0
+						],
+						[
+							0,
+							-3
+						],
+						[
+							0,
+							0
+						],
+						[
+							-3,
+							0
+						],
+						[
+							0,
+							0
+						],
+						[
+							1,
+							2
+						],
+						[
+							2,
+							1
+						]
+					],
+					"pattern": "solid",
+					"ring_center": [
+						2,
+						1
+					],
+					"ring_radius": 0.35,
+					"stroke_width": 4,
+					"transform_order": [
+						"reflect_x",
+						"rotate_clockwise",
+						"anchor_offset"
+					],
+					"variables": {
+						"anchor": "anchor",
+						"degrees": "degrees",
+						"flipped": "flipped",
+						"opacity": "opacity"
+					}
+				}
+			}
+		},
+		"NB_CORE_SCREEN_C_LAYER_D4": {
+			"1": {
+				"action_or_variant": "SCREEN_C_LAYER_D4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"anchor": {
+						"en-US": {
+							"-1": "Unset",
+							"0": "Origin aligned",
+							"1": "One step right",
+							"2": "One step down"
+						},
+						"ko-KR": {
+							"-1": "미지정",
+							"0": "원점 정렬",
+							"1": "오른쪽 한 칸",
+							"2": "아래쪽 한 칸"
+						}
+					},
+					"flipped": {
+						"en-US": {
+							"no": "No",
+							"yes": "Yes"
+						},
+						"ko-KR": {
+							"no": "없음",
+							"yes": "있음"
+						}
+					}
+				},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"body": "D4 · {degrees}° · {flipped} · {anchor}\nOpacity {opacity}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "D4 · {degrees}° · {flipped} · {anchor}\n투명도 {opacity}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_C_LAYER_D4:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_C_LAYER_D4",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"anchor": "enum:anchor",
+						"degrees": "int",
+						"flipped": "enum:flipped",
+						"opacity": "int"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				],
+				"visual": {
+					"anchor_offsets": {
+						"-1": [
+							0,
+							0
+						],
+						"0": [
+							0,
+							0
+						],
+						"1": [
+							1,
+							0
+						],
+						"2": [
+							0,
+							1
+						]
+					},
+					"kind": "core_overlay_v1",
+					"layer": "D4",
+					"markers": [
+						[
+							0,
+							0
+						],
+						[
+							2,
+							1
+						],
+						[
+							1,
+							2
+						],
+						[
+							3,
+							0
+						],
+						[
+							-3,
+							0
+						],
+						[
+							0,
+							3
+						],
+						[
+							0,
+							-3
+						]
+					],
+					"path": [
+						[
+							3,
+							0
+						],
+						[
+							0,
+							0
+						],
+						[
+							0,
+							3
+						],
+						[
+							0,
+							0
+						],
+						[
+							-3,
+							0
+						],
+						[
+							0,
+							0
+						],
+						[
+							0,
+							-3
+						]
+					],
+					"pattern": "solid",
+					"ring_center": [],
+					"ring_radius": 0.0,
+					"stroke_width": 2,
+					"transform_order": [
+						"reflect_x",
+						"rotate_clockwise",
+						"anchor_offset"
+					],
+					"variables": {
+						"anchor": "anchor",
+						"degrees": "degrees",
+						"flipped": "flipped",
+						"opacity": "opacity"
+					}
+				}
+			}
+		},
+		"NB_CORE_SCREEN_C_PATH": {
+			"1": {
+				"action_or_variant": "SCREEN_C_PATH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"body": "PATH · Route",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "PATH · 경로",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_C_PATH:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_C_PATH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_C_SPLIT": {
+			"1": {
+				"action_or_variant": "SCREEN_C_SPLIT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"body": "SPLIT · Branch",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "SPLIT · 분기",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_C_SPLIT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_C_SPLIT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_D_CARD_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_D_CARD_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"record": {
+						"en-US": {
+							"command": "D4 recovery command",
+							"father": "Father's journal",
+							"notebook": "Protagonist's notebook",
+							"passphrase": "Edgar's access passphrase",
+							"residents": "Researcher record bundle"
+						},
+						"ko-KR": {
+							"command": "D4 복구 명령",
+							"father": "아버지 일지",
+							"notebook": "주인공 수첩",
+							"passphrase": "에드가 접근 암구호",
+							"residents": "연구원 기록 묶음"
+						}
+					}
+				},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"body": "{record}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{record}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_D_CARD_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_D_CARD_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"record": "enum:record"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_D_CARD_NO_ANON": {
+			"1": {
+				"action_or_variant": "SCREEN_D_CARD_NO_ANON",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"record": {
+						"en-US": {
+							"command": "D4 recovery command",
+							"father": "Father's journal",
+							"notebook": "Protagonist's notebook",
+							"passphrase": "Edgar's access passphrase",
+							"residents": "Researcher record bundle"
+						},
+						"ko-KR": {
+							"command": "D4 복구 명령",
+							"father": "아버지 일지",
+							"notebook": "주인공 수첩",
+							"passphrase": "에드가 접근 암구호",
+							"residents": "연구원 기록 묶음"
+						}
+					}
+				},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"body": "{record} · Anonymous index",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{record} · 익명 인덱스",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_D_CARD_NO_ANON:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_D_CARD_NO_ANON",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"record": "enum:record"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_D_CARD_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_D_CARD_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"record": {
+						"en-US": {
+							"command": "D4 recovery command",
+							"father": "Father's journal",
+							"notebook": "Protagonist's notebook",
+							"passphrase": "Edgar's access passphrase",
+							"residents": "Researcher record bundle"
+						},
+						"ko-KR": {
+							"command": "D4 복구 명령",
+							"father": "아버지 일지",
+							"notebook": "주인공 수첩",
+							"passphrase": "에드가 접근 암구호",
+							"residents": "연구원 기록 묶음"
+						}
+					}
+				},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"body": "{record} [Selected]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{record} [선택]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_D_CARD_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_D_CARD_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"record": "enum:record"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_D_CARD_YES_ANON": {
+			"1": {
+				"action_or_variant": "SCREEN_D_CARD_YES_ANON",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"record": {
+						"en-US": {
+							"command": "D4 recovery command",
+							"father": "Father's journal",
+							"notebook": "Protagonist's notebook",
+							"passphrase": "Edgar's access passphrase",
+							"residents": "Researcher record bundle"
+						},
+						"ko-KR": {
+							"command": "D4 복구 명령",
+							"father": "아버지 일지",
+							"notebook": "주인공 수첩",
+							"passphrase": "에드가 접근 암구호",
+							"residents": "연구원 기록 묶음"
+						}
+					}
+				},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"body": "{record} · Anonymous index [Selected]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{record} · 익명 인덱스 [선택]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_D_CARD_YES_ANON:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_D_CARD_YES_ANON",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"record": "enum:record"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_D_GUIDE": {
+			"1": {
+				"action_or_variant": "SCREEN_D_GUIDE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"body": "Inspect each record on the left, then place it into a role on the right.\nA servant signature identifies the source, not the correct role.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "왼쪽 기록을 조사한 뒤 오른쪽 역할에 배치한다.\n사용인 서명은 출처이지 역할 정답이 아니다.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_D_GUIDE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_D_GUIDE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_D_SLOT_NO": {
+			"1": {
+				"action_or_variant": "SCREEN_D_SLOT_NO",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"record_or_empty": {
+						"en-US": {
+							"command": "D4 recovery command",
+							"empty": "Empty slot",
+							"father": "Father's journal",
+							"notebook": "Protagonist's notebook",
+							"passphrase": "Edgar's access passphrase",
+							"residents": "Researcher record bundle"
+						},
+						"ko-KR": {
+							"command": "D4 복구 명령",
+							"empty": "빈 슬롯",
+							"father": "아버지 일지",
+							"notebook": "주인공 수첩",
+							"passphrase": "에드가 접근 암구호",
+							"residents": "연구원 기록 묶음"
+						}
+					},
+					"role": {
+						"en-US": {
+							"0": "CR_AT_R",
+							"1": "C_ST_D_AN",
+							"2": "R_S_D_NT",
+							"3": "SY_T_M",
+							"4": "S_BJ_CT"
+						},
+						"ko-KR": {
+							"0": "CR_AT_R",
+							"1": "C_ST_D_AN",
+							"2": "R_S_D_NT",
+							"3": "SY_T_M",
+							"4": "S_BJ_CT"
+						}
+					}
+				},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"body": "{role}\n{record}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{role}\n{record}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_D_SLOT_NO:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_D_SLOT_NO",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"record": "enum:record_or_empty",
+						"role": "enum:role"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_D_SLOT_YES": {
+			"1": {
+				"action_or_variant": "SCREEN_D_SLOT_YES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"record_or_empty": {
+						"en-US": {
+							"command": "D4 recovery command",
+							"empty": "Empty slot",
+							"father": "Father's journal",
+							"notebook": "Protagonist's notebook",
+							"passphrase": "Edgar's access passphrase",
+							"residents": "Researcher record bundle"
+						},
+						"ko-KR": {
+							"command": "D4 복구 명령",
+							"empty": "빈 슬롯",
+							"father": "아버지 일지",
+							"notebook": "주인공 수첩",
+							"passphrase": "에드가 접근 암구호",
+							"residents": "연구원 기록 묶음"
+						}
+					},
+					"role": {
+						"en-US": {
+							"0": "CR_AT_R",
+							"1": "C_ST_D_AN",
+							"2": "R_S_D_NT",
+							"3": "SY_T_M",
+							"4": "S_BJ_CT"
+						},
+						"ko-KR": {
+							"0": "CR_AT_R",
+							"1": "C_ST_D_AN",
+							"2": "R_S_D_NT",
+							"3": "SY_T_M",
+							"4": "S_BJ_CT"
+						}
+					}
+				},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"body": "{role}\n{record} [Locked]",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{role}\n{record} [고정]",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_D_SLOT_YES:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_D_SLOT_YES",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"record": "enum:record_or_empty",
+						"role": "enum:role"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_AUTHOR": {
+			"1": {
+				"action_or_variant": "SCREEN_E_AUTHOR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "A blank line in the notebook. Identify who authors the present sentence.\nThis step does not ask whether you will leave or stay.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "빈 수첩 줄. 현재 문장의 작성 주체를 확인한다.\n이 단계는 남을지 떠날지를 묻지 않는다.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_AUTHOR:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_AUTHOR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_INTENT": {
+			"1": {
+				"action_or_variant": "SCREEN_E_INTENT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Private provisional intent. All three answers are equal and none is a final choice.\nThe servants can neither see nor hear this record.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "비공개 임시 의향. 세 답변은 동등하며 최종 선택이 아니다.\n사용인은 이 기록을 보거나 듣지 못한다.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_INTENT:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_INTENT",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_MARK_HOUSE_GLYPH": {
+			"1": {
+				"action_or_variant": "SCREEN_E_MARK_HOUSE_GLYPH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"mark_house_glyph": {
+						"en-US": {
+							"0": "roof",
+							"0_1": "roof → body",
+							"0_1_2": "roof → body → door",
+							"0_2": "roof → door",
+							"0_2_1": "roof → door → body",
+							"1": "body",
+							"1_0": "body → roof",
+							"1_0_2": "body → roof → door",
+							"1_2": "body → door",
+							"1_2_0": "body → door → roof",
+							"2": "door",
+							"2_0": "door → roof",
+							"2_0_1": "door → roof → body",
+							"2_1": "door → body",
+							"2_1_0": "door → body → roof"
+						},
+						"ko-KR": {
+							"0": "지붕",
+							"0_1": "지붕 → 몸체",
+							"0_1_2": "지붕 → 몸체 → 문",
+							"0_2": "지붕 → 문",
+							"0_2_1": "지붕 → 문 → 몸체",
+							"1": "몸체",
+							"1_0": "몸체 → 지붕",
+							"1_0_2": "몸체 → 지붕 → 문",
+							"1_2": "몸체 → 문",
+							"1_2_0": "몸체 → 문 → 지붕",
+							"2": "문",
+							"2_0": "문 → 지붕",
+							"2_0_1": "문 → 지붕 → 몸체",
+							"2_1": "문 → 몸체",
+							"2_1_0": "문 → 몸체 → 지붕"
+						}
+					}
+				},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Original A1 mark: Three windows, a pointed roof, a door leaning left\nCurrent sequence: {sequence}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "A1의 원래 표시: 창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문\n현재 배열: {sequence}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_MARK_HOUSE_GLYPH:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_MARK_HOUSE_GLYPH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"sequence": "enum:mark_house_glyph"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_MARK_HOUSE_GLYPH_EMPTY": {
+			"1": {
+				"action_or_variant": "SCREEN_E_MARK_HOUSE_GLYPH_EMPTY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Original A1 mark: Three windows, a pointed roof, a door leaning left\nCurrent sequence: ",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "A1의 원래 표시: 창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문\n현재 배열: ",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_MARK_HOUSE_GLYPH_EMPTY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_MARK_HOUSE_GLYPH_EMPTY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_MARK_INK_CORNER": {
+			"1": {
+				"action_or_variant": "SCREEN_E_MARK_INK_CORNER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"mark_ink_corner": {
+						"en-US": {
+							"0": "first touch at the corner",
+							"0_1": "first touch at the corner → second touch inward",
+							"0_1_2": "first touch at the corner → second touch inward → final ink dot",
+							"0_2": "first touch at the corner → final ink dot",
+							"0_2_1": "first touch at the corner → final ink dot → second touch inward",
+							"1": "second touch inward",
+							"1_0": "second touch inward → first touch at the corner",
+							"1_0_2": "second touch inward → first touch at the corner → final ink dot",
+							"1_2": "second touch inward → final ink dot",
+							"1_2_0": "second touch inward → final ink dot → first touch at the corner",
+							"2": "final ink dot",
+							"2_0": "final ink dot → first touch at the corner",
+							"2_0_1": "final ink dot → first touch at the corner → second touch inward",
+							"2_1": "final ink dot → second touch inward",
+							"2_1_0": "final ink dot → second touch inward → first touch at the corner"
+						},
+						"ko-KR": {
+							"0": "모서리 첫 접촉",
+							"0_1": "모서리 첫 접촉 → 안쪽 두 번째 접촉",
+							"0_1_2": "모서리 첫 접촉 → 안쪽 두 번째 접촉 → 마지막 잉크점",
+							"0_2": "모서리 첫 접촉 → 마지막 잉크점",
+							"0_2_1": "모서리 첫 접촉 → 마지막 잉크점 → 안쪽 두 번째 접촉",
+							"1": "안쪽 두 번째 접촉",
+							"1_0": "안쪽 두 번째 접촉 → 모서리 첫 접촉",
+							"1_0_2": "안쪽 두 번째 접촉 → 모서리 첫 접촉 → 마지막 잉크점",
+							"1_2": "안쪽 두 번째 접촉 → 마지막 잉크점",
+							"1_2_0": "안쪽 두 번째 접촉 → 마지막 잉크점 → 모서리 첫 접촉",
+							"2": "마지막 잉크점",
+							"2_0": "마지막 잉크점 → 모서리 첫 접촉",
+							"2_0_1": "마지막 잉크점 → 모서리 첫 접촉 → 안쪽 두 번째 접촉",
+							"2_1": "마지막 잉크점 → 안쪽 두 번째 접촉",
+							"2_1_0": "마지막 잉크점 → 안쪽 두 번째 접촉 → 모서리 첫 접촉"
+						}
+					}
+				},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Original A1 mark: A drop of ink at the corner of the page\nCurrent sequence: {sequence}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "A1의 원래 표시: 페이지 모서리의 잉크 한 방울\n현재 배열: {sequence}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_MARK_INK_CORNER:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_MARK_INK_CORNER",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"sequence": "enum:mark_ink_corner"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_MARK_INK_CORNER_EMPTY": {
+			"1": {
+				"action_or_variant": "SCREEN_E_MARK_INK_CORNER_EMPTY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Original A1 mark: A drop of ink at the corner of the page\nCurrent sequence: ",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "A1의 원래 표시: 페이지 모서리의 잉크 한 방울\n현재 배열: ",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_MARK_INK_CORNER_EMPTY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_MARK_INK_CORNER_EMPTY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_MARK_ORIGINAL": {
+			"1": {
+				"action_or_variant": "SCREEN_E_MARK_ORIGINAL",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "{original_text}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "{original_text}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_MARK_ORIGINAL:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"original_only_segments": [
+					"body"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_MARK_ORIGINAL",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"original_text": "string"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_MARK_SENTENCE": {
+			"1": {
+				"action_or_variant": "SCREEN_E_MARK_SENTENCE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {
+					"mark_sentence": {
+						"en-US": {
+							"0": "Tomorrow morning,",
+							"0_1": "Tomorrow morning, → read this",
+							"0_1_2": "Tomorrow morning, → read this → sentence.",
+							"0_2": "Tomorrow morning, → sentence.",
+							"0_2_1": "Tomorrow morning, → sentence. → read this",
+							"1": "read this",
+							"1_0": "read this → Tomorrow morning,",
+							"1_0_2": "read this → Tomorrow morning, → sentence.",
+							"1_2": "read this → sentence.",
+							"1_2_0": "read this → sentence. → Tomorrow morning,",
+							"2": "sentence.",
+							"2_0": "sentence. → Tomorrow morning,",
+							"2_0_1": "sentence. → Tomorrow morning, → read this",
+							"2_1": "sentence. → read this",
+							"2_1_0": "sentence. → read this → Tomorrow morning,"
+						},
+						"ko-KR": {
+							"0": "내일 아침,",
+							"0_1": "내일 아침, → 이 문장을",
+							"0_1_2": "내일 아침, → 이 문장을 → 읽어.",
+							"0_2": "내일 아침, → 읽어.",
+							"0_2_1": "내일 아침, → 읽어. → 이 문장을",
+							"1": "이 문장을",
+							"1_0": "이 문장을 → 내일 아침,",
+							"1_0_2": "이 문장을 → 내일 아침, → 읽어.",
+							"1_2": "이 문장을 → 읽어.",
+							"1_2_0": "이 문장을 → 읽어. → 내일 아침,",
+							"2": "읽어.",
+							"2_0": "읽어. → 내일 아침,",
+							"2_0_1": "읽어. → 내일 아침, → 이 문장을",
+							"2_1": "읽어. → 이 문장을",
+							"2_1_0": "읽어. → 이 문장을 → 내일 아침,"
+						}
+					}
+				},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Original A1 mark: Tomorrow morning, read this sentence.\nCurrent sequence: {sequence}",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "A1의 원래 표시: 내일 아침, 이 문장을 읽어.\n현재 배열: {sequence}",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_MARK_SENTENCE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_MARK_SENTENCE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {
+						"sequence": "enum:mark_sentence"
+					}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_MARK_SENTENCE_EMPTY": {
+			"1": {
+				"action_or_variant": "SCREEN_E_MARK_SENTENCE_EMPTY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Original A1 mark: Tomorrow morning, read this sentence.\nCurrent sequence: ",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "A1의 원래 표시: 내일 아침, 이 문장을 읽어.\n현재 배열: ",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_MARK_SENTENCE_EMPTY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_MARK_SENTENCE_EMPTY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_PIECE_HOUSE_GLYPH_0": {
+			"1": {
+				"action_or_variant": "SCREEN_E_PIECE_HOUSE_GLYPH_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "roof",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "지붕",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_PIECE_HOUSE_GLYPH_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_PIECE_HOUSE_GLYPH_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_PIECE_HOUSE_GLYPH_1": {
+			"1": {
+				"action_or_variant": "SCREEN_E_PIECE_HOUSE_GLYPH_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "body",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "몸체",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_PIECE_HOUSE_GLYPH_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_PIECE_HOUSE_GLYPH_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_PIECE_HOUSE_GLYPH_2": {
+			"1": {
+				"action_or_variant": "SCREEN_E_PIECE_HOUSE_GLYPH_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "door",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "문",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_PIECE_HOUSE_GLYPH_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_PIECE_HOUSE_GLYPH_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_PIECE_INK_CORNER_0": {
+			"1": {
+				"action_or_variant": "SCREEN_E_PIECE_INK_CORNER_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "first touch at the corner",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "모서리 첫 접촉",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_PIECE_INK_CORNER_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_PIECE_INK_CORNER_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_PIECE_INK_CORNER_1": {
+			"1": {
+				"action_or_variant": "SCREEN_E_PIECE_INK_CORNER_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "second touch inward",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "안쪽 두 번째 접촉",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_PIECE_INK_CORNER_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_PIECE_INK_CORNER_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_PIECE_INK_CORNER_2": {
+			"1": {
+				"action_or_variant": "SCREEN_E_PIECE_INK_CORNER_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "final ink dot",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "마지막 잉크점",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_PIECE_INK_CORNER_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_PIECE_INK_CORNER_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_PIECE_SENTENCE_0": {
+			"1": {
+				"action_or_variant": "SCREEN_E_PIECE_SENTENCE_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "Tomorrow morning,",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "내일 아침,",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_PIECE_SENTENCE_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_PIECE_SENTENCE_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_PIECE_SENTENCE_1": {
+			"1": {
+				"action_or_variant": "SCREEN_E_PIECE_SENTENCE_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "read this",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "이 문장을",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_PIECE_SENTENCE_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_PIECE_SENTENCE_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_SCREEN_E_PIECE_SENTENCE_2": {
+			"1": {
+				"action_or_variant": "SCREEN_E_PIECE_SENTENCE_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "sentence.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "읽어.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "SCREEN_E_PIECE_SENTENCE_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SCREEN_E_PIECE_SENTENCE_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_STATUS_C_SEQUENCE": {
+			"1": {
+				"action_or_variant": "STATUS_C_SEQUENCE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_C",
+				"locales": {
+					"en-US": {
+						"body": "Follow the route, check the branch, then inspect the authentication ring.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "경로를 따라 분기를 확인하고 인증 고리를 조사한다.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_C_SEQUENCE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_C"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "STATUS_C_SEQUENCE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_STATUS_D_LOCK": {
+			"1": {
+				"action_or_variant": "STATUS_D_LOCK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_D",
+				"locales": {
+					"en-US": {
+						"body": "This slot has not been verified.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "이 슬롯은 아직 검증되지 않았다.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_D_LOCK:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_D"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "STATUS_D_LOCK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_STATUS_E_AUTHOR": {
+			"1": {
+				"action_or_variant": "STATUS_E_AUTHOR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "The problem is not the sentence's content but its author. The present protagonist must write it directly.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "문장 내용이 아니라 작성 주체가 다르다. 현재의 주인공이 직접 작성해야 한다.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_E_AUTHOR:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "STATUS_E_AUTHOR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_CORE_STATUS_E_PAST": {
+			"1": {
+				"action_or_variant": "STATUS_E_PAST",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"enums": {},
+				"event_id": "F0_E",
+				"locales": {
+					"en-US": {
+						"body": "The sequence differs from the earlier mark. Check the original notebook mark again.",
+						"speaker": "Scene",
+						"summary": "The displayed evidence and response at that time",
+						"title": "Evidence Observed at the Core"
+					},
+					"ko-KR": {
+						"body": "이전 표시와 순서가 다르다. 수첩의 원래 표시를 다시 확인한다.",
+						"speaker": "장면",
+						"summary": "표시된 자료와 당시의 응답",
+						"title": "코어에서 확인한 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "STATUS_E_PAST:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F0_E"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP16",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "STATUS_E_PAST",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

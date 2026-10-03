@@ -30,6 +30,7 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	if knowledge.get("f0_system_samples_verified", false): return {"ok": false, "text": "네 시스템 표본은 이미 검증했다."}
 	var local := progress(state)
 	var text := ""
+	var evidence: Array = []
 	if action == "inspect":
 		if not value is Array or value.size() != 2 or value[0] not in ROOMS or not value[1] is int or value[1] not in [0, 1]: return {"ok": false, "text": "방과 표본을 선택한다."}
 		var room: String = value[0]
@@ -38,6 +39,7 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 		var key := "%s:%d" % [room, index]
 		if key not in local["inspected"]: local["inspected"].append(key)
 		text = NAMES[room] + " · " + SAMPLES[room][index]["label"] + "\n" + SAMPLES[room][index]["trace"]
+		evidence.append({"key": "B_SAMPLE_%s_%d" % [room.to_upper(), index]})
 	elif action == "send":
 		var room := str(value)
 		if room not in ROOMS or not local["selected"].has(room): return {"ok": false, "text": "표본의 연결을 먼저 조사한다."}
@@ -45,17 +47,23 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 		if int(local["selected"][room]) == 0:
 			local["verified"].append(room)
 			text = NAMES[room] + ": MAINTENANCE DATA · 실제 유지 데이터\n검증된 채널 %d / 4" % local["verified"].size()
+			evidence.append({"key": "B_MAINTENANCE", "vars": {"room": room}})
+			evidence.append({"key": "B_COUNT", "vars": {"count": local.verified.size()}})
 		else:
 			local["mistakes"] += 1
 			text = NAMES[room] + ": PRESENTATION DATA · 표현용 데이터 반환\n표본과 다른 검증 채널은 손상되지 않았다. 연결 끝을 다시 조사할 수 있다."
+			evidence.append({"key": "B_PRESENTATION", "vars": {"room": room}})
+			evidence.append({"key": "B_RETRY"})
 			if int(local["mistakes"]) >= 3 and not local["hint_seen"]:
 				local["hint_seen"] = true
 				text += "\n주인공: 몸을 유지하는 것과 저택을 연출하는 것을 나눠 봐야 해."
+				evidence.append({"key": "B_HINT"})
 		if local["verified"].size() == 4:
 			knowledge["f0_system_samples_verified"] = true
 			state["meta_progress"]["event_history"]["F0_B"] = {"event_id": "F0_B", "lifecycle": "completed"}
 			text += "\n4 CHANNELS VERIFIED / ACCESS DENIED\n네 유지 채널 검증 완료 / 접근 권한 없음\n낮은 맥박은 안정되었지만 문은 열리지 않는다. 네 개의 연결선 옆에 이름 없는 빈자리가 남는다."
+			evidence.append({"key": "B_COMPLETE"})
 	else: return {"ok": false, "text": "정의되지 않은 표본 조작이다."}
 	local["feedback"] = text
 	state["loop_state"]["event_local_states"]["F0_B"] = local
-	return {"ok": true, "state": state, "text": text}
+	return {"ok": true, "state": state, "text": text, "evidence": evidence}
