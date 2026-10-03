@@ -28,6 +28,7 @@ const MARA2_NOTES := preload("res://scripts/systems/mara2_notebook.gd")
 const SETTLEMENT_NOTES := preload("res://scripts/systems/settlement_notebook.gd")
 const JOURNAL_DISPLAY := preload("res://scripts/systems/journal_four_display_notebook.gd")
 const CORE_NOTES := preload("res://scripts/systems/core_notebook.gd")
+const FINAL_NOTES := preload("res://scripts/systems/final_notebook.gd")
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var _surface_active_seconds := 0.0
 var _stay_inspection_open := false
@@ -89,7 +90,7 @@ func _feedback(result: Dictionary) -> void:
 	var displayed := result.duplicate(true)
 	var descriptors: Array = result.get("notebook_feedback", [])
 	var first_id := String(descriptors[0].get("content_id", "")) if not descriptors.is_empty() else ""
-	if result.get("ok", false) and (first_id.begins_with(JOURNAL_DISPLAY.PREFIX) or first_id.begins_with(CORE_NOTES.PREFIX)):
+	if result.get("ok", false) and (first_id.begins_with(JOURNAL_DISPLAY.PREFIX) or first_id.begins_with(CORE_NOTES.PREFIX) or first_id.begins_with(FINAL_NOTES.PREFIX)):
 		_show_notebook_feedback(result, descriptors)
 		return
 	var original := String(result.get("text", ""))
@@ -1616,6 +1617,8 @@ func _finish_ending_signature() -> void:
 
 
 func _build_ending_decision() -> void:
+	for label in ["notice", "reality", "stay"]:
+		_queue_notebook_content(FINAL_NOTES.PREFIX + "EDC_SCREEN_" + label.to_upper(), _ending_text(label))
 	_objective_label.text = _ending_text("objective")
 	_location_label.text = _ending_text("location")
 	_board_label(_ending_text("notice"), Rect2(250,150,1420,100))
@@ -1729,8 +1732,14 @@ func _build_confrontation() -> void:
 		_action("F2_ENTER",_core_text("f2_enter"),Rect2(400,400,1100,130),"f2_enter")
 		return
 	var index := 0
-	for question in ["consent","awakening","outside","release","wish"]:
-		_action("F2_"+question,CORE_STORY_TEXTS.question(question,locale),Rect2(350,160+index*115,1200,95),"f2_question",question)
+	var labels := PackedStringArray()
+	for question in FINAL_NOTES.QUESTIONS: labels.append(CORE_STORY_TEXTS.question(question, locale))
+	_queue_notebook_content(FINAL_NOTES.PREFIX + "F2_OPTIONS", "\n".join(labels))
+	for question in FINAL_NOTES.QUESTIONS:
+		if _notebook_surface_enabled():
+			_add_hotspot("F2_"+question, labels[index], Rect2(350,160+index*115,1200,95), _final_question_pressed.bind(_notebook_surfaces.generation, index, labels[index], locale))
+		else:
+			_action("F2_"+question, labels[index], Rect2(350,160+index*115,1200,95),"f2_question",question)
 		index += 1
 	if not local["recapped"]:
 		_action("F2_RECAP",_core_text("f2_recap"),Rect2(350,790,1200,100),"f2_recap")
@@ -1753,7 +1762,10 @@ func _build_father_record() -> void:
 	else:
 		for index in range(8):
 			if index <= int(local["next"]):
-				_action("F1_SEG_%d"%index,(_core_text("replay") if index < int(local["next"]) else _core_text("play"))+CORE_STORY_TEXTS.father_title(index,locale),Rect2(250+(index%2)*740,290+(index/2)*105,700,85),"f1_play",index)
+				var mode := "replay" if index < int(local["next"]) else "play"
+				var label: String = _core_text(mode) + CORE_STORY_TEXTS.father_title(index,locale)
+				_action("F1_SEG_%d"%index, label,Rect2(250+(index%2)*740,290+(index/2)*105,700,85),"f1_play",index)
+				_queue_notebook_content(FINAL_NOTES.PREFIX + "F1_TITLE_%s_%d" % [mode.to_upper(), index], label)
 		if session.known("father_final_record_played"):
 			if not local["j5_read"]:
 				_action("J5_PAGE",_core_text("j5_page"),Rect2(400,780,1100,100),"f1_page")
@@ -1897,6 +1909,20 @@ func _build_core_room_network() -> void:
 	_action("F0A_NOTES", _core_text("f0a_notes"), Rect2(180, 930, 720, 60), "f0a_notes")
 	_action("F0A_SIGNAL", _core_text("f0a_signal"), Rect2(1020, 930, 720, 60), "f0a_signal")
 
+
+
+func _final_question_pressed(generation: int, index: int, label: String, locale: String) -> void:
+	if _interaction_blocked() or not _notebook_surfaces.live(_notebook_surface_scope(), generation): return
+	if not _notebook_surface_allowed(): return
+	var options_id := FINAL_NOTES.PREFIX + "F2_OPTIONS"
+	if not _notebook_surfaces.choose(session, _notebook_surface_scope(), options_id, FINAL_NOTES.PREFIX + "F2_SELECT_%d" % index, label, locale):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	var result := session.act("f2_question", FINAL_NOTES.QUESTIONS[index])
+	_notebook_surfaces.dispatched(options_id, result.get("ok", false))
+	if result.get("ok", false): _set_status("")
+	_render_room()
+	_feedback(result)
 
 
 func _queue_core_choices(group: String) -> void:

@@ -35,4 +35,4 @@ static func commit(source: Dictionary, decision: String) -> Dictionary:
 	state["loop_state"]["event_local_states"]["F3"]["choice_open"] = false
 	state["loop_state"]["location_id"] = "H0_CORE_CHAMBER"
 	state["meta_progress"]["event_history"]["EDC"] = {"event_id": "EDC", "lifecycle": "completed"}
-	return {"ok": true, "state": state, "text": MONOLOGUES[relation]}
+	return {"ok": true, "state": state, "text": MONOLOGUES[relation], "notebook_keys": ["EDC_" + relation.to_upper()]}

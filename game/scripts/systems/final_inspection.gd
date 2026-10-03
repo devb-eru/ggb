@@ -21,8 +21,10 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	if not knowledge.get("F2_complete",false) or state["ending_run"]["final_decision"]!="unset": return {"ok":false,"text":"대면 기록과 최종 결정 상태를 확인한다."}
 	var local := progress(state)
 	var text := ""
+	var keys: Array = []
 	match action:
 		"enter":
+			keys = ["F3_ENTER"]
 			local["entered"] = true
 			state["loop_state"]["location_id"] = "H0_CORE_CHAMBER"
 			state["fracture_state"]["final_sleep_lock"] = true
@@ -33,24 +35,29 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 			local["choice_open"] = false
 			if str(value)=="notebook":
 				var intent: String = knowledge.get("f0_provisional_intent","undecided")
+				keys = ["F3_NOTEBOOK_" + (intent if intent in ["reality", "stay"] else "undecided").to_upper()]
 				text = "주인공 수첩\n확인한 사실: 내 외부 몸과 다섯 결합 인격은 현재 유지되고 있다. 최종 권한은 내게 있다.\n불확실한 사실: 외부 장기 생존, 시설의 영속, 미래 신체 이전.\n이전에 적은 임시 의향: "+str({"reality":"현실 지향","stay":"잔류 지향","undecided":"미정"}.get(intent,"미정"))+"\n이 문장은 결정이 아니다. 지우거나 바꾸어도 이전의 내가 사라지는 것은 아니다."
 			else:
+				keys = ["F3_INSPECT_" + str(value).to_upper()]
 				local["last_device"] = str(value)
 				text = OBJECTS[str(value)]
 		"summary":
 			if local["seen"].size()!=3: return {"ok":false,"text":"기상 장치·안정화 장치·수첩을 모두 조사한다."}
 			var first := "stay" if local["last_device"]=="wake" else "wake"
+			keys = ["F3_SUMMARY_" + first.to_upper()]
 			text = SUMMARIES[first]+"\n"+SUMMARIES["wake" if first=="stay" else "stay"]+"\n현실은 용기의 보상, 잔류는 도피의 처벌로 판정되지 않는다. 어느 쪽도 아직 실행하지 않았다."
 			local["summary_seen"] = true
 		"open":
+			keys = ["F3_OPEN"]
 			if not local["summary_seen"]: return {"ok":false,"text":"두 절차의 확정·불확정 사항을 먼저 확인한다."}
 			local["choice_open"] = true
 			knowledge["F3_complete"] = true
 			state["meta_progress"]["event_history"]["F3"] = {"event_id":"F3","lifecycle":"completed"}
 			text = "최종 선택 확인 단계가 열렸다. 아직 결정이 저장되지는 않았다."
 		"cancel":
+			keys = ["F3_CANCEL"]
 			local["choice_open"] = false
 			text = "장치 조사로 돌아간다. 최종 결정은 미정이다."
 		_: return {"ok":false,"text":"정의되지 않은 최종 확인 행동이다."}
 	state["loop_state"]["event_local_states"]["F3"] = local
-	return {"ok":true,"state":state,"text":text}
+	return {"ok":true,"state":state,"text":text,"notebook_keys":keys}

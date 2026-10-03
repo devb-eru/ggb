@@ -1,0 +1,3387 @@
+{
+	"contents": {
+		"NB_FINAL_EDC_FORMED": {
+			"1": {
+				"action_or_variant": "EDC_FORMED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDC",
+				"locales": {
+					"en-US": {
+						"line_01": "Now I decide.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "이제 정한다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "EDC_FORMED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDC"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "EDC_FORMED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_EDC_REAFFIRMED": {
+			"1": {
+				"action_or_variant": "EDC_REAFFIRMED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDC",
+				"locales": {
+					"en-US": {
+						"line_01": "I choose now the path I leaned toward then.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "그때 기울었던 쪽을 지금 선택한다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "EDC_REAFFIRMED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDC"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "EDC_REAFFIRMED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_EDC_REVISED": {
+			"1": {
+				"action_or_variant": "EDC_REVISED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDC",
+				"locales": {
+					"en-US": {
+						"line_01": "My thoughts have changed. This is my choice now.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "생각은 달라졌다. 지금의 선택은 이것이다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "EDC_REVISED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDC"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "EDC_REVISED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_EDC_SCREEN_NOTICE": {
+			"1": {
+				"action_or_variant": "EDC_SCREEN_NOTICE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDC",
+				"locales": {
+					"en-US": {
+						"body": "Neither procedure can currently transfer the researchers into new bodies.\nNeither procedure has been executed.",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "두 절차 모두 현재 연구원들을 새 신체로 해방시키지는 못한다.\n어느 절차도 아직 실행되지 않았다.",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "EDC_SCREEN_NOTICE:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDC"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "EDC_SCREEN_NOTICE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_EDC_SCREEN_REALITY": {
+			"1": {
+				"action_or_variant": "EDC_SCREEN_REALITY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDC",
+				"locales": {
+					"en-US": {
+						"body": "Execute waking procedure\nWake in your physical body · Preserve five personalities at low power\nOutside conditions and long-term survival are uncertain",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "기상 절차 실행\n외부 신체 기상 · 다섯 인격 저전력 보존\n외부 환경과 장기 생존은 불확실",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "EDC_SCREEN_REALITY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDC"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "EDC_SCREEN_REALITY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_EDC_SCREEN_STAY": {
+			"1": {
+				"action_or_variant": "EDC_SCREEN_STAY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDC",
+				"locales": {
+					"en-US": {
+						"body": "Restore the stabilization loop\nRetain current memories · Keep five personalities conscious\nFacility lifespan and resource balance are uncertain",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "안정화 루프 복원\n현재 기억 · 다섯 인격의 활동 의식 유지\n시설 수명과 자원 균형은 불확실",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "EDC_SCREEN_STAY:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDC"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "EDC_SCREEN_STAY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_AUTHENTICATE": {
+			"1": {
+				"action_or_variant": "F1_AUTHENTICATE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "CURRENT REQUESTER: SUBJECT / CREATOR LOG: ORIGINAL / EDIT HISTORY: PRESENT",
+						"line_02": "Current requester: Protagonist · original record · edit history present",
+						"line_03": "Begin playback yourself when you are ready.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "CURRENT REQUESTER: SUBJECT / CREATOR LOG: ORIGINAL / EDIT HISTORY: PRESENT",
+						"line_02": "현재 요청자: 주인공 · 원본 기록 · 편집 이력 있음",
+						"line_03": "재생할 준비가 되면 직접 시작한다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_AUTHENTICATE:line_01",
+					"line_02": "F1_AUTHENTICATE:line_02",
+					"line_03": "F1_AUTHENTICATE:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_AUTHENTICATE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_FINAL_F1_ENTER": {
+			"1": {
+				"action_or_variant": "F1_ENTER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "Core records room. The playback device waits. The record does not start by itself.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "코어 기록실. 재생 장치가 기다리고 있다. 기록은 스스로 시작되지 않는다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_ENTER:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_ENTER",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_F1_INSPECT": {
+			"1": {
+				"action_or_variant": "F1_INSPECT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "The smell of paper lingers between the server racks. Touching a coolant pipe makes the sound seem to resonate inside your bones.",
+						"line_02": "Edit history: J1–J4 were derived from the original record, with portions selected by the system and servants. Original voice and postmortem attachments are marked as separate sources.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "서버 랙 사이에 종이 냄새가 남아 있다. 냉각관에 손을 대면 소리가 뼈 안쪽에서 울리는 것 같다.",
+						"line_02": "편집 이력: J1~J4는 원본 기록에서 파생되었으며 시스템과 사용인이 일부를 잘라 표시했다. 원본 음성과 사후 첨부 로그는 별도 출처로 표시된다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_INSPECT:line_01",
+					"line_02": "F1_INSPECT:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_INSPECT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_FINAL_F1_PLAY_0": {
+			"1": {
+				"action_or_variant": "F1_PLAY_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "Collapse outside",
+						"line_02": "If you are hearing this, the mansion no longer remains only as you drew it.",
+						"line_03": "The Earth outside was already collapsing when I put you to sleep. Air and water varied by region, and the estimates of when people could live again never converged.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "외부 붕괴",
+						"line_02": "네가 이 기록을 듣는다면, 저택은 더는 네가 그렸던 모습만으로 남아 있지 않을 것이다.",
+						"line_03": "밖의 지구는 내가 너를 잠들게 했을 때 이미 무너지고 있었다. 공기와 물은 지역마다 달랐고, 사람이 다시 살 수 있다는 계산은 끝내 하나로 모이지 않았다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_PLAY_0:line_01",
+					"line_02": "F1_PLAY_0:line_02",
+					"line_03": "F1_PLAY_0:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_PLAY_0",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_FINAL_F1_PLAY_1": {
+			"1": {
+				"action_or_variant": "F1_PLAY_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "The protagonist's cryostasis",
+						"line_02": "I left your body in a cryogenic unit. I could say I did it to find a way to save you. But that does not erase the fact that I never asked you.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "주인공 냉각",
+						"line_02": "나는 네 몸을 냉각 장치에 남겼다. 살릴 방법을 찾기 위해서였다고 말할 수 있다. 하지만 네게 묻지 않았다는 사실은 그 말로 없어지지 않는다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_PLAY_1:line_01",
+					"line_02": "F1_PLAY_1:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_PLAY_1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_FINAL_F1_PLAY_2": {
+			"1": {
+				"action_or_variant": "F1_PLAY_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "Tea and the sketched mansion",
+						"line_02": "I took this mansion from your sketches. I wanted to make a home you would not fear. In the end, I knew the shape of a prison you would find difficult to question.",
+						"line_03": "Whenever you served tea, you turned the handle toward my left hand. When you said your drawing had no door, we added one line together. I said we would put the door wherever you chose. Even after saying that, I made a door you could not open.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "차와 낙서 저택",
+						"line_02": "이 저택은 네 낙서에서 가져왔다. 네가 두려워하지 않을 집을 만들고 싶었다. 결국 나는 네가 의심하기 어려운 감옥의 모양을 알고 있었던 셈이다.",
+						"line_03": "네가 차를 내올 때마다 잔 손잡이를 내 왼손 쪽으로 돌려놓았지. 저택 그림에 문이 없다고 했을 때는 함께 한 줄을 그었다. 나는 문을 네가 고르는 곳에 두자고 말했다. 그 말을 해 놓고도 네가 열 수 없는 문을 만들었다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_PLAY_2:line_01",
+					"line_02": "F1_PLAY_2:line_02",
+					"line_03": "F1_PLAY_2:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_PLAY_2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_FINAL_F1_PLAY_3": {
+			"1": {
+				"action_or_variant": "F1_PLAY_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "Conversion of the researchers",
+						"line_02": "I promised the researchers bodies in the future. They consented to a new life. What I actually made was a continuation that bound biological neural cores and personality processes to system roles.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "연구원 전환",
+						"line_02": "연구원들에게는 미래의 몸을 약속했다. 그들이 동의한 것은 새로운 삶이었다. 내가 실제로 만든 것은 생체 신경 코어와 인격 프로세스를 결합해 시스템 역할에 묶은 지속이었다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_PLAY_3:line_01",
+					"line_02": "F1_PLAY_3:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_PLAY_3",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_FINAL_F1_PLAY_4": {
+			"1": {
+				"action_or_variant": "F1_PLAY_4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "A mode of existence",
+						"line_02": "Copying stored memories alone would not make a copy into who they are now.",
+						"line_03": "[Attached technical log] Archive priority was assigned to Mara 2. The automatic deletion policy was never fully disabled. There are traces of her surrendering her own storage to preserve the originals of the other researchers. Authority to stop it was never shared.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "존재 방식",
+						"line_02": "저장된 기억만 따로 복사해도 지금의 그들이 되는 것은 아니다.",
+						"line_03": "[첨부 기술 로그] 아카이브 우선순위는 마라 2에게 맡겨졌다. 자동 삭제 정책은 완전히 해제되지 않았다. 다른 연구원 원본을 보존하려 자기 저장 영역을 양도한 흔적이 있다. 이를 중단할 권한은 공유되지 않았다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_PLAY_4:line_01",
+					"line_02": "F1_PLAY_4:line_02",
+					"line_03": "F1_PLAY_4:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_PLAY_4",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_FINAL_F1_PLAY_5": {
+			"1": {
+				"action_or_variant": "F1_PLAY_5",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "Release that cannot be executed",
+						"line_02": "Their original bodies can no longer be recovered. I dismantled the cultivation and interface modules needed for new bodies to keep your cryogenic unit and life support powered. The plans remain, but this facility has neither new bodies nor a factory to make them. Separating them now may not set them free; it may irreversibly sever their memories and neural continuity.",
+						"line_03": "[Record termination history] Release authority remained unfinished until the designer's death. The temporary conversion had no end date.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "실행 불가능한 해방",
+						"line_02": "그들의 원래 몸은 돌아갈 수 없게 되었다. 새 몸으로 옮길 배양·접속 모듈은 네 냉각 장치와 생명 유지 전원을 살리기 위해 분해했다. 도면은 남았지만 이 시설에는 새 몸도, 다시 만들 공장도 없다. 지금 분리를 실행하면 그들을 풀어 주는 것이 아니라 기억과 신경을 되돌릴 수 없게 끊을 수 있다.",
+						"line_03": "[기록 종료 이력] 해제 권한은 설계자의 사망 시점까지 미완성이었다. 임시 전환에는 끝나는 날짜가 없었다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_PLAY_5:line_01",
+					"line_02": "F1_PLAY_5:line_02",
+					"line_03": "F1_PLAY_5:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_PLAY_5",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_FINAL_F1_PLAY_6": {
+			"1": {
+				"action_or_variant": "F1_PLAY_6",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "Forced activation · postmortem record",
+						"line_02": "[System postmortem record · not Father's voice]",
+						"line_03": "After the designer died, the servants forcibly activated the protagonist's consciousness. No signal confirmed that outside safety had been restored.",
+						"line_04": "The record suggests that loneliness and anger, protection and retaliation all contributed. Understanding that does not create an obligation to forgive.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "강제 기동 · 사후 기록",
+						"line_02": "[시스템 사후 기록 · 아버지 음성 아님]",
+						"line_03": "설계자 사망 이후 사용인들이 주인공 의식을 강제로 기동했다. 외부 안전 복구 완료 신호는 없었다.",
+						"line_04": "외로움과 분노, 보호와 보복이 함께 작용한 정황이 남아 있다. 이를 이해하는 것과 용서할 의무는 같지 않다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_PLAY_6:line_01",
+					"line_02": "F1_PLAY_6:line_02",
+					"line_03": "F1_PLAY_6:line_03",
+					"line_04": "F1_PLAY_6:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_PLAY_6",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_FINAL_F1_PLAY_7": {
+			"1": {
+				"action_or_variant": "F1_PLAY_7",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"line_01": "Unfinished authority",
+						"line_02": "I still cannot call the outside safe. The inside can become a life if you want it, but if it is maintained by erasing the truth, it becomes the prison I made again.",
+						"line_03": "I will not write which choice is right. Even that silence may be one more way of postponing responsibility. Still, this answer must be a sentence you write.",
+						"line_04": "I promised that when you opened your eyes, I would first tell you where you were and what I had done. I also said what came next would be yours to decide. I failed to keep that promise.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "미완성 권한",
+						"line_02": "밖은 아직 안전하다고 말할 수 없다. 안은 네가 원한다면 삶이 될 수 있지만, 진실을 지운 채 유지한다면 다시 내가 만든 감옥이 된다.",
+						"line_03": "나는 어느 쪽이 옳다고 적지 않겠다. 그 침묵조차 마지막까지 책임을 미루는 일일 수 있다. 그래도 이번 답은 네가 쓰는 문장이어야 한다.",
+						"line_04": "나는 네가 눈을 뜨면 어디에 있는지, 내가 무엇을 했는지 먼저 말하겠다고 약속했다. 그 다음은 네가 정한다고도 말했다. 나는 그 약속을 지키지 못했다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F1_PLAY_7:line_01",
+					"line_02": "F1_PLAY_7:line_02",
+					"line_03": "F1_PLAY_7:line_03",
+					"line_04": "F1_PLAY_7:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_PLAY_7",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_PLAY_0": {
+			"1": {
+				"action_or_variant": "F1_TITLE_PLAY_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Play · Collapse outside",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재생한다 · 외부 붕괴",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_PLAY_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_PLAY_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_PLAY_1": {
+			"1": {
+				"action_or_variant": "F1_TITLE_PLAY_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Play · The protagonist's cryostasis",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재생한다 · 주인공 냉각",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_PLAY_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_PLAY_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_PLAY_2": {
+			"1": {
+				"action_or_variant": "F1_TITLE_PLAY_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Play · Tea and the sketched mansion",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재생한다 · 차와 낙서 저택",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_PLAY_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_PLAY_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_PLAY_3": {
+			"1": {
+				"action_or_variant": "F1_TITLE_PLAY_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Play · Conversion of the researchers",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재생한다 · 연구원 전환",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_PLAY_3:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_PLAY_3",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_PLAY_4": {
+			"1": {
+				"action_or_variant": "F1_TITLE_PLAY_4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Play · A mode of existence",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재생한다 · 존재 방식",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_PLAY_4:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_PLAY_4",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_PLAY_5": {
+			"1": {
+				"action_or_variant": "F1_TITLE_PLAY_5",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Play · Release that cannot be executed",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재생한다 · 실행 불가능한 해방",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_PLAY_5:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_PLAY_5",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_PLAY_6": {
+			"1": {
+				"action_or_variant": "F1_TITLE_PLAY_6",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Play · Forced activation · postmortem record",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재생한다 · 강제 기동 · 사후 기록",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_PLAY_6:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_PLAY_6",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_PLAY_7": {
+			"1": {
+				"action_or_variant": "F1_TITLE_PLAY_7",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Play · Unfinished authority",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재생한다 · 미완성 권한",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_PLAY_7:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_PLAY_7",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_REPLAY_0": {
+			"1": {
+				"action_or_variant": "F1_TITLE_REPLAY_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Replay · Collapse outside",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재열람 · 외부 붕괴",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_REPLAY_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_REPLAY_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_REPLAY_1": {
+			"1": {
+				"action_or_variant": "F1_TITLE_REPLAY_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Replay · The protagonist's cryostasis",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재열람 · 주인공 냉각",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_REPLAY_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_REPLAY_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_REPLAY_2": {
+			"1": {
+				"action_or_variant": "F1_TITLE_REPLAY_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Replay · Tea and the sketched mansion",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재열람 · 차와 낙서 저택",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_REPLAY_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_REPLAY_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_REPLAY_3": {
+			"1": {
+				"action_or_variant": "F1_TITLE_REPLAY_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Replay · Conversion of the researchers",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재열람 · 연구원 전환",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_REPLAY_3:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_REPLAY_3",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_REPLAY_4": {
+			"1": {
+				"action_or_variant": "F1_TITLE_REPLAY_4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Replay · A mode of existence",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재열람 · 존재 방식",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_REPLAY_4:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_REPLAY_4",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_REPLAY_5": {
+			"1": {
+				"action_or_variant": "F1_TITLE_REPLAY_5",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Replay · Release that cannot be executed",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재열람 · 실행 불가능한 해방",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_REPLAY_5:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_REPLAY_5",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_REPLAY_6": {
+			"1": {
+				"action_or_variant": "F1_TITLE_REPLAY_6",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Replay · Forced activation · postmortem record",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재열람 · 강제 기동 · 사후 기록",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_REPLAY_6:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_REPLAY_6",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F1_TITLE_REPLAY_7": {
+			"1": {
+				"action_or_variant": "F1_TITLE_REPLAY_7",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "F1",
+				"locales": {
+					"en-US": {
+						"body": "Replay · Unfinished authority",
+						"speaker": "Scene",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "재열람 · 미완성 권한",
+						"speaker": "장면",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F1_TITLE_REPLAY_7:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F1_TITLE_REPLAY_7",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F2_ENTER_DENIED": {
+			"1": {
+				"action_or_variant": "F2_ENTER_DENIED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: The confrontation record is open under SUBJECT authority. No one can write your final decision in your place.",
+						"line_02": "Luca: Your physical body is showing signs of life... and waking carries risks, too.",
+						"line_03": "Mara 1: Some records were deleted and altered. This confrontation log cannot be erased now.",
+						"line_04": "Iris: We cannot guarantee safety outside.",
+						"line_05": "Personality Index: The five RESIDENTS are the personalities of researchers who worked with Father.",
+						"line_06": "[Environmental authorization record] Father used Iris's credentials to divert restoration power into cryostasis and the simulation. Iris was blamed for the loss of ecological samples and held responsible by the audit. The protagonist did not make that decision.",
+						"line_07": "Iris: That log does not prove what I intended.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 대면 기록은 SUBJECT 권한으로 열렸습니다. 누구도 귀하의 종료 결정을 대신 쓸 수 없습니다.",
+						"line_02": "루카: 외부 신체의 생존 신호와... 기상 위험이 함께 있어요.",
+						"line_03": "마라 1: 삭제하고 고친 기록이 있었슴다. 지금 이 대면 로그는 지울 수 없어요.",
+						"line_04": "이리스: 외부 안전은 보장할 수 없어요.",
+						"line_05": "인격 인덱스: 다섯 RESIDENT는 아버지와 일한 연구원 인격이다.",
+						"line_06": "[환경 인증 기록] 아버지가 이리스의 인증을 도용해 복구 전력을 냉각과 시뮬레이션으로 전용했다. 생태 표본 손실과 감사 책임이 이리스에게 전가됐다. 주인공은 그 결정을 내리지 않았다.",
+						"line_07": "이리스: 그 로그가 제 의도까지 증명하지는 않아요.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_ENTER_DENIED:line_01",
+					"line_02": "F2_ENTER_DENIED:line_02",
+					"line_03": "F2_ENTER_DENIED:line_03",
+					"line_04": "F2_ENTER_DENIED:line_04",
+					"line_05": "F2_ENTER_DENIED:line_05",
+					"line_06": "F2_ENTER_DENIED:line_06",
+					"line_07": "F2_ENTER_DENIED:line_07"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_ENTER_DENIED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {},
+					"line_06": {},
+					"line_07": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05",
+					"line_06",
+					"line_07"
+				]
+			}
+		},
+		"NB_FINAL_F2_ENTER_DIRECT_PRIVATE": {
+			"1": {
+				"action_or_variant": "F2_ENTER_DIRECT_PRIVATE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: The confrontation record is open under SUBJECT authority. No one can write your final decision in your place.",
+						"line_02": "Luca: Your physical body is showing signs of life... and waking carries risks, too.",
+						"line_03": "Mara 1: Some records were deleted and altered. This confrontation log cannot be erased now.",
+						"line_04": "Iris: We cannot guarantee safety outside.",
+						"line_05": "Personality Index: The five RESIDENTS are the personalities of researchers who worked with Father.",
+						"line_06": "[Environmental authorization record] Father used Iris's credentials to divert restoration power into cryostasis and the simulation. Iris was blamed for the loss of ecological samples and held responsible by the audit. The protagonist did not make that decision.",
+						"line_07": "Iris: What I said when we were alone was true. I will not ask you to repeat it here.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 대면 기록은 SUBJECT 권한으로 열렸습니다. 누구도 귀하의 종료 결정을 대신 쓸 수 없습니다.",
+						"line_02": "루카: 외부 신체의 생존 신호와... 기상 위험이 함께 있어요.",
+						"line_03": "마라 1: 삭제하고 고친 기록이 있었슴다. 지금 이 대면 로그는 지울 수 없어요.",
+						"line_04": "이리스: 외부 안전은 보장할 수 없어요.",
+						"line_05": "인격 인덱스: 다섯 RESIDENT는 아버지와 일한 연구원 인격이다.",
+						"line_06": "[환경 인증 기록] 아버지가 이리스의 인증을 도용해 복구 전력을 냉각과 시뮬레이션으로 전용했다. 생태 표본 손실과 감사 책임이 이리스에게 전가됐다. 주인공은 그 결정을 내리지 않았다.",
+						"line_07": "이리스: 둘이 있을 때 한 말은 사실이에요. 여기서 다시 낭독해 달라고 요구하지는 않을게요.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_ENTER_DIRECT_PRIVATE:line_01",
+					"line_02": "F2_ENTER_DIRECT_PRIVATE:line_02",
+					"line_03": "F2_ENTER_DIRECT_PRIVATE:line_03",
+					"line_04": "F2_ENTER_DIRECT_PRIVATE:line_04",
+					"line_05": "F2_ENTER_DIRECT_PRIVATE:line_05",
+					"line_06": "F2_ENTER_DIRECT_PRIVATE:line_06",
+					"line_07": "F2_ENTER_DIRECT_PRIVATE:line_07"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_ENTER_DIRECT_PRIVATE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {},
+					"line_06": {},
+					"line_07": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05",
+					"line_06",
+					"line_07"
+				]
+			}
+		},
+		"NB_FINAL_F2_ENTER_INDIRECT": {
+			"1": {
+				"action_or_variant": "F2_ENTER_INDIRECT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: The confrontation record is open under SUBJECT authority. No one can write your final decision in your place.",
+						"line_02": "Luca: Your physical body is showing signs of life... and waking carries risks, too.",
+						"line_03": "Mara 1: Some records were deleted and altered. This confrontation log cannot be erased now.",
+						"line_04": "Iris: We cannot guarantee safety outside.",
+						"line_05": "Personality Index: The five RESIDENTS are the personalities of researchers who worked with Father.",
+						"line_06": "[Environmental authorization record] Father used Iris's credentials to divert restoration power into cryostasis and the simulation. Iris was blamed for the loss of ecological samples and held responsible by the audit. The protagonist did not make that decision.",
+						"line_07": "Iris: I thought it would end if you were gone.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 대면 기록은 SUBJECT 권한으로 열렸습니다. 누구도 귀하의 종료 결정을 대신 쓸 수 없습니다.",
+						"line_02": "루카: 외부 신체의 생존 신호와... 기상 위험이 함께 있어요.",
+						"line_03": "마라 1: 삭제하고 고친 기록이 있었슴다. 지금 이 대면 로그는 지울 수 없어요.",
+						"line_04": "이리스: 외부 안전은 보장할 수 없어요.",
+						"line_05": "인격 인덱스: 다섯 RESIDENT는 아버지와 일한 연구원 인격이다.",
+						"line_06": "[환경 인증 기록] 아버지가 이리스의 인증을 도용해 복구 전력을 냉각과 시뮬레이션으로 전용했다. 생태 표본 손실과 감사 책임이 이리스에게 전가됐다. 주인공은 그 결정을 내리지 않았다.",
+						"line_07": "이리스: 당신이 없으면 끝날 거라 생각했어요.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_ENTER_INDIRECT:line_01",
+					"line_02": "F2_ENTER_INDIRECT:line_02",
+					"line_03": "F2_ENTER_INDIRECT:line_03",
+					"line_04": "F2_ENTER_INDIRECT:line_04",
+					"line_05": "F2_ENTER_INDIRECT:line_05",
+					"line_06": "F2_ENTER_INDIRECT:line_06",
+					"line_07": "F2_ENTER_INDIRECT:line_07"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_ENTER_INDIRECT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {},
+					"line_06": {},
+					"line_07": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05",
+					"line_06",
+					"line_07"
+				]
+			}
+		},
+		"NB_FINAL_F2_ENTER_INFERRED_ONLY": {
+			"1": {
+				"action_or_variant": "F2_ENTER_INFERRED_ONLY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: The confrontation record is open under SUBJECT authority. No one can write your final decision in your place.",
+						"line_02": "Luca: Your physical body is showing signs of life... and waking carries risks, too.",
+						"line_03": "Mara 1: Some records were deleted and altered. This confrontation log cannot be erased now.",
+						"line_04": "Iris: We cannot guarantee safety outside.",
+						"line_05": "Personality Index: The five RESIDENTS are the personalities of researchers who worked with Father.",
+						"line_06": "[Environmental authorization record] Father used Iris's credentials to divert restoration power into cryostasis and the simulation. Iris was blamed for the loss of ecological samples and held responsible by the audit. The protagonist did not make that decision.",
+						"line_07": "The protagonist reads the contradiction between the power record and Iris's actions. Iris does not acknowledge it directly.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 대면 기록은 SUBJECT 권한으로 열렸습니다. 누구도 귀하의 종료 결정을 대신 쓸 수 없습니다.",
+						"line_02": "루카: 외부 신체의 생존 신호와... 기상 위험이 함께 있어요.",
+						"line_03": "마라 1: 삭제하고 고친 기록이 있었슴다. 지금 이 대면 로그는 지울 수 없어요.",
+						"line_04": "이리스: 외부 안전은 보장할 수 없어요.",
+						"line_05": "인격 인덱스: 다섯 RESIDENT는 아버지와 일한 연구원 인격이다.",
+						"line_06": "[환경 인증 기록] 아버지가 이리스의 인증을 도용해 복구 전력을 냉각과 시뮬레이션으로 전용했다. 생태 표본 손실과 감사 책임이 이리스에게 전가됐다. 주인공은 그 결정을 내리지 않았다.",
+						"line_07": "주인공은 전력 기록과 이리스의 행동 사이 모순을 읽는다. 이리스는 직접 인정하지 않는다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_ENTER_INFERRED_ONLY:line_01",
+					"line_02": "F2_ENTER_INFERRED_ONLY:line_02",
+					"line_03": "F2_ENTER_INFERRED_ONLY:line_03",
+					"line_04": "F2_ENTER_INFERRED_ONLY:line_04",
+					"line_05": "F2_ENTER_INFERRED_ONLY:line_05",
+					"line_06": "F2_ENTER_INFERRED_ONLY:line_06",
+					"line_07": "F2_ENTER_INFERRED_ONLY:line_07"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_ENTER_INFERRED_ONLY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {},
+					"line_06": {},
+					"line_07": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05",
+					"line_06",
+					"line_07"
+				]
+			}
+		},
+		"NB_FINAL_F2_ENTER_PUBLIC": {
+			"1": {
+				"action_or_variant": "F2_ENTER_PUBLIC",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: The confrontation record is open under SUBJECT authority. No one can write your final decision in your place.",
+						"line_02": "Luca: Your physical body is showing signs of life... and waking carries risks, too.",
+						"line_03": "Mara 1: Some records were deleted and altered. This confrontation log cannot be erased now.",
+						"line_04": "Iris: We cannot guarantee safety outside.",
+						"line_05": "Personality Index: The five RESIDENTS are the personalities of researchers who worked with Father.",
+						"line_06": "[Environmental authorization record] Father used Iris's credentials to divert restoration power into cryostasis and the simulation. Iris was blamed for the loss of ecological samples and held responsible by the audit. The protagonist did not make that decision.",
+						"line_07": "Iris: I wished for you to die. I blamed you for what was taken from me. I am also responsible for helping confine you. No one else's forgiveness can erase that.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 대면 기록은 SUBJECT 권한으로 열렸습니다. 누구도 귀하의 종료 결정을 대신 쓸 수 없습니다.",
+						"line_02": "루카: 외부 신체의 생존 신호와... 기상 위험이 함께 있어요.",
+						"line_03": "마라 1: 삭제하고 고친 기록이 있었슴다. 지금 이 대면 로그는 지울 수 없어요.",
+						"line_04": "이리스: 외부 안전은 보장할 수 없어요.",
+						"line_05": "인격 인덱스: 다섯 RESIDENT는 아버지와 일한 연구원 인격이다.",
+						"line_06": "[환경 인증 기록] 아버지가 이리스의 인증을 도용해 복구 전력을 냉각과 시뮬레이션으로 전용했다. 생태 표본 손실과 감사 책임이 이리스에게 전가됐다. 주인공은 그 결정을 내리지 않았다.",
+						"line_07": "이리스: 당신이 죽기를 바랐어요. 빼앗긴 것들의 책임을 당신에게 돌렸죠. 감금에 가담한 것도 제 책임이에요. 다른 누구의 용서로 지울 수 없어요.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_ENTER_PUBLIC:line_01",
+					"line_02": "F2_ENTER_PUBLIC:line_02",
+					"line_03": "F2_ENTER_PUBLIC:line_03",
+					"line_04": "F2_ENTER_PUBLIC:line_04",
+					"line_05": "F2_ENTER_PUBLIC:line_05",
+					"line_06": "F2_ENTER_PUBLIC:line_06",
+					"line_07": "F2_ENTER_PUBLIC:line_07"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_ENTER_PUBLIC",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {},
+					"line_06": {},
+					"line_07": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05",
+					"line_06",
+					"line_07"
+				]
+			}
+		},
+		"NB_FINAL_F2_ENTER_WITHHELD": {
+			"1": {
+				"action_or_variant": "F2_ENTER_WITHHELD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: The confrontation record is open under SUBJECT authority. No one can write your final decision in your place.",
+						"line_02": "Luca: Your physical body is showing signs of life... and waking carries risks, too.",
+						"line_03": "Mara 1: Some records were deleted and altered. This confrontation log cannot be erased now.",
+						"line_04": "Iris: We cannot guarantee safety outside.",
+						"line_05": "Personality Index: The five RESIDENTS are the personalities of researchers who worked with Father.",
+						"line_06": "[Environmental authorization record] Father used Iris's credentials to divert restoration power into cryostasis and the simulation. Iris was blamed for the loss of ecological samples and held responsible by the audit. The protagonist did not make that decision.",
+						"line_07": "Iris: I took part in confining you. I accept responsibility for that.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 대면 기록은 SUBJECT 권한으로 열렸습니다. 누구도 귀하의 종료 결정을 대신 쓸 수 없습니다.",
+						"line_02": "루카: 외부 신체의 생존 신호와... 기상 위험이 함께 있어요.",
+						"line_03": "마라 1: 삭제하고 고친 기록이 있었슴다. 지금 이 대면 로그는 지울 수 없어요.",
+						"line_04": "이리스: 외부 안전은 보장할 수 없어요.",
+						"line_05": "인격 인덱스: 다섯 RESIDENT는 아버지와 일한 연구원 인격이다.",
+						"line_06": "[환경 인증 기록] 아버지가 이리스의 인증을 도용해 복구 전력을 냉각과 시뮬레이션으로 전용했다. 생태 표본 손실과 감사 책임이 이리스에게 전가됐다. 주인공은 그 결정을 내리지 않았다.",
+						"line_07": "이리스: 가두는 일에 가담했어요. 그 책임은 인정해요.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_ENTER_WITHHELD:line_01",
+					"line_02": "F2_ENTER_WITHHELD:line_02",
+					"line_03": "F2_ENTER_WITHHELD:line_03",
+					"line_04": "F2_ENTER_WITHHELD:line_04",
+					"line_05": "F2_ENTER_WITHHELD:line_05",
+					"line_06": "F2_ENTER_WITHHELD:line_06",
+					"line_07": "F2_ENTER_WITHHELD:line_07"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_ENTER_WITHHELD",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {},
+					"line_06": {},
+					"line_07": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05",
+					"line_06",
+					"line_07"
+				]
+			}
+		},
+		"NB_FINAL_F2_FACT_EXTERNAL_SURVIVAL_UNCERTAIN": {
+			"1": {
+				"action_or_variant": "F2_FACT_EXTERNAL_SURVIVAL_UNCERTAIN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Luca: Your body outside is showing signs of life... but that does not guarantee the safety of waking or living there.",
+						"line_02": "Iris: We still cannot call the outside environment safe.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "루카: 바깥 몸의 생존 신호는 있어요... 기상과 외부 생활의 안전까지 보장하지는 않아요.",
+						"line_02": "이리스: 외부 환경은 아직 안전하다고 말할 수 없어요.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_FACT_EXTERNAL_SURVIVAL_UNCERTAIN:line_01",
+					"line_02": "F2_FACT_EXTERNAL_SURVIVAL_UNCERTAIN:line_02"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_FACT_EXTERNAL_SURVIVAL_UNCERTAIN",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02"
+				]
+			}
+		},
+		"NB_FINAL_F2_FACT_FINAL_AUTHORITY_BELONGS_TO_SUBJECT": {
+			"1": {
+				"action_or_variant": "F2_FACT_FINAL_AUTHORITY_BELONGS_TO_SUBJECT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: We can guarantee neither the safety of reality nor the permanence of this place. Therefore, none of us will decide either path in your stead.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 현실의 안전도, 이곳의 영속도 보증할 수 없습니다. 그러므로 어느 쪽도 귀하를 대신하여 확정하지 않겠습니다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_FACT_FINAL_AUTHORITY_BELONGS_TO_SUBJECT:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_FACT_FINAL_AUTHORITY_BELONGS_TO_SUBJECT",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_F2_FACT_FORCED_SUBJECT_ACTIVATION": {
+			"1": {
+				"action_or_variant": "F2_FACT_FORCED_SUBJECT_ACTIVATION",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: After your father died, we activated you by force out of loneliness, resentment, and the desire to protect you. Calling it an administrative judgment does not remove our responsibility.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 아버님 사망 뒤 외로움과 원망, 보호 욕구를 이유로 귀하를 강제로 기동했습니다. 관리 판단이라는 말로 책임이 없어지지는 않습니다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_FACT_FORCED_SUBJECT_ACTIVATION:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_FACT_FORCED_SUBJECT_ACTIVATION",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_F2_FACT_PROMISED_FUTURE_BODIES": {
+			"1": {
+				"action_or_variant": "F2_FACT_PROMISED_FUTURE_BODIES",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar: The researchers consented to future bodies and new lives.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "에드가: 연구원들이 동의한 것은 미래의 육체와 새로운 삶이었습니다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_FACT_PROMISED_FUTURE_BODIES:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_FACT_PROMISED_FUTURE_BODIES",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_F2_FACT_RELEASE_NOT_CURRENTLY_EXECUTABLE": {
+			"1": {
+				"action_or_variant": "F2_FACT_RELEASE_NOT_CURRENTLY_EXECUTABLE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Personality Index: There are no compatible bodies or cultivation and interface modules. An incomplete separation risks fragmented memory, neural damage, and loss of the present personality. The default reality procedure is low-power preservation. Future recovery depends on finding outside infrastructure; there is no third choice that can release us immediately.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "인격 인덱스: 호환 신체와 배양·접속 모듈이 없다. 불완전 분리는 기억 파편화·신경 손상·현재 인격 소실 위험을 가진다. 현실 분기의 기본 절차는 저전력 보존이다. 미래 복구는 외부 기반 발견 여부에 달려 있으며, 지금 즉시 해방하는 제3 선택은 없다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_FACT_RELEASE_NOT_CURRENTLY_EXECUTABLE:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_FACT_RELEASE_NOT_CURRENTLY_EXECUTABLE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_F2_FACT_RESEARCHERS_CONVERTED": {
+			"1": {
+				"action_or_variant": "F2_FACT_RESEARCHERS_CONVERTED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Personality Index: The actual conversion sustains biological neural cores combined with personality processes. Copying memory files alone cannot transfer the person who exists now.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "인격 인덱스: 실제 전환은 생체 신경 코어와 인격 프로세스를 결합한 지속이다. 기억 파일만 복사해 현재의 한 사람을 옮길 수는 없다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_FACT_RESEARCHERS_CONVERTED:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_FACT_RESEARCHERS_CONVERTED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_F2_FINISH": {
+			"1": {
+				"action_or_variant": "F2_FINISH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "The confrontation record closes. Two devices and the protagonist's notebook await final inspection in the next room.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "대면 기록을 닫는다. 다음 방의 두 장치와 주인공 수첩이 마지막 확인을 기다린다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_FINISH:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_FINISH",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_F2_OPTIONS": {
+			"1": {
+				"action_or_variant": "F2_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"option_0": "What did you agree to with Father?",
+						"option_1": "Why did you wake me by force?",
+						"option_2": "What is it like outside?",
+						"option_3": "Can the researchers be released?",
+						"option_4": "What do you want now?",
+						"speaker": "Displayed choices",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"option_0": "아버지와 어떤 동의를 했나요?",
+						"option_1": "왜 나를 강제로 깨웠나요?",
+						"option_2": "밖은 어떤 상태인가요?",
+						"option_3": "연구원들을 해방할 수 있나요?",
+						"option_4": "지금 무엇을 바라나요?",
+						"speaker": "표시된 선택지",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"option_0": "F2_OPTIONS:option_0",
+					"option_1": "F2_OPTIONS:option_1",
+					"option_2": "F2_OPTIONS:option_2",
+					"option_3": "F2_OPTIONS:option_3",
+					"option_4": "F2_OPTIONS:option_4"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {}
+				},
+				"visible_segment_ids": [
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4"
+				]
+			}
+		},
+		"NB_FINAL_F2_RECAP": {
+			"1": {
+				"action_or_variant": "F2_RECAP",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 1: I had a hand in the records that concealed the consent process.",
+						"line_02": "Personality Index: A checksum is not a backup of consciousness. It only verifies damage to the present personality.",
+						"line_03": "FINAL DECISION: UNSET",
+						"line_04": "Unset is not an empty field. It records that the protagonist has not written the decision yet.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "마라 1: 동의 절차를 숨긴 기록에 제 손도 있었슴다.",
+						"line_02": "인격 인덱스: 체크섬은 의식의 백업이 아니라 현재 인격의 손상 여부를 확인하는 자료다.",
+						"line_03": "FINAL DECISION: UNSET · 최종 결정 미정",
+						"line_04": "미정은 빈칸이 아니라 주인공이 아직 쓰지 않았다는 기록이다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F2_RECAP:line_01",
+					"line_02": "F2_RECAP:line_02",
+					"line_03": "F2_RECAP:line_03",
+					"line_04": "F2_RECAP:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_RECAP",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_FINAL_F2_SELECT_0": {
+			"1": {
+				"action_or_variant": "F2_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"body": "What did you agree to with Father?",
+						"speaker": "Selected option",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "아버지와 어떤 동의를 했나요?",
+						"speaker": "선택한 문구",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F2_SELECT_0:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F2_SELECT_1": {
+			"1": {
+				"action_or_variant": "F2_SELECT_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"body": "Why did you wake me by force?",
+						"speaker": "Selected option",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "왜 나를 강제로 깨웠나요?",
+						"speaker": "선택한 문구",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F2_SELECT_1:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F2_SELECT_2": {
+			"1": {
+				"action_or_variant": "F2_SELECT_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"body": "What is it like outside?",
+						"speaker": "Selected option",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "밖은 어떤 상태인가요?",
+						"speaker": "선택한 문구",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F2_SELECT_2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_SELECT_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F2_SELECT_3": {
+			"1": {
+				"action_or_variant": "F2_SELECT_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"body": "Can the researchers be released?",
+						"speaker": "Selected option",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "연구원들을 해방할 수 있나요?",
+						"speaker": "선택한 문구",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F2_SELECT_3:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_SELECT_3",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F2_SELECT_4": {
+			"1": {
+				"action_or_variant": "F2_SELECT_4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "F2",
+				"locales": {
+					"en-US": {
+						"body": "What do you want now?",
+						"speaker": "Selected option",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "지금 무엇을 바라나요?",
+						"speaker": "선택한 문구",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "F2_SELECT_4:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F2_SELECT_4",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_F3_CANCEL": {
+			"1": {
+				"action_or_variant": "F3_CANCEL",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F3",
+				"locales": {
+					"en-US": {
+						"line_01": "Return to inspecting the devices. The final decision remains unset.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "장치 조사로 돌아간다. 최종 결정은 미정이다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F3_CANCEL:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F3",
+					"EDC"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F3_CANCEL",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_F3_ENTER": {
+			"1": {
+				"action_or_variant": "F3_ENTER",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F3",
+				"locales": {
+					"en-US": {
+						"line_01": "Your notebook rests between the two devices. Neither procedure has been executed. You cannot sleep in the world now, but you can still save and load.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "두 장치 사이에 주인공 수첩이 놓였다. 두 절차 모두 아직 실행되지 않았다. 지금은 세계 내 수면을 할 수 없지만 저장과 불러오기는 가능하다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F3_ENTER:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F3_ENTER",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_F3_INSPECT_STAY": {
+			"1": {
+				"action_or_variant": "F3_INSPECT_STAY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F3",
+				"locales": {
+					"en-US": {
+						"line_01": "Restore the stabilization loop",
+						"line_02": "Assured: retention of current memories and relationships, continued conscious activity of all five personalities, and agreed rules replacing compulsory routines and sleep.",
+						"line_03": "Uncertain: facility lifespan, the balance of resources between your physical body and the facility, and long-term psychological changes. This facility cannot currently transfer the researchers into new bodies.",
+						"line_04": "Behind the warmth of the hearth and the smell of food, you also feel the power coil's vibration. The facility frame beside the wood does not disappear.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "안정화 루프 복원",
+						"line_02": "확정: 현재 기억과 관계 유지, 다섯 인격의 의식 활동 지속, 강제 일과와 수면 대신 합의 규칙 재작성.",
+						"line_03": "불확정: 시설 수명, 외부 신체와 시설의 자원 균형, 장기 심리 변화. 현재 시설에서는 연구원들을 새 신체로 옮길 수 없다.",
+						"line_04": "난로 열기와 음식 향 뒤로 전력 코일의 진동이 함께 느껴진다. 목재 옆의 시설 프레임은 사라지지 않는다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F3_INSPECT_STAY:line_01",
+					"line_02": "F3_INSPECT_STAY:line_02",
+					"line_03": "F3_INSPECT_STAY:line_03",
+					"line_04": "F3_INSPECT_STAY:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F3_INSPECT_STAY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_FINAL_F3_INSPECT_WAKE": {
+			"1": {
+				"action_or_variant": "F3_INSPECT_WAKE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F3",
+				"locales": {
+					"en-US": {
+						"line_01": "Waking procedure",
+						"line_02": "Assured: connection to your physical body, current signs of life, and automatic low-power preservation of all five personalities.",
+						"line_03": "Uncertain: long-term survival outside, other survivors, a return, and future transfer into new bodies. An immediate return to the same core state is not guaranteed.",
+						"line_04": "The air against the back of your hand smells of dust and metal. The cooling fan turns at a different rhythm from Luca's pulse.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "기상 절차",
+						"line_02": "확정: 외부 신체 연결, 현재 생존 신호, 다섯 인격의 자동 저전력 보존.",
+						"line_03": "불확정: 외부 장기 생존, 다른 생존자, 귀환과 미래 신체 이전 가능성. 같은 코어 상태로 즉시 돌아오는 것은 보장되지 않는다.",
+						"line_04": "손등에 닿는 공기는 먼지와 금속 냄새를 품었다. 냉각 팬은 루카의 맥박과 다른 간격으로 돈다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F3_INSPECT_WAKE:line_01",
+					"line_02": "F3_INSPECT_WAKE:line_02",
+					"line_03": "F3_INSPECT_WAKE:line_03",
+					"line_04": "F3_INSPECT_WAKE:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F3_INSPECT_WAKE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_FINAL_F3_NOTEBOOK_REALITY": {
+			"1": {
+				"action_or_variant": "F3_NOTEBOOK_REALITY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F3",
+				"locales": {
+					"en-US": {
+						"line_01": "Your notebook",
+						"line_02": "Verified facts: my physical body and all five linked personalities are currently sustained. Final authority is mine.",
+						"line_03": "Uncertainties: long-term survival outside, the facility's permanence, and future transfer into new bodies.",
+						"line_04": "Provisional intent recorded earlier: leaning toward reality",
+						"line_05": "This sentence is not a decision. Erasing or changing it does not erase who I was.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "주인공 수첩",
+						"line_02": "확인한 사실: 내 외부 몸과 다섯 결합 인격은 현재 유지되고 있다. 최종 권한은 내게 있다.",
+						"line_03": "불확실한 사실: 외부 장기 생존, 시설의 영속, 미래 신체 이전.",
+						"line_04": "이전에 적은 임시 의향: 현실 지향",
+						"line_05": "이 문장은 결정이 아니다. 지우거나 바꾸어도 이전의 내가 사라지는 것은 아니다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F3_NOTEBOOK_REALITY:line_01",
+					"line_02": "F3_NOTEBOOK_REALITY:line_02",
+					"line_03": "F3_NOTEBOOK_REALITY:line_03",
+					"line_04": "F3_NOTEBOOK_REALITY:line_04",
+					"line_05": "F3_NOTEBOOK_REALITY:line_05"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F3_NOTEBOOK_REALITY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05"
+				]
+			}
+		},
+		"NB_FINAL_F3_NOTEBOOK_STAY": {
+			"1": {
+				"action_or_variant": "F3_NOTEBOOK_STAY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F3",
+				"locales": {
+					"en-US": {
+						"line_01": "Your notebook",
+						"line_02": "Verified facts: my physical body and all five linked personalities are currently sustained. Final authority is mine.",
+						"line_03": "Uncertainties: long-term survival outside, the facility's permanence, and future transfer into new bodies.",
+						"line_04": "Provisional intent recorded earlier: leaning toward staying",
+						"line_05": "This sentence is not a decision. Erasing or changing it does not erase who I was.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "주인공 수첩",
+						"line_02": "확인한 사실: 내 외부 몸과 다섯 결합 인격은 현재 유지되고 있다. 최종 권한은 내게 있다.",
+						"line_03": "불확실한 사실: 외부 장기 생존, 시설의 영속, 미래 신체 이전.",
+						"line_04": "이전에 적은 임시 의향: 잔류 지향",
+						"line_05": "이 문장은 결정이 아니다. 지우거나 바꾸어도 이전의 내가 사라지는 것은 아니다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F3_NOTEBOOK_STAY:line_01",
+					"line_02": "F3_NOTEBOOK_STAY:line_02",
+					"line_03": "F3_NOTEBOOK_STAY:line_03",
+					"line_04": "F3_NOTEBOOK_STAY:line_04",
+					"line_05": "F3_NOTEBOOK_STAY:line_05"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F3_NOTEBOOK_STAY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05"
+				]
+			}
+		},
+		"NB_FINAL_F3_NOTEBOOK_UNDECIDED": {
+			"1": {
+				"action_or_variant": "F3_NOTEBOOK_UNDECIDED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F3",
+				"locales": {
+					"en-US": {
+						"line_01": "Your notebook",
+						"line_02": "Verified facts: my physical body and all five linked personalities are currently sustained. Final authority is mine.",
+						"line_03": "Uncertainties: long-term survival outside, the facility's permanence, and future transfer into new bodies.",
+						"line_04": "Provisional intent recorded earlier: undecided",
+						"line_05": "This sentence is not a decision. Erasing or changing it does not erase who I was.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "주인공 수첩",
+						"line_02": "확인한 사실: 내 외부 몸과 다섯 결합 인격은 현재 유지되고 있다. 최종 권한은 내게 있다.",
+						"line_03": "불확실한 사실: 외부 장기 생존, 시설의 영속, 미래 신체 이전.",
+						"line_04": "이전에 적은 임시 의향: 미정",
+						"line_05": "이 문장은 결정이 아니다. 지우거나 바꾸어도 이전의 내가 사라지는 것은 아니다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F3_NOTEBOOK_UNDECIDED:line_01",
+					"line_02": "F3_NOTEBOOK_UNDECIDED:line_02",
+					"line_03": "F3_NOTEBOOK_UNDECIDED:line_03",
+					"line_04": "F3_NOTEBOOK_UNDECIDED:line_04",
+					"line_05": "F3_NOTEBOOK_UNDECIDED:line_05"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F3_NOTEBOOK_UNDECIDED",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {},
+					"line_05": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04",
+					"line_05"
+				]
+			}
+		},
+		"NB_FINAL_F3_OPEN": {
+			"1": {
+				"action_or_variant": "F3_OPEN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F3",
+				"locales": {
+					"en-US": {
+						"line_01": "Final choice review is now available. No decision has been saved yet.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "최종 선택 확인 단계가 열렸다. 아직 결정이 저장되지는 않았다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F3_OPEN:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F3_OPEN",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_FINAL_F3_SUMMARY_STAY": {
+			"1": {
+				"action_or_variant": "F3_SUMMARY_STAY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F3",
+				"locales": {
+					"en-US": {
+						"line_01": "Staying in the stabilized loop: The familiar environment and immediate continued presence of all five personalities remain available. You accept a life you know is simulated and the resources consumed by the facility and your physical body. Current memories and conscious activity are retained, but the facility's lifespan, resource balance, and long-term psychological changes remain uncertain.",
+						"line_02": "Waking in reality: You can act physically in the outside world. You accept risks to your body and environment and the upkeep of the preservation equipment; immediate conversation with the servants ends. Connection to your physical body and low-power preservation of all five personalities are assured, but long-term survival, other people, and the infrastructure for future transfers remain uncertain.",
+						"line_03": "Reality is not judged as a reward for courage, nor staying as a punishment for avoidance. Neither procedure has been executed.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "안정화 잔류: 익숙한 환경과 다섯 인격의 즉시 지속이 가능하다. 거짓임을 아는 삶과 시설·외부 신체의 자원 소비를 감수한다. 현재 기억과 의식 활동은 유지되지만 시설 수명·자원 균형·장기 심리 변화는 불확실하다.",
+						"line_02": "현실 기상: 외부 현실에서 물리적으로 행동할 수 있다. 신체·환경 위험과 보존 설비 유지를 감수하며 사용인과의 즉시 대화는 끊긴다. 외부 신체 연결과 다섯 인격 저전력 보존은 확정되지만 장기 생존·타인·미래 이전 기반은 불확실하다.",
+						"line_03": "현실은 용기의 보상, 잔류는 도피의 처벌로 판정되지 않는다. 어느 쪽도 아직 실행하지 않았다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F3_SUMMARY_STAY:line_01",
+					"line_02": "F3_SUMMARY_STAY:line_02",
+					"line_03": "F3_SUMMARY_STAY:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F3_SUMMARY_STAY",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_FINAL_F3_SUMMARY_WAKE": {
+			"1": {
+				"action_or_variant": "F3_SUMMARY_WAKE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "F3",
+				"locales": {
+					"en-US": {
+						"line_01": "Waking in reality: You can act physically in the outside world. You accept risks to your body and environment and the upkeep of the preservation equipment; immediate conversation with the servants ends. Connection to your physical body and low-power preservation of all five personalities are assured, but long-term survival, other people, and the infrastructure for future transfers remain uncertain.",
+						"line_02": "Staying in the stabilized loop: The familiar environment and immediate continued presence of all five personalities remain available. You accept a life you know is simulated and the resources consumed by the facility and your physical body. Current memories and conscious activity are retained, but the facility's lifespan, resource balance, and long-term psychological changes remain uncertain.",
+						"line_03": "Reality is not judged as a reward for courage, nor staying as a punishment for avoidance. Neither procedure has been executed.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "현실 기상: 외부 현실에서 물리적으로 행동할 수 있다. 신체·환경 위험과 보존 설비 유지를 감수하며 사용인과의 즉시 대화는 끊긴다. 외부 신체 연결과 다섯 인격 저전력 보존은 확정되지만 장기 생존·타인·미래 이전 기반은 불확실하다.",
+						"line_02": "안정화 잔류: 익숙한 환경과 다섯 인격의 즉시 지속이 가능하다. 거짓임을 아는 삶과 시설·외부 신체의 자원 소비를 감수한다. 현재 기억과 의식 활동은 유지되지만 시설 수명·자원 균형·장기 심리 변화는 불확실하다.",
+						"line_03": "현실은 용기의 보상, 잔류는 도피의 처벌로 판정되지 않는다. 어느 쪽도 아직 실행하지 않았다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "F3_SUMMARY_WAKE:line_01",
+					"line_02": "F3_SUMMARY_WAKE:line_02",
+					"line_03": "F3_SUMMARY_WAKE:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "F3_SUMMARY_WAKE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		},
+		"NB_FINAL_J5_PAGE": {
+			"1": {
+				"action_or_variant": "J5_PAGE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J5",
+				"locales": {
+					"en-US": {
+						"line_01": "I stopped your time in the name of saving you. I bound their time to roles while saying I would save them.",
+						"line_02": "I cannot promise that the outside is safe. The inside began as a lie, but if you choose it, the life there need not be wholly false.",
+						"line_03": "I do not ask for forgiveness. I have no right to leave you an instruction about what to choose.",
+						"line_04": "The final two lines are blank. Before writing where you will go, first confirm who is writing this sentence.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "나는 너를 살린다는 이유로 네 시간을 멈췄다. 그들을 구한다는 말로 그들의 시간을 역할 속에 묶었다.",
+						"line_02": "밖은 아직 안전하다고 약속할 수 없다. 안은 거짓에서 시작됐지만, 네가 고른다면 전부 거짓인 삶은 아닐 수 있다.",
+						"line_03": "나는 용서를 요구하지 않는다. 무엇을 선택하라고 남길 권리도 없다.",
+						"line_04": "마지막 두 줄은 비워 둔다. 어디로 갈지를 쓰기 전에, 누가 이 문장을 쓰고 있는지 먼저 확인해라.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "J5_PAGE:line_01",
+					"line_02": "J5_PAGE:line_02",
+					"line_03": "J5_PAGE:line_03",
+					"line_04": "J5_PAGE:line_04"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "J5_PAGE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {},
+					"line_04": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03",
+					"line_04"
+				]
+			}
+		},
+		"NB_FINAL_J5_RECORD": {
+			"1": {
+				"action_or_variant": "J5_RECORD",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "J5",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "J5",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "I stopped your time in the name of saving you. I bound their time to roles while saying I would save them.\nI cannot promise that the outside is safe. The inside began as a lie, but if you choose it, the life there need not be wholly false.\nI do not ask for forgiveness. I have no right to leave you an instruction about what to choose.\nThe final two lines are blank. Before writing where you will go, first confirm who is writing this sentence.\nI am the one writing this sentence now.\nI do not confirm the final decision yet.\nThe fifth journal entry has been restored.",
+						"speaker": "Notebook",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"body": "나는 너를 살린다는 이유로 네 시간을 멈췄다. 그들을 구한다는 말로 그들의 시간을 역할 속에 묶었다.\n밖은 아직 안전하다고 약속할 수 없다. 안은 거짓에서 시작됐지만, 네가 고른다면 전부 거짓인 삶은 아닐 수 있다.\n나는 용서를 요구하지 않는다. 무엇을 선택하라고 남길 권리도 없다.\n마지막 두 줄은 비워 둔다. 어디로 갈지를 쓰기 전에, 누가 이 문장을 쓰고 있는지 먼저 확인해라.\n이 문장은 지금의 내가 쓴다.\n마지막 결정은 아직 확정하지 않는다.\n다섯 번째 일지가 복원되었다.",
+						"speaker": "수첩",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"body": "J5_RECORD:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_content_ids": [
+					"NB_FINAL_F1_INSPECT",
+					"NB_FINAL_F1_AUTHENTICATE",
+					"NB_FINAL_J5_PAGE",
+					"NB_FINAL_F1_PLAY_0",
+					"NB_FINAL_F1_PLAY_1",
+					"NB_FINAL_F1_PLAY_2",
+					"NB_FINAL_F1_PLAY_3",
+					"NB_FINAL_F1_PLAY_4",
+					"NB_FINAL_F1_PLAY_5",
+					"NB_FINAL_F1_PLAY_6",
+					"NB_FINAL_F1_PLAY_7"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_knowledge_ids": [
+					"J1",
+					"J2",
+					"J3",
+					"J4",
+					"F0_CURRENT_AUTHOR"
+				],
+				"source_symbol": "J5_RECORD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_FINAL_J5_WRITE": {
+			"1": {
+				"action_or_variant": "J5_WRITE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J5",
+				"locales": {
+					"en-US": {
+						"line_01": "I am the one writing this sentence now.",
+						"line_02": "I do not confirm the final decision yet.",
+						"line_03": "The fifth journal entry has been restored.",
+						"speaker": "Protagonist",
+						"summary": "The original text and responses disclosed at that time",
+						"title": "Final Records and Review"
+					},
+					"ko-KR": {
+						"line_01": "이 문장은 지금의 내가 쓴다.",
+						"line_02": "마지막 결정은 아직 확정하지 않는다.",
+						"line_03": "다섯 번째 일지가 복원되었다.",
+						"speaker": "주인공",
+						"summary": "당시에 공개된 원문과 응답",
+						"title": "마지막 기록과 확인"
+					}
+				},
+				"localization_keys": {
+					"line_01": "J5_WRITE:line_01",
+					"line_02": "J5_WRITE:line_02",
+					"line_03": "J5_WRITE:line_03"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"F1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP17",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "J5_WRITE",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {},
+					"line_02": {},
+					"line_03": {}
+				},
+				"visible_segment_ids": [
+					"line_01",
+					"line_02",
+					"line_03"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}

@@ -38,10 +38,12 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	if int(meta["journal_stage"])<5 or not knowledge.get("subject_authority_restored",false) or knowledge.get("F2_complete",false): return {"ok":false,"text":"마지막 일지와 주인공 권한을 확인한다."}
 	var local := progress(state)
 	var text := ""
+	var keys: Array = []
 	match action:
 		"enter":
 			if local["entered"]: return {"ok":false,"text":"대면 기록이 이미 열렸다."}
 			local["entered"] = true
+			keys = ["F2_ENTER_" + iris_state(state).to_upper()]
 			text = "에드가: 대면 기록은 SUBJECT 권한으로 열렸습니다. 누구도 귀하의 종료 결정을 대신 쓸 수 없습니다.\n루카: 외부 신체의 생존 신호와... 기상 위험이 함께 있어요.\n마라 1: 삭제하고 고친 기록이 있었슴다. 지금 이 대면 로그는 지울 수 없어요.\n이리스: 외부 안전은 보장할 수 없어요.\n인격 인덱스: 다섯 RESIDENT는 아버지와 일한 연구원 인격이다."
 			text += "\n[환경 인증 기록] 아버지가 이리스의 인증을 도용해 복구 전력을 냉각과 시뮬레이션으로 전용했다. 생태 표본 손실과 감사 책임이 이리스에게 전가됐다. 주인공은 그 결정을 내리지 않았다."
 			match iris_state(state):
@@ -55,17 +57,21 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 			if not local["entered"] or not QUESTIONS.has(str(value)): return {"ok":false,"text":"대면 후 질문을 고른다."}
 			if str(value) not in local["questions"]: local["questions"].append(str(value))
 			for fact in TOPICS[str(value)]:
+				keys.append("F2_FACT_" + fact.trim_prefix("KN_F2_"))
 				text += FACTS[fact]+"\n"
 				if fact not in local["facts"]: local["facts"].append(fact)
 		"recap":
 			if not local["entered"]: return {"ok":false,"text":"먼저 대면 기록을 연다."}
 			for fact in FACTS:
 				if fact not in local["facts"]:
+					keys.append("F2_FACT_" + fact.trim_prefix("KN_F2_"))
 					text += FACTS[fact]+"\n"
 					local["facts"].append(fact)
 			local["recapped"] = true
+			keys.append("F2_RECAP")
 			text += "마라 1: 동의 절차를 숨긴 기록에 제 손도 있었슴다.\n인격 인덱스: 체크섬은 의식의 백업이 아니라 현재 인격의 손상 여부를 확인하는 자료다.\nFINAL DECISION: UNSET · 최종 결정 미정\n미정은 빈칸이 아니라 주인공이 아직 쓰지 않았다는 기록이다."
 		"finish":
+			keys = ["F2_FINISH"]
 			if not local["recapped"] or local["facts"].size()!=6: return {"ok":false,"text":"누락된 필수 사실을 확인한다."}
 			knowledge["F2_complete"] = true
 			meta["event_history"]["F2"] = {"event_id":"F2","lifecycle":"completed","variant_id":tier(state)}
@@ -73,4 +79,4 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 		_: return {"ok":false,"text":"정의되지 않은 대면 행동이다."}
 	for fact in local["facts"]: knowledge[fact] = true
 	state["loop_state"]["event_local_states"]["F2"] = local
-	return {"ok":true,"state":state,"text":text}
+	return {"ok":true,"state":state,"text":text,"notebook_keys":keys}

@@ -26,15 +26,19 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	if not knowledge.get("F0_E_complete",false) or not knowledge.get("subject_authority_restored",false) or int(meta["journal_stage"]) >= 5: return {"ok":false,"text":"주인공 권한을 확인한다."}
 	var local := progress(state)
 	var text := ""
+	var keys: Array = []
 	match action:
 		"enter":
+			keys = ["F1_ENTER"]
 			local["entered"] = true
 			state["loop_state"]["location_id"] = "H0_CORE_RECORDS"
 			text = "코어 기록실. 재생 장치가 기다리고 있다. 기록은 스스로 시작되지 않는다."
 		"inspect":
+			keys = ["F1_INSPECT"]
 			if not local["entered"]: return {"ok":false,"text":"기록실에 먼저 들어간다."}
 			text = "서버 랙 사이에 종이 냄새가 남아 있다. 냉각관에 손을 대면 소리가 뼈 안쪽에서 울리는 것 같다.\n편집 이력: J1~J4는 원본 기록에서 파생되었으며 시스템과 사용인이 일부를 잘라 표시했다. 원본 음성과 사후 첨부 로그는 별도 출처로 표시된다."
 		"authenticate":
+			keys = ["F1_AUTHENTICATE"]
 			var mark: Dictionary = knowledge.get("self_authored_mark",{})
 			if not local["entered"] or str(value) != str(mark.get("type","")) or str(value).is_empty(): return {"ok":false,"text":"수첩에 남긴 자기 표시를 입력한다."}
 			local["authenticated"] = true
@@ -44,15 +48,18 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 			var index: int = value if value is int else -1
 			if index < 0 or index >= SEGMENTS.size() or index > int(local["next"]): return {"ok":false,"text":"첫 재생은 기록 순서대로 진행한다."}
 			text = TITLES[index]+"\n"+SEGMENTS[index]
+			keys = ["F1_PLAY_%d" % index]
 			if index == int(local["next"]): local["next"] += 1
 			if local["next"] == SEGMENTS.size():
 				for flag in ["father_final_record_played","CREATOR_LOG_ORIGINAL","KN_F1_BODY_PRESERVATION","KN_F1_RESEARCHER_CONVERSION","KN_F1_RESIDENT_CORE_CONTINUITY","KN_F1_RELEASE_HARDWARE_LOST","KN_F1_FORCED_AWAKENING","KN_F1_UNFINISHED_RELEASE_AUTHORITY","MEM_FATHER_CHOICE_PROMISE_COMPLETE"]: knowledge[flag] = true
 				meta["event_history"]["F1"] = {"event_id":"F1","lifecycle":"completed"}
 		"page":
+			keys = ["J5_PAGE"]
 			if not knowledge.get("father_final_record_played",false): return {"ok":false,"text":"원본 기록을 먼저 확인한다."}
 			local["j5_read"] = true
 			text = J5_TEXT
 		"write":
+			keys = ["J5_WRITE"]
 			if not local["j5_read"] or str(value) != "subject": return {"ok":false,"text":"남의 문장이 아니라 지금의 주인공이 마지막 두 줄을 쓴다."}
 			if state["ending_run"]["final_decision"] != "unset": return {"ok":false,"text":"최종 결정 상태를 확인해야 한다."}
 			text = "이 문장은 지금의 내가 쓴다.\n마지막 결정은 아직 확정하지 않는다.\n다섯 번째 일지가 복원되었다."
@@ -64,4 +71,4 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 			meta["event_history"]["J5"] = {"event_id":"J5","lifecycle":"completed"}
 		_: return {"ok":false,"text":"정의되지 않은 기록 행동이다."}
 	state["loop_state"]["event_local_states"]["F1"] = local
-	return {"ok":true,"state":state,"text":text}
+	return {"ok":true,"state":state,"text":text,"notebook_keys":keys}

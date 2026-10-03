@@ -129,8 +129,16 @@ func _ready() -> void:
 		call_deferred("_run_notebook_journal_four_display_smoke")
 	elif "--notebook-core-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_core_smoke")
+	elif "--notebook-final-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_final_smoke")
 	elif "--notebook-authority-archive-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_authority_archive_smoke")
+
+
+func _run_notebook_final_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/notebook_final_smoke.gd").new().run(get_tree())
+	print("NOTEBOOK_FINAL_SMOKE: " + ("PASS" if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
 
 
 func _run_notebook_core_smoke() -> void:

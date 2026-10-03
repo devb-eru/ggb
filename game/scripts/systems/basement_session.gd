@@ -28,6 +28,7 @@ const CORE_OVERLAY := preload("res://scripts/systems/core_overlay.gd")
 const CORE_ROLES := preload("res://scripts/systems/core_record_roles.gd")
 const CORE_SELF := preload("res://scripts/systems/core_self_authority.gd")
 const CORE_NOTES := preload("res://scripts/systems/core_notebook.gd")
+const FINAL_NOTES := preload("res://scripts/systems/final_notebook.gd")
 const FATHER_RECORD := preload("res://scripts/systems/father_final_record.gd")
 const CONFRONTATION := preload("res://scripts/systems/researcher_confrontation.gd")
 const FINAL_INSPECTION := preload("res://scripts/systems/final_inspection.gd")
@@ -214,16 +215,16 @@ func act(action: String, value: Variant = null) -> Dictionary:
 	if snapshot()["ending_run"].get("branch_committed", false): return _reject("최종 결정은 저장되었다. 확정된 엔딩에서 이어진다.")
 	if action == "edc_commit":
 		var result: Dictionary = ENDING_DECISION.commit(snapshot(), str(value))
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
+		return _final_result(result)
 	if action.begins_with("f3_"):
 		var result: Dictionary = FINAL_INSPECTION.apply(snapshot(), action.trim_prefix("f3_"), value)
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "장치를 확인한다."))
+		return _final_result(result)
 	if action.begins_with("f2_"):
 		var result: Dictionary = CONFRONTATION.apply(snapshot(), action.trim_prefix("f2_"), value)
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "대면 기록을 확인한다."))
+		return _final_result(result)
 	if action.begins_with("f1_"):
 		var result: Dictionary = FATHER_RECORD.apply(snapshot(), action.trim_prefix("f1_"), value)
-		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result.get("text", "원본 기록을 확인한다."))
+		return _final_result(result)
 	if action.begins_with("f0e_"):
 		var result: Dictionary = CORE_SELF.apply(snapshot(), action.trim_prefix("f0e_"), value)
 		return _core_result(result)
@@ -426,6 +427,19 @@ func act(action: String, value: Variant = null) -> Dictionary:
 
 func luca_s2_pending() -> bool:
 	return not known("LUCA_S2_complete") and not snapshot()["meta_progress"]["servants"]["luca"]["core_event_complete"]
+
+
+func _final_result(result: Dictionary) -> Dictionary:
+	if not result.get("ok", false): return _reject(result.get("text", "기록을 확인한다."))
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	var keys: Array = result.get("notebook_keys", [])
+	var written := FINAL_NOTES.write(result.state, keys, context, TranslationServer.get_locale())
+	if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, FINAL_NOTES.paragraphs(keys))
 
 
 func _core_result(result: Dictionary) -> Dictionary:
