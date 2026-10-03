@@ -469,7 +469,10 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 	var sources := {"unverified": _l("출처: 미확인", "Source: unverified"), "identified": _l("출처: 식별됨", "Source: identified"), "authenticated": _l("출처: 인증됨", "Source: authenticated")}
 	if states.has(result.epistemic): _label(target, states[result.epistemic])
 	if sources.has(result.provenance): _label(target, sources[result.provenance])
-	if result.legacy: _label(target, _l("이전 원문 · 당시 언어·획득 시점 미확인", "Earlier original text; original language / acquisition time unknown"))
+	if result.kind == "legacy_note":
+		_label(target, _l("과거 갱신 시점·작성 언어 미상. 사라진 이전 내용은 복원하지 않습니다.", "Past update time / original language unknown. Earlier overwritten text is unavailable."))
+		_label(target, _l("자료를 담을 때 보존한 원문", "Original text preserved when added") if result.note_snapshot else _l("기존 수첩에 남아 있는 마지막 값", "Last value remaining in the earlier notebook"))
+	elif result.legacy: _label(target, _l("이전 원문 · 당시 언어·획득 시점 미확인", "Earlier original text; original language / acquisition time unknown"))
 	elif result.fallback: _label(target, _l("당시 보관된 원문", "Original recorded text") + " (" + result.viewed_locale + ")")
 	if not result.summary.is_empty(): _label(target, result.summary)
 	if not result.speaker.is_empty(): _label(target, result.speaker)
@@ -621,5 +624,6 @@ func _kind_label(kind: String) -> String:
 		"choice_confirmed": _l("실제로 선택한 답", "Confirmed choice"),
 		"choice_cancelled": _l("선택 취소", "Cancelled choice"),
 		"hint_revealed": _l("요청한 힌트", "Requested hint"),
+		"legacy_note": _l("시점 미상", "Time unknown"),
 	}
 	return labels.get(kind, "")

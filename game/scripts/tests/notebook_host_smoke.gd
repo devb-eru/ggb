@@ -43,7 +43,7 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	print("NOTEBOOK_HOST_CHECKS: %d" % checks)
-	return {"ok": errors.is_empty(), "errors": errors, "not_covered": ["OS_IME", "native_mouse_keyboard_completion", "durable_cursor_sidecar", "legacy_note_search_adapter"]}
+	return {"ok": errors.is_empty(), "errors": errors, "not_covered": ["OS_IME", "native_mouse_keyboard_completion", "durable_cursor_sidecar"]}
 
 
 func _prologue(tree: SceneTree) -> void:
@@ -81,6 +81,12 @@ func _prologue(tree: SceneTree) -> void:
 	view._advance_dialogue()
 	_expect(GameState.get_snapshot() == before and view._dialogue_index == index and view._dialogue_lines == lines, "readonly overlay neither advances nor rerecords dialogue")
 	_expect(host.panel._tools.get_child_count() == 0, "gameplay hint and quantity actions unavailable over active dialogue")
+	var clue_rows: Dictionary = host.model.page({"tab": "clues"}, 0, host.model.cache_key())
+	var raw_notes: Array = clue_rows.items.filter(func(row: Dictionary) -> bool: return row.kind == "legacy_note")
+	_expect(not raw_notes.is_empty(), "actual old notebook strings join the same host even during dialogue")
+	if not raw_notes.is_empty():
+		var raw: Dictionary = host.model.detail(raw_notes[0].key, host.model.cache_key())
+		_expect(raw.text in before.meta_progress.knowledge_entries.prologue_notebook_entries, "host passes canonical original strings without regenerating them")
 	var wheel := InputEventMouseButton.new()
 	wheel.button_index = MOUSE_BUTTON_WHEEL_DOWN
 	wheel.pressed = true
@@ -100,6 +106,17 @@ func _prologue(tree: SceneTree) -> void:
 	var rows: Dictionary = host.model.page({"tab": "dialogue"}, 0, host.model.cache_key())
 	_expect(rows.count >= 3, "actual shown lines available in integrated history")
 	if rows.count >= 3: await _commands(tree, host, rows.items.slice(0, 3))
+	clue_rows = host.model.page({"tab": "clues"}, 0, host.model.cache_key())
+	raw_notes = clue_rows.items.filter(func(row: Dictionary) -> bool: return row.kind == "legacy_note")
+	if not raw_notes.is_empty():
+		var note_row: Dictionary = raw_notes[0]
+		var prior: Dictionary = GameState.get_snapshot()
+		host.panel.set_filters({"tab": "clues"})
+		host.panel.show_detail(note_row.key)
+		host.panel.find_child("NotebookReference_comparison", true, false).pressed.emit()
+		_expect(GameState.get_snapshot().meta_progress.dialogue_history.entries.size() == prior.meta_progress.dialogue_history.entries.size() + 1, "host captures exactly one raw value when adding it to comparison")
+		_expect(host.panel._selected == note_row.key and host.model.detail(note_row.key, host.model.cache_key()).note_snapshot, "refresh keeps the selected raw card and shows durable original status")
+		_expect(host.model.page({"tab": "clues"}, 0, host.model.cache_key()).count == clue_rows.count, "materialization never duplicates current raw note in host list")
 	view._close_modal()
 	await tree.process_frame
 	view._enter_room("M1_LIBRARY_OUTER")

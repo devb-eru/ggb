@@ -19,6 +19,9 @@ static func set_reference(game: Node, saves: Node, slot: String, collection: Str
 	var state: Dictionary = game.get_snapshot()
 	var archive: Dictionary = state.meta_progress.dialogue_history
 	var changed := ARCHIVE.set_reference(archive, collection, reference, enabled, int(archive.revision))
+	if enabled and changed.get("error_id") == "NB_REFERENCE_UNAVAILABLE":
+		var note := ARCHIVE.LEGACY_NOTES.find(state.meta_progress.knowledge_entries, archive.source_origin_id, reference)
+		if not note.is_empty(): changed = ARCHIVE.capture_legacy_note_reference(archive, collection, note, int(archive.revision))
 	if not changed.ok: return changed
 	if not changed.changed: return {"ok": true, "changed": false}
 	state.meta_progress.dialogue_history = changed.archive

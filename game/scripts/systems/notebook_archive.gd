@@ -6,6 +6,7 @@ const NORMAL_LIMIT := 2000
 const BOOKMARK_LIMIT := 50
 const COMPARISON_LIMIT := 12
 const CONTEXT := preload("res://scripts/systems/dialogue_history_context.gd")
+const LEGACY_NOTES := preload("res://scripts/systems/notebook_legacy_notes.gd")
 const KINDS := ["dialogue", "options_presented", "choice_confirmed", "choice_cancelled", "document_segment", "hint_revealed"]
 const SOURCE_KINDS := ["knowledge_source", "person_source", "document_source"]
 const ROOT_KEYS := ["schema_version", "source_origin_id", "branch_id", "revision", "next_sequence", "entries", "bookmarks", "comparison", "source_links"]
@@ -64,6 +65,7 @@ static func validate(value: Variant) -> Dictionary:
 		ids[entry.entry_uid] = entry
 		previous = int(entry.sequence)
 		if not _strings(entry.get("protection_reasons"), true): return _error("NB_ENTRY_PROTECTION")
+		if entry.has(LEGACY_NOTES.MARKER) and not LEGACY_NOTES.validate_entry(entry): return _error("NB_LEGACY_NOTE_SNAPSHOT")
 		if entry.get("record_class") in ["legacy", "unmapped"]:
 			if not entry.get("legacy_payload") is Dictionary: return _error("NB_LEGACY_PAYLOAD")
 			if not _integer(entry.legacy_payload.get("sequence")) or int(entry.legacy_payload.sequence) != int(entry.sequence): return _error("NB_LEGACY_SEQUENCE")
@@ -165,6 +167,26 @@ static func set_reference(archive: Dictionary, collection: String, reference: Di
 
 static func add_source_link(archive: Dictionary, consumer_kind: String, consumer_uid: String, target: Dictionary, expected_revision: int) -> Dictionary:
 	return add_source_links(archive, consumer_kind, consumer_uid, [target], expected_revision)
+
+
+static func capture_legacy_note_reference(archive: Dictionary, collection: String, note: Dictionary, expected_revision: int) -> Dictionary:
+	var ready := _ready(archive, expected_revision)
+	if not ready.ok: return ready
+	if collection not in ["bookmarks", "comparison"]: return _error("NB_REFERENCE_COLLECTION")
+	if not LEGACY_NOTES.validate_entry(note) or note.source_origin_id != archive.source_origin_id: return _error("NB_LEGACY_NOTE_SNAPSHOT")
+	var ref := make_reference(note, "legacy")
+	if _index(archive).has(note.entry_uid): return set_reference(archive, collection, ref, true, expected_revision)
+	var limit := BOOKMARK_LIMIT if collection == "bookmarks" else COMPARISON_LIMIT
+	if archive[collection].size() >= limit: return _error("NB_REFERENCE_LIMIT")
+	var candidate := archive.duplicate(true)
+	var captured := note.duplicate(true)
+	captured.sequence = int(candidate.next_sequence)
+	captured.legacy_payload.sequence = captured.sequence
+	candidate.next_sequence = int(candidate.next_sequence) + 1
+	candidate.entries.append(captured)
+	candidate[collection].append(ref)
+	# The original value and its protection become durable in the same commit.
+	return _finish(candidate)
 
 
 static func add_source_links(archive: Dictionary, consumer_kind: String, consumer_uid: String, targets: Array, expected_revision: int) -> Dictionary:

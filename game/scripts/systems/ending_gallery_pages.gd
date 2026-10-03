@@ -78,6 +78,7 @@ static func _body_repeat_seen(state: Dictionary, id: String) -> bool:
 	# The required-interaction flag proves the first reading, not a repeat reading.
 	var known_texts := [WAKE.BODY[id][2], WAKE_TEXTS.body(id,"en")[2]]
 	for entry in state.get("meta_progress",{}).get("dialogue_history",{}).get("entries",[]):
+		if entry.has("notebook_legacy_source"): continue
 		entry = preload("res://scripts/systems/notebook_archive.gd").display_payload(entry)
 		if entry.get("line_id","") != "CH1_HISTORY_TRANSCRIPT": continue
 		if entry.get("variables",{}).get("text","") in known_texts: return true

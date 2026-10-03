@@ -6,7 +6,7 @@ const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const REPOSITORY := preload("res://scripts/systems/dialogue_repository.gd")
 const PAGE_SIZE := 50
-const POLICY_VERSION := 1
+const POLICY_VERSION := 2
 const TABS := ["clues", "dialogue", "records", "people"]
 const PERSON_IDS := ["EDGAR", "MARA1", "MARA", "MARA2", "LUCA", "IRIS"]
 const FILTER_FIELDS := ["chapters", "locations", "speakers", "categories", "epistemic"]
@@ -26,9 +26,11 @@ var _generation := 0
 var _render_count := 0
 var _repository
 var _result_cache: Dictionary = {}
+var _legacy_note_count := 0
+var _legacy_digest := ""
 
 
-func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String) -> Dictionary:
+func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String, legacy_knowledge: Dictionary = {}) -> Dictionary:
 	close()
 	if not _valid_scope(scope, archive): return _error("NB_QUERY_SCOPE")
 	var checked := KNOWLEDGE.validate(ledger, archive)
@@ -49,7 +51,8 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 			session_ends[session] = maxi(session_ends.get(session, -1), int(entry.sequence))
 	for entry in _archive.entries:
 		if entry.record_class != "authored":
-			_add_legacy(entry)
+			if entry.has(ARCHIVE.LEGACY_NOTES.MARKER): _add_legacy_note(entry, true)
+			else: _add_legacy(entry)
 			continue
 		var observed: Dictionary = entry.observation
 		var metadata := CONTENT.review_metadata(observed, _locale)
@@ -83,6 +86,13 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 				"bookmarked": ref in _archive.bookmarks,
 			}
 			_order.append(key)
+	var projected := ARCHIVE.LEGACY_NOTES.project(legacy_knowledge, _archive.source_origin_id)
+	_legacy_digest = JSON.stringify([projected.entries.map(func(entry: Dictionary) -> String: return entry.entry_uid), projected.errors]).sha256_text()
+	for entry in projected.entries:
+		if _entries.has(entry.entry_uid): continue
+		_entries[entry.entry_uid] = entry
+		_add_legacy_note(entry, false)
+	for index in range(projected.errors.size()): _errors["legacy-note-%d" % index] = projected.errors[index]
 	_ready = true
 	return {"ok": true, "key": cache_key(), "diagnostics": diagnostics()}
 
@@ -101,10 +111,12 @@ func close() -> void:
 	_search_cursor = 0
 	_render_count = 0
 	_repository = null
+	_legacy_note_count = 0
+	_legacy_digest = ""
 
 
 func cache_key() -> String:
-	return JSON.stringify([_scope, _archive.get("revision", -1), _locale, POLICY_VERSION, _generation], "", true).sha256_text()
+	return JSON.stringify([_scope, _archive.get("revision", -1), _legacy_digest, _locale, POLICY_VERSION, _generation], "", true).sha256_text()
 
 
 func matches_scope(scope: Dictionary) -> bool:
@@ -155,7 +167,9 @@ func detail(key: String, expected_key: String) -> Dictionary:
 	var text := ""
 	var fallback: bool = row.fallback
 	var viewed_locale := ""
-	if row.legacy:
+	if row.kind == "legacy_note":
+		text = entry.legacy_payload.variables.text
+	elif row.legacy:
 		if _repository == null: _repository = REPOSITORY.new()
 		# The compatibility renderer receives one entry, never the full history.
 		var projected := entry.duplicate(false)
@@ -178,7 +192,7 @@ func detail(key: String, expected_key: String) -> Dictionary:
 	for ref in row.sources:
 		var target := reference_key(ref)
 		if _rows.has(target) and target != key and target not in links: links.append(target)
-	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links}
+	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links}
 
 
 func facets(filters: Dictionary, expected_key: String) -> Dictionary:
@@ -276,6 +290,19 @@ func _add_legacy(entry: Dictionary) -> void:
 		"legacy": true, "person": false, "fallback": true, "bookmarked": ref in _archive.bookmarks,
 	}
 	_order.append(key)
+
+
+func _add_legacy_note(entry: Dictionary, captured: bool) -> void:
+	_add_legacy(entry)
+	var key := reference_key(ARCHIVE.make_reference(entry, "legacy"))
+	var row: Dictionary = _rows[key]
+	_legacy_note_count += 1
+	row.tab = "clues"
+	row.kind = "legacy_note"
+	row.title = "이전 수첩 원문" if _locale == "ko-KR" else "Earlier notebook text"
+	# A pin's archive sequence is not the unknown acquisition time of the note.
+	row.sequence = -_legacy_note_count
+	row.note_snapshot = captured
 
 
 func _valid_filters(filters: Dictionary) -> bool:
