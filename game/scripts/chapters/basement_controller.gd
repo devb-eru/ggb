@@ -8,6 +8,7 @@ const ENDING_TEXTS := preload("res://scripts/ui/ending_decision_texts.gd")
 const FIELD_TEXTS := preload("res://scripts/ui/field_notebook_texts.gd")
 const STAY_TEXTS := preload("res://scripts/ui/stay_charter_texts.gd")
 const STORY_TEXTS := preload("res://scripts/ui/stay_story_texts.gd")
+const STAY_NOTES := preload("res://scripts/systems/stay_notebook.gd")
 const WAKE_TEXTS := preload("res://scripts/ui/reality_wake_texts.gd")
 const SURFACE_TEXTS := preload("res://scripts/ui/reality_surface_texts.gd")
 const CREDITS_TEXTS := preload("res://scripts/ui/ending_credits_texts.gd")
@@ -1211,6 +1212,7 @@ func _ending_read(lines: Array, action: String, value: Variant, prefix: String =
 	if _interaction_blocked(): return
 	if not _notebook_surface_allowed(): return
 	var typed := REALITY_NOTES.typed_lines(session.snapshot(), lines, action, value, prefix, session.history_context(), TranslationServer.get_locale())
+	if typed.ok: typed = STAY_NOTES.typed_lines(session.snapshot(), typed.lines, action, value, prefix, session.history_context(), TranslationServer.get_locale())
 	if not typed.ok:
 		push_error(str(typed.error_ids))
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
@@ -1409,7 +1411,7 @@ func _process(delta: float) -> void:
 	if session.stage() == "D5" and SaveManager.get_build_flavor() == "demo":
 		_tick_demo_stinger(minf(delta, 0.1))
 		return
-	if session.stage() == "REALITY_SURFACE" and not _notebook_surface_allowed(): return
+	if session.stage() in ["REALITY_SURFACE", "STAY_STORY"] and not _notebook_surface_allowed(): return
 	_surface_active_seconds += minf(delta,0.1)
 	if _surface_active_seconds >= 1.0:
 		_surface_active_seconds -= 1.0
@@ -1436,6 +1438,59 @@ func _tick_demo_stinger(delta: float) -> void:
 		_render_room()
 
 
+func _queue_stay_surface(key: String, text: String) -> void:
+	if _notebook_surface_enabled():
+		_notebook_surfaces.queue(STAY_NOTES.PREFIX + key,text,TranslationServer.get_locale(),REALITY_NOTES.context(session.snapshot(),session.history_context()))
+
+
+func _stay_board(key: String, text: String, rect: Rect2) -> void:
+	_board_label(text,rect)
+	_queue_stay_surface(key,text)
+
+
+func _queue_stay_seating(key: String, text: String) -> void:
+	if _notebook_surface_enabled():
+		_notebook_surfaces.queue_descriptor(STAY_NOTES.seating(session.snapshot(),key),text,TranslationServer.get_locale(),REALITY_NOTES.context(session.snapshot(),session.history_context()))
+
+
+func _stay_world_choice(group: String, index: int, id: String, label: String, rect: Rect2, action: String, value: Variant) -> void:
+	if not _notebook_surface_enabled():
+		_action(id,label,rect,action,value,false)
+		return
+	var locale := TranslationServer.get_locale()
+	var item := STAY_NOTES.descriptor(group + "_OPTIONS")
+	var shown := NOTEBOOK_CONTENT.presentation(item,locale)
+	var row := NOTEBOOK_CONTENT.definition(item.get("content_id",""),1)
+	var language := "en-US" if locale.begins_with("en") else "ko-KR"
+	if not shown.ok or row.locales[language].get("option_%d" % index,"") != label:
+		push_error("NB_STAY_CHOICE_DISPLAY_MISMATCH:" + group)
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	_queue_stay_surface(group + "_OPTIONS",shown.text)
+	_add_hotspot(id,label,rect,_stay_world_choice_pressed.bind(_notebook_surfaces.generation,group,index,label,locale,action,value))
+
+
+func _stay_world_choice_pressed(generation: int, group: String, index: int, label: String, locale: String, action: String, value: Variant) -> void:
+	if _interaction_blocked() or not _notebook_surfaces.live(_notebook_surface_scope(),generation): return
+	if not _notebook_surface_allowed(): return
+	var options_id := STAY_NOTES.PREFIX + group + "_OPTIONS"
+	if not _notebook_surfaces.choose(session,_notebook_surface_scope(),options_id,STAY_NOTES.PREFIX + "%s_SELECT_%d" % [group,index],label,locale):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	var result := session.act(action,value)
+	_notebook_surfaces.dispatched(options_id,result.get("ok",false))
+	if result.get("ok",false): _set_status("")
+	_render_room()
+	_feedback(result)
+
+
+func _show_stay_modal(group: String, title: String, body: String, actions: Array) -> void:
+	if not _notebook_surface_enabled():
+		_show_modal(title,body,actions)
+		return
+	_show_recorded_choice(title,body,actions,STAY_NOTES.descriptor(group + "_OPTIONS"),REALITY_NOTES.context(session.snapshot(),session.history_context()))
+
+
 func _build_stay_story() -> void:
 	var rules = BasementSession.STAY_STORY
 	var locale := TranslationServer.get_locale()
@@ -1457,42 +1512,46 @@ func _build_stay_story() -> void:
 	_add_hotspot("STORY_APPEARANCE",_stay_text("settings"),Rect2(1020,970,700,60),_show_stay_mode_settings)
 	match node:
 		"EDS_CENTRAL_HALL":
-			if local.has("channel"): _board_label(_story_text("channel_selected") % STAY_TEXTS.owner(local["channel"],locale),Rect2(250,720,1420,55))
+			if local.has("channel"): _stay_board("CHANNEL_" + String(local.channel).to_upper(),_story_text("channel_selected") % STAY_TEXTS.owner(local["channel"],locale),Rect2(250,720,1420,55))
 			var index := 0
 			for id in rules.HALL:
 				_add_hotspot("STORY_HALL_"+id,STORY_TEXTS.hall(id,0,locale),Rect2(250+(index%2)*750,210+(index/2)*170,670,120),_story_channel_menu if id == "cord" else _ending_read.bind([{"speaker":"SYSTEM","text":STORY_TEXTS.hall(id,1,locale)}],"hall",id,"story_"))
+				_queue_stay_surface("HALL_LABEL_" + String(id).to_upper(),STORY_TEXTS.hall(id,0,locale))
 				index += 1
 			_action("STORY_DINE",_story_text("dine"),Rect2(400,800,1120,100),"story_dine",null,false)
 		"EDS_DINING_ROOM":
 			_board_label(STORY_TEXTS.seating(state,locale),Rect2(250,200,1420,440))
+			_queue_stay_seating("SEATING_SCREEN",STORY_TEXTS.seating(state,locale))
 			_add_hotspot("STORY_SIT",_story_text("sit"),Rect2(400,780,1120,100),_ending_read.bind([{"speaker":"SYSTEM","text":STORY_TEXTS.seating(state,locale)}],"sit",null,"story_"))
 		"EDS_TABLE_OBJECTS":
 			for index in range(2):
 				var prefix := _story_text("written" if index in local["written"] else "write")
-				_action("STORY_WRITE_%d"%index,prefix+STORY_TEXTS.sentence(index,locale),Rect2(250,180+index*105,1420,85),"story_write",index,false)
+				_stay_world_choice("WRITE_%d_%s" % [index,"WRITTEN" if index in local.written else "NEW"],0,"STORY_WRITE_%d"%index,prefix+STORY_TEXTS.sentence(index,locale),Rect2(250,180+index*105,1420,85),"story_write",index)
 			var index := 0
 			for owner in rules.TABLE:
 				_add_hotspot("STORY_TABLE_"+owner,STORY_TEXTS.table_title(owner,locale),Rect2(250+(index%2)*750,420+(index/2)*110,670,85),_ending_read.bind(STORY_TEXTS.table_lines(state,owner,locale),"table",owner,"story_"))
+				_queue_stay_surface("TABLE_LABEL_" + String(owner).to_upper(),STORY_TEXTS.table_title(owner,locale))
 				index += 1
-			_action("STORY_TEA_WARM",_story_text("warm")+(_story_text("selected") if local["tea"] == "warm" else ""),Rect2(250,755,670,60),"story_tea","warm",false)
-			_action("STORY_TEA_HOT",_story_text("hot")+(_story_text("selected") if local["tea"] == "hot" else ""),Rect2(1000,755,670,60),"story_tea","hot",false)
+			_stay_world_choice("TEA_" + String(local.tea).to_upper(),0,"STORY_TEA_WARM",_story_text("warm")+(_story_text("selected") if local["tea"] == "warm" else ""),Rect2(250,755,670,60),"story_tea","warm")
+			_stay_world_choice("TEA_" + String(local.tea).to_upper(),1,"STORY_TEA_HOT",_story_text("hot")+(_story_text("selected") if local["tea"] == "hot" else ""),Rect2(1000,755,670,60),"story_tea","hot")
 			if local["written"].size() == 2: _action("STORY_FINAL",_story_text("final"),Rect2(400,850,1120,80),"story_final",null,false)
 		"EDS_FINAL_FRAME":
 			_objective_label.text = _story_text("final_objective")
-			var opening := "You sit facing forward. The servants stand on either side as they once did." if locale.begins_with("en") else "주인공이 정면을 보고 앉았다. 사용인들은 과거처럼 양옆에 서 있다."
-			var text: String = opening if local["elapsed"] < 2 else STORY_TEXTS.seating(state,locale)
-			var sensory := "\nBehind the hearth's scent remains the smell of metal; behind birdsong, the turning fan.\nThe five signatures do not merge. Each retains its own boundary." if locale.begins_with("en") else "\n난로 향 뒤에 금속 냄새, 새소리 뒤에 팬 회전음이 남는다.\n다섯 서명은 섞이지 않고 각자의 경계를 유지한다."
-			_board_label(text+sensory,Rect2(250,200,1420,500))
+			var text := STAY_NOTES.final_text(state,locale)
+			_board_label(text,Rect2(250,200,1420,500))
+			if local.elapsed < 2: _queue_stay_surface("FINAL_OPENING",text)
+			else: _queue_stay_seating("FINAL_SEATING",text)
 			if local["elapsed"] < 2: set_process(true)
 			else: _action("STORY_FINISH",_story_text("finish"),Rect2(400,800,1120,100),"story_finish",null,false)
 
 
 func _story_channel_menu() -> void:
 	if _interaction_blocked(): return
+	if not _notebook_surface_allowed(): return
 	var actions: Array = [{"label":_story_text("close"),"action":_close_modal}]
 	for owner in BasementSession.STAY_STORY.OWNERS:
 		actions.append({"label":STAY_TEXTS.owner(owner,TranslationServer.get_locale()),"action":_modal_act.bind("story_channel",owner)})
-	_show_modal(_story_text("channel_title"), _story_text("channel_body"), actions)
+	_show_stay_modal("CHANNEL",_story_text("channel_title"), _story_text("channel_body"), actions)
 
 
 func _story_text(id: String) -> String:
@@ -1723,29 +1782,32 @@ func _build_stay_charter() -> void:
 		"EDS_MEMORY_CHARTER":
 			for index in range(3):
 				_add_hotspot("STAY_MEMORY_%d"%index,_stay_text("principle")%[index+1,_stay_text("checked") if index in local["principles"] else ""],Rect2(350,220+index*170,1220,120),_ending_read.bind([{"speaker":"SYSTEM","text":STAY_TEXTS.principle(index,locale)}],"memory",index,"stay_"))
-			if local["principles"].size() == 3: _action("STAY_MEMORY_FINISH",_stay_text("memory_finish"),Rect2(400,780,1120,100),"stay_memory_finish",null,false)
+				_queue_stay_surface("MEMORY_LABEL_%d_%s" % [index,"CHECKED" if index in local.principles else "UNCHECKED"],_stay_text("principle")%[index+1,_stay_text("checked") if index in local.principles else ""])
+			if local["principles"].size() == 3: _stay_world_choice("MEMORY_FINISH",0,"STAY_MEMORY_FINISH",_stay_text("memory_finish"),Rect2(400,780,1120,100),"stay_memory_finish",null)
 		"EDS_APPEARANCE_CONTROL":
-			_action("STAY_LAYERED",STAY_TEXTS.mode("layered",locale),Rect2(200,260,700,200),"stay_appearance","layered",false)
-			_action("STAY_CONTEXTUAL",STAY_TEXTS.mode("contextual",locale),Rect2(1020,260,700,200),"stay_appearance","contextual",false)
+			_stay_world_choice("APPEARANCE",0,"STAY_LAYERED",STAY_TEXTS.mode("layered",locale),Rect2(200,260,700,200),"stay_appearance","layered")
+			_stay_world_choice("APPEARANCE",1,"STAY_CONTEXTUAL",STAY_TEXTS.mode("contextual",locale),Rect2(1020,260,700,200),"stay_appearance","contextual")
 			_add_hotspot("STAY_MODE_NEUTRAL",_stay_text("neutral"),Rect2(460,540,1000,100),func(): _set_status(_stay_text("neutral_detail")))
-			if not mode.is_empty(): _action("STAY_APPEARANCE_FINISH",_stay_text("appearance_finish"),Rect2(400,750,1120,100),"stay_appearance_finish",null,false)
+			if not mode.is_empty(): _stay_world_choice("APPEARANCE_FINISH",0,"STAY_APPEARANCE_FINISH",_stay_text("appearance_finish"),Rect2(400,750,1120,100),"stay_appearance_finish",null)
 		"EDS_AUTONOMY_CHARTER":
-			_board_label(_stay_text("autonomy"),Rect2(200,180,1520,120))
+			_stay_board("AUTONOMY",_stay_text("autonomy"),Rect2(200,180,1520,120))
 			var index := 0
 			for owner in rules.OWNERS:
-				_action("STAY_ROLE_"+owner,STAY_TEXTS.owner(owner,locale)+_stay_text("proposed" if owner in local["proposed"] else "fixed"),Rect2(250+(index%2)*750,350+(index/2)*140,670,100),"stay_propose",owner,false)
+				_stay_world_choice("ROLE_%s_%s" % [String(owner).to_upper(),"PROPOSED" if owner in local.proposed else "FIXED"],0,"STAY_ROLE_"+owner,STAY_TEXTS.owner(owner,locale)+_stay_text("proposed" if owner in local["proposed"] else "fixed"),Rect2(250+(index%2)*750,350+(index/2)*140,670,100),"stay_propose",owner)
 				index += 1
-			if local["proposed"].size() == 5: _action("STAY_AUTONOMY_FINISH",_stay_text("autonomy_finish"),Rect2(400,790,1120,85),"stay_autonomy_finish",null,false)
+			if local["proposed"].size() == 5: _stay_world_choice("AUTONOMY_FINISH",0,"STAY_AUTONOMY_FINISH",_stay_text("autonomy_finish"),Rect2(400,790,1120,85),"stay_autonomy_finish",null)
 
 
 func _toggle_stay_inspection() -> void:
+	if _interaction_blocked() or not _notebook_surface_allowed(): return
 	_stay_inspection_open = not _stay_inspection_open
 	_render_room()
 
 
 func _show_stay_mode_settings() -> void:
 	if _interaction_blocked(): return
-	_show_modal(_stay_text("settings_title"), _stay_text("settings_body"), [
+	if not _notebook_surface_allowed(): return
+	_show_stay_modal("MODE_SETTINGS",_stay_text("settings_title"), _stay_text("settings_body"), [
 		{"label":_stay_text("keep"),"action":_close_modal},
 		{"label":_stay_text("layered_button"),"action":_modal_act.bind("stay_appearance","layered")},
 		{"label":_stay_text("contextual_button"),"action":_modal_act.bind("stay_appearance","contextual")},

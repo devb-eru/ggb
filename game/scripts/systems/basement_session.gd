@@ -40,6 +40,7 @@ const FIELD_NOTEBOOK := preload("res://scripts/systems/field_notebook.gd")
 const REALITY_SURFACE := preload("res://scripts/systems/reality_surface.gd")
 const STAY_CHARTER := preload("res://scripts/systems/stay_charter.gd")
 const STAY_STORY := preload("res://scripts/systems/stay_story.gd")
+const STAY_NOTES := preload("res://scripts/systems/stay_notebook.gd")
 const ENDING_CREDITS := preload("res://scripts/systems/ending_credits.gd")
 const D4_REACTION := preload("res://scripts/systems/d4_reaction_selector.gd")
 var ending_meta_store = preload("res://scripts/systems/ending_meta_store.gd").new()
@@ -197,6 +198,9 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
 	if action.begins_with("story_"):
 		var result: Dictionary = STAY_STORY.apply(snapshot(), action.trim_prefix("story_"), value)
+		if result.get("ok",false) and action == "story_write":
+			var written := STAY_NOTES.write_sentence(result.state,int(value),REALITY_NOTES.context(snapshot(),history_context()),TranslationServer.get_locale())
+			if not written.ok: return written
 		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
 	if action.begins_with("stay_"):
 		var result: Dictionary = STAY_CHARTER.apply(snapshot(), action.trim_prefix("stay_"), value)

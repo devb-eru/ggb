@@ -164,13 +164,14 @@ func _close_modal() -> void:
 	call_deferred("_restore_world_focus")
 
 
-func _show_recorded_choice(title: String, body: String, actions: Array, descriptor: Dictionary) -> void:
+func _show_recorded_choice(title: String, body: String, actions: Array, descriptor: Dictionary, history_context: Dictionary = {}) -> void:
 	var row := NOTEBOOK_CONTENT.definition(descriptor.get("content_id", ""), 1)
 	if row.is_empty() or row.get("choices", []).size() != actions.size():
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		push_error("NB_MODAL_DESCRIPTOR")
 		return
 	var frozen := session.history_context() if session != null else {}
+	if not history_context.is_empty(): frozen = history_context.duplicate(true)
 	frozen.event_occurrence_id = NOTEBOOK_ARCHIVE.new_uid()
 	frozen.conversation_session_id = NOTEBOOK_ARCHIVE.new_uid()
 	frozen.presentation_token = NOTEBOOK_ARCHIVE.new_uid()

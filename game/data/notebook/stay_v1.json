@@ -1,0 +1,5566 @@
+{
+	"contents": {
+		"NB_STAY_APPEARANCE_FINISH_OPTIONS": {
+			"1": {
+				"action_or_variant": "APPEARANCE_FINISH_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {
+						"option_0": "Continue with this display",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "이 표시로 계속한다",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "APPEARANCE_FINISH_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_APPEARANCE_CONTROL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "APPEARANCE_FINISH_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_APPEARANCE_FINISH_SELECT_0": {
+			"1": {
+				"action_or_variant": "APPEARANCE_FINISH_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {
+						"body": "Continue with this display",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "이 표시로 계속한다",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "APPEARANCE_FINISH_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_APPEARANCE_CONTROL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "APPEARANCE_FINISH_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_APPEARANCE_OPTIONS": {
+			"1": {
+				"action_or_variant": "APPEARANCE_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {
+						"option_0": "Show both the Gothic exterior and facility structure",
+						"option_1": "Show the exterior normally; reveal the structure when inspecting",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "고딕 외피와 시설 골격을 함께 표시",
+						"option_1": "평소 외피, 조사 시 시설 골격 표시",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "APPEARANCE_OPTIONS:option_0",
+					"option_1": "APPEARANCE_OPTIONS:option_1"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_APPEARANCE_CONTROL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "APPEARANCE_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {},
+					"option_1": {}
+				},
+				"visible_segment_ids": [
+					"option_0",
+					"option_1"
+				]
+			}
+		},
+		"NB_STAY_APPEARANCE_SELECT_0": {
+			"1": {
+				"action_or_variant": "APPEARANCE_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {
+						"body": "Show both the Gothic exterior and facility structure",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "고딕 외피와 시설 골격을 함께 표시",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "APPEARANCE_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_APPEARANCE_CONTROL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "APPEARANCE_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_APPEARANCE_SELECT_1": {
+			"1": {
+				"action_or_variant": "APPEARANCE_SELECT_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {
+						"body": "Show the exterior normally; reveal the structure when inspecting",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "평소 외피, 조사 시 시설 골격 표시",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "APPEARANCE_SELECT_1:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_APPEARANCE_CONTROL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "APPEARANCE_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_AUTONOMY": {
+			"1": {
+				"action_or_variant": "AUTONOMY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Each person chooses their own space and rest periods. Warnings are provided without automatically blocking movement.\nEdgar may only propose a schedule. No one may unilaterally erase another personality's memories or name.",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "주 공간·휴식 시간은 각자 선택한다. 경고는 제공하되 이동을 자동 봉쇄하지 않는다.\n에드가는 일정표를 제안만 한다. 누구도 다른 인격의 기억·이름을 단독 삭제하지 못한다.",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "AUTONOMY:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "AUTONOMY",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_AUTONOMY_FINISH_OPTIONS": {
+			"1": {
+				"action_or_variant": "AUTONOMY_FINISH_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Affirm the autonomy of all five servants",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "다섯 사용인의 자율성을 확인한다",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "AUTONOMY_FINISH_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "AUTONOMY_FINISH_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_AUTONOMY_FINISH_SELECT_0": {
+			"1": {
+				"action_or_variant": "AUTONOMY_FINISH_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Affirm the autonomy of all five servants",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "다섯 사용인의 자율성을 확인한다",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "AUTONOMY_FINISH_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "AUTONOMY_FINISH_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_EDGAR": {
+			"1": {
+				"action_or_variant": "CHANNEL_EDGAR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Selected channel: Edgar · The other person chooses whether to respond",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "선택된 통신 채널: 에드가 · 응답은 상대가 선택",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_EDGAR:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_EDGAR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_IRIS": {
+			"1": {
+				"action_or_variant": "CHANNEL_IRIS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Selected channel: Iris · The other person chooses whether to respond",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "선택된 통신 채널: 이리스 · 응답은 상대가 선택",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_IRIS:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_IRIS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_LUCA": {
+			"1": {
+				"action_or_variant": "CHANNEL_LUCA",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Selected channel: Luca · The other person chooses whether to respond",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "선택된 통신 채널: 루카 · 응답은 상대가 선택",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_LUCA:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_LUCA",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_MARA1": {
+			"1": {
+				"action_or_variant": "CHANNEL_MARA1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Selected channel: Mara 1 · The other person chooses whether to respond",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "선택된 통신 채널: 마라 1 · 응답은 상대가 선택",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_MARA1:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_MARA1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_MARA2": {
+			"1": {
+				"action_or_variant": "CHANNEL_MARA2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Selected channel: Mara 2 · The other person chooses whether to respond",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "선택된 통신 채널: 마라 2 · 응답은 상대가 선택",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_MARA2:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_MARA2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_OPTIONS": {
+			"1": {
+				"action_or_variant": "CHANNEL_OPTIONS",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_STAY_CHANNEL_SELECT_0",
+						"kind": "choice_cancelled"
+					},
+					{
+						"content_id": "NB_STAY_CHANNEL_SELECT_1",
+						"kind": "choice_confirmed"
+					},
+					{
+						"content_id": "NB_STAY_CHANNEL_SELECT_2",
+						"kind": "choice_confirmed"
+					},
+					{
+						"content_id": "NB_STAY_CHANNEL_SELECT_3",
+						"kind": "choice_confirmed"
+					},
+					{
+						"content_id": "NB_STAY_CHANNEL_SELECT_4",
+						"kind": "choice_confirmed"
+					},
+					{
+						"content_id": "NB_STAY_CHANNEL_SELECT_5",
+						"kind": "choice_confirmed"
+					}
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Selecting a recipient does not compel them to respond or move.",
+						"header": "Shared communication channel",
+						"option_0": "Close",
+						"option_1": "Edgar",
+						"option_2": "Mara 1",
+						"option_3": "Luca",
+						"option_4": "Iris",
+						"option_5": "Mara 2",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "연결 대상을 선택해도 응답이나 이동을 강제하지 않는다.",
+						"header": "공용 통신 채널",
+						"option_0": "닫기",
+						"option_1": "에드가",
+						"option_2": "마라 1",
+						"option_3": "루카",
+						"option_4": "이리스",
+						"option_5": "마라 2",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_OPTIONS:body",
+					"header": "CHANNEL_OPTIONS:header",
+					"option_0": "CHANNEL_OPTIONS:option_0",
+					"option_1": "CHANNEL_OPTIONS:option_1",
+					"option_2": "CHANNEL_OPTIONS:option_2",
+					"option_3": "CHANNEL_OPTIONS:option_3",
+					"option_4": "CHANNEL_OPTIONS:option_4",
+					"option_5": "CHANNEL_OPTIONS:option_5"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"option_3": {},
+					"option_4": {},
+					"option_5": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2",
+					"option_3",
+					"option_4",
+					"option_5"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_SELECT_0": {
+			"1": {
+				"action_or_variant": "CHANNEL_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_cancelled",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Close",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "닫기",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_SELECT_1": {
+			"1": {
+				"action_or_variant": "CHANNEL_SELECT_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Edgar",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "에드가",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_SELECT_1:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_SELECT_2": {
+			"1": {
+				"action_or_variant": "CHANNEL_SELECT_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "마라 1",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_SELECT_2:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_SELECT_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_SELECT_3": {
+			"1": {
+				"action_or_variant": "CHANNEL_SELECT_3",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Luca",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "루카",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_SELECT_3:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_SELECT_3",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_SELECT_4": {
+			"1": {
+				"action_or_variant": "CHANNEL_SELECT_4",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Iris",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "이리스",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_SELECT_4:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_SELECT_4",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_CHANNEL_SELECT_5": {
+			"1": {
+				"action_or_variant": "CHANNEL_SELECT_5",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "마라 2",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "CHANNEL_SELECT_5:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "CHANNEL_SELECT_5",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_FINAL_OPENING": {
+			"1": {
+				"action_or_variant": "FINAL_OPENING",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_FINAL_FRAME",
+				"locales": {
+					"en-US": {
+						"body": "You sit facing forward. The servants stand on either side as they once did.\nBehind the hearth's scent remains the smell of metal; behind birdsong, the turning fan.\nThe five signatures do not merge. Each retains its own boundary.",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "주인공이 정면을 보고 앉았다. 사용인들은 과거처럼 양옆에 서 있다.\n난로 향 뒤에 금속 냄새, 새소리 뒤에 팬 회전음이 남는다.\n다섯 서명은 섞이지 않고 각자의 경계를 유지한다.",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "FINAL_OPENING:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_FINAL_FRAME"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "FINAL_OPENING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_FINAL_SEATING": {
+			"1": {
+				"action_or_variant": "FINAL_SEATING",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_FINAL_FRAME",
+				"locales": {
+					"en-US": {
+						"edgar_sit": "Edgar: chooses where to sit.",
+						"edgar_stand": "Edgar: chooses where to stand or move.",
+						"intro_all": "All five sit, retaining their own names and boundaries.",
+						"intro_four": "Four sit. A nameplate, not a function panel, remains at the empty place.",
+						"intro_low": "Only you sit. Those standing on either side may also choose to leave or take a seat.",
+						"intro_mid": "Those whose relationship events are complete sit; the others come and go, doing work they have chosen.",
+						"iris_sit": "Iris: chooses where to sit.",
+						"iris_stand": "Iris: chooses where to stand or move.",
+						"luca_sit": "Luca: chooses where to sit.",
+						"luca_stand": "Luca: chooses where to stand or move.",
+						"mara1_sit": "Mara 1: chooses where to sit.",
+						"mara1_stand": "Mara 1: chooses where to stand or move.",
+						"mara2_sit": "Mara 2: chooses where to sit.",
+						"mara2_stand": "Mara 2: chooses where to stand or move.",
+						"sensory": "Behind the hearth's scent remains the smell of metal; behind birdsong, the turning fan.\nThe five signatures do not merge. Each retains its own boundary.",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"edgar_sit": "에드가: 앉을 자리를 직접 고른다.",
+						"edgar_stand": "에드가: 서 있거나 이동할 자리를 직접 고른다.",
+						"intro_all": "다섯 인물이 각자의 이름과 경계를 유지한 채 앉는다.",
+						"intro_four": "네 인물이 앉는다. 빈 자리에는 기능 패널 대신 이름표가 남는다.",
+						"intro_low": "주인공만 앉는다. 양옆에 선 인물도 퇴장과 착석을 선택할 수 있다.",
+						"intro_mid": "관계 완료 인물은 앉고, 다른 인물은 자신이 고른 일을 하며 왕래한다.",
+						"iris_sit": "이리스: 앉을 자리를 직접 고른다.",
+						"iris_stand": "이리스: 서 있거나 이동할 자리를 직접 고른다.",
+						"luca_sit": "루카: 앉을 자리를 직접 고른다.",
+						"luca_stand": "루카: 서 있거나 이동할 자리를 직접 고른다.",
+						"mara1_sit": "마라 1: 앉을 자리를 직접 고른다.",
+						"mara1_stand": "마라 1: 서 있거나 이동할 자리를 직접 고른다.",
+						"mara2_sit": "마라 2: 앉을 자리를 직접 고른다.",
+						"mara2_stand": "마라 2: 서 있거나 이동할 자리를 직접 고른다.",
+						"sensory": "난로 향 뒤에 금속 냄새, 새소리 뒤에 팬 회전음이 남는다.\n다섯 서명은 섞이지 않고 각자의 경계를 유지한다.",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"edgar_sit": "FINAL_SEATING:edgar_sit",
+					"edgar_stand": "FINAL_SEATING:edgar_stand",
+					"intro_all": "FINAL_SEATING:intro_all",
+					"intro_four": "FINAL_SEATING:intro_four",
+					"intro_low": "FINAL_SEATING:intro_low",
+					"intro_mid": "FINAL_SEATING:intro_mid",
+					"iris_sit": "FINAL_SEATING:iris_sit",
+					"iris_stand": "FINAL_SEATING:iris_stand",
+					"luca_sit": "FINAL_SEATING:luca_sit",
+					"luca_stand": "FINAL_SEATING:luca_stand",
+					"mara1_sit": "FINAL_SEATING:mara1_sit",
+					"mara1_stand": "FINAL_SEATING:mara1_stand",
+					"mara2_sit": "FINAL_SEATING:mara2_sit",
+					"mara2_stand": "FINAL_SEATING:mara2_stand",
+					"sensory": "FINAL_SEATING:sensory"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_FINAL_FRAME"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "FINAL_SEATING",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"edgar_sit": {},
+					"edgar_stand": {},
+					"intro_all": {},
+					"intro_four": {},
+					"intro_low": {},
+					"intro_mid": {},
+					"iris_sit": {},
+					"iris_stand": {},
+					"luca_sit": {},
+					"luca_stand": {},
+					"mara1_sit": {},
+					"mara1_stand": {},
+					"mara2_sit": {},
+					"mara2_stand": {},
+					"sensory": {}
+				},
+				"visible_segment_ids": [
+					"intro_low",
+					"intro_mid",
+					"intro_four",
+					"intro_all",
+					"edgar_stand",
+					"edgar_sit",
+					"mara1_stand",
+					"mara1_sit",
+					"luca_stand",
+					"luca_sit",
+					"iris_stand",
+					"iris_sit",
+					"mara2_stand",
+					"mara2_sit",
+					"sensory"
+				]
+			}
+		},
+		"NB_STAY_HALL_LABEL_CARPET": {
+			"1": {
+				"action_or_variant": "HALL_LABEL_CARPET",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Central carpet",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "중앙 카펫",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "HALL_LABEL_CARPET:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "HALL_LABEL_CARPET",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_HALL_LABEL_CLOCK": {
+			"1": {
+				"action_or_variant": "HALL_LABEL_CLOCK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Great clock",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "대시계",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "HALL_LABEL_CLOCK:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "HALL_LABEL_CLOCK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_HALL_LABEL_CORD": {
+			"1": {
+				"action_or_variant": "HALL_LABEL_CORD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Call cord",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "호출끈",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "HALL_LABEL_CORD:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "HALL_LABEL_CORD",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_HALL_LABEL_DOOR": {
+			"1": {
+				"action_or_variant": "HALL_LABEL_DOOR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Entrance door",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "현관문",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "HALL_LABEL_DOOR:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "HALL_LABEL_DOOR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_HALL_LABEL_SCHEDULE": {
+			"1": {
+				"action_or_variant": "HALL_LABEL_SCHEDULE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Schedule",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "일정표",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "HALL_LABEL_SCHEDULE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "HALL_LABEL_SCHEDULE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_HALL_READ_CARPET": {
+			"1": {
+				"action_or_variant": "HALL_READ_CARPET",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Facility wiring is visible beneath the carpet pattern. Connection numbers left unerased follow your feet.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "카펫 문양 아래 시설 배선이 함께 보인다. 지우지 않은 접속 번호가 발끝을 따라간다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "HALL_READ_CARPET:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "HALL_READ_CARPET",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_HALL_READ_CLOCK": {
+			"1": {
+				"action_or_variant": "HALL_READ_CLOCK",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "The thirteenth position is no longer hidden: XIII / MANUAL. The clock does not order the next sleep.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "열세 번째 칸이 숨지 않고 XIII / MANUAL로 표시된다. 시계가 다음 수면을 명령하지 않는다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "HALL_READ_CLOCK:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "HALL_READ_CLOCK",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_HALL_READ_DOOR": {
+			"1": {
+				"action_or_variant": "HALL_READ_DOOR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "A frame label identifies the view as an outside projection. This door leads only to the garden, not an exit into reality.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "외부 투영임을 알리는 프레임 라벨이 있다. 이 문이 연결하는 곳은 정원까지이며 현실의 출구는 아니다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "HALL_READ_DOOR:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "HALL_READ_DOOR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_HALL_READ_SCHEDULE": {
+			"1": {
+				"action_or_variant": "HALL_READ_SCHEDULE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_CENTRAL_HALL",
+				"locales": {
+					"en-US": {
+						"body": "Mandatory times have been erased, leaving blank spaces and proposed notes. The final confirmation box is empty.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "명령형 시간이 지워지고 빈칸과 제안 메모만 남아 있다. 마지막 확인자 칸은 비어 있다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "HALL_READ_SCHEDULE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_CENTRAL_HALL"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "HALL_READ_SCHEDULE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_IRIS_DENIED": {
+			"1": {
+				"action_or_variant": "IRIS_DENIED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "I do not agree with that interpretation. Still, I return control over changing the season to you.",
+						"speaker": "Iris",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "그 해석에는 동의하지 않아요. 그래도 계절 변경 권한은 돌려드려요.",
+						"speaker": "이리스",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "IRIS_DENIED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "IRIS_DENIED",
+				"speaker_id": "IRIS",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_IRIS_DIRECT_PRIVATE": {
+			"1": {
+				"action_or_variant": "IRIS_DIRECT_PRIVATE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "I will not use what we said in private as a justification for the shared rules.",
+						"speaker": "Iris",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "둘이 나눈 말은 공동 규칙의 명분으로 이용하지 않을게요.",
+						"speaker": "이리스",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "IRIS_DIRECT_PRIVATE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "IRIS_DIRECT_PRIVATE",
+				"speaker_id": "IRIS",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_IRIS_INDIRECT": {
+			"1": {
+				"action_or_variant": "IRIS_INDIRECT",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Let us also put the right to stop the seasonal device into the shared rules.",
+						"speaker": "Iris",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "계절 장치를 멈출 권한도 공동 규칙에 넣어요.",
+						"speaker": "이리스",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "IRIS_INDIRECT:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "IRIS_INDIRECT",
+				"speaker_id": "IRIS",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_IRIS_INFERRED_ONLY": {
+			"1": {
+				"action_or_variant": "IRIS_INFERRED_ONLY",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "You can compare outside sensor readings with the displayed values.",
+						"speaker": "Iris",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "외부 센서값과 연출값을 비교할 수 있어요.",
+						"speaker": "이리스",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "IRIS_INFERRED_ONLY:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "IRIS_INFERRED_ONLY",
+				"speaker_id": "IRIS",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_IRIS_PUBLIC": {
+			"1": {
+				"action_or_variant": "IRIS_PUBLIC",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "The responsibility I acknowledged before everyone remains. Let us write the rules without erasing it.",
+						"speaker": "Iris",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "모두 앞에서 인정한 책임은 남아요. 그 책임을 지우지 않고 규칙을 써요.",
+						"speaker": "이리스",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "IRIS_PUBLIC:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "IRIS_PUBLIC",
+				"speaker_id": "IRIS",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_IRIS_WITHHELD": {
+			"1": {
+				"action_or_variant": "IRIS_WITHHELD",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Even with things I could not say, I will disclose the entire change history.",
+						"speaker": "Iris",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "말하지 못한 부분이 있어도 변경 이력은 모두 공개할게요.",
+						"speaker": "이리스",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "IRIS_WITHHELD:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "IRIS_WITHHELD",
+				"speaker_id": "IRIS",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_0": {
+			"1": {
+				"action_or_variant": "MEMORY_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "You remember that the mansion is a simulation. Choosing familiarity does not erase the truth you have verified.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "주인공은 저택이 시뮬레이션임을 기억한다. 익숙함을 선택해도 확인한 진실을 지우지는 않는다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MEMORY_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_1": {
+			"1": {
+				"action_or_variant": "MEMORY_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "The servants do not erase their researcher personalities or responsibility for the confinement. Living under the same names does not make that responsibility disappear.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "사용인은 연구원 인격과 감금 책임을 삭제하지 않는다. 같은 이름으로 살아가는 일은 책임을 없었던 것으로 만드는 일이 아니다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MEMORY_1:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_2": {
+			"1": {
+				"action_or_variant": "MEMORY_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "No subsequent sleep, waking, or memory change is carried out without your explicit confirmation. This scene does not actually begin the next sleep.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "다음 수면·기상·기억 변경은 주인공의 명시적 확인 없이는 실행하지 않는다. 지금 이 장면에서는 실제 다음 수면을 실행하지 않는다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MEMORY_2:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_FINISH_OPTIONS": {
+			"1": {
+				"action_or_variant": "MEMORY_FINISH_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Retain all three principles",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "세 원칙을 유지한다",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "MEMORY_FINISH_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_FINISH_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_FINISH_SELECT_0": {
+			"1": {
+				"action_or_variant": "MEMORY_FINISH_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Retain all three principles",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "세 원칙을 유지한다",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MEMORY_FINISH_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_FINISH_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_LABEL_0_CHECKED": {
+			"1": {
+				"action_or_variant": "MEMORY_LABEL_0_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Memory principle 1 · Reviewed",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "기억 원칙 1 · 확인함",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MEMORY_LABEL_0_CHECKED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_LABEL_0_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_LABEL_0_UNCHECKED": {
+			"1": {
+				"action_or_variant": "MEMORY_LABEL_0_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Memory principle 1",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "기억 원칙 1",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MEMORY_LABEL_0_UNCHECKED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_LABEL_0_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_LABEL_1_CHECKED": {
+			"1": {
+				"action_or_variant": "MEMORY_LABEL_1_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Memory principle 2 · Reviewed",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "기억 원칙 2 · 확인함",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MEMORY_LABEL_1_CHECKED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_LABEL_1_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_LABEL_1_UNCHECKED": {
+			"1": {
+				"action_or_variant": "MEMORY_LABEL_1_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Memory principle 2",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "기억 원칙 2",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MEMORY_LABEL_1_UNCHECKED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_LABEL_1_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_LABEL_2_CHECKED": {
+			"1": {
+				"action_or_variant": "MEMORY_LABEL_2_CHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Memory principle 3 · Reviewed",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "기억 원칙 3 · 확인함",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MEMORY_LABEL_2_CHECKED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_LABEL_2_CHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MEMORY_LABEL_2_UNCHECKED": {
+			"1": {
+				"action_or_variant": "MEMORY_LABEL_2_UNCHECKED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_MEMORY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Memory principle 3",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "기억 원칙 3",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MEMORY_LABEL_2_UNCHECKED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_MEMORY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MEMORY_LABEL_2_UNCHECKED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MODE_SETTINGS_OPTIONS": {
+			"1": {
+				"action_or_variant": "MODE_SETTINGS_OPTIONS",
+				"cancel_index": 0,
+				"choices": [
+					{
+						"content_id": "NB_STAY_MODE_SETTINGS_SELECT_0",
+						"kind": "choice_cancelled"
+					},
+					{
+						"content_id": "NB_STAY_MODE_SETTINGS_SELECT_1",
+						"kind": "choice_confirmed"
+					},
+					{
+						"content_id": "NB_STAY_MODE_SETTINGS_SELECT_2",
+						"kind": "choice_confirmed"
+					}
+				],
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {
+						"body": "The display is reversible. It does not change memories, relationships, or the ending.",
+						"header": "Appearance display",
+						"option_0": "Keep the current display",
+						"option_1": "Show exterior and facility structure together",
+						"option_2": "Show the facility structure when inspecting",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "표시는 가역적이며 기억·관계·엔딩을 바꾸지 않는다.",
+						"header": "외형 표시",
+						"option_0": "현재 표시 유지",
+						"option_1": "외피와 시설 골격 동시 표시",
+						"option_2": "조사 시 시설 골격 표시",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MODE_SETTINGS_OPTIONS:body",
+					"header": "MODE_SETTINGS_OPTIONS:header",
+					"option_0": "MODE_SETTINGS_OPTIONS:option_0",
+					"option_1": "MODE_SETTINGS_OPTIONS:option_1",
+					"option_2": "MODE_SETTINGS_OPTIONS:option_2"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_APPEARANCE_CONTROL",
+					"EDS_MEMORY_CHARTER",
+					"EDS_AUTONOMY_CHARTER",
+					"EDS_CENTRAL_HALL",
+					"EDS_DINING_ROOM",
+					"EDS_TABLE_OBJECTS",
+					"EDS_FINAL_FRAME"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MODE_SETTINGS_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2"
+				]
+			}
+		},
+		"NB_STAY_MODE_SETTINGS_SELECT_0": {
+			"1": {
+				"action_or_variant": "MODE_SETTINGS_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_cancelled",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {
+						"body": "Keep the current display",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "현재 표시 유지",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MODE_SETTINGS_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_APPEARANCE_CONTROL",
+					"EDS_MEMORY_CHARTER",
+					"EDS_AUTONOMY_CHARTER",
+					"EDS_CENTRAL_HALL",
+					"EDS_DINING_ROOM",
+					"EDS_TABLE_OBJECTS",
+					"EDS_FINAL_FRAME"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MODE_SETTINGS_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MODE_SETTINGS_SELECT_1": {
+			"1": {
+				"action_or_variant": "MODE_SETTINGS_SELECT_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {
+						"body": "Show exterior and facility structure together",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "외피와 시설 골격 동시 표시",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MODE_SETTINGS_SELECT_1:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_APPEARANCE_CONTROL",
+					"EDS_MEMORY_CHARTER",
+					"EDS_AUTONOMY_CHARTER",
+					"EDS_CENTRAL_HALL",
+					"EDS_DINING_ROOM",
+					"EDS_TABLE_OBJECTS",
+					"EDS_FINAL_FRAME"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MODE_SETTINGS_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_MODE_SETTINGS_SELECT_2": {
+			"1": {
+				"action_or_variant": "MODE_SETTINGS_SELECT_2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {
+						"body": "Show the facility structure when inspecting",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "조사 시 시설 골격 표시",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "MODE_SETTINGS_SELECT_2:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_APPEARANCE_CONTROL",
+					"EDS_MEMORY_CHARTER",
+					"EDS_AUTONOMY_CHARTER",
+					"EDS_CENTRAL_HALL",
+					"EDS_DINING_ROOM",
+					"EDS_TABLE_OBJECTS",
+					"EDS_FINAL_FRAME"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "MODE_SETTINGS_SELECT_2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_NOTE_0": {
+			"1": {
+				"action_or_variant": "NOTE_0",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "STAY_SENTENCE_0",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "Tomorrow may be the same day again.",
+						"speaker": "Protagonist",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "내일도 같은 날일 수 있다.",
+						"speaker": "주인공",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_content_ids": [
+					"NB_STAY_WRITE_0_NEW_OPTIONS",
+					"NB_STAY_WRITE_0_NEW_SELECT_0",
+					"NB_STAY_WRITE_0_WRITTEN_OPTIONS",
+					"NB_STAY_WRITE_0_WRITTEN_SELECT_0"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_knowledge_ids": [],
+				"source_symbol": "NOTE_0",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_NOTE_1": {
+			"1": {
+				"action_or_variant": "NOTE_1",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "STAY_SENTENCE_1",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "But it does not have to be the same choice.",
+						"speaker": "Protagonist",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "하지만 같은 선택일 필요는 없다.",
+						"speaker": "주인공",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "NOTE_1:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_content_ids": [
+					"NB_STAY_WRITE_1_NEW_OPTIONS",
+					"NB_STAY_WRITE_1_NEW_SELECT_0",
+					"NB_STAY_WRITE_1_WRITTEN_OPTIONS",
+					"NB_STAY_WRITE_1_WRITTEN_SELECT_0"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_knowledge_ids": [],
+				"source_symbol": "NOTE_1",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_OVERLAY_AUTHORITY_RETURNED": {
+			"1": {
+				"action_or_variant": "OVERLAY_AUTHORITY_RETURNED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "You have final confirmation over waking and bedtime.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "기상과 취침의 최종 확인자는 주인공이다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_AUTHORITY_RETURNED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "OVERLAY_AUTHORITY_RETURNED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_OVERLAY_EXTERNAL_TRUTH": {
+			"1": {
+				"action_or_variant": "OVERLAY_EXTERNAL_TRUTH",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Outside sensor readings appear before the projection.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "외부 센서값을 투영보다 먼저 표시한다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_EXTERNAL_TRUTH:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "OVERLAY_EXTERNAL_TRUTH",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_OVERLAY_FULL_DISCLOSURE": {
+			"1": {
+				"action_or_variant": "OVERLAY_FULL_DISCLOSURE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "All life-support warnings are available for shared review.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "생명 유지 경고 전부를 공동 열람한다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_FULL_DISCLOSURE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "OVERLAY_FULL_DISCLOSURE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_OVERLAY_MERGED": {
+			"1": {
+				"action_or_variant": "OVERLAY_MERGED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Current memories and returned annotations are retained in one index.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "현재 기억과 돌아온 주석을 한 인덱스로 유지한다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_MERGED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "OVERLAY_MERGED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_OVERLAY_ORIGINAL_ATTRIBUTION": {
+			"1": {
+				"action_or_variant": "OVERLAY_ORIGINAL_ATTRIBUTION",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Their own name and the responsible person's name remain on the do-not-delete list.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "삭제 금지 목록에 자기 이름과 책임자명을 남겼다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_ORIGINAL_ATTRIBUTION:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "OVERLAY_ORIGINAL_ATTRIBUTION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_OVERLAY_PROTECTED_IDENTIFIERS": {
+			"1": {
+				"action_or_variant": "OVERLAY_PROTECTED_IDENTIFIERS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Personal identifier safeguards have been added to the shared rules.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "개인 식별자 보호 절차를 공동 규칙에 추가했다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_PROTECTED_IDENTIFIERS:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "OVERLAY_PROTECTED_IDENTIFIERS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_OVERLAY_RESPONSIBILITY_RECORDED": {
+			"1": {
+				"action_or_variant": "OVERLAY_RESPONSIBILITY_RECORDED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "The decision to confine you is not deleted from the operating record.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "감금 결정을 운영 기록에서 삭제하지 않는다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_RESPONSIBILITY_RECORDED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "OVERLAY_RESPONSIBILITY_RECORDED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_OVERLAY_SEPARATED": {
+			"1": {
+				"action_or_variant": "OVERLAY_SEPARATED",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "The two frames are preserved separately with cross-links. Two voices propose swapping places.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "두 액자를 따로 보존하고 교차 링크를 남긴다. 두 목소리가 위치 바꾸기를 제안한다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_SEPARATED:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "OVERLAY_SEPARATED",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_OVERLAY_SHELTER_PROJECTION": {
+			"1": {
+				"action_or_variant": "OVERLAY_SHELTER_PROJECTION",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "The projection and outside readings appear side by side; the projection can be turned off at any time.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "투영과 외부값을 나란히 표시하고 언제든 끌 수 있다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_SHELTER_PROJECTION:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "OVERLAY_SHELTER_PROJECTION",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_OVERLAY_STABILIZE_FIRST": {
+			"1": {
+				"action_or_variant": "OVERLAY_STABILIZE_FIRST",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "After device stability is verified, all the same warnings are disclosed.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "장치 안정 확인 뒤 같은 경고를 모두 공개한다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "OVERLAY_STABILIZE_FIRST:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "OVERLAY_STABILIZE_FIRST",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_ROLE_EDGAR_FIXED_OPTIONS": {
+			"1": {
+				"action_or_variant": "ROLE_EDGAR_FIXED_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Edgar · Assigned → Proposed",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "에드가 · 고정 → 제안",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "ROLE_EDGAR_FIXED_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_EDGAR_FIXED_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_ROLE_EDGAR_FIXED_SELECT_0": {
+			"1": {
+				"action_or_variant": "ROLE_EDGAR_FIXED_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Edgar · Assigned → Proposed",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "에드가 · 고정 → 제안",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "ROLE_EDGAR_FIXED_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_EDGAR_FIXED_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_ROLE_EDGAR_PROPOSED_OPTIONS": {
+			"1": {
+				"action_or_variant": "ROLE_EDGAR_PROPOSED_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Edgar · Proposed",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "에드가 · 제안",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "ROLE_EDGAR_PROPOSED_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_EDGAR_PROPOSED_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_ROLE_EDGAR_PROPOSED_SELECT_0": {
+			"1": {
+				"action_or_variant": "ROLE_EDGAR_PROPOSED_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Edgar · Proposed",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "에드가 · 제안",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "ROLE_EDGAR_PROPOSED_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_EDGAR_PROPOSED_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_ROLE_IRIS_FIXED_OPTIONS": {
+			"1": {
+				"action_or_variant": "ROLE_IRIS_FIXED_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Iris · Assigned → Proposed",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "이리스 · 고정 → 제안",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "ROLE_IRIS_FIXED_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_IRIS_FIXED_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_ROLE_IRIS_FIXED_SELECT_0": {
+			"1": {
+				"action_or_variant": "ROLE_IRIS_FIXED_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Iris · Assigned → Proposed",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "이리스 · 고정 → 제안",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "ROLE_IRIS_FIXED_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_IRIS_FIXED_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_ROLE_IRIS_PROPOSED_OPTIONS": {
+			"1": {
+				"action_or_variant": "ROLE_IRIS_PROPOSED_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Iris · Proposed",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "이리스 · 제안",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "ROLE_IRIS_PROPOSED_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_IRIS_PROPOSED_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_ROLE_IRIS_PROPOSED_SELECT_0": {
+			"1": {
+				"action_or_variant": "ROLE_IRIS_PROPOSED_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Iris · Proposed",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "이리스 · 제안",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "ROLE_IRIS_PROPOSED_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_IRIS_PROPOSED_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_ROLE_LUCA_FIXED_OPTIONS": {
+			"1": {
+				"action_or_variant": "ROLE_LUCA_FIXED_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Luca · Assigned → Proposed",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "루카 · 고정 → 제안",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "ROLE_LUCA_FIXED_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_LUCA_FIXED_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_ROLE_LUCA_FIXED_SELECT_0": {
+			"1": {
+				"action_or_variant": "ROLE_LUCA_FIXED_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Luca · Assigned → Proposed",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "루카 · 고정 → 제안",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "ROLE_LUCA_FIXED_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_LUCA_FIXED_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_ROLE_LUCA_PROPOSED_OPTIONS": {
+			"1": {
+				"action_or_variant": "ROLE_LUCA_PROPOSED_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Luca · Proposed",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "루카 · 제안",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "ROLE_LUCA_PROPOSED_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_LUCA_PROPOSED_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_ROLE_LUCA_PROPOSED_SELECT_0": {
+			"1": {
+				"action_or_variant": "ROLE_LUCA_PROPOSED_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Luca · Proposed",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "루카 · 제안",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "ROLE_LUCA_PROPOSED_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_LUCA_PROPOSED_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_ROLE_MARA1_FIXED_OPTIONS": {
+			"1": {
+				"action_or_variant": "ROLE_MARA1_FIXED_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Mara 1 · Assigned → Proposed",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "마라 1 · 고정 → 제안",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "ROLE_MARA1_FIXED_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_MARA1_FIXED_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_ROLE_MARA1_FIXED_SELECT_0": {
+			"1": {
+				"action_or_variant": "ROLE_MARA1_FIXED_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1 · Assigned → Proposed",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "마라 1 · 고정 → 제안",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "ROLE_MARA1_FIXED_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_MARA1_FIXED_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_ROLE_MARA1_PROPOSED_OPTIONS": {
+			"1": {
+				"action_or_variant": "ROLE_MARA1_PROPOSED_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Mara 1 · Proposed",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "마라 1 · 제안",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "ROLE_MARA1_PROPOSED_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_MARA1_PROPOSED_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_ROLE_MARA1_PROPOSED_SELECT_0": {
+			"1": {
+				"action_or_variant": "ROLE_MARA1_PROPOSED_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1 · Proposed",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "마라 1 · 제안",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "ROLE_MARA1_PROPOSED_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_MARA1_PROPOSED_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_ROLE_MARA2_FIXED_OPTIONS": {
+			"1": {
+				"action_or_variant": "ROLE_MARA2_FIXED_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Mara 2 · Assigned → Proposed",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "마라 2 · 고정 → 제안",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "ROLE_MARA2_FIXED_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_MARA2_FIXED_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_ROLE_MARA2_FIXED_SELECT_0": {
+			"1": {
+				"action_or_variant": "ROLE_MARA2_FIXED_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2 · Assigned → Proposed",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "마라 2 · 고정 → 제안",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "ROLE_MARA2_FIXED_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_MARA2_FIXED_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_ROLE_MARA2_PROPOSED_OPTIONS": {
+			"1": {
+				"action_or_variant": "ROLE_MARA2_PROPOSED_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"option_0": "Mara 2 · Proposed",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "마라 2 · 제안",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "ROLE_MARA2_PROPOSED_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_MARA2_PROPOSED_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_ROLE_MARA2_PROPOSED_SELECT_0": {
+			"1": {
+				"action_or_variant": "ROLE_MARA2_PROPOSED_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_AUTONOMY_CHARTER",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2 · Proposed",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "마라 2 · 제안",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "ROLE_MARA2_PROPOSED_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_AUTONOMY_CHARTER"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "ROLE_MARA2_PROPOSED_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_SEATING_READ": {
+			"1": {
+				"action_or_variant": "SEATING_READ",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_DINING_ROOM",
+				"locales": {
+					"en-US": {
+						"edgar_sit": "Edgar: chooses where to sit.",
+						"edgar_stand": "Edgar: chooses where to stand or move.",
+						"intro_all": "All five sit, retaining their own names and boundaries.",
+						"intro_four": "Four sit. A nameplate, not a function panel, remains at the empty place.",
+						"intro_low": "Only you sit. Those standing on either side may also choose to leave or take a seat.",
+						"intro_mid": "Those whose relationship events are complete sit; the others come and go, doing work they have chosen.",
+						"iris_sit": "Iris: chooses where to sit.",
+						"iris_stand": "Iris: chooses where to stand or move.",
+						"luca_sit": "Luca: chooses where to sit.",
+						"luca_stand": "Luca: chooses where to stand or move.",
+						"mara1_sit": "Mara 1: chooses where to sit.",
+						"mara1_stand": "Mara 1: chooses where to stand or move.",
+						"mara2_sit": "Mara 2: chooses where to sit.",
+						"mara2_stand": "Mara 2: chooses where to stand or move.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"edgar_sit": "에드가: 앉을 자리를 직접 고른다.",
+						"edgar_stand": "에드가: 서 있거나 이동할 자리를 직접 고른다.",
+						"intro_all": "다섯 인물이 각자의 이름과 경계를 유지한 채 앉는다.",
+						"intro_four": "네 인물이 앉는다. 빈 자리에는 기능 패널 대신 이름표가 남는다.",
+						"intro_low": "주인공만 앉는다. 양옆에 선 인물도 퇴장과 착석을 선택할 수 있다.",
+						"intro_mid": "관계 완료 인물은 앉고, 다른 인물은 자신이 고른 일을 하며 왕래한다.",
+						"iris_sit": "이리스: 앉을 자리를 직접 고른다.",
+						"iris_stand": "이리스: 서 있거나 이동할 자리를 직접 고른다.",
+						"luca_sit": "루카: 앉을 자리를 직접 고른다.",
+						"luca_stand": "루카: 서 있거나 이동할 자리를 직접 고른다.",
+						"mara1_sit": "마라 1: 앉을 자리를 직접 고른다.",
+						"mara1_stand": "마라 1: 서 있거나 이동할 자리를 직접 고른다.",
+						"mara2_sit": "마라 2: 앉을 자리를 직접 고른다.",
+						"mara2_stand": "마라 2: 서 있거나 이동할 자리를 직접 고른다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"edgar_sit": "SEATING_READ:edgar_sit",
+					"edgar_stand": "SEATING_READ:edgar_stand",
+					"intro_all": "SEATING_READ:intro_all",
+					"intro_four": "SEATING_READ:intro_four",
+					"intro_low": "SEATING_READ:intro_low",
+					"intro_mid": "SEATING_READ:intro_mid",
+					"iris_sit": "SEATING_READ:iris_sit",
+					"iris_stand": "SEATING_READ:iris_stand",
+					"luca_sit": "SEATING_READ:luca_sit",
+					"luca_stand": "SEATING_READ:luca_stand",
+					"mara1_sit": "SEATING_READ:mara1_sit",
+					"mara1_stand": "SEATING_READ:mara1_stand",
+					"mara2_sit": "SEATING_READ:mara2_sit",
+					"mara2_stand": "SEATING_READ:mara2_stand"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_DINING_ROOM"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SEATING_READ",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"edgar_sit": {},
+					"edgar_stand": {},
+					"intro_all": {},
+					"intro_four": {},
+					"intro_low": {},
+					"intro_mid": {},
+					"iris_sit": {},
+					"iris_stand": {},
+					"luca_sit": {},
+					"luca_stand": {},
+					"mara1_sit": {},
+					"mara1_stand": {},
+					"mara2_sit": {},
+					"mara2_stand": {}
+				},
+				"visible_segment_ids": [
+					"intro_low",
+					"intro_mid",
+					"intro_four",
+					"intro_all",
+					"edgar_stand",
+					"edgar_sit",
+					"mara1_stand",
+					"mara1_sit",
+					"luca_stand",
+					"luca_sit",
+					"iris_stand",
+					"iris_sit",
+					"mara2_stand",
+					"mara2_sit"
+				]
+			}
+		},
+		"NB_STAY_SEATING_SCREEN": {
+			"1": {
+				"action_or_variant": "SEATING_SCREEN",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_DINING_ROOM",
+				"locales": {
+					"en-US": {
+						"edgar_sit": "Edgar: chooses where to sit.",
+						"edgar_stand": "Edgar: chooses where to stand or move.",
+						"intro_all": "All five sit, retaining their own names and boundaries.",
+						"intro_four": "Four sit. A nameplate, not a function panel, remains at the empty place.",
+						"intro_low": "Only you sit. Those standing on either side may also choose to leave or take a seat.",
+						"intro_mid": "Those whose relationship events are complete sit; the others come and go, doing work they have chosen.",
+						"iris_sit": "Iris: chooses where to sit.",
+						"iris_stand": "Iris: chooses where to stand or move.",
+						"luca_sit": "Luca: chooses where to sit.",
+						"luca_stand": "Luca: chooses where to stand or move.",
+						"mara1_sit": "Mara 1: chooses where to sit.",
+						"mara1_stand": "Mara 1: chooses where to stand or move.",
+						"mara2_sit": "Mara 2: chooses where to sit.",
+						"mara2_stand": "Mara 2: chooses where to stand or move.",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"edgar_sit": "에드가: 앉을 자리를 직접 고른다.",
+						"edgar_stand": "에드가: 서 있거나 이동할 자리를 직접 고른다.",
+						"intro_all": "다섯 인물이 각자의 이름과 경계를 유지한 채 앉는다.",
+						"intro_four": "네 인물이 앉는다. 빈 자리에는 기능 패널 대신 이름표가 남는다.",
+						"intro_low": "주인공만 앉는다. 양옆에 선 인물도 퇴장과 착석을 선택할 수 있다.",
+						"intro_mid": "관계 완료 인물은 앉고, 다른 인물은 자신이 고른 일을 하며 왕래한다.",
+						"iris_sit": "이리스: 앉을 자리를 직접 고른다.",
+						"iris_stand": "이리스: 서 있거나 이동할 자리를 직접 고른다.",
+						"luca_sit": "루카: 앉을 자리를 직접 고른다.",
+						"luca_stand": "루카: 서 있거나 이동할 자리를 직접 고른다.",
+						"mara1_sit": "마라 1: 앉을 자리를 직접 고른다.",
+						"mara1_stand": "마라 1: 서 있거나 이동할 자리를 직접 고른다.",
+						"mara2_sit": "마라 2: 앉을 자리를 직접 고른다.",
+						"mara2_stand": "마라 2: 서 있거나 이동할 자리를 직접 고른다.",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"edgar_sit": "SEATING_SCREEN:edgar_sit",
+					"edgar_stand": "SEATING_SCREEN:edgar_stand",
+					"intro_all": "SEATING_SCREEN:intro_all",
+					"intro_four": "SEATING_SCREEN:intro_four",
+					"intro_low": "SEATING_SCREEN:intro_low",
+					"intro_mid": "SEATING_SCREEN:intro_mid",
+					"iris_sit": "SEATING_SCREEN:iris_sit",
+					"iris_stand": "SEATING_SCREEN:iris_stand",
+					"luca_sit": "SEATING_SCREEN:luca_sit",
+					"luca_stand": "SEATING_SCREEN:luca_stand",
+					"mara1_sit": "SEATING_SCREEN:mara1_sit",
+					"mara1_stand": "SEATING_SCREEN:mara1_stand",
+					"mara2_sit": "SEATING_SCREEN:mara2_sit",
+					"mara2_stand": "SEATING_SCREEN:mara2_stand"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_DINING_ROOM"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "SEATING_SCREEN",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"edgar_sit": {},
+					"edgar_stand": {},
+					"intro_all": {},
+					"intro_four": {},
+					"intro_low": {},
+					"intro_mid": {},
+					"iris_sit": {},
+					"iris_stand": {},
+					"luca_sit": {},
+					"luca_stand": {},
+					"mara1_sit": {},
+					"mara1_stand": {},
+					"mara2_sit": {},
+					"mara2_stand": {}
+				},
+				"visible_segment_ids": [
+					"intro_low",
+					"intro_mid",
+					"intro_four",
+					"intro_all",
+					"edgar_stand",
+					"edgar_sit",
+					"mara1_stand",
+					"mara1_sit",
+					"luca_stand",
+					"luca_sit",
+					"iris_stand",
+					"iris_sit",
+					"mara2_stand",
+					"mara2_sit"
+				]
+			}
+		},
+		"NB_STAY_TABLE_EDGAR_COMPLETE": {
+			"1": {
+				"action_or_variant": "TABLE_EDGAR_COMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Will you also choose tomorrow's bedtime yourself? I have placed the rapier out of reach.",
+						"speaker": "Edgar",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "내일의 취침 시각도 직접 정하시겠습니까? 레이피어는 손이 닿지 않는 곳에 두었습니다.",
+						"speaker": "에드가",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_EDGAR_COMPLETE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_EDGAR_COMPLETE",
+				"speaker_id": "EDGAR",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_EDGAR_INCOMPLETE": {
+			"1": {
+				"action_or_variant": "TABLE_EDGAR_INCOMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "The rapier stands straight, but its scabbard lock is open. Edgar does not finalize the schedule.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "레이피어는 곧게 세워져 있지만 칼집 잠금은 풀려 있다. 에드가는 일정표를 확정하지 않는다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_EDGAR_INCOMPLETE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_EDGAR_INCOMPLETE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_IRIS_COMPLETE": {
+			"1": {
+				"action_or_variant": "TABLE_IRIS_COMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Shall we keep spring? I won't erase the label saying it differs from the real wind.",
+						"speaker": "Iris",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "봄을 남겨 둘까요? 실제 바람과 다르다는 표시는 지우지 않을게요.",
+						"speaker": "이리스",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_IRIS_COMPLETE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_IRIS_COMPLETE",
+				"speaker_id": "IRIS",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_IRIS_INCOMPLETE": {
+			"1": {
+				"action_or_variant": "TABLE_IRIS_INCOMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "A MODEL label sits beside the ideal spring. This display is separate from outside observations.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "이상적인 봄 옆에 MODEL 라벨이 붙어 있다. 외부 관측값과는 다른 표시다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_IRIS_INCOMPLETE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_IRIS_INCOMPLETE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_LABEL_EDGAR": {
+			"1": {
+				"action_or_variant": "TABLE_LABEL_EDGAR",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "The rapier set aside",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "내려놓은 레이피어",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_LABEL_EDGAR:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_LABEL_EDGAR",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_LABEL_IRIS": {
+			"1": {
+				"action_or_variant": "TABLE_LABEL_IRIS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "The season outside",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "창밖의 계절",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_LABEL_IRIS:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_LABEL_IRIS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_LABEL_LUCA": {
+			"1": {
+				"action_or_variant": "TABLE_LABEL_LUCA",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Tea that can change each time",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "매번 달라지는 차",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_LABEL_LUCA:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_LABEL_LUCA",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_LABEL_MARA1": {
+			"1": {
+				"action_or_variant": "TABLE_LABEL_MARA1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "The stain left unerased",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "지워지지 않은 얼룩",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_LABEL_MARA1:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_LABEL_MARA1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_LABEL_MARA2": {
+			"1": {
+				"action_or_variant": "TABLE_LABEL_MARA2",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Portrait nameplate",
+						"speaker": "Scene",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "초상화 이름표",
+						"speaker": "장면",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_LABEL_MARA2:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_LABEL_MARA2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_LUCA_COMPLETE": {
+			"1": {
+				"action_or_variant": "TABLE_LUCA_COMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "The tea's temperature... please choose it yourself today. If it's wrong, we can warm it again...",
+						"speaker": "Luca",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "차 온도는... 오늘은 직접 정해 주세요. 틀려도, 다시 데우면 되니까요...",
+						"speaker": "루카",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_LUCA_COMPLETE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_LUCA_COMPLETE",
+				"speaker_id": "LUCA",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_LUCA_INCOMPLETE": {
+			"1": {
+				"action_or_variant": "TABLE_LUCA_INCOMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Tea at the familiar temperature is set down. Even so, the temperature choice remains available.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "익숙한 온도의 차가 놓였다. 그래도 온도를 고르는 항목은 닫히지 않는다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_LUCA_INCOMPLETE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_LUCA_INCOMPLETE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_MARA1_COMPLETE": {
+			"1": {
+				"action_or_variant": "TABLE_MARA1_COMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "I'm not cleaning this stain. It's a record. Hah, listen to me saying that.",
+						"speaker": "Mara 1",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "이 얼룩은 안 지울 겁니다. 기록임다. 제가 이런 말도 하네.",
+						"speaker": "마라 1",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_MARA1_COMPLETE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_MARA1_COMPLETE",
+				"speaker_id": "MARA1",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_MARA1_INCOMPLETE": {
+			"1": {
+				"action_or_variant": "TABLE_MARA1_INCOMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Mara 1 starts to wipe the stain, then notices your gaze and stops.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "마라 1이 얼룩을 닦으려다가 주인공의 시선을 보고 멈춘다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_MARA1_INCOMPLETE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_MARA1_INCOMPLETE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_MARA2_COMPLETE": {
+			"1": {
+				"action_or_variant": "TABLE_MARA2_COMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Let's swap nameplates every day! If you get it wrong, I win. If I forget... you tell me. The original index stays put!",
+						"speaker": "Mara 2",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "매일 이름표를 바꾸자! 네가 틀리면 내가 이기고, 내가 잊으면... 네가 알려 줘. 원본 인덱스는 그대로야!",
+						"speaker": "마라 2",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_MARA2_COMPLETE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_MARA2_COMPLETE",
+				"speaker_id": "MARA2",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TABLE_MARA2_INCOMPLETE": {
+			"1": {
+				"action_or_variant": "TABLE_MARA2_INCOMPLETE",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Mara 2 checks her own nameplate twice. Its position can change; the original index remains.",
+						"speaker": "SYSTEM",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "마라 2가 자기 이름표를 두 번 확인한다. 위치가 바뀌어도 원본 인덱스는 남는다.",
+						"speaker": "SYSTEM",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TABLE_MARA2_INCOMPLETE:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TABLE_MARA2_INCOMPLETE",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TEA_HOT_OPTIONS": {
+			"1": {
+				"action_or_variant": "TEA_HOT_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"option_0": "Tea · Warm",
+						"option_1": "Tea · Hotter · Selected",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "차 · 따뜻하게",
+						"option_1": "차 · 더 뜨겁게 · 선택함",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "TEA_HOT_OPTIONS:option_0",
+					"option_1": "TEA_HOT_OPTIONS:option_1"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TEA_HOT_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {},
+					"option_1": {}
+				},
+				"visible_segment_ids": [
+					"option_0",
+					"option_1"
+				]
+			}
+		},
+		"NB_STAY_TEA_HOT_SELECT_0": {
+			"1": {
+				"action_or_variant": "TEA_HOT_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Tea · Warm",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "차 · 따뜻하게",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TEA_HOT_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TEA_HOT_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TEA_HOT_SELECT_1": {
+			"1": {
+				"action_or_variant": "TEA_HOT_SELECT_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Tea · Hotter · Selected",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "차 · 더 뜨겁게 · 선택함",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TEA_HOT_SELECT_1:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TEA_HOT_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TEA_USUAL_OPTIONS": {
+			"1": {
+				"action_or_variant": "TEA_USUAL_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"option_0": "Tea · Warm",
+						"option_1": "Tea · Hotter",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "차 · 따뜻하게",
+						"option_1": "차 · 더 뜨겁게",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "TEA_USUAL_OPTIONS:option_0",
+					"option_1": "TEA_USUAL_OPTIONS:option_1"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TEA_USUAL_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {},
+					"option_1": {}
+				},
+				"visible_segment_ids": [
+					"option_0",
+					"option_1"
+				]
+			}
+		},
+		"NB_STAY_TEA_USUAL_SELECT_0": {
+			"1": {
+				"action_or_variant": "TEA_USUAL_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Tea · Warm",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "차 · 따뜻하게",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TEA_USUAL_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TEA_USUAL_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TEA_USUAL_SELECT_1": {
+			"1": {
+				"action_or_variant": "TEA_USUAL_SELECT_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Tea · Hotter",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "차 · 더 뜨겁게",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TEA_USUAL_SELECT_1:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TEA_USUAL_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TEA_WARM_OPTIONS": {
+			"1": {
+				"action_or_variant": "TEA_WARM_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"option_0": "Tea · Warm · Selected",
+						"option_1": "Tea · Hotter",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "차 · 따뜻하게 · 선택함",
+						"option_1": "차 · 더 뜨겁게",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "TEA_WARM_OPTIONS:option_0",
+					"option_1": "TEA_WARM_OPTIONS:option_1"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TEA_WARM_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {},
+					"option_1": {}
+				},
+				"visible_segment_ids": [
+					"option_0",
+					"option_1"
+				]
+			}
+		},
+		"NB_STAY_TEA_WARM_SELECT_0": {
+			"1": {
+				"action_or_variant": "TEA_WARM_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Tea · Warm · Selected",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "차 · 따뜻하게 · 선택함",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TEA_WARM_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TEA_WARM_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_TEA_WARM_SELECT_1": {
+			"1": {
+				"action_or_variant": "TEA_WARM_SELECT_1",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Tea · Hotter",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "차 · 더 뜨겁게",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "TEA_WARM_SELECT_1:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "TEA_WARM_SELECT_1",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_WRITE_0_NEW_OPTIONS": {
+			"1": {
+				"action_or_variant": "WRITE_0_NEW_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"option_0": "Write in notebook: Tomorrow may be the same day again.",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "수첩에 쓴다: 내일도 같은 날일 수 있다.",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "WRITE_0_NEW_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "WRITE_0_NEW_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_WRITE_0_NEW_SELECT_0": {
+			"1": {
+				"action_or_variant": "WRITE_0_NEW_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Write in notebook: Tomorrow may be the same day again.",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "수첩에 쓴다: 내일도 같은 날일 수 있다.",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "WRITE_0_NEW_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "WRITE_0_NEW_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_WRITE_0_WRITTEN_OPTIONS": {
+			"1": {
+				"action_or_variant": "WRITE_0_WRITTEN_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"option_0": "Written: Tomorrow may be the same day again.",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "쓴 문장: 내일도 같은 날일 수 있다.",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "WRITE_0_WRITTEN_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "WRITE_0_WRITTEN_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_WRITE_0_WRITTEN_SELECT_0": {
+			"1": {
+				"action_or_variant": "WRITE_0_WRITTEN_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Written: Tomorrow may be the same day again.",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "쓴 문장: 내일도 같은 날일 수 있다.",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "WRITE_0_WRITTEN_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "WRITE_0_WRITTEN_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_WRITE_1_NEW_OPTIONS": {
+			"1": {
+				"action_or_variant": "WRITE_1_NEW_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"option_0": "Write in notebook: But it does not have to be the same choice.",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "수첩에 쓴다: 하지만 같은 선택일 필요는 없다.",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "WRITE_1_NEW_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "WRITE_1_NEW_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_WRITE_1_NEW_SELECT_0": {
+			"1": {
+				"action_or_variant": "WRITE_1_NEW_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Write in notebook: But it does not have to be the same choice.",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "수첩에 쓴다: 하지만 같은 선택일 필요는 없다.",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "WRITE_1_NEW_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "WRITE_1_NEW_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_STAY_WRITE_1_WRITTEN_OPTIONS": {
+			"1": {
+				"action_or_variant": "WRITE_1_WRITTEN_OPTIONS",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "options_presented",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"option_0": "Written: But it does not have to be the same choice.",
+						"speaker": "Displayed choices",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"option_0": "쓴 문장: 하지만 같은 선택일 필요는 없다.",
+						"speaker": "표시된 선택지",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"option_0": "WRITE_1_WRITTEN_OPTIONS:option_0"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "WRITE_1_WRITTEN_OPTIONS",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"option_0": {}
+				},
+				"visible_segment_ids": [
+					"option_0"
+				]
+			}
+		},
+		"NB_STAY_WRITE_1_WRITTEN_SELECT_0": {
+			"1": {
+				"action_or_variant": "WRITE_1_WRITTEN_SELECT_0",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "choice_confirmed",
+				"event_id": "EDS_TABLE_OBJECTS",
+				"locales": {
+					"en-US": {
+						"body": "Written: But it does not have to be the same choice.",
+						"speaker": "Selected option",
+						"summary": "Only what was observed or selected at that time",
+						"title": "Principles and an Evening of Staying"
+					},
+					"ko-KR": {
+						"body": "쓴 문장: 하지만 같은 선택일 필요는 없다.",
+						"speaker": "선택한 문구",
+						"summary": "당시 확인하거나 선택한 내용",
+						"title": "잔류의 원칙과 저녁"
+					}
+				},
+				"localization_keys": {
+					"body": "WRITE_1_WRITTEN_SELECT_0:body"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDS_TABLE_OBJECTS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": [
+					"choice"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "WRITE_1_WRITTEN_SELECT_0",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	},
+	"format_version": 1
+}
