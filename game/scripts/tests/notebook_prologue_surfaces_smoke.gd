@@ -201,7 +201,7 @@ func _present(view: Node) -> void:
 	var before := GameState.get_snapshot()
 	_expect(view._prologue_surface_allowed(),"surface capture succeeds")
 	var after := GameState.get_snapshot()
-	_expect(before.loop_state == after.loop_state and before.meta_progress.knowledge_entries == after.meta_progress.knowledge_entries,"surface capture does not change progress or knowledge")
+	_expect(preload("res://scripts/tests/notebook_state_assertions.gd").same_surface_gameplay(before,after),"surface capture only appends observations and backed receipts, not progress or knowledge")
 
 
 func _collect(language: String) -> void:

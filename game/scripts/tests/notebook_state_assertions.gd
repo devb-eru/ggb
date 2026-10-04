@@ -1,6 +1,35 @@
 extends RefCounted
 
 const PRESENTATION := preload("res://scripts/systems/notebook_presentation.gd")
+const RECEIPT := preload("res://scripts/systems/notebook_surface_receipt.gd")
+
+
+static func same_surface_gameplay(before: Dictionary, after: Dictionary) -> bool:
+	var receipt: Dictionary = after.loop_state.event_local_states.get(RECEIPT.KEY, {})
+	if not RECEIPT.valid(receipt): return false
+	var old: Dictionary = before.meta_progress.dialogue_history
+	var current: Dictionary = after.meta_progress.dialogue_history
+	var added: int = current.entries.size() - old.entries.size()
+	if added < 0 or not StateSnapshotValidator.same_persisted_value(old.entries, current.entries.slice(0, old.entries.size())): return false
+	var archive := current.duplicate(true)
+	archive.entries = old.entries.duplicate(true)
+	archive.next_sequence -= added
+	archive.revision -= added
+	if not StateSnapshotValidator.same_persisted_value(old, archive): return false
+	if receipt.scope.origin != current.source_origin_id or receipt.scope.branch != current.branch_id: return false
+	for identity in receipt.receipts.values():
+		var backed := false
+		for entry in current.entries:
+			if entry.get("record_class") != "authored": continue
+			var observed: Dictionary = entry.observation
+			if observed.presentation_token == identity.presentation_token and observed.event_occurrence_id == identity.event_occurrence_id and observed.conversation_session_id == identity.conversation_session_id: backed = true
+		if not backed: return false
+	var left := before.duplicate(true)
+	var right := after.duplicate(true)
+	left.loop_state.event_local_states.erase(RECEIPT.KEY)
+	right.loop_state.event_local_states.erase(RECEIPT.KEY)
+	right.meta_progress.dialogue_history = old.duplicate(true)
+	return StateSnapshotValidator.same_persisted_value(left, right)
 
 
 static func same_gameplay(before: Dictionary, after: Dictionary, closed_kind: String, report: bool = true) -> bool:

@@ -254,6 +254,7 @@ static func anchor(state: Dictionary) -> String:
 			var loop: Dictionary = state[root].duplicate()
 			loop.event_local_states = loop.event_local_states.duplicate()
 			loop.event_local_states.erase(KEY)
+			loop.event_local_states.erase("NOTEBOOK_SURFACE_RECEIPT")
 			world[root] = loop
 		else: world[root] = state[root]
 	return JSON.stringify(_canonical(world), "", true, true).sha256_text()

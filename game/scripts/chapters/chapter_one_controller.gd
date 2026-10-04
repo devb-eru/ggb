@@ -580,7 +580,7 @@ func _render_room() -> void:
 	if _rendering or session == null:
 		return
 	_rendering = true
-	_notebook_surfaces.begin(_notebook_surface_scope())
+	_notebook_surfaces.begin(_notebook_surface_scope(), session.snapshot())
 	call_deferred("_flush_notebook_surfaces", _notebook_surfaces.generation)
 	_remember_world_focus()
 	var state := session.snapshot()

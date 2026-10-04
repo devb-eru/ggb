@@ -2845,6 +2845,10 @@ func _validate_credits(session: BasementSession) -> void:
 		if new_history.has("schema_version"):
 			for entry in new_history.entries.slice(before_notice_close.meta_progress.dialogue_history.entries.size()):
 				_expect(entry.record_class == "authored" and entry.observation.entry_kind == "document_segment", "Closing replay notice records only newly visible story surfaces, not an administrative line")
+			_expect(preload("res://scripts/tests/notebook_state_assertions.gd").same_surface_gameplay(before_notice_close, after_notice_close), "replay world adds only backed surface receipts and observations")
+			var receipt_key := "NOTEBOOK_SURFACE_RECEIPT"
+			if before_notice_close.loop_state.event_local_states.has(receipt_key): after_notice_close.loop_state.event_local_states[receipt_key] = before_notice_close.loop_state.event_local_states[receipt_key].duplicate(true)
+			else: after_notice_close.loop_state.event_local_states.erase(receipt_key)
 		after_notice_close.meta_progress.dialogue_history = before_notice_close.meta_progress.dialogue_history.duplicate(true)
 		_expect(StateSnapshotValidator.same_persisted_value(after_notice_close, before_notice_close), "Closing replay notice preserves gameplay and presentation cursor while exposing the destination surface")
 		_expect(view.session.act("f3_cancel").get("ok", false), "Replay can return to F3 inspection")

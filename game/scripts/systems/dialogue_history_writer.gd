@@ -2,6 +2,7 @@ extends RefCounted
 
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const PRESENTATION := preload("res://scripts/systems/notebook_presentation.gd")
+const SURFACE_RECEIPT := preload("res://scripts/systems/notebook_surface_receipt.gd")
 
 
 static func record(game: Node, saves: Node, slot: String, point: String, speaker: String, text: String, locale: String, chapter_id: String = "LEGACY", observed_fact_ids: Variant = [], context: Dictionary = {}) -> Dictionary:
@@ -31,6 +32,7 @@ static func append_to_snapshot(state: Dictionary, speaker: String, text: String,
 	if history.has("schema_version"):
 		var frozen := context.duplicate(true)
 		frozen.erase("presentation_cursor")
+		frozen.erase("surface_receipt")
 		if not frozen.has("presentation_token"): frozen.presentation_token = ARCHIVE.new_uid()
 		var appended: Dictionary
 		if frozen.has("notebook_content"):
@@ -40,7 +42,13 @@ static func append_to_snapshot(state: Dictionary, speaker: String, text: String,
 		else:
 			appended = ARCHIVE.append_unmapped(history, payload, frozen, int(history.revision))
 		if not appended.ok: return appended
-		if not appended.changed and cursor.is_empty(): return {"ok": true, "changed": false, "entry_uid": appended.entry_uid}
+		var receipt_changed := false
+		if context.has("surface_receipt"):
+			var previous: Dictionary = state.loop_state.event_local_states.get(SURFACE_RECEIPT.KEY, {}).duplicate(true)
+			if not frozen.has("notebook_content") or not context.surface_receipt is Dictionary or context.surface_receipt.get("key") != SURFACE_RECEIPT.fingerprint({"context": frozen, "speaker": speaker, "text": text, "locale": locale}): return {"ok": false, "error_ids": ["NB_SURFACE_RECEIPT_IDENTITY"]}
+			if not SURFACE_RECEIPT.install(state, context.surface_receipt, frozen): return {"ok": false, "error_ids": ["NB_SURFACE_RECEIPT_SCHEMA"]}
+			receipt_changed = not StateSnapshotValidator.same_persisted_value(previous, state.loop_state.event_local_states[SURFACE_RECEIPT.KEY])
+		if not appended.changed and cursor.is_empty() and not receipt_changed: return {"ok": true, "changed": false, "entry_uid": appended.entry_uid}
 		state.meta_progress.dialogue_history = appended.archive
 		entry_uid = appended.entry_uid
 	else:

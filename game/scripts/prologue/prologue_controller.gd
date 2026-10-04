@@ -260,7 +260,7 @@ func _begin_prologue_surfaces() -> void:
 	if not _prologue_surface_enabled(): return
 	_flush_prologue_surfaces(_prologue_surfaces.generation)
 	_clear_prologue_surface_retry()
-	_prologue_surfaces.begin(_prologue_surface_scope())
+	_prologue_surfaces.begin(_prologue_surface_scope(), GameState.get_snapshot())
 	call_deferred("_flush_prologue_surfaces",_prologue_surfaces.generation)
 
 
@@ -292,6 +292,7 @@ func _flush_prologue_surfaces(generation: int, explicit_retry: bool = false) -> 
 	if _prologue_restoring_room: return true
 	if _prologue_dispatch_active:
 		if not _dialogue_active and not _dialogue_choice_active and not _modal_active:
+			_prologue_surfaces.prepare_receipts()
 			for id in _prologue_surfaces.requests:
 				var request: Dictionary = _prologue_surfaces.requests[id]
 				if request.recorded or (id not in _prologue_surfaces.active and not request.attempted): continue
@@ -1218,7 +1219,7 @@ func _restore_window_view(value: Dictionary) -> void:
 	_window_feedback_label.text = _dialogue_ui_text("P2_DRAG")
 	_prologue_restoring_room = was_restoring
 	# Restoring is read-only; subsequent explicit input needs a fresh capture scope.
-	_prologue_surfaces.begin(_prologue_surface_scope())
+	_prologue_surfaces.begin(_prologue_surface_scope(), GameState.get_snapshot())
 
 
 func _restore_window_without_cursor() -> bool:

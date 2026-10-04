@@ -765,3 +765,22 @@ v2 프롤로그의 확대 화면은 `loop_state.event_local_states.NOTEBOOK_WIND
 | 비용 | 실제 GameState revision이 바뀔 때만 snapshot/anchor를 갱신한다. 위치 변경 자체는 GameState revision·대화 기록·수첩 획득·게임 저장을 쓰지 않는다. 성능 예산 통과 여부는 별도 계측 대상이다. |
 
 문장 커서가 아직 저장되지 않았거나 실제 표시와 다르면 읽기 위치를 복원하지 않는다. 숨겨진 화면·삭제 대기 컨트롤러·열린 통합 수첩에서는 추적을 중단한다. 직접 전달된 키 문자열로 노드를 실행하지 않고 현재 컨트롤 맵에서만 조회한다. 범위와 증거는 [호출 화면 편의 저장 검증](presentation_view_validation.md)을 따른다.
+
+### 9.17. 월드 표시 확인 정보의 원자 저장
+
+v2 월드의 재시작·재선택 재개는 `loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT`를 사용한다. 이것은 새로운 지식이나 조사 완료 플래그가 아니라 이미 관찰 writer를 통과한 현재 방문의 표시 식별이다. 대사·확인창 커서는 기존 `NOTEBOOK_PRESENTATION`, 읽기 위치는 별도 편의 파일이 소유한다.
+
+| 경계 | 계약 |
+| --- | --- |
+| 구조 | schema 1, stable scope, 방문 occurrence/conversation, 표시 지문별 presentation/event/conversation 토큰. 원문은 복제하지 않는다. |
+| stable scope | namespace, slot, source origin, branch, location, node, day와 엔딩 current node. 런타임 session 인스턴스·load epoch·view_slot은 저장 식별에서 제외하지만 기존 살아 있는 콜백 거부 조건에서는 유지한다. |
+| 표시 지문 | content/version/variant/공개 변수·segment, 실제 표시 본문·언어·화자, 출처 node/chapter/location을 정규화한 SHA-256. JSON 정수 왕복은 동일하게 계산한다. |
+| 복원 | 새 컨트롤러 또는 명시적 로드 세대 전환에서만 같은 scope의 토큰을 복원한다. 정상 방 이동으로 다른 scope에 진입한 뒤 돌아오면 새 방문을 만든다. |
+| 저장 | 관찰과 표시 확인 정보를 동일 candidate snapshot에 설치하고 기존 writer·원자 저장·실패 롤백을 사용한다. 확인 정보만 먼저 저장하거나 실제 관찰 없이 성공 처리하지 않는다. |
+| 재시도 | 같은 표시 토큰을 재사용한다. 저장 실패는 명시적 재시도를 요구하고 확인 응답 유실은 실제 디스크 커밋을 확인한다. 재생성 후에도 이미 성공한 관찰을 새 순번으로 추가하지 않는다. |
+| 새로운 표시 | `new_attempt`는 새 발생으로 유지한다. 다른 공개 값·언어·의미 버전은 다른 지문이다. 보관된 원문을 덮어쓰거나 전역 content ID로 서로 다른 방문을 합치지 않는다. |
+| 보존 범위 | 현재 활성 표시와 아직 저장을 마치지 못한 요청의 식별만 보존한다. 한 배치 최대 512개를 검증하며 초과 시 임의로 활성 토큰을 버리지 않고 실패를 반환한다. 과거 원문·보호·책갈피·비교 자료는 이 캐시 정리와 무관하다. |
+| 구 저장 | 키가 없으면 당시 보였다고 추정하지 않고 현재 실제 보이는 표면을 처음 기록한다. 이후 재개부터 확인 정보를 사용한다. 미래 schema·잘못된 토큰은 snapshot 검증에서 거부한다. |
+| 게임 상태 | 표시 확인 정보는 게임 진행용 anchor 계산에서 제외한다. 이 갱신으로 퍼즐·인벤토리·관계·지식·힌트·엔딩·대사 커서를 변경하지 않는다. NORMAL_RESET에서는 다른 loop-local 상태와 함께 제거되고 영구 관찰 기록은 유지한다. 파열 이후는 기존 상태 보존 규칙을 따르되 장소·단계 등 scope가 다르면 재사용하지 않는다. |
+
+실행 근거와 한계는 [월드 표시 재개 검증](notebook_surface_resume_validation.md)을 따른다. 코드 등록만으로 전 생산자·실제 Windows 입력·성능 인수를 완료한 것으로 보지 않는다.

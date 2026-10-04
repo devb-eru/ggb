@@ -130,9 +130,9 @@ PASS 판정에는 종료 코드 0과 해당 PASS 표식을 모두 요구한다. 
 | PA06 | `notebook_authority_archive_smoke.gd` / 미해결·실행 불완전 | 실제 표면 기록 및 미룸 단언 실패, 900초 안에 종료하지 않음 | 인물·시나리오·언어별 진행/실패 로그와 표면 기록 반환 원인 확인, 충분한 시간의 전체 재실행. 시간만 늘린 것으로 오류 해결을 주장하지 않음 |
 | PA07 | `notebook_reality_smoke.gd::_field`, `notebook_puzzle_surfaces_smoke.gd` / 수정·한영 PASS | Esc 및 수량 보조창 닫기 뒤 완료 커서만 변화함을 실제 경로에서 확인. 진행·읽음·대화·지식 변경은 없음(6절) | 유효한 완료 커서만 비교에서 분리하며 나머지 snapshot 전체를 비교. 명시적 읽기 확인 없이 ledger가 늘지 않는 조건 유지 |
 | PA08 | `basement_controller.gd::_resume_reselect/_close_modal/_restore_presentation` / 실제 재현·수정·집중 PASS | 복사본 재진입이 일반 초기화를 건너뛰어 대화·확인창·위치 추적기를 복원하지 않음. 커서 없는 새 복사본에서는 원본 마지막 대사 재생도 확인 | 정상 bootstrap 재진입으로 컨트롤러·tracker 교체, 이중 요청·외부 재로드·수첩 중첩 보호. [재선택 표시 복원 검증](notebook_reselect_presentation_validation.md)의 실제 한영 경로·scope 검사 참조 |
-| PA09 | `notebook_surface_capture.gd`, 월드 재진입 / 실제 재현·미해결 | 동일 언어·버전·변형·segments인 EDC 월드 자료 3종이 완료 커서 또는 커서 없는 복사본 재진입에서 다시 기록됨 | [GGB-ERR-2026-0025](../ideas/md/v04/issues/items/GGB-ERR-2026-0025_월드_재진입_관찰기록_중복.md). 같은 저장 화면의 공개 영수증을 복원하되 실제 새 조사·동적 표면의 발생을 전역 content ID로 합치지 않음 |
+| PA09 | `notebook_surface_capture.gd`, 월드 재진입 / 수정·REVIEW | 동일 EDC 표면 중복을 현재 방문의 원자 표시 확인 정보로 수정. 새 조사·다른 변수/언어는 구분 | [GGB-ERR-2026-0025](../ideas/md/v04/issues/items/GGB-ERR-2026-0025_월드_재진입_관찰기록_중복.md), [월드 재개 검증](notebook_surface_resume_validation.md). 자동 검사와 별도로 전 장소 실제 입력 검토를 유지 |
 
-첫 수정 시 PA04~PA08은 완료 수치에 포함하지 않았다. 후속 6절에서 PA05 일부와 PA07을 검증했다. 이후 PA08은 별도 실제 재현·수정 검사를 수행했으며 그 과정에서 PA09를 확인했다. 당시 정적 발견과 후속 실제 재현 결과를 혼합하지 않는다. PA04·PA05 지하·PA06·PA09는 미해결이다.
+첫 수정 시 PA04~PA08은 완료 수치에 포함하지 않았다. 후속 6절에서 PA05 일부와 PA07을 검증했다. 이후 PA08은 별도 실제 재현·수정 검사를 수행했으며 그 과정에서 PA09를 확인하고 후속 수정했다. 당시 정적 발견과 후속 실제 재현 결과를 혼합하지 않는다. PA04·PA05 지하·PA06은 미해결이며 PA09는 수정 후 전편 검토 대기다.
 
 ## 5. 잔여 인수
 

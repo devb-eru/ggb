@@ -182,6 +182,8 @@ func _validate_world_return(before: Dictionary, after: Dictionary, view: Node) -
 	_expect(current.entries.size() >= old.entries.size(), "world return never deletes history")
 	_expect(StateSnapshotValidator.same_persisted_value(old.entries, current.entries.slice(0, old.entries.size())), "world return preserves all prior observations")
 	var added: int = current.entries.size() - old.entries.size()
+	if "--reselect-same-locale" in OS.get_cmdline_user_args():
+		_expect(added == 0 and StateSnapshotValidator.same_persisted_value(before, after), "same saved world returns without new observations or receipt changes")
 	var normalized := current.duplicate(true)
 	normalized.entries = old.entries.duplicate(true)
 	normalized.next_sequence -= added
@@ -193,7 +195,7 @@ func _validate_world_return(before: Dictionary, after: Dictionary, view: Node) -
 			var a: Dictionary = previous.observation
 			var b: Dictionary = entry.get("observation", {})
 			if a.content_id == b.get("content_id") and a.content_version == b.get("content_version") and a.variant_id == b.get("variant_id") and StateSnapshotValidator.same_persisted_value(a.segments, b.get("segments")):
-				print("RESELECT_KNOWN_DUPLICATE_SURFACE: ", a.content_id)
+				_expect(false, "saved world duplicated an identical surface: " + a.content_id)
 				break
 		var matched := false
 		for key in view._notebook_surfaces.active:
@@ -203,8 +205,21 @@ func _validate_world_return(before: Dictionary, after: Dictionary, view: Node) -
 		_expect(entry.get("record_class") == "authored" and matched, "new observation belongs to an actually displayed destination surface")
 	var gameplay := after.duplicate(true)
 	gameplay.meta_progress.dialogue_history = old.duplicate(true)
+	var receipt_key := "NOTEBOOK_SURFACE_RECEIPT"
+	var expected_receipt: Dictionary = before.loop_state.event_local_states.get(receipt_key, {}).duplicate(true)
+	for key in view._notebook_surfaces.active:
+		var request: Dictionary = view._notebook_surfaces.requests[key]
+		var update: Dictionary = request.context.surface_receipt
+		if expected_receipt.is_empty() or expected_receipt.occurrence != update.occurrence:
+			expected_receipt = {"schema_version": 1, "scope": update.scope, "occurrence": update.occurrence, "conversation": update.conversation, "receipts": {}}
+		for previous_key in expected_receipt.receipts.keys():
+			if previous_key not in update.keep: expected_receipt.receipts.erase(previous_key)
+		expected_receipt.receipts[update.key] = update.identity
+	_expect(StateSnapshotValidator.same_persisted_value(expected_receipt, after.loop_state.event_local_states.get(receipt_key, {})), "receipt contains only actual visible surface identities")
+	if before.loop_state.event_local_states.has(receipt_key): gameplay.loop_state.event_local_states[receipt_key] = before.loop_state.event_local_states[receipt_key].duplicate(true)
+	else: gameplay.loop_state.event_local_states.erase(receipt_key)
 	_expect(StateSnapshotValidator.same_persisted_value(before, gameplay), "completed return changes no gameplay, knowledge or completed cursor")
-	print("RESELECT_WORLD_REOBSERVATIONS: ", added, " (separate duplicate-surface audit)")
+	print("RESELECT_WORLD_NEW_LANGUAGE_OBSERVATIONS: ", added)
 
 
 func _focus_target(view: Node, kind: String) -> Control:
