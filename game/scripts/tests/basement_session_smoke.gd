@@ -2829,7 +2829,17 @@ func _validate_credits(session: BasementSession) -> void:
 		var notice: Label = view._modal_body.find_child("ModalBodyText", true, false)
 		_expect(view._modal_active and not view._dialogue_active and notice != null and notice.text == texts.text("copy_entered","en"), "Copy entry notice is an English non-story modal")
 		var before_notice_close: Dictionary = game.get_snapshot()
+		var handoff := {}
+		view.campaign_requested.connect(func(slot: String) -> void: handoff.slot = slot)
 		view._close_modal()
+		_expect(handoff.get("slot") == replay_id and view._modal_active, "notice requests normal campaign handoff without exposing the destination")
+		var previous_view = view
+		root.remove_child(previous_view)
+		previous_view.queue_free()
+		view = VIEW.new()
+		view.configure_session(replay_id, "MORNING_ROUTE")
+		root.add_child(view)
+		await tree.process_frame
 		var after_notice_close: Dictionary = game.get_snapshot()
 		var new_history: Dictionary = after_notice_close.meta_progress.dialogue_history
 		if new_history.has("schema_version"):

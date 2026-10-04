@@ -33,6 +33,8 @@ const FINAL_NOTES := preload("res://scripts/systems/final_notebook.gd")
 const REALITY_NOTES := preload("res://scripts/systems/reality_notebook.gd")
 var _surface_active_seconds := 0.0
 var _gallery_notebook_host
+var _reselect_resume_scope := {}
+var _reselect_handoff_requested := false
 var _stay_inspection_open := false
 var _demo_stinger_seconds := 0.0
 var _demo_stinger_save_failed := false
@@ -59,6 +61,12 @@ func _make_session() -> ChapterOneSession:
 
 func _supported_hint_stages() -> Array:
 	return ["D0_A", "D1", "DF", "D4", "F0_A", "F0_B", "F0_C", "F0_D", "F0_E"]
+
+
+func _restore_presentation() -> bool:
+	if super._restore_presentation(): return true
+	# A copy without a pending cursor starts at its saved world, not the source's last feedback.
+	return session != null and bool(session.snapshot().ending_run.get("reselect_used", false))
 
 func _puzzle_hint_text(level: int) -> String:
 	if session.stage().begins_with("F0_"):
@@ -1646,7 +1654,22 @@ func _resume_reselect(target: String) -> void:
 	_slot_id = target
 	session = _make_session()
 	_render_room()
+	_reselect_resume_scope = _recorded_choice_scope()
+	_reselect_handoff_requested = false
 	_show_reselect_notice("copy_entered")
+
+
+func _close_modal() -> void:
+	if _notebook_is_open():
+		super._close_modal()
+		return
+	if not _reselect_resume_scope.is_empty():
+		if _reselect_resume_scope != _recorded_choice_scope() or _reselect_handoff_requested: return
+		# Keep the notice covering the world until normal initialization restores its cursor.
+		_reselect_handoff_requested = true
+		campaign_requested.emit(_slot_id)
+		return
+	super._close_modal()
 
 
 func _show_reselect_notice(key: String) -> void:

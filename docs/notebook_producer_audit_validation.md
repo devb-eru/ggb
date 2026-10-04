@@ -129,9 +129,10 @@ PASS 판정에는 종료 코드 0과 해당 PASS 표식을 모두 요구한다. 
 | PA05 | `notebook_basement_smoke.gd::_modals/_failures`, `notebook_mara1_smoke.gd`, `notebook_iris_smoke.gd`, `notebook_luca_smoke.gd` / 부분 해결 | 취소·미룸 뒤 전체 또는 loop 상태 불변 단언 실패. 세 관계 검사는 완료된 표시 커서만 다름을 확인하고 교정·한영 PASS(6절) | 지하 확인창은 미해결. 같은 원인이라고 추정해 종결하지 말고 해당 경로의 전체 차이를 확인. 기계 입력·관계 완료·연구 기록·지식 불변 유지 |
 | PA06 | `notebook_authority_archive_smoke.gd` / 미해결·실행 불완전 | 실제 표면 기록 및 미룸 단언 실패, 900초 안에 종료하지 않음 | 인물·시나리오·언어별 진행/실패 로그와 표면 기록 반환 원인 확인, 충분한 시간의 전체 재실행. 시간만 늘린 것으로 오류 해결을 주장하지 않음 |
 | PA07 | `notebook_reality_smoke.gd::_field`, `notebook_puzzle_surfaces_smoke.gd` / 수정·한영 PASS | Esc 및 수량 보조창 닫기 뒤 완료 커서만 변화함을 실제 경로에서 확인. 진행·읽음·대화·지식 변경은 없음(6절) | 유효한 완료 커서만 비교에서 분리하며 나머지 snapshot 전체를 비교. 명시적 읽기 확인 없이 ledger가 늘지 않는 조건 유지 |
-| PA08 | `basement_controller.gd::_resume_reselect`, `presentation_view_tracker.gd::_process` / 정적 추가 발견·실행 미검증 | 기존 컨트롤러에서 슬롯·세션을 교체하지만 일반 초기화의 `_restore_presentation`을 호출하지 않으며 tracker는 생성 당시 scope가 바뀌면 쓰기를 거부함 | 진행 중인 복사본을 다시 여는 fixture로 대사/선택/utility 재개와 새 읽기 위치 저장 검증. 승인된 슬롯 전환에서 새 tracker와 표시 복원을 연결하되 이전 콜백의 쓰기 거부 유지 |
+| PA08 | `basement_controller.gd::_resume_reselect/_close_modal/_restore_presentation` / 실제 재현·수정·집중 PASS | 복사본 재진입이 일반 초기화를 건너뛰어 대화·확인창·위치 추적기를 복원하지 않음. 커서 없는 새 복사본에서는 원본 마지막 대사 재생도 확인 | 정상 bootstrap 재진입으로 컨트롤러·tracker 교체, 이중 요청·외부 재로드·수첩 중첩 보호. [재선택 표시 복원 검증](notebook_reselect_presentation_validation.md)의 실제 한영 경로·scope 검사 참조 |
+| PA09 | `notebook_surface_capture.gd`, 월드 재진입 / 실제 재현·미해결 | 동일 언어·버전·변형·segments인 EDC 월드 자료 3종이 완료 커서 또는 커서 없는 복사본 재진입에서 다시 기록됨 | [GGB-ERR-2026-0025](../ideas/md/v04/issues/items/GGB-ERR-2026-0025_월드_재진입_관찰기록_중복.md). 같은 저장 화면의 공개 영수증을 복원하되 실제 새 조사·동적 표면의 발생을 전역 content ID로 합치지 않음 |
 
-첫 수정 시 PA04~PA08은 완료 수치에 포함하지 않았다. 후속 6절에서 PA05 일부와 PA07을 검증했으며, 나머지는 미해결이다. 특히 PA08의 소스 근거를 실제 재현 결과로 바꾸어 쓰지 않는다.
+첫 수정 시 PA04~PA08은 완료 수치에 포함하지 않았다. 후속 6절에서 PA05 일부와 PA07을 검증했다. 이후 PA08은 별도 실제 재현·수정 검사를 수행했으며 그 과정에서 PA09를 확인했다. 당시 정적 발견과 후속 실제 재현 결과를 혼합하지 않는다. PA04·PA05 지하·PA06·PA09는 미해결이다.
 
 ## 5. 잔여 인수
 
@@ -173,4 +174,4 @@ PASS 판정에는 종료 코드 0과 해당 PASS 표식을 모두 요구한다. 
 
 반례 검사 함수와 해당 호출만 추가한 최종 패키지 SHA-256은 `0CF34D62C6C46A1C77D09BA658DC927B658C174318FC076F9792122E3412D765`다. 기존 비교 함수와 나머지 네 검사 파일은 첫 패키지와 같다. `%TEMP%/ggb-producer-cursor-guards-20261004/`에서 import 41.9초·export 11.0초 후 `puzzle-surfaces`를 전체 재실행해 37.9초 PASS했다. 한영 각각 일곱 반례를 모두 거부했고 실제 표시 ID·segment와 9,556조합 검사도 유지했다. 이 최종 패키지로 나머지 네 검사를 다시 실행한 것으로 표기하지 않는다. 공통 Windows 루트 인증서 저장소 경고는 앞 절과 동일하게 남아 있다.
 
-PA04의 커버리지 소유권, PA05의 지하 확인창, PA06의 에드가·마라 2 및 PA08의 재선택 복원 문제는 이 다섯 검사로 해결했다고 계산하지 않는다. 최신 지하 전체 v2 회귀와 Windows 실제 입력·성능 인수도 여전히 남아 있다.
+PA04의 커버리지 소유권, PA05의 지하 확인창, PA06의 에드가·마라 2 및 PA08의 재선택 복원 문제는 이 다섯 검사로 해결했다고 계산하지 않는다. PA08의 후속 실제 수정 검증은 별도 [보고서](notebook_reselect_presentation_validation.md)를 따른다. 최신 지하 전체 v2 회귀와 Windows 실제 입력·성능 인수도 여전히 남아 있다.
