@@ -8,7 +8,7 @@ const PREFIX := "NB_MARA2_"
 const SCREEN := {
 	"ENTRY": "마라 2가 이중 윤곽의 이름표를 바로 세운다.\n'천재의 작업실에 온 걸 환영해요! 손대다 망가뜨려도 제 탓은 아니고요!'",
 	"OVERLAY": "세 시점 모두 같은 3·7·11칸이 비어 있다.\n마라 2가 먼저 문을 연다. 뒤돌아보지 않는다.",
-	"COMPLETE": "원본과 감정 주석을 보존했다.\n수첩에서 REC_MARA2를 확인할 수 있다.",
+	"COMPLETE": "원본과 감정 주석을 보존했다.\n수첩에서 마라 2의 연구 기록을 확인할 수 있다.",
 }
 const SOURCE_LABELS := ["문양을 다시 본다", "EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]
 const ALIGN_LABELS := ["표식을 다시 본다", "기준점 1", "기준점 2", "기준점 3"]

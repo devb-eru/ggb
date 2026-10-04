@@ -1,0 +1,225 @@
+{
+	"format_version": 1,
+	"contents": {
+		"NB_MARA1_SCREEN_COMPLETE": {
+			"2": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_1",
+				"locales": {
+					"en-US": {
+						"body": "The record has been preserved. The incident and the responsibility of both commander and operator remain.\nMara 1's research record can be reviewed in the notebook.",
+						"speaker": "Scene",
+						"summary": "Mara 1's Preserved Record",
+						"title": "Mara 1's Preserved Record"
+					},
+					"ko-KR": {
+						"body": "기록을 보존했다. 사건과 명령자·수행자의 책임은 남아 있다.\n수첩에서 마라 1의 연구 기록을 다시 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "보존된 마라 1의 기록",
+						"title": "보존된 마라 1의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_MARA1_SCREEN_COMPLETE_V2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_1"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP10",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara1_notebook.gd",
+				"source_symbol": "SCREEN.COMPLETE:authored_v2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_IRIS_SCREEN_COMPLETE": {
+			"2": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_2",
+				"locales": {
+					"en-US": {
+						"body": "The missing external readings and credential misuse have been preserved.\nIris's research record can be reviewed in the notebook.",
+						"speaker": "Scene",
+						"summary": "Iris's Preserved Record",
+						"title": "Iris's Preserved Record"
+					},
+					"ko-KR": {
+						"body": "외부값의 결손과 승인 도용 기록을 보존했다.\n수첩에서 이리스의 연구 기록을 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "보존된 이리스의 기록",
+						"title": "보존된 이리스의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_IRIS_SCREEN_COMPLETE_V2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_2"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP11",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/iris_notebook.gd",
+				"source_symbol": "SCREEN.COMPLETE:authored_v2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_LUCA_SCREEN_COMPLETE": {
+			"2": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_3",
+				"locales": {
+					"en-US": {
+						"body": "Current vital signs are stable. The safety of awakening remains unconfirmed.\nLuca's research record can be reviewed in the notebook.",
+						"speaker": "Scene",
+						"summary": "Luca's Preserved Record",
+						"title": "Luca's Preserved Record"
+					},
+					"ko-KR": {
+						"body": "현재 생존 신호는 유지된다. 기상 안전은 확정되지 않았다.\n수첩에서 루카의 연구 기록을 다시 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "보존된 루카의 기록",
+						"title": "보존된 루카의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_LUCA_SCREEN_COMPLETE_V2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_3"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP12",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/luca_notebook.gd",
+				"source_symbol": "SCREEN.COMPLETE:authored_v2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_EDGAR_SCREEN_COMPLETE": {
+			"2": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_4",
+				"locales": {
+					"en-US": {
+						"body": "The authority to choose belongs to SUBJECT, the Protagonist.\nReview Edgar's research record in the notebook for the account of responsibility.",
+						"speaker": "Scene",
+						"summary": "Edgar's Preserved Record",
+						"title": "Edgar's Preserved Record"
+					},
+					"ko-KR": {
+						"body": "선택권은 SUBJECT, 주인공에게 있다.\n수첩의 에드가 연구 기록에서 책임 내용을 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "보존된 에드가의 기록",
+						"title": "보존된 에드가의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_EDGAR_SCREEN_COMPLETE_V2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP13",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/edgar_notebook.gd",
+				"source_symbol": "SCREEN.COMPLETE:authored_v2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		},
+		"NB_MARA2_SCREEN_COMPLETE": {
+			"2": {
+				"action_or_variant": "displayed",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "E3_5",
+				"locales": {
+					"en-US": {
+						"body": "The original and its emotional annotations have been preserved.\nMara 2's research record can be reviewed in the notebook.",
+						"speaker": "Scene",
+						"summary": "Mara 2's Preserved Record",
+						"title": "Mara 2's Preserved Record"
+					},
+					"ko-KR": {
+						"body": "원본과 감정 주석을 보존했다.\n수첩에서 마라 2의 연구 기록을 확인할 수 있다.",
+						"speaker": "장면",
+						"summary": "보존된 마라 2의 기록",
+						"title": "보존된 마라 2의 기록"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_MARA2_SCREEN_COMPLETE_V2:body"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"E3_5"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP14",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/systems/mara2_notebook.gd",
+				"source_symbol": "SCREEN.COMPLETE:authored_v2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {}
+				},
+				"visible_segment_ids": [
+					"body"
+				]
+			}
+		}
+	}
+}

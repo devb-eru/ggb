@@ -53,6 +53,7 @@
 | [`GGB-ERR-2026-0023`](GGB-ERR-2026-0023_ResetCoordinator_최소런타임_누락.md) | OPEN | READY | ResetCoordinator 최소 런타임 누락 |
 | [`GGB-ERR-2026-0024`](GGB-ERR-2026-0024_한영_대화소스_로드기반_누락.md) | OPEN | READY | 한·영 대화 소스 로드 기반 누락 |
 | [`GGB-ERR-2026-0025`](GGB-ERR-2026-0025_월드_재진입_관찰기록_중복.md) | RESOLVED | REVIEW | 월드 재진입 관찰 기록 중복 |
+| [`GGB-ERR-2026-0026`](GGB-ERR-2026-0026_플레이어_문구_내부ID_노출.md) | IN_PROGRESS | IN_PROGRESS | 플레이어 문구 내부 ID 노출 |
 
 ## 관리
 

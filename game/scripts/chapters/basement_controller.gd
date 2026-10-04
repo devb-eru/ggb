@@ -764,10 +764,19 @@ func _build_mara1_relationship() -> void:
 	_replace_back("M1_SERVICE_HALL", "작업 회랑으로 · 진행 보존")
 
 
+func _queue_relationship_surface(prefix: String, key: String, text: String) -> void:
+	if key != "COMPLETE":
+		_queue_notebook_content(prefix + "SCREEN_" + key, text)
+	elif _notebook_surface_enabled():
+		# New completion copy is versioned; archived version 1 is never rewritten.
+		var descriptor := NOTEBOOK_CONTENT.descriptor(prefix + "SCREEN_COMPLETE", 2, {"body": {}})
+		_notebook_surfaces.queue_descriptor(descriptor, text, TranslationServer.get_locale(), session.history_context())
+
+
 func _mara1_board(key: String, rect: Rect2) -> void:
 	var text := _relationship_text(MARA1_NOTES.SCREEN[key])
 	_board_label(text, rect)
-	_queue_notebook_content(MARA1_NOTES.PREFIX + "SCREEN_" + key, text)
+	_queue_relationship_surface(MARA1_NOTES.PREFIX, key, text)
 
 
 func _show_mara1_choice() -> void:
@@ -826,7 +835,7 @@ func _build_iris_relationship() -> void:
 func _iris_board(key: String, rect: Rect2) -> void:
 	var text := _relationship_text(IRIS_NOTES.SCREEN[key])
 	_board_label(text, rect)
-	_queue_notebook_content(IRIS_NOTES.PREFIX + "SCREEN_" + key, text)
+	_queue_relationship_surface(IRIS_NOTES.PREFIX, key, text)
 
 
 func _show_iris_channel(gauge: String, index: int) -> void:
@@ -893,7 +902,7 @@ func _build_luca_relationship() -> void:
 func _luca_board(key: String, rect: Rect2) -> void:
 	var text := _relationship_text(LUCA_NOTES.SCREEN[key])
 	_board_label(text, rect)
-	_queue_notebook_content(LUCA_NOTES.PREFIX + "SCREEN_" + key, text)
+	_queue_relationship_surface(LUCA_NOTES.PREFIX, key, text)
 
 
 func _show_luca_slot(index: int) -> void:
@@ -956,7 +965,7 @@ func _build_edgar_relationship() -> void:
 func _edgar_board(key: String, rect: Rect2) -> void:
 	var text := _relationship_text(EDGAR_NOTES.SCREEN[key])
 	_board_label(text, rect)
-	_queue_notebook_content(EDGAR_NOTES.PREFIX + "SCREEN_" + key, text)
+	_queue_relationship_surface(EDGAR_NOTES.PREFIX, key, text)
 
 
 func _show_edgar_owner(function: String) -> void:
@@ -1040,7 +1049,7 @@ func _build_mara2_relationship() -> void:
 func _mara2_board(key: String, rect: Rect2) -> void:
 	var text := _relationship_text(MARA2_NOTES.SCREEN[key])
 	_board_label(text, rect)
-	_queue_notebook_content(MARA2_NOTES.PREFIX + "SCREEN_" + key, text)
+	_queue_relationship_surface(MARA2_NOTES.PREFIX, key, text)
 
 
 func _show_mara2_source(portrait: String, owner: String) -> void:

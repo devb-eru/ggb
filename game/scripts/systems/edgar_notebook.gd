@@ -7,7 +7,7 @@ const EVENT_NOTES := preload("res://scripts/systems/notebook_event_notes.gd")
 const PREFIX := "NB_EDGAR_"
 const SCREEN := {
 	"ENTRY": "대시계 뒤 수직 잠금선이 드러난다.\n에드가가 레이피어로 네 선의 경계를 짚는다. '확인하실 기록이 있습니다.'",
-	"COMPLETE": "선택권은 SUBJECT, 주인공에게 있다.\n수첩의 REC_EDGAR에서 책임 기록을 확인할 수 있다.",
+	"COMPLETE": "선택권은 SUBJECT, 주인공에게 있다.\n수첩의 에드가 연구 기록에서 책임 내용을 확인할 수 있다.",
 	"ORDER": "네 권한 변경 이력을 선행 사건 순서로 놓는다.",
 }
 const OWNER_LABELS := ["근거를 다시 읽는다", "SYSTEM", "CUSTODIAN", "RESIDENT", "SUBJECT"]

@@ -7,7 +7,7 @@ const EVENT_NOTES := preload("res://scripts/systems/notebook_event_notes.gd")
 const PREFIX := "NB_MARA1_"
 const SCREEN := {
 	"ENTRY": "마라 1이 스패너로 배선 덮개를 붙든다.\n마른 종이 냄새가 난다. '이건... 닦는 걸로 끝나지 않겠슴다.'",
-	"COMPLETE": "기록을 보존했다. 사건과 명령자·수행자의 책임은 남아 있다.\n수첩에서 REC_MARA1을 다시 확인할 수 있다.",
+	"COMPLETE": "기록을 보존했다. 사건과 명령자·수행자의 책임은 남아 있다.\n수첩에서 마라 1의 연구 기록을 다시 확인할 수 있다.",
 	"TERMINAL_0": "대각 나사선 · 솔 마찰음",
 	"TERMINAL_1": "손바닥 승인각 · 두 번 확인음",
 	"TERMINAL_2": "끊긴 사각 · 늦은 경고음",

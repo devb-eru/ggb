@@ -1,5 +1,7 @@
 extends RefCounted
 
+const PUBLIC_LABELS := preload("res://scripts/tests/notebook_relationship_label_assertions.gd")
+
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const EDGAR := preload("res://scripts/systems/edgar_notebook.gd")
@@ -46,6 +48,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	var diagnostic := CONTENT.diagnostics()
 	if not diagnostic.ok: return diagnostic
+	errors.append_array(PUBLIC_LABELS.catalog(["edgar","mara2"]))
 	_seed("edgar")
 	view = VIEW.new()
 	view.configure_session(SLOT, "E3_4")
@@ -554,6 +557,8 @@ func _collect() -> void:
 			continue
 		var observed: Dictionary = entry.observation
 		if observed.producer_id not in ["NP13", "NP14"]: continue
+		if String(observed.content_id).ends_with("_SCREEN_COMPLETE"):
+			_expect(PUBLIC_LABELS.live(entry), "current completion has readable labels and exact version 2 observation")
 		_expect(observed.chapter_id == "CHAPTER_3" and observed.event_id == ("E3_4" if observed.producer_id == "NP13" else "E3_5"), "actual relationship event and chapter captured")
 		for segment in observed.segments:
 			covered[observed.content_id + ":" + segment.viewed_locale] = true

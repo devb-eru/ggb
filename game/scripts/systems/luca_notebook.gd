@@ -7,7 +7,7 @@ const EVENT_NOTES := preload("res://scripts/systems/notebook_event_notes.gd")
 const PREFIX := "NB_LUCA_"
 const SCREEN := {
 	"ENTRY": "조리대 아래의 배관이 손목과 비슷한 주기로 뛴다.\n루카가 문을 연다. '이번에는... 아가씨 기준부터 볼게요.'",
-	"COMPLETE": "현재 생존 신호는 유지된다. 기상 안전은 확정되지 않았다.\n수첩에서 REC_LUCA를 다시 확인할 수 있다.",
+	"COMPLETE": "현재 생존 신호는 유지된다. 기상 안전은 확정되지 않았다.\n수첩에서 루카의 연구 기록을 다시 확인할 수 있다.",
 	"CYCLE": "두 번의 주관 맥박 → 보조관 응답 → 안전 밸브\n시간 제한은 없다. 배치한 주기를 언제든 미리 확인할 수 있다.",
 	"PIPE_DECORATION": "장식 매듭 · 맥박 없음",
 	"PIPE_MAIN": "BIO MAIN · 굵은 이중 맥박",

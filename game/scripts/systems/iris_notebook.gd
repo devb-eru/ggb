@@ -7,7 +7,7 @@ const EVENT_NOTES := preload("res://scripts/systems/notebook_event_notes.gd")
 const PREFIX := "NB_IRIS_"
 const SCREEN := {
 	"ENTRY": "빛은 따뜻하지만 공기는 차갑다.\n흙은 젖지 않은 채 젖은 냄새만 난다. 이리스가 웃는다. '안쪽을 보실래요?'",
-	"COMPLETE": "외부값의 결손과 승인 도용 기록을 보존했다.\n수첩에서 REC_IRIS를 확인할 수 있다.",
+	"COMPLETE": "외부값의 결손과 승인 도용 기록을 보존했다.\n수첩에서 이리스의 연구 기록을 확인할 수 있다.",
 	"ORDER": "날짜와 앞 문서의 참조로 전력 기록을 연결한다.",
 	"AUDIT": "경고 제출자: 이리스\n명령 실행자: 아버지 / 사용 자격: 이리스\n감사 책임자: 이리스\n무엇이 어긋났는가?",
 }
