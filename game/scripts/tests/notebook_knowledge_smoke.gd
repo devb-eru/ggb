@@ -24,6 +24,8 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	_validate_revisions()
 	_validate_source_retention()
+	_validate_dense_ledger()
+	_validate_numeric_sources()
 	await _validate_live_retry(tree)
 	await _validate_legacy(tree)
 	SaveManager.delete_test_slot(SLOT)
@@ -144,6 +146,108 @@ func _validate_source_retention() -> void:
 	_expect(not ARCHIVE.resolve(acquired.archive, dropped).ok, "only unprotected excess normal source pruned")
 	_expect(acquired.archive.entries.filter(func(entry: Dictionary) -> bool: return entry.protection_reasons.is_empty()).size() == 2000, "knowledge sources do not consume ordinary retention quota")
 	_expect(archive.entries.size() == 2003 and archive.source_links.is_empty(), "retention candidate never mutates original")
+
+
+func _validate_dense_ledger() -> void:
+	var archive := ARCHIVE.create()
+	archive.source_origin_id = "%032x" % 80001
+	archive.branch_id = "%032x" % 80002
+	archive.entries.append({"entry_uid":"%032x" % 90000, "source_origin_id":archive.source_origin_id, "sequence":0, "record_class":"legacy", "chapter_id":"LEGACY", "legacy_payload":{"sequence":0, "line_id":"CH1_HISTORY_TRANSCRIPT", "speaker_id":"SYSTEM", "variables":{"speaker":"Earlier speaker", "text":"Preserved source"}}, "protection_reasons":[]})
+	var ledger := KNOWLEDGE.create()
+	var template := _observe()
+	var metadata: Dictionary = CONTENT.definition(template.content_id, 1).knowledge
+	for index in range(600):
+		var observed := template.duplicate(true)
+		for field in ["event_occurrence_id", "conversation_session_id", "presentation_token"]: observed[field] = "%032x" % (index + 10000)
+		var entry := {"entry_uid":"%032x" % (index + 1), "source_origin_id":archive.source_origin_id, "sequence":index + 1, "record_class":"authored", "observation":observed, "protection_reasons":[]}
+		archive.entries.append(entry)
+		var own := ARCHIVE.make_reference(entry, "body")
+		var refs := [own]
+		if index > 0: refs.append(ARCHIVE.make_reference(archive.entries[index], "body"))
+		if index % 7 == 0: refs.append(ARCHIVE.make_reference(archive.entries[0], "legacy"))
+		var revision := "%032x" % (index + 20000)
+		ledger.revisions.append({"knowledge_uid":"%032x" % 70000, "revision_uid":revision, "previous_revision_uid":"" if index == 0 else "%032x" % (index + 19999), "sequence":index, "metadata":metadata.duplicate(true), "observation_ref":own, "source_refs":refs})
+		for ref in refs: archive.source_links.append({"consumer_kind":"knowledge_source", "consumer_uid":revision, "target":ref.duplicate(true)})
+	ledger.revision = ledger.revisions.size()
+	archive.next_sequence = archive.entries.size()
+	_rebuild_protection(archive)
+	var before := {"archive":archive.duplicate(true), "ledger":ledger.duplicate(true)}
+	var started := Time.get_ticks_usec()
+	_expect(KNOWLEDGE.validate(ledger, archive).ok, "600-revision source graph validates")
+	var elapsed := Time.get_ticks_usec() - started
+	_expect(before.archive == archive and before.ledger == ledger, "dense validation never changes source data")
+	var parsed: Dictionary = JSON.parse_string(JSON.stringify(before))
+	_expect(KNOWLEDGE.validate(parsed.ledger, parsed.archive).ok, "dense graph resolves JSON numeric versions")
+	var reordered := ledger.duplicate(true)
+	for row in reordered.revisions: row.source_refs.reverse()
+	_expect(KNOWLEDGE.validate(reordered, archive).ok, "source ordering is not identity or ownership")
+	for fault in ["duplicate_source", "numeric_duplicate", "reordered_duplicate", "missing_link", "orphan_link", "wrong_consumer", "broken_chain", "wrong_owner", "metadata", "missing_own", "hidden_segment", "wrong_origin", "wrong_version", "malformed_reference", "bad_archive"]:
+		var damaged := before.duplicate(true)
+		var row: Dictionary = damaged.ledger.revisions[10]
+		match fault:
+			"duplicate_source": row.source_refs.append(row.source_refs[0].duplicate(true))
+			"numeric_duplicate":
+				var ref: Dictionary = row.source_refs[0].duplicate(true)
+				ref.content_version = 1.0
+				row.source_refs.append(ref)
+			"reordered_duplicate":
+				var ref := {}
+				var fields: Array = row.source_refs[0].keys()
+				fields.reverse()
+				for field in fields: ref[field] = row.source_refs[0][field]
+				row.source_refs.append(ref)
+			"missing_link": damaged.archive.source_links.pop_back()
+			"orphan_link": damaged.archive.source_links.append({"consumer_kind":"knowledge_source", "consumer_uid":"%032x" % 99999, "target":row.observation_ref.duplicate(true)})
+			"wrong_consumer": damaged.archive.source_links[0].consumer_uid = "%032x" % 99999
+			"broken_chain": row.previous_revision_uid = "%032x" % 99999
+			"wrong_owner": row.knowledge_uid = "%032x" % 99999
+			"metadata": row.metadata.epistemic_state = "refuted"
+			"missing_own": row.source_refs.remove_at(0)
+			"hidden_segment": row.source_refs[1].segment_id = "hidden"
+			"wrong_origin": row.source_refs[1].source_origin_id = "%032x" % 99999
+			"wrong_version": row.source_refs[1].content_version = 2
+			"malformed_reference": row.source_refs[1].erase("kind")
+			"bad_archive": damaged.archive.entries.back().observation.segments[0].disclosure = "acquired"
+		if fault in ["missing_link", "orphan_link", "wrong_consumer"]:
+			_rebuild_protection(damaged.archive)
+			_expect(ARCHIVE.validate(damaged.archive).ok, "graph fault is not hidden by archive corruption: " + fault)
+		var unchanged := damaged.duplicate(true)
+		_expect(not KNOWLEDGE.validate(damaged.ledger, damaged.archive).ok and damaged == unchanged, "invalid graph rejected without mutation: " + fault)
+	print("NOTEBOOK_GRAPH_TIMING: " + JSON.stringify({"entries":archive.entries.size(), "revisions":600, "source_links":archive.source_links.size(), "validate_usec":elapsed, "sha256":JSON.stringify(before, "", true).sha256_text(), "acceptance":"MEASUREMENT_ONLY"}))
+
+
+func _validate_numeric_sources() -> void:
+	var first := KNOWLEDGE.acquire(KNOWLEDGE.create(), ARCHIVE.create(), _observe(), ARCHIVE.new_uid())
+	_expect(first.ok, "numeric source seed acquires")
+	if not first.ok: return
+	var source: Dictionary = first.ledger.revisions[0].observation_ref
+	var numeric := source.duplicate(true)
+	numeric.content_version = 1.0
+	var observation := _observe()
+	var revision := ARCHIVE.new_uid()
+	var second := KNOWLEDGE.acquire(first.ledger, first.archive, observation, revision, [source, numeric])
+	_expect(second.ok, "equivalent source arguments coalesce in acquisition")
+	if not second.ok: return
+	_expect(second.ledger.revisions[1].source_refs.size() == 2, "one owner and one external source are retained")
+	var retried := KNOWLEDGE.acquire(second.ledger, second.archive, observation, revision, [numeric])
+	_expect(retried.ok and not retried.changed and retried.archive == second.archive and retried.ledger == second.ledger, "numeric reference retry is idempotent and byte-model preserving")
+	var wrong := numeric.duplicate(true)
+	wrong.content_version = 2
+	_expect(not KNOWLEDGE.acquire(second.ledger, second.archive, observation, revision, [wrong]).ok, "different meaning version cannot alias a retry")
+	var normalized: Dictionary = JSON.parse_string(JSON.stringify(second))
+	_expect(KNOWLEDGE.validate(normalized.ledger, normalized.archive).ok, "numeric source merge survives JSON reload")
+
+
+func _rebuild_protection(archive: Dictionary) -> void:
+	# Independent full scan, so graph acceptance never trusts the optimized index.
+	for entry in archive.entries:
+		var reasons := {}
+		if entry.record_class == "authored":
+			for reason in entry.observation.content_protection: reasons["content:" + reason] = true
+		for link in archive.source_links:
+			if link.target.uid == entry.entry_uid: reasons[link.consumer_kind + ":" + link.consumer_uid] = true
+		entry.protection_reasons = reasons.keys()
+		entry.protection_reasons.sort()
 
 
 func _validate_live_retry(tree: SceneTree) -> void:

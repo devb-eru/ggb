@@ -20,16 +20,13 @@ static func valid_metadata(value: Variant) -> bool:
 
 
 static func validate(value: Variant, archive: Dictionary) -> Dictionary:
-	var archive_check := ARCHIVE.validate(archive)
-	if not archive_check.ok: return archive_check
 	if not value is Dictionary or not _keys(value, ["schema_version", "revision", "revisions"]) or not _integer(value.schema_version) or value.schema_version != 1 or not _integer(value.revision) or not value.revisions is Array or value.revision != value.revisions.size():
 		return _error("NB_KNOWLEDGE_SCHEMA")
 	var latest := {}
 	var owners := {}
 	var revisions := {}
-	var expected_links: Array = []
-	var references: Array = []
-	var own_indices: Array = []
+	var expected_links := {}
+	var own_references: Array = []
 	for index in range(value.revisions.size()):
 		var row: Variant = value.revisions[index]
 		if not row is Dictionary or not _keys(row, REVISION_KEYS) or not _uid(row.knowledge_uid) or not _uid(row.revision_uid) or revisions.has(row.revision_uid) or not _integer(row.sequence) or row.sequence != index or not valid_metadata(row.metadata):
@@ -41,30 +38,33 @@ static func validate(value: Variant, archive: Dictionary) -> Dictionary:
 		if latest.has(id):
 			if row.knowledge_uid != latest[id].knowledge_uid or row.previous_revision_uid != latest[id].revision_uid: return _error("NB_KNOWLEDGE_CHAIN")
 		elif row.previous_revision_uid != "": return _error("NB_KNOWLEDGE_CHAIN")
-		if not row.observation_ref is Dictionary or not row.source_refs is Array or row.source_refs.is_empty() or row.observation_ref not in row.source_refs:
+		var own_identity := ARCHIVE.reference_identity(row.observation_ref)
+		if own_identity.is_empty() or not row.source_refs is Array or row.source_refs.is_empty():
 			return _error("NB_KNOWLEDGE_SOURCE")
-		var unique: Array = []
+		var unique := {}
 		for reference in row.source_refs:
-			if not reference is Dictionary or reference in unique: return _error("NB_KNOWLEDGE_SOURCE")
-			if reference == row.observation_ref: own_indices.append(references.size())
-			references.append(reference)
-			unique.append(reference)
-			expected_links.append({"consumer_kind": "knowledge_source", "consumer_uid": row.revision_uid, "target": reference})
+			var identity := ARCHIVE.reference_identity(reference)
+			if identity.is_empty() or unique.has(identity): return _error("NB_KNOWLEDGE_SOURCE")
+			unique[identity] = true
+			expected_links[ARCHIVE.source_link_identity({"consumer_kind": "knowledge_source", "consumer_uid": row.revision_uid, "target": reference})] = true
+		if not unique.has(own_identity): return _error("NB_KNOWLEDGE_SOURCE")
+		own_references.append(row.observation_ref)
 		latest[id] = row
 		owners[row.knowledge_uid] = id
 		revisions[row.revision_uid] = row
-	var actual: Array = archive.source_links.filter(func(link: Dictionary) -> bool: return link.consumer_kind == "knowledge_source")
+	# This validates the whole archive, including every source target, exactly once.
+	# Only owning documents need copied bodies for the checks below.
+	var resolved := ARCHIVE.resolve_many(archive, own_references)
+	if not resolved.ok: return resolved
+	var actual := {}
+	for link in archive.source_links:
+		if link.consumer_kind == "knowledge_source": actual[ARCHIVE.source_link_identity(link)] = true
 	if actual.size() != expected_links.size(): return _error("NB_KNOWLEDGE_PROTECTION")
 	for link in expected_links:
-		if link not in actual: return _error("NB_KNOWLEDGE_PROTECTION")
-	# The archive and empty ledger were already validated, including orphan links.
-	if references.is_empty(): return {"ok":true}
-	# Validate/index the archive once for all sources, not once per revision.
-	var resolved := ARCHIVE.resolve_many(archive, references)
-	if not resolved.ok: return resolved
+		if not actual.has(link): return _error("NB_KNOWLEDGE_PROTECTION")
 	var own_ids := {}
-	for index in range(own_indices.size()):
-		var own: Dictionary = resolved.items[own_indices[index]]
+	for index in range(own_references.size()):
+		var own: Dictionary = resolved.items[index]
 		if own.get("legacy", true) or own.entry.observation.entry_kind != "document_segment": return _error("NB_KNOWLEDGE_OBSERVATION")
 		if own_ids.has(own.entry.entry_uid): return _error("NB_KNOWLEDGE_OBSERVATION_REUSED")
 		own_ids[own.entry.entry_uid] = true
@@ -75,7 +75,8 @@ static func validate(value: Variant, archive: Dictionary) -> Dictionary:
 		if revision.observation_ref.segment_id != own.entry.observation.segments[0].segment_id:
 			return _error("NB_KNOWLEDGE_OBSERVATION")
 		for segment in own.entry.observation.segments:
-			if ARCHIVE.make_reference(own.entry, segment.segment_id) not in revision.source_refs:
+			var link := {"consumer_kind":"knowledge_source", "consumer_uid":revision.revision_uid, "target":ARCHIVE.make_reference(own.entry, segment.segment_id)}
+			if not expected_links.has(ARCHIVE.source_link_identity(link)):
 				return _error("NB_KNOWLEDGE_SOURCE")
 	return {"ok": true}
 
@@ -86,6 +87,8 @@ static func acquire(ledger: Dictionary, archive: Dictionary, observation: Dictio
 	checked = ARCHIVE.validate_observation(observation)
 	if not checked.ok: return checked
 	if not _uid(revision_uid): return _error("NB_KNOWLEDGE_REVISION")
+	for ref in source_refs:
+		if ARCHIVE.reference_identity(ref).is_empty(): return _error("NB_KNOWLEDGE_SOURCE")
 	var definition := CONTENT.definition(observation.content_id, int(observation.content_version))
 	if definition.is_empty() or not valid_metadata(definition.get("knowledge")) or observation.entry_kind != "document_segment":
 		return _error("NB_KNOWLEDGE_DEFINITION")
@@ -111,9 +114,8 @@ static func acquire(ledger: Dictionary, archive: Dictionary, observation: Dictio
 			var resolved := ARCHIVE.resolve(archive, previous.observation_ref)
 			var refs: Array = []
 			for part in observation.segments: refs.append(ARCHIVE.make_reference(resolved.entry, part.segment_id))
-			for ref in source_refs:
-				if ref not in refs: refs.append(ref)
-			if resolved.entry.observation != observation or previous.metadata != definition.knowledge or previous.source_refs != refs:
+			refs = _merge_sources(refs, source_refs)
+			if resolved.entry.observation != observation or previous.metadata != definition.knowledge or previous.source_refs.map(ARCHIVE.reference_identity) != refs.map(ARCHIVE.reference_identity):
 				return _error("NB_KNOWLEDGE_RETRY_CONFLICT")
 			return {"ok": true, "ledger": ledger.duplicate(true), "archive": archive.duplicate(true), "changed": false, "revision_uid": revision_uid}
 		if previous.metadata.knowledge_id == definition.knowledge.knowledge_id: latest = previous
@@ -132,9 +134,7 @@ static func acquire(ledger: Dictionary, archive: Dictionary, observation: Dictio
 	var own := ARCHIVE.make_reference(entry, observation.segments[0].segment_id)
 	var own_references: Array = []
 	for part in observation.segments: own_references.append(ARCHIVE.make_reference(entry, part.segment_id))
-	var references: Array = own_references.duplicate(true)
-	for ref in source_refs:
-		if ref not in references: references.append(ref.duplicate(true))
+	var references := _merge_sources(own_references, source_refs)
 	var linked := ARCHIVE.add_source_links(next_archive, "knowledge_source", revision_uid, own_references, int(next_archive.revision))
 	if not linked.ok: return linked
 	next_archive = linked.archive
@@ -147,6 +147,18 @@ static func acquire(ledger: Dictionary, archive: Dictionary, observation: Dictio
 	next_ledger.revision = int(next_ledger.revision) + 1
 	checked = validate(next_ledger, next_archive)
 	return {"ok": true, "ledger": next_ledger, "archive": next_archive, "changed": true, "revision_uid": revision_uid} if checked.ok else checked
+
+
+static func _merge_sources(own: Array, sources: Array) -> Array:
+	var result := own.duplicate(true)
+	var ids := {}
+	for ref in own: ids[ARCHIVE.reference_identity(ref)] = true
+	for ref in sources:
+		var identity := ARCHIVE.reference_identity(ref)
+		if not ids.has(identity):
+			result.append(ref.duplicate(true))
+			ids[identity] = true
+	return result
 
 
 static func _keys(value: Dictionary, keys: Array) -> bool:

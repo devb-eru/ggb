@@ -89,6 +89,7 @@ func _run() -> void:
 	_validate_limits()
 	_validate_retention()
 	_validate_protection_index()
+	_validate_numeric_commands()
 	_finish()
 
 
@@ -185,7 +186,57 @@ func _validate_protection_index() -> void:
 			"invalid_kind": damaged.source_links[0].consumer_kind = "unknown"
 		var damaged_before := damaged.duplicate(true)
 		_expect(not ARCHIVE.validate(damaged).ok and damaged == damaged_before, "corrupt references fail without repair: " + corruption)
+	for variant in ["numeric", "key_order"]:
+		var changed := archive.duplicate(true)
+		var target: Dictionary = changed.source_links[0].target
+		if variant == "numeric": target.content_version = 1.0
+		else:
+			var reordered := {}
+			var fields: Array = target.keys()
+			fields.reverse()
+			for field in fields: reordered[field] = target[field]
+			changed.source_links[0].target = reordered
+		_expect(ARCHIVE.validate(changed).ok, "equivalent reference remains valid: " + variant)
+		changed.source_links.append(original.source_links[0].duplicate(true))
+		_expect(not ARCHIVE.validate(changed).ok, "equivalent reference is still a duplicate: " + variant)
+	var resolved := ARCHIVE.resolve_many(archive, [archive.source_links[0].target, archive.source_links[0].target])
+	_expect(resolved.ok and resolved.items.size() == 2, "batch resolution preserves duplicate requests and order")
+	if resolved.ok:
+		resolved.items[0].entry.observation.segments[0].captured_text = "changed"
+		resolved.items[0].segment.captured_text = "changed"
+		_expect(resolved.items[1].entry == original.entries[0] and archive == original, "resolved entries and segments cannot alias another result or source")
 	print("NOTEBOOK_PROTECTION_TIMING: " + JSON.stringify({"entries":1200, "source_links":1200, "validation_usec":validation_usec, "maintenance_usec":maintenance_usec, "acceptance":"MEASUREMENT_ONLY"}))
+
+
+func _validate_numeric_commands() -> void:
+	var archive := ARCHIVE.create()
+	archive = ARCHIVE.append_observation(archive, _observation(12), 0).archive
+	var ref := ARCHIVE.make_reference(archive.entries[0], "front")
+	var numeric := ref.duplicate(true)
+	numeric.content_version = 1.0
+	for collection in ["bookmarks", "comparison"]:
+		var added := ARCHIVE.set_reference(archive, collection, ref, true, archive.revision)
+		var original: Dictionary = added.archive.duplicate(true)
+		var again := ARCHIVE.set_reference(added.archive, collection, numeric, true, added.archive.revision)
+		_expect(again.ok and not again.changed and again.archive == original, "numeric pin add is idempotent: " + collection)
+		var parsed: Dictionary = JSON.parse_string(JSON.stringify(original))
+		var removed := ARCHIVE.set_reference(parsed, collection, ref, false, parsed.revision)
+		_expect(removed.ok and removed.changed and removed.archive[collection].is_empty() and removed.archive.entries[0].protection_reasons.is_empty(), "numeric pin removal after JSON reload: " + collection)
+		var invalid := original.duplicate(true)
+		invalid[collection].append(numeric)
+		_expect(not ARCHIVE.validate(invalid).ok, "mixed numeric duplicate pins rejected: " + collection)
+	var consumer := "%032x" % 999
+	var sources := ARCHIVE.add_source_links(archive, "document_source", consumer, [ref, numeric], archive.revision)
+	_expect(sources.ok and sources.archive.source_links.size() == 1, "numeric source targets merge in one transaction")
+	if not sources.ok: return
+	var retry := ARCHIVE.add_source_link(sources.archive, "document_source", consumer, numeric, sources.archive.revision)
+	_expect(retry.ok and not retry.changed and retry.archive == sources.archive, "numeric source link retry does not write a new revision")
+	var other := ARCHIVE.add_source_link(sources.archive, "document_source", "%032x" % 998, numeric, sources.archive.revision)
+	_expect(other.ok and other.archive.source_links.size() == 2, "different consumers retain separate protection")
+	for bad in [true, 1.5, INF, NAN, "1", 9007199254740992.0]:
+		var invalid := ref.duplicate(true)
+		invalid.content_version = bad
+		_expect(ARCHIVE.reference_identity(invalid).is_empty() and not ARCHIVE.set_reference(archive, "bookmarks", invalid, true, archive.revision).ok, "invalid version never becomes a canonical reference")
 
 
 func _reference_reasons(archive: Dictionary, entry: Dictionary) -> Array:

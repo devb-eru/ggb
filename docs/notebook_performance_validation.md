@@ -231,3 +231,55 @@ godot.exe --headless --path <empty> --main-pack <notebook.pck> -- --notebook-aut
 각 프로세스의 종료 코드 0과 해당 PASS 표식을 모두 확인하고 스크립트/파싱/리소스 오류는 실패로 취급했다. 알려진 Windows root certificate store 경고는 남아 있으며 이번 수정 대상이 아니다. 전체 캠페인과 앞 절의 400회 lifecycle 검사는 이번 제품 코드로 재실행한 결과가 아니다.
 
 출처 링크 중복 검사 자체의 배열 탐색, 비어 있지 않은 knowledge ledger의 재검증, 동기 저장·첫 표시·색인 지연은 이번 최적화만으로 제거되지 않았다. dense archive는 지식 revision이 밀집한 전체 게임 snapshot 성능 시험을 대신하지 않는다. ERR-0027은 IN_PROGRESS이며 Windows 실제 입력·IME/시각 인수, 정식 cold/warm 표본과 전체 RAM, 생산자 전편 미열거 분기 및 계획 전체 완료 감사가 남아 있다. 사용자 작업 중인 씬·리소스·플러그인은 이 패키지에 합치지 않았다.
+
+## 10. 지식 출처 그래프와 숫자 참조 동일성
+
+기준 develop `6505b3f`, 2026-10-04~05. NB-Q12/Q13/Q18·NB-AQ06/AQ08/AQ15의 참조 계약과 비어 있지 않은 ledger의 검증 경로를 조사했다. 첫 재현에서 **정수 `1`과 JSON 숫자 `1.0`을 서로 다른 출처 참조로 취급하는 오류**가 드러나 [ERR-0029](../ideas/md/v04/issues/items/GGB-ERR-2026-0029_숫자표현에_따른_기록참조_동일성_불일치.md)로 분리했다.
+
+### 구현 범위
+
+1. 참조·소비자 링크의 식별값을 정해진 필드 순서의 JSON 배열로 만든다. 버전은 검증된 정수 값으로 비교하며 Dictionary 삽입 순서에 의존하지 않는다. 임의 문자열 연결이나 해시 충돌을 근거로 다른 참조를 합치지 않는다. 저장 데이터와 기존 Query/sidecar 키는 변경하지 않았다.
+2. archive의 모음/출처 중복 검사를 식별값 집합으로 바꿨다. pin 추가·해제·재시도와 다중 출처 추가도 같은 동일성을 적용한다. 다른 소비자·UID·내용 버전·segment는 계속 별개다.
+3. 내부 유효성 확인은 원문을 복제하지 않는 `_locate_in`으로 수행한다. 공개 `resolve`/`resolve_many` 결과는 여전히 깊은 복사본이며 원본이나 다른 반환 항목에 쓰기 별칭을 노출하지 않는다.
+4. ledger는 먼저 자체 구조·개정 체인과 출처의 모양/중복을 검사한 뒤 `resolve_many`를 통해 전체 archive를 한 번 검증한다. 실제 archive의 모든 `knowledge_source` 링크와 ledger가 요구하는 링크가 정확히 일치해야 한다. 이후 소유 문서의 의미 버전·메타데이터·공개된 모든 segment 포함 여부를 확인한다.
+5. 모든 출처의 원문을 중복 복제하지 않고 소유 문서만 반환받는다. 외부 출처도 archive 전체 검증 및 정확한 링크 집합 대조를 통과해야 한다. 빈 ledger나 미사용 항목을 통해 잘못된 archive를 우회할 수 없다. 여러 부분이 동시에 손상되면 최초 반환 오류의 순서는 이전과 달라질 수 있지만 성공으로 바뀌지 않는다.
+
+### 재현과 입력
+
+- 변경 전 PCK `E73E90E58BD5649F6CC3B32C8C8D493A2ADD9CBB4C0A8B912C6A0A4A040AA4FD`: import 55.1초/export 14.0초. archive 검사는 `equivalent reference is still a duplicate: numeric`으로 **실패**, knowledge 검사는 34.6초 PASS. 실패한 archive 실행을 정상 성능 인수로 세지 않는다.
+- 변경 후 PCK `B19CE9A269BD6083ACE1DE9800C303DC6B9A1F032B626CD14DDBFC47F33AC6A8`: import 52.1초/export 13.4초, archive 13.7초, knowledge 33.3초, migration 11.7초(저장 안전성 46개 포함) PASS.
+- 로그 루트는 각각 `%TEMP%/ggb-notebook-graph-before-20261004`, `ggb-notebook-graph-after-20261004`다. 10월 5일로 넘어가서 끝난 실행도 시작 시 지정한 폴더를 유지한다.
+
+`notebook_knowledge_smoke.gd`의 고정 그래프는 실제 `NB_NOTE_P_PULSE` 정의의 독립 관찰 600개를 같은 카드의 개정 체인으로 연결하고, 이전 관찰과 보존된 legacy 원문을 출처로 참조한다. 전체 관찰은 601개, 개정 600개, 출처 링크 1,285개다. UID·발생/세션 토큰은 고정하며 공개 본문·메타데이터는 기존 카탈로그 원문을 사용한다. 양쪽 입력 SHA-256은 `f8441db634bce36f27eb4d3363914b9e8dc0439d003e53d68ec0d076617dbe70`으로 같다.
+
+| 검증 | 범위 |
+| --- | --- |
+| 정상 그래프 | 정확한 전체 입력 불변, JSON 숫자 재로드, 출처 순서를 뒤집어도 동일 소유/보호 판정 |
+| 변조 15종 | 중복 출처·정수/실수 중복·키 순서 중복·링크 누락/고아/소비자 변경·개정 체인/소유자/메타데이터 변조·자기 관찰 누락·미공개 segment·다른 출처/버전·필드 누락·잘못된 공개 증거 |
+| 판정 경계 | 링크 누락/고아/소비자 변경은 archive 자체가 유효함을 먼저 확인하고 ledger 단계에서 거부 |
+| 명령 | 정수/실수 pin 재시도·JSON 재로드 뒤 해제·중복 모음 거부·같은 소비자의 출처 병합·다른 소비자 보존·지식 획득 재시도·다른 버전 거부 |
+| 반환 소유권 | 같은 참조를 두 번 요청한 결과를 각각 독립 복제; 반환 본문/segment 수정으로 다른 결과·원본 변경 불가 |
+
+고정 그래프의 전체 `KNOWLEDGE.validate` 단일 표본은 **924.928ms → 478.332ms**였다. fixture 생성·독립 보호 이유 oracle·변조 반복은 이 구간에 포함하지 않는다. 실제 영속 저장, UI 지연, 20/100회 p95 또는 장비 계층 합격을 뜻하지 않는다. 초기 중복 재현과 고정 그래프 시험 후 명령/재시도 검사를 추가했으므로 두 패키지의 전체 테스트 개수가 동일하다고 주장하지 않는다.
+
+재현 명령과 격리 환경은 9절의 archive/knowledge/migration/query 실행 방식을 따른다. schema·저장 원자성·일반 2,000개 보존·보호/legacy·최종 선택·세계 물리는 바꾸지 않았다. 동기 저장/UI 응답과 실제 Windows 입력·IME/시각, 장비별 정식 성능 측정, 생산자 전편 감사는 여전히 별도 인수 대상이다.
+
+### 같은 최종 패키지의 후속 회귀
+
+로그: `%TEMP%/ggb-notebook-graph-regression-20261005`. 별도 APPDATA/LOCALAPPDATA와 빈 실행 폴더를 사용하고 seed/resume/completed는 각각 새 Godot 프로세스에서 실행했다. 실제 사용자 슬롯은 사용하지 않았다.
+
+| 검사 | 실행 시간(초) | 결과/범위 |
+| --- | ---: | --- |
+| query | 148.2 | 주 검사 1,411개 및 검색·탐색·시각 자료·인물 보존·갤러리 등 하위 검사 PASS; `after` 로그 루트 |
+| foundation / dialogue-history v2 | 14.3 / 12.0 | PASS |
+| presentation seed/resume/completed | 33.6 / 8.7 / 6.9 | 106 / 7 / 4개 PASS |
+| prologue-presentation seed/resume/completed | 41.0 / 16.3 / 11.5 | 66 / 26 / 16개 PASS |
+| modal-presentation seed/resume/completed | 126.7 / 11.2 / 8.5 | 397 / 7 / 4개 PASS |
+| surface-resume | 12.4 | 108개 PASS |
+| journal-four | 18.4 | 문서 140경우, 공개 segment 19개 PASS |
+| host | 103.0 | 301개 PASS |
+| foundation / dialogue-history 기존 모드 | 14.6 / 11.3 | rollout 플래그 없이 PASS |
+
+위 검사는 `--notebook-<이름>-smoke --ggb-dev-notebook-v2`를 사용한다. foundation/history는 각각 `--foundation-smoke`, `--dialogue-history-smoke`, 세 단계 재개 검사는 추가로 `--cursor-phase=seed|resume|completed`를 지정했다. 종료 코드 0과 PASS 표식 및 스크립트/파싱 오류 부재를 확인했다. 알려진 root certificate store 경고는 유지한다.
+
+J4 검사는 확인창/피드백·최소 접근 표시 ID와 실제 OS 입력을 포함하지 않는다. 전체 캠페인·전 사용인 결과 분기·400회 lifecycle·정식 성능 계측은 이 제품 코드로 다시 실행한 것이 아니다. 위 결과는 ERR-0029와 해당 코드 경로의 검증 완료 근거이며 ERR-0027 및 전체 목표를 완료로 만들지 않는다.

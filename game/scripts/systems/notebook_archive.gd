@@ -89,16 +89,17 @@ static func validate(value: Variant) -> Dictionary:
 	for collection in ["bookmarks", "comparison"]:
 		var limit := BOOKMARK_LIMIT if collection == "bookmarks" else COMPARISON_LIMIT
 		if archive[collection].size() > limit: return _error("NB_REFERENCE_LIMIT")
-		var seen := []
+		var seen := {}
 		for ref in archive[collection]:
-			if ref in seen or not _resolve_in(ids, ref).ok: return _error("NB_REFERENCE_INVALID")
-			seen.append(ref)
-	var links := []
+			var identity := reference_identity(ref)
+			if identity.is_empty() or seen.has(identity) or not _locate_in(ids, ref).ok: return _error("NB_REFERENCE_INVALID")
+			seen[identity] = true
+	var links := {}
 	for link in archive.source_links:
-		if not link is Dictionary or not _keys(link, ["consumer_kind", "consumer_uid", "target"]): return _error("NB_SOURCE_LINK")
-		if link.consumer_kind not in SOURCE_KINDS or not _uid(link.consumer_uid) or link in links or not _resolve_in(ids, link.target).ok:
+		var identity := source_link_identity(link)
+		if identity.is_empty() or links.has(identity) or not _locate_in(ids, link.target).ok:
 			return _error("NB_SOURCE_LINK")
-		links.append(link)
+		links[identity] = true
 	var reference_reasons := _reference_reason_index(archive)
 	for entry in archive.entries:
 		if entry.protection_reasons != _entry_reasons(entry, reference_reasons): return _error("NB_PROTECTION_MISMATCH")
@@ -156,16 +157,22 @@ static func set_reference(archive: Dictionary, collection: String, reference: Di
 	if not ready.ok: return ready
 	if collection not in ["bookmarks", "comparison"]: return _error("NB_REFERENCE_COLLECTION")
 	if not _reference_shape(reference): return _error("NB_REFERENCE_FIELDS")
-	var exists: bool = reference in archive[collection]
+	var reference_id := reference_identity(reference)
+	var found := -1
+	for index in range(archive[collection].size()):
+		if reference_identity(archive[collection][index]) == reference_id:
+			found = index
+			break
+	var exists: bool = found >= 0
 	# An acknowledged removal can prune the now-unprotected target in the same commit.
 	if not enabled and not exists: return {"ok": true, "archive": archive.duplicate(true), "changed": false, "pruned_uids": []}
-	if not _resolve_in(_index(archive), reference).ok: return _error("NB_REFERENCE_UNAVAILABLE")
+	if not _locate_in(_index(archive), reference).ok: return _error("NB_REFERENCE_UNAVAILABLE")
 	if exists == enabled: return {"ok": true, "archive": archive.duplicate(true), "changed": false, "pruned_uids": []}
 	var limit := BOOKMARK_LIMIT if collection == "bookmarks" else COMPARISON_LIMIT
 	if enabled and archive[collection].size() >= limit: return _error("NB_REFERENCE_LIMIT")
 	var candidate := archive.duplicate(true)
 	if enabled: candidate[collection].append(reference.duplicate(true))
-	else: candidate[collection].erase(reference)
+	else: candidate[collection].remove_at(found)
 	return _finish(candidate)
 
 
@@ -200,10 +207,15 @@ static func add_source_links(archive: Dictionary, consumer_kind: String, consume
 		return _error("NB_SOURCE_LINK")
 	var candidate := archive.duplicate(true)
 	var index := _index(archive)
+	var existing := {}
+	for link in archive.source_links: existing[source_link_identity(link)] = true
 	for target in targets:
-		if not _resolve_in(index, target).ok: return _error("NB_SOURCE_LINK")
+		if not _locate_in(index, target).ok: return _error("NB_SOURCE_LINK")
 		var link := {"consumer_kind": consumer_kind, "consumer_uid": consumer_uid, "target": target.duplicate(true)}
-		if link not in candidate.source_links: candidate.source_links.append(link)
+		var identity := source_link_identity(link)
+		if not existing.has(identity):
+			candidate.source_links.append(link)
+			existing[identity] = true
 	if candidate.source_links == archive.source_links: return {"ok": true, "archive": candidate, "changed": false, "pruned_uids": []}
 	return _finish(candidate)
 
@@ -318,18 +330,36 @@ static func validate_observation(value: Variant) -> Dictionary:
 
 
 static func _resolve_in(index: Dictionary, value: Variant) -> Dictionary:
+	var located := _locate_in(index, value)
+	return located.duplicate(true) if located.ok else located
+
+
+static func _locate_in(index: Dictionary, value: Variant) -> Dictionary:
 	if not _reference_shape(value): return _error("NB_REFERENCE_FIELDS")
 	if not index.has(value.uid): return _error("NB_REFERENCE_UNAVAILABLE")
 	var entry: Dictionary = index[value.uid]
 	if entry.source_origin_id != value.source_origin_id: return _error("NB_REFERENCE_ORIGIN")
 	if entry.record_class in ["legacy", "unmapped"]:
 		if value.kind != entry.record_class or int(value.content_version) != 0 or value.segment_id != "legacy": return _error("NB_REFERENCE_SEGMENT")
-		return {"ok": true, "entry": entry.duplicate(true), "legacy": true}
+		return {"ok": true, "entry": entry, "legacy": true}
 	var observation: Dictionary = entry.observation
 	if observation.entry_kind != value.kind or int(observation.content_version) != int(value.content_version): return _error("NB_REFERENCE_VERSION")
 	for segment in observation.segments:
-		if segment.segment_id == value.segment_id: return {"ok": true, "entry": entry.duplicate(true), "segment": segment.duplicate(true), "legacy": false}
+		if segment.segment_id == value.segment_id: return {"ok": true, "entry": entry, "segment": segment, "legacy": false}
 	return _error("NB_REFERENCE_SEGMENT")
+
+
+static func reference_identity(value: Variant) -> String:
+	if not _reference_shape(value): return ""
+	# Integral JSON numbers and dictionary insertion order do not change identity.
+	return JSON.stringify([value.kind, value.source_origin_id, value.uid, int(value.content_version), value.segment_id])
+
+
+static func source_link_identity(value: Variant) -> String:
+	if not value is Dictionary or not _keys(value, ["consumer_kind", "consumer_uid", "target"]): return ""
+	if value.consumer_kind not in SOURCE_KINDS or not _uid(value.consumer_uid): return ""
+	var target := reference_identity(value.target)
+	return "" if target.is_empty() else JSON.stringify([value.consumer_kind, value.consumer_uid, target])
 
 
 static func _reference_shape(value: Variant) -> bool:
