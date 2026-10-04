@@ -18,6 +18,7 @@ var fixtures := {}
 var view: ChapterOneController
 var serial := 0
 var matrix_cases := 0
+var coverage := preload("res://scripts/tests/notebook_puzzle_coverage.gd").new()
 
 class ControlledSave extends Node:
 	var reject := true
@@ -330,6 +331,7 @@ func _count(key: String) -> int:
 
 
 func _collect() -> void:
+	coverage.collect(_archive().entries, "puzzle-surfaces")
 	var before := GameState.get_snapshot()
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored": continue

@@ -125,14 +125,14 @@ PASS 판정에는 종료 코드 0과 해당 PASS 표식을 모두 요구한다. 
 | PA01 | `basement_controller.gd::_create_reselect/_resume_reselect` / 수정 | 비서사 관리 알림이 대화 writer·커서로 들어감 | `_show_reselect_notice`로 분리, 전체 상태·슬롯 바이트 및 실제 복사본 진입 회귀로 검증 |
 | PA02 | `notebook_content_smoke.gd::_validate_failed_write/_validate_live_hints` / 수정·집중 PASS | 보조창 저장 실패 때문에 표시 전 배열 접근, 현재 커서와 JSON 숫자 비교 계약 미반영 | 관찰 저장만 실패 주입, 초기 화면 저장 선행, 게임 상태·기록 불변 및 전체 재로드 비교 유지 |
 | PA03 | `notebook_chapter_one_smoke.gd::_collect` / 수정·집중 PASS | NP21 표시를 NP04 대사로 집계 | 모든 항목의 authored·장·허용 생산자 검사 후 NP04만 집계 |
-| PA04 | `notebook_mirror_smoke.gd`, `notebook_basement_smoke.gd` / 미해결 | 생산자 전체 ID 목록에 후속 `NB_PUZZLE_*`가 포함되지만 원래 경로 검사는 모든 표시 변형을 실행하지 않음 | catalog·variant·segment별 소유 검사를 명시하고 puzzle-surfaces와 합집합 대조. 필수 ID를 단순 제거해 통과시키지 않음 |
-| PA05 | `notebook_basement_smoke.gd::_modals/_failures`, `notebook_mara1_smoke.gd`, `notebook_iris_smoke.gd`, `notebook_luca_smoke.gd` / 부분 해결 | 취소·미룸 뒤 전체 또는 loop 상태 불변 단언 실패. 세 관계 검사는 완료된 표시 커서만 다름을 확인하고 교정·한영 PASS(6절) | 지하 확인창은 미해결. 같은 원인이라고 추정해 종결하지 말고 해당 경로의 전체 차이를 확인. 기계 입력·관계 완료·연구 기록·지식 불변 유지 |
+| PA04 | `notebook_mirror_smoke.gd`, `notebook_basement_smoke.gd` / 수정·통합 PASS | 생산자 전체 ID 목록에 후속 퍼즐 표면이 포함되어 별도 표시 검사와 소유권이 겹침 | [거울·지하 통합 검증](notebook_puzzle_audit_validation.md): 카탈로그 소유권, 전체 버전·분기·문장·언어 492개 실제 관찰 합집합, 누락 0. 필수 ID 제외만으로 통과시키지 않음 |
+| PA05 | `notebook_basement_smoke.gd::_modals/_failures`, 세 관계 검사 / 수정·한영 PASS | 관계 세 검사는 6절에서 교정. 지하 확인창은 후속 실제 snapshot 진단에서 정상 완료 커서와 취소 관찰만 변화함을 별도 확인 | [지하 취소 검증](notebook_puzzle_audit_validation.md): 정확한 관찰 append와 유효한 완료 커서만 허용. 수첩 열기·복귀 전체 불변, 게임/기록 변조 거부. 제품 기계 입력·관계·연구 기록·지식 불변 유지 |
 | PA06 | `notebook_authority_archive_smoke.gd` / 미해결·실행 불완전 | 실제 표면 기록 및 미룸 단언 실패, 900초 안에 종료하지 않음 | 인물·시나리오·언어별 진행/실패 로그와 표면 기록 반환 원인 확인, 충분한 시간의 전체 재실행. 시간만 늘린 것으로 오류 해결을 주장하지 않음 |
 | PA07 | `notebook_reality_smoke.gd::_field`, `notebook_puzzle_surfaces_smoke.gd` / 수정·한영 PASS | Esc 및 수량 보조창 닫기 뒤 완료 커서만 변화함을 실제 경로에서 확인. 진행·읽음·대화·지식 변경은 없음(6절) | 유효한 완료 커서만 비교에서 분리하며 나머지 snapshot 전체를 비교. 명시적 읽기 확인 없이 ledger가 늘지 않는 조건 유지 |
 | PA08 | `basement_controller.gd::_resume_reselect/_close_modal/_restore_presentation` / 실제 재현·수정·집중 PASS | 복사본 재진입이 일반 초기화를 건너뛰어 대화·확인창·위치 추적기를 복원하지 않음. 커서 없는 새 복사본에서는 원본 마지막 대사 재생도 확인 | 정상 bootstrap 재진입으로 컨트롤러·tracker 교체, 이중 요청·외부 재로드·수첩 중첩 보호. [재선택 표시 복원 검증](notebook_reselect_presentation_validation.md)의 실제 한영 경로·scope 검사 참조 |
 | PA09 | `notebook_surface_capture.gd`, 월드 재진입 / 수정·REVIEW | 동일 EDC 표면 중복을 현재 방문의 원자 표시 확인 정보로 수정. 새 조사·다른 변수/언어는 구분 | [GGB-ERR-2026-0025](../ideas/md/v04/issues/items/GGB-ERR-2026-0025_월드_재진입_관찰기록_중복.md), [월드 재개 검증](notebook_surface_resume_validation.md). 자동 검사와 별도로 전 장소 실제 입력 검토를 유지 |
 
-첫 수정 시 PA04~PA08은 완료 수치에 포함하지 않았다. 후속 6절에서 PA05 일부와 PA07을 검증했다. 이후 PA08은 별도 실제 재현·수정 검사를 수행했으며 그 과정에서 PA09를 확인하고 후속 수정했다. 당시 정적 발견과 후속 실제 재현 결과를 혼합하지 않는다. PA04·PA05 지하·PA06은 미해결이며 PA09는 수정 후 전편 검토 대기다.
+첫 수정 시 PA04~PA08은 완료 수치에 포함하지 않았다. 후속 6절에서 PA05 일부와 PA07을 검증했다. 이후 PA08은 별도 실제 재현·수정 검사를 수행했으며 그 과정에서 PA09를 확인하고 후속 수정했다. PA04와 PA05 지하는 7절의 후속 실행에서 검증했다. 당시 실패와 후속 결과를 혼합하지 않는다. PA06은 미해결이며 PA09는 수정 후 전편 검토 대기다.
 
 ## 5. 잔여 인수
 
@@ -175,3 +175,11 @@ PASS 판정에는 종료 코드 0과 해당 PASS 표식을 모두 요구한다. 
 반례 검사 함수와 해당 호출만 추가한 최종 패키지 SHA-256은 `0CF34D62C6C46A1C77D09BA658DC927B658C174318FC076F9792122E3412D765`다. 기존 비교 함수와 나머지 네 검사 파일은 첫 패키지와 같다. `%TEMP%/ggb-producer-cursor-guards-20261004/`에서 import 41.9초·export 11.0초 후 `puzzle-surfaces`를 전체 재실행해 37.9초 PASS했다. 한영 각각 일곱 반례를 모두 거부했고 실제 표시 ID·segment와 9,556조합 검사도 유지했다. 이 최종 패키지로 나머지 네 검사를 다시 실행한 것으로 표기하지 않는다. 공통 Windows 루트 인증서 저장소 경고는 앞 절과 동일하게 남아 있다.
 
 PA04의 커버리지 소유권, PA05의 지하 확인창, PA06의 에드가·마라 2 및 PA08의 재선택 복원 문제는 이 다섯 검사로 해결했다고 계산하지 않는다. PA08의 후속 실제 수정 검증은 별도 [보고서](notebook_reselect_presentation_validation.md)를 따른다. 최신 지하 전체 v2 회귀와 Windows 실제 입력·성능 인수도 여전히 남아 있다.
+
+## 7. 거울·지하 관찰 합집합과 확인창 후속 검증
+
+develop `d3a1e4a` 이후 PA04와 PA05 지하 확인창을 별도로 검증했다. [상세 보고서](notebook_puzzle_audit_validation.md)에 기존 실패 재현, 실제 전체 상태 차이, 카탈로그 소유권, 반례 및 최종 PCK를 기록했다.
+
+세 검사 순차 실행에서 NP07/NP08의 고유 ID 173개, 버전·분기·문장·언어 필수 키 492개를 실제 관찰로 충족했다. 각 담당 검사별 키는 거울 192개, 지하 164개, 퍼즐 표면 136개다. 지하 취소 14회는 허용 범위 외 변화가 없었고, 수첩 열기/복귀는 전체 상태 동일을 유지했다. 제품 코드는 디버그 검사 진입점 외에 변경하지 않았다.
+
+최종 패키지 `B208E085D890969D7A0A6FF7769E358EB0AF83A4E0D2F28FAF5CA3E2EEE4A668`, 통합 158.3초 PASS. 이 결과는 6절에서 제외했던 PA04/PA05 지하에 대한 새 실행 증거이며, PA06·전체 v2 회귀·전편 실제 입력·성능 완료를 뜻하지 않는다.

@@ -107,6 +107,8 @@ func _ready() -> void:
 		call_deferred("_run_notebook_chapter_one_notes_smoke")
 	elif "--notebook-modals-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_modals_smoke")
+	elif "--notebook-puzzle-audit-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_puzzle_audit_smoke")
 	elif "--notebook-mirror-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_mirror_smoke")
 	elif "--notebook-basement-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
@@ -336,6 +338,12 @@ func _run_notebook_basement_smoke() -> void:
 func _run_notebook_mirror_smoke() -> void:
 	var result: Dictionary = await preload("res://scripts/tests/notebook_mirror_smoke.gd").new().run(get_tree())
 	print("NOTEBOOK_MIRROR_SMOKE: " + ("PASS " + str(result) if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
+
+
+func _run_notebook_puzzle_audit_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/notebook_puzzle_audit_smoke.gd").new().run(get_tree())
+	print("NOTEBOOK_PUZZLE_AUDIT_SMOKE: " + ("PASS " + str(result) if result.ok else str(result)))
 	get_tree().quit(0 if result.ok else 1)
 
 

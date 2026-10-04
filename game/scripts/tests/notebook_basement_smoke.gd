@@ -1,5 +1,7 @@
 extends RefCounted
 
+const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
+
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
@@ -13,6 +15,7 @@ var segments := {}
 var serial := 0
 var view: BasementController
 var checkpoints := CHECKPOINTS.new()
+var coverage := preload("res://scripts/tests/notebook_puzzle_coverage.gd").new()
 
 class ControlledSave extends Node:
 	var delegate: Node
@@ -33,7 +36,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	var diagnostic := CONTENT.diagnostics()
 	if not diagnostic.ok: return {"ok": false, "errors": diagnostic.error_ids}
-	var ids: Array = diagnostic.content_ids.filter(func(id: String) -> bool: return CONTENT.definition(id, 1).producer_id == "NP08")
+	var ids: Array = coverage.owned_ids("basement")
 	for id in ids:
 		var row := CONTENT.definition(id, 1)
 		for locale in row.locales: _expect(not String(row.locales[locale].title).contains(row.event_id), "basement card titles do not expose internal event codes")
@@ -218,8 +221,12 @@ func _modals(tree: SceneTree) -> void:
 			_collect()
 			_press(index)
 			var choice: Dictionary = request.row.choices[index]
-			if choice.kind != "confirm":
-				_expect(GameState.get_snapshot().loop_state == before.loop_state and GameState.get_snapshot().fracture_state == before.fracture_state, "review or cancellation cannot operate the mechanism")
+			if choice.kind == "ui":
+				_expect(GameState.get_snapshot() == before and view._notebook_is_open(), "review opens the notebook without changing any persisted state")
+				view._notebook_host.request_close()
+				_expect(GameState.get_snapshot() == before and view._modal_active, "review returns to the same confirmation without operating the mechanism")
+			elif choice.kind != "confirm":
+				_expect(_cancel_state_matches(before, GameState.get_snapshot(), request, [choice.content_id]), "cancel changes only its observed choice and completed cursor")
 			if choice.kind != "ui":
 				var selected := _entry(choice.content_id)
 				_expect(selected.observation.event_occurrence_id == request.history_context.event_occurrence_id and selected.observation.conversation_session_id == request.history_context.conversation_session_id, "selection belongs to the displayed target")
@@ -242,7 +249,9 @@ func _failures(tree: SceneTree) -> void:
 	controlled.reject = false
 	controlled.lose_ack = true
 	view._cancel_prologue_modal()
-	_expect(not view._modal_active and GameState.get_snapshot().loop_state == before.loop_state, "lost-ack cancellation records once and does not push the axis")
+	var allowed := [request.history_context.notebook_content.content_id, "NB_MODAL_BASEMENT_AXIS_LINE_SELECT_1"]
+	_expect(not view._modal_active and _cancel_state_matches(before, GameState.get_snapshot(), request, allowed), "lost-ack cancellation records prompt and cancel once without pushing the axis")
+	_cancel_guards(before, GameState.get_snapshot(), request, allowed)
 	_expect(_entry("NB_MODAL_BASEMENT_AXIS_LINE_SELECT_1").observation.event_occurrence_id == request.history_context.event_occurrence_id, "retry preserves modal occurrence")
 	view.session._save = SaveManager
 	controlled.free()
@@ -280,6 +289,49 @@ func _failures(tree: SceneTree) -> void:
 	controlled.free()
 	_collect()
 	await tree.process_frame
+
+
+func _cancel_state_matches(before: Dictionary, after: Dictionary, request: Dictionary, allowed: Array, report: bool = true) -> bool:
+	var old: Dictionary = before.meta_progress.dialogue_history
+	var current: Dictionary = after.meta_progress.dialogue_history
+	var count := allowed.size()
+	if current.entries.size() != old.entries.size() + count: return false
+	if not StateSnapshotValidator.same_persisted_value(old.entries, current.entries.slice(0, old.entries.size())): return false
+	for index in range(count):
+		var entry: Dictionary = current.entries[old.entries.size() + index]
+		if entry.get("record_class") != "authored": return false
+		var observation: Dictionary = entry.observation
+		if observation.content_id != allowed[index] or observation.event_occurrence_id != request.history_context.event_occurrence_id or observation.conversation_session_id != request.history_context.conversation_session_id: return false
+		var rendered := CONTENT.render_entry(entry, request.locale)
+		if not rendered.ok or rendered.entry.get("fallback", true): return false
+	var history := current.duplicate(true)
+	history.entries = old.entries.duplicate(true)
+	history.revision -= count
+	history.next_sequence -= count
+	if not StateSnapshotValidator.same_persisted_value(old, history): return false
+	var normalized := after.duplicate(true)
+	normalized.meta_progress.dialogue_history = old.duplicate(true)
+	return STATE_ASSERTIONS.same_gameplay(before, normalized, "modal", report)
+
+
+func _cancel_guards(before: Dictionary, after: Dictionary, request: Dictionary, allowed: Array) -> void:
+	var normalized := after.duplicate(true)
+	normalized.meta_progress.dialogue_history = before.meta_progress.dialogue_history.duplicate(true)
+	_expect(STATE_ASSERTIONS.mutation_guards(before, normalized, "modal"), "cancel cannot conceal gameplay or invalid cursor mutations")
+	for field in ["extra_entry", "counter", "source", "variant", "old_entry"]:
+		var bad := after.duplicate(true)
+		var history: Dictionary = bad.meta_progress.dialogue_history
+		match field:
+			"extra_entry": history.entries.append(history.entries.back().duplicate(true))
+			"counter": history.next_sequence += 1
+			"source": history.entries.back().observation.event_occurrence_id = "0".repeat(32)
+			"variant": history.entries.back().observation.variant_id = "unobserved"
+			"old_entry":
+				if before.meta_progress.dialogue_history.entries.is_empty():
+					history.source_origin_id = "0".repeat(32)
+				else: history.entries[0].observation.content_id = "UNOBSERVED"
+		_expect(not _cancel_state_matches(before, bad, request, allowed, false), "cancel rejects history mutation: " + field)
+	print("BASEMENT_CANCEL_HISTORY_GUARDS: 5 rejected")
 
 
 func _prepare_modal(kind: String, target: String) -> void:
@@ -396,6 +448,7 @@ func _entry(id: String) -> Dictionary:
 
 
 func _collect() -> void:
+	coverage.collect(_archive().entries, "basement")
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored":
 			_expect(false, "new basement observation cannot silently become unmapped")

@@ -13,6 +13,7 @@ var segments := {}
 var serial := 0
 var view: BlackMirrorController
 var checkpoints := CHECKPOINTS.new()
+var coverage := preload("res://scripts/tests/notebook_puzzle_coverage.gd").new()
 
 class ControlledSave extends Node:
 	var delegate: Node
@@ -34,7 +35,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	var diagnostic := CONTENT.diagnostics()
 	if not diagnostic.ok: return {"ok": false, "errors": diagnostic.error_ids}
-	var ids: Array = diagnostic.content_ids.filter(func(id: String) -> bool: return CONTENT.definition(id, 1).producer_id == "NP07")
+	var ids: Array = coverage.owned_ids("mirror")
 	_seed("C0")
 	view = VIEW.new()
 	view.configure_session(SLOT, "MORNING_ROUTE")
@@ -383,6 +384,7 @@ func _has(id: String) -> bool:
 
 
 func _collect() -> void:
+	coverage.collect(_archive().entries, "mirror")
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored":
 			_expect(false, "new mirror observation cannot silently become unmapped")
