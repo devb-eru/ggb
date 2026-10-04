@@ -37,6 +37,41 @@ func _without_presentation(state: Dictionary) -> Dictionary:
 	return result
 
 
+func _same_observed_display(before: Dictionary, after: Dictionary, report: bool = true) -> bool:
+	var left := _without_presentation(before)
+	var right := _without_presentation(after)
+	var diagnostic := right.duplicate(true)
+	diagnostic.meta_progress.dialogue_history = left.meta_progress.dialogue_history.duplicate(true)
+	var assertions := preload("res://scripts/tests/notebook_state_assertions.gd")
+	if report: print("BASEMENT_DISPLAY_DIFF: ", assertions.changed_paths(left, diagnostic))
+	if after.meta_progress.dialogue_history.get("schema_version") == 2:
+		var presentation := preload("res://scripts/systems/notebook_presentation.gd")
+		var cursor := presentation.read(after)
+		if not cursor.is_empty() and not presentation.matches(cursor, after): return false
+		for entry in after.meta_progress.dialogue_history.entries.slice(before.meta_progress.dialogue_history.entries.size()):
+			if entry.get("record_class") != "authored": return false
+		return assertions.same_surface_gameplay(left, right)
+	return StateSnapshotValidator.same_persisted_value(left, diagnostic)
+
+
+func _display_mutation_guards(before: Dictionary, after: Dictionary) -> void:
+	if after.meta_progress.dialogue_history.get("schema_version") != 2: return
+	for field in ["knowledge", "inventory", "relationship", "counter", "unbacked_receipt", "foreign_cursor", "unmapped"]:
+		var mutated := after.duplicate(true)
+		match field:
+			"knowledge": mutated.meta_progress.knowledge_entries.TEST_UNEARNED_NOTE = true
+			"inventory": mutated.loop_state.inventory.append("TEST_UNEARNED_ITEM")
+			"relationship": mutated.meta_progress.servants.edgar.bond += 1
+			"counter": mutated.meta_progress.dialogue_history.next_sequence += 1
+			"unbacked_receipt":
+				var receipt: Dictionary = mutated.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT
+				receipt.receipts.values()[0].presentation_token = "0".repeat(32)
+			"foreign_cursor": mutated.loop_state.event_local_states.NOTEBOOK_PRESENTATION.branch_id = "0".repeat(32)
+			"unmapped": mutated.meta_progress.dialogue_history.entries.back().record_class = "unmapped"
+		_expect(not _same_observed_display(before, mutated, false), "display comparison rejects " + field)
+	print("BASEMENT_DISPLAY_MUTATION_GUARDS: 7 rejected")
+
+
 func _drain_dialogue(view: Node) -> void:
 	for index in range(256):
 		if not view._dialogue_active: return
@@ -1346,9 +1381,7 @@ func _validate_j4(session: BasementSession) -> void:
 	var continue_button := view._modal_body.get_child(3) as Button
 	_expect(continue_button.text == FRACTURE_RESOLUTION_TEXTS.text("계속 조사한다", "en_US"), "J4 English confirmation keeps continue as default action")
 	var j4_before_cancel := session.snapshot()
-	var expected_hub := hub.duplicate(true)
-	expected_hub["meta_progress"]["dialogue_history"] = j4_before_cancel["meta_progress"]["dialogue_history"].duplicate(true)
-	_expect(_without_presentation(j4_before_cancel) == _without_presentation(expected_hub), "J4 opening only appends displayed history and its presentation cursor")
+	_expect(_same_observed_display(hub, j4_before_cancel), "J4 opening only appends observed material and its backed surface receipt")
 	var confirm := view._modal_body.get_child(4) as Button
 	_expect(confirm.disabled, "J4 confirmation input grace")
 	var paused_before_grace_test := tree.paused
@@ -1931,8 +1964,7 @@ func _validate_edc(session: BasementSession) -> void:
 		confirm_view._render_room()
 		var after_english: Dictionary = session.snapshot()
 		_expect(after_english["meta_progress"]["dialogue_history"]["entries"].has(english_summary) and after_english["meta_progress"]["dialogue_history"]["entries"].has(english_confirmation), "Changing locale preserves previously read English text")
-		after_english["meta_progress"]["dialogue_history"] = before_english["meta_progress"]["dialogue_history"].duplicate(true)
-		_expect(_without_presentation(after_english) == _without_presentation(before_english), "English EDC preview does not change branch or gameplay")
+		_expect(_same_observed_display(before_english, after_english), "English EDC preview only appends observed material and its backed surface receipt")
 		var before_summary: Dictionary = session.snapshot()
 		confirm_view._edc_summary()
 		var summary_history: Array = game.get_value("meta_progress.dialogue_history.entries", [])
@@ -2463,8 +2495,7 @@ func _validate_field_notebook(session: BasementSession) -> void:
 	TranslationServer.set_locale(previous_locale)
 	view._render_room()
 	var after_english: Dictionary = session.snapshot()
-	after_english["meta_progress"]["dialogue_history"] = before_english["meta_progress"]["dialogue_history"].duplicate(true)
-	_expect(_without_presentation(after_english) == _without_presentation(before_english), "English page previews do not mark reading complete or alter relationships")
+	_expect(_same_observed_display(before_english, after_english), "English page previews only append observed material and its backed surface receipt without marking reading complete")
 	_expect(view._notebook_surface_allowed(), "field index persists before injecting page history failure")
 	var before_failed_read: Dictionary = session.snapshot()
 	var original_save: Node = view.session._save
@@ -2889,8 +2920,9 @@ func _validate_e6_ui(session: BasementSession) -> void:
 	_expect((view._hotspot_layer.get_node("E6_ENTER") as Button).text == FRACTURE_RESOLUTION_TEXTS.text("코어 경로 진입 확인", "en_US"), "E6 entry action renders in English")
 	_expect(view._notebook_surface_allowed(), "E6 visible world options are captured before the modal baseline")
 	var after_intro := session.snapshot()
-	before["meta_progress"]["dialogue_history"] = after_intro["meta_progress"]["dialogue_history"].duplicate(true)
-	_expect(_without_presentation(after_intro) == _without_presentation(before), "E6 opening only appends displayed history and its presentation cursor")
+	_expect(_same_observed_display(before, after_intro), "E6 opening only appends observed material and its backed surface receipt")
+	_display_mutation_guards(before, after_intro)
+	before = after_intro.duplicate(true)
 	var history_count: int = after_intro["meta_progress"]["dialogue_history"]["entries"].size()
 	view._hotspot_layer.get_node("E6_ENTER").pressed.emit()
 	await tree.process_frame

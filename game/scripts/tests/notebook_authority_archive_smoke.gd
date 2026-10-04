@@ -8,6 +8,7 @@ const DISPLAY := preload("res://scripts/ui/relationship_display_texts.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
+const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 const SLOT := "__test_notebook_authority_archive"
 var errors := PackedStringArray()
 var covered := {}
@@ -53,14 +54,21 @@ func run(tree: SceneTree) -> Dictionary:
 	view._dismiss_dialogue_for_test()
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
+		print("AUTHORITY_ARCHIVE_PHASE: ", locale, " edgar route")
 		_edgar_route()
+		print("AUTHORITY_ARCHIVE_PHASE: ", locale, " mara2 route")
 		_mara2_route()
+		print("AUTHORITY_ARCHIVE_PHASE: ", locale, " rule matrix")
 		_rule_matrix()
 		for actor in ["edgar", "mara2"]:
 			for bond in [0, 2, 4]:
 				for alert in [0, 4]:
-					for index in range(2): _outcome(actor, bond, alert, index)
+					for index in range(2):
+						print("AUTHORITY_ARCHIVE_PHASE: ", locale, " ", actor, " outcome ", bond, "/", alert, "/", index)
+						_outcome(actor, bond, alert, index)
+			print("AUTHORITY_ARCHIVE_PHASE: ", locale, " ", actor, " failures")
 			_failures(actor)
+			print("AUTHORITY_ARCHIVE_PHASE: ", locale, " ", actor, " legacy")
 			_legacy(actor)
 		for id in diagnostic.content_ids:
 			if not String(id).begins_with(EDGAR.PREFIX) and not String(id).begins_with(MARA2.PREFIX): continue
@@ -217,10 +225,14 @@ func _outcome(actor: String, bond: int, alert: int, index: int) -> void:
 	var confession := _archive().duplicate(true)
 	var before := GameState.get_snapshot()
 	_press(actor.to_upper() + "_CHOICE")
+	var request := view._recorded_modal_request.duplicate(true)
 	view._cancel_prologue_modal()
 	var after := GameState.get_snapshot()
+	_expect(_defer_history_unchanged(before, after, request), "deferral appends exactly its prompt and cancel without rewriting prior observations")
 	after.meta_progress.dialogue_history = before.meta_progress.dialogue_history.duplicate(true)
-	_expect(after == before and _ledger().revisions.is_empty(), "last choice deferral never completes the relation")
+	_expect(STATE_ASSERTIONS.same_gameplay(before, after, "modal") and _ledger().revisions.is_empty(), "last choice deferral changes only its completed cursor, not the relation or research record")
+	if bond == 0 and alert == 0 and index == 0:
+		_expect(STATE_ASSERTIONS.mutation_guards(before, after, "modal"), "deferral rejects gameplay and cursor mutations")
 	_press(actor.to_upper() + "_CHOICE")
 	view._modal_body.get_child(4 + index).pressed.emit()
 	var outcome: String = (["responsibility_recorded", "authority_returned"] if actor == "edgar" else ["merged", "separated"])[index]
@@ -411,7 +423,34 @@ func _edgar_owner(function: String, owner: String) -> void:
 func _mara2_source(portrait: String, owner: String, candidate: String) -> void:
 	_press("MARA2_SOURCE_" + portrait + owner)
 	view._modal_body.get_child(4 + MARA2.RULES.OWNERS.find(candidate)).pressed.emit()
+	if candidate != owner:
+		var before := GameState.get_snapshot()
+		var cursor := STATE_ASSERTIONS.PRESENTATION.read(before)
+		_expect(view._modal_active and cursor.get("phase") == "selection_pending", "wrong attribution retains the explicit pending selection")
+		_expect(not view._notebook_surface_allowed() and GameState.get_snapshot() == before, "covered world is not recorded while attribution modal remains open")
+		_expect(_count("NB_MARA2_STATUS_SOURCE_MISMATCH") == 1, "wrong-attribution feedback was actually observed before returning to the modal")
+		view._cancel_prologue_modal()
+		_expect(not view._modal_active and MARA2.RULES.progress(GameState.get_snapshot()).sources.is_empty(), "explicit dismissal permits another attempt without assigning an owner")
 	_drain()
+
+
+func _defer_history_unchanged(before: Dictionary, after: Dictionary, request: Dictionary) -> bool:
+	var old: Dictionary = before.meta_progress.dialogue_history
+	var history: Dictionary = after.meta_progress.dialogue_history.duplicate(true)
+	var ids := [request.history_context.notebook_content.content_id, request.row.choices[request.row.cancel_index].content_id]
+	if history.entries.size() != old.entries.size() + ids.size(): return false
+	if not StateSnapshotValidator.same_persisted_value(old.entries, history.entries.slice(0, old.entries.size())): return false
+	for index in range(ids.size()):
+		var entry: Dictionary = history.entries[old.entries.size() + index]
+		if entry.get("record_class") != "authored": return false
+		var observed: Dictionary = entry.observation
+		if observed.content_id != ids[index] or observed.event_occurrence_id != request.history_context.event_occurrence_id or observed.conversation_session_id != request.history_context.conversation_session_id: return false
+		var rendered := CONTENT.render_entry(entry, request.locale)
+		if not rendered.ok or rendered.entry.get("fallback", true): return false
+	history.entries = old.entries.duplicate(true)
+	history.revision -= ids.size()
+	history.next_sequence -= ids.size()
+	return StateSnapshotValidator.same_persisted_value(old, history)
 
 
 func _mara2_align(portrait: String, kind: String, point: int) -> void:
@@ -459,7 +498,12 @@ func _reload(label: String) -> void:
 
 
 func _present() -> void:
-	_expect(view._notebook_surface_allowed(), "actual surface capture")
+	var allowed := view._notebook_surface_allowed()
+	if not allowed:
+		print("AUTHORITY_SURFACE_BLOCKED: stage=", view.session.stage(), " blocked=", view._interaction_blocked(), " dialogue=", view._dialogue_active, " modal=", view._modal_active, " notebook=", view._notebook_is_open(), " retry=", view._notebook_surfaces.retry_required)
+		for request in view._notebook_surfaces.requests.values():
+			if not request.recorded: print("AUTHORITY_PENDING_SURFACE: ", request.id, " attempted=", request.attempted)
+	_expect(allowed, "actual surface capture")
 	view.set_process(false)
 
 
