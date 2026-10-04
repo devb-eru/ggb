@@ -1,5 +1,7 @@
 extends RefCounted
 
+const PUBLIC_LABELS := preload("res://scripts/tests/notebook_public_puzzle_labels.gd")
+
 const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 
 const NOTES := preload("res://scripts/systems/notebook_puzzle_surfaces.gd")
@@ -331,9 +333,11 @@ func _count(key: String) -> int:
 
 
 func _collect() -> void:
+	errors.append_array(PUBLIC_LABELS.screen_errors(view))
 	coverage.collect(_archive().entries, "puzzle-surfaces")
 	var before := GameState.get_snapshot()
 	for entry in _archive().entries:
+		errors.append_array(PUBLIC_LABELS.live_errors(entry))
 		if entry.get("record_class") != "authored": continue
 		var observation: Dictionary = entry.observation
 		if not observation.content_id.begins_with(NOTES.PREFIX): continue

@@ -4,7 +4,7 @@ extends RefCounted
 const ROLES := ["CREATOR", "CUSTODIAN", "RESIDENT", "SYSTEM", "SUBJECT"]
 const LABELS := ["CR_AT_R", "C_ST_D_AN", "R_S_D_NT", "SY_T_M", "S_BJ_CT"]
 const RECORDS := ["father", "passphrase", "residents", "command", "notebook"]
-const NAMES := {"father":"아버지 일지", "passphrase":"에드가 접근 암구호", "residents":"연구원 기록 묶음", "command":"D4 복구 명령", "notebook":"주인공 수첩"}
+const NAMES := {"father":"아버지 일지", "passphrase":"에드가 접근 암구호", "residents":"연구원 기록 묶음", "command":"태엽 심장 복구 명령", "notebook":"주인공 수첩"}
 const FACTS := {"father":"설계 도면과 생성 기록. 저택의 규칙을 만들었지만 현재의 선택 주체는 아니다.", "passphrase":"문을 지키고 접근을 허가하는 관리 기록. 주인공의 삶에 대한 최종 결정을 대신할 수 없다.", "residents":"저택 안에 계속 존재하는 연구원 인격의 인덱스. 외부 신체 복원과는 별개의 지속 기록이다.", "command":"특정 조건이 충족되면 위장 필터를 해제하는 자동 실행 기록이다.", "notebook":"어제와 오늘을 겪는 주인공의 직접 기록. 이 삶의 선택 결과를 겪는 사람이 남겼다."}
 const SENTENCES := ["집을 만들었다", "문을 지키고 허가했다", "집 안에서 계속 존재한다", "조건에 따라 자동 실행된다", "이 삶의 결과를 겪는다"]
 

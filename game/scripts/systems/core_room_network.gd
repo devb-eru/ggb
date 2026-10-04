@@ -5,7 +5,7 @@ const ROOMS := ["greenhouse", "kitchen", "bedroom", "library"]
 const NAMES := {"greenhouse": "온실", "kitchen": "주방", "bedroom": "침실", "library": "기록 내실"}
 const DIRECTIONS := ["북", "동", "남", "서"]
 const PORTS := {"greenhouse": "환경 제어 · 실선", "kitchen": "생명 유지 유체 · 실선", "bedroom": "신경 신호 · 점선", "library": "연출 피드백 · 점선 + 중앙 코어 요청"}
-const NOTES := "[방 기능 자료]\nP5: 실내 계절은 외부 대기와 달라도 유지되었다.\nP4: 주방 아래 유체 공급의 맥박은 침실의 몸과 이어진다.\nP1·E1: 침실의 몸에서 신경 신호가 나온다.\nJ4: 기억 인덱스와 관리 권한은 기록 내실로 모인다.\n[고정 포트]\n외부 대기는 북쪽에서 들어온다. 중앙 코어의 관리 요청 단자는 서쪽에 있다.\n네 방의 출력 화살표는 방위 슬롯을 가리킨다. 내실은 중앙 요청과 별개로 계절 연출 데이터를 온실에 돌려보내야 한다."
+const NOTES := "[방 기능 자료]\n온실 관찰: 실내 계절은 외부 대기와 달라도 유지되었다.\n주방 관찰: 주방 아래 유체 공급의 맥박은 침실의 몸과 이어진다.\n침실 관찰: 침실의 몸에서 신경 신호가 나온다.\n복원한 일지: 기억 인덱스와 관리 권한은 기록 내실로 모인다.\n[고정 포트]\n외부 대기는 북쪽에서 들어온다. 중앙 코어의 관리 요청 단자는 서쪽에 있다.\n네 방의 출력 화살표는 방위 슬롯을 가리킨다. 내실은 중앙 요청과 별개로 계절 연출 데이터를 온실에 돌려보내야 한다."
 
 static func progress(state: Dictionary) -> Dictionary:
 	var local := {"tiles": ["library", "bedroom", "greenhouse", "kitchen"], "directions": [0, 0, 0, 0], "attempts": 0, "feedback": "", "selected": -1}

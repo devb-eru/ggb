@@ -3,8 +3,9 @@ extends RefCounted
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ROLLOUT := preload("res://scripts/systems/notebook_rollout.gd")
 const EVENT_NOTES := preload("res://scripts/systems/notebook_event_notes.gd")
+const PUBLIC_LABELS := preload("res://scripts/systems/notebook_puzzle_labels.gd")
 const FIXED := {
-	"FLOORPLAN": "이중 바닥에서 평면도를 꺼내 C5 투명지와 일지 좌표를 함께 펼쳤다. 자료는 모였지만 방향은 아직 검증하지 않았다.",
+	"FLOORPLAN": "이중 바닥에서 평면도를 꺼내 거울 회로 투명지와 일지 좌표를 함께 펼쳤다. 자료는 모였지만 방향은 아직 검증하지 않았다.",
 	"SHORTCUT": "일과를 마치고 평면도를 다시 꺼냈다. 검증한 깊이만 미리 맞췄다. 축을 미는 것은 직접 결정한다.",
 	"FASTPATH": "기록한 순서로 물리 장치를 다시 작동했다. 지하창고 문이 열린다.",
 	"ACCESS": "세 축과 중앙 반 바퀴로 지하창고 접근 경로를 검증했다.",
@@ -24,12 +25,14 @@ const RESOLVED := "지하창고 문을 여는 절차를 검증했다. 먼저 잠
 static func paragraphs(id: String) -> Array:
 	if not ROLLOUT.enabled() or id.is_empty(): return []
 	var content_id := "NB_BASEMENT_" + id
-	var row := CONTENT.definition(content_id, 1)
+	var version := PUBLIC_LABELS.version(content_id)
+	var row := CONTENT.definition(content_id, version)
 	var result: Array = []
 	for segment in row.get("visible_segment_ids", ["line_01"]):
-		result.append({"content_id": content_id, "content_version": 1, "variant_id": "feedback", "segments": {segment: {}}})
+		result.append({"content_id": content_id, "content_version": version, "variant_id": "feedback", "segments": {segment: {}}})
 	return result
 
 
 static func write(state: Dictionary, id: String, source: String, context: Dictionary, locale: String) -> Dictionary:
-	return EVENT_NOTES.write(state, "NB_BASEMENT_NOTE_" + id, source, context, locale)
+	var content_id := "NB_BASEMENT_NOTE_" + id
+	return EVENT_NOTES.write(state, content_id, source, context, locale, PUBLIC_LABELS.version(content_id))

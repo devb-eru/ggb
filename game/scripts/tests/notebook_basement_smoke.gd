@@ -1,5 +1,7 @@
 extends RefCounted
 
+const PUBLIC_LABELS := preload("res://scripts/tests/notebook_public_puzzle_labels.gd")
+
 const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
@@ -448,8 +450,10 @@ func _entry(id: String) -> Dictionary:
 
 
 func _collect() -> void:
+	errors.append_array(PUBLIC_LABELS.screen_errors(view))
 	coverage.collect(_archive().entries, "basement")
 	for entry in _archive().entries:
+		errors.append_array(PUBLIC_LABELS.live_errors(entry))
 		if entry.get("record_class") != "authored":
 			_expect(false, "new basement observation cannot silently become unmapped")
 			continue

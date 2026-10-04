@@ -1,0 +1,2551 @@
+{
+  "format_version": 1,
+  "contents": {
+    "NB_HINT_D0_A_H1": {
+      "2": {
+        "action_or_variant": "requested_H1",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "D0",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "The mirror-circuit transparency came from a mirror. Before placing it on the house plan, compare the lettering and the three landmarks.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Mansion plan · H1"
+          },
+          "ko-KR": {
+            "body": "거울 회로 투명지는 거울에서 얻은 자료다. 집의 도면에 곧바로 놓기 전에 글자의 방향과 세 기준점을 비교하자.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "저택 도면 · H1"
+          }
+        },
+        "localization_key": "NB_HINT_D0_A_H1_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_D0_A_H1_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "D0_A"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "D0_A:0",
+        "text_source": "res://scripts/ui/basement_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_HINT_F0_A_H1": {
+      "2": {
+        "action_or_variant": "requested_H1",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "F0",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "Compare what each room receives and outputs, not its appearance. Read the greenhouse, kitchen, bedroom, and journal as evidence about one circuit.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Broken room connections · H1"
+          },
+          "ko-KR": {
+            "body": "방의 겉모습보다 무엇을 받아 무엇을 내보내는지 비교하자. 온실·주방·침실·일지 기록을 같은 회로의 자료로 읽는다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "깨진 방 연결 · H1"
+          }
+        },
+        "localization_key": "NB_HINT_F0_A_H1_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_F0_A_H1_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_A"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "F0_A:0",
+        "text_source": "res://scripts/ui/core_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_HINT_F0_C_H1": {
+      "2": {
+        "action_or_variant": "requested_H1",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "F0",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "The bell waveform shows input after completion, the mirror circuit shows paths and authentication loops, and the heart-port afterimage shows a vacant port. The three layers serve different purposes.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Three-record overlay · H1"
+          },
+          "ko-KR": {
+            "body": "종 파형은 완료 뒤 추가 입력, 거울 회로는 경로와 인증 고리, 태엽 심장 포트 잔상은 포트의 빈자리를 보여 준다. 세 장이 모두 같은 역할을 하는 자료는 아니다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "세 기록 중첩 · H1"
+          }
+        },
+        "localization_key": "NB_HINT_F0_C_H1_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_F0_C_H1_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_C"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "F0_C:0",
+        "text_source": "res://scripts/ui/core_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_HINT_F0_C_H2": {
+      "2": {
+        "action_or_variant": "requested_H2",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "F0",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "Anchor the bell waveform at the twelfth-bell completion line, the mirror circuit at the closed-loop center, and the heart-port afterimage at the central heart port. Opacity helps reading; it is not a solution condition.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Three-record overlay · H2"
+          },
+          "ko-KR": {
+            "body": "종 파형의 열두 번째 종 완료선, 거울 회로의 닫힌 고리 중심, 태엽 심장의 중앙 심장 포트를 기준으로 삼는다. 투명도는 읽기 보조이지 정답 조건이 아니다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "세 기록 중첩 · H2"
+          }
+        },
+        "localization_key": "NB_HINT_F0_C_H2_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_F0_C_H2_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_C"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "F0_C:1",
+        "text_source": "res://scripts/ui/core_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_HINT_F0_C_H3": {
+      "2": {
+        "action_or_variant": "requested_H3",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "F0",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "The heart-port afterimage is the fixed reference. Rotate the bell waveform without mirroring. Since the mirror circuit came from the mirror, compare horizontal mirroring together with rotation.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Three-record overlay · H3"
+          },
+          "ko-KR": {
+            "body": "태엽 심장 포트 잔상은 움직이지 않는 기준판이다. 종 파형은 반전 없이 회전하고, 거울 회로는 거울에서 얻은 회로라 좌우 반전과 회전을 함께 비교한다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "세 기록 중첩 · H3"
+          }
+        },
+        "localization_key": "NB_HINT_F0_C_H3_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_F0_C_H3_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_C"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "F0_C:2",
+        "text_source": "res://scripts/ui/core_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_HINT_F0_C_H4": {
+      "2": {
+        "action_or_variant": "requested_H4",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "F0",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "Rotate the bell waveform by 180 degrees without mirroring. Flip the mirror circuit horizontally, then rotate it 90 degrees counterclockwise. Align each layer's anchor with its intended reference.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Three-record overlay · H4"
+          },
+          "ko-KR": {
+            "body": "종 파형은 180도 회전·반전 없음이다. 거울 회로는 좌우 반전 뒤 반시계 방향 90도로 맞춘다. 각 자료의 기준점을 원래 의미에 맞춰 고정해야 한다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "세 기록 중첩 · H4"
+          }
+        },
+        "localization_key": "NB_HINT_F0_C_H4_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_F0_C_H4_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_C"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "F0_C:3",
+        "text_source": "res://scripts/ui/core_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_HINT_F0_C_H5": {
+      "2": {
+        "action_or_variant": "requested_H5",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "F0",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "Keep the heart-port afterimage fixed, rotate the bell waveform 180 degrees, and mirror the mirror circuit plus rotate it 90 degrees counterclockwise. Verify the aligned anchors, then inspect PATH → SPLIT → AUTH. Aligning the image alone does not complete the investigation.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Three-record overlay · H5"
+          },
+          "ko-KR": {
+            "body": "태엽 심장 포트 잔상은 고정, 종 파형은 180도, 거울 회로는 좌우 반전+반시계90도다. 세 기준점을 맞춰 완전 중첩을 검증한 뒤 PATH 경로→SPLIT 분기→AUTH 인증 고리 순서로 조사한다. 그림을 겹친 것만으로 조사가 끝나지는 않는다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "세 기록 중첩 · H5"
+          }
+        },
+        "localization_key": "NB_HINT_F0_C_H5_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_F0_C_H5_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_C"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "F0_C:4",
+        "text_source": "res://scripts/ui/core_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_HINT_F0_D_H3": {
+      "2": {
+        "action_or_variant": "requested_H3",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "F0",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "The father's design and Edgar's access permission have different functions. Researcher records concern continuing resident personalities; the clockwork-heart command executes under set conditions.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Record roles · H3"
+          },
+          "ko-KR": {
+            "body": "아버지의 설계와 에드가의 접근 허가는 서로 다른 기능이다. 연구원 기록은 거주 인격의 지속을 말하고 태엽 심장 명령은 조건에 따라 실행된다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "기록의 역할 · H3"
+          }
+        },
+        "localization_key": "NB_HINT_F0_D_H3_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_F0_D_H3_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_D"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "F0_D:2",
+        "text_source": "res://scripts/ui/core_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_HINT_F0_D_H5": {
+      "2": {
+        "action_or_variant": "requested_H5",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "F0",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "Father's journal: CREATOR. Edgar's passphrase: CUSTODIAN. Researcher records: RESIDENT. Clockwork-heart command: SYSTEM. Protagonist's notebook: SUBJECT. Read incomplete role labels alongside their functional descriptions.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Record roles · H5"
+          },
+          "ko-KR": {
+            "body": "아버지 일지=CREATOR, 에드가 암구호=CUSTODIAN, 연구원 기록=RESIDENT, 태엽 심장 명령=SYSTEM, 주인공 수첩=SUBJECT다. 빈칸이 있는 역할 이름은 기능 문장과 함께 읽는다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "기록의 역할 · H5"
+          }
+        },
+        "localization_key": "NB_HINT_F0_D_H5_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_F0_D_H5_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_D"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "F0_D:4",
+        "text_source": "res://scripts/ui/core_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_HINT_F0_E_H2": {
+      "2": {
+        "action_or_variant": "requested_H2",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "F0",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "Check the mark you made at the start. Reconstruct the sequence for the type you actually chose: sentence, house glyph, or ink trace.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Past and present authentication · H2"
+          },
+          "ko-KR": {
+            "body": "처음 직접 남겼던 표시를 수첩에서 확인한다. 문장·저택 문양·잉크 흔적 중 실제로 선택한 유형을 기준으로 조각 순서를 되짚는다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "과거와 현재 인증 · H2"
+          }
+        },
+        "localization_key": "NB_HINT_F0_E_H2_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_F0_E_H2_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_E"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "F0_E:1",
+        "text_source": "res://scripts/ui/core_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_BASEMENT_FLOORPLAN": {
+      "2": {
+        "action_or_variant": "feedback",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "entry_kind": "dialogue",
+        "event_id": "D0",
+        "locales": {
+          "en-US": {
+            "line_01": "I retrieve the floorplan from the false bottom and lay it beside the mirror-circuit transparency and journal coordinates. The evidence is assembled, but its orientation is not yet verified.",
+            "speaker": "Protagonist",
+            "summary": "The basement investigation observed then",
+            "title": "Finding the Floorplan"
+          },
+          "ko-KR": {
+            "line_01": "이중 바닥에서 평면도를 꺼내 거울 회로 투명지와 일지 좌표를 함께 펼쳤다. 자료는 모였지만 방향은 아직 검증하지 않았다.",
+            "speaker": "주인공",
+            "summary": "그때 확인한 지하 조사",
+            "title": "평면도 발견"
+          }
+        },
+        "localization_keys": {
+          "line_01": "NB_BASEMENT_FLOORPLAN_V2:line_01"
+        },
+        "location_source": "history_context:captured_before_commit",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "A1",
+          "AS",
+          "A2",
+          "B1",
+          "B2",
+          "J1",
+          "B3_A",
+          "B3_B",
+          "BF",
+          "B4",
+          "B5",
+          "J2_COMPLETE",
+          "C_SLEEP",
+          "C0",
+          "C1",
+          "C2",
+          "C3",
+          "C_BELL",
+          "C4",
+          "CF",
+          "C5_INFO",
+          "J3",
+          "J3_COMPLETE",
+          "D_SLEEP",
+          "D0",
+          "D0_A",
+          "D1",
+          "DF",
+          "D2",
+          "D4",
+          "D5",
+          "D6",
+          "DEMO_END",
+          "E1_ENTRY",
+          "LUCA_S2",
+          "LUCA_GUIDE",
+          "E2_INTRO",
+          "E_HUB",
+          "E3_1",
+          "E3_2",
+          "E3_3",
+          "E3_4",
+          "E3_5",
+          "E3_4M",
+          "J4",
+          "E5",
+          "E6",
+          "F0_A",
+          "F0_B",
+          "F0_C",
+          "F0_D",
+          "F0_E",
+          "F1",
+          "F2",
+          "F3",
+          "EDC",
+          "ENDING_SEQUENCE",
+          "ENDING_BODY_PENDING",
+          "REALITY_WAKE",
+          "FIELD_NOTEBOOK",
+          "REALITY_SURFACE",
+          "STAY_CHARTER",
+          "STAY_STORY",
+          "ENDING_CREDITS",
+          "POST_CREDITS"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP08",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/systems/basement_session.gd",
+        "source_symbol": "act:FLOORPLAN:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "variables": {
+          "line_01": {}
+        },
+        "visible_segment_ids": [
+          "line_01"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_BASEMENT_NOTE_FLOORPLAN": {
+      "2": {
+        "action_or_variant": "recorded",
+        "disclosure_owner": "event_note_commit",
+        "entry_kind": "document_segment",
+        "event_id": "D0",
+        "knowledge": {
+          "category": "document",
+          "epistemic_state": "observed",
+          "knowledge_id": "BASEMENT_PLAN",
+          "lifetime": "persistent",
+          "provenance_state": "identified"
+        },
+        "locales": {
+          "en-US": {
+            "body": "I retrieve the floorplan from the false bottom and lay it beside the mirror-circuit transparency and journal coordinates. The evidence is assembled, but its orientation is not yet verified.",
+            "speaker": "Notebook",
+            "summary": "The plan before orientation verification",
+            "title": "The plan before orientation verification"
+          },
+          "ko-KR": {
+            "body": "이중 바닥에서 평면도를 꺼내 거울 회로 투명지와 일지 좌표를 함께 펼쳤다. 자료는 모였지만 방향은 아직 검증하지 않았다.",
+            "speaker": "수첩",
+            "summary": "아직 방향을 검증하지 않은 도면",
+            "title": "아직 방향을 검증하지 않은 도면"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_BASEMENT_NOTE_FLOORPLAN_V2:body"
+        },
+        "location_source": "history_context:captured_before_commit",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "A1",
+          "AS",
+          "A2",
+          "B1",
+          "B2",
+          "J1",
+          "B3_A",
+          "B3_B",
+          "BF",
+          "B4",
+          "B5",
+          "J2_COMPLETE",
+          "C_SLEEP",
+          "C0",
+          "C1",
+          "C2",
+          "C3",
+          "C_BELL",
+          "C4",
+          "CF",
+          "C5_INFO",
+          "J3",
+          "J3_COMPLETE",
+          "D_SLEEP",
+          "D0",
+          "D0_A",
+          "D1",
+          "DF",
+          "D2",
+          "D4",
+          "D5",
+          "D6",
+          "DEMO_END",
+          "E1_ENTRY",
+          "LUCA_S2",
+          "LUCA_GUIDE",
+          "E2_INTRO",
+          "E_HUB",
+          "E3_1",
+          "E3_2",
+          "E3_3",
+          "E3_4",
+          "E3_5",
+          "E3_4M",
+          "J4",
+          "E5",
+          "E6",
+          "F0_A",
+          "F0_B",
+          "F0_C",
+          "F0_D",
+          "F0_E",
+          "F1",
+          "F2",
+          "F3",
+          "EDC",
+          "ENDING_SEQUENCE",
+          "ENDING_BODY_PENDING",
+          "REALITY_WAKE",
+          "FIELD_NOTEBOOK",
+          "REALITY_SURFACE",
+          "STAY_CHARTER",
+          "STAY_STORY",
+          "ENDING_CREDITS",
+          "POST_CREDITS"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP08",
+        "protection_reasons": [
+          "knowledge"
+        ],
+        "source_file": "scripts/systems/basement_session.gd",
+        "source_knowledge_ids": [
+          "MIRROR_TRACING",
+          "MIRROR_J3"
+        ],
+        "source_symbol": "act:FLOORPLAN:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "superseded_by_content_ids": [
+          "NB_BASEMENT_NOTE_PLAN"
+        ],
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_CORE_A_NOTES": {
+      "2": {
+        "action_or_variant": "A_NOTES",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "dialogue",
+        "enums": {},
+        "event_id": "F0_A",
+        "locales": {
+          "en-US": {
+            "line_01": "[Room function notes]",
+            "line_02": "Greenhouse observations: The indoor season persisted even when it differed from the outside air.",
+            "line_03": "Kitchen observations: Pulses in the fluid supply beneath the kitchen connect to the body in the bedroom.",
+            "line_04": "Bedroom observations: Neural signals originate from the body in the bedroom.",
+            "line_05": "Restored journal: Memory indices and administrative authority converge in the records room.",
+            "line_06": "[Fixed ports]",
+            "line_07": "Outside air enters from the north. The central core request terminal is on the west.",
+            "line_08": "Each room's output arrow points to a compass slot. In addition to the central request, the records room must return seasonal presentation data to the greenhouse.",
+            "speaker": "Protagonist",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "line_01": "[방 기능 자료]",
+            "line_02": "온실 관찰: 실내 계절은 외부 대기와 달라도 유지되었다.",
+            "line_03": "주방 관찰: 주방 아래 유체 공급의 맥박은 침실의 몸과 이어진다.",
+            "line_04": "침실 관찰: 침실의 몸에서 신경 신호가 나온다.",
+            "line_05": "복원한 일지: 기억 인덱스와 관리 권한은 기록 내실로 모인다.",
+            "line_06": "[고정 포트]",
+            "line_07": "외부 대기는 북쪽에서 들어온다. 중앙 코어의 관리 요청 단자는 서쪽에 있다.",
+            "line_08": "네 방의 출력 화살표는 방위 슬롯을 가리킨다. 내실은 중앙 요청과 별개로 계절 연출 데이터를 온실에 돌려보내야 한다.",
+            "speaker": "주인공",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "line_01": "NB_CORE_A_NOTES_V2:line_01",
+          "line_02": "NB_CORE_A_NOTES_V2:line_02",
+          "line_03": "NB_CORE_A_NOTES_V2:line_03",
+          "line_04": "NB_CORE_A_NOTES_V2:line_04",
+          "line_05": "NB_CORE_A_NOTES_V2:line_05",
+          "line_06": "NB_CORE_A_NOTES_V2:line_06",
+          "line_07": "NB_CORE_A_NOTES_V2:line_07",
+          "line_08": "NB_CORE_A_NOTES_V2:line_08"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_A"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "A_NOTES:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "variables": {
+          "line_01": {},
+          "line_02": {},
+          "line_03": {},
+          "line_04": {},
+          "line_05": {},
+          "line_06": {},
+          "line_07": {},
+          "line_08": {}
+        },
+        "visible_segment_ids": [
+          "line_01",
+          "line_02",
+          "line_03",
+          "line_04",
+          "line_05",
+          "line_06",
+          "line_07",
+          "line_08"
+        ]
+      }
+    },
+    "NB_CORE_D_RECORD_COMMAND": {
+      "2": {
+        "action_or_variant": "D_RECORD_COMMAND",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "dialogue",
+        "enums": {},
+        "event_id": "F0_D",
+        "locales": {
+          "en-US": {
+            "line_01": "Clockwork-heart recovery command",
+            "line_02": "An automatic execution record that removes the disguise filter when specified conditions are met.",
+            "speaker": "Protagonist",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "line_01": "태엽 심장 복구 명령",
+            "line_02": "특정 조건이 충족되면 위장 필터를 해제하는 자동 실행 기록이다.",
+            "speaker": "주인공",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "line_01": "NB_CORE_D_RECORD_COMMAND_V2:line_01",
+          "line_02": "NB_CORE_D_RECORD_COMMAND_V2:line_02"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_D"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "D_RECORD_COMMAND:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "variables": {
+          "line_01": {},
+          "line_02": {}
+        },
+        "visible_segment_ids": [
+          "line_01",
+          "line_02"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_C_GUIDE": {
+      "2": {
+        "action_or_variant": "SCREEN_C_GUIDE",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {},
+        "event_id": "F0_C",
+        "locales": {
+          "en-US": {
+            "body": "Bell waveform: dotted line / Mirror circuit: heavy line\nClockwork heart ports: thin fixed line\nReference marks: twelfth-bell end line · closed-loop center · central heart port\nRotation is clockwise; reflection is applied to the source first.",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "종 파형: 점선 / 거울 회로: 굵은 선\n태엽 심장 포트 잔상: 가는 고정선\n기준 표식: 열두 번째 종 완료선 · 닫힌 고리 중심 · 중앙 심장 포트\n회전은 시계 방향, 반전은 원본에 먼저 적용한다.",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_C_GUIDE_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_C"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_C_GUIDE:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_C_LAYER_B4": {
+      "2": {
+        "action_or_variant": "SCREEN_C_LAYER_B4",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "anchor": {
+            "en-US": {
+              "0": "Origin aligned",
+              "1": "One step right",
+              "2": "One step down",
+              "-1": "Unset"
+            },
+            "ko-KR": {
+              "0": "원점 정렬",
+              "1": "오른쪽 한 칸",
+              "2": "아래쪽 한 칸",
+              "-1": "미지정"
+            }
+          },
+          "flipped": {
+            "en-US": {
+              "no": "No",
+              "yes": "Yes"
+            },
+            "ko-KR": {
+              "no": "없음",
+              "yes": "있음"
+            }
+          }
+        },
+        "event_id": "F0_C",
+        "locales": {
+          "en-US": {
+            "body": "Bell waveform · {degrees}° · {flipped} · {anchor}\nOpacity {opacity}",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "종 파형 · {degrees}° · {flipped} · {anchor}\n투명도 {opacity}",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_C_LAYER_B4_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_C"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_C_LAYER_B4:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "anchor": "enum:anchor",
+            "degrees": "int",
+            "flipped": "enum:flipped",
+            "opacity": "int"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "visual": {
+          "anchor_offsets": {
+            "0": [
+              0,
+              0
+            ],
+            "1": [
+              1,
+              0
+            ],
+            "2": [
+              0,
+              1
+            ],
+            "-1": [
+              0,
+              0
+            ]
+          },
+          "kind": "core_overlay_v1",
+          "layer": "B4",
+          "markers": [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              -3,
+              0
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              -3
+            ]
+          ],
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              -2,
+              -1
+            ]
+          ],
+          "pattern": "dashed",
+          "ring_center": [],
+          "ring_radius": 0,
+          "stroke_width": 3,
+          "transform_order": [
+            "reflect_x",
+            "rotate_clockwise",
+            "anchor_offset"
+          ],
+          "variables": {
+            "anchor": "anchor",
+            "degrees": "degrees",
+            "flipped": "flipped",
+            "opacity": "opacity"
+          }
+        }
+      }
+    },
+    "NB_CORE_SCREEN_C_LAYER_C5": {
+      "2": {
+        "action_or_variant": "SCREEN_C_LAYER_C5",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "anchor": {
+            "en-US": {
+              "0": "Origin aligned",
+              "1": "One step right",
+              "2": "One step down",
+              "-1": "Unset"
+            },
+            "ko-KR": {
+              "0": "원점 정렬",
+              "1": "오른쪽 한 칸",
+              "2": "아래쪽 한 칸",
+              "-1": "미지정"
+            }
+          },
+          "flipped": {
+            "en-US": {
+              "no": "No",
+              "yes": "Yes"
+            },
+            "ko-KR": {
+              "no": "없음",
+              "yes": "있음"
+            }
+          }
+        },
+        "event_id": "F0_C",
+        "locales": {
+          "en-US": {
+            "body": "Mirror circuit · {degrees}° · {flipped} · {anchor}\nOpacity {opacity}",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "거울 회로 · {degrees}° · {flipped} · {anchor}\n투명도 {opacity}",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_C_LAYER_C5_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_C"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_C_LAYER_C5:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "anchor": "enum:anchor",
+            "degrees": "int",
+            "flipped": "enum:flipped",
+            "opacity": "int"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "visual": {
+          "anchor_offsets": {
+            "0": [
+              0,
+              0
+            ],
+            "1": [
+              1,
+              0
+            ],
+            "2": [
+              0,
+              1
+            ],
+            "-1": [
+              0,
+              0
+            ]
+          },
+          "kind": "core_overlay_v1",
+          "layer": "C5",
+          "markers": [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              -3,
+              0
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              -3
+            ]
+          ],
+          "path": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              -3
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              -3,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              1
+            ]
+          ],
+          "pattern": "solid",
+          "ring_center": [
+            2,
+            1
+          ],
+          "ring_radius": 0.35,
+          "stroke_width": 4,
+          "transform_order": [
+            "reflect_x",
+            "rotate_clockwise",
+            "anchor_offset"
+          ],
+          "variables": {
+            "anchor": "anchor",
+            "degrees": "degrees",
+            "flipped": "flipped",
+            "opacity": "opacity"
+          }
+        }
+      }
+    },
+    "NB_CORE_SCREEN_C_LAYER_D4": {
+      "2": {
+        "action_or_variant": "SCREEN_C_LAYER_D4",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "anchor": {
+            "en-US": {
+              "0": "Origin aligned",
+              "1": "One step right",
+              "2": "One step down",
+              "-1": "Unset"
+            },
+            "ko-KR": {
+              "0": "원점 정렬",
+              "1": "오른쪽 한 칸",
+              "2": "아래쪽 한 칸",
+              "-1": "미지정"
+            }
+          },
+          "flipped": {
+            "en-US": {
+              "no": "No",
+              "yes": "Yes"
+            },
+            "ko-KR": {
+              "no": "없음",
+              "yes": "있음"
+            }
+          }
+        },
+        "event_id": "F0_C",
+        "locales": {
+          "en-US": {
+            "body": "Heart-port afterimage · {degrees}° · {flipped} · {anchor}\nOpacity {opacity}",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "태엽 심장 포트 잔상 · {degrees}° · {flipped} · {anchor}\n투명도 {opacity}",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_C_LAYER_D4_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_C"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_C_LAYER_D4:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "anchor": "enum:anchor",
+            "degrees": "int",
+            "flipped": "enum:flipped",
+            "opacity": "int"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "visual": {
+          "anchor_offsets": {
+            "0": [
+              0,
+              0
+            ],
+            "1": [
+              1,
+              0
+            ],
+            "2": [
+              0,
+              1
+            ],
+            "-1": [
+              0,
+              0
+            ]
+          },
+          "kind": "core_overlay_v1",
+          "layer": "D4",
+          "markers": [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              -3,
+              0
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              -3
+            ]
+          ],
+          "path": [
+            [
+              3,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              -3,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              -3
+            ]
+          ],
+          "pattern": "solid",
+          "ring_center": [],
+          "ring_radius": 0,
+          "stroke_width": 2,
+          "transform_order": [
+            "reflect_x",
+            "rotate_clockwise",
+            "anchor_offset"
+          ],
+          "variables": {
+            "anchor": "anchor",
+            "degrees": "degrees",
+            "flipped": "flipped",
+            "opacity": "opacity"
+          }
+        }
+      }
+    },
+    "NB_CORE_SCREEN_E_MARK_HOUSE_GLYPH": {
+      "2": {
+        "action_or_variant": "SCREEN_E_MARK_HOUSE_GLYPH",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "mark_house_glyph": {
+            "en-US": {
+              "0": "roof",
+              "1": "body",
+              "2": "door",
+              "0_1": "roof → body",
+              "0_1_2": "roof → body → door",
+              "0_2": "roof → door",
+              "0_2_1": "roof → door → body",
+              "1_0": "body → roof",
+              "1_0_2": "body → roof → door",
+              "1_2": "body → door",
+              "1_2_0": "body → door → roof",
+              "2_0": "door → roof",
+              "2_0_1": "door → roof → body",
+              "2_1": "door → body",
+              "2_1_0": "door → body → roof"
+            },
+            "ko-KR": {
+              "0": "지붕",
+              "1": "몸체",
+              "2": "문",
+              "0_1": "지붕 → 몸체",
+              "0_1_2": "지붕 → 몸체 → 문",
+              "0_2": "지붕 → 문",
+              "0_2_1": "지붕 → 문 → 몸체",
+              "1_0": "몸체 → 지붕",
+              "1_0_2": "몸체 → 지붕 → 문",
+              "1_2": "몸체 → 문",
+              "1_2_0": "몸체 → 문 → 지붕",
+              "2_0": "문 → 지붕",
+              "2_0_1": "문 → 지붕 → 몸체",
+              "2_1": "문 → 몸체",
+              "2_1_0": "문 → 몸체 → 지붕"
+            }
+          }
+        },
+        "event_id": "F0_E",
+        "locales": {
+          "en-US": {
+            "body": "Original self-authored mark: Three windows, a pointed roof, a door leaning left\nCurrent sequence: {sequence}",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "처음 직접 남긴 표시: 창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문\n현재 배열: {sequence}",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_E_MARK_HOUSE_GLYPH_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_E"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_E_MARK_HOUSE_GLYPH:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "sequence": "enum:mark_house_glyph"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_E_MARK_HOUSE_GLYPH_EMPTY": {
+      "2": {
+        "action_or_variant": "SCREEN_E_MARK_HOUSE_GLYPH_EMPTY",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {},
+        "event_id": "F0_E",
+        "locales": {
+          "en-US": {
+            "body": "Original self-authored mark: Three windows, a pointed roof, a door leaning left\nCurrent sequence: ",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "처음 직접 남긴 표시: 창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문\n현재 배열: ",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_E_MARK_HOUSE_GLYPH_EMPTY_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_E"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_E_MARK_HOUSE_GLYPH_EMPTY:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_E_MARK_INK_CORNER": {
+      "2": {
+        "action_or_variant": "SCREEN_E_MARK_INK_CORNER",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "mark_ink_corner": {
+            "en-US": {
+              "0": "first touch at the corner",
+              "1": "second touch inward",
+              "2": "final ink dot",
+              "0_1": "first touch at the corner → second touch inward",
+              "0_1_2": "first touch at the corner → second touch inward → final ink dot",
+              "0_2": "first touch at the corner → final ink dot",
+              "0_2_1": "first touch at the corner → final ink dot → second touch inward",
+              "1_0": "second touch inward → first touch at the corner",
+              "1_0_2": "second touch inward → first touch at the corner → final ink dot",
+              "1_2": "second touch inward → final ink dot",
+              "1_2_0": "second touch inward → final ink dot → first touch at the corner",
+              "2_0": "final ink dot → first touch at the corner",
+              "2_0_1": "final ink dot → first touch at the corner → second touch inward",
+              "2_1": "final ink dot → second touch inward",
+              "2_1_0": "final ink dot → second touch inward → first touch at the corner"
+            },
+            "ko-KR": {
+              "0": "모서리 첫 접촉",
+              "1": "안쪽 두 번째 접촉",
+              "2": "마지막 잉크점",
+              "0_1": "모서리 첫 접촉 → 안쪽 두 번째 접촉",
+              "0_1_2": "모서리 첫 접촉 → 안쪽 두 번째 접촉 → 마지막 잉크점",
+              "0_2": "모서리 첫 접촉 → 마지막 잉크점",
+              "0_2_1": "모서리 첫 접촉 → 마지막 잉크점 → 안쪽 두 번째 접촉",
+              "1_0": "안쪽 두 번째 접촉 → 모서리 첫 접촉",
+              "1_0_2": "안쪽 두 번째 접촉 → 모서리 첫 접촉 → 마지막 잉크점",
+              "1_2": "안쪽 두 번째 접촉 → 마지막 잉크점",
+              "1_2_0": "안쪽 두 번째 접촉 → 마지막 잉크점 → 모서리 첫 접촉",
+              "2_0": "마지막 잉크점 → 모서리 첫 접촉",
+              "2_0_1": "마지막 잉크점 → 모서리 첫 접촉 → 안쪽 두 번째 접촉",
+              "2_1": "마지막 잉크점 → 안쪽 두 번째 접촉",
+              "2_1_0": "마지막 잉크점 → 안쪽 두 번째 접촉 → 모서리 첫 접촉"
+            }
+          }
+        },
+        "event_id": "F0_E",
+        "locales": {
+          "en-US": {
+            "body": "Original self-authored mark: A drop of ink at the corner of the page\nCurrent sequence: {sequence}",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "처음 직접 남긴 표시: 페이지 모서리의 잉크 한 방울\n현재 배열: {sequence}",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_E_MARK_INK_CORNER_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_E"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_E_MARK_INK_CORNER:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "sequence": "enum:mark_ink_corner"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_E_MARK_INK_CORNER_EMPTY": {
+      "2": {
+        "action_or_variant": "SCREEN_E_MARK_INK_CORNER_EMPTY",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {},
+        "event_id": "F0_E",
+        "locales": {
+          "en-US": {
+            "body": "Original self-authored mark: A drop of ink at the corner of the page\nCurrent sequence: ",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "처음 직접 남긴 표시: 페이지 모서리의 잉크 한 방울\n현재 배열: ",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_E_MARK_INK_CORNER_EMPTY_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_E"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_E_MARK_INK_CORNER_EMPTY:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_E_MARK_SENTENCE": {
+      "2": {
+        "action_or_variant": "SCREEN_E_MARK_SENTENCE",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "mark_sentence": {
+            "en-US": {
+              "0": "Tomorrow morning,",
+              "1": "read this",
+              "2": "sentence.",
+              "0_1": "Tomorrow morning, → read this",
+              "0_1_2": "Tomorrow morning, → read this → sentence.",
+              "0_2": "Tomorrow morning, → sentence.",
+              "0_2_1": "Tomorrow morning, → sentence. → read this",
+              "1_0": "read this → Tomorrow morning,",
+              "1_0_2": "read this → Tomorrow morning, → sentence.",
+              "1_2": "read this → sentence.",
+              "1_2_0": "read this → sentence. → Tomorrow morning,",
+              "2_0": "sentence. → Tomorrow morning,",
+              "2_0_1": "sentence. → Tomorrow morning, → read this",
+              "2_1": "sentence. → read this",
+              "2_1_0": "sentence. → read this → Tomorrow morning,"
+            },
+            "ko-KR": {
+              "0": "내일 아침,",
+              "1": "이 문장을",
+              "2": "읽어.",
+              "0_1": "내일 아침, → 이 문장을",
+              "0_1_2": "내일 아침, → 이 문장을 → 읽어.",
+              "0_2": "내일 아침, → 읽어.",
+              "0_2_1": "내일 아침, → 읽어. → 이 문장을",
+              "1_0": "이 문장을 → 내일 아침,",
+              "1_0_2": "이 문장을 → 내일 아침, → 읽어.",
+              "1_2": "이 문장을 → 읽어.",
+              "1_2_0": "이 문장을 → 읽어. → 내일 아침,",
+              "2_0": "읽어. → 내일 아침,",
+              "2_0_1": "읽어. → 내일 아침, → 이 문장을",
+              "2_1": "읽어. → 이 문장을",
+              "2_1_0": "읽어. → 이 문장을 → 내일 아침,"
+            }
+          }
+        },
+        "event_id": "F0_E",
+        "locales": {
+          "en-US": {
+            "body": "Original self-authored mark: Tomorrow morning, read this sentence.\nCurrent sequence: {sequence}",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "처음 직접 남긴 표시: 내일 아침, 이 문장을 읽어.\n현재 배열: {sequence}",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_E_MARK_SENTENCE_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_E"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_E_MARK_SENTENCE:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "sequence": "enum:mark_sentence"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_E_MARK_SENTENCE_EMPTY": {
+      "2": {
+        "action_or_variant": "SCREEN_E_MARK_SENTENCE_EMPTY",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {},
+        "event_id": "F0_E",
+        "locales": {
+          "en-US": {
+            "body": "Original self-authored mark: Tomorrow morning, read this sentence.\nCurrent sequence: ",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "처음 직접 남긴 표시: 내일 아침, 이 문장을 읽어.\n현재 배열: ",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_E_MARK_SENTENCE_EMPTY_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_E"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_E_MARK_SENTENCE_EMPTY:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_FINAL_F1_INSPECT": {
+      "2": {
+        "action_or_variant": "F1_INSPECT",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "dialogue",
+        "event_id": "F1",
+        "locales": {
+          "en-US": {
+            "line_01": "The smell of paper lingers between the server racks. Touching a coolant pipe makes the sound seem to resonate inside your bones.",
+            "line_02": "Edit history: The journal restored so far was derived from the original record, with portions selected by the system and servants. Original voice and postmortem attachments are marked as separate sources.",
+            "speaker": "Protagonist",
+            "summary": "The original text and responses disclosed at that time",
+            "title": "Final Records and Review"
+          },
+          "ko-KR": {
+            "line_01": "서버 랙 사이에 종이 냄새가 남아 있다. 냉각관에 손을 대면 소리가 뼈 안쪽에서 울리는 것 같다.",
+            "line_02": "편집 이력: 지금까지 복원한 일지는 원본 기록에서 파생되었으며 시스템과 사용인이 일부를 잘라 표시했다. 원본 음성과 사후 첨부 로그는 별도 출처로 표시된다.",
+            "speaker": "주인공",
+            "summary": "당시에 공개된 원문과 응답",
+            "title": "마지막 기록과 확인"
+          }
+        },
+        "localization_keys": {
+          "line_01": "NB_FINAL_F1_INSPECT_V2:line_01",
+          "line_02": "NB_FINAL_F1_INSPECT_V2:line_02"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F1"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP17",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "F1_INSPECT:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "variables": {
+          "line_01": {},
+          "line_02": {}
+        },
+        "visible_segment_ids": [
+          "line_01",
+          "line_02"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_PUZZLE_D_DRAWER_BOARD": {
+      "2": {
+        "action_or_variant": "D_DRAWER_BOARD",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "event_id": "D0",
+        "locales": {
+          "en-US": {
+            "body": "Three impressions in the desk's false bottom\nCompare the bedroom, greenhouse, and great-clock landmarks from the mirror-circuit transparency and the restored journal.",
+            "speaker": "Scene",
+            "summary": "The arrangement and labels displayed at that time",
+            "title": "Impressions on the Archive Desk"
+          },
+          "ko-KR": {
+            "body": "책상 이중 바닥의 세 눌림점\n거울 회로 투명지와 복원한 일지의 침실·온실·대시계 기준점을 비교한다.",
+            "speaker": "장면",
+            "summary": "당시 화면에서 확인한 배치와 표시",
+            "title": "서재 책상의 눌림점"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_PUZZLE_D_DRAWER_BOARD_V2:body"
+        },
+        "location_source": "actual_display_before_action",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "D_SLEEP",
+          "D0",
+          "D0_A",
+          "D1",
+          "DF",
+          "D2",
+          "D4"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP08",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "D_DRAWER_BOARD:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "enums": {}
+      }
+    },
+    "NB_PUZZLE_FLOORPLAN": {
+      "2": {
+        "action_or_variant": "FLOORPLAN",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "anchor": {
+            "en-US": {
+              "bedroom": "Bedroom",
+              "great_clock": "Great Clock",
+              "greenhouse": "Greenhouse",
+              "unset": "Not Selected"
+            },
+            "ko-KR": {
+              "bedroom": "침실",
+              "great_clock": "대시계",
+              "greenhouse": "온실",
+              "unset": "미선택"
+            }
+          },
+          "flipped": {
+            "en-US": {
+              "no": "Not mirrored",
+              "yes": "Horizontally mirrored"
+            },
+            "ko-KR": {
+              "no": "반전 없음",
+              "yes": "좌우 반전"
+            }
+          }
+        },
+        "event_id": "D0_A",
+        "locales": {
+          "en-US": {
+            "body": "Floorplan and mirror-circuit transparency\nRotation {rotation}° · {flipped} · Anchor: {anchor}\nCheck both the three landmarks and the direction of the mirror-reversed lettering.",
+            "speaker": "Scene",
+            "summary": "The arrangement and labels displayed at that time",
+            "title": "Floorplan and Transparency"
+          },
+          "ko-KR": {
+            "body": "평면도와 거울 회로 투명지\n회전 {rotation}° · {flipped} · 고정점 {anchor}\n세 기준점뿐 아니라 거울에 뒤집힌 글자의 방향도 확인한다.",
+            "speaker": "장면",
+            "summary": "당시 화면에서 확인한 배치와 표시",
+            "title": "평면도와 투명지"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_PUZZLE_FLOORPLAN_V2:body"
+        },
+        "location_source": "actual_display_before_action",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "D_SLEEP",
+          "D0",
+          "D0_A",
+          "D1",
+          "DF",
+          "D2",
+          "D4"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP08",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "FLOORPLAN:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "anchor": "enum:anchor",
+            "flipped": "enum:flipped",
+            "rotation": "int"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_D_CARD_NO": {
+      "2": {
+        "action_or_variant": "SCREEN_D_CARD_NO",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "record": {
+            "en-US": {
+              "command": "Clockwork-heart recovery command",
+              "father": "Father's journal",
+              "notebook": "Protagonist's notebook",
+              "passphrase": "Edgar's access passphrase",
+              "residents": "Researcher record bundle"
+            },
+            "ko-KR": {
+              "command": "태엽 심장 복구 명령",
+              "father": "아버지 일지",
+              "notebook": "주인공 수첩",
+              "passphrase": "에드가 접근 암구호",
+              "residents": "연구원 기록 묶음"
+            }
+          }
+        },
+        "event_id": "F0_D",
+        "locales": {
+          "en-US": {
+            "body": "{record}",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "{record}",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_D_CARD_NO_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_D"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_D_CARD_NO:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "record": "enum:record"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_D_CARD_NO_ANON": {
+      "2": {
+        "action_or_variant": "SCREEN_D_CARD_NO_ANON",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "record": {
+            "en-US": {
+              "command": "Clockwork-heart recovery command",
+              "father": "Father's journal",
+              "notebook": "Protagonist's notebook",
+              "passphrase": "Edgar's access passphrase",
+              "residents": "Researcher record bundle"
+            },
+            "ko-KR": {
+              "command": "태엽 심장 복구 명령",
+              "father": "아버지 일지",
+              "notebook": "주인공 수첩",
+              "passphrase": "에드가 접근 암구호",
+              "residents": "연구원 기록 묶음"
+            }
+          }
+        },
+        "event_id": "F0_D",
+        "locales": {
+          "en-US": {
+            "body": "{record} · Anonymous index",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "{record} · 익명 인덱스",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_D_CARD_NO_ANON_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_D"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_D_CARD_NO_ANON:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "record": "enum:record"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_D_CARD_YES": {
+      "2": {
+        "action_or_variant": "SCREEN_D_CARD_YES",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "record": {
+            "en-US": {
+              "command": "Clockwork-heart recovery command",
+              "father": "Father's journal",
+              "notebook": "Protagonist's notebook",
+              "passphrase": "Edgar's access passphrase",
+              "residents": "Researcher record bundle"
+            },
+            "ko-KR": {
+              "command": "태엽 심장 복구 명령",
+              "father": "아버지 일지",
+              "notebook": "주인공 수첩",
+              "passphrase": "에드가 접근 암구호",
+              "residents": "연구원 기록 묶음"
+            }
+          }
+        },
+        "event_id": "F0_D",
+        "locales": {
+          "en-US": {
+            "body": "{record} [Selected]",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "{record} [선택]",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_D_CARD_YES_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_D"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_D_CARD_YES:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "record": "enum:record"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_D_CARD_YES_ANON": {
+      "2": {
+        "action_or_variant": "SCREEN_D_CARD_YES_ANON",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "record": {
+            "en-US": {
+              "command": "Clockwork-heart recovery command",
+              "father": "Father's journal",
+              "notebook": "Protagonist's notebook",
+              "passphrase": "Edgar's access passphrase",
+              "residents": "Researcher record bundle"
+            },
+            "ko-KR": {
+              "command": "태엽 심장 복구 명령",
+              "father": "아버지 일지",
+              "notebook": "주인공 수첩",
+              "passphrase": "에드가 접근 암구호",
+              "residents": "연구원 기록 묶음"
+            }
+          }
+        },
+        "event_id": "F0_D",
+        "locales": {
+          "en-US": {
+            "body": "{record} · Anonymous index [Selected]",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "{record} · 익명 인덱스 [선택]",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_D_CARD_YES_ANON_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_D"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_D_CARD_YES_ANON:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "record": "enum:record"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_D_SLOT_NO": {
+      "2": {
+        "action_or_variant": "SCREEN_D_SLOT_NO",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "record_or_empty": {
+            "en-US": {
+              "command": "Clockwork-heart recovery command",
+              "empty": "Empty slot",
+              "father": "Father's journal",
+              "notebook": "Protagonist's notebook",
+              "passphrase": "Edgar's access passphrase",
+              "residents": "Researcher record bundle"
+            },
+            "ko-KR": {
+              "command": "태엽 심장 복구 명령",
+              "empty": "빈 슬롯",
+              "father": "아버지 일지",
+              "notebook": "주인공 수첩",
+              "passphrase": "에드가 접근 암구호",
+              "residents": "연구원 기록 묶음"
+            }
+          },
+          "role": {
+            "en-US": {
+              "0": "CR_AT_R",
+              "1": "C_ST_D_AN",
+              "2": "R_S_D_NT",
+              "3": "SY_T_M",
+              "4": "S_BJ_CT"
+            },
+            "ko-KR": {
+              "0": "CR_AT_R",
+              "1": "C_ST_D_AN",
+              "2": "R_S_D_NT",
+              "3": "SY_T_M",
+              "4": "S_BJ_CT"
+            }
+          }
+        },
+        "event_id": "F0_D",
+        "locales": {
+          "en-US": {
+            "body": "{role}\n{record}",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "{role}\n{record}",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_D_SLOT_NO_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_D"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_D_SLOT_NO:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "record": "enum:record_or_empty",
+            "role": "enum:role"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_CORE_SCREEN_D_SLOT_YES": {
+      "2": {
+        "action_or_variant": "SCREEN_D_SLOT_YES",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "record_or_empty": {
+            "en-US": {
+              "command": "Clockwork-heart recovery command",
+              "empty": "Empty slot",
+              "father": "Father's journal",
+              "notebook": "Protagonist's notebook",
+              "passphrase": "Edgar's access passphrase",
+              "residents": "Researcher record bundle"
+            },
+            "ko-KR": {
+              "command": "태엽 심장 복구 명령",
+              "empty": "빈 슬롯",
+              "father": "아버지 일지",
+              "notebook": "주인공 수첩",
+              "passphrase": "에드가 접근 암구호",
+              "residents": "연구원 기록 묶음"
+            }
+          },
+          "role": {
+            "en-US": {
+              "0": "CR_AT_R",
+              "1": "C_ST_D_AN",
+              "2": "R_S_D_NT",
+              "3": "SY_T_M",
+              "4": "S_BJ_CT"
+            },
+            "ko-KR": {
+              "0": "CR_AT_R",
+              "1": "C_ST_D_AN",
+              "2": "R_S_D_NT",
+              "3": "SY_T_M",
+              "4": "S_BJ_CT"
+            }
+          }
+        },
+        "event_id": "F0_D",
+        "locales": {
+          "en-US": {
+            "body": "{role}\n{record} [Locked]",
+            "speaker": "Scene",
+            "summary": "The displayed evidence and response at that time",
+            "title": "Evidence Observed at the Core"
+          },
+          "ko-KR": {
+            "body": "{role}\n{record} [고정]",
+            "speaker": "장면",
+            "summary": "표시된 자료와 당시의 응답",
+            "title": "코어에서 확인한 자료"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_CORE_SCREEN_D_SLOT_YES_V2:body"
+        },
+        "location_source": "captured_before_commit_or_actual_display",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "F0_D"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP16",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "SCREEN_D_SLOT_YES:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "record": "enum:record_or_empty",
+            "role": "enum:role"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_HINT_C4_H1": {
+      "2": {
+        "action_or_variant": "requested_H1",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "C4",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "Compare the bell waveform with the restored journal passage. Consider how the long entry, two short reflections, and closing resonance relate to the mirror's straight line, fork, and loop.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Black mirror · H1"
+          },
+          "ko-KR": {
+            "body": "종 파형과 복원한 일지의 문장을 함께 보자. 긴 진입, 두 번의 짧은 반사, 닫히는 잔향이 거울의 직선·분기·고리와 어떻게 이어지는지 살펴보자.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "검은 거울 · H1"
+          }
+        },
+        "localization_key": "NB_HINT_C4_H1_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_C4_H1_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "C4",
+          "CF"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "C4:0",
+        "text_source": "res://scripts/ui/mirror_hint_texts.gd",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    },
+    "NB_PUZZLE_HEART": {
+      "2": {
+        "action_or_variant": "HEART",
+        "disclosure_owner": "actual_display",
+        "entry_kind": "document_segment",
+        "enums": {
+          "ring0": {
+            "en-US": {
+              "0": "XII Mark",
+              "1": "XIII Notch",
+              "2": "Small Notch",
+              "3": "Empty Border"
+            },
+            "ko-KR": {
+              "0": "XII 표시",
+              "1": "XIII 홈",
+              "2": "작은 홈",
+              "3": "빈 테두리"
+            }
+          },
+          "ring1": {
+            "en-US": {
+              "0": "Closed Branch",
+              "1": "Straight Junction",
+              "2": "Mirror-Circuit Branch Junction",
+              "3": "Ring Junction"
+            },
+            "ko-KR": {
+              "0": "닫힌 갈래",
+              "1": "직선 접점",
+              "2": "거울 회로 분기 접점",
+              "3": "환형 접점"
+            }
+          },
+          "ring2": {
+            "en-US": {
+              "0": "Empty Center",
+              "1": "Window Glyph",
+              "2": "Door Glyph",
+              "3": "Lowest Heart"
+            },
+            "ko-KR": {
+              "0": "빈 중심",
+              "1": "창 문양",
+              "2": "문 문양",
+              "3": "최하단 심장"
+            }
+          }
+        },
+        "event_id": "D4",
+        "locales": {
+          "en-US": {
+            "body": "Outer · Middle · Inner\n{ring0} / {ring1} / {ring2}\nNormal Lever: {wind} / XII",
+            "speaker": "Scene",
+            "summary": "The arrangement and labels displayed at that time",
+            "title": "Clockwork Heart Glyphs and Lever"
+          },
+          "ko-KR": {
+            "body": "외곽 · 중간 · 안쪽\n{ring0} / {ring1} / {ring2}\n정상 레버: {wind} / XII",
+            "speaker": "장면",
+            "summary": "당시 화면에서 확인한 배치와 표시",
+            "title": "태엽 심장의 문양과 레버"
+          }
+        },
+        "localization_keys": {
+          "body": "NB_PUZZLE_HEART_V2:body"
+        },
+        "location_source": "actual_display_before_action",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "D_SLEEP",
+          "D0",
+          "D0_A",
+          "D1",
+          "DF",
+          "D2",
+          "D4"
+        ],
+        "owner": "planning/engineering",
+        "producer_id": "NP08",
+        "protection_reasons": [
+          "clue_source"
+        ],
+        "source_file": "scripts/chapters/basement_controller.gd",
+        "source_symbol": "HEART:public_puzzle_v2",
+        "speaker_id": "SYSTEM",
+        "variables": {
+          "body": {
+            "ring0": "enum:ring0",
+            "ring1": "enum:ring1",
+            "ring2": "enum:ring2",
+            "wind": "int"
+          }
+        },
+        "visible_segment_ids": [
+          "body"
+        ]
+      }
+    }
+  }
+}

@@ -78,7 +78,7 @@ const UI := {
 	"wet_review": ["계획을 다시 확인한다", "Review the plan again"],
 	"wet_dry": ["마른 천으로 시험한다", "Test with a dry cloth"],
 	"wet_execute": ["세정제를 묻혀 실행한다", "Apply the cleaning solution"],
-	"j3_overlay": ["C5 투명지를 빈 테두리에 놓고 세 기준점 비교", "Place the C5 tracing in the empty frame and compare three reference points"],
+	"j3_overlay": ["거울 회로 투명지를 빈 테두리에 놓고 세 기준점 비교", "Place the mirror-circuit tracing in the empty frame and compare three reference points"],
 	"j3_clear": ["문장 배열 다시 놓기", "Clear the sentence order"],
 	"j3_restore": ["세 번째 페이지 복원", "Restore the third page"],
 }

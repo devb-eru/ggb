@@ -17,7 +17,7 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 	if not knowledge.get("f0_record_roles_solved",false) or knowledge.get("F0_E_complete",false) or state["loop_state"]["location_id"] != "H0_CORE_PATH": return {"ok":false,"text":"기록 역할을 먼저 확인한다."}
 	if state["ending_run"]["final_decision"] != "unset": return {"ok":false,"text":"최종 선택이 기록된 상태에서는 임시 의향을 다시 쓰지 않는다."}
 	var mark: Dictionary = knowledge.get("self_authored_mark",{})
-	if not MARKS.has(mark.get("type","")): return {"ok":false,"text":"A1 표시의 유형 기록을 확인할 수 없다. 저장 자료 확인이 필요하다."}
+	if not MARKS.has(mark.get("type","")): return {"ok":false,"text":"처음 남긴 표시의 유형 기록을 확인할 수 없다. 저장 자료 확인이 필요하다."}
 	var local := progress(state)
 	var text := ""
 	var evidence: Array = []

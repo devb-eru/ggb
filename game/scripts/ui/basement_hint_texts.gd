@@ -2,7 +2,7 @@ extends RefCounted
 
 const HINTS := {
 	"D0_A": [
-		["C5 투명지는 거울에서 얻은 자료다. 집의 도면에 곧바로 놓기 전에 글자의 방향과 세 기준점을 비교하자.", "The C5 transparency came from a mirror. Before placing it on the house plan, compare the lettering and the three landmarks."],
+		["거울 회로 투명지는 거울에서 얻은 자료다. 집의 도면에 곧바로 놓기 전에 글자의 방향과 세 기준점을 비교하자.", "The mirror-circuit transparency came from a mirror. Before placing it on the house plan, compare the lettering and the three landmarks."],
 		["종이 없어도 울리는 대시계를 기준으로 삼자. 그 점 하나만 맞추는 것으로 끝내지 말고 온실과 침실도 함께 확인한다.", "Use the great clock that rings without a bell as your reference. Do not stop at one matching point: check the greenhouse and bedroom too."],
 		["이번 투명지는 좌우를 바꿔 비교해야 한다. 검은 거울에 파형을 놓았던 변환을 그대로 반복하는 퍼즐이 아니다.", "Compare this transparency after mirroring it horizontally. This is not a repetition of the transformation used to place the waveform on the black mirror."],
 		["좌우 반전 뒤 반시계 방향으로 90도 돌려 보자. 화면이 시계 방향 90도씩만 움직인다면 세 번 회전한 상태다.", "After mirroring horizontally, rotate 90 degrees counterclockwise. If the control advances clockwise by 90 degrees, that is three turns."],

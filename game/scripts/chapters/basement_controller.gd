@@ -50,7 +50,7 @@ const FULL_D5_HOLD_SECONDS := 10.0
 const D6_SLEEP_TRANSITION_SECONDS := 6.0
 const FULL_D5_HOLD_KO := FRACTURE_SURFACE_TEXTS.HOLD_KO
 const FULL_D5_HOLD_EN := FRACTURE_SURFACE_TEXTS.HOLD_EN
-const OBJECTIVE_TEXT := {"D_SLEEP": "J3를 기억한 채 잠들어 다음 아침을 맞는다", "D0": "기록 내실의 세 눌림점에서 평면도를 꺼낸다", "D0_A": "C5 투명지와 저택 도면의 방향·기준점을 검증한다", "D1": "세 축의 순서와 깊이를 도면대로 적용한다", "DF": "압력핀 잠김 · 같은 침실에서 잠든다", "D2": "지하창고의 반복 구조를 조사한다", "D4": "태엽 심장의 연동 링과 정상 기동을 확인한다", "D5": "위장 필터 너머 드러난 공간을 확인한다", "DEMO_END": "데모 공개 구간 종료", "D6": "파열된 저택을 확인한 뒤 침실로 돌아간다", "E1_ENTRY": "같은 침실의 다른 아침"}
+const OBJECTIVE_TEXT := {"D_SLEEP": "복원한 일지를 기억한 채 잠들어 다음 아침을 맞는다", "D0": "기록 내실의 세 눌림점에서 평면도를 꺼낸다", "D0_A": "거울 회로 투명지와 저택 도면의 방향·기준점을 검증한다", "D1": "세 축의 순서와 깊이를 도면대로 적용한다", "DF": "압력핀 잠김 · 같은 침실에서 잠든다", "D2": "지하창고의 반복 구조를 조사한다", "D4": "태엽 심장의 연동 링과 정상 기동을 확인한다", "D5": "위장 필터 너머 드러난 공간을 확인한다", "DEMO_END": "데모 공개 구간 종료", "D6": "파열된 저택을 확인한 뒤 침실로 돌아간다", "E1_ENTRY": "같은 침실의 다른 아침"}
 
 func _make_session() -> ChapterOneSession:
 	var created := BASEMENT_SESSION.new(GameState, SaveManager, _slot_id)
@@ -76,7 +76,7 @@ func _puzzle_hint_text(level: int) -> String:
 func _puzzle_hint_title() -> String:
 	var english := TranslationServer.get_locale().begins_with("en")
 	if session.stage().begins_with("F0_"):
-		return ("Core puzzle hints · " if english else "코어 퍼즐 생각 정리 · ") + session.stage().replace("_", "-")
+		return CORE_NOTES.PUBLIC_LABELS.hint_title(session.stage(), TranslationServer.get_locale())
 	match session.stage():
 		"D0_A": return "Floorplan overlay hints" if english else "저택 도면 생각 정리"
 		"D1", "DF": return "Pressure axis hints" if english else "압력축 생각 정리"
@@ -1997,7 +1997,7 @@ func _build_core_overlay() -> void:
 		var y := 160 + index*230
 		var anchor_names := [_core_text("anchor_unset"), _core_text("anchor_origin"), _core_text("anchor_right"), _core_text("anchor_down")]
 		var anchor_index := clampi(int(local[layer]["anchor"]) + 1, 0, 3)
-		var layer_label := "%s · %d° · %s · %s" % [layer,local[layer]["turn"]*90,_core_text("flip_yes") if local[layer]["flip"] else _core_text("flip_no"),anchor_names[anchor_index]]
+		var layer_label := "%s · %d° · %s · %s" % [CORE_NOTES.PUBLIC_LABELS.layer_name(layer, TranslationServer.get_locale()),local[layer]["turn"]*90,_core_text("flip_yes") if local[layer]["flip"] else _core_text("flip_no"),anchor_names[anchor_index]]
 		_board_label(layer_label, Rect2(1050,y,720,55))
 		_queue_core_surface("C_LAYER_" + layer, layer_label + "\n" + _core_text("opacity") % local[layer].opacity, {"degrees":int(local[layer].turn) * 90, "flipped":"yes" if local[layer].flip else "no", "anchor":str(int(local[layer].anchor)), "opacity":int(local[layer].opacity)})
 		if not local["locked"]:

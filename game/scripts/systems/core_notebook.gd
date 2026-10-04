@@ -7,6 +7,7 @@ const D := preload("res://scripts/systems/core_record_roles.gd")
 const E := preload("res://scripts/systems/core_self_authority.gd")
 const DISPLAY := preload("res://scripts/ui/core_story_texts.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
+const PUBLIC_LABELS := preload("res://scripts/systems/notebook_puzzle_labels.gd")
 const ROLLOUT := preload("res://scripts/systems/notebook_rollout.gd")
 const EVENT_NOTES := preload("res://scripts/systems/notebook_event_notes.gd")
 const MARK_SOURCE := preload("res://scripts/systems/chapter_one_session.gd")
@@ -45,14 +46,15 @@ const STATUS := {
 
 static func descriptor(key: String, values: Dictionary = {}) -> Dictionary:
 	var id := PREFIX + key
-	var row := CONTENT.definition(id, 1)
+	var version := PUBLIC_LABELS.version(id)
+	var row := CONTENT.definition(id, version)
 	var segments := {}
 	for segment in row.get("visible_segment_ids", []):
 		var variables := {}
 		for name in row.variables[segment]:
 			if values.has(name): variables[name] = values[name]
 		segments[segment] = variables
-	return CONTENT.descriptor(id, 1, segments)
+	return CONTENT.descriptor(id, version, segments)
 
 
 static func paragraphs(evidence: Array) -> Array:
@@ -60,8 +62,8 @@ static func paragraphs(evidence: Array) -> Array:
 	var result: Array = []
 	for item in evidence:
 		var full := descriptor(item.key, item.get("vars", {}))
-		for segment in CONTENT.definition(full.content_id, 1).get("visible_segment_ids", []):
-			result.append(CONTENT.descriptor(full.content_id, 1, {segment: full.segments[segment]}))
+		for segment in CONTENT.definition(full.content_id, int(full.content_version)).get("visible_segment_ids", []):
+			result.append(CONTENT.descriptor(full.content_id, int(full.content_version), {segment: full.segments[segment]}))
 	return result
 
 
@@ -131,14 +133,14 @@ static func rows() -> Dictionary:
 			result["SCREEN_D_CARD" + suffix + ("_ANON" if anonymous else "")] = dynamic("{record}" + (" · 익명 인덱스" if anonymous else "") + ko, "{record}" + (" · Anonymous index" if anonymous else "") + en, {"record":"record"}, false)
 		result["SCREEN_D_SLOT" + suffix] = dynamic("{role}\n{record}" + (" [고정]" if selected else ""), "{role}\n{record}" + (" [Locked]" if selected else ""), {"role":"role", "record":"record_or_empty"}, false)
 	for layer in C.LAYERS:
-		result["SCREEN_C_LAYER_" + layer] = dynamic(layer + " · {degrees}° · {flipped} · {anchor}\n투명도 {opacity}", layer + " · {degrees}° · {flipped} · {anchor}\nOpacity {opacity}", {"degrees":"int", "flipped":"flipped", "anchor":"anchor", "opacity":"int"}, false)
+		result["SCREEN_C_LAYER_" + layer] = dynamic(PUBLIC_LABELS.layer_name(layer, "ko-KR") + " · {degrees}° · {flipped} · {anchor}\n투명도 {opacity}", PUBLIC_LABELS.layer_name(layer, "en-US") + " · {degrees}° · {flipped} · {anchor}\nOpacity {opacity}", {"degrees":"int", "flipped":"flipped", "anchor":"anchor", "opacity":"int"}, false)
 		result["SCREEN_C_LAYER_" + layer].visual = preload("res://scripts/chapters/core_overlay_board.gd").visual_manifest(layer)
 	for point in C.INVESTIGATION: result["SCREEN_C_" + point] = ui(String(point).to_lower())
 	for type in E.MARKS:
 		var ko: String = MARK_SOURCE.MARKS[type]
 		var en: String = MARK_TEXT.localized_text["en-US"]["CH1_MARK_" + String(type).to_upper()]
 		for empty in [false, true]:
-			result["SCREEN_E_MARK_" + String(type).to_upper() + ("_EMPTY" if empty else "")] = dynamic("A1의 원래 표시: " + ko + "\n현재 배열: " + ("" if empty else "{sequence}"), "Original A1 mark: " + en + "\nCurrent sequence: " + ("" if empty else "{sequence}"), {} if empty else {"sequence":"mark_" + type}, false)
+			result["SCREEN_E_MARK_" + String(type).to_upper() + ("_EMPTY" if empty else "")] = dynamic("처음 직접 남긴 표시: " + ko + "\n현재 배열: " + ("" if empty else "{sequence}"), "Original self-authored mark: " + en + "\nCurrent sequence: " + ("" if empty else "{sequence}"), {} if empty else {"sequence":"mark_" + type}, false)
 		for index in range(3): result["SCREEN_E_PIECE_%s_%d" % [String(type).to_upper(), index]] = dynamic(E.MARKS[type][index], DISPLAY.MARKS_EN[type][index], {}, false)
 	result.SCREEN_E_MARK_ORIGINAL = {"ko":"{original_text}", "en":"{original_text}", "vars":{"original_text":"string"}, "spoken":false, "original_only":true}
 	return result
@@ -191,8 +193,8 @@ static func enums() -> Dictionary:
 		ko.role[str(index)] = D.LABELS[index]
 		en.role[str(index)] = D.LABELS[index]
 	for layer in C.LAYERS:
-		ko.layer[layer] = layer
-		en.layer[layer] = layer
+		ko.layer[layer] = PUBLIC_LABELS.layer_name(layer, "ko-KR")
+		en.layer[layer] = PUBLIC_LABELS.layer_name(layer, "en-US")
 	ko.record_or_empty["empty"] = DISPLAY.UI.empty_slot[0]
 	en.record_or_empty["empty"] = DISPLAY.UI.empty_slot[1]
 	for type in E.MARKS:

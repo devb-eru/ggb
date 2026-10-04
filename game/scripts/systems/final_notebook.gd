@@ -1,6 +1,7 @@
 extends RefCounted
 
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
+const PUBLIC_LABELS := preload("res://scripts/systems/notebook_puzzle_labels.gd")
 const ROLLOUT := preload("res://scripts/systems/notebook_rollout.gd")
 const EVENT_NOTES := preload("res://scripts/systems/notebook_event_notes.gd")
 const PREFIX := "NB_FINAL_"
@@ -12,8 +13,9 @@ static func paragraphs(keys: Array) -> Array:
 	var result: Array = []
 	for key in keys:
 		var id: String = PREFIX + key
-		for segment in CONTENT.definition(id, 1).get("visible_segment_ids", []):
-			result.append(CONTENT.descriptor(id, 1, {segment: {}}))
+		var version := PUBLIC_LABELS.version(id)
+		for segment in CONTENT.definition(id, version).get("visible_segment_ids", []):
+			result.append(CONTENT.descriptor(id, version, {segment: {}}))
 	return result
 
 

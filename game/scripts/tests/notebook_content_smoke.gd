@@ -1,5 +1,7 @@
 extends RefCounted
 
+const PUBLIC_LABELS := preload("res://scripts/tests/notebook_public_puzzle_labels.gd")
+
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
@@ -31,6 +33,7 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(diagnostics.ok and hint_ids.size() == 60, "60 authored hint IDs with bilingual versioned content")
 	if not diagnostics.ok: return {"ok": false, "errors": diagnostics.error_ids}
 	_validate_versioned_content()
+	errors.append_array(PUBLIC_LABELS.catalog_errors())
 	_validate_segments()
 	_validate_enums()
 	for language in ["ko-KR", "en-US"]:
@@ -204,6 +207,8 @@ func _validate_live_hints(tree: SceneTree, stage: String, language: String) -> v
 		var after := GameState.get_snapshot()
 		_expect(after.meta_progress.dialogue_history.entries.size() == count + 1, "only requested hint appends one observation")
 		var entry: Dictionary = after.meta_progress.dialogue_history.entries.back()
+		errors.append_array(PUBLIC_LABELS.live_errors(entry))
+		errors.append_array(PUBLIC_LABELS.screen_errors(view))
 		_expect(entry.get("record_class") == "authored", "live hint is authored, not unmapped")
 		if entry.get("record_class") != "authored": break
 		var descriptor := CONTENT.hint_descriptor(stage, level)

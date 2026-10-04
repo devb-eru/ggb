@@ -1,9 +1,9 @@
 extends RefCounted
 
 const OBJECTIVES := {
-	"D_SLEEP": ["J3를 기억한 채 잠들어 다음 아침을 맞는다", "Sleep with J3 in mind and reach the next morning"],
+	"D_SLEEP": ["복원한 일지를 기억한 채 잠들어 다음 아침을 맞는다", "Sleep with the restored journal in mind and reach the next morning"],
 	"D0": ["기록 내실의 세 눌림점에서 평면도를 꺼낸다", "Retrieve the floorplan from the three impressions in the inner archive"],
-	"D0_A": ["C5 투명지와 저택 도면의 방향·기준점을 검증한다", "Verify the orientation and landmarks of the C5 transparency and mansion plan"],
+	"D0_A": ["거울 회로 투명지와 저택 도면의 방향·기준점을 검증한다", "Verify the orientation and landmarks of the mirror-circuit transparency and mansion plan"],
 	"D1": ["세 축의 순서와 깊이를 도면대로 적용한다", "Apply the three-axis order and depths shown on the plan"],
 	"DF": ["압력핀 잠김 · 같은 침실에서 잠든다", "Pressure pins locked · Sleep in the same bedroom"],
 	"D2": ["지하창고의 반복 구조를 조사한다", "Investigate the repeating structure of the basement storage"],
@@ -33,7 +33,7 @@ const UI := {
 	"heart_door": ["반복 구조의 중심", "Center of the Repeating Structure"],
 	"fastpath": ["검증한 절차로 지하창고 다시 열기", "Reopen the basement storage with the verified procedure"],
 	"shortcut": ["도면과 검증한 깊이로 준비 축약", "Shorten preparation with the plan and verified depths"],
-	"drawer_board": ["책상 이중 바닥의 세 눌림점\nC5 투명지와 J3의 침실·온실·대시계 기준점을 비교한다.", "Three impressions in the desk's false bottom\nCompare the bedroom, greenhouse, and great-clock landmarks from the C5 transparency and J3."],
+	"drawer_board": ["책상 이중 바닥의 세 눌림점\n거울 회로 투명지와 복원한 일지의 침실·온실·대시계 기준점을 비교한다.", "Three impressions in the desk's false bottom\nCompare the bedroom, greenhouse, and great-clock landmarks from the mirror-circuit transparency and the restored journal."],
 	"point_bedroom": ["침실 점", "Bedroom Point"],
 	"point_greenhouse": ["온실 점", "Greenhouse Point"],
 	"point_great_clock": ["대시계 점", "Great-Clock Point"],
@@ -103,7 +103,7 @@ const ANCHORS := {
 
 const GLYPHS := [
 	[["XII 표시", "XII Mark"], ["XIII 홈", "XIII Notch"], ["작은 홈", "Small Notch"], ["빈 테두리", "Empty Border"]],
-	[["닫힌 갈래", "Closed Branch"], ["직선 접점", "Straight Junction"], ["C5 분기 접점", "C5 Branch Junction"], ["환형 접점", "Ring Junction"]],
+	[["닫힌 갈래", "Closed Branch"], ["직선 접점", "Straight Junction"], ["거울 회로 분기 접점", "Mirror-Circuit Branch Junction"], ["환형 접점", "Ring Junction"]],
 	[["빈 중심", "Empty Center"], ["창 문양", "Window Glyph"], ["문 문양", "Door Glyph"], ["최하단 심장", "Lowest Heart"]],
 ]
 
@@ -124,7 +124,7 @@ const FEEDBACK_EN := {
 	"이전 지하 장치 절차는 끝났다.": "The earlier basement-mechanism procedure is over.",
 	"기록 내실 책상의 세 눌림점을 확인한다.": "Inspect the three impressions on the inner archive desk.",
 	"거울 회로 투명지를 먼저 수첩에 기록한다.": "Record the mirror-circuit transparency in the notebook first.",
-	"이중 바닥에서 평면도를 꺼내 C5 투명지와 일지 좌표를 함께 펼쳤다. 자료는 모였지만 방향은 아직 검증하지 않았다.": "I retrieve the floorplan from the false bottom and lay it beside the C5 transparency and journal coordinates. The evidence is assembled, but its orientation is not yet verified.",
+	"이중 바닥에서 평면도를 꺼내 거울 회로 투명지와 일지 좌표를 함께 펼쳤다. 자료는 모였지만 방향은 아직 검증하지 않았다.": "I retrieve the floorplan from the false bottom and lay it beside the mirror-circuit transparency and journal coordinates. The evidence is assembled, but its orientation is not yet verified.",
 	"서재 작업대에 세 자료를 준비한다.": "Prepare all three records on the archive worktable.",
 	"세 기준점 중 하나를 고정한다.": "Anchor one of the three landmarks.",
 	"지하의 세 축 장치에서 도면을 적용한다.": "Apply the plan at the three-axis mechanism below.",
@@ -225,8 +225,8 @@ static func glyph(ring: int, position: int, locale: String) -> String:
 
 static func floorplan_status(local: Dictionary, locale: String) -> String:
 	if not is_english(locale):
-		return "평면도와 C5 투명지\n회전 %d° · %s · 고정점 %s\n세 기준점뿐 아니라 거울에 뒤집힌 글자의 방향도 확인한다." % [local["rotation"], "좌우 반전" if local["flipped"] else "반전 없음", anchor_name(String(local["anchor"]), locale)]
-	return "Floorplan and C5 transparency\nRotation %d° · %s · Anchor: %s\nCheck both the three landmarks and the direction of the mirror-reversed lettering." % [local["rotation"], "Horizontally mirrored" if local["flipped"] else "Not mirrored", anchor_name(String(local["anchor"]), locale)]
+		return "평면도와 거울 회로 투명지\n회전 %d° · %s · 고정점 %s\n세 기준점뿐 아니라 거울에 뒤집힌 글자의 방향도 확인한다." % [local["rotation"], "좌우 반전" if local["flipped"] else "반전 없음", anchor_name(String(local["anchor"]), locale)]
+	return "Floorplan and mirror-circuit transparency\nRotation %d° · %s · Anchor: %s\nCheck both the three landmarks and the direction of the mirror-reversed lettering." % [local["rotation"], "Horizontally mirrored" if local["flipped"] else "Not mirrored", anchor_name(String(local["anchor"]), locale)]
 
 static func axis_status(axis: String, axes: Dictionary, locale: String) -> String:
 	if not is_english(locale):

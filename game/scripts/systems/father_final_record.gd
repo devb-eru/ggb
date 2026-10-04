@@ -36,7 +36,7 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 		"inspect":
 			keys = ["F1_INSPECT"]
 			if not local["entered"]: return {"ok":false,"text":"기록실에 먼저 들어간다."}
-			text = "서버 랙 사이에 종이 냄새가 남아 있다. 냉각관에 손을 대면 소리가 뼈 안쪽에서 울리는 것 같다.\n편집 이력: J1~J4는 원본 기록에서 파생되었으며 시스템과 사용인이 일부를 잘라 표시했다. 원본 음성과 사후 첨부 로그는 별도 출처로 표시된다."
+			text = "서버 랙 사이에 종이 냄새가 남아 있다. 냉각관에 손을 대면 소리가 뼈 안쪽에서 울리는 것 같다.\n편집 이력: 지금까지 복원한 일지는 원본 기록에서 파생되었으며 시스템과 사용인이 일부를 잘라 표시했다. 원본 음성과 사후 첨부 로그는 별도 출처로 표시된다."
 		"authenticate":
 			keys = ["F1_AUTHENTICATE"]
 			var mark: Dictionary = knowledge.get("self_authored_mark",{})

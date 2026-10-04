@@ -1,6 +1,7 @@
 extends RefCounted
 
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
+const PUBLIC_LABELS := preload("res://scripts/systems/notebook_puzzle_labels.gd")
 const OVERLAY := preload("res://scripts/ui/notebook_mirror_overlay_v1.gd")
 const PREFIX := "NB_PUZZLE_"
 const C_NODES := ["C_SLEEP", "C0", "C1", "C2", "C3", "C_BELL", "C4", "CF", "C5_INFO", "J3", "J3_COMPLETE"]
@@ -8,7 +9,8 @@ const D_NODES := ["D_SLEEP", "D0", "D0_A", "D1", "DF", "D2", "D4"]
 
 
 static func surface(key: String, values: Dictionary = {}) -> Dictionary:
-	var row := CONTENT.definition(PREFIX + key, 1)
+	var version := PUBLIC_LABELS.version(PREFIX + key)
+	var row := CONTENT.definition(PREFIX + key, version)
 	if row.is_empty(): return {}
 	var segments := {}
 	for segment in row.visible_segment_ids:
@@ -17,7 +19,7 @@ static func surface(key: String, values: Dictionary = {}) -> Dictionary:
 			if not values.has(field): return {}
 			variables[field] = values[field]
 		segments[segment] = variables
-	return CONTENT.descriptor(PREFIX + key, 1, segments)
+	return CONTENT.descriptor(PREFIX + key, version, segments)
 
 
 static func mixture(mix: Dictionary) -> Dictionary:

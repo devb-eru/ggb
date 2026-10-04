@@ -13,8 +13,9 @@ static func supports(entry: Dictionary, segment: String) -> bool:
 	var observed: Dictionary = entry.observation
 	if not observed.segments.any(func(part: Dictionary) -> bool: return part.segment_id == segment): return false
 	if observed.content_id in SELF_MARKS: return int(observed.content_version) == 2 and segment == "body"
+	if observed.content_id in CORE: return int(observed.content_version) in [1, 2] and segment == "body"
 	if int(observed.content_version) != 1: return false
-	return (segment == "body" and (ORIGINALS.has(observed.content_id) or observed.content_id in CORE)) or (segment == "state" and observed.content_id in OVERLAYS)
+	return (segment == "body" and ORIGINALS.has(observed.content_id)) or (segment == "state" and observed.content_id in OVERLAYS)
 
 
 static func material(entry: Dictionary, segment: String, locale: String) -> Dictionary:
@@ -31,7 +32,7 @@ static func material(entry: Dictionary, segment: String, locale: String) -> Dict
 	elif ORIGINALS.has(observed.content_id):
 		_original(result, ORIGINALS[observed.content_id], en)
 	elif observed.content_id in CORE:
-		if not _core(result, CONTENT.definition(observed.content_id, 1).get("visual", {}), part.safe_variables, en): return {}
+		if not _core(result, CONTENT.definition(observed.content_id, int(observed.content_version)).get("visual", {}), part.safe_variables, en): return {}
 	else:
 		if not _overlay(result, part.safe_variables, en): return {}
 	return result

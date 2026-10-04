@@ -8,18 +8,18 @@ const FATHER := preload("res://scripts/systems/father_final_record.gd")
 const CONFRONTATION := preload("res://scripts/systems/researcher_confrontation.gd")
 
 const UI := {
-	"f0a_objective": ["F0-A · 네 방의 피드백 회로", "F0-A · Four-room feedback circuit"],
+	"f0a_objective": ["네 방의 피드백 회로", "Four-room feedback circuit"],
 	"f0a_board": ["외부 대기 입력: 북\n코어 요청 단자: 서\n고정 회랑: 북→동→남→서→북\n타일 두 개를 눌러 교환한다.\n출력 방향은 별도로 회전한다.", "Outside-air input: North\nCore request terminal: West\nFixed corridor: North → East → South → West → North\nSelect two tiles to swap them.\nRotate each output separately."],
 	"f0a_rotate": ["출력 90도 회전", "Rotate output 90°"],
-	"f0a_notes": ["P1·P4·P5·일지 자료", "P1 · P4 · P5 · journal notes"],
+	"f0a_notes": ["침실·주방·온실·일지 자료", "Bedroom · kitchen · greenhouse · journal notes"],
 	"f0a_signal": ["약한 신호를 보낸다", "Send a weak signal"],
-	"f0b_objective": ["F0-B · 시스템 신호 표본", "F0-B · System signal samples"],
+	"f0b_objective": ["시스템 신호 표본", "System signal samples"],
 	"f0b_board": ["후보를 눌러 연결 목적지를 조사하고 방별로 표본을 전송한다.\n검증한 채널은 유지된다. 색이 아니라 연결 기능으로 판단한다.", "Inspect each candidate's destination, then transmit one sample per room.\nVerified channels remain intact. Judge by connection function, not color."],
 	"verified": ["검증 완료", "Verified"],
 	"selected": ["선택", "Selected"],
 	"send": ["전송", "Transmit"],
-	"f0c_objective": ["F0-C · 세 자료 중첩", "F0-C · Three-record overlay"],
-	"f0c_board": ["B4 점선: 종 파형 / C5 굵은 선: 거울 회로\nD4 가는 선: 고정 포트 잔상\n기준 표식: 열두 번째 종 완료선 · 닫힌 고리 중심 · 중앙 심장 포트\n회전은 시계 방향, 반전은 원본에 먼저 적용한다.", "B4 dotted line: bell waveform / C5 heavy line: mirror circuit\nD4 thin line: fixed-port afterimage\nReference marks: twelfth-bell end line · closed-loop center · central heart port\nRotation is clockwise; reflection is applied to the source first."],
+	"f0c_objective": ["세 자료 중첩", "Three-record overlay"],
+	"f0c_board": ["종 파형: 점선 / 거울 회로: 굵은 선\n태엽 심장 포트 잔상: 가는 고정선\n기준 표식: 열두 번째 종 완료선 · 닫힌 고리 중심 · 중앙 심장 포트\n회전은 시계 방향, 반전은 원본에 먼저 적용한다.", "Bell waveform: dotted line / Mirror circuit: heavy line\nClockwork heart ports: thin fixed line\nReference marks: twelfth-bell end line · closed-loop center · central heart port\nRotation is clockwise; reflection is applied to the source first."],
 	"anchor_unset": ["미지정", "Unset"],
 	"anchor_origin": ["원점 정렬", "Origin aligned"],
 	"anchor_right": ["오른쪽 한 칸", "One step right"],
@@ -34,16 +34,16 @@ const UI := {
 	"path": ["PATH · 경로", "PATH · Route"],
 	"split": ["SPLIT · 분기", "SPLIT · Branch"],
 	"auth": ["AUTH · 인증 고리", "AUTH · Authentication ring"],
-	"f0d_objective": ["F0-D · 기록 역할 분류", "F0-D · Classify record roles"],
+	"f0d_objective": ["기록 역할 분류", "Classify record roles"],
 	"f0d_board": ["왼쪽 기록을 조사한 뒤 오른쪽 역할에 배치한다.\n사용인 서명은 출처이지 역할 정답이 아니다.", "Inspect each record on the left, then place it into a role on the right.\nA servant signature identifies the source, not the correct role."],
 	"anonymous_index": ["익명 인덱스", "Anonymous index"],
 	"empty_slot": ["빈 슬롯", "Empty slot"],
 	"locked": ["고정", "Locked"],
 	"lock_confirm": ["고정 확인", "Lock verified slot"],
 	"verify_roles": ["다섯 기록 일괄 검증", "Verify all five records"],
-	"f0e_objective": ["F0-E · 과거 연속성과 현재 작성자", "F0-E · Past continuity and present author"],
-	"f0e_missing_mark": ["A1 표시 유형 기록을 확인할 수 없다. 저장 자료 확인이 필요하다.", "The A1 mark type cannot be found. Check the saved data."],
-	"f0e_mark": ["A1의 원래 표시: %s\n현재 배열: %s", "Original A1 mark: %s\nCurrent sequence: %s"],
+	"f0e_objective": ["과거 연속성과 현재 작성자", "Past continuity and present author"],
+	"f0e_missing_mark": ["처음 남긴 표시 유형 기록을 확인할 수 없다. 저장 자료 확인이 필요하다.", "The original self-authored mark type cannot be found. Check the saved data."],
+	"f0e_mark": ["처음 직접 남긴 표시: %s\n현재 배열: %s", "Original self-authored mark: %s\nCurrent sequence: %s"],
 	"rearrange": ["다시 배열", "Rearrange"],
 	"verify_past": ["과거 표시 확인", "Verify past mark"],
 	"f0e_author_board": ["빈 수첩 줄. 현재 문장의 작성 주체를 확인한다.\n이 단계는 남을지 떠날지를 묻지 않는다.", "A blank line in the notebook. Identify who authors the present sentence.\nThis step does not ask whether you will leave or stay."],
@@ -52,10 +52,10 @@ const UI := {
 	"author_subject": ["지금의 내가 직접 쓴다", "Write it myself, now"],
 	"author_servant": ["사용인 기록 넣기", "Insert a servant record"],
 	"f0e_intent_board": ["비공개 임시 의향. 세 답변은 동등하며 최종 선택이 아니다.\n사용인은 이 기록을 보거나 듣지 못한다.", "Private provisional intent. All three answers are equal and none is a final choice.\nThe servants can neither see nor hear this record."],
-	"f1_objective": ["F1 · 아버지의 마지막 기록", "F1 · Father's final record"],
+	"f1_objective": ["아버지의 마지막 기록", "Father's final record"],
 	"f1_enter": ["코어 기록실로 간다", "Enter the core records room"],
 	"f1_inspect": ["아직 재생하지 않는다 / 기록실과 편집 이력 조사", "Do not play it yet / inspect the room and edit history"],
-	"f1_auth": ["A1의 내 표시로 재생 권한 확인", "Authenticate playback with my A1 mark"],
+	"f1_auth": ["내가 직접 남긴 표시로 재생 권한 확인", "Authenticate playback with my self-authored mark"],
 	"replay": ["재열람 · ", "Replay · "],
 	"play": ["재생한다 · ", "Play · "],
 	"j5_page": ["출력된 마지막 페이지를 읽는다", "Read the final printed page"],
@@ -104,7 +104,7 @@ const RECORD_NAMES_EN := {
 	"father": "Father's journal",
 	"passphrase": "Edgar's access passphrase",
 	"residents": "Researcher record bundle",
-	"command": "D4 recovery command",
+	"command": "Clockwork-heart recovery command",
 	"notebook": "Protagonist's notebook",
 }
 const RECORD_FACTS_EN := {
@@ -187,11 +187,11 @@ const FIXED_LINES_EN := {
 	"세 자료를 먼저 완전히 중첩한다.": "Fully align the three records first.",
 	"경로를 따라 분기를 확인하고 인증 고리를 조사한다.": "Follow the route, check the branch, then inspect the authentication ring.",
 	"이름 없는 포트가 열린다.": "The unnamed port opens.",
-	"B4·C5·D4 자료 중 하나를 선택한다.": "Choose one of the B4, C5, and D4 records.",
+	"종 파형·거울 회로·태엽 심장 포트 자료 중 하나를 선택한다.": "Choose one of the bell waveform, mirror circuit, and clockwork heart port records.",
 	"투명도는 20~100 범위다.": "Opacity must be between 20 and 100.",
 	"완전 중첩되어 진단판이 고정되었다.": "The diagnostic plate is locked after full alignment.",
-	"D4 포트 잔상은 기준판이라 회전하지 않는다.": "The D4 port afterimage is the reference plate and cannot rotate.",
-	"D4 포트 잔상은 기준판이라 반전하지 않는다.": "The D4 port afterimage is the reference plate and cannot be flipped.",
+	"태엽 심장 포트 잔상은 기준판이라 회전하지 않는다.": "The clockwork heart port afterimage is the reference plate and cannot rotate.",
+	"태엽 심장 포트 잔상은 기준판이라 반전하지 않는다.": "The clockwork heart port afterimage is the reference plate and cannot be flipped.",
 	"기준점을 선택한다.": "Choose an anchor point.",
 	"정의되지 않은 중첩 조작이다.": "This overlay action is not defined.",
 	"자료 표시를 변경했다.": "The record display was changed.",
@@ -217,7 +217,7 @@ const FIXED_LINES_EN := {
 	"정의되지 않은 기록 조작이다.": "This record action is not defined.",
 	"기록 역할을 먼저 확인한다.": "Verify the record roles first.",
 	"최종 선택이 기록된 상태에서는 임시 의향을 다시 쓰지 않는다.": "A provisional intent cannot be rewritten after a final choice has been recorded.",
-	"A1 표시의 유형 기록을 확인할 수 없다. 저장 자료 확인이 필요하다.": "The A1 mark type cannot be found. Check the saved data.",
+	"처음 남긴 표시의 유형 기록을 확인할 수 없다. 저장 자료 확인이 필요하다.": "The original self-authored mark type cannot be found. Check the saved data.",
 	"당시 표시의 조각을 선택한다.": "Choose a piece of the mark from that day.",
 	"표시 조각을 놓았다.": "The mark piece was placed.",
 	"과거 연속성은 확인했다.": "Past continuity has already been verified.",
@@ -239,7 +239,7 @@ const FIXED_LINES_EN := {
 	"주인공 권한을 확인한다.": "Verify the protagonist's authority.",
 	"코어 기록실. 재생 장치가 기다리고 있다. 기록은 스스로 시작되지 않는다.": "Core records room. The playback device waits. The record does not start by itself.",
 	"서버 랙 사이에 종이 냄새가 남아 있다. 냉각관에 손을 대면 소리가 뼈 안쪽에서 울리는 것 같다.": "The smell of paper lingers between the server racks. Touching a coolant pipe makes the sound seem to resonate inside your bones.",
-	"편집 이력: J1~J4는 원본 기록에서 파생되었으며 시스템과 사용인이 일부를 잘라 표시했다. 원본 음성과 사후 첨부 로그는 별도 출처로 표시된다.": "Edit history: J1–J4 were derived from the original record, with portions selected by the system and servants. Original voice and postmortem attachments are marked as separate sources.",
+	"편집 이력: 지금까지 복원한 일지는 원본 기록에서 파생되었으며 시스템과 사용인이 일부를 잘라 표시했다. 원본 음성과 사후 첨부 로그는 별도 출처로 표시된다.": "Edit history: The journal restored so far was derived from the original record, with portions selected by the system and servants. Original voice and postmortem attachments are marked as separate sources.",
 	"기록실에 먼저 들어간다.": "Enter the records room first.",
 	"수첩에 남긴 자기 표시를 입력한다.": "Enter the self-authored mark from the notebook.",
 	"CURRENT REQUESTER: SUBJECT / CREATOR LOG: ORIGINAL / EDIT HISTORY: PRESENT": "CURRENT REQUESTER: SUBJECT / CREATOR LOG: ORIGINAL / EDIT HISTORY: PRESENT",
@@ -333,7 +333,7 @@ static func feedback(source: String, locale: String) -> String:
 	return "\n".join(translated)
 
 static func _whole_translations() -> Dictionary:
-	var result := {CORE_ROOMS.NOTES: "[Room function notes]\nP5: The indoor season persisted even when it differed from the outside air.\nP4: Pulses in the fluid supply beneath the kitchen connect to the body in the bedroom.\nP1 · E1: Neural signals originate from the body in the bedroom.\nJ4: Memory indices and administrative authority converge in the records room.\n[Fixed ports]\nOutside air enters from the north. The central core request terminal is on the west.\nEach room's output arrow points to a compass slot. In addition to the central request, the records room must return seasonal presentation data to the greenhouse."}
+	var result := {CORE_ROOMS.NOTES: "[Room function notes]\nGreenhouse observations: The indoor season persisted even when it differed from the outside air.\nKitchen observations: Pulses in the fluid supply beneath the kitchen connect to the body in the bedroom.\nBedroom observations: Neural signals originate from the body in the bedroom.\nRestored journal: Memory indices and administrative authority converge in the records room.\n[Fixed ports]\nOutside air enters from the north. The central core request terminal is on the west.\nEach room's output arrow points to a compass slot. In addition to the central request, the records room must return seasonal presentation data to the greenhouse."}
 	for room in CORE_SAMPLES.ROOMS:
 		for index in range(2):
 			var original: String = CORE_SAMPLES.NAMES[room] + " · " + CORE_SAMPLES.SAMPLES[room][index]["label"] + "\n" + CORE_SAMPLES.SAMPLES[room][index]["trace"]

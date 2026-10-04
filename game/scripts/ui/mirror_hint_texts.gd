@@ -9,7 +9,7 @@ const HINTS := {
 		["물을 다섯 단위 먼저 넣고 안정제 한 단위를 확산시킨 뒤 원액 두 단위를 넣는다. 천천히 한 번 혼합하고 시험지로 확인하자. 순서가 잘못된 용액은 양만 맞춰도 거울용이 되지 않는다.", "Pour five units of water first, disperse one unit of stabilizer, then add two units of active solution. Mix slowly once and test it. Correct quantities cannot rescue a mixture made in the wrong order."],
 	],
 	"C4": [
-		["B4 파형과 J2 문장을 함께 보자. 긴 진입, 두 번의 짧은 반사, 닫히는 잔향이 거울의 직선·분기·고리와 어떻게 이어지는지 살펴보자.", "Compare the B4 waveform with the J2 passage. Consider how the long entry, two short reflections, and closing resonance relate to the mirror's straight line, fork, and loop."],
+		["종 파형과 복원한 일지의 문장을 함께 보자. 긴 진입, 두 번의 짧은 반사, 닫히는 잔향이 거울의 직선·분기·고리와 어떻게 이어지는지 살펴보자.", "Compare the bell waveform with the restored journal passage. Consider how the long entry, two short reflections, and closing resonance relate to the mirror's straight line, fork, and loop."],
 		["중첩과 닦기 순서를 따로 확인하자. 열세 번째 큰 파동은 거울 아래쪽 진동점과 비교한다. 겹치는 시작점이 어긋나면 올바른 경로도 소용없다.", "Check the overlay separately from the tracing order. Compare the thirteenth large wave with the vibration point below the mirror. A correct route cannot compensate for a misplaced starting point."],
 		["이 자료는 서재 탁본과 같은 변환을 요구하지 않는다. 앞뒤를 바꾸지 않은 채 회전해 비교하자. 거울 작업 전에는 마른 천 시험으로 확인할 수 있다.", "This record does not use the same transformation as the library rubbing. Compare rotations without turning it over. Before applying solution, check with a dry cloth."],
 		["좌우 반전 없이 시계 방향 90도로 돌리고 열세 번째 파동을 하단 진동점에 맞춘다. 이제 분기의 양쪽을 빠뜨리지 않는 경로인지 확인하자.", "Rotate 90 degrees clockwise without mirroring, then align the thirteenth wave with the lower vibration point. Check that your route includes both sides of the fork."],

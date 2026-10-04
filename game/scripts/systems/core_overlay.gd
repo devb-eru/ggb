@@ -45,7 +45,7 @@ static func act(source: Dictionary, action: String, layer: String = "", value: V
 		var result := evaluate(state)
 		state["locked"] = result["aligned"]
 		return {"ok": true, "state": state, "text": result["text"], "evidence": result.evidence}
-	if layer not in LAYERS: return {"ok": false, "text": "B4·C5·D4 자료 중 하나를 선택한다."}
+	if layer not in LAYERS: return {"ok": false, "text": "종 파형·거울 회로·태엽 심장 포트 자료 중 하나를 선택한다."}
 	if action == "opacity":
 		if not value is int or value < 20 or value > 100: return {"ok": false, "text": "투명도는 20~100 범위다."}
 		state[layer]["opacity"] = value
@@ -53,10 +53,10 @@ static func act(source: Dictionary, action: String, layer: String = "", value: V
 		if state["locked"]: return {"ok": false, "text": "완전 중첩되어 진단판이 고정되었다."}
 		match action:
 			"rotate":
-				if layer == "D4": return {"ok": false, "text": "D4 포트 잔상은 기준판이라 회전하지 않는다."}
+				if layer == "D4": return {"ok": false, "text": "태엽 심장 포트 잔상은 기준판이라 회전하지 않는다."}
 				state[layer]["turn"] = (int(state[layer]["turn"]) + 1) % 4
 			"flip":
-				if layer == "D4": return {"ok": false, "text": "D4 포트 잔상은 기준판이라 반전하지 않는다."}
+				if layer == "D4": return {"ok": false, "text": "태엽 심장 포트 잔상은 기준판이라 반전하지 않는다."}
 				state[layer]["flip"] = not state[layer]["flip"]
 			"anchor":
 				if not value is int or value not in [-1,0,1,2]: return {"ok": false, "text": "기준점을 선택한다."}

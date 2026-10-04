@@ -1,6 +1,7 @@
 extends Control
 
 const RULES := preload("res://scripts/systems/core_overlay.gd")
+const PUBLIC_LABELS := preload("res://scripts/systems/notebook_puzzle_labels.gd")
 const POINTS := {
 	"B4": [[0,0],[-2,-1]],
 	"C5": [[0,3],[0,0],[3,0],[0,0],[0,-3],[0,0],[-3,0],[0,0],[1,2],[2,1]],
@@ -34,6 +35,6 @@ func _draw() -> void:
 			if layer == "B4": draw_dashed_line(a,b,color,3,7)
 			else: draw_line(a,b,color,2 if layer == "D4" else 4)
 		var anchor: Vector2 = center + RULES.point(Vector2.ZERO, state[layer]) * unit
-		draw_string(ThemeDB.fallback_font, anchor + Vector2(8, -12 - RULES.LAYERS.find(layer)*18), layer, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
+		draw_string(get_theme_font("font"), anchor + Vector2(8, -12 - RULES.LAYERS.find(layer)*18), PUBLIC_LABELS.layer_name(layer, TranslationServer.get_locale()), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, color)
 	var ring: Vector2 = center + RULES.point(Vector2(2,1), state["C5"]) * unit
 	draw_arc(ring, unit*0.35,0,TAU,32,Color(0.4,0.8,1,float(state["C5"]["opacity"])/100.0),3)

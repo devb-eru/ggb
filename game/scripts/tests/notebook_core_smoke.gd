@@ -1,5 +1,7 @@
 extends RefCounted
 
+const PUBLIC_LABELS := preload("res://scripts/tests/notebook_public_puzzle_labels.gd")
+
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const NOTES := preload("res://scripts/systems/core_notebook.gd")
@@ -98,14 +100,15 @@ func _catalog_matrix(locale: String) -> void:
 	var count := 0
 	for id in CONTENT.diagnostics().content_ids:
 		if not String(id).begins_with(NOTES.PREFIX): continue
-		var row := CONTENT.definition(id, 1)
+		var version := PUBLIC_LABELS.LABELS.version(id)
+		var row := CONTENT.definition(id, version)
 		var segments := {}
 		for segment in row.visible_segment_ids:
 			segments[segment] = {}
 			for key in row.variables[segment]:
 				var type: String = row.variables[segment][key]
 				segments[segment][key] = 2 if type == "int" else ("literal old mark" if type == "string" else row.enums[type.trim_prefix("enum:")]["ko-KR"].keys()[0])
-		var descriptor := CONTENT.descriptor(id, 1, segments)
+		var descriptor := CONTENT.descriptor(id, version, segments)
 		var shown := CONTENT.presentation(descriptor, locale)
 		_expect(shown.ok, "catalog presentation " + id)
 		if not shown.ok: continue
@@ -391,7 +394,9 @@ func _count(key: String) -> int:
 
 
 func _collect() -> void:
+	errors.append_array(PUBLIC_LABELS.screen_errors(view))
 	for entry in _archive().entries:
+		errors.append_array(PUBLIC_LABELS.live_errors(entry))
 		_expect(entry.get("record_class") == "authored","core cannot silently write unmapped history")
 		if entry.get("record_class") != "authored": continue
 		var observation: Dictionary = entry.observation

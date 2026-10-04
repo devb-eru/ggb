@@ -24,9 +24,9 @@ func run(tree: SceneTree) -> Dictionary:
 	return {"ok": errors.is_empty(), "errors": errors}
 
 
-func _observe(id: String, segments: Dictionary) -> Dictionary:
-	var row := CONTENT.definition(id, 1)
-	var descriptor := CONTENT.descriptor(id, 1, segments)
+func _observe(id: String, segments: Dictionary, version: int = 1) -> Dictionary:
+	var row := CONTENT.definition(id, version)
+	var descriptor := CONTENT.descriptor(id, version, segments)
 	var shown := CONTENT.presentation(descriptor, "ko-KR")
 	var observed := CONTENT.observe(descriptor, {"node_id": row.node_ids[0], "location_id": "M1_MIRROR_GALLERY", "chapter_id": "CHAPTER_2", "event_occurrence_id": ARCHIVE.new_uid(), "conversation_session_id": ARCHIVE.new_uid(), "presentation_token": ARCHIVE.new_uid()}, shown.speaker, shown.text, "ko-KR", "replay_committed" if row.disclosure_owner == "event_note_commit" else "displayed")
 	_expect(observed.ok, "observed visual fixture: " + id)
@@ -78,6 +78,10 @@ func _test_geometry(fixture: Dictionary) -> void:
 				expected = expected.rotated(deg_to_rad(degrees)) + Vector2.RIGHT
 				var actual: Array = visual.paths[0].points.back()
 				_expect(expected.is_equal_approx(Vector2(actual[0], actual[1])), "replay honors archived transform, never current puzzle rotation")
+				var current := {"record_class":"authored", "observation":_observe("NB_CORE_SCREEN_C_LAYER_" + layer, {"body":values}, 2)}
+				_expect(VISUALS.supports(current, "body") and VISUALS.material(current, "body", "en-US") == visual, "new public label retains the exact archived one-layer drawing")
+				current.observation.content_version = 3
+				_expect(not VISUALS.supports(current, "body") and VISUALS.material(current, "body", "en-US").is_empty(), "unknown future core version does not receive a current drawing")
 	for rotation in [0, 90, 180, 270]:
 		var descriptor := SURFACES.trace({"rotation": rotation, "flipped": true, "anchored": false, "path": []}, true)
 		var entry := {"record_class": "authored", "observation": _observe(descriptor.content_id, descriptor.segments)}
