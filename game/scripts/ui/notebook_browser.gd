@@ -142,6 +142,7 @@ func _draw_groups() -> void:
 		label += "\n" + (_l("보관 부분 %d개 · 발언 %d개 · 그 밖의 기록 %d개", "%d retained parts · %d spoken parts · %d other parts") % [group.count, group.spoken, group.documents])
 		label += "\n" + " / ".join(group.locations)
 		if _mode == "sessions" and not group.names.is_empty(): label += "\n" + " / ".join(group.names)
+		if not group.retention_notice.is_empty(): label += "\n" + group.retention_notice
 		if _mode == "people":
 			var preview: Dictionary = query.detail(group.last, _query_key)
 			if preview.ok: label += "\n" + _l("최근 보관 원문: ", "Latest retained text: ") + String(preview.text).replace("\n", " ").left(120)

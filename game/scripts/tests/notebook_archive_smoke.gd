@@ -88,6 +88,7 @@ func _run() -> void:
 	_expect(not ARCHIVE.validate(corrupt).ok, "durable references without matching protection are invalid")
 	_validate_limits()
 	_validate_retention()
+	_validate_session_retention()
 	_validate_protection_index()
 	_validate_numeric_commands()
 	_finish()
@@ -128,6 +129,7 @@ func _validate_retention() -> void:
 	_expect(result.entries.filter(func(e: Dictionary) -> bool: return e.record_class == "legacy").size() == 10000, "all legacy survives independently")
 	_expect(result.entries.filter(func(e: Dictionary) -> bool: return not e.protection_reasons.is_empty()).size() == 2001, "protected records do not consume normal quota")
 	_expect(result.entries.back().entry_uid == "%032x" % 4002 and result.next_sequence == 14002, "newest entry retained and order never renumbered")
+	_expect(not result.entries.any(func(entry: Dictionary) -> bool: return entry.has(ARCHIVE.SESSION_PRUNED)), "fully pruned session does not create evidence in unrelated sessions")
 	var missing := ARCHIVE.make_reference(before.entries[12001], "front")
 	_expect(not ARCHIVE.resolve(result, missing).ok, "pruned reference not retargeted to another sequence")
 	var pin_ref := ARCHIVE.make_reference(before.entries[12001], "front")
@@ -137,6 +139,38 @@ func _validate_retention() -> void:
 	_expect(unpinned.ok and unpinned.pruned_uids == [pin_ref.uid], "removing final protection restores normal retention")
 	var repeated := ARCHIVE.set_reference(unpinned.archive, "bookmarks", pin_ref, false, unpinned.archive.revision)
 	_expect(repeated.ok and not repeated.changed and repeated.archive == unpinned.archive, "unpin retry remains idempotent after its target is pruned")
+
+
+func _validate_session_retention() -> void:
+	var archive := preload("res://scripts/tests/notebook_retention_fixture.gd").create()
+	var original := archive.duplicate(true)
+	var result := ARCHIVE.maintain(archive, archive.revision)
+	_expect(result.ok and result.pruned_uids == [archive.entries[0].entry_uid], "session retention prunes only excess ordinary entry")
+	if not result.ok: return
+	var retained: Dictionary = result.archive
+	for entry in retained.entries:
+		_expect(entry.get(ARCHIVE.SESSION_PRUNED, false) == (int(entry.sequence) in [1, 4]), "retention evidence uses full origin/occurrence/session tuple: %d" % int(entry.sequence))
+		_expect(entry.observation == original.entries[int(entry.sequence)].observation, "retention marker never rewrites observed content")
+	_expect(archive == original, "pruning candidate does not mark original or earlier save")
+	var roundtrip: Dictionary = JSON.parse_string(JSON.stringify(retained))
+	_expect(ARCHIVE.validate(roundtrip).ok, "session marker archive validates after JSON numeric conversion")
+	_expect(roundtrip.entries.map(func(entry: Dictionary) -> bool: return entry.get(ARCHIVE.SESSION_PRUNED, false)) == retained.entries.map(func(entry: Dictionary) -> bool: return entry.get(ARCHIVE.SESSION_PRUNED, false)), "session markers retain exact boolean values after JSON roundtrip")
+	_expect(ARCHIVE.maintain(retained, retained.revision).archive.entries == retained.entries, "repeated maintenance preserves exact evidence without adding history")
+	_expect(ARCHIVE.fork(retained).archive.entries == retained.entries, "fork retains evidence without changing observed identity")
+	for invalid in [false, 1, "true", null, []]:
+		var damaged := retained.duplicate(true)
+		damaged.entries[0][ARCHIVE.SESSION_PRUNED] = invalid
+		_expect(ARCHIVE.validate(damaged).get("error_id") == "NB_SESSION_RETENTION", "invalid retention marker rejected: " + str(invalid))
+	var legacy: Dictionary = ARCHIVE.migrate_verified_legacy({"next_sequence":1, "entries":[{"sequence":0}]}, "retention-legacy".sha256_text()).archive
+	legacy.entries[0][ARCHIVE.SESSION_PRUNED] = true
+	_expect(ARCHIVE.validate(legacy).get("error_id") == "NB_SESSION_RETENTION", "legacy session history is not inferred")
+	legacy.entries[0].record_class = "unmapped"
+	legacy.entries[0].snapshot_context = {"presentation_token":ARCHIVE.new_uid()}
+	_expect(ARCHIVE.validate(legacy).get("error_id") == "NB_SESSION_RETENTION", "unmapped session history is not inferred")
+	var unmarked := retained.duplicate(true)
+	for entry in unmarked.entries: entry.erase(ARCHIVE.SESSION_PRUNED)
+	var maintained := ARCHIVE.maintain(unmarked, unmarked.revision)
+	_expect(maintained.ok and maintained.archive.entries == unmarked.entries, "sequence gaps alone never reconstruct old pruning history")
 
 
 func _validate_protection_index() -> void:

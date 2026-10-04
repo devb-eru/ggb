@@ -681,6 +681,8 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 	_material_label(target, result.source_label, "source_label", matches, 0, _l("자료 유형: ", "Material type: "))
 	if not result.lifetime_label.is_empty(): _material_label(target, result.lifetime_label, "lifetime_label", matches, 0, _l("정보의 유지 범위: ", "Information lifetime: "))
 	if not result.memory_notice.is_empty(): _material_label(target, result.memory_notice, "memory_notice", matches)
+	if not result.get("retention_notice", "").is_empty():
+		_label(target, result.retention_notice).name = "NotebookRetentionNotice"
 	var kind := _kind_label(result.kind)
 	if not kind.is_empty(): _label(target, kind)
 	if result.previous: _label(target, _l("이전에 작성된 내용", "Earlier revision"))

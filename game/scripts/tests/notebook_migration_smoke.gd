@@ -30,6 +30,7 @@ func run() -> Dictionary:
 	_validate_failure_and_future()
 	_validate_backup()
 	_validate_commands()
+	_validate_retention_commit()
 	_validate_f3()
 	_validate_demo()
 	_validate_gallery_and_development()
@@ -221,6 +222,36 @@ func _validate_commands() -> void:
 	scope = COMMANDS.scope(GameState, SaveManager, SLOT)
 	_expect(not COMMANDS.set_reference(GameState, SaveManager, SLOT, "comparison", reference, false, scope, old_revision, ARCHIVE.new_uid()).ok, "stale game revision is not silently replaced")
 	_expect(GameState.get_snapshot() == before, "rejected callbacks leave current state untouched")
+	SaveManager.delete_test_slot(SLOT)
+
+
+func _validate_retention_commit() -> void:
+	var archive := preload("res://scripts/tests/notebook_retention_fixture.gd").create()
+	var reference := ARCHIVE.make_reference(archive.entries[0], "body")
+	var pinned := ARCHIVE.set_reference(archive, "bookmarks", reference, true, archive.revision)
+	_expect(pinned.ok and pinned.pruned_uids.is_empty(), "pin prevents pruning before persistence test")
+	if not pinned.ok: return
+	var state := GameState.get_snapshot()
+	state.meta_progress.dialogue_history = pinned.archive
+	_write_source(_path(), state, 2)
+	var loaded: Dictionary = LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT)
+	_expect(loaded.ok, "retention save fixture installs")
+	if not loaded.ok: return
+	var before := GameState.get_snapshot()
+	var disk := FileAccess.get_file_as_bytes(_path())
+	var scope := COMMANDS.scope(GameState, SaveManager, SLOT)
+	var fault := SaveFault.new()
+	fault.real = SaveManager
+	var failed := COMMANDS.set_reference(GameState, fault, SLOT, "bookmarks", reference, false, scope, GameState.revision, ARCHIVE.new_uid())
+	_expect(not failed.ok and GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(_path()) == disk, "failed pruning commit leaves both old entries and marker absence unchanged")
+	fault.lose_ack = true
+	var saved := COMMANDS.set_reference(GameState, fault, SLOT, "bookmarks", reference, false, scope, GameState.revision, ARCHIVE.new_uid())
+	_expect(saved.ok and saved.get("recovered_acknowledgement", false), "durable pruning commit is recognized after lost acknowledgement")
+	var after := GameState.get_snapshot()
+	var retained: Dictionary = after.meta_progress.dialogue_history
+	_expect(retained.entries.size() == 2003 and retained.entries[0].get(ARCHIVE.SESSION_PRUNED, false), "prune and session notice install together")
+	_expect(SaveManager.load_slot(SLOT).snapshot == after, "session evidence survives real save normalization and reload")
+	fault.free()
 	SaveManager.delete_test_slot(SLOT)
 
 

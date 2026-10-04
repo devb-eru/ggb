@@ -5,6 +5,7 @@ const VERSION := 2
 const NORMAL_LIMIT := 2000
 const BOOKMARK_LIMIT := 50
 const COMPARISON_LIMIT := 12
+const SESSION_PRUNED := "session_pruned"
 const CONTEXT := preload("res://scripts/systems/dialogue_history_context.gd")
 const LEGACY_NOTES := preload("res://scripts/systems/notebook_legacy_notes.gd")
 const OBSERVATION := preload("res://scripts/systems/notebook_observation_schema.gd")
@@ -68,6 +69,7 @@ static func validate(value: Variant) -> Dictionary:
 		ids[entry.entry_uid] = entry
 		previous = int(entry.sequence)
 		if not _strings(entry.get("protection_reasons"), true): return _error("NB_ENTRY_PROTECTION")
+		if entry.has(SESSION_PRUNED) and (entry.get("record_class") != "authored" or not entry[SESSION_PRUNED] is bool or entry[SESSION_PRUNED] != true): return _error("NB_SESSION_RETENTION")
 		if entry.has(LEGACY_NOTES.MARKER) and not LEGACY_NOTES.validate_entry(entry): return _error("NB_LEGACY_NOTE_SNAPSHOT")
 		if entry.get("record_class") in ["legacy", "unmapped"]:
 			if not entry.get("legacy_payload") is Dictionary: return _error("NB_LEGACY_PAYLOAD")
@@ -272,7 +274,15 @@ static func _finish(candidate: Dictionary) -> Dictionary:
 	var pruned: Array = normal.slice(0, maxi(normal.size() - NORMAL_LIMIT, 0))
 	var dropped := {}
 	for uid in pruned: dropped[uid] = true
-	candidate.entries = candidate.entries.filter(func(entry: Dictionary) -> bool: return not dropped.has(entry.entry_uid))
+	if not pruned.is_empty():
+		var affected_sessions := {}
+		for entry in candidate.entries:
+			if dropped.has(entry.entry_uid): affected_sessions[session_key(entry)] = true
+		candidate.entries = candidate.entries.filter(func(entry: Dictionary) -> bool: return not dropped.has(entry.entry_uid))
+		# Retention evidence belongs to this candidate, not to immutable observed text.
+		for entry in candidate.entries:
+			if entry.record_class == "authored" and affected_sessions.has(session_key(entry)):
+				entry[SESSION_PRUNED] = true
 	candidate.revision = int(candidate.revision) + 1
 	var checked := validate(candidate)
 	if not checked.ok: return checked
@@ -353,6 +363,11 @@ static func reference_identity(value: Variant) -> String:
 	if not _reference_shape(value): return ""
 	# Integral JSON numbers and dictionary insertion order do not change identity.
 	return JSON.stringify([value.kind, value.source_origin_id, value.uid, int(value.content_version), value.segment_id])
+
+
+static func session_key(entry: Dictionary) -> String:
+	var observed: Dictionary = entry.observation
+	return JSON.stringify([entry.source_origin_id, observed.event_occurrence_id, observed.conversation_session_id]).sha256_text()
 
 
 static func source_link_identity(value: Variant) -> String:

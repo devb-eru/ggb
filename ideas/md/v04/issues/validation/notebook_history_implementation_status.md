@@ -1689,3 +1689,26 @@ ERR-0028은 해당 백업 교체 오류 범위에서 VERIFIED다. ERR-0027과 �
 - 같은 PCK의 J4 문서 140경우, host 301개, presentation/prologue/modal의 새 프로세스 seed/resume/completed, surface resume, v2 및 기존 모드 foundation/history도 PASS했다. ERR-0029를 해당 참조 동일성 오류 범위에서 VERIFIED로 갱신했다. 전 캠페인·전 사용인·OS 입력 검증을 대신하지 않는다.
 
 다음 큰 게이트는 비차단 저장과 첫 화면·검색의 실제 응답 성능, Windows 입력·IME·시각 검수/전체 RAM·장비별 cold/warm 측정, 22개 생산자의 미열거 분기 및 계획 전체 완료 감사다. ERR-0027과 전체 목표는 IN_PROGRESS이며 기본 rollout은 비활성이다.
+
+## 2026-10-05 대화별 일반 기록 정리 안내
+
+기준 develop `aae5138`. 계획 8절 규칙 12를 대조하니 기존 탐색창의 공통 안내만으로는 특정 대화에서 일반 기록이 실제 정리됐는지 알 수 없었다. 일반 기록 2,000개와 보호/기존 미분류 독립 보존 정책, 여러 자료를 담고 두 개씩 비교, 자유 메모 후속 분리 결정은 유지한다.
+
+### 구현 범위
+
+- archive 후보에서 실제 일반 기록을 정리할 때만 남은 같은 세션의 authored entry에 `session_pruned: true`를 남긴다. 원 출처·발생·세션이 모두 같아야 하며 UID·순번·관찰 본문과 보호 이유는 바꾸지 않는다. 삭제된 원문·삭제 건수나 비어 있는 세션을 복원하지 않는다.
+- 원문과 분리된 안내를 대화 묶음·상세·두 자료 비교의 해당 칸에 표시한다. 필터가 표식 행을 제외해도 전체 동결 모델의 세션 근거를 사용한다. 인물 전체에 일반화하거나 검색 본문에 섞지 않는다. 한국어/영어 UI 문구를 제공한다.
+- 선택 필드 없는 schema 2 저장도 그대로 읽는다. 순번 공백·현재 장·관계로 과거 정리 이력을 추측하지 않는다. 표식 부재는 대화 전체 보존의 보증이 아니다. 이전 저장/다른 분기로 미래 삭제 이력을 역주입하지 않는다.
+- 같은 후보의 정리와 표식은 실제 저장 성공으로만 설치한다. 실패 시 둘 다 롤백하며 성공 응답 소실은 검증된 디스크 commit 확인으로 복구한다. 일반 실행의 rollout은 바꾸지 않았다.
+
+### 검증 상태
+
+- Windows Godot 4.7.2 headless, 별도 APPDATA·빈 runtime 경로·export PCK에서 검사했다. 제품 코드와 최종 검사를 담은 PCK SHA-256은 `CFD9DB43EF48E91BD5F738D835102A583C28FFA410692BDF214F07E9524DB100`이다. 원로그는 `%TEMP%/ggb-notebook-retention-verified-20261005`에 있다.
+- import 54.4초, export 13.7초, archive 17.6초, knowledge 27.2초, migration 21.4초, query 167.8초: 종료 코드 0, 필수 PASS, 스크립트/리소스 오류 없음. Windows 루트 인증서 저장소 경고는 남아 있으며 정상으로 숨기지 않는다. 이 시간은 전체 테스트 실행 시간이지 사용자 동작의 지연/p95 인수 결과가 아니다.
+- archive는 일반 2,001개 + 보호 3개에서 같은 세션의 보호/일반 잔여에만 표식이 생김, 원 출처/발생/세션 분리, 잘못된 타입 및 legacy/unmapped 표식 거부, JSON/분기 복제/순번 공백의 비추론을 검사했다. 기존 14,002개 혼합 보존/다중 참조 검사도 통과했다. 테스트의 `TEST_RETENTION`은 격리 fixture이며 본편 콘텐츠 생산자 대응의 근거로 세지 않는다.
+- 실제 SaveManager/명령 경로에서 마지막 책갈피 해제의 일반 기록 정리와 표식이 함께 저장됨, 실패 시 메모리와 디스크 모두 불변, 응답 소실 뒤 검증된 commit 확인, 재로드 일치를 검사했다. 기존 저장 안전성 46개도 PASS했다.
+- browse 213개 및 query 주 검사 1,411개와 하위 legacy/view/visual/search/investigation/person/memory/self-mark/gallery가 PASS했다. 새 안내는 한영 대화 카드·상세·비교의 해당 칸에서 확인했다. 표식 entry를 제외하는 필터, 다른 원 출처, 이전 snapshot 재열기, 모델 닫기와 archive/게임 상태 불변을 포함한다. 프로그램 호출과 Control 내용 검사는 실제 OS 입력·시각 인수를 대신하지 않는다.
+- 선행 실패 로그도 보존한다. `%TEMP%/ggb-notebook-retention-20261005`의 새 browse 검사 지역 변수 타입 추론 오류, `retention-fixed`의 archive 검사 타입 추론 오류, `retention-final`의 JSON 정수/실수 표현을 무시한 배열 전체 비교 실패를 수정했다. 마지막 검사는 archive 형식 검증과 보존 표식의 정확한 bool 배열 대조로 분리했다. 앞선 실행 전체를 통과로 집계하지 않는다.
+- 같은 최종 PCK의 별도 회귀 `%TEMP%/ggb-notebook-retention-regression-20261005`도 모두 종료 코드 0/PASS했다. v2 foundation 13.0초·history 12.0초, host 301개 84.0초, 기존 모드 foundation 12.8초·history 12.7초다. 전 캠페인·전 사용인·새 프로세스 표시 재개 전체·400회 수명 검사·정식 성능은 이번 변경에서 재실행하지 않았다.
+
+전체 목표는 IN_PROGRESS다. 이 보완은 계획 8절 규칙 12의 보존 안내 범위이며, 생산자 22종의 미열거 경로 감사·Windows 실제 입력/IME·시각 인수·비차단 저장과 최초 조회 지연·장비별 성능 및 계획 전체 완료 감사는 여전히 남아 있다.

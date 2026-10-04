@@ -9,7 +9,7 @@ const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
 const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
 const INVESTIGATION := preload("res://scripts/systems/notebook_investigation.gd")
 const PAGE_SIZE := 50
-const POLICY_VERSION := 8
+const POLICY_VERSION := 9
 const SEARCH_FIELDS := ["text", "title", "summary", "speaker", "location_label", "source_label", "lifetime_label", "memory_notice"]
 const TABS := ["clues", "dialogue", "records", "people"]
 const PERSON_IDS := ["EDGAR", "MARA1", "MARA", "MARA2", "LUCA", "IRIS"]
@@ -46,6 +46,7 @@ var _unrestored_morning := false
 var _reference_keys: Dictionary = {}
 var _gallery_comparison: Array = []
 var _gallery_comparison_enabled := false
+var _pruned_sessions: Dictionary = {}
 
 
 func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String, legacy_knowledge: Dictionary = {}, current_node: String = "") -> Dictionary:
@@ -72,6 +73,7 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 		if entry.record_class == "authored":
 			var session := _session_key(entry)
 			session_ends[session] = maxi(session_ends.get(session, -1), int(entry.sequence))
+			if entry.get(ARCHIVE.SESSION_PRUNED, false): _pruned_sessions[session] = true
 	for entry in _archive.entries:
 		if entry.record_class != "authored":
 			if entry.has(ARCHIVE.LEGACY_NOTES.MARKER): _add_legacy_note(entry, true)
@@ -191,6 +193,7 @@ func close() -> void:
 	_reference_keys.clear()
 	_gallery_comparison.clear()
 	_gallery_comparison_enabled = false
+	_pruned_sessions.clear()
 
 
 func cache_key() -> String:
@@ -296,7 +299,12 @@ func detail(key: String, expected_key: String) -> Dictionary:
 		var target := reference_key(ref)
 		if _rows.has(target) and target != key and target not in links: links.append(target)
 	var memory := _memory_labels(row)
-	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links, "location_label": public_label("locations", row.location), "source_label": public_label("sources", row.source_kind), "lifetime_label": memory.lifetime, "memory_notice": memory.notice, "related": related_to(key), "session": row.session, "has_visual": not fallback and VISUALS.supports(entry, row.reference.segment_id)}
+	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links, "location_label": public_label("locations", row.location), "source_label": public_label("sources", row.source_kind), "lifetime_label": memory.lifetime, "memory_notice": memory.notice, "retention_notice": _retention_notice(row.session), "related": related_to(key), "session": row.session, "has_visual": not fallback and VISUALS.supports(entry, row.reference.segment_id)}
+
+
+func _retention_notice(session: String) -> String:
+	if not _pruned_sessions.has(session): return ""
+	return "이 대화의 일반 기록 일부가 보존 한도에 따라 정리되었습니다. 남아 있는 부분만 표시합니다." if _locale == "ko-KR" else "Some ordinary records in this conversation were pruned under the retention limit. Only retained parts are shown."
 
 
 func _memory_labels(row: Dictionary) -> Dictionary:
@@ -489,6 +497,7 @@ func groups(mode: String, filters: Dictionary, page_index: int, expected_key: St
 		for id in ids:
 			if not grouped.has(id):
 				grouped[id] = {"id": id, "title": public_label("people", id) if mode == "people" else row.title, "count": 0, "spoken": 0, "documents": 0, "locations": [], "names": [], "last": key, "last_line": "", "sequence": row.sequence, "legacy": row.legacy}
+				grouped[id].retention_notice = _retention_notice(id) if mode == "sessions" else ""
 			var group: Dictionary = grouped[id]
 			group.count += 1
 			if row.kind == "dialogue":
@@ -634,8 +643,7 @@ static func _field_values(row: Dictionary, field: String) -> Array:
 
 
 static func _session_key(entry: Dictionary) -> String:
-	var observed: Dictionary = entry.observation
-	return JSON.stringify([entry.source_origin_id, observed.event_occurrence_id, observed.conversation_session_id]).sha256_text()
+	return ARCHIVE.session_key(entry)
 
 
 static func _source_kind(kind: String, category: String) -> String:

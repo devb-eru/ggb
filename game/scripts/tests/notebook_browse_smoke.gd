@@ -15,6 +15,7 @@ func run(tree: SceneTree, fixture: Dictionary) -> Dictionary:
 	var query = _open(fixture.archive, fixture.ledger)
 	_test_groups(query)
 	_test_occurrences()
+	await _test_retention_notice(tree)
 	await _test_people(tree)
 	_test_sidecar(query, fixture.archive)
 	await _test_panel(tree, query)
@@ -85,6 +86,63 @@ func _test_occurrences() -> void:
 	_expect(query.groups("sessions", {}, 1, query.cache_key()).items.size() == 1, "51st occurrence is accessible")
 	_expect(query.public_label("locations", "M1_LIBRARY_OUTER") == "Outer library", "browse labels follow current UI language")
 	_expect(JSON.stringify(archive) == before, "grouping does not collapse or rewrite original observations")
+
+
+func _test_retention_notice(tree: SceneTree) -> void:
+	var original := preload("res://scripts/tests/notebook_retention_fixture.gd").create()
+	var maintained := ARCHIVE.maintain(original, original.revision)
+	_expect(maintained.ok, "retention browse fixture pruned through real archive policy")
+	if not maintained.ok: return
+	# Keep an unmarked, later observation in the same session to test filtered grouping.
+	var archive: Dictionary = maintained.archive
+	var observed: Dictionary = original.entries[4].observation.duplicate(true)
+	observed.presentation_token = ARCHIVE.new_uid()
+	observed.content_protection = ["journal"]
+	archive = ARCHIVE.append_observation(archive, observed, archive.revision).archive
+	var late: Dictionary = archive.entries.back()
+	_expect(not late.has(ARCHIVE.SESSION_PRUNED), "later same-session entry does not fabricate its own prune evidence")
+	var late_ref := ARCHIVE.make_reference(late, "body")
+	archive = ARCHIVE.set_reference(archive, "bookmarks", late_ref, true, archive.revision).archive
+	archive = ARCHIVE.set_reference(archive, "comparison", late_ref, true, archive.revision).archive
+	var other_ref := ARCHIVE.make_reference(original.entries[2], "body")
+	archive = ARCHIVE.set_reference(archive, "comparison", other_ref, true, archive.revision).archive
+	var before := archive.duplicate(true)
+	for locale in ["ko-KR", "en-US"]:
+		var query = _open(archive, KNOWLEDGE.create(), locale)
+		var key: String = query.cache_key()
+		var detail: Dictionary = query.detail(QUERY.reference_key(late_ref), key)
+		var notice: String = detail.retention_notice
+		_expect(notice.contains("정리되었습니다" if locale == "ko-KR" else "were pruned"), "retention notice follows UI language: " + locale)
+		_expect(detail.text == observed.segments[0].captured_text and "retention_notice" not in QUERY.SEARCH_FIELDS, "notice is not added to observed text or search fields")
+		var groups: Dictionary = query.groups("sessions", {"bookmarks_only":true}, 0, key)
+		_expect(groups.count == 1 and groups.items[0].retention_notice == notice, "filter hiding marked entries does not hide known session evidence")
+		var other: Dictionary = query.detail(QUERY.reference_key(ARCHIVE.make_reference(original.entries[2], "body")), key)
+		_expect(other.retention_notice.is_empty(), "same session IDs from another origin do not inherit notice")
+		var panel := PANEL.new()
+		panel.size = Vector2(1280, 720)
+		tree.current_scene.add_child(panel)
+		await tree.process_frame
+		panel.present(query, locale, "dialogue")
+		panel.show_detail(detail.key)
+		var label := panel._detail.find_child("NotebookRetentionNotice", true, false) as Label
+		_expect(label != null and label.text == notice, "detail displays retention notice separately: " + locale)
+		panel._comparison_mode = true
+		panel._render_pair()
+		var left := panel._pair_panels[0].find_child("NotebookRetentionNotice", true, false) as Label
+		_expect(left != null and left.text == notice and panel._pair_panels[1].find_child("NotebookRetentionNotice", true, false) == null, "two-material comparison marks only affected side: " + locale)
+		panel._comparison_mode = false
+		panel.set_filters({"tab":"dialogue", "bookmarks_only":true})
+		panel._open_browser("sessions")
+		var cards: Array = panel._browser._items.get_children().filter(func(node: Node) -> bool: return node.has_meta("group_id"))
+		_expect(cards.size() == 1 and cards[0].text.contains(notice), "conversation card displays its retention notice: " + locale)
+		panel.dismiss()
+		panel.queue_free()
+		await tree.process_frame
+		query.close()
+		_expect(query._pruned_sessions.is_empty(), "close releases session retention cache")
+		query.open(original, KNOWLEDGE.create(), _scope(original), locale)
+		_expect(query.detail(QUERY.reference_key(ARCHIVE.make_reference(original.entries[1], "body")), query.cache_key()).retention_notice.is_empty(), "reopening an earlier save does not inherit future prune history")
+	_expect(archive == before, "retention browsing never modifies archive")
 
 
 func _test_people(tree: SceneTree) -> void:
