@@ -306,6 +306,25 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	saves = root.get_node("SaveManager")
 	game.reset_for_test()
 	saves.delete_test_slot(SLOT)
+	if "--basement-credits-regression-only" in OS.get_cmdline_user_args():
+		var flavor: Variant = ProjectSettings.get_setting("ggb/build_flavor")
+		ProjectSettings.set_setting("ggb/build_flavor", "full")
+		for branch in ["CREDITS_REALITY", "CREDITS_STAY"]:
+			saves.delete_test_slot(SLOT)
+			var checkpoints := preload("res://scripts/systems/developer_checkpoints.gd").new()
+			var f3 := checkpoints.snapshot_for("EDC")
+			_expect(f3.ok and StateWriter.new(game).install_snapshot(f3.snapshot, game.revision, &"CREDITS_F3_FIXTURE").ok, "credits diagnostic F3 fixture")
+			var focused := SESSION.new(game, saves, SLOT)
+			_expect(focused.initialize().ok and saves.capture_f3_reselect(SLOT).ok, "credits diagnostic captures real F3 source")
+			var checkpoint := checkpoints.snapshot_for(branch)
+			_expect(checkpoint.ok and StateWriter.new(game).install_snapshot(checkpoint.snapshot, game.revision, &"CREDITS_END_FIXTURE").ok, "credits diagnostic ending fixture")
+			_expect(focused.initialize().ok and focused.ensure_ending_meta().ok, "credits diagnostic ending initializes")
+			await _validate_credits(focused)
+		saves.delete_test_slot(SLOT)
+		game.reset_for_test()
+		ProjectSettings.set_setting("ggb/build_flavor", flavor)
+		print("BASEMENT_CREDITS_DIAGNOSTIC_CHECKS: %d (NOT FULL REGRESSION)" % checks)
+		return {"ok": errors.is_empty(), "errors": errors, "scope": "credits_diagnostic_only"}
 	if "--basement-field-regression-only" in OS.get_cmdline_user_args() or "--basement-stay-regression-only" in OS.get_cmdline_user_args():
 		var stay_only := "--basement-stay-regression-only" in OS.get_cmdline_user_args()
 		var flavor: Variant = ProjectSettings.get_setting("ggb/build_flavor")
@@ -2807,7 +2826,17 @@ func _validate_credits(session: BasementSession) -> void:
 		view._modal_body.get_child(4).pressed.emit()
 		var replay_id: String = view._slot_id
 		_expect(replay_id != SLOT and view.session.snapshot()["ending_run"]["reselect_used"], "Reselect UI switches to separate slot")
-		_expect(view._dialogue_label.text == texts.text("copy_entered","en"), "Copy entry notice is in English")
+		var notice: Label = view._modal_body.find_child("ModalBodyText", true, false)
+		_expect(view._modal_active and not view._dialogue_active and notice != null and notice.text == texts.text("copy_entered","en"), "Copy entry notice is an English non-story modal")
+		var before_notice_close: Dictionary = game.get_snapshot()
+		view._close_modal()
+		var after_notice_close: Dictionary = game.get_snapshot()
+		var new_history: Dictionary = after_notice_close.meta_progress.dialogue_history
+		if new_history.has("schema_version"):
+			for entry in new_history.entries.slice(before_notice_close.meta_progress.dialogue_history.entries.size()):
+				_expect(entry.record_class == "authored" and entry.observation.entry_kind == "document_segment", "Closing replay notice records only newly visible story surfaces, not an administrative line")
+		after_notice_close.meta_progress.dialogue_history = before_notice_close.meta_progress.dialogue_history.duplicate(true)
+		_expect(StateSnapshotValidator.same_persisted_value(after_notice_close, before_notice_close), "Closing replay notice preserves gameplay and presentation cursor while exposing the destination surface")
 		_expect(view.session.act("f3_cancel").get("ok", false), "Replay can return to F3 inspection")
 		_expect(FileAccess.get_file_as_bytes(source_path) == source_bytes, "Replay action does not write source")
 		var listed := false

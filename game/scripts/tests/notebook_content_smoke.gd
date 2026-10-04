@@ -3,6 +3,7 @@ extends RefCounted
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
+const PRESENTATION := preload("res://scripts/systems/notebook_presentation.gd")
 const VIEWS := [preload("res://scripts/chapters/chapter_one_controller.gd"), preload("res://scripts/chapters/black_mirror_controller.gd"), preload("res://scripts/chapters/basement_controller.gd")]
 const PROVIDERS := [preload("res://scripts/ui/clock_hint_texts.gd"), preload("res://scripts/ui/mirror_hint_texts.gd"), preload("res://scripts/ui/basement_hint_texts.gd"), preload("res://scripts/ui/core_hint_texts.gd")]
 const SLOT := "__test_notebook_content"
@@ -12,8 +13,11 @@ var covered := {}
 
 class RejectingSave:
 	extends Node
-	func save_snapshot(_slot: String, _point: String, _state: Dictionary, _revision: int, _transaction: String) -> Dictionary:
-		return {"ok": false, "error_ids": ["TEST_NOTEBOOK_CONTENT_SAVE"]}
+	var delegate: Node
+	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		if PRESENTATION.read(state).get("kind") == "dialogue":
+			return {"ok": false, "error_ids": ["TEST_NOTEBOOK_CONTENT_SAVE"]}
+		return delegate.save_snapshot(slot, point, state, revision, transaction)
 
 
 func run(tree: SceneTree) -> Dictionary:
@@ -190,7 +194,7 @@ func _validate_live_hints(tree: SceneTree, stage: String, language: String) -> v
 	await tree.process_frame
 	var before := GameState.get_snapshot()
 	view._show_clock_hint_menu(0)
-	_expect(GameState.get_snapshot() == before, "opening hint menu records no content: " + stage)
+	_expect(_gameplay(GameState.get_snapshot()) == _gameplay(before), "opening hint menu records no content: " + stage)
 	for level in range(5):
 		var button := _read_button(view)
 		_expect(button != null, "explicit request control exists: %s H%d" % [stage, level + 1])
@@ -214,12 +218,12 @@ func _validate_live_hints(tree: SceneTree, stage: String, language: String) -> v
 		_expect(rendered.ok and not rendered.entry.fallback, "other language resolves exact authored version")
 		var only_history := after.duplicate(true)
 		only_history.meta_progress.dialogue_history = before.meta_progress.dialogue_history
-		_expect(only_history == before, "reading hint changes no puzzle, bond, journal, or ending field")
+		_expect(_gameplay(only_history) == _gameplay(before), "reading hint changes no puzzle, bond, journal, or ending field")
 		view._dialogue_next.pressed.emit()
 	view._close_modal()
 	var committed := GameState.get_snapshot()
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "authored hints reload through real save manager")
-	_expect(GameState.get_snapshot() == committed, "reload preserves UID, semantic version, protected content, and captured original")
+	_expect(StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), committed), "reload preserves UID, semantic version, protected content, and captured original")
 	view.queue_free()
 	await tree.process_frame
 
@@ -228,16 +232,28 @@ func _validate_failed_write(tree: SceneTree) -> void:
 	TranslationServer.set_locale("en-US")
 	var view := _new_view(tree, "B3_A")
 	if view == null: return
+	await tree.process_frame
+	_expect(view._notebook_surface_allowed(), "visible baseline surfaces committed before hint failure injection")
 	var real: Node = view.session._save
 	var fake := RejectingSave.new()
+	fake.delegate = real
 	view.session._save = fake
 	var before := GameState.get_snapshot()
 	view._show_clock_hint_menu(0)
-	_read_button(view).pressed.emit()
+	var button := _read_button(view)
+	_expect(button != null, "failed-write fixture has the actual hint request button")
+	if button != null: button.pressed.emit()
+	_expect(view._dialogue_active and not view._dialogue_lines.is_empty(), "hint display reached before observation write is rejected")
+	if not view._dialogue_active or view._dialogue_lines.is_empty():
+		view.session._save = real
+		view.queue_free()
+		fake.free()
+		await tree.process_frame
+		return
 	var token: String = view._dialogue_lines[0].presentation_token
-	_expect(GameState.get_snapshot() == before and view._dialogue_active, "failed authored write leaves hint active and no committed disclosure")
+	_expect(_gameplay(GameState.get_snapshot()) == _gameplay(before) and view._dialogue_active, "failed authored write leaves hint active and no committed disclosure")
 	view._dialogue_next.pressed.emit()
-	_expect(GameState.get_snapshot() == before and view._dialogue_active, "failed retry cannot advance to next hint")
+	_expect(_gameplay(GameState.get_snapshot()) == _gameplay(before) and view._dialogue_active, "failed retry cannot advance to next hint")
 	view.session._save = real
 	view._dialogue_next.pressed.emit()
 	var saved: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history.entries.back()
@@ -275,6 +291,12 @@ func _validate_skipped_hints(tree: SceneTree) -> void:
 		_expect(not menu_body.text.contains("all five") and not menu_body.text.contains("모두 읽었다"), "end-of-hints message does not claim skipped hints were read")
 	view.queue_free()
 	await tree.process_frame
+
+
+func _gameplay(state: Dictionary) -> Dictionary:
+	var result := state.duplicate(true)
+	result.loop_state.event_local_states.erase(PRESENTATION.KEY)
+	return result
 
 
 func _expect(condition: bool, message: String) -> void:

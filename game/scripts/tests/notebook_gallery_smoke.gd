@@ -279,6 +279,25 @@ func _post_credits(tree: SceneTree, store: EndingGalleryStore, source: Dictionar
 			await tree.process_frame
 			_expect(view.visible and view._modal_active and view._gallery_notebook_host == null, "post-credits close returns to gallery menu")
 	_expect(GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(path) == bytes, "post-credits reading changes neither runtime nor slot bytes")
+	view._close_modal()
+	for locale in ["ko-KR", "en-US"]:
+		TranslationServer.set_locale(locale)
+		for key in ["create_failed", "load_failed", "copy_entered"]:
+			view._show_reselect_notice(key)
+			var body: Label = view._modal_body.find_child("ModalBodyText", true, false)
+			_expect(view._modal_active and not view._dialogue_active and view._recorded_modal_request.is_empty(), "replay notice bypasses story record and cursor: " + key)
+			_expect(body != null and body.text == view.CREDITS_TEXTS.text(key, locale), "replay notice preserves current-language wording: " + key)
+			var buttons := view._modal_body.find_children("*", "Button", true, false)
+			_expect(buttons.size() == 1 and buttons[0].focus_mode == Control.FOCUS_ALL, "replay notice has one keyboard-accessible close action")
+			if buttons.size() == 1: buttons[0].pressed.emit()
+			_expect(not view._modal_active and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), before) and FileAccess.get_file_as_bytes(path) == bytes, "notice open/close preserves archive, gameplay, cursor, and disk bytes")
+	# This fixture has no captured F3 source; exercise the real failed-create path.
+	_expect(not SaveManager.load_f3_reselect(SLOT).get("ok", false), "post-credits fixture has no replay source")
+	view._create_reselect()
+	var failure_body: Label = view._modal_body.find_child("ModalBodyText", true, false)
+	_expect(view._modal_active and failure_body != null and failure_body.text == view.CREDITS_TEXTS.text("create_failed", "en-US"), "actual create failure shows the excluded notice")
+	view._close_modal()
+	_expect(StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), before) and FileAccess.get_file_as_bytes(path) == bytes, "actual failed replay creation adds no unmapped record")
 	view.queue_free()
 	await tree.process_frame
 

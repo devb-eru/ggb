@@ -242,8 +242,8 @@ func _collect(language: String) -> void:
 		_expect(entry.record_class == "authored", "actual producer cannot silently become unmapped")
 		if entry.record_class != "authored": continue
 		var observed: Dictionary = entry.observation
-		if observed.producer_id in ["NP05", "NP06"]: continue
-		_expect(observed.producer_id == "NP04" and observed.chapter_id == "CHAPTER_1", "NP04 source context")
+		_expect(observed.chapter_id == "CHAPTER_1" and observed.producer_id in ["NP04", "NP05", "NP06", "NP21"], "CH1 source context: %s / %s / %s" % [observed.content_id, observed.producer_id, observed.chapter_id])
+		if observed.producer_id != "NP04": continue
 		covered[observed.content_id + ":" + language] = true
 		for segment in observed.segments:
 			covered_segments[observed.content_id + ":" + segment.segment_id + ":" + language] = true

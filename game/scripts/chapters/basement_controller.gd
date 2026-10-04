@@ -1627,7 +1627,7 @@ func _create_reselect() -> void:
 	_close_modal()
 	var result: Dictionary = SaveManager.create_f3_reselect_slot(_reselect_source())
 	if not result.get("ok", false):
-		_show_dialogue([{"speaker":CREDITS_TEXTS.text("notice",TranslationServer.get_locale()),"text":CREDITS_TEXTS.text("create_failed",TranslationServer.get_locale())}])
+		_show_reselect_notice("create_failed")
 		return
 	_resume_reselect(result["slot_id"])
 
@@ -1641,12 +1641,20 @@ func _resume_reselect(target: String) -> void:
 	if _modal_active: _close_modal()
 	var result := LoadCoordinator.new(GameState, SaveManager).load_and_install(target)
 	if not result.get("ok", false):
-		_show_dialogue([{"speaker":CREDITS_TEXTS.text("notice",TranslationServer.get_locale()),"text":CREDITS_TEXTS.text("load_failed",TranslationServer.get_locale())}])
+		_show_reselect_notice("load_failed")
 		return
 	_slot_id = target
 	session = _make_session()
 	_render_room()
-	_show_dialogue([{"speaker":CREDITS_TEXTS.text("notice",TranslationServer.get_locale()),"text":CREDITS_TEXTS.text("copy_entered",TranslationServer.get_locale())}])
+	_show_reselect_notice("copy_entered")
+
+
+func _show_reselect_notice(key: String) -> void:
+	# Replay management is EXCLUDED_UI, not a new story observation or cursor.
+	var locale := TranslationServer.get_locale()
+	_show_modal(CREDITS_TEXTS.text("notice", locale), CREDITS_TEXTS.text(key, locale), [
+		{"label": GALLERY_TEXTS.text("close", locale), "action": _close_modal},
+	])
 
 
 func _on_surface_tick() -> void:
