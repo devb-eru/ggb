@@ -114,7 +114,13 @@ func save_snapshot(
 	if previous.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
 	var previous_backup := _read_and_validate(paths.backup)
 	if previous_backup.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
-	var prepared := NOTEBOOK_MIGRATION.adapt_verified(snapshot, JSON.stringify(_canonicalize(snapshot)).sha256_text(), NOTEBOOK_ROLLOUT.enabled())
+	var promote_legacy := NOTEBOOK_ROLLOUT.enabled()
+	var meta: Variant = snapshot.get("meta_progress")
+	var history: Variant = meta.get("dialogue_history") if meta is Dictionary else null
+	var migration_digest := ""
+	if promote_legacy and history is Dictionary and not history.has("schema_version"):
+		migration_digest = JSON.stringify(_canonicalize(snapshot)).sha256_text()
+	var prepared := NOTEBOOK_MIGRATION.adapt_verified(snapshot, migration_digest, promote_legacy)
 	if not prepared.get("ok", false): return _save_failure(slot_id, &"ERR_SAVE_SNAPSHOT_INVALID")
 	snapshot = prepared.snapshot
 	var write_schema := SCHEMA_VERSION if snapshot.meta_progress.dialogue_history.has("schema_version") else 1
@@ -148,15 +154,12 @@ func save_snapshot(
 		"checksum_algorithm": "sha256",
 		"checksum": "",
 	}
-	var payload := {"save_header": header, "state": _canonicalize(snapshot)}
-	var unsigned_text := JSON.stringify(_canonicalize(payload), "\t", false)
-	payload["save_header"]["checksum"] = _checksum_text(unsigned_text)
-	var signed_text := JSON.stringify(_canonicalize(payload), "\t", false)
+	var encoded := _encode_payload(header, snapshot)
 
 	var file := FileAccess.open(paths["temporary"], FileAccess.WRITE)
 	if file == null:
 		return _save_failure(slot_id, &"ERR_SAVE_TEMP_OPEN")
-	file.store_string(signed_text)
+	file.store_string(encoded.text)
 	file.flush()
 	file.close()
 
@@ -166,22 +169,23 @@ func save_snapshot(
 		return _save_failure(slot_id, &"ERR_SAVE_TEMP_VERIFY")
 
 	if FileAccess.file_exists(paths["main"]):
-		_remove_if_exists(paths["backup"])
-		var backup_error := DirAccess.copy_absolute(
-			ProjectSettings.globalize_path(paths["main"]),
-			ProjectSettings.globalize_path(paths["backup"])
-		)
-		if backup_error != OK:
+		# Only a validated primary may replace the last recovery copy.
+		if previous.get("ok", false):
+			_remove_if_exists(paths["backup"])
+			var backup_error := DirAccess.copy_absolute(
+				ProjectSettings.globalize_path(paths["main"]),
+				ProjectSettings.globalize_path(paths["backup"])
+			)
+			if backup_error != OK:
+				_remove_if_exists(paths["temporary"])
+				return _save_failure(slot_id, &"ERR_SAVE_BACKUP_COPY")
+		if DirAccess.remove_absolute(ProjectSettings.globalize_path(paths["main"])) != OK:
 			_remove_if_exists(paths["temporary"])
-			return _save_failure(slot_id, &"ERR_SAVE_BACKUP_COPY")
-		_remove_if_exists(paths["main"])
+			return _save_failure(slot_id, &"ERR_SAVE_REPLACE")
 
-	var promote_error := DirAccess.rename_absolute(
-		ProjectSettings.globalize_path(paths["temporary"]),
-		ProjectSettings.globalize_path(paths["main"])
-	)
+	var promote_error := _promote_temporary(paths)
 	if promote_error != OK:
-		if FileAccess.file_exists(paths["backup"]):
+		if (previous.get("ok", false) or previous_backup.get("ok", false)) and FileAccess.file_exists(paths["backup"]):
 			DirAccess.copy_absolute(
 				ProjectSettings.globalize_path(paths["backup"]),
 				ProjectSettings.globalize_path(paths["main"])
@@ -192,7 +196,21 @@ func save_snapshot(
 	var warnings := PackedStringArray()
 	if not snapshot.get("meta_progress", {}).get("knowledge_entries", {}).get("F3_complete", false):
 		warnings = _clear_previous_f3(slot_id)
-	return {"ok": true, "path": paths["main"], "checksum": payload["save_header"]["checksum"], "warning_ids": warnings}
+	return {"ok": true, "path": paths["main"], "checksum": encoded.checksum, "warning_ids": warnings}
+
+
+func _promote_temporary(paths: Dictionary) -> Error:
+	return DirAccess.rename_absolute(ProjectSettings.globalize_path(paths.temporary), ProjectSettings.globalize_path(paths.main))
+
+
+func _encode_payload(header: Dictionary, snapshot: Dictionary) -> Dictionary:
+	var payload: Dictionary = _canonicalize({"save_header":header, "state":snapshot})
+	payload.save_header.checksum = ""
+	var unsigned_text := JSON.stringify(payload, "\t", false)
+	var checksum := _checksum_text(unsigned_text)
+	# Replacing this existing value preserves the already canonical key order.
+	payload.save_header.checksum = checksum
+	return {"text":JSON.stringify(payload, "\t", false), "checksum":checksum}
 
 
 func load_slot(slot_id: String) -> Dictionary:

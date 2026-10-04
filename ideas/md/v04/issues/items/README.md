@@ -55,6 +55,7 @@
 | [`GGB-ERR-2026-0025`](GGB-ERR-2026-0025_월드_재진입_관찰기록_중복.md) | RESOLVED | REVIEW | 월드 재진입 관찰 기록 중복 |
 | [`GGB-ERR-2026-0026`](GGB-ERR-2026-0026_플레이어_문구_내부ID_노출.md) | IN_PROGRESS | IN_PROGRESS | 플레이어 문구 내부 ID 노출 |
 | [`GGB-ERR-2026-0027`](GGB-ERR-2026-0027_대용량_수첩_표시검색저장_지연.md) | IN_PROGRESS | IN_PROGRESS | 대용량 수첩 표시·검색·저장 지연 |
+| [`GGB-ERR-2026-0028`](GGB-ERR-2026-0028_손상된_본파일이_정상_백업을_덮어씀.md) | VERIFIED | DONE | 손상된 본파일이 정상 백업을 덮어씀 |
 
 ## 관리
 

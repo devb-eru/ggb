@@ -33,6 +33,8 @@ func run() -> Dictionary:
 	_validate_f3()
 	_validate_demo()
 	_validate_gallery_and_development()
+	var safety: Dictionary = preload("res://scripts/tests/notebook_save_safety_smoke.gd").new().run()
+	errors.append_array(safety.errors)
 	SaveManager.delete_test_slot(SLOT)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors}
