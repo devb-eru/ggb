@@ -65,3 +65,7 @@ static func value(field: String, id: String, locale: String) -> String:
 
 static func pair(labels: Array, locale: String) -> String:
 	return labels[1 if locale.begins_with("en") else 0]
+
+
+static func record_index(owner: String, locale: String) -> String:
+	return value("people", owner.to_upper(), locale) + pair([" · 획득한 기록 인덱스", " · Acquired Record Index"], locale)

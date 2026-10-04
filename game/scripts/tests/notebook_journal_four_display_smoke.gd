@@ -1,5 +1,7 @@
 extends RefCounted
 
+const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
+
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const NOTES := preload("res://scripts/systems/journal_four_display_notebook.gd")
@@ -143,16 +145,39 @@ func _orders() -> void:
 		var state := _fixture(0)
 		state.loop_state.event_local_states.J4.pages = pages
 		_install(state)
-		var before := _gameplay()
+		var before := GameState.get_snapshot()
 		_present()
 		var key := NOTES.order_key(pages)
-		_expect(_count(key) == 1 and _gameplay() == before, "displaying order neither adds pages nor solves it")
+		var after := GameState.get_snapshot()
+		if pages.is_empty():
+			var diagnostic := after.duplicate(true)
+			diagnostic.meta_progress.dialogue_history = before.meta_progress.dialogue_history.duplicate(true)
+			print("J4_ORDER_DISPLAY_DIFF: ", STATE_ASSERTIONS.changed_paths(before, diagnostic))
+			_order_display_guards(before, after)
+		_expect(_count(key) == 1 and STATE_ASSERTIONS.same_surface_gameplay(before, after), "displaying order adds only backed surface observations, never gameplay progress")
 		var count: int = _archive().entries.size()
 		view._render_room()
 		_present()
 		_expect(_archive().entries.size() == count, "same-scope redraw does not duplicate order")
 		_collect()
 		order_surfaces += 1
+
+
+func _order_display_guards(before: Dictionary, after: Dictionary) -> void:
+	for kind in ["pages", "ordered", "relationship", "inventory", "knowledge", "counter", "receipt"]:
+		var candidate := after.duplicate(true)
+		match kind:
+			"pages": candidate.loop_state.event_local_states.J4.pages.append("promise")
+			"ordered": candidate.loop_state.event_local_states.J4.ordered = true
+			"relationship": candidate.meta_progress.servants.edgar.bond += 1
+			"inventory": candidate.loop_state.inventory.append("TEST_UNEARNED_ITEM")
+			"knowledge": candidate.meta_progress.knowledge_entries.TEST_UNEARNED_NOTE = true
+			"counter": candidate.meta_progress.dialogue_history.next_sequence += 1
+			"receipt":
+				var receipt: Dictionary = candidate.loop_state.event_local_states[STATE_ASSERTIONS.RECEIPT.KEY]
+				var receipt_key: String = receipt.receipts.keys()[0]
+				receipt.receipts[receipt_key].presentation_token = "0".repeat(32)
+		_expect(not STATE_ASSERTIONS.same_surface_gameplay(before, candidate), "order display rejects non-presentation change: " + kind)
 
 
 func _arrange() -> void:
@@ -348,6 +373,11 @@ func _collect() -> void:
 		if entry.get("record_class") != "authored": continue
 		var observed: Dictionary = entry.observation
 		if not observed.content_id.begins_with(NOTES.PREFIX): continue
+		if String(observed.content_id).ends_with("_INDEX"):
+			_expect(int(observed.content_version) == 2, "new index feedback uses meaning version 2")
+			for locale in ["ko-KR", "en-US"]:
+				var rendered := CONTENT.render_entry(entry, locale)
+				_expect(rendered.ok and not rendered.entry.text.contains("REC_"), "live index feedback shows public names")
 		_expect(observed.chapter_id == "CHAPTER_3" and observed.node_id in ["J4", "E_HUB", "E3_4M"], "actual pre-transition chapter and node")
 		for segment in observed.segments:
 			covered[observed.content_id + ":" + segment.viewed_locale] = true

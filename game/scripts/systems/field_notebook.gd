@@ -21,6 +21,22 @@ const EXIT := {
 }
 const OWNERS := {"FIELD_NOTEBOOK_FIRST_72_HOURS":"luca", "FIELD_NOTEBOOK_MARA1":"mara1", "FIELD_NOTEBOOK_IRIS":"iris", "FIELD_NOTEBOOK_EDGAR":"edgar", "FIELD_NOTEBOOK_MARA2":"mara2"}
 const WAKE := preload("res://scripts/systems/reality_wake.gd")
+const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
+
+
+static func handoff_mask(state: Dictionary) -> int:
+	var mask := 0
+	for index in range(WAKE.OWNERS.size()):
+		if state.meta_progress.servants[WAKE.OWNERS[index]].researcher_record_acquired: mask |= 1 << index
+	return mask
+
+
+static func handoff_sources(state: Dictionary, locale: String) -> String:
+	var names := PackedStringArray()
+	for owner in WAKE.OWNERS:
+		if state.meta_progress.servants[owner].researcher_record_acquired:
+			names.append(LABELS.value("people", String(owner).to_upper(), locale))
+	return ", ".join(names)
 
 static func page_text(state: Dictionary, page: String, expanded: bool) -> String:
 	var text: String = PAGES[page][2 if expanded else 1]
@@ -30,10 +46,8 @@ static func page_text(state: Dictionary, page: String, expanded: bool) -> String
 		var outcome: String = event.get("outcome_id", "")
 		if state["meta_progress"]["servants"][owner]["core_event_complete"] and not WAKE.farewell(state,owner)["warning"]: text += "\n인계 부기: " + WAKE.OVERLAYS[owner][outcome]
 	if expanded and page == "SUBJECT_HANDOFF_PAGE":
-		var records: Array = []
-		for owner in WAKE.OWNERS:
-			if state["meta_progress"]["servants"][owner]["researcher_record_acquired"]: records.append("REC_" + owner.to_upper())
-		text += "\n인계 출처: " + (", ".join(records) if not records.is_empty() else "별도 연구원 원문 인계 없음. 기본 운용 자료는 유지.")
+		var records := handoff_sources(state, "ko-KR")
+		text += "\n인계 출처: " + (records if not records.is_empty() else "별도 연구원 원문 인계 없음. 기본 운용 자료는 유지.")
 	return text
 
 static func apply(source: Dictionary, action: String, value: Variant) -> Dictionary:

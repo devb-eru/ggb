@@ -95,6 +95,7 @@ func _check_matrix(state: Dictionary, locale: String) -> void:
 	var ledger: Dictionary = restored.state.meta_progress.knowledge_entries[KNOWLEDGE.KEY]
 	var revision: Dictionary = ledger.revisions.back()
 	var entry: Dictionary = ARCHIVE.resolve(archive, revision.observation_ref).entry
+	_expect(int(entry.observation.content_version) == 2, "new journal composition uses public-label meaning version")
 	_expect(entry.observation.node_id == "J4" and entry.observation.chapter_id == "CHAPTER_3", "read event not post-read minimum-access stage")
 	var translated := CONTENT.render_entry(entry, "en-US" if locale == "ko-KR" else "ko-KR")
 	_expect(translated.ok, "opposite-language rendering")
@@ -102,6 +103,8 @@ func _check_matrix(state: Dictionary, locale: String) -> void:
 	for segment in entry.observation.segments:
 		segments[segment.segment_id] = true
 		originals = originals or segment.segment_id.ends_with("_original")
+		if String(segment.segment_id).ends_with("_index"):
+			_expect(not segment.captured_text.contains("REC_") and not CONTENT.render_segment(entry, segment.segment_id, "en-US").entry.text.contains("REC_"), "missing-original index uses public names in both languages")
 		_expect(ARCHIVE.make_reference(entry, segment.segment_id) in revision.source_refs, "each disclosed own segment protected")
 	_expect(translated.entry.fallback == originals, "only unidentified old quotations use original-only notice")
 	var total := NOTES.RULES.summary(state)
@@ -121,6 +124,17 @@ func _check_matrix(state: Dictionary, locale: String) -> void:
 
 func _legacy_cases(locale: String) -> void:
 	var state := _mask(base, 31)
+	var old_descriptor := CONTENT.descriptor(NOTES.ID, 1, {"body": {}, "edgar_index": {}, "last": {}})
+	var old_text := CONTENT.presentation(old_descriptor, locale)
+	var old_observation := CONTENT.observe(old_descriptor, _context(), old_text.speaker, old_text.text, locale, "replay_committed")
+	_expect(old_observation.ok, "historical journal with index remains valid")
+	if old_observation.ok:
+		var old_entry := {"record_class": "authored", "observation": old_observation.observation}
+		for language in ["ko-KR", "en-US"]:
+			_expect(CONTENT.render_entry(old_entry, language).entry.text.contains("REC_EDGAR"), "historical journal wording is not rewritten")
+		for part in preload("res://scripts/systems/journal_four_display_notebook.gd").read_paragraphs(old_descriptor):
+			if String(part.content_id).ends_with("_INDEX"):
+				_expect(int(part.content_version) == 1, "old journal read descriptors preserve original index version")
 	state.meta_progress.knowledge_entries.chapter_notebook = {}
 	_check_matrix(state, locale)
 	for owner in NOTES.RULES.OWNERS:

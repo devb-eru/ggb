@@ -17,6 +17,8 @@ var covered := {}
 var segments := {}
 var view: BasementController
 var serial := 0
+var handoff_masks := 0
+var historical_confirmations := 0
 
 class ControlledSave extends Node:
 	var reject_game := false
@@ -51,6 +53,9 @@ func run(tree: SceneTree) -> Dictionary:
 	view._dismiss_dialogue_for_test()
 	for language in ["ko-KR","en-US"]:
 		TranslationServer.set_locale(language)
+		if "--notebook-handoff-history-only" in OS.get_cmdline_user_args():
+			await _handoff_versions(tree, true)
+			continue
 		print("REALITY_PHASE: ",language," entry and ceremony")
 		_entry()
 		_signature_failure()
@@ -60,6 +65,7 @@ func run(tree: SceneTree) -> Dictionary:
 		print("REALITY_PHASE: ",language," physical pages and acquisition")
 		_field()
 		_field_failures()
+		await _handoff_versions(tree)
 		print("REALITY_PHASE: ",language," facility, choices and timer")
 		_surface()
 		_surface_failure()
@@ -76,6 +82,8 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor",flavor)
 	print("REALITY_COVERAGE: actual ID/locales=",covered.size()," segment/locales=",segments.size())
 	return {"ok":errors.is_empty(),"errors":errors,"actual_id_locales":covered.size(),"actual_segment_locales":segments.size(),
+		"handoff_masks":handoff_masks,"historical_confirmations":historical_confirmations,
+		"focused_history_only":"--notebook-handoff-history-only" in OS.get_cmdline_user_args(),
 		"not_covered":["durable_app_restart_cursor","unified_notebook_UI","OS_input"]}
 
 
@@ -256,6 +264,116 @@ func _field() -> void:
 	view._recorded_choice_pressed(view._recorded_modal_request,0)
 	_expect(_ledger().revisions.size() == 1,"handoff indices do not create missing research documents")
 	_collect()
+
+
+
+func _handoff_versions(tree: SceneTree, history_only: bool = false) -> void:
+	var modal_notes := preload("res://scripts/systems/modal_notebook.gd")
+	var field_texts := preload("res://scripts/ui/field_notebook_texts.gd")
+	var cursor_rules := preload("res://scripts/systems/notebook_presentation.gd")
+	var page := "SUBJECT_HANDOFF_PAGE"
+	var document_id := NOTES.PREFIX + "FIELD_SUBJECT_HANDOFF_PAGE_FULL"
+	var locale := TranslationServer.get_locale()
+	var previous_entry := {}
+	var previous_text := ""
+	for mask in range(0 if history_only else 32):
+		var state := _unread_field()
+		for index in range(5): state.meta_progress.servants[WAKE.OWNERS[index]].researcher_record_acquired = bool(mask & (1 << index))
+		_install(state)
+		if not previous_entry.is_empty():
+			_expect(CONTENT.render_entry(previous_entry, locale).entry.text == previous_text, "next installed relationship state cannot rewrite previous captured names")
+		view._open_field_page(page, true)
+		var request: Dictionary = view._recorded_modal_request
+		_expect(not request.is_empty() and request.recorded, "handoff mask actually displayed and saved")
+		if request.is_empty(): continue
+		var descriptor: Dictionary = request.history_context.notebook_content
+		_expect(int(descriptor.content_version) == 2 and descriptor == modal_notes.field_options(state, page, true), "new prompt has exact frozen mask and version")
+		_expect(not request.body.contains("REC_") and request.body == field_texts.page_text(state, page, true, locale), "actual handoff contains localized names, no internal record keys")
+		for language in ["ko-KR", "en-US"]:
+			var document := CONTENT.presentation(NOTES.field_descriptor(state, page, true), language)
+			var expected: String = field_texts.page_text(state, page, true, language)
+			_expect(document.ok and document.text == expected and not document.text.contains("REC_"), "all mask translations agree with displayed physical page")
+		var prompt_token: String = request.history_context.presentation_token
+		view._recorded_choice_pressed(request, 0)
+		_expect(_ledger().revisions.size() == 1, "indices alone do not create researcher records")
+		if _ledger().revisions.is_empty(): continue
+		var revision: Dictionary = _ledger().revisions.back()
+		var entry: Dictionary = ARCHIVE.resolve(_archive(), revision.observation_ref).entry
+		_expect(entry.observation.content_id == document_id and int(entry.observation.content_version) == 2, "confirmed handoff acquires exact new document version")
+		var backed := false
+		for reference in revision.source_refs:
+			var source: Dictionary = ARCHIVE.resolve(_archive(), reference).entry
+			if source.observation.presentation_token == prompt_token: backed = true
+		_expect(backed, "physical page cites its actual displayed prompt")
+		previous_entry = entry.duplicate(true)
+		previous_text = CONTENT.render_entry(entry, locale).entry.text
+		_collect()
+		handoff_masks += 1
+	# Create an old open prompt using its actual version-1 descriptor and save cursor.
+	_install(_unread_field())
+	_expect(view.session.initialize().ok, "historical fixture follows normal session initialization before opening a prompt")
+	var initialized := GameState.get_snapshot()
+	view._open_field_page(page, true)
+	var actions: Array = view._recorded_modal_request.actions.duplicate(true)
+	_install(initialized)
+	var old_descriptor := CONTENT.descriptor("NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS", 1,
+		{"header": {}, "body": {}, "sources_present": {"records": "REC_EDGAR, REC_MARA1, REC_LUCA, REC_IRIS, REC_MARA2"}, "option_0": {}, "option_1": {}, "option_2": {}})
+	var old_shown := CONTENT.presentation(old_descriptor, locale)
+	var body := PackedStringArray()
+	for segment in old_shown.segments:
+		if segment.segment_id != "header" and not String(segment.segment_id).begins_with("option_"): body.append(segment.text)
+	view._show_recorded_choice(field_texts.title(page, locale), "\n".join(body), actions, old_descriptor)
+	_expect(view._recorded_modal_request.recorded, "historical open prompt recorded")
+	var frozen_prompt: Dictionary = _archive().entries.back().duplicate(true)
+	var frozen_cursor := cursor_rules.read(GameState.get_snapshot())
+	var count: int = _archive().entries.size()
+	view.queue_free()
+	view = null
+	await tree.process_frame
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "reload historical open field page from disk")
+	var before_restore := GameState.get_snapshot()
+	view = VIEW.new()
+	view.configure_session(SLOT, "ENDING_SEQUENCE")
+	tree.current_scene.add_child(view)
+	await tree.process_frame
+	print("HANDOFF_RESTORE_DIFF: ", STATE_ASSERTIONS.changed_paths(before_restore, GameState.get_snapshot()))
+	_expect(StateSnapshotValidator.same_persisted_value(before_restore, GameState.get_snapshot()), "restoring old prompt preserves the entire saved snapshot")
+	_expect(view._modal_active and not view._recorded_modal_request.is_empty(), "recreated controller restores old open prompt")
+	if view._recorded_modal_request.is_empty(): return
+	_expect(int(view._recorded_modal_request.history_context.notebook_content.content_version) == 1 and view._recorded_modal_request.body.contains("REC_EDGAR"), "old prompt remains old wording, not silently upgraded")
+	_expect(_archive().entries.size() == count, "restoring historical prompt adds no observation")
+	var forged: Dictionary = frozen_cursor.lines[0].history_context.duplicate(true)
+	forged.presentation_token = ARCHIVE.new_uid()
+	var candidate := GameState.get_snapshot()
+	var before := candidate.duplicate(true)
+	_expect(not NOTES.write_field(candidate, page, true, NOTES.context(candidate, {}), locale, forged).ok and candidate == before, "unobserved confirmation token fails without mutation")
+	view._recorded_choice_pressed(view._recorded_modal_request, 0)
+	_expect(_ledger().revisions.size() == 1, "historical confirmation acquires once")
+	if _ledger().revisions.is_empty(): return
+	var old_entry: Dictionary = ARCHIVE.resolve(_archive(), _ledger().revisions.back().observation_ref).entry.duplicate(true)
+	_expect(int(old_entry.observation.content_version) == 1, "old confirmation acquires exactly displayed version")
+	var protected_prompt: Dictionary = ARCHIVE.resolve(_archive(), ARCHIVE.make_reference(frozen_prompt, "body")).entry.duplicate(true)
+	var expected_prompt := frozen_prompt.duplicate(true)
+	expected_prompt.protection_reasons.append("knowledge_source:" + String(_ledger().revisions.back().revision_uid))
+	expected_prompt.protection_reasons.sort()
+	_expect(protected_prompt == expected_prompt and KNOWLEDGE.validate(_ledger(), _archive()).ok, "old acquisition adds exactly its source protection without changing prompt content or identity")
+	for language in ["ko-KR", "en-US"]:
+		_expect(CONTENT.render_entry(old_entry, language).entry.text.contains("REC_EDGAR"), "historical handoff remains replayable in both languages")
+	view._open_field_page(page, true)
+	view._recorded_choice_pressed(view._recorded_modal_request, 0)
+	_expect(_ledger().revisions.size() == 2, "explicit new-version reread adds one new revision")
+	view._open_field_page(page, false)
+	view._recorded_choice_pressed(view._recorded_modal_request, 0)
+	view._open_field_page(page, true)
+	view._recorded_choice_pressed(view._recorded_modal_request, 0)
+	_expect(_ledger().revisions.size() == 2, "new full page is neither downgraded by summary nor duplicated")
+	var latest: Dictionary = ARCHIVE.resolve(_archive(), _ledger().revisions.back().observation_ref).entry
+	_expect(int(latest.observation.content_version) == 2 and not CONTENT.render_entry(latest, locale).entry.text.contains("REC_"), "latest explicit reread uses public names")
+	var saved: Dictionary = ARCHIVE.resolve(_archive(), ARCHIVE.make_reference(old_entry, "body")).entry
+	_expect(saved == old_entry, "new reread preserves the old document UID and original segments")
+	_expect(ARCHIVE.resolve(_archive(), ARCHIVE.make_reference(frozen_prompt, "body")).entry == protected_prompt, "new reread preserves the old displayed prompt and its source protection")
+	_collect()
+	historical_confirmations += 1
 
 
 func _field_failures() -> void:

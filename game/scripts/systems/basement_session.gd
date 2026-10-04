@@ -214,7 +214,10 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		if result.get("ok", false) and action == "field_read":
 			var page := str(value.get("page", "")) if value is Dictionary else str(value)
 			var expanded: bool = value.get("expanded", false) if value is Dictionary else false
-			var written := REALITY_NOTES.write_field(result.state, page, expanded, REALITY_NOTES.context(snapshot(), history_context()), TranslationServer.get_locale())
+			var confirmed: Dictionary = {}
+			if _presentation_commit_override.get("kind") == "modal":
+				confirmed = _presentation_commit_override.lines[0].history_context
+			var written := REALITY_NOTES.write_field(result.state, page, expanded, REALITY_NOTES.context(snapshot(), history_context()), TranslationServer.get_locale(), confirmed)
 			if not written.ok: return written
 		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
 	if action.begins_with("reality_"):

@@ -13,26 +13,27 @@ const MODAL_TITLE := "조사 종료 확인"
 const MODAL_LABELS := ["계속 조사한다", "기록을 정리한다"]
 
 
-static func paragraphs(key: String) -> Array:
+static func paragraphs(key: String, version: int = 1) -> Array:
 	if not ROLLOUT.enabled() or key.is_empty(): return []
 	var id := PREFIX + key
 	var result: Array = []
-	for segment in CONTENT.definition(id, 1).get("visible_segment_ids", []):
-		result.append(CONTENT.descriptor(id, 1, {segment: {}}))
+	for segment in CONTENT.definition(id, version).get("visible_segment_ids", []):
+		result.append(CONTENT.descriptor(id, version, {segment: {}}))
 	return result
 
 
 static func read_paragraphs(document: Dictionary) -> Array:
 	if not ROLLOUT.enabled() or document.is_empty(): return []
 	var result: Array = []
-	for segment in CONTENT.definition(DOCUMENT.ID, 1).visible_segment_ids:
+	for segment in CONTENT.definition(DOCUMENT.ID, int(document.content_version)).visible_segment_ids:
 		if not document.segments.has(segment): continue
 		var key := "READ_" + String(segment).to_upper()
 		if String(segment).ends_with("_original"):
 			for line in String(document.segments[segment].original_text).split("\n", false):
 				result.append(CONTENT.descriptor(PREFIX + key, 1, {"body": {"original_text": line}}))
 		else:
-			result.append_array(paragraphs(key))
+			var version := int(document.content_version) if String(segment).ends_with("_index") else 1
+			result.append_array(paragraphs(key, version))
 	return result
 
 

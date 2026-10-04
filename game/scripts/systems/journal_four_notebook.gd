@@ -5,6 +5,7 @@ const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const ID := "NB_J4_DOCUMENT"
+const VERSION := 2
 const QUOTES := {
 	"mara1": {"NB_MARA1_RECORD_ORIGINAL_ATTRIBUTION": "mara1_attribution", "NB_MARA1_RECORD_PROTECTED_IDENTIFIERS": "mara1_protected"},
 	"iris": {"NB_IRIS_RECORD": "iris_record"},
@@ -44,7 +45,7 @@ static func compose(state: Dictionary) -> Dictionary:
 				if int(observation.content_version) == 1 and QUOTES[owner].has(observation.content_id):
 					var definition := CONTENT.definition(observation.content_id, 1)
 					var segment: String = QUOTES[owner][observation.content_id]
-					var document := CONTENT.definition(ID, 1)
+					var document := CONTENT.definition(ID, VERSION)
 					if _source_matches(observation, definition, key, original) and document.locales["ko-KR"][segment] == "\n" + original:
 						segments[segment] = {}
 						sources.append(latest[key].observation_ref.duplicate(true))
@@ -52,7 +53,7 @@ static func compose(state: Dictionary) -> Dictionary:
 			if not quoted: segments[owner + "_original"] = {"original_text": original}
 	if int(totals.researcher_record_count) == 5 and totals.core_complete_ids.size() == 5: segments.full = {}
 	segments.last = {}
-	return {"ok": true, "descriptor": CONTENT.descriptor(ID, 1, segments), "source_refs": sources}
+	return {"ok": true, "descriptor": CONTENT.descriptor(ID, VERSION, segments), "source_refs": sources}
 
 
 static func _source_matches(observation: Dictionary, definition: Dictionary, key: String, original: String) -> bool:

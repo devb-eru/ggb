@@ -1,0 +1,761 @@
+{
+	"format_version": 1,
+	"contents": {
+		"NB_J4_DOCUMENT": {
+			"2": {
+				"action_or_variant": "restored",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "J4",
+				"knowledge": {
+					"category": "journal",
+					"epistemic_state": "observed",
+					"knowledge_id": "J4",
+					"lifetime": "persistent",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "Restored index: the servants are researcher personalities. Authority to maintain the mansion is separate from authority to enact the Protagonist's own decision.\n\nI promised them a life in the future.\nI never made clear whether that promise meant bodies or merely the continuation of memory.\n\nThey can move the house, repair its seasons, keep a heart beating, and lock its doors.\nBut I gave them neither the door out of the house nor the authority to decide who owns this life.\n\nThey woke you for more than protection and more than revenge. By holding on to you, they could believe the promise I left behind was not yet over.",
+						"edgar_index": "\nEdgar · Acquired Record Index",
+						"edgar_original": "\n{original_text}",
+						"edgar_record": "\nAs research ethics and operations lead, Edgar collected incomplete consent for conversion. Father failed to complete final creator authority and the awakening-release procedure. The later extension of sleep was Edgar's own decision. He did not stop forced activation and continued withholding authority to choose. Protection belongs to SYSTEM, surveillance to CUSTODIAN, memory to RESIDENT, and choice to SUBJECT. Present authority has returned to the Protagonist.",
+						"full": "\nMara 2 divided her own storage to preserve the other four names and emotional annotations. Whenever space ran short, she erased the records that confirmed her own name first. I never shared the authority to stop it.",
+						"iris_index": "\nIris · Acquired Record Index",
+						"iris_original": "\n{original_text}",
+						"iris_record": "\nIris was responsible for ecological restoration and environmental systems. The sample storage and cooling unit shared one emergency power grid. Iris did not consent to prioritizing cooling. Father executed the order with Iris's credentials, and the audit left Iris responsible. No report confirms that the outside is safe. Lost resources and displaced blame explain her hostility; they do not justify it as a solution.",
+						"last": "\nI left the final door where I could not open it. I will not call that consideration.\nI did not return your choice. One fragment simply remained that I failed to take from you.\nThis time, no one must write your answer for you.",
+						"luca_index": "\nLuca · Acquired Record Index",
+						"luca_original": "\n{original_text}",
+						"luca_record": "\nThe Protagonist's external body was cryogenically preserved until the collapse-era toxic atmosphere and radiation risks diminished. Luca agreed to preservation but did not anticipate prolonged confinement in the simulation. After Father's death, neither awakening criteria nor a final release date was established. The servants repeatedly deferred awakening in the name of safety. Vital signs remain stable, but atmospheric, radiation, and neurological risks mean reality cannot be guaranteed safe.",
+						"mara1_attribution": "\nI preserve the commander and operator's responsibility, the victims' record, and the original text unchanged.\nThe researchers were promised new bodies but were not told their original bodies would be lost or that they would be converted into neural cores. Under an operational-stability order, Mara 1 erased the failure and contradictions in consent. That work remains in her compulsion to clean.",
+						"mara1_index": "\nMara 1 · Acquired Record Index",
+						"mara1_original": "\n{original_text}",
+						"mara1_protected": "\nI protect only the victims' identifying information. The original incident text and the responsibility of Father as commander and Mara 1 as operator remain.\nThe researchers were promised new bodies but were not told their original bodies would be lost or that they would be converted into neural cores. Under an operational-stability order, Mara 1 erased the failure and contradictions in consent. That work remains in her compulsion to clean.",
+						"mara2_index": "\nMara 2 · Acquired Record Index",
+						"mara2_original": "\n{original_text}",
+						"mara2_record": "\nMara 2 managed the personality archive and memory checksums. When the other four personalities' emotional annotations and long-term memories began to fail, she secretly donated her own annotation region as backup storage. She lost the original shape of her name, private memories, and ways of asking for help first. Repeatedly checking nameplates was a self-identification test. Both original and emotional annotations are preserved, but full recovery is not guaranteed.",
+						"speaker": "Notebook",
+						"summary": "The restored journal and quotations from acquired records",
+						"title": "Journal IV · Promises and Authority"
+					},
+					"ko-KR": {
+						"body": "복원 인덱스: 사용인들은 연구원 인격이다. 저택의 관리 권한과 주인공 자신의 결정을 실행하는 권한은 서로 다르다.\n\n나는 그들에게 미래의 삶을 약속했다.\n그 약속이 육체를 뜻하는지, 기억의 지속을 뜻하는지 끝까지 분명하게 말하지 않았다.\n\n그들은 집을 움직일 수 있다. 계절을 고치고, 심장을 유지하고, 문을 잠글 수 있다.\n하지만 집 밖으로 나가는 문과 누가 이 삶의 주인인지 정하는 권한은 주지 않았다.\n\n그들이 너를 깨운 것은 보호만도, 복수만도 아니었다. 너를 붙잡으면 내가 남긴 약속도 아직 끝나지 않았다고 믿을 수 있었기 때문이다.",
+						"edgar_index": "\n에드가 · 획득한 기록 인덱스",
+						"edgar_original": "\n{original_text}",
+						"edgar_record": "\n에드가는 연구 윤리·운영 책임자로 불완전한 전환 동의를 취합했다. 아버지는 최종 창조자 권한과 기상 해제 절차를 완수하지 못했다. 그 뒤 수면 연장은 에드가 자신의 결정이었다. 강제 기동을 막지 못했고 선택 권한을 계속 반환하지 않았다. 보호는 SYSTEM, 감시는 CUSTODIAN, 기억은 RESIDENT, 선택은 SUBJECT에 귀속된다. 현재 선택권은 주인공에게 돌아갔다.",
+						"full": "\n마라 2는 다른 네 사람의 이름과 감정 주석을 자기 저장 영역에 나누어 보관했다. 공간이 모자랄 때마다 자기 이름의 확인 기록부터 비웠다. 나는 중단시킬 권한을 끝까지 나누지 않았다.",
+						"iris_index": "\n이리스 · 획득한 기록 인덱스",
+						"iris_original": "\n{original_text}",
+						"iris_record": "\n이리스는 생태 복구와 환경 시설 담당이었다. 샘플 보관고와 냉각 장치는 같은 비상 전력망이었다. 이리스는 냉각 우선에 동의하지 않았다. 아버지가 이리스 자격으로 실행했고 감사는 이리스를 책임자로 남겼다. 외부가 안전하다는 확정 보고는 없다. 자원 손실과 책임 전가는 적의의 배경이지 해결책이 아니다.",
+						"last": "\n마지막 문은 내가 열 수 없도록 남겨 두었다. 그것을 배려라고 부를 생각은 없다.\n너에게 선택권을 돌려준 것이 아니라, 내가 끝내 빼앗지 못한 한 조각이 남아 있었을 뿐이다.\n이번에는 누구도 네 대답을 대신 적어서는 안 된다.",
+						"luca_index": "\n루카 · 획득한 기록 인덱스",
+						"luca_original": "\n{original_text}",
+						"luca_record": "\n주인공의 외부 신체는 멸망기의 독성 대기·방사선 위험이 낮아질 때까지 냉각 보존되었다. 루카는 보존에 동의했지만 장기 시뮬레이션 감금은 예상하지 못했다. 아버지 사후 기상 기준과 최종 해제 날짜가 확정되지 않았다. 사용인들은 안전을 이유로 각성 결정을 반복 유예했다. 현재 생존 신호는 유지되지만 외부 대기·방사선·신경계 위험이 남아 현실의 안전은 보장할 수 없다.",
+						"mara1_attribution": "\n명령자와 수행자의 책임, 피해 기록과 원문을 그대로 남긴다.\n연구원들은 새 육체를 약속받았으나 원래 신체 소실과 신경 코어 전환은 고지받지 못했다. 마라 1은 운영 안정화 명령으로 실패와 동의 모순을 지웠다. 그 업무는 지금의 청소 강박으로 남았다.",
+						"mara1_index": "\n마라 1 · 획득한 기록 인덱스",
+						"mara1_original": "\n{original_text}",
+						"mara1_protected": "\n피해자 식별 정보만 보호한다. 사건 원문, 명령자 아버지와 수행자 마라 1의 책임은 남긴다.\n연구원들은 새 육체를 약속받았으나 원래 신체 소실과 신경 코어 전환은 고지받지 못했다. 마라 1은 운영 안정화 명령으로 실패와 동의 모순을 지웠다. 그 업무는 지금의 청소 강박으로 남았다.",
+						"mara2_index": "\n마라 2 · 획득한 기록 인덱스",
+						"mara2_original": "\n{original_text}",
+						"mara2_record": "\n마라 2는 인격 아카이브·기억 체크섬 담당이었다. 다른 네 인격의 감정 주석과 장기 기억이 손상되자 자기 감정 주석 영역을 몰래 보조 저장소로 양도했다. 그 결과 자기 이름의 원형·사적 기억·도움 요청 방식부터 잃었다. 이름표 반복 확인은 자기 식별 검사였다. 원본과 감정 주석은 모두 보존했으나 완전한 회복을 보장하지 않는다.",
+						"speaker": "수첩",
+						"summary": "복원한 일지와 획득한 기록의 인용",
+						"title": "네 번째 일지 · 약속과 권한"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_J4_DOCUMENT_V2:body",
+					"edgar_index": "NB_J4_DOCUMENT_V2:edgar_index",
+					"edgar_original": "NB_J4_DOCUMENT_V2:edgar_original",
+					"edgar_record": "NB_J4_DOCUMENT_V2:edgar_record",
+					"full": "NB_J4_DOCUMENT_V2:full",
+					"iris_index": "NB_J4_DOCUMENT_V2:iris_index",
+					"iris_original": "NB_J4_DOCUMENT_V2:iris_original",
+					"iris_record": "NB_J4_DOCUMENT_V2:iris_record",
+					"last": "NB_J4_DOCUMENT_V2:last",
+					"luca_index": "NB_J4_DOCUMENT_V2:luca_index",
+					"luca_original": "NB_J4_DOCUMENT_V2:luca_original",
+					"luca_record": "NB_J4_DOCUMENT_V2:luca_record",
+					"mara1_attribution": "NB_J4_DOCUMENT_V2:mara1_attribution",
+					"mara1_index": "NB_J4_DOCUMENT_V2:mara1_index",
+					"mara1_original": "NB_J4_DOCUMENT_V2:mara1_original",
+					"mara1_protected": "NB_J4_DOCUMENT_V2:mara1_protected",
+					"mara2_index": "NB_J4_DOCUMENT_V2:mara2_index",
+					"mara2_original": "NB_J4_DOCUMENT_V2:mara2_original",
+					"mara2_record": "NB_J4_DOCUMENT_V2:mara2_record"
+				},
+				"location_source": "captured_before_commit",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"original_only_segments": [
+					"mara1_original",
+					"iris_original",
+					"luca_original",
+					"edgar_original",
+					"mara2_original"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_content_ids": [
+					"NB_MARA1_RECORD_ORIGINAL_ATTRIBUTION",
+					"NB_MARA1_RECORD_PROTECTED_IDENTIFIERS",
+					"NB_IRIS_RECORD",
+					"NB_LUCA_RECORD",
+					"NB_EDGAR_RECORD",
+					"NB_MARA2_RECORD"
+				],
+				"source_file": "scripts/systems/journal_four.gd",
+				"source_symbol": "apply.read:authored_v2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"body": {},
+					"edgar_index": {},
+					"edgar_original": {
+						"original_text": "string"
+					},
+					"edgar_record": {},
+					"full": {},
+					"iris_index": {},
+					"iris_original": {
+						"original_text": "string"
+					},
+					"iris_record": {},
+					"last": {},
+					"luca_index": {},
+					"luca_original": {
+						"original_text": "string"
+					},
+					"luca_record": {},
+					"mara1_attribution": {},
+					"mara1_index": {},
+					"mara1_original": {
+						"original_text": "string"
+					},
+					"mara1_protected": {},
+					"mara2_index": {},
+					"mara2_original": {
+						"original_text": "string"
+					},
+					"mara2_record": {}
+				},
+				"visible_segment_ids": [
+					"body",
+					"mara1_attribution",
+					"mara1_protected",
+					"mara1_original",
+					"mara1_index",
+					"iris_record",
+					"iris_original",
+					"iris_index",
+					"luca_record",
+					"luca_original",
+					"luca_index",
+					"edgar_record",
+					"edgar_original",
+					"edgar_index",
+					"mara2_record",
+					"mara2_original",
+					"mara2_index",
+					"full",
+					"last"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_EDGAR_INDEX": {
+			"2": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Edgar · Acquired Record Index",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "에드가 · 획득한 기록 인덱스",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "NB_J4_DISPLAY_READ_EDGAR_INDEX_V2:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_EDGAR_INDEX:authored_v2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_LUCA_INDEX": {
+			"2": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Luca · Acquired Record Index",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "루카 · 획득한 기록 인덱스",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "NB_J4_DISPLAY_READ_LUCA_INDEX_V2:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_LUCA_INDEX:authored_v2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_MARA1_INDEX": {
+			"2": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 1 · Acquired Record Index",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "마라 1 · 획득한 기록 인덱스",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "NB_J4_DISPLAY_READ_MARA1_INDEX_V2:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_MARA1_INDEX:authored_v2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_IRIS_INDEX": {
+			"2": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Iris · Acquired Record Index",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "이리스 · 획득한 기록 인덱스",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "NB_J4_DISPLAY_READ_IRIS_INDEX_V2:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_IRIS_INDEX:authored_v2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_J4_DISPLAY_READ_MARA2_INDEX": {
+			"2": {
+				"action_or_variant": "read",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "dialogue",
+				"event_id": "J4",
+				"locales": {
+					"en-US": {
+						"line_01": "Mara 2 · Acquired Record Index",
+						"speaker": "Protagonist",
+						"summary": "The observed journal and access procedure",
+						"title": "The Journal's Promise and Access Authority"
+					},
+					"ko-KR": {
+						"line_01": "마라 2 · 획득한 기록 인덱스",
+						"speaker": "주인공",
+						"summary": "확인한 일지와 접근 절차",
+						"title": "일지의 약속과 접근 권한"
+					}
+				},
+				"localization_keys": {
+					"line_01": "NB_J4_DISPLAY_READ_MARA2_INDEX_V2:line_01"
+				},
+				"location_source": "captured_before_commit_or_actual_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"J4"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP15",
+				"protection_reasons": [
+					"clue_source"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "READ_MARA2_INDEX:authored_v2",
+				"speaker_id": "SUBJECT",
+				"variables": {
+					"line_01": {}
+				},
+				"visible_segment_ids": [
+					"line_01"
+				]
+			}
+		},
+		"NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS": {
+			"2": {
+				"action_or_variant": "shown",
+				"cancel_index": -1,
+				"choices": [
+					{
+						"content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_SELECT_0",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_SELECT_1",
+						"kind": "confirm"
+					},
+					{
+						"content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_SELECT_2",
+						"kind": "confirm"
+					}
+				],
+				"default_segments": [
+					"header",
+					"body",
+					"option_0",
+					"option_1",
+					"option_2"
+				],
+				"disclosure_owner": "actual_display_or_choice_press",
+				"entry_kind": "options_presented",
+				"event_id": "EDR_FIELD_NOTEBOOK",
+				"locales": {
+					"en-US": {
+						"body": "Your body's current signs of life and preservation of all five personalities have been verified. Long-term survival outside, the facility's permanence, and future transfer into new bodies are not guaranteed.\nWake time: facility clock synchronization unverified. Capsule: manual release available. Only the sources of completed researcher records are handed over, not their entire original texts.\nA thin line tracing the pressure of your confirmation remains on the film. The original simulation notebook did not become this paper.",
+						"header": "Back pocket · SUBJECT handoff printout",
+						"option_0": "Confirm reading and close",
+						"option_1": "Show summary",
+						"option_2": "Next index: Shared · Back cover",
+						"sources_none": "Handoff sources: No separate original researcher records handed over. Basic operating information is retained.",
+						"sources_present": "Handoff sources: {records}",
+						"speaker": "Displayed choices",
+						"summary": "The modal actually displayed",
+						"title": "Choices and material shown then"
+					},
+					"ko-KR": {
+						"body": "현재 몸의 생존 신호와 다섯 인격 보존은 확인되었다. 외부 장기 생존, 시설의 영속, 미래 신체 이전은 보장되지 않는다.\n기상 시각: 시설 시계 동기화 미검증. 캡슐: 수동 해제 가능. 원문 전체가 아니라 완료된 연구원 기록의 출처만 인계한다.\n확인 문장의 필압을 따라간 얇은 선이 필름에 남아 있다. 시뮬레이션 수첩 원본이 이 종이가 된 것은 아니다.",
+						"header": "뒤표지 · SUBJECT 인계 출력물",
+						"option_0": "읽기 확인 후 닫기",
+						"option_1": "요약으로",
+						"option_2": "다음 색인: 공동 · 뒤표지",
+						"sources_none": "인계 출처: 별도 연구원 원문 인계 없음. 기본 운용 자료는 유지.",
+						"sources_present": "인계 출처: {records}",
+						"speaker": "표시된 선택지",
+						"summary": "실제로 표시한 선택창",
+						"title": "당시 열린 선택과 자료"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS_V2:body",
+					"header": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS_V2:header",
+					"option_0": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS_V2:option_0",
+					"option_1": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS_V2:option_1",
+					"option_2": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS_V2:option_2",
+					"sources_none": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS_V2:sources_none",
+					"sources_present": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS_V2:sources_present"
+				},
+				"location_source": "history_context:captured_before_modal",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"A1",
+					"AS",
+					"A2",
+					"B1",
+					"B2",
+					"J1",
+					"B3_A",
+					"B3_B",
+					"BF",
+					"B4",
+					"B5",
+					"J2_COMPLETE",
+					"C_SLEEP",
+					"C0",
+					"C1",
+					"C2",
+					"C3",
+					"C_BELL",
+					"C4",
+					"CF",
+					"C5_INFO",
+					"J3",
+					"J3_COMPLETE",
+					"D_SLEEP",
+					"D0",
+					"D0_A",
+					"D1",
+					"DF",
+					"D2",
+					"D4",
+					"D5",
+					"D6",
+					"DEMO_END",
+					"E1_ENTRY",
+					"LUCA_S2",
+					"LUCA_GUIDE",
+					"E2_INTRO",
+					"E_HUB",
+					"E3_1",
+					"E3_2",
+					"E3_3",
+					"E3_4",
+					"E3_5",
+					"E3_4M",
+					"J4",
+					"E5",
+					"E6",
+					"F0_A",
+					"F0_B",
+					"F0_C",
+					"F0_D",
+					"F0_E",
+					"F1",
+					"F2",
+					"F3",
+					"EDC",
+					"ENDING_SEQUENCE",
+					"ENDING_BODY_PENDING",
+					"REALITY_WAKE",
+					"FIELD_NOTEBOOK",
+					"REALITY_SURFACE",
+					"STAY_CHARTER",
+					"STAY_STORY",
+					"ENDING_CREDITS",
+					"POST_CREDITS"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP05",
+				"protection_reasons": [
+					"choice_context"
+				],
+				"source_file": "scripts/chapters/chapter_one_controller.gd",
+				"source_symbol": "_show_recorded_choice:FIELD_SUBJECT_HANDOFF_PAGE_FULL:authored_v2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"header": {},
+					"option_0": {},
+					"option_1": {},
+					"option_2": {},
+					"sources_none": {},
+					"sources_present": {
+						"records": "enum:handoff_sources"
+					}
+				},
+				"visible_segment_ids": [
+					"header",
+					"body",
+					"sources_none",
+					"sources_present",
+					"option_0",
+					"option_1",
+					"option_2"
+				],
+				"enums": {
+					"handoff_sources": {
+						"ko-KR": {
+							"mask_01": "에드가",
+							"mask_02": "마라 1",
+							"mask_03": "에드가, 마라 1",
+							"mask_04": "루카",
+							"mask_05": "에드가, 루카",
+							"mask_06": "마라 1, 루카",
+							"mask_07": "에드가, 마라 1, 루카",
+							"mask_08": "이리스",
+							"mask_09": "에드가, 이리스",
+							"mask_10": "마라 1, 이리스",
+							"mask_11": "에드가, 마라 1, 이리스",
+							"mask_12": "루카, 이리스",
+							"mask_13": "에드가, 루카, 이리스",
+							"mask_14": "마라 1, 루카, 이리스",
+							"mask_15": "에드가, 마라 1, 루카, 이리스",
+							"mask_16": "마라 2",
+							"mask_17": "에드가, 마라 2",
+							"mask_18": "마라 1, 마라 2",
+							"mask_19": "에드가, 마라 1, 마라 2",
+							"mask_20": "루카, 마라 2",
+							"mask_21": "에드가, 루카, 마라 2",
+							"mask_22": "마라 1, 루카, 마라 2",
+							"mask_23": "에드가, 마라 1, 루카, 마라 2",
+							"mask_24": "이리스, 마라 2",
+							"mask_25": "에드가, 이리스, 마라 2",
+							"mask_26": "마라 1, 이리스, 마라 2",
+							"mask_27": "에드가, 마라 1, 이리스, 마라 2",
+							"mask_28": "루카, 이리스, 마라 2",
+							"mask_29": "에드가, 루카, 이리스, 마라 2",
+							"mask_30": "마라 1, 루카, 이리스, 마라 2",
+							"mask_31": "에드가, 마라 1, 루카, 이리스, 마라 2"
+						},
+						"en-US": {
+							"mask_01": "Edgar",
+							"mask_02": "Mara 1",
+							"mask_03": "Edgar, Mara 1",
+							"mask_04": "Luca",
+							"mask_05": "Edgar, Luca",
+							"mask_06": "Mara 1, Luca",
+							"mask_07": "Edgar, Mara 1, Luca",
+							"mask_08": "Iris",
+							"mask_09": "Edgar, Iris",
+							"mask_10": "Mara 1, Iris",
+							"mask_11": "Edgar, Mara 1, Iris",
+							"mask_12": "Luca, Iris",
+							"mask_13": "Edgar, Luca, Iris",
+							"mask_14": "Mara 1, Luca, Iris",
+							"mask_15": "Edgar, Mara 1, Luca, Iris",
+							"mask_16": "Mara 2",
+							"mask_17": "Edgar, Mara 2",
+							"mask_18": "Mara 1, Mara 2",
+							"mask_19": "Edgar, Mara 1, Mara 2",
+							"mask_20": "Luca, Mara 2",
+							"mask_21": "Edgar, Luca, Mara 2",
+							"mask_22": "Mara 1, Luca, Mara 2",
+							"mask_23": "Edgar, Mara 1, Luca, Mara 2",
+							"mask_24": "Iris, Mara 2",
+							"mask_25": "Edgar, Iris, Mara 2",
+							"mask_26": "Mara 1, Iris, Mara 2",
+							"mask_27": "Edgar, Mara 1, Iris, Mara 2",
+							"mask_28": "Luca, Iris, Mara 2",
+							"mask_29": "Edgar, Luca, Iris, Mara 2",
+							"mask_30": "Mara 1, Luca, Iris, Mara 2",
+							"mask_31": "Edgar, Mara 1, Luca, Iris, Mara 2"
+						}
+					}
+				}
+			}
+		},
+		"NB_REALITY_FIELD_SUBJECT_HANDOFF_PAGE_FULL": {
+			"2": {
+				"action_or_variant": "FIELD_SUBJECT_HANDOFF_PAGE_FULL",
+				"disclosure_owner": "event_note_commit",
+				"entry_kind": "document_segment",
+				"event_id": "EDR_FIELD_NOTEBOOK",
+				"knowledge": {
+					"category": "document",
+					"epistemic_state": "observed",
+					"knowledge_id": "REALITY_SUBJECT_HANDOFF_PAGE",
+					"lifetime": "physical",
+					"provenance_state": "identified"
+				},
+				"locales": {
+					"en-US": {
+						"body": "Your body's current signs of life and preservation of all five personalities have been verified. Long-term survival outside, the facility's permanence, and future transfer into new bodies are not guaranteed.\nWake time: facility clock synchronization unverified. Capsule: manual release available. Only the sources of completed researcher records are handed over, not their entire original texts.\nA thin line tracing the pressure of your confirmation remains on the film. The original simulation notebook did not become this paper.",
+						"sources_none": "Handoff sources: No separate original researcher records handed over. Basic operating information is retained.",
+						"sources_present": "Handoff sources: {records}",
+						"speaker": "Field notebook",
+						"summary": "FINAL DECISION: REALITY. A slow printer produced this just before disconnection.",
+						"title": "Back pocket · SUBJECT handoff printout"
+					},
+					"ko-KR": {
+						"body": "현재 몸의 생존 신호와 다섯 인격 보존은 확인되었다. 외부 장기 생존, 시설의 영속, 미래 신체 이전은 보장되지 않는다.\n기상 시각: 시설 시계 동기화 미검증. 캡슐: 수동 해제 가능. 원문 전체가 아니라 완료된 연구원 기록의 출처만 인계한다.\n확인 문장의 필압을 따라간 얇은 선이 필름에 남아 있다. 시뮬레이션 수첩 원본이 이 종이가 된 것은 아니다.",
+						"sources_none": "인계 출처: 별도 연구원 원문 인계 없음. 기본 운용 자료는 유지.",
+						"sources_present": "인계 출처: {records}",
+						"speaker": "현장 수첩",
+						"summary": "FINAL DECISION: REALITY. 연결 해제 직전의 저속 프린터 출력물이다.",
+						"title": "뒤표지 · SUBJECT 인계 출력물"
+					}
+				},
+				"localization_keys": {
+					"body": "NB_REALITY_FIELD_SUBJECT_HANDOFF_PAGE_FULL_V2:body",
+					"sources_none": "NB_REALITY_FIELD_SUBJECT_HANDOFF_PAGE_FULL_V2:sources_none",
+					"sources_present": "NB_REALITY_FIELD_SUBJECT_HANDOFF_PAGE_FULL_V2:sources_present"
+				},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": [
+					"EDR_FIELD_NOTEBOOK",
+					"EDR_EXIT_PANEL",
+					"EDR_FACILITY_FREE_LOOK",
+					"EDR_AIRLOCK_CONFIRM",
+					"EDR_SURFACE_THRESHOLD",
+					"EDR_FINAL_FRAME"
+				],
+				"owner": "planning/engineering",
+				"producer_id": "NP18",
+				"protection_reasons": [
+					"knowledge"
+				],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "FIELD_SUBJECT_HANDOFF_PAGE_FULL:authored_v2",
+				"speaker_id": "SYSTEM",
+				"variables": {
+					"body": {},
+					"sources_none": {},
+					"sources_present": {
+						"records": "enum:handoff_sources"
+					}
+				},
+				"visible_segment_ids": [
+					"body",
+					"sources_none",
+					"sources_present"
+				],
+				"enums": {
+					"handoff_sources": {
+						"ko-KR": {
+							"mask_01": "에드가",
+							"mask_02": "마라 1",
+							"mask_03": "에드가, 마라 1",
+							"mask_04": "루카",
+							"mask_05": "에드가, 루카",
+							"mask_06": "마라 1, 루카",
+							"mask_07": "에드가, 마라 1, 루카",
+							"mask_08": "이리스",
+							"mask_09": "에드가, 이리스",
+							"mask_10": "마라 1, 이리스",
+							"mask_11": "에드가, 마라 1, 이리스",
+							"mask_12": "루카, 이리스",
+							"mask_13": "에드가, 루카, 이리스",
+							"mask_14": "마라 1, 루카, 이리스",
+							"mask_15": "에드가, 마라 1, 루카, 이리스",
+							"mask_16": "마라 2",
+							"mask_17": "에드가, 마라 2",
+							"mask_18": "마라 1, 마라 2",
+							"mask_19": "에드가, 마라 1, 마라 2",
+							"mask_20": "루카, 마라 2",
+							"mask_21": "에드가, 루카, 마라 2",
+							"mask_22": "마라 1, 루카, 마라 2",
+							"mask_23": "에드가, 마라 1, 루카, 마라 2",
+							"mask_24": "이리스, 마라 2",
+							"mask_25": "에드가, 이리스, 마라 2",
+							"mask_26": "마라 1, 이리스, 마라 2",
+							"mask_27": "에드가, 마라 1, 이리스, 마라 2",
+							"mask_28": "루카, 이리스, 마라 2",
+							"mask_29": "에드가, 루카, 이리스, 마라 2",
+							"mask_30": "마라 1, 루카, 이리스, 마라 2",
+							"mask_31": "에드가, 마라 1, 루카, 이리스, 마라 2"
+						},
+						"en-US": {
+							"mask_01": "Edgar",
+							"mask_02": "Mara 1",
+							"mask_03": "Edgar, Mara 1",
+							"mask_04": "Luca",
+							"mask_05": "Edgar, Luca",
+							"mask_06": "Mara 1, Luca",
+							"mask_07": "Edgar, Mara 1, Luca",
+							"mask_08": "Iris",
+							"mask_09": "Edgar, Iris",
+							"mask_10": "Mara 1, Iris",
+							"mask_11": "Edgar, Mara 1, Iris",
+							"mask_12": "Luca, Iris",
+							"mask_13": "Edgar, Luca, Iris",
+							"mask_14": "Mara 1, Luca, Iris",
+							"mask_15": "Edgar, Mara 1, Luca, Iris",
+							"mask_16": "Mara 2",
+							"mask_17": "Edgar, Mara 2",
+							"mask_18": "Mara 1, Mara 2",
+							"mask_19": "Edgar, Mara 1, Mara 2",
+							"mask_20": "Luca, Mara 2",
+							"mask_21": "Edgar, Luca, Mara 2",
+							"mask_22": "Mara 1, Luca, Mara 2",
+							"mask_23": "Edgar, Mara 1, Luca, Mara 2",
+							"mask_24": "Iris, Mara 2",
+							"mask_25": "Edgar, Iris, Mara 2",
+							"mask_26": "Mara 1, Iris, Mara 2",
+							"mask_27": "Edgar, Mara 1, Iris, Mara 2",
+							"mask_28": "Luca, Iris, Mara 2",
+							"mask_29": "Edgar, Luca, Iris, Mara 2",
+							"mask_30": "Mara 1, Luca, Iris, Mara 2",
+							"mask_31": "Edgar, Mara 1, Luca, Iris, Mara 2"
+						}
+					}
+				}
+			}
+		}
+	}
+}

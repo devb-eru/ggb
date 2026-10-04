@@ -301,7 +301,7 @@ func _close_modal() -> void:
 
 
 func _show_recorded_choice(title: String, body: String, actions: Array, descriptor: Dictionary, history_context: Dictionary = {}, view: Dictionary = {}) -> void:
-	var row := NOTEBOOK_CONTENT.definition(descriptor.get("content_id", ""), 1)
+	var row := NOTEBOOK_CONTENT.definition(descriptor.get("content_id", ""), int(descriptor.get("content_version", 1)))
 	if row.is_empty() or row.get("choices", []).size() != actions.size():
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		push_error("NB_MODAL_DESCRIPTOR")
@@ -356,7 +356,7 @@ func _modal_cursor(context: Dictionary, phase: String) -> Dictionary:
 
 func _restore_recorded_modal(cursor: Dictionary) -> bool:
 	var line: Dictionary = cursor.lines[0]
-	var row := NOTEBOOK_CONTENT.definition(line.notebook_content.get("content_id", ""), 1)
+	var row := NOTEBOOK_CONTENT.definition(line.notebook_content.get("content_id", ""), int(line.notebook_content.get("content_version", 1)))
 	if row.is_empty() or row.get("choices", []).size() != cursor.modal.routes.size(): return false
 	var data := PRESENTATION.MODAL.localized(cursor.modal, line.notebook_content, TranslationServer.get_locale())
 	var actions := []

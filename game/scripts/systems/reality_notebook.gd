@@ -62,20 +62,49 @@ static func typed_lines(state: Dictionary, lines: Array, action: String, value: 
 
 static func field_descriptor(state: Dictionary, page: String, expanded: bool) -> Dictionary:
 	var displayed := MODALS.field_options(state, page, expanded)
+	return _field_from_display(page, expanded, displayed)
+
+
+static func _field_from_display(page: String, expanded: bool, displayed: Dictionary) -> Dictionary:
 	var selected := {}
 	for segment in displayed.get("segments", {}):
 		if segment == "body" or String(segment).begins_with("addendum_") or String(segment).begins_with("sources_"):
 			selected[segment] = displayed.segments[segment].duplicate(true)
-	return CONTENT.descriptor(PREFIX + "FIELD_%s_%s" % [page, "FULL" if expanded else "SUMMARY"], 1, selected)
+	return CONTENT.descriptor(PREFIX + "FIELD_%s_%s" % [page, "FULL" if expanded else "SUMMARY"], int(displayed.content_version), selected)
 
 
-static func write_field(state: Dictionary, page: String, expanded: bool, base: Dictionary, locale: String) -> Dictionary:
+static func write_field(state: Dictionary, page: String, expanded: bool, base: Dictionary, locale: String, confirmed_context: Dictionary = {}) -> Dictionary:
 	var archive: Dictionary = state.meta_progress.dialogue_history
 	if archive.get("schema_version", 0) != 2: return {"ok":true}
-	var item := field_descriptor(state, page, expanded)
+	var modal := MODALS.field_options(state, page, expanded)
+	var displayed: Dictionary = {}
+	if not confirmed_context.is_empty():
+		var shown_descriptor: Variant = confirmed_context.get("notebook_content")
+		if not shown_descriptor is Dictionary or shown_descriptor.get("content_id") != modal.content_id:
+			return {"ok":false, "error_ids":["NB_REALITY_FIELD_CONFIRMATION"]}
+		modal = shown_descriptor.duplicate(true)
+	if not CONTENT.presentation(modal, locale).get("ok", false):
+		return {"ok":false, "error_ids":["NB_REALITY_FIELD_CONFIRMATION"]}
+	# A resumed old prompt must acquire the version and values actually displayed.
+	for entry in archive.entries:
+		if entry.get("record_class") != "authored": continue
+		var observed: Dictionary = entry.observation
+		if observed.content_id != modal.content_id or int(observed.content_version) != int(modal.content_version): continue
+		if not confirmed_context.is_empty():
+			var same_prompt := true
+			for key in ["event_occurrence_id", "conversation_session_id", "presentation_token"]:
+				same_prompt = same_prompt and observed[key] == confirmed_context.get(key, "")
+			if not same_prompt: continue
+		var values := {}
+		for segment in observed.segments: values[segment.segment_id] = segment.safe_variables
+		if values == modal.segments and CONTENT.render_entry(entry, locale).get("ok", false): displayed = entry
+	if not confirmed_context.is_empty() and displayed.is_empty():
+		return {"ok":false, "error_ids":["NB_REALITY_FIELD_CONFIRMATION"]}
+	var item := _field_from_display(page, expanded, modal)
 	var original := CONTENT.presentation(item, "ko-KR")
 	if not original.ok: return original
-	if original.text != FIELD.page_text(state, page, expanded): return {"ok":false, "error_ids":["NB_REALITY_FIELD_SOURCE_MISMATCH"]}
+	if confirmed_context.is_empty() and original.text != FIELD.page_text(state, page, expanded):
+		return {"ok":false, "error_ids":["NB_REALITY_FIELD_SOURCE_MISMATCH"]}
 	var knowledge: Dictionary = state.meta_progress.knowledge_entries
 	var ledger: Dictionary = knowledge.get(KNOWLEDGE.KEY, KNOWLEDGE.create())
 	var valid := KNOWLEDGE.validate(ledger, archive)
@@ -86,17 +115,13 @@ static func write_field(state: Dictionary, page: String, expanded: bool, base: D
 		var previous := ARCHIVE.resolve(archive, latest["REALITY_" + page].observation_ref)
 		if not previous.ok: return previous
 		var old: Dictionary = previous.entry.observation
-		if int(old.content_version) == 1:
-			# A summary reread must not downgrade an already acquired full page.
-			if not expanded and old.content_id == PREFIX + "FIELD_" + page + "_FULL": return {"ok":true, "changed":false}
+		# A summary reread must not downgrade a full page of either meaning version.
+		if not expanded and old.content_id == PREFIX + "FIELD_" + page + "_FULL": return {"ok":true, "changed":false}
+		if int(old.content_version) == int(item.content_version):
 			var old_segments := {}
 			for segment in old.segments: old_segments[segment.segment_id] = segment.safe_variables
 			if old.content_id == item.content_id and old_segments == item.segments: return {"ok":true, "changed":false}
 	var sources: Array = []
-	var modal_id: String = MODALS.field_options(state, page, expanded).content_id
-	var displayed: Dictionary = {}
-	for entry in archive.entries:
-		if entry.get("record_class") == "authored" and entry.observation.content_id == modal_id: displayed = entry
 	if not displayed.is_empty():
 		for segment in displayed.observation.segments:
 			if item.segments.has(segment.segment_id) and item.segments[segment.segment_id] == segment.safe_variables:

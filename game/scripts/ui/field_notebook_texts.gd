@@ -51,9 +51,6 @@ static func page_text(state: Dictionary, page: String, expanded: bool, locale: S
 		if state["meta_progress"]["servants"][owner]["core_event_complete"] and not RULES.WAKE.farewell(state, owner)["warning"]:
 			result += "\nHandoff addendum: " + OVERLAYS[owner][event.get("outcome_id", "")]
 	if expanded and page == "SUBJECT_HANDOFF_PAGE":
-		var records: Array = []
-		for owner in RULES.WAKE.OWNERS:
-			if state["meta_progress"]["servants"][owner]["researcher_record_acquired"]:
-				records.append("REC_" + owner.to_upper())
-		result += "\nHandoff sources: " + (", ".join(records) if not records.is_empty() else "No separate original researcher records handed over. Basic operating information is retained.")
+		var records := RULES.handoff_sources(state, locale)
+		result += "\nHandoff sources: " + (records if not records.is_empty() else "No separate original researcher records handed over. Basic operating information is retained.")
 	return result

@@ -97,7 +97,7 @@ static func apply(source: Dictionary, action: String, value: Variant) -> Diction
 						for index in range(5):
 							if meta["servants"][OWNERS[index]]["researcher_record_acquired"]:
 								var key: String = "REC_" + String(OWNERS[index]).to_upper()
-								text += "\n\n" + str(knowledge.get("chapter_notebook", {}).get(key, key + " · 획득한 기록 인덱스"))
+								text += "\n\n" + str(knowledge.get("chapter_notebook", {}).get(key, preload("res://scripts/systems/notebook_browse_labels.gd").record_index(OWNERS[index], "ko-KR")))
 					if full: text += "\n\n" + FULL_TEXT
 					text += "\n\n" + LAST_TEXT
 					meta["journal_stage"] = 4

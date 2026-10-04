@@ -274,6 +274,9 @@ static func _line(source: String) -> String:
 			parts.append(String(J4_SHORT_EN.get(String(part), part)))
 		return "Current order: " + " -> ".join(parts)
 	if source.ends_with(" · 획득한 기록 인덱스"):
+		var labels := preload("res://scripts/systems/notebook_browse_labels.gd")
+		for owner in labels.PEOPLE:
+			if source == labels.record_index(owner, "ko-KR"): return labels.record_index(owner, "en-US")
 		return source.trim_suffix(" · 획득한 기록 인덱스") + " · Acquired Record Index"
 	if source.begins_with("주인공: "):
 		return "Protagonist: " + String(TEXT_EN.get(source.trim_prefix("주인공: "), source.trim_prefix("주인공: ")))

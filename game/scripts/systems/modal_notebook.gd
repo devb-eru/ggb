@@ -6,12 +6,13 @@ const MIRROR := preload("res://data/puzzles/puzzle_black_mirror.tres")
 
 
 static func options(key: String, segments: Dictionary = {}) -> Dictionary:
-	var row := CONTENT.definition("NB_MODAL_" + key + "_OPTIONS", 1)
+	var version := 2 if key == "FIELD_SUBJECT_HANDOFF_PAGE_FULL" else 1
+	var row := CONTENT.definition("NB_MODAL_" + key + "_OPTIONS", version)
 	if row.is_empty(): return {}
 	var visible := segments.duplicate(true)
 	if visible.is_empty():
 		for id in row.default_segments: visible[id] = {}
-	return CONTENT.descriptor("NB_MODAL_" + key + "_OPTIONS", 1, visible)
+	return CONTENT.descriptor("NB_MODAL_" + key + "_OPTIONS", version, visible)
 
 
 static func field_options(state: Dictionary, page: String, expanded: bool) -> Dictionary:
@@ -24,10 +25,8 @@ static func field_options(state: Dictionary, page: String, expanded: bool) -> Di
 			var outcome: String = state.meta_progress.event_history.get(FIELD.WAKE.EVENTS[owner], {}).get("outcome_id", "")
 			descriptor.segments["addendum_" + outcome] = {}
 	if page == "SUBJECT_HANDOFF_PAGE":
-		var sources: Array[String] = []
-		for owner in FIELD.WAKE.OWNERS:
-			if state.meta_progress.servants[owner].researcher_record_acquired: sources.append("REC_" + owner.to_upper())
-		descriptor.segments["sources_none" if sources.is_empty() else "sources_present"] = {} if sources.is_empty() else {"records": ", ".join(sources)}
+		var mask := FIELD.handoff_mask(state)
+		descriptor.segments["sources_none" if mask == 0 else "sources_present"] = {} if mask == 0 else {"records": "mask_%02d" % mask}
 	return descriptor
 
 
