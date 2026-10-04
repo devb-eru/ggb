@@ -35,7 +35,8 @@ func run(tree: SceneTree) -> Dictionary:
 	var id := _arg("--nb-perf-fixture", FIXTURE.IDS[0])
 	var locale := _arg("--nb-perf-locale", "ko-KR")
 	var warm := int(_arg("--nb-perf-warm", "100"))
-	if id not in FIXTURE.IDS or locale not in ["ko-KR", "en-US"] or warm < 0 or warm > 1000:
+	var cycles := int(_arg("--nb-perf-cycles", "0"))
+	if id not in FIXTURE.IDS or locale not in ["ko-KR", "en-US"] or warm < 0 or warm > 1000 or cycles < 0 or cycles > 100:
 		return {"ok":false, "errors":["invalid benchmark arguments"]}
 	var live_before := JSON.stringify(GameState.get_snapshot(), "", true)
 	var build_start := Time.get_ticks_usec()
@@ -142,7 +143,12 @@ func run(tree: SceneTree) -> Dictionary:
 	query.close()
 	await tree.process_frame
 	SaveManager.delete_test_slot(SLOT)
+	var lifecycle := {}
+	if cycles > 0:
+		lifecycle = await preload("res://scripts/tests/notebook_lifecycle_probe.gd").new().run(tree, fixture, locale, cycles)
+		errors.append_array(lifecycle.errors)
 	return {"ok":errors.is_empty(), "errors":errors, "manifest":fixture.manifest, "locale":locale, "warm_iterations":warm,
+		"lifecycle":lifecycle,
 		"timings_ms":timings, "engine":Engine.get_version_info().string, "os":OS.get_name(), "os_version":OS.get_version(),
 		"cpu":OS.get_processor_name(), "cpu_threads":OS.get_processor_count(), "display":DisplayServer.get_name(),
 		"acceptance":"MEASUREMENT_ONLY", "not_covered":["OS_input", "IME", "device_class_acceptance", "rendered_visual_QA",

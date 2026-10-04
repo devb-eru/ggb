@@ -5,6 +5,7 @@ param(
     [string]$OutputDirectory = (Join-Path $env:TEMP ("ggb-notebook-perf-" + [guid]::NewGuid().ToString("N"))),
     [ValidateRange(1,100)][int]$ColdRuns = 20,
     [ValidateRange(0,1000)][int]$WarmRuns = 100,
+    [ValidateRange(0,100)][int]$LifecycleCycles = 0,
     [ValidateSet("NB-PERF-N2000","NB-PERF-L10000","NB-PERF-P2001","NB-PERF-LONG")]
     [string[]]$Fixtures = @("NB-PERF-N2000","NB-PERF-L10000","NB-PERF-P2001","NB-PERF-LONG"),
     [ValidateSet("ko-KR","en-US")][string[]]$Locales = @("ko-KR","en-US"),
@@ -56,7 +57,7 @@ try {
                 $warm = if ($cold -eq 0) { $WarmRuns } else { 0 }
                 $arguments = @("--headless","--path",('"' + $empty + '"'),"--main-pack",('"' + $pack + '"'),"--",
                     "--ggb-dev-notebook-v2","--notebook-performance-probe","--nb-perf-fixture=$fixture",
-                    "--nb-perf-locale=$locale","--nb-perf-warm=$warm")
+                    "--nb-perf-locale=$locale","--nb-perf-warm=$warm","--nb-perf-cycles=$LifecycleCycles")
                 $timer = [Diagnostics.Stopwatch]::StartNew()
                 $process = Start-Process -FilePath $exe -ArgumentList $arguments -WindowStyle Hidden -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
                 $peak = 0L
@@ -119,7 +120,7 @@ $summary = [ordered]@{
     warm_definition="Warm model operations in first process; warm model search excludes debounce/input/rendering."
     acceptance="MEASUREMENT_ONLY";device_class="NOT_CLASSIFIED";renderer="headless"
     sampling_complete=($ColdRuns -ge 20 -and $WarmRuns -ge 100 -and $Fixtures.Count -eq 4 -and $Locales.Count -eq 2 -and $failures.Count -eq 0)
-    requested_cold=$ColdRuns;requested_warm=$WarmRuns;groups=$groups;failed_runs=$failures;runs=$runs
+    requested_cold=$ColdRuns;requested_warm=$WarmRuns;requested_lifecycle_cycles=$LifecycleCycles;groups=$groups;failed_runs=$failures;runs=$runs
     not_covered=@("OS input/IME","GPU/driver and device-class acceptance","warm UI input p95","50 open/close RAM recovery","60s input frame capture","Alt+Tab")
 }
 $summary | ConvertTo-Json -Depth 60 | Set-Content -LiteralPath (Join-Path $output "summary.json") -Encoding utf8
