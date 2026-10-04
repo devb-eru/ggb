@@ -88,6 +88,7 @@ func _run() -> void:
 	_expect(not ARCHIVE.validate(corrupt).ok, "durable references without matching protection are invalid")
 	_validate_limits()
 	_validate_retention()
+	_validate_protection_index()
 	_finish()
 
 
@@ -135,6 +136,71 @@ func _validate_retention() -> void:
 	_expect(unpinned.ok and unpinned.pruned_uids == [pin_ref.uid], "removing final protection restores normal retention")
 	var repeated := ARCHIVE.set_reference(unpinned.archive, "bookmarks", pin_ref, false, unpinned.archive.revision)
 	_expect(repeated.ok and not repeated.changed and repeated.archive == unpinned.archive, "unpin retry remains idempotent after its target is pruned")
+
+
+func _validate_protection_index() -> void:
+	var archive := ARCHIVE.create()
+	archive.source_origin_id = "%032x" % 90001
+	archive.branch_id = "%032x" % 90002
+	for index in range(1200):
+		var observed := _observation(index, index % 3 == 0)
+		var back: Dictionary = observed.segments[0].duplicate(true)
+		back.segment_id = "back"
+		back.localization_key = "TEST_OBSERVATION_BACK"
+		observed.segments.append(back)
+		archive.entries.append({"entry_uid":"%032x" % (index + 1), "source_origin_id":archive.source_origin_id, "sequence":index, "record_class":"authored", "observation":observed, "protection_reasons":[]})
+	archive.next_sequence = archive.entries.size()
+	for index in range(50): archive.bookmarks.append(ARCHIVE.make_reference(archive.entries[index >> 1], "front" if index % 2 == 0 else "back"))
+	for index in range(12): archive.comparison.append(ARCHIVE.make_reference(archive.entries[index], "front"))
+	for index in range(600):
+		var entry: Dictionary = archive.entries[index]
+		var consumer := "%032x" % (index + 2000)
+		for part in ["front", "back"]:
+			archive.source_links.append({"consumer_kind":ARCHIVE.SOURCE_KINDS[index % 3], "consumer_uid":consumer, "target":ARCHIVE.make_reference(entry, part)})
+	for entry in archive.entries: entry.protection_reasons = _reference_reasons(archive, entry)
+	var original := archive.duplicate(true)
+	var validation_start := Time.get_ticks_usec()
+	_expect(ARCHIVE.validate(archive).ok, "dense multi-segment protection validates")
+	var validation_usec := Time.get_ticks_usec() - validation_start
+	var maintenance_start := Time.get_ticks_usec()
+	var result := ARCHIVE.maintain(archive, archive.revision)
+	var maintenance_usec := Time.get_ticks_usec() - maintenance_start
+	_expect(result.ok and result.pruned_uids.is_empty(), "dense maintenance retains protected and in-quota records")
+	if not result.ok: return
+	for entry in result.archive.entries:
+		_expect(entry.protection_reasons == _reference_reasons(original, entry), "indexed union matches independent scan: " + entry.entry_uid)
+	_expect(archive == original and result.archive.entries == original.entries, "maintenance and validation preserve original content and reasons")
+	var json_archive: Dictionary = JSON.parse_string(JSON.stringify(archive))
+	_expect(ARCHIVE.validate(json_archive).ok, "JSON numeric conversion preserves dense protection")
+	for corruption in ["missing_reason", "extra_reason", "duplicate_link", "hidden_segment", "wrong_origin", "wrong_version", "missing_uid", "invalid_kind"]:
+		var damaged := archive.duplicate(true)
+		match corruption:
+			"missing_reason": damaged.entries[0].protection_reasons.pop_back()
+			"extra_reason": damaged.entries[1199].protection_reasons.append("bookmark:front")
+			"duplicate_link": damaged.source_links.append(damaged.source_links[0].duplicate(true))
+			"hidden_segment": damaged.source_links[0].target.segment_id = "hidden"
+			"wrong_origin": damaged.source_links[0].target.source_origin_id = "%032x" % 99999
+			"wrong_version": damaged.source_links[0].target.content_version = 2
+			"missing_uid": damaged.source_links[0].target.uid = "%032x" % 99999
+			"invalid_kind": damaged.source_links[0].consumer_kind = "unknown"
+		var damaged_before := damaged.duplicate(true)
+		_expect(not ARCHIVE.validate(damaged).ok and damaged == damaged_before, "corrupt references fail without repair: " + corruption)
+	print("NOTEBOOK_PROTECTION_TIMING: " + JSON.stringify({"entries":1200, "source_links":1200, "validation_usec":validation_usec, "maintenance_usec":maintenance_usec, "acceptance":"MEASUREMENT_ONLY"}))
+
+
+func _reference_reasons(archive: Dictionary, entry: Dictionary) -> Array:
+	# Independent pre-index algorithm: keep this oracle separate from production helpers.
+	var reasons := {}
+	if entry.record_class == "authored":
+		for reason in entry.observation.content_protection: reasons["content:" + reason] = true
+	for collection in ["bookmarks", "comparison"]:
+		for ref in archive[collection]:
+			if ref.uid == entry.entry_uid: reasons[("bookmark:" if collection == "bookmarks" else "comparison:") + ref.segment_id] = true
+	for link in archive.source_links:
+		if link.target.uid == entry.entry_uid: reasons[link.consumer_kind + ":" + link.consumer_uid] = true
+	var result := reasons.keys()
+	result.sort()
+	return result
 
 
 func _expect(condition: bool, message: String) -> void:

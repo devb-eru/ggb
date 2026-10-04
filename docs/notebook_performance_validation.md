@@ -186,3 +186,48 @@ L10000 변경 후 프로세스 peak는 ko 약 1,016.9 MiB, en 약 1,023.9 MiB다
 - `%TEMP%/ggb-notebook-lifecycle-source-20261004`, `ggb-notebook-lifecycle-source-trial-20261004`: 추가 원본 대조 검사 패키지(import 49.9초/export 13.3초)와 한영 실행.
 
 다음 인수는 호스트 전체의 실제 입력·읽음 저장·슬롯/언어 전환, OS working set 증분/닫기 후 회수, 200% 렌더링과 IME, cold 20/warm 100이다. 대량 표시·검색·동기 저장 지연(ERR-0027)도 남아 있다. 이번 결과는 모델·노드 수명 검증을 보강한 것이며 전체 목표 완료나 rollout 승인이 아니다.
+
+## 9. 보호 이유의 반복 전체 탐색 제거
+
+기준 develop `02a69e0`, 2026-10-04. NB-Q12/NB-AQ06/NB-AQ15의 보존 계약과 NB-P17의 대용량 검증 경로를 함께 확인했다. `notebook_archive.gd`의 `validate`와 `_finish`는 각 기록마다 모든 책갈피·비교 참조·출처 링크를 다시 탐색했다. 일반 기록이 늘거나 출처 링크가 많아질수록 같은 보호 근거를 중복 처리했다.
+
+### 변경과 안전 경계
+
+- 참조 대상 UID별 보호 이유를 검증/후보 생성 한 번에 한 차례 구성한다. 각 기록의 콘텐츠 자체 보호와 합친 뒤 기존과 동일하게 중복 제거·정렬한다.
+- 참조 모양, UID·출처·버전·공개 segment, 중복 링크, 저장된 보호 이유의 정확한 일치는 여전히 검증한다. 인덱스 생성은 검증을 통과시키는 우회로가 아니다.
+- 인물 최초 발화 보호는 기존처럼 prune 전에 추가하고, 추가한 뒤 인덱스를 생성한다. 핀 해제는 다른 보호 이유를 제거하지 않는다. 일반 2,000개·보호/legacy 별도 보관, 비교 최대 12개/동시 두 칸, 원자 저장과 스키마는 변경하지 않았다.
+- 인덱스는 호출 내부의 파생 값이며 저장하거나 다른 슬롯·분기·revision 사이에 재사용하지 않는다. 입력 archive를 수정하지 않는다.
+
+### 독립 대조와 탐색 계측
+
+`notebook_archive_smoke.gd`에 기존 전체 탐색 알고리즘을 별도 oracle로 고정했다. 생산 코드의 새 helper를 정답 계산에 사용하지 않는다. 결정적 UID의 authored 기록 1,200개, 각각 공개 앞/뒤 segment, 출처 링크 1,200개, 책갈피 50개, 비교 참조 12개를 구성한다. 콘텐츠 보호 및 세 종류의 출처 보호가 겹치는 경우도 포함한다.
+
+1,200개 전부의 보호 이유와 원본 불변, JSON 숫자 표현 변환을 대조한다. 보호 누락/위조, 중복 링크, 미공개 segment, 다른 출처·버전, 없는 UID, 잘못된 소비자 종류의 8개 변조도 거부해야 한다. 기존 14,002개 혼합 보존 fixture, 핀 해제 후 재시도, 인물 최초 발화 보호 검사를 함께 유지한다.
+
+| 측정 구간 | 변경 전(ms) | 변경 후(ms) |
+| --- | ---: | ---: |
+| dense archive 검증 | 2,016.915 | 330.463 |
+| dense archive maintain 전체 | 4,936.452 | 536.263 |
+
+각각 한 번의 headless 표본이며 p95, 실제 저장 시간, UI 응답 또는 장비 계층 인수 값이 아니다. `maintain`에는 입력 검증·후보 복제·보호/prune·출력 검증이 포함된다. oracle/fixture 생성 시간은 두 구간에서 제외했다. 원시 단위는 usec, 로그 표식은 `NOTEBOOK_PROTECTION_TIMING`이다. 두 실행 모두 동일 시험 코드를 사용했고 archive smoke가 PASS했다.
+
+- 변경 전 PCK: `AA16DEC00C10A3E53EB17598709A8ECAB918CDFEAA35B00C33C5524F6A9D56BD`.
+- 변경 후 PCK: `F5A92DD333FCC37B4AD489426E029ED8EBA5D1AB9EE476532923351DB43E48C9`.
+- 로그: `%TEMP%/ggb-notebook-protection-before-20261004`, `ggb-notebook-protection-after-20261004`.
+- 변경 전 import/export/archive: 50.2/13.0/19.4초 PASS. 변경 후 import/export: 47.0/14.2초 PASS.
+- 변경 후 migration 10.5초(저장 안전성 46개 포함), query 148.1초(주 검사 1,411개 및 검색·탐색·인물 보존 등 하위 검사), knowledge 16.4초, archive 11.0초 PASS.
+- 같은 패키지의 authority archive 회귀는 1,102.7초 PASS. 에드가·마라 2의 한영 296 ID·언어, 666 segment·언어, 결과 48분기와 규칙 546조합을 포함한다. 이 검사는 NP15 최소 접근/결산, 앱 재시작 커서, 공통 수첩 UI와 OS 입력을 검사하지 않는다.
+
+재현은 격리 APPDATA/LOCALAPPDATA와 빈 실행 디렉터리에서 export한 PCK를 사용한다.
+
+```powershell
+godot.exe --headless --path <empty> --main-pack <notebook.pck> --script res://scripts/tests/notebook_archive_smoke.gd
+godot.exe --headless --path <empty> --main-pack <notebook.pck> -- --notebook-migration-smoke --ggb-dev-notebook-v2
+godot.exe --headless --path <empty> --main-pack <notebook.pck> -- --notebook-query-smoke --ggb-dev-notebook-v2
+godot.exe --headless --path <empty> --main-pack <notebook.pck> -- --notebook-knowledge-smoke --ggb-dev-notebook-v2
+godot.exe --headless --path <empty> --main-pack <notebook.pck> -- --notebook-authority-archive-smoke --ggb-dev-notebook-v2
+```
+
+각 프로세스의 종료 코드 0과 해당 PASS 표식을 모두 확인하고 스크립트/파싱/리소스 오류는 실패로 취급했다. 알려진 Windows root certificate store 경고는 남아 있으며 이번 수정 대상이 아니다. 전체 캠페인과 앞 절의 400회 lifecycle 검사는 이번 제품 코드로 재실행한 결과가 아니다.
+
+출처 링크 중복 검사 자체의 배열 탐색, 비어 있지 않은 knowledge ledger의 재검증, 동기 저장·첫 표시·색인 지연은 이번 최적화만으로 제거되지 않았다. dense archive는 지식 revision이 밀집한 전체 게임 snapshot 성능 시험을 대신하지 않는다. ERR-0027은 IN_PROGRESS이며 Windows 실제 입력·IME/시각 인수, 정식 cold/warm 표본과 전체 RAM, 생산자 전편 미열거 분기 및 계획 전체 완료 감사가 남아 있다. 사용자 작업 중인 씬·리소스·플러그인은 이 패키지에 합치지 않았다.

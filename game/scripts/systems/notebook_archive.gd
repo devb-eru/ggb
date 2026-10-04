@@ -99,8 +99,9 @@ static func validate(value: Variant) -> Dictionary:
 		if link.consumer_kind not in SOURCE_KINDS or not _uid(link.consumer_uid) or link in links or not _resolve_in(ids, link.target).ok:
 			return _error("NB_SOURCE_LINK")
 		links.append(link)
+	var reference_reasons := _reference_reason_index(archive)
 	for entry in archive.entries:
-		if entry.protection_reasons != _reasons(archive, entry): return _error("NB_PROTECTION_MISMATCH")
+		if entry.protection_reasons != _entry_reasons(entry, reference_reasons): return _error("NB_PROTECTION_MISMATCH")
 	return {"ok": true}
 
 
@@ -252,8 +253,9 @@ static func display_payload(entry: Dictionary) -> Dictionary:
 static func _finish(candidate: Dictionary) -> Dictionary:
 	_protect_first_people(candidate)
 	var normal: Array = []
+	var reference_reasons := _reference_reason_index(candidate)
 	for entry in candidate.entries:
-		entry.protection_reasons = _reasons(candidate, entry)
+		entry.protection_reasons = _entry_reasons(entry, reference_reasons)
 		if entry.record_class == "authored" and entry.protection_reasons.is_empty(): normal.append(entry.entry_uid)
 	var pruned: Array = normal.slice(0, maxi(normal.size() - NORMAL_LIMIT, 0))
 	var dropped := {}
@@ -286,15 +288,26 @@ static func _protect_first_people(candidate: Dictionary) -> void:
 
 
 static func _reasons(archive: Dictionary, entry: Dictionary) -> Array:
-	var reasons := {}
-	if entry.get("record_class") == "authored":
-		for reason in entry.observation.content_protection: reasons["content:" + reason] = true
+	return _entry_reasons(entry, _reference_reason_index(archive))
+
+
+static func _reference_reason_index(archive: Dictionary) -> Dictionary:
+	# Transaction-local only; callers validate references before deriving protection.
+	var indexed := {}
 	for collection in ["bookmarks", "comparison"]:
 		for ref in archive[collection]:
-			if ref.uid == entry.entry_uid:
-				reasons[("bookmark:" if collection == "bookmarks" else "comparison:") + ref.segment_id] = true
+			if not indexed.has(ref.uid): indexed[ref.uid] = {}
+			indexed[ref.uid][("bookmark:" if collection == "bookmarks" else "comparison:") + ref.segment_id] = true
 	for link in archive.source_links:
-		if link.target.uid == entry.entry_uid: reasons[link.consumer_kind + ":" + link.consumer_uid] = true
+		if not indexed.has(link.target.uid): indexed[link.target.uid] = {}
+		indexed[link.target.uid][link.consumer_kind + ":" + link.consumer_uid] = true
+	return indexed
+
+
+static func _entry_reasons(entry: Dictionary, reference_reasons: Dictionary) -> Array:
+	var reasons: Dictionary = reference_reasons.get(entry.entry_uid, {}).duplicate()
+	if entry.get("record_class") == "authored":
+		for reason in entry.observation.content_protection: reasons["content:" + reason] = true
 	var values := reasons.keys()
 	values.sort()
 	return values
