@@ -1,5 +1,7 @@
 extends RefCounted
 
+const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
+
 const NOTES := preload("res://scripts/systems/notebook_puzzle_surfaces.gd")
 const CONTENT := NOTES.CONTENT
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
@@ -177,7 +179,8 @@ func _mirror_views() -> void:
 				button.button_pressed = true
 				button.button_pressed = false
 			view._close_modal()
-			_expect(GameState.get_snapshot() == before,"notebook quantity scratch tool is read only")
+			_expect(STATE_ASSERTIONS.same_gameplay(before, GameState.get_snapshot(), "utility"),"quantity scratch tool changes only its completed presentation cursor")
+			_expect(STATE_ASSERTIONS.mutation_guards(before, GameState.get_snapshot(), "utility"), "read-only comparator rejects gameplay, disclosure, unfinished cursor and foreign-scope mutations")
 	_install(_fixture("CF","M1_MIRROR_GALLERY"))
 	_present()
 	for length in range(5):

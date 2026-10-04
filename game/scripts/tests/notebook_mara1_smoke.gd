@@ -1,5 +1,7 @@
 extends RefCounted
 
+const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
+
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const NOTES := preload("res://scripts/systems/mara1_notebook.gd")
@@ -121,7 +123,7 @@ func _route(outcome: String) -> void:
 	view._modal_body.get_child(3).pressed.emit()
 	var cancelled := GameState.get_snapshot()
 	cancelled.meta_progress.dialogue_history = ready.meta_progress.dialogue_history.duplicate(true)
-	_expect(cancelled == ready and _ledger().revisions.is_empty(), "deferral changes only observed dialogue/choice history")
+	_expect(STATE_ASSERTIONS.same_gameplay(ready, cancelled, "modal") and _ledger().revisions.is_empty(), "deferral changes only observed history and its completed presentation cursor")
 	_press("MARA_CHOICE")
 	view._modal_body.get_child(4 if outcome == "original_attribution" else 5).pressed.emit()
 	_drain()

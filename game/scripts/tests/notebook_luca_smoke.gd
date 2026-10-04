@@ -1,5 +1,7 @@
 extends RefCounted
 
+const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
+
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const NOTES := preload("res://scripts/systems/luca_notebook.gd")
@@ -139,7 +141,7 @@ func _evidence() -> void:
 	view._modal_body.get_child(3).pressed.emit()
 	var deferred := GameState.get_snapshot()
 	deferred.meta_progress.dialogue_history = ready.meta_progress.dialogue_history.duplicate(true)
-	_expect(deferred == ready and _ledger().revisions.is_empty(), "deferral records choices but neither completes relation nor creates record")
+	_expect(STATE_ASSERTIONS.same_gameplay(ready, deferred, "modal") and _ledger().revisions.is_empty(), "deferral records choices and a completed cursor but neither completes relation nor creates record")
 	_collect()
 
 

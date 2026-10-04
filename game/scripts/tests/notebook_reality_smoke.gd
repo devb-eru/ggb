@@ -1,5 +1,7 @@
 extends RefCounted
 
+const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
+
 const VIEW := preload("res://scripts/chapters/basement_controller.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const NOTES := preload("res://scripts/systems/reality_notebook.gd")
@@ -211,7 +213,7 @@ func _field() -> void:
 	view._open_field_page("FIELD_NOTEBOOK_PREFACE",false)
 	var opened := GameState.get_snapshot()
 	view._cancel_prologue_modal()
-	_expect(GameState.get_snapshot() == opened and _ledger().revisions.is_empty(),"Esc is not read confirmation")
+	_expect(STATE_ASSERTIONS.same_gameplay(opened, GameState.get_snapshot(), "modal") and _ledger().revisions.is_empty(),"Esc completes the presentation but is not read confirmation")
 	for page in FIELD.PAGES:
 		view._open_field_page(page,false)
 		view._recorded_choice_pressed(view._recorded_modal_request,0)
