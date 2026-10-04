@@ -386,7 +386,7 @@ func _process(delta: float) -> void:
 	if not String(_filters.get("needle", "")).strip_edges().is_empty():
 		var diagnostic: Dictionary = query.diagnostics()
 		if diagnostic.indexed < diagnostic.index_total:
-			query.index_step(_key, 12)
+			query.index_for_budget(_key)
 			# Do not reorder partial matches under the player's cursor.
 			if query.diagnostics().indexed == diagnostic.index_total:
 				_refresh()

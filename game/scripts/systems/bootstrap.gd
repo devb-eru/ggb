@@ -145,6 +145,8 @@ func _ready() -> void:
 		call_deferred("_run_notebook_prologue_surfaces_smoke")
 	elif "--notebook-authority-archive-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_authority_archive_smoke")
+	elif "--notebook-performance-probe" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_performance_probe")
 	elif "--notebook-query-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_query_smoke")
 	elif "--notebook-host-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
@@ -196,6 +198,12 @@ func _run_notebook_presentation_smoke() -> void:
 func _run_notebook_host_smoke() -> void:
 	var result: Dictionary = await preload("res://scripts/tests/notebook_host_smoke.gd").new().run(get_tree())
 	print("NOTEBOOK_HOST_SMOKE: " + ("PASS" if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
+
+
+func _run_notebook_performance_probe() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/notebook_performance_probe.gd").new().run(get_tree())
+	print("NOTEBOOK_PERF_RESULT: " + JSON.stringify(result))
 	get_tree().quit(0 if result.ok else 1)
 
 

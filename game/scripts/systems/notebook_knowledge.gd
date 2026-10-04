@@ -57,6 +57,8 @@ static func validate(value: Variant, archive: Dictionary) -> Dictionary:
 	if actual.size() != expected_links.size(): return _error("NB_KNOWLEDGE_PROTECTION")
 	for link in expected_links:
 		if link not in actual: return _error("NB_KNOWLEDGE_PROTECTION")
+	# The archive and empty ledger were already validated, including orphan links.
+	if references.is_empty(): return {"ok":true}
 	# Validate/index the archive once for all sources, not once per revision.
 	var resolved := ARCHIVE.resolve_many(archive, references)
 	if not resolved.ok: return resolved

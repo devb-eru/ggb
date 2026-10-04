@@ -30,6 +30,8 @@ var _generation := 0
 var _render_count := 0
 var _repository
 var _result_cache: Dictionary = {}
+var _order_cache: Dictionary = {}
+var _sort_build_count := 0
 var _legacy_note_count := 0
 var _legacy_digest := ""
 var _knowledge_revision := 0
@@ -170,6 +172,8 @@ func close() -> void:
 	_search.clear()
 	_errors.clear()
 	_result_cache.clear()
+	_order_cache.clear()
+	_sort_build_count = 0
 	_search_cursor = 0
 	_render_count = 0
 	_repository = null
@@ -213,7 +217,7 @@ func matches_scope(scope: Dictionary) -> bool:
 
 
 func diagnostics() -> Dictionary:
-	return {"ready": _ready, "error_count": _errors.size(), "error_ids": _errors.values(), "indexed": _search_cursor, "index_total": _order.size(), "render_count": _render_count}
+	return {"ready": _ready, "error_count": _errors.size(), "error_ids": _errors.values(), "indexed": _search_cursor, "index_total": _order.size(), "render_count": _render_count, "order_cache_size":_order_cache.size(), "sort_build_count":_sort_build_count}
 
 
 func index_step(expected_key: String, limit: int = 20) -> Dictionary:
@@ -227,6 +231,17 @@ func index_step(expected_key: String, limit: int = 20) -> Dictionary:
 		_search_cursor += 1
 	_result_cache.clear()
 	return {"ok": true, "complete": _search_cursor == _order.size(), "indexed": _search_cursor}
+
+
+func index_for_budget(expected_key: String, budget_usec: int = 4000) -> Dictionary:
+	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
+	var start := Time.get_ticks_usec()
+	var budget := clampi(budget_usec, 250, 8000)
+	while _search_cursor < _order.size():
+		var result := index_step(expected_key, 4)
+		if not result.ok: return result
+		if Time.get_ticks_usec() - start >= budget: break
+	return {"ok":true, "complete":_search_cursor == _order.size(), "indexed":_search_cursor}
 
 
 func page(filters: Dictionary, page_index: int, expected_key: String) -> Dictionary:
@@ -511,7 +526,10 @@ func _matching(filters: Dictionary) -> Array:
 	var keys: Array = []
 	var tab: String = filters.get("tab", "clues")
 	var needle := String(filters.get("needle", "")).strip_edges().to_lower()
-	for key in _order:
+	var active_fields := {}
+	for field in FILTER_FIELDS:
+		if not filters.get(field, []).is_empty(): active_fields[field] = filters[field]
+	for key in _ordered_for(tab):
 		var row: Dictionary = _rows[key]
 		if not filters.get("all_sections", false) and row.tab != tab and not (tab == "people" and row.person): continue
 		if row.previous and not filters.get("include_previous", false): continue
@@ -519,13 +537,30 @@ func _matching(filters: Dictionary) -> Array:
 		if filters.get("bookmarks_only", false) and not row.bookmarked: continue
 		if not needle.is_empty() and (not _search.has(key) or not _search[key].any(func(text: String) -> bool: return text.contains(needle))): continue
 		var matches := true
-		for field in FILTER_FIELDS:
-			var allowed: Array = filters.get(field, [])
-			if not allowed.is_empty() and not _field_values(row, field).any(func(value: String) -> bool: return value in allowed): matches = false
+		for field in active_fields:
+			var allowed: Array = active_fields[field]
+			if not _field_values(row, field).any(func(value: String) -> bool: return value in allowed):
+				matches = false
+				break
 		if matches: keys.append(key)
-	keys.sort_custom(func(left: String, right: String) -> bool: return _less(_sort_key(_rows[left], filters), _sort_key(_rows[right], filters)))
 	if _result_cache.size() >= 8: _result_cache.clear()
 	_result_cache[signature] = keys
+	return keys
+
+
+func _ordered_for(tab: String) -> Array:
+	var mode := tab if tab in ["dialogue", "people"] else "recent"
+	if _order_cache.has(mode): return _order_cache[mode]
+	# The read model is frozen: filters and incremental search only select this order.
+	var keys := _order.duplicate()
+	keys.sort_custom(func(left: String, right: String) -> bool:
+		var a: Dictionary = _rows[left]
+		var b: Dictionary = _rows[right]
+		if mode == "dialogue" and a.session_end != b.session_end: return a.session_end > b.session_end
+		if a.sequence != b.sequence: return a.sequence < b.sequence if mode in ["dialogue", "people"] else a.sequence > b.sequence
+		return a.segment_order < b.segment_order)
+	_order_cache[mode] = keys
+	_sort_build_count += 1
 	return keys
 
 

@@ -14,6 +14,7 @@ func run(tree: SceneTree) -> Dictionary:
 	var fixture := _fixture()
 	if not fixture.get("ok", false): return {"ok": false, "errors": errors}
 	_test_read_model(fixture)
+	_test_order_cache(fixture)
 	_test_disclosure()
 	_test_legacy_and_damage()
 	_test_revisions()
@@ -95,6 +96,39 @@ func _open(fixture: Dictionary, locale: String = "ko-KR"):
 	var result: Dictionary = query.open(fixture.archive, fixture.ledger, _scope(fixture.archive), locale)
 	_expect(result.ok, "query open: " + str(result.get("error_id", "")))
 	return query
+
+
+func _test_order_cache(fixture: Dictionary) -> void:
+	var query = _open(fixture)
+	var key: String = query.cache_key()
+	for tab in QUERY.TABS:
+		for spec in [{}, {"all_sections":true}, {"chapters":["PROLOGUE"]}, {"speakers":["EDGAR"]}, {"bookmarks_only":true}]:
+			var filters: Dictionary = spec.duplicate(true)
+			filters.tab = tab
+			var page: Dictionary = query.page(filters, 0, key)
+			var actual: Array = []
+			for index in range(page.pages):
+				for item in query.page(filters, index, key).items: actual.append(item.key)
+			var expected := actual.duplicate()
+			expected.sort_custom(func(a: String, b: String) -> bool: return query._less(query._sort_key(query._rows[a], filters), query._sort_key(query._rows[b], filters)))
+			_expect(actual == expected, "cached order preserves session/recent/people ordering across filters and pages")
+			for index in range(actual.size()):
+				var anchor: Dictionary = query.anchor_for(actual[index], filters)
+				var located: Dictionary = query.anchor_page(filters, anchor, key)
+				_expect(located.key == actual[index] and located.page == index / QUERY.PAGE_SIZE, "cached ordering and UID anchors agree")
+	_expect(query.diagnostics().sort_build_count == 3 and query.diagnostics().order_cache_size == 3, "twenty filters build only three bounded order indices")
+	while query.diagnostics().indexed < query.diagnostics().index_total:
+		var before: int = query.diagnostics().indexed
+		var step: Dictionary = query.index_for_budget(key, 250)
+		_expect(step.ok and step.indexed > before, "budgeted indexing yields with forward progress")
+		query.page({"tab":"dialogue", "needle":"일과"}, 0, key)
+	_expect(query.diagnostics().sort_build_count == 3, "incremental search does not re-sort the frozen model")
+	_expect(not query.index_for_budget("stale").ok, "budgeted indexing rejects a stale scope")
+	query.close()
+	_expect(query.diagnostics().order_cache_size == 0 and not query.index_for_budget(key).ok, "close invalidates order and index work")
+	_expect(query.open(fixture.archive, fixture.ledger, _scope(fixture.archive), "en-US").ok, "new locale rebuilds the frozen model")
+	query.page({"tab":"dialogue"}, 0, query.cache_key())
+	_expect(query.diagnostics().sort_build_count == 1 and query.cache_key() != key, "new scope uses a fresh order cache")
 
 
 func _test_read_model(fixture: Dictionary) -> void:

@@ -51,6 +51,10 @@ func _validate_revisions() -> void:
 	if not acquired.ok: return
 	ledger = acquired.ledger
 	archive = acquired.archive
+	_expect(not KNOWLEDGE.validate(KNOWLEDGE.create(), archive).ok, "empty ledger cannot bypass orphan source protection")
+	var malformed_empty := ARCHIVE.create()
+	malformed_empty.entries.append({})
+	_expect(not KNOWLEDGE.validate(KNOWLEDGE.create(), malformed_empty).ok, "empty ledger still validates the complete archive")
 	var first: Dictionary = ledger.revisions[0].duplicate(true)
 	var repeat := KNOWLEDGE.acquire(ledger, archive, observed, revision)
 	_expect(repeat.ok and not repeat.changed and repeat.ledger == ledger and repeat.archive == archive, "same request retry is exact and idempotent")
