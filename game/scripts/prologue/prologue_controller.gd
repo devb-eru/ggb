@@ -494,6 +494,11 @@ func _build_ui() -> void:
 	_fade.visible = false
 	add_child(_fade)
 	if _unified_notebook_enabled(): move_child(_notebook_button, get_child_count() - 1)
+	if preload("res://scripts/systems/notebook_rollout.gd").enabled() and not _test_mode:
+		var tracker := preload("res://scripts/systems/presentation_view_tracker.gd").new()
+		tracker.name = "PresentationViewTracker"
+		tracker.view = self
+		add_child(tracker)
 
 
 func _build_window_inspection_ui() -> void:
