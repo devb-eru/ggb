@@ -9,6 +9,7 @@ const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
 const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
 const INVESTIGATION := preload("res://scripts/systems/notebook_investigation.gd")
 const PAGE_SIZE := 50
+const FACET_CACHE_LIMIT := 4
 const POLICY_VERSION := 9
 const SEARCH_FIELDS := ["text", "title", "summary", "speaker", "location_label", "source_label", "lifetime_label", "memory_notice"]
 const TABS := ["clues", "dialogue", "records", "people"]
@@ -30,6 +31,8 @@ var _generation := 0
 var _render_count := 0
 var _repository
 var _result_cache: Dictionary = {}
+var _facet_cache: Dictionary = {}
+var _facet_build_count := 0
 var _order_cache: Dictionary = {}
 var _sort_build_count := 0
 var _legacy_note_count := 0
@@ -174,6 +177,8 @@ func close() -> void:
 	_search.clear()
 	_errors.clear()
 	_result_cache.clear()
+	_facet_cache.clear()
+	_facet_build_count = 0
 	_order_cache.clear()
 	_sort_build_count = 0
 	_search_cursor = 0
@@ -220,7 +225,7 @@ func matches_scope(scope: Dictionary) -> bool:
 
 
 func diagnostics() -> Dictionary:
-	return {"ready": _ready, "error_count": _errors.size(), "error_ids": _errors.values(), "indexed": _search_cursor, "index_total": _order.size(), "render_count": _render_count, "order_cache_size":_order_cache.size(), "sort_build_count":_sort_build_count}
+	return {"ready": _ready, "error_count": _errors.size(), "error_ids": _errors.values(), "indexed": _search_cursor, "index_total": _order.size(), "render_count": _render_count, "order_cache_size":_order_cache.size(), "sort_build_count":_sort_build_count, "facet_cache_size":_facet_cache.size(), "facet_build_count":_facet_build_count}
 
 
 func index_step(expected_key: String, limit: int = 20) -> Dictionary:
@@ -354,12 +359,26 @@ static func match_ranges(detail_result: Dictionary, needle: String) -> Array:
 func facets(filters: Dictionary, expected_key: String) -> Dictionary:
 	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
 	if not valid_filters(filters): return _error("NB_QUERY_FILTER")
+	# Search facets depend on an advancing index; only frozen, unsearched sets persist.
+	var cacheable := String(filters.get("needle", "")).strip_edges().is_empty()
+	var signature := JSON.stringify(filters, "", true)
+	if cacheable and _facet_cache.has(signature): return {"ok":true, "values":_facet_cache[signature].duplicate(true)}
+	_facet_build_count += 1
 	var values := {}
-	for field in FILTER_FIELDS: values[field] = []
+	var seen := {}
+	for field in FILTER_FIELDS:
+		values[field] = []
+		seen[field] = {}
 	for key in _matching(filters):
 		for field in FILTER_FIELDS:
 			for value in _field_values(_rows[key], field):
-				if not value.is_empty() and value not in values[field]: values[field].append(value)
+				# Keep first-appearance order without quadratic session-array searches.
+				if not value.is_empty() and not seen[field].has(value):
+					seen[field][value] = true
+					values[field].append(value)
+	if cacheable:
+		if _facet_cache.size() >= FACET_CACHE_LIMIT: _facet_cache.erase(_facet_cache.keys()[0])
+		_facet_cache[signature] = values.duplicate(true)
 	return {"ok": true, "values": values}
 
 

@@ -15,6 +15,7 @@ func run(tree: SceneTree) -> Dictionary:
 	if not fixture.get("ok", false): return {"ok": false, "errors": errors}
 	_test_read_model(fixture)
 	_test_order_cache(fixture)
+	_test_facets(fixture)
 	_test_disclosure()
 	_test_legacy_and_damage()
 	_test_revisions()
@@ -98,6 +99,71 @@ func _open(fixture: Dictionary, locale: String = "ko-KR"):
 	var result: Dictionary = query.open(fixture.archive, fixture.ledger, _scope(fixture.archive), locale)
 	_expect(result.ok, "query open: " + str(result.get("error_id", "")))
 	return query
+
+
+func _facet_oracle(query, filters: Dictionary) -> Dictionary:
+	# Preserve the previous independent ordered-array implementation as the oracle.
+	var values := {}
+	for field in QUERY.FILTER_FIELDS: values[field] = []
+	for key in query._matching(filters):
+		for field in QUERY.FILTER_FIELDS:
+			for value in QUERY._field_values(query._rows[key], field):
+				if not value.is_empty() and value not in values[field]: values[field].append(value)
+	return values
+
+
+func _test_facets(fixture: Dictionary) -> void:
+	var before: Dictionary = fixture.duplicate(true)
+	for locale in ["ko-KR", "en-US"]:
+		var query = _open(fixture, locale)
+		var key: String = query.cache_key()
+		for phase in ["unindexed", "partial", "complete"]:
+			if phase == "partial": query.index_step(key, 4)
+			if phase == "complete":
+				while not query.index_step(key, 50).complete: pass
+			for tab in QUERY.TABS:
+				for spec in [{}, {"all_sections":true}, {"chapters":["PROLOGUE"]}, {"speakers":["EDGAR"]}, {"bookmarks_only":true}, {"include_previous":true, "include_refuted":true}, {"needle":"일과"}, {"needle":"UNSEEN_FACET_SENTINEL"}]:
+					var filters: Dictionary = spec.duplicate(true)
+					filters.tab = tab
+					var actual: Dictionary = query.facets(filters, key)
+					_expect(actual.ok and actual.values == _facet_oracle(query, filters), "facet values and first-appearance ordering match prior policy: " + locale + "/" + phase + "/" + tab)
+					actual.values.sessions.append("CALLER_MUTATION")
+					_expect("CALLER_MUTATION" not in query.facets(filters, key).values.sessions, "facet return mutation cannot alter frozen model")
+					_expect(query.diagnostics().facet_cache_size <= QUERY.FACET_CACHE_LIMIT, "facet cache never exceeds its entry bound")
+		_expect(not query.facets({"unexpected":true}, key).ok and not query.facets({}, "stale").ok, "invalid filters and stale scope remain rejected")
+		query.close()
+		_expect(not query.facets({}, key).ok and query.diagnostics().facet_cache_size == 0, "closed model releases cached facets")
+	_expect(fixture == before, "facet traversal preserves archive and ledger")
+	var old := {"next_sequence":2400, "entries":[]}
+	for index in range(2400): old.entries.append({"sequence":index, "line_id":"CH1_HISTORY_TRANSCRIPT", "chapter_id":"CHAPTER_1" if index % 2 == 0 else "LEGACY", "speaker_id":"SYSTEM", "variables":{"text":"Earlier source", "speaker":"Narrator"}})
+	var migrated := ARCHIVE.migrate_verified_legacy(old, "facet-unique-sessions".sha256_text())
+	_expect(migrated.ok, "build many unique earlier sessions")
+	if not migrated.ok: return
+	var large = _open({"archive":migrated.archive, "ledger":KNOWLEDGE.create()})
+	var key: String = large.cache_key()
+	var actual: Dictionary = large.facets({"tab":"dialogue"}, key)
+	var expected: Array = migrated.archive.entries.map(func(entry: Dictionary) -> String: return entry.entry_uid)
+	expected.reverse()
+	_expect(actual.ok and actual.values.sessions == expected, "all 2400 unique sessions stay in newest-session order without truncation")
+	_expect(actual.values.chapters == ["LEGACY", "CHAPTER_1"] and actual.values.sources == ["legacy"] and actual.values.locations.is_empty(), "repeated and empty labels retain exact facet semantics")
+	_expect(actual.values == _facet_oracle(large, {"tab":"dialogue"}), "large legacy facets match original ordered-array oracle")
+	_expect(large.diagnostics().render_count == 0, "facets never render earlier bodies or disclose unseen text")
+	var builds: int = large.diagnostics().facet_build_count
+	for repeat in range(5): _expect(large.facets({"tab":"dialogue"}, key).values.sessions == expected, "cached large facets retain every ordered session")
+	_expect(large.diagnostics().facet_build_count == builds, "unchanged large facet set is collected once")
+	large.index_step(key, 4)
+	large.facets({"tab":"dialogue"}, key)
+	_expect(large.diagnostics().facet_build_count == builds, "search progress does not invalidate unrelated frozen facets")
+	var search := {"tab":"dialogue", "needle":"Earlier source"}
+	_expect(large.facets(search, key).values == _facet_oracle(large, search), "partial search facets reflect disclosed indexed rows")
+	large.index_step(key, 4)
+	_expect(large.facets(search, key).values == _facet_oracle(large, search), "search facets rebuild after additional index progress")
+	for index in range(QUERY.FACET_CACHE_LIMIT + 1): large.facets({"tab":"dialogue", "sessions":[expected[index]]}, key)
+	builds = large.diagnostics().facet_build_count
+	_expect(large.facets({"tab":"dialogue"}, key).values.sessions == expected and large.diagnostics().facet_build_count == builds + 1, "evicted large facets rebuild without lost labels")
+	large.close()
+	_expect(large.open(fixture.archive, fixture.ledger, _scope(fixture.archive), "en-US").ok and large.diagnostics().facet_cache_size == 0, "new scope and locale start without earlier facets")
+	_expect(large.facets({"tab":"dialogue"}, large.cache_key()).values.sessions != expected, "earlier-slot sessions never leak into new model")
 
 
 func _test_order_cache(fixture: Dictionary) -> void:

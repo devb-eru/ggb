@@ -1,0 +1,398 @@
+{
+  "basis_commit": "fd819c9a445a6ab0e78813ed39d00c83cd12f5e2",
+  "acceptance": "MEASUREMENT_ONLY",
+  "fixture_equality": true,
+  "before": {
+    "pack_sha256": "BF010DA95C314413C681626831312F11FA95948CC0125297E1FAD8F912D84FE0",
+    "result": {
+      "acceptance": "MEASUREMENT_ONLY",
+      "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+      "cpu_threads": 20,
+      "display": "headless",
+      "engine": "4.7.2-stable (steam)",
+      "errors": [],
+      "lifecycle": {},
+      "locale": "ko-KR",
+      "manifest": {
+        "body_bytes": {
+          "en-US": 118294,
+          "ko-KR": 131668,
+          "legacy": 295000
+        },
+        "bookmarks": 0,
+        "comparison": 3,
+        "counts": {
+          "legacy": 10000,
+          "normal": 2000,
+          "protected": 6
+        },
+        "fixture_id": "NB-PERF-L10000",
+        "long_document_utf8_bytes": 0,
+        "long_documents": 0,
+        "seed": "ggb-notebook-perf-v1",
+        "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+        "utf8_bytes": 5434278
+      },
+      "not_covered": [
+        "OS_input",
+        "IME",
+        "device_class_acceptance",
+        "rendered_visual_QA",
+        "OS_disk_cache_flush",
+        "input_frame_capture",
+        "50_open_close_memory",
+        "warm_UI_input_p95"
+      ],
+      "ok": true,
+      "os": "Windows",
+      "os_version": "10.0.26200",
+      "timings_ms": {
+        "append_prune_ms": [
+          616.02,
+          475.568,
+          633.666
+        ],
+        "durable_save_ms": [
+          1906.076,
+          2543.889,
+          4516.19
+        ],
+        "first_page_model_ms": [
+          235.559
+        ],
+        "first_search_ui_ms": [
+          4964.681
+        ],
+        "fixture_build_ms": [
+          1276.24
+        ],
+        "fixture_parse_ms": [
+          260.106
+        ],
+        "model_to_panel_ms": [
+          2571.255
+        ],
+        "panel_present_ms": [
+          1201.266
+        ],
+        "query_open_ms": [
+          1121.755
+        ],
+        "saved_slot_load_ms": [
+          635.142
+        ],
+        "slot_inspect_after_write_ms": [
+          958.974,
+          934.294,
+          789.084
+        ],
+        "slot_inspect_unchanged_ms": [
+          36.885,
+          40.771,
+          38.867,
+          46.794,
+          45.86,
+          32.599
+        ],
+        "two_materials_model_ms": [
+          0.649,
+          0.602,
+          0.445
+        ],
+        "warm_facets_model_ms": [
+          931.386,
+          1086.76,
+          1049.426
+        ],
+        "warm_page_model_ms": [
+          62.171,
+          52.497,
+          0.594
+        ],
+        "warm_search_hidden_model_ms": [
+          50.94,
+          0.05,
+          0.033
+        ],
+        "warm_search_long_model_ms": [
+          52.31,
+          0.045,
+          0.03
+        ],
+        "warm_search_match_model_ms": [
+          43.836,
+          0.701,
+          0.367
+        ],
+        "warm_search_miss_model_ms": [
+          47.066,
+          0.111,
+          0.08
+        ]
+      },
+      "warm_iterations": 3
+    }
+  },
+  "ordered_hash_only": {
+    "pack_sha256": "6647EA8B91955EBBC8A720BBF3A113AECA51DFD1AAAEE7B162CA0DD03CC2CA2C",
+    "result": {
+      "acceptance": "MEASUREMENT_ONLY",
+      "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+      "cpu_threads": 20,
+      "display": "headless",
+      "engine": "4.7.2-stable (steam)",
+      "errors": [],
+      "lifecycle": {},
+      "locale": "ko-KR",
+      "manifest": {
+        "body_bytes": {
+          "en-US": 118294,
+          "ko-KR": 131668,
+          "legacy": 295000
+        },
+        "bookmarks": 0,
+        "comparison": 3,
+        "counts": {
+          "legacy": 10000,
+          "normal": 2000,
+          "protected": 6
+        },
+        "fixture_id": "NB-PERF-L10000",
+        "long_document_utf8_bytes": 0,
+        "long_documents": 0,
+        "seed": "ggb-notebook-perf-v1",
+        "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+        "utf8_bytes": 5434278
+      },
+      "not_covered": [
+        "OS_input",
+        "IME",
+        "device_class_acceptance",
+        "rendered_visual_QA",
+        "OS_disk_cache_flush",
+        "input_frame_capture",
+        "50_open_close_memory",
+        "warm_UI_input_p95"
+      ],
+      "ok": true,
+      "os": "Windows",
+      "os_version": "10.0.26200",
+      "timings_ms": {
+        "append_prune_ms": [
+          606.597,
+          427.73,
+          581.153
+        ],
+        "durable_save_ms": [
+          2198.556,
+          2433.055,
+          4065.825
+        ],
+        "first_page_model_ms": [
+          201.606
+        ],
+        "first_search_ui_ms": [
+          2861.405
+        ],
+        "fixture_build_ms": [
+          1092.407
+        ],
+        "fixture_parse_ms": [
+          232.471
+        ],
+        "model_to_panel_ms": [
+          1503.101
+        ],
+        "panel_present_ms": [
+          339.242
+        ],
+        "query_open_ms": [
+          953.29
+        ],
+        "saved_slot_load_ms": [
+          624.237
+        ],
+        "slot_inspect_after_write_ms": [
+          771.034,
+          693.885,
+          1018.256
+        ],
+        "slot_inspect_unchanged_ms": [
+          32.529,
+          31.689,
+          34.037,
+          33.314,
+          50.903,
+          46.955
+        ],
+        "two_materials_model_ms": [
+          1.501,
+          0.416,
+          0.418
+        ],
+        "warm_facets_model_ms": [
+          228.593,
+          133.874,
+          137.032
+        ],
+        "warm_page_model_ms": [
+          52.291,
+          55.411,
+          0.34
+        ],
+        "warm_search_hidden_model_ms": [
+          64.364,
+          0.035,
+          0.03
+        ],
+        "warm_search_long_model_ms": [
+          72.366,
+          0.028,
+          0.025
+        ],
+        "warm_search_match_model_ms": [
+          62.084,
+          0.437,
+          0.32
+        ],
+        "warm_search_miss_model_ms": [
+          55.505,
+          0.159,
+          0.067
+        ]
+      },
+      "warm_iterations": 3
+    }
+  },
+  "final": {
+    "pack_sha256": "D8870F7137ADEEAC3F2EF35C98489D88A692EC00559F9BE52276DBBD97E03A0E",
+    "result": {
+      "acceptance": "MEASUREMENT_ONLY",
+      "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+      "cpu_threads": 20,
+      "display": "headless",
+      "engine": "4.7.2-stable (steam)",
+      "errors": [],
+      "lifecycle": {},
+      "locale": "ko-KR",
+      "manifest": {
+        "body_bytes": {
+          "en-US": 118294,
+          "ko-KR": 131668,
+          "legacy": 295000
+        },
+        "bookmarks": 0,
+        "comparison": 3,
+        "counts": {
+          "legacy": 10000,
+          "normal": 2000,
+          "protected": 6
+        },
+        "fixture_id": "NB-PERF-L10000",
+        "long_document_utf8_bytes": 0,
+        "long_documents": 0,
+        "seed": "ggb-notebook-perf-v1",
+        "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+        "utf8_bytes": 5434278
+      },
+      "not_covered": [
+        "OS_input",
+        "IME",
+        "device_class_acceptance",
+        "rendered_visual_QA",
+        "OS_disk_cache_flush",
+        "input_frame_capture",
+        "50_open_close_memory",
+        "warm_UI_input_p95"
+      ],
+      "ok": true,
+      "os": "Windows",
+      "os_version": "10.0.26200",
+      "timings_ms": {
+        "append_prune_ms": [
+          464.751,
+          435.988,
+          536.853
+        ],
+        "durable_save_ms": [
+          1887.252,
+          2791.573,
+          3189.211
+        ],
+        "first_page_model_ms": [
+          217.664
+        ],
+        "first_search_ui_ms": [
+          2657.259
+        ],
+        "fixture_build_ms": [
+          1113.589
+        ],
+        "fixture_parse_ms": [
+          216.763
+        ],
+        "model_to_panel_ms": [
+          1271.714
+        ],
+        "panel_present_ms": [
+          369.436
+        ],
+        "query_open_ms": [
+          673.269
+        ],
+        "saved_slot_load_ms": [
+          657.128
+        ],
+        "slot_inspect_after_write_ms": [
+          798.898,
+          737.617,
+          700.509
+        ],
+        "slot_inspect_unchanged_ms": [
+          37.524,
+          32.523,
+          33.92,
+          31.95,
+          31.73,
+          31.707
+        ],
+        "two_materials_model_ms": [
+          0.555,
+          0.431,
+          0.591
+        ],
+        "warm_facets_model_ms": [
+          230.486,
+          0.52,
+          0.83
+        ],
+        "warm_page_model_ms": [
+          53.128,
+          40.678,
+          0.509
+        ],
+        "warm_search_hidden_model_ms": [
+          50.534,
+          0.029,
+          0.036
+        ],
+        "warm_search_long_model_ms": [
+          47.91,
+          0.027,
+          0.031
+        ],
+        "warm_search_match_model_ms": [
+          51.258,
+          0.278,
+          0.355
+        ],
+        "warm_search_miss_model_ms": [
+          51.043,
+          0.063,
+          0.077
+        ]
+      },
+      "warm_iterations": 3
+    }
+  }
+}
