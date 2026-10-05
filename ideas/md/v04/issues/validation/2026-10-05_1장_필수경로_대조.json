@@ -1,0 +1,2883 @@
+{
+  "pack_sha256": "19A325D4D715E1110C90FE05742BE8ACEB081A3EAF7581C08237FD5AD94DAC1B",
+  "audits": [
+    {
+      "kind": "04_PATH",
+      "result": {
+        "errors": [],
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_SOLVED",
+            1,
+            "B1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_SOLVED",
+            1,
+            "B1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_SOLVED",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_SOLVED",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            1,
+            "B1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            1,
+            "B1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            1,
+            "B1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            1,
+            "B1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            1,
+            "B2",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            1,
+            "B2",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            1,
+            "B1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            1,
+            "B1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            1,
+            "B1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            1,
+            "B1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            1,
+            "B2",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            1,
+            "B2",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            1,
+            "B1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            1,
+            "B1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            1,
+            "B1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            1,
+            "B1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            1,
+            "B2",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            1,
+            "B2",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            1,
+            "B1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            1,
+            "B1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            1,
+            "B1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            1,
+            "B1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            1,
+            "B2",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            1,
+            "B2",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B2_ALERT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B2_ALERT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B2_ALERT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B2_ALERT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B2_HIDDEN",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B2_HIDDEN",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B2_LEFT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B2_LEFT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B2_NORMAL",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B2_NORMAL",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B4_RECORDED",
+            1,
+            "B4",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B4_RECORDED",
+            1,
+            "B4",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_BSHORT_COMPLETE",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_BSHORT_COMPLETE",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_ACTIVATION_OK",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_ACTIVATION_OK",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_BEDROOM",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_BEDROOM",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_03",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_GREAT_CLOCK",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_GREAT_CLOCK",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_LIBRARY_OUTER",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_LIBRARY_OUTER",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_PARLOR",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_PARLOR",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_RESULT_EXCLUDED",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_RESULT_EXCLUDED",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_RESULT_OUTPUT",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_RESULT_OUTPUT",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_RESULT_REFERENCE",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_RESULT_REFERENCE",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_RESULT_RELAY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_RESULT_RELAY",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_TEST_OK",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_TEST_OK",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_ALCOVE",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_ALCOVE",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_ALCOVE_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_ALCOVE_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_ALCOVE_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_ALCOVE_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DESK",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DESK",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DESK_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DESK_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DESK_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DESK_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DRAWER",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DRAWER",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DRAWER_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DRAWER_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DRAWER_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DRAWER_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_GAP",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_GAP",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_GAP_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_GAP_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_GAP_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_GAP_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_INDEX",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_INDEX",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_INDEX_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_INDEX_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_INDEX_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_INDEX_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK_OPEN",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK_OPEN",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK_OPEN_VISIT",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK_OPEN_VISIT",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK_OPEN_VISIT",
+            1,
+            "B3_A",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK_OPEN_VISIT",
+            1,
+            "B3_A",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_LINK_VISIT",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_03",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_03",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_04",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_04",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_05",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_05",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_06",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_06",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_07",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J1_RESTORED",
+            1,
+            "J1",
+            "feedback",
+            "line_07",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J2_RESTORED",
+            1,
+            "B5",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J2_RESTORED",
+            1,
+            "B5",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J2_RESTORED",
+            1,
+            "B5",
+            "feedback",
+            "line_02",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J2_RESTORED",
+            1,
+            "B5",
+            "feedback",
+            "line_02",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J2_RESTORED",
+            1,
+            "B5",
+            "feedback",
+            "line_03",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J2_RESTORED",
+            1,
+            "B5",
+            "feedback",
+            "line_03",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J2_RESTORED",
+            1,
+            "B5",
+            "feedback",
+            "line_04",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J2_RESTORED",
+            1,
+            "B5",
+            "feedback",
+            "line_04",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J2_RESTORED",
+            1,
+            "B5",
+            "feedback",
+            "line_05",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_J2_RESTORED",
+            1,
+            "B5",
+            "feedback",
+            "line_05",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CONFIRM_MARK",
+            1,
+            "A2",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CONFIRM_MARK",
+            1,
+            "A2",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_BACK",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_BACK",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_COUNT",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_COUNT",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_COUNT",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_COUNT",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_MISSING",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_MISSING",
+            1,
+            "B3_B",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_PIECE",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_PIECE",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_ROTATION",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_ROTATION",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_SOLVED",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_LAYOUT_SOLVED",
+            1,
+            "B3_A",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_MARA2_MEMORY",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_MARA2_MEMORY",
+            1,
+            "B2",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_MARK",
+            1,
+            "A1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_MARK",
+            1,
+            "A1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_MOVE",
+            1,
+            "A1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_MOVE",
+            1,
+            "A1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_ROUTINE",
+            1,
+            "AS",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_ROUTINE",
+            1,
+            "AS",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_WAKE",
+            1,
+            "A1",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_WAKE",
+            1,
+            "A1",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_WAKE",
+            1,
+            "A2",
+            "feedback",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_WAKE",
+            1,
+            "A2",
+            "feedback",
+            "line_01",
+            "ko-KR"
+          ]
+        ],
+        "scope": "OBSERVED_RUNTIME_PATHS_NOT_EXHAUSTIVE_ALLOWED_NODE_PRODUCT",
+        "tuple_fields": [
+          "producer",
+          "content",
+          "version",
+          "node",
+          "variant",
+          "segment",
+          "locale"
+        ]
+      }
+    },
+    {
+      "kind": "04_GUARD",
+      "result": {
+        "errors": [],
+        "paths": [
+          {
+            "action": "schedule_window",
+            "classification": "EXCLUDED_UI",
+            "id": "schedule_missing",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B1_NEED_DOCS"
+          },
+          {
+            "action": "schedule_window",
+            "classification": "EXCLUDED_UI",
+            "id": "schedule_wrong",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B1_WRONG"
+          },
+          {
+            "action": "inspect_inner",
+            "classification": "EXCLUDED_UI",
+            "id": "inner_unknown",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_INNER_UNKNOWN"
+          },
+          {
+            "action": "inspect_inner",
+            "classification": "EXCLUDED_UI",
+            "id": "inner_pressure",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_INNER_PRESSURE"
+          },
+          {
+            "action": "edgar_talk",
+            "classification": "EXCLUDED_UI",
+            "id": "edgar_absent_room",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B2_ABSENT"
+          },
+          {
+            "action": "edgar_hide",
+            "classification": "EXCLUDED_UI",
+            "id": "hide_missing_alcove",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B2_NEED_ALCOVE"
+          },
+          {
+            "action": "edgar_talk",
+            "classification": "EXCLUDED_UI",
+            "id": "edgar_finished",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B2_FINISHED"
+          },
+          {
+            "action": "edgar_leave",
+            "classification": "EXCLUDED_UI",
+            "id": "leave_not_hidden",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B2_WAITING"
+          },
+          {
+            "action": "j1_restore",
+            "classification": "EXCLUDED_UI",
+            "id": "j1_missing_desk",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J1_NEED_DESK"
+          },
+          {
+            "action": "j1_piece",
+            "classification": "EXCLUDED_UI",
+            "id": "j1_invalid_piece",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J1_NEED_PIECE"
+          },
+          {
+            "action": "j1_restore",
+            "classification": "EXCLUDED_UI",
+            "id": "j1_wrong_order",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J1_WRONG_ORDER"
+          },
+          {
+            "action": "j1_restore",
+            "classification": "EXCLUDED_UI",
+            "id": "j1_wrong_face",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J1_WRONG_FACE"
+          },
+          {
+            "action": "j1_restore",
+            "classification": "EXCLUDED_UI",
+            "id": "j1_already",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J1_ALREADY"
+          },
+          {
+            "action": "rub_clock",
+            "classification": "EXCLUDED_UI",
+            "id": "clock_missing_j1",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_CLOCK_NEED_J1"
+          },
+          {
+            "action": "board_check",
+            "classification": "EXCLUDED_UI",
+            "id": "board_missing_rubbings",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "board_swap",
+            "classification": "EXCLUDED_UI",
+            "id": "board_invalid_swap",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "board_rotate",
+            "classification": "EXCLUDED_UI",
+            "id": "board_invalid_rotation",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "test_clock",
+            "classification": "EXCLUDED_UI",
+            "id": "role_missing_layout",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "role",
+            "classification": "EXCLUDED_UI",
+            "id": "role_invalid_pair",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "phase",
+            "classification": "EXCLUDED_UI",
+            "id": "phase_invalid",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "activate_clock",
+            "classification": "EXCLUDED_UI",
+            "id": "activation_unconfirmed",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "activate_clock",
+            "classification": "EXCLUDED_UI",
+            "id": "activation_locked",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "shortcut",
+            "classification": "EXCLUDED_UI",
+            "id": "shortcut_wrong_room",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_BSHORT_BEDROOM"
+          },
+          {
+            "action": "shortcut",
+            "classification": "EXCLUDED_UI",
+            "id": "shortcut_missing_failure",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_BSHORT_UNAVAILABLE"
+          },
+          {
+            "action": "record_wave",
+            "classification": "EXCLUDED_UI",
+            "id": "wave_missing_signal",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B4_NEED_SIGNAL"
+          },
+          {
+            "action": "restore_j2",
+            "classification": "EXCLUDED_UI",
+            "id": "j2_missing_wave",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J2_NEED_PAGE"
+          },
+          {
+            "action": "restore_j2",
+            "classification": "EXCLUDED_UI",
+            "id": "j2_misaligned",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J2_MISALIGNED"
+          },
+          {
+            "action": "restore_j2",
+            "classification": "EXCLUDED_UI",
+            "id": "j2_already",
+            "locale": "ko-KR",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J2_ALREADY"
+          },
+          {
+            "action": "schedule_window",
+            "classification": "EXCLUDED_UI",
+            "id": "schedule_missing",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B1_NEED_DOCS"
+          },
+          {
+            "action": "schedule_window",
+            "classification": "EXCLUDED_UI",
+            "id": "schedule_wrong",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B1_WRONG"
+          },
+          {
+            "action": "inspect_inner",
+            "classification": "EXCLUDED_UI",
+            "id": "inner_unknown",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_INNER_UNKNOWN"
+          },
+          {
+            "action": "inspect_inner",
+            "classification": "EXCLUDED_UI",
+            "id": "inner_pressure",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_INNER_PRESSURE"
+          },
+          {
+            "action": "edgar_talk",
+            "classification": "EXCLUDED_UI",
+            "id": "edgar_absent_room",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B2_ABSENT"
+          },
+          {
+            "action": "edgar_hide",
+            "classification": "EXCLUDED_UI",
+            "id": "hide_missing_alcove",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B2_NEED_ALCOVE"
+          },
+          {
+            "action": "edgar_talk",
+            "classification": "EXCLUDED_UI",
+            "id": "edgar_finished",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B2_FINISHED"
+          },
+          {
+            "action": "edgar_leave",
+            "classification": "EXCLUDED_UI",
+            "id": "leave_not_hidden",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B2_WAITING"
+          },
+          {
+            "action": "j1_restore",
+            "classification": "EXCLUDED_UI",
+            "id": "j1_missing_desk",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J1_NEED_DESK"
+          },
+          {
+            "action": "j1_piece",
+            "classification": "EXCLUDED_UI",
+            "id": "j1_invalid_piece",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J1_NEED_PIECE"
+          },
+          {
+            "action": "j1_restore",
+            "classification": "EXCLUDED_UI",
+            "id": "j1_wrong_order",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J1_WRONG_ORDER"
+          },
+          {
+            "action": "j1_restore",
+            "classification": "EXCLUDED_UI",
+            "id": "j1_wrong_face",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J1_WRONG_FACE"
+          },
+          {
+            "action": "j1_restore",
+            "classification": "EXCLUDED_UI",
+            "id": "j1_already",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J1_ALREADY"
+          },
+          {
+            "action": "rub_clock",
+            "classification": "EXCLUDED_UI",
+            "id": "clock_missing_j1",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_CLOCK_NEED_J1"
+          },
+          {
+            "action": "board_check",
+            "classification": "EXCLUDED_UI",
+            "id": "board_missing_rubbings",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "board_swap",
+            "classification": "EXCLUDED_UI",
+            "id": "board_invalid_swap",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "board_rotate",
+            "classification": "EXCLUDED_UI",
+            "id": "board_invalid_rotation",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "test_clock",
+            "classification": "EXCLUDED_UI",
+            "id": "role_missing_layout",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "role",
+            "classification": "EXCLUDED_UI",
+            "id": "role_invalid_pair",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "phase",
+            "classification": "EXCLUDED_UI",
+            "id": "phase_invalid",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "activate_clock",
+            "classification": "EXCLUDED_UI",
+            "id": "activation_unconfirmed",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "activate_clock",
+            "classification": "EXCLUDED_UI",
+            "id": "activation_locked",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": ""
+          },
+          {
+            "action": "shortcut",
+            "classification": "EXCLUDED_UI",
+            "id": "shortcut_wrong_room",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_BSHORT_BEDROOM"
+          },
+          {
+            "action": "shortcut",
+            "classification": "EXCLUDED_UI",
+            "id": "shortcut_missing_failure",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_BSHORT_UNAVAILABLE"
+          },
+          {
+            "action": "record_wave",
+            "classification": "EXCLUDED_UI",
+            "id": "wave_missing_signal",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_B4_NEED_SIGNAL"
+          },
+          {
+            "action": "restore_j2",
+            "classification": "EXCLUDED_UI",
+            "id": "j2_missing_wave",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J2_NEED_PAGE"
+          },
+          {
+            "action": "restore_j2",
+            "classification": "EXCLUDED_UI",
+            "id": "j2_misaligned",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J2_MISALIGNED"
+          },
+          {
+            "action": "restore_j2",
+            "classification": "EXCLUDED_UI",
+            "id": "j2_already",
+            "locale": "en-US",
+            "reason": "precondition_or_manipulation_status_not_dialogue",
+            "text_id": "CH1_J2_ALREADY"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "06_PATH",
+      "result": {
+        "errors": [],
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_A1_HOUSE_GLYPH",
+            2,
+            "A1",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_A1_HOUSE_GLYPH",
+            2,
+            "A1",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_A1_INK_CORNER",
+            2,
+            "A1",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_A1_INK_CORNER",
+            2,
+            "A1",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_A1_SENTENCE",
+            2,
+            "A1",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_A1_SENTENCE",
+            2,
+            "A1",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_A2",
+            1,
+            "A2",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_A2",
+            1,
+            "A2",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1",
+            1,
+            "B1",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1",
+            1,
+            "B1",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_EDGAR",
+            1,
+            "B1",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_EDGAR",
+            1,
+            "B1",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_LUCA",
+            1,
+            "B1",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_LUCA",
+            1,
+            "B1",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA1",
+            1,
+            "B1",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA1",
+            1,
+            "B1",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA2",
+            1,
+            "B1",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA2",
+            1,
+            "B1",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B3_A",
+            1,
+            "B3_A",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B3_A",
+            1,
+            "B3_A",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B4",
+            1,
+            "B4",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_B4",
+            1,
+            "B4",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_EXCLUDED",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_EXCLUDED",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_OUTPUT",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_OUTPUT",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_PHASE_BETWEEN",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_PHASE_BETWEEN",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_PHASE_SIMULTANEOUS",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_PHASE_SIMULTANEOUS",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_PHASE_TOO_EARLY",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_PHASE_TOO_EARLY",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_PHASE_UNSET",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_PHASE_UNSET",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_REFERENCE",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_REFERENCE",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_RELAY",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_RELAY",
+            1,
+            "B3_B",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_RESOLVED",
+            1,
+            "B4",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_BF_RESOLVED",
+            1,
+            "B4",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_BEDROOM",
+            1,
+            "B3_A",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_BEDROOM",
+            1,
+            "B3_A",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_GREAT_CLOCK",
+            1,
+            "B3_A",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_GREAT_CLOCK",
+            1,
+            "B3_A",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_LIBRARY_OUTER",
+            1,
+            "B3_A",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_LIBRARY_OUTER",
+            1,
+            "B3_A",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_PARLOR",
+            1,
+            "B3_A",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_PARLOR",
+            1,
+            "B3_A",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_J1",
+            1,
+            "J1",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_J1",
+            1,
+            "J1",
+            "recorded",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_J2",
+            1,
+            "B5",
+            "recorded",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP06",
+            "NB_CH1_NOTE_J2",
+            1,
+            "B5",
+            "recorded",
+            "body",
+            "ko-KR"
+          ]
+        ],
+        "scope": "OBSERVED_RUNTIME_PATHS_NOT_EXHAUSTIVE_ALLOWED_NODE_PRODUCT",
+        "tuple_fields": [
+          "producer",
+          "content",
+          "version",
+          "node",
+          "variant",
+          "segment",
+          "locale"
+        ]
+      }
+    }
+  ],
+  "test_sha256": "DFC9C8224ABEFD6B3D0108EB212A498765D755155A0C37F19F6D0735DC12B785",
+  "baseline_commit": "1b456fccee5a0bba8da7a42b0c1648278aab836c",
+  "runtime_seconds": {
+    "import": 21.5,
+    "export": 8.1,
+    "dialogue": 80.9,
+    "notes": 22.1
+  },
+  "engine": "Godot 4.7.2 Steam",
+  "mode": "isolated headless export PCK; not OS input"
+}

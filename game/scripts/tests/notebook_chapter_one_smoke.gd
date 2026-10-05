@@ -11,6 +11,7 @@ var errors := PackedStringArray()
 var covered := {}
 var observed_tuples := {}
 var covered_segments := {}
+var excluded_guard_paths: Array = []
 var base: Dictionary
 var serial := 0
 
@@ -43,6 +44,7 @@ func run(tree: SceneTree) -> Dictionary:
 				_expect(covered_segments.has(id + ":" + segment + ":" + language), "unobserved segment " + id + ":" + segment + ":" + language)
 	SaveManager.delete_test_slot(SLOT)
 	_report_tuples()
+	print("NOTEBOOK_NP04_GUARD_AUDIT: " + JSON.stringify({"paths": excluded_guard_paths, "errors": errors}))
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": covered_segments.size(), "producer_paths": ["NP04"], "guard_fixtures": ["LAYOUT_MISSING", "PHASE_UNSET", "DESK_VISIT", "ALCOVE_VISIT", "GAP_VISIT", "LINK_VISIT", "LINK_OPEN_VISIT"], "not_covered": ["NP05", "NP06", "app_restart_cursor", "OS_input"]}
@@ -178,10 +180,89 @@ func _route(tree: SceneTree, language: String) -> void:
 	view._render_room()
 	view._hotspot_layer.get_node("MARA2_MEMORY").pressed.emit()
 	_drain(view)
+	_first_schedule_context(view)
 	_collect(language)
+	_guard_exclusions(view, language)
 	await _persistence(view, tree)
 	view.queue_free()
 	await tree.process_frame
+
+
+func _first_schedule_context(view: Node) -> void:
+	var state := _fixture("M1_SERVANT_COMMON")
+	state.meta_progress.knowledge_entries.erase("KN_B1_LIBRARY_WINDOW")
+	_install(state)
+	_expect(view.session.stage() == "B1", "first schedule investigation starts before library window knowledge")
+	for owner in SESSION.DOCUMENTS:
+		_act(view, "read_schedule", owner)
+		var entry: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history.entries.back()
+		_expect(entry.observation.content_id == "NB_CH1_CH1_B1_TEXT_" + String(owner).to_upper() and entry.observation.node_id == "B1", "first schedule feedback retains B1 source " + owner)
+	var result: Dictionary = view.session.act("schedule_window", "after_tea_before_bell")
+	_expect(result.ok and result.history_context.node_id == "B1" and view.session.stage() == "B2", "schedule solution captures source B1 before advancing to B2")
+	view._feedback(result)
+	_drain(view)
+	var solved: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history.entries.back()
+	_expect(solved.observation.content_id == "NB_CH1_CH1_B1_SOLVED" and solved.observation.node_id == "B1", "display after transition cannot relabel the schedule solution B2")
+
+
+func _guard_exclusions(view: Node, language: String) -> void:
+	var inner := _fixture("M1_LIBRARY_INNER")
+	_guard_case(view, language, "schedule_missing", _fixture("M1_SERVANT_COMMON"), "schedule_window", "after_tea_before_bell", "CH1_B1_NEED_DOCS")
+	var schedule := _fixture("M1_SERVANT_COMMON")
+	schedule.meta_progress.knowledge_entries.schedule_edgar = true
+	schedule.meta_progress.knowledge_entries.schedule_luca = true
+	_guard_case(view, language, "schedule_wrong", schedule, "schedule_window", "wrong", "CH1_B1_WRONG")
+	_guard_case(view, language, "inner_unknown", inner, "inspect_inner", "unknown", "CH1_INNER_UNKNOWN")
+	var pressure := inner.duplicate(true)
+	pressure.loop_state.event_local_states.CHAPTER_ONE.edgar_state = "entering"
+	_guard_case(view, language, "inner_pressure", pressure, "inspect_inner", "desk", "CH1_INNER_PRESSURE")
+	_guard_case(view, language, "edgar_absent_room", _fixture("M1_CENTRAL_HALL"), "edgar_talk", null, "CH1_B2_ABSENT")
+	_guard_case(view, language, "hide_missing_alcove", pressure, "edgar_hide", null, "CH1_B2_NEED_ALCOVE")
+	_guard_case(view, language, "edgar_finished", inner, "edgar_talk", null, "CH1_B2_FINISHED")
+	_guard_case(view, language, "leave_not_hidden", pressure, "edgar_leave", null, "CH1_B2_WAITING")
+	_guard_case(view, language, "j1_missing_desk", inner, "j1_restore", null, "CH1_J1_NEED_DESK")
+	var desk := inner.duplicate(true)
+	desk.loop_state.event_local_states.CHAPTER_ONE.inspected = ["desk"]
+	_guard_case(view, language, "j1_invalid_piece", desk, "j1_piece", 3, "CH1_J1_NEED_PIECE")
+	_guard_case(view, language, "j1_wrong_order", desk, "j1_restore", null, "CH1_J1_WRONG_ORDER")
+	desk.loop_state.event_local_states.CHAPTER_ONE.j1_order = [0, 1, 2]
+	_guard_case(view, language, "j1_wrong_face", desk, "j1_restore", null, "CH1_J1_WRONG_FACE")
+	desk.meta_progress.journal_stage = 1
+	_guard_case(view, language, "j1_already", desk, "j1_restore", null, "CH1_J1_ALREADY")
+	_guard_case(view, language, "clock_missing_j1", inner, "rub_clock", null, "CH1_CLOCK_NEED_J1")
+	_guard_case(view, language, "board_missing_rubbings", _fixture("M1_GREAT_CLOCK", 1), "board_check")
+	_guard_case(view, language, "board_invalid_swap", _clock_fixture(), "board_swap", [0, 4])
+	_guard_case(view, language, "board_invalid_rotation", _clock_fixture(), "board_rotate", 4)
+	_guard_case(view, language, "role_missing_layout", _clock_fixture(), "test_clock")
+	_guard_case(view, language, "role_invalid_pair", _clock_fixture(true), "role", ["invalid", "bedroom"])
+	_guard_case(view, language, "phase_invalid", _clock_fixture(true), "phase", "invalid")
+	_guard_case(view, language, "activation_unconfirmed", _clock_fixture(true), "activate_clock", false)
+	var locked := _clock_fixture(true)
+	locked.loop_state.event_local_states.CHAPTER_ONE.clock_locked = true
+	_guard_case(view, language, "activation_locked", locked, "activate_clock", true)
+	_guard_case(view, language, "shortcut_wrong_room", inner, "shortcut", null, "CH1_BSHORT_BEDROOM")
+	_guard_case(view, language, "shortcut_missing_failure", _fixture("M2_BEDROOM", 1), "shortcut", null, "CH1_BSHORT_UNAVAILABLE")
+	_guard_case(view, language, "wave_missing_signal", _clock_fixture(true), "record_wave", null, "CH1_B4_NEED_SIGNAL")
+	_guard_case(view, language, "j2_missing_wave", inner, "restore_j2", null, "CH1_J2_NEED_PAGE")
+	var wave := _fixture("M1_LIBRARY_INNER", 1)
+	wave.meta_progress.knowledge_entries.b4_waveform_acquired = true
+	_guard_case(view, language, "j2_misaligned", wave, "restore_j2", null, "CH1_J2_MISALIGNED")
+	wave.meta_progress.journal_stage = 2
+	_guard_case(view, language, "j2_already", wave, "restore_j2", null, "CH1_J2_ALREADY")
+
+
+func _guard_case(view: Node, language: String, id: String, state: Dictionary, action: String, value: Variant = null, text_id: String = "") -> void:
+	_install(state)
+	var before := GameState.get_snapshot()
+	var revision: int = GameState.revision
+	var result: Dictionary = view.session.act(action, value)
+	_expect(not result.get("ok", true) and result.get("text_id", "") == text_id, "guard dispatch " + id)
+	_expect(not result.has("notebook_feedback"), "guard has no authored descriptor " + id)
+	view._feedback(result)
+	_expect(not view._dialogue_active and not view._status_label.text.is_empty(), "guard is status UI, not dialogue " + id)
+	_expect(not view._status_label.text.contains("CH1_"), "guard does not expose text ID " + id)
+	_expect(GameState.get_snapshot() == before and GameState.revision == revision, "guard cannot mutate gameplay, ledger, or history " + id)
+	excluded_guard_paths.append({"id": id, "action": action, "text_id": text_id, "locale": language, "classification": "EXCLUDED_UI", "reason": "precondition_or_manipulation_status_not_dialogue"})
 
 
 func _fixture(room: String, journal: int = 0) -> Dictionary:
