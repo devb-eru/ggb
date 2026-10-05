@@ -36,6 +36,7 @@ func run() -> Dictionary:
 	_validate_retention_commit()
 	_validate_f3()
 	_validate_f3_uncommitted()
+	_validate_f3_future_candidates()
 	_validate_demo()
 	_validate_gallery_and_development()
 	var safety: Dictionary = preload("res://scripts/tests/notebook_save_safety_smoke.gd").new().run()
@@ -295,6 +296,28 @@ func _validate_f3_uncommitted() -> void:
 	var loaded: Dictionary = SaveManager.load_f3_reselect(SLOT)
 	_expect(loaded.ok and loaded.snapshot == expected.snapshot, "committed F3 backup wins over uncommitted temporary")
 	_expect(FileAccess.get_file_as_bytes(temporary) == bytes, "reading never removes or rewrites tentative F3 bytes")
+	SaveManager.delete_test_slot(SLOT)
+
+
+func _validate_f3_future_candidates() -> void:
+	for suffix in ["", ".tmp", ".bak"]:
+		for kind in ["envelope", "archive", "knowledge"]:
+			SaveManager.delete_test_slot(SLOT)
+			var source: Dictionary = CHECKPOINTS.new().snapshot_for("EDC").snapshot
+			_write_source(_path(), source, 2, "SAVE_F3_COMPLETE")
+			for candidate in ["", ".tmp", ".bak"]:
+				_write_source(_path("f3_reselect.json" + candidate), source, 2, "SAVE_F3_COMPLETE")
+			var future := source.duplicate(true)
+			if kind == "archive": future.meta_progress.dialogue_history.schema_version = 999
+			if kind == "knowledge": future.meta_progress.knowledge_entries.notebook_knowledge = {"schema_version":999}
+			_write_source(_path("f3_reselect.json" + suffix), future, 999 if kind == "envelope" else 2, "SAVE_F3_COMPLETE")
+			var before := {}
+			for name in ["progress.json", "f3_reselect.json", "f3_reselect.json.tmp", "f3_reselect.json.bak"]:
+				before[name] = FileAccess.get_file_as_bytes(_path(name))
+			var result: Dictionary = SaveManager.capture_f3_reselect(SLOT)
+			_expect(not result.ok and result.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA", "F3 future candidate blocks capture: " + kind + suffix)
+			for name in before:
+				_expect(FileAccess.get_file_as_bytes(_path(name)) == before[name], "F3 future candidate preserves all files: " + kind + suffix + " / " + name)
 	SaveManager.delete_test_slot(SLOT)
 
 
