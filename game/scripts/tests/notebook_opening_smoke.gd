@@ -2,6 +2,24 @@ extends "res://scripts/tests/notebook_host_smoke.gd"
 
 const WAIT := preload("res://scripts/tests/notebook_test_wait.gd")
 
+class ProfiledHost extends "res://scripts/systems/notebook_host.gd":
+	var scope_usec := 0
+	var refresh_start_usec := 0
+	var publication_usec := 0
+	func _current_scope() -> Dictionary:
+		var start := Time.get_ticks_usec()
+		var result := super._current_scope()
+		scope_usec += Time.get_ticks_usec() - start
+		return result
+	func _start_refresh() -> void:
+		var start := Time.get_ticks_usec()
+		super._start_refresh()
+		refresh_start_usec += Time.get_ticks_usec() - start
+	func _finish_opening() -> void:
+		var start := Time.get_ticks_usec()
+		super._finish_opening()
+		publication_usec += Time.get_ticks_usec() - start
+
 
 func run(tree: SceneTree) -> Dictionary:
 	var old_locale := TranslationServer.get_locale()
@@ -35,10 +53,19 @@ func _opening_case(tree: SceneTree, scenario: String) -> void:
 	var backup_exists := FileAccess.file_exists(paths.backup)
 	var backup := FileAccess.get_file_as_bytes(paths.backup) if backup_exists else PackedByteArray()
 	var start := Time.get_ticks_usec()
-	if scenario == "dialogue": view._open_dialogue_history()
+	if scenario == "large":
+		var measured := ProfiledHost.new()
+		view.add_child(measured)
+		view._notebook_host = measured
+		_expect(measured.begin(view, GameState, SaveManager, "clues"), "profiled host begins")
+	elif scenario == "dialogue": view._open_dialogue_history()
 	else: view._open_notebook()
 	var begin_ms := (Time.get_ticks_usec() - start) / 1000.0
 	var host = view._notebook_host
+	var begin_components := {}
+	if scenario == "large":
+		begin_components = {"scope_ms": host.scope_usec / 1000.0, "snapshot_and_launch_ms": host.refresh_start_usec / 1000.0}
+		begin_components.other_ms = begin_ms - begin_components.scope_ms - begin_components.snapshot_and_launch_ms
 	_expect(is_instance_valid(host), "opening accepted: " + scenario)
 	if not is_instance_valid(host):
 		view.queue_free()
@@ -138,6 +165,7 @@ func _opening_case(tree: SceneTree, scenario: String) -> void:
 				_expect(frames > 0, "large initial preparation yields scene frames")
 				_expect(JSON.stringify(host.model._rows, "", true).sha256_text() == expected_rows, "every large public row preserved")
 				print("NOTEBOOK_OPENING_MEASUREMENT: ", JSON.stringify({"locale":host.model._locale, "begin_ms":begin_ms, "dispatch_ms":dispatch_ms, "worker_wait_frames":frames, "acceptance":"HEADLESS_SINGLE_SAMPLE_ONLY"}))
+				print("NOTEBOOK_OPENING_COMPONENTS: ", JSON.stringify({"locale":host.model._locale, "begin":begin_components, "publication_ms":host.publication_usec / 1000.0, "dispatch_scope_ms":host.scope_usec / 1000.0 - begin_components.scope_ms, "acceptance":"INHERITED_HOST_HEADLESS_SINGLE_SAMPLE"}))
 	else:
 		_expect(candidate.get_ref() == null, "obsolete opening candidate released: " + scenario)
 		if scenario in ["close", "escape", "held", "destroy"]:
