@@ -2389,7 +2389,7 @@ func _restore_prologue_cursor() -> bool:
 	if not _prologue_cursor_enabled(): return false
 	var state := GameState.get_snapshot()
 	var value := PROLOGUE_CURSOR.read(state)
-	if not PROLOGUE_CURSOR.matches(value, state) or not PROLOGUE_CURSOR.observed(value, state) or value.family != "prologue_controller": return false
+	if not PROLOGUE_CURSOR.restorable(value, state) or value.family != "prologue_controller": return false
 	var window_view := _saved_window_view()
 	if _prologue_cursor_scope != _notebook_event_scope(): _prologue_dispatch_surfaces.clear()
 	_prologue_restoring_room = true

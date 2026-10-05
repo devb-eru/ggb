@@ -102,6 +102,74 @@ func _cases(tree: SceneTree) -> void:
 	await _handoffs(tree)
 	await _silent_movement(tree)
 	await _silent_manipulation(tree)
+	await _completed_retention(tree)
+
+
+func _completed_retention(tree: SceneTree) -> void:
+	for family_index in range(VIEWS.size()):
+		await _completed_retention_family(tree, family_index)
+
+
+func _completed_retention_family(tree: SceneTree, family_index: int) -> void:
+	_seed(["A1", "C0", "D0"][family_index])
+	var view = _view(tree, family_index)
+	for index in range(20):
+		if not view._dialogue_active: break
+		view._advance_dialogue()
+	var descriptor := CONTENT.descriptor("NB_CH1_MOVE", 1, {"line_01": {}})
+	var shown := CONTENT.presentation(descriptor, "ko-KR")
+	view._show_dialogue([{"speaker": shown.speaker, "text": shown.text, "notebook_content": descriptor, "history_context": view.session.history_context()}])
+	view._advance_dialogue()
+	var state := GameState.get_snapshot()
+	var cursor := CURSOR.read(state)
+	var archive: Dictionary = state.meta_progress.dialogue_history
+	var target: Dictionary = archive.entries.back().duplicate(true)
+	_expect(target.protection_reasons.is_empty() and cursor.phase == "completed", "completed source is ordinary and eligible for retention")
+	# Build a valid large archive fixture, then use the production retention operation.
+	for index in range(ARCHIVE.NORMAL_LIMIT + 1):
+		var entry: Dictionary = target.duplicate(true)
+		entry.entry_uid = ARCHIVE.new_uid()
+		entry.sequence = archive.next_sequence
+		entry.observation.presentation_token = ARCHIVE.new_uid()
+		entry.observation.event_occurrence_id = ARCHIVE.new_uid()
+		entry.observation.conversation_session_id = ARCHIVE.new_uid()
+		archive.entries.append(entry)
+		archive.next_sequence += 1
+	var retained := ARCHIVE.maintain(archive, int(archive.revision))
+	_expect(retained.ok and target.entry_uid in retained.pruned_uids, "real retention prunes the completed ordinary source")
+	if not retained.ok:
+		view.queue_free()
+		await tree.process_frame
+		return
+	state.meta_progress.dialogue_history = retained.archive
+	_expect(CURSOR.matches(cursor, state) and not CURSOR.observed(cursor, state), "completion receipt still matches but its old text is no longer an available observation")
+	_expect(CURSOR.restorable(cursor, state), "completed receipt survives normal retention without claiming its text is available")
+	for phase in ["reading", "finish_pending"]:
+		var pending := cursor.duplicate(true)
+		pending.phase = phase
+		_expect(not CURSOR.restorable(pending, state), "missing source never authorizes pending redisclosure or continuation: " + phase)
+	var foreign := cursor.duplicate(true)
+	foreign.branch_id = "0".repeat(32)
+	_expect(not CURSOR.restorable(foreign, state), "completion cannot cross archive branches")
+	foreign = cursor.duplicate(true)
+	foreign.anchor = "0".repeat(64)
+	_expect(not CURSOR.restorable(foreign, state), "completion cannot ignore changed gameplay")
+	foreign = cursor.duplicate(true)
+	foreign.schema_version = CURSOR.VERSION + 1
+	_expect(not CURSOR.restorable(foreign, state), "future completion schema is not accepted")
+	serial += 1
+	var transaction := "CURSOR_RETENTION_%d" % serial
+	_expect(StateWriter.new(GameState).install_snapshot(state, GameState.revision, StringName(transaction)).ok, "install retained archive")
+	_expect(SaveManager.save_snapshot(SLOT, "SAVE_CAMPAIGN_PROGRESS", GameState.get_snapshot(), GameState.revision, transaction).ok, "persist retained archive")
+	var saved: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history.duplicate(true)
+	view.queue_free()
+	await tree.process_frame
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "reload retained archive")
+	view = _view(tree, family_index)
+	_expect(not view._dialogue_active, "completed presentation remains closed after source retention")
+	_expect(StateSnapshotValidator.same_persisted_value(saved, GameState.get_snapshot().meta_progress.dialogue_history), "retention cannot resurrect a completed source or replay fallback feedback")
+	view.queue_free()
+	await tree.process_frame
 
 
 func _silent_movement(tree: SceneTree) -> void:

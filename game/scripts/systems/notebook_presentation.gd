@@ -34,13 +34,13 @@ static func resume_family(state: Dictionary) -> String:
 
 static func completed_handoff(state: Dictionary, target: String) -> bool:
 	var value := read(state)
-	if not matches(value, state) or not observed(value, state) or value.phase != "completed": return false
+	if not restorable(value, state) or value.phase != "completed": return false
 	return (value.family == "chapter_one_controller" and target == "black_mirror_controller" and int(state.meta_progress.journal_stage) == 2) or (value.family == "black_mirror_controller" and target == "basement_controller" and int(state.meta_progress.journal_stage) == 3)
 
 
 static func completion_for_action(state: Dictionary, owner_family: String, action: String, argument: Variant) -> Dictionary:
 	var value := read(state)
-	if not matches(value, state) or not observed(value, state) or value.family != owner_family: return {}
+	if not restorable(value, state) or value.family != owner_family: return {}
 	# Silent world actions must not invalidate completion and replay hidden last_feedback on load.
 	if value.phase == "completed": return value
 	if value.phase != "finish_pending": return {}
@@ -200,6 +200,13 @@ static func observed(value: Dictionary, state: Dictionary) -> bool:
 		required.erase(context.get("presentation_token"))
 		if required.is_empty(): return true
 	return false
+
+
+static func restorable(value: Dictionary, state: Dictionary) -> bool:
+	if not matches(value, state): return false
+	# Completion reveals nothing; ordinary source text may have been legitimately pruned.
+	# Pending content still requires its original observation before any redisclosure.
+	return value.phase == "completed" or observed(value, state)
 
 
 static func valid_utility(value: Variant) -> bool:

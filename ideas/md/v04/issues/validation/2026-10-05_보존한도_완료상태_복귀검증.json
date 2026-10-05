@@ -1,0 +1,85 @@
+{
+  "logs": [
+    {
+      "summary": [
+        "NOTEBOOK_PRESENTATION_CHECKS: seed 274",
+        "NOTEBOOK_PRESENTATION_SMOKE: PASS"
+      ],
+      "case": "surfaces",
+      "sha256": "14150F93A94C511D2B797B690266FC8916AAA6F8D89E639DD335ECC14D1B8277"
+    },
+    {
+      "summary": [
+        "NOTEBOOK_PRESENTATION_CHECKS: resume 7",
+        "NOTEBOOK_PRESENTATION_SMOKE: PASS"
+      ],
+      "case": "resume",
+      "sha256": "4840E549A7F005936D0ADB473A8DA5A8A09D5425E426AEE60EB0F5F779BC897F"
+    },
+    {
+      "summary": [
+        "NOTEBOOK_PRESENTATION_CHECKS: completed 4",
+        "NOTEBOOK_PRESENTATION_SMOKE: PASS"
+      ],
+      "case": "completed",
+      "sha256": "DD96A65E214131D14E4891B39DEFCE30139D8E31213AD9AFE5B3D730476FBDA4"
+    },
+    {
+      "summary": [
+        "NOTEBOOK_MODAL_PRESENTATION_CHECKS: seed 397",
+        "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+      ],
+      "case": "modals",
+      "sha256": "A4F6DF716A8C9DD81521D15877A6C902A1B176B6414948045BE75FFD6E515E1D"
+    },
+    {
+      "summary": [
+        "NOTEBOOK_MODAL_PRESENTATION_CHECKS: resume 7",
+        "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+      ],
+      "case": "modal_resume",
+      "sha256": "7E7BECEC857FF670AF5921388DB5D00CAF1D57EED3198FCE2BCFA6B99A5EFFD1"
+    },
+    {
+      "summary": [
+        "NOTEBOOK_MODAL_PRESENTATION_CHECKS: completed 4",
+        "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+      ],
+      "case": "modal_completed",
+      "sha256": "3C3C78FAFFABE2862970B15B0C2451816AC3D7710175BA333E34A63BC1417B3D"
+    },
+    {
+      "summary": [
+        "NOTEBOOK_PROLOGUE_PRESENTATION_CHECKS: seed 66",
+        "NOTEBOOK_PROLOGUE_PRESENTATION_SMOKE: PASS"
+      ],
+      "case": "prologue",
+      "sha256": "D11872CCAAE41DD85249174F4AF7B685167D1656AAA3733B1AA29B858895E72C"
+    },
+    {
+      "summary": [
+        "NOTEBOOK_PROLOGUE_PRESENTATION_CHECKS: resume 26",
+        "NOTEBOOK_PROLOGUE_PRESENTATION_SMOKE: PASS"
+      ],
+      "case": "prologue_resume",
+      "sha256": "B1EB20F4D79DA7BC86B29802ACFB7EED6F12B29BD8335E46FCD38B0C46CAA98B"
+    },
+    {
+      "summary": [
+        "NOTEBOOK_PROLOGUE_PRESENTATION_CHECKS: completed 16",
+        "NOTEBOOK_PROLOGUE_PRESENTATION_SMOKE: PASS"
+      ],
+      "case": "prologue_completed",
+      "sha256": "929DCA801F37DA1765FEFBB20797828226FEDA1F496B5332ADAB471E15228316"
+    }
+  ],
+  "pck_sha256": "C9C805EE2C3256AAB7FC6DF1A0F902937692D60C6B5D2805673D4487F13B3A6B",
+  "baseline": "1dd443a640b5ff87fb3c911f5fa4c94096ecd1de",
+  "runtime": "Godot 4.7.2 Windows headless; isolated PCK and APPDATA",
+  "log_directory": "%TEMP%/ggb-notebook-retention-fixed-20261005",
+  "repro_failures": [
+    "completed presentation remains closed after source retention",
+    "retention cannot resurrect a completed source or replay fallback feedback"
+  ],
+  "scope": "Korean retention fixture in three chapter controllers; prologue general regression only; not native input or performance acceptance"
+}
