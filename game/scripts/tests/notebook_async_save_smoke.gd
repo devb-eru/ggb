@@ -71,6 +71,15 @@ func _large_candidate(tree: SceneTree) -> void:
 	var dispatch_ms := (Time.get_ticks_usec() - dispatch_start) / 1000.0
 	result = manager.notebook_reference_result(id)
 	_expect(result.ok and result.changed and frames > 0, "large candidate yields scene frames and commits")
+	var summary_start := Time.get_ticks_usec()
+	var summary := manager.inspect_slot(SLOT)
+	var seeded_ms := (Time.get_ticks_usec() - summary_start) / 1000.0
+	manager._summary_cache.clear()
+	summary_start = Time.get_ticks_usec()
+	var cold_summary := manager.inspect_slot(SLOT)
+	var cold_ms := (Time.get_ticks_usec() - summary_start) / 1000.0
+	_expect(summary == cold_summary and summary.available, "async seeded and independently validated summaries are identical")
+	print("NOTEBOOK_ASYNC_SUMMARY_MEASUREMENT: ", JSON.stringify({"seeded_ms":seeded_ms, "cold_ms":cold_ms, "acceptance":"HEADLESS_SINGLE_SAMPLE"}))
 	var loaded := SaveManager.load_slot(SLOT)
 	_expect(loaded.ok and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), loaded.snapshot), "large archive and reference survive reload")
 	print("NOTEBOOK_ASYNC_SAVE_MEASUREMENT: ", JSON.stringify({"fixture":fixture.manifest, "begin_ms":begin_ms, "dispatch_ms":dispatch_ms, "worker_frames":frames, "max_wait_frame_ms":max_frame_ms, "acceptance":"MEASUREMENT_ONLY_HEADLESS_SINGLE_SAMPLE"}))
@@ -167,6 +176,9 @@ func _scenario(tree: SceneTree, scenario: String) -> void:
 	_expect(not result.get("pending", false), "terminal result is observable: " + scenario)
 	if scenario in ["success", "backup_recovery", "lost_ack"]:
 		_expect(result.ok and result.changed, "verified candidate commits: " + scenario)
+		var summary_key: String = manager._summary_key(paths.main)
+		var actual := preload("res://scripts/systems/notebook_save_worker.gd").read_source(paths.main)
+		_expect(manager._summary_cache.has(summary_key) and manager._summary_cache[summary_key].fingerprint == actual.stamp, "async success publishes summary bound to committed bytes: " + scenario)
 		_expect(GameState.revision == revision + 1 and GameState.get_snapshot().meta_progress.dialogue_history.bookmarks.size() == 1, "live state changes only at durable commit")
 		var loaded: Dictionary = SaveManager.load_slot(SLOT)
 		_expect(loaded.ok and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), loaded.snapshot), "committed reference and protection reload together")
@@ -178,6 +190,7 @@ func _scenario(tree: SceneTree, scenario: String) -> void:
 		_expect(FileAccess.get_file_as_bytes(paths.main) == primary and FileAccess.get_file_as_bytes(paths.backup) == backup, "idempotent no-op performs no disk promotion")
 	else:
 		_expect(not result.ok, "unsafe candidate rejected: " + scenario)
+		_expect(manager._summary_cache.is_empty(), "rejected worker publishes no summary: " + scenario)
 		if scenario.begins_with("design_"): _expect(result.get("error_id") == &"ERR_SAVE_DESIGN_REVISION", "unknown design worker preserves incompatibility error: " + scenario)
 		_expect(GameState.get_snapshot() == before, "rejected candidate leaves current game intact: " + scenario)
 		# Failed promotion restores the verified previous primary into both files.

@@ -73,4 +73,5 @@ func _prepare_with_storage(storage: Node, request: Dictionary) -> Dictionary:
 		return {"ok":false, "error_id":"ERR_SAVE_TEMP_VERIFY"}
 	for kind in sources: sources[kind].erase("snapshot")
 	return {"ok":true, "changed":true, "snapshot":state, "sources":sources, "source_stamps":stamps,
-		"temporary_stamp":temp_source.stamp, "point":point, "transaction":transaction, "checksum":encoded.checksum}
+		"temporary_stamp":temp_source.stamp, "summary":storage._summary_from_validated(verified),
+		"point":point, "transaction":transaction, "checksum":encoded.checksum}

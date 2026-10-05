@@ -124,6 +124,7 @@ func _finish_notebook_reference(job: Dictionary, result: Variant) -> Dictionary:
 	# No await between the final revision check, promotion and the live installation.
 	var revision: int = game.commit_validated_snapshot(result.snapshot, job.revision, StringName(result.transaction), PackedStringArray(["meta_progress"]))
 	if revision < 0: return _load_failure(&"NB_COMMAND_INSTALL")
+	_cache_summary(_summary_key(job.paths.main), result.temporary_stamp, result.summary)
 	if not result.snapshot.meta_progress.knowledge_entries.get("F3_complete", false): _clear_previous_f3(job.slot)
 	save_completed.emit(StringName(job.slot), StringName(result.point))
 	return {"ok":true, "changed":true, "recovered_acknowledgement":not promoted.ok}
