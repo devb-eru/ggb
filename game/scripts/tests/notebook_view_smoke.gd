@@ -30,6 +30,7 @@ func run(tree: SceneTree, fixture: Dictionary) -> Dictionary:
 	await _badges(tree, query)
 	await _navigation_restore(tree, query)
 	await _restoration_builds(tree, query)
+	await _opening_builds(tree, query)
 	await _body_and_store(tree)
 	_expect(GameState.get_snapshot() == before, "all UI state reads/writes preserve the gameplay snapshot")
 	for path in _files:
@@ -78,6 +79,46 @@ func _restoration_builds(tree: SceneTree, query) -> void:
 			panel.queue_free()
 			await tree.process_frame
 	print("NOTEBOOK_RESTORE_BUILD_MEASUREMENT: ", JSON.stringify(samples))
+
+
+func _opening_builds(tree: SceneTree, query) -> void:
+	for locale in ["ko-KR", "en-US"]:
+		for scale in [1.0, 2.0]:
+			var source := CountedPanel.new()
+			tree.current_scene.add_child(source)
+			source.present(query, locale, "dialogue", scale)
+			source._change_page(1)
+			var rows: Dictionary = query.page({"tab":"dialogue"}, 1, query.cache_key())
+			source.show_detail(rows.items[0].key)
+			for frame in range(3): await tree.process_frame
+			var saved := source.capture_view()
+			for mode in ["detail", "list", "comparison", "latest", "default"]:
+				var view: Dictionary = saved.duplicate(true) if mode not in ["latest", "default"] else {}
+				if mode == "list":
+					view.selected = ""
+					view.detail = false
+					view.anchor = {}
+				if mode == "comparison": view.comparing = true
+				var panel := CountedPanel.new()
+				panel.size = Vector2(1280, 720)
+				tree.current_scene.add_child(panel)
+				var reads: Array = []
+				panel.material_viewed.connect(func(key: String) -> void: reads.append(key))
+				panel.set_reference_editable(true, false, false)
+				_expect(panel.present(query, locale, "dialogue", scale, view, mode == "latest"), "initial view accepted")
+				for frame in range(4): await tree.process_frame
+				_expect(panel.list_builds == 1 and panel.pair_builds == 1, "opening constructs final list and pair once: " + mode)
+				_expect(reads.is_empty() and not panel._restoring_view, "opening has no fabricated read and finishes restoration")
+				if not view.is_empty():
+					_expect(panel._page == 1 and panel._selected == view.selected and panel.visible_pair() == view.pair and panel._comparison_mode == view.comparing, "initial view preserves final navigation " + mode)
+				elif mode == "latest":
+					_expect(panel._selected == query.latest_dialogue_key(), "latest dialogue selected without intermediate list")
+				else:
+					_expect(panel._page == 0 and panel._selected.is_empty(), "default presentation remains unselected first page")
+				panel.queue_free()
+				await tree.process_frame
+			source.queue_free()
+			await tree.process_frame
 
 
 func _scope(archive: Dictionary, epoch: int = 1) -> Dictionary:

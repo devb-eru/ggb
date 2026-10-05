@@ -74,7 +74,7 @@ func _ready() -> void:
 	set_process(false)
 
 
-func present(model, locale: String, entry_tab: String = "clues", font_scale: float = 1.0) -> bool:
+func present(model, locale: String, entry_tab: String = "clues", font_scale: float = 1.0, initial_view: Dictionary = {}, latest_dialogue: bool = false) -> bool:
 	if not is_node_ready() or entry_tab not in QUERY.TABS or not model.diagnostics().ready: return false
 	query = model
 	_browser.dismiss()
@@ -99,12 +99,18 @@ func present(model, locale: String, entry_tab: String = "clues", font_scale: flo
 	_search_delay = -1.0
 	_search.clear()
 	_apply_labels()
-	_refresh()
-	_load_basket()
 	show()
 	set_process(true)
 	_close.grab_focus()
-	_restoring_view = false
+	if not initial_view.is_empty():
+		restore_view(initial_view)
+	else:
+		var latest: String = query.latest_dialogue_key() if latest_dialogue and entry_tab == "dialogue" else ""
+		if not latest.is_empty(): _page = query.anchor_page(_filters, query.anchor_for(latest, _filters), _key).page
+		_refresh()
+		_load_basket()
+		if not latest.is_empty(): show_detail(latest, false, false, false)
+		_restoring_view = false
 	return true
 
 

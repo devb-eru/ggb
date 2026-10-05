@@ -128,14 +128,12 @@ func _finish_opening() -> void:
 	_reconcile_seen()
 	_opening = false
 	_loading.hide()
-	panel.present(model, TranslationServer.get_locale(), _entry_tab, controller._reading_text_scale)
+	var previous: Dictionary = _view_state.dialogue if _entry_tab == "dialogue" else _view_state.general
+	panel.set_reference_editable(true, false, false)
+	panel.present(model, TranslationServer.get_locale(), _entry_tab, controller._reading_text_scale, previous, _entry_tab == "dialogue")
 	panel.set_review_state(_view_state.seen, _view_state.groups)
-	panel.set_reference_editable(true)
 	for tool in controller._notebook_tools():
 		panel.add_tool(tool.label, _leave_for_tool.bind(tool.action), tool.id)
-	var previous: Dictionary = _view_state.dialogue if _entry_tab == "dialogue" else _view_state.general
-	if not previous.is_empty(): panel.restore_view(previous)
-	elif _entry_tab == "dialogue": panel.open_latest_dialogue()
 	panel.material_viewed.connect(_material_viewed)
 	panel.view_changed.connect(_remember_view)
 	if not String(loaded.warning_id).is_empty():
