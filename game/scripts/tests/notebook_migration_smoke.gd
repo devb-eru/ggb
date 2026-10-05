@@ -35,6 +35,7 @@ func run() -> Dictionary:
 	_validate_commands()
 	_validate_retention_commit()
 	_validate_f3()
+	_validate_f3_uncommitted()
 	_validate_demo()
 	_validate_gallery_and_development()
 	var safety: Dictionary = preload("res://scripts/tests/notebook_save_safety_smoke.gd").new().run()
@@ -273,6 +274,27 @@ func _validate_f3() -> void:
 		_expect(archive.entries == preview.snapshot.meta_progress.dialogue_history.entries and archive.branch_id != preview.snapshot.meta_progress.dialogue_history.branch_id, "F3 copy retains UIDs and changes branch")
 		SaveManager.delete_test_slot(copied.slot_id)
 	_expect(FileAccess.get_file_as_bytes(_path("f3_reselect.json")) == original and FileAccess.get_file_as_bytes(_path()) == main_bytes, "F3 adaptation does not rewrite source run or sidecar")
+	SaveManager.delete_test_slot(SLOT)
+
+
+func _validate_f3_uncommitted() -> void:
+	SaveManager.delete_test_slot(SLOT)
+	var source := _legacy(CHECKPOINTS.new().snapshot_for("EDC").snapshot)
+	_write_source(_path(), source, 1, "SAVE_F3_COMPLETE")
+	var tentative := source.duplicate(true)
+	tentative.meta_progress.dialogue_history.entries[0].variables.text = "Uncommitted F3 candidate"
+	var temporary := _path("f3_reselect.json.tmp")
+	_write_source(temporary, tentative, 1, "SAVE_F3_COMPLETE")
+	var bytes := FileAccess.get_file_as_bytes(temporary)
+	_expect(not SaveManager.load_f3_reselect(SLOT).ok, "uncommitted F3 temporary is not a recovery source")
+	var copied: Dictionary = SaveManager.create_f3_reselect_slot(SLOT)
+	_expect(not copied.ok, "uncommitted F3 temporary cannot create a playable branch")
+	if copied.ok: SaveManager.delete_test_slot(copied.slot_id)
+	_write_source(_path("f3_reselect.json.bak"), source, 1, "SAVE_F3_COMPLETE")
+	var expected: Dictionary = SaveManager._read_and_validate(_path("f3_reselect.json.bak"))
+	var loaded: Dictionary = SaveManager.load_f3_reselect(SLOT)
+	_expect(loaded.ok and loaded.snapshot == expected.snapshot, "committed F3 backup wins over uncommitted temporary")
+	_expect(FileAccess.get_file_as_bytes(temporary) == bytes, "reading never removes or rewrites tentative F3 bytes")
 	SaveManager.delete_test_slot(SLOT)
 
 

@@ -475,7 +475,8 @@ func load_f3_reselect(slot_id: String) -> Dictionary:
 	if not current["snapshot"].get("meta_progress", {}).get("knowledge_entries", {}).get("F3_complete", false):
 		return _load_failure(&"ERR_RESELECT_CURRENT_RUN")
 	var path := "%s/%s/f3_reselect.json" % [get_save_root(), slot_id]
-	for suffix in ["", ".tmp", ".bak"]:
+	# A verified temporary candidate is not a committed reselect checkpoint.
+	for suffix in ["", ".bak"]:
 		var result := _read_and_validate(path + suffix)
 		if result.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return result
 		if _valid_f3_copy(result, slot_id):
