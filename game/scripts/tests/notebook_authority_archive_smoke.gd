@@ -64,8 +64,8 @@ func run(tree: SceneTree) -> Dictionary:
 		print("AUTHORITY_ARCHIVE_PHASE: ", locale, " rule matrix")
 		_rule_matrix()
 		for actor in ["edgar", "mara2"]:
-			for bond in [0, 2, 4]:
-				for alert in [0, 4]:
+			for bond in range(6):
+				for alert in range(6):
 					for index in range(2):
 						print("AUTHORITY_ARCHIVE_PHASE: ", locale, " ", actor, " outcome ", bond, "/", alert, "/", index)
 						await _outcome(actor, bond, alert, index)
@@ -222,9 +222,11 @@ func _outcome(actor: String, bond: int, alert: int, index: int) -> void:
 	_expect(not ARCHIVE.resolve(_archive(), hidden).ok, "future confession paragraph remains unavailable")
 	_expect(_count(prefix + "CONFESS_HIGH") == 0 and _count(prefix + "CONFESS_ALERT") == 0, "first paragraph cannot disclose conditional response")
 	_drain()
-	_expect(_count(prefix + "CONFESS_HIGH") == (1 if bond >= 4 else 0), "only the actual high-bond response is observed")
-	_expect(_count(prefix + "CONFESS_MID") == (1 if bond >= 2 and bond < 4 else 0), "only the actual middle-bond response is observed")
-	_expect(_count(prefix + "CONFESS_ALERT") == (1 if alert >= 4 else 0), "alert response is independent")
+	var expected_bond := ["", "", "MID", "MID", "HIGH", "HIGH"]
+	var expected_alert := [false, false, false, false, true, true]
+	_expect(_count(prefix + "CONFESS_HIGH") == (1 if expected_bond[bond] == "HIGH" else 0), "only the actual high-bond response is observed")
+	_expect(_count(prefix + "CONFESS_MID") == (1 if expected_bond[bond] == "MID" else 0), "only the actual middle-bond response is observed")
+	_expect(_count(prefix + "CONFESS_ALERT") == (1 if expected_alert[alert] else 0), "alert response is independent")
 	var confession := _archive().duplicate(true)
 	var before := GameState.get_snapshot()
 	_press(actor.to_upper() + "_CHOICE")
@@ -243,6 +245,8 @@ func _outcome(actor: String, bond: int, alert: int, index: int) -> void:
 	_expect(_count(prefix + "RECORD") == 1 and _ledger().revisions.size() == 1, "record and relationship commit once")
 	_drain()
 	after = GameState.get_snapshot()
+	var result_keys := ["RECORDED", "DIRECT"] if actor == "edgar" else ["MERGED", "SEPARATED"]
+	_expect(_count(prefix + "CHOOSE_" + result_keys[index]) == (2 if actor == "edgar" else 1) and _count(prefix + "CHOOSE_" + result_keys[1 - index]) == 0, "only the selected outcome paragraphs are disclosed")
 	var servant: Dictionary = after.meta_progress.servants[actor]
 	_expect(servant.bond == clampi(bond + (2 if direct else 1), 0, 5) and servant.alert == clampi(alert + (1 if direct else -1), 0, 5), "original relation deltas remain exact")
 	_expect(servant.core_event_complete and servant.researcher_record_acquired, "original completion flags retained")
