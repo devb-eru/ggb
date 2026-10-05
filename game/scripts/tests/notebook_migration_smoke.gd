@@ -8,6 +8,12 @@ const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const SLOT := "__test_notebook_migration"
 var errors := PackedStringArray()
 
+class F3PromotionFailure extends "res://scripts/autoload/save_manager.gd":
+	var attempted := false
+	func _promote_temporary(_paths: Dictionary) -> Error:
+		attempted = true
+		return ERR_CANT_CREATE
+
 
 class SaveFault:
 	extends Node
@@ -37,6 +43,8 @@ func run() -> Dictionary:
 	_validate_f3()
 	_validate_f3_uncommitted()
 	_validate_f3_future_candidates()
+	_validate_f3_backup_preservation()
+	_validate_f3_failed_promotion()
 	_validate_demo()
 	_validate_gallery_and_development()
 	var safety: Dictionary = preload("res://scripts/tests/notebook_save_safety_smoke.gd").new().run()
@@ -55,8 +63,8 @@ func _legacy(source: Dictionary = {}) -> Dictionary:
 	return state
 
 
-func _write_source(path: String, state: Dictionary, schema: Variant = 1, point: String = "SAVE_NEW_GAME") -> Dictionary:
-	var header := {"schema_version": schema, "design_revision": SaveManager.DESIGN_REVISION, "checksum_algorithm": "sha256", "checksum": "", "build_flavor": SaveManager.get_build_flavor(), "content_boundary_id": point, "source_app_id": "local", "save_point_id": point, "slot_id": SLOT, "run_id": "legacy-test-run", "state_revision": 8}
+func _write_source(path: String, state: Dictionary, schema: Variant = 1, point: String = "SAVE_NEW_GAME", run_id: String = "legacy-test-run") -> Dictionary:
+	var header := {"schema_version": schema, "design_revision": SaveManager.DESIGN_REVISION, "checksum_algorithm": "sha256", "checksum": "", "build_flavor": SaveManager.get_build_flavor(), "content_boundary_id": point, "source_app_id": "local", "save_point_id": point, "slot_id": SLOT, "run_id": run_id, "state_revision": 8}
 	var document: Dictionary = SaveManager._canonicalize({"save_header": header, "state": state})
 	document.save_header.checksum = JSON.stringify(document, "\t", false).sha256_text()
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path.get_base_dir()))
@@ -318,6 +326,59 @@ func _validate_f3_future_candidates() -> void:
 			_expect(not result.ok and result.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA", "F3 future candidate blocks capture: " + kind + suffix)
 			for name in before:
 				_expect(FileAccess.get_file_as_bytes(_path(name)) == before[name], "F3 future candidate preserves all files: " + kind + suffix + " / " + name)
+	SaveManager.delete_test_slot(SLOT)
+
+
+func _validate_f3_backup_preservation() -> void:
+	for kind in ["corrupt", "non_f3", "foreign_run", "valid"]:
+		SaveManager.delete_test_slot(SLOT)
+		var source := _legacy(CHECKPOINTS.new().snapshot_for("EDC").snapshot)
+		_write_source(_path(), source, 1, "SAVE_F3_COMPLETE")
+		var old := source.duplicate(true)
+		old.meta_progress.dialogue_history.entries[0].variables.text = "Last committed F3 backup"
+		_write_source(_path("f3_reselect.json.bak"), old, 1, "SAVE_F3_COMPLETE")
+		var backup := FileAccess.get_file_as_bytes(_path("f3_reselect.json.bak"))
+		var target := _path("f3_reselect.json")
+		if kind == "corrupt":
+			var file := FileAccess.open(target, FileAccess.WRITE)
+			file.store_string("corrupt F3 primary")
+			file.close()
+		else:
+			_write_source(target, source, 1, "SAVE_NEW_GAME" if kind == "non_f3" else "SAVE_F3_COMPLETE", "other-run" if kind == "foreign_run" else "legacy-test-run")
+		var previous := FileAccess.get_file_as_bytes(target)
+		var captured: Dictionary = SaveManager.capture_f3_reselect(SLOT)
+		_expect(captured.ok, "F3 capture replaces " + kind + " primary")
+		_expect(FileAccess.get_file_as_bytes(_path("f3_reselect.json.bak")) == (previous if kind == "valid" else backup), "only a valid F3 primary replaces recovery bytes: " + kind)
+		_expect(SaveManager.load_f3_reselect(SLOT).ok, "new committed F3 remains readable: " + kind)
+	SaveManager.delete_test_slot(SLOT)
+
+
+func _validate_f3_failed_promotion() -> void:
+	for kind in ["corrupt", "non_f3", "foreign_run", "valid"]:
+		SaveManager.delete_test_slot(SLOT)
+		var source := _legacy(CHECKPOINTS.new().snapshot_for("EDC").snapshot)
+		_write_source(_path(), source, 1, "SAVE_F3_COMPLETE")
+		var old := source.duplicate(true)
+		old.meta_progress.dialogue_history.entries[0].variables.text = "Recoverable committed backup"
+		_write_source(_path("f3_reselect.json.bak"), old, 1, "SAVE_F3_COMPLETE")
+		var target := _path("f3_reselect.json")
+		if kind == "corrupt":
+			var file := FileAccess.open(target, FileAccess.WRITE)
+			file.store_string("corrupt F3 primary")
+			file.close()
+		else:
+			_write_source(target, source, 1, "SAVE_NEW_GAME" if kind == "non_f3" else "SAVE_F3_COMPLETE", "other-run" if kind == "foreign_run" else "legacy-test-run")
+		var recovery_path := target if kind == "valid" else target + ".bak"
+		var expected: Dictionary = SaveManager._read_and_validate(recovery_path)
+		var bytes := FileAccess.get_file_as_bytes(recovery_path)
+		var primary := FileAccess.get_file_as_bytes(_path())
+		var manager := F3PromotionFailure.new()
+		var result := manager.capture_f3_reselect(SLOT)
+		_expect(manager.attempted and not result.ok and result.error_id == &"ERR_RESELECT_PROMOTE", "F3 promotion fault reaches real capture: " + kind)
+		_expect(FileAccess.get_file_as_bytes(target + ".bak") == bytes and FileAccess.get_file_as_bytes(_path()) == primary, "F3 promotion failure preserves recovery and gameplay bytes: " + kind)
+		var loaded: Dictionary = SaveManager.load_f3_reselect(SLOT)
+		_expect(loaded.ok and loaded.snapshot == expected.snapshot, "failed F3 promotion loads committed backup, not temporary: " + kind)
+		manager.free()
 	SaveManager.delete_test_slot(SLOT)
 
 

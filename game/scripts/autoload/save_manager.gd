@@ -450,19 +450,22 @@ func capture_f3_reselect(slot_id: String) -> Dictionary:
 	var source := _read_and_validate(paths["main"])
 	if not _valid_f3_copy(source, slot_id): return _load_failure(&"ERR_RESELECT_SOURCE")
 	var target := "%s/%s/f3_reselect.json" % [get_save_root(), slot_id]
+	var previous: Dictionary = {}
 	# Check every destination before the first copy can overwrite newer data.
 	for suffix in ["", ".tmp", ".bak"]:
 		var existing := _read_and_validate(target + suffix)
 		if existing.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return existing
+		if suffix.is_empty(): previous = existing
 	var temporary := target + ".tmp"
 	if DirAccess.copy_absolute(ProjectSettings.globalize_path(paths["main"]), ProjectSettings.globalize_path(temporary)) != OK:
 		return _load_failure(&"ERR_RESELECT_COPY")
 	if not _valid_f3_copy(_read_and_validate(temporary), slot_id): return _load_failure(&"ERR_RESELECT_VERIFY")
 	if FileAccess.file_exists(target):
-		if DirAccess.copy_absolute(ProjectSettings.globalize_path(target), ProjectSettings.globalize_path(target + ".bak")) != OK:
-			return _load_failure(&"ERR_RESELECT_BACKUP")
+		if _valid_f3_copy(previous, slot_id) and previous.header.get("run_id", "") == source.header.get("run_id", ""):
+			if DirAccess.copy_absolute(ProjectSettings.globalize_path(target), ProjectSettings.globalize_path(target + ".bak")) != OK:
+				return _load_failure(&"ERR_RESELECT_BACKUP")
 		if DirAccess.remove_absolute(ProjectSettings.globalize_path(target)) != OK: return _load_failure(&"ERR_RESELECT_REPLACE")
-	if DirAccess.rename_absolute(ProjectSettings.globalize_path(temporary), ProjectSettings.globalize_path(target)) != OK:
+	if _promote_temporary({"main":target, "temporary":temporary}) != OK:
 		return _load_failure(&"ERR_RESELECT_PROMOTE")
 	return {"ok":true,"path":target}
 
