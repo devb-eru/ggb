@@ -16,6 +16,7 @@ class ControlledSave extends Node:
 	var reject_game := false
 	var lose_ack := false
 	func get_build_flavor() -> String: return SaveManager.get_build_flavor()
+	func capture_f3_reselect(slot: String) -> Dictionary: return SaveManager.capture_f3_reselect(slot)
 	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
 		if reject or (reject_game and not transaction.begins_with("HISTORY_")): return {"ok": false, "error_ids": ["TEST_MODAL_SAVE"]}
 		var result := SaveManager.save_snapshot(slot, point, state, revision, transaction)
@@ -30,6 +31,11 @@ func run(tree: SceneTree) -> Dictionary:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--cursor-phase="): phase = arg.trim_prefix("--cursor-phase=")
 	TranslationServer.set_locale("ko-KR" if phase == "seed" else "en-US")
+	if "--ending-recovery-only" in OS.get_cmdline_user_args():
+		if phase == "seed": await _ending_commit_recovery(tree)
+		else: _expect(false, "ending recovery focused mode requires seed phase")
+		print("NOTEBOOK_ENDING_RECOVERY_CHECKS: ", checks)
+		return {"ok": errors.is_empty(), "errors": errors}
 	if "--utility-only" in OS.get_cmdline_user_args():
 		if phase == "seed": await _utilities(tree)
 		await _utility_process(tree, phase)
@@ -85,6 +91,7 @@ func run(tree: SceneTree) -> Dictionary:
 
 func _cases(tree: SceneTree) -> void:
 	await _chapter_choice_matrix(tree)
+	await _ending_commit_recovery(tree)
 	for spec in [
 		["A1", 0, "_open_mark_choices", []], ["B1", 0, "_open_schedule_board", []], ["B3_B", 0, "_confirm_clock", []],
 		["AS", 0, "_confirm_sleep", []], ["D6", 2, "_confirm_d6_rest", ["capsule"]],
@@ -174,6 +181,89 @@ func _chapter_choice_matrix(tree: SceneTree) -> void:
 				await tree.process_frame
 	TranslationServer.set_locale("ko-KR")
 	print("NOTEBOOK_MODAL_CH1_MATRIX: ", executed, " choice/cancel cases")
+
+
+func _ending_commit_recovery(tree: SceneTree) -> void:
+	var executed := 0
+	for language in ["ko-KR", "en-US"]:
+		TranslationServer.set_locale(language)
+		for decision in ["reality", "stay"]:
+			for next_action in ["retry", "cancel", "other"]:
+				var old_errors := errors.size()
+				_seed("EDC")
+				var view = _view(tree, 2)
+				view._confirm_ending(decision)
+				var request: Dictionary = view._recorded_modal_request
+				var shown := GameState.get_snapshot()
+				var controlled := ControlledSave.new()
+				controlled.reject_game = true
+				view.session._save = controlled
+				view._recorded_choice_pressed(request, 1)
+				var pending := GameState.get_snapshot()
+				var cursor := CURSOR.read(pending)
+				_expect(view._modal_active and cursor.get("phase") == "selection_pending", "ending game-save failure restores pending choice")
+				_expect(pending.ending_run == shown.ending_run and not pending.ending_run.get("branch_committed", false), "recorded confirmation does not commit ending on failed save")
+				var left := shown.duplicate(true)
+				var right := pending.duplicate(true)
+				left.loop_state.event_local_states.erase(CURSOR.KEY)
+				right.loop_state.event_local_states.erase(CURSOR.KEY)
+				var assertions = preload("res://scripts/tests/notebook_state_assertions.gd")
+				_expect(assertions.same_surface_gameplay(left, right), "failed ending commit changes only observations and backed presentation receipts")
+				var mutated := right.duplicate(true)
+				mutated.meta_progress.servants.edgar.bond += 1
+				_expect(not assertions.same_surface_gameplay(left, mutated), "failure comparison rejects relationship mutation")
+				mutated = right.duplicate(true)
+				mutated.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT.scope.origin = "0".repeat(32)
+				_expect(not assertions.same_surface_gameplay(left, mutated), "failure comparison rejects unbacked surface receipt")
+				var answer_id: String = request.row.choices[1].content_id
+				var answers: Array = pending.meta_progress.dialogue_history.entries.filter(func(entry: Dictionary) -> bool: return entry.get("observation", {}).get("content_id", "") == answer_id)
+				_expect(answers.size() == 1, "one attempted ending answer is retained")
+				view.session._save = SaveManager
+				view.queue_free()
+				await tree.process_frame
+				_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "pending ending loads from actual disk slot")
+				view = _view(tree, 2)
+				_expect(view._modal_active and StateSnapshotValidator.same_persisted_value(pending, GameState.get_snapshot()), "load neither decides ending nor appends an observation")
+				var restored: Dictionary = view._recorded_modal_request
+				_expect(restored.selection_recorded and restored.selection_token == cursor.modal.selection_token, "loaded ending retains exact answer token")
+				controlled.reject_game = false
+				controlled.lose_ack = true
+				view.session._save = controlled
+				var expected_decision: String = decision
+				if next_action == "retry":
+					view._recorded_choice_pressed(restored, 1)
+				else:
+					view._cancel_prologue_modal()
+					_expect(GameState.get_snapshot().ending_run.final_decision == "unset" and not GameState.get_snapshot().ending_run.get("branch_committed", false), "cancelling a saved answer leaves ending undecided")
+					expected_decision = "unset"
+					if next_action == "other":
+						for step in range(20):
+							if not view._dialogue_active: break
+							view._advance_dialogue()
+						_expect(not view._dialogue_active, "cancel feedback finishes")
+						view._do("f3_open")
+						for step in range(20):
+							if not view._dialogue_active: break
+							view._advance_dialogue()
+						_expect(not view._dialogue_active, "reopen feedback finishes")
+						expected_decision = "stay" if decision == "reality" else "reality"
+						view._confirm_ending(expected_decision)
+						_expect(view._modal_active and not view._recorded_modal_request.is_empty(), "other ending can be explicitly reconsidered")
+						view._recorded_choice_pressed(view._recorded_modal_request, 1)
+				var after := GameState.get_snapshot()
+				_expect(after.ending_run.final_decision == expected_decision, "explicit follow-up applies exact ending decision")
+				var preserved: Array = after.meta_progress.dialogue_history.entries.filter(func(entry: Dictionary) -> bool: return entry.get("observation", {}).get("content_id", "") == answer_id)
+				_expect(StateSnapshotValidator.same_persisted_value(answers, preserved), "retry or cancellation keeps original attempted answer without duplication")
+				view._recorded_choice_pressed(restored, 1)
+				_expect(GameState.get_snapshot() == after, "old ending confirmation callback cannot overwrite later decision")
+				view.session._save = SaveManager
+				controlled.free()
+				view.queue_free()
+				await tree.process_frame
+				executed += 1
+				print("NOTEBOOK_ENDING_RECOVERY_CASE: ", language, " ", decision, " ", next_action, " ", "PASS" if errors.size() == old_errors else errors.slice(old_errors))
+	TranslationServer.set_locale("ko-KR")
+	print("NOTEBOOK_ENDING_COMMIT_RECOVERY: ", executed, " cases")
 
 
 func _utility_process(tree: SceneTree, phase: String) -> void:

@@ -1,0 +1,74 @@
+{
+  "diagnostic": [
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]",
+    "ENDING_PENDING_STATE_DIFF: [\"$.loop_state.event_local_states.NOTEBOOK_SURFACE_RECEIPT\"]"
+  ],
+  "test_sha256": "229BCBDC40BB2C8EC909CBB948CAF15A020E55172B60E0D939F745CA4AB74055",
+  "logs": [
+    {
+      "case": "modals",
+      "sha256": "782A7647E080F3E5A6DE6D5E0C3D142344D73F0D5550B251F37C9192EF8001AB",
+      "summary": [
+        "NOTEBOOK_ENDING_RECOVERY_CASE: ko-KR reality retry PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: ko-KR reality cancel PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: ko-KR reality other PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: ko-KR stay retry PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: ko-KR stay cancel PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: ko-KR stay other PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: en-US reality retry PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: en-US reality cancel PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: en-US reality other PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: en-US stay retry PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: en-US stay cancel PASS",
+        "NOTEBOOK_ENDING_RECOVERY_CASE: en-US stay other PASS",
+        "NOTEBOOK_ENDING_COMMIT_RECOVERY: 12 cases",
+        "NOTEBOOK_MODAL_PRESENTATION_CHECKS: seed 979",
+        "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+      ]
+    },
+    {
+      "case": "modal_resume",
+      "sha256": "7E7BECEC857FF670AF5921388DB5D00CAF1D57EED3198FCE2BCFA6B99A5EFFD1",
+      "summary": [
+        "NOTEBOOK_MODAL_PRESENTATION_CHECKS: resume 7",
+        "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+      ]
+    },
+    {
+      "case": "modal_completed",
+      "sha256": "3C3C78FAFFABE2862970B15B0C2451816AC3D7710175BA333E34A63BC1417B3D",
+      "summary": [
+        "NOTEBOOK_MODAL_PRESENTATION_CHECKS: completed 4",
+        "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+      ]
+    }
+  ],
+  "pck_sha256": "570902DD3A01ED8C45C4E80ADEF58BCBB245D257D56625CFCA1CEF0654C95DAC",
+  "diagnostic_sha256": "42A085CD1018691306D53CCCEB9CD1B90DE8B3FE95C640FDDDE9C81B84E67858",
+  "baseline": "759d2e4a1bca2d2d412f713bcbda3193b242be11",
+  "runtime": "Godot 4.7.2 Windows headless; isolated APPDATA/PCK",
+  "log_directory": "%TEMP%/ggb-notebook-ending-commit-recovery-verified-20261005",
+  "initial_test_errors": [
+    "optional branch_committed accessed as mandatory key",
+    "valid NOTEBOOK_SURFACE_RECEIPT addition rejected; strict source-backed comparator now used",
+    "dependent resume initially ran without successful seed; final runner stops on prerequisite failure"
+  ],
+  "durations_seconds": {
+    "import": 45.1,
+    "export": 13.6,
+    "seed": 188.7,
+    "resume": 10,
+    "completed": 9
+  },
+  "native_input": false
+}
