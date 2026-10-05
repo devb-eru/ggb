@@ -9,7 +9,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
-		for scenario in ["success", "dialogue", "repeat", "locale", "revision", "reload", "slot", "session", "profile", "close", "escape", "held", "destroy", "large"]:
+		for scenario in ["success", "dialogue", "repeat", "locale", "revision", "reload", "slot", "session", "profile", "close", "escape", "held", "destroy", "large", "disk_invalid"]:
 			await _opening_case(tree, scenario)
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
@@ -32,6 +32,8 @@ func _opening_case(tree: SceneTree, scenario: String) -> void:
 	var before := GameState.get_snapshot()
 	var paths: Dictionary = SaveManager._slot_paths(SLOT)
 	var disk := FileAccess.get_file_as_bytes(paths.main)
+	var backup_exists := FileAccess.file_exists(paths.backup)
+	var backup := FileAccess.get_file_as_bytes(paths.backup) if backup_exists else PackedByteArray()
 	var start := Time.get_ticks_usec()
 	if scenario == "dialogue": view._open_dialogue_history()
 	else: view._open_notebook()
@@ -57,6 +59,15 @@ func _opening_case(tree: SceneTree, scenario: String) -> void:
 	var worker: Thread = host._refresh_job.thread
 	var candidate: WeakRef = weakref(host._refresh_job.model)
 	match scenario:
+		"disk_invalid":
+			# Only the suite-owned isolated slot is damaged; restore exact bytes below.
+			for path in [paths.main, paths.backup]:
+				var file := FileAccess.open(path, FileAccess.WRITE)
+				_expect(file != null, "open isolated slot for corruption fixture")
+				if file != null:
+					file.store_string("{invalid notebook opening fixture")
+					file.close()
+			_expect(not SaveManager.inspect_slot(SLOT).available, "both damaged candidates are unavailable")
 		"repeat": host.refresh()
 		"locale": TranslationServer.set_locale("ko-KR" if TranslationServer.get_locale().begins_with("en") else "en-US")
 		"revision", "reload": _expect(StateWriter.new(GameState).install_snapshot(before, GameState.revision, &"LOAD_OPENING_OTHER" if scenario == "reload" else &"OPENING_OTHER").ok, "change scope or revision while opening")
@@ -93,8 +104,24 @@ func _opening_case(tree: SceneTree, scenario: String) -> void:
 		if scenario == "revision":
 			_expect(host._opening and host._loading_retry.visible and not host.panel.visible and not host.model.diagnostics().ready, "stale initial candidate offers retry without publishing")
 			host._loading_retry.pressed.emit()
+		if scenario == "disk_invalid":
+			_expect(host._opening and host._loading_retry.visible and not host.panel.visible and not host.model.diagnostics().ready, "invalid disk candidate cannot publish prepared records")
+			_expect(GameState.get_snapshot() == before and host.pending.is_empty() and host._reference_job.is_empty(), "disk failure cannot mutate game or start a reference write")
+			host._loading_retry.pressed.emit()
+			_expect(host._refresh_job.is_empty() and host._opening and not host.panel.visible, "retry while disk remains invalid cannot start or publish")
+			for path in [paths.main, paths.backup]:
+				if path == paths.backup and not backup_exists:
+					_expect(DirAccess.remove_absolute(path) == OK, "remove suite-created backup fixture")
+					continue
+				var file := FileAccess.open(path, FileAccess.WRITE)
+				_expect(file != null, "restore isolated slot")
+				if file != null:
+					file.store_buffer(disk if path == paths.main else backup)
+					file.close()
+			_expect(SaveManager.inspect_slot(SLOT).available, "restored disk is revalidated")
+			host._loading_retry.pressed.emit()
 		host.set_process(true)
-	if scenario in ["success", "dialogue", "repeat", "locale", "revision", "large"]:
+	if scenario in ["success", "dialogue", "repeat", "locale", "revision", "large", "disk_invalid"]:
 		var ready := await WAIT.ready(tree, host)
 		_expect(ready, "opening completes: " + scenario)
 		if ready:
@@ -118,6 +145,8 @@ func _opening_case(tree: SceneTree, scenario: String) -> void:
 		else:
 			_expect(not view.visible and view.process_mode == Node.PROCESS_MODE_DISABLED, "obsolete controller never resumes")
 	_expect(GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(paths.main) == disk, "opening is read only: " + scenario)
+	if scenario == "disk_invalid":
+		_expect(FileAccess.file_exists(paths.backup) == backup_exists and (not backup_exists or FileAccess.get_file_as_bytes(paths.backup) == backup), "backup is restored byte-for-byte without repair writes")
 	view.queue_free()
 	await tree.process_frame
 	await tree.process_frame
