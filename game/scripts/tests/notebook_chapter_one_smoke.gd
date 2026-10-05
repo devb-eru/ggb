@@ -186,6 +186,8 @@ func _route(tree: SceneTree, language: String) -> void:
 	_natural_pressure_paths(view, language)
 	_collect(language)
 	_guard_exclusions(view, language)
+	_schedule_combinations(view, language)
+	_shortcut_conditions(view, language, shortcut)
 	await _persistence(view, tree)
 	view.queue_free()
 	await tree.process_frame
@@ -295,6 +297,51 @@ func _guard_exclusions(view: Node, language: String) -> void:
 	_guard_case(view, language, "j2_misaligned", wave, "restore_j2", null, "CH1_J2_MISALIGNED")
 	wave.meta_progress.journal_stage = 2
 	_guard_case(view, language, "j2_already", wave, "restore_j2", null, "CH1_J2_ALREADY")
+
+
+func _schedule_combinations(view: Node, language: String) -> void:
+	var owners := ["edgar", "luca", "mara1", "mara2"]
+	for mask in range(16):
+		var state := _fixture("M1_SERVANT_COMMON")
+		state.meta_progress.knowledge_entries.erase("KN_B1_LIBRARY_WINDOW")
+		_install(state)
+		var core_count := 0
+		for index in range(4):
+			if mask & (1 << index):
+				_act(view, "read_schedule", owners[index])
+				if index < 3: core_count += 1
+		state = GameState.get_snapshot()
+		if core_count < 2:
+			_guard_case(view, language, "schedule_subset_%d" % mask, state, "schedule_window", "after_tea_before_bell", "CH1_B1_NEED_DOCS")
+		else:
+			for wrong in ["morning", "after_bell"]:
+				_guard_case(view, language, "schedule_subset_%d_%s" % [mask, wrong], state, "schedule_window", wrong, "CH1_B1_WRONG")
+			_act(view, "schedule_window", "after_tea_before_bell")
+			var entry: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history.entries.back()
+			_expect(entry.observation.node_id == "B1" and entry.observation.content_id == "NB_CH1_CH1_B1_SOLVED", "schedule subset retains original source %d" % mask)
+			_expect(view.session.stage() == "B2", "schedule subset unlocks B2 %d" % mask)
+	print("NOTEBOOK_NP04_SCHEDULE_MATRIX: " + language + " 16 subsets")
+
+
+func _shortcut_conditions(view: Node, language: String, eligible: Dictionary) -> void:
+	_install(eligible)
+	_expect(view.session.can_prepare_clock_shortcut(), "shortcut independent baseline eligible")
+	for condition in ["room", "journal_zero", "journal_two", "layout", "failure_missing", "failure_resolved", "locked", "signal", "waveform"]:
+		var state := eligible.duplicate(true)
+		match condition:
+			"room": state.loop_state.location_id = "M1_CENTRAL_HALL"
+			"journal_zero": state.meta_progress.journal_stage = 0
+			"journal_two": state.meta_progress.journal_stage = 2
+			"layout": state.meta_progress.knowledge_entries.clock_network_layout_solved = false
+			"failure_missing": state.meta_progress.failure_knowledge.erase("B3_B")
+			"failure_resolved": state.meta_progress.failure_knowledge.B3_B.status = "resolved"
+			"locked": state.loop_state.event_local_states.CHAPTER_ONE.clock_locked = true
+			"signal": state.loop_state.event_local_states.CHAPTER_ONE.signal_generated = true
+			"waveform": state.meta_progress.knowledge_entries.b4_waveform_acquired = true
+		_install(state)
+		_expect(not view.session.can_prepare_clock_shortcut(), "shortcut independent condition " + condition)
+		_guard_case(view, language, "shortcut_independent_" + condition, state, "shortcut", null, "CH1_BSHORT_BEDROOM" if condition == "room" else "CH1_BSHORT_UNAVAILABLE")
+	print("NOTEBOOK_NP04_SHORTCUT_MATRIX: " + language + " 9 independent conditions")
 
 
 func _guard_case(view: Node, language: String, id: String, state: Dictionary, action: String, value: Variant = null, text_id: String = "") -> void:
