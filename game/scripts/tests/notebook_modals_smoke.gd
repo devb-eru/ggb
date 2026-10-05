@@ -6,6 +6,8 @@ const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const MODALS := preload("res://scripts/systems/modal_notebook.gd")
 const FIELD := preload("res://scripts/ui/field_notebook_texts.gd")
+const CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
+const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 const SLOT := "__test_notebook_modals"
 var errors := PackedStringArray()
 var covered := {}
@@ -13,16 +15,23 @@ var segments := {}
 var view: BasementController
 var checkpoints := CHECKPOINTS.new()
 var serial := 0
+var field_recovery_cases := 0
+var field_visibility_guards := 0
 
 class ControlledSave extends Node:
 	var delegate: Node
 	var reject := false
+	var reject_game := false
+	var rejected_game_saves := 0
 	var lose_ack := false
 	func get_build_flavor() -> String:
 		return delegate.get_build_flavor()
 	func capture_f3_reselect(slot: String) -> Dictionary:
 		return delegate.capture_f3_reselect(slot)
 	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		if reject_game and not transaction.begins_with("HISTORY_"):
+			rejected_game_saves += 1
+			return {"ok": false, "error_ids": ["ERR_TEST_MODAL_GAME_SAVE"]}
 		if reject: return {"ok": false, "error_ids": ["ERR_TEST_MODAL_SAVE"]}
 		var result: Dictionary = delegate.save_snapshot(slot, point, state, revision, transaction)
 		return {"ok": false, "error_ids": ["ERR_TEST_MODAL_ACK"]} if result.ok and lose_ack else result
@@ -47,6 +56,8 @@ func run(tree: SceneTree) -> Dictionary:
 		TranslationServer.set_locale(locale)
 		await _static_choices(tree)
 		await _field_choices(tree)
+		await _field_visibility(tree)
+		await _field_recovery(tree)
 		await _routes(tree)
 		for id in ids:
 			_expect(covered.has(id + ":" + locale), "uncovered modal ID " + id + ":" + locale)
@@ -58,7 +69,8 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
-	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "not_covered": ["durable_restart_cursor", "OS_input", "remaining_unrecorded_modals"]}
+	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(),
+		"field_recovery_cases": field_recovery_cases, "field_visibility_guards": field_visibility_guards, "not_covered": ["durable_restart_cursor", "OS_input", "remaining_unrecorded_modals"]}
 
 
 func _static_choices(tree: SceneTree) -> void:
@@ -126,6 +138,95 @@ func _field_choices(tree: SceneTree) -> void:
 			view._open_field_page("SUBJECT_HANDOFF_PAGE", true)
 			_collect()
 			await tree.process_frame
+
+
+func _field_visibility(tree: SceneTree) -> void:
+	for page in FIELD.RULES.OWNERS:
+		var owner: String = FIELD.RULES.OWNERS[page]
+		for mode in ["incomplete", "unknown_outcome"]:
+			for expanded in [false, true]:
+				var state := _seed("EDR_FIELD_NOTEBOOK")
+				state.meta_progress.servants[owner].core_event_complete = mode != "incomplete"
+				state.meta_progress.event_history[FIELD.RULES.WAKE.EVENTS[owner]] = {"lifecycle": "completed",
+					"outcome_id": "unknown_legacy_outcome" if mode == "unknown_outcome" else FIELD.OVERLAYS[owner].keys()[0]}
+				_install(state)
+				view._open_field_page(page, expanded)
+				var request: Dictionary = view._recorded_modal_request
+				_expect(request.get("recorded", false), "conditional field page remains readable")
+				var observed: Dictionary = _history().entries.back()
+				for outcome in FIELD.OVERLAYS[owner]:
+					_expect(not ARCHIVE.resolve(_history(), ARCHIVE.make_reference(observed, "addendum_" + outcome)).ok, "incomplete/unknown outcome cannot disclose any addendum")
+				_expect(not request.text.contains("인계 부기:") and not request.text.contains("Handoff addendum:"), "unearned addendum is absent from visible body")
+				field_visibility_guards += 1
+				await tree.process_frame
+
+
+func _field_recovery(tree: SceneTree) -> void:
+	for page in FIELD.RULES.PAGES:
+		for expanded in [false, true]:
+			for index in [0, 2]:
+				for follow_up in ["retry", "cancel"]:
+					var old_errors := errors.size()
+					_seed("EDR_FIELD_NOTEBOOK")
+					_expect(view.session.initialize().ok, "field recovery initializes session normally")
+					view._render_room()
+					view._open_field_page(page, expanded)
+					var request: Dictionary = view._recorded_modal_request
+					_expect(view._modal_active and request.get("recorded", false), "field prompt is saved before confirmation")
+					var shown := GameState.get_snapshot()
+					var saver := ControlledSave.new()
+					saver.delegate = SaveManager
+					saver.reject_game = true
+					view.session._save = saver
+					view._recorded_choice_pressed(request, index)
+					var pending := GameState.get_snapshot()
+					var cursor := CURSOR.read(pending)
+					_expect(saver.rejected_game_saves == 1, "field read actually reaches one rejected game save")
+					_expect(view._modal_active and cursor.get("phase") == "selection_pending" and CURSOR.matches(cursor, pending), "failed read remains on pending field page")
+					_expect(STATE_ASSERTIONS.same_surface_gameplay(_without_cursor(shown), _without_cursor(pending)), "failed read leaves physical progress and knowledge untouched")
+					var answer_id: String = request.row.choices[index].content_id
+					var answers := _field_answers(answer_id)
+					_expect(answers.size() == 1, "failed read preserves one attempted answer")
+					view.session._save = SaveManager
+					view.queue_free()
+					await tree.process_frame
+					_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "field pending page reloads from disk")
+					view = VIEW.new()
+					view.configure_session(SLOT, "MORNING_ROUTE")
+					tree.current_scene.add_child(view)
+					view.set_process(false)
+					await tree.process_frame
+					_expect(view._modal_active and StateSnapshotValidator.same_persisted_value(pending, GameState.get_snapshot()), "field reload does not acknowledge or turn the page automatically")
+					var restored: Dictionary = view._recorded_modal_request
+					_expect(restored.get("selection_recorded", false) and restored.get("selection_token") == cursor.get("modal", {}).get("selection_token"), "field reload retains exact answer token")
+					saver.reject_game = false
+					saver.lose_ack = true
+					view.session._save = saver
+					if follow_up == "cancel":
+						view._cancel_prologue_modal()
+						_expect(not view._modal_active and STATE_ASSERTIONS.same_surface_gameplay(_without_cursor(shown), _without_cursor(GameState.get_snapshot())), "Esc preserves unread gameplay and adds no confirmation")
+					else:
+						view._recorded_choice_pressed(restored, index)
+						var local: Dictionary = GameState.get_snapshot().loop_state.event_local_states.get("FIELD_NOTEBOOK", {})
+						_expect(page in local.get("pages", []) and (page in local.get("expanded_pages", [])) == expanded, "explicit retry acknowledges the chosen summary/full page")
+						if index == 0:
+							_expect(not view._modal_active, "read-and-close retry closes the page")
+						else:
+							var pages: Array = FIELD.RULES.PAGES.keys()
+							var next: String = pages[(pages.find(page) + 1) % pages.size()]
+							_expect(view._modal_active and view._recorded_modal_request.title == FIELD.title(next, TranslationServer.get_locale()), "next-page retry opens the exact next page including wraparound")
+					var after := GameState.get_snapshot()
+					_expect(StateSnapshotValidator.same_persisted_value(answers, _field_answers(answer_id)), "field retry/cancel retains one immutable attempted answer")
+					view._recorded_choice_pressed(restored, index)
+					_expect(GameState.get_snapshot() == after, "stale field callback cannot confirm or turn again")
+					view.session._save = SaveManager
+					saver.free()
+					field_recovery_cases += 1
+					print("NOTEBOOK_FIELD_RECOVERY: ", TranslationServer.get_locale(), " ", page, " ", expanded, " ", index, " ", follow_up, " ", "PASS" if errors.size() == old_errors else errors.slice(old_errors))
+
+
+func _field_answers(id: String) -> Array:
+	return _history().entries.filter(func(entry: Dictionary) -> bool: return entry.get("observation", {}).get("content_id", "") == id)
 
 
 func _routes(tree: SceneTree) -> void:
