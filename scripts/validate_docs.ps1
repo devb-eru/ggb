@@ -882,8 +882,12 @@ if (Test-Path -LiteralPath $startScreenPath -PathType Leaf) {
     $startScreenText = [System.IO.File]::ReadAllText($startScreenPath, $utf8)
     foreach ($token in @(
         "func set_input_suspended(suspended: bool)",
-        "Control.MOUSE_FILTER_IGNORE if suspended",
-        "Control.FOCUS_NONE if suspended",
+        "_input_suspended = suspended",
+        "func _apply_input_scope()",
+        "not _input_suspended and (modal == null or modal.is_ancestor_of(control))",
+        "Control.MOUSE_FILTER_STOP if allowed else Control.MOUSE_FILTER_IGNORE",
+        "Control.FOCUS_ALL if allowed else Control.FOCUS_NONE",
+        "func _rebuild_modal_focus_cycle()",
         "gui_release_focus()"
     )) {
         if ($startScreenText -notmatch [regex]::Escape($token)) {

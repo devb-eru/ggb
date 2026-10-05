@@ -104,6 +104,8 @@ var _latest_slot_id := ""
 var _slot_mode := "load"
 var _pending_overwrite_slot := ""
 var _focus_before_modal: Control
+var _input_suspended := false
+var _focus_before_suspend: Control
 var _gallery_button: Button
 var _gallery_controls: HBoxContainer
 var _gallery_choices: OptionButton
@@ -197,15 +199,56 @@ func show_load_error(error_ids: PackedStringArray) -> void:
 
 
 func set_input_suspended(suspended: bool) -> void:
-	for control in _all_interactive_controls():
-		control.mouse_filter = Control.MOUSE_FILTER_IGNORE if suspended else Control.MOUSE_FILTER_STOP
-		control.focus_mode = Control.FOCUS_NONE if suspended else Control.FOCUS_ALL
+	if suspended and not _input_suspended:
+		_focus_before_suspend = get_viewport().gui_get_focus_owner()
+	_input_suspended = suspended
+	_apply_input_scope()
 	if suspended:
 		get_viewport().gui_release_focus()
 	else:
-		var modal := _active_modal()
-		if modal == null:
-			(_continue_button if not _continue_button.disabled else _new_game_button).grab_focus()
+		_restore_scoped_focus(_focus_before_suspend)
+
+
+func _apply_input_scope() -> void:
+	var modal := _active_modal()
+	for control in _all_interactive_controls():
+		var allowed := not _input_suspended and (modal == null or modal.is_ancestor_of(control))
+		control.mouse_filter = Control.MOUSE_FILTER_STOP if allowed else Control.MOUSE_FILTER_IGNORE
+		control.focus_mode = Control.FOCUS_ALL if allowed else Control.FOCUS_NONE
+		if not _key_panel.is_ancestor_of(control) and not _display_panel.is_ancestor_of(control):
+			control.focus_next = NodePath()
+			control.focus_previous = NodePath()
+	_rebuild_modal_focus_cycle()
+
+
+func _rebuild_modal_focus_cycle() -> void:
+	var modal := _active_modal()
+	# These panels maintain their own cycles as capture/preview controls change.
+	if modal == null or modal in [_key_panel, _display_panel] or _input_suspended: return
+	var controls: Array[Control] = []
+	for child in modal.find_children("*", "Control", true, false):
+		var control := child as Control
+		if not control.is_visible_in_tree() or control.focus_mode == Control.FOCUS_NONE: continue
+		if control is BaseButton and control.disabled: continue
+		controls.append(control)
+	for index in controls.size():
+		controls[index].focus_next = controls[index].get_path_to(controls[(index + 1) % controls.size()])
+		controls[index].focus_previous = controls[index].get_path_to(controls[(index - 1 + controls.size()) % controls.size()])
+
+
+func _restore_scoped_focus(preferred: Control) -> void:
+	if _input_suspended or not is_visible_in_tree(): return
+	var modal := _active_modal()
+	var candidates: Array[Control] = []
+	if is_instance_valid(preferred): candidates.append(preferred)
+	candidates.append(_continue_button if not _continue_button.disabled else _new_game_button)
+	candidates.append_array(_all_interactive_controls())
+	for control in candidates:
+		if not is_ancestor_of(control) or (modal != null and not modal.is_ancestor_of(control)): continue
+		if not control.is_visible_in_tree() or control.focus_mode == Control.FOCUS_NONE: continue
+		if control is BaseButton and control.disabled: continue
+		control.grab_focus()
+		return
 
 
 func _connect_controls() -> void:
@@ -322,6 +365,7 @@ func _open_demo_import() -> void:
 	_open_modal(_launch_panel, _launch_return_button)
 	_import_controls.show()
 	_import_confirm.disabled = _import_sources.is_empty()
+	_rebuild_modal_focus_cycle()
 	_launch_title.text = _text(&"UI_IMPORT_TITLE")
 	_launch_body.text = _text(&"UI_IMPORT_BODY" if not _import_sources.is_empty() else &"UI_IMPORT_EMPTY")
 	_gallery_scroll.scroll_vertical = 0
@@ -335,6 +379,7 @@ func _confirm_demo_import() -> void:
 	if not result.get("ok", false):
 		_launch_body.text = _text(&"UI_IMPORT_ERROR", {"error": str(result.get("error_id", "ERR_IMPORT"))})
 		_import_confirm.disabled = false
+		_rebuild_modal_focus_cycle()
 		return
 	_close_modal()
 	refresh_slots()
@@ -410,6 +455,7 @@ func _open_gallery() -> void:
 		_gallery_previous.disabled = true
 		_gallery_next.disabled = true
 	else: _select_gallery_entry(0)
+	_rebuild_modal_focus_cycle()
 
 func _select_gallery_entry(index: int) -> void:
 	if index < 0 or index >= _gallery_entries.size(): return
@@ -440,6 +486,7 @@ func _show_gallery_page(index: int) -> void:
 	_gallery_scroll.scroll_vertical = 0
 	_gallery_previous.disabled = index == 0
 	_gallery_next.disabled = index == _gallery_pages.size()-1
+	_rebuild_modal_focus_cycle()
 	var focus := get_viewport().gui_get_focus_owner()
 	if (focus == _gallery_previous and _gallery_previous.disabled) or (focus == _gallery_next and _gallery_next.disabled):
 		_launch_return_button.grab_focus()
@@ -744,7 +791,8 @@ func _open_modal(panel: Control, focus_target: Control, remember_focus: bool = t
 		modal.visible = modal == panel
 	_dimmer.visible = true
 	panel.visible = true
-	focus_target.call_deferred("grab_focus")
+	_apply_input_scope()
+	_restore_scoped_focus.call_deferred(focus_target)
 
 
 func _close_modal() -> void:
@@ -754,13 +802,8 @@ func _close_modal() -> void:
 	for modal in _modal_panels():
 		modal.visible = false
 	_dimmer.visible = false
-	var focus_is_available := is_instance_valid(_focus_before_modal)
-	if focus_is_available and _focus_before_modal is BaseButton:
-		focus_is_available = not (_focus_before_modal as BaseButton).disabled
-	if focus_is_available:
-		_focus_before_modal.call_deferred("grab_focus")
-	else:
-		_new_game_button.call_deferred("grab_focus")
+	_apply_input_scope()
+	_restore_scoped_focus.call_deferred(_focus_before_modal)
 
 
 func _active_modal() -> Control:
@@ -803,7 +846,7 @@ func _all_interactive_controls() -> Array[Control]:
 	controls.append_array(_key_panel.interactive_controls())
 	controls.append_array(_display_panel.interactive_controls())
 	if is_instance_valid(_gallery_button):
-		controls.append_array([_gallery_button,_gallery_choices,_gallery_previous,_gallery_next,_gallery_notebook_button])
+		controls.append_array([_gallery_button,_gallery_choices,_gallery_previous,_gallery_next,_gallery_notebook_button,_gallery_scroll])
 	if is_instance_valid(_import_button): controls.append_array([_import_button,_import_choices,_import_confirm])
 	return controls
 

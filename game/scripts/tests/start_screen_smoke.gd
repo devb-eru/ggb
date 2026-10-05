@@ -298,6 +298,7 @@ func run(tree: SceneTree) -> Dictionary:
 		await RenderingServer.frame_post_draw
 		_capture_screen(screen, CAPTURE_INITIAL_FILE, "initial")
 	await _validate_first_run(screen)
+	await _validate_modal_focus_scope(screen)
 	await _validate_slot_modes(screen)
 	await _validate_support_modals(screen)
 	_validate_layout(screen)
@@ -580,6 +581,10 @@ func _validate_first_run(screen: StartScreen) -> void:
 	var panel := screen.get_node("%FirstRunPanel") as Control
 	_expect(panel.visible, "first-run accessibility panel did not open", _errors)
 	_expect(_tree.root.gui_get_focus_owner() == screen.get_node("%FirstTextOption"), "first-run panel focus target mismatch", _errors)
+	await _binding_key(KEY_TAB | KEY_MASK_SHIFT)
+	_expect(_tree.root.gui_get_focus_owner() == screen._first_apply_button, "first-run reverse Tab wraps inside modal, not background import", _errors)
+	await _binding_key(KEY_TAB)
+	_expect(_tree.root.gui_get_focus_owner() == screen._first_text_option, "first-run forward Tab wraps to first option", _errors)
 	_expect((screen.get_node("%FirstTextOption") as OptionButton).item_count == 4, "text scale presets mismatch", _errors)
 	_expect((screen.get_node("%FirstSignatureOption") as OptionButton).item_count == 3, "signature presets mismatch", _errors)
 	_expect((screen.get_node("%FirstMotionOption") as OptionButton).item_count == 3, "motion presets mismatch", _errors)
@@ -597,6 +602,48 @@ func _validate_first_run(screen: StartScreen) -> void:
 		var serialized: Variant = JSON.parse_string(JSON.stringify(retained[field]))
 		_expect(profile_result.profile[field] == serialized, "first-run accessibility defaults preserve " + field, _errors)
 	_expect((screen.get_node("%SlotPanel") as Control).visible, "new-game slot panel did not open after first-run setup", _errors)
+
+
+func _validate_modal_focus_scope(screen: StartScreen) -> void:
+	var before := GameState.get_snapshot()
+	var external := Button.new()
+	_tree.root.add_child(external)
+	for modal in screen._modal_panels():
+		var first: Control
+		for control in screen._all_interactive_controls():
+			if modal.is_ancestor_of(control) and not (control is BaseButton and control.disabled):
+				first = control
+				break
+		_expect(first != null, "modal has an interactive target: " + modal.name, _errors)
+		if first == null: continue
+		screen._open_modal(modal, first, false)
+		await _tree.process_frame
+		for control in screen._all_interactive_controls():
+			if not modal.is_ancestor_of(control):
+				_expect(control.focus_mode == Control.FOCUS_NONE, "background excluded from modal focus: " + control.name, _errors)
+			elif control.is_visible_in_tree() and not (control is BaseButton and control.disabled):
+				control.grab_focus()
+				for code: Key in [KEY_TAB, KEY_TAB | KEY_MASK_SHIFT]:
+					await _binding_key(code)
+					var owner := _tree.root.gui_get_focus_owner()
+					_expect(owner != null and modal.is_ancestor_of(owner), "Tab stays in modal: " + modal.name, _errors)
+		var focused := _tree.root.gui_get_focus_owner()
+		screen.set_input_suspended(true)
+		for control in screen._all_interactive_controls():
+			_expect(control.focus_mode == Control.FOCUS_NONE, "suspension excludes all title controls", _errors)
+		screen.set_input_suspended(false)
+		_expect(_tree.root.gui_get_focus_owner() == focused, "resume restores modal focus", _errors)
+		_expect(screen._new_game_button.focus_mode == Control.FOCUS_NONE, "resume keeps background excluded", _errors)
+		screen._restore_scoped_focus(external)
+		var restored := _tree.root.gui_get_focus_owner()
+		_expect(restored != null and modal.is_ancestor_of(restored), "restore rejects external overlay focus", _errors)
+		screen._close_modal()
+		await _tree.process_frame
+		_expect(screen._new_game_button.focus_mode == Control.FOCUS_ALL, "closing modal restores title input", _errors)
+	_expect(GameState.get_snapshot() == before, "modal focus traversal preserves gameplay", _errors)
+	external.queue_free()
+	screen._open_slot_panel("new", false)
+	await _tree.process_frame
 
 
 func _validate_slot_modes(screen: StartScreen) -> void:
