@@ -88,6 +88,7 @@ func _run() -> void:
 	_expect(not ARCHIVE.validate(corrupt).ok, "durable references without matching protection are invalid")
 	_validate_limits()
 	_validate_retention()
+	_validate_combined_release()
 	_validate_session_retention()
 	_validate_protection_index()
 	_validate_numeric_commands()
@@ -139,6 +140,41 @@ func _validate_retention() -> void:
 	_expect(unpinned.ok and unpinned.pruned_uids == [pin_ref.uid], "removing final protection restores normal retention")
 	var repeated := ARCHIVE.set_reference(unpinned.archive, "bookmarks", pin_ref, false, unpinned.archive.revision)
 	_expect(repeated.ok and not repeated.changed and repeated.archive == unpinned.archive, "unpin retry remains idempotent after its target is pruned")
+
+
+func _validate_combined_release() -> void:
+	for order in [["bookmarks", "comparison"], ["comparison", "bookmarks"]]:
+		for source_kind in ["", "knowledge_source", "person_source", "document_source"]:
+			var archive := preload("res://scripts/tests/notebook_retention_fixture.gd").create()
+			var reference := ARCHIVE.make_reference(archive.entries[0], "body")
+			var original := archive.duplicate(true)
+			for collection in order:
+				var added := ARCHIVE.set_reference(archive, collection, reference, true, archive.revision)
+				_expect(added.ok, "combined protection installs: " + collection)
+				if not added.ok: return
+				archive = added.archive
+			if not source_kind.is_empty():
+				var linked := ARCHIVE.add_source_link(archive, source_kind, "%032x" % 88888, reference, archive.revision)
+				_expect(linked.ok, "durable consumer installs: " + source_kind)
+				if not linked.ok: return
+				archive = linked.archive
+			var first := ARCHIVE.set_reference(archive, order[0], reference, false, archive.revision)
+			_expect(first.ok and first.pruned_uids.is_empty() and ARCHIVE.resolve(first.archive, reference).ok, "first removal never prunes another collection's target: " + str(order) + source_kind)
+			if not first.ok: return
+			var last := ARCHIVE.set_reference(first.archive, order[1], reference, false, first.archive.revision)
+			_expect(last.ok, "last collection removal succeeds")
+			if not last.ok: return
+			var resolved := ARCHIVE.resolve(last.archive, reference)
+			if source_kind.is_empty():
+				_expect(last.pruned_uids == [reference.uid] and not resolved.ok, "only final protection removal prunes oldest excess entry")
+			else:
+				_expect(last.pruned_uids.is_empty() and resolved.ok, "consumer survives both collection removals: " + source_kind)
+				if resolved.ok:
+					_expect(resolved.entry.observation == original.entries[0].observation and resolved.entry.protection_reasons == [source_kind + ":" + "%032x" % 88888], "consumer retains exact original and sole reason: " + source_kind)
+			var retry := ARCHIVE.set_reference(last.archive, order[1], reference, false, last.archive.revision)
+			_expect(retry.ok and not retry.changed and retry.archive == last.archive, "release retry is idempotent with retained or pruned target")
+			_expect(archive.entries[0].observation == original.entries[0].observation and archive.bookmarks.size() == 1 and archive.comparison.size() == 1, "release candidates do not mutate source")
+	print("NOTEBOOK_COMBINED_RELEASE_CASES: 8")
 
 
 func _validate_session_retention() -> void:
