@@ -48,6 +48,7 @@ func run() -> Dictionary:
 	_validate_f3_backup_preservation()
 	_validate_f3_failed_promotion()
 	_validate_demo()
+	_validate_demo_rejections()
 	_validate_gallery_and_development()
 	var safety: Dictionary = preload("res://scripts/tests/notebook_save_safety_smoke.gd").new().run()
 	errors.append_array(safety.errors)
@@ -489,10 +490,62 @@ func _validate_demo() -> void:
 	if copied.get("ok", false):
 		var archive: Dictionary = SaveManager.load_slot(copied.slot_id).snapshot.meta_progress.dialogue_history
 		_expect(archive.entries == preview.snapshot.meta_progress.dialogue_history.entries and archive.branch_id != preview.snapshot.meta_progress.dialogue_history.branch_id, "demo import retains UIDs and changes branch")
+		var repeated: Dictionary = SaveManager.import_demo_to_new_slot(SLOT)
+		_expect(repeated.get("ok", false) and repeated.get("slot_id") != copied.slot_id, "repeated explicit import uses a separate destination")
+		if repeated.get("ok", false):
+			var again: Dictionary = SaveManager.load_slot(repeated.slot_id).snapshot.meta_progress.dialogue_history
+			_expect(again.entries == archive.entries and again.source_origin_id == archive.source_origin_id, "repeated import preserves original observation identities without duplicates")
+			_expect(again.branch_id != archive.branch_id, "independent imports receive distinct branches")
+			SaveManager.delete_test_slot(repeated.slot_id)
 		SaveManager.delete_test_slot(copied.slot_id)
 	_expect(FileAccess.get_file_as_bytes(source_path) == original, "demo source bytes remain unchanged")
 	ProjectSettings.set_setting("ggb/build_flavor", "demo")
 	SaveManager.delete_test_slot(SLOT)
+	ProjectSettings.set_setting("ggb/build_flavor", "full")
+
+
+func _validate_demo_rejections() -> void:
+	var conditions := {
+		"checksum": &"ERR_SAVE_CHECKSUM", "schema": &"ERR_SAVE_FUTURE_SCHEMA",
+		"design": &"ERR_SAVE_DESIGN_REVISION", "slot": &"ERR_IMPORT_SOURCE",
+		"flavor": &"ERR_IMPORT_SOURCE", "app": &"ERR_IMPORT_SOURCE",
+		"point": &"ERR_IMPORT_BOUNDARY", "boundary": &"ERR_IMPORT_BOUNDARY",
+		"progress": &"ERR_IMPORT_PROGRESS",
+	}
+	for kind in conditions:
+		ProjectSettings.set_setting("ggb/build_flavor", "demo")
+		SaveManager.delete_test_slot(SLOT)
+		var source := _legacy(CHECKPOINTS.new().snapshot_for("D6").snapshot)
+		var path := _path()
+		var document := _write_source(path, source, 1, "SAVE_D5_COMPLETE")
+		match kind:
+			"schema": document.save_header.schema_version = 999
+			"design": document.save_header.design_revision = "unknown-design"
+			"slot": document.save_header.slot_id = "different-slot"
+			"flavor": document.save_header.build_flavor = "full"
+			"app": document.save_header.source_app_id = "different-app"
+			"point": document.save_header.save_point_id = "SAVE_NEW_GAME"
+			"boundary": document.save_header.content_boundary_id = "SAVE_NEW_GAME"
+			"progress": document.state.meta_progress.knowledge_entries.d5_complete = false
+		var text: String = SaveManager._encode_payload(document.save_header, document.state).text
+		if kind == "checksum": text = text.replace("Preserved original", "Tampered original")
+		var file := FileAccess.open(path, FileAccess.WRITE)
+		file.store_string(text)
+		file.close()
+		var original := FileAccess.get_file_as_bytes(path)
+		ProjectSettings.set_setting("ggb/build_flavor", "full")
+		var directories := DirAccess.get_directories_at(SaveManager.get_save_root())
+		var live := GameState.get_snapshot()
+		for attempt in range(2):
+			var preview: Dictionary = SaveManager.inspect_demo_import(SLOT)
+			var imported: Dictionary = SaveManager.import_demo_to_new_slot(SLOT)
+			_expect(not preview.get("ok", false) and preview.get("error_id") == conditions[kind], "demo preview rejects source: " + kind + str(attempt))
+			_expect(not imported.get("ok", false) and imported.get("error_id") == conditions[kind], "demo import rejects source: " + kind + str(attempt))
+			_expect(FileAccess.get_file_as_bytes(path) == original, "rejected demo source remains byte-identical: " + kind)
+			_expect(DirAccess.get_directories_at(SaveManager.get_save_root()) == directories, "rejected import allocates no destination slot: " + kind)
+			_expect(GameState.get_snapshot() == live, "rejected import leaves live game unchanged: " + kind)
+		ProjectSettings.set_setting("ggb/build_flavor", "demo")
+		SaveManager.delete_test_slot(SLOT)
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 
 
