@@ -10,6 +10,10 @@ var checks := 0
 var _files: Array[String] = []
 
 class CountedPanel extends "res://scripts/ui/notebook_panel.gd":
+	var initial_row_text := {}
+	func _button(parent: Node, text: String, action: Callable, node_name: String) -> Button:
+		if node_name.begins_with("NotebookRow_"): initial_row_text[node_name] = text
+		return super._button(parent, text, action, node_name)
 	var list_builds := 0
 	var pair_builds := 0
 	var detail_builds := 0
@@ -132,13 +136,14 @@ func _open(archive: Dictionary, ledger: Dictionary, knowledge: Dictionary = {}, 
 
 
 func _badges(tree: SceneTree, query) -> void:
-	var panel := PANEL.new()
+	var panel := CountedPanel.new()
 	panel.size = Vector2(1280, 720)
 	tree.current_scene.add_child(panel)
 	await tree.process_frame
 	var viewed: Array = []
 	panel.material_viewed.connect(func(key: String) -> void: viewed.append(key))
 	panel.present(query, "ko-KR", "dialogue", 2.0)
+	_expect(panel._list.get_children().all(func(node: Node) -> bool: return node is Button and panel.initial_row_text.get(String(node.name), "") == node.text), "rows are created with final unread labels without immediate text replacement")
 	var rows: Dictionary = query.page({"tab": "dialogue"}, 0, query.cache_key())
 	var order := panel._list.get_children().map(func(node: Node) -> String: return node.get_meta("reference_key", ""))
 	_expect(viewed.is_empty() and panel._seen.is_empty(), "list previews and automatic basket preparation never mark read")

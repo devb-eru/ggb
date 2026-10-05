@@ -642,9 +642,10 @@ func _refresh() -> void:
 		var preview: Dictionary = query.preview(item.key, _key)
 		if preview.ok: label += "\n" + String(preview.text).replace("\n", " ").left(100)
 		else: label += "\n" + _l("원문 표시 오류", "Original text unavailable")
-		var button := _button(_list, label, show_detail.bind(item.key, false), "NotebookRow_" + String(item.key).sha256_text().left(16))
+		var display_label := _row_label(item.key, label, item.legacy)
+		var button := _button(_list, display_label, show_detail.bind(item.key, false), "NotebookRow_" + String(item.key).sha256_text().left(16))
 		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		button.tooltip_text = label
+		button.tooltip_text = display_label
 		button.set_meta("reference_key", item.key)
 		button.set_meta("base_label", label)
 		button.set_meta("legacy", item.legacy)
@@ -1055,18 +1056,20 @@ func _mark_visible_pair() -> void:
 		if _pair_panels[side].get_parent().is_visible_in_tree(): _mark_viewed(_pair[side])
 
 
+func _row_label(key: String, base_label: String, legacy: bool) -> String:
+	if _seen.has(key): return base_label
+	if _seen_groups.has(query.review_group(key)): return _l("[갱신] ", "[Updated] ") + base_label
+	return (_l("[미열람] ", "[Unread] ") if legacy else _l("[신규] ", "[New] ")) + base_label
+
+
 func _update_badges() -> void:
 	if not _valid() or not is_instance_valid(_list): return
 	for node in _list.get_children():
 		if not node is Button or not node.has_meta("base_label"): continue
 		var key: String = node.get_meta("reference_key")
-		var badge := ""
-		if not _seen.has(key):
-			if _seen_groups.has(query.review_group(key)): badge = _l("[갱신] ", "[Updated] ")
-			elif node.get_meta("legacy", false): badge = _l("[미열람] ", "[Unread] ")
-			else: badge = _l("[신규] ", "[New] ")
-		node.text = badge + String(node.get_meta("base_label"))
-		node.tooltip_text = node.text
+		var label := _row_label(key, String(node.get_meta("base_label")), node.get_meta("legacy", false))
+		if node.text != label: node.text = label
+		if node.tooltip_text != label: node.tooltip_text = label
 
 
 func _capture_focus() -> Dictionary:
