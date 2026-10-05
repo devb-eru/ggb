@@ -233,9 +233,10 @@ func index_step(expected_key: String, limit: int = 20) -> Dictionary:
 	var stop := mini(_order.size(), _search_cursor + clampi(limit, 1, PAGE_SIZE))
 	while _search_cursor < stop:
 		var key: String = _order[_search_cursor]
-		var result := detail(key, expected_key)
+		var result := _render_body(key)
 		if result.ok:
-			_search[key] = SEARCH_FIELDS.map(func(field: String) -> String: return String(result[field]).to_lower())
+			var fields := _search_fields(_rows[key], result.text)
+			_search[key] = SEARCH_FIELDS.map(func(field: String) -> String: return String(fields[field]).to_lower())
 		_search_cursor += 1
 	_result_cache.clear()
 	return {"ok": true, "complete": _search_cursor == _order.size(), "indexed": _search_cursor}
@@ -272,6 +273,26 @@ func page(filters: Dictionary, page_index: int, expected_key: String) -> Diction
 func detail(key: String, expected_key: String) -> Dictionary:
 	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
 	if not _rows.has(key): return _error("NB_QUERY_UNAVAILABLE")
+	var body := _render_body(key)
+	if not body.ok: return body
+	var row: Dictionary = _rows[key]
+	var entry: Dictionary = _entries[row.reference.uid]
+	var links: Array = []
+	for ref in row.sources:
+		var target := reference_key(ref)
+		if _rows.has(target) and target != key and target not in links: links.append(target)
+	var result := _search_fields(row, body.text)
+	result.merge({"ok": true, "key": key, "reference": row.reference.duplicate(true), "kind": row.kind, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": body.fallback, "viewed_locale": body.viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links, "retention_notice": _retention_notice(row.session), "related": related_to(key), "session": row.session, "has_visual": not body.fallback and VISUALS.supports(entry, row.reference.segment_id)})
+	return result
+
+
+func _search_fields(row: Dictionary, text: String) -> Dictionary:
+	var memory := _memory_labels(row)
+	return {"text": text, "title": row.title, "summary": row.summary, "speaker": row.speaker, "location_label": public_label("locations", row.location), "source_label": public_label("sources", row.source_kind), "lifetime_label": memory.lifetime, "memory_notice": memory.notice}
+
+
+# Both callers validate the frozen query before rendering; only detail builds links and visuals.
+func _render_body(key: String) -> Dictionary:
 	var row: Dictionary = _rows[key]
 	var entry: Dictionary = _entries[row.reference.uid]
 	_render_count += 1
@@ -299,12 +320,7 @@ func detail(key: String, expected_key: String) -> Dictionary:
 		text = segment.text
 		fallback = segment.fallback
 		viewed_locale = segment.viewed_locale
-	var links: Array = []
-	for ref in row.sources:
-		var target := reference_key(ref)
-		if _rows.has(target) and target != key and target not in links: links.append(target)
-	var memory := _memory_labels(row)
-	return {"ok": true, "key": key, "reference": row.reference.duplicate(true), "title": row.title, "summary": row.summary, "speaker": row.speaker, "kind": row.kind, "text": text, "legacy": row.legacy, "note_snapshot": row.get("note_snapshot", false), "fallback": fallback, "viewed_locale": viewed_locale, "epistemic": row.epistemic, "provenance": row.provenance, "previous": row.previous, "sources": links, "location_label": public_label("locations", row.location), "source_label": public_label("sources", row.source_kind), "lifetime_label": memory.lifetime, "memory_notice": memory.notice, "retention_notice": _retention_notice(row.session), "related": related_to(key), "session": row.session, "has_visual": not fallback and VISUALS.supports(entry, row.reference.segment_id)}
+	return {"ok": true, "text": text, "fallback": fallback, "viewed_locale": viewed_locale}
 
 
 func _retention_notice(session: String) -> String:

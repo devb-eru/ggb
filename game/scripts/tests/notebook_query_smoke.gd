@@ -14,6 +14,7 @@ func run(tree: SceneTree) -> Dictionary:
 	var fixture := _fixture()
 	if not fixture.get("ok", false): return {"ok": false, "errors": errors}
 	_test_read_model(fixture)
+	_test_search_projection(fixture)
 	_test_order_cache(fixture)
 	_test_numeric_order()
 	_test_facets(fixture)
@@ -100,6 +101,24 @@ func _open(fixture: Dictionary, locale: String = "ko-KR"):
 	var result: Dictionary = query.open(fixture.archive, fixture.ledger, _scope(fixture.archive), locale)
 	_expect(result.ok, "query open: " + str(result.get("error_id", "")))
 	return query
+
+
+func _test_search_projection(fixture: Dictionary) -> void:
+	for locale in ["ko-KR", "en-US"]:
+		var query = _open(fixture, locale)
+		var key: String = query.cache_key()
+		_expect(not query.index_step("stale-key").ok and query.diagnostics().indexed == 0, "stale indexing never renders")
+		while not query.index_step(key, QUERY.PAGE_SIZE).complete: pass
+		_expect(query.diagnostics().render_count == query._order.size(), "index renders each observed row exactly once")
+		for row_key in query._order:
+			var detail: Dictionary = query.detail(row_key, key)
+			_expect(detail.ok, "indexed fixture detail renders")
+			if not detail.ok: continue
+			var expected: Array = QUERY.SEARCH_FIELDS.map(func(field: String) -> String: return String(detail[field]).to_lower())
+			_expect(query._search[row_key] == expected, "index contains exactly public detail search fields: " + locale)
+			_expect(detail.has("sources") and detail.has("related") and detail.has("has_visual"), "detail retains non-search presentation metadata")
+		query.close()
+		_expect(not query.index_step(key).ok, "closed model cannot resume indexing")
 
 
 func _test_numeric_order() -> void:
@@ -351,6 +370,10 @@ func _test_legacy_and_damage() -> void:
 	_expect(not query.detail(QUERY.reference_key(ref), key).ok, "bad legacy content reports partial display failure")
 	_expect(query.page({"tab": "dialogue"}, 0, key).count == 10002, "failed rendering never deletes saved original rows")
 	_expect(query.page({"tab": "people"}, 0, key).count == 0, "legacy body strings do not infer identities")
+	while not query.index_step(key, QUERY.PAGE_SIZE).complete: pass
+	_expect(query.diagnostics().indexed == 10002 and query._search.size() == 10001, "damaged legacy row is skipped without blocking later search entries")
+	_expect(not query._search.has(QUERY.reference_key(ref)) and query.diagnostics().error_ids.has("NB_QUERY_LEGACY_RENDER"), "legacy rendering error is retained but not indexed")
+	_expect(query.page({"tab":"dialogue", "needle":"legacy needle 9999"}, 0, key).count == 1, "search still reaches valid rows after malformed legacy content")
 
 
 func _test_revisions() -> void:
