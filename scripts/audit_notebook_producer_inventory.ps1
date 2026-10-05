@@ -4,6 +4,20 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 
+function Read-CatalogEntries($Data, [string]$Catalog) {
+    if ($Data -isnot [System.Collections.IDictionary] -or ($Data.format_version -isnot [long] -and $Data.format_version -isnot [int]) -or $Data.format_version -ne 1 -or $Data.contents -isnot [System.Collections.IDictionary]) {
+        throw "$Catalog INVALID_CATALOG_FORMAT"
+    }
+    foreach ($id in $Data.contents.Keys) {
+        $versions = $Data.contents[$id]
+        if ([string]::IsNullOrWhiteSpace($id) -or $versions -isnot [System.Collections.IDictionary] -or $versions.Count -eq 0) { throw "$Catalog INVALID_VERSION_MAP" }
+        foreach ($version in $versions.Keys) {
+            if ($version -notmatch '^[1-9][0-9]*$' -or $versions[$version] -isnot [System.Collections.IDictionary]) { throw "$Catalog INVALID_VERSION_ROW" }
+            @{id=$id;version=[int]$version;catalog=$Catalog;definition=$versions[$version]}
+        }
+    }
+}
+
 function Measure-ProducerRows($Entries) {
     $errors = [System.Collections.Generic.List[string]]::new()
     $index = @{}
@@ -22,6 +36,10 @@ function Measure-ProducerRows($Entries) {
         $segments = @($row.visible_segment_ids)
         if ($segments.Count -eq 0 -or @($segments | Sort-Object -Unique).Count -ne $segments.Count) { $errors.Add("$key INVALID_SEGMENTS") }
         foreach ($locale in @('ko-KR', 'en-US')) {
+            if ($row.locales -isnot [System.Collections.IDictionary] -or $row.locales[$locale] -isnot [System.Collections.IDictionary]) {
+                $errors.Add("$key MISSING_${locale}:locale")
+                continue
+            }
             foreach ($segment in (@('title', 'summary') + $segments)) {
                 if ([string]::IsNullOrWhiteSpace($row.locales[$locale][$segment])) { $errors.Add("$key MISSING_${locale}:$segment") }
             }
@@ -66,7 +84,7 @@ if ($SelfTest) {
     if (-not $valid.ok -or $valid.authored_ids -ne 1 -or $valid.semantic_versions -ne 2 -or $valid.producers[0].latest_segments -ne 1 -or $null -ne $valid.producers[0].unmapped_runtime_count) { throw 'Valid inventory or unknown-count semantics failed' }
     $duplicate = Measure-ProducerRows ($fixture + $fixture[0])
     if ($duplicate.ok -or 'A@1 DUPLICATE_VERSION' -notin $duplicate.errors) { throw 'Duplicate version missed' }
-    foreach ($mutation in @('producer', 'locale', 'segments', 'owner', 'mapping')) {
+    foreach ($mutation in @('producer', 'locale', 'segments', 'owner', 'mapping', 'missing_locale', 'missing_locales')) {
         $copy = $fixture | ConvertTo-Json -Depth 20 | ConvertFrom-Json -AsHashtable
         switch ($mutation) {
             'producer' { $copy[0].definition.producer_id='NP99' }
@@ -74,10 +92,25 @@ if ($SelfTest) {
             'segments' { $copy[0].definition.visible_segment_ids=@('body','body') }
             'owner' { $copy[0].definition.disclosure_owner='' }
             'mapping' { $copy[0].definition.mapping_status='UNKNOWN' }
+            'missing_locale' { $copy[0].definition.locales.Remove('en-US') }
+            'missing_locales' { $copy[0].definition.Remove('locales') }
         }
         if ((Measure-ProducerRows $copy).ok) { throw "Mutation missed: $mutation" }
     }
-    'PRODUCER_INVENTORY_SELF_TEST: PASS (valid versions, unknown counts, six invalid fixtures)'
+    $catalog = @{format_version=1;contents=@{A=@{'1'=$definition}}}
+    if (@(Read-CatalogEntries $catalog 'valid').Count -ne 1) { throw 'Valid catalog rejected' }
+    if (@(Read-CatalogEntries @{format_version=1;contents=@{}} 'empty').Count -ne 0) { throw 'Explicit empty catalog rejected' }
+    foreach ($invalid in @(
+        @{}, @{format_version=1}, @{format_version='1';contents=@{}}, @{format_version=2;contents=@{}},
+        @{format_version=1;contents=@()}, @{format_version=1;contents=@{A=@()}},
+        @{format_version=1;contents=@{A=@{}}}, @{format_version=1;contents=@{A=@{'0'=$definition}}},
+        @{format_version=1;contents=@{A=@{'1'='not an object'}}}
+    )) {
+        $rejected = $false
+        try { Read-CatalogEntries $invalid 'invalid' | Out-Null } catch { $rejected = $true }
+        if (-not $rejected) { throw 'Malformed catalog accepted' }
+    }
+    'PRODUCER_INVENTORY_SELF_TEST: PASS (valid/empty catalogs, versions, unknown counts, 17 invalid fixtures)'
     exit 0
 }
 
@@ -93,12 +126,7 @@ foreach ($catalog in $catalogs) {
     if ($catalog -notmatch '^res://data/notebook/[A-Za-z0-9_]+\.json$') { throw "Unexpected catalog path: $catalog" }
     $data = Get-Content -LiteralPath (Join-Path $GamePath $catalog.Substring(6)) -Raw | ConvertFrom-Json -AsHashtable
     $fingerprints += [ordered]@{catalog=$catalog;sha256=(Get-FileHash -LiteralPath (Join-Path $GamePath $catalog.Substring(6))).Hash}
-    foreach ($id in $data.contents.Keys) {
-        foreach ($version in $data.contents[$id].Keys) {
-            if ($version -notmatch '^[1-9][0-9]*$') { throw "Invalid semantic version: $id@$version" }
-            $entries.Add(@{id=$id;version=[int]$version;catalog=$catalog;definition=$data.contents[$id][$version]})
-        }
-    }
+    foreach ($entry in @(Read-CatalogEntries $data $catalog)) { $entries.Add($entry) }
 }
 $result = Measure-ProducerRows $entries
 $result.registered_catalogs = $catalogs.Count
