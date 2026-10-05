@@ -162,7 +162,7 @@ func inspect_slot(slot_id: String) -> Dictionary:
 
 
 func _inspect_file(path: String) -> Dictionary:
-	var key := "%s:%s" % [ProjectSettings.globalize_path(path), NOTEBOOK_ROLLOUT.enabled()]
+	var key := _summary_key(path)
 	if not FileAccess.file_exists(path):
 		_summary_cache.erase(key)
 		return _load_failure(&"ERR_SAVE_NOT_FOUND")
@@ -190,12 +190,21 @@ func _inspect_file(path: String) -> Dictionary:
 	var validated := _validate_save_text(bytes.get_string_from_utf8(), path)
 	if not validated.get("ok", false): return validated
 	var summary := _summary_from_validated(validated)
+	_cache_summary(key, fingerprint, summary)
+	return summary
+
+
+func _summary_key(path: String) -> String:
+	return "%s:%s" % [ProjectSettings.globalize_path(path), NOTEBOOK_ROLLOUT.enabled()]
+
+
+func _cache_summary(key: String, fingerprint: String, summary: Dictionary) -> void:
 	# Retain only small display metadata, never the snapshot or source bytes.
+	_summary_cache.erase(key)
 	if JSON.stringify(summary).to_utf8_buffer().size() <= SUMMARY_CACHE_ENTRY_BYTES:
 		while _summary_cache.size() >= SUMMARY_CACHE_LIMIT:
 			_summary_cache.erase(_summary_cache.keys()[0])
 		_summary_cache[key] = {"fingerprint":fingerprint, "summary":summary.duplicate(true)}
-	return summary
 
 
 func _summary_from_validated(validated: Dictionary) -> Dictionary:
@@ -275,12 +284,17 @@ func save_snapshot(
 	file.flush()
 	file.close()
 
-	var temp_validation := _read_and_validate(paths["temporary"])
+	var temp_validation := _read_and_validate(paths["temporary"], true)
 	if not bool(temp_validation.get("ok", false)):
 		_remove_if_exists(paths["temporary"])
 		return _save_failure(slot_id, &"ERR_SAVE_TEMP_VERIFY")
+	var temporary_key := _summary_key(paths.temporary)
+	var verified_summary: Dictionary = _summary_cache.get(temporary_key, {}).duplicate(true)
+	_summary_cache.erase(temporary_key)
 	var promoted := _commit_prepared(paths, previous, previous_backup)
 	if not promoted.ok: return _save_failure(slot_id, promoted.error_id)
+	if not verified_summary.is_empty():
+		_cache_summary(_summary_key(paths.main), verified_summary.fingerprint, verified_summary.summary)
 
 	save_completed.emit(StringName(slot_id), StringName(save_point_id))
 	var warnings := PackedStringArray()
@@ -599,7 +613,8 @@ func delete_test_slot(slot_id: String) -> void:
 	DirAccess.remove_absolute(absolute_dir)
 
 
-func _read_and_validate(path: String) -> Dictionary:
+func _read_and_validate(path: String, capture_summary: bool = false) -> Dictionary:
+	if capture_summary: _summary_cache.erase(_summary_key(path))
 	if not FileAccess.file_exists(path):
 		return _load_failure(&"ERR_SAVE_NOT_FOUND")
 	var file := FileAccess.open(path, FileAccess.READ)
@@ -607,7 +622,11 @@ func _read_and_validate(path: String) -> Dictionary:
 		return _load_failure(&"ERR_SAVE_OPEN")
 	var raw_text := file.get_as_text()
 	file.close()
-	return _validate_save_text(raw_text, path)
+	var validated := _validate_save_text(raw_text, path)
+	if capture_summary and validated.get("ok", false):
+		# Bind metadata to the exact text that was validated, not the planned write.
+		_cache_summary(_summary_key(path), raw_text.sha256_text(), _summary_from_validated(validated))
+	return validated
 
 
 func _validate_save_text(raw_text: String, path: String) -> Dictionary:

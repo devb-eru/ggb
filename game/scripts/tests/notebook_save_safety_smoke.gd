@@ -57,6 +57,9 @@ func _test_summary_cache() -> void:
 	var original := FileAccess.get_file_as_string(paths.main)
 	var backup := FileAccess.get_file_as_bytes(paths.backup)
 	manager.validations = 0
+	_expect(manager.inspect_slot(SLOT).available and manager.validations == 0, "committed temporary validation primes exact-byte summary without revalidation")
+	manager._summary_cache.clear()
+	manager.validations = 0
 	var first: Dictionary = manager.inspect_slot(SLOT)
 	_expect(first.available and first.source == "main" and manager.validations == 1, "first summary fully validates")
 	var expected: Dictionary = first.duplicate(true)
@@ -197,6 +200,7 @@ func _test_failed_promotion(main_kind: String) -> void:
 	var saved: Dictionary = fault.save_snapshot(SLOT, "SAVE_NEW_GAME", state, 3, "FAIL_PROMOTE")
 	_expect(not saved.ok and saved.error_id == &"ERR_SAVE_PROMOTE", main_kind + ": promotion failure reported")
 	_expect(fault.verified_temp, main_kind + ": fault occurs only after valid temporary write")
+	_expect(fault._summary_cache.is_empty(), main_kind + ": failed promotion publishes no candidate summary")
 	_expect(signals.success == 0 and signals.failure == 1, main_kind + ": no premature success signal")
 	_expect(FileAccess.get_file_as_bytes(paths.backup) == recoverable, main_kind + ": verified recovery bytes retained")
 	_expect(FileAccess.get_file_as_bytes(paths.main) == recoverable, main_kind + ": failed promotion restores recovery bytes")
