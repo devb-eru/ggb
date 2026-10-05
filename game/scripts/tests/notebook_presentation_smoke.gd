@@ -100,6 +100,103 @@ func _cases(tree: SceneTree) -> void:
 	await _continuation(tree)
 	await _d5(tree)
 	await _handoffs(tree)
+	await _silent_movement(tree)
+	await _silent_manipulation(tree)
+
+
+func _silent_movement(tree: SceneTree) -> void:
+	var original := TranslationServer.get_locale()
+	for locale in ["ko-KR", "en-US"]:
+		TranslationServer.set_locale(locale)
+		await _silent_movement_locale(tree)
+	TranslationServer.set_locale(original)
+
+
+func _silent_movement_locale(tree: SceneTree) -> void:
+	for family_index in range(VIEWS.size()):
+		_seed(["A1", "C0", "D0"][family_index])
+		var state := GameState.get_snapshot()
+		state.loop_state.location_id = "M1_CENTRAL_HALL"
+		serial += 1
+		_expect(StateWriter.new(GameState).install_snapshot(state, GameState.revision, StringName("SILENT_MOVE_%d" % serial)).ok, "prepare silent movement location")
+		var view = _view(tree, family_index)
+		for index in range(20):
+			if not view._dialogue_active: break
+			view._advance_dialogue()
+		_expect(view._notebook_surface_allowed(), "flush source room before silent movement")
+		var before: int = GameState.get_snapshot().meta_progress.dialogue_history.entries.size()
+		var button = view._hotspot_layer.get_node_or_null("GO_M1_PARLOR")
+		_expect(button != null, "silent movement button is exposed")
+		var controlled := ControlledSave.new()
+		controlled.reject_game = true
+		view.session._save = controlled
+		var rejected := GameState.get_snapshot()
+		if button != null: button.pressed.emit()
+		_expect(GameState.get_snapshot() == rejected, "failed silent move keeps world and completed cursor together")
+		view.session._save = SaveManager
+		controlled.free()
+		button = view._hotspot_layer.get_node_or_null("GO_M1_PARLOR")
+		if button != null: button.pressed.emit()
+		_expect(GameState.get_value("loop_state.location_id", "") == "M1_PARLOR" and not view._dialogue_active, "movement is applied without dialogue")
+		_expect(view._notebook_surface_allowed(), "flush destination before reload")
+		var completed := CURSOR.read(GameState.get_snapshot())
+		_expect(CURSOR.matches(completed, GameState.get_snapshot()) and completed.phase == "completed", "silent movement reanchors the completed cursor atomically")
+		for entry in GameState.get_snapshot().meta_progress.dialogue_history.entries.slice(before):
+			_expect(entry.get("observation", {}).get("content_id") != "NB_CH1_MOVE", "undisplayed move is not a conversation")
+		var archived: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history.duplicate(true)
+		view.queue_free()
+		await tree.process_frame
+		_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "silent movement reload")
+		view = _view(tree, family_index)
+		_expect(not view._dialogue_active, "reload cannot reveal suppressed movement feedback: " + str(family_index))
+		_expect(StateSnapshotValidator.same_persisted_value(archived, GameState.get_snapshot().meta_progress.dialogue_history), "silent reload cannot append a hidden or replayed line: " + str(family_index))
+		view.queue_free()
+		await tree.process_frame
+
+
+func _silent_manipulation(tree: SceneTree) -> void:
+	var original := TranslationServer.get_locale()
+	for locale in ["ko-KR", "en-US"]:
+		TranslationServer.set_locale(locale)
+		for stage in ["J1", "B3_A"]:
+			_seed(stage)
+			var state := GameState.get_snapshot()
+			state.loop_state.location_id = "M1_LIBRARY_INNER" if stage == "J1" else "M1_GREAT_CLOCK"
+			var session := preload("res://scripts/systems/chapter_one_session.gd").new(GameState, SaveManager, SLOT)
+			var local := session.local_state(state)
+			local.inspected = ["desk"]
+			local.edgar_state = "absent"
+			local.j1_front = [false, false, false]
+			local.rubbed = preload("res://data/puzzles/puzzle_clock_network.tres").CLOCKS.duplicate()
+			local.board.library_back = false
+			state.loop_state.event_local_states.CHAPTER_ONE = local
+			serial += 1
+			_expect(StateWriter.new(GameState).install_snapshot(state, GameState.revision, StringName("SILENT_PUZZLE_%d" % serial)).ok, "prepare silent manipulation")
+			var view = _view(tree, 0)
+			for index in range(20):
+				if not view._dialogue_active: break
+				view._advance_dialogue()
+			_expect(view._notebook_surface_allowed(), "initial puzzle disclosure")
+			var start: int = GameState.get_snapshot().meta_progress.dialogue_history.entries.size()
+			var button = view._hotspot_layer.get_node_or_null("J1_FLIP_0" if stage == "J1" else "B3_FLIP")
+			_expect(button != null, "silent manipulation button exists")
+			if button != null: button.pressed.emit()
+			_expect(not view._dialogue_active, "piece flip is not a conversation")
+			_expect(view.session.local_state().j1_front[0] if stage == "J1" else view.session.local_state().board.library_back, "silent flip changes the actual puzzle")
+			_expect(view._notebook_surface_allowed(), "newly exposed face is observed")
+			var added: Array = GameState.get_snapshot().meta_progress.dialogue_history.entries.slice(start)
+			_expect(not added.is_empty(), "silent puzzle still records newly displayed material")
+			for entry in added:
+				_expect(entry.get("observation", {}).get("producer_id") != "NP04", "silent flip cannot append a spoken line")
+			var archive: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history.duplicate(true)
+			view.queue_free()
+			await tree.process_frame
+			_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "silent manipulation reload")
+			view = _view(tree, 0)
+			_expect(not view._dialogue_active and StateSnapshotValidator.same_persisted_value(archive, GameState.get_snapshot().meta_progress.dialogue_history), "silent manipulation restart cannot repeat old dialogue")
+			view.queue_free()
+			await tree.process_frame
+	TranslationServer.set_locale(original)
 
 
 func _failures(tree: SceneTree) -> void:

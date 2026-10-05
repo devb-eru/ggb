@@ -40,7 +40,10 @@ static func completed_handoff(state: Dictionary, target: String) -> bool:
 
 static func completion_for_action(state: Dictionary, owner_family: String, action: String, argument: Variant) -> Dictionary:
 	var value := read(state)
-	if not matches(value, state) or not observed(value, state) or value.family != owner_family or value.phase != "finish_pending": return {}
+	if not matches(value, state) or not observed(value, state) or value.family != owner_family: return {}
+	# Silent world actions must not invalidate completion and replay hidden last_feedback on load.
+	if value.phase == "completed": return value
+	if value.phase != "finish_pending": return {}
 	var expected := {"method": "_do", "args": [action, argument, false]}
 	var same_route := JSON.stringify(_canonical(value.after), "", true) == JSON.stringify(_canonical(expected), "", true)
 	var fade_route: bool = value.after == {"method": "_reality_fade", "args": []} and action == "reality_continue" and argument == "EDR_DISCONNECT"

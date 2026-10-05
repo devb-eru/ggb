@@ -1,0 +1,63 @@
+{
+  "before_failures": [
+    "CURSOR_ASSERT: reload cannot reveal suppressed movement feedback: 0",
+    "CURSOR_ASSERT: silent reload cannot append a hidden or replayed line: 0",
+    "CURSOR_ASSERT: reload cannot reveal suppressed movement feedback: 1",
+    "CURSOR_ASSERT: silent reload cannot append a hidden or replayed line: 1",
+    "CURSOR_ASSERT: reload cannot reveal suppressed movement feedback: 2",
+    "CURSOR_ASSERT: silent reload cannot append a hidden or replayed line: 2"
+  ],
+  "pack_sha256": "D69268A17B29D679ADE0C4B840E6EBA98E86146A8DA87BF4F930A249D1C8F366",
+  "logs": {
+    "surfaces": [
+      "NOTEBOOK_PRESENTATION_CHECKS: seed 226",
+      "NOTEBOOK_PRESENTATION_SMOKE: PASS"
+    ],
+    "resume": [
+      "NOTEBOOK_PRESENTATION_CHECKS: resume 7",
+      "NOTEBOOK_PRESENTATION_SMOKE: PASS"
+    ],
+    "modals": [
+      "NOTEBOOK_MODAL_PRESENTATION_CHECKS: seed 397",
+      "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+    ],
+    "chapter_surfaces": [
+      "CHAPTER_SURFACE_COVERAGE: actual IDs/locales=110 segments/locales=142 matrix cases=352",
+      "NOTEBOOK_CHAPTER_SURFACES_SMOKE: PASS"
+    ],
+    "modal_completed": [
+      "NOTEBOOK_MODAL_PRESENTATION_CHECKS: completed 4",
+      "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+    ],
+    "modal_resume": [
+      "NOTEBOOK_MODAL_PRESENTATION_CHECKS: resume 7",
+      "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+    ],
+    "completed": [
+      "NOTEBOOK_PRESENTATION_CHECKS: completed 4",
+      "NOTEBOOK_PRESENTATION_SMOKE: PASS"
+    ]
+  },
+  "sources": [
+    {
+      "path": "game/scripts/systems/notebook_presentation.gd",
+      "sha256": "9E0AAC6420E41C8898DEBF22CE133BDC27B1A31C9F9293B447381BCA5BE2EEAB"
+    },
+    {
+      "path": "game/scripts/tests/notebook_presentation_smoke.gd",
+      "sha256": "B723959AA9A72ACB16036A4B9FFA63EC64A7F29802A5F97018B0738D1DEBB176"
+    }
+  ],
+  "baseline_commit": "97042390751a064bc1a406d888988f1ed9e6ac1e",
+  "runtime_seconds": {
+    "import": 20.7,
+    "export": 8.1,
+    "seed": 23.4,
+    "resume": 4.9,
+    "completed": 4.6,
+    "modal_seed": 45.4,
+    "modal_resume": 5,
+    "modal_completed": 4.8,
+    "chapter_surfaces": 44.4
+  }
+}
