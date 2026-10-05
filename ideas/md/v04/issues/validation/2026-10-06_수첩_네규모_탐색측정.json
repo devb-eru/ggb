@@ -1,0 +1,1282 @@
+{
+  "pack_sha256": "802395AA9B4E68816368C9E2D2FE378F1C8A0B40B1D76415664C8D1718885192",
+  "engine_sha256": "12310C74BDDA7DCD43F28E971F33047DCECADD436B68169D61CE41009006DF38",
+  "created_utc": "2026-10-05T20:16:02.9909214Z",
+  "acceptance": "MEASUREMENT_ONLY",
+  "sampling_complete": false,
+  "requested_cold": 1,
+  "requested_warm": 3,
+  "cold_definition": "Fresh OS process; fixture parsed before model timer. OS disk cache NOT flushed.",
+  "warm_definition": "Warm model operations in first process; warm model search excludes debounce/input/rendering.",
+  "renderer": "headless",
+  "device_class": "NOT_CLASSIFIED",
+  "failed_runs": [],
+  "groups": [
+    {
+      "fixture": "NB-PERF-N2000",
+      "locale": "ko-KR",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "panel_present_ms": {
+          "count": 1,
+          "first": 275.509,
+          "mean": 275.509,
+          "maximum": 275.509,
+          "p95": 275.509
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 10.515,
+          "mean": 10.708333333333334,
+          "maximum": 11.274,
+          "p95": 11.274
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 7.776,
+          "mean": 2.611666666666667,
+          "maximum": 7.776,
+          "p95": 7.776
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 65.312,
+          "mean": 65.312,
+          "maximum": 65.312,
+          "p95": 65.312
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 10.717,
+          "mean": 11.043333333333335,
+          "maximum": 11.562,
+          "p95": 11.562
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 501.478,
+          "mean": 501.478,
+          "maximum": 501.478,
+          "p95": 501.478
+        },
+        "query_open_ms": {
+          "count": 1,
+          "first": 211.863,
+          "mean": 211.863,
+          "maximum": 211.863,
+          "p95": 211.863
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 519.705,
+          "mean": 519.705,
+          "maximum": 519.705,
+          "p95": 519.705
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 24.601,
+          "mean": 8.236333333333333,
+          "maximum": 24.601,
+          "p95": 24.601
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 418.931,
+          "mean": 418.931,
+          "maximum": 418.931,
+          "p95": 418.931
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 5.905,
+          "mean": 4.141333333333333,
+          "maximum": 6.173,
+          "p95": 6.173
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 5.587,
+          "mean": 5.587,
+          "maximum": 5.587,
+          "p95": 5.587
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 145.208,
+          "mean": 138.77433333333332,
+          "maximum": 145.208,
+          "p95": 145.208
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 484.255,
+          "mean": 645.1426666666666,
+          "maximum": 814.534,
+          "p95": 814.534
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 7.803,
+          "mean": 2.6243333333333334,
+          "maximum": 7.803,
+          "p95": 7.803
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 8.586,
+          "mean": 2.8806666666666665,
+          "maximum": 8.586,
+          "p95": 8.586
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 170.227,
+          "mean": 170.227,
+          "maximum": 170.227,
+          "p95": 170.227
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 7.777,
+          "mean": 2.610666666666667,
+          "maximum": 7.777,
+          "p95": 7.777
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.482,
+          "mean": 0.43766666666666665,
+          "maximum": 0.482,
+          "p95": 0.482
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 549543936,
+        "mean": 549543936,
+        "maximum": 549543936,
+        "p95": 549543936
+      }
+    },
+    {
+      "fixture": "NB-PERF-N2000",
+      "locale": "en-US",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "panel_present_ms": {
+          "count": 1,
+          "first": 62.566,
+          "mean": 62.566,
+          "maximum": 62.566,
+          "p95": 62.566
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 10.643,
+          "mean": 10.435500000000001,
+          "maximum": 10.643,
+          "p95": 10.643
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 9.17,
+          "mean": 3.078666666666667,
+          "maximum": 9.17,
+          "p95": 9.17
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 75.46,
+          "mean": 75.46,
+          "maximum": 75.46,
+          "p95": 75.46
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 10.701,
+          "mean": 11.120333333333335,
+          "maximum": 11.941,
+          "p95": 11.941
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 282.572,
+          "mean": 282.572,
+          "maximum": 282.572,
+          "p95": 282.572
+        },
+        "query_open_ms": {
+          "count": 1,
+          "first": 206.404,
+          "mean": 206.404,
+          "maximum": 206.404,
+          "p95": 206.404
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 537.905,
+          "mean": 537.905,
+          "maximum": 537.905,
+          "p95": 537.905
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 22.968,
+          "mean": 7.698666666666667,
+          "maximum": 22.968,
+          "p95": 22.968
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 412.753,
+          "mean": 412.753,
+          "maximum": 412.753,
+          "p95": 412.753
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 6.585,
+          "mean": 4.437,
+          "maximum": 6.585,
+          "p95": 6.585
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 6.558,
+          "mean": 6.558,
+          "maximum": 6.558,
+          "p95": 6.558
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 143.103,
+          "mean": 136.15900000000002,
+          "maximum": 143.103,
+          "p95": 143.103
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 460.2,
+          "mean": 647.8906666666667,
+          "maximum": 826.797,
+          "p95": 826.797
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 8.743,
+          "mean": 2.938333333333334,
+          "maximum": 8.743,
+          "p95": 8.743
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 8.274,
+          "mean": 2.776666666666667,
+          "maximum": 8.274,
+          "p95": 8.274
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 172.192,
+          "mean": 172.192,
+          "maximum": 172.192,
+          "p95": 172.192
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 8.147,
+          "mean": 2.733,
+          "maximum": 8.147,
+          "p95": 8.147
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.465,
+          "mean": 0.4286666666666667,
+          "maximum": 0.465,
+          "p95": 0.465
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 548765696,
+        "mean": 548765696,
+        "maximum": 548765696,
+        "p95": 548765696
+      }
+    },
+    {
+      "fixture": "NB-PERF-L10000",
+      "locale": "ko-KR",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "panel_present_ms": {
+          "count": 1,
+          "first": 282.891,
+          "mean": 282.891,
+          "maximum": 282.891,
+          "p95": 282.891
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 32.066,
+          "mean": 31.974666666666664,
+          "maximum": 33.288,
+          "p95": 33.288
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 48.116,
+          "mean": 16.080666666666666,
+          "maximum": 48.116,
+          "p95": 48.116
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 209.762,
+          "mean": 209.762,
+          "maximum": 209.762,
+          "p95": 209.762
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 32.862,
+          "mean": 32.278999999999996,
+          "maximum": 32.862,
+          "p95": 32.862
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 967.976,
+          "mean": 967.976,
+          "maximum": 967.976,
+          "p95": 967.976
+        },
+        "query_open_ms": {
+          "count": 1,
+          "first": 633.577,
+          "mean": 633.577,
+          "maximum": 633.577,
+          "p95": 633.577
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 903.683,
+          "mean": 903.683,
+          "maximum": 903.683,
+          "p95": 903.683
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 145.417,
+          "mean": 48.883,
+          "maximum": 145.417,
+          "p95": 145.417
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 1349.655,
+          "mean": 1349.655,
+          "maximum": 1349.655,
+          "p95": 1349.655
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 38.756,
+          "mean": 26.298666666666666,
+          "maximum": 39.8,
+          "p95": 39.8
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 44.805,
+          "mean": 44.805,
+          "maximum": 44.805,
+          "p95": 44.805
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 407.634,
+          "mean": 399.04266666666666,
+          "maximum": 407.634,
+          "p95": 407.634
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 1487.675,
+          "mean": 2077.3353333333334,
+          "maximum": 2650.139,
+          "p95": 2650.139
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 44.347,
+          "mean": 14.975666666666667,
+          "maximum": 44.347,
+          "p95": 44.347
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 46.863,
+          "mean": 15.639333333333333,
+          "maximum": 46.863,
+          "p95": 46.863
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 577.435,
+          "mean": 577.435,
+          "maximum": 577.435,
+          "p95": 577.435
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 47.922,
+          "mean": 15.991666666666667,
+          "maximum": 47.922,
+          "p95": 47.922
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.47,
+          "mean": 0.45599999999999996,
+          "maximum": 0.474,
+          "p95": 0.474
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 1050542080,
+        "mean": 1050542080,
+        "maximum": 1050542080,
+        "p95": 1050542080
+      }
+    },
+    {
+      "fixture": "NB-PERF-L10000",
+      "locale": "en-US",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "panel_present_ms": {
+          "count": 1,
+          "first": 227.536,
+          "mean": 227.536,
+          "maximum": 227.536,
+          "p95": 227.536
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 30.715,
+          "mean": 31.599666666666668,
+          "maximum": 34.008,
+          "p95": 34.008
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 50.736,
+          "mean": 16.953666666666667,
+          "maximum": 50.736,
+          "p95": 50.736
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 209.742,
+          "mean": 209.742,
+          "maximum": 209.742,
+          "p95": 209.742
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 32.523,
+          "mean": 32.440000000000005,
+          "maximum": 32.694,
+          "p95": 32.694
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 918.292,
+          "mean": 918.292,
+          "maximum": 918.292,
+          "p95": 918.292
+        },
+        "query_open_ms": {
+          "count": 1,
+          "first": 639.646,
+          "mean": 639.646,
+          "maximum": 639.646,
+          "p95": 639.646
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 908.131,
+          "mean": 908.131,
+          "maximum": 908.131,
+          "p95": 908.131
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 147.797,
+          "mean": 49.669333333333334,
+          "maximum": 147.797,
+          "p95": 147.797
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 1298.606,
+          "mean": 1298.606,
+          "maximum": 1298.606,
+          "p95": 1298.606
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 38.075,
+          "mean": 25.655000000000005,
+          "maximum": 38.523,
+          "p95": 38.523
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 43.294,
+          "mean": 43.294,
+          "maximum": 43.294,
+          "p95": 43.294
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 388.472,
+          "mean": 392.91533333333336,
+          "maximum": 395.987,
+          "p95": 395.987
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 1487.35,
+          "mean": 2088.4096666666665,
+          "maximum": 2712.237,
+          "p95": 2712.237
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 46.099,
+          "mean": 15.545666666666667,
+          "maximum": 46.099,
+          "p95": 46.099
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 48.215,
+          "mean": 16.090666666666667,
+          "maximum": 48.215,
+          "p95": 48.215
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 601.486,
+          "mean": 601.486,
+          "maximum": 601.486,
+          "p95": 601.486
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 48.424,
+          "mean": 16.161666666666665,
+          "maximum": 48.424,
+          "p95": 48.424
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.484,
+          "mean": 0.4566666666666667,
+          "maximum": 0.484,
+          "p95": 0.484
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 1055019008,
+        "mean": 1055019008,
+        "maximum": 1055019008,
+        "p95": 1055019008
+      }
+    },
+    {
+      "fixture": "NB-PERF-P2001",
+      "locale": "ko-KR",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "panel_present_ms": {
+          "count": 1,
+          "first": 295.828,
+          "mean": 295.828,
+          "maximum": 295.828,
+          "p95": 295.828
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 22.016,
+          "mean": 21.474833333333333,
+          "maximum": 22.016,
+          "p95": 22.016
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 14.852,
+          "mean": 4.971666666666667,
+          "maximum": 14.852,
+          "p95": 14.852
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 133.898,
+          "mean": 133.898,
+          "maximum": 133.898,
+          "p95": 133.898
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 21.196,
+          "mean": 21.552999999999997,
+          "maximum": 21.973,
+          "p95": 21.973
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 746.758,
+          "mean": 746.758,
+          "maximum": 746.758,
+          "p95": 746.758
+        },
+        "query_open_ms": {
+          "count": 1,
+          "first": 430.745,
+          "mean": 430.745,
+          "maximum": 430.745,
+          "p95": 430.745
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 1200.906,
+          "mean": 1200.906,
+          "maximum": 1200.906,
+          "p95": 1200.906
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 25.753,
+          "mean": 8.623,
+          "maximum": 25.753,
+          "p95": 25.753
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 813.001,
+          "mean": 813.001,
+          "maximum": 813.001,
+          "p95": 813.001
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 8.509,
+          "mean": 5.844666666666666,
+          "maximum": 8.693,
+          "p95": 8.693
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 12.32,
+          "mean": 12.32,
+          "maximum": 12.32,
+          "p95": 12.32
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 300.374,
+          "mean": 287.10966666666667,
+          "maximum": 300.374,
+          "p95": 300.374
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 946.277,
+          "mean": 1320.6526666666666,
+          "maximum": 1715.839,
+          "p95": 1715.839
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 15.277,
+          "mean": 5.116333333333333,
+          "maximum": 15.277,
+          "p95": 15.277
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 15.012,
+          "mean": 5.023333333333333,
+          "maximum": 15.012,
+          "p95": 15.012
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 374.209,
+          "mean": 374.209,
+          "maximum": 374.209,
+          "p95": 374.209
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 15.248,
+          "mean": 5.1,
+          "maximum": 15.248,
+          "p95": 15.248
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.546,
+          "mean": 0.53,
+          "maximum": 0.546,
+          "p95": 0.546
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 742678528,
+        "mean": 742678528,
+        "maximum": 742678528,
+        "p95": 742678528
+      }
+    },
+    {
+      "fixture": "NB-PERF-P2001",
+      "locale": "en-US",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "panel_present_ms": {
+          "count": 1,
+          "first": 63.614,
+          "mean": 63.614,
+          "maximum": 63.614,
+          "p95": 63.614
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 20.897,
+          "mean": 21.406833333333328,
+          "maximum": 22.083,
+          "p95": 22.083
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 17.564,
+          "mean": 5.873666666666666,
+          "maximum": 17.564,
+          "p95": 17.564
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 137.554,
+          "mean": 137.554,
+          "maximum": 137.554,
+          "p95": 137.554
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 21.668,
+          "mean": 21.645666666666667,
+          "maximum": 22.318,
+          "p95": 22.318
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 514.063,
+          "mean": 514.063,
+          "maximum": 514.063,
+          "p95": 514.063
+        },
+        "query_open_ms": {
+          "count": 1,
+          "first": 429.741,
+          "mean": 429.741,
+          "maximum": 429.741,
+          "p95": 429.741
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 1171.244,
+          "mean": 1171.244,
+          "maximum": 1171.244,
+          "p95": 1171.244
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 25.338,
+          "mean": 8.486666666666666,
+          "maximum": 25.338,
+          "p95": 25.338
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 883.151,
+          "mean": 883.151,
+          "maximum": 883.151,
+          "p95": 883.151
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 8.495,
+          "mean": 5.839333333333332,
+          "maximum": 8.631,
+          "p95": 8.631
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 12.184,
+          "mean": 12.184,
+          "maximum": 12.184,
+          "p95": 12.184
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 288.7,
+          "mean": 283.3023333333333,
+          "maximum": 288.7,
+          "p95": 288.7
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 929.116,
+          "mean": 1284.7426666666668,
+          "maximum": 1656.144,
+          "p95": 1656.144
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 17.36,
+          "mean": 5.811333333333334,
+          "maximum": 17.36,
+          "p95": 17.36
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 17.323,
+          "mean": 5.793333333333333,
+          "maximum": 17.323,
+          "p95": 17.323
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 370.901,
+          "mean": 370.901,
+          "maximum": 370.901,
+          "p95": 370.901
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 15.988,
+          "mean": 5.346666666666667,
+          "maximum": 15.988,
+          "p95": 15.988
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.563,
+          "mean": 0.7239999999999999,
+          "maximum": 1.071,
+          "p95": 1.071
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 744714240,
+        "mean": 744714240,
+        "maximum": 744714240,
+        "p95": 744714240
+      }
+    },
+    {
+      "fixture": "NB-PERF-LONG",
+      "locale": "ko-KR",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "panel_present_ms": {
+          "count": 1,
+          "first": 281.691,
+          "mean": 281.691,
+          "maximum": 281.691,
+          "p95": 281.691
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 13.51,
+          "mean": 13.676833333333335,
+          "maximum": 14.059,
+          "p95": 14.059
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 9.363,
+          "mean": 3.15,
+          "maximum": 9.363,
+          "p95": 9.363
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 75.363,
+          "mean": 75.363,
+          "maximum": 75.363,
+          "p95": 75.363
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 14.174,
+          "mean": 14.966333333333333,
+          "maximum": 17.298,
+          "p95": 17.298
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 510.443,
+          "mean": 510.443,
+          "maximum": 510.443,
+          "p95": 510.443
+        },
+        "query_open_ms": {
+          "count": 1,
+          "first": 214.332,
+          "mean": 214.332,
+          "maximum": 214.332,
+          "p95": 214.332
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 535.723,
+          "mean": 535.723,
+          "maximum": 535.723,
+          "p95": 535.723
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 22.914,
+          "mean": 7.6819999999999995,
+          "maximum": 22.914,
+          "p95": 22.914
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 477.926,
+          "mean": 477.926,
+          "maximum": 477.926,
+          "p95": 477.926
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 5.938,
+          "mean": 4.362333333333333,
+          "maximum": 6.785,
+          "p95": 6.785
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 6.521,
+          "mean": 6.521,
+          "maximum": 6.521,
+          "p95": 6.521
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 125.762,
+          "mean": 125.65966666666667,
+          "maximum": 127.262,
+          "p95": 127.262
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 512.677,
+          "mean": 701.9773333333333,
+          "maximum": 908.577,
+          "p95": 908.577
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 9.161,
+          "mean": 3.1406666666666663,
+          "maximum": 9.161,
+          "p95": 9.161
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 9.149,
+          "mean": 3.0689999999999995,
+          "maximum": 9.149,
+          "p95": 9.149
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 196.509,
+          "mean": 196.509,
+          "maximum": 196.509,
+          "p95": 196.509
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 8.312,
+          "mean": 2.8286666666666664,
+          "maximum": 8.312,
+          "p95": 8.312
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.494,
+          "mean": 0.4493333333333333,
+          "maximum": 0.494,
+          "p95": 0.494
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 577249280,
+        "mean": 577249280,
+        "maximum": 577249280,
+        "p95": 577249280
+      }
+    },
+    {
+      "fixture": "NB-PERF-LONG",
+      "locale": "en-US",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "panel_present_ms": {
+          "count": 1,
+          "first": 63.789,
+          "mean": 63.789,
+          "maximum": 63.789,
+          "p95": 63.789
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 13.185,
+          "mean": 13.549000000000001,
+          "maximum": 14.037,
+          "p95": 14.037
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 13.038,
+          "mean": 4.374,
+          "maximum": 13.038,
+          "p95": 13.038
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 73.238,
+          "mean": 73.238,
+          "maximum": 73.238,
+          "p95": 73.238
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 13.301,
+          "mean": 13.369666666666667,
+          "maximum": 13.442,
+          "p95": 13.442
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 292.968,
+          "mean": 292.968,
+          "maximum": 292.968,
+          "p95": 292.968
+        },
+        "query_open_ms": {
+          "count": 1,
+          "first": 215.181,
+          "mean": 215.181,
+          "maximum": 215.181,
+          "p95": 215.181
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 544.428,
+          "mean": 544.428,
+          "maximum": 544.428,
+          "p95": 544.428
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 25.068,
+          "mean": 8.395333333333333,
+          "maximum": 25.068,
+          "p95": 25.068
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 462.847,
+          "mean": 462.847,
+          "maximum": 462.847,
+          "p95": 462.847
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 7.228,
+          "mean": 4.814,
+          "maximum": 7.228,
+          "p95": 7.228
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 6.755,
+          "mean": 6.755,
+          "maximum": 6.755,
+          "p95": 6.755
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 124.038,
+          "mean": 127.39166666666665,
+          "maximum": 132.78,
+          "p95": 132.78
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 498.591,
+          "mean": 695.8679999999999,
+          "maximum": 893.341,
+          "p95": 893.341
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 15.425,
+          "mean": 5.228,
+          "maximum": 15.425,
+          "p95": 15.425
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 9.581,
+          "mean": 3.2129999999999996,
+          "maximum": 9.581,
+          "p95": 9.581
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 195.458,
+          "mean": 195.458,
+          "maximum": 195.458,
+          "p95": 195.458
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 8.49,
+          "mean": 2.8876666666666666,
+          "maximum": 8.49,
+          "p95": 8.49
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.466,
+          "mean": 0.4603333333333333,
+          "maximum": 0.468,
+          "p95": 0.468
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 578129920,
+        "mean": 578129920,
+        "maximum": 578129920,
+        "p95": 578129920
+      }
+    }
+  ],
+  "manifests": [
+    {
+      "functional_pass": true,
+      "name": "NB-PERF-N2000-ko-KR-0",
+      "counts": {
+        "legacy": 0,
+        "normal": 2000,
+        "protected": 6
+      },
+      "fixture_sha256": "36c759a9acefd01de48d56323353afb7a1b139a2a6cf31b42328257282e57e64"
+    },
+    {
+      "functional_pass": true,
+      "name": "NB-PERF-N2000-en-US-0",
+      "counts": {
+        "legacy": 0,
+        "normal": 2000,
+        "protected": 6
+      },
+      "fixture_sha256": "36c759a9acefd01de48d56323353afb7a1b139a2a6cf31b42328257282e57e64"
+    },
+    {
+      "functional_pass": true,
+      "name": "NB-PERF-L10000-ko-KR-0",
+      "counts": {
+        "legacy": 10000,
+        "normal": 2000,
+        "protected": 6
+      },
+      "fixture_sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8"
+    },
+    {
+      "functional_pass": true,
+      "name": "NB-PERF-L10000-en-US-0",
+      "counts": {
+        "legacy": 10000,
+        "normal": 2000,
+        "protected": 6
+      },
+      "fixture_sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8"
+    },
+    {
+      "functional_pass": true,
+      "name": "NB-PERF-P2001-ko-KR-0",
+      "counts": {
+        "legacy": 0,
+        "normal": 2001,
+        "protected": 2001
+      },
+      "fixture_sha256": "f9c81734eb11029e6b101e41a6d65405d3a04f0f685bec23a138b214e79259bc"
+    },
+    {
+      "functional_pass": true,
+      "name": "NB-PERF-P2001-en-US-0",
+      "counts": {
+        "legacy": 0,
+        "normal": 2001,
+        "protected": 2001
+      },
+      "fixture_sha256": "f9c81734eb11029e6b101e41a6d65405d3a04f0f685bec23a138b214e79259bc"
+    },
+    {
+      "functional_pass": true,
+      "name": "NB-PERF-LONG-ko-KR-0",
+      "counts": {
+        "legacy": 0,
+        "normal": 1980,
+        "protected": 26
+      },
+      "fixture_sha256": "baf4573daa580deb030810e47865583c84a6833cfacbbf46a7bd5e0d61972207"
+    },
+    {
+      "functional_pass": true,
+      "name": "NB-PERF-LONG-en-US-0",
+      "counts": {
+        "legacy": 0,
+        "normal": 1980,
+        "protected": 26
+      },
+      "fixture_sha256": "baf4573daa580deb030810e47865583c84a6833cfacbbf46a7bd5e0d61972207"
+    }
+  ],
+  "not_covered": [
+    "OS input/IME",
+    "GPU/driver and device-class acceptance",
+    "warm UI input p95",
+    "50 open/close RAM recovery",
+    "60s input frame capture",
+    "Alt+Tab"
+  ]
+}
