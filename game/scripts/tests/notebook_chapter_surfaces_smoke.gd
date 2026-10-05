@@ -7,6 +7,7 @@ static func _text(key: String, locale: String) -> String:
 const NOTES := preload("res://scripts/systems/notebook_chapter_surfaces.gd")
 const CONTENT := NOTES.CONTENT
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
+const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const VIEW := preload("res://scripts/chapters/chapter_one_controller.gd")
 const TEXT := preload("res://data/dialogue/chapter_one/chapter_one_text.tres")
@@ -19,6 +20,7 @@ var fixtures := {}
 var view: ChapterOneController
 var serial := 0
 var matrix_cases := 0
+var inherited_paths: Array = []
 
 class ControlledSave extends Node:
 	var reject := true
@@ -64,6 +66,7 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor",flavor)
 	print("CHAPTER_SURFACE_COVERAGE: actual IDs/locales=",covered.size()," segments/locales=",segments.size()," matrix cases=",matrix_cases)
+	print("NOTEBOOK_INHERITED_ACTION_AUDIT: " + JSON.stringify({"paths": inherited_paths, "errors": errors}))
 	return {"ok":errors.is_empty(),"errors":errors,"not_covered":["prologue_surfaces","unified_notebook_UI","OS_input","restart_cursor","B2_exact_modal_pause"]}
 
 
@@ -240,9 +243,53 @@ func _later_controllers(tree: SceneTree) -> void:
 		_present()
 		for entry in _archive().entries:
 			_expect(not String(entry.get("observation",{}).get("content_id","")).begins_with(NOTES.PREFIX),"discarded base chapter controls excluded")
+		_expect((view._hotspot_layer.get_node_or_null("INNER_desk") != null) == (item[1] == "C4"), "mirror retains parent investigation before J3; basement replaces it")
+		_expect(view._hotspot_layer.get_node_or_null("J1_RESTORE") == null, "completed J1 cannot be restored again through the later UI")
+		if item[1] == "C4":
+			_inherited_action(item[1], "M1_LIBRARY_INNER", "INNER_desk", "NB_CH1_CH1_INNER_DESK")
+		for owner in ["edgar", "luca", "mara1", "mara2"]:
+			_inherited_action(item[1], "M1_SERVANT_COMMON", "DOC_" + owner, "NB_CH1_CH1_B1_TEXT_" + String(owner).to_upper(), "NB_CH1_NOTE_B1_" + String(owner).to_upper())
+		_inherited_action(item[1], "M1_PARLOR", "RUB_CLOCK", "NB_CH1_CH1_CLOCK_PARLOR", "NB_CH1_NOTE_CLOCK_PARLOR")
+		_inherited_action(item[1], "M2_BEDROOM", "AS_ROUTINE", "NB_CH1_ROUTINE")
+		_inherited_action(item[1], "M1_NORTH_ARCHIVE_HALL", "MARA2_MEMORY", "NB_CH1_MARA2_MEMORY")
 		view.queue_free()
 		view = null
 		await tree.process_frame
+
+
+func _inherited_action(stage: String, room: String, button_id: String, content_id: String, note_id: String = "") -> void:
+	_install(_fixture(stage, room))
+	_present()
+	var before := GameState.get_snapshot()
+	var start: int = _archive().entries.size()
+	_expect(view.session.stage() == stage, "inherited fixture uses its actual later stage")
+	_press(button_id)
+	for index in range(20):
+		if not view._dialogue_active: break
+		view._advance_dialogue()
+	_expect(not view._dialogue_active, "inherited dialogue completes " + button_id)
+	var found_dialogue := false
+	var found_note := note_id.is_empty()
+	var observed: Array = []
+	for entry in _archive().entries.slice(start):
+		_expect(entry.get("record_class") == "authored", "inherited action cannot silently produce unmapped text")
+		if entry.get("record_class") != "authored": continue
+		var observation: Dictionary = entry.observation
+		if observation.content_id not in [content_id, note_id]: continue
+		_expect(observation.node_id == stage and observation.chapter_id == "CHAPTER_2" and observation.location_id == room, "shared producer uses actual later event context")
+		if observation.content_id == content_id:
+			found_dialogue = true
+			_expect(observation.producer_id == "NP04", "inherited dialogue retains its producer")
+		else:
+			found_note = true
+			_expect(observation.producer_id == "NP06", "inherited acquisition retains its producer")
+		for segment in observation.segments:
+			_expect(segment.viewed_locale == TranslationServer.get_locale().replace("_", "-"), "inherited observation captures display locale")
+			observed.append([observation.producer_id, observation.content_id, observation.node_id, segment.segment_id, segment.viewed_locale])
+		_expect(CONTENT.render_entry(entry,"ko-KR").ok and CONTENT.render_entry(entry,"en-US").ok, "inherited record rereads in both languages")
+	_expect(found_dialogue and found_note, "visible inherited action records expected dialogue and acquisition " + button_id)
+	_expect(before.meta_progress.journal_stage == GameState.get_snapshot().meta_progress.journal_stage, "revisiting earlier material cannot regress journal restoration")
+	inherited_paths.append({"stage": stage, "room": room, "button": button_id, "observed": observed})
 
 
 func _matrix(locale: String) -> void:
@@ -305,7 +352,7 @@ func _present() -> void:
 	var before := GameState.get_snapshot()
 	_expect(view._notebook_surface_allowed(),"surface capture")
 	var after := GameState.get_snapshot()
-	_expect(before.meta_progress.knowledge_entries == after.meta_progress.knowledge_entries and before.loop_state == after.loop_state,"display does not grant knowledge or alter world")
+	_expect(before == after or STATE_ASSERTIONS.same_surface_gameplay(before, after), "display changes only backed observations and their valid receipt: " + str(STATE_ASSERTIONS.changed_paths(before, after)))
 	view.set_process(false)
 	_collect()
 

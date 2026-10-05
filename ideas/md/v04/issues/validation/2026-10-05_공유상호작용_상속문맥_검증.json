@@ -1,0 +1,688 @@
+{
+  "audit": {
+    "errors": [],
+    "paths": [
+      {
+        "button": "INNER_desk",
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DESK",
+            "C4",
+            "line_01",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_LIBRARY_INNER",
+        "stage": "C4"
+      },
+      {
+        "button": "DOC_edgar",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_EDGAR",
+            "C4",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            "C4",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            "C4",
+            "line_02",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "C4"
+      },
+      {
+        "button": "DOC_luca",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_LUCA",
+            "C4",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            "C4",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            "C4",
+            "line_02",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "C4"
+      },
+      {
+        "button": "DOC_mara1",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA1",
+            "C4",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            "C4",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            "C4",
+            "line_02",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "C4"
+      },
+      {
+        "button": "DOC_mara2",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA2",
+            "C4",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            "C4",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            "C4",
+            "line_02",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "C4"
+      },
+      {
+        "button": "RUB_CLOCK",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_PARLOR",
+            "C4",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_PARLOR",
+            "C4",
+            "line_01",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_PARLOR",
+        "stage": "C4"
+      },
+      {
+        "button": "AS_ROUTINE",
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_ROUTINE",
+            "C4",
+            "line_01",
+            "ko-KR"
+          ]
+        ],
+        "room": "M2_BEDROOM",
+        "stage": "C4"
+      },
+      {
+        "button": "MARA2_MEMORY",
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_MARA2_MEMORY",
+            "C4",
+            "line_01",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_NORTH_ARCHIVE_HALL",
+        "stage": "C4"
+      },
+      {
+        "button": "DOC_edgar",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_EDGAR",
+            "D0",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            "D0",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            "D0",
+            "line_02",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "D0"
+      },
+      {
+        "button": "DOC_luca",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_LUCA",
+            "D0",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            "D0",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            "D0",
+            "line_02",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "D0"
+      },
+      {
+        "button": "DOC_mara1",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA1",
+            "D0",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            "D0",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            "D0",
+            "line_02",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "D0"
+      },
+      {
+        "button": "DOC_mara2",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA2",
+            "D0",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            "D0",
+            "line_01",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            "D0",
+            "line_02",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "D0"
+      },
+      {
+        "button": "RUB_CLOCK",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_PARLOR",
+            "D0",
+            "body",
+            "ko-KR"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_PARLOR",
+            "D0",
+            "line_01",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_PARLOR",
+        "stage": "D0"
+      },
+      {
+        "button": "AS_ROUTINE",
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_ROUTINE",
+            "D0",
+            "line_01",
+            "ko-KR"
+          ]
+        ],
+        "room": "M2_BEDROOM",
+        "stage": "D0"
+      },
+      {
+        "button": "MARA2_MEMORY",
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_MARA2_MEMORY",
+            "D0",
+            "line_01",
+            "ko-KR"
+          ]
+        ],
+        "room": "M1_NORTH_ARCHIVE_HALL",
+        "stage": "D0"
+      },
+      {
+        "button": "INNER_desk",
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_CH1_INNER_DESK",
+            "C4",
+            "line_01",
+            "en-US"
+          ]
+        ],
+        "room": "M1_LIBRARY_INNER",
+        "stage": "C4"
+      },
+      {
+        "button": "DOC_edgar",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_EDGAR",
+            "C4",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            "C4",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            "C4",
+            "line_02",
+            "en-US"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "C4"
+      },
+      {
+        "button": "DOC_luca",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_LUCA",
+            "C4",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            "C4",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            "C4",
+            "line_02",
+            "en-US"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "C4"
+      },
+      {
+        "button": "DOC_mara1",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA1",
+            "C4",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            "C4",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            "C4",
+            "line_02",
+            "en-US"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "C4"
+      },
+      {
+        "button": "DOC_mara2",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA2",
+            "C4",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            "C4",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            "C4",
+            "line_02",
+            "en-US"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "C4"
+      },
+      {
+        "button": "RUB_CLOCK",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_PARLOR",
+            "C4",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_PARLOR",
+            "C4",
+            "line_01",
+            "en-US"
+          ]
+        ],
+        "room": "M1_PARLOR",
+        "stage": "C4"
+      },
+      {
+        "button": "AS_ROUTINE",
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_ROUTINE",
+            "C4",
+            "line_01",
+            "en-US"
+          ]
+        ],
+        "room": "M2_BEDROOM",
+        "stage": "C4"
+      },
+      {
+        "button": "MARA2_MEMORY",
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_MARA2_MEMORY",
+            "C4",
+            "line_01",
+            "en-US"
+          ]
+        ],
+        "room": "M1_NORTH_ARCHIVE_HALL",
+        "stage": "C4"
+      },
+      {
+        "button": "DOC_edgar",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_EDGAR",
+            "D0",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            "D0",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_EDGAR",
+            "D0",
+            "line_02",
+            "en-US"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "D0"
+      },
+      {
+        "button": "DOC_luca",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_LUCA",
+            "D0",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            "D0",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_LUCA",
+            "D0",
+            "line_02",
+            "en-US"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "D0"
+      },
+      {
+        "button": "DOC_mara1",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA1",
+            "D0",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            "D0",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA1",
+            "D0",
+            "line_02",
+            "en-US"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "D0"
+      },
+      {
+        "button": "DOC_mara2",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_B1_MARA2",
+            "D0",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            "D0",
+            "line_01",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_B1_TEXT_MARA2",
+            "D0",
+            "line_02",
+            "en-US"
+          ]
+        ],
+        "room": "M1_SERVANT_COMMON",
+        "stage": "D0"
+      },
+      {
+        "button": "RUB_CLOCK",
+        "observed": [
+          [
+            "NP06",
+            "NB_CH1_NOTE_CLOCK_PARLOR",
+            "D0",
+            "body",
+            "en-US"
+          ],
+          [
+            "NP04",
+            "NB_CH1_CH1_CLOCK_PARLOR",
+            "D0",
+            "line_01",
+            "en-US"
+          ]
+        ],
+        "room": "M1_PARLOR",
+        "stage": "D0"
+      },
+      {
+        "button": "AS_ROUTINE",
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_ROUTINE",
+            "D0",
+            "line_01",
+            "en-US"
+          ]
+        ],
+        "room": "M2_BEDROOM",
+        "stage": "D0"
+      },
+      {
+        "button": "MARA2_MEMORY",
+        "observed": [
+          [
+            "NP04",
+            "NB_CH1_MARA2_MEMORY",
+            "D0",
+            "line_01",
+            "en-US"
+          ]
+        ],
+        "room": "M1_NORTH_ARCHIVE_HALL",
+        "stage": "D0"
+      }
+    ]
+  },
+  "source_sha256": "A75E224957B42DFCA4F36966C479DD1CAA550894B071C6D70CD9C8AFACAB4336",
+  "pack_sha256": "2E418D9A40C22D7FADC103C66AF0472E1B38B7E7D52734BE7A08D748C19CF076",
+  "summary": "CHAPTER_SURFACE_COVERAGE: actual IDs/locales=110 segments/locales=142 matrix cases=352",
+  "baseline_commit": "3e35f9edbfdc0dbf62d48b9c1e3d3dafe64a4d1e",
+  "runtime_seconds": {
+    "import": 20.7,
+    "export": 8,
+    "surfaces": 46.2
+  }
+}
