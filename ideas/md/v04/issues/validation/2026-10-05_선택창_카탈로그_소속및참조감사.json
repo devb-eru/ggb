@@ -1,0 +1,3043 @@
+{
+  "ok": true,
+  "definition_count": 1734,
+  "choice_versions": 82,
+  "sources": [
+    {
+      "sha256": "B8ACB8291E27D8657C50B6B2F894C7DC1E26A6A42C4930DF8195C405DDE85CF2",
+      "catalog": "basement_v1.json"
+    },
+    {
+      "sha256": "8B4B3BFD46DBBB8A5012E32BFDEC74279A92FF45179EB3D6A8C945958A4A4A21",
+      "catalog": "chapter_one_notes_v1.json"
+    },
+    {
+      "sha256": "2047D4382BAC28C012BB1E7384DF2C447DB620943C88D945506C174978833B2B",
+      "catalog": "chapter_one_v1.json"
+    },
+    {
+      "sha256": "B46E8F16C7254793E123B022975A0C85F555297B826831C60047340A8077FB85",
+      "catalog": "chapter_surfaces_v1.json"
+    },
+    {
+      "sha256": "129627E90FB5BDD6BA5D98E91802C5D66F3EAD4EB22893A191A9C5E79C04A294",
+      "catalog": "core_v1.json"
+    },
+    {
+      "sha256": "5105075FB64942355DB3D3335E70BCB330B84253DBCB7CC4CAE84C2C7175C41C",
+      "catalog": "edgar_v1.json"
+    },
+    {
+      "sha256": "B33E538FB14FFAB62944D392E3823F041F0A5BB6AD74B6E4EEC79A9BC34CD063",
+      "catalog": "final_v1.json"
+    },
+    {
+      "sha256": "6200EE74EA5144711245CC4D2FC237BE31BA1043A1B5F2D8F98786E5DA68B77D",
+      "catalog": "fracture_surfaces_v1.json"
+    },
+    {
+      "sha256": "D6320B170883E66C9FB9051B1A6BDB98FF15BB7D08827ACD7D70501B5E864EB3",
+      "catalog": "fracture_v1.json"
+    },
+    {
+      "sha256": "C7CB8CDB544418CEEF2C55F3E57E8A908BBBDD743B8A043781777E61DF3EBD84",
+      "catalog": "hints_v1.json"
+    },
+    {
+      "sha256": "9362F77247E3D5F39AB3898E94135DC0BFDAAB536028908FD20639A811E6CFDC",
+      "catalog": "iris_v1.json"
+    },
+    {
+      "sha256": "2A3B5B3B46D085E0CDB4DFBA388B4D6C53780ECDA6AEEE60431EED036AE694E1",
+      "catalog": "journal_four_display_v1.json"
+    },
+    {
+      "sha256": "AB97A2E4415D388564D92AECB40420C257E4B6DD2D67B20BF97644625127198F",
+      "catalog": "journal_four_v1.json"
+    },
+    {
+      "sha256": "B384739C174143B1E630970D225A9739C16B81395AEA3EA60F2499DB4584A71E",
+      "catalog": "luca_v1.json"
+    },
+    {
+      "sha256": "A30DED66CFD0736C1278D4C4514AFBC00E5B3A5D3951F41A582CA2ACA657F050",
+      "catalog": "mara1_v1.json"
+    },
+    {
+      "sha256": "9F66A23661E413409B7A81F9BE033C9F857B75848F2FA90B8D4E179B88FFF6BF",
+      "catalog": "mara2_v1.json"
+    },
+    {
+      "sha256": "42D31AD557C795401BDB0FC5A46785C331E0CEE1EC7A5CC38077894C7265DB41",
+      "catalog": "mirror_v1.json"
+    },
+    {
+      "sha256": "E2AF9DED7E0784401A6AA7214D65D1948C450D783AAABB200B9D4E061734584A",
+      "catalog": "modals_v1.json"
+    },
+    {
+      "sha256": "A84BB21A1DABBC1972610BD9D0631577335C79F5A76D12D0B7DEABDB25979A06",
+      "catalog": "prologue_notes_v1.json"
+    },
+    {
+      "sha256": "9B955AB03D69D734F8E06699D3A0AA65843C5BCC9DB7F14CCDED37AE73B476C1",
+      "catalog": "prologue_surfaces_v1.json"
+    },
+    {
+      "sha256": "4221FEEB5BA422E23245E470A88473003DEBFC2E4B7E36A23F2795ADB30D6B6A",
+      "catalog": "prologue_v1.json"
+    },
+    {
+      "sha256": "64E187C32EE535436A580CABD6A491EA604A80E865DF914DF00366EF320ABF91",
+      "catalog": "puzzle_labels_v2.json"
+    },
+    {
+      "sha256": "01414E1455FC3CE47F2AF911B5FE137929D03953E8355323206B36D819F675F3",
+      "catalog": "puzzle_surfaces_v1.json"
+    },
+    {
+      "sha256": "2179AAE7F7EC2A657FADA6B235753FCDEA69A244A7C2FA353B60DC4849007E99",
+      "catalog": "reality_v1.json"
+    },
+    {
+      "sha256": "CA9A5228317729E396C5A54B482B31C34B100E948F1E6CE17B5DC742E2BC01A8",
+      "catalog": "record_labels_v2.json"
+    },
+    {
+      "sha256": "563A04006B3C70DC260AAE6ACA9D8C49CFE6B85AF02825C2EC5C9C0B3B9838AB",
+      "catalog": "relationship_labels_v2.json"
+    },
+    {
+      "sha256": "70511C773EF18D58A55523EBAAE32AD125C02ABCAA720A6F4D540FAB861DF4D6",
+      "catalog": "self_mark_v2.json"
+    },
+    {
+      "sha256": "D440F3948DBE7615E12FC12FD0C3D827031F2E44B8E5B57CA6177AD18A540A76",
+      "catalog": "settlement_v1.json"
+    },
+    {
+      "sha256": "E7A57EDE14BDA0A0FB658F103AAB405C8B777493455FBBBE74FC80D8BFB8CCD0",
+      "catalog": "stay_v1.json"
+    }
+  ],
+  "rows": [
+    {
+      "id": "NB_EDGAR_OWNER_CHOICE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP13",
+      "catalog": "edgar_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_EDGAR_OWNER_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_4",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_EDGAR_OWNER_MEMORY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP13",
+      "catalog": "edgar_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_EDGAR_OWNER_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_4",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_EDGAR_OWNER_PROTECTION_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP13",
+      "catalog": "edgar_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_EDGAR_OWNER_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_4",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_EDGAR_OWNER_SURVEILLANCE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP13",
+      "catalog": "edgar_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_EDGAR_OWNER_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_EDGAR_OWNER_SELECT_4",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_IRIS_CHANNEL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP11",
+      "catalog": "iris_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_IRIS_CHANNEL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_IRIS_CHANNEL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_IRIS_CHANNEL_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_IRIS_CHANNEL_SELECT_3",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_J4_DISPLAY_CONFIRM_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP15",
+      "catalog": "journal_four_display_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_J4_DISPLAY_CONFIRM_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_J4_DISPLAY_CONFIRM_SELECT_1",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_LUCA_SLOT_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP12",
+      "catalog": "luca_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_LUCA_SLOT_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_LUCA_SLOT_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_LUCA_SLOT_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_LUCA_SLOT_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_LUCA_SLOT_SELECT_4",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_ALIGN_A_OUTLINE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_ALIGN_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_3",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_ALIGN_A_START_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_ALIGN_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_3",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_ALIGN_B_OUTLINE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_ALIGN_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_3",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_ALIGN_B_START_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_ALIGN_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_3",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_ALIGN_C_OUTLINE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_ALIGN_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_3",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_ALIGN_C_START_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_ALIGN_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_ALIGN_SELECT_3",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_CELL_11_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_CELL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_CELL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_CELL_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_CELL_SELECT_3",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_CELL_3_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_CELL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_CELL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_CELL_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_CELL_SELECT_3",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_CELL_7_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_CELL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_CELL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_CELL_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_CELL_SELECT_3",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_A_EDGAR_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_A_IRIS_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_A_LUCA_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_A_MARA1_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_A_MARA2_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_B_EDGAR_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_B_IRIS_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_B_LUCA_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_B_MARA1_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_B_MARA2_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_C_EDGAR_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_C_IRIS_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_C_LUCA_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_C_MARA1_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MARA2_SOURCE_C_MARA2_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP14",
+      "catalog": "mara2_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MARA2_SOURCE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MARA2_SOURCE_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_BASEMENT_AUXILIARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP08",
+      "catalog": "basement_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_BASEMENT_AUXILIARY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": "",
+          "version": null
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_BASEMENT_AUXILIARY_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_BASEMENT_AXIS_BRANCH_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP08",
+      "catalog": "basement_v1.json",
+      "cancel_index": 1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": "",
+          "version": null
+        },
+        {
+          "index": 1,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_BASEMENT_AXIS_BRANCH_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_BASEMENT_AXIS_BRANCH_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_BASEMENT_AXIS_LINE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP08",
+      "catalog": "basement_v1.json",
+      "cancel_index": 1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": "",
+          "version": null
+        },
+        {
+          "index": 1,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_BASEMENT_AXIS_LINE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_BASEMENT_AXIS_LINE_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_BASEMENT_AXIS_RING_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP08",
+      "catalog": "basement_v1.json",
+      "cancel_index": 1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": "",
+          "version": null
+        },
+        {
+          "index": 1,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_BASEMENT_AXIS_RING_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_BASEMENT_AXIS_RING_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_BASEMENT_CENTRAL_CLOCKWISE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP08",
+      "catalog": "basement_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_BASEMENT_CENTRAL_CLOCKWISE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_BASEMENT_CENTRAL_CLOCKWISE_SELECT_1",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_BASEMENT_CENTRAL_COUNTERCLOCKWISE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP08",
+      "catalog": "basement_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_BASEMENT_CENTRAL_COUNTERCLOCKWISE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_BASEMENT_CENTRAL_COUNTERCLOCKWISE_SELECT_1",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_CH1_MARK_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_CH1_MARK_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_CH1_MARK_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_CH1_MARK_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_CH1_SCHEDULE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_CH1_SCHEDULE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_CH1_SCHEDULE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_CH1_SCHEDULE_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_CH1_SLEEP_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_CH1_SLEEP_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_CH1_SLEEP_SELECT_1",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_CLOCK_ACTIVATE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": 2,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_CLOCK_ACTIVATE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_CLOCK_ACTIVATE_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_CLOCK_ACTIVATE_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_EDC_REALITY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_EDC_REALITY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_EDC_REALITY_SELECT_1",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_EDC_STAY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_EDC_STAY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_EDC_STAY_SELECT_1",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_EDC_SUMMARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": "",
+          "version": null
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_EDGAR_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_EDGAR_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_EDGAR_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_EDGAR_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_BACK_FULL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_BACK_FULL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_BACK_FULL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_BACK_FULL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_BACK_SUMMARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_BACK_SUMMARY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_BACK_SUMMARY_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_BACK_SUMMARY_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_COVER_FULL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_COVER_FULL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_COVER_FULL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_COVER_FULL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_COVER_SUMMARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_COVER_SUMMARY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_COVER_SUMMARY_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_COVER_SUMMARY_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_EDGAR_FULL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_EDGAR_FULL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_EDGAR_FULL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_EDGAR_FULL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_EDGAR_SUMMARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_EDGAR_SUMMARY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_EDGAR_SUMMARY_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_EDGAR_SUMMARY_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_FIRST_72_HOURS_FULL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_FIRST_72_HOURS_FULL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_FIRST_72_HOURS_FULL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_FIRST_72_HOURS_FULL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_FIRST_72_HOURS_SUMMARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_FIRST_72_HOURS_SUMMARY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_FIRST_72_HOURS_SUMMARY_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_FIRST_72_HOURS_SUMMARY_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_IRIS_FULL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_IRIS_FULL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_IRIS_FULL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_IRIS_FULL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_IRIS_SUMMARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_IRIS_SUMMARY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_IRIS_SUMMARY_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_IRIS_SUMMARY_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA1_FULL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA1_FULL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA1_FULL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA1_FULL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA1_SUMMARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA1_SUMMARY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA1_SUMMARY_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA1_SUMMARY_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA2_FULL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA2_FULL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA2_FULL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA2_FULL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA2_SUMMARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA2_SUMMARY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA2_SUMMARY_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_MARA2_SUMMARY_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_FULL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_FULL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_FULL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_FULL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_SUMMARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_SUMMARY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_SUMMARY_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_FIELD_NOTEBOOK_PREFACE_SUMMARY_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS",
+      "version": 1,
+      "current": false,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_OPTIONS",
+      "version": 2,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "record_labels_v2.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_FULL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_SUMMARY_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_SUMMARY_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_SUMMARY_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FIELD_SUBJECT_HANDOFF_PAGE_SUMMARY_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FRACTURE_REST_BEDROOM_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP09",
+      "catalog": "fracture_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_FRACTURE_REST_BEDROOM_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FRACTURE_REST_BEDROOM_SELECT_1",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_FRACTURE_REST_CAPSULE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP09",
+      "catalog": "fracture_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_FRACTURE_REST_CAPSULE_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_FRACTURE_REST_CAPSULE_SELECT_1",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_IRIS_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_IRIS_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_IRIS_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_IRIS_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_LUCA_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_LUCA_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_LUCA_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_LUCA_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_MARA1_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_MARA1_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_MARA1_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_MARA1_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_MARA2_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_MARA2_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_MARA2_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_MARA2_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_MIRROR_PATROL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_MIRROR_PATROL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_MIRROR_PATROL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_MIRROR_PATROL_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_MIRROR_ROUTE_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": -1,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": "",
+          "version": null
+        },
+        {
+          "index": 1,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": "",
+          "version": null
+        }
+      ]
+    },
+    {
+      "id": "NB_MODAL_MIRROR_WET_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP05",
+      "catalog": "modals_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_MODAL_MIRROR_WET_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_MIRROR_WET_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_MODAL_MIRROR_WET_SELECT_2",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_PUZZLE_OVERLAY_0",
+      "version": 1,
+      "current": true,
+      "producer": "NP07",
+      "catalog": "puzzle_surfaces_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": null,
+          "version": null
+        }
+      ]
+    },
+    {
+      "id": "NB_PUZZLE_OVERLAY_1",
+      "version": 1,
+      "current": true,
+      "producer": "NP07",
+      "catalog": "puzzle_surfaces_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": null,
+          "version": null
+        }
+      ]
+    },
+    {
+      "id": "NB_PUZZLE_OVERLAY_2",
+      "version": 1,
+      "current": true,
+      "producer": "NP07",
+      "catalog": "puzzle_surfaces_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": null,
+          "version": null
+        }
+      ]
+    },
+    {
+      "id": "NB_PUZZLE_OVERLAY_3",
+      "version": 1,
+      "current": true,
+      "producer": "NP07",
+      "catalog": "puzzle_surfaces_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": null,
+          "version": null
+        }
+      ]
+    },
+    {
+      "id": "NB_PUZZLE_OVERLAY_4",
+      "version": 1,
+      "current": true,
+      "producer": "NP07",
+      "catalog": "puzzle_surfaces_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "ui",
+          "entry_kind": "ui",
+          "content_id": null,
+          "version": null
+        }
+      ]
+    },
+    {
+      "id": "NB_SETTLEMENT_E5_FINISH_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP15",
+      "catalog": "settlement_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_SETTLEMENT_E5_FINISH_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_SETTLEMENT_E5_FINISH_SELECT_1",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_SETTLEMENT_E6_ENTER_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP15",
+      "catalog": "settlement_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "cancel",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_SETTLEMENT_E6_ENTER_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "confirm",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_SETTLEMENT_E6_ENTER_SELECT_1",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_STAY_CHANNEL_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP19",
+      "catalog": "stay_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "choice_cancelled",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_STAY_CHANNEL_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "choice_confirmed",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_STAY_CHANNEL_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "choice_confirmed",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_STAY_CHANNEL_SELECT_2",
+          "version": 1
+        },
+        {
+          "index": 3,
+          "kind": "choice_confirmed",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_STAY_CHANNEL_SELECT_3",
+          "version": 1
+        },
+        {
+          "index": 4,
+          "kind": "choice_confirmed",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_STAY_CHANNEL_SELECT_4",
+          "version": 1
+        },
+        {
+          "index": 5,
+          "kind": "choice_confirmed",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_STAY_CHANNEL_SELECT_5",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "NB_STAY_MODE_SETTINGS_OPTIONS",
+      "version": 1,
+      "current": true,
+      "producer": "NP19",
+      "catalog": "stay_v1.json",
+      "cancel_index": 0,
+      "choices": [
+        {
+          "index": 0,
+          "kind": "choice_cancelled",
+          "entry_kind": "choice_cancelled",
+          "content_id": "NB_STAY_MODE_SETTINGS_SELECT_0",
+          "version": 1
+        },
+        {
+          "index": 1,
+          "kind": "choice_confirmed",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_STAY_MODE_SETTINGS_SELECT_1",
+          "version": 1
+        },
+        {
+          "index": 2,
+          "kind": "choice_confirmed",
+          "entry_kind": "choice_confirmed",
+          "content_id": "NB_STAY_MODE_SETTINGS_SELECT_2",
+          "version": 1
+        }
+      ]
+    }
+  ],
+  "producers": [
+    {
+      "producer": "NP05",
+      "versions": 34,
+      "current": 33
+    },
+    {
+      "producer": "NP07",
+      "versions": 5,
+      "current": 5
+    },
+    {
+      "producer": "NP08",
+      "versions": 6,
+      "current": 6
+    },
+    {
+      "producer": "NP09",
+      "versions": 2,
+      "current": 2
+    },
+    {
+      "producer": "NP11",
+      "versions": 1,
+      "current": 1
+    },
+    {
+      "producer": "NP12",
+      "versions": 1,
+      "current": 1
+    },
+    {
+      "producer": "NP13",
+      "versions": 4,
+      "current": 4
+    },
+    {
+      "producer": "NP14",
+      "versions": 24,
+      "current": 24
+    },
+    {
+      "producer": "NP15",
+      "versions": 3,
+      "current": 3
+    },
+    {
+      "producer": "NP19",
+      "versions": 2,
+      "current": 2
+    }
+  ],
+  "errors": [],
+  "current_choice_ids": 81,
+  "baseline": "1a7c2fcf22ed80f2e98c41ca85aa6423fbde836c",
+  "self_test": {
+    "ok": true,
+    "valid_fixtures": 3,
+    "rejected_mutations": 10
+  },
+  "scope": "Static non-empty choices definitions; current means highest catalog version; not runtime route coverage"
+}
