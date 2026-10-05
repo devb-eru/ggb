@@ -37,6 +37,7 @@ func run() -> Dictionary:
 	GameState.reset_for_test()
 	_validate_primary()
 	_validate_failure_and_future()
+	_validate_progress_future_temporary()
 	_validate_backup()
 	_validate_commands()
 	_validate_retention_commit()
@@ -172,6 +173,41 @@ func _validate_failure_and_future() -> void:
 	original = FileAccess.get_file_as_bytes(_path("progress.bak.json"))
 	_expect(not SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", GameState.get_snapshot(), GameState.revision, "TEST_FUTURE_LEDGER_BACKUP").ok, "future knowledge ledger backup cannot be replaced")
 	_expect(FileAccess.get_file_as_bytes(_path("progress.bak.json")) == original, "future ledger backup bytes preserved")
+	SaveManager.delete_test_slot(SLOT)
+
+
+func _validate_progress_future_temporary() -> void:
+	for entry in ["save", "migration", "recovery"]:
+		for kind in ["envelope", "archive", "knowledge"]:
+			SaveManager.delete_test_slot(SLOT)
+			var state := _legacy()
+			_write_source(_path(), state)
+			_write_source(_path("progress.bak.json"), state)
+			if entry == "recovery":
+				var broken := FileAccess.open(_path(), FileAccess.WRITE)
+				broken.store_string("corrupt")
+				broken.close()
+			var future := GameState.get_snapshot()
+			if kind == "archive": future.meta_progress.dialogue_history.schema_version = 999
+			if kind == "knowledge": future.meta_progress.knowledge_entries.notebook_knowledge = {"schema_version":999}
+			_write_source(_path("progress.tmp.json"), future, 999 if kind == "envelope" else 2)
+			var before := {}
+			for name in ["progress.json", "progress.bak.json", "progress.tmp.json"]:
+				before[name] = FileAccess.get_file_as_bytes(_path(name))
+			var result: Dictionary
+			if entry == "save":
+				result = SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", GameState.get_snapshot(), 8, "TEST_FUTURE_TEMP")
+			else:
+				result = SaveManager.load_slot(SLOT)
+			_expect(not result.ok and result.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA", "future progress temporary blocks write: " + entry + "/" + kind)
+			for name in before:
+				_expect(FileAccess.get_file_as_bytes(_path(name)) == before[name], "future temporary preserves source bytes: " + entry + "/" + kind + "/" + name)
+			var pending_bytes: PackedByteArray = before["progress.tmp.json"]
+			var committed := GameState.get_snapshot()
+			_write_source(_path(), committed, 2)
+			var readable: Dictionary = SaveManager.load_slot(SLOT)
+			_expect(readable.get("ok", false) and readable.snapshot == committed, "future temporary is not adopted during committed read: " + entry + "/" + kind)
+			_expect(FileAccess.get_file_as_bytes(_path("progress.tmp.json")) == pending_bytes, "read leaves future temporary untouched: " + entry + "/" + kind)
 	SaveManager.delete_test_slot(SLOT)
 
 

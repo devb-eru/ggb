@@ -1,5 +1,9 @@
 # 통합 수첩 구현 현황
 
+## 2026-10-05 progress 미래 임시 파일 보호
+
+기준 develop `1223290`. [저장 입구 대조](notebook_history_save_entry_matrix.md)에서 [ERR-0039](../items/GGB-ERR-2026-0039_progress_미래임시파일_덮어쓰기.md)를 재현했다. 일반 저장·구형 이관·백업 복구가 미래 tmp를 덮는 아홉 fixture를 수정하고, main/bak/tmp 바이트 보존 및 확정 신형 저장의 읽기 허용을 확인했다. migration(저장 안전성 138개 포함), 재선택 366개, 기본 모드 집중 242개 PASS. T26d만 완료하며 다른 형식·알 수 없는 design revision·성능·OS 입력 검증은 남아 있다.
+
 ## 2026-10-05 F3 정상 백업 보존
 
 기준 develop `9ad7e44`. [ERR-0038](../items/GGB-ERR-2026-0038_F3_잘못된본파일이_정상백업을_덮어씀.md)의 손상·비F3 본파일 덮어쓰기를 수정 전 재현했다. 현재 run의 유효한 F3만 기존 bak를 대체하게 수정하고, 다른 run 및 정상 대조 조건을 포함한 네 조건에서 정상 저장/승격 실패를 검사했다. 실제 승격 경계의 실패 주입 후 확정 bak snapshot 복구, progress/bak 보존을 확인했다. migration·save-safety 138개 포함, 재선택 복원 366개, 기본 모드 집중 242개 PASS. [전체 ToDo](notebook_history_TODO.md)의 T26c에 반영하며 저장 행렬·전체 캠페인·실제 입력·성능 인수 완료를 뜻하지 않는다.

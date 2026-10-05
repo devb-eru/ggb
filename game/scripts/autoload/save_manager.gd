@@ -246,6 +246,8 @@ func save_snapshot(
 	if previous.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
 	var previous_backup := _read_and_validate(paths.backup)
 	if previous_backup.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
+	var pending := _read_and_validate(paths.temporary)
+	if pending.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
 	var promote_legacy := NOTEBOOK_ROLLOUT.enabled()
 	var meta: Variant = snapshot.get("meta_progress")
 	var history: Variant = meta.get("dialogue_history") if meta is Dictionary else null
@@ -371,6 +373,9 @@ func load_slot(slot_id: String) -> Dictionary:
 	var backup := _read_and_validate(paths["backup"])
 	if backup.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return backup
 	if bool(backup.get("ok", false)):
+		# Recovery will write a new branch; guard its destination before changing main.
+		var pending := _read_and_validate(paths.temporary)
+		if pending.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return pending
 		if NOTEBOOK_ROLLOUT.enabled():
 			var preserved := _preserve_legacy_source(backup)
 			if not preserved.ok: return preserved
