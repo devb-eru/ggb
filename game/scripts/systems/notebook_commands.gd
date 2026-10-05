@@ -4,17 +4,21 @@ const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 
 
 static func scope(game: Node, saves: Node, slot: String) -> String:
+	return _scope_from_summary(game, saves, slot, saves.inspect_slot(slot))
+
+
+static func _scope_from_summary(game: Node, saves: Node, slot: String, summary: Dictionary) -> String:
 	var archive: Dictionary = game.get_value(&"meta_progress.dialogue_history", {})
 	var scope_namespace := "development" if slot.begins_with("__dev_") else String(saves.get_build_flavor())
-	var run_id := String(saves.inspect_slot(slot).get("run_id", ""))
+	var run_id := String(summary.get("run_id", ""))
 	return "%s:%s:%s:%s:%s:%d" % [scope_namespace, slot, run_id, archive.get("source_origin_id", ""), archive.get("branch_id", ""), game.load_epoch]
 
 
 static func set_reference(game: Node, saves: Node, slot: String, collection: String, reference: Dictionary, enabled: bool, expected_scope: String, expected_revision: int, command_id: String) -> Dictionary:
-	if expected_scope != scope(game, saves, slot): return _error("NB_COMMAND_SCOPE")
+	var summary: Dictionary = saves.inspect_slot(slot)
+	if expected_scope != _scope_from_summary(game, saves, slot, summary): return _error("NB_COMMAND_SCOPE")
 	if expected_revision != game.revision: return _error("NB_COMMAND_STALE_REVISION")
 	if command_id.length() != 32 or not command_id.is_valid_hex_number(): return _error("NB_COMMAND_ID")
-	var summary: Dictionary = saves.inspect_slot(slot)
 	if not summary.get("available", false): return _error("NB_COMMAND_SLOT_UNAVAILABLE")
 	var state: Dictionary = game.get_snapshot()
 	var archive: Dictionary = state.meta_progress.dialogue_history

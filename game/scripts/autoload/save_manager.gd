@@ -17,6 +17,9 @@ const CONTENT_REVISION := "unlocked"
 const SOURCE_APP_ID := "local"
 const SAVE_ROOT := "user://saves"
 const PRODUCT_SLOT_IDS := ["slot_01", "slot_02", "slot_03"]
+const SUMMARY_CACHE_LIMIT := 8
+const SUMMARY_CACHE_ENTRY_BYTES := 4096
+var _summary_cache := {}
 
 
 func _enter_tree() -> void:
@@ -50,10 +53,10 @@ func inspect_slot(slot_id: String) -> Dictionary:
 	if not _is_safe_slot_id(slot_id):
 		return {"slot_id": slot_id, "available": false, "error_id": &"ERR_SAVE_SLOT_ID"}
 	var paths := _slot_paths(slot_id)
-	var result := _read_and_validate(paths["main"])
+	var result := _inspect_file(paths["main"])
 	var source := "main"
 	if not bool(result.get("ok", false)) and result.get("error_id", &"") != &"ERR_SAVE_FUTURE_SCHEMA":
-		var backup := _read_and_validate(paths["backup"])
+		var backup := _inspect_file(paths["backup"])
 		if bool(backup.get("ok", false)) or backup.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA":
 			result = backup
 			source = "backup"
@@ -64,14 +67,57 @@ func inspect_slot(slot_id: String) -> Dictionary:
 			"incompatible": result.get("error_id", &"") == &"ERR_SAVE_FUTURE_SCHEMA",
 			"error_id": result.get("error_id", &"ERR_SAVE_NOT_FOUND"),
 		}
-	var header: Dictionary = result["header"]
-	var snapshot: Dictionary = result["snapshot"]
+	result.erase("ok")
+	result["slot_id"] = slot_id
+	result["available"] = true
+	result["source"] = source
+	return result
+
+
+func _inspect_file(path: String) -> Dictionary:
+	var key := "%s:%s" % [ProjectSettings.globalize_path(path), NOTEBOOK_ROLLOUT.enabled()]
+	if not FileAccess.file_exists(path):
+		_summary_cache.erase(key)
+		return _load_failure(&"ERR_SAVE_NOT_FOUND")
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		_summary_cache.erase(key)
+		return _load_failure(&"ERR_SAVE_OPEN")
+	var length := file.get_length()
+	var bytes := file.get_buffer(length)
+	var read_error := file.get_error()
+	file.close()
+	if bytes.size() != length or read_error not in [OK, ERR_FILE_EOF]:
+		_summary_cache.erase(key)
+		return _load_failure(&"ERR_SAVE_OPEN")
+	var digest := HashingContext.new()
+	digest.start(HashingContext.HASH_SHA256)
+	digest.update(bytes)
+	var fingerprint := digest.finish().hex_encode()
+	# Read the actual bytes every time; timestamps and the saved checksum are not cache identities.
+	var cached: Dictionary = _summary_cache.get(key, {})
+	_summary_cache.erase(key)
+	if cached.get("fingerprint") == fingerprint:
+		_summary_cache[key] = cached
+		return cached.summary.duplicate(true)
+	var validated := _validate_save_text(bytes.get_string_from_utf8(), path)
+	if not validated.get("ok", false): return validated
+	var summary := _summary_from_validated(validated)
+	# Retain only small display metadata, never the snapshot or source bytes.
+	if JSON.stringify(summary).to_utf8_buffer().size() <= SUMMARY_CACHE_ENTRY_BYTES:
+		while _summary_cache.size() >= SUMMARY_CACHE_LIMIT:
+			_summary_cache.erase(_summary_cache.keys()[0])
+		_summary_cache[key] = {"fingerprint":fingerprint, "summary":summary.duplicate(true)}
+	return summary
+
+
+func _summary_from_validated(validated: Dictionary) -> Dictionary:
+	var header: Dictionary = validated["header"]
+	var snapshot: Dictionary = validated["snapshot"]
 	var loop_state: Dictionary = snapshot.get("loop_state", {})
 	var meta_progress: Dictionary = snapshot.get("meta_progress", {})
 	return {
-		"slot_id": slot_id,
-		"available": true,
-		"source": source,
+		"ok": true,
 		"updated_at_utc": int(header.get("updated_at_utc", 0)),
 		"save_point_id": String(header.get("save_point_id", "")),
 		"run_id": String(header.get("run_id", "")),
@@ -429,6 +475,10 @@ func _read_and_validate(path: String) -> Dictionary:
 		return _load_failure(&"ERR_SAVE_OPEN")
 	var raw_text := file.get_as_text()
 	file.close()
+	return _validate_save_text(raw_text, path)
+
+
+func _validate_save_text(raw_text: String, path: String) -> Dictionary:
 	var json := JSON.new()
 	if json.parse(raw_text) != OK:
 		return _load_failure(&"ERR_SAVE_INVALID_JSON")

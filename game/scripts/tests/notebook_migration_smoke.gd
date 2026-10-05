@@ -13,8 +13,11 @@ class SaveFault:
 	extends Node
 	var real: Node
 	var lose_ack := false
+	var inspections := 0
 	func get_build_flavor() -> String: return real.get_build_flavor()
-	func inspect_slot(slot: String) -> Dictionary: return real.inspect_slot(slot)
+	func inspect_slot(slot: String) -> Dictionary:
+		inspections += 1
+		return real.inspect_slot(slot)
 	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
 		if lose_ack: real.save_snapshot(slot, point, state, revision, transaction)
 		return {"ok": false, "error_ids": ["TEST_SAVE_RESPONSE"]}
@@ -202,6 +205,7 @@ func _validate_commands() -> void:
 	var fault := SaveFault.new()
 	fault.real = SaveManager
 	result = COMMANDS.set_reference(GameState, fault, SLOT, "comparison", reference, true, scope, GameState.revision, ARCHIVE.new_uid())
+	_expect(fault.inspections == 1, "command uses one verified slot summary for both scope and save point")
 	_expect(not result.ok and GameState.get_snapshot() == pinned and SaveManager.load_slot(SLOT).snapshot == pinned, "failed save rolls back only its candidate and keeps disk unchanged")
 	fault.lose_ack = true
 	result = COMMANDS.set_reference(GameState, fault, SLOT, "comparison", reference, true, scope, GameState.revision, ARCHIVE.new_uid())

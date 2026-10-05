@@ -131,6 +131,11 @@ func run(tree: SceneTree) -> Dictionary:
 		_record("durable_save_ms", start)
 		_require(saved.ok, "atomic test-slot save succeeds")
 		if not saved.ok: break
+		for inspection in range(3):
+			start = Time.get_ticks_usec()
+			var summary: Dictionary = SaveManager.inspect_slot(SLOT)
+			_record("slot_inspect_after_write_ms" if inspection == 0 else "slot_inspect_unchanged_ms", start)
+			_require(summary.get("available", false) and summary.save_point_id == "SAVE_BROKEN_RESET_COMPLETE", "slot summary remains available after durable save")
 		if iteration == 0:
 			start = Time.get_ticks_usec()
 			var loaded: Dictionary = SaveManager.load_slot(SLOT)
