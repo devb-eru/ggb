@@ -12,6 +12,7 @@ var covered := {}
 var observed_tuples := {}
 var covered_segments := {}
 var excluded_guard_paths: Array = []
+var pressure_paths: Array = []
 var base: Dictionary
 var serial := 0
 
@@ -45,6 +46,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	_report_tuples()
 	print("NOTEBOOK_NP04_GUARD_AUDIT: " + JSON.stringify({"paths": excluded_guard_paths, "errors": errors}))
+	print("NOTEBOOK_NP04_PRESSURE_AUDIT: " + JSON.stringify({"paths": pressure_paths, "errors": errors}))
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": covered_segments.size(), "producer_paths": ["NP04"], "guard_fixtures": ["LAYOUT_MISSING", "PHASE_UNSET", "DESK_VISIT", "ALCOVE_VISIT", "GAP_VISIT", "LINK_VISIT", "LINK_OPEN_VISIT"], "not_covered": ["NP05", "NP06", "app_restart_cursor", "OS_input"]}
@@ -181,11 +183,55 @@ func _route(tree: SceneTree, language: String) -> void:
 	view._hotspot_layer.get_node("MARA2_MEMORY").pressed.emit()
 	_drain(view)
 	_first_schedule_context(view)
+	_natural_pressure_paths(view, language)
 	_collect(language)
 	_guard_exclusions(view, language)
 	await _persistence(view, tree)
 	view.queue_free()
 	await tree.process_frame
+
+
+func _natural_pressure_paths(view: Node, language: String) -> void:
+	for alert in [0, 4]:
+		for schedule_known in [false, true]:
+			for response in ["talk", "hide"]:
+				var state := _fixture("M1_LIBRARY_INNER")
+				state.meta_progress.servants.edgar.alert = alert
+				state.meta_progress.knowledge_entries.schedule_mara2 = schedule_known
+				_install(state)
+				_act(view, "inspect_inner", "alcove")
+				_act(view, "inspect_inner", "index")
+				var first_visit: bool = alert == 4 and not schedule_known
+				_expect(view.session.local_state().attention == 1 and (view.session.local_state().edgar_state == "entering") == first_visit, "first noisy inspection respects alert and archive schedule")
+				if not first_visit:
+					_act(view, "inspect_inner", "index")
+					_expect(view.session.local_state().attention == 1 and view.session.local_state().edgar_state == "absent", "reinspection cannot manufacture another attention increment")
+					_act(view, "inspect_inner", "drawer")
+				var expected_visit: bool = alert == 4 or not schedule_known
+				_expect((view.session.local_state().edgar_state == "entering") == expected_visit, "natural noise sequence respects the documented threshold")
+				if expected_visit:
+					if response == "talk":
+						_act(view, "edgar_talk")
+						_expect(view.session.snapshot().meta_progress.servants.edgar.residual_memory.count("B2_CAUGHT") == 1, "actual conversation adds exactly one caught memory")
+					else:
+						_act(view, "edgar_hide")
+						_act(view, "edgar_leave")
+						_expect(not "B2_CAUGHT" in view.session.snapshot().meta_progress.servants.edgar.residual_memory, "hiding cannot disclose the unchosen conversation memory")
+					_expect(view.session.local_state().edgar_visit_done and view.session.local_state().edgar_state == "absent", "visit resolves without failing the puzzle")
+				var attention: int = view.session.local_state().attention
+				var memory: Array = view.session.snapshot().meta_progress.servants.edgar.residual_memory.duplicate()
+				var ledger: Dictionary = view.session.snapshot().meta_progress.knowledge_entries.get("notebook_knowledge", {}).duplicate(true)
+				_act(view, "inspect_inner", "index")
+				var first: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history.entries.back().duplicate(true)
+				var count: int = GameState.get_snapshot().meta_progress.dialogue_history.entries.size()
+				_act(view, "inspect_inner", "index")
+				var archive: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history
+				var second: Dictionary = archive.entries.back()
+				_expect(archive.entries.size() == count + 1 and archive.entries[count - 1].observation == first.observation, "distinct inspection appends one visible line without rewriting its previous observation")
+				_expect(second.observation.content_id == first.observation.content_id and second.observation.event_occurrence_id != first.observation.event_occurrence_id and second.observation.presentation_token != first.observation.presentation_token, "new action is not mistaken for an idempotent rerender")
+				_expect(view.session.local_state().attention == attention and view.session.local_state().edgar_state == "absent", "repeated inspection cannot restart or fabricate the visit")
+				_expect(view.session.snapshot().meta_progress.servants.edgar.residual_memory == memory and view.session.snapshot().meta_progress.knowledge_entries.get("notebook_knowledge", {}) == ledger, "repeated dialogue leaves memory and knowledge revisions unchanged")
+				pressure_paths.append({"alert": alert, "mara2_schedule": schedule_known, "requested_response": response, "response_executed": expected_visit, "locale": language, "visit_after_index": first_visit, "visit_triggered": expected_visit})
 
 
 func _first_schedule_context(view: Node) -> void:

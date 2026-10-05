@@ -1,0 +1,194 @@
+{
+  "audits": [
+    {
+      "kind": "04_PATH",
+      "count": 212,
+      "identical_to": "2026-10-05_1장_필수경로_대조.json",
+      "errors": []
+    },
+    {
+      "kind": "04_GUARD",
+      "count": 56,
+      "identical_to": "2026-10-05_1장_필수경로_대조.json",
+      "errors": []
+    },
+    {
+      "result": {
+        "errors": [],
+        "paths": [
+          {
+            "alert": 0,
+            "locale": "ko-KR",
+            "mara2_schedule": false,
+            "requested_response": "talk",
+            "response_executed": true,
+            "visit_after_index": false,
+            "visit_triggered": true
+          },
+          {
+            "alert": 0,
+            "locale": "ko-KR",
+            "mara2_schedule": false,
+            "requested_response": "hide",
+            "response_executed": true,
+            "visit_after_index": false,
+            "visit_triggered": true
+          },
+          {
+            "alert": 0,
+            "locale": "ko-KR",
+            "mara2_schedule": true,
+            "requested_response": "talk",
+            "response_executed": false,
+            "visit_after_index": false,
+            "visit_triggered": false
+          },
+          {
+            "alert": 0,
+            "locale": "ko-KR",
+            "mara2_schedule": true,
+            "requested_response": "hide",
+            "response_executed": false,
+            "visit_after_index": false,
+            "visit_triggered": false
+          },
+          {
+            "alert": 4,
+            "locale": "ko-KR",
+            "mara2_schedule": false,
+            "requested_response": "talk",
+            "response_executed": true,
+            "visit_after_index": true,
+            "visit_triggered": true
+          },
+          {
+            "alert": 4,
+            "locale": "ko-KR",
+            "mara2_schedule": false,
+            "requested_response": "hide",
+            "response_executed": true,
+            "visit_after_index": true,
+            "visit_triggered": true
+          },
+          {
+            "alert": 4,
+            "locale": "ko-KR",
+            "mara2_schedule": true,
+            "requested_response": "talk",
+            "response_executed": true,
+            "visit_after_index": false,
+            "visit_triggered": true
+          },
+          {
+            "alert": 4,
+            "locale": "ko-KR",
+            "mara2_schedule": true,
+            "requested_response": "hide",
+            "response_executed": true,
+            "visit_after_index": false,
+            "visit_triggered": true
+          },
+          {
+            "alert": 0,
+            "locale": "en-US",
+            "mara2_schedule": false,
+            "requested_response": "talk",
+            "response_executed": true,
+            "visit_after_index": false,
+            "visit_triggered": true
+          },
+          {
+            "alert": 0,
+            "locale": "en-US",
+            "mara2_schedule": false,
+            "requested_response": "hide",
+            "response_executed": true,
+            "visit_after_index": false,
+            "visit_triggered": true
+          },
+          {
+            "alert": 0,
+            "locale": "en-US",
+            "mara2_schedule": true,
+            "requested_response": "talk",
+            "response_executed": false,
+            "visit_after_index": false,
+            "visit_triggered": false
+          },
+          {
+            "alert": 0,
+            "locale": "en-US",
+            "mara2_schedule": true,
+            "requested_response": "hide",
+            "response_executed": false,
+            "visit_after_index": false,
+            "visit_triggered": false
+          },
+          {
+            "alert": 4,
+            "locale": "en-US",
+            "mara2_schedule": false,
+            "requested_response": "talk",
+            "response_executed": true,
+            "visit_after_index": true,
+            "visit_triggered": true
+          },
+          {
+            "alert": 4,
+            "locale": "en-US",
+            "mara2_schedule": false,
+            "requested_response": "hide",
+            "response_executed": true,
+            "visit_after_index": true,
+            "visit_triggered": true
+          },
+          {
+            "alert": 4,
+            "locale": "en-US",
+            "mara2_schedule": true,
+            "requested_response": "talk",
+            "response_executed": true,
+            "visit_after_index": false,
+            "visit_triggered": true
+          },
+          {
+            "alert": 4,
+            "locale": "en-US",
+            "mara2_schedule": true,
+            "requested_response": "hide",
+            "response_executed": true,
+            "visit_after_index": false,
+            "visit_triggered": true
+          }
+        ]
+      },
+      "kind": "04_PRESSURE"
+    },
+    {
+      "kind": "06_PATH",
+      "count": 52,
+      "identical_to": "2026-10-05_1장_필수경로_대조.json",
+      "errors": []
+    }
+  ],
+  "pack_sha256": "3A1CDF7430CEBB1838306236C829CE38A05736DF48784C103498AB7697D50186",
+  "sources": [
+    {
+      "sha256": "4A15BD180E3F693FDC24DDD9C3649B61321B785666273109BC78B106A78FFB8B",
+      "path": "game/scripts/tests/notebook_chapter_one_smoke.gd"
+    },
+    {
+      "sha256": "02A3B3A72BF72EB236B37215FD552BF597A6A4ADF495C955A1CFA8239ED14C2D",
+      "path": "game/scripts/tests/notebook_chapter_one_notes_smoke.gd"
+    }
+  ],
+  "baseline_commit": "f6b6abf70e25874b9181905d9692860e5971d7b1",
+  "runtime_seconds": {
+    "import": 21.8,
+    "export": 8.1,
+    "dialogue": 154.5,
+    "notes": 25
+  },
+  "mode": "isolated headless exported PCK; not native input",
+  "initial_failure": "Test parse failed because Variant loop variables prevented bool type inference; explicit bool declarations fixed before final import/export."
+}
