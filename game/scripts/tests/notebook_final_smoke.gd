@@ -8,6 +8,7 @@ const NOTES := preload("res://scripts/systems/final_notebook.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
+const JOURNAL := preload("res://scripts/systems/journal_four_notebook.gd")
 const FATHER := preload("res://scripts/systems/father_final_record.gd")
 const CONFRONTATION := preload("res://scripts/systems/researcher_confrontation.gd")
 const SLOT := "__test_notebook_final"
@@ -49,6 +50,7 @@ func run(tree: SceneTree) -> Dictionary:
 		TranslationServer.set_locale(language)
 		print("FINAL_PHASE: ", language, " father and J5")
 		_father()
+		for mask in [0, 3, 31]: _father(mask)
 		_failures()
 		print("FINAL_PHASE: ", language, " confrontation")
 		for mode in ["public", "direct_private", "indirect", "denied", "withheld", "inferred_only"]: _confrontation(mode)
@@ -74,10 +76,31 @@ func run(tree: SceneTree) -> Dictionary:
 		"not_covered":["durable_app_restart_cursor", "unified_notebook_UI", "OS_input"]}
 
 
-func _father() -> void:
-	_install(_fixture("F1"))
+func _father(journal_mask: int = -1) -> void:
+	var initial := _fixture("F1")
+	if journal_mask >= 0:
+		for index in range(JOURNAL.RULES.OWNERS.size()):
+			var owner: String = JOURNAL.RULES.OWNERS[index]
+			var complete := (journal_mask & (1 << index)) != 0
+			initial.meta_progress.servants[owner].core_event_complete = complete
+			initial.meta_progress.servants[owner].researcher_record_acquired = complete
+			if not complete: continue
+			var id: String = JOURNAL.QUOTES[owner].keys()[0]
+			var row := CONTENT.definition(id, 1)
+			initial.meta_progress.knowledge_entries.chapter_notebook["REC_" + owner.to_upper()] = row.locales["ko-KR"].body
+			var source_context := {"chapter_id":"CHAPTER_3", "node_id":row.node_ids[0], "location_id":"M1_CENTRAL_HALL"}
+			_expect(preload("res://scripts/systems/notebook_event_notes.gd").write(initial, id, row.locales["ko-KR"].body, source_context, TranslationServer.get_locale()).ok, "prior research source fixture")
+		var composed := JOURNAL.compose(initial)
+		_expect(composed.ok, "prior J4 composition")
+		var original := CONTENT.presentation(composed.descriptor, "ko-KR")
+		_expect(original.ok, "prior J4 original")
+		initial.meta_progress.knowledge_entries.chapter_notebook.J4 = original.text
+		_expect(JOURNAL.write(initial, original.text, {"chapter_id":"CHAPTER_3", "node_id":"J4", "location_id":"M1_CENTRAL_HALL"}, TranslationServer.get_locale()).ok, "prior J4 acquisition fixture")
+	_install(initial)
 	_present()
 	var before := GameState.get_snapshot()
+	var prior_ledger: Dictionary = before.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()).duplicate(true)
+	var prior_entries: Array = before.meta_progress.dialogue_history.entries.duplicate(true)
 	_expect(_count("F1_PLAY_0") == 0 and _count("J5_RECORD") == 0, "entry cannot fabricate playback or J5")
 	_press("F1_ENTER")
 	_drain()
@@ -102,11 +125,33 @@ func _father() -> void:
 	_expect(view.session.stage() == "F2", "J5 leads to confrontation")
 	_expect(GameState.get_snapshot().ending_run == before.ending_run, "J5 cannot commit ending")
 	var ledger: Dictionary = GameState.get_snapshot().meta_progress.knowledge_entries[KNOWLEDGE.KEY]
-	_expect(ledger.revisions.size() == 1 and ledger.revisions[0].metadata.knowledge_id == "J5", "J5 is a structured revision")
+	_expect(ledger.revisions.size() == prior_ledger.revisions.size() + 1 and ledger.revisions.back().metadata.knowledge_id == "J5", "J5 adds one structured revision without replacing prior journals")
 	_expect(KNOWLEDGE.validate(ledger, _archive()).ok, "J5 source references resolve")
 	var saved := GameState.get_snapshot()
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "J5 reload")
 	_expect(StateSnapshotValidator.same_persisted_value(saved, GameState.get_snapshot()), "saved original and source versions retained")
+	for revision in prior_ledger.revisions:
+		_expect(revision in ledger.revisions, "J5 retains prior knowledge revision and source references")
+	for entry in prior_entries:
+		var retained: Dictionary = {}
+		for candidate in _archive().entries:
+			if candidate.entry_uid == entry.entry_uid: retained = candidate
+		var comparable := retained.duplicate(true)
+		comparable.protection_reasons = entry.protection_reasons.duplicate()
+		_expect(comparable == entry, "J5 and reload preserve prior UID, original and order")
+		var expected_reasons: Array = entry.protection_reasons.duplicate()
+		for reference in ledger.revisions.back().source_refs:
+			if reference.uid == entry.entry_uid:
+				var reason: String = "knowledge_source:" + ledger.revisions.back().revision_uid
+				if reason not in expected_reasons: expected_reasons.append(reason)
+		expected_reasons.sort()
+		var actual_reasons: Array = retained.get("protection_reasons", []).duplicate()
+		actual_reasons.sort()
+		_expect(actual_reasons == expected_reasons, "only the exact new J5 citation may extend prior protection")
+		for language in ["ko-KR", "en-US"]:
+			_expect(CONTENT.render_entry(retained, language) == CONTENT.render_entry(entry, language), "final truth cannot rewrite prior journal translations")
+	if journal_mask >= 0:
+		_expect(GameState.get_snapshot().meta_progress.knowledge_entries.chapter_notebook.J4 == before.meta_progress.knowledge_entries.chapter_notebook.J4, "legacy-compatible J4 original also stays unchanged")
 	_collect()
 
 
