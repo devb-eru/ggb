@@ -580,13 +580,30 @@ func _ordered_for(tab: String) -> Array:
 	var mode := tab if tab in ["dialogue", "people"] else "recent"
 	if _order_cache.has(mode): return _order_cache[mode]
 	# The read model is frozen: filters and incremental search only select this order.
-	var keys := _order.duplicate()
-	keys.sort_custom(func(left: String, right: String) -> bool:
-		var a: Dictionary = _rows[left]
-		var b: Dictionary = _rows[right]
-		if mode == "dialogue" and a.session_end != b.session_end: return a.session_end > b.session_end
-		if a.sequence != b.sequence: return a.sequence < b.sequence if mode in ["dialogue", "people"] else a.sequence > b.sequence
-		return a.segment_order < b.segment_order)
+	var groups := {}
+	var unordered := {}
+	for key in _order:
+		var row: Dictionary = _rows[key]
+		var primary: int = row.session_end if mode == "dialogue" else row.sequence
+		if not groups.has(primary): groups[primary] = []
+		var group: Array = groups[primary]
+		if not group.is_empty():
+			var previous: Dictionary = _rows[group.back()]
+			if row.sequence < previous.sequence or (row.sequence == previous.sequence and row.segment_order < previous.segment_order): unordered[primary] = true
+		group.append(key)
+	var primary_order: Array = groups.keys()
+	primary_order.sort()
+	if mode != "people": primary_order.reverse()
+	var keys: Array = []
+	for primary in primary_order:
+		var group: Array = groups[primary]
+		# Projected earlier notes can precede saved rows without an acquisition time.
+		if unordered.has(primary):
+			group.sort_custom(func(left: String, right: String) -> bool:
+				var a: Dictionary = _rows[left]
+				var b: Dictionary = _rows[right]
+				return a.sequence < b.sequence if a.sequence != b.sequence else a.segment_order < b.segment_order)
+		keys.append_array(group)
 	_order_cache[mode] = keys
 	_sort_build_count += 1
 	return keys

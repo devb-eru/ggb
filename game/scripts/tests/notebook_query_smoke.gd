@@ -15,6 +15,7 @@ func run(tree: SceneTree) -> Dictionary:
 	if not fixture.get("ok", false): return {"ok": false, "errors": errors}
 	_test_read_model(fixture)
 	_test_order_cache(fixture)
+	_test_numeric_order()
 	_test_facets(fixture)
 	_test_disclosure()
 	_test_legacy_and_damage()
@@ -99,6 +100,53 @@ func _open(fixture: Dictionary, locale: String = "ko-KR"):
 	var result: Dictionary = query.open(fixture.archive, fixture.ledger, _scope(fixture.archive), locale)
 	_expect(result.ok, "query open: " + str(result.get("error_id", "")))
 	return query
+
+
+func _test_numeric_order() -> void:
+	var raw := {"next_sequence":3, "entries":[]}
+	for index in range(3): raw.entries.append({"sequence":index, "line_id":"CH1_HISTORY_TRANSCRIPT", "speaker_id":"SYSTEM", "variables":{"text":"Earlier order", "speaker":"Narrator"}})
+	var migrated := ARCHIVE.migrate_verified_legacy(raw, "numeric-order-fixture".sha256_text())
+	_expect(migrated.ok, "numeric-order legacy fixture validates")
+	if not migrated.ok: return
+	var archive: Dictionary = migrated.archive
+	var sessions := [ARCHIVE.new_uid(), ARCHIVE.new_uid(), ARCHIVE.new_uid()]
+	var occurrence := ARCHIVE.new_uid()
+	for index in range(42):
+		var observed := _observe("NB_CH1_CH1_B1_TEXT_EDGAR", {"line_01":{}, "line_02":{}}, 1, sessions[index % sessions.size()])
+		observed.event_occurrence_id = occurrence
+		archive = _append(archive, observed)
+	var knowledge := {"prologue_notebook_entries":["First old note", "Second old note"], "chapter_notebook":{"one":"Third old note", "two":"Fourth old note"}}
+	var notes := ARCHIVE.LEGACY_NOTES.project(knowledge, archive.source_origin_id)
+	var captured := ARCHIVE.capture_legacy_note_reference(archive, "bookmarks", notes.entries[0], int(archive.revision))
+	_expect(captured.ok, "captured note supplies saved and projected ordering cases")
+	if not captured.ok: return
+	archive = captured.archive
+	var before: Dictionary = archive.duplicate(true)
+	for locale in ["ko-KR", "en-US"]:
+		for reversed_input in [false, true]:
+			var query := QUERY.new()
+			_expect(query.open(archive, KNOWLEDGE.create(), _scope(archive), locale, knowledge).ok, "mixed order model opens")
+			# Exercise the fallback with nonmonotonic secondary order, without touching saves.
+			if reversed_input: query._order.reverse()
+			var key := query.cache_key()
+			for tab in QUERY.TABS:
+				var filters := {"tab":tab, "all_sections":true}
+				var expected: Array = query._order.duplicate()
+				expected.sort_custom(func(a: String, b: String) -> bool: return query._less(query._sort_key(query._rows[a], filters), query._sort_key(query._rows[b], filters)))
+				_expect(query._ordered_for(tab) == expected, "numeric groups preserve exact former sort: " + tab + "/" + str(reversed_input))
+				var rows: Array = []
+				var first := query.page(filters, 0, key)
+				for page in range(first.pages):
+					for item in query.page(filters, page, key).items: rows.append(item.key)
+				_expect(rows == expected, "full multi-page order includes all saved and virtual rows")
+				for index in range(expected.size()):
+					var anchor := query.anchor_for(expected[index], filters)
+					var located := query.anchor_page(filters, anchor, key)
+					_expect(located.key == expected[index] and located.page == index / QUERY.PAGE_SIZE, "numeric ordering preserves exact UID anchor page")
+			_expect(query.diagnostics().sort_build_count == 3 and query.diagnostics().order_cache_size == 3, "mixed order still uses only three sort caches")
+			_expect(query.diagnostics().render_count == 0, "ordering never renders or discloses additional segments")
+			query.close()
+	_expect(archive == before, "numeric ordering leaves saved sources and metadata unchanged")
 
 
 func _facet_oracle(query, filters: Dictionary) -> Dictionary:
