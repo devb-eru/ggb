@@ -18,6 +18,8 @@ func run(tree: SceneTree) -> Dictionary:
 	_test_disclosure()
 	_test_legacy_and_damage()
 	_test_revisions()
+	var metadata_audit := preload("res://scripts/tests/notebook_metadata_smoke.gd").new().run()
+	for message in metadata_audit.errors: _expect(false, "catalog metadata: " + message)
 	var legacy := preload("res://scripts/tests/notebook_legacy_notes_smoke.gd").new().run()
 	for message in legacy.errors: _expect(false, "legacy adapter: " + message)
 	await _test_panel(tree, fixture)
