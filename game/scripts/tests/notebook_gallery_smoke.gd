@@ -39,6 +39,7 @@ func run(tree: SceneTree) -> Dictionary:
 		await _post_credits(tree, store, reality, first.id)
 		_expect(_bytes(store) == original, "all entry points preserve exact gallery bytes and file names")
 		await _legacy_and_damage(tree, store, reality)
+	await _retention_after_capture(tree, store)
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
@@ -46,6 +47,56 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(StateSnapshotValidator.same_persisted_value(before, GameState.get_snapshot()), "gallery suite restores caller state")
 	print("NOTEBOOK_GALLERY_CHECKS: %d" % checks)
 	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _retention_after_capture(tree: SceneTree, store: EndingGalleryStore) -> void:
+	var state := _fixture("CREDITS_REALITY", "NB_CH1_NOTE_B4")
+	var archive: Dictionary = state.meta_progress.dialogue_history
+	var source := ARCHIVE.make_reference(archive.entries[1], "body")
+	var ordinary := ARCHIVE.make_reference(archive.entries[2], "body")
+	var acquired := KNOWLEDGE.acquire(state.meta_progress.knowledge_entries[KNOWLEDGE.KEY], archive, _observation("NB_NOTE_P_PULSE"), ARCHIVE.new_uid(), [source])
+	_expect(acquired.ok, "gallery retention source acquisition")
+	if not acquired.ok: return
+	state.meta_progress.dialogue_history = acquired.archive
+	state.meta_progress.knowledge_entries[KNOWLEDGE.KEY] = acquired.ledger
+	var captured := store.capture(state)
+	_expect(captured.ok, "gallery retention capture succeeds")
+	if not captured.ok: return
+	var path := store.root_path.path_join(captured.id + ".json")
+	var original_bytes := FileAccess.get_file_as_bytes(path)
+	archive = acquired.archive.duplicate(true)
+	var template: Dictionary = archive.entries[2].observation
+	for index in range(2001):
+		var observed := template.duplicate(true)
+		observed.presentation_token = ARCHIVE.new_uid()
+		archive.entries.append({"entry_uid": ARCHIVE.new_uid(), "source_origin_id": archive.source_origin_id, "sequence": int(archive.next_sequence), "record_class": "authored", "observation": observed, "protection_reasons": []})
+		archive.next_sequence += 1
+	var maintained := ARCHIVE.maintain(archive, archive.revision)
+	_expect(maintained.ok, "gallery current branch pruning succeeds")
+	if not maintained.ok: return
+	_expect(not ARCHIVE.resolve(maintained.archive, ordinary).ok and ARCHIVE.resolve(maintained.archive, source).ok, "current branch drops old ordinary but preserves quoted source")
+	state.meta_progress.dialogue_history = maintained.archive
+	_install(state)
+	var before := GameState.get_snapshot()
+	var owner := Control.new()
+	tree.current_scene.add_child(owner)
+	var host = _new_host(tree)
+	_expect(host.begin(owner, store, captured.id, "ko-KR", 1.0), "old capture opens after current branch pruning")
+	if host._active():
+		var note: Dictionary = acquired.ledger.revisions.back().observation_ref
+		host.panel.show_detail(QUERY.reference_key(note))
+		var link := host.panel.find_child("NotebookSource_" + QUERY.reference_key(source).sha256_text(), true, false) as Button
+		_expect(link != null, "captured note retains navigable source")
+		if link != null:
+			link.pressed.emit()
+			_expect(host.panel._selected == QUERY.reference_key(source), "captured source button opens exact observed UID")
+		host.panel.show_detail(QUERY.reference_key(ordinary))
+		_expect(host.panel._selected == QUERY.reference_key(ordinary) and host.model.detail(QUERY.reference_key(ordinary), host.model.cache_key()).ok, "capture still opens ordinary line missing from current branch")
+		host.request_close()
+	await tree.process_frame
+	_expect(GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(path) == original_bytes, "post-pruning gallery navigation preserves live state and immutable file")
+	owner.queue_free()
+	await tree.process_frame
 
 
 func _fixture(checkpoint: String, clue: String) -> Dictionary:

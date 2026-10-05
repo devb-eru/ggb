@@ -20,7 +20,7 @@ func run(tree: SceneTree) -> Dictionary:
 	_test_facets(fixture)
 	_test_disclosure()
 	_test_legacy_and_damage()
-	_test_revisions()
+	await _test_revisions(tree)
 	var metadata_audit := preload("res://scripts/tests/notebook_metadata_smoke.gd").new().run()
 	for message in metadata_audit.errors: _expect(false, "catalog metadata: " + message)
 	var legacy := preload("res://scripts/tests/notebook_legacy_notes_smoke.gd").new().run()
@@ -383,7 +383,7 @@ func _test_legacy_and_damage() -> void:
 	_expect(query.page({"tab":"dialogue", "needle":"legacy needle 9999"}, 0, key).count == 1, "search still reaches valid rows after malformed legacy content")
 
 
-func _test_revisions() -> void:
+func _test_revisions(tree: SceneTree) -> void:
 	var first := KNOWLEDGE.acquire(KNOWLEDGE.create(), ARCHIVE.create(), _observe("NB_NOTE_P_PULSE"), ARCHIVE.new_uid())
 	if not first.ok:
 		_expect(false, "revision fixture")
@@ -394,12 +394,39 @@ func _test_revisions() -> void:
 	var next := KNOWLEDGE.acquire(first.ledger, first.archive, _observe("NB_NOTE_P_PULSE", {"body": {}}, 2), ARCHIVE.new_uid(), [first.ledger.revisions[0].observation_ref])
 	_expect(next.ok, "revision fixture update")
 	if next.ok:
+		var template := _observe("NB_PR_DUTY_1")
+		# The first authored speaker source is protected separately from ordinary lines.
+		for index in range(2002):
+			var observation := template.duplicate(true)
+			observation.presentation_token = ARCHIVE.new_uid()
+			next.archive.entries.append({"entry_uid": ARCHIVE.new_uid(), "source_origin_id": next.archive.source_origin_id, "sequence": int(next.archive.next_sequence), "record_class": "authored", "observation": observation, "protection_reasons": []})
+			next.archive.next_sequence += 1
+		var maintained := ARCHIVE.maintain(next.archive, next.archive.revision)
+		_expect(maintained.ok and maintained.pruned_uids.size() == 1, "refuted revision fixture actually exceeds ordinary quota")
+		if not maintained.ok:
+			CONTENT._contents["NB_NOTE_P_PULSE"].erase("2")
+			return
+		next.archive = maintained.archive
+		_expect(KNOWLEDGE.validate(next.ledger, next.archive).ok, "refuted ledger retains valid sources after ordinary pruning")
 		var query = _open(next)
 		var key: String = query.cache_key()
 		_expect(query.page({"tab": "clues"}, 0, key).count == 0, "refuted and superseded revisions collapsed by default")
 		_expect(query.page({"tab": "clues", "include_previous": true, "include_refuted": true}, 0, key).count == 2, "explicit prior-revision view keeps both immutable versions")
 		var old_ref: Dictionary = first.ledger.revisions[0].observation_ref
 		_expect(query.detail(QUERY.reference_key(old_ref), key).epistemic == "observed", "later refutation never rewrites historical epistemic status")
+		var newest: Dictionary = next.ledger.revisions.back().observation_ref
+		var panel := PANEL.new()
+		tree.current_scene.add_child(panel)
+		panel.present(query, "ko-KR", "clues", 1.0)
+		panel.show_detail(QUERY.reference_key(newest))
+		var source := panel.find_child("NotebookSource_" + QUERY.reference_key(old_ref).sha256_text(), true, false) as Button
+		_expect(source != null, "refuted detail exposes exact previous source link after pruning")
+		if source != null:
+			source.pressed.emit()
+			_expect(panel._selected == QUERY.reference_key(old_ref), "source button opens old immutable revision rather than newest")
+			_expect(query.detail(panel._selected, key).epistemic == "observed", "linked source retains original epistemic state")
+		panel.queue_free()
+		await tree.process_frame
 	CONTENT._contents["NB_NOTE_P_PULSE"].erase("2")
 
 

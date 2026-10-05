@@ -54,7 +54,7 @@
 | NB-AQ03 | demo/full/F3/백업에 미래 편의상태 역유입 금지 | migration `_validate_f3/_validate_demo/_validate_gallery_and_development`, view store | 자동 근거 있음. namespace·run·branch·load_epoch 별 검증 행렬 정리 / T17·T26 |
 | NB-AQ04 | 모든 저장 형식 정상/손상/미래/이관 중단 | migration, save-safety, gallery `_legacy_and_damage` | 대조 필요. Q13과 같은 저장 입구 행렬을 공유하되 checksum·UID·원본 검사를 별도 열로 구분 / T26 |
 | NB-AQ05 | 안 본 뒷면은 검색/비교/페이지/대체 설명에도 없음 | query `_test_disclosure`, visual, metadata 부분 공개 | 자동 근거 있음. 실제 최초 공개 생산자와 자료 연결 대조 / T10~T19 |
-| NB-AQ06 | 출처 보호·정리된 앵커 안내 | archive·person-retention·investigation `_test_sources`, view 복원 | [소비자별 대조](2026-10-06_출처보호_소비자별_감사.md)와 복합 해제 8조건 PASS. 반증/갤러리의 초과 정리 이후 출처 이동 결합 검사는 미완료 / T26i·T26j |
+| NB-AQ06 | 출처 보호·정리된 앵커 안내 | archive·person-retention·investigation `_test_sources`, view 복원 | [소비자별 대조](2026-10-06_출처보호_소비자별_감사.md)와 [반증/갤러리 결합](2026-10-06_대량정리후_가설갤러리_출처이동.md) PASS. 대표 한국어 경로의 headless 버튼 검증이며 전체 본편 출처 공급과 실제 입력은 별도 / T26i·T26j·T10~T19·T22 |
 | NB-AQ07 | 의미 변경·최종 공개 후에도 과거 revision 불변 | query `_test_revisions`, public-labels 버전 보존, J4/field 재생 | 자동 근거 있음. J5/F1 실제 전환과 옛 일지 조합 대조 / T15·T26 |
 | NB-AQ08 | 재방문/다른 선택만 새 발생, 재표시는 멱등 | surface-resume, presentation, chapter 반복 조사, Iris 전조합 | 자동 근거 있음. 나머지 생산자별 실제 발생/재표시 구분 / T10~T19 |
 | NB-AQ09 | 자유 메모 제외, 기존 A1/SUBJECT 유지 | self-mark, authority-archive, view store·입력 메뉴 | 대조 필요. 저장 스키마/입력 필드 정적 목록과 A1/SUBJECT 실행 증거 결합 / T26 |
