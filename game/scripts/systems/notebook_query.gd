@@ -281,6 +281,12 @@ func page(filters: Dictionary, page_index: int, expected_key: String) -> Diction
 	return {"ok": true, "items": items, "page": current, "pages": last + 1, "count": count, "complete": complete, "error_count": _errors.size(), "key": expected_key}
 
 
+func preview(key: String, expected_key: String) -> Dictionary:
+	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
+	if not _rows.has(key): return _error("NB_QUERY_UNAVAILABLE")
+	return _render_body(key)
+
+
 func detail(key: String, expected_key: String) -> Dictionary:
 	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
 	if not _rows.has(key): return _error("NB_QUERY_UNAVAILABLE")
@@ -302,7 +308,7 @@ func _search_fields(row: Dictionary, text: String) -> Dictionary:
 	return {"text": text, "title": row.title, "summary": row.summary, "speaker": row.speaker, "location_label": public_label("locations", row.location), "source_label": public_label("sources", row.source_kind), "lifetime_label": memory.lifetime, "memory_notice": memory.notice}
 
 
-# Both callers validate the frozen query before rendering; only detail builds links and visuals.
+# Callers validate the frozen query; only detail builds links and visuals.
 func _render_body(key: String) -> Dictionary:
 	var row: Dictionary = _rows[key]
 	var entry: Dictionary = _entries[row.reference.uid]

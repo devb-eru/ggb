@@ -135,10 +135,10 @@ func dismiss() -> void:
 	_seen_groups.clear()
 
 
-func set_reference_editable(enabled: bool, temporary_comparison: bool = false) -> void:
+func set_reference_editable(enabled: bool, temporary_comparison: bool = false, redraw: bool = true) -> void:
 	_reference_editable = enabled
 	_temporary_comparison = temporary_comparison
-	if not _selected.is_empty(): show_detail(_selected, false, true, false)
+	if redraw and not _selected.is_empty(): show_detail(_selected, false, true, false)
 
 
 func add_tool(label: String, action: Callable, id: String) -> void:
@@ -216,36 +216,40 @@ func restore_view(view: Dictionary) -> void:
 	_comparison_mode = false
 	_detail_visible = false
 	_clear(_detail)
-	_refresh()
-	_load_basket()
-	if query.page(_filters, 0, _key).complete: _complete_restore()
+	_load_basket(false)
+	if query.page(_filters, 0, _key).complete:
+		_complete_restore()
+	else:
+		_refresh()
+		_render_pair(false)
 
 
 func _complete_restore() -> void:
 	if not _valid() or _pending_restore.is_empty(): return
 	var view := _pending_restore.duplicate(true)
 	_pending_restore.clear()
-	for side in range(2): select_pair(side, view.pair[side], false)
+	for side in range(2): select_pair(side, view.pair[side], false, false)
 	_back_stack = view.back.filter(func(step: Dictionary) -> bool: return step.key.is_empty() or not query.review_group(step.key).is_empty())
 	var body: Dictionary = view.body
+	var selected := ""
 	if not view.selected.is_empty():
 		var restored: Dictionary = query.anchor_page(_filters, view.anchor, _key)
 		if not _back_stack.is_empty() and not query.review_group(view.selected).is_empty():
-			show_detail(view.selected, false, true, false)
+			selected = view.selected
 		elif restored.ok and not restored.key.is_empty():
 			_page = restored.page
-			_refresh()
-			show_detail(restored.key, false, true, false)
-		if _selected != view.selected:
-			body = {"paragraph": -1, "fraction": 0.0}
-			show_notice(_l("이 저장에서 이전 열람 위치를 확인할 수 없어 가까운 자료로 이동했습니다.", "The earlier position is unavailable in this save. Showing the nearest material."))
+			selected = restored.key
 	else:
 		var restored: Dictionary = query.anchor_page(_filters, view.list_anchor, _key)
 		_page = restored.page
-		_refresh()
 	if not view.list_anchor.is_empty():
 		_page = query.anchor_page(_filters, view.list_anchor, _key).page
-		_refresh()
+	# Resolve selection and viewport anchors before constructing any result rows.
+	_refresh()
+	if not selected.is_empty(): show_detail(selected, false, true, false)
+	if not view.selected.is_empty() and _selected != view.selected:
+		body = {"paragraph": -1, "fraction": 0.0}
+		show_notice(_l("이 저장에서 이전 열람 위치를 확인할 수 없어 가까운 자료로 이동했습니다.", "The earlier position is unavailable in this save. Showing the nearest material."))
 	_comparison_mode = view.comparing
 	_compact_side = int(view.side)
 	_detail_visible = view.detail and not _selected.is_empty()
@@ -334,7 +338,7 @@ func show_detail(key: String, linked: bool = false, preserve_stack: bool = false
 	return true
 
 
-func select_pair(side: int, key: String, mark_seen: bool = true) -> bool:
+func select_pair(side: int, key: String, mark_seen: bool = true, redraw: bool = true) -> bool:
 	if not _valid() or side not in [0, 1]: return false
 	var basket: Dictionary = query.comparison(_key)
 	if not basket.ok: return false
@@ -347,7 +351,7 @@ func select_pair(side: int, key: String, mark_seen: bool = true) -> bool:
 	if not key.is_empty() and key == _pair[other]:
 		_pair[other] = _pair[side]
 	_pair[side] = key
-	_render_pair(mark_seen)
+	if redraw: _render_pair(mark_seen)
 	return true
 
 
@@ -389,8 +393,8 @@ func _process(delta: float) -> void:
 			query.index_for_budget(_key)
 			# Do not reorder partial matches under the player's cursor.
 			if query.diagnostics().indexed == diagnostic.index_total:
-				_refresh()
 				if not _pending_restore.is_empty(): _complete_restore()
+				else: _refresh()
 			else: _status.text = _l("공개된 기록을 검색하는 중입니다...", "Searching disclosed records...")
 
 
@@ -610,9 +614,11 @@ func _apply_labels() -> void:
 	_pair_switch.text = _l("A/B 화면 전환", "Switch A/B view")
 	find_child("NotebookMatchPrevious", true, false).text = _l("이전 일치", "Previous match")
 	find_child("NotebookMatchNext", true, false).text = _l("다음 일치", "Next match")
-	var notebook_theme := Theme.new()
-	notebook_theme.default_font_size = roundi(18 * _font_scale)
-	theme = notebook_theme
+	var font_size := roundi(18 * _font_scale)
+	if theme == null or theme.default_font_size != font_size:
+		var notebook_theme := Theme.new()
+		notebook_theme.default_font_size = font_size
+		theme = notebook_theme
 
 
 func _refresh() -> void:
@@ -627,7 +633,7 @@ func _refresh() -> void:
 		if not kind.is_empty(): label = "[" + kind + "] " + label
 		if not String(item.speaker).is_empty(): label += " / " + item.speaker
 		if item.bookmarked: label = _l("[책갈피] ", "[Bookmark] ") + label
-		var preview: Dictionary = query.detail(item.key, _key)
+		var preview: Dictionary = query.preview(item.key, _key)
 		if preview.ok: label += "\n" + String(preview.text).replace("\n", " ").left(100)
 		else: label += "\n" + _l("원문 표시 오류", "Original text unavailable")
 		var button := _button(_list, label, show_detail.bind(item.key, false), "NotebookRow_" + String(item.key).sha256_text().left(16))
@@ -843,7 +849,7 @@ func _jump_to_match(generation: int, key: String, index: int) -> void:
 	_changed()
 
 
-func _load_basket() -> void:
+func _load_basket(redraw: bool = true) -> void:
 	var basket: Dictionary = query.comparison(_key)
 	if not basket.ok: return
 	_pair = ["", ""]
@@ -856,7 +862,7 @@ func _load_basket() -> void:
 			selector.add_item("%d. %s" % [selector.item_count, item.title])
 			selector.set_item_metadata(selector.item_count - 1, item.key)
 		if side < basket.items.size(): _pair[side] = basket.items[side].key
-	_render_pair()
+	if redraw: _render_pair()
 
 
 func _render_pair(mark_seen: bool = true) -> void:

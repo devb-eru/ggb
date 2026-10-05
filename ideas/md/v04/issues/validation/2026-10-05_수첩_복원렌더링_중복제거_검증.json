@@ -1,0 +1,337 @@
+{
+  "date": "2026-10-05",
+  "baseline_commit": "a9b341b3c1afade95d055c2676aae11764f37f21",
+  "scope": "RESTORE_BUILD_BATCHING_AND_BODY_ONLY_PREVIEW_NOT_PERFORMANCE_ACCEPTANCE",
+  "sources": [
+    {
+      "sha256": "12B67EE9D210B1B0719DC0FF5C9DC08B2F20824BF4B307A6209508BB66B5C2F0",
+      "path": "game/scripts/ui/notebook_panel.gd"
+    },
+    {
+      "sha256": "3EA9D40936050F9F370826E1E17B14A19FE2B2F854695C1DB34A006293165ACE",
+      "path": "game/scripts/systems/notebook_host.gd"
+    },
+    {
+      "sha256": "6690F77A021EA11682984398EBFD124C5BAF22785974B374091EE940DC6B7E3F",
+      "path": "game/scripts/systems/notebook_query.gd"
+    },
+    {
+      "sha256": "54CB343282518D042BE94601CD5780C35CD913F5210B5956764A529E6CE9662A",
+      "path": "game/scripts/tests/notebook_query_smoke.gd"
+    },
+    {
+      "sha256": "69381656726819E7658162CC6B5EE6F9E1438348869B5B56E25977049B2BA063",
+      "path": "game/scripts/tests/notebook_view_smoke.gd"
+    }
+  ],
+  "refresh": {
+    "acceptance": "MEASUREMENT_ONLY_HEADLESS_SINGLE_SAMPLE",
+    "begin_ms": 241.486,
+    "dispatch_ms": 505.671,
+    "fixture": {
+      "body_bytes": {
+        "en-US": 118294,
+        "ko-KR": 131668,
+        "legacy": 295000
+      },
+      "bookmarks": 0,
+      "comparison": 3,
+      "counts": {
+        "legacy": 10000,
+        "normal": 2000,
+        "protected": 6
+      },
+      "fixture_id": "NB-PERF-L10000",
+      "long_document_utf8_bytes": 0,
+      "long_documents": 0,
+      "seed": "ggb-notebook-perf-v1",
+      "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+      "utf8_bytes": 5434278
+    },
+    "max_wait_frame_ms": 113.911,
+    "synchronous_model_ms": 1585.699,
+    "worker_frames": 206
+  },
+  "base": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-restore-verified-20261005",
+  "before_budget_failures": 24,
+  "stderr": [
+    "ERROR: Failed to read the root certificate store.",
+    "   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)"
+  ],
+  "query_checks": [
+    "NOTEBOOK_METADATA_CHECKS: 64420",
+    "NOTEBOOK_LEGACY_NOTES_CHECKS: 73",
+    "NOTEBOOK_VIEW_CHECKS: 143",
+    "NOTEBOOK_BROWSE_CHECKS: 213",
+    "NOTEBOOK_VISUAL_CHECKS: 210",
+    "NOTEBOOK_SEARCH_CHECKS: 180",
+    "NOTEBOOK_INVESTIGATION_CHECKS: 300",
+    "NOTEBOOK_PERSON_RETENTION_CHECKS: 64",
+    "NOTEBOOK_MEMORY_DISCLOSURE_CHECKS: 83",
+    "NOTEBOOK_SELF_MARK_CHECKS: 270",
+    "NOTEBOOK_GALLERY_CHECKS: 189",
+    "NOTEBOOK_QUERY_CHECKS: 4675",
+    "NOTEBOOK_QUERY_SMOKE: PASS"
+  ],
+  "pack_sha256": "DBE996F7664DE7294A53367C786783917979FA1964C0C77C1FD7625D175604F0",
+  "host_checks": [
+    "NOTEBOOK_ASYNC_SAVE_CHECKS: 270",
+    "NOTEBOOK_HOST_CHECKS: 494",
+    "NOTEBOOK_HOST_SMOKE: PASS"
+  ],
+  "samples": [
+    {
+      "detail_builds": 1,
+      "list_builds": 1,
+      "locale": "ko-KR",
+      "mode": "detail",
+      "pair_builds": 1,
+      "restore_call_ms": 601.612,
+      "scale": 1
+    },
+    {
+      "detail_builds": 0,
+      "list_builds": 1,
+      "locale": "ko-KR",
+      "mode": "list",
+      "pair_builds": 1,
+      "restore_call_ms": 582.405,
+      "scale": 1
+    },
+    {
+      "detail_builds": 3,
+      "list_builds": 1,
+      "locale": "ko-KR",
+      "mode": "comparison",
+      "pair_builds": 1,
+      "restore_call_ms": 912.113,
+      "scale": 1
+    },
+    {
+      "detail_builds": 1,
+      "list_builds": 1,
+      "locale": "ko-KR",
+      "mode": "detail",
+      "pair_builds": 1,
+      "restore_call_ms": 1032.646,
+      "scale": 2
+    },
+    {
+      "detail_builds": 0,
+      "list_builds": 1,
+      "locale": "ko-KR",
+      "mode": "list",
+      "pair_builds": 1,
+      "restore_call_ms": 1022.89,
+      "scale": 2
+    },
+    {
+      "detail_builds": 3,
+      "list_builds": 1,
+      "locale": "ko-KR",
+      "mode": "comparison",
+      "pair_builds": 1,
+      "restore_call_ms": 829.233,
+      "scale": 2
+    },
+    {
+      "detail_builds": 1,
+      "list_builds": 1,
+      "locale": "en-US",
+      "mode": "detail",
+      "pair_builds": 1,
+      "restore_call_ms": 551.762,
+      "scale": 1
+    },
+    {
+      "detail_builds": 0,
+      "list_builds": 1,
+      "locale": "en-US",
+      "mode": "list",
+      "pair_builds": 1,
+      "restore_call_ms": 671.505,
+      "scale": 1
+    },
+    {
+      "detail_builds": 3,
+      "list_builds": 1,
+      "locale": "en-US",
+      "mode": "comparison",
+      "pair_builds": 1,
+      "restore_call_ms": 628.796,
+      "scale": 1
+    },
+    {
+      "detail_builds": 1,
+      "list_builds": 1,
+      "locale": "en-US",
+      "mode": "detail",
+      "pair_builds": 1,
+      "restore_call_ms": 1042.616,
+      "scale": 2
+    },
+    {
+      "detail_builds": 0,
+      "list_builds": 1,
+      "locale": "en-US",
+      "mode": "list",
+      "pair_builds": 1,
+      "restore_call_ms": 812.054,
+      "scale": 2
+    },
+    {
+      "detail_builds": 3,
+      "list_builds": 1,
+      "locale": "en-US",
+      "mode": "comparison",
+      "pair_builds": 1,
+      "restore_call_ms": 617.301,
+      "scale": 2
+    }
+  ],
+  "before_pack_sha256": "4C928F840DA336EAFE1938239E7CF8F63BFF1AB4A01787B238C09B74985789E0",
+  "before_base": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-restore-baseline-20261005",
+  "before_samples": [
+    {
+      "detail_builds": 1,
+      "list_builds": 3,
+      "locale": "ko-KR",
+      "mode": "detail",
+      "pair_builds": 4,
+      "restore_call_ms": 1644.116,
+      "scale": 1
+    },
+    {
+      "detail_builds": 0,
+      "list_builds": 3,
+      "locale": "ko-KR",
+      "mode": "list",
+      "pair_builds": 4,
+      "restore_call_ms": 1769.011,
+      "scale": 1
+    },
+    {
+      "detail_builds": 3,
+      "list_builds": 3,
+      "locale": "ko-KR",
+      "mode": "comparison",
+      "pair_builds": 4,
+      "restore_call_ms": 1838.444,
+      "scale": 1
+    },
+    {
+      "detail_builds": 1,
+      "list_builds": 3,
+      "locale": "ko-KR",
+      "mode": "detail",
+      "pair_builds": 4,
+      "restore_call_ms": 1958.291,
+      "scale": 2
+    },
+    {
+      "detail_builds": 0,
+      "list_builds": 3,
+      "locale": "ko-KR",
+      "mode": "list",
+      "pair_builds": 4,
+      "restore_call_ms": 1760.219,
+      "scale": 2
+    },
+    {
+      "detail_builds": 3,
+      "list_builds": 3,
+      "locale": "ko-KR",
+      "mode": "comparison",
+      "pair_builds": 4,
+      "restore_call_ms": 1749.942,
+      "scale": 2
+    },
+    {
+      "detail_builds": 1,
+      "list_builds": 3,
+      "locale": "en-US",
+      "mode": "detail",
+      "pair_builds": 4,
+      "restore_call_ms": 1632.268,
+      "scale": 1
+    },
+    {
+      "detail_builds": 0,
+      "list_builds": 3,
+      "locale": "en-US",
+      "mode": "list",
+      "pair_builds": 4,
+      "restore_call_ms": 1525.12,
+      "scale": 1
+    },
+    {
+      "detail_builds": 3,
+      "list_builds": 3,
+      "locale": "en-US",
+      "mode": "comparison",
+      "pair_builds": 4,
+      "restore_call_ms": 1673.215,
+      "scale": 1
+    },
+    {
+      "detail_builds": 1,
+      "list_builds": 3,
+      "locale": "en-US",
+      "mode": "detail",
+      "pair_builds": 4,
+      "restore_call_ms": 1881.4,
+      "scale": 2
+    },
+    {
+      "detail_builds": 0,
+      "list_builds": 3,
+      "locale": "en-US",
+      "mode": "list",
+      "pair_builds": 4,
+      "restore_call_ms": 1958.337,
+      "scale": 2
+    },
+    {
+      "detail_builds": 3,
+      "list_builds": 3,
+      "locale": "en-US",
+      "mode": "comparison",
+      "pair_builds": 4,
+      "restore_call_ms": 1712.264,
+      "scale": 2
+    }
+  ],
+  "before_result": {
+    "exit_code": 1,
+    "expected_failure": "24 new list/pair construction budget assertions"
+  },
+  "final_suites": [
+    {
+      "name": "import",
+      "seconds": 38,
+      "exit_code": 0
+    },
+    {
+      "name": "export",
+      "seconds": 11,
+      "exit_code": 0
+    },
+    {
+      "name": "query",
+      "seconds": 141.7,
+      "exit_code": 0
+    },
+    {
+      "name": "host",
+      "seconds": 135.3,
+      "exit_code": 0
+    }
+  ],
+  "not_covered": [
+    "native_input_IME",
+    "p95_device_acceptance",
+    "process_RAM_50_cycles",
+    "first_open_async",
+    "all_producer_save_latency"
+  ]
+}

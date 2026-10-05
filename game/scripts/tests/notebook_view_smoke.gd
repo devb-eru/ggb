@@ -9,12 +9,27 @@ var errors := PackedStringArray()
 var checks := 0
 var _files: Array[String] = []
 
+class CountedPanel extends "res://scripts/ui/notebook_panel.gd":
+	var list_builds := 0
+	var pair_builds := 0
+	var detail_builds := 0
+	func _refresh() -> void:
+		list_builds += 1
+		super._refresh()
+	func _render_pair(mark_seen: bool = true) -> void:
+		pair_builds += 1
+		super._render_pair(mark_seen)
+	func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool) -> void:
+		detail_builds += 1
+		super._render_detail(target, result, with_links)
+
 
 func run(tree: SceneTree, fixture: Dictionary) -> Dictionary:
 	var before := GameState.get_snapshot()
 	var query = _open(fixture.archive, fixture.ledger)
 	await _badges(tree, query)
 	await _navigation_restore(tree, query)
+	await _restoration_builds(tree, query)
 	await _body_and_store(tree)
 	_expect(GameState.get_snapshot() == before, "all UI state reads/writes preserve the gameplay snapshot")
 	for path in _files:
@@ -22,6 +37,47 @@ func run(tree: SceneTree, fixture: Dictionary) -> Dictionary:
 	DirAccess.remove_absolute("user://__test_notebook_view")
 	print("NOTEBOOK_VIEW_CHECKS: %d" % checks)
 	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _restoration_builds(tree: SceneTree, query) -> void:
+	var samples: Array = []
+	for locale in ["ko-KR", "en-US"]:
+		for scale in [1.0, 2.0]:
+			var panel := CountedPanel.new()
+			panel.size = Vector2(1280, 720)
+			tree.current_scene.add_child(panel)
+			panel.present(query, locale, "dialogue", scale)
+			panel._change_page(1)
+			var rows: Dictionary = query.page({"tab":"dialogue"}, 1, query.cache_key())
+			panel.show_detail(rows.items[0].key)
+			for frame in range(3): await tree.process_frame
+			var detail_view := panel.capture_view()
+			var read_actions: Array = []
+			panel.material_viewed.connect(func(key: String) -> void: read_actions.append(key))
+			for mode in ["detail", "list", "comparison"]:
+				var view := detail_view.duplicate(true)
+				if mode == "list":
+					view.selected = ""
+					view.detail = false
+					view.anchor = {}
+				if mode == "comparison": view.comparing = true
+				panel.list_builds = 0
+				panel.pair_builds = 0
+				panel.detail_builds = 0
+				var started := Time.get_ticks_usec()
+				panel.restore_view(view)
+				var elapsed := (Time.get_ticks_usec() - started) / 1000.0
+				for frame in range(4): await tree.process_frame
+				var sample := {"locale":locale, "scale":scale, "mode":mode, "list_builds":panel.list_builds, "pair_builds":panel.pair_builds, "detail_builds":panel.detail_builds, "restore_call_ms":elapsed}
+				samples.append(sample)
+				_expect(panel.list_builds == 1, "restoration builds only the final list: " + str(sample))
+				_expect(panel.pair_builds == 1, "restoration builds the final pair once: " + str(sample))
+				_expect(panel._page == 1 and panel._selected == view.selected, "batched restoration preserves list page and selection")
+				_expect(panel.visible_pair() == view.pair and panel._comparison_mode == view.comparing, "batched restoration preserves comparison selection")
+				_expect(read_actions.is_empty(), "restoration never manufactures read actions")
+			panel.queue_free()
+			await tree.process_frame
+	print("NOTEBOOK_RESTORE_BUILD_MEASUREMENT: ", JSON.stringify(samples))
 
 
 func _scope(archive: Dictionary, epoch: int = 1) -> Dictionary:

@@ -114,11 +114,15 @@ func _test_search_projection(fixture: Dictionary) -> void:
 			var detail: Dictionary = query.detail(row_key, key)
 			_expect(detail.ok, "indexed fixture detail renders")
 			if not detail.ok: continue
+			var preview: Dictionary = query.preview(row_key, key)
+			_expect(preview.ok and preview.text == detail.text and preview.fallback == detail.fallback and preview.viewed_locale == detail.viewed_locale, "preview preserves exact validated body and fallback: " + locale)
+			_expect(not preview.has("sources") and not preview.has("related") and not preview.has("has_visual"), "list previews do not build unused detail metadata")
 			var expected: Array = QUERY.SEARCH_FIELDS.map(func(field: String) -> String: return String(detail[field]).to_lower())
 			_expect(query._search[row_key] == expected, "index contains exactly public detail search fields: " + locale)
 			_expect(detail.has("sources") and detail.has("related") and detail.has("has_visual"), "detail retains non-search presentation metadata")
 		query.close()
 		_expect(not query.index_step(key).ok, "closed model cannot resume indexing")
+		_expect(not query.preview("missing", key).ok, "closed preview cannot expose a previous model")
 
 
 func _test_numeric_order() -> void:
@@ -366,8 +370,11 @@ func _test_legacy_and_damage() -> void:
 	var ref := ARCHIVE.make_reference(migrated.archive.entries[9999], "legacy")
 	var detail: Dictionary = query.detail(QUERY.reference_key(ref), key)
 	_expect(detail.ok and detail.legacy and detail.text.contains("legacy needle 9999"), "valid old original text survives unknown classification")
+	_expect(query.preview(QUERY.reference_key(ref), key).text == detail.text, "legacy list preview keeps exact original text")
+	_expect(query.preview(QUERY.reference_key(ref), "stale").error_id == "NB_QUERY_STALE" and query.preview("missing", key).error_id == "NB_QUERY_UNAVAILABLE", "preview rejects stale scopes and unknown rows")
 	ref = ARCHIVE.make_reference(migrated.archive.entries[500], "legacy")
 	_expect(not query.detail(QUERY.reference_key(ref), key).ok, "bad legacy content reports partial display failure")
+	_expect(query.preview(QUERY.reference_key(ref), key).error_id == "NB_QUERY_LEGACY_RENDER", "bad legacy preview keeps the existing display error")
 	_expect(query.page({"tab": "dialogue"}, 0, key).count == 10002, "failed rendering never deletes saved original rows")
 	_expect(query.page({"tab": "people"}, 0, key).count == 0, "legacy body strings do not infer identities")
 	while not query.index_step(key, QUERY.PAGE_SIZE).complete: pass

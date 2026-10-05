@@ -289,8 +289,8 @@ func _poll_refresh() -> void:
 	_checked_revision = _revision
 	_reconcile_seen()
 	panel.set_review_state(_view_state.seen, _view_state.groups)
+	panel.set_reference_editable(true, false, false)
 	panel.replace_model(model, ui)
-	panel.set_reference_editable(true)
 	previous.close()
 	panel.show_notice(_refresh_notice if not _refresh_notice.is_empty() else _l("자료를 갱신했습니다.", "Records refreshed."))
 	_refresh_notice = ""
