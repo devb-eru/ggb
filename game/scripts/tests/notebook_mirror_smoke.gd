@@ -6,11 +6,14 @@ const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const RULES := preload("res://data/puzzles/puzzle_black_mirror.tres")
+const CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
+const ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 const SLOT := "__test_notebook_mirror"
 var errors := PackedStringArray()
 var covered := {}
 var segments := {}
 var serial := 0
+var recovery_cases := 0
 var view: BlackMirrorController
 var checkpoints := CHECKPOINTS.new()
 var coverage := preload("res://scripts/tests/notebook_puzzle_coverage.gd").new()
@@ -18,10 +21,15 @@ var coverage := preload("res://scripts/tests/notebook_puzzle_coverage.gd").new()
 class ControlledSave extends Node:
 	var delegate: Node
 	var reject := false
+	var reject_game := false
+	var rejected_game_saves := 0
 	var lose_ack := false
 	func get_build_flavor() -> String:
 		return delegate.get_build_flavor()
 	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		if reject_game and not transaction.begins_with("HISTORY_"):
+			rejected_game_saves += 1
+			return {"ok": false, "error_ids": ["ERR_TEST_MIRROR_DISK"]}
 		if reject: return {"ok": false, "error_ids": ["ERR_TEST_MIRROR_DISK"]}
 		var result: Dictionary = delegate.save_snapshot(slot, point, state, revision, transaction)
 		return {"ok": false, "error_ids": ["ERR_TEST_MIRROR_ACK"]} if result.ok and lose_ack else result
@@ -47,6 +55,7 @@ func run(tree: SceneTree) -> Dictionary:
 		await _route(tree)
 		await _branches(tree)
 		await _failures(tree)
+		await _choice_recovery(tree)
 		for id in ids:
 			_expect(covered.has(id + ":" + locale), "unexecuted mirror ID: " + id + ":" + locale)
 			for segment in CONTENT.definition(id, 1).visible_segment_ids:
@@ -57,7 +66,7 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(),
-		"guard_fixtures": ["MIXTURE_ORDER"], "not_covered": ["static_puzzle_board_disclosure", "app_restart_cursor", "OS_input", "shared_notebook_UI"]}
+		"choice_recovery_cases": recovery_cases, "guard_fixtures": ["MIXTURE_ORDER"], "not_covered": ["static_puzzle_board_disclosure", "app_restart_cursor", "OS_input", "shared_notebook_UI"]}
 
 
 func _route(tree: SceneTree) -> void:
@@ -307,6 +316,96 @@ func _failures(tree: SceneTree) -> void:
 	_expect(GameState.get_snapshot() == readonly, "notebook reading cannot rerun events or acquire notes")
 	_collect()
 	await tree.process_frame
+
+
+func _choice_recovery(tree: SceneTree) -> void:
+	for spec in [["patrol", 0, "valid"], ["patrol", 1, "valid"], ["patrol", 2, "valid"],
+		["wet", 1, "valid"], ["wet", 1, "invalid"], ["wet", 2, "valid"], ["wet", 2, "invalid"], ["wet", 2, "confiscated"]]:
+		for follow_up in ["retry", "cancel"]:
+			var old_errors := errors.size()
+			var state := _seed("C4")
+			state.loop_state.location_id = "M1_MIRROR_GALLERY"
+			state.meta_progress.servants.edgar.alert = 4 if spec[2] == "confiscated" else 0
+			state.meta_progress.servants.edgar.bond = 0
+			state.loop_state.event_local_states.BLACK_MIRROR.merge({"rotation": 0 if spec[2] == "invalid" else 90,
+				"flipped": false, "anchored": true, "path": RULES.PATH.duplicate(), "cleaner_ready": true,
+				"signal_ready": true, "intervention_handled": false, "dry_passed": false}, true)
+			_install(state)
+			_expect(view.session.initialize().ok, "mirror recovery fixture passes normal session initialization")
+			view._render_room()
+			if spec[0] == "patrol": view._open_patrol()
+			else: view._confirm_wet_trace()
+			var request: Dictionary = view._recorded_modal_request
+			_expect(view._modal_active and request.get("recorded", false), "mirror recovery prompt displayed and saved")
+			var shown := GameState.get_snapshot()
+			var controlled := ControlledSave.new()
+			controlled.delegate = SaveManager
+			controlled.reject_game = true
+			view.session._save = controlled
+			view._recorded_choice_pressed(request, spec[1])
+			_expect(controlled.rejected_game_saves == 1, "one real game save is rejected after the answer is saved")
+			var pending := GameState.get_snapshot()
+			var cursor := CURSOR.read(pending)
+			_expect(view._modal_active and cursor.get("phase") == "selection_pending" and CURSOR.matches(cursor, pending), "failed mirror action restores pending choice")
+			_expect(_same_choice_gameplay(shown, pending), "failed mirror action changes only observations and backed presentation receipts")
+			var changed := pending.duplicate(true)
+			changed.loop_state.event_local_states.BLACK_MIRROR.cleaner_ready = false
+			_expect(not _same_choice_gameplay(shown, changed), "comparison rejects premature cleaner consumption")
+			var answer_id: String = request.row.choices[spec[1]].content_id
+			var answers := _choice_answers(answer_id)
+			_expect(answers.size() == 1, "one attempted mirror answer before retry")
+			view.session._save = SaveManager
+			view.queue_free()
+			await tree.process_frame
+			_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "pending mirror choice reloads from disk")
+			view = VIEW.new()
+			view.configure_session(SLOT, "MORNING_ROUTE")
+			tree.current_scene.add_child(view)
+			await tree.process_frame
+			_expect(view._modal_active and StateSnapshotValidator.same_persisted_value(pending, GameState.get_snapshot()), "mirror reload does not apply the saved answer")
+			var restored: Dictionary = view._recorded_modal_request
+			_expect(restored.get("selection_recorded", false) and restored.get("selection_token") == cursor.get("modal", {}).get("selection_token"), "mirror reload retains selected answer token")
+			controlled.reject_game = false
+			controlled.lose_ack = true
+			view.session._save = controlled
+			if follow_up == "cancel":
+				view._cancel_prologue_modal()
+				_expect(not view._modal_active and _same_choice_gameplay(shown, GameState.get_snapshot()), "cancel does not apply an attempted mirror action")
+			else:
+				view._recorded_choice_pressed(restored, spec[1])
+				var local: Dictionary = view.session.mirror_local()
+				if spec[0] == "patrol":
+					_expect(local.intervention_handled and local.cleaner_ready and not local.locked, "patrol retry handles intervention without using cleaner")
+				elif spec[1] == 1:
+					_expect(local.dry_passed == (spec[2] == "valid") and local.cleaner_ready and not local.locked, "dry retry diagnoses the actual route without physical consumption")
+					_expect(view._modal_active and not view._recorded_modal_request.is_empty(), "dry retry opens its result modal")
+				else:
+					_expect(not local.cleaner_ready and local.surface_open == (spec[2] == "valid") and local.locked == (spec[2] != "valid"), "wet retry applies the actual irreversible result exactly once")
+					if spec[2] != "valid":
+						var failure: Dictionary = GameState.get_snapshot().meta_progress.failure_knowledge.get("C4", {})
+						var previous: int = shown.meta_progress.failure_knowledge.get("C4", {}).get("attempts", 0)
+						_expect(failure.get("attempts", 0) == previous + 1, "wet retry counts one failed attempt")
+						if spec[2] == "confiscated": _expect(failure.get("category") == "tool_confiscated", "patrol confiscation is not misreported as a trace error")
+			var after := GameState.get_snapshot()
+			_expect(StateSnapshotValidator.same_persisted_value(answers, _choice_answers(answer_id)), "retry/cancel preserves one original attempted answer")
+			view._recorded_choice_pressed(restored, spec[1])
+			_expect(GameState.get_snapshot() == after, "stale mirror callback cannot apply twice")
+			view.session._save = SaveManager
+			controlled.free()
+			recovery_cases += 1
+			print("NOTEBOOK_MIRROR_CHOICE_RECOVERY: ", TranslationServer.get_locale(), " ", spec, " ", follow_up, " ", "PASS" if old_errors == errors.size() else errors.slice(old_errors))
+
+
+func _same_choice_gameplay(before: Dictionary, after: Dictionary) -> bool:
+	var left := before.duplicate(true)
+	var right := after.duplicate(true)
+	left.loop_state.event_local_states.erase(CURSOR.KEY)
+	right.loop_state.event_local_states.erase(CURSOR.KEY)
+	return ASSERTIONS.same_surface_gameplay(left, right)
+
+
+func _choice_answers(id: String) -> Array:
+	return _archive().entries.filter(func(entry: Dictionary) -> bool: return entry.get("observation", {}).get("content_id", "") == id)
 
 
 func _seed(stage: String) -> Dictionary:

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-05",
+  "base_commit": "f1b1eb5bac6ae235ef6f26fdb6efae101f4d587e",
+  "status": "PASS_SCOPED",
+  "goal_complete": false,
+  "product_changes": false,
+  "source_sha256": "27A5EE94B8A8D1FCD655EBEAC4ECFEE36D87149004756F2B14FEE094F3FB89B9",
+  "runtime": "Godot 4.7.2.stable.steam.ed1daf0bf",
+  "timings_seconds": {
+    "import": 21,
+    "export": 8.4,
+    "mirror": 87.9
+  },
+  "exit_code": 0,
+  "expected_cases": 32,
+  "execution": "headless controller method, real disk reload, controller recreation in same process",
+  "base": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-mirror-choice-recovery-verified-20261005",
+  "cases": [
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"patrol\", 0, \"valid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"patrol\", 0, \"valid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"patrol\", 1, \"valid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"patrol\", 1, \"valid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"patrol\", 2, \"valid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"patrol\", 2, \"valid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"wet\", 1, \"valid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"wet\", 1, \"valid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"wet\", 1, \"invalid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"wet\", 1, \"invalid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"wet\", 2, \"valid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"wet\", 2, \"valid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"wet\", 2, \"invalid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"wet\", 2, \"invalid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"wet\", 2, \"confiscated\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: ko_KR [\"wet\", 2, \"confiscated\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"patrol\", 0, \"valid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"patrol\", 0, \"valid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"patrol\", 1, \"valid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"patrol\", 1, \"valid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"patrol\", 2, \"valid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"patrol\", 2, \"valid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"wet\", 1, \"valid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"wet\", 1, \"valid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"wet\", 1, \"invalid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"wet\", 1, \"invalid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"wet\", 2, \"valid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"wet\", 2, \"valid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"wet\", 2, \"invalid\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"wet\", 2, \"invalid\"] cancel PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"wet\", 2, \"confiscated\"] retry PASS",
+    "NOTEBOOK_MIRROR_CHOICE_RECOVERY: en_US [\"wet\", 2, \"confiscated\"] cancel PASS"
+  ],
+  "summary": [
+    "NOTEBOOK_MIRROR_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 64, \"covered_id_locales\": 130, \"covered_segment_locales\": 194, \"choice_recovery_cases\": 32, \"guard_fixtures\": [\"MIXTURE_ORDER\"], \"not_covered\": [\"static_puzzle_board_disclosure\", \"app_restart_cursor\", \"OS_input\", \"shared_notebook_UI\"] }"
+  ],
+  "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n",
+  "hashes": [
+    {
+      "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-mirror-choice-recovery-verified-20261005\\notebook.pck",
+      "Hash": "390F59125B8F3AA2613481D08C776D8738C7AE7FBA21ECB3AEFD5556D98A026A"
+    },
+    {
+      "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-mirror-choice-recovery-verified-20261005\\mirror.out.log",
+      "Hash": "DB50E692F0AF03D87650C34E0CBA1AF125C4D718935E6A112807F899E713C1EC"
+    },
+    {
+      "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-mirror-choice-recovery-verified-20261005\\mirror.err.log",
+      "Hash": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998"
+    }
+  ],
+  "not_covered": [
+    "OS input",
+    "separate process mirror cursor recovery",
+    "all puzzle layouts",
+    "all modal prompt/answer failure combinations",
+    "full producer audit",
+    "performance acceptance"
+  ],
+  "initial_attempt": {
+    "directory": "%TEMP%/ggb-notebook-mirror-choice-recovery-20261005",
+    "status": "TEST_FIXTURE_FAILED",
+    "reason": "Checkpoint fixture skipped session initialize; load normalizes state and invalidates cursor anchor. Missing C4 result then caused unsafe test access.",
+    "repair": "Initialize fixture before opening modal; safe missing-result assertion; rerun full suite."
+  }
+}
