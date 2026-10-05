@@ -1,0 +1,159 @@
+{
+  "date": "2026-10-05",
+  "baseline_commit": "665d9ab68e2da2e8beeb4a23c818c1f4c50a1ee6",
+  "scope": "DETACHED_READ_MODEL_REFRESH_NOT_FIRST_OPEN_OR_PERFORMANCE_ACCEPTANCE",
+  "stderr": [
+    "ERROR: Failed to read the root certificate store.",
+    "   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)"
+  ],
+  "refresh": {
+    "acceptance": "MEASUREMENT_ONLY_HEADLESS_SINGLE_SAMPLE",
+    "begin_ms": 394.786,
+    "dispatch_ms": 1068.756,
+    "fixture": {
+      "body_bytes": {
+        "en-US": 118294,
+        "ko-KR": 131668,
+        "legacy": 295000
+      },
+      "bookmarks": 0,
+      "comparison": 3,
+      "counts": {
+        "legacy": 10000,
+        "normal": 2000,
+        "protected": 6
+      },
+      "fixture_id": "NB-PERF-L10000",
+      "long_document_utf8_bytes": 0,
+      "long_documents": 0,
+      "seed": "ggb-notebook-perf-v1",
+      "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+      "utf8_bytes": 5434278
+    },
+    "max_wait_frame_ms": 119.388,
+    "synchronous_model_ms": 1532.048,
+    "worker_frames": 195
+  },
+  "base": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-refresh-verified-20261005",
+  "sources": [
+    {
+      "sha256": "DF2128CFFE3EB90928F7435BB3420A0374F11B4F54A82DE881B16C096B1445BB",
+      "path": "game/scripts/systems/notebook_host.gd"
+    },
+    {
+      "sha256": "C22EF68251EB51A23F8EB00E071BE36B7E507B9F573B3821F96DCDB61C484DB0",
+      "path": "game/scripts/systems/notebook_query.gd"
+    },
+    {
+      "sha256": "31AC3056EC94F96CFA94EEAA08CF92E4A38882694B1A225825845143DB3BF6A3",
+      "path": "game/scripts/tests/notebook_host_smoke.gd"
+    }
+  ],
+  "host_checks": [
+    "NOTEBOOK_ASYNC_SAVE_CHECKS: 269",
+    "NOTEBOOK_HOST_CHECKS: 494",
+    "NOTEBOOK_HOST_SMOKE: PASS"
+  ],
+  "initial_refresh": {
+    "acceptance": "MEASUREMENT_ONLY_HEADLESS_SINGLE_SAMPLE",
+    "begin_ms": 580.228,
+    "dispatch_ms": 1464.196,
+    "fixture": {
+      "body_bytes": {
+        "en-US": 118294,
+        "ko-KR": 131668,
+        "legacy": 295000
+      },
+      "bookmarks": 0,
+      "comparison": 3,
+      "counts": {
+        "legacy": 10000,
+        "normal": 2000,
+        "protected": 6
+      },
+      "fixture_id": "NB-PERF-L10000",
+      "long_document_utf8_bytes": 0,
+      "long_documents": 0,
+      "seed": "ggb-notebook-perf-v1",
+      "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+      "utf8_bytes": 5434278
+    },
+    "max_wait_frame_ms": 109.606,
+    "worker_frames": 151
+  },
+  "query_checks": [
+    "NOTEBOOK_METADATA_CHECKS: 64420",
+    "NOTEBOOK_LEGACY_NOTES_CHECKS: 73",
+    "NOTEBOOK_VIEW_CHECKS: 83",
+    "NOTEBOOK_BROWSE_CHECKS: 213",
+    "NOTEBOOK_VISUAL_CHECKS: 210",
+    "NOTEBOOK_SEARCH_CHECKS: 180",
+    "NOTEBOOK_INVESTIGATION_CHECKS: 300",
+    "NOTEBOOK_PERSON_RETENTION_CHECKS: 64",
+    "NOTEBOOK_MEMORY_DISCLOSURE_CHECKS: 83",
+    "NOTEBOOK_SELF_MARK_CHECKS: 270",
+    "NOTEBOOK_GALLERY_CHECKS: 189",
+    "NOTEBOOK_QUERY_CHECKS: 4246",
+    "NOTEBOOK_QUERY_SMOKE: PASS"
+  ],
+  "pack_sha256": "6BD695FBBF5C3542C0B4449F5FA81CD291CC64C2A9865252D5FB550929E18730",
+  "reference_save": {
+    "acceptance": "MEASUREMENT_ONLY_HEADLESS_SINGLE_SAMPLE",
+    "begin_ms": 117.144,
+    "dispatch_ms": 423.189,
+    "fixture": {
+      "body_bytes": {
+        "en-US": 118294,
+        "ko-KR": 131668,
+        "legacy": 295000
+      },
+      "bookmarks": 0,
+      "comparison": 3,
+      "counts": {
+        "legacy": 10000,
+        "normal": 2000,
+        "protected": 6
+      },
+      "fixture_id": "NB-PERF-L10000",
+      "long_document_utf8_bytes": 0,
+      "long_documents": 0,
+      "seed": "ggb-notebook-perf-v1",
+      "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+      "utf8_bytes": 5434278
+    },
+    "max_wait_frame_ms": 20.415,
+    "worker_frames": 1223
+  },
+  "suites": [
+    {
+      "name": "import",
+      "exit_code": 0,
+      "seconds": 42.9
+    },
+    {
+      "name": "export",
+      "exit_code": 0,
+      "seconds": 12.7
+    },
+    {
+      "name": "query",
+      "exit_code": 0,
+      "seconds": 153.6
+    },
+    {
+      "name": "host",
+      "exit_code": 0,
+      "seconds": 188.4
+    }
+  ],
+  "not_covered": [
+    "native_Windows_input",
+    "OS_IME",
+    "first_open_async",
+    "p95_and_device_acceptance",
+    "50_cycle_process_RAM",
+    "forced_thread_start_failure",
+    "all_producer_save_latency"
+  ],
+  "initial_comparison": "NOT_EQUIVALENT_AB: initial changes tab while preparing; final large sample changes selection within same tab"
+}

@@ -45,6 +45,7 @@ func run(tree: SceneTree) -> Dictionary:
 		TranslationServer.set_locale(locale)
 		await _prologue(tree)
 	await _async_reference_lifecycle(tree)
+	await _refresh_lifecycle(tree)
 	await _view_preferences(tree)
 	await _campaign(tree)
 	await _deferred_tools(tree)
@@ -56,6 +57,114 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	print("NOTEBOOK_HOST_CHECKS: %d" % checks)
 	return {"ok": errors.is_empty(), "errors": errors, "not_covered": ["OS_IME", "native_mouse_keyboard_completion", "app_restart_gameplay_cursor"]}
+
+
+func _await_refresh(tree: SceneTree, host) -> void:
+	var start := Time.get_ticks_msec()
+	while is_instance_valid(host) and not host._refresh_job.is_empty():
+		await tree.process_frame
+		if Time.get_ticks_msec() - start > 60000:
+			_expect(false, "refresh exceeded watchdog")
+			return
+
+
+func _refresh_lifecycle(tree: SceneTree) -> void:
+	for scenario in ["success", "repeat", "locale", "revision", "reload", "slot", "session", "profile", "close", "destroy", "large"]:
+		var view = await _campaign_view(tree, "C3")
+		var fixture := {}
+		if scenario == "large":
+			fixture = preload("res://scripts/tests/notebook_performance_fixture.gd").build("NB-PERF-L10000")
+			var state := GameState.get_snapshot()
+			state.meta_progress.dialogue_history = fixture.archive
+			state.meta_progress.knowledge_entries[KNOWLEDGE.KEY] = fixture.ledger
+			_expect(StateWriter.new(GameState).install_snapshot(state, GameState.revision, &"LOAD_REFRESH_LARGE").ok, "install large refresh fixture")
+			_expect(SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", state, GameState.revision, "REFRESH_LARGE").ok, "persist large refresh fixture")
+		view._open_notebook()
+		var host = view._notebook_host
+		host.set_process(false)
+		if scenario == "large": host.panel.set_filters({"tab":"dialogue", "all_sections":true})
+		var old = host.model
+		var key: String = old.cache_key()
+		var before := GameState.get_snapshot()
+		var paths: Dictionary = SaveManager._slot_paths(SLOT)
+		var disk := FileAccess.get_file_as_bytes(paths.main)
+		var synchronous_model_ms := 0.0
+		var expected_rows := ""
+		if scenario == "large":
+			var baseline := preload("res://scripts/systems/notebook_query.gd").new()
+			var baseline_start := Time.get_ticks_usec()
+			_expect(baseline.open(before.meta_progress.dialogue_history, before.meta_progress.knowledge_entries[KNOWLEDGE.KEY], host._scope, TranslationServer.get_locale(), before.meta_progress.knowledge_entries, view._notebook_context_node()).ok, "same-input synchronous model baseline")
+			synchronous_model_ms = (Time.get_ticks_usec() - baseline_start) / 1000.0
+			expected_rows = JSON.stringify(baseline._rows, "", true).sha256_text()
+			baseline.close()
+		var start := Time.get_ticks_usec()
+		host.refresh()
+		var begin_ms := (Time.get_ticks_usec() - start) / 1000.0
+		_expect(not host._refresh_job.is_empty() and host.model == old and old.diagnostics().ready, "refresh retains readable model: " + scenario)
+		_expect(not host.panel._reference_editable and host.pending.is_empty(), "refresh blocks mutations but clears stale command: " + scenario)
+		if host._refresh_job.is_empty():
+			view.queue_free()
+			await tree.process_frame
+			continue
+		var worker: Thread = host._refresh_job.thread
+		var candidate: WeakRef = weakref(host._refresh_job.model)
+		var rows: Dictionary = old.page({"tab":"dialogue", "all_sections":true}, 0, key)
+		_expect(rows.ok and not rows.items.is_empty(), "existing model remains readable during refresh: " + scenario)
+		var selected := ""
+		if not rows.items.is_empty():
+			selected = rows.items.back().key
+			host.panel.set_filters({"tab":"dialogue", "all_sections":true})
+			host.panel.show_detail(selected)
+			host._request_reference("bookmarks", rows.items[0].reference, true)
+			_expect(host._reference_job.is_empty() and host.pending.is_empty(), "stale reference signal is ignored during refresh")
+		match scenario:
+			"repeat": host.refresh()
+			"locale": TranslationServer.set_locale("ko-KR" if TranslationServer.get_locale().begins_with("en") else "en-US")
+			"revision", "reload": _expect(StateWriter.new(GameState).install_snapshot(before, GameState.revision, &"LOAD_REFRESH_OTHER" if scenario == "reload" else &"REFRESH_OTHER").ok, "change revision while preparing model")
+			"slot": view._slot_id = "__test_notebook_other_slot"
+			"session": view.session = view._make_session()
+			"profile": host.view_profile = "other-refresh-profile"
+			"close": host.request_close()
+			"destroy": host.free()
+		var frames := 0
+		var last_frame := Time.get_ticks_usec()
+		var max_frame_ms := 0.0
+		while worker.is_alive():
+			await tree.process_frame
+			var now := Time.get_ticks_usec()
+			max_frame_ms = maxf(max_frame_ms, (now - last_frame) / 1000.0)
+			last_frame = now
+			frames += 1
+			if now - start > 60000000:
+				_expect(false, "refresh worker exceeded watchdog")
+				break
+		var dispatch_ms := 0.0
+		if scenario != "destroy":
+			start = Time.get_ticks_usec()
+			host._process(0.0)
+			dispatch_ms = (Time.get_ticks_usec() - start) / 1000.0
+			host.set_process(true)
+			await _await_refresh(tree, host)
+		if scenario in ["success", "repeat", "locale", "large"]:
+			_expect(host.model != old and not old.diagnostics().ready and host.panel._reference_editable, "completed refresh atomically replaces and retires model: " + scenario)
+			_expect(host.model.cache_key() != key and not host.model.page({}, 0, key).ok, "old model key cannot access replacement: " + scenario)
+			_expect(host.panel._selected == selected, "navigation during preparation survives replacement: " + scenario)
+			_expect(host.model._locale == ("en-US" if TranslationServer.get_locale().begins_with("en") else "ko-KR"), "replacement follows latest language")
+		elif scenario == "revision":
+			_expect(host.model == old and old.diagnostics().ready and not host.panel._reference_editable and candidate.get_ref() == null, "newer revision discards candidate and preserves old view")
+			host.refresh()
+			await _await_refresh(tree, host)
+			_expect(host.model != old and host._revision == GameState.revision and host.panel._reference_editable, "explicit retry adopts the current revision")
+		else:
+			_expect(candidate.get_ref() == null, "closed or obsolete host releases private candidate: " + scenario)
+		_expect(GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(paths.main) == disk, "refresh never writes game or save: " + scenario)
+		if scenario == "large":
+			_expect(frames > 0, "large model preparation yields scene frames")
+			_expect(JSON.stringify(host.model._rows, "", true).sha256_text() == expected_rows, "worker preserves every synchronous public row")
+			print("NOTEBOOK_REFRESH_MEASUREMENT: ", JSON.stringify({"fixture":fixture.manifest, "synchronous_model_ms":synchronous_model_ms, "begin_ms":begin_ms, "dispatch_ms":dispatch_ms, "worker_frames":frames, "max_wait_frame_ms":max_frame_ms, "acceptance":"MEASUREMENT_ONLY_HEADLESS_SINGLE_SAMPLE"}))
+		view.queue_free()
+		await tree.process_frame
+		await tree.process_frame
 
 
 func _async_reference_lifecycle(tree: SceneTree) -> void:
@@ -108,6 +217,7 @@ func _async_reference_lifecycle(tree: SceneTree) -> void:
 			_expect(GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(paths.main) == disk, "failed host save has no optimistic state")
 			host._execute_pending()
 			while not host._reference_job.is_empty(): await tree.process_frame
+			await _await_refresh(tree, host)
 			_expect(host.pending.is_empty() and GameState.get_snapshot().meta_progress.dialogue_history.bookmarks.size() == 1, "same pending command retries exactly once")
 			host.release_pending_inputs()
 			host.request_close()
@@ -318,6 +428,7 @@ func _prologue(tree: SceneTree) -> void:
 		host.panel.show_detail(note_row.key)
 		host.panel.find_child("NotebookReference_comparison", true, false).pressed.emit()
 		while not host._reference_job.is_empty(): await tree.process_frame
+		await _await_refresh(tree, host)
 		_expect(GameState.get_snapshot().meta_progress.dialogue_history.entries.size() == prior.meta_progress.dialogue_history.entries.size() + 1, "host captures exactly one raw value when adding it to comparison")
 		_expect(host.panel._selected == note_row.key and host.model.detail(note_row.key, host.model.cache_key()).note_snapshot, "refresh keeps the selected raw card and shows durable original status")
 		_expect(host.model.page({"tab": "clues"}, 0, host.model.cache_key()).count == clue_rows.count, "materialization never duplicates current raw note in host list")
@@ -378,9 +489,11 @@ func _commands(tree: SceneTree, host, rows: Array) -> void:
 	_expect(controlled.transactions.size() == 2 and controlled.transactions[0] == controlled.transactions[1] and controlled.transactions[0].ends_with(token), "retry preserves command identity")
 	_expect(host.panel._selected == rows[0].key and host.panel._filters.tab == "dialogue", "metadata commit preserves selected material and tab")
 	controlled.lose_ack = false
+	await _await_refresh(tree, host)
 	for row in rows:
 		host.panel.show_detail(row.key)
 		host.panel.find_child("NotebookReference_comparison", true, false).pressed.emit()
+		await _await_refresh(tree, host)
 	_expect(GameState.get_snapshot().meta_progress.dialogue_history.comparison.size() == 3, "basket can hold more than displayed pair")
 	host.panel.select_pair(0, rows[0].key)
 	host.panel.select_pair(1, rows[2].key)
@@ -401,6 +514,7 @@ func _commands(tree: SceneTree, host, rows: Array) -> void:
 	host.panel.find_child("NotebookReference_bookmarks", true, false).pressed.emit()
 	host.panel.find_child("NotebookCommandConfirm", true, false).pressed.emit()
 	_expect(GameState.get_snapshot().meta_progress.dialogue_history.bookmarks.is_empty(), "confirmed unpin saved")
+	await _await_refresh(tree, host)
 	_expect(host.panel._selected.is_empty() and not host.panel._detail_visible, "removing the last filtered item returns to a usable empty list")
 	host.panel.set_filters({"tab": "dialogue"})
 	# Another writer's revision must never be adopted automatically on retry.
@@ -412,6 +526,7 @@ func _commands(tree: SceneTree, host, rows: Array) -> void:
 	_expect(not host.pending.is_empty() and GameState.revision == revision and GameState.get_snapshot() == after, "stale command cannot write against a newer revision")
 	host.refresh()
 	_expect(host.pending.is_empty(), "explicit refresh discards stale pending command")
+	await _await_refresh(tree, host)
 	await tree.process_frame
 	var controls: Array[Control] = []
 	host.panel._collect_focus(host.panel, controls)

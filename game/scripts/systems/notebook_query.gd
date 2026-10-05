@@ -166,6 +166,17 @@ func open(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: St
 	return {"ok": true, "key": cache_key(), "diagnostics": diagnostics()}
 
 
+func prepare_refresh(archive: Dictionary, ledger: Dictionary, scope: Dictionary, locale: String, legacy_knowledge: Dictionary, current_node: String, filters: Dictionary) -> Dictionary:
+	var result := open(archive, ledger, scope, locale, legacy_knowledge, current_node)
+	if not result.ok: return result
+	var visible := visible_filters(filters)
+	# Warm only public metadata; body rendering and all Controls stay with the UI.
+	var prepared := facets({"tab":visible.get("tab", "clues"), "include_previous":true, "include_refuted":true, "all_sections":visible.get("all_sections", false)}, cache_key())
+	if not prepared.ok: return prepared
+	if String(visible.get("needle", "")).strip_edges().is_empty(): _matching(visible)
+	return result
+
+
 func close() -> void:
 	_generation += 1
 	_ready = false

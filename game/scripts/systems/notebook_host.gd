@@ -38,6 +38,9 @@ var _view_writable := true
 var _view_delay := -1.0
 var _view_error := ""
 var _reference_job := ""
+var _refresh_job: Dictionary = {}
+var _refresh_again := false
+var _refresh_notice := ""
 
 
 func begin(controller: Control, game_state: Node, save_service: Node, tab: String) -> bool:
@@ -158,9 +161,10 @@ func _process(_delta: float) -> void:
 		if not _reference_job.is_empty(): saves.cancel_notebook_reference(_reference_job)
 		_held.clear()
 		request_close()
-	elif game.revision != _checked_revision:
+	elif game.revision != _checked_revision and _refresh_job.is_empty():
 		_checked_revision = game.revision
 		panel.show_notice(_l("새 변경 사항이 있습니다. 갱신 후 계속할 수 있습니다.", "Changes are available. Refresh before changing saved references."))
+	_poll_refresh()
 	if _view_delay >= 0.0 and not _invalid:
 		_view_delay -= _delta
 		if _view_delay <= 0.0: _flush_view()
@@ -168,7 +172,7 @@ func _process(_delta: float) -> void:
 
 
 func _finish_close() -> void:
-	if not _closing or not _held.is_empty() or not _suspended or not _reference_job.is_empty(): return
+	if not _closing or not _held.is_empty() or not _suspended or not _reference_job.is_empty() or not _refresh_job.is_empty(): return
 	if not _invalid and _same_live_scope():
 		_remember_view()
 		_flush_view()
@@ -200,6 +204,10 @@ func _finish_close() -> void:
 
 func _exit_tree() -> void:
 	if not _reference_job.is_empty(): saves.cancel_notebook_reference(_reference_job)
+	if not _refresh_job.is_empty():
+		_refresh_job.thread.wait_to_finish()
+		_refresh_job.model.close()
+		_refresh_job = {}
 	if _suspended and not _invalid and _same_live_scope():
 		_remember_view()
 		_flush_view()
@@ -228,25 +236,74 @@ func _dispatch_tool(action: Callable) -> void:
 	action.call()
 
 
-func refresh() -> void:
-	if _closing or not _reference_job.is_empty() or not _same_live_scope() or _current_scope() != _scope: return
-	var ui: Dictionary = panel.capture_view()
-	var state: Dictionary = game.get_snapshot()
-	var result := model.open(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope, TranslationServer.get_locale(), state.meta_progress.knowledge_entries, _controller.get_ref()._notebook_context_node())
-	if not result.ok:
-		panel.show_notice(_l("자료를 갱신하지 못했습니다. 저장 복구 상태를 확인해 주세요.", "Unable to refresh records. Check save recovery status."))
+func refresh(success_notice: String = "") -> void:
+	if _closing or not _reference_job.is_empty() or not _same_live_scope(): return
+	if not success_notice.is_empty(): _refresh_notice = success_notice
+	if not _refresh_job.is_empty():
+		_refresh_again = true
 		return
-	_revision = game.revision
-	_checked_revision = _revision
+	if _current_scope() != _scope: return
+	var state: Dictionary = game.get_snapshot()
+	var candidate := QUERY.new()
+	candidate._generation = model._generation
+	var thread := Thread.new()
+	var locale := TranslationServer.get_locale()
+	# Only a detached snapshot and a new read model cross the worker boundary.
+	# The visible model, Controls and live state remain on the main thread.
+	var started := thread.start(candidate.prepare_refresh.bind(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope.duplicate(true), locale, state.meta_progress.knowledge_entries, _controller.get_ref()._notebook_context_node(), panel.capture_view().filters))
+	panel.set_reference_editable(false)
+	if started != OK:
+		_refresh_failed()
+		return
+	_refresh_job = {"thread":thread, "model":candidate, "revision":game.revision, "locale":locale}
+	_checked_revision = game.revision
 	pending.clear()
+	panel.clear_command()
+	panel.show_notice(_l("자료를 갱신하고 있습니다. 기존 자료는 계속 읽을 수 있습니다.", "Refreshing records. You can keep reading the existing view."))
+
+
+func _poll_refresh() -> void:
+	if _refresh_job.is_empty() or _refresh_job.thread.is_alive(): return
+	var job := _refresh_job
+	var result: Variant = job.thread.wait_to_finish()
+	_refresh_job = {}
+	if _invalid or _closing or not _same_live_scope():
+		job.model.close()
+		_refresh_again = false
+		_refresh_notice = ""
+		return
+	if _refresh_again or job.locale != TranslationServer.get_locale():
+		job.model.close()
+		_refresh_again = false
+		refresh()
+		return
+	if game.revision != job.revision or _current_scope() != _scope or not result is Dictionary or not result.get("ok", false):
+		job.model.close()
+		_refresh_failed()
+		return
+	# Preserve navigation performed while the new model was being prepared.
+	var ui: Dictionary = panel.capture_view()
+	var previous = model
+	model = job.model
+	_revision = job.revision
+	_checked_revision = _revision
 	_reconcile_seen()
 	panel.set_review_state(_view_state.seen, _view_state.groups)
 	panel.replace_model(model, ui)
 	panel.set_reference_editable(true)
+	previous.close()
+	panel.show_notice(_refresh_notice if not _refresh_notice.is_empty() else _l("자료를 갱신했습니다.", "Records refreshed."))
+	_refresh_notice = ""
+
+
+func _refresh_failed() -> void:
+	_refresh_notice = ""
+	panel.show_notice(_l("자료를 갱신하지 못했습니다. 기존 화면을 유지합니다. 갱신은 저장된 내용을 변경하지 않습니다.", "Unable to refresh records. The existing view is retained. Refreshing does not change saved data."))
+	panel.show_command(_l("다시 갱신하거나 수첩을 닫았다가 열어 주세요.", "Retry the refresh or close and reopen the notebook."), refresh, _cancel_pending)
 
 
 func _request_reference(collection: String, reference: Dictionary, enabled: bool) -> void:
-	if not _same_live_scope() or _closing or not _reference_job.is_empty(): return
+	if not _same_live_scope() or _closing or not _reference_job.is_empty() or not _refresh_job.is_empty(): return
 	pending = {"collection": collection, "reference": reference.duplicate(true), "enabled": enabled, "command_id": ARCHIVE.new_uid()}
 	if not enabled:
 		panel.show_command(_l("고정을 해제하면 다른 보호 이유가 없는 오래된 일반 기록이 정리될 수 있습니다.", "Removing this reference may allow old ordinary records with no other protection to be pruned."), _execute_pending, _cancel_pending)
@@ -255,7 +312,7 @@ func _request_reference(collection: String, reference: Dictionary, enabled: bool
 
 
 func _execute_pending() -> void:
-	if pending.is_empty() or not _same_live_scope() or _closing or not _reference_job.is_empty(): return
+	if pending.is_empty() or not _same_live_scope() or _closing or not _reference_job.is_empty() or not _refresh_job.is_empty(): return
 	if saves.has_method("begin_notebook_reference"):
 		var started: Dictionary = saves.begin_notebook_reference(game, _slot, pending.collection, pending.reference, pending.enabled, _command_scope, _revision, pending.command_id, _same_live_scope)
 		if started.get("pending", false):
@@ -289,8 +346,7 @@ func _complete_reference(result: Dictionary, before: Dictionary) -> void:
 				_checked_revision = _revision
 		panel.show_command(_l("저장하지 못했습니다. 원래 고정 상태를 유지합니다. 다시 시도하거나 취소해 주세요.", "Not saved. The original reference state is unchanged. Retry or cancel."), _execute_pending, _cancel_pending)
 		return
-	refresh()
-	panel.show_notice(_l("고정 상태를 저장했습니다.", "Saved reference changes."))
+	refresh(_l("고정 상태를 저장했습니다.", "Saved reference changes."))
 
 
 func _cancel_pending() -> void:
