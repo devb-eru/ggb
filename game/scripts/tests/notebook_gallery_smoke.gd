@@ -94,6 +94,8 @@ func _new_host(tree: SceneTree):
 
 
 func _host(tree: SceneTree, store: EndingGalleryStore, first: String, second: String) -> void:
+	var developer := preload("res://scripts/ui/developer_panel.gd").new()
+	tree.current_scene.add_child(developer)
 	var owner := Control.new()
 	var button := Button.new()
 	button.text = "Return target"
@@ -103,6 +105,20 @@ func _host(tree: SceneTree, store: EndingGalleryStore, first: String, second: St
 	var before := GameState.get_snapshot()
 	var host = _new_host(tree)
 	_expect(host.begin(owner, store, first, "ko-KR", 2.0), "verified gallery host opens")
+	_expect(not developer.launch_button.visible, "opening archive synchronously hides launcher")
+	await tree.process_frame
+	await tree.process_frame
+	_expect(not developer.launch_button.visible and developer.launch_button.focus_mode == Control.FOCUS_NONE, "archive view excludes developer launcher")
+	developer.toggle()
+	_expect(not developer.panel.visible, "archive view rejects developer entry")
+	for pressed in [true, false]:
+		var key := InputEventKey.new()
+		key.keycode = KEY_F10
+		key.physical_keycode = KEY_F10
+		key.pressed = pressed
+		tree.root.push_input(key, true)
+		await tree.process_frame
+	_expect(not developer.panel.visible and host._active(), "archive reading retains input on F10")
 	_expect(not owner.visible and owner.process_mode == Node.PROCESS_MODE_DISABLED, "owner hidden and disabled during archive view")
 	_expect(host._scope.namespace == "gallery" and host._scope.slot == first and host._scope.run_id.contains(first), "archive hash namespaces view and query")
 	var other := store.read_entry(second)
@@ -183,9 +199,20 @@ func _host(tree: SceneTree, store: EndingGalleryStore, first: String, second: St
 	host.view_store = FailedViews.new()
 	host._remember_view()
 	_expect(not host._flush_view() and not host.panel._notice.text.is_empty(), "failed convenience write is visible and non-blocking")
-	host.request_close()
+	var position: Vector2 = host.panel._close.get_global_rect().get_center()
+	_expect(developer.launch_button.get_global_rect().has_point(position), "archive fixture reproduces overlapping close target")
+	var motion := InputEventMouseMotion.new()
+	motion.position = position
+	tree.root.push_input(motion, true)
+	for pressed in [true, false]:
+		var click := InputEventMouseButton.new()
+		click.position = position
+		click.button_index = MOUSE_BUTTON_LEFT
+		click.pressed = pressed
+		tree.root.push_input(click, true)
+		await tree.process_frame
 	await tree.process_frame
-	_expect(owner.visible, "failed preference write never traps user in archive")
+	_expect(owner.visible and not developer.panel.visible, "mouse close reaches archive even after failed preference write")
 	var sibling: Dictionary = store.read_entry(first).state
 	sibling.meta_progress.dialogue_history = ARCHIVE.set_reference(sibling.meta_progress.dialogue_history, "bookmarks", ARCHIVE.make_reference(sibling.meta_progress.dialogue_history.entries[0], "body"), false, int(sibling.meta_progress.dialogue_history.revision)).archive
 	var sibling_entry := store.capture(sibling)
@@ -204,6 +231,12 @@ func _host(tree: SceneTree, store: EndingGalleryStore, first: String, second: St
 	await tree.process_frame
 	await tree.process_frame
 	_expect(not is_instance_valid(host), "destroyed owner closes host without resurrecting gameplay")
+	await tree.process_frame
+	_expect(developer.launch_button.visible and developer.launch_button.focus_mode == Control.FOCUS_ALL, "archive owner destruction restores developer launcher")
+	developer.toggle()
+	_expect(developer.panel.visible, "developer menu is available after archive closes")
+	developer.close()
+	developer.queue_free()
 	_expect(GameState.get_snapshot() == before, "host lifetime, comparison, and view preferences never mutate GameState")
 	var model := QUERY.new()
 	var scope := {"namespace": "full", "slot": "slot_01", "run_id": "test", "source_origin_id": archive.source_origin_id, "branch_id": archive.branch_id, "load_epoch": 0}

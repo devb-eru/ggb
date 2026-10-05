@@ -78,6 +78,8 @@ func begin(owner: Control, store: EndingGalleryStore, id: String, locale: String
 	panel.view_changed.connect(_remember_view)
 	if not String(loaded.warning_id).is_empty(): panel.show_notice(TEXTS.text("notebook_view_reset", _locale))
 	_remember_view()
+	add_to_group("notebook_input_hosts")
+	get_tree().call_group("notebook_input_observers", "refresh_notebook_input")
 	return true
 
 
@@ -183,6 +185,8 @@ func _finish_close() -> void:
 func _restore_owner() -> bool:
 	var available := _active()
 	_suspended = false
+	remove_from_group("notebook_input_hosts")
+	get_tree().call_group("notebook_input_observers", "refresh_notebook_input")
 	if not available: return false
 	var owner = _owner.get_ref()
 	owner.process_mode = _owner_mode

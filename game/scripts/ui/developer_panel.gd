@@ -92,6 +92,8 @@ func _ready() -> void:
 		controls[index].focus_previous = controls[index].get_path_to(controls[posmod(index - 1, controls.size())])
 	panel.hide()
 	_filter("")
+	add_to_group("notebook_input_observers")
+	refresh_notebook_input()
 
 
 func _button(parent: Node, text: String, action: Callable) -> Button:
@@ -109,6 +111,7 @@ func _button(parent: Node, text: String, action: Callable) -> Button:
 func toggle() -> void:
 	if panel.visible: close()
 	else:
+		if _notebook_owns_input(): return
 		_previous_focus = weakref(get_viewport().gui_get_focus_owner()) if get_viewport().gui_get_focus_owner() != null else null
 		panel.show()
 		blocker.show()
@@ -128,11 +131,31 @@ func close() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_F10:
+			if _notebook_owns_input() and not panel.visible: return
 			toggle()
 			get_viewport().set_input_as_handled()
 		elif panel.visible and event.keycode == KEY_ESCAPE:
 			close()
 			get_viewport().set_input_as_handled()
+
+
+func _notebook_owns_input() -> bool:
+	for host in get_tree().get_nodes_in_group("notebook_input_hosts"):
+		if not host.is_queued_for_deletion(): return true
+	return false
+
+
+func _process(_delta: float) -> void:
+	refresh_notebook_input()
+
+
+func refresh_notebook_input() -> void:
+	if not is_instance_valid(launch_button): return
+	# Reading overlays own the top-right close target and their keyboard scope.
+	var blocked := _notebook_owns_input()
+	launch_button.visible = not blocked
+	launch_button.focus_mode = Control.FOCUS_NONE if blocked else Control.FOCUS_ALL
+	launch_button.mouse_filter = Control.MOUSE_FILTER_IGNORE if blocked else Control.MOUSE_FILTER_STOP
 
 
 func _filter(query: String) -> void:

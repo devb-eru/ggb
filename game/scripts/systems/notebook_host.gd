@@ -98,6 +98,8 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	if not String(loaded.warning_id).is_empty():
 		panel.show_notice(_l("이전 열람 위치를 복원하지 못했거나 과거 저장으로 돌아왔습니다. 본문과 고정 자료는 유지됩니다.", "The earlier view could not be restored or this is an earlier save. Records and saved references are unaffected."))
 	_remember_view()
+	add_to_group("notebook_input_hosts")
+	get_tree().call_group("notebook_input_observers", "refresh_notebook_input")
 	return true
 
 
@@ -161,6 +163,8 @@ func _finish_close() -> void:
 		_remember_view()
 		_flush_view()
 	_suspended = false
+	remove_from_group("notebook_input_hosts")
+	get_tree().call_group("notebook_input_observers", "refresh_notebook_input")
 	model.close()
 	panel.dismiss()
 	pending.clear()

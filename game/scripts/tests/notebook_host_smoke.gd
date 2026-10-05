@@ -47,6 +47,7 @@ func run(tree: SceneTree) -> Dictionary:
 	await _deferred_tools(tree)
 	await _visual_materials(tree)
 	await _physical(tree)
+	await _developer_overlay(tree)
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
@@ -557,6 +558,66 @@ func _visual_materials(tree: SceneTree) -> void:
 	_expect(view.visible and view.session.stage() == "F0_C" and view.session.snapshot().loop_state.event_local_states.F0_C == local, "closing notebook restores exactly the same unverified overlay draft")
 	_expect(GameState.get_snapshot() == before, "returning from visual replay neither rerecords board nor advances gameplay")
 	view.queue_free()
+	await tree.process_frame
+
+
+func _developer_overlay(tree: SceneTree) -> void:
+	var developer := preload("res://scripts/ui/developer_panel.gd").new()
+	developer.refresh_notebook_input()
+	_expect(developer.launch_button == null, "unbuilt or release-discarded developer UI is safe to refresh")
+	tree.current_scene.add_child(developer)
+	for boundary in ["mouse_close", "owner_destroyed", "scope_changed"]:
+		var view = await _campaign_view(tree, "C3")
+		view._open_notebook()
+		var host = view._notebook_host
+		var before := GameState.get_snapshot()
+		_expect(not developer.launch_button.visible, "opening notebook synchronously hides launcher before next frame")
+		for frame in range(2): await tree.process_frame
+		_expect(not developer.launch_button.visible and developer.launch_button.focus_mode == Control.FOCUS_NONE, "notebook excludes developer launcher: " + boundary)
+		for pressed in [true, false]:
+			tree.root.push_input(_key(KEY_F10, pressed), true)
+			await tree.process_frame
+		_expect(not developer.panel.visible and view._notebook_is_open(), "F10 cannot replace notebook: " + boundary)
+		if boundary == "mouse_close":
+			var remapped := _key(KEY_F10, false)
+			var had_mapping := InputMap.action_has_event("ui_focus_next", remapped)
+			if not had_mapping: InputMap.action_add_event("ui_focus_next", remapped)
+			host.panel._close.grab_focus()
+			for pressed in [true, false]:
+				tree.root.push_input(_key(KEY_F10, pressed), true)
+				await tree.process_frame
+			var focused := tree.root.gui_get_focus_owner()
+			_expect(focused != null and focused != host.panel._close and host.panel.is_ancestor_of(focused), "developer does not swallow notebook's rebound F10 navigation")
+			if not had_mapping: InputMap.action_erase_event("ui_focus_next", remapped)
+			var position: Vector2 = host.panel._close.get_global_rect().get_center()
+			_expect(developer.launch_button.get_global_rect().has_point(position), "fixture reproduces overlapping close target")
+			var motion := InputEventMouseMotion.new()
+			motion.position = position
+			tree.root.push_input(motion, true)
+			for pressed in [true, false]:
+				var click := InputEventMouseButton.new()
+				click.position = position
+				click.button_index = MOUSE_BUTTON_LEFT
+				click.pressed = pressed
+				tree.root.push_input(click, true)
+				await tree.process_frame
+			_expect(not view._notebook_is_open() and view.visible and not developer.panel.visible, "close coordinate reaches notebook, not developer menu")
+		elif boundary == "owner_destroyed":
+			view.queue_free()
+		else:
+			view._slot_id = "__test_notebook_scope_changed"
+		for frame in range(3): await tree.process_frame
+		_expect(not is_instance_valid(host) and developer.launch_button.visible, "launcher recovers after notebook lifetime: " + boundary)
+		_expect(developer.launch_button.focus_mode == Control.FOCUS_ALL, "launcher keyboard focus restored: " + boundary)
+		_expect(GameState.get_snapshot() == before, "developer guard preserves game state: " + boundary)
+		for pressed in [true, false]:
+			tree.root.push_input(_key(KEY_F10, pressed), true)
+			await tree.process_frame
+		_expect(developer.panel.visible, "F10 works again outside notebook: " + boundary)
+		developer.close()
+		if is_instance_valid(view): view.queue_free()
+		await tree.process_frame
+	developer.queue_free()
 	await tree.process_frame
 
 
