@@ -11,13 +11,6 @@ const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const SLOT := "__test_notebook_iris"
-const SCENARIOS := [
-	[0, 0, "external_truth", "indirect", false], [0, 5, "external_truth", "indirect", true],
-	[2, 0, "external_truth", "direct_private", false], [2, 5, "external_truth", "direct_private", true],
-	[0, 0, "shelter_projection", "withheld", false], [0, 4, "shelter_projection", "denied", true],
-	[2, 0, "shelter_projection", "indirect", false], [2, 4, "shelter_projection", "indirect", true],
-	[4, 0, "shelter_projection", "direct_private", false], [4, 4, "shelter_projection", "direct_private", true],
-]
 var errors := PackedStringArray()
 var covered := {}
 var segments := {}
@@ -59,7 +52,8 @@ func run(tree: SceneTree) -> Dictionary:
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
 		_evidence()
-		for scenario in SCENARIOS: await _outcome(scenario)
+		for scenario in _scenarios(): await _outcome(scenario)
+		print("NOTEBOOK_IRIS_OUTCOME_MATRIX: " + locale + " 72 input combinations")
 		_failures()
 		await _legacy()
 		for id in CONTENT.diagnostics().content_ids:
@@ -72,8 +66,23 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
-	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 45, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "outcome_scenarios": SCENARIOS.size() * 2,
+	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 45, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "outcome_scenarios": _scenarios().size() * 2,
 		"not_covered": ["other_relationship_producers", "durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
+
+
+func _scenarios() -> Array:
+	var result: Array = []
+	# Expected rows are independent of the production confession selector.
+	var peaceful := ["withheld", "withheld", "indirect", "indirect", "direct_private", "direct_private"]
+	var guarded := ["denied", "denied", "indirect", "indirect", "direct_private", "direct_private"]
+	for bond in range(6):
+		for alert in range(6):
+			for choice in ["external_truth", "shelter_projection"]:
+				var resulting_bond := mini(bond + (2 if choice == "external_truth" else 0), 5)
+				var resulting_alert := mini(alert + (1 if choice == "shelter_projection" else 0), 5)
+				var sharp := resulting_alert >= 4
+				result.append([bond, alert, choice, (guarded if sharp else peaceful)[resulting_bond], sharp])
+	return result
 
 
 func _evidence() -> void:
