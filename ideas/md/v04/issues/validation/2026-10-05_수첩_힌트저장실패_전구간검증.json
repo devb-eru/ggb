@@ -1,0 +1,1055 @@
+{
+  "runtime_seconds": {
+    "content_suite": 386.8,
+    "export": 8,
+    "import": 21.4
+  },
+  "engine": "4.7.2.stable.steam.ed1daf0bf",
+  "mode": "headless",
+  "pack_sha256": "852A7150F9C0FDBB62BE88AD27613CDACAAE149B1B6662FA7B9EECF114840832",
+  "recovery": {
+    "errors": [],
+    "recovery_cases": [
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "F0_E",
+        "ok": true
+      }
+    ],
+    "scope": "NP20_REJECTED_SAVE_RETRY_AND_BF_SUPPORT_NOT_OS_INPUT",
+    "support_cases": [
+      {
+        "attempts": 0,
+        "locale": "ko-KR",
+        "offered_level": 0,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 1,
+        "locale": "ko-KR",
+        "offered_level": 0,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 2,
+        "locale": "ko-KR",
+        "offered_level": 3,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 3,
+        "locale": "ko-KR",
+        "offered_level": 4,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 4,
+        "locale": "ko-KR",
+        "offered_level": 5,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 7,
+        "locale": "ko-KR",
+        "offered_level": 5,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 2,
+        "locale": "ko-KR",
+        "offered_level": 0,
+        "ok": true,
+        "status": "resolved"
+      },
+      {
+        "attempts": 4,
+        "locale": "ko-KR",
+        "offered_level": 0,
+        "ok": true,
+        "status": "resolved"
+      },
+      {
+        "attempts": 0,
+        "locale": "en-US",
+        "offered_level": 0,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 1,
+        "locale": "en-US",
+        "offered_level": 0,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 2,
+        "locale": "en-US",
+        "offered_level": 3,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 3,
+        "locale": "en-US",
+        "offered_level": 4,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 4,
+        "locale": "en-US",
+        "offered_level": 5,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 7,
+        "locale": "en-US",
+        "offered_level": 5,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 2,
+        "locale": "en-US",
+        "offered_level": 0,
+        "ok": true,
+        "status": "resolved"
+      },
+      {
+        "attempts": 4,
+        "locale": "en-US",
+        "offered_level": 0,
+        "ok": true,
+        "status": "resolved"
+      }
+    ]
+  },
+  "branch_summary": {
+    "required": 150,
+    "catalog_sha256": {
+      "res://data/notebook/hints_v1.json": "c7cb8cdb544418ceef2c55f3e57e8a908bbbdd743b8a043781777e61df3ebd84",
+      "res://data/notebook/puzzle_labels_v2.json": "64e187c32ee535436a580cabd6a491ea604a80e865df914df00366ef320abf91"
+    },
+    "observed": 150,
+    "unmapped": [],
+    "not_covered": [],
+    "historical_replayed": 24,
+    "historical_required": 24,
+    "errors": []
+  },
+  "prior_failed_runs": [
+    {
+      "recovery_cases_completed": 30,
+      "support_cases_completed": 16,
+      "error": "120 H2-H5 fixtures entered a utility menu without its required prior observed hint; corrected fixture to read preceding hints through actual controls."
+    },
+    {
+      "recovery_cases_completed": 150,
+      "support_cases_completed": 16,
+      "error": "All 150 cases asserted world-surface flush was allowed while a utility modal was open; moved baseline flush before opening the modal. Product input-blocking rule unchanged."
+    }
+  ]
+}

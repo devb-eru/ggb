@@ -9,6 +9,7 @@ const PRESENTATION := preload("res://scripts/systems/notebook_presentation.gd")
 const VIEWS := [preload("res://scripts/chapters/chapter_one_controller.gd"), preload("res://scripts/chapters/black_mirror_controller.gd"), preload("res://scripts/chapters/basement_controller.gd")]
 const PROVIDERS := [preload("res://scripts/ui/clock_hint_texts.gd"), preload("res://scripts/ui/mirror_hint_texts.gd"), preload("res://scripts/ui/basement_hint_texts.gd"), preload("res://scripts/ui/core_hint_texts.gd")]
 const SLOT := "__test_notebook_content"
+const LIVE_STAGES := ["B3_A", "B3_B", "BF", "C3", "C4", "CF", "D0_A", "D1", "DF", "D4", "F0_A", "F0_B", "F0_C", "F0_D", "F0_E"]
 var errors := PackedStringArray()
 var covered := {}
 var required_tuples := {}
@@ -17,6 +18,8 @@ var unmapped_tuples := {}
 var catalog_hashes := {}
 var historical_tuples := {}
 var historical_replayed := {}
+var recovery_cases: Array = []
+var support_cases: Array = []
 
 
 class RejectingSave:
@@ -45,11 +48,19 @@ func run(tree: SceneTree) -> Dictionary:
 	_validate_enums()
 	for language in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(language)
-		for stage in ["B3_A", "B3_B", "BF", "C3", "C4", "CF", "D0_A", "D1", "DF", "D4", "F0_A", "F0_B", "F0_C", "F0_D", "F0_E"]:
+		for stage in LIVE_STAGES:
 			await _validate_live_hints(tree, stage, language)
 	_expect(covered.size() == 120, "all 60 content IDs actually displayed in both languages")
-	await _validate_failed_write(tree)
-	await _validate_skipped_hints(tree)
+	for language in ["ko-KR", "en-US"]:
+		TranslationServer.set_locale(language)
+		for stage in LIVE_STAGES:
+			print("NOTEBOOK_HINT_RECOVERY_PHASE: ", language, " ", stage)
+			for level in range(5): await _validate_failed_write(tree, stage, language, level)
+		for attempts in [0, 1, 2, 3, 4, 7]: await _validate_skipped_hints(tree, language, attempts, "active")
+		for attempts in [2, 4]: await _validate_skipped_hints(tree, language, attempts, "resolved")
+	_expect(recovery_cases.size() == LIVE_STAGES.size() * 5 * 2, "all hint write-failure cases executed")
+	_expect(support_cases.size() == 16, "support threshold and resolved-state cases executed in both languages")
+	print("NOTEBOOK_HINT_RECOVERY_AUDIT: " + JSON.stringify({"recovery_cases":recovery_cases, "support_cases":support_cases, "errors":errors, "scope":"NP20_REJECTED_SAVE_RETRY_AND_BF_SUPPORT_NOT_OS_INPUT"}))
 	_validate_historical_tuples()
 	var missing: Array = []
 	for key in required_tuples:
@@ -307,18 +318,29 @@ func _validate_live_hints(tree: SceneTree, stage: String, language: String) -> v
 	await tree.process_frame
 
 
-func _validate_failed_write(tree: SceneTree) -> void:
-	TranslationServer.set_locale("en-US")
-	var view := _new_view(tree, "B3_A")
+func _validate_failed_write(tree: SceneTree, stage: String, language: String, level: int) -> void:
+	var initial_errors := errors.size()
+	var view := _new_view(tree, stage)
 	if view == null: return
 	await tree.process_frame
 	_expect(view._notebook_surface_allowed(), "visible baseline surfaces committed before hint failure injection")
+	# Reach the requested menu through its real prerequisites before injecting failure.
+	view._show_clock_hint_menu(0)
+	for preceding in range(level):
+		var earlier := _read_button(view)
+		_expect(earlier != null, "preceding hint is reachable before failure injection")
+		if earlier == null:
+			view.queue_free()
+			await tree.process_frame
+			return
+		earlier.pressed.emit()
+		view._dialogue_next.pressed.emit()
+	_expect(view._modal_active and not view._dialogue_active, "real preceding reads reach target hint menu")
 	var real: Node = view.session._save
 	var fake := RejectingSave.new()
 	fake.delegate = real
 	view.session._save = fake
 	var before := GameState.get_snapshot()
-	view._show_clock_hint_menu(0)
 	var button := _read_button(view)
 	_expect(button != null, "failed-write fixture has the actual hint request button")
 	if button != null: button.pressed.emit()
@@ -338,23 +360,38 @@ func _validate_failed_write(tree: SceneTree) -> void:
 	var saved: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history.entries.back()
 	_expect(saved.get("record_class") == "authored" and saved.observation.presentation_token == token, "successful retry commits original presentation token once")
 	_expect(GameState.get_snapshot().meta_progress.dialogue_history.entries.size() == before.meta_progress.dialogue_history.entries.size() + 1, "retry produces exactly one hint record")
+	var descriptor := CONTENT.hint_descriptor(stage, level)
+	_expect(saved.observation.content_id == descriptor.content_id and int(saved.observation.content_version) == int(descriptor.content_version) and saved.observation.node_id == stage and saved.observation.segments[0].viewed_locale == language, "retry commits the original requested node/version/locale")
+	var committed := GameState.get_snapshot()
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "retried hint is durably reloadable")
+	_expect(StateSnapshotValidator.same_persisted_value(committed, GameState.get_snapshot()), "retry reload preserves exact committed source and presentation state")
+	recovery_cases.append({"node":stage, "level":level + 1, "locale":language, "ok":errors.size() == initial_errors})
 	view.queue_free()
 	fake.free()
 	await tree.process_frame
 
 
-func _validate_skipped_hints(tree: SceneTree) -> void:
+func _validate_skipped_hints(tree: SceneTree, language: String, attempts: int, status: String) -> void:
+	var initial_errors := errors.size()
 	var view := _new_view(tree, "BF")
 	if view == null: return
+	await tree.process_frame
 	var before: int = GameState.get_snapshot().meta_progress.dialogue_history.entries.size()
 	var state := GameState.get_snapshot()
-	state.meta_progress.failure_knowledge["B3_B"] = {"attempts": 4, "status": "active"}
+	state.meta_progress.failure_knowledge["B3_B"] = {"attempts": attempts, "status": status}
 	_expect(StateWriter.new(GameState).install_snapshot(state, GameState.revision, &"LOAD_HINT_FAILURE_SUPPORT").ok, "repeated-failure fixture installs")
 	view._offer_clock_failure_support()
+	if attempts < 2 or status != "active":
+		_expect(not view._modal_active and GameState.get_snapshot() == state, "ineligible failure support shows nothing and records nothing")
+		support_cases.append({"locale":language, "attempts":attempts, "status":status, "offered_level":0, "ok":errors.size() == initial_errors})
+		view.queue_free()
+		await tree.process_frame
+		return
+	var level := mini(attempts, 4)
 	var request: Button
 	for child in view._modal_body.get_children():
-		if child is Button and child.text.contains("Request stronger hint H5"): request = child
-	_expect(request != null, "actual failure-support action offers H5")
+		if child is Button and child.text.contains("H%d" % (level + 1)) and (child.text.contains("Request stronger hint") or child.text.contains("더 구체적인")): request = child
+	_expect(request != null, "actual failure-support action offers expected localized level")
 	if request == null:
 		view.queue_free()
 		await tree.process_frame
@@ -362,12 +399,16 @@ func _validate_skipped_hints(tree: SceneTree) -> void:
 	_expect(GameState.get_snapshot().meta_progress.dialogue_history.entries.size() == before, "offering stronger support alone records no hint")
 	request.pressed.emit()
 	var history: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history
-	_expect(history.entries.size() == before + 1 and history.entries.back().observation.content_id == "NB_HINT_B3_B_H5", "jump to H5 grants H5 only, never H1-H4")
+	_expect(history.entries.size() == before + 1 and history.entries.back().observation.content_id == "NB_HINT_B3_B_H%d" % (level + 1), "support jump grants only the requested hint, never skipped levels")
+	var unchanged := GameState.get_snapshot()
+	unchanged.meta_progress.dialogue_history = state.meta_progress.dialogue_history
+	_expect(_gameplay(unchanged) == _gameplay(state), "stronger support never repairs pins or changes puzzle and relationship state")
 	view._dialogue_next.pressed.emit()
 	var menu_body: Label = view._modal_body.find_child("ModalBodyText", true, false)
 	_expect(menu_body != null, "end-of-hints body is present")
-	if menu_body != null:
+	if menu_body != null and level == 4:
 		_expect(not menu_body.text.contains("all five") and not menu_body.text.contains("모두 읽었다"), "end-of-hints message does not claim skipped hints were read")
+	support_cases.append({"locale":language, "attempts":attempts, "status":status, "offered_level":level + 1, "ok":errors.size() == initial_errors})
 	view.queue_free()
 	await tree.process_frame
 
