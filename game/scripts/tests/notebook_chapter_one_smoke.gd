@@ -9,6 +9,7 @@ const FEEDBACK := preload("res://scripts/systems/chapter_one_notebook.gd")
 const SLOT := "__test_notebook_chapter_one"
 var errors := PackedStringArray()
 var covered := {}
+var observed_tuples := {}
 var covered_segments := {}
 var base: Dictionary
 var serial := 0
@@ -41,6 +42,7 @@ func run(tree: SceneTree) -> Dictionary:
 			for segment in CONTENT.definition(id, 1).visible_segment_ids:
 				_expect(covered_segments.has(id + ":" + segment + ":" + language), "unobserved segment " + id + ":" + segment + ":" + language)
 	SaveManager.delete_test_slot(SLOT)
+	_report_tuples()
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": covered_segments.size(), "producer_paths": ["NP04"], "guard_fixtures": ["LAYOUT_MISSING", "PHASE_UNSET", "DESK_VISIT", "ALCOVE_VISIT", "GAP_VISIT", "LINK_VISIT", "LINK_OPEN_VISIT"], "not_covered": ["NP05", "NP06", "app_restart_cursor", "OS_input"]}
@@ -235,6 +237,12 @@ func _drain(view: Node) -> void:
 	_expect(false, "dialogue did not terminate")
 
 
+func _report_tuples() -> void:
+	var keys := observed_tuples.keys()
+	keys.sort()
+	print("NOTEBOOK_NP04_PATH_AUDIT: " + JSON.stringify({"scope":"OBSERVED_RUNTIME_PATHS_NOT_EXHAUSTIVE_ALLOWED_NODE_PRODUCT", "tuple_fields":["producer", "content", "version", "node", "variant", "segment", "locale"], "observed":keys.map(func(key: String) -> Array: return JSON.parse_string(key)), "errors":errors}))
+
+
 func _collect(language: String) -> void:
 	var state := GameState.get_snapshot()
 	_expect(ARCHIVE.validate(state.meta_progress.dialogue_history).ok, "CH1 archive validates")
@@ -245,6 +253,12 @@ func _collect(language: String) -> void:
 		_expect(observed.chapter_id == "CHAPTER_1" and observed.producer_id in ["NP04", "NP05", "NP06", "NP21"], "CH1 source context: %s / %s / %s" % [observed.content_id, observed.producer_id, observed.chapter_id])
 		if observed.producer_id != "NP04": continue
 		covered[observed.content_id + ":" + language] = true
+		var definition := CONTENT.definition(observed.content_id, 1)
+		_expect(int(observed.content_version) == 1 and observed.variant_id == definition.action_or_variant and observed.node_id in definition.node_ids, "actual CH1 feedback version/variant/node is registered")
+		for segment in observed.segments:
+			var tuple := JSON.stringify([observed.producer_id, observed.content_id, int(observed.content_version), observed.node_id, observed.variant_id, segment.segment_id, segment.viewed_locale])
+			observed_tuples[tuple] = true
+			_expect(segment.viewed_locale == language and segment.segment_id in definition.visible_segment_ids, "actual feedback segment and capture locale agree with the executed path")
 		for segment in observed.segments:
 			covered_segments[observed.content_id + ":" + segment.segment_id + ":" + language] = true
 		var rendered := CONTENT.render_entry(entry, "en-US" if language == "ko-KR" else "ko-KR")

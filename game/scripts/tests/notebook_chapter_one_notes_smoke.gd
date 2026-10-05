@@ -9,6 +9,7 @@ const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const SLOT := "__test_notebook_chapter_one_notes"
 var errors := PackedStringArray()
 var covered := {}
+var observed_tuples := {}
 var serial := 0
 
 class RejectingSave extends Node:
@@ -37,6 +38,7 @@ func run(tree: SceneTree) -> Dictionary:
 		for id in ids: _expect(covered.has(id + ":" + locale), "missing acquisition: " + id + ":" + locale)
 	await _persistence_and_legacy(tree)
 	SaveManager.delete_test_slot(SLOT)
+	_report_tuples()
 	TranslationServer.set_locale(language)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "guard_fixture": "BF_PHASE_UNSET", "not_covered": ["NP05", "NP07+", "new_notebook_UI", "OS_input"]}
@@ -240,6 +242,12 @@ func _latest(id: String) -> Dictionary:
 	return result
 
 
+func _report_tuples() -> void:
+	var keys := observed_tuples.keys()
+	keys.sort()
+	print("NOTEBOOK_NP06_PATH_AUDIT: " + JSON.stringify({"scope":"OBSERVED_RUNTIME_PATHS_NOT_EXHAUSTIVE_ALLOWED_NODE_PRODUCT", "tuple_fields":["producer", "content", "version", "node", "variant", "segment", "locale"], "observed":keys.map(func(key: String) -> Array: return JSON.parse_string(key)), "errors":errors}))
+
+
 func _collect(locale: String) -> void:
 	var state := GameState.get_snapshot()
 	_expect(KNOWLEDGE.validate(_ledger(), state.meta_progress.dialogue_history).ok, "complete source graph validates")
@@ -248,6 +256,13 @@ func _collect(locale: String) -> void:
 		var observation: Dictionary = entry.observation
 		_expect(observation.producer_id == "NP06" and observation.entry_kind == "document_segment" and observation.segments[0].disclosure == "replay_committed", "acquired note has explicit production and disclosure owner")
 		covered[observation.content_id + ":" + locale] = true
+		var version := 2 if observation.content_id.trim_prefix("NB_CH1_NOTE_") in NOTES.MARK_IDS else 1
+		var definition := CONTENT.definition(observation.content_id, version)
+		_expect(int(observation.content_version) == version and observation.variant_id == definition.action_or_variant and observation.node_id in definition.node_ids, "note uses current producer version and registered node/variant")
+		for segment in observation.segments:
+			var tuple := JSON.stringify([observation.producer_id, observation.content_id, int(observation.content_version), observation.node_id, observation.variant_id, segment.segment_id, segment.viewed_locale])
+			observed_tuples[tuple] = true
+			_expect(segment.viewed_locale == locale and segment.segment_id in definition.visible_segment_ids, "actual note segment and capture locale agree with acquisition")
 		var read := CONTENT.render_entry(entry, "en-US" if locale == "ko-KR" else "ko-KR")
 		_expect(read.ok and not read.entry.fallback, "source exact version is readable in the other locale")
 	_expect(GameState.get_snapshot() == state, "reading the revision graph is side-effect free")

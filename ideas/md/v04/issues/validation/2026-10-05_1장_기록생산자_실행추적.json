@@ -1,0 +1,3322 @@
+{
+  "audits": {
+    "NP06": {
+      "errors": [],
+      "observed": [
+        [
+          "NP06",
+          "NB_CH1_NOTE_A1_HOUSE_GLYPH",
+          2,
+          "A1",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_A1_HOUSE_GLYPH",
+          2,
+          "A1",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_A1_INK_CORNER",
+          2,
+          "A1",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_A1_INK_CORNER",
+          2,
+          "A1",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_A1_SENTENCE",
+          2,
+          "A1",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_A1_SENTENCE",
+          2,
+          "A1",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_A2",
+          1,
+          "A2",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_A2",
+          1,
+          "A2",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B1",
+          1,
+          "B1",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B1",
+          1,
+          "B1",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B1_EDGAR",
+          1,
+          "B1",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B1_EDGAR",
+          1,
+          "B1",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B1_LUCA",
+          1,
+          "B1",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B1_LUCA",
+          1,
+          "B1",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B1_MARA1",
+          1,
+          "B1",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B1_MARA1",
+          1,
+          "B1",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B1_MARA2",
+          1,
+          "B1",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B1_MARA2",
+          1,
+          "B1",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B3_A",
+          1,
+          "B3_A",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B3_A",
+          1,
+          "B3_A",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B4",
+          1,
+          "B4",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_B4",
+          1,
+          "B4",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_EXCLUDED",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_EXCLUDED",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_OUTPUT",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_OUTPUT",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_PHASE_BETWEEN",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_PHASE_BETWEEN",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_PHASE_SIMULTANEOUS",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_PHASE_SIMULTANEOUS",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_PHASE_TOO_EARLY",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_PHASE_TOO_EARLY",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_PHASE_UNSET",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_PHASE_UNSET",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_REFERENCE",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_REFERENCE",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_RELAY",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_RELAY",
+          1,
+          "B3_B",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_RESOLVED",
+          1,
+          "B4",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_BF_RESOLVED",
+          1,
+          "B4",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_CLOCK_BEDROOM",
+          1,
+          "B3_A",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_CLOCK_BEDROOM",
+          1,
+          "B3_A",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_CLOCK_GREAT_CLOCK",
+          1,
+          "B3_A",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_CLOCK_GREAT_CLOCK",
+          1,
+          "B3_A",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_CLOCK_LIBRARY_OUTER",
+          1,
+          "B3_A",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_CLOCK_LIBRARY_OUTER",
+          1,
+          "B3_A",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_CLOCK_PARLOR",
+          1,
+          "B3_A",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_CLOCK_PARLOR",
+          1,
+          "B3_A",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_J1",
+          1,
+          "J1",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_J1",
+          1,
+          "J1",
+          "recorded",
+          "body",
+          "ko-KR"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_J2",
+          1,
+          "B5",
+          "recorded",
+          "body",
+          "en-US"
+        ],
+        [
+          "NP06",
+          "NB_CH1_NOTE_J2",
+          1,
+          "B5",
+          "recorded",
+          "body",
+          "ko-KR"
+        ]
+      ],
+      "scope": "OBSERVED_RUNTIME_PATHS_NOT_EXHAUSTIVE_ALLOWED_NODE_PRODUCT",
+      "tuple_fields": [
+        "producer",
+        "content",
+        "version",
+        "node",
+        "variant",
+        "segment",
+        "locale"
+      ]
+    },
+    "NP04": {
+      "errors": [],
+      "observed": [
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_SOLVED",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_SOLVED",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_EDGAR",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_EDGAR",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_EDGAR",
+          1,
+          "B2",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_EDGAR",
+          1,
+          "B2",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_LUCA",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_LUCA",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_LUCA",
+          1,
+          "B2",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_LUCA",
+          1,
+          "B2",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_MARA1",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_MARA1",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_MARA1",
+          1,
+          "B2",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_MARA1",
+          1,
+          "B2",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_MARA2",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_MARA2",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_MARA2",
+          1,
+          "B2",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B1_TEXT_MARA2",
+          1,
+          "B2",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B2_ALERT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B2_ALERT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B2_ALERT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B2_ALERT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B2_HIDDEN",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B2_HIDDEN",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B2_LEFT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B2_LEFT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B2_NORMAL",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B2_NORMAL",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B4_RECORDED",
+          1,
+          "B4",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_B4_RECORDED",
+          1,
+          "B4",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_BSHORT_COMPLETE",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_BSHORT_COMPLETE",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_ACTIVATION_OK",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_ACTIVATION_OK",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_BEDROOM",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_BEDROOM",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_03",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_GREAT_CLOCK",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_GREAT_CLOCK",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_LIBRARY_OUTER",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_LIBRARY_OUTER",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_PARLOR",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_PARLOR",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_RESULT_EXCLUDED",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_RESULT_EXCLUDED",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_RESULT_OUTPUT",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_RESULT_OUTPUT",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_RESULT_REFERENCE",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_RESULT_REFERENCE",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_RESULT_RELAY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_RESULT_RELAY",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_TEST_OK",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_CLOCK_TEST_OK",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_ALCOVE",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_ALCOVE",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_ALCOVE_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_ALCOVE_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_ALCOVE_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_ALCOVE_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DESK",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DESK",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DESK_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DESK_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DESK_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DESK_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DRAWER",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DRAWER",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DRAWER_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DRAWER_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DRAWER_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_DRAWER_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_GAP",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_GAP",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_GAP_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_GAP_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_GAP_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_GAP_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_INDEX",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_INDEX",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_INDEX_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_INDEX_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_INDEX_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_INDEX_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK_OPEN",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK_OPEN",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK_OPEN_VISIT",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK_OPEN_VISIT",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK_OPEN_VISIT",
+          1,
+          "B3_A",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK_OPEN_VISIT",
+          1,
+          "B3_A",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_INNER_LINK_VISIT",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_03",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_03",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_04",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_04",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_05",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_05",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_06",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_06",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_07",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J1_RESTORED",
+          1,
+          "J1",
+          "feedback",
+          "line_07",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J2_RESTORED",
+          1,
+          "B5",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J2_RESTORED",
+          1,
+          "B5",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J2_RESTORED",
+          1,
+          "B5",
+          "feedback",
+          "line_02",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J2_RESTORED",
+          1,
+          "B5",
+          "feedback",
+          "line_02",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J2_RESTORED",
+          1,
+          "B5",
+          "feedback",
+          "line_03",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J2_RESTORED",
+          1,
+          "B5",
+          "feedback",
+          "line_03",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J2_RESTORED",
+          1,
+          "B5",
+          "feedback",
+          "line_04",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J2_RESTORED",
+          1,
+          "B5",
+          "feedback",
+          "line_04",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J2_RESTORED",
+          1,
+          "B5",
+          "feedback",
+          "line_05",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CH1_J2_RESTORED",
+          1,
+          "B5",
+          "feedback",
+          "line_05",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CONFIRM_MARK",
+          1,
+          "A2",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_CONFIRM_MARK",
+          1,
+          "A2",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_BACK",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_BACK",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_COUNT",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_COUNT",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_COUNT",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_COUNT",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_MISSING",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_MISSING",
+          1,
+          "B3_B",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_PIECE",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_PIECE",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_ROTATION",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_ROTATION",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_SOLVED",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_LAYOUT_SOLVED",
+          1,
+          "B3_A",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_MARA2_MEMORY",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_MARA2_MEMORY",
+          1,
+          "B2",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_MARK",
+          1,
+          "A1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_MARK",
+          1,
+          "A1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_MOVE",
+          1,
+          "A1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_MOVE",
+          1,
+          "A1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_ROUTINE",
+          1,
+          "AS",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_ROUTINE",
+          1,
+          "AS",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_WAKE",
+          1,
+          "A1",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_WAKE",
+          1,
+          "A1",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ],
+        [
+          "NP04",
+          "NB_CH1_WAKE",
+          1,
+          "A2",
+          "feedback",
+          "line_01",
+          "en-US"
+        ],
+        [
+          "NP04",
+          "NB_CH1_WAKE",
+          1,
+          "A2",
+          "feedback",
+          "line_01",
+          "ko-KR"
+        ]
+      ],
+      "scope": "OBSERVED_RUNTIME_PATHS_NOT_EXHAUSTIVE_ALLOWED_NODE_PRODUCT",
+      "tuple_fields": [
+        "producer",
+        "content",
+        "version",
+        "node",
+        "variant",
+        "segment",
+        "locale"
+      ]
+    }
+  },
+  "pack_sha256": "7BBDD1A1A1AD968BB9A2B142CEAF72C98BE5FE719F5ED42C0BB89C99DE782E8C",
+  "runtime_seconds": {
+    "notes": 29.4,
+    "dialogue": 110.2,
+    "import": 28.2,
+    "export": 10.5
+  },
+  "engine": "4.7.2.stable.steam.ed1daf0bf",
+  "mode": "headless",
+  "catalog_inventory": {
+    "definitions": [
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_B1_SOLVED",
+        "source_symbol": "act:text_id=CH1_B1_SOLVED",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_B1_TEXT_EDGAR",
+        "source_symbol": "act:text_id=CH1_B1_TEXT_EDGAR",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_B1_TEXT_LUCA",
+        "source_symbol": "act:text_id=CH1_B1_TEXT_LUCA",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_B1_TEXT_MARA1",
+        "source_symbol": "act:text_id=CH1_B1_TEXT_MARA1",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_B1_TEXT_MARA2",
+        "source_symbol": "act:text_id=CH1_B1_TEXT_MARA2",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_B2_ALERT",
+        "source_symbol": "act:text_id=CH1_B2_ALERT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_B2_HIDDEN",
+        "source_symbol": "act:text_id=CH1_B2_HIDDEN",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_B2_LEFT",
+        "source_symbol": "act:text_id=CH1_B2_LEFT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_B2_NORMAL",
+        "source_symbol": "act:text_id=CH1_B2_NORMAL",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_B4_RECORDED",
+        "source_symbol": "act:text_id=CH1_B4_RECORDED",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_BSHORT_COMPLETE",
+        "source_symbol": "act:text_id=CH1_BSHORT_COMPLETE",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_ACTIVATION_OK",
+        "source_symbol": "act:text_id=CH1_CLOCK_ACTIVATION_OK",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_BEDROOM",
+        "source_symbol": "act:text_id=CH1_CLOCK_BEDROOM",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02",
+          "line_03"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_FAILURE_EXCLUDED",
+        "source_symbol": "act:text_id=CH1_CLOCK_FAILURE_EXCLUDED",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02",
+          "line_03"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_FAILURE_OUTPUT",
+        "source_symbol": "act:text_id=CH1_CLOCK_FAILURE_OUTPUT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02",
+          "line_03"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+        "source_symbol": "act:text_id=CH1_CLOCK_FAILURE_PHASE_BETWEEN",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02",
+          "line_03"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+        "source_symbol": "act:text_id=CH1_CLOCK_FAILURE_PHASE_SIMULTANEOUS",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02",
+          "line_03"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+        "source_symbol": "act:text_id=CH1_CLOCK_FAILURE_PHASE_TOO_EARLY",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02",
+          "line_03"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_FAILURE_PHASE_UNSET",
+        "source_symbol": "act:text_id=CH1_CLOCK_FAILURE_PHASE_UNSET",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02",
+          "line_03"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_FAILURE_REFERENCE",
+        "source_symbol": "act:text_id=CH1_CLOCK_FAILURE_REFERENCE",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02",
+          "line_03"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_FAILURE_RELAY",
+        "source_symbol": "act:text_id=CH1_CLOCK_FAILURE_RELAY",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_GREAT_CLOCK",
+        "source_symbol": "act:text_id=CH1_CLOCK_GREAT_CLOCK",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_LIBRARY_OUTER",
+        "source_symbol": "act:text_id=CH1_CLOCK_LIBRARY_OUTER",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_PARLOR",
+        "source_symbol": "act:text_id=CH1_CLOCK_PARLOR",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_RESULT_EXCLUDED",
+        "source_symbol": "act:text_id=CH1_CLOCK_RESULT_EXCLUDED",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_RESULT_OUTPUT",
+        "source_symbol": "act:text_id=CH1_CLOCK_RESULT_OUTPUT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_RESULT_REFERENCE",
+        "source_symbol": "act:text_id=CH1_CLOCK_RESULT_REFERENCE",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_RESULT_RELAY",
+        "source_symbol": "act:text_id=CH1_CLOCK_RESULT_RELAY",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_CLOCK_TEST_OK",
+        "source_symbol": "act:text_id=CH1_CLOCK_TEST_OK",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_ALCOVE",
+        "source_symbol": "act:text_id=CH1_INNER_ALCOVE",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_ALCOVE_VISIT",
+        "source_symbol": "act:text_id=CH1_INNER_ALCOVE_VISIT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_DESK",
+        "source_symbol": "act:text_id=CH1_INNER_DESK",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_DESK_VISIT",
+        "source_symbol": "act:text_id=CH1_INNER_DESK_VISIT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_DRAWER",
+        "source_symbol": "act:text_id=CH1_INNER_DRAWER",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_DRAWER_VISIT",
+        "source_symbol": "act:text_id=CH1_INNER_DRAWER_VISIT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_GAP",
+        "source_symbol": "act:text_id=CH1_INNER_GAP",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_GAP_VISIT",
+        "source_symbol": "act:text_id=CH1_INNER_GAP_VISIT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_INDEX",
+        "source_symbol": "act:text_id=CH1_INNER_INDEX",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_INDEX_VISIT",
+        "source_symbol": "act:text_id=CH1_INNER_INDEX_VISIT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_LINK",
+        "source_symbol": "act:text_id=CH1_INNER_LINK",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_LINK_OPEN",
+        "source_symbol": "act:text_id=CH1_INNER_LINK_OPEN",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_LINK_OPEN_VISIT",
+        "source_symbol": "act:text_id=CH1_INNER_LINK_OPEN_VISIT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_INNER_LINK_VISIT",
+        "source_symbol": "act:text_id=CH1_INNER_LINK_VISIT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02",
+          "line_03",
+          "line_04",
+          "line_05",
+          "line_06",
+          "line_07"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_J1_RESTORED",
+        "source_symbol": "act:text_id=CH1_J1_RESTORED",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01",
+          "line_02",
+          "line_03",
+          "line_04",
+          "line_05"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CH1_J2_RESTORED",
+        "source_symbol": "act:text_id=CH1_J2_RESTORED",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_CONFIRM_MARK",
+        "source_symbol": "act:confirm_mark",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_LAYOUT_BACK",
+        "source_symbol": "act:board_check/back",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_LAYOUT_COUNT",
+        "source_symbol": "act:board_check",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_LAYOUT_MISSING",
+        "source_symbol": "act:board_check/missing",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_LAYOUT_PIECE",
+        "source_symbol": "act:board_check/piece",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_LAYOUT_ROTATION",
+        "source_symbol": "act:board_check/rotation",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_LAYOUT_SOLVED",
+        "source_symbol": "act:layout_solved",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "version": 1,
+        "id": "NB_CH1_MARA2_MEMORY",
+        "source_symbol": "_show_mara2_memory",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_MARK",
+        "source_symbol": "act:mark",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_MOVE",
+        "source_symbol": "act:move",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_A1_HOUSE_GLYPH",
+        "source_symbol": "act/_write_note:A1_HOUSE_GLYPH",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 2,
+        "id": "NB_CH1_NOTE_A1_HOUSE_GLYPH",
+        "source_symbol": "act/mark:authored_v2",
+        "node_set": "nodes_2"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_A1_INK_CORNER",
+        "source_symbol": "act/_write_note:A1_INK_CORNER",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 2,
+        "id": "NB_CH1_NOTE_A1_INK_CORNER",
+        "source_symbol": "act/mark:authored_v2",
+        "node_set": "nodes_2"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_A1_SENTENCE",
+        "source_symbol": "act/_write_note:A1_SENTENCE",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 2,
+        "id": "NB_CH1_NOTE_A1_SENTENCE",
+        "source_symbol": "act/mark:authored_v2",
+        "node_set": "nodes_2"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_A2",
+        "source_symbol": "act/_write_note:A2",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_B1",
+        "source_symbol": "act/_write_note:B1",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_B1_EDGAR",
+        "source_symbol": "act/_write_note:B1_EDGAR",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_B1_LUCA",
+        "source_symbol": "act/_write_note:B1_LUCA",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_B1_MARA1",
+        "source_symbol": "act/_write_note:B1_MARA1",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_B1_MARA2",
+        "source_symbol": "act/_write_note:B1_MARA2",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_B3_A",
+        "source_symbol": "act/_write_note:B3_A",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_B4",
+        "source_symbol": "act/_write_note:B4",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_BF_EXCLUDED",
+        "source_symbol": "act/_write_note:BF_EXCLUDED",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_BF_OUTPUT",
+        "source_symbol": "act/_write_note:BF_OUTPUT",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_BF_PHASE_BETWEEN",
+        "source_symbol": "act/_write_note:BF_PHASE_BETWEEN",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_BF_PHASE_SIMULTANEOUS",
+        "source_symbol": "act/_write_note:BF_PHASE_SIMULTANEOUS",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_BF_PHASE_TOO_EARLY",
+        "source_symbol": "act/_write_note:BF_PHASE_TOO_EARLY",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_BF_PHASE_UNSET",
+        "source_symbol": "act/_write_note:BF_PHASE_UNSET",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_BF_REFERENCE",
+        "source_symbol": "act/_write_note:BF_REFERENCE",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_BF_RELAY",
+        "source_symbol": "act/_write_note:BF_RELAY",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_BF_RESOLVED",
+        "source_symbol": "act/_write_note:BF_RESOLVED",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_CLOCK_BEDROOM",
+        "source_symbol": "act/_write_note:CLOCK_BEDROOM",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_CLOCK_GREAT_CLOCK",
+        "source_symbol": "act/_write_note:CLOCK_GREAT_CLOCK",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_CLOCK_LIBRARY_OUTER",
+        "source_symbol": "act/_write_note:CLOCK_LIBRARY_OUTER",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_CLOCK_PARLOR",
+        "source_symbol": "act/_write_note:CLOCK_PARLOR",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_J1",
+        "source_symbol": "act/_write_note:J1",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "body"
+        ],
+        "producer": "NP06",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_NOTE_J2",
+        "source_symbol": "act/_write_note:J2",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_ROUTINE",
+        "source_symbol": "act:routine",
+        "node_set": "nodes_1"
+      },
+      {
+        "segments": [
+          "line_01"
+        ],
+        "producer": "NP04",
+        "source_file": "scripts/systems/chapter_one_session.gd",
+        "version": 1,
+        "id": "NB_CH1_WAKE",
+        "source_symbol": "act:wake",
+        "node_set": "nodes_1"
+      }
+    ],
+    "node_sets": {
+      "nodes_2": [
+        "A1"
+      ],
+      "nodes_1": [
+        "A1",
+        "AS",
+        "A2",
+        "B1",
+        "B2",
+        "J1",
+        "B3_A",
+        "B3_B",
+        "BF",
+        "B4",
+        "B5",
+        "J2_COMPLETE",
+        "C_SLEEP",
+        "C0",
+        "C1",
+        "C2",
+        "C3",
+        "C_BELL",
+        "C4",
+        "CF",
+        "C5_INFO",
+        "J3",
+        "J3_COMPLETE",
+        "D_SLEEP",
+        "D0",
+        "D0_A",
+        "D1",
+        "DF",
+        "D2",
+        "D4",
+        "D5",
+        "D6",
+        "DEMO_END",
+        "E1_ENTRY",
+        "LUCA_S2",
+        "LUCA_GUIDE",
+        "E2_INTRO",
+        "E_HUB",
+        "E3_1",
+        "E3_2",
+        "E3_3",
+        "E3_4",
+        "E3_5",
+        "E3_4M",
+        "J4",
+        "E5",
+        "E6",
+        "F0_A",
+        "F0_B",
+        "F0_C",
+        "F0_D",
+        "F0_E",
+        "F1",
+        "F2",
+        "F3",
+        "EDC",
+        "ENDING_SEQUENCE",
+        "ENDING_BODY_PENDING",
+        "REALITY_WAKE",
+        "FIELD_NOTEBOOK",
+        "REALITY_SURFACE",
+        "STAY_CHARTER",
+        "STAY_STORY",
+        "ENDING_CREDITS",
+        "POST_CREDITS"
+      ]
+    },
+    "catalog_sha256": {
+      "chapter_one_notes_v1.json": "8B4B3BFD46DBBB8A5012E32BFDEC74279A92FF45179EB3D6A8C945958A4A4A21",
+      "self_mark_v2.json": "70511C773EF18D58A55523EBAAE32AD125C02ABCAA720A6F4D540FAB861DF4D6",
+      "chapter_one_v1.json": "2047D4382BAC28C012BB1E7384DF2C447DB620943C88D945506C174978833B2B"
+    }
+  }
+}
