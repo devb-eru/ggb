@@ -6,6 +6,11 @@ const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const SLOT := "__test_notebook_prologue"
 var errors := PackedStringArray()
 var covered := {}
+var required_tuples := {}
+var observed_tuples := {}
+var unmapped_tuples := {}
+var catalog_hashes := {}
+const PRODUCERS := ["NP01", "NP02", "NP03"]
 
 class FailedSave extends Node:
 	func save_snapshot(_slot: String, _point: String, _state: Dictionary, _revision: int, _transaction: String) -> Dictionary:
@@ -20,16 +25,51 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	var diagnostics := CONTENT.diagnostics()
 	if not diagnostics.ok: return {"ok": false, "errors": diagnostics.error_ids}
+	_prepare_tuple_audit()
 	var ids: Array = diagnostics.content_ids.filter(func(id: String) -> bool: return id.begins_with("NB_PR_") or id.begins_with("NB_NOTE_P_"))
 	for language in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(language)
 		await _route(tree, language)
 		for id in ids: _expect(covered.has(id + ":" + language), "unexecuted authored prologue path: " + id + ":" + language)
 	await _partial_choice_and_retry(tree)
+	var missing: Array = []
+	for key in required_tuples:
+		if not observed_tuples.has(key): missing.append(JSON.parse_string(key))
+	_expect(missing.is_empty(), "all prologue producer node/variant/segment/locale tuples executed")
+	_expect(unmapped_tuples.is_empty(), "no unregistered live prologue producer tuple")
+	var observed := observed_tuples.keys()
+	observed.sort()
+	print("NOTEBOOK_PROLOGUE_BRANCH_AUDIT: " + JSON.stringify({"scope":"NP01_NP02_NP03_CONTROLLER_DISPLAY_AND_COMMIT_NOT_OS_INPUT", "catalog_sha256":catalog_hashes, "required_count":required_tuples.size(), "observed_count":observed_tuples.size(), "not_covered":missing, "unmapped":unmapped_tuples.keys(), "tuple_fields":["producer", "content", "version", "node", "variant", "segment", "locale"], "observed":observed.map(func(key: String) -> Array: return JSON.parse_string(key)), "errors":errors}))
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "producer_paths": ["NP01", "NP02", "NP03"], "other_paths": "NOT_COVERED"}
+
+
+func _prepare_tuple_audit() -> void:
+	# Catalog membership defines coverage even when a content ID is renamed.
+	for path in CONTENT.CATALOGS:
+		var raw := FileAccess.get_file_as_string(path)
+		var catalog: Dictionary = JSON.parse_string(raw)
+		for id in catalog.contents:
+			for version in catalog.contents[id]:
+				var row: Dictionary = catalog.contents[id][version]
+				if row.producer_id not in PRODUCERS: continue
+				catalog_hashes[path] = raw.sha256_text()
+				for node in row.node_ids:
+					for segment in row.visible_segment_ids:
+						for locale in row.locales:
+							var key := JSON.stringify([row.producer_id, id, int(version), node, row.action_or_variant, segment, locale])
+							_expect(not required_tuples.has(key), "unique prologue catalog tuple")
+							required_tuples[key] = true
+
+
+func _collect_tuple(observation: Dictionary) -> void:
+	if observation.producer_id not in PRODUCERS: return
+	for segment in observation.segments:
+		var key := JSON.stringify([observation.producer_id, observation.content_id, int(observation.content_version), observation.node_id, observation.variant_id, segment.segment_id, segment.viewed_locale])
+		if not required_tuples.has(key): unmapped_tuples[key] = true
+		else: observed_tuples[key] = true
 
 
 func _view(tree: SceneTree) -> Node:
@@ -191,6 +231,7 @@ func _collect(language: String) -> void:
 		_expect(entry.record_class == "authored", "live prologue callsite must not silently fall back to unmapped")
 		if entry.record_class != "authored": continue
 		var observation: Dictionary = entry.observation
+		_collect_tuple(observation)
 		if observation.producer_id == "NP03":
 			_expect(observation.entry_kind == "document_segment" and observation.segments[0].disclosure == "replay_committed", "event-written note is not a spoken or gameplay-read line")
 			_expect(entry.protection_reasons.size() == 2, "note content and real knowledge revision both protect the source")
