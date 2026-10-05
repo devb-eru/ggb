@@ -62,6 +62,7 @@ func run() -> Dictionary:
 	_validate_backup()
 	_validate_commands()
 	_validate_retention_commit()
+	_validate_retention_commit(true)
 	_validate_f3()
 	_validate_f3_uncommitted()
 	_validate_f3_future_candidates()
@@ -354,8 +355,24 @@ func _validate_commands() -> void:
 	SaveManager.delete_test_slot(SLOT)
 
 
-func _validate_retention_commit() -> void:
+func _validate_retention_commit(mixed_population: bool = false) -> void:
 	var archive := preload("res://scripts/tests/notebook_retention_fixture.gd").create()
+	if mixed_population:
+		for index in range(1998):
+			var entry: Dictionary = archive.entries[1].duplicate(true)
+			entry.entry_uid = "%032x" % (100000 + index)
+			entry.sequence = archive.entries.size()
+			entry.observation.presentation_token = entry.entry_uid
+			archive.entries.append(entry)
+		var legacy := {"next_sequence": 14002, "entries": []}
+		for index in range(10000):
+			legacy.entries.append({"sequence": index + 4002, "line_id": "OLD", "speaker_id": "SYSTEM", "extra": ["preserve", index]})
+		var migrated := ARCHIVE.migrate_verified_legacy(legacy, "mixed-durable-retention".sha256_text())
+		_expect(migrated.ok, "mixed durable legacy fixture migrates")
+		if not migrated.ok: return
+		for entry in migrated.archive.entries:
+			archive.entries.append(entry)
+		archive.next_sequence = archive.entries.size()
 	var reference := ARCHIVE.make_reference(archive.entries[0], "body")
 	var pinned := ARCHIVE.set_reference(archive, "bookmarks", reference, true, archive.revision)
 	_expect(pinned.ok and pinned.pruned_uids.is_empty(), "pin prevents pruning before persistence test")
@@ -364,7 +381,7 @@ func _validate_retention_commit() -> void:
 	state.meta_progress.dialogue_history = pinned.archive
 	_write_source(_path(), state, 2)
 	var loaded: Dictionary = LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT)
-	_expect(loaded.ok, "retention save fixture installs")
+	_expect(loaded.ok, "retention save fixture installs: " + ("ok" if loaded.ok else str(loaded)))
 	if not loaded.ok: return
 	var before := GameState.get_snapshot()
 	var disk := FileAccess.get_file_as_bytes(_path())
@@ -378,8 +395,16 @@ func _validate_retention_commit() -> void:
 	_expect(saved.ok and saved.get("recovered_acknowledgement", false), "durable pruning commit is recognized after lost acknowledgement")
 	var after := GameState.get_snapshot()
 	var retained: Dictionary = after.meta_progress.dialogue_history
-	_expect(retained.entries.size() == 2003 and retained.entries[0].get(ARCHIVE.SESSION_PRUNED, false), "prune and session notice install together")
+	_expect(retained.entries.size() == (14001 if mixed_population else 2003) and retained.entries[0].get(ARCHIVE.SESSION_PRUNED, false), "prune and session notice install together")
 	_expect(SaveManager.load_slot(SLOT).snapshot == after, "session evidence survives real save normalization and reload")
+	if mixed_population:
+		var legacy_before: Array = before.meta_progress.dialogue_history.entries.filter(func(entry: Dictionary) -> bool: return entry.record_class == "legacy")
+		var legacy_after: Array = retained.entries.filter(func(entry: Dictionary) -> bool: return entry.record_class == "legacy")
+		var protected_after: Array = retained.entries.filter(func(entry: Dictionary) -> bool: return entry.record_class == "authored" and not entry.protection_reasons.is_empty())
+		_expect(legacy_after == legacy_before and legacy_after.size() == 10000, "durable mixed retention preserves every legacy payload and identity")
+		_expect(protected_after.size() == 2001 and retained.entries.size() - legacy_after.size() - protected_after.size() == 2000, "durable mixed retention keeps independent ordinary and protected populations")
+		_expect(not ARCHIVE.resolve(retained, reference).ok and retained.next_sequence == archive.next_sequence, "durable mixed retention removes only excess reference without renumbering")
+		print("NOTEBOOK_MIXED_RETENTION: legacy=10000 protected=2001 ordinary=2000; save rejection, lost acknowledgement, reload checked")
 	fault.free()
 	SaveManager.delete_test_slot(SLOT)
 

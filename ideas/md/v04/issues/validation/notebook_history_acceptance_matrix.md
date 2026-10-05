@@ -63,7 +63,7 @@
 | NB-AQ12 | B4/C5/D4 다중 묶음·두 칸·확대·초안 보존 | host `_visual_materials`, visual·investigation | 자동 근거 + 실제 키보드 3자료 비교/200% 미완료 / T22·T23 |
 | NB-AQ13 | 51행·필터 끝·갱신·언어 변경 안정성 | query `_test_order_cache`, view restore, search, host refresh | 자동 근거 있음. 긴 검색 및 실제 포커스 검사와 연결 / T22·T26 |
 | NB-AQ14 | n/N·IME·Esc·Alt+Tab·예약 후 슬롯 변경 | host/opening input guards, query/search UI | 자동 scope 검사는 있음. IME·OS 입력의 한 계층 소비 미완료 / T22 |
-| NB-AQ15 | 일반 2001+보호 2001+legacy10000 모두 보존 | archive retention, performance fixture, person-retention | 대조 필요. 세 부하가 함께 있는 최종 인수 fixture와 최신 실행 로그 확인 / T24·T26 |
+| NB-AQ15 | 일반 2001+보호 2001+legacy10000 모두 보존 | archive retention, migration `_validate_retention_commit(true)` | [혼합 저장 검사](2026-10-06_혼합기록_저장보존_검증.md) PASS. 일반 초과 1개만 정리, 저장 거부/응답 유실/reload 검증. 성능 인수는 별도 미완료 / T24·T26h |
 | NB-AQ16 | 22생산자·전 분기·한영·미매핑/미실행/ID 노출 0 | 생산자별 suite·카탈로그 감사·ERR-0026 | 전체 필수 경로 합집합·분모 확정과 실제 화면 미완료 / T10~T19·T25 |
 | NB-AQ17 | 저장 객체 불변과 현재 언어 표시를 별도 비교 | query metadata/legacy, 생산자 과거 버전 재생 | 자동 근거 있음. 모든 저장 입구의 원본 바이트/객체 검사 연결 / T26 |
 | NB-AQ18 | fixture·장비·cold/warm p95·메모리·프레임 | performance/lifecycle probe, 비동기/화면 구성 보고서 | 명시적 미완료. 현재 단일 headless 표본으로 대체 불가 / T20·T21·T24 |
