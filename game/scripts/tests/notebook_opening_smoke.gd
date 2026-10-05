@@ -27,7 +27,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
-		for scenario in ["success", "dialogue", "repeat", "locale", "revision", "reload", "slot", "session", "profile", "close", "escape", "held", "destroy", "large", "disk_invalid"]:
+		for scenario in ["success", "dialogue", "repeat", "locale", "revision", "reload", "slot", "session", "profile", "close", "escape", "held", "destroy", "large", "large_loaded", "disk_invalid"]:
 			await _opening_case(tree, scenario)
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
@@ -40,20 +40,28 @@ func _opening_case(tree: SceneTree, scenario: String) -> void:
 	var view = await _campaign_view(tree, "C3")
 	view._reading_text_scale = 2.0
 	var expected_rows := ""
-	if scenario == "large":
+	var large_case := scenario in ["large", "large_loaded"]
+	if large_case:
 		var fixture := preload("res://scripts/tests/notebook_performance_fixture.gd").build("NB-PERF-L10000")
 		var large := GameState.get_snapshot()
 		large.meta_progress.dialogue_history = fixture.archive
 		large.meta_progress.knowledge_entries[KNOWLEDGE.KEY] = fixture.ledger
 		_expect(StateWriter.new(GameState).install_snapshot(large, GameState.revision, &"LOAD_OPENING_LARGE").ok, "install large opening fixture")
 		_expect(SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", large, GameState.revision, "OPENING_LARGE").ok, "persist large opening fixture")
+		if scenario == "large_loaded":
+			SaveManager._summary_cache.clear()
+			var load_start := Time.get_ticks_usec()
+			var loaded: Dictionary = SaveManager.load_slot(SLOT)
+			var load_ms := (Time.get_ticks_usec() - load_start) / 1000.0
+			_expect(loaded.ok and StateSnapshotValidator.same_persisted_value(loaded.snapshot, large), "cold-cache load preserves complete large snapshot")
+			print("NOTEBOOK_COLD_LOAD_MEASUREMENT: ", JSON.stringify({"locale":TranslationServer.get_locale(), "load_ms":load_ms, "acceptance":"EMPTY_CACHE_SAME_PROCESS_NOT_OS_RESTART"}))
 	var before := GameState.get_snapshot()
 	var paths: Dictionary = SaveManager._slot_paths(SLOT)
 	var disk := FileAccess.get_file_as_bytes(paths.main)
 	var backup_exists := FileAccess.file_exists(paths.backup)
 	var backup := FileAccess.get_file_as_bytes(paths.backup) if backup_exists else PackedByteArray()
 	var start := Time.get_ticks_usec()
-	if scenario == "large":
+	if large_case:
 		var measured := ProfiledHost.new()
 		view.add_child(measured)
 		view._notebook_host = measured
@@ -63,7 +71,7 @@ func _opening_case(tree: SceneTree, scenario: String) -> void:
 	var begin_ms := (Time.get_ticks_usec() - start) / 1000.0
 	var host = view._notebook_host
 	var begin_components := {}
-	if scenario == "large":
+	if large_case:
 		begin_components = {"scope_ms": host.scope_usec / 1000.0, "snapshot_and_launch_ms": host.refresh_start_usec / 1000.0}
 		begin_components.other_ms = begin_ms - begin_components.scope_ms - begin_components.snapshot_and_launch_ms
 	_expect(is_instance_valid(host), "opening accepted: " + scenario)
@@ -148,14 +156,14 @@ func _opening_case(tree: SceneTree, scenario: String) -> void:
 			_expect(SaveManager.inspect_slot(SLOT).available, "restored disk is revalidated")
 			host._loading_retry.pressed.emit()
 		host.set_process(true)
-	if scenario in ["success", "dialogue", "repeat", "locale", "revision", "large", "disk_invalid"]:
+	if scenario in ["success", "dialogue", "repeat", "locale", "revision", "large", "large_loaded", "disk_invalid"]:
 		var ready := await WAIT.ready(tree, host)
 		_expect(ready, "opening completes: " + scenario)
 		if ready:
 			_expect(host.panel.visible and not host._loading.visible and host.panel._reference_editable, "ready panel replaces loading")
 			_expect(host.model._locale == ("en-US" if TranslationServer.get_locale().begins_with("en") else "ko-KR"), "latest locale published")
 			_expect(host.panel._filters.tab == ("dialogue" if scenario == "dialogue" else "clues"), "requested entry tab preserved")
-			if scenario == "large":
+			if large_case:
 				# Run the synchronous oracle afterwards so it cannot consume the worker's
 				# entire lifetime and hide whether preparation yielded scene frames.
 				var baseline := preload("res://scripts/systems/notebook_query.gd").new()
@@ -164,7 +172,7 @@ func _opening_case(tree: SceneTree, scenario: String) -> void:
 				baseline.close()
 				_expect(frames > 0, "large initial preparation yields scene frames")
 				_expect(JSON.stringify(host.model._rows, "", true).sha256_text() == expected_rows, "every large public row preserved")
-				print("NOTEBOOK_OPENING_MEASUREMENT: ", JSON.stringify({"locale":host.model._locale, "begin_ms":begin_ms, "dispatch_ms":dispatch_ms, "worker_wait_frames":frames, "acceptance":"HEADLESS_SINGLE_SAMPLE_ONLY"}))
+				print("NOTEBOOK_OPENING_MEASUREMENT: ", JSON.stringify({"scenario":scenario, "locale":host.model._locale, "begin_ms":begin_ms, "dispatch_ms":dispatch_ms, "worker_wait_frames":frames, "acceptance":"HEADLESS_SINGLE_SAMPLE_ONLY"}))
 				print("NOTEBOOK_OPENING_COMPONENTS: ", JSON.stringify({"locale":host.model._locale, "begin":begin_components, "publication_ms":host.publication_usec / 1000.0, "dispatch_scope_ms":host.scope_usec / 1000.0 - begin_components.scope_ms, "acceptance":"INHERITED_HOST_HEADLESS_SINGLE_SAMPLE"}))
 	else:
 		_expect(candidate.get_ref() == null, "obsolete opening candidate released: " + scenario)

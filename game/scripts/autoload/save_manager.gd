@@ -375,7 +375,7 @@ func load_slot(slot_id: String) -> Dictionary:
 	if not _is_safe_slot_id(slot_id):
 		return {"ok": false, "error_ids": PackedStringArray(["ERR_SAVE_SLOT_ID"])}
 	var paths := _slot_paths(slot_id)
-	var primary := _read_and_validate(paths["main"])
+	var primary := _read_and_validate(paths["main"], true)
 	if bool(primary.get("ok", false)):
 		primary = _promote_legacy(slot_id, primary)
 		if not primary.get("ok", false): return primary
@@ -400,7 +400,7 @@ func load_slot(slot_id: String) -> Dictionary:
 		)
 		if recovery_error != OK:
 			return _load_failure(&"ERR_SAVE_RECOVERY_COPY")
-		backup = _read_and_validate(paths.main)
+		backup = _read_and_validate(paths.main, true)
 		backup = _promote_legacy(slot_id, backup)
 		if not backup.get("ok", false): return _failed_backup_recovery(paths, backup)
 		if backup.snapshot.meta_progress.dialogue_history.has("schema_version"):

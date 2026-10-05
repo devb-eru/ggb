@@ -34,6 +34,7 @@ func run() -> Dictionary:
 	_test_legacy_digest()
 	_test_summary_cache()
 	_test_summary_cache_bounds()
+	_test_loaded_summary_cache()
 	SaveManager.delete_test_slot(SLOT)
 	print("NOTEBOOK_SAVE_SAFETY_CHECKS: ", checks)
 	return {"ok":errors.is_empty(), "errors":errors}
@@ -143,6 +144,32 @@ func _test_summary_cache_bounds() -> void:
 	for path in test_paths:
 		_expect(DirAccess.remove_absolute(ProjectSettings.globalize_path(path)) == OK, "remove owned summary fixture")
 	manager.free()
+	SaveManager.delete_test_slot(SLOT)
+
+
+func _test_loaded_summary_cache() -> void:
+	for recovery in [false, true]:
+		SaveManager.delete_test_slot(SLOT)
+		var state := GameState.make_default_snapshot()
+		_expect(SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", state, 1, "LOAD_CACHE_SEED").ok, "cold reader primary fixture")
+		_expect(SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", state, 2, "LOAD_CACHE_BACKUP").ok, "cold reader backup fixture")
+		var paths: Dictionary = SaveManager._slot_paths(SLOT)
+		if recovery: _write_test_text(paths.main, "corrupt cold reader primary")
+		var manager := SummaryProbe.new()
+		_expect(manager._summary_cache.is_empty(), "fresh reader starts without summary cache")
+		var loaded := manager.load_slot(SLOT)
+		_expect(loaded.ok and loaded.source == ("backup" if recovery else "main"), "cold load retains primary and recovery routing")
+		if loaded.ok:
+			var count := manager.validations
+			var bytes := FileAccess.get_file_as_bytes(paths.main)
+			var summary := manager.inspect_slot(SLOT)
+			_expect(summary.available and summary.run_id == loaded.header.run_id and manager.validations == count, "loaded verified bytes supply subsequent summary without revalidation")
+			_expect(FileAccess.get_file_as_bytes(paths.main) == bytes, "summary reuse never rewrites loaded file")
+			_write_test_text(paths.main, "changed after cold load")
+			count = manager.validations
+			var fallback := manager.inspect_slot(SLOT)
+			_expect(fallback.available and fallback.source == "backup" and manager.validations > count, "post-load mutation rejects cached primary and validates backup")
+		manager.free()
 	SaveManager.delete_test_slot(SLOT)
 
 
