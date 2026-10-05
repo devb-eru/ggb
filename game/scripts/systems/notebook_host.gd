@@ -37,6 +37,7 @@ var _view_dirty := false
 var _view_writable := true
 var _view_delay := -1.0
 var _view_error := ""
+var _reference_job := ""
 
 
 func begin(controller: Control, game_state: Node, save_service: Node, tab: String) -> bool:
@@ -139,13 +140,22 @@ func release_pending_inputs() -> void:
 
 func _process(_delta: float) -> void:
 	if not _suspended: return
+	if not _reference_job.is_empty():
+		var result: Dictionary = saves.notebook_reference_result(_reference_job)
+		if not result.get("pending", false):
+			_reference_job = ""
+			if not _invalid and _same_live_scope():
+				if not result.get("ok", false): _closing = false
+				if not _closing: _complete_reference(result, {})
 	var controller = _controller.get_ref()
 	if not is_instance_valid(controller) or not controller.is_inside_tree() or controller.is_queued_for_deletion():
 		_invalid = true
+		if not _reference_job.is_empty(): saves.cancel_notebook_reference(_reference_job)
 		_held.clear()
 		request_close()
 	elif not _same_live_scope():
 		_invalid = true
+		if not _reference_job.is_empty(): saves.cancel_notebook_reference(_reference_job)
 		_held.clear()
 		request_close()
 	elif game.revision != _checked_revision:
@@ -158,7 +168,7 @@ func _process(_delta: float) -> void:
 
 
 func _finish_close() -> void:
-	if not _closing or not _held.is_empty() or not _suspended: return
+	if not _closing or not _held.is_empty() or not _suspended or not _reference_job.is_empty(): return
 	if not _invalid and _same_live_scope():
 		_remember_view()
 		_flush_view()
@@ -189,6 +199,7 @@ func _finish_close() -> void:
 
 
 func _exit_tree() -> void:
+	if not _reference_job.is_empty(): saves.cancel_notebook_reference(_reference_job)
 	if _suspended and not _invalid and _same_live_scope():
 		_remember_view()
 		_flush_view()
@@ -218,7 +229,7 @@ func _dispatch_tool(action: Callable) -> void:
 
 
 func refresh() -> void:
-	if _closing or not _same_live_scope() or _current_scope() != _scope: return
+	if _closing or not _reference_job.is_empty() or not _same_live_scope() or _current_scope() != _scope: return
 	var ui: Dictionary = panel.capture_view()
 	var state: Dictionary = game.get_snapshot()
 	var result := model.open(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope, TranslationServer.get_locale(), state.meta_progress.knowledge_entries, _controller.get_ref()._notebook_context_node())
@@ -235,7 +246,7 @@ func refresh() -> void:
 
 
 func _request_reference(collection: String, reference: Dictionary, enabled: bool) -> void:
-	if not _same_live_scope() or _closing: return
+	if not _same_live_scope() or _closing or not _reference_job.is_empty(): return
 	pending = {"collection": collection, "reference": reference.duplicate(true), "enabled": enabled, "command_id": ARCHIVE.new_uid()}
 	if not enabled:
 		panel.show_command(_l("고정을 해제하면 다른 보호 이유가 없는 오래된 일반 기록이 정리될 수 있습니다.", "Removing this reference may allow old ordinary records with no other protection to be pruned."), _execute_pending, _cancel_pending)
@@ -244,20 +255,34 @@ func _request_reference(collection: String, reference: Dictionary, enabled: bool
 
 
 func _execute_pending() -> void:
-	if pending.is_empty() or not _same_live_scope() or _closing: return
+	if pending.is_empty() or not _same_live_scope() or _closing or not _reference_job.is_empty(): return
+	if saves.has_method("begin_notebook_reference"):
+		var started: Dictionary = saves.begin_notebook_reference(game, _slot, pending.collection, pending.reference, pending.enabled, _command_scope, _revision, pending.command_id, _same_live_scope)
+		if started.get("pending", false):
+			_reference_job = started.id
+			panel.clear_command()
+			panel.set_reference_editable(false)
+			panel.show_notice(_l("고정 상태를 저장하고 있습니다. 닫기를 누르면 저장 완료 후 닫습니다.", "Saving reference changes. Closing will wait for the save to finish."))
+		else: _complete_reference(started, {})
+		return
 	var before: Dictionary = game.get_snapshot()
 	var result := COMMANDS.set_reference(game, saves, _slot, pending.collection, pending.reference, pending.enabled, _command_scope, _revision, pending.command_id)
+	_complete_reference(result, before)
+
+
+func _complete_reference(result: Dictionary, before: Dictionary) -> void:
+	panel.set_reference_editable(true)
 	if not result.ok:
 		var error_id: String = result.get("error_id", "")
 		if error_id == "NB_REFERENCE_LIMIT":
 			panel.show_notice(_l("책갈피는 50개, 비교 묶음은 12개까지 저장할 수 있습니다. 기존 고정을 해제한 뒤 다시 담아 주세요.", "You can save 50 bookmarks and 12 comparison materials. Remove an existing reference first."))
 			_cancel_pending()
 			return
-		if error_id in ["NB_COMMAND_SCOPE", "NB_COMMAND_STALE_REVISION", "NB_COMMAND_SLOT_UNAVAILABLE"]:
+		if error_id in ["NB_COMMAND_SCOPE", "NB_COMMAND_STALE_REVISION", "NB_COMMAND_SLOT_UNAVAILABLE", "NB_COMMAND_SOURCE_CHANGED"]:
 			panel.show_notice(_l("저장 범위가 바뀌었습니다. 갱신하거나 수첩을 다시 열어 주세요.", "The save scope changed. Refresh or reopen the notebook."))
 			panel.show_command(_l("이전 요청은 저장되지 않았습니다.", "The old request was not saved."), refresh, _cancel_pending)
 			return
-		if _same_live_scope() and StateSnapshotValidator.same_persisted_value(before, game.get_snapshot()) and game.revision != _revision:
+		if not before.is_empty() and _same_live_scope() and StateSnapshotValidator.same_persisted_value(before, game.get_snapshot()) and game.revision != _revision:
 			# Adopt only our verified rollback revision, never an unrelated commit.
 			if not result.get("error_id", "").begins_with("NB_COMMAND_"):
 				_revision = game.revision

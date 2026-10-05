@@ -20,6 +20,9 @@ const PRODUCT_SLOT_IDS := ["slot_01", "slot_02", "slot_03"]
 const SUMMARY_CACHE_LIMIT := 8
 const SUMMARY_CACHE_ENTRY_BYTES := 4096
 var _summary_cache := {}
+var _storage_context := {}
+var _notebook_job: Dictionary = {}
+var _notebook_results := {}
 
 
 func _enter_tree() -> void:
@@ -30,16 +33,100 @@ func _enter_tree() -> void:
 
 
 func get_build_flavor() -> String:
+	if not _storage_context.is_empty(): return _storage_context.flavor
 	var flavor := String(ProjectSettings.get_setting(BUILD_FLAVOR_SETTING, BUILD_FLAVOR))
 	return flavor if flavor in ["demo", "full"] else BUILD_FLAVOR
 
 
 func get_save_root() -> String:
+	if not _storage_context.is_empty(): return _storage_context.root
 	return "user://saves_full" if get_build_flavor() == "full" else SAVE_ROOT
 
 
 func get_source_app_id() -> String:
 	return SOURCE_APP_ID
+
+
+func begin_notebook_reference(game: Node, slot: String, collection: String, reference: Dictionary, enabled: bool, expected_scope: String, expected_revision: int, command_id: String, completion_guard: Callable = Callable()) -> Dictionary:
+	if not _notebook_job.is_empty(): return _load_failure(&"NB_COMMAND_BUSY")
+	if not _is_safe_slot_id(slot): return _load_failure(&"ERR_SAVE_SLOT_ID")
+	if expected_revision != game.revision: return _load_failure(&"NB_COMMAND_STALE_REVISION")
+	if command_id.length() != 32 or not command_id.is_valid_hex_number(): return _load_failure(&"NB_COMMAND_ID")
+	var paths := _slot_paths(slot)
+	paths.temporary = paths.main.get_base_dir().path_join("progress.notebook_" + command_id + ".tmp.json")
+	var snapshot: Dictionary = game.get_snapshot()
+	var request := {"id":command_id, "slot":slot, "collection":collection, "reference":reference.duplicate(true), "enabled":enabled,
+		"scope":expected_scope, "revision":expected_revision, "load_epoch":int(game.load_epoch), "snapshot":snapshot,
+		"paths":paths, "storage":{"flavor":get_build_flavor(), "root":get_save_root()}}
+	var worker = load("res://scripts/systems/notebook_save_worker.gd").new()
+	var thread := Thread.new()
+	if thread.start(worker.prepare.bind(get_script(), request)) != OK: return _load_failure(&"NB_COMMAND_THREAD_START")
+	_notebook_results.erase(command_id)
+	_notebook_job = {"id":command_id, "slot":slot, "paths":paths, "game":weakref(game), "revision":expected_revision,
+		"load_epoch":int(game.load_epoch), "flavor":get_build_flavor(), "root":get_save_root(), "thread":thread, "worker":worker, "cancelled":false,
+		"guard":completion_guard, "guard_enabled":not completion_guard.is_null()}
+	return {"ok":true, "pending":true, "id":command_id}
+
+
+func notebook_reference_result(command_id: String) -> Dictionary:
+	if _notebook_results.has(command_id):
+		var result: Dictionary = _notebook_results[command_id]
+		_notebook_results.erase(command_id)
+		return result
+	return {"ok":true, "pending":true} if _notebook_job.get("id") == command_id else _load_failure(&"NB_COMMAND_UNKNOWN")
+
+
+func cancel_notebook_reference(command_id: String) -> void:
+	if _notebook_job.get("id") == command_id: _notebook_job.cancelled = true
+
+
+func _process(_delta: float) -> void:
+	if _notebook_job.is_empty() or _notebook_job.thread.is_alive(): return
+	var job := _notebook_job
+	var result: Variant = job.thread.wait_to_finish()
+	_notebook_job = {}
+	var completed := _finish_notebook_reference(job, result)
+	_remove_if_exists(job.paths.temporary)
+	while _notebook_results.size() >= 8: _notebook_results.erase(_notebook_results.keys()[0])
+	_notebook_results[job.id] = completed
+
+
+func _exit_tree() -> void:
+	if _notebook_job.is_empty(): return
+	_notebook_job.thread.wait_to_finish()
+	_remove_if_exists(_notebook_job.paths.temporary)
+	_notebook_job = {}
+
+
+func _finish_notebook_reference(job: Dictionary, result: Variant) -> Dictionary:
+	if job.cancelled: return _load_failure(&"NB_COMMAND_CANCELLED")
+	if job.guard_enabled and (not job.guard.is_valid() or not job.guard.call()): return _load_failure(&"NB_COMMAND_SCOPE")
+	var game = job.game.get_ref()
+	if not is_instance_valid(game) or game.revision != job.revision or int(game.load_epoch) != job.load_epoch:
+		return _load_failure(&"NB_COMMAND_STALE_REVISION")
+	if get_build_flavor() != job.flavor or get_save_root() != job.root: return _load_failure(&"NB_COMMAND_SCOPE")
+	if not result is Dictionary: return _load_failure(&"NB_COMMAND_PREPARE")
+	if not result.get("ok", false): return result
+	var worker = job.worker
+	for kind in ["main", "backup"]:
+		var current: Dictionary = worker.read_source(job.paths[kind])
+		if not current.ok or current.stamp != result.source_stamps[kind]: return _load_failure(&"NB_COMMAND_SOURCE_CHANGED")
+	if not result.changed: return {"ok":true, "changed":false}
+	var temporary: Dictionary = worker.read_source(job.paths.temporary)
+	if not temporary.ok or temporary.stamp != result.temporary_stamp: return _load_failure(&"ERR_SAVE_TEMP_VERIFY")
+	for source in result.sources.values():
+		var preserved := _preserve_legacy_source(source)
+		if not preserved.ok: return preserved
+	var promoted := _commit_prepared(job.paths, result.sources.main, result.sources.backup)
+	if not promoted.ok:
+		var confirmed := confirm_snapshot_commit(job.slot, result.transaction)
+		if not confirmed.get("ok", false) or not StateSnapshotValidator.same_persisted_value(result.snapshot, confirmed.snapshot): return promoted
+	# No await between the final revision check, promotion and the live installation.
+	var revision: int = game.commit_validated_snapshot(result.snapshot, job.revision, StringName(result.transaction), PackedStringArray(["meta_progress"]))
+	if revision < 0: return _load_failure(&"NB_COMMAND_INSTALL")
+	if not result.snapshot.meta_progress.knowledge_entries.get("F3_complete", false): _clear_previous_f3(job.slot)
+	save_completed.emit(StringName(job.slot), StringName(result.point))
+	return {"ok":true, "changed":true, "recovered_acknowledgement":not promoted.ok}
 
 
 func list_slot_summaries() -> Array[Dictionary]:
@@ -155,7 +242,6 @@ func save_snapshot(
 		return _save_failure(slot_id, &"ERR_SAVE_CREATE_DIRECTORY")
 
 	var paths := _slot_paths(slot_id)
-	var now := int(Time.get_unix_time_from_system())
 	var previous := _read_and_validate(paths["main"])
 	if previous.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
 	var previous_backup := _read_and_validate(paths.backup)
@@ -177,7 +263,33 @@ func save_snapshot(
 	var run_id: String = previous.get("header", {}).get("run_id", "") if previous.get("ok", false) else ""
 	if run_id.is_empty() or transaction_id.begins_with("NEW_GAME_"):
 		run_id = Crypto.new().generate_random_bytes(16).hex_encode()
-	var header := {
+	var header := _make_save_header(slot_id, save_point_id, revision, transaction_id, run_id, write_schema)
+	var encoded := _encode_payload(header, snapshot)
+
+	var file := FileAccess.open(paths["temporary"], FileAccess.WRITE)
+	if file == null:
+		return _save_failure(slot_id, &"ERR_SAVE_TEMP_OPEN")
+	file.store_string(encoded.text)
+	file.flush()
+	file.close()
+
+	var temp_validation := _read_and_validate(paths["temporary"])
+	if not bool(temp_validation.get("ok", false)):
+		_remove_if_exists(paths["temporary"])
+		return _save_failure(slot_id, &"ERR_SAVE_TEMP_VERIFY")
+	var promoted := _commit_prepared(paths, previous, previous_backup)
+	if not promoted.ok: return _save_failure(slot_id, promoted.error_id)
+
+	save_completed.emit(StringName(slot_id), StringName(save_point_id))
+	var warnings := PackedStringArray()
+	if not snapshot.get("meta_progress", {}).get("knowledge_entries", {}).get("F3_complete", false):
+		warnings = _clear_previous_f3(slot_id)
+	return {"ok": true, "path": paths["main"], "checksum": encoded.checksum, "warning_ids": warnings}
+
+
+func _make_save_header(slot_id: String, save_point_id: String, revision: int, transaction_id: String, run_id: String, write_schema: int) -> Dictionary:
+	var now := int(Time.get_unix_time_from_system())
+	return {
 		"run_id": run_id,
 		"schema_version": write_schema,
 		"design_revision": DESIGN_REVISION,
@@ -200,20 +312,9 @@ func save_snapshot(
 		"checksum_algorithm": "sha256",
 		"checksum": "",
 	}
-	var encoded := _encode_payload(header, snapshot)
 
-	var file := FileAccess.open(paths["temporary"], FileAccess.WRITE)
-	if file == null:
-		return _save_failure(slot_id, &"ERR_SAVE_TEMP_OPEN")
-	file.store_string(encoded.text)
-	file.flush()
-	file.close()
 
-	var temp_validation := _read_and_validate(paths["temporary"])
-	if not bool(temp_validation.get("ok", false)):
-		_remove_if_exists(paths["temporary"])
-		return _save_failure(slot_id, &"ERR_SAVE_TEMP_VERIFY")
-
+func _commit_prepared(paths: Dictionary, previous: Dictionary, previous_backup: Dictionary) -> Dictionary:
 	if FileAccess.file_exists(paths["main"]):
 		# Only a validated primary may replace the last recovery copy.
 		if previous.get("ok", false):
@@ -224,10 +325,10 @@ func save_snapshot(
 			)
 			if backup_error != OK:
 				_remove_if_exists(paths["temporary"])
-				return _save_failure(slot_id, &"ERR_SAVE_BACKUP_COPY")
+				return _load_failure(&"ERR_SAVE_BACKUP_COPY")
 		if DirAccess.remove_absolute(ProjectSettings.globalize_path(paths["main"])) != OK:
 			_remove_if_exists(paths["temporary"])
-			return _save_failure(slot_id, &"ERR_SAVE_REPLACE")
+			return _load_failure(&"ERR_SAVE_REPLACE")
 
 	var promote_error := _promote_temporary(paths)
 	if promote_error != OK:
@@ -236,13 +337,8 @@ func save_snapshot(
 				ProjectSettings.globalize_path(paths["backup"]),
 				ProjectSettings.globalize_path(paths["main"])
 			)
-		return _save_failure(slot_id, &"ERR_SAVE_PROMOTE")
-
-	save_completed.emit(StringName(slot_id), StringName(save_point_id))
-	var warnings := PackedStringArray()
-	if not snapshot.get("meta_progress", {}).get("knowledge_entries", {}).get("F3_complete", false):
-		warnings = _clear_previous_f3(slot_id)
-	return {"ok": true, "path": paths["main"], "checksum": encoded.checksum, "warning_ids": warnings}
+		return _load_failure(&"ERR_SAVE_PROMOTE")
+	return {"ok":true}
 
 
 func _promote_temporary(paths: Dictionary) -> Error:

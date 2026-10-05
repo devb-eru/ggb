@@ -9,6 +9,8 @@ static var _contents: Dictionary = {}
 static var _errors := PackedStringArray()
 static var _loaded := false
 static var _review_identifier: RegEx
+static var _catalog_mutex := Mutex.new()
+static var _identifier_mutex := Mutex.new()
 
 
 static func hint_descriptor(stage: String, level: int) -> Dictionary:
@@ -50,11 +52,13 @@ static func review_metadata(observation: Dictionary, locale: String) -> Dictiona
 			return _error("NB_CONTENT_SEGMENT_IDENTITY")
 	var complete: bool = observation.segments.size() == row.visible_segment_ids.size()
 	var translated: Dictionary = row.locales[language]
+	_identifier_mutex.lock()
 	if _review_identifier == null:
 		_review_identifier = RegEx.new()
 		_review_identifier.compile("\\b(?:NB_[A-Z0-9_]+|[A-FJP][0-9]+(?:[_-][A-Z0-9]+)*)\\b")
 	var title: String = translated.title if complete and _review_identifier.search(translated.title) == null else generic
 	var summary: String = translated.summary if complete and _review_identifier.search(translated.summary) == null else ""
+	_identifier_mutex.unlock()
 	return {
 		"ok": true, "title": title,
 		"summary": summary, "speaker": translated.speaker,
@@ -180,8 +184,10 @@ static func _matches_identity(row: Dictionary, observation: Dictionary) -> bool:
 
 
 static func _load() -> void:
-	if _loaded: return
-	_loaded = true
+	_catalog_mutex.lock()
+	if _loaded:
+		_catalog_mutex.unlock()
+		return
 	for path in CATALOGS:
 		var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
 		if not data is Dictionary or not _integer(data.get("format_version")) or int(data.format_version) != 1 or not data.get("contents") is Dictionary:
@@ -201,6 +207,8 @@ static func _load() -> void:
 					_errors.append("NB_CATALOG_ROW:" + id + ":" + version)
 					continue
 				_contents[id][version] = row
+	_loaded = true
+	_catalog_mutex.unlock()
 
 
 static func _valid_row(row: Variant) -> bool:

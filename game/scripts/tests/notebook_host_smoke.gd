@@ -39,9 +39,12 @@ func run(tree: SceneTree) -> Dictionary:
 	var old_locale := TranslationServer.get_locale()
 	var old_flavor: Variant = ProjectSettings.get_setting("ggb/build_flavor")
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
+	var async_save: Dictionary = await preload("res://scripts/tests/notebook_async_save_smoke.gd").new().run(tree)
+	for message in async_save.errors: _expect(false, "asynchronous reference save: " + message)
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
 		await _prologue(tree)
+	await _async_reference_lifecycle(tree)
 	await _view_preferences(tree)
 	await _campaign(tree)
 	await _deferred_tools(tree)
@@ -53,6 +56,67 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	print("NOTEBOOK_HOST_CHECKS: %d" % checks)
 	return {"ok": errors.is_empty(), "errors": errors, "not_covered": ["OS_IME", "native_mouse_keyboard_completion", "app_restart_gameplay_cursor"]}
+
+
+func _async_reference_lifecycle(tree: SceneTree) -> void:
+	for scenario in ["close", "failure_retry", "slot", "session", "destroy", "profile"]:
+		var view = await _campaign_view(tree, "C3")
+		view._open_notebook()
+		var host = view._notebook_host
+		var rows: Dictionary = host.model.page({"tab":"clues"}, 0, host.model.cache_key())
+		_expect(not rows.items.is_empty(), "asynchronous host has acquired material")
+		if rows.items.is_empty():
+			view.queue_free()
+			await tree.process_frame
+			continue
+		var reference: Dictionary = host.model.detail(rows.items[0].key, host.model.cache_key()).reference
+		var before := GameState.get_snapshot()
+		var paths: Dictionary = SaveManager._slot_paths(SLOT)
+		var disk := FileAccess.get_file_as_bytes(paths.main)
+		# Hold only completion dispatch, leaving the worker and notebook UI running.
+		SaveManager.set_process(false)
+		host._request_reference("bookmarks", reference, true)
+		_expect(not host._reference_job.is_empty() and GameState.get_snapshot() == before, "host keeps original reference until durable completion: " + scenario)
+		var id: String = host._reference_job
+		var started_at := Time.get_ticks_msec()
+		while SaveManager._notebook_job.thread.is_alive():
+			await tree.process_frame
+			if Time.get_ticks_msec() - started_at > 60000:
+				_expect(false, "asynchronous host preparation watchdog")
+				SaveManager.cancel_notebook_reference(id)
+				break
+		match scenario:
+			"close", "failure_retry":
+				host.release_pending_inputs()
+				host.request_close()
+				_expect(host._suspended and not view.visible, "closing waits for pending durable reference")
+				if scenario == "failure_retry":
+					var file := FileAccess.open(SaveManager._notebook_job.paths.temporary, FileAccess.WRITE)
+					file.store_string("owned corrupt candidate")
+					file.close()
+			"slot": view._slot_id = "__test_notebook_other_slot"
+			"session": view.session = view._make_session()
+			"profile": host.view_profile = "another-profile"
+			"destroy": host.free()
+		SaveManager._process(0.0)
+		SaveManager.set_process(true)
+		if scenario != "destroy": host._process(0.0)
+		if scenario == "close":
+			_expect(not host._suspended and view.visible and GameState.get_snapshot().meta_progress.dialogue_history.bookmarks.size() == 1, "successful close restores world only after durable commit")
+		elif scenario == "failure_retry":
+			_expect(host._suspended and not host._closing and not host.pending.is_empty(), "failed close remains open with retry request")
+			_expect(GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(paths.main) == disk, "failed host save has no optimistic state")
+			host._execute_pending()
+			while not host._reference_job.is_empty(): await tree.process_frame
+			_expect(host.pending.is_empty() and GameState.get_snapshot().meta_progress.dialogue_history.bookmarks.size() == 1, "same pending command retries exactly once")
+			host.release_pending_inputs()
+			host.request_close()
+		else:
+			_expect(GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(paths.main) == disk, "obsolete host cannot publish prepared references: " + scenario)
+			if scenario == "destroy": SaveManager.notebook_reference_result(id)
+		view.queue_free()
+		await tree.process_frame
+		await tree.process_frame
 
 
 func _deferred_tools(tree: SceneTree) -> void:
@@ -253,6 +317,7 @@ func _prologue(tree: SceneTree) -> void:
 		host.panel.set_filters({"tab": "clues"})
 		host.panel.show_detail(note_row.key)
 		host.panel.find_child("NotebookReference_comparison", true, false).pressed.emit()
+		while not host._reference_job.is_empty(): await tree.process_frame
 		_expect(GameState.get_snapshot().meta_progress.dialogue_history.entries.size() == prior.meta_progress.dialogue_history.entries.size() + 1, "host captures exactly one raw value when adding it to comparison")
 		_expect(host.panel._selected == note_row.key and host.model.detail(note_row.key, host.model.cache_key()).note_snapshot, "refresh keeps the selected raw card and shows durable original status")
 		_expect(host.model.page({"tab": "clues"}, 0, host.model.cache_key()).count == clue_rows.count, "materialization never duplicates current raw note in host list")
