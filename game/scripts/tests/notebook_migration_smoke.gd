@@ -15,6 +15,26 @@ class F3PromotionFailure extends "res://scripts/autoload/save_manager.gd":
 		return ERR_CANT_CREATE
 
 
+class ImportPromotionFailure extends "res://scripts/autoload/save_manager.gd":
+	var target := ""
+	var fail := true
+	var foreign_file := false
+	func _promote_temporary(paths: Dictionary) -> Error:
+		target = paths.main.get_base_dir()
+		if not fail: return super._promote_temporary(paths)
+		if foreign_file:
+			var file := FileAccess.open(target.path_join("keep.txt"), FileAccess.WRITE)
+			file.store_string("foreign data")
+			file.close()
+		return ERR_CANT_CREATE
+
+
+class ImportLostAcknowledgement extends "res://scripts/autoload/save_manager.gd":
+	func save_snapshot(slot: String, point: String, snapshot: Dictionary, revision: int, transaction: String) -> Dictionary:
+		var result := super.save_snapshot(slot, point, snapshot, revision, transaction)
+		return _load_failure(&"TEST_IMPORT_ACK") if result.get("ok", false) else result
+
+
 class SaveFault:
 	extends Node
 	var real: Node
@@ -49,6 +69,7 @@ func run() -> Dictionary:
 	_validate_f3_failed_promotion()
 	_validate_demo()
 	_validate_demo_rejections()
+	_validate_demo_target_failure()
 	_validate_gallery_and_development()
 	var safety: Dictionary = preload("res://scripts/tests/notebook_save_safety_smoke.gd").new().run()
 	errors.append_array(safety.errors)
@@ -546,6 +567,52 @@ func _validate_demo_rejections() -> void:
 			_expect(GameState.get_snapshot() == live, "rejected import leaves live game unchanged: " + kind)
 		ProjectSettings.set_setting("ggb/build_flavor", "demo")
 		SaveManager.delete_test_slot(SLOT)
+	ProjectSettings.set_setting("ggb/build_flavor", "full")
+
+
+func _validate_demo_target_failure() -> void:
+	ProjectSettings.set_setting("ggb/build_flavor", "demo")
+	SaveManager.delete_test_slot(SLOT)
+	var source := _legacy(CHECKPOINTS.new().snapshot_for("D6").snapshot)
+	_write_source(_path(), source, 1, "SAVE_D5_COMPLETE")
+	var source_path := _path()
+	var original := FileAccess.get_file_as_bytes(source_path)
+	ProjectSettings.set_setting("ggb/build_flavor", "full")
+	var manager := ImportPromotionFailure.new()
+	var live := GameState.get_snapshot()
+	for foreign in [false, true]:
+		manager.foreign_file = foreign
+		var result: Dictionary = manager.import_demo_to_new_slot(SLOT)
+		_expect(not result.get("ok", false) and result.get("error_id") == &"ERR_SAVE_PROMOTE", "import promotion failure surfaced")
+		_expect(not manager.target.is_empty(), "import failure reached real promotion boundary")
+		if foreign:
+			_expect(FileAccess.get_file_as_string(manager.target.path_join("keep.txt")) == "foreign data", "import rollback preserves unrelated files")
+			_expect(result.get("incomplete_slot_id") == manager.target.get_file() and "WARN_IMPORT_CLEANUP" in result.get("warning_ids", []), "incomplete import cleanup is reported")
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(manager.target.path_join("keep.txt")))
+		else:
+			_expect(not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(manager.target)), "failed import releases unused destination directory")
+		_expect(not FileAccess.file_exists(manager.target.path_join("progress.tmp.json")), "failed import discards only its uncommitted candidate")
+		_expect(FileAccess.get_file_as_bytes(source_path) == original and GameState.get_snapshot() == live, "import failure leaves source and live game unchanged")
+		manager.delete_test_slot(manager.target.get_file())
+	manager.fail = false
+	var retry: Dictionary = manager.import_demo_to_new_slot(SLOT)
+	_expect(retry.get("ok", false), "import succeeds after destination fault removed")
+	if retry.get("ok", false):
+		var loaded: Dictionary = manager.load_slot(retry.slot_id)
+		_expect(loaded.get("ok", false) and loaded.snapshot.meta_progress.dialogue_history.entries.size() == source.meta_progress.dialogue_history.entries.size(), "retry installs exactly the original observation count")
+		manager.delete_test_slot(retry.slot_id)
+	_expect(FileAccess.get_file_as_bytes(source_path) == original and GameState.get_snapshot() == live, "successful retry never edits source or current game")
+	manager.free()
+	var lost := ImportLostAcknowledgement.new()
+	var recovered: Dictionary = lost.import_demo_to_new_slot(SLOT)
+	_expect(recovered.get("ok", false) and recovered.get("recovered_acknowledgement", false), "durable import survives lost success acknowledgement")
+	if recovered.get("ok", false):
+		_expect(lost.load_slot(recovered.slot_id).get("ok", false), "acknowledgement recovery keeps committed destination")
+		lost.delete_test_slot(recovered.slot_id)
+	_expect(FileAccess.get_file_as_bytes(source_path) == original and GameState.get_snapshot() == live, "acknowledgement recovery preserves demo source and live game")
+	lost.free()
+	ProjectSettings.set_setting("ggb/build_flavor", "demo")
+	SaveManager.delete_test_slot(SLOT)
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
 
 

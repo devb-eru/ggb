@@ -444,9 +444,33 @@ func import_demo_to_new_slot(source_slot_id: String) -> Dictionary:
 	var state: Dictionary = source["snapshot"].duplicate(true)
 	state.meta_progress.dialogue_history = NOTEBOOK_ROLLOUT.fork_history(state.meta_progress.dialogue_history)
 	state["meta_progress"]["knowledge_entries"]["demo_import_source"] = {"slot_id":source_slot_id,"checksum":source["header"]["checksum"]}
-	var result := save_snapshot(target, "SAVE_FRACTURE_CONFIRMED", state, int(source["header"]["state_revision"]), "DEMO_IMPORT")
+	var root := ProjectSettings.globalize_path(get_save_root())
+	if DirAccess.make_dir_recursive_absolute(root) != OK: return _load_failure(&"ERR_SAVE_CREATE_DIRECTORY")
+	# Reserve an absent directory so failure cleanup never owns an existing slot.
+	if DirAccess.make_dir_absolute(root.path_join(target)) != OK: return _load_failure(&"ERR_IMPORT_NO_EMPTY_SLOT")
+	var transaction := "DEMO_IMPORT_" + Crypto.new().generate_random_bytes(16).hex_encode()
+	var result := save_snapshot(target, "SAVE_FRACTURE_CONFIRMED", state, int(source["header"]["state_revision"]), transaction)
+	if not result.get("ok", false):
+		var committed := confirm_snapshot_commit(target, transaction)
+		if committed.get("ok", false) and StateSnapshotValidator.same_persisted_value(committed.snapshot, state):
+			result = {"ok":true, "recovered_acknowledgement":true}
+		elif not _discard_failed_import(target, transaction):
+			result["warning_ids"] = PackedStringArray(["WARN_IMPORT_CLEANUP"])
+			result["incomplete_slot_id"] = target
 	if result.get("ok", false): result["slot_id"] = target
 	return result
+
+
+func _discard_failed_import(slot_id: String, transaction: String) -> bool:
+	var paths := _slot_paths(slot_id)
+	if FileAccess.file_exists(paths.main) or FileAccess.file_exists(paths.backup): return false
+	var pending := _read_and_validate(paths.temporary)
+	if _is_incompatible(pending): return false
+	if pending.get("ok", false) and (pending.header.get("transaction_id") != transaction or pending.header.get("slot_id") != slot_id): return false
+	if FileAccess.file_exists(paths.temporary):
+		if DirAccess.remove_absolute(ProjectSettings.globalize_path(paths.temporary)) != OK: return false
+	# Non-recursive removal preserves unexpected files and directories.
+	return DirAccess.remove_absolute(ProjectSettings.globalize_path(paths.main.get_base_dir())) == OK
 
 
 func capture_f3_reselect(slot_id: String) -> Dictionary:
