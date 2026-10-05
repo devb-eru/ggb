@@ -1,0 +1,626 @@
+{
+  "baseline": "a4b8c8de8f45df9f3776446c6b129c96e2169009",
+  "scope": "Async initial notebook preparation and completed-controller scope restoration; not full goal acceptance",
+  "sources": [
+    {
+      "path": "game/scripts/systems/notebook_host.gd",
+      "after": "227BF851A74065C863DCEA70E121D2D1777AC7B5462851A471B40E1934838D8E",
+      "before": "3EA9D40936050F9F370826E1E17B14A19FE2B2F854695C1DB34A006293165ACE"
+    },
+    {
+      "path": "game/scripts/systems/bootstrap.gd",
+      "after": "40FAB70ACC5A90CB7DFAAAEAFD27F85EF47AB7DEAA66B8B4B22EC4F0D79B539B",
+      "before": "5B8861132118801BC1B26A3E2A9654957B5B1F6D6B9327A30335381D832E52F4"
+    },
+    {
+      "path": "game/scripts/tests/notebook_host_smoke.gd",
+      "after": "E1C0BD59FB5E4CE9D48BDEC4C827BA5205E5AECF43BCA71D0648E24ADA1255BC",
+      "before": "31AC3056EC94F96CFA94EEAA08CF92E4A38882694B1A225825845143DB3BF6A3"
+    },
+    {
+      "path": "game/scripts/tests/notebook_opening_smoke.gd",
+      "after": "D1AB00BD64A8B864EAD9CDD048382862E9AEC21A7840384BC5A8FE9E0942C34B",
+      "before": null
+    },
+    {
+      "path": "game/scripts/tests/notebook_opening_smoke.gd.uid",
+      "after": "24C91150E9A75306A2BFBEF458E1628AD863FACFEF58EF662B1BE1D4ECB1C90A",
+      "before": null
+    },
+    {
+      "path": "game/scripts/tests/notebook_test_wait.gd",
+      "after": "51BF20CA095EF3D40F168F093A800B65FBA559CBBA2B60D999F7FF1CF880E61A",
+      "before": null
+    },
+    {
+      "path": "game/scripts/tests/notebook_test_wait.gd.uid",
+      "after": "1F9FA69151A535E87F16C4235AC17B69351A10F58CBF2C30E96BDB5F45F1F978",
+      "before": null
+    },
+    {
+      "path": "game/scripts/tests/notebook_authority_archive_smoke.gd",
+      "after": "273F4F11C592EB1D8421CE4779E3CC1CE35D03E5FC44836F5D2BA727AFEB9EF4",
+      "before": "75DE781A28783E642ADE9E7992616028CB0E38BD17BE263DD2A01E0CE90B4151"
+    },
+    {
+      "path": "game/scripts/tests/notebook_basement_smoke.gd",
+      "after": "504E8F73D71E9C0AD18BF616A49E269E41EBD32245B9678A6E757A9F588D26E1",
+      "before": "C5BB6CB7D4C3CE062A8D8EBC854F6E998EB7A33A2941670146DFCA8283646AED"
+    },
+    {
+      "path": "game/scripts/tests/notebook_chapter_one_smoke.gd",
+      "after": "66D9ECCC06BBBDDF06933B2AB6521F808E6991F09762124CD1557EA18C949B77",
+      "before": "4A15BD180E3F693FDC24DDD9C3649B61321B785666273109BC78B106A78FFB8B"
+    },
+    {
+      "path": "game/scripts/tests/notebook_chapter_one_notes_smoke.gd",
+      "after": "133B80C11576729D2E2ABAE8710F52E63A45B4982818B5C0937DB7725EDAE668",
+      "before": "02A3B3A72BF72EB236B37215FD552BF597A6A4ADF495C955A1CFA8239ED14C2D"
+    },
+    {
+      "path": "game/scripts/tests/notebook_fracture_surfaces_smoke.gd",
+      "after": "04537C32FBCD68F5534C83E3B5005475AC33096A91A3E5A4184E87AE229F04B0",
+      "before": "2AB0EE2D977EC990BC7E7359F395ECD19D87A77D2EF589809DA24B42C2C7D9EB"
+    },
+    {
+      "path": "game/scripts/tests/notebook_fracture_smoke.gd",
+      "after": "708517D786DE83031C9875863AB81597D31470CAACCB864EAEABAB689183F76B",
+      "before": "FF3C1A2F69A6677FB16590366207F36370BF4A66C822642715FF8FC9DDEAEB01"
+    },
+    {
+      "path": "game/scripts/tests/notebook_iris_smoke.gd",
+      "after": "87F357008BCD815B8191910632BC6AF5E2B196E8C6E69069A240655618BE2523",
+      "before": "408C8BF327D7DC11A1FF7BE4821C00CC6E99F42D7085A47A983C848F5465539D"
+    },
+    {
+      "path": "game/scripts/tests/notebook_journal_four_display_smoke.gd",
+      "after": "1797F990074CAF586AF6979A271563053D6857A9FA2503AA99F03E6211D52AEE",
+      "before": "5ADBA13D000CD3244B39D7696FCEB9C7287D9B17C72DA17CB9B3827FE2079997"
+    },
+    {
+      "path": "game/scripts/tests/notebook_knowledge_smoke.gd",
+      "after": "997E41A17235326080E790288B0DB12D8A3F404BD423EE58D2653CA45C392185",
+      "before": "60E98E0DCFBEC38199E879C3C60B05132B9FFFD8B0F01D3D707AA45AC455F29D"
+    },
+    {
+      "path": "game/scripts/tests/notebook_luca_smoke.gd",
+      "after": "C07414943135FE9ED4B8C2664A014D9813C3C69549B233A14CA1F8CDD16D0EED",
+      "before": "2E169645C5A76B86A248E942826F586C84B707131A6734922205DEDB48AEE2C4"
+    },
+    {
+      "path": "game/scripts/tests/notebook_mara1_smoke.gd",
+      "after": "E77A8CCB62D8F7957FCF8160C090E27D38B74F7D69076E923A6B242286D6BC90",
+      "before": "9DB337741FECC0C8A9017324DF9CFCF861CC1828803D58A6D58D911C80D4E1F5"
+    },
+    {
+      "path": "game/scripts/tests/notebook_mirror_smoke.gd",
+      "after": "100A5D82CC8DAD10D1716637BBC94713051BE131E504BB0AD9BB8D92D16A95D6",
+      "before": "27A5EE94B8A8D1FCD655EBEAC4ECFEE36D87149004756F2B14FEE094F3FB89B9"
+    },
+    {
+      "path": "game/scripts/tests/notebook_prologue_smoke.gd",
+      "after": "2645C849892B262D73D7EC88396B4A9D45E788E8DA8C835654B112E66AFA55CB",
+      "before": "C3CB490A56E8AFB9A3DCCBB916D6B7304DD4489823F5DD5770CCB6611815587E"
+    },
+    {
+      "path": "game/scripts/tests/notebook_reselect_presentation_smoke.gd",
+      "after": "68E2B69FE60CF2683672E6621ED553E75FF10BFEF14774EB33168B881F5213D5",
+      "before": "82F983E6303CD80C66047E88E76220C4E0BB5D179001B93C89AF3C7B379707A4"
+    },
+    {
+      "path": "game/scripts/tests/notebook_settlement_smoke.gd",
+      "after": "ED8E8C3DFABA2979F95CE2A3006E290CFBC2A80C87ABE20EFD2F955DD92860FA",
+      "before": "517132B210C7375A3C506AF7C95B6394733802A4A4191FAB7FB911BD6D94F952"
+    },
+    {
+      "path": "game/scripts/tests/basement_session_smoke.gd",
+      "after": "B7F4AC4FCBD130966779F85018F67849FA437E17AEB239334C72F84DAE001628",
+      "before": "33B0642D8ABF265B4E5454A220FDC226640C1605AF6F826B8E4A5D6415937498"
+    },
+    {
+      "path": "game/scripts/tests/black_mirror_smoke.gd",
+      "after": "85898C84AC09DE3FC5CB3137F0D00F9D3E5E8BE46A23CFB8A97AE5FDB9EAC56C",
+      "before": "C54C6E83156C60BA960D41C4A8AB5CDF8D1B33AA96E46917B3EE83A02130B852"
+    },
+    {
+      "path": "game/scripts/tests/chapter_one_smoke.gd",
+      "after": "5C7D6D951F80F4AB0B60E2B1684B56011419ACD86F5E8A351815CD93E11ED52F",
+      "before": "6C8F2F0FEAD8E9B3E9ABD1F5368F94CD7CEA6EC5082328EFD3EF6E383B0F14F9"
+    },
+    {
+      "path": "game/scripts/tests/prologue_scene_smoke.gd",
+      "after": "64E983959517214B65685C746147E7251DCD8E1DFF7E1F18215EFD2731B4A867",
+      "before": "EB64B401547F9A2C85259025D2CD94FD49D9D91745CAAE68E2554EFF0F87FF39"
+    },
+    {
+      "path": "game/scripts/chapters/chapter_one_controller.gd",
+      "after": "23E4A45B3B4054DC2DF2A17EE92BFF483F711FC1EFAC9DD310196AFBA7D5BFA8",
+      "before": "01FB7B55AB72F146BBEE4D2B45CD134607DBCE81A78101C449C0099C9E68CF6D"
+    },
+    {
+      "path": "game/scripts/tests/notebook_presentation_smoke.gd",
+      "after": "3B9770A1E32106A8536CDAC687B2C0E842C526458E0920114656456421DE0CAF",
+      "before": "4BCD60B159FD6A173CC011975074D75D7E219ADA04352B5011EAA34B2462FDF7"
+    }
+  ],
+  "runs": [
+    {
+      "directory": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-opening-verified-20261005",
+      "pack_sha256": "65F0E76BD9ECF468427EC871C8B5416BC97044EB98F30CA82CEB45F39F690EEC",
+      "logs": [
+        {
+          "name": "export.out",
+          "stdout_sha256": "3B48EB05ADDBEDC505F4565D1BD1279FFCD6640DE7E2CFEED2E045D73EE43B5C",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "host.out",
+          "stdout_sha256": "BA87110BA7A5C65913BDE3F442874B4A60C52CCA1323FC2F7AA32551D31E6CD8",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_ASYNC_SAVE_MEASUREMENT: {\"acceptance\":\"MEASUREMENT_ONLY_HEADLESS_SINGLE_SAMPLE\",\"begin_ms\":46.681,\"dispatch_ms\":139.248,\"fixture\":{\"body_bytes\":{\"en-US\":118294,\"ko-KR\":131668,\"legacy\":295000},\"bookmarks\":0,\"comparison\":3,\"counts\":{\"legacy\":10000,\"normal\":2000,\"protected\":6},\"fixture_id\":\"NB-PERF-L10000\",\"long_document_utf8_bytes\":0,\"long_documents\":0,\"seed\":\"ggb-notebook-perf-v1\",\"sha256\":\"cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8\",\"utf8_bytes\":5434278},\"max_wait_frame_ms\":7.124,\"worker_frames\":386}",
+            "NOTEBOOK_ASYNC_SAVE_CHECKS: 270",
+            "NOTEBOOK_REFRESH_MEASUREMENT: {\"acceptance\":\"MEASUREMENT_ONLY_HEADLESS_SINGLE_SAMPLE\",\"begin_ms\":132.806,\"dispatch_ms\":246.298,\"fixture\":{\"body_bytes\":{\"en-US\":118294,\"ko-KR\":131668,\"legacy\":295000},\"bookmarks\":0,\"comparison\":3,\"counts\":{\"legacy\":10000,\"normal\":2000,\"protected\":6},\"fixture_id\":\"NB-PERF-L10000\",\"long_document_utf8_bytes\":0,\"long_documents\":0,\"seed\":\"ggb-notebook-perf-v1\",\"sha256\":\"cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8\",\"utf8_bytes\":5434278},\"max_wait_frame_ms\":46.13,\"synchronous_model_ms\":722.609,\"worker_frames\":106}",
+            "NOTEBOOK_HOST_CHECKS: 548",
+            "NOTEBOOK_HOST_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "import.out",
+          "stdout_sha256": "A55CE3B5245C3FEE5B606F636E15E8F4C6DDCBA613E577B610202C8B1E88D40C",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-authority-archive-smoke.out",
+          "stdout_sha256": "23F081972C5E52F727D0420FB7092D8F518403999417A39C880E73FEBB1E2916",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_AUTHORITY_ARCHIVE_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 148, \"covered_id_locales\": 296, \"covered_segment_locales\": 666, \"outcomes\": 48, \"matrix_cases\": 546, \"not_covered\": [\"NP15_minimum_access_and_settlement\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-basement-smoke.out",
+          "stdout_sha256": "2D63CA906A8050CBC2D60C88CE04CB10BB0AF8B25CC7AFAE95B859E0E3BAA0F4",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_BASEMENT_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 56, \"covered_id_locales\": 122, \"covered_segment_locales\": 174, \"choice_recovery_cases\": 44, \"not_covered\": [\"static_puzzle_board_disclosure\", \"D5_transition_producer\", \"app_restart_cursor\", \"OS_input\", \"shared_notebook_UI\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-chapter-one-notes-smoke.out",
+          "stdout_sha256": "C23972DBE6007EE669313F907928031B81EFC9BAFBED051BC508E5297ADAC4C7",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_CHAPTER_ONE_NOTES_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 26, \"covered_id_locales\": 52, \"guard_fixture\": \"BF_PHASE_UNSET\", \"not_covered\": [\"NP05\", \"NP07+\", \"new_notebook_UI\", \"OS_input\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-chapter-one-smoke.out",
+          "stdout_sha256": "D32C975A0E01D0F801F8A78B2CCB3B4A871C11E9E95EC7F5C1810372CBE70A5E",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_CHAPTER_ONE_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 57, \"covered_id_locales\": 114, \"covered_segment_locales\": 190, \"producer_paths\": [\"NP04\"], \"guard_fixtures\": [\"LAYOUT_MISSING\", \"PHASE_UNSET\", \"DESK_VISIT\", \"ALCOVE_VISIT\", \"GAP_VISIT\", \"LINK_VISIT\", \"LINK_OPEN_VISIT\"], \"not_covered\": [\"NP05\", \"NP06\", \"app_restart_cursor\", \"OS_input\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-fracture-smoke.out",
+          "stdout_sha256": "C9C932A25BDD1835C9E95EF8E42B32C04A9BF2B58BF1EA166262EA65700824B6",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_FRACTURE_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 67, \"covered_id_locales\": 134, \"covered_segment_locales\": 154, \"rest_recovery_cases\": 8, \"not_covered\": [\"timed_panel_and_guidance_disclosure\", \"world_question_choice_capture\", \"static_board_disclosure\", \"app_restart_cursor\", \"OS_input\", \"shared_notebook_UI\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-fracture-surfaces-smoke.out",
+          "stdout_sha256": "7B1C57B8EE4264EFE53C6B07B41B7EE759FF712F3E978AEF5AF0EC34AC3BB261",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_FRACTURE_SURFACES_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 50, \"covered_id_locales\": 100, \"not_covered\": [\"durable_app_restart_cursor\", \"OS_input\", \"shared_notebook_UI\", \"other_producers_static_panels\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-iris-smoke.out",
+          "stdout_sha256": "2ED3F3F9BBEC2597EE1B5FAE6A69D2CEC95C9BCDF803E0AC907BFF53E352E78B",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_IRIS_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 45, \"covered_id_locales\": 90, \"covered_segment_locales\": 104, \"outcome_scenarios\": 20, \"not_covered\": [\"other_relationship_producers\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-journal-four-display-smoke.out",
+          "stdout_sha256": "ADA801FEDA37120680093B803E3A903494205300A09E984AB15038C1FF39147D",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_JOURNAL_FOUR_DISPLAY_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 102, \"covered_id_locales\": 204, \"covered_segment_locales\": 242, \"confirmation_matrix\": 384, \"order_surfaces\": 130, \"not_covered\": [\"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-knowledge-smoke.out",
+          "stdout_sha256": "8362AD3903771E358FBB6C1667968501898E1F0A76FD8F0FA9D8738DA610BC42",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_KNOWLEDGE_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-luca-smoke.out",
+          "stdout_sha256": "AB338C1266AE9E8E1CF2B34381B34FD3413300C4C6671212AFED2C8957A50DF4",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_LUCA_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 31, \"covered_id_locales\": 62, \"covered_segment_locales\": 78, \"enum_cases\": 1250, \"not_covered\": [\"other_relationship_producers\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-mara1-smoke.out",
+          "stdout_sha256": "730109AF3B32A31755B933364E00C6B3288C78297545CFA2A596AE5CF377F84E",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_MARA1_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 27, \"covered_id_locales\": 54, \"covered_segment_locales\": 64, \"not_covered\": [\"other_relationship_producers\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-mirror-smoke.out",
+          "stdout_sha256": "DB50E692F0AF03D87650C34E0CBA1AF125C4D718935E6A112807F899E713C1EC",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_MIRROR_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 64, \"covered_id_locales\": 130, \"covered_segment_locales\": 194, \"choice_recovery_cases\": 32, \"guard_fixtures\": [\"MIXTURE_ORDER\"], \"not_covered\": [\"static_puzzle_board_disclosure\", \"app_restart_cursor\", \"OS_input\", \"shared_notebook_UI\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-prologue-smoke.out",
+          "stdout_sha256": "978A84BD6D7DEE996271248AA599AD502AB4D9213E71A03D8A9E3C0B5E2BC3C3",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_PROLOGUE_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 102, \"covered_id_locales\": 346, \"producer_paths\": [\"NP01\", \"NP02\", \"NP03\"], \"other_paths\": \"NOT_COVERED\" }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-reselect-presentation-smoke.out",
+          "stdout_sha256": "94E9B5B0CB9894B3F8276E5C485DF4F73CF1DEB9D7F05D71E609CE142F8BC9FB",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_RESELECT_PRESENTATION_CHECKS: 366",
+            "NOTEBOOK_RESELECT_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "notebook-settlement-smoke.out",
+          "stdout_sha256": "E2214735B400C58AF8AD07E07A4A34D18ED29366633E9ABCD9C4B06B0898E081",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_SETTLEMENT_SMOKE: { \"ok\": false, \"errors\": [\"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"missing settlement button: E6_ENTER\", \"explicit modal retry can recover\", \"unexecuted settlement ID: NB_SETTLEMENT_E6_OPEN:ko-KR\", \"undisplayed settlement segment: NB_SETTLEMENT_E6_OPEN:line_01:ko-KR\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"missing settlement button: E6_OPEN\", \"missing settlement button: E6_ENTER\", \"explicit modal retry can recover\", \"unexecuted settlement ID: NB_SETTLEMENT_E6_OPEN:en-US\", \"undisplayed settlement segment: NB_SETTLEMENT_E6_OPEN:line_01:en-US\"], \"authored_ids\": 75, \"covered_id_locales\": 148, \"covered_segment_locales\": 198, \"routes\": 48, \"matrix_cases\": 384, \"not_covered\": [\"NP15_J4_and_minimum_access\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "opening.out",
+          "stdout_sha256": "FC1D1859B6B4EE089B9825CB69315022748BA8170B79152F59A53779B9C3A8D9",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_OPENING_MEASUREMENT: {\"acceptance\":\"HEADLESS_SINGLE_SAMPLE_ONLY\",\"begin_ms\":916.316,\"dispatch_ms\":313.233,\"locale\":\"en-US\",\"worker_wait_frames\":102}",
+            "NOTEBOOK_OPENING_MEASUREMENT: {\"acceptance\":\"HEADLESS_SINGLE_SAMPLE_ONLY\",\"begin_ms\":911.745,\"dispatch_ms\":367.834,\"locale\":\"ko-KR\",\"worker_wait_frames\":99}",
+            "NOTEBOOK_OPENING_CHECKS: 378",
+            "NOTEBOOK_OPENING_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "query.out",
+          "stdout_sha256": "5991D99B6767EF1A0FE523FA5E8951C98904290E940D466EEDDEB535711ED13A",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_METADATA_CHECKS: 64420",
+            "NOTEBOOK_LEGACY_NOTES_CHECKS: 73",
+            "NOTEBOOK_RESTORE_BUILD_MEASUREMENT: [{\"detail_builds\":1,\"list_builds\":1,\"locale\":\"ko-KR\",\"mode\":\"detail\",\"pair_builds\":1,\"restore_call_ms\":195.85,\"scale\":1.0},{\"detail_builds\":0,\"list_builds\":1,\"locale\":\"ko-KR\",\"mode\":\"list\",\"pair_builds\":1,\"restore_call_ms\":184.764,\"scale\":1.0},{\"detail_builds\":3,\"list_builds\":1,\"locale\":\"ko-KR\",\"mode\":\"comparison\",\"pair_builds\":1,\"restore_call_ms\":203.71,\"scale\":1.0},{\"detail_builds\":1,\"list_builds\":1,\"locale\":\"ko-KR\",\"mode\":\"detail\",\"pair_builds\":1,\"restore_call_ms\":244.552,\"scale\":2.0},{\"detail_builds\":0,\"list_builds\":1,\"locale\":\"ko-KR\",\"mode\":\"list\",\"pair_builds\":1,\"restore_call_ms\":249.696,\"scale\":2.0},{\"detail_builds\":3,\"list_builds\":1,\"locale\":\"ko-KR\",\"mode\":\"comparison\",\"pair_builds\":1,\"restore_call_ms\":204.787,\"scale\":2.0},{\"detail_builds\":1,\"list_builds\":1,\"locale\":\"en-US\",\"mode\":\"detail\",\"pair_builds\":1,\"restore_call_ms\":198.816,\"scale\":1.0},{\"detail_builds\":0,\"list_builds\":1,\"locale\":\"en-US\",\"mode\":\"list\",\"pair_builds\":1,\"restore_call_ms\":182.027,\"scale\":1.0},{\"detail_builds\":3,\"list_builds\":1,\"locale\":\"en-US\",\"mode\":\"comparison\",\"pair_builds\":1,\"restore_call_ms\":198.777,\"scale\":1.0},{\"detail_builds\":1,\"list_builds\":1,\"locale\":\"en-US\",\"mode\":\"detail\",\"pair_builds\":1,\"restore_call_ms\":235.785,\"scale\":2.0},{\"detail_builds\":0,\"list_builds\":1,\"locale\":\"en-US\",\"mode\":\"list\",\"pair_builds\":1,\"restore_call_ms\":229.646,\"scale\":2.0},{\"detail_builds\":3,\"list_builds\":1,\"locale\":\"en-US\",\"mode\":\"comparison\",\"pair_builds\":1,\"restore_call_ms\":198.393,\"scale\":2.0}]",
+            "NOTEBOOK_VIEW_CHECKS: 143",
+            "NOTEBOOK_BROWSE_CHECKS: 213",
+            "NOTEBOOK_VISUAL_CHECKS: 210",
+            "NOTEBOOK_SEARCH_CHECKS: 180",
+            "NOTEBOOK_INVESTIGATION_CHECKS: 300",
+            "NOTEBOOK_PERSON_RETENTION_CHECKS: 64",
+            "NOTEBOOK_MEMORY_DISCLOSURE_CHECKS: 83",
+            "NOTEBOOK_SELF_MARK_CHECKS: 270",
+            "NOTEBOOK_GALLERY_CHECKS: 189",
+            "NOTEBOOK_QUERY_CHECKS: 4675",
+            "NOTEBOOK_QUERY_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        }
+      ]
+    },
+    {
+      "directory": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-completed-scope-baseline-20261005",
+      "pack_sha256": "DDB306092D1BFCB364967EF08EC8BA3FE64853AA651F5B33EF0032921A4662B6",
+      "logs": [
+        {
+          "name": "export.out",
+          "stdout_sha256": "3B48EB05ADDBEDC505F4565D1BD1279FFCD6640DE7E2CFEED2E045D73EE43B5C",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "import.out",
+          "stdout_sha256": "07A3AEB0628AA58E34944684537F1195288F0AED14701A815EB67FC9FCCEEAA7",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "settlement.out",
+          "stdout_sha256": "482E5A988C4D6DBD60CA339DDA7BA2EBF309C47AC742CD0132D1F10A245F43F1",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_SETTLEMENT_SMOKE: { \"ok\": false, \"errors\": [\"seated dinner completed cursor binds new controller scope\", \"seated dinner completed cursor binds new controller scope\", \"seated dinner completed cursor binds new controller scope\", \"seated dinner completed cursor binds new controller scope\", \"seated dinner completed cursor binds new controller scope\", \"seated dinner completed cursor binds new controller scope\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"seated dinner completed cursor binds new controller scope\", \"seated dinner completed cursor binds new controller scope\", \"seated dinner completed cursor binds new controller scope\", \"seated dinner completed cursor binds new controller scope\", \"seated dinner completed cursor binds new controller scope\", \"seated dinner completed cursor binds new controller scope\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\", \"completed name follow-up completed cursor binds new controller scope\", \"missing settlement button: E6_OPEN\", \"skip dialogue route remains available\"], \"authored_ids\": 75, \"covered_id_locales\": 150, \"covered_segment_locales\": 200, \"routes\": 48, \"matrix_cases\": 384, \"not_covered\": [\"NP15_J4_and_minimum_access\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        }
+      ]
+    },
+    {
+      "directory": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-completed-scope-fixed-20261005",
+      "pack_sha256": "28CD6F40C357DD98E30D30C7EBE491C626B08F63DB792CECA8A20FEAA852CEB8",
+      "logs": [
+        {
+          "name": "export.out",
+          "stdout_sha256": "3B48EB05ADDBEDC505F4565D1BD1279FFCD6640DE7E2CFEED2E045D73EE43B5C",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "host.out",
+          "stdout_sha256": "41EF44EFB4D1CD4B1EC35CA29C19BFF36C16ED55C57F517110BF940BFD6E11FA",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_ASYNC_SAVE_MEASUREMENT: {\"acceptance\":\"MEASUREMENT_ONLY_HEADLESS_SINGLE_SAMPLE\",\"begin_ms\":53.044,\"dispatch_ms\":136.756,\"fixture\":{\"body_bytes\":{\"en-US\":118294,\"ko-KR\":131668,\"legacy\":295000},\"bookmarks\":0,\"comparison\":3,\"counts\":{\"legacy\":10000,\"normal\":2000,\"protected\":6},\"fixture_id\":\"NB-PERF-L10000\",\"long_document_utf8_bytes\":0,\"long_documents\":0,\"seed\":\"ggb-notebook-perf-v1\",\"sha256\":\"cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8\",\"utf8_bytes\":5434278},\"max_wait_frame_ms\":7.252,\"worker_frames\":419}",
+            "NOTEBOOK_ASYNC_SAVE_CHECKS: 269",
+            "NOTEBOOK_REFRESH_MEASUREMENT: {\"acceptance\":\"MEASUREMENT_ONLY_HEADLESS_SINGLE_SAMPLE\",\"begin_ms\":149.731,\"dispatch_ms\":303.246,\"fixture\":{\"body_bytes\":{\"en-US\":118294,\"ko-KR\":131668,\"legacy\":295000},\"bookmarks\":0,\"comparison\":3,\"counts\":{\"legacy\":10000,\"normal\":2000,\"protected\":6},\"fixture_id\":\"NB-PERF-L10000\",\"long_document_utf8_bytes\":0,\"long_documents\":0,\"seed\":\"ggb-notebook-perf-v1\",\"sha256\":\"cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8\",\"utf8_bytes\":5434278},\"max_wait_frame_ms\":102.955,\"synchronous_model_ms\":947.182,\"worker_frames\":117}",
+            "NOTEBOOK_HOST_CHECKS: 548",
+            "NOTEBOOK_HOST_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "import.out",
+          "stdout_sha256": "07A3AEB0628AA58E34944684537F1195288F0AED14701A815EB67FC9FCCEEAA7",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "opening.out",
+          "stdout_sha256": "AF671AD21977664700A9284E67566EAFDE734E98D41102A813A36A19B4D2C727",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_OPENING_MEASUREMENT: {\"acceptance\":\"HEADLESS_SINGLE_SAMPLE_ONLY\",\"begin_ms\":1309.694,\"dispatch_ms\":498.266,\"locale\":\"en-US\",\"worker_wait_frames\":153}",
+            "NOTEBOOK_OPENING_MEASUREMENT: {\"acceptance\":\"HEADLESS_SINGLE_SAMPLE_ONLY\",\"begin_ms\":1404.345,\"dispatch_ms\":376.18,\"locale\":\"ko-KR\",\"worker_wait_frames\":146}",
+            "NOTEBOOK_OPENING_CHECKS: 378",
+            "NOTEBOOK_OPENING_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "presentation.out",
+          "stdout_sha256": "14150F93A94C511D2B797B690266FC8916AAA6F8D89E639DD335ECC14D1B8277",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_PRESENTATION_CHECKS: seed 274",
+            "NOTEBOOK_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "reselect.out",
+          "stdout_sha256": "94E9B5B0CB9894B3F8276E5C485DF4F73CF1DEB9D7F05D71E609CE142F8BC9FB",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_RESELECT_PRESENTATION_CHECKS: 366",
+            "NOTEBOOK_RESELECT_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "settlement.out",
+          "stdout_sha256": "2FF2E4F5A57E29C1E562A16E470750CB747604BCC37D01C76C8AC9F74EB6B7E8",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_SETTLEMENT_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 75, \"covered_id_locales\": 150, \"covered_segment_locales\": 200, \"routes\": 48, \"matrix_cases\": 384, \"not_covered\": [\"NP15_J4_and_minimum_access\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        }
+      ]
+    },
+    {
+      "directory": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-completed-scope-verified-20261005",
+      "pack_sha256": "6C8538F8540CE0E77E45B7BEB4E53A839009782EB5F4DDA0A631AB5C28CCF4B3",
+      "logs": [
+        {
+          "name": "basement-session-legacy.out",
+          "stdout_sha256": "521D4BD19859F0C10B0018B1BCE749DA20D38AC399015D83A5EC4F0CD0110FAB",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "BASEMENT_SESSION_CHECKS: 13917",
+            "BASEMENT_SESSION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "black-mirror-legacy.out",
+          "stdout_sha256": "704A31AC6968C197EDD96DAF21564E5FE97C5C3A2449842B599443EE3F8BAE09",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "BLACK_MIRROR_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "chapter-one-legacy.out",
+          "stdout_sha256": "A1A38506621806E152FEDAE541DF8E0EDC0FC4D98D50F5E63CAF5E57BCF92593",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "CHAPTER_ONE_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "export.out",
+          "stdout_sha256": "3B48EB05ADDBEDC505F4565D1BD1279FFCD6640DE7E2CFEED2E045D73EE43B5C",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "import.out",
+          "stdout_sha256": "07A3AEB0628AA58E34944684537F1195288F0AED14701A815EB67FC9FCCEEAA7",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "modal-completed.out",
+          "stdout_sha256": "3C3C78FAFFABE2862970B15B0C2451816AC3D7710175BA333E34A63BC1417B3D",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_MODAL_PRESENTATION_CHECKS: completed 4",
+            "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "modal-resume.out",
+          "stdout_sha256": "7E7BECEC857FF670AF5921388DB5D00CAF1D57EED3198FCE2BCFA6B99A5EFFD1",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_MODAL_PRESENTATION_CHECKS: resume 7",
+            "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "modal-seed.out",
+          "stdout_sha256": "782A7647E080F3E5A6DE6D5E0C3D142344D73F0D5550B251F37C9192EF8001AB",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_MODAL_PRESENTATION_CHECKS: seed 979",
+            "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "presentation-completed.out",
+          "stdout_sha256": "DD96A65E214131D14E4891B39DEFCE30139D8E31213AD9AFE5B3D730476FBDA4",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_PRESENTATION_CHECKS: completed 4",
+            "NOTEBOOK_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "presentation-resume.out",
+          "stdout_sha256": "4840E549A7F005936D0ADB473A8DA5A8A09D5425E426AEE60EB0F5F779BC897F",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_PRESENTATION_CHECKS: resume 7",
+            "NOTEBOOK_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "presentation-seed.out",
+          "stdout_sha256": "9DF2B8A56B6B1372A068443E4462856A84EB779F9C1BA83A79A7F875CCE3523E",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_PRESENTATION_CHECKS: seed 306",
+            "NOTEBOOK_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "prologue-legacy.out",
+          "stdout_sha256": "8AFD1ADE63DD06529E7A89A8AC549BFC403E737AA83BC6E955DF5F8A33040C53",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "PROLOGUE_SCENE_CHECKS: 262",
+            "PROLOGUE_SCENE_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "utility-completed.out",
+          "stdout_sha256": "2E36FA2C24D75A3D9814F0807849B96932B48ACA31FE083891C0196B8CE04219",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_UTILITY_CHECKS: 3",
+            "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "utility-resume.out",
+          "stdout_sha256": "B621D1204BE288D21C6647ABADBEFA5624150991273BAACB9CEDE3115F50A5E2",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_UTILITY_CHECKS: 6",
+            "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        },
+        {
+          "name": "utility-seed.out",
+          "stdout_sha256": "E63DBD9266B210155618B00A3E2B05A95CB28A0045C348030B632E1248262332",
+          "stderr_sha256": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998",
+          "signals": [
+            "NOTEBOOK_UTILITY_CHECKS: 147",
+            "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+          ],
+          "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n"
+        }
+      ]
+    }
+  ],
+  "not_covered": [
+    "native Windows input and IME",
+    "mouse-only and keyboard-only completion",
+    "cold20 warm100 p95 max RAM acceptance",
+    "remaining producer path audit and NB-Q/AQ whole acceptance"
+  ],
+  "interruption": {
+    "kind": "system_suspend_clock_sync",
+    "kernel_power": [
+      42,
+      107
+    ],
+    "kernel_general_id": 1,
+    "delta_ms": 9601151,
+    "old_utc": "2026-10-05T09:04:58.348164Z",
+    "new_utc": "2026-10-05T11:44:59.500000Z",
+    "result": "runner deadline, not product hang evidence"
+  },
+  "failed_attempts": [
+    "initial test WeakRef inference compile error corrected",
+    "original settlement test failures led to ERR-0035 reproduction with a fresh controller",
+    "test return hotspot guessed as GO_M1_CENTRAL_HALL, corrected to actual BACK before final validation"
+  ],
+  "rollout": false
+}

@@ -146,6 +146,8 @@ func _route(tree: SceneTree, route: String) -> void:
 	for id in ["MOVE_CORRIDOR", "D6_MOVE", "D6_REST"]:
 		_expect(_entry("NB_FRACTURE_" + id).protection_reasons.is_empty(), "routine navigation/anticipation remains ordinary history instead of automatic permanent evidence")
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	for entry in _archive().entries:
 		if entry.get("record_class") == "authored":

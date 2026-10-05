@@ -68,11 +68,11 @@ func run(tree: SceneTree) -> Dictionary:
 				for alert in [0, 4]:
 					for index in range(2):
 						print("AUTHORITY_ARCHIVE_PHASE: ", locale, " ", actor, " outcome ", bond, "/", alert, "/", index)
-						_outcome(actor, bond, alert, index)
+						await _outcome(actor, bond, alert, index)
 			print("AUTHORITY_ARCHIVE_PHASE: ", locale, " ", actor, " failures")
 			_failures(actor)
 			print("AUTHORITY_ARCHIVE_PHASE: ", locale, " ", actor, " legacy")
-			_legacy(actor)
+			await _legacy(actor)
 		for id in diagnostic.content_ids:
 			if not String(id).begins_with(EDGAR.PREFIX) and not String(id).begins_with(MARA2.PREFIX): continue
 			_expect(covered.has(id + ":" + locale), "unexecuted authority/archive ID: " + id + ":" + locale)
@@ -256,6 +256,8 @@ func _outcome(actor: String, bond: int, alert: int, index: int) -> void:
 			_expect("knowledge_source:" + note.revision_uid in resolved.entry.protection_reasons, "cited source gains the exact research revision protection")
 	_expect(not view.session.act(actor + "_choose", outcome).ok and GameState.get_snapshot() == after, "relation reward cannot be applied twice")
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == after, "research rereading is read-only")
 	_reload("completed research record")
@@ -424,6 +426,8 @@ func _legacy(actor: String) -> void:
 	_install(state)
 	_present()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(_ledger().revisions.is_empty() and _count("NB_" + actor.to_upper() + "_RECORD") == 0, "old completion does not fabricate a new research acquisition")
 	_collect()

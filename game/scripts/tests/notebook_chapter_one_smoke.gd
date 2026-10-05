@@ -446,6 +446,8 @@ func _persistence(view: Node, tree: SceneTree) -> void:
 	_expect(GameState.get_snapshot().meta_progress.dialogue_history.entries.back().record_class == "unmapped", "old displayed feedback remains explicitly unmapped")
 	var before_read := GameState.get_snapshot()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == before_read, "old notebook viewing never backfills source IDs")
 	await tree.process_frame

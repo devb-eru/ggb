@@ -46,7 +46,7 @@ func run(tree: SceneTree) -> Dictionary:
 		for route in ["bedroom", "capsule"]: _sleep(route)
 		_guidance()
 		_demo()
-		_questions()
+		await _questions()
 		await _failures(tree)
 		for key in TEXTS.authored_rows(): _expect(covered.has(TEXTS.PREFIX + key + ":" + locale), "unexecuted surface: " + key + ":" + locale)
 	view.queue_free()
@@ -187,6 +187,8 @@ func _questions() -> void:
 	_expect(_count("E_HUB") == 1 and view.session.stage() == "E_HUB", "destination board appears only after the report has finished")
 	var before := GameState.get_snapshot()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == before, "notebook re-reading does not create board observations or replay actions")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok and StateSnapshotValidator.same_persisted_value(before, GameState.get_snapshot()), "surface evidence survives real JSON reload")

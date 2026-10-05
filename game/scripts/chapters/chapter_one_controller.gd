@@ -176,10 +176,12 @@ func _restore_presentation() -> bool:
 	var state: Dictionary = session.snapshot()
 	var cursor := PRESENTATION.read(state)
 	if not PRESENTATION.restorable(cursor, state) or cursor.family != PRESENTATION.family(self): return false
+	# A validated restored screen belongs to this controller's current load scope,
+	# including completed/utility/modal screens that do not replay dialogue.
+	_presentation_scope = _recorded_choice_scope()
 	if cursor.phase == "completed": return true
 	if cursor.kind == "utility": return _restore_utility(cursor.utility)
 	if cursor.kind == "modal": return _restore_recorded_modal(cursor)
-	_presentation_scope = _recorded_choice_scope()
 	_history_recorded_index = int(cursor.index)
 	super._show_dialogue(PRESENTATION.localized_lines(cursor, TranslationServer.get_locale()), PRESENTATION.callable_for(self, cursor.after), int(cursor.index))
 	return true

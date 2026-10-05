@@ -366,6 +366,8 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._dismiss_dialogue_for_test()
 	var before_history_open := GameState.get_snapshot()
 	view._open_dialogue_history()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before inspection")
 	var history_body := (view._modal_body.find_child("HistoryTranscript", true, false) as Label).text
 	_expect(history_body.contains("Viewed history line") and not history_body.contains("Not yet viewed"), "history viewer excludes unshown sentence")
 	view._close_modal()
@@ -519,16 +521,22 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	_expect(StateWriter.new(GameState).install_snapshot(before_choice_fixture, GameState.revision, &"CHOICE_SAVE_RESTORE").get("ok", false), "restore state after choice failure test")
 	view._render_room()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before inspection")
 	_expect(view._modal_active, "chapter notebook opens")
 	_expect(view._modal_body.get_child_count() == 4, "notebook reuses common scroll without stale modal children")
 	var pages := (view._modal_body.get_child(2).get_child(0) as Label).text
 	_expect(pages.contains("주방의 규칙적인 진동") and pages.contains("표식"), "chapter notebook displays both prologue and current records")
 	view._close_modal()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before inspection")
 	_expect(view._modal_body.get_child_count() == 4, "same-frame notebook reopen has no duplicate children")
 	view._close_modal()
 	view._apply_reading_text_scale(2.0)
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before inspection")
 	_expect(view._modal_body.get_child(2).get_child(0).get_theme_font_size("font_size") == 44, "Notebook respects 200 percent reading text scale")
 	view._close_modal()
 	var field_texts = preload("res://scripts/ui/field_notebook_texts.gd")
@@ -573,6 +581,8 @@ func _validate_view(tree: SceneTree, session: ChapterOneSession) -> void:
 	view._render_room()
 	var hint_before := GameState.get_snapshot()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before inspection")
 	var hint_button := view._modal_body.get_node_or_null("ClockHintsButton") as Button
 	_expect(hint_button != null, "B3 notebook offers requested hints")
 	if hint_button != null:

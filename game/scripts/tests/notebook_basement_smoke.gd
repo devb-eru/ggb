@@ -177,6 +177,8 @@ func _route(tree: SceneTree) -> void:
 		_expect(source.ok and source.entry.observation.content_id != "NB_BASEMENT_HEART_PULL_AUXILIARY", "event-written release note cannot cite its not-yet-displayed result dialogue")
 	var before_read := GameState.get_snapshot()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	for entry in _archive().entries:
 		if entry.get("record_class") == "authored":

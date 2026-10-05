@@ -218,6 +218,12 @@ func _silent_movement_locale(tree: SceneTree) -> void:
 		view = _view(tree, family_index)
 		_expect(not view._dialogue_active, "reload cannot reveal suppressed movement feedback: " + str(family_index))
 		_expect(StateSnapshotValidator.same_persisted_value(archived, GameState.get_snapshot().meta_progress.dialogue_history), "silent reload cannot append a hidden or replayed line: " + str(family_index))
+		_expect(view._presentation_scope == view._recorded_choice_scope(), "completed restore binds current scope: " + str(family_index))
+		button = view._hotspot_layer.get_node_or_null("BACK")
+		_expect(button != null, "restored room exposes return movement")
+		if button != null: button.pressed.emit()
+		_expect(GameState.get_value("loop_state.location_id", "") == "M1_CENTRAL_HALL" and not view._dialogue_active, "first silent movement after restore succeeds: " + str(family_index))
+		_expect(CURSOR.read(GameState.get_snapshot()).phase == "completed", "post-load movement keeps durable completion")
 		view.queue_free()
 		await tree.process_frame
 
@@ -262,6 +268,10 @@ func _silent_manipulation(tree: SceneTree) -> void:
 			_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "silent manipulation reload")
 			view = _view(tree, 0)
 			_expect(not view._dialogue_active and StateSnapshotValidator.same_persisted_value(archive, GameState.get_snapshot().meta_progress.dialogue_history), "silent manipulation restart cannot repeat old dialogue")
+			button = view._hotspot_layer.get_node_or_null("J1_FLIP_0" if stage == "J1" else "B3_FLIP")
+			_expect(button != null, "restored puzzle exposes another manipulation")
+			if button != null: button.pressed.emit()
+			_expect(not (view.session.local_state().j1_front[0] if stage == "J1" else view.session.local_state().board.library_back), "first silent puzzle input after restore succeeds")
 			view.queue_free()
 			await tree.process_frame
 	TranslationServer.set_locale(original)

@@ -201,6 +201,8 @@ func _persistence_and_legacy(tree: SceneTree) -> void:
 	view._dismiss_dialogue_for_test()
 	var before_read := GameState.get_snapshot()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == before_read, "existing notebook consumer never writes acquisition or resolves hypotheses")
 	view.queue_free()

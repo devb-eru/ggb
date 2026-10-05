@@ -120,6 +120,8 @@ func _case(tree: SceneTree, kind: String) -> void:
 		original._resume_reselect(target)
 	var stale_origin: WeakRef = weakref(original)
 	original._open_notebook()
+	if is_instance_valid(original._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(original.get_tree(), original._notebook_host), "notebook model ready before read-only inspection")
 	await _frames(tree)
 	_expect(original._notebook_is_open(), "unified notebook can overlay the copy notice")
 	original._close_modal()

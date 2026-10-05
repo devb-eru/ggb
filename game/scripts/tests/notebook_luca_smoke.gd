@@ -55,9 +55,9 @@ func run(tree: SceneTree) -> Dictionary:
 		TranslationServer.set_locale(locale)
 		_evidence()
 		_enum_matrix()
-		for outcome in ["full_disclosure", "stabilize_first"]: _outcome(outcome)
+		for outcome in ["full_disclosure", "stabilize_first"]: await _outcome(outcome)
 		_failures()
-		_legacy()
+		await _legacy()
 		for id in CONTENT.diagnostics().content_ids:
 			if not String(id).begins_with(NOTES.PREFIX): continue
 			_expect(covered.has(id + ":" + locale), "unexecuted Luca content: " + id + ":" + locale)
@@ -204,6 +204,8 @@ func _outcome(outcome: String) -> void:
 		if resolved.ok: _expect(resolved.entry.observation.content_id not in [NOTES.PREFIX + "RISK", NOTES.PREFIX + "STABLE"], "record cannot cite the future choice response")
 	_expect(not view.session.act("luca_choose", outcome).ok and GameState.get_snapshot() == after, "completed choice cannot repeat relationship rewards")
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == after, "rereading does not verify awakening safety")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "research record and result order reload")
@@ -298,6 +300,8 @@ func _legacy() -> void:
 	_install(old)
 	_present()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(_ledger().revisions.is_empty() and _count("RECORD") == 0 and _count("RISK") == 0, "old completion does not backfill record or response")
 	_collect()

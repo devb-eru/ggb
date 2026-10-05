@@ -279,6 +279,8 @@ func _validate_live_retry(tree: SceneTree) -> void:
 	var pending: Dictionary = view._pending_notebook.duplicate(true)
 	_expect(pending.has("NOTE_P_PULSE"), "failed event keeps frozen retry request")
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	_expect(GameState.get_snapshot() == before and view._pending_notebook == pending and FileAccess.get_file_as_bytes(paths.main) == bytes, "readonly notebook never flushes pending gameplay")
 	view._close_modal()
 	var exits: Array = []

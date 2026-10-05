@@ -215,6 +215,8 @@ func _route(tree: SceneTree, language: String) -> void:
 	_expect(preload("res://scripts/systems/notebook_knowledge.gd").validate(ledger, state.meta_progress.dialogue_history).ok and ledger.get("revision") == 9, "nine actual note actions survive the first physical reset")
 	_expect(view._save_progress() and GameState.get_snapshot() == state, "departing prologue cannot overwrite permanent notes with reset defaults")
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == state, "notebook reopen is readonly after reset")
 	_collect(language)

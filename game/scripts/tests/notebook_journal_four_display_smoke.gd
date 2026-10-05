@@ -60,7 +60,7 @@ func run(tree: SceneTree) -> Dictionary:
 		_read_route(31, "missing", 0)
 		_read_route(31, "original", 0)
 		await _failures(tree)
-		_legacy()
+		await _legacy()
 		for id in diagnostic.content_ids:
 			if not String(id).begins_with(NOTES.PREFIX): continue
 			_expect(covered.has(id + ":" + language), "undisplayed ID: " + id + ":" + language)
@@ -313,6 +313,8 @@ func _legacy() -> void:
 	_install(state)
 	_present()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(_count("READ_BODY") == 0 and _ledger().revisions.is_empty(), "old flags and notebook opening cannot invent J4 reading or acquisition")
 

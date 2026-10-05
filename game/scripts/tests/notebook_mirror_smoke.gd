@@ -308,6 +308,8 @@ func _failures(tree: SceneTree) -> void:
 	_expect(not bad.ok and invalid == invalid_before, "source mismatch cannot fabricate an event note")
 	var readonly := GameState.get_snapshot()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	for entry in _archive().entries:
 		if entry.get("record_class") == "authored":

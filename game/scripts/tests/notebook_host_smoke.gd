@@ -80,6 +80,7 @@ func _refresh_lifecycle(tree: SceneTree) -> void:
 			_expect(StateWriter.new(GameState).install_snapshot(state, GameState.revision, &"LOAD_REFRESH_LARGE").ok, "install large refresh fixture")
 			_expect(SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", state, GameState.revision, "REFRESH_LARGE").ok, "persist large refresh fixture")
 		view._open_notebook()
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 		var host = view._notebook_host
 		host.set_process(false)
 		if scenario == "large": host.panel.set_filters({"tab":"dialogue", "all_sections":true})
@@ -171,6 +172,7 @@ func _async_reference_lifecycle(tree: SceneTree) -> void:
 	for scenario in ["close", "failure_retry", "slot", "session", "destroy", "profile"]:
 		var view = await _campaign_view(tree, "C3")
 		view._open_notebook()
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 		var host = view._notebook_host
 		var rows: Dictionary = host.model.page({"tab":"clues"}, 0, host.model.cache_key())
 		_expect(not rows.items.is_empty(), "asynchronous host has acquired material")
@@ -234,6 +236,7 @@ func _deferred_tools(tree: SceneTree) -> void:
 		for boundary in ["live", "reload", "slot", "session", "reopen", "menu"]:
 			var view = await _campaign_view(tree, "C3")
 			view._open_notebook()
+			_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 			var tool := view._notebook_host.panel.find_child(tool_id, true, false) as Button
 			_expect(tool != null, "deferred tool is exposed: " + tool_id)
 			var generation: int = view._choice_modal_generation
@@ -272,6 +275,7 @@ func _view_preferences(tree: SceneTree) -> void:
 	var before := GameState.get_snapshot()
 	var disk_before: Dictionary = SaveManager.load_slot(SLOT).snapshot
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	var host = view._notebook_host
 	_expect(host.model.investigation_available() and host.model._investigation == "C3", "actual cleaner controller supplies current investigation")
 	var store = host.view_store
@@ -294,6 +298,7 @@ func _view_preferences(tree: SceneTree) -> void:
 	_expect(initial.source == "primary" and initial.state.general.selected == clue and clue in initial.state.seen, "host close flushes selected card and its read state to a real scoped sidecar")
 	_expect(GameState.get_snapshot() == before and StateSnapshotValidator.same_persisted_value(SaveManager.load_slot(SLOT).snapshot, disk_before), "reading and preference writes change neither runtime nor saved gameplay")
 	view._open_dialogue_history()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	_expect(host.panel._selected == host.model.latest_dialogue_key(), "first actual history-menu entry opens last line of latest session")
 	rows = host.model.page({"tab": "dialogue"}, 0, host.model.cache_key())
@@ -305,6 +310,7 @@ func _view_preferences(tree: SceneTree) -> void:
 	var both: Dictionary = store.load_view(scope, frontier)
 	_expect(both.state.dialogue.selected == line and StateSnapshotValidator.same_persisted_value(both.state.general, initial.state.general), "history entry keeps an independent last-view cursor")
 	view._open_dialogue_history()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	for frame in range(8): await tree.process_frame
 	_expect(host.panel._selected == line and host.panel._seen.has(line), "reopening actual history restores its own stable line and badge")
@@ -315,6 +321,7 @@ func _view_preferences(tree: SceneTree) -> void:
 	var after_history: Dictionary = store.load_view(scope, frontier)
 	_expect(StateSnapshotValidator.same_persisted_value(after_history.state.general, initial.state.general) and after_history.state.dialogue.selected == line, "visiting another tab from history cannot overwrite general or dialogue entry state")
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	for frame in range(8): await tree.process_frame
 	_expect(host.panel._selected == clue and host.panel._filters.tab == "clues" and host.panel._seen.has(clue), "N entry restores general material after history-menu use")
@@ -333,6 +340,7 @@ func _view_preferences(tree: SceneTree) -> void:
 	before = GameState.get_snapshot()
 	disk_before = SaveManager.load_slot(SLOT).snapshot
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	for frame in range(8): await tree.process_frame
 	_expect(host._view_scope == scope and host.panel._selected == clue and host.panel._seen.has(clue), "fresh controller and load epoch retain same-run UI preferences")
@@ -346,6 +354,7 @@ func _view_preferences(tree: SceneTree) -> void:
 	_expect(view.visible and not view._notebook_is_open() and FileAccess.get_file_as_bytes(files.main) == persisted, "failed sidecar write restores world and keeps last valid preferences")
 	_expect(GameState.get_snapshot() == before and StateSnapshotValidator.same_persisted_value(SaveManager.load_slot(SLOT).snapshot, disk_before), "sidecar failure never rewrites gameplay save")
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	for frame in range(8): await tree.process_frame
 	host.panel.show_detail(clue)
@@ -382,6 +391,7 @@ func _prologue(tree: SceneTree) -> void:
 	view._prologue_history_index = recorded_index
 	view._dialogue_next.grab_focus()
 	view._notebook_button.pressed.emit()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "input entry model ready")
 	var host = view._notebook_host
 	_expect(is_instance_valid(host), "mouse notebook entry opens during dialogue")
 	if not is_instance_valid(host):
@@ -414,6 +424,7 @@ func _prologue(tree: SceneTree) -> void:
 	_expect(view._dialogue_index != index or not view._dialogue_active, "original dialogue can continue after close")
 	_drain(view)
 	view._open_dialogue_history()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	_expect(host.panel._filters.tab == "dialogue", "menu history shares host with dialogue entry tab")
 	var rows: Dictionary = host.model.page({"tab": "dialogue"}, 0, host.model.cache_key())
@@ -442,6 +453,7 @@ func _prologue(tree: SceneTree) -> void:
 	before = GameState.get_snapshot()
 	var choice: Dictionary = view._choice_history_context.duplicate(true)
 	view._unhandled_input(_key(KEY_N, true))
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "input entry model ready")
 	host = view._notebook_host
 	_expect(is_instance_valid(host), "N opens during actual P3 choice")
 	view._on_dialogue_choice_pressed(0)
@@ -543,6 +555,7 @@ func _campaign(tree: SceneTree) -> void:
 	var request: Dictionary = view._recorded_modal_request
 	var before := GameState.get_snapshot()
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	var host = view._notebook_host
 	_expect(is_instance_valid(host), "campaign choice can be suspended")
 	view._recorded_choice_pressed(request, 0)
@@ -554,6 +567,7 @@ func _campaign(tree: SceneTree) -> void:
 	# The same inherited Timer is used by B2; do not replace or restart it.
 	view._edgar_timer.start(6.0)
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	var remaining: float = view._edgar_timer.time_left
 	await tree.create_timer(0.15).timeout
@@ -574,6 +588,7 @@ func _campaign(tree: SceneTree) -> void:
 	await _pause_points(tree)
 	view = await _campaign_view(tree, "C3")
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	_expect(host.panel.find_child("CleanerQuantityTable", true, false) != null and host.panel.find_child("ClockHintsButton", true, false) != null, "quantity helper and explicit hint request retained as separate tools")
 	before = GameState.get_snapshot()
@@ -590,6 +605,7 @@ func _campaign(tree: SceneTree) -> void:
 	_expect(after_tool == before, "opening helper changes no puzzle, relationships or archive")
 	view._close_modal()
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	view.queue_free()
 	await tree.process_frame
@@ -599,6 +615,7 @@ func _campaign(tree: SceneTree) -> void:
 	view._confirm_ending("reality")
 	request = view._recorded_modal_request
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	view.notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
 	view.notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
@@ -607,6 +624,7 @@ func _campaign(tree: SceneTree) -> void:
 	await tree.process_frame
 	view._close_modal()
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
 	var stale_key: String = host.model.cache_key()
 	GameState.load_epoch += 1
@@ -633,6 +651,7 @@ func _pause_points(tree: SceneTree) -> void:
 	var before := GameState.get_snapshot()
 	var remaining: float = view._edgar_timer.time_left
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	await tree.create_timer(0.2).timeout
 	_expect(GameState.get_snapshot() == before and is_equal_approx(view._edgar_timer.time_left, remaining), "actual B2 visit neither advances nor restarts while notebook open")
 	view._close_modal()
@@ -645,6 +664,7 @@ func _pause_points(tree: SceneTree) -> void:
 	_expect(view._modal_active, "J4 confirmation actually opens")
 	var button: Button = view._modal_body.get_child(4)
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	before = GameState.get_snapshot()
 	await tree.create_timer(0.6).timeout
 	_expect(button.disabled and GameState.get_snapshot() == before, "J4 accept delay cannot elapse behind notebook")
@@ -672,6 +692,7 @@ func _physical(tree: SceneTree) -> void:
 	_expect(not view._notebook_is_open() and view._modal_active, "reality N still opens distinct physical notebook")
 	view._close_modal()
 	view._open_dialogue_history()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	_expect(view._notebook_is_open(), "history menu in reality still accesses captured observations")
 	view._close_modal()
 	view.queue_free()
@@ -700,6 +721,7 @@ func _visual_materials(tree: SceneTree) -> void:
 	view._dialogue_index = line_index
 	view._dialogue_active = false
 	view._open_notebook()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	var host = view._notebook_host
 	_expect(is_instance_valid(host), "notebook opens over the actual pending overlay board")
 	if not is_instance_valid(host):
@@ -752,6 +774,7 @@ func _developer_overlay(tree: SceneTree) -> void:
 		var host = view._notebook_host
 		var before := GameState.get_snapshot()
 		_expect(not developer.launch_button.visible, "opening notebook synchronously hides launcher before next frame")
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, host), "developer overlay model ready")
 		for frame in range(2): await tree.process_frame
 		_expect(not developer.launch_button.visible and developer.launch_button.focus_mode == Control.FOCUS_NONE, "notebook excludes developer launcher: " + boundary)
 		for pressed in [true, false]:

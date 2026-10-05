@@ -59,9 +59,9 @@ func run(tree: SceneTree) -> Dictionary:
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
 		_evidence()
-		for scenario in SCENARIOS: _outcome(scenario)
+		for scenario in SCENARIOS: await _outcome(scenario)
 		_failures()
-		_legacy()
+		await _legacy()
 		for id in CONTENT.diagnostics().content_ids:
 			if not String(id).begins_with(NOTES.PREFIX): continue
 			_expect(covered.has(id + ":" + locale), "unexecuted Iris content: " + id + ":" + locale)
@@ -172,6 +172,8 @@ func _outcome(scenario: Array) -> void:
 		if resolved.ok: _expect(not String(resolved.entry.observation.content_id).begins_with(NOTES.PREFIX + "CONFESSION_"), "record cannot cite a confession that occurs after its commit")
 	_expect(not view.session.act("iris_choose", scenario[2]).ok and GameState.get_snapshot() == after, "completed choice is not farmable")
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == after, "rereading cannot infer a stronger confession")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "outcome JSON reload")
@@ -273,6 +275,8 @@ func _legacy() -> void:
 	_install(old)
 	_present()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(_ledger().revisions.is_empty() and _count("RECORD") == 0 and _count("CONFESSION_INDIRECT") == 0, "old completion and rereading cannot backfill records or confession")
 	_collect()

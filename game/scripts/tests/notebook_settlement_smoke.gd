@@ -63,7 +63,7 @@ func run(tree: SceneTree) -> Dictionary:
 			for known in [false, true]:
 				for choice in ["write", "call", "joke"]: _mara2_route(outcome, known, choice)
 		_failures()
-		_legacy()
+		await _legacy()
 		_rule_matrix()
 		for id in diagnostic.content_ids:
 			if not String(id).begins_with(NOTES.PREFIX): continue
@@ -291,6 +291,8 @@ func _legacy() -> void:
 	_install(state)
 	_present()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(_ledger().revisions.is_empty() and _count(NOTES.PREFIX + "NAME_RECORD") == 0, "old name flag does not fabricate a new acquisition")
 
@@ -334,14 +336,25 @@ func _install(state: Dictionary) -> void:
 	serial += 1
 	_expect(StateWriter.new(GameState).install_snapshot(state, GameState.revision, StringName("NB_SETTLEMENT_FIXTURE_%d" % serial)).ok, "fixture install")
 	_expect(SaveManager.save_snapshot(SLOT, "SAVE_BROKEN_RESET_COMPLETE", GameState.get_snapshot(), GameState.revision, "NB_SETTLEMENT_FIXTURE_%d" % serial).ok, "fixture save")
-	if view != null: view._render_room()
+	if view != null:
+		view._render_room()
+		# Synthetic fixtures intentionally reuse a controller with a fresh test state.
+		# Real load behavior is tested separately with a new controller in _reload.
+		view._presentation_scope = view._recorded_choice_scope()
 
 
 func _reload(label: String) -> void:
 	var before := GameState.get_snapshot()
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, label + " JSON load")
 	_expect(StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), before), label + " exact saved state")
-	view._render_room()
+	var parent := view.get_parent()
+	parent.remove_child(view)
+	view.queue_free()
+	view = VIEW.new()
+	view.configure_session(SLOT, "MORNING_ROUTE")
+	parent.add_child(view)
+	_expect(not view._dialogue_active and not view._modal_active, label + " completed cursor does not replay")
+	_expect(view._presentation_scope == view._recorded_choice_scope(), label + " completed cursor binds new controller scope")
 	_present()
 
 

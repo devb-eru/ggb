@@ -421,6 +421,8 @@ func run(tree: SceneTree) -> Dictionary:
 	var legacy_notes := ["주방의 규칙적인 진동", "Unknown legacy note"]
 	prologue._progress["notebook_entries"] = legacy_notes.duplicate()
 	prologue._open_notebook()
+	if is_instance_valid(prologue._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(prologue.get_tree(), prologue._notebook_host), "notebook model ready before inspection", errors)
 	var english_notes: String = prologue._modal_body.get_child(2).get_child(0).text
 	_expect("The kitchen's rhythmic vibration" in english_notes, "Legacy note displays in English", errors)
 	_expect("Unknown legacy note" in english_notes, "Unknown note preserved", errors)
@@ -429,6 +431,8 @@ func run(tree: SceneTree) -> Dictionary:
 	await tree.process_frame
 	TranslationServer.set_locale("ko_KR")
 	prologue._open_notebook()
+	if is_instance_valid(prologue._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(prologue.get_tree(), prologue._notebook_host), "notebook model ready before inspection", errors)
 	_expect("주방의 규칙적인 진동" in prologue._modal_body.get_child(2).get_child(0).text, "Same note returns to Korean", errors)
 	prologue._close_modal()
 	await tree.process_frame
@@ -623,6 +627,8 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	var before_history_menu := GameState.get_snapshot()
 	prologue._open_menu()
 	prologue._open_dialogue_history()
+	if is_instance_valid(prologue._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(prologue.get_tree(), prologue._notebook_host), "notebook model ready before inspection", errors)
 	if prologue._notebook_is_open():
 		var host = prologue._notebook_host
 		var records: Dictionary = host.model.page({"tab": "dialogue"}, 0, host.model.cache_key())

@@ -305,6 +305,8 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 			_expect(table.candidates(false, true).size() == 4, "water filter alone leaves four candidates")
 			_expect(table.candidates(true, true) == [{"water": 5, "stabilizer": 1, "active": 2}], "combined constraints yield original mixture")
 			view._open_notebook()
+			if is_instance_valid(view._notebook_host):
+				_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before inspection")
 			_expect(view._modal_body.get_node("ClockHintsButton").get_theme_font_size("font_size") == 42, "notebook hint button follows text scale")
 			_expect(view._modal_body.get_node("CleanerQuantityTable").get_theme_font_size("font_size") == 42, "notebook calculation button follows text scale")
 			await tree.process_frame
@@ -366,6 +368,8 @@ func _validate_view(tree: SceneTree, session: BlackMirrorSession, ready: Diction
 			view._close_modal()
 			_expect(GameState.get_snapshot() == hint_state, "quantity table never pours or changes state")
 		view._open_notebook()
+		if is_instance_valid(view._notebook_host):
+			_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before inspection")
 		var hints := view._modal_body.get_node_or_null("ClockHintsButton") as Button
 		_expect(hints != null, "mirror notebook exposes shared thought action")
 		if hints != null:

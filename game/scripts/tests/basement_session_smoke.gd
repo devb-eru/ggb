@@ -313,6 +313,8 @@ func _validate_basement_hints(expected_stage: String) -> void:
 	_expect(view._notebook_surface_allowed(), "visible board stored before hint baseline: " + expected_stage)
 	var before: Dictionary = game.get_snapshot()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before inspection")
 	var button := (view._notebook_host.panel.find_child("ClockHintsButton", true, false) if view._notebook_is_open() else view._modal_body.get_node_or_null("ClockHintsButton")) as Button
 	_expect(button != null, "basement thought action: " + expected_stage)
 	if button != null:
@@ -2383,6 +2385,8 @@ func _validate_reality_wake(session: BasementSession) -> void:
 	_expect(session.snapshot()["loop_state"]["location_id"] == "R0_CRYO_CHAMBER", "Disconnect enters physical cryo chamber")
 	_expect(session.snapshot()["fracture_state"]["world_phase"] == "R0", "Reality world phase")
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before inspection")
 	_expect(not view._modal_active, "Reality cannot open simulation notebook")
 	view._hotspot_layer.get_node("REALITY_WAKE").pressed.emit()
 	_expect(view._dialogue_label.text == texts.text("wake_body","en"), "First breath is shown in English without a timed-input task")
@@ -2626,6 +2630,8 @@ func _validate_surface(session: BasementSession) -> void:
 			_expect(found and rules.local(session.snapshot())["look"] == direction, "Actual final frame follows chosen view without changing direction IDs")
 			_expect(rules.local(session.snapshot())["elapsed"] == 0 and session.snapshot()["ending_run"]["final_decision"] == "reality", "Language and view changes do not advance the final timer or change ending")
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before inspection")
 	_expect(view._modal_active,"Physical notebook remains readable on surface")
 	var elapsed: int = rules.local(session.snapshot())["elapsed"]
 	view._on_surface_tick()

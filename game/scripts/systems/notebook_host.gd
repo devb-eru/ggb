@@ -41,6 +41,11 @@ var _reference_job := ""
 var _refresh_job: Dictionary = {}
 var _refresh_again := false
 var _refresh_notice := ""
+var _opening := false
+var _loading: VBoxContainer
+var _loading_label: Label
+var _loading_close: Button
+var _loading_retry: Button
 
 
 func begin(controller: Control, game_state: Node, save_service: Node, tab: String) -> bool:
@@ -51,17 +56,11 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	if controller.has_method("_make_session") and controller.session != null: _session_id = controller.session.get_instance_id()
 	_entry_tab = tab
 	_scope = _current_scope()
-	_command_scope = COMMANDS.scope(game, saves, _slot)
+	if tab not in QUERY.TABS or String(_scope.run_id).is_empty(): return false
+	_command_scope = COMMANDS._scope_from_summary(game, saves, _slot, {"run_id":_scope.run_id})
 	_revision = game.revision
 	_checked_revision = _revision
-	var state: Dictionary = game.get_snapshot()
-	var opened := model.open(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope, TranslationServer.get_locale(), state.meta_progress.knowledge_entries, controller._notebook_context_node())
-	if not opened.ok: return false
 	_view_scope = VIEW_STORE.persistent_scope(_scope, view_profile)
-	var loaded := view_store.load_view(_view_scope, model.view_frontier())
-	_view_state = loaded.state.duplicate(true)
-	_view_writable = loaded.writable
-	_reconcile_seen()
 	layer = 40
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	var root := ColorRect.new()
@@ -78,6 +77,30 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	panel.close_requested.connect(request_close)
 	panel.reference_requested.connect(_request_reference)
 	panel.refresh_requested.connect(refresh)
+	panel.hide()
+	_loading = VBoxContainer.new()
+	_loading.name = "NotebookLoading"
+	_loading.alignment = BoxContainer.ALIGNMENT_CENTER
+	_loading.theme = Theme.new()
+	_loading.theme.default_font_size = roundi(18 * clampf(controller._reading_text_scale, 1.0, 2.0))
+	margin.add_child(_loading)
+	_loading_label = Label.new()
+	_loading_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_loading_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_loading.add_child(_loading_label)
+	_loading_retry = Button.new()
+	_loading_retry.name = "NotebookLoadingRetry"
+	_loading_retry.custom_minimum_size = Vector2(44, 44)
+	_loading_retry.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_loading_retry.pressed.connect(refresh)
+	_loading.add_child(_loading_retry)
+	_loading_retry.hide()
+	_loading_close = Button.new()
+	_loading_close.name = "NotebookLoadingClose"
+	_loading_close.custom_minimum_size = Vector2(44, 44)
+	_loading_close.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_loading_close.pressed.connect(request_close)
+	_loading.add_child(_loading_close)
 	_mode = controller.process_mode
 	_visible = controller.visible
 	_audio_paused = controller._menu_audio_paused
@@ -89,22 +112,35 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	controller.process_mode = Node.PROCESS_MODE_DISABLED
 	controller.menu_audio_pause_requested.emit(true)
 	_suspended = true
-	panel.present(model, TranslationServer.get_locale(), tab, controller._reading_text_scale)
+	_opening = true
+	_loading_close.grab_focus()
+	add_to_group("notebook_input_hosts")
+	get_tree().call_group("notebook_input_observers", "refresh_notebook_input")
+	_start_refresh()
+	return true
+
+
+func _finish_opening() -> void:
+	var controller = _controller.get_ref()
+	var loaded := view_store.load_view(_view_scope, model.view_frontier())
+	_view_state = loaded.state.duplicate(true)
+	_view_writable = loaded.writable
+	_reconcile_seen()
+	_opening = false
+	_loading.hide()
+	panel.present(model, TranslationServer.get_locale(), _entry_tab, controller._reading_text_scale)
 	panel.set_review_state(_view_state.seen, _view_state.groups)
 	panel.set_reference_editable(true)
 	for tool in controller._notebook_tools():
 		panel.add_tool(tool.label, _leave_for_tool.bind(tool.action), tool.id)
-	var previous: Dictionary = _view_state.dialogue if tab == "dialogue" else _view_state.general
+	var previous: Dictionary = _view_state.dialogue if _entry_tab == "dialogue" else _view_state.general
 	if not previous.is_empty(): panel.restore_view(previous)
-	elif tab == "dialogue": panel.open_latest_dialogue()
+	elif _entry_tab == "dialogue": panel.open_latest_dialogue()
 	panel.material_viewed.connect(_material_viewed)
 	panel.view_changed.connect(_remember_view)
 	if not String(loaded.warning_id).is_empty():
 		panel.show_notice(_l("이전 열람 위치를 복원하지 못했거나 과거 저장으로 돌아왔습니다. 본문과 고정 자료는 유지됩니다.", "The earlier view could not be restored or this is an earlier save. Records and saved references are unaffected."))
 	_remember_view()
-	add_to_group("notebook_input_hosts")
-	get_tree().call_group("notebook_input_observers", "refresh_notebook_input")
-	return true
 
 
 func request_close() -> void:
@@ -124,7 +160,9 @@ func _input(event: InputEvent) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_instance_valid(panel) or _closing: return
-	if event.is_action_pressed("notebook_toggle", false, true):
+	if _opening and event.is_action_pressed("ui_cancel"):
+		request_close()
+	elif event.is_action_pressed("notebook_toggle", false, true):
 		var focused := get_viewport().gui_get_focus_owner()
 		if focused is LineEdit or panel._search.has_ime_text(): return
 		request_close()
@@ -161,7 +199,7 @@ func _process(_delta: float) -> void:
 		if not _reference_job.is_empty(): saves.cancel_notebook_reference(_reference_job)
 		_held.clear()
 		request_close()
-	elif game.revision != _checked_revision and _refresh_job.is_empty():
+	elif not _opening and game.revision != _checked_revision and _refresh_job.is_empty():
 		_checked_revision = game.revision
 		panel.show_notice(_l("새 변경 사항이 있습니다. 갱신 후 계속할 수 있습니다.", "Changes are available. Refresh before changing saved references."))
 	_poll_refresh()
@@ -216,7 +254,7 @@ func _exit_tree() -> void:
 		var controller = _controller.get_ref()
 		if is_instance_valid(controller):
 			controller._notebook_host = null
-			if controller.is_inside_tree() and not controller.is_queued_for_deletion() and not _invalid:
+			if controller.is_inside_tree() and not controller.is_queued_for_deletion() and not _invalid and _same_live_scope():
 				controller.process_mode = _mode
 				controller.visible = _visible
 				controller.menu_audio_pause_requested.emit(_audio_paused)
@@ -243,6 +281,10 @@ func refresh(success_notice: String = "") -> void:
 		_refresh_again = true
 		return
 	if _current_scope() != _scope: return
+	_start_refresh()
+
+
+func _start_refresh() -> void:
 	var state: Dictionary = game.get_snapshot()
 	var candidate := QUERY.new()
 	candidate._generation = model._generation
@@ -250,7 +292,8 @@ func refresh(success_notice: String = "") -> void:
 	var locale := TranslationServer.get_locale()
 	# Only a detached snapshot and a new read model cross the worker boundary.
 	# The visible model, Controls and live state remain on the main thread.
-	var started := thread.start(candidate.prepare_refresh.bind(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope.duplicate(true), locale, state.meta_progress.knowledge_entries, _controller.get_ref()._notebook_context_node(), panel.capture_view().filters))
+	var filters: Dictionary = {"tab":_entry_tab} if _opening else panel.capture_view().filters
+	var started := thread.start(candidate.prepare_refresh.bind(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope.duplicate(true), locale, state.meta_progress.knowledge_entries, _controller.get_ref()._notebook_context_node(), filters))
 	panel.set_reference_editable(false)
 	if started != OK:
 		_refresh_failed()
@@ -259,7 +302,12 @@ func refresh(success_notice: String = "") -> void:
 	_checked_revision = game.revision
 	pending.clear()
 	panel.clear_command()
-	panel.show_notice(_l("자료를 갱신하고 있습니다. 기존 자료는 계속 읽을 수 있습니다.", "Refreshing records. You can keep reading the existing view."))
+	if _opening:
+		_loading_label.text = _l("기록을 준비하고 있습니다. 준비 중에도 닫을 수 있습니다.", "Preparing records. You can close while they are being prepared.")
+		_loading_close.text = _l("닫기", "Close")
+		_loading_retry.hide()
+	else:
+		panel.show_notice(_l("자료를 갱신하고 있습니다. 기존 자료는 계속 읽을 수 있습니다.", "Refreshing records. You can keep reading the existing view."))
 
 
 func _poll_refresh() -> void:
@@ -282,11 +330,15 @@ func _poll_refresh() -> void:
 		_refresh_failed()
 		return
 	# Preserve navigation performed while the new model was being prepared.
-	var ui: Dictionary = panel.capture_view()
+	var ui: Dictionary = {} if _opening else panel.capture_view()
 	var previous = model
 	model = job.model
 	_revision = job.revision
 	_checked_revision = _revision
+	if _opening:
+		previous.close()
+		_finish_opening()
+		return
 	_reconcile_seen()
 	panel.set_review_state(_view_state.seen, _view_state.groups)
 	panel.set_reference_editable(true, false, false)
@@ -298,12 +350,19 @@ func _poll_refresh() -> void:
 
 func _refresh_failed() -> void:
 	_refresh_notice = ""
+	if _opening:
+		_loading_label.text = _l("기록을 열지 못했습니다. 다시 시도하거나 닫아 주세요. 저장된 내용은 변경하지 않았습니다.", "Unable to open records. Retry or close. Saved data was not changed.")
+		_loading_retry.text = _l("다시 시도", "Retry")
+		_loading_close.text = _l("닫기", "Close")
+		_loading_retry.show()
+		_loading_close.grab_focus()
+		return
 	panel.show_notice(_l("자료를 갱신하지 못했습니다. 기존 화면을 유지합니다. 갱신은 저장된 내용을 변경하지 않습니다.", "Unable to refresh records. The existing view is retained. Refreshing does not change saved data."))
 	panel.show_command(_l("다시 갱신하거나 수첩을 닫았다가 열어 주세요.", "Retry the refresh or close and reopen the notebook."), refresh, _cancel_pending)
 
 
 func _request_reference(collection: String, reference: Dictionary, enabled: bool) -> void:
-	if not _same_live_scope() or _closing or not _reference_job.is_empty() or not _refresh_job.is_empty(): return
+	if _opening or not _same_live_scope() or _closing or not _reference_job.is_empty() or not _refresh_job.is_empty(): return
 	pending = {"collection": collection, "reference": reference.duplicate(true), "enabled": enabled, "command_id": ARCHIVE.new_uid()}
 	if not enabled:
 		panel.show_command(_l("고정을 해제하면 다른 보호 이유가 없는 오래된 일반 기록이 정리될 수 있습니다.", "Removing this reference may allow old ordinary records with no other protection to be pruned."), _execute_pending, _cancel_pending)
@@ -312,7 +371,7 @@ func _request_reference(collection: String, reference: Dictionary, enabled: bool
 
 
 func _execute_pending() -> void:
-	if pending.is_empty() or not _same_live_scope() or _closing or not _reference_job.is_empty() or not _refresh_job.is_empty(): return
+	if _opening or pending.is_empty() or not _same_live_scope() or _closing or not _reference_job.is_empty() or not _refresh_job.is_empty(): return
 	if saves.has_method("begin_notebook_reference"):
 		var started: Dictionary = saves.begin_notebook_reference(game, _slot, pending.collection, pending.reference, pending.enabled, _command_scope, _revision, pending.command_id, _same_live_scope)
 		if started.get("pending", false):
@@ -388,7 +447,7 @@ func _material_viewed(key: String) -> void:
 
 
 func _remember_view() -> void:
-	if not _suspended or _invalid or not _same_live_scope() or not is_instance_valid(panel) or panel._restoring_view or not panel._valid(): return
+	if _opening or not _suspended or _invalid or not _same_live_scope() or not is_instance_valid(panel) or panel._restoring_view or not panel._valid(): return
 	var view: Dictionary = panel.capture_view()
 	if _entry_tab != "dialogue": _view_state.general = view.duplicate(true)
 	if view.filters.get("tab") == "dialogue": _view_state.dialogue = view.duplicate(true)

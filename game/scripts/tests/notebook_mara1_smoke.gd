@@ -50,9 +50,9 @@ func run(tree: SceneTree) -> Dictionary:
 	view._dismiss_dialogue_for_test()
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
-		for outcome in ["original_attribution", "protected_identifiers"]: _route(outcome)
+		for outcome in ["original_attribution", "protected_identifiers"]: await _route(outcome)
 		_failures()
-		_legacy()
+		await _legacy()
 		for key in NOTES.authored_rows():
 			var id: String = NOTES.PREFIX + key
 			_expect(covered.has(id + ":" + locale), "unexecuted Mara 1 content: " + id + ":" + locale)
@@ -144,6 +144,8 @@ func _route(outcome: String) -> void:
 			_expect(not String(resolved.entry.observation.content_id).contains("RECORD_" + ("PROTECTED_IDENTIFIERS" if outcome == "original_attribution" else "ORIGINAL_ATTRIBUTION")), "the unchosen record is not a source")
 	_expect(not view.session.act("mara1_choose", outcome).ok and GameState.get_snapshot() == after, "completed relation cannot be applied twice")
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(GameState.get_snapshot() == after, "notebook rereading does not add documents or resolve the puzzle")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "actual JSON reload")
@@ -220,6 +222,8 @@ func _legacy() -> void:
 	_install(old)
 	_present()
 	view._open_notebook()
+	if is_instance_valid(view._notebook_host):
+		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
 	_expect(_ledger().revisions.is_empty() and _count("RECORD_PROTECTED_IDENTIFIERS") == 0, "old completion flags and rereading do not create new authored research records")
 	_collect()
