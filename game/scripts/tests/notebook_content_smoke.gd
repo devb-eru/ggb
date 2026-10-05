@@ -11,6 +11,12 @@ const PROVIDERS := [preload("res://scripts/ui/clock_hint_texts.gd"), preload("re
 const SLOT := "__test_notebook_content"
 var errors := PackedStringArray()
 var covered := {}
+var required_tuples := {}
+var observed_tuples := {}
+var unmapped_tuples := {}
+var catalog_hashes := {}
+var historical_tuples := {}
+var historical_replayed := {}
 
 
 class RejectingSave:
@@ -32,6 +38,7 @@ func run(tree: SceneTree) -> Dictionary:
 	var hint_ids: Array = diagnostics.content_ids.filter(func(id: String) -> bool: return id.begins_with("NB_HINT_"))
 	_expect(diagnostics.ok and hint_ids.size() == 60, "60 authored hint IDs with bilingual versioned content")
 	if not diagnostics.ok: return {"ok": false, "errors": diagnostics.error_ids}
+	_prepare_tuple_audit()
 	_validate_versioned_content()
 	errors.append_array(PUBLIC_LABELS.catalog_errors())
 	_validate_segments()
@@ -43,10 +50,76 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(covered.size() == 120, "all 60 content IDs actually displayed in both languages")
 	await _validate_failed_write(tree)
 	await _validate_skipped_hints(tree)
+	_validate_historical_tuples()
+	var missing: Array = []
+	for key in required_tuples:
+		if not observed_tuples.has(key): missing.append(JSON.parse_string(key))
+	_expect(missing.is_empty(), "every registered NP20 node/variant/segment/locale was actually displayed")
+	_expect(unmapped_tuples.is_empty(), "no unregistered NP20 runtime tuple")
+	var observed: Array = observed_tuples.keys()
+	observed.sort()
+	print("NOTEBOOK_HINT_BRANCH_AUDIT: " + JSON.stringify({"scope":"NP20_CONTROLLER_REQUEST_DISPLAY_AND_COMMIT_NOT_OS_INPUT", "catalog_sha256":catalog_hashes, "required_count":required_tuples.size(), "observed_count":observed_tuples.size(), "historical_required":historical_tuples.size(), "historical_replayed":historical_replayed.keys(), "not_covered":missing, "unmapped":unmapped_tuples.keys(), "tuple_fields":["producer", "content", "version", "node", "variant", "segment", "locale"], "observed":observed.map(func(key: String) -> Array: return JSON.parse_string(key)), "errors":errors}))
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_hint_ids": hint_ids.size(), "covered_id_locales": covered.size(), "producer_groups_covered": ["NP20"], "other_groups": "NOT_COVERED"}
+
+
+func _prepare_tuple_audit() -> void:
+	# Derive required nodes from catalog data, independently of the executed stage list.
+	for path in CONTENT.CATALOGS:
+		var raw := FileAccess.get_file_as_string(path)
+		var catalog: Dictionary = JSON.parse_string(raw)
+		for id in catalog.contents:
+			for version in catalog.contents[id]:
+				var row: Dictionary = catalog.contents[id][version]
+				if row.producer_id != "NP20": continue
+				catalog_hashes[path] = raw.sha256_text()
+				for node in row.node_ids:
+					for segment in row.visible_segment_ids:
+						for locale in row.locales:
+							var key := JSON.stringify([row.producer_id, id, int(version), node, row.action_or_variant, segment, locale])
+							if int(version) != PUBLIC_LABELS.LABELS.version(id):
+								historical_tuples[key] = true
+								continue
+							_expect(not required_tuples.has(key), "unique NP20 catalog tuple")
+							required_tuples[key] = true
+
+
+func _collect_tuple(entry: Dictionary) -> void:
+	var observation: Dictionary = entry.observation
+	for segment in observation.segments:
+		var key := JSON.stringify([observation.producer_id, observation.content_id, int(observation.content_version), observation.node_id, observation.variant_id, segment.segment_id, segment.viewed_locale])
+		if not required_tuples.has(key): unmapped_tuples[key] = true
+		else: observed_tuples[key] = true
+
+
+func _validate_historical_tuples() -> void:
+	for key in historical_tuples:
+		var tuple: Array = JSON.parse_string(key)
+		var parts := {}
+		parts[tuple[5]] = {}
+		var descriptor := CONTENT.descriptor(tuple[1], int(tuple[2]), parts)
+		var shown := CONTENT.presentation(descriptor, tuple[6])
+		_expect(shown.ok, "historical hint presentation")
+		if not shown.ok: continue
+		var observation := CONTENT.observe(descriptor, _context(tuple[3]), shown.speaker, shown.text, tuple[6])
+		_expect(observation.ok, "historical hint source accepts original node and semantic version")
+		if not observation.ok: continue
+		var appended := ARCHIVE.append_observation(ARCHIVE.create(), observation.observation, 0)
+		_expect(appended.ok, "historical hint fixture archive")
+		if not appended.ok: continue
+		var entry: Dictionary = JSON.parse_string(JSON.stringify(appended.archive.entries[0]))
+		var frozen := entry.duplicate(true)
+		var valid := true
+		for language in ["ko-KR", "en-US"]:
+			var rendered := CONTENT.render_entry(entry, language)
+			var expected := CONTENT.presentation(descriptor, language)
+			var matches: bool = rendered.ok and expected.ok and not rendered.entry.fallback and rendered.entry.text == expected.speaker + ": " + expected.text and entry == frozen
+			_expect(matches, "historical hint replay retains exact old wording and immutable source")
+			valid = valid and matches
+		if valid: historical_replayed[key] = true
+	_expect(historical_replayed.size() == historical_tuples.size(), "all noncurrent NP20 tuples replay independently of live coverage")
 
 
 func _context(stage: String) -> Dictionary:
@@ -213,7 +286,8 @@ func _validate_live_hints(tree: SceneTree, stage: String, language: String) -> v
 		if entry.get("record_class") != "authored": break
 		var descriptor := CONTENT.hint_descriptor(stage, level)
 		var observation: Dictionary = entry.observation
-		covered[descriptor.content_id + ":" + language] = true
+		_collect_tuple(entry)
+		covered[observation.content_id + ":" + language] = true
 		_expect(observation.content_id == descriptor.content_id and observation.node_id == stage and observation.segments.size() == 1, "content ID and actual failure/source node frozen")
 		_expect(observation.location_id == before.loop_state.location_id and observation.entry_kind == "hint_revealed", "actual room and hint kind stored")
 		_expect(observation.segments[0].captured_text == view._dialogue_label.text and observation.segments[0].viewed_locale == language, "stored text is exactly the displayed requested hint")
