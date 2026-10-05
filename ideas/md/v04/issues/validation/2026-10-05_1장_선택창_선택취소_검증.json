@@ -1,0 +1,46 @@
+{
+  "test_sha256": "9A5BC19E133B7E6C366FF3560D9072266A4729771B92176F0A428A55B1C0EEF2",
+  "logs": [
+    {
+      "sha256": "F4F9C3869242C892D3DC6E03C7F86A3D0B17E3F5A63CFEF68CFC60F415F51EFE",
+      "case": "modals",
+      "summary": [
+        "NOTEBOOK_MODAL_CH1_MATRIX: 30 choice/cancel cases",
+        "NOTEBOOK_MODAL_PRESENTATION_CHECKS: seed 791",
+        "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+      ]
+    },
+    {
+      "sha256": "7E7BECEC857FF670AF5921388DB5D00CAF1D57EED3198FCE2BCFA6B99A5EFFD1",
+      "case": "modal_resume",
+      "summary": [
+        "NOTEBOOK_MODAL_PRESENTATION_CHECKS: resume 7",
+        "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+      ]
+    },
+    {
+      "sha256": "3C3C78FAFFABE2862970B15B0C2451816AC3D7710175BA333E34A63BC1417B3D",
+      "case": "modal_completed",
+      "summary": [
+        "NOTEBOOK_MODAL_PRESENTATION_CHECKS: completed 4",
+        "NOTEBOOK_MODAL_PRESENTATION_SMOKE: PASS"
+      ]
+    }
+  ],
+  "pck_sha256": "CF2A82C288A3232904037995AB90CCFEA17EC862DEFCD553535B4299A7E26D7B",
+  "baseline": "12a934601c85d28c50d025baf403bac7e476cba7",
+  "runtime": "Godot 4.7.2 Windows headless; isolated APPDATA/PCK",
+  "log_directory": "%TEMP%/ggb-notebook-modal-matrix-accepted-20261005",
+  "scope": "30 chapter-one choice/cancel cases in ko-KR/en-US; not native Windows input",
+  "initial_test_errors": [
+    "row.content_id not present; use history_context descriptor",
+    "legacy/unmapped entries lack observation; check preexisting entries unchanged"
+  ],
+  "durations_seconds": {
+    "import": 20.7,
+    "export": 7.8,
+    "seed": 64,
+    "resume": 5.4,
+    "completed": 4.9
+  }
+}

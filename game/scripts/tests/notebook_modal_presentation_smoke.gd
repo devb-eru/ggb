@@ -84,6 +84,7 @@ func run(tree: SceneTree) -> Dictionary:
 
 
 func _cases(tree: SceneTree) -> void:
+	await _chapter_choice_matrix(tree)
 	for spec in [
 		["A1", 0, "_open_mark_choices", []], ["B1", 0, "_open_schedule_board", []], ["B3_B", 0, "_confirm_clock", []],
 		["AS", 0, "_confirm_sleep", []], ["D6", 2, "_confirm_d6_rest", ["capsule"]],
@@ -125,6 +126,54 @@ func _cases(tree: SceneTree) -> void:
 	await _utilities(tree)
 	await _idempotent_field_read(tree)
 	await _diagrams(tree)
+
+
+func _chapter_choice_matrix(tree: SceneTree) -> void:
+	var executed := 0
+	for language in ["ko-KR", "en-US"]:
+		TranslationServer.set_locale(language)
+		for spec in [["A1", "_open_mark_choices", 3], ["B1", "_open_schedule_board", 3], ["B3_B", "_confirm_clock", 3], ["AS", "_confirm_sleep", 2]]:
+			for selected in range(-1, int(spec[2])):
+				_seed(spec[0])
+				var view = _view(tree, 0)
+				view.call(spec[1])
+				var request: Dictionary = view._recorded_modal_request
+				var before := GameState.get_snapshot()
+				var prompt: Dictionary = before.meta_progress.dialogue_history.entries.back()
+				var prompt_id: String = request.history_context.notebook_content.content_id
+				_expect(prompt.observation.content_id == prompt_id, "matrix prompt identity")
+				_expect(_selected_count() == 0, "visible options are not selected answers")
+				for index in range(request.actions.size()):
+					_expect(request.actions[index].label == request.row.locales[language]["option_%d" % index], "matrix choice current language")
+				view._present_recorded_modal(request)
+				view._record_modal_options(request)
+				_expect(StateSnapshotValidator.same_persisted_value(before, GameState.get_snapshot()), "modal rerender does not duplicate prompt or change gameplay")
+				if selected < 0: view._cancel_prologue_modal()
+				else:
+					var buttons: Array = view._modal_body.get_children().filter(func(child: Node) -> bool: return child is Button)
+					buttons[selected].pressed.emit()
+				var chosen := int(request.row.cancel_index) if selected < 0 else selected
+				var selected_id := ""
+				if chosen >= 0 and request.row.choices[chosen].kind != "ui": selected_id = request.row.choices[chosen].content_id
+				var matched := 0
+				for entry in GameState.get_snapshot().meta_progress.dialogue_history.entries:
+					if not entry.has("observation"):
+						_expect(before.meta_progress.dialogue_history.entries.any(func(old: Dictionary) -> bool: return StateSnapshotValidator.same_persisted_value(old, entry)), "choice adds no unmapped record; preexisting checkpoint feedback remains unchanged")
+						continue
+					if entry.observation.producer_id != "NP05" or entry.observation.content_id == prompt_id: continue
+					matched += 1
+					_expect(entry.observation.content_id == selected_id, "unselected answers never become observations")
+					_expect(entry.observation.event_occurrence_id == prompt.observation.event_occurrence_id and entry.observation.conversation_session_id == prompt.observation.conversation_session_id, "answer belongs to displayed prompt occurrence")
+					_expect(entry.observation.presentation_token != prompt.observation.presentation_token, "answer has distinct observation token")
+				_expect(matched == (0 if selected_id.is_empty() else 1), "exactly selected answer, or no answer on UI dismissal")
+				var after := GameState.get_snapshot()
+				view._recorded_choice_pressed(request, 0)
+				_expect(StateSnapshotValidator.same_persisted_value(after, GameState.get_snapshot()), "closed modal callback cannot execute again")
+				executed += 1
+				view.queue_free()
+				await tree.process_frame
+	TranslationServer.set_locale("ko-KR")
+	print("NOTEBOOK_MODAL_CH1_MATRIX: ", executed, " choice/cancel cases")
 
 
 func _utility_process(tree: SceneTree, phase: String) -> void:
