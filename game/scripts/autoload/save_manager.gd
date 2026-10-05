@@ -142,16 +142,16 @@ func inspect_slot(slot_id: String) -> Dictionary:
 	var paths := _slot_paths(slot_id)
 	var result := _inspect_file(paths["main"])
 	var source := "main"
-	if not bool(result.get("ok", false)) and result.get("error_id", &"") != &"ERR_SAVE_FUTURE_SCHEMA":
+	if not bool(result.get("ok", false)) and not _is_incompatible(result):
 		var backup := _inspect_file(paths["backup"])
-		if bool(backup.get("ok", false)) or backup.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA":
+		if bool(backup.get("ok", false)) or _is_incompatible(backup):
 			result = backup
 			source = "backup"
 	if not bool(result.get("ok", false)):
 		return {
 			"slot_id": slot_id,
 			"available": false,
-			"incompatible": result.get("error_id", &"") == &"ERR_SAVE_FUTURE_SCHEMA",
+			"incompatible": _is_incompatible(result),
 			"error_id": result.get("error_id", &"ERR_SAVE_NOT_FOUND"),
 		}
 	result.erase("ok")
@@ -243,11 +243,11 @@ func save_snapshot(
 
 	var paths := _slot_paths(slot_id)
 	var previous := _read_and_validate(paths["main"])
-	if previous.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
+	if _is_incompatible(previous): return _save_failure(slot_id, previous.error_id)
 	var previous_backup := _read_and_validate(paths.backup)
-	if previous_backup.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
+	if _is_incompatible(previous_backup): return _save_failure(slot_id, previous_backup.error_id)
 	var pending := _read_and_validate(paths.temporary)
-	if pending.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return _save_failure(slot_id, &"ERR_SAVE_FUTURE_SCHEMA")
+	if _is_incompatible(pending): return _save_failure(slot_id, pending.error_id)
 	var promote_legacy := NOTEBOOK_ROLLOUT.enabled()
 	var meta: Variant = snapshot.get("meta_progress")
 	var history: Variant = meta.get("dialogue_history") if meta is Dictionary else null
@@ -367,15 +367,15 @@ func load_slot(slot_id: String) -> Dictionary:
 		if not primary.get("ok", false): return primary
 		primary["source"] = "main"
 		return primary
-	if primary.get("error_id", &"") == &"ERR_SAVE_FUTURE_SCHEMA":
+	if _is_incompatible(primary):
 		return primary
 
 	var backup := _read_and_validate(paths["backup"])
-	if backup.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return backup
+	if _is_incompatible(backup): return backup
 	if bool(backup.get("ok", false)):
 		# Recovery will write a new branch; guard its destination before changing main.
 		var pending := _read_and_validate(paths.temporary)
-		if pending.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return pending
+		if _is_incompatible(pending): return pending
 		if NOTEBOOK_ROLLOUT.enabled():
 			var preserved := _preserve_legacy_source(backup)
 			if not preserved.ok: return preserved
@@ -459,7 +459,7 @@ func capture_f3_reselect(slot_id: String) -> Dictionary:
 	# Check every destination before the first copy can overwrite newer data.
 	for suffix in ["", ".tmp", ".bak"]:
 		var existing := _read_and_validate(target + suffix)
-		if existing.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return existing
+		if _is_incompatible(existing): return existing
 		if suffix.is_empty(): previous = existing
 	var temporary := target + ".tmp"
 	if DirAccess.copy_absolute(ProjectSettings.globalize_path(paths["main"]), ProjectSettings.globalize_path(temporary)) != OK:
@@ -488,7 +488,7 @@ func load_f3_reselect(slot_id: String) -> Dictionary:
 	# A verified temporary candidate is not a committed reselect checkpoint.
 	for suffix in ["", ".bak"]:
 		var result := _read_and_validate(path + suffix)
-		if result.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return result
+		if _is_incompatible(result): return result
 		if _valid_f3_copy(result, slot_id):
 			var run_id: String = current["header"].get("run_id", "")
 			if not run_id.is_empty() and result["header"].get("run_id", "") == run_id: return result
@@ -499,8 +499,9 @@ func _clear_previous_f3(slot_id: String) -> PackedStringArray:
 	var warnings := PackedStringArray()
 	var path := "%s/%s/f3_reselect.json" % [get_save_root(), slot_id]
 	for suffix in ["", ".tmp", ".bak"]:
-		if _read_and_validate(path + suffix).get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA":
-			return PackedStringArray(["WARN_RESELECT_FUTURE_PRESERVED"])
+		var candidate := _read_and_validate(path + suffix)
+		if _is_incompatible(candidate):
+			return PackedStringArray(["WARN_RESELECT_DESIGN_PRESERVED" if candidate.error_id == &"ERR_SAVE_DESIGN_REVISION" else "WARN_RESELECT_FUTURE_PRESERVED"])
 	for suffix in ["", ".tmp", ".bak"]:
 		if FileAccess.file_exists(path + suffix) and DirAccess.remove_absolute(ProjectSettings.globalize_path(path + suffix)) != OK:
 			warnings.append("WARN_RESELECT_CLEANUP")
@@ -651,7 +652,7 @@ func _validate_save_text(raw_text: String, path: String) -> Dictionary:
 
 
 func _preserve_legacy_source(source: Dictionary) -> Dictionary:
-	if source.get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return source
+	if _is_incompatible(source): return source
 	if not source.get("ok", false) or source.get("source_schema_version") != 1: return {"ok": true}
 	var path: String = source.source_path
 	var checksum: String = source.header.checksum
@@ -729,6 +730,10 @@ func _save_failure(slot_id: String, error_id: StringName) -> Dictionary:
 	var errors := PackedStringArray([String(error_id)])
 	save_failed.emit(StringName(slot_id), errors)
 	return {"ok": false, "error_ids": errors, "error_id": error_id}
+
+
+func _is_incompatible(result: Dictionary) -> bool:
+	return result.get("error_id") in [&"ERR_SAVE_FUTURE_SCHEMA", &"ERR_SAVE_DESIGN_REVISION"]
 
 
 func _load_failure(error_id: StringName) -> Dictionary:

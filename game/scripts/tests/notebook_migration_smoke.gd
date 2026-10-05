@@ -38,6 +38,7 @@ func run() -> Dictionary:
 	_validate_primary()
 	_validate_failure_and_future()
 	_validate_progress_future_temporary()
+	_validate_unknown_design()
 	_validate_backup()
 	_validate_commands()
 	_validate_retention_commit()
@@ -64,8 +65,9 @@ func _legacy(source: Dictionary = {}) -> Dictionary:
 	return state
 
 
-func _write_source(path: String, state: Dictionary, schema: Variant = 1, point: String = "SAVE_NEW_GAME", run_id: String = "legacy-test-run") -> Dictionary:
+func _write_source(path: String, state: Dictionary, schema: Variant = 1, point: String = "SAVE_NEW_GAME", run_id: String = "legacy-test-run", design: String = "") -> Dictionary:
 	var header := {"schema_version": schema, "design_revision": SaveManager.DESIGN_REVISION, "checksum_algorithm": "sha256", "checksum": "", "build_flavor": SaveManager.get_build_flavor(), "content_boundary_id": point, "source_app_id": "local", "save_point_id": point, "slot_id": SLOT, "run_id": run_id, "state_revision": 8}
+	if not design.is_empty(): header.design_revision = design
 	var document: Dictionary = SaveManager._canonicalize({"save_header": header, "state": state})
 	document.save_header.checksum = JSON.stringify(document, "\t", false).sha256_text()
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path.get_base_dir()))
@@ -208,6 +210,61 @@ func _validate_progress_future_temporary() -> void:
 			var readable: Dictionary = SaveManager.load_slot(SLOT)
 			_expect(readable.get("ok", false) and readable.snapshot == committed, "future temporary is not adopted during committed read: " + entry + "/" + kind)
 			_expect(FileAccess.get_file_as_bytes(_path("progress.tmp.json")) == pending_bytes, "read leaves future temporary untouched: " + entry + "/" + kind)
+	SaveManager.delete_test_slot(SLOT)
+
+
+func _validate_unknown_design() -> void:
+	for action in ["save", "load", "inspect"]:
+		for name in ["progress.json", "progress.bak.json", "progress.tmp.json"]:
+			SaveManager.delete_test_slot(SLOT)
+			var state := _legacy()
+			for candidate in ["progress.json", "progress.bak.json", "progress.tmp.json"]:
+				_write_source(_path(candidate), state)
+			_write_source(_path(name), state, 1, "SAVE_NEW_GAME", "legacy-test-run", "unknown-design")
+			if name == "progress.bak.json" and action != "save":
+				var file := FileAccess.open(_path(), FileAccess.WRITE)
+				file.store_string("corrupt")
+				file.close()
+			var before := {}
+			for candidate in ["progress.json", "progress.bak.json", "progress.tmp.json"]:
+				before[candidate] = FileAccess.get_file_as_bytes(_path(candidate))
+			var result: Dictionary
+			match action:
+				"save": result = SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", GameState.get_snapshot(), 8, "TEST_UNKNOWN_DESIGN")
+				"load": result = SaveManager.load_slot(SLOT)
+				"inspect": result = SaveManager.inspect_slot(SLOT)
+			if action == "inspect" and name == "progress.tmp.json":
+				_expect(result.get("available", false), "inspection reads committed main, not unknown tmp")
+			else:
+				_expect(result.get("error_id") == &"ERR_SAVE_DESIGN_REVISION", "unknown design rejected: " + action + "/" + name)
+				if action == "inspect": _expect(result.get("incompatible", false), "unknown design has incompatible summary: " + name)
+			for candidate in before:
+				_expect(FileAccess.get_file_as_bytes(_path(candidate)) == before[candidate], "unknown design preserves bytes: " + action + "/" + name + "/" + candidate)
+	for action in ["capture", "load", "cleanup"]:
+		for suffix in ["", ".bak", ".tmp"]:
+			SaveManager.delete_test_slot(SLOT)
+			var source: Dictionary = CHECKPOINTS.new().snapshot_for("EDC").snapshot
+			_write_source(_path(), source, 2, "SAVE_F3_COMPLETE")
+			for candidate in ["", ".bak", ".tmp"]:
+				_write_source(_path("f3_reselect.json" + candidate), source, 2, "SAVE_F3_COMPLETE")
+			_write_source(_path("f3_reselect.json" + suffix), source, 2, "SAVE_F3_COMPLETE", "legacy-test-run", "unknown-design")
+			if action == "load" and suffix == ".bak":
+				var file := FileAccess.open(_path("f3_reselect.json"), FileAccess.WRITE)
+				file.store_string("corrupt")
+				file.close()
+			var before := {}
+			for name in ["progress.json", "f3_reselect.json", "f3_reselect.json.bak", "f3_reselect.json.tmp"]:
+				before[name] = FileAccess.get_file_as_bytes(_path(name))
+			if action == "cleanup":
+				_expect(not SaveManager._clear_previous_f3(SLOT).is_empty(), "unknown F3 design reports preserved cleanup: " + suffix)
+			else:
+				var result: Dictionary = SaveManager.capture_f3_reselect(SLOT) if action == "capture" else SaveManager.load_f3_reselect(SLOT)
+				if action == "load" and suffix == ".tmp":
+					_expect(result.get("ok", false), "F3 committed read ignores unknown-design tmp")
+				else:
+					_expect(result.get("error_id") == &"ERR_SAVE_DESIGN_REVISION", "unknown F3 design rejected: " + action + suffix)
+			for name in before:
+				_expect(FileAccess.get_file_as_bytes(_path(name)) == before[name], "unknown F3 design preserves bytes: " + action + suffix + "/" + name)
 	SaveManager.delete_test_slot(SLOT)
 
 

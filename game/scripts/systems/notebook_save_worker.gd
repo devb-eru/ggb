@@ -38,7 +38,7 @@ func _prepare_with_storage(storage: Node, request: Dictionary) -> Dictionary:
 		if not raw.ok: return raw
 		stamps[kind] = raw.stamp
 		sources[kind] = storage._validate_save_text(raw.bytes.get_string_from_utf8(), paths[kind]) if raw.exists else {"ok":false, "error_id":"ERR_SAVE_NOT_FOUND"}
-		if sources[kind].get("error_id") == &"ERR_SAVE_FUTURE_SCHEMA": return sources[kind]
+		if storage._is_incompatible(sources[kind]): return sources[kind]
 	var source: Dictionary = sources.main if sources.main.ok else sources.backup
 	if not source.ok: return {"ok":false, "error_id":"NB_COMMAND_SLOT_UNAVAILABLE"}
 	var state: Dictionary = request.snapshot

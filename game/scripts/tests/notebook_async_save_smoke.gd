@@ -24,7 +24,7 @@ func _expect(ok: bool, message: String) -> void:
 
 
 func run(tree: SceneTree) -> Dictionary:
-	for scenario in ["success", "backup_recovery", "future_primary", "future_backup", "unchanged", "cancel", "revision", "reload", "disk", "future", "temporary", "guard", "namespace", "shutdown", "write_failure", "promotion_failure", "lost_ack"]:
+	for scenario in ["success", "backup_recovery", "future_primary", "future_backup", "design_primary", "design_backup", "unchanged", "cancel", "revision", "reload", "disk", "future", "temporary", "guard", "namespace", "shutdown", "write_failure", "promotion_failure", "lost_ack"]:
 		await _scenario(tree, scenario)
 	await _large_candidate(tree)
 	print("NOTEBOOK_ASYNC_SAVE_CHECKS: ", checks)
@@ -104,10 +104,11 @@ func _scenario(tree: SceneTree, scenario: String) -> void:
 	manager.set_process(false)
 	var paths: Dictionary = manager._slot_paths(SLOT)
 	if scenario == "backup_recovery": _write(paths.main, "owned corrupt primary")
-	if scenario in ["future_primary", "future_backup"]:
-		var future_path: String = paths.main if scenario == "future_primary" else paths.backup
+	if scenario in ["future_primary", "future_backup", "design_primary", "design_backup"]:
+		var future_path: String = paths.main if scenario.ends_with("primary") else paths.backup
 		var future: Dictionary = SaveManager._read_and_validate(future_path)
-		future.header.schema_version = 999
+		if scenario.begins_with("design_"): future.header.design_revision = "unknown-design"
+		else: future.header.schema_version = 999
 		_write(future_path, SaveManager._encode_payload(future.header, future.snapshot).text)
 	var primary := FileAccess.get_file_as_bytes(paths.main)
 	var backup := FileAccess.get_file_as_bytes(paths.backup)
@@ -177,6 +178,7 @@ func _scenario(tree: SceneTree, scenario: String) -> void:
 		_expect(FileAccess.get_file_as_bytes(paths.main) == primary and FileAccess.get_file_as_bytes(paths.backup) == backup, "idempotent no-op performs no disk promotion")
 	else:
 		_expect(not result.ok, "unsafe candidate rejected: " + scenario)
+		if scenario.begins_with("design_"): _expect(result.get("error_id") == &"ERR_SAVE_DESIGN_REVISION", "unknown design worker preserves incompatibility error: " + scenario)
 		_expect(GameState.get_snapshot() == before, "rejected candidate leaves current game intact: " + scenario)
 		# Failed promotion restores the verified previous primary into both files.
 		if scenario == "promotion_failure": backup = primary
