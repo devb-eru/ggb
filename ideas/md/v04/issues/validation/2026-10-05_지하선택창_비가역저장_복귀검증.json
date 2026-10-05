@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-05",
+  "base_commit": "df87545ea8d9b6e55d033ccc4ad9201f009b275e",
+  "status": "PASS_SCOPED",
+  "goal_complete": false,
+  "product_changes": false,
+  "runtime": "Godot 4.7.2.stable.steam.ed1daf0bf",
+  "timings_seconds": {
+    "import": 21.9,
+    "export": 8,
+    "basement": 109.7
+  },
+  "exit_code": 0,
+  "expected_recovery_cases": 44,
+  "execution": "headless controller method; real disk load; recreated controller in same process",
+  "base": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-basement-choice-recovery-20261005",
+  "cases": [
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"central\", \"clockwise\", \"open\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"central\", \"clockwise\", \"open\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"central\", \"counterclockwise\", \"warning\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"central\", \"counterclockwise\", \"warning\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"central\", \"counterclockwise\", \"direction_wrong\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"central\", \"counterclockwise\", \"direction_wrong\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"ring\", \"order_wrong\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"ring\", \"order_wrong\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"auxiliary\", \"\", \"release\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"auxiliary\", \"\", \"release\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"line\", \"pass\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"line\", \"pass\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"line\", \"depth_wrong\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"line\", \"depth_wrong\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"branch\", \"pass\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"branch\", \"pass\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"branch\", \"depth_wrong\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"branch\", \"depth_wrong\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"ring\", \"pass\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"ring\", \"pass\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"ring\", \"depth_wrong\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ko_KR [\"axis\", \"ring\", \"depth_wrong\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"central\", \"clockwise\", \"open\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"central\", \"clockwise\", \"open\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"central\", \"counterclockwise\", \"warning\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"central\", \"counterclockwise\", \"warning\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"central\", \"counterclockwise\", \"direction_wrong\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"central\", \"counterclockwise\", \"direction_wrong\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"ring\", \"order_wrong\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"ring\", \"order_wrong\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"auxiliary\", \"\", \"release\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"auxiliary\", \"\", \"release\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"line\", \"pass\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"line\", \"pass\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"line\", \"depth_wrong\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"line\", \"depth_wrong\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"branch\", \"pass\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"branch\", \"pass\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"branch\", \"depth_wrong\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"branch\", \"depth_wrong\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"ring\", \"pass\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"ring\", \"pass\"] cancel PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"ring\", \"depth_wrong\"] retry PASS",
+    "NOTEBOOK_BASEMENT_CHOICE_RECOVERY: en_US [\"axis\", \"ring\", \"depth_wrong\"] cancel PASS"
+  ],
+  "summary": [
+    "NOTEBOOK_BASEMENT_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 56, \"covered_id_locales\": 122, \"covered_segment_locales\": 174, \"choice_recovery_cases\": 44, \"not_covered\": [\"static_puzzle_board_disclosure\", \"D5_transition_producer\", \"app_restart_cursor\", \"OS_input\", \"shared_notebook_UI\"] }"
+  ],
+  "stderr": "ERROR: Failed to read the root certificate store.\r\n   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)\r\n",
+  "hashes": [
+    {
+      "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-basement-choice-recovery-20261005\\notebook.pck",
+      "Hash": "7E942D1A62762E434C8D4763A6E72BDF6F0F9B1A227F03B3D9C0E4EBF0CEF424"
+    },
+    {
+      "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-basement-choice-recovery-20261005\\basement.out.log",
+      "Hash": "2D63CA906A8050CBC2D60C88CE04CB10BB0AF8B25CC7AFAE95B859E0E3BAA0F4"
+    },
+    {
+      "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-basement-choice-recovery-20261005\\basement.err.log",
+      "Hash": "354F6B41AFAC0AF85C870C4DDFDBE208E44AD5223AE6D89ABA867D4090718998"
+    },
+    {
+      "Path": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-test-transfer-20261001\\game\\scripts\\tests\\notebook_basement_smoke.gd",
+      "Hash": "C5BB6CB7D4C3CE062A8D8EBC854F6E998EB7A33A2941670146DFCA8283646AED"
+    }
+  ],
+  "not_covered": [
+    "OS input",
+    "separate process restart of 44 cases",
+    "D5 transition producer",
+    "all invalid axis permutations",
+    "full producer audit",
+    "performance acceptance"
+  ]
+}

@@ -10,11 +10,13 @@ const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const RULES := preload("res://data/puzzles/puzzle_basement.tres")
+const CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
 const SLOT := "__test_notebook_basement"
 var errors := PackedStringArray()
 var covered := {}
 var segments := {}
 var serial := 0
+var choice_recovery_cases := 0
 var view: BasementController
 var checkpoints := CHECKPOINTS.new()
 var coverage := preload("res://scripts/tests/notebook_puzzle_coverage.gd").new()
@@ -22,9 +24,14 @@ var coverage := preload("res://scripts/tests/notebook_puzzle_coverage.gd").new()
 class ControlledSave extends Node:
 	var delegate: Node
 	var reject := false
+	var reject_game := false
+	var rejected_game_saves := 0
 	var lose_ack := false
 	func get_build_flavor() -> String: return delegate.get_build_flavor()
 	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		if reject_game and not transaction.begins_with("HISTORY_"):
+			rejected_game_saves += 1
+			return {"ok": false, "error_ids": ["ERR_TEST_BASEMENT_GAME_SAVE"]}
 		if reject: return {"ok": false, "error_ids": ["ERR_TEST_BASEMENT_NOTE_SAVE"]}
 		var result: Dictionary = delegate.save_snapshot(slot, point, state, revision, transaction)
 		return {"ok": false, "error_ids": ["ERR_TEST_BASEMENT_NOTE_ACK"]} if result.ok and lose_ack else result
@@ -54,6 +61,7 @@ func run(tree: SceneTree) -> Dictionary:
 		await _storage_branches(tree)
 		await _modals(tree)
 		await _failures(tree)
+		await _choice_recovery(tree)
 		for id in ids:
 			_expect(covered.has(id + ":" + locale), "unexecuted basement ID: " + id + ":" + locale)
 			for segment in CONTENT.definition(id, 1).visible_segment_ids:
@@ -64,7 +72,7 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(),
-		"not_covered": ["static_puzzle_board_disclosure", "D5_transition_producer", "app_restart_cursor", "OS_input", "shared_notebook_UI"]}
+		"choice_recovery_cases": choice_recovery_cases, "not_covered": ["static_puzzle_board_disclosure", "D5_transition_producer", "app_restart_cursor", "OS_input", "shared_notebook_UI"]}
 
 
 func _route(tree: SceneTree) -> void:
@@ -291,6 +299,108 @@ func _failures(tree: SceneTree) -> void:
 	controlled.free()
 	_collect()
 	await tree.process_frame
+
+
+func _choice_recovery(tree: SceneTree) -> void:
+	var cases: Array = [["central", "clockwise", "open"], ["central", "counterclockwise", "warning"],
+		["central", "counterclockwise", "direction_wrong"], ["axis", "ring", "order_wrong"], ["auxiliary", "", "release"]]
+	for axis in RULES.AXES:
+		cases.append(["axis", axis, "pass"])
+		cases.append(["axis", axis, "depth_wrong"])
+	for spec in cases:
+		for follow_up in ["retry", "cancel"]:
+			var old_errors := errors.size()
+			_prepare_modal(spec[0], spec[1])
+			var state := GameState.get_snapshot()
+			var axes: Dictionary = state.loop_state.event_local_states.BASEMENT.axes
+			if spec[2] == "depth_wrong": axes.depths[spec[1]] = 2 if RULES.DEPTHS[spec[1]] == 1 else 1
+			if spec[2] == "order_wrong": axes.pushed = []
+			if spec[2] == "direction_wrong": axes.reverse_warning_seen = true
+			_install(state)
+			_expect(view.session.initialize().ok, "basement recovery fixture initializes normally")
+			view._render_room()
+			view.callv("_confirm_" + spec[0], [] if spec[0] == "auxiliary" else [spec[1]])
+			var request: Dictionary = view._recorded_modal_request
+			var index := 1 if spec[0] == "central" else 2
+			_expect(view._modal_active and request.get("recorded", false), "basement recovery prompt saved")
+			var shown := GameState.get_snapshot()
+			var saver := ControlledSave.new()
+			saver.delegate = SaveManager
+			saver.reject_game = true
+			view.session._save = saver
+			view._recorded_choice_pressed(request, index)
+			var pending := GameState.get_snapshot()
+			var cursor := CURSOR.read(pending)
+			_expect(saver.rejected_game_saves == 1, "one actual irreversible action save is rejected")
+			_expect(view._modal_active and cursor.get("phase") == "selection_pending" and CURSOR.matches(cursor, pending), "failed mechanism returns to pending confirmation")
+			_expect(_same_choice_gameplay(shown, pending), "failed mechanism preserves physical state, failure record and fracture state")
+			var answer_id: String = request.row.choices[index].content_id
+			var answer := _entry(answer_id).duplicate(true)
+			view.session._save = SaveManager
+			view.queue_free()
+			await tree.process_frame
+			_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "pending basement confirmation reloads from disk")
+			view = VIEW.new()
+			view.configure_session(SLOT, "MORNING_ROUTE")
+			tree.current_scene.add_child(view)
+			view.set_process(false)
+			await tree.process_frame
+			_expect(view._modal_active and StateSnapshotValidator.same_persisted_value(pending, GameState.get_snapshot()), "load does not push axis, turn handle or release filter")
+			var restored: Dictionary = view._recorded_modal_request
+			_expect(restored.get("selection_recorded", false) and restored.get("selection_token") == cursor.get("modal", {}).get("selection_token"), "basement restore preserves exact answer token")
+			saver.reject_game = false
+			saver.lose_ack = true
+			view.session._save = saver
+			if follow_up == "cancel":
+				view._cancel_prologue_modal()
+				_expect(not view._modal_active and _same_choice_gameplay(shown, GameState.get_snapshot()), "cancel never applies the attempted mechanism")
+			else:
+				view._recorded_choice_pressed(restored, index)
+				var local: Dictionary = view._basement().basement_local()
+				match spec[2]:
+					"pass": _expect(spec[1] in local.axes.pushed and local.axes.pushed.size() == shown.loop_state.event_local_states.BASEMENT.axes.pushed.size() + 1 and not local.axes.locked, "retry pushes exactly the selected axis once")
+					"open": _expect(local.axes.open and GameState.get_snapshot().meta_progress.knowledge_entries.get("basement_access_fast_path", false), "retry opens storage and grants its verified fast path")
+					"warning": _expect(local.axes.reverse_warning_seen and not local.axes.locked and not local.axes.open and GameState.get_snapshot().meta_progress.failure_knowledge == shown.meta_progress.failure_knowledge, "first reverse retry is a warning, not a failed attempt")
+					"release": _expect(local.heart.filter_off and GameState.get_snapshot().fracture_state.camouflage_filter == "disabled" and view.session.stage() == "D5", "retry commits filter release and D5 together")
+					_:
+						var failure: Dictionary = GameState.get_snapshot().meta_progress.failure_knowledge.get("D1", {})
+						_expect(local.axes.locked and failure.get("category") == spec[2] and failure.get("attempts", 0) == shown.meta_progress.failure_knowledge.get("D1", {}).get("attempts", 0) + 1, "retry records exactly one failure with the real category")
+			var after := GameState.get_snapshot()
+			var answers: Array = _archive().entries.filter(func(entry: Dictionary) -> bool: return entry.get("observation", {}).get("content_id", "") == answer_id)
+			_expect(answers.size() == 1 and _same_protected_answer(answer, answers[0]), "basement retry/cancel preserves original answer and only backed source protection")
+			view._recorded_choice_pressed(restored, index)
+			_expect(GameState.get_snapshot() == after, "old basement callback cannot repeat the irreversible action")
+			view.session._save = SaveManager
+			saver.free()
+			choice_recovery_cases += 1
+			print("NOTEBOOK_BASEMENT_CHOICE_RECOVERY: ", TranslationServer.get_locale(), " ", spec, " ", follow_up, " ", "PASS" if errors.size() == old_errors else errors.slice(old_errors))
+
+
+func _same_choice_gameplay(before: Dictionary, after: Dictionary) -> bool:
+	var left := before.duplicate(true)
+	var right := after.duplicate(true)
+	left.loop_state.event_local_states.erase(CURSOR.KEY)
+	right.loop_state.event_local_states.erase(CURSOR.KEY)
+	return STATE_ASSERTIONS.same_surface_gameplay(left, right)
+
+
+func _same_protected_answer(before: Dictionary, after: Dictionary) -> bool:
+	if not ARCHIVE.validate(_archive()).ok: return false
+	var left := before.duplicate(true)
+	var right := after.duplicate(true)
+	left.erase("protection_reasons")
+	right.erase("protection_reasons")
+	if not StateSnapshotValidator.same_persisted_value(left, right): return false
+	for reason in before.protection_reasons:
+		if reason not in after.protection_reasons: return false
+	for reason in after.protection_reasons:
+		if reason in before.protection_reasons: continue
+		if not String(reason).begins_with("knowledge_source:"): return false
+		var backed := false
+		for link in _archive().source_links:
+			if link.consumer_kind == "knowledge_source" and "knowledge_source:" + link.consumer_uid == reason and link.target.uid == after.entry_uid: backed = true
+		if not backed: return false
+	return true
 
 
 func _cancel_state_matches(before: Dictionary, after: Dictionary, request: Dictionary, allowed: Array, report: bool = true) -> bool:
