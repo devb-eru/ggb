@@ -16,6 +16,28 @@ const CRASH_PHASES := [
 	"complete",
 ]
 
+class ResetAcknowledgementSave extends Node:
+	var phase := ""
+	var mode := "lost"
+	var injected := 0
+	var confirmed := 0
+	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		var selected: bool = state.reset_state.phase == phase and injected == 0
+		if selected and mode == "rejected":
+			injected += 1
+			return {"ok": false, "error_id": "TEST_RESET_REJECTED"}
+		var result := SaveManager.save_snapshot(slot, point, state, revision, transaction)
+		if selected and result.ok:
+			injected += 1
+			return {"ok": false, "error_id": "TEST_RESET_ACK_LOST"}
+		return result
+	func confirm_snapshot_commit(slot: String, transaction: String) -> Dictionary:
+		confirmed += 1
+		var result := SaveManager.confirm_snapshot_commit(slot, transaction)
+		if result.ok and mode == "mismatch":
+			result.snapshot.meta_progress.servants.edgar.bond += 1
+		return result
+
 
 func run() -> Dictionary:
 	var errors := PackedStringArray()
@@ -24,6 +46,7 @@ func run() -> Dictionary:
 	_test_load_install_and_recovery(errors)
 	_test_reset_crash_recovery("normal", errors)
 	_test_reset_crash_recovery("broken", errors)
+	_test_reset_acknowledgements(errors)
 	_test_dialogue_repository(errors)
 	_cleanup()
 	GameState.reset_for_test()
@@ -251,6 +274,43 @@ func _test_reset_crash_recovery(reset_type: String, errors: PackedStringArray) -
 		_expect(bool(final_load.get("ok", false)), "completed reset slot did not reload", errors)
 		_expect(String(GameState.get_value(&"reset_state.phase", "")) == "idle", "reloaded reset was not idle", errors)
 		SaveManager.delete_test_slot(slot_id)
+
+
+func _test_reset_acknowledgements(errors: PackedStringArray) -> void:
+	var cases := 0
+	for reset_type in ["normal", "broken"]:
+		var phases := CRASH_PHASES.duplicate()
+		phases.append("idle")
+		for phase in phases:
+			for mode in (["lost", "rejected", "mismatch"] if phase == "sleep_confirmed" else ["lost"]):
+				var slot: String = RESET_SLOT_PREFIX + "ack_" + reset_type + "_" + phase + "_" + mode
+				SaveManager.delete_test_slot(slot)
+				GameState.reset_for_test()
+				var seed := GameState.get_snapshot()
+				seed.meta_progress.knowledge_entries = {"KN_ACK_KEEP": "verified"}
+				if reset_type == "broken":
+					seed.fracture_state.camouflage_filter = "disabled"
+					seed.fracture_state.world_phase = "S2"
+				_expect(StateWriter.new(GameState).install_snapshot(seed, GameState.revision, &"RESET_ACK_SEED").ok, "ack seed accepted", errors)
+				var before := GameState.get_snapshot()
+				var saver := ResetAcknowledgementSave.new()
+				saver.phase = phase
+				saver.mode = mode
+				var reset := ResetCoordinator.new(GameState, saver)
+				var result := reset.request_broken_reset(slot) if reset_type == "broken" else reset.request_normal_reset(slot)
+				_expect(saver.injected == 1 and saver.confirmed == 1, "exact target save is injected and verified: " + reset_type + "/" + phase + "/" + mode, errors)
+				if mode == "lost":
+					var after := GameState.get_snapshot()
+					_expect(result.get("ok", false) and result.get("completed", false) and after.reset_state.phase == "idle", "ack loss completes reset: " + reset_type + "/" + phase, errors)
+					_expect(after.loop_state.day_index == before.loop_state.day_index + 1 and _equivalent(after.meta_progress, before.meta_progress), "ack loss advances one day and preserves progress", errors)
+					_expect(after.fracture_state.broken_reset_triggered == (reset_type == "broken"), "ack loss preserves reset type", errors)
+					_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(slot).ok and _equivalent(after, GameState.get_snapshot()), "acknowledged disk and memory agree", errors)
+				else:
+					_expect(not result.get("ok", false) and _equivalent(before, GameState.get_snapshot()), "unwritten or mismatched confirmation cannot authorize reset", errors)
+				saver.free()
+				SaveManager.delete_test_slot(slot)
+				cases += 1
+	print("RESET_ACKNOWLEDGEMENT_CASES: ", cases)
 
 
 func _test_dialogue_repository(errors: PackedStringArray) -> void:

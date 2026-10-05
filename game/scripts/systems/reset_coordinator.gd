@@ -218,13 +218,18 @@ func _commit_and_save(
 		String(transaction_id)
 	)
 	if not bool(save_result.get("ok", false)):
-		_game_state.rollback_failed_persistence(
-			commit_result["previous_snapshot"],
-			int(commit_result["revision"]),
-			transaction_id,
-			StringName(save_result.get("error_id", &"ERR_SAVE_UNKNOWN"))
-		)
-		return save_result
+		var committed := false
+		if _save_manager.has_method("confirm_snapshot_commit"):
+			var confirmed: Dictionary = _save_manager.confirm_snapshot_commit(slot_id, String(transaction_id))
+			committed = confirmed.get("ok", false) and StateSnapshotValidator.same_persisted_value(_game_state.get_snapshot(), confirmed.snapshot)
+		if not committed:
+			_game_state.rollback_failed_persistence(
+				commit_result["previous_snapshot"],
+				int(commit_result["revision"]),
+				transaction_id,
+				StringName(save_result.get("error_id", &"ERR_SAVE_UNKNOWN"))
+			)
+			return save_result
 	reset_phase_committed.emit(StringName(reset_transaction_id), StringName(target_phase), _game_state.revision)
 	return {"ok": true, "phase": target_phase, "revision": _game_state.revision}
 

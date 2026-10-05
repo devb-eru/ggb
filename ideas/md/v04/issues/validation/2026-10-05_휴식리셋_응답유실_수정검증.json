@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-05",
+  "base_commit": "deb7a798aecf0db0bffae344f577b85ca84c7f1e",
+  "issue_id": "GGB-ERR-2026-0034",
+  "status": "VERIFIED_SCOPED",
+  "goal_complete": false,
+  "product_changes": [
+    "game/scripts/systems/reset_coordinator.gd"
+  ],
+  "runtime": "Godot 4.7.2.stable.steam.ed1daf0bf",
+  "timings_seconds": {
+    "import": 21.5,
+    "export": 8.8,
+    "fracture": 102.6,
+    "foundation": 11.5,
+    "mirror": 90.1
+  },
+  "exit_code": 0,
+  "rest_recovery_cases": 8,
+  "reset_acknowledgement_cases": 20,
+  "before": {
+    "cases": [
+      "NOTEBOOK_REST_RECOVERY: ko_KR bedroom retry [\"saved answer cannot choose a physical rest route or reset\", \"reset retry reconciles lost acknowledgements and reaches the changed morning\", \"rest produces exactly one new morning and its wake note\"]",
+      "NOTEBOOK_REST_RECOVERY: ko_KR bedroom cancel [\"saved answer cannot choose a physical rest route or reset\", \"cancel leaves physical rest unselected\"]",
+      "NOTEBOOK_REST_RECOVERY: ko_KR capsule retry [\"saved answer cannot choose a physical rest route or reset\", \"reset retry reconciles lost acknowledgements and reaches the changed morning\", \"rest produces exactly one new morning and its wake note\"]",
+      "NOTEBOOK_REST_RECOVERY: ko_KR capsule cancel [\"saved answer cannot choose a physical rest route or reset\", \"cancel leaves physical rest unselected\"]",
+      "NOTEBOOK_REST_RECOVERY: en_US bedroom retry [\"saved answer cannot choose a physical rest route or reset\", \"reset retry reconciles lost acknowledgements and reaches the changed morning\", \"rest produces exactly one new morning and its wake note\"]",
+      "NOTEBOOK_REST_RECOVERY: en_US bedroom cancel [\"saved answer cannot choose a physical rest route or reset\", \"cancel leaves physical rest unselected\"]",
+      "NOTEBOOK_REST_RECOVERY: en_US capsule retry [\"saved answer cannot choose a physical rest route or reset\", \"reset retry reconciles lost acknowledgements and reaches the changed morning\", \"rest produces exactly one new morning and its wake note\"]",
+      "NOTEBOOK_REST_RECOVERY: en_US capsule cancel [\"saved answer cannot choose a physical rest route or reset\", \"cancel leaves physical rest unselected\"]"
+    ],
+    "summary": [
+      "NOTEBOOK_FRACTURE_SMOKE: { \"ok\": false, \"errors\": [\"saved answer cannot choose a physical rest route or reset\", \"reset retry reconciles lost acknowledgements and reaches the changed morning\", \"rest produces exactly one new morning and its wake note\", \"saved answer cannot choose a physical rest route or reset\", \"cancel leaves physical rest unselected\", \"saved answer cannot choose a physical rest route or reset\", \"reset retry reconciles lost acknowledgements and reaches the changed morning\", \"rest produces exactly one new morning and its wake note\", \"saved answer cannot choose a physical rest route or reset\", \"cancel leaves physical rest unselected\", \"saved answer cannot choose a physical rest route or reset\", \"reset retry reconciles lost acknowledgements and reaches the changed morning\", \"rest produces exactly one new morning and its wake note\", \"saved answer cannot choose a physical rest route or reset\", \"cancel leaves physical rest unselected\", \"saved answer cannot choose a physical rest route or reset\", \"reset retry reconciles lost acknowledgements and reaches the changed morning\", \"rest produces exactly one new morning and its wake note\", \"saved answer cannot choose a physical rest route or reset\", \"cancel leaves physical rest unselected\"], \"authored_ids\": 67, \"covered_id_locales\": 134, \"covered_segment_locales\": 154, \"rest_recovery_cases\": 8, \"not_covered\": [\"timed_panel_and_guidance_disclosure\", \"world_question_choice_capture\", \"static_board_disclosure\", \"app_restart_cursor\", \"OS_input\", \"shared_notebook_UI\"] }"
+    ],
+    "hashes": [
+      {
+        "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-rest-choice-recovery-20261005\\notebook.pck",
+        "Hash": "38A74A1EBD50E1A040684082A56E963C6C8795931CB82121C3ED2009B4C0CFEC"
+      },
+      {
+        "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-rest-choice-recovery-20261005\\fracture.out.log",
+        "Hash": "952E9DE1AD801AD948E2BD9E3A296EF541FD7D58B07E1C1241ADEFA0FB458356"
+      }
+    ]
+  },
+  "after": {
+    "base": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-rest-choice-recovery-verified-20261005",
+    "cases": [
+      "NOTEBOOK_REST_RECOVERY: ko_KR bedroom retry PASS",
+      "NOTEBOOK_REST_RECOVERY: ko_KR bedroom cancel PASS",
+      "NOTEBOOK_REST_RECOVERY: ko_KR capsule retry PASS",
+      "NOTEBOOK_REST_RECOVERY: ko_KR capsule cancel PASS",
+      "NOTEBOOK_REST_RECOVERY: en_US bedroom retry PASS",
+      "NOTEBOOK_REST_RECOVERY: en_US bedroom cancel PASS",
+      "NOTEBOOK_REST_RECOVERY: en_US capsule retry PASS",
+      "NOTEBOOK_REST_RECOVERY: en_US capsule cancel PASS"
+    ],
+    "summary": [
+      "NOTEBOOK_FRACTURE_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 67, \"covered_id_locales\": 134, \"covered_segment_locales\": 154, \"rest_recovery_cases\": 8, \"not_covered\": [\"timed_panel_and_guidance_disclosure\", \"world_question_choice_capture\", \"static_board_disclosure\", \"app_restart_cursor\", \"OS_input\", \"shared_notebook_UI\"] }"
+    ],
+    "foundation": [
+      "RESET_ACKNOWLEDGEMENT_CASES: 20",
+      "FOUNDATION_SMOKE: PASS"
+    ],
+    "stderr": [
+      "ERROR: Failed to read the root certificate store.",
+      "   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)",
+      "ERROR: Failed to read the root certificate store.",
+      "   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)"
+    ],
+    "hashes": [
+      {
+        "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-rest-choice-recovery-verified-20261005\\notebook.pck",
+        "Hash": "AA0CBFDADD5F99AA992FE610E2825FE3462E7302752E32C2ED7386E07CF74B3A"
+      },
+      {
+        "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-rest-choice-recovery-verified-20261005\\fracture.out.log",
+        "Hash": "C9C932A25BDD1835C9E95EF8E42B32C04A9BF2B58BF1EA166262EA65700824B6"
+      },
+      {
+        "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-rest-choice-recovery-verified-20261005\\foundation.out.log",
+        "Hash": "A2EC8BCEF403A29DD5209328CE2845CA14545028D804473A584C5F86B386B452"
+      },
+      {
+        "Path": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-test-transfer-20261001\\game\\scripts\\systems\\reset_coordinator.gd",
+        "Hash": "48255F4338FA47F4F5F30F7B50CFD2FBFB3EFABFF00600AB4D019E62B86C6DF9"
+      },
+      {
+        "Path": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-test-transfer-20261001\\game\\scripts\\tests\\notebook_fracture_smoke.gd",
+        "Hash": "FF3C1A2F69A6677FB16590366207F36370BF4A66C822642715FF8FC9DDEAEB01"
+      },
+      {
+        "Path": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-test-transfer-20261001\\game\\scripts\\tests\\foundation_runtime_regression.gd",
+        "Hash": "E124F5C9F8247F6392B27A0B41EF7B45D5567553005ED1DAE12158D5B87BE8E1"
+      }
+    ]
+  },
+  "mirror": {
+    "summary": [
+      "NOTEBOOK_MIRROR_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 64, \"covered_id_locales\": 130, \"covered_segment_locales\": 194, \"choice_recovery_cases\": 32, \"guard_fixtures\": [\"MIXTURE_ORDER\"], \"not_covered\": [\"static_puzzle_board_disclosure\", \"app_restart_cursor\", \"OS_input\", \"shared_notebook_UI\"] }"
+    ],
+    "hashes": [
+      {
+        "Path": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-notebook-rest-choice-recovery-verified-20261005\\mirror_regression.out.log",
+        "Hash": "DB50E692F0AF03D87650C34E0CBA1AF125C4D718935E6A112807F899E713C1EC"
+      }
+    ]
+  },
+  "test_repairs": [
+    "Allow no surface receipt only when absent on both snapshots; still validate immutable archive prefix, counters and all gameplay",
+    "Declare foundation slot as String after import parse failure; reran import/export"
+  ],
+  "not_covered": [
+    "OS input",
+    "actual power interruption",
+    "separate process restart for eight rest paths",
+    "all timed panels and guidance",
+    "full producer audit",
+    "performance acceptance"
+  ]
+}

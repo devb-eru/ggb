@@ -6,20 +6,28 @@ const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const TRANSITION := preload("res://scripts/ui/fracture_transition_texts.gd")
+const CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
+const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 const SLOT := "__test_notebook_fracture"
 var errors := PackedStringArray()
 var covered := {}
 var segments := {}
 var serial := 0
+var rest_recovery_cases := 0
 var view: BasementController
 var checkpoints := CHECKPOINTS.new()
 
 class ControlledSave extends Node:
 	var delegate: Node
 	var reject := false
+	var reject_game := false
+	var rejected_game_saves := 0
 	var lose_ack := false
 	func get_build_flavor() -> String: return delegate.get_build_flavor()
 	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		if reject_game and not transaction.begins_with("HISTORY_"):
+			rejected_game_saves += 1
+			return {"ok": false, "error_ids": ["ERR_TEST_FRACTURE_GAME_SAVE"]}
 		if reject: return {"ok": false, "error_ids": ["ERR_TEST_FRACTURE_NOTE_SAVE"]}
 		var result: Dictionary = delegate.save_snapshot(slot, point, state, revision, transaction)
 		return {"ok": false, "error_ids": ["ERR_TEST_FRACTURE_NOTE_ACK"]} if result.ok and lose_ack else result
@@ -46,6 +54,7 @@ func run(tree: SceneTree) -> Dictionary:
 		await _reactions(tree)
 		await _branches(tree)
 		await _failures(tree)
+		await _rest_recovery(tree)
 		for id in ids:
 			_expect(covered.has(id + ":" + locale), "unexecuted fracture ID: " + id + ":" + locale)
 			for segment in CONTENT.definition(id, 1).visible_segment_ids:
@@ -56,7 +65,7 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(),
-		"not_covered": ["timed_panel_and_guidance_disclosure", "world_question_choice_capture", "static_board_disclosure", "app_restart_cursor", "OS_input", "shared_notebook_UI"]}
+		"rest_recovery_cases": rest_recovery_cases, "not_covered": ["timed_panel_and_guidance_disclosure", "world_question_choice_capture", "static_board_disclosure", "app_restart_cursor", "OS_input", "shared_notebook_UI"]}
 
 
 func _route(tree: SceneTree, route: String) -> void:
@@ -256,6 +265,106 @@ func _failures(tree: SceneTree) -> void:
 	view.session._save = SaveManager
 	controlled.free()
 	await tree.process_frame
+
+
+func _rest_recovery(tree: SceneTree) -> void:
+	for route in ["bedroom", "capsule"]:
+		for follow_up in ["retry", "cancel"]:
+			var old_errors := errors.size()
+			var state := _seed("D6")
+			state.loop_state.location_id = "M2_BEDROOM" if route == "bedroom" else "H0_SERVICE_SPINE"
+			_install(state)
+			_expect(view.session.initialize().ok, "rest recovery fixture initializes normally")
+			view._render_room()
+			view._confirm_d6_rest(route)
+			var request: Dictionary = view._recorded_modal_request
+			_expect(request.get("recorded", false), "rest prompt is observed before confirmation")
+			var shown := GameState.get_snapshot()
+			var saver := ControlledSave.new()
+			saver.delegate = SaveManager
+			saver.reject_game = true
+			view.session._save = saver
+			view._recorded_choice_pressed(request, 1)
+			view.set_process(false)
+			var pending := GameState.get_snapshot()
+			var cursor := CURSOR.read(pending)
+			_expect(saver.rejected_game_saves == 1, "rest choice reaches one rejected game save")
+			_expect(view._modal_active and not view._d6_sleep_transition_active and cursor.get("phase") == "selection_pending" and CURSOR.matches(cursor, pending), "failed rest stays at its pending choice")
+			_expect(_same_rest_gameplay(shown, pending), "saved answer cannot choose a physical rest route or reset")
+			var answer_id: String = request.row.choices[1].content_id
+			var answers := _rest_answers(answer_id)
+			_expect(answers.size() == 1, "one attempted rest answer")
+			view.session._save = SaveManager
+			view.queue_free()
+			await tree.process_frame
+			_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "pending rest reloads from disk")
+			view = VIEW.new()
+			view.configure_session(SLOT, "D6")
+			tree.current_scene.add_child(view)
+			view.set_process(false)
+			await tree.process_frame
+			_expect(view._modal_active and not view._d6_sleep_transition_active and StateSnapshotValidator.same_persisted_value(pending, GameState.get_snapshot()), "rest reload does not replay the selected action")
+			var restored: Dictionary = view._recorded_modal_request
+			_expect(restored.get("selection_recorded", false) and restored.get("selection_token") == cursor.get("modal", {}).get("selection_token"), "rest reload preserves exact answer token")
+			saver.reject_game = false
+			saver.lose_ack = true
+			view.session._save = saver
+			if follow_up == "cancel":
+				view._cancel_prologue_modal()
+				_expect(not view._modal_active and not view._d6_sleep_transition_active and _same_rest_gameplay(shown, GameState.get_snapshot()), "cancel leaves physical rest unselected")
+			else:
+				view._recorded_choice_pressed(restored, 1)
+				view.set_process(false)
+				var expected_route := "bedroom" if route == "bedroom" else "emergency_capsule"
+				_expect(view._d6_sleep_transition_active and GameState.get_snapshot().loop_state.event_local_states.get("D6", {}).get("fracture_rest_route") == expected_route and not GameState.get_snapshot().fracture_state.broken_reset_triggered, "explicit retry starts only the selected rest transition")
+				view._tick_d6_sleep_transition(2.0)
+				view._tick_d6_sleep_transition(2.0)
+				view.set_process(false)
+				var before_sleep := GameState.get_snapshot()
+				saver.reject_game = true
+				view._tick_d6_sleep_transition(2.0)
+				view.set_process(false)
+				_expect(view._d6_sleep_transition_failed and not view._d6_sleep_transition_active and _same_rest_gameplay(before_sleep, GameState.get_snapshot()), "failed reset commit preserves the selected route and physical state")
+				saver.reject_game = false
+				view._retry_d6_sleep_transition()
+				for beat in range(3): view._tick_d6_sleep_transition(2.0)
+				view.set_process(false)
+				_expect(not view._d6_sleep_transition_failed and view.session.stage() == "E1_ENTRY" and GameState.get_snapshot().fracture_state.broken_reset_triggered, "reset retry reconciles lost acknowledgements and reaches the changed morning")
+				_expect(GameState.get_snapshot().loop_state.day_index == shown.loop_state.day_index + 1 and _has("NB_FRACTURE_NOTE_E1_WAKE"), "rest produces exactly one new morning and its wake note")
+			var after := GameState.get_snapshot()
+			_expect(StateSnapshotValidator.same_persisted_value(answers, _rest_answers(answer_id)), "rest retry/cancel retains one unchanged attempted answer")
+			view._recorded_choice_pressed(restored, 1)
+			_expect(GameState.get_snapshot() == after, "old rest callback cannot start another sleep")
+			view.session._save = SaveManager
+			saver.free()
+			rest_recovery_cases += 1
+			print("NOTEBOOK_REST_RECOVERY: ", TranslationServer.get_locale(), " ", route, " ", follow_up, " ", "PASS" if errors.size() == old_errors else errors.slice(old_errors))
+
+
+func _same_rest_gameplay(before: Dictionary, after: Dictionary) -> bool:
+	var left := before.duplicate(true)
+	var right := after.duplicate(true)
+	left.loop_state.event_local_states.erase(CURSOR.KEY)
+	right.loop_state.event_local_states.erase(CURSOR.KEY)
+	if left.loop_state.event_local_states.has("NOTEBOOK_SURFACE_RECEIPT") or right.loop_state.event_local_states.has("NOTEBOOK_SURFACE_RECEIPT"):
+		return STATE_ASSERTIONS.same_surface_gameplay(left, right)
+	# Some rest rooms expose only labels, so neither snapshot has a surface receipt.
+	var old: Dictionary = left.meta_progress.dialogue_history
+	var current: Dictionary = right.meta_progress.dialogue_history
+	if not ARCHIVE.validate(current).ok: return false
+	var added: int = current.entries.size() - old.entries.size()
+	if added < 0 or not StateSnapshotValidator.same_persisted_value(old.entries, current.entries.slice(0, old.entries.size())): return false
+	var history := current.duplicate(true)
+	history.entries = old.entries.duplicate(true)
+	history.next_sequence -= added
+	history.revision -= added
+	if not StateSnapshotValidator.same_persisted_value(old, history): return false
+	right.meta_progress.dialogue_history = old.duplicate(true)
+	return StateSnapshotValidator.same_persisted_value(left, right)
+
+
+func _rest_answers(id: String) -> Array:
+	return _archive().entries.filter(func(entry: Dictionary) -> bool: return entry.get("observation", {}).get("content_id", "") == id)
 
 
 func _act(action: String, value: Variant = null) -> Dictionary:
