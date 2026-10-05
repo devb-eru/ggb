@@ -217,6 +217,14 @@ func _failures() -> void:
 	_install(ready)
 	_present()
 	view.session._save = controlled
+	for choice_index in [1, 2]:
+		_install(ready)
+		_present()
+		view.session._save = controlled
+		errors.append_array(preload("res://scripts/tests/notebook_relationship_choice_retry.gd").run(view, controlled, "luca", choice_index))
+	_install(ready)
+	_present()
+	view.session._save = controlled
 	controlled.reject_game = true
 	var before := GameState.get_snapshot()
 	var result: Dictionary = view.session.act("luca_choose", "full_disclosure")

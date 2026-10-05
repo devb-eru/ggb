@@ -343,6 +343,18 @@ func _failures(actor: String) -> void:
 	_press(actor.to_upper() + "_CONFESS")
 	_drain()
 	view.session._save = controlled
+	for choice_index in [1, 2]:
+		_install(ready[actor])
+		_present()
+		_press(actor.to_upper() + "_CONFESS")
+		_drain()
+		view.session._save = controlled
+		errors.append_array(preload("res://scripts/tests/notebook_relationship_choice_retry.gd").run(view, controlled, actor, choice_index))
+	_install(ready[actor])
+	_present()
+	_press(actor.to_upper() + "_CONFESS")
+	_drain()
+	view.session._save = controlled
 	controlled.reject_game = true
 	var before := GameState.get_snapshot()
 	var outcome := "responsibility_recorded" if actor == "edgar" else "merged"

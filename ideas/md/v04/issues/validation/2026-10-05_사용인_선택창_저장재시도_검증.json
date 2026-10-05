@@ -1,0 +1,108 @@
+{
+  "source_hashes": [
+    {
+      "path": "game/scripts/tests/notebook_relationship_choice_retry.gd",
+      "sha256": "0954652FC4B2806AFE7BCBAEF0D4BC76893FE65545B349965FDCC56D4BE0AE11"
+    },
+    {
+      "path": "game/scripts/tests/notebook_relationship_choice_retry.gd.uid",
+      "sha256": "2A39B1D602EE74A385679F6CA447C06C77927B8FD10CED22481222A8B4E1049E"
+    },
+    {
+      "path": "game/scripts/tests/notebook_mara1_smoke.gd",
+      "sha256": "9DB337741FECC0C8A9017324DF9CFCF861CC1828803D58A6D58D911C80D4E1F5"
+    },
+    {
+      "path": "game/scripts/tests/notebook_iris_smoke.gd",
+      "sha256": "408C8BF327D7DC11A1FF7BE4821C00CC6E99F42D7085A47A983C848F5465539D"
+    },
+    {
+      "path": "game/scripts/tests/notebook_luca_smoke.gd",
+      "sha256": "2E169645C5A76B86A248E942826F586C84B707131A6734922205DEDB48AEE2C4"
+    },
+    {
+      "path": "game/scripts/tests/notebook_authority_archive_smoke.gd",
+      "sha256": "75DE781A28783E642ADE9E7992616028CB0E38BD17BE263DD2A01E0CE90B4151"
+    }
+  ],
+  "pck_sha256": "7D579C3378E04189E2BF644E47A7EE0E935C03E192686DD18BFCE160F749C701",
+  "logs": [
+    {
+      "initial_sha256": "018B8FBC88289566DE7B2207FDC0ED0CFA87CCD5E9288797321FB7F506BB539D",
+      "case": "mara1",
+      "summary": [
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: mara1 ko_KR 1 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: mara1 ko_KR 2 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: mara1 en_US 1 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: mara1 en_US 2 PASS",
+        "NOTEBOOK_MARA1_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 27, \"covered_id_locales\": 54, \"covered_segment_locales\": 64, \"not_covered\": [\"other_relationship_producers\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+      ],
+      "initial_summary": [
+        "NOTEBOOK_MARA1_SMOKE: { \"ok\": false, \"errors\": [\"Relationship choice retry: retry preserves the same answer UID and observation\", \"Relationship choice retry: retry preserves the same answer UID and observation\"], \"authored_ids\": 27, \"covered_id_locales\": 54, \"covered_segment_locales\": 64, \"not_covered\": [\"other_relationship_producers\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+      ],
+      "sha256": "730109AF3B32A31755B933364E00C6B3288C78297545CFA2A596AE5CF377F84E"
+    },
+    {
+      "initial_sha256": "866876C4179B35C0A8C7FB659C484DA06960C2D7D5EF848E884B888CC495680C",
+      "case": "iris",
+      "summary": [
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: iris ko_KR 1 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: iris ko_KR 2 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: iris en_US 1 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: iris en_US 2 PASS",
+        "NOTEBOOK_IRIS_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 45, \"covered_id_locales\": 90, \"covered_segment_locales\": 104, \"outcome_scenarios\": 20, \"not_covered\": [\"other_relationship_producers\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+      ],
+      "initial_summary": [
+        "NOTEBOOK_IRIS_SMOKE: { \"ok\": false, \"errors\": [\"Relationship choice retry: retry preserves the same answer UID and observation\", \"Relationship choice retry: retry preserves the same answer UID and observation\"], \"authored_ids\": 45, \"covered_id_locales\": 90, \"covered_segment_locales\": 104, \"outcome_scenarios\": 20, \"not_covered\": [\"other_relationship_producers\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+      ],
+      "sha256": "2ED3F3F9BBEC2597EE1B5FAE6A69D2CEC95C9BCDF803E0AC907BFF53E352E78B"
+    },
+    {
+      "initial_sha256": "293DE7BE12BE5C7595623B393085A10C243686BF704BE8548BBA4D127EC3C38B",
+      "case": "luca",
+      "summary": [
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: luca ko_KR 1 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: luca ko_KR 2 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: luca en_US 1 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: luca en_US 2 PASS",
+        "NOTEBOOK_LUCA_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 31, \"covered_id_locales\": 62, \"covered_segment_locales\": 78, \"enum_cases\": 1250, \"not_covered\": [\"other_relationship_producers\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+      ],
+      "initial_summary": [
+        "NOTEBOOK_LUCA_SMOKE: { \"ok\": false, \"errors\": [\"Relationship choice retry: retry preserves the same answer UID and observation\", \"Relationship choice retry: retry preserves the same answer UID and observation\"], \"authored_ids\": 31, \"covered_id_locales\": 62, \"covered_segment_locales\": 78, \"enum_cases\": 1250, \"not_covered\": [\"other_relationship_producers\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+      ],
+      "sha256": "AB338C1266AE9E8E1CF2B34381B34FD3413300C4C6671212AFED2C8957A50DF4"
+    },
+    {
+      "initial_sha256": "AED59747A3CFA7C4A9AE3A94C12C05F89AF8BBAE06D9BF84BE78BAB6EE714C0C",
+      "case": "authority-archive",
+      "summary": [
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: edgar ko_KR 1 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: edgar ko_KR 2 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: mara2 ko_KR 1 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: mara2 ko_KR 2 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: edgar en_US 1 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: edgar en_US 2 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: mara2 en_US 1 PASS",
+        "NOTEBOOK_RELATIONSHIP_CHOICE_RETRY: mara2 en_US 2 PASS",
+        "NOTEBOOK_AUTHORITY_ARCHIVE_SMOKE: PASS { \"ok\": true, \"errors\": [], \"authored_ids\": 148, \"covered_id_locales\": 296, \"covered_segment_locales\": 666, \"outcomes\": 48, \"matrix_cases\": 546, \"not_covered\": [\"NP15_minimum_access_and_settlement\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+      ],
+      "initial_summary": [
+        "NOTEBOOK_AUTHORITY_ARCHIVE_SMOKE: { \"ok\": false, \"errors\": [\"Relationship choice retry: retry preserves the same answer UID and observation\", \"Relationship choice retry: retry preserves the same answer UID and observation\", \"Relationship choice retry: retry preserves the same answer UID and observation\", \"Relationship choice retry: retry preserves the same answer UID and observation\"], \"authored_ids\": 148, \"covered_id_locales\": 296, \"covered_segment_locales\": 666, \"outcomes\": 48, \"matrix_cases\": 546, \"not_covered\": [\"NP15_minimum_access_and_settlement\", \"durable_app_restart_cursor\", \"shared_notebook_UI\", \"OS_input\"] }"
+      ],
+      "sha256": "23F081972C5E52F727D0420FB7092D8F518403999417A39C880E73FEBB1E2916"
+    }
+  ],
+  "baseline": "fa7d2dda7a247053352603227c68c2726f64e4b7",
+  "runtime": "Godot 4.7.2 Windows headless; isolated APPDATA/PCK",
+  "log_directory": "%TEMP%/ggb-notebook-relationship-choice-retry-final-20261005",
+  "durations_seconds": {
+    "import": 21.7,
+    "export": 8.1,
+    "mara1": 38.2,
+    "iris": 81.5,
+    "luca": 77.9,
+    "authority_archive": 1063
+  },
+  "new_retry_cases": 20,
+  "native_input": false
+}
