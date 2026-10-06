@@ -43,7 +43,7 @@ func _prepare_with_storage(storage: Node, request: Dictionary) -> Dictionary:
 	if not source.ok: return {"ok":false, "error_id":"NB_COMMAND_SLOT_UNAVAILABLE"}
 	var state: Dictionary = request.snapshot
 	var archive: Dictionary = state.meta_progress.dialogue_history
-	var storage_namespace: String = "development" if String(request.slot).begins_with("__dev_") else request.storage.flavor
+	var storage_namespace := preload("res://scripts/systems/notebook_commands.gd").namespace_for(String(request.slot), String(request.storage.flavor), String(state.meta_progress.knowledge_entries.get("reselect_source_slot_id", "")))
 	var scope := "%s:%s:%s:%s:%s:%d" % [storage_namespace, request.slot, source.header.get("run_id", ""), archive.get("source_origin_id", ""), archive.get("branch_id", ""), request.load_epoch]
 	if scope != request.scope: return {"ok":false, "error_id":"NB_COMMAND_SCOPE"}
 	var changed := ARCHIVE.set_reference(archive, request.collection, request.reference, request.enabled, int(archive.revision))

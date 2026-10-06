@@ -24,7 +24,7 @@ func _expect(ok: bool, message: String) -> void:
 
 
 func run(tree: SceneTree) -> Dictionary:
-	for scenario in ["success", "backup_recovery", "future_primary", "future_backup", "design_primary", "design_backup", "unchanged", "cancel", "revision", "reload", "disk", "future", "temporary", "guard", "namespace", "shutdown", "write_failure", "promotion_failure", "lost_ack"]:
+	for scenario in ["success", "developer_copy", "backup_recovery", "future_primary", "future_backup", "design_primary", "design_backup", "unchanged", "cancel", "revision", "reload", "disk", "future", "temporary", "guard", "namespace", "shutdown", "write_failure", "promotion_failure", "lost_ack"]:
 		await _scenario(tree, scenario)
 	await _large_candidate(tree)
 	print("NOTEBOOK_ASYNC_SAVE_CHECKS: ", checks)
@@ -108,6 +108,12 @@ func _write(path: String, text: String) -> void:
 
 func _scenario(tree: SceneTree, scenario: String) -> void:
 	var reference := _seed()
+	if scenario == "developer_copy":
+		var state := GameState.get_snapshot()
+		state.meta_progress.knowledge_entries.reselect_source_slot_id = "__dev_checkpoint"
+		_expect(StateWriter.new(GameState).install_snapshot(state, GameState.revision, &"LOAD_ASYNC_DEV_COPY").ok, "install developer provenance")
+		_expect(SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", state, GameState.revision, "ASYNC_DEV_COPY").ok, "persist developer provenance")
+		_expect(COMMANDS.scope(GameState, SaveManager, SLOT).begins_with("development:"), "developer-copy command namespace")
 	var manager: Node = PromotionFailure.new() if scenario == "promotion_failure" else (LostAcknowledgement.new() if scenario == "lost_ack" else STORAGE.new())
 	tree.root.add_child(manager)
 	manager.set_process(false)
@@ -174,7 +180,7 @@ func _scenario(tree: SceneTree, scenario: String) -> void:
 	if scenario == "namespace": ProjectSettings.set_setting("ggb/build_flavor", "full")
 	var result: Dictionary = manager.notebook_reference_result(id)
 	_expect(not result.get("pending", false), "terminal result is observable: " + scenario)
-	if scenario in ["success", "backup_recovery", "lost_ack"]:
+	if scenario in ["success", "developer_copy", "backup_recovery", "lost_ack"]:
 		_expect(result.ok and result.changed, "verified candidate commits: " + scenario)
 		var summary_key: String = manager._summary_key(paths.main)
 		var actual := preload("res://scripts/systems/notebook_save_worker.gd").read_source(paths.main)

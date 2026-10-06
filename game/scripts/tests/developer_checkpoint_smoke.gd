@@ -127,6 +127,14 @@ func run(bootstrap: Node) -> Dictionary:
 		copy_view.configure_session(clone.slot_id, "DEV_COPY")
 		var copy_session = copy_view._make_session()
 		_expect(copy_session.ending_meta_store.root_path == CATALOG.META_ROOT, "reselect provenance keeps developer ending isolation")
+		var notebook = preload("res://scripts/systems/notebook_host.gd").new()
+		notebook.game = GameState
+		notebook.saves = SaveManager
+		notebook._slot = clone.slot_id
+		var scope: Dictionary = notebook._current_scope()
+		_expect(scope.namespace == "development" and scope.slot == clone.slot_id and scope.run_id == SaveManager.inspect_slot(clone.slot_id).get("run_id"), "actual developer F3 clone retains notebook namespace and its own run identity")
+		_expect(preload("res://scripts/systems/notebook_commands.gd").scope(GameState, SaveManager, clone.slot_id).begins_with("development:"), "actual developer F3 clone uses matching reference command namespace")
+		notebook.free()
 		copy_view.free()
 	bootstrap._developer_jump("CREDITS_STAY")
 	await tree.process_frame

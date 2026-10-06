@@ -1,0 +1,11 @@
+Godot Engine v4.7.2.stable.steam.ed1daf0bf - https://godotengine.org
+
+NB_SCOPE_FAIL: namespace demo/reselect_scope_fixture/__dev_checkpoint
+NB_SCOPE_FAIL: namespace demo/reselect_scope_fixture/__dev_checkpoint_old
+NB_SCOPE_FAIL: namespace full/reselect_scope_fixture/__dev_checkpoint
+NB_SCOPE_FAIL: namespace full/reselect_scope_fixture/__dev_checkpoint_old
+NB_SCOPE_FAIL: changed developer provenance invalidates cached host
+NB_SCOPE_FAIL: same slot and observation identities remain namespace-isolated
+NB_SCOPE_FAIL: changed product provenance invalidates cached host
+NOTEBOOK_SCOPE_CHECKS: 52
+SCOPE_RESULT: {"errors":["namespace demo/reselect_scope_fixture/__dev_checkpoint","namespace demo/reselect_scope_fixture/__dev_checkpoint_old","namespace full/reselect_scope_fixture/__dev_checkpoint","namespace full/reselect_scope_fixture/__dev_checkpoint_old","changed developer provenance invalidates cached host","same slot and observation identities remain namespace-isolated","changed product provenance invalidates cached host"],"ok":false}

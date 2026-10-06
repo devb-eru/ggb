@@ -1,5 +1,9 @@
 # 통합 수첩 구현 현황
 
+## 2026-10-07 개발 F3 수첩 scope 분류
+
+기준 develop `c2bb71d`. [NP22 소비 경로 대조](2026-10-07_갤러리개발소비_scope_대조.md)에서 ERR-0045를 확인했다. 개발 F3 복사본은 엔딩 프로필만 development이고 수첩 host/commands/worker는 새 슬롯명 때문에 full로 분류됐다. 공통 순수 namespace 정책으로 통일하고 기존 편의 파일은 자동 삭제/이관하지 않는다. 초기 host 7개·commands 4개·worker 3개 실패 단언을 재현했고 최종 정책 68개, 비동기 저장/재로드 20개, host 548개(비동기 340개 포함), 실제 developer F3 clone 검사 PASS. query 6,863개는 worker 추가 수정 전 회귀로 구분한다. T17b에 미리 채운 일반 데이터의 비오염 행렬을 추가했다. NP21 전수/실제 입력/엔진 채택/성능 인수와 rollout OFF는 유지한다.
+
 ## 2026-10-07 편의 설정 미래 임시 파일 보호
 
 기준 develop `757bb00`. [검증 보고서](2026-10-07_수첩편의설정_미래임시파일_보호.md)의 ERR-0044는 미래 temporary 덮어쓰기를 9개 실패 단언으로 재현한 뒤 load/save 양쪽에서 보호하도록 수정했다. 미확정 temporary는 복구하지 않는다. 집중 53조건과 query 6,835검사(미래 파일 52조건·view 227·gallery 232 포함) PASS. 격리 headless 파일 검사이며 실제 OS 중단/동시 쓰기나 NP21/22 전체 감사는 미완료다. rollout OFF와 실제 전편/IME 후보 채택·성능 인수는 유지한다.

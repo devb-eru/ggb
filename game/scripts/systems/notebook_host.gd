@@ -413,7 +413,11 @@ func _cancel_pending() -> void:
 
 func _current_scope() -> Dictionary:
 	var archive: Dictionary = game.get_value("meta_progress.dialogue_history", {})
-	return {"namespace": "development" if _slot.begins_with("__dev_") else saves.get_build_flavor(), "slot": _slot, "run_id": saves.inspect_slot(_slot).get("run_id", ""), "source_origin_id": archive.get("source_origin_id", ""), "branch_id": archive.get("branch_id", ""), "load_epoch": int(game.load_epoch)}
+	return {"namespace": _current_namespace(), "slot": _slot, "run_id": saves.inspect_slot(_slot).get("run_id", ""), "source_origin_id": archive.get("source_origin_id", ""), "branch_id": archive.get("branch_id", ""), "load_epoch": int(game.load_epoch)}
+
+
+func _current_namespace() -> String:
+	return COMMANDS.scope_namespace(game, saves, _slot)
 
 
 func _same_live_scope() -> bool:
@@ -423,7 +427,7 @@ func _same_live_scope() -> bool:
 		if controller.session == null or controller.session.slot_id != _slot or controller.session.get_instance_id() != _session_id: return false
 	if int(game.load_epoch) != _scope.load_epoch: return false
 	if not _view_scope.is_empty() and view_profile != _view_scope.profile: return false
-	var namespace_now: String = "development" if _slot.begins_with("__dev_") else saves.get_build_flavor()
+	var namespace_now := _current_namespace()
 	return namespace_now == _scope.namespace and game.get_value("meta_progress.dialogue_history.source_origin_id", "") == _scope.source_origin_id and game.get_value("meta_progress.dialogue_history.branch_id", "") == _scope.branch_id
 
 

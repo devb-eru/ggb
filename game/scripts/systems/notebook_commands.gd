@@ -7,11 +7,22 @@ static func scope(game: Node, saves: Node, slot: String) -> String:
 	return _scope_from_summary(game, saves, slot, saves.inspect_slot(slot))
 
 
+static func scope_namespace(game: Node, saves: Node, slot: String) -> String:
+	var source := String(game.get_value("meta_progress.knowledge_entries.reselect_source_slot_id", ""))
+	return namespace_for(slot, saves.get_build_flavor(), source)
+
+
+static func namespace_for(slot: String, flavor: String, source: String) -> String:
+	if slot.begins_with("__dev_") or (OS.is_debug_build() and source.begins_with("__dev_checkpoint")):
+		return "development"
+	return flavor
+
+
 static func _scope_from_summary(game: Node, saves: Node, slot: String, summary: Dictionary) -> String:
 	var archive: Dictionary = game.get_value(&"meta_progress.dialogue_history", {})
-	var scope_namespace := "development" if slot.begins_with("__dev_") else String(saves.get_build_flavor())
+	var namespace_id := scope_namespace(game, saves, slot)
 	var run_id := String(summary.get("run_id", ""))
-	return "%s:%s:%s:%s:%s:%d" % [scope_namespace, slot, run_id, archive.get("source_origin_id", ""), archive.get("branch_id", ""), game.load_epoch]
+	return "%s:%s:%s:%s:%s:%d" % [namespace_id, slot, run_id, archive.get("source_origin_id", ""), archive.get("branch_id", ""), game.load_epoch]
 
 
 static func set_reference(game: Node, saves: Node, slot: String, collection: String, reference: Dictionary, enabled: bool, expected_scope: String, expected_revision: int, command_id: String) -> Dictionary:

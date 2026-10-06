@@ -40,6 +40,8 @@ func run(tree: SceneTree) -> Dictionary:
 	for message in views.errors: _expect(false, "view sidecar: " + message)
 	var future_views := preload("res://scripts/tests/notebook_view_future_smoke.gd").new().run()
 	for message in future_views.errors: _expect(false, "future view sidecar: " + message)
+	var scopes := preload("res://scripts/tests/notebook_scope_smoke.gd").new().run(tree)
+	for message in scopes.errors: _expect(false, "notebook namespace: " + message)
 	var browse := await preload("res://scripts/tests/notebook_browse_smoke.gd").new().run(tree, fixture)
 	for message in browse.errors: _expect(false, "browsing: " + message)
 	var visuals := await preload("res://scripts/tests/notebook_visual_smoke.gd").new().run(tree)
