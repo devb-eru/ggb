@@ -8,6 +8,7 @@ const NOTES := preload("res://scripts/systems/core_notebook.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
+const QUERY := preload("res://scripts/systems/notebook_query.gd")
 const BOARD := preload("res://scripts/chapters/core_overlay_board.gd")
 const SLOT := "__test_notebook_core"
 var errors := PackedStringArray()
@@ -17,6 +18,7 @@ var covered_segments := {}
 var matrices := 0
 var view: BasementController
 var serial := 0
+var anonymous_reviews := 0
 
 class ControlledSave extends Node:
 	var reject_game := false
@@ -58,9 +60,16 @@ func run(tree: SceneTree) -> Dictionary:
 		_overlay()
 		print("CORE_PHASE: ", language, " roles")
 		_roles(false)
+		var anonymous_source := GameState.get_snapshot()
 		_roles(true)
 		print("CORE_PHASE: ", language, " authority")
 		for index in range(3): _authority(NOTES.E.MARKS.keys()[index], NOTES.INTENTS[index])
+		for mark in NOTES.E.MARKS:
+			var retained := anonymous_source
+			if mark != anonymous_source.meta_progress.knowledge_entries.self_authored_mark.type:
+				_roles(false, mark)
+				retained = GameState.get_snapshot()
+			for intent in NOTES.INTENTS: _authority(mark, intent, retained)
 		_original()
 		print("CORE_PHASE: ", language, " failures")
 		_failures()
@@ -75,8 +84,10 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
+	_expect(anonymous_reviews == 24, "both locales preserve all three actual mark histories across all nine mark-intent combinations")
+	print("CORE_ANONYMOUS_REVIEWS: ", anonymous_reviews)
 	print("CORE_COVERAGE: actual IDs/locales=", covered.size(), " segments/locales=", covered_segments.size(), " catalog/rule cases=", matrices)
-	return {"ok":errors.is_empty(), "errors":errors, "actual_id_locales":covered.size(), "matrix_cases":matrices,
+	return {"ok":errors.is_empty(), "errors":errors, "actual_id_locales":covered.size(), "matrix_cases":matrices, "anonymous_reviews":anonymous_reviews,
 		"not_covered":["durable_app_restart_cursor", "unified_notebook_UI", "visual_comparison_renderer", "OS_input"]}
 
 
@@ -221,8 +232,9 @@ func _overlay() -> void:
 	_collect()
 
 
-func _roles(complete: bool) -> void:
+func _roles(complete: bool, mark: String = "") -> void:
 	var state := _fixture("F0_D")
+	if not mark.is_empty(): state.meta_progress.knowledge_entries.self_authored_mark = {"type":mark, "text":NOTES.MARK_SOURCE.MARKS[mark], "day":1}
 	state.meta_progress.servants.mara2.researcher_record_acquired = complete
 	_install(state)
 	_present()
@@ -248,13 +260,21 @@ func _roles(complete: bool) -> void:
 	_drain()
 	_expect(view.session.stage() == "F0_E", "roles solved without relationship requirement")
 	_expect(GameState.get_snapshot().meta_progress.servants == servants, "anonymous index is not a researcher reward")
+	var before := GameState.get_snapshot()
+	_expect(_count("D_INDEX_RECORD") == (0 if complete else 1), "anonymous record acquisition follows actual resident inspection exactly once")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), before), "role records and anonymous identity survive real JSON load")
+	if not complete: _anonymous_review()
 	_collect()
 
 
-func _authority(type: String, intent: String) -> void:
-	var state := _fixture("F0_E")
-	state.meta_progress.knowledge_entries.self_authored_mark = {"type":type,"text":NOTES.MARK_SOURCE.MARKS[type],"day":1}
+func _authority(type: String, intent: String, source: Dictionary = {}) -> void:
+	var state: Dictionary = _fixture("F0_E") if source.is_empty() else source.duplicate(true)
+	if source.is_empty(): state.meta_progress.knowledge_entries.self_authored_mark = {"type":type,"text":NOTES.MARK_SOURCE.MARKS[type],"day":1}
+	else: _expect(state.meta_progress.knowledge_entries.self_authored_mark.type == type, "retained A1 mark is never changed after its actual role observations")
 	_install(state)
+	if not source.is_empty():
+		_expect(view._restore_presentation(), "retained completed role screen restores using the real presentation path")
+		_expect(view._presentation_scope == view._recorded_choice_scope(), "retained completed cursor binds the current controller load scope")
 	_present()
 	var ending: Dictionary = state.ending_run.duplicate(true)
 	var servants: Dictionary = state.meta_progress.servants.duplicate(true)
@@ -263,6 +283,9 @@ func _authority(type: String, intent: String) -> void:
 	for index in [1,2,0]: _press("F0E_PIECE_%d" % index)
 	_press("F0E_PAST")
 	_drain()
+	if not source.is_empty():
+		_expect(NOTES.E.progress(GameState.get_snapshot()).past_verified, "retained mark pieces actually verify before current-author choices")
+		print("CORE_AUTHORITY_RETAINED_PAST: ", JSON.stringify({"type":type, "intent":intent, "past_verified":NOTES.E.progress(GameState.get_snapshot()).past_verified}))
 	for owner in ["father","system","servant"]: _press("F0E_AUTHOR_" + owner)
 	_expect(_count("STATUS_E_AUTHOR") == 3 and _count("E_AUTHOR") == 0, "rejected authors cannot grant authority")
 	_press("F0E_AUTHOR_subject")
@@ -278,10 +301,59 @@ func _authority(type: String, intent: String) -> void:
 		if other != intent: _expect(_count("E_INTENT_" + other.to_upper()) == 0, "unselected reaction not disclosed")
 	_expect(LoadCoordinator.new(GameState,SaveManager).load_and_install(SLOT).ok, "completed authority reload")
 	_expect(GameState.get_snapshot().ending_run == ending, "reload cannot finalize intent")
+	if not source.is_empty():
+		for original in source.meta_progress.dialogue_history.entries:
+			if original.get("record_class") != "authored": continue
+			var found := {}
+			for current in _archive().entries:
+				if current.entry_uid == original.entry_uid: found = current; break
+			_expect(not found.is_empty() and found.observation == original.observation and found.sequence == original.sequence, "authority and intent cannot rewrite earlier role or anonymous observations")
+		_anonymous_review()
 	var before := GameState.get_snapshot()
 	for entry in _archive().entries: CONTENT.render_entry(entry,"en-US")
 	_expect(GameState.get_snapshot() == before, "notebook replay does not solve puzzles")
 	_collect()
+
+
+func _anonymous_review() -> void:
+	var snapshot := GameState.get_snapshot()
+	var archive: Dictionary = snapshot.meta_progress.dialogue_history
+	var ledger: Dictionary = snapshot.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create())
+	var records: Array = ledger.revisions.filter(func(note: Dictionary) -> bool: return note.metadata.get("knowledge_id") == "ANON_PURPLE_RESIDENT_INDEX")
+	_expect(records.size() == 1, "actual anonymous inspection creates one anonymous knowledge revision")
+	if records.size() != 1: return
+	var revision: Dictionary = records[0]
+	var resolved := ARCHIVE.resolve(archive, revision.observation_ref)
+	_expect(resolved.ok, "anonymous observation reference resolves after progression")
+	if not resolved.ok: return
+	_expect(resolved.entry.observation.content_id == "NB_CORE_D_INDEX_RECORD", "anonymous identity is not reattributed to a known researcher")
+	for reference in revision.source_refs:
+		var cited := ARCHIVE.resolve(archive, reference)
+		_expect(cited.ok and not String(cited.get("entry", {}).get("observation", {}).get("content_id", "")).begins_with("NB_MARA2_"), "anonymous record cites no undisclosed Mara 2 research source")
+	var query := QUERY.new()
+	var scope := {"namespace":"test", "slot":SLOT, "run_id":"anonymous-core-review", "source_origin_id":archive.source_origin_id, "branch_id":archive.branch_id, "load_epoch":1}
+	var opened := query.open(archive, ledger, scope, TranslationServer.get_locale())
+	_expect(opened.ok, "actual anonymous archive opens in read model")
+	if opened.ok:
+		var key: String = QUERY.reference_key(revision.observation_ref)
+		_expect(key in _people_keys(query, "unidentified"), "actual anonymous record remains in unidentified people material")
+		_expect(key not in _people_keys(query, "MARA2"), "actual anonymous record never enters Mara 2's identified material")
+	query.close()
+	_expect(GameState.get_snapshot() == snapshot, "anonymous browsing does not award relationships or change intent")
+	anonymous_reviews += 1
+
+
+func _people_keys(query: RefCounted, person: String) -> Array:
+	var keys := []
+	var first: Dictionary = query.page({"tab":"people", "people":[person]}, 0, query.cache_key())
+	_expect(first.ok, "anonymous review person page opens")
+	if not first.ok: return keys
+	for index in range(first.pages):
+		var page: Dictionary = first if index == 0 else query.page({"tab":"people", "people":[person]}, index, query.cache_key())
+		_expect(page.ok, "anonymous review scans every person page")
+		if page.ok:
+			for item in page.items: keys.append(item.key)
+	return keys
 
 
 func _original() -> void:
