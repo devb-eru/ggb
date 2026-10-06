@@ -20,6 +20,7 @@ var view: BasementController
 var serial := 0
 var matrix_cases := 0
 var order_surfaces := 0
+var read_routes := 0
 
 class ControlledSave extends Node:
 	var reject_game := false
@@ -55,9 +56,9 @@ func run(tree: SceneTree) -> Dictionary:
 		for mask in [0, 5, 31]: await _confirmation_route(tree, mask)
 		_orders()
 		_arrange()
-		for mask in [0, 3, 31]: _read_route(mask, "known", 0)
+		for mask in range(32):
+			for mode in ["known", "missing"]: _read_route(mask, mode, 0)
 		_read_route(31, "known", 1)
-		_read_route(31, "missing", 0)
 		_read_route(31, "original", 0)
 		await _failures(tree)
 		await _legacy()
@@ -72,7 +73,7 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 102, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "confirmation_matrix": matrix_cases, "order_surfaces": order_surfaces,
-		"not_covered": ["durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
+		"read_routes": read_routes, "not_covered": ["durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
 
 
 func _fixture(mask: int, hub: bool = false) -> Dictionary:
@@ -237,18 +238,32 @@ func _read_route(mask: int, mode: String, outcome: int) -> void:
 		if entry.observation.content_id.ends_with("_ORIGINAL"):
 			var replay := CONTENT.render_entry(entry, "en-US")
 			_expect(replay.entry.fallback and replay.entry.segments[0].text == entry.observation.segments[0].captured_text, "old quote remains literal, even when matching another known line")
-	if mask == 0 or mask == 3:
-		_expect(view.session.stage() == "E3_4M" and _count("SCREEN_MINIMUM") == 1, "zero or partial records retain minimum-access route")
+	var minimum: bool = not state.meta_progress.servants.edgar.core_event_complete
+	if minimum:
+		_expect(view.session.stage() == "E3_4M" and _count("SCREEN_MINIMUM") == 1, "every Edgar-incomplete mask retains minimum-access route")
 		_press("EDGAR_MINIMUM")
 		_expect(_count("MINIMUM") == 1, "minimum first paragraph only")
 		_drain()
 		_expect(_count("MINIMUM") == 3 and view.session.stage() == "E5", "three minimum paragraphs reach evening")
+	else:
+		_expect(view.session.stage() == "E5" and _count("SCREEN_MINIMUM") == 0 and _count("MINIMUM") == 0, "every Edgar-complete mask bypasses undisclosed minimum-access dialogue")
 	_expect(GameState.get_snapshot().meta_progress.servants == servants, "display and minimum access grant no relationship or record")
+	var progressed := GameState.get_snapshot()
+	_expect(not view.session.act("j4_minimum").ok and GameState.get_snapshot() == progressed, "minimum procedure cannot repeat or apply to Edgar-complete masks")
+	var revision: Dictionary = progressed.meta_progress.knowledge_entries[KNOWLEDGE.KEY].revisions.back()
+	for reference in revision.source_refs:
+		var resolved := ARCHIVE.resolve(_archive(), reference)
+		_expect(resolved.ok, "every J4 source resolves after minimum access")
+		if not resolved.ok: continue
+		for owner in RULES.OWNERS:
+			if resolved.entry.observation.content_id in DOCUMENT.QUOTES[owner]:
+				_expect(mode == "known" and servants[owner].researcher_record_acquired, "missing or unacquired researcher prose cannot invent a J4 quotation source")
 	_collect()
 	var before := GameState.get_snapshot()
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok and StateSnapshotValidator.same_persisted_value(before, GameState.get_snapshot()), "all displayed evidence survives JSON reload")
 	var reloaded: Dictionary = GameState.get_snapshot().loop_state.event_local_states.CHAPTER_ONE.last_feedback
 	_expect(StateSnapshotValidator.same_persisted_value(before.loop_state.event_local_states.CHAPTER_ONE.last_feedback, reloaded), "saved feedback descriptors remain frozen")
+	read_routes += 1
 
 
 func _failures(tree: SceneTree) -> void:
