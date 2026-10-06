@@ -68,7 +68,11 @@ func validate(snapshot: Variant) -> Dictionary:
 
 
 func normalize(snapshot: Dictionary) -> Dictionary:
-	var normalized := snapshot.duplicate(true)
+	return _normalize_owned(snapshot.duplicate(true))
+
+
+func _normalize_owned(normalized: Dictionary) -> Dictionary:
+	# Only for a fresh, exclusively owned parse; normal callers retain copy isolation.
 	if normalized.get("meta_progress") is Dictionary:
 		var meta: Dictionary = normalized["meta_progress"]
 		if meta.has("journal_stage"):

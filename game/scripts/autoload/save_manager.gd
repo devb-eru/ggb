@@ -695,7 +695,8 @@ func _validate_save_text(raw_text: String, path: String) -> Dictionary:
 			var version: Variant = ledger.get("schema_version")
 			if (version is int or version is float) and is_finite(float(version)) and float(version) == floor(float(version)) and version > 1:
 				return _load_failure(&"ERR_SAVE_FUTURE_SCHEMA")
-	var adapted := NOTEBOOK_MIGRATION.adapt_verified(payload.state, stored_checksum, NOTEBOOK_ROLLOUT.enabled())
+	# payload is this call's private JSON parse, not a shared gameplay snapshot.
+	var adapted := NOTEBOOK_MIGRATION._adapt_owned_verified(payload.state, stored_checksum, NOTEBOOK_ROLLOUT.enabled())
 	if not adapted.get("ok", false): return _load_failure(&"ERR_SAVE_NOTEBOOK_MIGRATION")
 	return {
 		"ok": true,

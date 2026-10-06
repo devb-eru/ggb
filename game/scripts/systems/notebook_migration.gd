@@ -8,6 +8,16 @@ const WAKE_TEXTS := preload("res://scripts/ui/reality_wake_texts.gd")
 
 static func adapt_verified(source: Dictionary, digest: String, promote_legacy: bool = true) -> Dictionary:
 	var state := StateSnapshotValidator.new().normalize(source)
+	return _adapt_normalized_verified(state, digest, promote_legacy)
+
+
+static func _adapt_owned_verified(source: Dictionary, digest: String, promote_legacy: bool = true) -> Dictionary:
+	# SaveManager owns the fresh JSON tree; never use this for GameState/caller candidates.
+	var state := StateSnapshotValidator.new()._normalize_owned(source)
+	return _adapt_normalized_verified(state, digest, promote_legacy)
+
+
+static func _adapt_normalized_verified(state: Dictionary, digest: String, promote_legacy: bool) -> Dictionary:
 	var checked := StateSnapshotValidator.new().validate(state)
 	if not checked.ok: return checked
 	var history: Dictionary = state.meta_progress.dialogue_history

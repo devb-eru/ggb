@@ -1,0 +1,4406 @@
+{
+  "format_version": 1,
+  "created_utc": "2026-10-06T14:33:51.4679754Z",
+  "pack_sha256": "F12A45B0CD4F555FAE67ABDEBC8AD886F42233A594A7E56F740F001FEF6B0413",
+  "engine_sha256": "12310C74BDDA7DCD43F28E971F33047DCECADD436B68169D61CE41009006DF38",
+  "percentile": "nearest rank ceil(0.95*n)",
+  "cold_definition": "Fresh OS process; fixture parsed before model timer. OS disk cache NOT flushed.",
+  "warm_definition": "Warm model operations in first process; warm model search excludes debounce/input/rendering.",
+  "acceptance": "MEASUREMENT_ONLY",
+  "device_class": "NOT_CLASSIFIED",
+  "renderer": "headless",
+  "sampling_complete": false,
+  "profiling_mode": "SAVE_STAGES",
+  "requested_cold": 1,
+  "requested_warm": 3,
+  "requested_lifecycle_cycles": 0,
+  "groups": [
+    {
+      "fixture": "NB-PERF-N2000",
+      "locale": "ko-KR",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "query_open_ms": {
+          "count": 1,
+          "first": 212.154,
+          "mean": 212.154,
+          "maximum": 212.154,
+          "p95": 212.154
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 388.957,
+          "mean": 549.4036666666667,
+          "maximum": 710.338,
+          "p95": 710.338
+        },
+        "panel_present_ms": {
+          "count": 1,
+          "first": 282.801,
+          "mean": 282.801,
+          "maximum": 282.801,
+          "p95": 282.801
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 508.058,
+          "mean": 508.058,
+          "maximum": 508.058,
+          "p95": 508.058
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 7.996,
+          "mean": 2.6846666666666668,
+          "maximum": 7.996,
+          "p95": 7.996
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 6.052,
+          "mean": 6.052,
+          "maximum": 6.052,
+          "p95": 6.052
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 66.209,
+          "mean": 66.209,
+          "maximum": 66.209,
+          "p95": 66.209
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 7.553,
+          "mean": 2.536,
+          "maximum": 7.553,
+          "p95": 7.553
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 158.153,
+          "mean": 158.153,
+          "maximum": 158.153,
+          "p95": 158.153
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 22.963,
+          "mean": 7.697333333333333,
+          "maximum": 22.963,
+          "p95": 22.963
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 10.503,
+          "mean": 10.632666666666667,
+          "maximum": 10.723,
+          "p95": 10.723
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.37,
+          "mean": 0.32633333333333336,
+          "maximum": 0.37,
+          "p95": 0.37
+        },
+        "search_index_fields_ms": {
+          "count": 1,
+          "first": 16.44,
+          "mean": 16.44,
+          "maximum": 16.44,
+          "p95": 16.44
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 7.632,
+          "mean": 2.565,
+          "maximum": 7.632,
+          "p95": 7.632
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 6.193,
+          "mean": 4.369666666666666,
+          "maximum": 6.478,
+          "p95": 6.478
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 10.859,
+          "mean": 10.529833333333332,
+          "maximum": 10.859,
+          "p95": 10.859
+        },
+        "search_index_cpu_total_ms": {
+          "count": 1,
+          "first": 117.794,
+          "mean": 117.794,
+          "maximum": 117.794,
+          "p95": 117.794
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 140.57,
+          "mean": 137.64,
+          "maximum": 140.57,
+          "p95": 140.57
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 515.724,
+          "mean": 515.724,
+          "maximum": 515.724,
+          "p95": 515.724
+        },
+        "search_index_body_ms": {
+          "count": 1,
+          "first": 83.546,
+          "mean": 83.546,
+          "maximum": 83.546,
+          "p95": 83.546
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 8.619,
+          "mean": 2.8983333333333334,
+          "maximum": 8.619,
+          "p95": 8.619
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 280.31,
+          "mean": 280.31,
+          "maximum": 280.31,
+          "p95": 280.31
+        },
+        "search_index_max_batch_ms": {
+          "count": 1,
+          "first": 4.329,
+          "mean": 4.329,
+          "maximum": 4.329,
+          "p95": 4.329
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 550264832.0,
+        "mean": 550264832.0,
+        "maximum": 550264832.0,
+        "p95": 550264832.0
+      }
+    },
+    {
+      "fixture": "NB-PERF-N2000",
+      "locale": "en-US",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "query_open_ms": {
+          "count": 1,
+          "first": 211.318,
+          "mean": 211.318,
+          "maximum": 211.318,
+          "p95": 211.318
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 388.734,
+          "mean": 555.1229999999999,
+          "maximum": 730.701,
+          "p95": 730.701
+        },
+        "panel_present_ms": {
+          "count": 1,
+          "first": 58.749,
+          "mean": 58.749,
+          "maximum": 58.749,
+          "p95": 58.749
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 284.602,
+          "mean": 284.602,
+          "maximum": 284.602,
+          "p95": 284.602
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 7.739,
+          "mean": 2.598333333333333,
+          "maximum": 7.739,
+          "p95": 7.739
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 6.496,
+          "mean": 6.496,
+          "maximum": 6.496,
+          "p95": 6.496
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 65.413,
+          "mean": 65.413,
+          "maximum": 65.413,
+          "p95": 65.413
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 8.466,
+          "mean": 2.8639999999999994,
+          "maximum": 8.466,
+          "p95": 8.466
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 153.47,
+          "mean": 153.47,
+          "maximum": 153.47,
+          "p95": 153.47
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 23.716,
+          "mean": 7.945,
+          "maximum": 23.716,
+          "p95": 23.716
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 12.338,
+          "mean": 11.094,
+          "maximum": 12.338,
+          "p95": 12.338
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.588,
+          "mean": 0.41333333333333333,
+          "maximum": 0.588,
+          "p95": 0.588
+        },
+        "search_index_fields_ms": {
+          "count": 1,
+          "first": 16.753,
+          "mean": 16.753,
+          "maximum": 16.753,
+          "p95": 16.753
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 8.571,
+          "mean": 2.8759999999999994,
+          "maximum": 8.571,
+          "p95": 8.571
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 6.435,
+          "mean": 4.618333333333333,
+          "maximum": 7.076,
+          "p95": 7.076
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 11.021,
+          "mean": 10.738333333333335,
+          "maximum": 11.021,
+          "p95": 11.021
+        },
+        "search_index_cpu_total_ms": {
+          "count": 1,
+          "first": 123.951,
+          "mean": 123.951,
+          "maximum": 123.951,
+          "p95": 123.951
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 139.768,
+          "mean": 136.81166666666667,
+          "maximum": 139.768,
+          "p95": 139.768
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 511.111,
+          "mean": 511.111,
+          "maximum": 511.111,
+          "p95": 511.111
+        },
+        "search_index_body_ms": {
+          "count": 1,
+          "first": 84.638,
+          "mean": 84.638,
+          "maximum": 84.638,
+          "p95": 84.638
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 8.279,
+          "mean": 2.784666666666667,
+          "maximum": 8.279,
+          "p95": 8.279
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 277.793,
+          "mean": 277.793,
+          "maximum": 277.793,
+          "p95": 277.793
+        },
+        "search_index_max_batch_ms": {
+          "count": 1,
+          "first": 4.407,
+          "mean": 4.407,
+          "maximum": 4.407,
+          "p95": 4.407
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 549441536.0,
+        "mean": 549441536.0,
+        "maximum": 549441536.0,
+        "p95": 549441536.0
+      }
+    },
+    {
+      "fixture": "NB-PERF-L10000",
+      "locale": "ko-KR",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "query_open_ms": {
+          "count": 1,
+          "first": 628.154,
+          "mean": 628.154,
+          "maximum": 628.154,
+          "p95": 628.154
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 1269.121,
+          "mean": 1791.3776666666665,
+          "maximum": 2325.786,
+          "p95": 2325.786
+        },
+        "panel_present_ms": {
+          "count": 1,
+          "first": 283.797,
+          "mean": 283.797,
+          "maximum": 283.797,
+          "p95": 283.797
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 960.787,
+          "mean": 960.787,
+          "maximum": 960.787,
+          "p95": 960.787
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 66.927,
+          "mean": 22.33066666666667,
+          "maximum": 66.927,
+          "p95": 66.927
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 41.989,
+          "mean": 41.989,
+          "maximum": 41.989,
+          "p95": 41.989
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 207.753,
+          "mean": 207.753,
+          "maximum": 207.753,
+          "p95": 207.753
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 57.719,
+          "mean": 19.259,
+          "maximum": 57.719,
+          "p95": 57.719
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 523.621,
+          "mean": 523.621,
+          "maximum": 523.621,
+          "p95": 523.621
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 144.079,
+          "mean": 48.47533333333334,
+          "maximum": 144.079,
+          "p95": 144.079
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 31.719,
+          "mean": 31.222333333333335,
+          "maximum": 31.719,
+          "p95": 31.719
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.603,
+          "mean": 0.5456666666666666,
+          "maximum": 0.71,
+          "p95": 0.71
+        },
+        "search_index_fields_ms": {
+          "count": 1,
+          "first": 84.245,
+          "mean": 84.245,
+          "maximum": 84.245,
+          "p95": 84.245
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 44.827,
+          "mean": 14.993666666666664,
+          "maximum": 44.827,
+          "p95": 44.827
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 38.535,
+          "mean": 25.522333333333332,
+          "maximum": 38.535,
+          "p95": 38.535
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 30.79,
+          "mean": 31.151833333333332,
+          "maximum": 31.755,
+          "p95": 31.755
+        },
+        "search_index_cpu_total_ms": {
+          "count": 1,
+          "first": 423.75,
+          "mean": 423.75,
+          "maximum": 423.75,
+          "p95": 423.75
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 390.374,
+          "mean": 389.02700000000004,
+          "maximum": 390.418,
+          "p95": 390.418
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 875.322,
+          "mean": 875.322,
+          "maximum": 875.322,
+          "p95": 875.322
+        },
+        "search_index_body_ms": {
+          "count": 1,
+          "first": 246.204,
+          "mean": 246.204,
+          "maximum": 246.204,
+          "p95": 246.204
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 43.71,
+          "mean": 14.769,
+          "maximum": 43.71,
+          "p95": 43.71
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 964.318,
+          "mean": 964.318,
+          "maximum": 964.318,
+          "p95": 964.318
+        },
+        "search_index_max_batch_ms": {
+          "count": 1,
+          "first": 4.656,
+          "mean": 4.656,
+          "maximum": 4.656,
+          "p95": 4.656
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 1033506816.0,
+        "mean": 1033506816.0,
+        "maximum": 1033506816.0,
+        "p95": 1033506816.0
+      }
+    },
+    {
+      "fixture": "NB-PERF-L10000",
+      "locale": "en-US",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "query_open_ms": {
+          "count": 1,
+          "first": 621.323,
+          "mean": 621.323,
+          "maximum": 621.323,
+          "p95": 621.323
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 1235.672,
+          "mean": 1772.5683333333334,
+          "maximum": 2302.091,
+          "p95": 2302.091
+        },
+        "panel_present_ms": {
+          "count": 1,
+          "first": 215.613,
+          "mean": 215.613,
+          "maximum": 215.613,
+          "p95": 215.613
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 885.485,
+          "mean": 885.485,
+          "maximum": 885.485,
+          "p95": 885.485
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 48.427,
+          "mean": 16.163,
+          "maximum": 48.427,
+          "p95": 48.427
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 41.913,
+          "mean": 41.913,
+          "maximum": 41.913,
+          "p95": 41.913
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 206.983,
+          "mean": 206.983,
+          "maximum": 206.983,
+          "p95": 206.983
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 47.067,
+          "mean": 15.707666666666668,
+          "maximum": 47.067,
+          "p95": 47.067
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 513.058,
+          "mean": 513.058,
+          "maximum": 513.058,
+          "p95": 513.058
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 139.858,
+          "mean": 47.06166666666667,
+          "maximum": 139.858,
+          "p95": 139.858
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 30.307,
+          "mean": 31.47266666666667,
+          "maximum": 32.115,
+          "p95": 32.115
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.408,
+          "mean": 0.36033333333333334,
+          "maximum": 0.408,
+          "p95": 0.408
+        },
+        "search_index_fields_ms": {
+          "count": 1,
+          "first": 82.315,
+          "mean": 82.315,
+          "maximum": 82.315,
+          "p95": 82.315
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 48.913,
+          "mean": 16.349,
+          "maximum": 48.913,
+          "p95": 48.913
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 37.965,
+          "mean": 25.230333333333334,
+          "maximum": 37.965,
+          "p95": 37.965
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 30.468,
+          "mean": 31.662666666666667,
+          "maximum": 33.638,
+          "p95": 33.638
+        },
+        "search_index_cpu_total_ms": {
+          "count": 1,
+          "first": 436.849,
+          "mean": 436.849,
+          "maximum": 436.849,
+          "p95": 436.849
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 384.255,
+          "mean": 385.077,
+          "maximum": 387.321,
+          "p95": 387.321
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 888.067,
+          "mean": 888.067,
+          "maximum": 888.067,
+          "p95": 888.067
+        },
+        "search_index_body_ms": {
+          "count": 1,
+          "first": 245.337,
+          "mean": 245.337,
+          "maximum": 245.337,
+          "p95": 245.337
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 44.128,
+          "mean": 14.903333333333334,
+          "maximum": 44.128,
+          "p95": 44.128
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 882.194,
+          "mean": 882.194,
+          "maximum": 882.194,
+          "p95": 882.194
+        },
+        "search_index_max_batch_ms": {
+          "count": 1,
+          "first": 4.384,
+          "mean": 4.384,
+          "maximum": 4.384,
+          "p95": 4.384
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 1035554816.0,
+        "mean": 1035554816.0,
+        "maximum": 1035554816.0,
+        "p95": 1035554816.0
+      }
+    },
+    {
+      "fixture": "NB-PERF-P2001",
+      "locale": "ko-KR",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "query_open_ms": {
+          "count": 1,
+          "first": 440.3,
+          "mean": 440.3,
+          "maximum": 440.3,
+          "p95": 440.3
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 802.294,
+          "mean": 1109.404,
+          "maximum": 1436.194,
+          "p95": 1436.194
+        },
+        "panel_present_ms": {
+          "count": 1,
+          "first": 291.149,
+          "mean": 291.149,
+          "maximum": 291.149,
+          "p95": 291.149
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 752.758,
+          "mean": 752.758,
+          "maximum": 752.758,
+          "p95": 752.758
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 15.515,
+          "mean": 5.191,
+          "maximum": 15.515,
+          "p95": 15.515
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 12.352,
+          "mean": 12.352,
+          "maximum": 12.352,
+          "p95": 12.352
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 135.388,
+          "mean": 135.388,
+          "maximum": 135.388,
+          "p95": 135.388
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 15.038,
+          "mean": 5.031,
+          "maximum": 15.038,
+          "p95": 15.038
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 327.765,
+          "mean": 327.765,
+          "maximum": 327.765,
+          "p95": 327.765
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 25.652,
+          "mean": 8.620666666666667,
+          "maximum": 25.652,
+          "p95": 25.652
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 21.649,
+          "mean": 21.378666666666664,
+          "maximum": 21.649,
+          "p95": 21.649
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.444,
+          "mean": 0.43533333333333335,
+          "maximum": 0.444,
+          "p95": 0.444
+        },
+        "search_index_fields_ms": {
+          "count": 1,
+          "first": 33.018,
+          "mean": 33.018,
+          "maximum": 33.018,
+          "p95": 33.018
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 14.926,
+          "mean": 4.996333333333333,
+          "maximum": 14.926,
+          "p95": 14.926
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 8.559,
+          "mean": 5.917999999999999,
+          "maximum": 8.841,
+          "p95": 8.841
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 21.731,
+          "mean": 21.36616666666667,
+          "maximum": 21.731,
+          "p95": 21.731
+        },
+        "search_index_cpu_total_ms": {
+          "count": 1,
+          "first": 236.782,
+          "mean": 236.782,
+          "maximum": 236.782,
+          "p95": 236.782
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 284.288,
+          "mean": 286.47600000000006,
+          "maximum": 292.73,
+          "p95": 292.73
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 1138.467,
+          "mean": 1138.467,
+          "maximum": 1138.467,
+          "p95": 1138.467
+        },
+        "search_index_body_ms": {
+          "count": 1,
+          "first": 167.655,
+          "mean": 167.655,
+          "maximum": 167.655,
+          "p95": 167.655
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 17.37,
+          "mean": 5.816,
+          "maximum": 17.37,
+          "p95": 17.37
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 510.29,
+          "mean": 510.29,
+          "maximum": 510.29,
+          "p95": 510.29
+        },
+        "search_index_max_batch_ms": {
+          "count": 1,
+          "first": 4.221,
+          "mean": 4.221,
+          "maximum": 4.221,
+          "p95": 4.221
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 737177600.0,
+        "mean": 737177600.0,
+        "maximum": 737177600.0,
+        "p95": 737177600.0
+      }
+    },
+    {
+      "fixture": "NB-PERF-P2001",
+      "locale": "en-US",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "query_open_ms": {
+          "count": 1,
+          "first": 432.918,
+          "mean": 432.918,
+          "maximum": 432.918,
+          "p95": 432.918
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 779.917,
+          "mean": 1121.2250000000001,
+          "maximum": 1461.184,
+          "p95": 1461.184
+        },
+        "panel_present_ms": {
+          "count": 1,
+          "first": 70.078,
+          "mean": 70.078,
+          "maximum": 70.078,
+          "p95": 70.078
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 523.405,
+          "mean": 523.405,
+          "maximum": 523.405,
+          "p95": 523.405
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 19.48,
+          "mean": 6.512666666666667,
+          "maximum": 19.48,
+          "p95": 19.48
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 12.262,
+          "mean": 12.262,
+          "maximum": 12.262,
+          "p95": 12.262
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 132.656,
+          "mean": 132.656,
+          "maximum": 132.656,
+          "p95": 132.656
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 16.713,
+          "mean": 5.5889999999999995,
+          "maximum": 16.713,
+          "p95": 16.713
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 332.038,
+          "mean": 332.038,
+          "maximum": 332.038,
+          "p95": 332.038
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 25.733,
+          "mean": 8.626333333333333,
+          "maximum": 25.733,
+          "p95": 25.733
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 20.909,
+          "mean": 21.49066666666667,
+          "maximum": 21.832,
+          "p95": 21.832
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.463,
+          "mean": 0.445,
+          "maximum": 0.466,
+          "p95": 0.466
+        },
+        "search_index_fields_ms": {
+          "count": 1,
+          "first": 34.09,
+          "mean": 34.09,
+          "maximum": 34.09,
+          "p95": 34.09
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 19.076,
+          "mean": 6.378333333333334,
+          "maximum": 19.076,
+          "p95": 19.076
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 8.888,
+          "mean": 5.903666666666666,
+          "maximum": 8.888,
+          "p95": 8.888
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 20.511,
+          "mean": 21.222333333333335,
+          "maximum": 22.1,
+          "p95": 22.1
+        },
+        "search_index_cpu_total_ms": {
+          "count": 1,
+          "first": 249.946,
+          "mean": 249.946,
+          "maximum": 249.946,
+          "p95": 249.946
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 285.839,
+          "mean": 287.35266666666666,
+          "maximum": 293.495,
+          "p95": 293.495
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 1146.835,
+          "mean": 1146.835,
+          "maximum": 1146.835,
+          "p95": 1146.835
+        },
+        "search_index_body_ms": {
+          "count": 1,
+          "first": 171.144,
+          "mean": 171.144,
+          "maximum": 171.144,
+          "p95": 171.144
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 17.128,
+          "mean": 5.735,
+          "maximum": 17.128,
+          "p95": 17.128
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 500.036,
+          "mean": 500.036,
+          "maximum": 500.036,
+          "p95": 500.036
+        },
+        "search_index_max_batch_ms": {
+          "count": 1,
+          "first": 4.424,
+          "mean": 4.424,
+          "maximum": 4.424,
+          "p95": 4.424
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 740421632.0,
+        "mean": 740421632.0,
+        "maximum": 740421632.0,
+        "p95": 740421632.0
+      }
+    },
+    {
+      "fixture": "NB-PERF-LONG",
+      "locale": "ko-KR",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "query_open_ms": {
+          "count": 1,
+          "first": 215.163,
+          "mean": 215.163,
+          "maximum": 215.163,
+          "p95": 215.163
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 413.552,
+          "mean": 582.64,
+          "maximum": 757.79,
+          "p95": 757.79
+        },
+        "panel_present_ms": {
+          "count": 1,
+          "first": 286.293,
+          "mean": 286.293,
+          "maximum": 286.293,
+          "p95": 286.293
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 515.32,
+          "mean": 515.32,
+          "maximum": 515.32,
+          "p95": 515.32
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 9.632,
+          "mean": 3.2323333333333335,
+          "maximum": 9.632,
+          "p95": 9.632
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 6.078,
+          "mean": 6.078,
+          "maximum": 6.078,
+          "p95": 6.078
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 72.088,
+          "mean": 72.088,
+          "maximum": 72.088,
+          "p95": 72.088
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 7.983,
+          "mean": 2.728,
+          "maximum": 7.983,
+          "p95": 7.983
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 169.626,
+          "mean": 169.626,
+          "maximum": 169.626,
+          "p95": 169.626
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 23.11,
+          "mean": 7.741666666666666,
+          "maximum": 23.11,
+          "p95": 23.11
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 13.001,
+          "mean": 13.338666666666667,
+          "maximum": 13.747,
+          "p95": 13.747
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.347,
+          "mean": 0.375,
+          "maximum": 0.478,
+          "p95": 0.478
+        },
+        "search_index_fields_ms": {
+          "count": 1,
+          "first": 16.771,
+          "mean": 16.771,
+          "maximum": 16.771,
+          "p95": 16.771
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 8.494,
+          "mean": 2.8706666666666667,
+          "maximum": 8.494,
+          "p95": 8.494
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 6.043,
+          "mean": 4.182666666666667,
+          "maximum": 6.134,
+          "p95": 6.134
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 13.432,
+          "mean": 13.404666666666666,
+          "maximum": 13.871,
+          "p95": 13.871
+        },
+        "search_index_cpu_total_ms": {
+          "count": 1,
+          "first": 130.263,
+          "mean": 130.263,
+          "maximum": 130.263,
+          "p95": 130.263
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 127.033,
+          "mean": 124.29199999999999,
+          "maximum": 127.033,
+          "p95": 127.033
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 543.379,
+          "mean": 543.379,
+          "maximum": 543.379,
+          "p95": 543.379
+        },
+        "search_index_body_ms": {
+          "count": 1,
+          "first": 85.714,
+          "mean": 85.714,
+          "maximum": 85.714,
+          "p95": 85.714
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 8.943,
+          "mean": 3.095333333333333,
+          "maximum": 8.943,
+          "p95": 8.943
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 305.417,
+          "mean": 305.417,
+          "maximum": 305.417,
+          "p95": 305.417
+        },
+        "search_index_max_batch_ms": {
+          "count": 1,
+          "first": 5.157,
+          "mean": 5.157,
+          "maximum": 5.157,
+          "p95": 5.157
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 576704512.0,
+        "mean": 576704512.0,
+        "maximum": 576704512.0,
+        "p95": 576704512.0
+      }
+    },
+    {
+      "fixture": "NB-PERF-LONG",
+      "locale": "en-US",
+      "cold_runs": 1,
+      "statistics_ms": {
+        "query_open_ms": {
+          "count": 1,
+          "first": 243.652,
+          "mean": 243.652,
+          "maximum": 243.652,
+          "p95": 243.652
+        },
+        "durable_save_ms": {
+          "count": 3,
+          "first": 413.543,
+          "mean": 591.7606666666667,
+          "maximum": 784.531,
+          "p95": 784.531
+        },
+        "panel_present_ms": {
+          "count": 1,
+          "first": 59.583,
+          "mean": 59.583,
+          "maximum": 59.583,
+          "p95": 59.583
+        },
+        "model_to_panel_ms": {
+          "count": 1,
+          "first": 317.691,
+          "mean": 317.691,
+          "maximum": 317.691,
+          "p95": 317.691
+        },
+        "warm_search_hidden_model_ms": {
+          "count": 3,
+          "first": 8.872,
+          "mean": 2.9776666666666665,
+          "maximum": 8.872,
+          "p95": 8.872
+        },
+        "first_page_model_ms": {
+          "count": 1,
+          "first": 6.83,
+          "mean": 6.83,
+          "maximum": 6.83,
+          "p95": 6.83
+        },
+        "fixture_parse_ms": {
+          "count": 1,
+          "first": 72.211,
+          "mean": 72.211,
+          "maximum": 72.211,
+          "p95": 72.211
+        },
+        "warm_search_long_model_ms": {
+          "count": 3,
+          "first": 10.894,
+          "mean": 3.692,
+          "maximum": 10.894,
+          "p95": 10.894
+        },
+        "saved_slot_load_ms": {
+          "count": 1,
+          "first": 170.496,
+          "mean": 170.496,
+          "maximum": 170.496,
+          "p95": 170.496
+        },
+        "warm_facets_model_ms": {
+          "count": 3,
+          "first": 22.666,
+          "mean": 7.602999999999999,
+          "maximum": 22.666,
+          "p95": 22.666
+        },
+        "slot_inspect_after_write_ms": {
+          "count": 3,
+          "first": 15.75,
+          "mean": 14.461999999999998,
+          "maximum": 15.75,
+          "p95": 15.75
+        },
+        "two_materials_model_ms": {
+          "count": 3,
+          "first": 0.36,
+          "mean": 0.39433333333333337,
+          "maximum": 0.517,
+          "p95": 0.517
+        },
+        "search_index_fields_ms": {
+          "count": 1,
+          "first": 17.376,
+          "mean": 17.376,
+          "maximum": 17.376,
+          "p95": 17.376
+        },
+        "warm_search_miss_model_ms": {
+          "count": 3,
+          "first": 9.14,
+          "mean": 3.0766666666666667,
+          "maximum": 9.14,
+          "p95": 9.14
+        },
+        "warm_page_model_ms": {
+          "count": 3,
+          "first": 6.094,
+          "mean": 4.279666666666667,
+          "maximum": 6.317,
+          "p95": 6.317
+        },
+        "slot_inspect_unchanged_ms": {
+          "count": 6,
+          "first": 12.949,
+          "mean": 13.317999999999998,
+          "maximum": 13.705,
+          "p95": 13.705
+        },
+        "search_index_cpu_total_ms": {
+          "count": 1,
+          "first": 138.928,
+          "mean": 138.928,
+          "maximum": 138.928,
+          "p95": 138.928
+        },
+        "append_prune_ms": {
+          "count": 3,
+          "first": 123.875,
+          "mean": 122.366,
+          "maximum": 123.875,
+          "p95": 123.875
+        },
+        "fixture_build_ms": {
+          "count": 1,
+          "first": 533.754,
+          "mean": 533.754,
+          "maximum": 533.754,
+          "p95": 533.754
+        },
+        "search_index_body_ms": {
+          "count": 1,
+          "first": 88.244,
+          "mean": 88.244,
+          "maximum": 88.244,
+          "p95": 88.244
+        },
+        "warm_search_match_model_ms": {
+          "count": 3,
+          "first": 8.673,
+          "mean": 3.0043333333333333,
+          "maximum": 8.673,
+          "p95": 8.673
+        },
+        "first_search_ui_ms": {
+          "count": 1,
+          "first": 298.898,
+          "mean": 298.898,
+          "maximum": 298.898,
+          "p95": 298.898
+        },
+        "search_index_max_batch_ms": {
+          "count": 1,
+          "first": 5.282,
+          "mean": 5.282,
+          "maximum": 5.282,
+          "p95": 5.282
+        }
+      },
+      "peak_process_working_set": {
+        "count": 1,
+        "first": 577548288.0,
+        "mean": 577548288.0,
+        "maximum": 577548288.0,
+        "p95": 577548288.0
+      }
+    }
+  ],
+  "failed_runs": [],
+  "runs": [
+    {
+      "name": "NB-PERF-N2000-ko-KR-0",
+      "process_id": 23644,
+      "exit_code": 0,
+      "functional_pass": true,
+      "failure": "",
+      "wall_seconds": 8.8308086,
+      "peak_working_set_bytes": 550264832,
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "ko-KR",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-N2000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "36c759a9acefd01de48d56323353afb7a1b139a2a6cf31b42328257282e57e64",
+          "utf8_bytes": 1815265
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.119,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.843
+              },
+              {
+                "duration_ms": 0.071,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.971
+              },
+              {
+                "duration_ms": 0.052,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.045
+              },
+              {
+                "duration_ms": 115.871,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 75.919
+              },
+              {
+                "duration_ms": 141.97,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 215.525
+              },
+              {
+                "duration_ms": 173.521,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 196.77
+              },
+              {
+                "duration_ms": 0.957,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 370.352
+              },
+              {
+                "duration_ms": 0.071,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 371.388
+              },
+              {
+                "duration_ms": 0.054,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 371.465
+              },
+              {
+                "duration_ms": 0.054,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 371.525
+              }
+            ],
+            "ok": true,
+            "total_ms": 388.923,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 139.151,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 5.38
+              },
+              {
+                "duration_ms": 143.407,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.519
+              },
+              {
+                "duration_ms": 0.192,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 144.943
+              },
+              {
+                "duration_ms": 0.067,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 145.141
+              },
+              {
+                "duration_ms": 118.915,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 215.474
+              },
+              {
+                "duration_ms": 141.72,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 354.889
+              },
+              {
+                "duration_ms": 170.479,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 338.205
+              },
+              {
+                "duration_ms": 15.429,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 508.74
+              },
+              {
+                "duration_ms": 0.088,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 524.277
+              },
+              {
+                "duration_ms": 0.057,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 524.373
+              },
+              {
+                "duration_ms": 0.055,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 524.434
+              }
+            ],
+            "ok": true,
+            "total_ms": 548.877,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 139.099,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 6.052
+              },
+              {
+                "duration_ms": 143.492,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.038
+              },
+              {
+                "duration_ms": 142.437,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 165.743
+              },
+              {
+                "duration_ms": 163.028,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 145.538
+              },
+              {
+                "duration_ms": 0.162,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 308.575
+              },
+              {
+                "duration_ms": 118.824,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 381.315
+              },
+              {
+                "duration_ms": 137.268,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 521.355
+              },
+              {
+                "duration_ms": 166.287,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 504.574
+              },
+              {
+                "duration_ms": 4.524,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 670.915
+              },
+              {
+                "duration_ms": 0.069,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 675.522
+              },
+              {
+                "duration_ms": 0.047,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 675.597
+              },
+              {
+                "duration_ms": 0.052,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 675.648
+              }
+            ],
+            "ok": true,
+            "total_ms": 710.293,
+            "transaction": "NB_PERF_2"
+          }
+        ],
+        "search_index_calls": 29,
+        "timings_ms": {
+          "append_prune_ms": [
+            140.57,
+            137.128,
+            135.222
+          ],
+          "durable_save_ms": [
+            388.957,
+            548.916,
+            710.338
+          ],
+          "first_page_model_ms": [
+            6.052
+          ],
+          "first_search_ui_ms": [
+            280.31
+          ],
+          "fixture_build_ms": [
+            515.724
+          ],
+          "fixture_parse_ms": [
+            66.209
+          ],
+          "model_to_panel_ms": [
+            508.058
+          ],
+          "panel_present_ms": [
+            282.801
+          ],
+          "query_open_ms": [
+            212.154
+          ],
+          "saved_slot_load_ms": [
+            158.153
+          ],
+          "search_index_body_ms": [
+            83.546
+          ],
+          "search_index_cpu_total_ms": [
+            117.794
+          ],
+          "search_index_fields_ms": [
+            16.44
+          ],
+          "search_index_max_batch_ms": [
+            4.329
+          ],
+          "slot_inspect_after_write_ms": [
+            10.503,
+            10.723,
+            10.672
+          ],
+          "slot_inspect_unchanged_ms": [
+            10.859,
+            10.429,
+            10.543,
+            10.596,
+            10.608,
+            10.144
+          ],
+          "two_materials_model_ms": [
+            0.37,
+            0.305,
+            0.304
+          ],
+          "warm_facets_model_ms": [
+            22.963,
+            0.063,
+            0.066
+          ],
+          "warm_page_model_ms": [
+            6.193,
+            6.478,
+            0.438
+          ],
+          "warm_search_hidden_model_ms": [
+            7.996,
+            0.03,
+            0.028
+          ],
+          "warm_search_long_model_ms": [
+            7.553,
+            0.027,
+            0.028
+          ],
+          "warm_search_match_model_ms": [
+            8.619,
+            0.037,
+            0.039
+          ],
+          "warm_search_miss_model_ms": [
+            7.632,
+            0.032,
+            0.031
+          ]
+        },
+        "warm_iterations": 3
+      }
+    },
+    {
+      "name": "NB-PERF-N2000-en-US-0",
+      "process_id": 16212,
+      "exit_code": 0,
+      "functional_pass": true,
+      "failure": "",
+      "wall_seconds": 8.6178515,
+      "peak_working_set_bytes": 549441536,
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "en-US",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-N2000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "36c759a9acefd01de48d56323353afb7a1b139a2a6cf31b42328257282e57e64",
+          "utf8_bytes": 1815265
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.113,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 11.758
+              },
+              {
+                "duration_ms": 0.062,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 11.881
+              },
+              {
+                "duration_ms": 0.049,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 11.946
+              },
+              {
+                "duration_ms": 119.456,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 84.294
+              },
+              {
+                "duration_ms": 135.038,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 225.612
+              },
+              {
+                "duration_ms": 164.762,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 207.763
+              },
+              {
+                "duration_ms": 0.952,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 372.577
+              },
+              {
+                "duration_ms": 0.099,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 373.602
+              },
+              {
+                "duration_ms": 0.052,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 373.708
+              },
+              {
+                "duration_ms": 0.04,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 373.765
+              }
+            ],
+            "ok": true,
+            "total_ms": 388.698,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 134.138,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 5.557
+              },
+              {
+                "duration_ms": 138.656,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.445
+              },
+              {
+                "duration_ms": 0.163,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 140.117
+              },
+              {
+                "duration_ms": 0.06,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 140.286
+              },
+              {
+                "duration_ms": 120.025,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 213.09
+              },
+              {
+                "duration_ms": 138.757,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 354.002
+              },
+              {
+                "duration_ms": 168.768,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 337.194
+              },
+              {
+                "duration_ms": 15.187,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 506.019
+              },
+              {
+                "duration_ms": 0.085,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 521.302
+              },
+              {
+                "duration_ms": 0.052,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 521.394
+              },
+              {
+                "duration_ms": 0.047,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 521.45
+              }
+            ],
+            "ok": true,
+            "total_ms": 545.895,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 140.25,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 5.432
+              },
+              {
+                "duration_ms": 144.643,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.433
+              },
+              {
+                "duration_ms": 145.376,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 186.136
+              },
+              {
+                "duration_ms": 185.807,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 146.084
+              },
+              {
+                "duration_ms": 0.174,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 331.899
+              },
+              {
+                "duration_ms": 114.561,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 403.347
+              },
+              {
+                "duration_ms": 137.267,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 537.796
+              },
+              {
+                "duration_ms": 166.489,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 522.23
+              },
+              {
+                "duration_ms": 5.525,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 688.804
+              },
+              {
+                "duration_ms": 0.123,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 694.429
+              },
+              {
+                "duration_ms": 0.061,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 694.565
+              },
+              {
+                "duration_ms": 0.048,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 694.63
+              }
+            ],
+            "ok": true,
+            "total_ms": 730.659,
+            "transaction": "NB_PERF_2"
+          }
+        ],
+        "search_index_calls": 30,
+        "timings_ms": {
+          "append_prune_ms": [
+            139.768,
+            134.855,
+            135.812
+          ],
+          "durable_save_ms": [
+            388.734,
+            545.934,
+            730.701
+          ],
+          "first_page_model_ms": [
+            6.496
+          ],
+          "first_search_ui_ms": [
+            277.793
+          ],
+          "fixture_build_ms": [
+            511.111
+          ],
+          "fixture_parse_ms": [
+            65.413
+          ],
+          "model_to_panel_ms": [
+            284.602
+          ],
+          "panel_present_ms": [
+            58.749
+          ],
+          "query_open_ms": [
+            211.318
+          ],
+          "saved_slot_load_ms": [
+            153.47
+          ],
+          "search_index_body_ms": [
+            84.638
+          ],
+          "search_index_cpu_total_ms": [
+            123.951
+          ],
+          "search_index_fields_ms": [
+            16.753
+          ],
+          "search_index_max_batch_ms": [
+            4.407
+          ],
+          "slot_inspect_after_write_ms": [
+            12.338,
+            10.746,
+            10.198
+          ],
+          "slot_inspect_unchanged_ms": [
+            11.021,
+            10.95,
+            10.629,
+            10.687,
+            10.594,
+            10.549
+          ],
+          "two_materials_model_ms": [
+            0.588,
+            0.324,
+            0.328
+          ],
+          "warm_facets_model_ms": [
+            23.716,
+            0.069,
+            0.05
+          ],
+          "warm_page_model_ms": [
+            6.435,
+            7.076,
+            0.344
+          ],
+          "warm_search_hidden_model_ms": [
+            7.739,
+            0.029,
+            0.027
+          ],
+          "warm_search_long_model_ms": [
+            8.466,
+            0.027,
+            0.099
+          ],
+          "warm_search_match_model_ms": [
+            8.279,
+            0.041,
+            0.034
+          ],
+          "warm_search_miss_model_ms": [
+            8.571,
+            0.03,
+            0.027
+          ]
+        },
+        "warm_iterations": 3
+      }
+    },
+    {
+      "name": "NB-PERF-L10000-ko-KR-0",
+      "process_id": 37792,
+      "exit_code": 0,
+      "functional_pass": true,
+      "failure": "",
+      "wall_seconds": 16.9537256,
+      "peak_working_set_bytes": 1033506816,
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "ko-KR",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 295000
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 10000,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-L10000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+          "utf8_bytes": 5434278
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.125,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.905
+              },
+              {
+                "duration_ms": 0.069,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.04
+              },
+              {
+                "duration_ms": 0.059,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.113
+              },
+              {
+                "duration_ms": 395.167,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 262.033
+              },
+              {
+                "duration_ms": 473.158,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 694.383
+              },
+              {
+                "duration_ms": 538.008,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 668.218
+              },
+              {
+                "duration_ms": 1.215,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1206.293
+              },
+              {
+                "duration_ms": 0.121,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1207.617
+              },
+              {
+                "duration_ms": 0.053,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1207.746
+              },
+              {
+                "duration_ms": 0.042,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1207.804
+              }
+            ],
+            "ok": true,
+            "total_ms": 1269.09,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 468.04,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 12.828
+              },
+              {
+                "duration_ms": 480.319,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.689
+              },
+              {
+                "duration_ms": 0.173,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 482.029
+              },
+              {
+                "duration_ms": 0.057,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 482.209
+              },
+              {
+                "duration_ms": 391.274,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 739.049
+              },
+              {
+                "duration_ms": 461.596,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1163.814
+              },
+              {
+                "duration_ms": 521.58,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1140.741
+              },
+              {
+                "duration_ms": 18.819,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1662.379
+              },
+              {
+                "duration_ms": 0.081,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1681.3
+              },
+              {
+                "duration_ms": 0.059,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1681.389
+              },
+              {
+                "duration_ms": 0.047,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1681.452
+              }
+            ],
+            "ok": true,
+            "total_ms": 1779.19,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 463.815,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 12.352
+              },
+              {
+                "duration_ms": 475.785,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.47
+              },
+              {
+                "duration_ms": 478.152,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 501.911
+              },
+              {
+                "duration_ms": 504.004,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 477.265
+              },
+              {
+                "duration_ms": 0.237,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 981.292
+              },
+              {
+                "duration_ms": 393.442,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1240.887
+              },
+              {
+                "duration_ms": 478.811,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1669.756
+              },
+              {
+                "duration_ms": 542.514,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1644.809
+              },
+              {
+                "duration_ms": 9.527,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2187.386
+              },
+              {
+                "duration_ms": 0.08,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2197.013
+              },
+              {
+                "duration_ms": 0.049,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2197.099
+              },
+              {
+                "duration_ms": 0.04,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2197.152
+              }
+            ],
+            "ok": true,
+            "total_ms": 2325.746,
+            "transaction": "NB_PERF_2"
+          }
+        ],
+        "search_index_calls": 104,
+        "timings_ms": {
+          "append_prune_ms": [
+            390.374,
+            390.418,
+            386.289
+          ],
+          "durable_save_ms": [
+            1269.121,
+            1779.226,
+            2325.786
+          ],
+          "first_page_model_ms": [
+            41.989
+          ],
+          "first_search_ui_ms": [
+            964.318
+          ],
+          "fixture_build_ms": [
+            875.322
+          ],
+          "fixture_parse_ms": [
+            207.753
+          ],
+          "model_to_panel_ms": [
+            960.787
+          ],
+          "panel_present_ms": [
+            283.797
+          ],
+          "query_open_ms": [
+            628.154
+          ],
+          "saved_slot_load_ms": [
+            523.621
+          ],
+          "search_index_body_ms": [
+            246.204
+          ],
+          "search_index_cpu_total_ms": [
+            423.75
+          ],
+          "search_index_fields_ms": [
+            84.245
+          ],
+          "search_index_max_batch_ms": [
+            4.656
+          ],
+          "slot_inspect_after_write_ms": [
+            31.719,
+            30.993,
+            30.955
+          ],
+          "slot_inspect_unchanged_ms": [
+            30.79,
+            31.755,
+            30.631,
+            31.377,
+            31.647,
+            30.711
+          ],
+          "two_materials_model_ms": [
+            0.603,
+            0.71,
+            0.324
+          ],
+          "warm_facets_model_ms": [
+            144.079,
+            0.645,
+            0.702
+          ],
+          "warm_page_model_ms": [
+            38.535,
+            37.652,
+            0.38
+          ],
+          "warm_search_hidden_model_ms": [
+            66.927,
+            0.036,
+            0.029
+          ],
+          "warm_search_long_model_ms": [
+            57.719,
+            0.032,
+            0.026
+          ],
+          "warm_search_match_model_ms": [
+            43.71,
+            0.33,
+            0.267
+          ],
+          "warm_search_miss_model_ms": [
+            44.827,
+            0.092,
+            0.062
+          ]
+        },
+        "warm_iterations": 3
+      }
+    },
+    {
+      "name": "NB-PERF-L10000-en-US-0",
+      "process_id": 34752,
+      "exit_code": 0,
+      "functional_pass": true,
+      "failure": "",
+      "wall_seconds": 16.6944168,
+      "peak_working_set_bytes": 1035554816,
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "en-US",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 295000
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 10000,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-L10000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+          "utf8_bytes": 5434278
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.118,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.019
+              },
+              {
+                "duration_ms": 0.07,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.147
+              },
+              {
+                "duration_ms": 0.062,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.221
+              },
+              {
+                "duration_ms": 388.652,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 253.769
+              },
+              {
+                "duration_ms": 457.68,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 677.279
+              },
+              {
+                "duration_ms": 518.247,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 653.257
+              },
+              {
+                "duration_ms": 2.037,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1171.564
+              },
+              {
+                "duration_ms": 0.091,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1173.689
+              },
+              {
+                "duration_ms": 0.052,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1173.786
+              },
+              {
+                "duration_ms": 0.042,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1173.842
+              }
+            ],
+            "ok": true,
+            "total_ms": 1235.64,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 460.281,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 11.956
+              },
+              {
+                "duration_ms": 471.719,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.613
+              },
+              {
+                "duration_ms": 0.158,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 473.349
+              },
+              {
+                "duration_ms": 0.053,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 473.513
+              },
+              {
+                "duration_ms": 392.336,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 726.619
+              },
+              {
+                "duration_ms": 460.356,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1167.936
+              },
+              {
+                "duration_ms": 533.655,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1131.201
+              },
+              {
+                "duration_ms": 17.166,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1664.913
+              },
+              {
+                "duration_ms": 0.077,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1682.175
+              },
+              {
+                "duration_ms": 0.049,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1682.259
+              },
+              {
+                "duration_ms": 0.045,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1682.311
+              }
+            ],
+            "ok": true,
+            "total_ms": 1779.9,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 461.974,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 12.698
+              },
+              {
+                "duration_ms": 474.331,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.449
+              },
+              {
+                "duration_ms": 472.273,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 501.445
+              },
+              {
+                "duration_ms": 499.189,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 475.792
+              },
+              {
+                "duration_ms": 0.165,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 974.996
+              },
+              {
+                "duration_ms": 385.173,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1226.346
+              },
+              {
+                "duration_ms": 473.972,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1649.726
+              },
+              {
+                "duration_ms": 538.295,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1622.019
+              },
+              {
+                "duration_ms": 10.4,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2160.372
+              },
+              {
+                "duration_ms": 0.174,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2170.96
+              },
+              {
+                "duration_ms": 0.074,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2171.144
+              },
+              {
+                "duration_ms": 0.059,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2171.222
+              }
+            ],
+            "ok": true,
+            "total_ms": 2302.05,
+            "transaction": "NB_PERF_2"
+          }
+        ],
+        "search_index_calls": 107,
+        "timings_ms": {
+          "append_prune_ms": [
+            384.255,
+            387.321,
+            383.655
+          ],
+          "durable_save_ms": [
+            1235.672,
+            1779.942,
+            2302.091
+          ],
+          "first_page_model_ms": [
+            41.913
+          ],
+          "first_search_ui_ms": [
+            882.194
+          ],
+          "fixture_build_ms": [
+            888.067
+          ],
+          "fixture_parse_ms": [
+            206.983
+          ],
+          "model_to_panel_ms": [
+            885.485
+          ],
+          "panel_present_ms": [
+            215.613
+          ],
+          "query_open_ms": [
+            621.323
+          ],
+          "saved_slot_load_ms": [
+            513.058
+          ],
+          "search_index_body_ms": [
+            245.337
+          ],
+          "search_index_cpu_total_ms": [
+            436.849
+          ],
+          "search_index_fields_ms": [
+            82.315
+          ],
+          "search_index_max_batch_ms": [
+            4.384
+          ],
+          "slot_inspect_after_write_ms": [
+            30.307,
+            31.996,
+            32.115
+          ],
+          "slot_inspect_unchanged_ms": [
+            30.468,
+            30.256,
+            30.677,
+            32.357,
+            33.638,
+            32.58
+          ],
+          "two_materials_model_ms": [
+            0.408,
+            0.317,
+            0.356
+          ],
+          "warm_facets_model_ms": [
+            139.858,
+            0.615,
+            0.712
+          ],
+          "warm_page_model_ms": [
+            37.965,
+            37.256,
+            0.47
+          ],
+          "warm_search_hidden_model_ms": [
+            48.427,
+            0.03,
+            0.032
+          ],
+          "warm_search_long_model_ms": [
+            47.067,
+            0.027,
+            0.029
+          ],
+          "warm_search_match_model_ms": [
+            44.128,
+            0.271,
+            0.311
+          ],
+          "warm_search_miss_model_ms": [
+            48.913,
+            0.064,
+            0.07
+          ]
+        },
+        "warm_iterations": 3
+      }
+    },
+    {
+      "name": "NB-PERF-P2001-ko-KR-0",
+      "process_id": 31904,
+      "exit_code": 0,
+      "functional_pass": true,
+      "failure": "",
+      "wall_seconds": 12.77014,
+      "peak_working_set_bytes": 737177600,
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "ko-KR",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 237456,
+            "ko-KR": 261020,
+            "legacy": 0
+          },
+          "bookmarks": 50,
+          "comparison": 12,
+          "counts": {
+            "legacy": 0,
+            "normal": 2001,
+            "protected": 2001
+          },
+          "fixture_id": "NB-PERF-P2001",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "f9c81734eb11029e6b101e41a6d65405d3a04f0f685bec23a138b214e79259bc",
+          "utf8_bytes": 3692933
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.139,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.047
+              },
+              {
+                "duration_ms": 0.073,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.196
+              },
+              {
+                "duration_ms": 0.054,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.273
+              },
+              {
+                "duration_ms": 249.605,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 158.334
+              },
+              {
+                "duration_ms": 291.483,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 440.017
+              },
+              {
+                "duration_ms": 343.305,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 414.959
+              },
+              {
+                "duration_ms": 0.977,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 758.326
+              },
+              {
+                "duration_ms": 0.08,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 759.531
+              },
+              {
+                "duration_ms": 0.059,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 759.617
+              },
+              {
+                "duration_ms": 0.042,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 759.681
+              }
+            ],
+            "ok": true,
+            "total_ms": 802.255,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 287.106,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 9.01
+              },
+              {
+                "duration_ms": 295.431,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.424
+              },
+              {
+                "duration_ms": 0.158,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 296.87
+              },
+              {
+                "duration_ms": 0.058,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 297.035
+              },
+              {
+                "duration_ms": 240.611,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 450.998
+              },
+              {
+                "duration_ms": 281.056,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 721.62
+              },
+              {
+                "duration_ms": 327.644,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 700.914
+              },
+              {
+                "duration_ms": 7.063,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1028.613
+              },
+              {
+                "duration_ms": 0.093,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1035.779
+              },
+              {
+                "duration_ms": 0.054,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1035.88
+              },
+              {
+                "duration_ms": 0.042,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1035.938
+              }
+            ],
+            "ok": true,
+            "total_ms": 1089.678,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 287.608,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 9.387
+              },
+              {
+                "duration_ms": 296.265,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.523
+              },
+              {
+                "duration_ms": 296.37,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 320.426
+              },
+              {
+                "duration_ms": 319.772,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 297.798
+              },
+              {
+                "duration_ms": 0.17,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 617.58
+              },
+              {
+                "duration_ms": 240.475,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 769.963
+              },
+              {
+                "duration_ms": 289.247,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1041.663
+              },
+              {
+                "duration_ms": 337.573,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1017.566
+              },
+              {
+                "duration_ms": 7.456,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1355.247
+              },
+              {
+                "duration_ms": 0.088,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1362.805
+              },
+              {
+                "duration_ms": 0.052,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1362.899
+              },
+              {
+                "duration_ms": 0.041,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1362.955
+              }
+            ],
+            "ok": true,
+            "total_ms": 1436.15,
+            "transaction": "NB_PERF_2"
+          }
+        ],
+        "search_index_calls": 58,
+        "timings_ms": {
+          "append_prune_ms": [
+            284.288,
+            292.73,
+            282.41
+          ],
+          "durable_save_ms": [
+            802.294,
+            1089.724,
+            1436.194
+          ],
+          "first_page_model_ms": [
+            12.352
+          ],
+          "first_search_ui_ms": [
+            510.29
+          ],
+          "fixture_build_ms": [
+            1138.467
+          ],
+          "fixture_parse_ms": [
+            135.388
+          ],
+          "model_to_panel_ms": [
+            752.758
+          ],
+          "panel_present_ms": [
+            291.149
+          ],
+          "query_open_ms": [
+            440.3
+          ],
+          "saved_slot_load_ms": [
+            327.765
+          ],
+          "search_index_body_ms": [
+            167.655
+          ],
+          "search_index_cpu_total_ms": [
+            236.782
+          ],
+          "search_index_fields_ms": [
+            33.018
+          ],
+          "search_index_max_batch_ms": [
+            4.221
+          ],
+          "slot_inspect_after_write_ms": [
+            21.649,
+            21.322,
+            21.165
+          ],
+          "slot_inspect_unchanged_ms": [
+            21.731,
+            21.604,
+            20.95,
+            21.453,
+            21.37,
+            21.089
+          ],
+          "two_materials_model_ms": [
+            0.444,
+            0.429,
+            0.433
+          ],
+          "warm_facets_model_ms": [
+            25.652,
+            0.159,
+            0.051
+          ],
+          "warm_page_model_ms": [
+            8.559,
+            8.841,
+            0.354
+          ],
+          "warm_search_hidden_model_ms": [
+            15.515,
+            0.029,
+            0.029
+          ],
+          "warm_search_long_model_ms": [
+            15.038,
+            0.027,
+            0.028
+          ],
+          "warm_search_match_model_ms": [
+            17.37,
+            0.041,
+            0.037
+          ],
+          "warm_search_miss_model_ms": [
+            14.926,
+            0.031,
+            0.032
+          ]
+        },
+        "warm_iterations": 3
+      }
+    },
+    {
+      "name": "NB-PERF-P2001-en-US-0",
+      "process_id": 42100,
+      "exit_code": 0,
+      "functional_pass": true,
+      "failure": "",
+      "wall_seconds": 12.7022219,
+      "peak_working_set_bytes": 740421632,
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "en-US",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 237456,
+            "ko-KR": 261020,
+            "legacy": 0
+          },
+          "bookmarks": 50,
+          "comparison": 12,
+          "counts": {
+            "legacy": 0,
+            "normal": 2001,
+            "protected": 2001
+          },
+          "fixture_id": "NB-PERF-P2001",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "f9c81734eb11029e6b101e41a6d65405d3a04f0f685bec23a138b214e79259bc",
+          "utf8_bytes": 3692933
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.145,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.251
+              },
+              {
+                "duration_ms": 0.072,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.407
+              },
+              {
+                "duration_ms": 0.058,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.483
+              },
+              {
+                "duration_ms": 243.411,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 155.534
+              },
+              {
+                "duration_ms": 291.065,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 428.345
+              },
+              {
+                "duration_ms": 337.043,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 407.511
+              },
+              {
+                "duration_ms": 0.976,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 744.609
+              },
+              {
+                "duration_ms": 0.073,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 745.665
+              },
+              {
+                "duration_ms": 0.05,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 745.743
+              },
+              {
+                "duration_ms": 0.053,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 745.796
+              }
+            ],
+            "ok": true,
+            "total_ms": 779.877,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 288.609,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 11.481
+              },
+              {
+                "duration_ms": 299.334,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.575
+              },
+              {
+                "duration_ms": 0.171,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 300.932
+              },
+              {
+                "duration_ms": 0.062,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 301.11
+              },
+              {
+                "duration_ms": 242.34,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 454.07
+              },
+              {
+                "duration_ms": 292.111,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 747.463
+              },
+              {
+                "duration_ms": 361.103,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 703.404
+              },
+              {
+                "duration_ms": 5.685,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1064.563
+              },
+              {
+                "duration_ms": 0.074,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1070.343
+              },
+              {
+                "duration_ms": 0.05,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1070.423
+              },
+              {
+                "duration_ms": 0.042,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1070.477
+              }
+            ],
+            "ok": true,
+            "total_ms": 1122.517,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 294.14,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 9.329
+              },
+              {
+                "duration_ms": 302.757,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.516
+              },
+              {
+                "duration_ms": 292.831,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 343.098
+              },
+              {
+                "duration_ms": 332.485,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 304.286
+              },
+              {
+                "duration_ms": 0.182,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 636.783
+              },
+              {
+                "duration_ms": 243.73,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 787.805
+              },
+              {
+                "duration_ms": 295.299,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1057.772
+              },
+              {
+                "duration_ms": 339.272,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1039.397
+              },
+              {
+                "duration_ms": 7.911,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1378.734
+              },
+              {
+                "duration_ms": 0.123,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1386.823
+              },
+              {
+                "duration_ms": 0.058,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1386.953
+              },
+              {
+                "duration_ms": 0.044,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1387.015
+              }
+            ],
+            "ok": true,
+            "total_ms": 1461.137,
+            "transaction": "NB_PERF_2"
+          }
+        ],
+        "search_index_calls": 61,
+        "timings_ms": {
+          "append_prune_ms": [
+            285.839,
+            293.495,
+            282.724
+          ],
+          "durable_save_ms": [
+            779.917,
+            1122.574,
+            1461.184
+          ],
+          "first_page_model_ms": [
+            12.262
+          ],
+          "first_search_ui_ms": [
+            500.036
+          ],
+          "fixture_build_ms": [
+            1146.835
+          ],
+          "fixture_parse_ms": [
+            132.656
+          ],
+          "model_to_panel_ms": [
+            523.405
+          ],
+          "panel_present_ms": [
+            70.078
+          ],
+          "query_open_ms": [
+            432.918
+          ],
+          "saved_slot_load_ms": [
+            332.038
+          ],
+          "search_index_body_ms": [
+            171.144
+          ],
+          "search_index_cpu_total_ms": [
+            249.946
+          ],
+          "search_index_fields_ms": [
+            34.09
+          ],
+          "search_index_max_batch_ms": [
+            4.424
+          ],
+          "slot_inspect_after_write_ms": [
+            20.909,
+            21.832,
+            21.731
+          ],
+          "slot_inspect_unchanged_ms": [
+            20.511,
+            20.93,
+            22.1,
+            21.067,
+            21.914,
+            20.812
+          ],
+          "two_materials_model_ms": [
+            0.463,
+            0.406,
+            0.466
+          ],
+          "warm_facets_model_ms": [
+            25.733,
+            0.075,
+            0.071
+          ],
+          "warm_page_model_ms": [
+            8.888,
+            8.375,
+            0.448
+          ],
+          "warm_search_hidden_model_ms": [
+            19.48,
+            0.028,
+            0.03
+          ],
+          "warm_search_long_model_ms": [
+            16.713,
+            0.026,
+            0.028
+          ],
+          "warm_search_match_model_ms": [
+            17.128,
+            0.038,
+            0.039
+          ],
+          "warm_search_miss_model_ms": [
+            19.076,
+            0.029,
+            0.03
+          ]
+        },
+        "warm_iterations": 3
+      }
+    },
+    {
+      "name": "NB-PERF-LONG-ko-KR-0",
+      "process_id": 11424,
+      "exit_code": 0,
+      "functional_pass": true,
+      "failure": "",
+      "wall_seconds": 9.0883617,
+      "peak_working_set_bytes": 576704512,
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "ko-KR",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 444794,
+            "ko-KR": 458038,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 1980,
+            "protected": 26
+          },
+          "fixture_id": "NB-PERF-LONG",
+          "long_document_utf8_bytes": 32768,
+          "long_documents": 20,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "baf4573daa580deb030810e47865583c84a6833cfacbbf46a7bd5e0d61972207",
+          "utf8_bytes": 2472815
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.095,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.722
+              },
+              {
+                "duration_ms": 0.058,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.826
+              },
+              {
+                "duration_ms": 0.05,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.888
+              },
+              {
+                "duration_ms": 126.502,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 77.742
+              },
+              {
+                "duration_ms": 151.993,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 229.075
+              },
+              {
+                "duration_ms": 186.699,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 209.721
+              },
+              {
+                "duration_ms": 1.035,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 396.48
+              },
+              {
+                "duration_ms": 0.079,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 397.598
+              },
+              {
+                "duration_ms": 0.064,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 397.683
+              },
+              {
+                "duration_ms": 0.045,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 397.751
+              }
+            ],
+            "ok": true,
+            "total_ms": 413.524,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 148.148,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 6.371
+              },
+              {
+                "duration_ms": 153.614,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.439
+              },
+              {
+                "duration_ms": 0.176,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 155.073
+              },
+              {
+                "duration_ms": 0.068,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 155.255
+              },
+              {
+                "duration_ms": 123.363,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 229.914
+              },
+              {
+                "duration_ms": 152.715,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 376.604
+              },
+              {
+                "duration_ms": 185.178,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 359.074
+              },
+              {
+                "duration_ms": 5.109,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 544.307
+              },
+              {
+                "duration_ms": 0.08,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 549.518
+              },
+              {
+                "duration_ms": 0.05,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 549.606
+              },
+              {
+                "duration_ms": 0.05,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 549.659
+              }
+            ],
+            "ok": true,
+            "total_ms": 576.543,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 151.969,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 6.279
+              },
+              {
+                "duration_ms": 157.267,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.479
+              },
+              {
+                "duration_ms": 156.424,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 178.455
+              },
+              {
+                "duration_ms": 176.603,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 158.755
+              },
+              {
+                "duration_ms": 0.19,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 335.367
+              },
+              {
+                "duration_ms": 124.188,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 406.537
+              },
+              {
+                "duration_ms": 146.87,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 554.629
+              },
+              {
+                "duration_ms": 181.298,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 535.707
+              },
+              {
+                "duration_ms": 5.684,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 717.057
+              },
+              {
+                "duration_ms": 0.135,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 722.912
+              },
+              {
+                "duration_ms": 0.054,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 723.055
+              },
+              {
+                "duration_ms": 0.057,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 723.112
+              }
+            ],
+            "ok": true,
+            "total_ms": 757.745,
+            "transaction": "NB_PERF_2"
+          }
+        ],
+        "search_index_calls": 32,
+        "timings_ms": {
+          "append_prune_ms": [
+            127.033,
+            122.032,
+            123.811
+          ],
+          "durable_save_ms": [
+            413.552,
+            576.578,
+            757.79
+          ],
+          "first_page_model_ms": [
+            6.078
+          ],
+          "first_search_ui_ms": [
+            305.417
+          ],
+          "fixture_build_ms": [
+            543.379
+          ],
+          "fixture_parse_ms": [
+            72.088
+          ],
+          "model_to_panel_ms": [
+            515.32
+          ],
+          "panel_present_ms": [
+            286.293
+          ],
+          "query_open_ms": [
+            215.163
+          ],
+          "saved_slot_load_ms": [
+            169.626
+          ],
+          "search_index_body_ms": [
+            85.714
+          ],
+          "search_index_cpu_total_ms": [
+            130.263
+          ],
+          "search_index_fields_ms": [
+            16.771
+          ],
+          "search_index_max_batch_ms": [
+            5.157
+          ],
+          "slot_inspect_after_write_ms": [
+            13.001,
+            13.747,
+            13.268
+          ],
+          "slot_inspect_unchanged_ms": [
+            13.432,
+            13.574,
+            13.871,
+            13.447,
+            12.847,
+            13.257
+          ],
+          "two_materials_model_ms": [
+            0.347,
+            0.478,
+            0.3
+          ],
+          "warm_facets_model_ms": [
+            23.11,
+            0.06,
+            0.055
+          ],
+          "warm_page_model_ms": [
+            6.043,
+            6.134,
+            0.371
+          ],
+          "warm_search_hidden_model_ms": [
+            9.632,
+            0.037,
+            0.028
+          ],
+          "warm_search_long_model_ms": [
+            7.983,
+            0.106,
+            0.095
+          ],
+          "warm_search_match_model_ms": [
+            8.943,
+            0.214,
+            0.129
+          ],
+          "warm_search_miss_model_ms": [
+            8.494,
+            0.077,
+            0.041
+          ]
+        },
+        "warm_iterations": 3
+      }
+    },
+    {
+      "name": "NB-PERF-LONG-en-US-0",
+      "process_id": 37328,
+      "exit_code": 0,
+      "functional_pass": true,
+      "failure": "",
+      "wall_seconds": 8.8891168,
+      "peak_working_set_bytes": 577548288,
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "en-US",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 444794,
+            "ko-KR": 458038,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 1980,
+            "protected": 26
+          },
+          "fixture_id": "NB-PERF-LONG",
+          "long_document_utf8_bytes": 32768,
+          "long_documents": 20,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "baf4573daa580deb030810e47865583c84a6833cfacbbf46a7bd5e0d61972207",
+          "utf8_bytes": 2472815
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.113,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.822
+              },
+              {
+                "duration_ms": 0.062,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.944
+              },
+              {
+                "duration_ms": 0.059,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2.009
+              },
+              {
+                "duration_ms": 126.93,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 76.004
+              },
+              {
+                "duration_ms": 151.625,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 229.257
+              },
+              {
+                "duration_ms": 186.81,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 209.284
+              },
+              {
+                "duration_ms": 0.977,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 396.275
+              },
+              {
+                "duration_ms": 0.076,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 397.329
+              },
+              {
+                "duration_ms": 0.05,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 397.412
+              },
+              {
+                "duration_ms": 0.04,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 397.467
+              }
+            ],
+            "ok": true,
+            "total_ms": 413.51,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 148.82,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 7.013
+              },
+              {
+                "duration_ms": 154.776,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.547
+              },
+              {
+                "duration_ms": 0.172,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 156.34
+              },
+              {
+                "duration_ms": 0.061,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 156.518
+              },
+              {
+                "duration_ms": 127.199,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 230.695
+              },
+              {
+                "duration_ms": 149.057,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 381.044
+              },
+              {
+                "duration_ms": 182.21,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 362.747
+              },
+              {
+                "duration_ms": 5.639,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 545.024
+              },
+              {
+                "duration_ms": 0.094,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 550.763
+              },
+              {
+                "duration_ms": 0.056,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 550.866
+              },
+              {
+                "duration_ms": 0.044,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 550.927
+              }
+            ],
+            "ok": true,
+            "total_ms": 577.063,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 153.713,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 7.42
+              },
+              {
+                "duration_ms": 159.831,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 1.791
+              },
+              {
+                "duration_ms": 158.298,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 190.126
+              },
+              {
+                "duration_ms": 187.269,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 161.632
+              },
+              {
+                "duration_ms": 0.166,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 348.91
+              },
+              {
+                "duration_ms": 125.01,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 422.948
+              },
+              {
+                "duration_ms": 150.106,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 576.916
+              },
+              {
+                "duration_ms": 189.946,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 552.806
+              },
+              {
+                "duration_ms": 5.622,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 742.808
+              },
+              {
+                "duration_ms": 0.076,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 748.528
+              },
+              {
+                "duration_ms": 0.073,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 748.611
+              },
+              {
+                "duration_ms": 0.045,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 748.688
+              }
+            ],
+            "ok": true,
+            "total_ms": 784.49,
+            "transaction": "NB_PERF_2"
+          }
+        ],
+        "search_index_calls": 33,
+        "timings_ms": {
+          "append_prune_ms": [
+            123.875,
+            121.82,
+            121.403
+          ],
+          "durable_save_ms": [
+            413.543,
+            577.208,
+            784.531
+          ],
+          "first_page_model_ms": [
+            6.83
+          ],
+          "first_search_ui_ms": [
+            298.898
+          ],
+          "fixture_build_ms": [
+            533.754
+          ],
+          "fixture_parse_ms": [
+            72.211
+          ],
+          "model_to_panel_ms": [
+            317.691
+          ],
+          "panel_present_ms": [
+            59.583
+          ],
+          "query_open_ms": [
+            243.652
+          ],
+          "saved_slot_load_ms": [
+            170.496
+          ],
+          "search_index_body_ms": [
+            88.244
+          ],
+          "search_index_cpu_total_ms": [
+            138.928
+          ],
+          "search_index_fields_ms": [
+            17.376
+          ],
+          "search_index_max_batch_ms": [
+            5.282
+          ],
+          "slot_inspect_after_write_ms": [
+            15.75,
+            13.758,
+            13.878
+          ],
+          "slot_inspect_unchanged_ms": [
+            12.949,
+            13.012,
+            13.482,
+            13.705,
+            13.318,
+            13.442
+          ],
+          "two_materials_model_ms": [
+            0.36,
+            0.517,
+            0.306
+          ],
+          "warm_facets_model_ms": [
+            22.666,
+            0.092,
+            0.051
+          ],
+          "warm_page_model_ms": [
+            6.094,
+            6.317,
+            0.428
+          ],
+          "warm_search_hidden_model_ms": [
+            8.872,
+            0.032,
+            0.029
+          ],
+          "warm_search_long_model_ms": [
+            10.894,
+            0.099,
+            0.083
+          ],
+          "warm_search_match_model_ms": [
+            8.673,
+            0.209,
+            0.131
+          ],
+          "warm_search_miss_model_ms": [
+            9.14,
+            0.049,
+            0.041
+          ]
+        },
+        "warm_iterations": 3
+      }
+    }
+  ],
+  "not_covered": [
+    "OS input/IME",
+    "GPU/driver and device-class acceptance",
+    "warm UI input p95",
+    "50 open/close RAM recovery",
+    "60s input frame capture",
+    "Alt+Tab"
+  ]
+}

@@ -4,6 +4,7 @@ const SLOT := "__test_notebook_save_safety"
 var errors := PackedStringArray()
 var checks := 0
 var encoding_cases := 0
+var normalization_cases := 0
 
 
 class PromotionFailure:
@@ -33,6 +34,7 @@ func _expect(ok: bool, message: String) -> void:
 
 
 func run() -> Dictionary:
+	_test_owned_normalization()
 	_test_encoding()
 	_test_corrupt_main()
 	for main_kind in ["valid", "corrupt", "absent"]:
@@ -44,6 +46,51 @@ func run() -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	print("NOTEBOOK_SAVE_SAFETY_CHECKS: ", checks)
 	return {"ok":errors.is_empty(), "errors":errors}
+
+
+func _test_owned_normalization() -> void:
+	var samples: Array = [GameState.make_default_snapshot()]
+	var legacy := GameState.make_default_snapshot()
+	legacy.meta_progress.dialogue_history = {"next_sequence": 2, "entries": [
+		{"sequence": 0, "line_id": "CH1_HISTORY_TRANSCRIPT", "speaker_id": "SYSTEM", "variables": {"text": "이전 원문 / original"}},
+		{"sequence": 1, "line_id": "CH1_HISTORY_TRANSCRIPT", "speaker_id": "SYSTEM", "variables": {"text": "두 번째 원문"}}]}
+	samples.append(legacy)
+	for id in preload("res://scripts/tests/notebook_performance_fixture.gd").IDS:
+		var fixture := preload("res://scripts/tests/notebook_performance_fixture.gd").build(id)
+		_expect(fixture.ok, "owned-normalization large fixture " + id)
+		if not fixture.ok: continue
+		var state := GameState.make_default_snapshot()
+		state.meta_progress.dialogue_history = fixture.archive
+		state.meta_progress.knowledge_entries.notebook_knowledge = fixture.ledger
+		samples.append(state)
+	for defect in ["root", "meta", "servants", "history", "sequence", "ledger", "cursor"]:
+		var damaged := GameState.make_default_snapshot()
+		match defect:
+			"root": damaged.erase("ending_run")
+			"meta": damaged.meta_progress = []
+			"servants": damaged.meta_progress.servants = {"edgar": []}
+			"history": damaged.meta_progress.dialogue_history = null
+			"sequence": damaged.meta_progress.dialogue_history = {"next_sequence": 0, "entries": [{"sequence": -1, "line_id": "x", "speaker_id": "SYSTEM"}]}
+			"ledger": damaged.meta_progress.knowledge_entries.notebook_knowledge = {"schema_version": 2, "revision": 0, "revisions": []}
+			"cursor": damaged.loop_state.event_local_states.NOTEBOOK_PRESENTATION = {"schema_version": 99}
+		samples.append(damaged)
+	var migration := preload("res://scripts/systems/notebook_migration.gd")
+	for sample in samples:
+		for promote in [false, true]:
+			var text := JSON.stringify(sample)
+			var ordinary: Dictionary = JSON.parse_string(text)
+			var owned: Dictionary = JSON.parse_string(text)
+			var original := ordinary.duplicate(true)
+			var expected: Dictionary = migration.adapt_verified(ordinary, "a".repeat(64), promote)
+			var candidate: Dictionary = migration._adapt_owned_verified(owned, "a".repeat(64), promote)
+			_expect(StateSnapshotValidator.same_persisted_value(expected, candidate), "owned normalization preserves adaptation output/error order")
+			_expect(StateSnapshotValidator.same_persisted_value(original, ordinary), "ordinary adaptation leaves caller input untouched")
+			if candidate.ok:
+				_expect(is_same(candidate.snapshot, owned), "owned parse avoids a second complete tree")
+				_expect(not is_same(expected.snapshot, ordinary), "ordinary caller retains independent output")
+			normalization_cases += 1
+	_expect(normalization_cases == 26, "six valid and seven malformed normalization fixtures in both modes")
+	print("NOTEBOOK_OWNED_NORMALIZATION_CASES: ", normalization_cases)
 
 
 func _write_test_text(path: String, text: String) -> void:
