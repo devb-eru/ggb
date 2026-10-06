@@ -1,7 +1,14 @@
 extends RefCounted
 
 const CATALOG := preload("res://scripts/systems/developer_checkpoints.gd")
+const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
+const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
+const QUERY := preload("res://scripts/systems/notebook_query.gd")
+const VIEWS := preload("res://scripts/systems/notebook_view_store.gd")
+const PRESENTATION_VIEWS := preload("res://scripts/systems/presentation_view_store.gd")
+const SEEDED_ARG := "--developer-isolation-seeded-smoke"
 var errors: Array[String] = []
+var seeded := false
 
 class FailedSave:
 	extends Node
@@ -18,8 +25,14 @@ func run(bootstrap: Node) -> Dictionary:
 	var catalog := CATALOG.new()
 	var rows := catalog.entries()
 	_expect(rows.size() >= 75, "catalog spans prologue, all chapters, relationships and ending nodes")
+	if SEEDED_ARG in OS.get_cmdline_user_args():
+		if not await _seed_product_fixtures(tree, catalog): return {"ok":false,"errors":errors}
+		seeded = true
 	var product_before := _product_fingerprints()
 	var profile_before := _profile_fingerprints()
+	if seeded:
+		_expect(product_before.size() >= 12 and profile_before.size() >= 29, "seeded comparison covers nonempty product saves and recursive profile files")
+		print("NP22_SEEDED_BASELINE: ", JSON.stringify({"product_files": product_before.size(), "profile_files": profile_before.size()}))
 	var original_flavor: Variant = ProjectSettings.get_setting("ggb/build_flavor", null)
 	var panel = bootstrap._developer_panel
 	await tree.create_timer(0.3).timeout
@@ -135,11 +148,14 @@ func run(bootstrap: Node) -> Dictionary:
 		_expect(scope.namespace == "development" and scope.slot == clone.slot_id and scope.run_id == SaveManager.inspect_slot(clone.slot_id).get("run_id"), "actual developer F3 clone retains notebook namespace and its own run identity")
 		_expect(preload("res://scripts/systems/notebook_commands.gd").scope(GameState, SaveManager, clone.slot_id).begins_with("development:"), "actual developer F3 clone uses matching reference command namespace")
 		notebook.free()
-		copy_view.free()
+		if seeded:
+			await _copy_notebook(tree, copy_view, clone.slot_id)
+		else: copy_view.free()
 	bootstrap._developer_jump("CREDITS_STAY")
 	await tree.process_frame
 	_expect(SaveManager.load_slot(CATALOG.SLOT).header.run_id != first_run, "each new checkpoint gets a distinct run identity")
 	_expect(not SaveManager.load_f3_reselect(CATALOG.SLOT).get("ok", false), "direct ending jump cannot reuse an earlier run's F3 snapshot")
+	if seeded: await _developer_gallery(tree, bootstrap._prologue)
 	if "--developer-capture" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
 		panel.toggle()
 		panel.search.text = ""
@@ -153,7 +169,131 @@ func run(bootstrap: Node) -> Dictionary:
 	await tree.process_frame
 	_expect(_product_fingerprints() == product_before, "normal saves remain byte-for-byte unchanged")
 	_expect(_profile_fingerprints() == profile_before, "normal ending meta and gallery remain untouched")
+	if seeded: print("NP22_SEEDED_PRESERVATION: ", JSON.stringify({"product_unchanged":_product_fingerprints() == product_before,"profile_unchanged":_profile_fingerprints() == profile_before,"checkpoints":rows.size()}))
 	return {"ok":errors.is_empty(),"errors":errors,"checkpoints":rows.size()}
+
+
+func _seed_product_fixtures(tree: SceneTree, catalog) -> bool:
+	var token := OS.get_environment("GGB_ISOLATED_PROFILE_TOKEN")
+	var root := ProjectSettings.globalize_path("user://").replace("\\", "/").trim_suffix("/")
+	var appdata := OS.get_environment("APPDATA").replace("\\", "/").trim_suffix("/")
+	if token.is_empty() or appdata.is_empty() or not root.begins_with(appdata + "/Godot/app_userdata/") or FileAccess.get_file_as_string("user://__test_np22_isolated_marker") != token:
+		_expect(false, "seeded product fixtures require explicit isolated APPDATA marker")
+		return false
+	if not _product_fingerprints().is_empty() or not _profile_fingerprints().is_empty():
+		_expect(false, "seeded fixtures refuse an existing product profile")
+		return false
+	if not preload("res://scripts/systems/notebook_rollout.gd").enabled():
+		_expect(false, "seeded notebook fixtures require explicit debug notebook v2 rollout")
+		return false
+	var original: Variant = ProjectSettings.get_setting("ggb/build_flavor", null)
+	var loaded: Dictionary = catalog.snapshot_for("P4")
+	if not loaded.ok:
+		_expect(false, "valid product fixture checkpoint")
+		return false
+	var state: Dictionary = loaded.snapshot
+	var ref := ARCHIVE.make_reference(state.meta_progress.dialogue_history.entries[0], "legacy")
+	var pinned := ARCHIVE.set_reference(state.meta_progress.dialogue_history, "bookmarks", ref, true, int(state.meta_progress.dialogue_history.revision))
+	_expect(pinned.ok, "seed product bookmark")
+	if not pinned.ok: return false
+	state.meta_progress.dialogue_history = pinned.archive
+	for flavor in ["demo", "full"]:
+		ProjectSettings.set_setting("ggb/build_flavor", flavor)
+		for slot in ["slot_01", "slot_02", "slot_03"]:
+			for index in range(2):
+				_expect(SaveManager.save_snapshot(slot, "SAVE_NEW_GAME", state, GameState.revision, "NP22_SEED_%s_%s_%d" % [flavor, slot, index]).ok, "valid product main and backup: " + flavor + "/" + slot)
+			var verified: Dictionary = SaveManager.load_slot(slot)
+			_expect(verified.ok and StateSnapshotValidator.same_persisted_value(state, verified.snapshot), "product fixture validates after reload")
+			if not verified.ok: continue
+			var archive: Dictionary = verified.snapshot.meta_progress.dialogue_history
+			var scope := {"namespace":flavor,"slot":slot,"run_id":verified.header.run_id,"source_origin_id":archive.source_origin_id,"branch_id":archive.branch_id,"load_epoch":0}
+			var query := QUERY.new()
+			_expect(query.open(archive, verified.snapshot.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), scope, "ko-KR", verified.snapshot.meta_progress.knowledge_entries).ok, "product notebook query opens")
+			var panel = preload("res://scripts/ui/notebook_panel.gd").new()
+			tree.current_scene.add_child(panel)
+			panel.present(query, "ko-KR", "dialogue", 1.0)
+			panel.show_detail(QUERY.reference_key(ref))
+			for frame in range(3): await tree.process_frame
+			var preferences := {"seen":[QUERY.reference_key(ref)],"groups":[],"general":panel.capture_view(),"dialogue":panel.capture_view()}
+			var persistent := VIEWS.persistent_scope(scope)
+			var views := VIEWS.new()
+			for index in range(2): _expect(views.save_view(persistent, query.view_frontier(), preferences).ok, "seed product notebook main and backup")
+			_expect(views.load_view(persistent, query.view_frontier()).state.seen == preferences.seen, "seeded product reading state loads")
+			var presentation_views := PRESENTATION_VIEWS.new()
+			var presentation_identity: String = ("np22-product-" + flavor + slot).sha256_text()
+			var presentation_view := {"focus":"seeded:source","scrolls":{},"layout":["ko-KR",1.0,1280.0,720.0]}
+			for index in range(2): _expect(presentation_views.save_view(persistent, presentation_identity, presentation_view), "seed product presentation main and backup")
+			panel.queue_free()
+			await tree.process_frame
+			query.close()
+	ProjectSettings.set_setting("ggb/build_flavor", original)
+	var gallery := EndingGalleryStore.new()
+	var meta := EndingMetaStore.new()
+	for ending in ["CREDITS_REALITY", "CREDITS_STAY"]:
+		var completed: Dictionary = catalog.snapshot_for(ending)
+		_expect(completed.ok, "normal completed-ending fixture")
+		if completed.ok:
+			_expect(meta.commit_completed(completed.snapshot).ok, "seed normal ending meta")
+			_expect(gallery.capture(completed.snapshot).ok, "seed normal gallery capture")
+	_expect(gallery.list_entries().size() == 2 and meta.load_profile().profile.ending_meta.reality_seen and meta.load_profile().profile.ending_meta.stay_seen, "both normal endings validate before developer actions")
+	return errors.is_empty()
+
+
+func _copy_notebook(tree: SceneTree, view, slot: String) -> void:
+	tree.current_scene.add_child(view)
+	for frame in range(3): await tree.process_frame
+	var tracker := preload("res://scripts/systems/presentation_view_tracker.gd").new()
+	tracker.view = view
+	_expect(tracker._live().namespace == "development", "actual F3 copy presentation tracker retains developer namespace")
+	tracker.free()
+	view._dismiss_dialogue_for_test()
+	view._open_notebook()
+	var host = view._notebook_host
+	var ready := await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, host)
+	_expect(ready, "actual F3 copy notebook opens")
+	if ready:
+		_expect(host._scope.namespace == "development", "copy notebook remains in developer scope")
+		var rows: Dictionary = host.model.page({"tab":"dialogue"}, 0, host.model.cache_key())
+		_expect(not rows.items.is_empty(), "copy notebook contains acquired source material")
+		if not rows.items.is_empty():
+			var row: Dictionary = rows.items[0]
+			host.panel.set_tab("dialogue")
+			host.panel.show_detail(row.key)
+			host.panel.reference_requested.emit("bookmarks", row.reference, true)
+			var start := Time.get_ticks_msec()
+			while not host._reference_job.is_empty() or not host._refresh_job.is_empty():
+				if Time.get_ticks_msec() - start > 60000:
+					_expect(false, "copy notebook save watchdog")
+					break
+				await tree.process_frame
+			var saved: Dictionary = SaveManager.load_slot(slot)
+			_expect(saved.ok and row.reference in saved.snapshot.meta_progress.dialogue_history.bookmarks, "copy bookmark persists through actual async host and reload")
+		host.request_close()
+		for frame in range(3): await tree.process_frame
+	view.queue_free()
+	await tree.process_frame
+
+
+func _developer_gallery(tree: SceneTree, owner: Control) -> void:
+	var store := EndingGalleryStore.new(CATALOG.META_ROOT.path_join("ending_gallery"))
+	var entries := store.list_entries()
+	_expect(not entries.is_empty(), "developer actions produced an isolated gallery capture")
+	if entries.is_empty(): return
+	var before := GameState.get_snapshot()
+	var host = preload("res://scripts/systems/notebook_gallery_host.gd").new()
+	tree.current_scene.add_child(host)
+	_expect(host.begin(owner, store, entries[0].id, "ko-KR", 1.0), "actual developer gallery notebook opens")
+	if host._active():
+		var rows: Dictionary = host.model.page({"tab":"dialogue"}, 0, host.model.cache_key())
+		_expect(not rows.items.is_empty(), "developer capture exposes only its acquired material")
+		if not rows.items.is_empty():
+			host.panel.set_tab("dialogue")
+			host.panel.show_detail(rows.items[0].key)
+			host.panel.reference_requested.emit("comparison", rows.items[0].reference, true)
+		host.request_close()
+		for frame in range(3): await tree.process_frame
+	else: host.queue_free()
+	_expect(StateSnapshotValidator.same_persisted_value(before, GameState.get_snapshot()), "developer gallery read and temporary comparison never mutate live state")
 
 
 func _key(tree: SceneTree, key: Key) -> void:
@@ -197,9 +337,29 @@ func _product_fingerprints() -> Dictionary:
 
 func _profile_fingerprints() -> Dictionary:
 	var result := {}
-	for root in ["user://profile", "user://profile/ending_gallery"]:
-		if not DirAccess.dir_exists_absolute(root): continue
-		for name in DirAccess.get_files_at(root):
-			var path: String = root.path_join(name)
-			result[path] = FileAccess.get_sha256(path)
+	_profile_files("user://profile", result)
 	return result
+
+
+func _profile_files(root: String, result: Dictionary) -> void:
+	if not DirAccess.dir_exists_absolute(root): return
+	for name in DirAccess.get_files_at(root):
+		var path := root.path_join(name)
+		if not _developer_view_file(path): result[path] = FileAccess.get_sha256(path)
+	for name in DirAccess.get_directories_at(root): _profile_files(root.path_join(name), result)
+
+
+func _developer_view_file(path: String) -> bool:
+	var notebook := path.begins_with("user://profile/notebook_views/")
+	if not notebook and not path.begins_with("user://profile/presentation_views/"): return false
+	var envelope: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not envelope is Dictionary or not envelope.get("payload") is String: return false
+	var payload: Variant = JSON.parse_string(envelope.payload)
+	if not payload is Dictionary or not payload.get("scope") is Dictionary: return false
+	var store: RefCounted = VIEWS.new() if notebook else PRESENTATION_VIEWS.new()
+	var expected: Dictionary = store.paths(payload.scope)
+	if path not in expected.values() or not store._read(path, payload.scope).ok: return false
+	if payload.scope.namespace == "development": return true
+	if not notebook or payload.scope.namespace != "gallery": return false
+	var gallery := EndingGalleryStore.new(CATALOG.META_ROOT.path_join("ending_gallery"))
+	return gallery.list_entries().any(func(entry: Dictionary) -> bool: return entry.id == payload.scope.slot)

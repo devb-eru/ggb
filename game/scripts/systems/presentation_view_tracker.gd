@@ -2,6 +2,7 @@ extends Node
 
 const PRESENTATION := preload("res://scripts/systems/notebook_presentation.gd")
 const STORE := preload("res://scripts/systems/presentation_view_store.gd")
+const COMMANDS := preload("res://scripts/systems/notebook_commands.gd")
 const LAYOUT_VERSION := 1
 var store := STORE.new()
 var view: Control
@@ -27,7 +28,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _live() -> Dictionary:
-	return {"slot": view._slot_id, "namespace": "development" if view._slot_id.begins_with("__dev_") else SaveManager.get_build_flavor(), "load_epoch": GameState.load_epoch,
+	return {"slot": view._slot_id, "namespace": COMMANDS.scope_namespace(GameState, SaveManager, view._slot_id), "load_epoch": GameState.load_epoch,
 		"origin": GameState.get_value("meta_progress.dialogue_history.source_origin_id", ""),
 		"branch": GameState.get_value("meta_progress.dialogue_history.branch_id", "")}
 

@@ -73,6 +73,7 @@
 | [`GGB-ERR-2026-0043`](GGB-ERR-2026-0043_실행엔진과_export_template_버전불일치.md) | VERIFIED | DONE | 실행 엔진과 export template 버전 불일치 |
 | [`GGB-ERR-2026-0044`](GGB-ERR-2026-0044_수첩편의설정_미래임시파일_덮어쓰기.md) | VERIFIED | DONE | 수첩 편의 설정 미래 임시 파일 덮어쓰기 |
 | [`GGB-ERR-2026-0045`](GGB-ERR-2026-0045_개발F3복사본_수첩namespace_분류누락.md) | VERIFIED | DONE | 개발 F3 복사본 수첩 namespace 분류 누락 |
+| [`GGB-ERR-2026-0046`](GGB-ERR-2026-0046_개발F3복사본_표시위치namespace_분류누락.md) | VERIFIED | DONE | 개발 F3 복사본 표시 위치 namespace 분류 누락 |
 
 ## 관리
 
