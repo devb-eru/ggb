@@ -13,6 +13,7 @@ var observed_tuples := {}
 var covered_segments := {}
 var excluded_guard_paths: Array = []
 var pressure_paths: Array = []
+var cross_reset_paths: Array = []
 var base: Dictionary
 var serial := 0
 
@@ -47,6 +48,8 @@ func run(tree: SceneTree) -> Dictionary:
 	_report_tuples()
 	print("NOTEBOOK_NP04_GUARD_AUDIT: " + JSON.stringify({"paths": excluded_guard_paths, "errors": errors}))
 	print("NOTEBOOK_NP04_PRESSURE_AUDIT: " + JSON.stringify({"paths": pressure_paths, "errors": errors}))
+	_expect(cross_reset_paths.size() == 8, "two alert boundaries and two initial responses survive reset in both languages")
+	print("NOTEBOOK_NP04_CROSS_RESET_AUDIT: " + JSON.stringify({"paths": cross_reset_paths, "errors": errors}))
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": covered_segments.size(), "producer_paths": ["NP04"], "guard_fixtures": ["LAYOUT_MISSING", "PHASE_UNSET", "DESK_VISIT", "ALCOVE_VISIT", "GAP_VISIT", "LINK_VISIT", "LINK_OPEN_VISIT"], "not_covered": ["NP05", "NP06", "app_restart_cursor", "OS_input"]}
@@ -185,12 +188,88 @@ func _route(tree: SceneTree, language: String) -> void:
 	_first_schedule_context(view)
 	_natural_pressure_paths(view, language)
 	_collect(language)
+	_cross_reset_visits(view, language)
 	_guard_exclusions(view, language)
 	_schedule_combinations(view, language)
 	_shortcut_conditions(view, language, shortcut)
 	await _persistence(view, tree)
 	view.queue_free()
 	await tree.process_frame
+
+
+func _cross_reset_visits(view: Node, language: String) -> void:
+	for alert in [0, 4]:
+		for first_response in ["talk", "hide"]:
+			var initial := base.duplicate(true)
+			initial.meta_progress.dialogue_history = ARCHIVE.create()
+			initial.meta_progress.knowledge_entries.erase("notebook_knowledge")
+			initial.meta_progress.servants.edgar.alert = alert
+			initial.loop_state.location_id = "M2_BEDROOM"
+			_install(initial)
+			_act(view, "mark", "sentence")
+			_act(view, "routine")
+			_retained_reset(view)
+			_act(view, "confirm_mark")
+			_act(view, "routine")
+			_act(view, "move", "M1_CENTRAL_HALL")
+			_act(view, "move", "M1_SERVANT_COMMON")
+			for owner in ["edgar", "luca"]: _act(view, "read_schedule", owner)
+			_act(view, "schedule_window", "after_tea_before_bell")
+			_act(view, "move", "M1_CENTRAL_HALL")
+			_enter_and_visit(view, first_response)
+			var first := GameState.get_snapshot()
+			_expect(first.meta_progress.servants.edgar.residual_memory.count("B2_CAUGHT") == (1 if first_response == "talk" else 0), "first hiding cannot fabricate a caught memory")
+			var old_entries: Array = first.meta_progress.dialogue_history.entries.duplicate(true)
+			for room in ["M1_LIBRARY_OUTER", "M1_CENTRAL_HALL", "M2_BEDROOM"]: _act(view, "move", room)
+			_retained_reset(view)
+			var morning := GameState.get_snapshot()
+			_expect(morning.meta_progress.servants == first.meta_progress.servants, "actual reset preserves servant memory and relationship values")
+			_expect(not view.session.local_state().routine_done and view.session.local_state().attention == 0 and view.session.local_state().edgar_state == "absent" and not view.session.local_state().edgar_visit_done, "actual reset clears daily work, noise and visit state")
+			_act(view, "routine")
+			_act(view, "move", "M1_CENTRAL_HALL")
+			_enter_and_visit(view, "talk")
+			var after := GameState.get_snapshot()
+			_expect(after.meta_progress.servants.edgar.residual_memory.count("B2_CAUGHT") == 1, "next-day conversation preserves exactly one caught memory")
+			_expect(after.meta_progress.servants.edgar.alert == alert and after.meta_progress.servants.edgar.bond == first.meta_progress.servants.edgar.bond, "revisiting is not a relationship award")
+			var by_uid := {}
+			for entry in after.meta_progress.dialogue_history.entries: by_uid[entry.entry_uid] = entry
+			for entry in old_entries:
+				var saved: Dictionary = by_uid.get(entry.entry_uid, {})
+				_expect(not saved.is_empty() and saved.observation == entry.observation and saved.sequence == entry.sequence, "next morning cannot rewrite earlier observations or their order")
+			var id := "NB_CH1_CH1_B2_ALERT" if alert == 4 else "NB_CH1_CH1_B2_NORMAL"
+			var visits: Array = after.meta_progress.dialogue_history.entries.filter(func(entry: Dictionary) -> bool: return entry.observation.content_id == id)
+			var paragraphs := 2 if alert == 4 else 1
+			_expect(visits.size() == paragraphs * (2 if first_response == "talk" else 1), "only actual conversations disclose the correct number of paragraphs")
+			if first_response == "talk" and visits.size() >= paragraphs * 2:
+				_expect(visits[0].observation.event_occurrence_id != visits[paragraphs].observation.event_occurrence_id and visits[0].observation.presentation_token != visits[paragraphs].observation.presentation_token, "a new-day conversation is a new event, not a rerender")
+			_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "cross-reset visit reloads the actual saved JSON")
+			_expect(StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), after), "JSON reload preserves both mornings and exact memory")
+			_collect(language)
+			cross_reset_paths.append({"locale":language, "initial_alert":alert, "first_response":first_response, "second_response":"talk", "normal_resets":2, "caught_memory_count":1})
+
+
+func _retained_reset(view: Node) -> void:
+	var before := GameState.get_snapshot()
+	var result: Dictionary = view.session.sleep()
+	_expect(result.ok, "connected visit route accepts sleep in the same bedroom")
+	var after := GameState.get_snapshot()
+	_expect(int(after.loop_state.day_index) == int(before.loop_state.day_index) + 1 and after.loop_state.location_id == "M2_BEDROOM", "actual reset advances the day at the same starting room")
+	_expect(after.meta_progress.dialogue_history.entries == before.meta_progress.dialogue_history.entries, "sleep itself never publishes unseen dialogue")
+	_expect(after.meta_progress.knowledge_entries.get("notebook_knowledge", {}) == before.meta_progress.knowledge_entries.get("notebook_knowledge", {}), "actual reset keeps acquired notes and sources")
+	view._feedback(result)
+	_drain(view)
+
+
+func _enter_and_visit(view: Node, response: String) -> void:
+	_act(view, "move", "M1_LIBRARY_OUTER")
+	_act(view, "move", "M1_LIBRARY_INNER")
+	_act(view, "inspect_inner", "alcove")
+	_act(view, "inspect_inner", "index")
+	if view.session.local_state().edgar_state != "entering": _act(view, "inspect_inner", "drawer")
+	_expect(view.session.local_state().edgar_state == "entering", "natural inspection triggers the next visit")
+	_act(view, "edgar_" + response)
+	if response == "hide": _act(view, "edgar_leave")
+	_expect(view.session.local_state().edgar_state == "absent" and view.session.local_state().edgar_visit_done, "visit leaves the puzzle available")
 
 
 func _natural_pressure_paths(view: Node, language: String) -> void:
