@@ -69,6 +69,7 @@
 | [`GGB-ERR-2026-0039`](GGB-ERR-2026-0039_progress_미래임시파일_덮어쓰기.md) | VERIFIED | DONE | progress 미래 임시 파일 덮어쓰기 |
 | [`GGB-ERR-2026-0040`](GGB-ERR-2026-0040_미지원설계버전_저장덮어쓰기.md) | VERIFIED | DONE | 미지원 설계 버전 저장 덮어쓰기 |
 | [`GGB-ERR-2026-0041`](GGB-ERR-2026-0041_데모가져오기_실패슬롯_점유.md) | VERIFIED | DONE | 데모 가져오기 실패 슬롯 점유 |
+| [`GGB-ERR-2026-0042`](GGB-ERR-2026-0042_Windows_한글IME_음절유실.md) | OPEN | READY | Windows 한글 IME 음절 유실 |
 
 ## 관리
 
