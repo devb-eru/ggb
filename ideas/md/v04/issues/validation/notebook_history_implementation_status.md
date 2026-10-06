@@ -1,5 +1,9 @@
 # 통합 수첩 구현 현황
 
+## 2026-10-07 편의 설정 미래 임시 파일 보호
+
+기준 develop `757bb00`. [검증 보고서](2026-10-07_수첩편의설정_미래임시파일_보호.md)의 ERR-0044는 미래 temporary 덮어쓰기를 9개 실패 단언으로 재현한 뒤 load/save 양쪽에서 보호하도록 수정했다. 미확정 temporary는 복구하지 않는다. 집중 53조건과 query 6,835검사(미래 파일 52조건·view 227·gallery 232 포함) PASS. 격리 headless 파일 검사이며 실제 OS 중단/동시 쓰기나 NP21/22 전체 감사는 미완료다. rollout OFF와 실제 전편/IME 후보 채택·성능 인수는 유지한다.
+
 ## 2026-10-07 후보 Windows EXE와 템플릿 일치
 
 기준 develop `2df859e`. [후보 EXE 검증](2026-10-07_엔진템플릿_버전일치_및_EXE검증.md)에서 [ERR-0043](../items/GGB-ERR-2026-0043_실행엔진과_export_template_버전불일치.md)의 잘못된 첫 템플릿 폴더 선택을 재현·수정했다. 정확한 runtime/template metadata·없으면 거부·새 격리 경로·자식 실행 제한을 구현했고 PowerShell 7/5.1 각 10조건 PASS. 공식 4.6.3 패키지 전체 SHA 검증 후 실제 Windows debug EXE 두 경로 내보내기/foundation PASS. 두 EXE는 같은 바이너리에 headless 실행 옵션을 바꾸는 검사이며 renderer/장비 인수나 전체 엔진 채택은 아니다. EXE 콘텐츠 NP20 150조합/저장 복구 150조건, 조회 6,838검사(내부 갤러리 포함) PASS. release 시도는 임시 엔진 부재로 실행 전에 중단됐으며 재확보가 필요하다. 제품 4.7 요구와 ERR-0042 OPEN·rollout OFF는 유지한다.

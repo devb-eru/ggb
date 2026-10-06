@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.steam.ed1daf0bf - https://godotengine.org
+
+NB_VIEW_FUTURE_FAIL: read-only default temporary/valid
+NB_VIEW_FUTURE_FAIL: reject write temporary/valid
+NB_VIEW_FUTURE_FAIL: preserve every candidate temporary/valid
+NB_VIEW_FUTURE_FAIL: read-only default temporary/missing
+NB_VIEW_FUTURE_FAIL: reject write temporary/missing
+NB_VIEW_FUTURE_FAIL: preserve every candidate temporary/missing
+NB_VIEW_FUTURE_FAIL: read-only default temporary/damaged
+NB_VIEW_FUTURE_FAIL: reject write temporary/damaged
+NB_VIEW_FUTURE_FAIL: preserve every candidate temporary/damaged
+NOTEBOOK_VIEW_FUTURE_CHECKS: 52
+VIEW_FUTURE_RESULT: {"errors":["read-only default temporary/valid","reject write temporary/valid","preserve every candidate temporary/valid","read-only default temporary/missing","reject write temporary/missing","preserve every candidate temporary/missing","read-only default temporary/damaged","reject write temporary/damaged","preserve every candidate temporary/damaged"],"ok":false}

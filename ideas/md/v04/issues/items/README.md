@@ -71,6 +71,7 @@
 | [`GGB-ERR-2026-0041`](GGB-ERR-2026-0041_데모가져오기_실패슬롯_점유.md) | VERIFIED | DONE | 데모 가져오기 실패 슬롯 점유 |
 | [`GGB-ERR-2026-0042`](GGB-ERR-2026-0042_Windows_한글IME_음절유실.md) | OPEN | READY | Windows 한글 IME 음절 유실 |
 | [`GGB-ERR-2026-0043`](GGB-ERR-2026-0043_실행엔진과_export_template_버전불일치.md) | VERIFIED | DONE | 실행 엔진과 export template 버전 불일치 |
+| [`GGB-ERR-2026-0044`](GGB-ERR-2026-0044_수첩편의설정_미래임시파일_덮어쓰기.md) | VERIFIED | DONE | 수첩 편의 설정 미래 임시 파일 덮어쓰기 |
 
 ## 관리
 

@@ -35,7 +35,9 @@ func load_view(scope: Dictionary, frontier: Dictionary) -> Dictionary:
 	var files := paths(scope)
 	var primary := _read(files.main, scope)
 	var backup := _read(files.backup, scope)
-	for result in [primary, backup]:
+	# An uncommitted temporary file is never adopted, but newer formats stay protected.
+	var temporary := _read(files.temporary, scope)
+	for result in [primary, backup, temporary]:
 		if result.get("error_id") == "NB_VIEW_FUTURE": return _default("NB_VIEW_FUTURE", false)
 	for result in [primary, backup]:
 		if not result.ok: continue
@@ -49,7 +51,8 @@ func save_view(scope: Dictionary, frontier: Dictionary, state: Dictionary) -> Di
 	var files := paths(scope)
 	var primary := _read(files.main, scope)
 	var backup := _read(files.backup, scope)
-	for existing in [primary, backup]:
+	var temporary := _read(files.temporary, scope)
+	for existing in [primary, backup, temporary]:
 		if existing.get("error_id") == "NB_VIEW_FUTURE": return _error("NB_VIEW_FUTURE")
 	if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(root_path)) != OK: return _error("NB_VIEW_DIRECTORY")
 	var payload := {"scope": scope.duplicate(true), "frontier": frontier.duplicate(true), "state": state.duplicate(true)}

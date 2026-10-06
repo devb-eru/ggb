@@ -344,12 +344,12 @@ func _test_files(store, scope: Dictionary, frontier: Dictionary, state: Dictiona
 	_write(files.backup, "broken-backup")
 	_expect(store.load_view(scope, frontier).warning_id == "NB_VIEW_DAMAGED", "two damaged sidecars default without losing records")
 	_expect(store.save_view(scope, frontier, state).ok, "damaged convenience state can be repaired independently")
-	for target in [files.main, files.backup]:
+	for target in [files.main, files.backup, files.temporary]:
 		_write(target, JSON.stringify({"version": 999}))
 		var protected := FileAccess.get_file_as_bytes(target)
 		var loaded: Dictionary = store.load_view(scope, frontier)
-		_expect(not loaded.writable and loaded.warning_id == "NB_VIEW_FUTURE", "future sidecar version disables preference writes")
-		_expect(not store.save_view(scope, frontier, state).ok and FileAccess.get_file_as_bytes(target) == protected, "unsupported future preferences are never overwritten")
+		_expect(not loaded.writable and loaded.warning_id == "NB_VIEW_FUTURE", "future sidecar version disables preference writes: " + target)
+		_expect(not store.save_view(scope, frontier, state).ok and FileAccess.get_file_as_bytes(target) == protected, "unsupported future preferences are never overwritten: " + target)
 		DirAccess.remove_absolute(target)
 	for malformed in [[], null, true, "bad"]:
 		var broken := state.duplicate(true)
