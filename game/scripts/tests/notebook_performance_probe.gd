@@ -1,12 +1,26 @@
 extends RefCounted
 
 const FIXTURE := preload("res://scripts/tests/notebook_performance_fixture.gd")
-const QUERY := preload("res://scripts/systems/notebook_query.gd")
 const PANEL := preload("res://scripts/ui/notebook_panel.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const SLOT := "__test_notebook_performance"
 var errors: Array = []
 var timings := {}
+
+
+class TimedQuery extends "res://scripts/systems/notebook_query.gd":
+	var index_calls := 0
+	var index_total_usec := 0
+	var index_max_usec := 0
+
+	func index_for_budget(expected_key: String, budget_usec: int = 4000) -> Dictionary:
+		var start := Time.get_ticks_usec()
+		var result := super.index_for_budget(expected_key, budget_usec)
+		var elapsed := Time.get_ticks_usec() - start
+		index_calls += 1
+		index_total_usec += elapsed
+		index_max_usec = maxi(index_max_usec, elapsed)
+		return result
 
 
 func _arg(name: String, fallback: String) -> String:
@@ -54,7 +68,7 @@ func run(tree: SceneTree) -> Dictionary:
 	var frozen_input := JSON.stringify(decoded, "", true)
 	var scope := {"namespace":"test", "slot":SLOT, "run_id":id, "source_origin_id":fixture.archive.source_origin_id,
 		"branch_id":fixture.archive.branch_id, "load_epoch":1}
-	var query := QUERY.new()
+	var query := TimedQuery.new()
 	var open_start := Time.get_ticks_usec()
 	start = open_start
 	var opened: Dictionary = query.open(fixture.archive, fixture.ledger, scope, locale)
@@ -86,6 +100,9 @@ func run(tree: SceneTree) -> Dictionary:
 			errors.append("first search exceeded 120-second probe deadline")
 			break
 	_record("first_search_ui_ms", start)
+	timings.search_index_cpu_total_ms = [query.index_total_usec / 1000.0]
+	timings.search_index_max_batch_ms = [query.index_max_usec / 1000.0]
+	_require(query.index_calls > 0, "search index timing captures actual budgeted calls")
 	_require(query.diagnostics().indexed == query.diagnostics().index_total, "search index completes")
 	var hidden: Dictionary = query.page({"tab":"records", "all_sections":true, "needle":FIXTURE.HIDDEN}, 0, key)
 	_require(hidden.ok and hidden.complete and hidden.count == 0, "undisclosed back page never enters search")
@@ -153,6 +170,7 @@ func run(tree: SceneTree) -> Dictionary:
 		lifecycle = await preload("res://scripts/tests/notebook_lifecycle_probe.gd").new().run(tree, fixture, locale, cycles)
 		errors.append_array(lifecycle.errors)
 	return {"ok":errors.is_empty(), "errors":errors, "manifest":fixture.manifest, "locale":locale, "warm_iterations":warm,
+		"search_index_calls":query.index_calls,
 		"lifecycle":lifecycle,
 		"timings_ms":timings, "engine":Engine.get_version_info().string, "os":OS.get_name(), "os_version":OS.get_version(),
 		"cpu":OS.get_processor_name(), "cpu_threads":OS.get_processor_count(), "display":DisplayServer.get_name(),

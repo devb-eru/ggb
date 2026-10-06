@@ -241,6 +241,13 @@ func diagnostics() -> Dictionary:
 
 func index_step(expected_key: String, limit: int = 20) -> Dictionary:
 	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
+	_index_rows(limit)
+	_result_cache.clear()
+	return {"ok": true, "complete": _search_cursor == _order.size(), "indexed": _search_cursor}
+
+
+# The synchronous batch cannot change scope between rows; validate at its entry.
+func _index_rows(limit: int) -> void:
 	var stop := mini(_order.size(), _search_cursor + clampi(limit, 1, PAGE_SIZE))
 	while _search_cursor < stop:
 		var key: String = _order[_search_cursor]
@@ -249,18 +256,17 @@ func index_step(expected_key: String, limit: int = 20) -> Dictionary:
 			var fields := _search_fields(_rows[key], result.text)
 			_search[key] = SEARCH_FIELDS.map(func(field: String) -> String: return String(fields[field]).to_lower())
 		_search_cursor += 1
-	_result_cache.clear()
-	return {"ok": true, "complete": _search_cursor == _order.size(), "indexed": _search_cursor}
 
 
 func index_for_budget(expected_key: String, budget_usec: int = 4000) -> Dictionary:
 	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
 	var start := Time.get_ticks_usec()
 	var budget := clampi(budget_usec, 250, 8000)
+	var before := _search_cursor
 	while _search_cursor < _order.size():
-		var result := index_step(expected_key, 4)
-		if not result.ok: return result
+		_index_rows(4)
 		if Time.get_ticks_usec() - start >= budget: break
+	if _search_cursor != before: _result_cache.clear()
 	return {"ok":true, "complete":_search_cursor == _order.size(), "indexed":_search_cursor}
 
 

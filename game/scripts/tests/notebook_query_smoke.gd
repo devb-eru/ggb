@@ -9,6 +9,14 @@ var errors := PackedStringArray()
 var checks := 0
 
 
+class CountingQuery extends "res://scripts/systems/notebook_query.gd":
+	var key_checks := 0
+
+	func cache_key() -> String:
+		key_checks += 1
+		return super.cache_key()
+
+
 func run(tree: SceneTree) -> Dictionary:
 	var state_before := GameState.get_snapshot()
 	var fixture := _fixture()
@@ -16,6 +24,7 @@ func run(tree: SceneTree) -> Dictionary:
 	_test_read_model(fixture)
 	_test_search_projection(fixture)
 	_test_order_cache(fixture)
+	_test_budgeted_index_validation(fixture)
 	_test_numeric_order()
 	_test_facets(fixture)
 	_test_disclosure()
@@ -268,6 +277,40 @@ func _test_order_cache(fixture: Dictionary) -> void:
 	_expect(query.open(fixture.archive, fixture.ledger, _scope(fixture.archive), "en-US").ok, "new locale rebuilds the frozen model")
 	query.page({"tab":"dialogue"}, 0, query.cache_key())
 	_expect(query.diagnostics().sort_build_count == 1 and query.cache_key() != key, "new scope uses a fresh order cache")
+
+
+func _test_budgeted_index_validation(fixture: Dictionary) -> void:
+	var original := JSON.stringify(fixture)
+	for locale in ["ko-KR", "en-US"]:
+		var query := CountingQuery.new()
+		_expect(query.open(fixture.archive, fixture.ledger, _scope(fixture.archive), locale).ok, "counted query opens")
+		var key := query.cache_key()
+		var reference = _open(fixture, locale)
+		var reference_key: String = reference.cache_key()
+		while query.diagnostics().indexed < query.diagnostics().index_total:
+			var before: int = query.diagnostics().indexed
+			query.page({"tab":"dialogue", "needle":"일과"}, 0, key)
+			query.key_checks = 0
+			var result := query.index_for_budget(key, 8000)
+			_expect(result.ok and result.indexed > before and query.key_checks == 1, "budget validates once per synchronous call, not every four rows")
+			_expect(query._result_cache.is_empty(), "new indexed rows invalidate partial search results")
+			while reference.diagnostics().indexed < result.indexed:
+				reference.index_step(reference_key, result.indexed - int(reference.diagnostics().indexed))
+			_expect(query._search == reference._search, "budget and row-limited index contain identical public search fields")
+			for needle in ["일과", "duties", "진동", "vibration", "missing-keyword"]:
+				var filters := {"tab":"dialogue", "all_sections":true, "needle":needle}
+				_expect(query.page(filters, 0, key) == reference.page(filters, 0, reference_key), "partial and complete search results match reference indexing")
+		var before_stale := query._search.duplicate(true)
+		query.key_checks = 0
+		_expect(not query.index_for_budget("stale", 8000).ok and query.key_checks == 1 and query._search == before_stale, "stale public request is rejected without mutation")
+		var rendered: int = query.diagnostics().render_count
+		query.key_checks = 0
+		_expect(query.index_for_budget(key).complete and query.key_checks == 1 and query.diagnostics().render_count == rendered, "completed index validates but does not render again")
+		_expect(query.open(fixture.archive, fixture.ledger, _scope(fixture.archive), locale).ok, "reopen invalidates previous generation")
+		_expect(not query.index_for_budget(key).ok and query.diagnostics().indexed == 0, "old generation cannot index reopened model")
+		query.close()
+		_expect(not query.index_for_budget(query.cache_key()).ok and query._search.is_empty(), "closed query rejects indexing")
+	_expect(JSON.stringify(fixture) == original, "budget indexing preserves input archive and ledger")
 
 
 func _test_read_model(fixture: Dictionary) -> void:
