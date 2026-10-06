@@ -36,6 +36,9 @@ class ControlledSave extends Node:
 
 
 func run(tree: SceneTree) -> Dictionary:
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("--fracture-process-phase="):
+			return await _process_restart(tree, argument.trim_prefix("--fracture-process-phase="))
 	var old_locale := TranslationServer.get_locale()
 	var old_flavor: Variant = ProjectSettings.get_setting("ggb/build_flavor")
 	ProjectSettings.set_setting("ggb/build_flavor", "full")
@@ -66,6 +69,102 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(),
 		"rest_recovery_cases": rest_recovery_cases, "not_covered": ["timed_panel_and_guidance_disclosure", "world_question_choice_capture", "static_board_disclosure", "app_restart_cursor", "OS_input", "shared_notebook_UI"]}
+
+
+func _process_restart(tree: SceneTree, phase: String) -> Dictionary:
+	var route := "d5"
+	var locale := "ko-KR"
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("--fracture-process-route="): route = argument.trim_prefix("--fracture-process-route=")
+		if argument.begins_with("--fracture-process-locale="): locale = argument.trim_prefix("--fracture-process-locale=")
+	if phase not in ["seed", "resume"] or route not in ["d5", "bedroom", "capsule"] or locale not in ["ko-KR", "en-US"]:
+		return {"ok": false, "errors": ["Invalid isolated fracture process case"]}
+	ProjectSettings.set_setting("ggb/build_flavor", "full")
+	TranslationServer.set_locale(locale)
+	var path := "user://__test_fracture_process_%s_%s.json" % [route, locale]
+	var expected := {}
+	if phase == "seed":
+		SaveManager.delete_test_slot(SLOT)
+		var state := _seed("D5" if route == "d5" else "D6")
+		if route == "d5":
+			state.loop_state.event_local_states.D5 = {"D4_REACTION": {"owner": "LUCA", "mode": "bond", "bond": 4, "alert": 0}}
+			_install(state)
+	else:
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+		if not parsed is Dictionary: return {"ok": false, "errors": ["Missing fracture process seed"]}
+		expected = parsed
+		_expect(int(expected.pid) != OS.get_process_id(), "fracture resumes in a distinct OS process")
+		_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "install fracture's actual saved JSON")
+	view = VIEW.new()
+	view.configure_session(SLOT, "D5" if route == "d5" else "D6")
+	tree.current_scene.add_child(view)
+	await tree.process_frame
+	view.set_process(false)
+	if phase == "seed":
+		view._dismiss_dialogue_for_test()
+		if route == "d5":
+			view._show_full_fracture_transition()
+			for index in range(7): view._advance_dialogue()
+			_expect(view._dialogue_active and view._dialogue_index == 7, "interrupt actual D5 at its eighth displayed beat")
+			_expect(not view.session.known("d5_complete") and not _has("NB_FRACTURE_TRANSITION_09"), "future D5 beat and completion stay undisclosed")
+		else:
+			var locations := ["H0_SERVICE_SPINE", "M2_BEDROOM"] if route == "bedroom" else ["H0_SERVICE_SPINE"]
+			for location in locations:
+				var moved := view.session.act("d6_move", location)
+				_expect(moved.ok, "actual interrupted rest path moves to " + location)
+				view._render_room()
+				view._feedback(moved)
+				_drain()
+			view._confirm_d6_rest(route)
+			view._modal_body.get_child(4).pressed.emit()
+			view._tick_d6_sleep_transition(2.5)
+			_expect(view._notebook_surface_allowed(), "persist the actually visible middle sleep beat")
+			_expect(view._d6_sleep_transition_active and not GameState.get_snapshot().fracture_state.broken_reset_triggered, "interrupt before broken sleep commit")
+		var saved := SaveManager.load_slot(SLOT)
+		_expect(saved.ok and StateSnapshotValidator.same_persisted_value(saved.snapshot, GameState.get_snapshot()), "seed disk and installed state agree")
+		var file := FileAccess.open(path, FileAccess.WRITE)
+		if file == null: return {"ok": false, "errors": ["Cannot write isolated fracture expectation"]}
+		file.store_string(JSON.stringify({"pid": OS.get_process_id(), "snapshot": GameState.get_snapshot()}))
+		file.close()
+	else:
+		var before: Dictionary = expected.snapshot
+		var restored := GameState.get_snapshot()
+		_expect(StateSnapshotValidator.same_persisted_value(before.meta_progress.dialogue_history.entries, restored.meta_progress.dialogue_history.entries.slice(0, before.meta_progress.dialogue_history.entries.size())), "pre-interruption observations keep their order, IDs, text and protection")
+		_expect(not restored.fracture_state.broken_reset_triggered and restored.loop_state.day_index == before.loop_state.day_index, "loading cannot commit broken sleep or advance the day")
+		if route == "d5":
+			_expect(view._dialogue_active and view._dialogue_index == 7, "new controller restores exact D5 cursor")
+			_expect(StateSnapshotValidator.same_persisted_value(before, restored), "D5 resume does not duplicate or invent observations")
+			_expect(not _has("NB_FRACTURE_TRANSITION_09"), "D5 continuation stays hidden before acknowledgement")
+			_drain()
+			_expect(view.session.stage() == "D6" and view.session.known("d5_complete"), "restored D5 callback commits its own completion")
+			_expect(_latest("FRACTURE_D5").source_refs.size() >= 14, "completed D5 retains its actual displayed sources")
+		else:
+			_expect(view.session.stage() == "D6" and view._d6_sleep_transition_active and view._d6_sleep_transition_route == route, "restore selected sleep route without reopening selection")
+			_expect(not _has("NB_FRACTURE_NOTE_E1_WAKE"), "wake note stays unavailable during restored fade")
+			_drain()
+			view._tick_d6_sleep_transition(6.0)
+			_expect(view.session.stage() == "E1_ENTRY" and _has("NB_FRACTURE_NOTE_E1_WAKE"), "restored fade commits one broken sleep and visible wake note")
+			var wakes := _rest_answers("NB_FRACTURE_NOTE_E1_WAKE")
+			_expect(wakes.size() == 1, "wake evidence acquired exactly once")
+			var after := GameState.get_snapshot()
+			view._tick_d6_sleep_transition(6.0)
+			_expect(GameState.get_snapshot() == after, "finished fade cannot replay its commit")
+		_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "final fracture JSON reload")
+		# Developer checkpoints contain old last_feedback without authored provenance.
+		for entry in _archive().entries:
+			if entry.get("record_class") != "authored":
+				_expect(before.meta_progress.dialogue_history.entries.any(func(old: Dictionary) -> bool: return StateSnapshotValidator.same_persisted_value(old, entry)), "only pre-existing unmapped checkpoint text may survive restart")
+				continue
+			for segment in entry.observation.segments:
+				covered[entry.observation.content_id + ":" + segment.viewed_locale] = true
+				segments[entry.observation.content_id + ":" + segment.segment_id + ":" + segment.viewed_locale] = true
+	view.queue_free()
+	await tree.process_frame
+	if phase == "resume":
+		SaveManager.delete_test_slot(SLOT)
+		DirAccess.remove_absolute(path)
+	return {"ok": errors.is_empty(), "errors": errors, "phase": phase, "route": route, "locale": locale,
+		"covered_id_locales": covered.size(), "not_covered": ["OS_input", "all_D5_interruptions", "all_sleep_save_failures", "shared_notebook_UI"]}
 
 
 func _route(tree: SceneTree, route: String) -> void:
