@@ -6,11 +6,14 @@ const NOTES := preload("res://scripts/systems/chapter_one_notes.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
+const QUERY := preload("res://scripts/systems/notebook_query.gd")
+const PANEL := preload("res://scripts/ui/notebook_panel.gd")
 const SLOT := "__test_notebook_chapter_one_notes"
 var errors := PackedStringArray()
 var covered := {}
 var observed_tuples := {}
 var serial := 0
+var retention_routes := 0
 
 class RejectingSave extends Node:
 	func save_snapshot(_slot: String, _point: String, _state: Dictionary, _revision: int, _transaction: String) -> Dictionary:
@@ -35,13 +38,98 @@ func run(tree: SceneTree) -> Dictionary:
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
 		_route(locale)
+		await _retained_sources_after_pruning(tree, locale)
 		for id in ids: _expect(covered.has(id + ":" + locale), "missing acquisition: " + id + ":" + locale)
 	await _persistence_and_legacy(tree)
 	SaveManager.delete_test_slot(SLOT)
 	_report_tuples()
+	_expect(retention_routes == 2, "actual acquired source graph survives ordinary pruning in both languages")
+	print("NOTEBOOK_NP06_ACTUAL_RETENTION_ROUTES:", retention_routes)
 	TranslationServer.set_locale(language)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "guard_fixture": "BF_PHASE_UNSET", "not_covered": ["NP05", "NP07+", "new_notebook_UI", "OS_input"]}
+
+
+func _retained_sources_after_pruning(tree: SceneTree, locale: String) -> void:
+	var state := GameState.get_snapshot()
+	var original := state.duplicate(true)
+	var archive: Dictionary = state.meta_progress.dialogue_history
+	var ledger: Dictionary = _ledger().duplicate(true)
+	var failed: Array = ledger.revisions.filter(func(row: Dictionary) -> bool: return row.metadata.knowledge_id == "CH1_CLOCK_FAILURE")
+	_expect(failed.size() >= 2, "retention begins with actual failed and resolved revisions")
+	if failed.size() < 2: return
+	var previous: Dictionary = failed[failed.size() - 2]
+	var resolved: Dictionary = failed.back()
+	_expect(previous.observation_ref in resolved.source_refs, "actual resolved revision cites the previous failure")
+	var descriptor := CONTENT.descriptor("NB_PR_DUTY_1", 1, {"body": {}})
+	var shown := CONTENT.presentation(descriptor, locale)
+	var row := CONTENT.definition("NB_PR_DUTY_1", 1)
+	var context := {"node_id":row.node_ids[0], "location_id":"M1_LIBRARY_OUTER", "chapter_id":"PROLOGUE", "event_occurrence_id":ARCHIVE.new_uid(), "conversation_session_id":ARCHIVE.new_uid(), "presentation_token":ARCHIVE.new_uid()}
+	var observed := CONTENT.observe(descriptor, context, shown.speaker, shown.text, locale, "displayed")
+	_expect(observed.ok, "ordinary stress template validates")
+	if not observed.ok: return
+	# Synthetic ordinary load, not 2,003 actual player interactions.
+	for index in range(2003):
+		var observation: Dictionary = observed.observation.duplicate(true)
+		observation.presentation_token = ARCHIVE.new_uid()
+		archive.entries.append({"entry_uid":ARCHIVE.new_uid(), "source_origin_id":archive.source_origin_id, "sequence":int(archive.next_sequence), "record_class":"authored", "observation":observation, "protection_reasons":[]})
+		archive.next_sequence += 1
+	var maintained := ARCHIVE.maintain(archive, archive.revision)
+	_expect(maintained.ok and not maintained.pruned_uids.is_empty(), "actual note graph is tested after real ordinary pruning")
+	if not maintained.ok: return
+	archive = maintained.archive
+	_expect(archive.entries.filter(func(entry: Dictionary) -> bool: return entry.protection_reasons.is_empty()).size() == 2000, "ordinary quota is independent from protected acquired records")
+	_expect(KNOWLEDGE.validate(ledger, archive).ok, "every actual acquired source remains valid after pruning")
+	for note in ledger.revisions:
+		for reference in [note.observation_ref] + note.source_refs:
+			var before := ARCHIVE.resolve(original.meta_progress.dialogue_history, reference)
+			var after := ARCHIVE.resolve(archive, reference)
+			_expect(before.ok and after.ok, "actual note and cited source survive the quota boundary")
+			if before.ok and after.ok:
+				_expect(after.entry.observation == before.entry.observation and after.entry.sequence == before.entry.sequence, "pruning preserves source UID, meaning and order")
+	for reference in [previous.observation_ref, resolved.observation_ref]:
+		var fixed := ARCHIVE.set_reference(archive, "comparison", reference, true, archive.revision)
+		_expect(fixed.ok, "actual previous and resolved failure can be compared")
+		if fixed.ok: archive = fixed.archive
+	state.meta_progress.dialogue_history = archive
+	_install(state)
+	var committed := GameState.get_snapshot()
+	_expect(SaveManager.save_snapshot(SLOT, SESSION.SAVE_POINT, committed, GameState.revision, "NB_ACTUAL_RETENTION_%d" % serial).ok, "pruned acquired graph commits durably")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "pruned actual source graph reloads")
+	_expect(StateSnapshotValidator.same_persisted_value(committed, GameState.get_snapshot()), "reload preserves actual revisions, comparison and source references")
+	var reloaded := GameState.get_snapshot()
+	var query := QUERY.new()
+	var scope := {"namespace":"test", "slot":SLOT, "run_id":"actual-source-retention", "source_origin_id":archive.source_origin_id, "branch_id":archive.branch_id, "load_epoch":1}
+	var opened := query.open(reloaded.meta_progress.dialogue_history, reloaded.meta_progress.knowledge_entries[KNOWLEDGE.KEY], scope, locale)
+	_expect(opened.ok, "actual pruned graph opens for read-only source navigation")
+	if not opened.ok: return
+	for note in ledger.revisions:
+		var key: String = QUERY.reference_key(note.observation_ref)
+		var detail := query.detail(key, query.cache_key())
+		_expect(detail.ok and detail.epistemic == note.metadata.epistemic_state, "each past revision keeps its own epistemic state")
+		var expected: Array = []
+		for reference in note.source_refs:
+			var target: String = QUERY.reference_key(reference)
+			if target != key and target not in expected: expected.append(target)
+		_expect(detail.get("sources", []) == expected, "all disclosed source links remain navigable after pruning")
+		for target in expected: _expect(query.detail(target, query.cache_key()).ok, "actual source detail survives pruning")
+	var comparison := query.comparison(query.cache_key())
+	_expect(comparison.ok and comparison.items.map(func(item: Dictionary) -> String: return item.key) == [QUERY.reference_key(previous.observation_ref), QUERY.reference_key(resolved.observation_ref)], "comparison retains exactly the old failure and its resolution")
+	var panel := PANEL.new()
+	tree.current_scene.add_child(panel)
+	_expect(panel.present(query, locale, "clues", 1.0), "actual pruned source graph presents in the common panel")
+	panel.show_detail(QUERY.reference_key(resolved.observation_ref))
+	var target: String = QUERY.reference_key(previous.observation_ref)
+	var link := panel.find_child("NotebookSource_" + target.sha256_text(), true, false) as Button
+	_expect(link != null, "resolved actual failure exposes its previous failure button")
+	if link != null:
+		link.pressed.emit()
+		_expect(panel._selected == target and query.detail(target, query.cache_key()).epistemic == previous.metadata.epistemic_state, "source button opens the prior immutable failure, not its resolution")
+	panel.queue_free()
+	await tree.process_frame
+	query.close()
+	_expect(GameState.get_snapshot() == committed and _ledger() == ledger, "source navigation never rewrites the acquired ledger or live state")
+	retention_routes += 1
 
 
 func _seed() -> ChapterOneSession:
