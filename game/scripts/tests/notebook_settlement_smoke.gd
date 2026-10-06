@@ -16,6 +16,7 @@ var view: BasementController
 var serial := 0
 var matrix_cases := 0
 var routes := 0
+var evening_mask_routes := 0
 var question_ready := {}
 var evening_ready := {}
 var mara2_ready := {}
@@ -55,6 +56,10 @@ func run(tree: SceneTree) -> Dictionary:
 		TranslationServer.set_locale(locale)
 		for mask in [0, 3, 15, 31]:
 			_evening_route(mask, 0, 0, "wish")
+		for mask in range(32):
+			var questions: Array = NOTES.EVENING.QUESTIONS.keys()
+			_evening_route(mask, 0, 0, questions[mask % questions.size()], true)
+			evening_mask_routes += 1
 		_evening_route(31, 2, 1, "leave")
 		_evening_route(31, 4, 0, "stay")
 		for complete in [false, true]:
@@ -75,7 +80,9 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
-	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 75, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "routes": routes, "matrix_cases": matrix_cases,
+	_expect(evening_mask_routes == 64, "all 32 completion masks execute in both locales")
+	print("NOTEBOOK_E5_MASK_ROUTES:", evening_mask_routes)
+	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 75, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "routes": routes, "matrix_cases": matrix_cases, "evening_mask_routes": evening_mask_routes,
 		"not_covered": ["NP15_J4_and_minimum_access", "durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
 
 
@@ -96,8 +103,9 @@ func _fixture(mask: int, bond: int = 0, outcome: int = 0) -> Dictionary:
 	return state
 
 
-func _evening_route(mask: int, bond: int, outcome: int, question: String) -> void:
+func _evening_route(mask: int, bond: int, outcome: int, question: String, audit_mask: bool = false) -> void:
 	_install(_fixture(mask, bond, outcome))
+	var initial := GameState.get_snapshot()
 	_present()
 	_expect(_archive().entries.is_empty(), "enter prompt is not an unseen dinner scene")
 	_press("E5_ENTER")
@@ -114,6 +122,7 @@ func _evening_route(mask: int, bond: int, outcome: int, question: String) -> voi
 	_press("E5_SIT")
 	_expect(_count(NOTES.PREFIX + "E5_INSERT_EDGAR") == 0 and _count(NOTES.PREFIX + "QUESTION_OPTIONS") == 0, "seating opening cannot disclose later dialogue or covered questions")
 	_drain()
+	if audit_mask: _check_evening_mask(mask, outcome)
 	question_ready = GameState.get_snapshot()
 	_expect(NOTES.EVENING.progress(question_ready).question == "", "seeing the question list does not select a question")
 	_reload("seated dinner")
@@ -130,9 +139,37 @@ func _evening_route(mask: int, bond: int, outcome: int, question: String) -> voi
 	_drain()
 	_expect(view.session.stage() == "E6" and not view.session.known("f0_entered"), "dinner completion is not a core or ending choice")
 	evening_ready = GameState.get_snapshot()
+	if audit_mask:
+		_expect(evening_ready.meta_progress.servants == initial.meta_progress.servants, "dinner cannot award relationship completion or modify bond")
+		_expect(_ledger().revisions.is_empty(), "dinner cannot fabricate researcher acquisitions")
+		_expect(view.session.known("all_servants_complete") == (mask == 31), "all-servants flag requires five actual completions")
+		var owners: Array = []
+		for index in range(5):
+			if mask & (1 << index): owners.append(String(NOTES.EVENING.OWNERS[index]).to_upper())
+		_expect(evening_ready.meta_progress.event_history.E5.completed_owner_ids == owners, "completed-owner provenance follows exact mask")
+		_expect(NOTES.EVENING.progress(evening_ready).question == question, "actual dinner stores only the chosen question")
+		_reload("completed dinner mask " + str(mask))
+		_expect(view.session.stage() == "E6", "every dinner mask restores the E6 threshold")
 	_collect()
 	_replay_unchanged()
 	routes += 1
+
+
+func _check_evening_mask(mask: int, outcome: int) -> void:
+	var completed := 0
+	for index in range(5):
+		var owner: String = NOTES.EVENING.OWNERS[index]
+		var complete := (mask & (1 << index)) != 0
+		if complete: completed += 1
+		_expect(_count(NOTES.PREFIX + "E5_INSERT_" + owner.to_upper()) == (1 if complete else 0), "private insert requires own completion: " + owner)
+		_expect(_count(NOTES.PREFIX + "E5_DISTANCE_" + owner.to_upper()) == (0 if complete else 1), "unfinished owner uses only distance response: " + owner)
+		for option in range(2):
+			var id: String = NOTES.PREFIX + "E5_OVERLAY_" + String(OUTCOMES[index][option]).to_upper()
+			_expect(_count(id) == (1 if complete and option == outcome else 0), "overlay provenance requires own completed outcome: " + id)
+	var expected := "ALL" if completed == 5 else ("HIGH" if completed == 4 else ("MID" if completed >= 2 else "LOW"))
+	for tier in ["LOW", "MID", "HIGH", "ALL"]:
+		_expect(_count(NOTES.PREFIX + "E5_OPENING_" + tier) == (1 if tier == expected else 0), "only exact completion-tier opening is disclosed")
+	_expect(_count(NOTES.PREFIX + "E5_ALL") == (2 if mask == 31 else 0), "five-name shared scene is exclusive to all completions")
 
 
 func _approach_fixture(complete: bool, outcome: int = 0) -> Dictionary:
