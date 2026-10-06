@@ -6,12 +6,14 @@ param(
     [ValidateRange(1,100)][int]$ColdRuns = 20,
     [ValidateRange(0,1000)][int]$WarmRuns = 100,
     [ValidateRange(0,100)][int]$LifecycleCycles = 0,
+    [switch]$ProfileSaveStages,
     [ValidateSet("NB-PERF-N2000","NB-PERF-L10000","NB-PERF-P2001","NB-PERF-LONG")]
     [string[]]$Fixtures = @("NB-PERF-N2000","NB-PERF-L10000","NB-PERF-P2001","NB-PERF-LONG"),
     [ValidateSet("ko-KR","en-US")][string[]]$Locales = @("ko-KR","en-US"),
     [ValidateRange(60,7200)][int]$DeadlineSeconds = 1800
 )
 $ErrorActionPreference = "Stop"
+if ($ProfileSaveStages -and $WarmRuns -eq 0) { throw "Save-stage profiling requires at least one warm iteration; warm 0 performs no saves." }
 if ($env:OS -ne "Windows_NT") { throw "This process-memory probe targets Windows." }
 $exe = (Resolve-Path -LiteralPath $GodotPath).Path
 $pack = (Resolve-Path -LiteralPath $PackPath).Path
@@ -58,6 +60,7 @@ try {
                 $arguments = @("--headless","--path",('"' + $empty + '"'),"--main-pack",('"' + $pack + '"'),"--",
                     "--ggb-dev-notebook-v2","--notebook-performance-probe","--nb-perf-fixture=$fixture",
                     "--nb-perf-locale=$locale","--nb-perf-warm=$warm","--nb-perf-cycles=$LifecycleCycles")
+                if ($ProfileSaveStages) { $arguments += "--nb-perf-save-profile=1" }
                 $timer = [Diagnostics.Stopwatch]::StartNew()
                 $process = Start-Process -FilePath $exe -ArgumentList $arguments -WindowStyle Hidden -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
                 $peak = 0L
@@ -119,7 +122,8 @@ $summary = [ordered]@{
     cold_definition="Fresh OS process; fixture parsed before model timer. OS disk cache NOT flushed."
     warm_definition="Warm model operations in first process; warm model search excludes debounce/input/rendering."
     acceptance="MEASUREMENT_ONLY";device_class="NOT_CLASSIFIED";renderer="headless"
-    sampling_complete=($ColdRuns -ge 20 -and $WarmRuns -ge 100 -and $Fixtures.Count -eq 4 -and $Locales.Count -eq 2 -and $failures.Count -eq 0)
+    sampling_complete=($ColdRuns -ge 20 -and $WarmRuns -ge 100 -and $Fixtures.Count -eq 4 -and $Locales.Count -eq 2 -and $failures.Count -eq 0 -and -not $ProfileSaveStages)
+    profiling_mode=$(if ($ProfileSaveStages) { "SAVE_STAGES" } else { "STANDARD" })
     requested_cold=$ColdRuns;requested_warm=$WarmRuns;requested_lifecycle_cycles=$LifecycleCycles;groups=$groups;failed_runs=$failures;runs=$runs
     not_covered=@("OS input/IME","GPU/driver and device-class acceptance","warm UI input p95","50 open/close RAM recovery","60s input frame capture","Alt+Tab")
 }

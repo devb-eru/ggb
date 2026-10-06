@@ -283,3 +283,17 @@ godot.exe --headless --path <empty> --main-pack <notebook.pck> -- --notebook-aut
 위 검사는 `--notebook-<이름>-smoke --ggb-dev-notebook-v2`를 사용한다. foundation/history는 각각 `--foundation-smoke`, `--dialogue-history-smoke`, 세 단계 재개 검사는 추가로 `--cursor-phase=seed|resume|completed`를 지정했다. 종료 코드 0과 PASS 표식 및 스크립트/파싱 오류 부재를 확인했다. 알려진 root certificate store 경고는 유지한다.
 
 J4 검사는 확인창/피드백·최소 접근 표시 ID와 실제 OS 입력을 포함하지 않는다. 전체 캠페인·전 사용인 결과 분기·400회 lifecycle·정식 성능 계측은 이 제품 코드로 다시 실행한 것이 아니다. 위 결과는 ERR-0029와 해당 코드 경로의 검증 완료 근거이며 ERR-0027 및 전체 목표를 완료로 만들지 않는다.
+
+## 11. 선택형 실제 저장 구간 계측
+
+2026-10-06 [구간 프로파일 보고서](../ideas/md/v04/issues/validation/2026-10-06_수첩저장_구간프로파일.md)와 [원시 호출 자료](../ideas/md/v04/issues/validation/2026-10-06_수첩저장_구간프로파일_계측.json)는 제품 저장 구현을 바꾸지 않고 테스트 subclass로 실제 저장 24회·로드 8회를 계측했다.
+
+```powershell
+./scripts/measure_notebook_performance.ps1 -GodotPath <godot.exe> -PackPath <notebook.pck> -ColdRuns 1 -WarmRuns 3 -ProfileSaveStages -OutputDirectory <new-empty-directory>
+```
+
+옵션은 `--nb-perf-save-profile=1`을 전달한다. `read_and_validate`, 내부 `validate_text_nested`, `encode_payload`, `commit_prepared`의 시작/시간과 호출 전체를 `save_stage_profile`에 보존한다. 내부 검증은 부모 읽기에 포함되어 별도로 더하지 않는다. 미분류 잔여에는 후보 준비·쓰기/flush·후속 작업 등이 섞여 있다.
+
+warm 0 계측은 저장 자체가 없어 경로 확인 전에 거부한다. 계측은 `profiling_mode=SAVE_STAGES` 및 `sampling_complete=false`로 표시하며 정식 인수에서 제외한다. 옵션 없는 기본 측정은 기존 autoload·빈 profile 배열·`STANDARD` 모드를 유지한다. 보관 결과는 실제 파일 roundtrip·입력/게임 불변을 확인했지만 실제 Windows 입력이나 steady-state/장비별 성능 인수가 아니다.
+
+L10000 세 저장 표본 평균은 읽기/검증 합계 약 2.19~2.82초, payload 생성 약 1.06~1.37초, 승격 자체 약 13~15ms였다. 첫 저장은 빈 슬롯이고 뒤에는 main/backup이 존재하며 부하가 달라질 수 있다. 기존 비계측 표본과 개선율을 비교하지 않는다. 반복 전체 직렬화의 바이트 동일성과 검증 준비 비용을 다음 개선 대상으로 삼되 저장 확정·미래 버전·복구·보존 검사는 유지한다.

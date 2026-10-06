@@ -9,6 +9,47 @@ var errors: Array = []
 var timings := {}
 
 
+class TimedSave extends "res://scripts/autoload/save_manager.gd":
+	var samples: Array = []
+	var _active: Dictionary = {}
+
+	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		var start := Time.get_ticks_usec()
+		_active = {"origin":start, "calls":[]}
+		var result := super.save_snapshot(slot, point, state, revision, transaction)
+		samples.append({"transaction":transaction, "ok":result.get("ok", false), "total_ms":(Time.get_ticks_usec() - start) / 1000.0, "calls":_active.calls})
+		_active = {}
+		return result
+
+	func _read_and_validate(path: String, capture_summary: bool = false) -> Dictionary:
+		var start := Time.get_ticks_usec()
+		var result := super._read_and_validate(path, capture_summary)
+		_record_stage("read_and_validate", path.get_file(), start)
+		return result
+
+	func _validate_save_text(text: String, path: String) -> Dictionary:
+		var start := Time.get_ticks_usec()
+		var result := super._validate_save_text(text, path)
+		_record_stage("validate_text_nested", path.get_file(), start)
+		return result
+
+	func _encode_payload(header: Dictionary, state: Dictionary) -> Dictionary:
+		var start := Time.get_ticks_usec()
+		var result := super._encode_payload(header, state)
+		_record_stage("encode_payload", "", start)
+		return result
+
+	func _commit_prepared(paths: Dictionary, previous: Dictionary, backup: Dictionary) -> Dictionary:
+		var start := Time.get_ticks_usec()
+		var result := super._commit_prepared(paths, previous, backup)
+		_record_stage("commit_prepared", "", start)
+		return result
+
+	func _record_stage(stage: String, file: String, start: int) -> void:
+		if _active.is_empty(): return
+		_active.calls.append({"stage":stage, "file":file, "start_ms":(start - _active.origin) / 1000.0, "duration_ms":(Time.get_ticks_usec() - start) / 1000.0})
+
+
 class TimedQuery extends "res://scripts/systems/notebook_query.gd":
 	var index_calls := 0
 	var index_total_usec := 0
@@ -71,7 +112,8 @@ func run(tree: SceneTree) -> Dictionary:
 	var warm := int(_arg("--nb-perf-warm", "100"))
 	var cycles := int(_arg("--nb-perf-cycles", "0"))
 	var compare_body := _arg("--nb-perf-body-path-comparison", "0")
-	if id not in FIXTURE.IDS or locale not in ["ko-KR", "en-US"] or warm < 0 or warm > 1000 or cycles < 0 or cycles > 100 or compare_body not in ["0", "1"]:
+	var profile_save := _arg("--nb-perf-save-profile", "0")
+	if id not in FIXTURE.IDS or locale not in ["ko-KR", "en-US"] or warm < 0 or warm > 1000 or cycles < 0 or cycles > 100 or compare_body not in ["0", "1"] or profile_save not in ["0", "1"]:
 		return {"ok":false, "errors":["invalid benchmark arguments"]}
 	var live_before := JSON.stringify(GameState.get_snapshot(), "", true)
 	var build_start := Time.get_ticks_usec()
@@ -137,6 +179,8 @@ func run(tree: SceneTree) -> Dictionary:
 	var body_comparison := {}
 	if compare_body == "1": body_comparison = _compare_legacy_body_paths(fixture.archive, locale)
 	var baseline: Dictionary = fixture.manifest.counts
+	var saving: Node = SaveManager
+	if profile_save == "1": saving = TimedSave.new()
 	for iteration in range(warm):
 		start = Time.get_ticks_usec()
 		page = query.page({"tab":"dialogue", "chapters":["CHAPTER_1", "LEGACY"]}, iteration % 40, key)
@@ -170,18 +214,18 @@ func run(tree: SceneTree) -> Dictionary:
 		snapshot.meta_progress.dialogue_history = appended.archive
 		snapshot.meta_progress.knowledge_entries[KNOWLEDGE.KEY] = fixture.ledger.duplicate(true)
 		start = Time.get_ticks_usec()
-		var saved: Dictionary = SaveManager.save_snapshot(SLOT, "SAVE_BROKEN_RESET_COMPLETE", snapshot, 1, "NB_PERF_%d" % iteration)
+		var saved: Dictionary = saving.save_snapshot(SLOT, "SAVE_BROKEN_RESET_COMPLETE", snapshot, 1, "NB_PERF_%d" % iteration)
 		_record("durable_save_ms", start)
 		_require(saved.ok, "atomic test-slot save succeeds")
 		if not saved.ok: break
 		for inspection in range(3):
 			start = Time.get_ticks_usec()
-			var summary: Dictionary = SaveManager.inspect_slot(SLOT)
+			var summary: Dictionary = saving.inspect_slot(SLOT)
 			_record("slot_inspect_after_write_ms" if inspection == 0 else "slot_inspect_unchanged_ms", start)
 			_require(summary.get("available", false) and summary.save_point_id == "SAVE_BROKEN_RESET_COMPLETE", "slot summary remains available after durable save")
 		if iteration == 0:
 			start = Time.get_ticks_usec()
-			var loaded: Dictionary = SaveManager.load_slot(SLOT)
+			var loaded: Dictionary = saving.load_slot(SLOT)
 			_record("saved_slot_load_ms", start)
 			_require(loaded.ok and StateSnapshotValidator.same_persisted_value(loaded.snapshot, snapshot), "saved slot roundtrips exactly")
 	_require(JSON.stringify({"archive":fixture.archive, "ledger":fixture.ledger}, "", true) == frozen_input, "profiling never mutates decoded input fixture")
@@ -191,6 +235,11 @@ func run(tree: SceneTree) -> Dictionary:
 	query.close()
 	await tree.process_frame
 	SaveManager.delete_test_slot(SLOT)
+	var save_profile: Array = []
+	if profile_save == "1":
+		save_profile = saving.samples.duplicate(true)
+		_require(save_profile.size() == warm, "save stage profile covers each requested actual save")
+		saving.free()
 	var lifecycle := {}
 	if cycles > 0:
 		lifecycle = await preload("res://scripts/tests/notebook_lifecycle_probe.gd").new().run(tree, fixture, locale, cycles)
@@ -198,6 +247,7 @@ func run(tree: SceneTree) -> Dictionary:
 	return {"ok":errors.is_empty(), "errors":errors, "manifest":fixture.manifest, "locale":locale, "warm_iterations":warm,
 		"search_index_calls":query.index_calls,
 		"legacy_body_path_comparison":body_comparison,
+		"save_stage_profile":save_profile,
 		"lifecycle":lifecycle,
 		"timings_ms":timings, "engine":Engine.get_version_info().string, "os":OS.get_name(), "os_version":OS.get_version(),
 		"cpu":OS.get_processor_name(), "cpu_threads":OS.get_processor_count(), "display":DisplayServer.get_name(),
