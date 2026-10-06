@@ -20,6 +20,7 @@ var serial := 0
 var ready: Dictionary = {}
 var cycle_ready: Dictionary = {}
 var enum_cases := 0
+var relationship_cases := 0
 
 class ControlledSave extends Node:
 	var delegate: Node
@@ -56,6 +57,11 @@ func run(tree: SceneTree) -> Dictionary:
 		_evidence()
 		_enum_matrix()
 		for outcome in ["full_disclosure", "stabilize_first"]: await _outcome(outcome)
+		for bond in range(6):
+			for alert in range(6):
+				for outcome in ["full_disclosure", "stabilize_first"]:
+					await _outcome(outcome, bond, alert, true)
+					relationship_cases += 1
 		_failures()
 		await _legacy()
 		for id in CONTENT.diagnostics().content_ids:
@@ -69,7 +75,7 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 31, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "enum_cases": enum_cases,
-		"not_covered": ["other_relationship_producers", "durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
+		"relationship_cases": relationship_cases, "not_covered": ["other_relationship_producers", "durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
 
 
 func _evidence() -> void:
@@ -180,9 +186,13 @@ func _enum_matrix() -> void:
 		enum_cases += 1
 
 
-func _outcome(outcome: String) -> void:
-	_install(ready)
+func _outcome(outcome: String, bond: int = 1, alert: int = 1, matrix: bool = false) -> void:
+	var source := ready.duplicate(true)
+	source.meta_progress.servants.luca.bond = bond
+	source.meta_progress.servants.luca.alert = alert
+	_install(source)
 	_present()
+	var previous: Array = _archive().entries.duplicate(true)
 	_press("LUCA_CHOICE")
 	view._modal_body.get_child(4 if outcome == "full_disclosure" else 5).pressed.emit()
 	var first := "RISK" if outcome == "full_disclosure" else "STABLE"
@@ -193,7 +203,7 @@ func _outcome(outcome: String) -> void:
 	var after := GameState.get_snapshot()
 	_expect(int(_entry(first).sequence) < int(_entry(second).sequence), "choice preserves the risk/stabilization presentation order")
 	var luca: Dictionary = after.meta_progress.servants.luca
-	_expect(luca.bond == (3 if outcome == "full_disclosure" else 2) and luca.alert == (2 if outcome == "full_disclosure" else 0), "unchanged relationship deltas")
+	_expect(luca.bond == clampi(bond + (2 if outcome == "full_disclosure" else 1), 0, 5) and luca.alert == clampi(alert + (1 if outcome == "full_disclosure" else -1), 0, 5), "relationship deltas preserve both bounds for every initial value")
 	_expect(luca.core_event_complete and luca.researcher_record_acquired and view.session.known("wake_criteria_missing"), "original relation and knowledge complete")
 	_expect(after.meta_progress.knowledge_entries.chapter_notebook.REC_LUCA == NOTES.RULES.RECORD, "both choices preserve the same risk record")
 	var note: Dictionary = _ledger().revisions.back()
@@ -203,14 +213,31 @@ func _outcome(outcome: String) -> void:
 		_expect(resolved.ok, "research record source resolves")
 		if resolved.ok: _expect(resolved.entry.observation.content_id not in [NOTES.PREFIX + "RISK", NOTES.PREFIX + "STABLE"], "record cannot cite the future choice response")
 	_expect(not view.session.act("luca_choose", outcome).ok and GameState.get_snapshot() == after, "completed choice cannot repeat relationship rewards")
-	view._open_notebook()
-	if is_instance_valid(view._notebook_host):
-		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
-	view._close_modal()
-	_expect(GameState.get_snapshot() == after, "rereading does not verify awakening safety")
+	if not matrix:
+		view._open_notebook()
+		if is_instance_valid(view._notebook_host):
+			_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
+		view._close_modal()
+		_expect(GameState.get_snapshot() == after, "rereading does not verify awakening safety")
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "research record and result order reload")
 	_expect(StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), after), "actual JSON preserves all outcome evidence")
+	for old in previous:
+		var found := _find_uid(old.entry_uid)
+		_expect(not found.is_empty() and found.observation == old.observation and found.sequence == old.sequence, "Luca record acquisition preserves previous observation and order")
 	_collect()
+	var record := _entry("RECORD").duplicate(true)
+	var replay := CONTENT.render_entry(record, "en-US" if TranslationServer.get_locale().begins_with("ko") else "ko-KR")
+	var changed := after.duplicate(true)
+	changed.meta_progress.servants.luca.bond = 5 - bond
+	changed.meta_progress.servants.luca.alert = 5 - alert
+	_install(changed)
+	_expect(_find_uid(record.entry_uid) == record and CONTENT.render_entry(record, "en-US" if TranslationServer.get_locale().begins_with("ko") else "ko-KR") == replay, "changed Luca relation cannot rewrite the captured research record")
+
+
+func _find_uid(uid: String) -> Dictionary:
+	for entry in _archive().entries:
+		if entry.entry_uid == uid: return entry
+	return {}
 
 
 func _failures() -> void:

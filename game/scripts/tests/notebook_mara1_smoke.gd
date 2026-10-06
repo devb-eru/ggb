@@ -17,6 +17,7 @@ var segments := {}
 var view: BasementController
 var serial := 0
 var ready: Dictionary = {}
+var relationship_cases := 0
 
 class ControlledSave extends Node:
 	var delegate: Node
@@ -51,6 +52,10 @@ func run(tree: SceneTree) -> Dictionary:
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
 		for outcome in ["original_attribution", "protected_identifiers"]: await _route(outcome)
+		for bond in range(6):
+			for alert in range(6):
+				for outcome in ["original_attribution", "protected_identifiers"]:
+					_relationship_matrix(bond, alert, outcome)
 		_failures()
 		await _legacy()
 		for key in NOTES.authored_rows():
@@ -64,7 +69,45 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": NOTES.authored_rows().size(), "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(),
-		"not_covered": ["other_relationship_producers", "durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
+		"relationship_cases": relationship_cases, "not_covered": ["other_relationship_producers", "durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
+
+
+func _relationship_matrix(bond: int, alert: int, outcome: String) -> void:
+	var source := ready.duplicate(true)
+	source.meta_progress.servants.mara1.bond = bond
+	source.meta_progress.servants.mara1.alert = alert
+	_install(source)
+	_present()
+	var previous: Array = _archive().entries.duplicate(true)
+	_press("MARA_CHOICE")
+	view._modal_body.get_child(4 if outcome == "original_attribution" else 5).pressed.emit()
+	_drain()
+	var after := GameState.get_snapshot()
+	var protected := outcome == "protected_identifiers"
+	var servant: Dictionary = after.meta_progress.servants.mara1
+	_expect(servant.bond == clampi(bond + (1 if protected else 2), 0, 5) and servant.alert == clampi(alert + (-1 if protected else 1), 0, 5), "all Mara 1 relation values preserve selected deltas and bounds")
+	_expect(servant.core_event_complete and servant.researcher_record_acquired and _ledger().revisions.size() == 1, "all Mara 1 relation values acquire exactly one completed record")
+	_expect(_count("RECORD_" + outcome.to_upper()) == 1 and _count("RECORD_" + ("ORIGINAL_ATTRIBUTION" if protected else "PROTECTED_IDENTIFIERS")) == 0, "all Mara 1 relation values disclose only the chosen record")
+	for old in previous:
+		var found := _find_uid(old.entry_uid)
+		_expect(not found.is_empty() and found.observation == old.observation and found.sequence == old.sequence, "Mara 1 acquisition preserves old observation and ordering")
+	_expect(KNOWLEDGE.validate(_ledger(), _archive()).ok, "Mara 1 matrix source references are valid")
+	_expect(not view.session.act("mara1_choose", outcome).ok and GameState.get_snapshot() == after, "Mara 1 matrix cannot repeat rewards")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), after), "Mara 1 matrix survives actual JSON load")
+	var record := _entry("RECORD_" + outcome.to_upper()).duplicate(true)
+	var replay := CONTENT.render_entry(record, "en-US" if TranslationServer.get_locale().begins_with("ko") else "ko-KR")
+	var changed := after.duplicate(true)
+	changed.meta_progress.servants.mara1.bond = 5 - bond
+	changed.meta_progress.servants.mara1.alert = 5 - alert
+	_install(changed)
+	_expect(_find_uid(record.entry_uid) == record and CONTENT.render_entry(record, "en-US" if TranslationServer.get_locale().begins_with("ko") else "ko-KR") == replay, "changed Mara 1 relationship cannot rewrite recorded outcome")
+	relationship_cases += 1
+
+
+func _find_uid(uid: String) -> Dictionary:
+	for entry in _archive().entries:
+		if entry.entry_uid == uid: return entry
+	return {}
 
 
 func _route(outcome: String) -> void:
