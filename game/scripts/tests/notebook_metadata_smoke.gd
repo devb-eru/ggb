@@ -86,6 +86,9 @@ func _test_definition(id: String, version: int, row: Dictionary) -> void:
 	if not captured.ok: return
 	var observation: Dictionary = JSON.parse_string(JSON.stringify(captured.observation))
 	var original: Dictionary = observation.duplicate(true)
+	var isolated := CONTENT.definition(id, version)
+	isolated.locales["ko-KR"].title = "MUTATED_COPY_SENTINEL"
+	_expect(CONTENT.definition(id, version) == row, "public definition remains an isolated copy: %s:%d" % [id, version])
 	for locale in ["ko-KR", "en-US"]:
 		var label := "%s:%d:%s" % [id, version, locale]
 		var metadata := CONTENT.review_metadata(observation, locale)
@@ -105,6 +108,9 @@ func _test_definition(id: String, version: int, row: Dictionary) -> void:
 			_expect(replay.entry.segments.size() == expected.segments.size(), "same visible segment count: " + label)
 			for index in range(expected.segments.size()):
 				_expect(replay.entry.segments[index].text == expected.segments[index].text, "original version text preserved: " + label)
+				var selected := CONTENT.render_segment({"record_class":"authored", "observation":observation}, expected.segments[index].segment_id, locale)
+				_expect(selected.ok and selected.entry.segments == [replay.entry.segments[index]], "single segment equals full render without sibling disclosure: " + label)
+		_expect(CONTENT.definition(id, version) == row, "rendering never mutates shared catalog: " + label)
 		_test_query(observation, locale, metadata, label)
 		covered[label] = true
 		if observation.segments.size() > 1:
@@ -132,10 +138,17 @@ func _test_rejection_and_fallback(observation: Dictionary) -> void:
 		if replay.ok:
 			for index in range(unknown.segments.size()):
 				_expect(replay.entry.segments[index].text == unknown.segments[index].captured_text, "fallback does not reconstruct from present-day state")
+				var selected := CONTENT.render_segment({"record_class":"authored", "observation":unknown}, unknown.segments[index].segment_id, locale)
+				_expect(selected.ok and selected.entry.segments == [replay.entry.segments[index]], "single unavailable version preserves exact captured fallback")
 		_expect(unknown == before, "fallback leaves captured meaning and source unchanged")
 		var duplicate: Dictionary = observation.duplicate(true)
 		duplicate.segments.append(duplicate.segments[0].duplicate(true))
 		_expect(not CONTENT.review_metadata(duplicate, locale).ok, "duplicate segments cannot pretend complete disclosure")
+		_expect(not CONTENT.render_segment({"record_class":"authored", "observation":duplicate}, observation.segments[0].segment_id, locale).ok, "single render rejects duplicate siblings before selection")
+		var malformed := observation.duplicate(true)
+		malformed.segments.append({"segment_id":"BROKEN_SIBLING"})
+		_expect(not CONTENT.render_segment({"record_class":"authored", "observation":malformed}, observation.segments[0].segment_id, locale).ok, "single render validates unselected sibling schema")
+		_expect(not CONTENT.render_segment({"record_class":"authored", "observation":observation}, "NOT_DISCLOSED", locale).ok, "single render cannot reconstruct undisclosed segment")
 		var wrong_owner: Dictionary = observation.duplicate(true)
 		wrong_owner.producer_id = "OTHER_PRODUCER"
 		_expect(not CONTENT.review_metadata(wrong_owner, locale).ok, "metadata cannot borrow another producer identity")

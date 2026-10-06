@@ -73,10 +73,7 @@ static func render_segment(entry: Dictionary, segment_id: String, locale: String
 	if not checked.ok: return checked
 	var selected: Array = observed.get("segments", []).filter(func(part: Dictionary) -> bool: return part.segment_id == segment_id)
 	if selected.size() != 1: return _error("NB_CONTENT_SEGMENT")
-	var projected := entry.duplicate(false)
-	projected.observation = observed.duplicate(false)
-	projected.observation.segments = selected
-	return render_entry(projected, locale)
+	return _render_checked_entry(entry, locale, selected)
 
 
 static func presentation(descriptor: Dictionary, locale: String) -> Dictionary:
@@ -141,8 +138,15 @@ static func render_entry(entry: Dictionary, locale: String) -> Dictionary:
 	var observation: Dictionary = entry.observation
 	var valid := OBSERVATION.validate(observation)
 	if not valid.ok: return valid
+	return _render_checked_entry(entry, locale, observation.segments)
+
+
+static func _render_checked_entry(entry: Dictionary, locale: String, segments: Array) -> Dictionary:
+	# Public entry points validate the entire observation, including unselected siblings.
+	var observation: Dictionary = entry.observation
 	_load()
-	var row := definition(observation.content_id, int(observation.content_version))
+	# Loaded catalog rows are read-only; definition() still returns isolated copies.
+	var row: Dictionary = _contents.get(observation.content_id, {}).get(str(int(observation.content_version)), {})
 	var language := _locale(locale)
 	var available: bool = not row.is_empty() and row.locales.has(language)
 	if not row.is_empty() and not _matches_identity(row, observation): return _error("NB_CONTENT_IDENTITY")
@@ -150,7 +154,7 @@ static func render_entry(entry: Dictionary, locale: String) -> Dictionary:
 	var paragraphs := PackedStringArray()
 	var used_fallback := false
 	var used_original := false
-	for segment in observation.segments:
+	for segment in segments:
 		var id: String = segment.segment_id
 		var body: String = segment.captured_text
 		var fallback: bool = not available
@@ -301,6 +305,7 @@ static func _serialized_variables(variables: Dictionary) -> Dictionary:
 
 
 static func _substitute(template: String, variables: Dictionary, specs: Dictionary, enums: Dictionary = {}, locale: String = "ko-KR") -> String:
+	if specs.is_empty(): return template
 	# A callback-like single pass prevents variable values from becoming new templates.
 	var regex := RegEx.new()
 	regex.compile("\\{([A-Za-z][A-Za-z0-9_]*)\\}")
