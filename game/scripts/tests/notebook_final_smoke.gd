@@ -12,6 +12,8 @@ const JOURNAL := preload("res://scripts/systems/journal_four_notebook.gd")
 const FATHER := preload("res://scripts/systems/father_final_record.gd")
 const CONFRONTATION := preload("res://scripts/systems/researcher_confrontation.gd")
 const CORE_TEST := preload("res://scripts/tests/notebook_core_smoke.gd")
+const FIELD := preload("res://scripts/systems/field_notebook.gd")
+const QUERY := preload("res://scripts/systems/notebook_query.gd")
 const SLOT := "__test_notebook_final"
 var errors := PackedStringArray()
 var fixtures := {}
@@ -20,6 +22,7 @@ var segments := {}
 var view: BasementController
 var serial := 0
 var retained_decisions := 0
+var retained_endings := 0
 
 class ControlledSave extends Node:
 	var reject_game := false
@@ -50,6 +53,9 @@ func run(tree: SceneTree) -> Dictionary:
 	view._dismiss_dialogue_for_test()
 	for language in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(language)
+		if "--notebook-retained-endings-only" in OS.get_cmdline_user_args():
+			await _retained_anonymous_chain(tree)
+			continue
 		print("FINAL_PHASE: ", language, " father and J5")
 		_father()
 		for mask in [0, 3, 31]: _father(mask)
@@ -76,9 +82,11 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	_expect(retained_decisions == 12, "both locales retain anonymous material across three provisional intents and both ending decisions")
+	_expect(retained_endings == 4, "both ending aftermaths retain the actual anonymous chain in both locales")
 	print("FINAL_RETAINED_DECISIONS: ", retained_decisions)
+	print("FINAL_RETAINED_ENDINGS: ", retained_endings)
 	print("FINAL_COVERAGE: actual ID/locales=", covered.size(), " segment/locales=", segments.size())
-	return {"ok":errors.is_empty(), "errors":errors, "actual_id_locales":covered.size(), "actual_segment_locales":segments.size(),
+	return {"ok":errors.is_empty(), "errors":errors, "actual_id_locales":covered.size(), "actual_segment_locales":segments.size(), "retained_decisions":retained_decisions, "retained_endings":retained_endings, "focused_retained_endings_only":"--notebook-retained-endings-only" in OS.get_cmdline_user_args(),
 		"not_covered":["durable_app_restart_cursor", "unified_notebook_UI", "OS_input"]}
 
 
@@ -309,11 +317,134 @@ func _retained_anonymous_chain(tree: SceneTree) -> void:
 			_decision(intent, decision, inspection_source)
 			_check_retained_anonymous(core, original, decision)
 			retained_decisions += 1
-	_expect(core.anonymous_reviews == 16, "role, authority and final stages all review actual anonymous records")
+			if intent == "undecided":
+				await _retained_ending(tree, decision)
+				_check_retained_anonymous(core, original, decision)
+				_retained_gallery(core)
+				retained_endings += 1
+	_expect(core.anonymous_reviews == 20, "actual records are reviewed across core, final choice, both aftermaths and captures")
 	errors.append_array(core.errors)
 	core.view.queue_free()
 	await tree.process_frame
 	SaveManager.delete_test_slot(core.SLOT)
+
+
+func _retained_ending(tree: SceneTree, decision: String) -> void:
+	var before := GameState.get_snapshot()
+	_expect(before.ending_run.current_node_id == ("EDR_ENTRY" if decision == "reality" else "EDS_ENTRY"), "actual final decision enters its aftermath without replacing the snapshot")
+	for index in range(2):
+		_press("ENDING_CONTINUE")
+		_drain()
+	if decision == "reality":
+		for index in range(5):
+			_press("REALITY_FAREWELL")
+			_drain()
+		_press("REALITY_DISCONNECT")
+		for index in range(3): view._advance_dialogue()
+		await tree.create_timer(1.2).timeout
+		_present()
+		_expect(GameState.get_snapshot().ending_run.current_node_id == "EDR_WAKE_BODY", "actual disconnect callback reaches the physical body")
+		_press("REALITY_WAKE")
+		_drain()
+		for object in BasementSession.REALITY_WAKE.BODY:
+			_press(object)
+			_drain()
+		_press("REALITY_BODY_FINISH")
+		_present()
+		for page in FIELD.REQUIRED + ["SUBJECT_HANDOFF_PAGE"]:
+			view._open_field_page(page, true)
+			view._recorded_choice_pressed(view._recorded_modal_request, 0)
+			_present()
+		var revisions: Array = GameState.get_snapshot().meta_progress.knowledge_entries[KNOWLEDGE.KEY].revisions
+		for page in FIELD.REQUIRED + ["SUBJECT_HANDOFF_PAGE"]:
+			var found: Array = revisions.filter(func(note: Dictionary) -> bool: return note.metadata.knowledge_id == "REALITY_" + page)
+			_expect(found.size() == 1 and found[0].metadata.lifetime == "physical", "actual physical page remains distinct from simulation records: " + page)
+		_press("FIELD_FINISH")
+		_present()
+		for id in FIELD.EXIT:
+			_press(id)
+			_drain()
+		_press("FIELD_UNLOCK")
+		_present()
+		_press("SURFACE_AIRLOCK")
+		_present()
+		_press("SURFACE_ENTER")
+		_present()
+		_press("SURFACE_OUTSIDE")
+		_present()
+		for index in range(8):
+			_expect(view.session.act("surface_tick").ok, "recorded physical ending accepts its final-frame tick")
+			view._render_room()
+			_present()
+	else:
+		for index in range(3):
+			_press("STAY_MEMORY_%d" % index)
+			_drain()
+		_press("STAY_MEMORY_FINISH")
+		_present()
+		_press("STAY_CONTEXTUAL")
+		_present()
+		_press("STAY_APPEARANCE_FINISH")
+		_present()
+		for owner in BasementSession.STAY_CHARTER.OWNERS:
+			_press("STAY_ROLE_" + owner)
+			_present()
+		_press("STAY_AUTONOMY_FINISH")
+		_present()
+		_press("STORY_DINE")
+		_present()
+		_press("STORY_SIT")
+		_drain()
+		for owner in BasementSession.STAY_STORY.TABLE:
+			_press("STORY_TABLE_" + owner)
+			_drain()
+		for index in range(2):
+			_press("STORY_WRITE_%d" % index)
+			_present()
+		_press("STORY_FINAL")
+		_present()
+		for index in range(2):
+			_expect(view.session.act("story_tick").ok, "recorded stay ending accepts its final-frame tick")
+			view._render_room()
+			_present()
+		_press("STORY_FINISH")
+		_present()
+	_expect(view.session.stage() == "ENDING_CREDITS", "actual aftermath completes to credits")
+	var after := GameState.get_snapshot()
+	_expect(after.meta_progress.servants == before.meta_progress.servants, "neither aftermath awards relationships or researcher completion")
+	_expect(after.meta_progress.knowledge_entries.f0_provisional_intent == "undecided" and after.ending_run.final_decision == decision, "afterthoughts cannot reinterpret provisional or final choice")
+	for note in before.meta_progress.knowledge_entries[KNOWLEDGE.KEY].revisions:
+		_expect(note in after.meta_progress.knowledge_entries[KNOWLEDGE.KEY].revisions, "actual ending keeps earlier knowledge revision and source references")
+	_collect()
+
+
+func _retained_gallery(core: RefCounted) -> void:
+	var before := GameState.get_snapshot()
+	var store := EndingGalleryStore.new("user://__test_final_retained_gallery_%d" % Time.get_ticks_usec())
+	var captured := store.capture(before)
+	_expect(captured.ok, "actually completed aftermath can be captured")
+	if not captured.ok: return
+	var path := store.root_path.path_join(captured.id + ".json")
+	var bytes := FileAccess.get_file_as_bytes(path)
+	var read := store.read_entry(captured.id)
+	_expect(read.ok and read.branch == before.ending_run.final_decision, "gallery reads the actual final branch")
+	if not read.ok: return
+	var archive: Dictionary = read.state.meta_progress.dialogue_history
+	var ledger: Dictionary = read.state.meta_progress.knowledge_entries[KNOWLEDGE.KEY]
+	_expect(StateSnapshotValidator.same_persisted_value(archive, before.meta_progress.dialogue_history), "gallery retains actual observed UID, source and order")
+	_expect(StateSnapshotValidator.same_persisted_value(ledger, before.meta_progress.knowledge_entries[KNOWLEDGE.KEY]), "gallery retains all acquired revisions")
+	var anonymous: Array = ledger.revisions.filter(func(note: Dictionary) -> bool: return note.metadata.knowledge_id == "ANON_PURPLE_RESIDENT_INDEX")
+	_expect(anonymous.size() == 1, "completed gallery retains exactly one anonymous revision")
+	var query := QUERY.new()
+	var scope := {"namespace":"gallery", "slot":captured.id, "run_id":"retained-final-capture", "source_origin_id":archive.source_origin_id, "branch_id":archive.branch_id, "load_epoch":1}
+	var opened := query.open(archive, ledger, scope, TranslationServer.get_locale())
+	_expect(opened.ok, "captured actual aftermath opens in read model")
+	if opened.ok and anonymous.size() == 1:
+		var key: String = QUERY.reference_key(anonymous[0].observation_ref)
+		_expect(key in core._people_keys(query, "unidentified") and key not in core._people_keys(query, "MARA2"), "gallery cannot retroactively identify anonymous material")
+	query.close()
+	core.anonymous_reviews += 1
+	_expect(GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(path) == bytes, "gallery read preserves live state and exact capture bytes")
 
 
 func _restore_retained() -> void:
