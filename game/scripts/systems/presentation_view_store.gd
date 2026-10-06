@@ -16,7 +16,10 @@ func load_view(scope: Dictionary, identity: String) -> Dictionary:
 	if files.is_empty(): return {"view": {}, "writable": false}
 	var primary := _read(files.main, scope)
 	var backup := _read(files.backup, scope)
-	if primary.get("future", false) or backup.get("future", false): return {"view": {}, "writable": false}
+	# Never adopt an uncommitted temporary file, but protect its newer format.
+	var temporary := _read(files.temporary, scope)
+	for row in [primary, backup, temporary]:
+		if row.get("future", false): return {"view": {}, "writable": false}
 	for row in [primary, backup]:
 		if row.get("ok", false):
 			return {"view": row.payload.view if row.payload.identity == identity else {}, "writable": true}
@@ -28,7 +31,9 @@ func save_view(scope: Dictionary, identity: String, view: Dictionary) -> bool:
 	if files.is_empty() or not _identity(identity) or not valid_view(view): return false
 	var primary := _read(files.main, scope)
 	var backup := _read(files.backup, scope)
-	if primary.get("future", false) or backup.get("future", false): return false
+	var temporary := _read(files.temporary, scope)
+	for row in [primary, backup, temporary]:
+		if row.get("future", false): return false
 	if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(root)) != OK: return false
 	var payload := JSON.stringify({"scope": scope, "identity": identity, "view": view}, "", true, true)
 	var file := FileAccess.open(files.temporary, FileAccess.WRITE)

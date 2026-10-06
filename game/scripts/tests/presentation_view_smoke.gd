@@ -12,6 +12,7 @@ func run(tree: SceneTree) -> Dictionary:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--cursor-phase="): phase = arg.trim_prefix("--cursor-phase=")
 	if phase == "seed":
+		_future_files()
 		await _cases_view(tree)
 		await _modal_positions(tree)
 		await _other_positions(tree)
@@ -47,6 +48,58 @@ func run(tree: SceneTree) -> Dictionary:
 		await tree.process_frame
 	print("PRESENTATION_VIEW_CHECKS: ", phase, " ", checks)
 	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _future_files() -> void:
+	var identity := "a".repeat(64)
+	var value := {"focus":"dialogue:body","scrolls":{},"layout":["ko-KR",1.0,1280.0,720.0]}
+	for domain in ["full", "development", "gallery"]:
+		for role in ["main", "backup", "temporary"]:
+			for sibling in ["missing", "valid", "damaged"]:
+				var store := STORE.new()
+				store.root = ROOT.path_join("future_" + domain + "_" + role + "_" + sibling)
+				var scope := {"profile":"local","namespace":domain,"slot":"fixture","run_id":"run","source_origin_id":"origin","branch_id":"branch"}
+				var files := store.paths(scope)
+				DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(store.root))
+				for key in files:
+					if FileAccess.file_exists(files[key]): DirAccess.remove_absolute(files[key])
+				if sibling == "valid":
+					_expect(store.save_view(scope, identity, value) and store.save_view(scope, identity, value), "future matrix valid siblings")
+				elif sibling == "damaged":
+					for key in ["main", "backup"]: _write_fixture(files[key], "damaged")
+				_write_fixture(files[role], JSON.stringify({"version":STORE.VERSION + 1,"future_data":"preserve"}))
+				var before := _file_fingerprints(files)
+				var loaded := store.load_view(scope, identity)
+				_expect(not loaded.writable and loaded.view.is_empty(), "future " + domain + "/" + role + "/" + sibling + " refuses read adoption")
+				_expect(_file_fingerprints(files) == before, "future load preserves all file bytes")
+				_expect(not store.save_view(scope, identity, value), "future " + role + " refuses replacement")
+				_expect(_file_fingerprints(files) == before, "future save preserves all file bytes and missing paths")
+	var current := STORE.new()
+	current.root = ROOT.path_join("temporary_only")
+	var scope := {"profile":"local","namespace":"full","slot":"fixture","run_id":"run","source_origin_id":"origin","branch_id":"branch"}
+	var files := current.paths(scope)
+	_expect(current.save_view(scope, identity, value), "current temporary fixture")
+	DirAccess.rename_absolute(files.main, files.temporary)
+	var before := _file_fingerprints(files)
+	var loaded := current.load_view(scope, identity)
+	_expect(loaded.writable and loaded.view.is_empty(), "current uncommitted temporary never adopted")
+	_expect(_file_fingerprints(files) == before, "current temporary load is nonmutating")
+	_expect(current.save_view(scope, identity, value), "current temporary can be replaced by new verified save")
+	_write_fixture(files.temporary, "damaged")
+	_expect(current.load_view(scope, identity).view == value and current.save_view(scope, identity, value), "damaged temporary does not prevent valid current save")
+
+
+func _write_fixture(path: String, value: String) -> void:
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(value)
+	file.close()
+
+
+func _file_fingerprints(files: Dictionary) -> Dictionary:
+	var result := {}
+	for path in files.values():
+		if FileAccess.file_exists(path): result[path] = FileAccess.get_sha256(path)
+	return result
 
 
 func _frames(tree: SceneTree, count: int) -> void:
