@@ -29,6 +29,7 @@ func run(tree: SceneTree) -> Dictionary:
 	_test_facets(fixture)
 	_test_disclosure()
 	_test_legacy_and_damage()
+	_test_legacy_body_parity()
 	await _test_revisions(tree)
 	var metadata_audit := preload("res://scripts/tests/notebook_metadata_smoke.gd").new().run()
 	for message in metadata_audit.errors: _expect(false, "catalog metadata: " + message)
@@ -424,6 +425,46 @@ func _test_legacy_and_damage() -> void:
 	_expect(query.diagnostics().indexed == 10002 and query._search.size() == 10001, "damaged legacy row is skipped without blocking later search entries")
 	_expect(not query._search.has(QUERY.reference_key(ref)) and query.diagnostics().error_ids.has("NB_QUERY_LEGACY_RENDER"), "legacy rendering error is retained but not indexed")
 	_expect(query.page({"tab":"dialogue", "needle":"legacy needle 9999"}, 0, key).count == 1, "search still reaches valid rows after malformed legacy content")
+
+
+func _test_legacy_body_parity() -> void:
+	var repository := DialogueRepository.new()
+	_expect(repository.is_ready(), "legacy body renderer has a valid catalog")
+	for locale in ["ko-KR", "en-US"]:
+		for id in repository._entries:
+			var definition: Dictionary = repository._entries[id]
+			var variables := {}
+			for name in definition.get("variables", {}):
+				match definition.variables[name]:
+					"string": variables[name] = "retained {%s} original" % name
+					"int": variables[name] = 7
+					"float": variables[name] = 1.25
+					"bool": variables[name] = true
+			var entry := {"sequence": 9, "record_class":"legacy", "legacy_payload":{"sequence":3, "line_id":id, "speaker_id":definition.speaker_id, "variables":variables}}
+			var before := JSON.stringify(entry)
+			var body: Dictionary = repository.render_legacy_body(entry, locale)
+			var full: Dictionary = repository.render_history({"entries":[entry]}, locale)
+			_expect(body.ok and full.ok and body.text == full.entries[0].text and body.text == repository.get_text(StringName(id), locale, variables), "single legacy body preserves catalog localization and variable substitution: " + id + locale)
+			_expect(JSON.stringify(entry) == before, "single body leaves original payload unchanged")
+		var raw := {"sequence":0, "line_id":"CH1_HISTORY_TRANSCRIPT", "speaker_id":"SYSTEM", "variables":{"speaker":"Narrator", "text":"legacy needle"}}
+		var entry := {"sequence":0, "record_class":"legacy", "legacy_payload":raw}
+		_expect(repository.render_legacy_body(entry, locale).text == "Narrator: legacy needle", "original legacy transcript has exact expected text")
+		var restored: Dictionary = JSON.parse_string(JSON.stringify(entry))
+		_expect(repository.render_legacy_body(restored, locale).text == "Narrator: legacy needle", "integral JSON sequence survives body rendering")
+		entry.record_class = "unmapped"
+		_expect(repository.render_legacy_body(entry, locale).text == "Narrator: legacy needle", "retained unmapped body remains accessible")
+		for field in ["line_id", "speaker_id", "variables"]:
+			var broken: Dictionary = entry.duplicate(true)
+			broken.legacy_payload[field] = {"line_id":"UNKNOWN", "speaker_id":"WRONG", "variables":{}}[field]
+			var body: Dictionary = repository.render_legacy_body(broken, locale)
+			var full: Dictionary = repository.render_history({"entries":[broken]}, locale)
+			_expect(not body.ok and not full.ok and body.error_id in full.error_ids and full.entries.is_empty(), "invalid legacy body keeps full-history rejection: " + field)
+		for sequence in [-1, 0.5, "0", null, INF, NAN]:
+			var broken: Dictionary = entry.duplicate(true)
+			broken.sequence = sequence
+			_expect(repository.render_legacy_body(broken, locale).error_id == "ERR_DIALOGUE_HISTORY_SEQUENCE", "invalid sequence rejected by direct body API")
+		for malformed in [null, [], {}, {"record_class":"authored", "sequence":0, "legacy_payload":raw}, {"record_class":"legacy", "sequence":0, "legacy_payload":[]}]:
+			_expect(repository.render_legacy_body(malformed, locale).error_id == "ERR_DIALOGUE_HISTORY_ENTRY_TYPE", "malformed or authored entry cannot use legacy body API")
 
 
 func _test_revisions(tree: SceneTree) -> void:

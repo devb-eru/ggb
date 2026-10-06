@@ -12,14 +12,33 @@ class TimedQuery extends "res://scripts/systems/notebook_query.gd":
 	var index_calls := 0
 	var index_total_usec := 0
 	var index_max_usec := 0
+	var render_total_usec := 0
+	var fields_total_usec := 0
+	var _timing_index := false
 
 	func index_for_budget(expected_key: String, budget_usec: int = 4000) -> Dictionary:
 		var start := Time.get_ticks_usec()
+		_timing_index = true
 		var result := super.index_for_budget(expected_key, budget_usec)
+		_timing_index = false
 		var elapsed := Time.get_ticks_usec() - start
 		index_calls += 1
 		index_total_usec += elapsed
 		index_max_usec = maxi(index_max_usec, elapsed)
+		return result
+
+	func _render_body(key: String) -> Dictionary:
+		if not _timing_index: return super._render_body(key)
+		var start := Time.get_ticks_usec()
+		var result := super._render_body(key)
+		render_total_usec += Time.get_ticks_usec() - start
+		return result
+
+	func _search_fields(row: Dictionary, text: String) -> Dictionary:
+		if not _timing_index: return super._search_fields(row, text)
+		var start := Time.get_ticks_usec()
+		var result := super._search_fields(row, text)
+		fields_total_usec += Time.get_ticks_usec() - start
 		return result
 
 
@@ -50,7 +69,8 @@ func run(tree: SceneTree) -> Dictionary:
 	var locale := _arg("--nb-perf-locale", "ko-KR")
 	var warm := int(_arg("--nb-perf-warm", "100"))
 	var cycles := int(_arg("--nb-perf-cycles", "0"))
-	if id not in FIXTURE.IDS or locale not in ["ko-KR", "en-US"] or warm < 0 or warm > 1000 or cycles < 0 or cycles > 100:
+	var compare_body := _arg("--nb-perf-body-path-comparison", "0")
+	if id not in FIXTURE.IDS or locale not in ["ko-KR", "en-US"] or warm < 0 or warm > 1000 or cycles < 0 or cycles > 100 or compare_body not in ["0", "1"]:
 		return {"ok":false, "errors":["invalid benchmark arguments"]}
 	var live_before := JSON.stringify(GameState.get_snapshot(), "", true)
 	var build_start := Time.get_ticks_usec()
@@ -102,6 +122,8 @@ func run(tree: SceneTree) -> Dictionary:
 	_record("first_search_ui_ms", start)
 	timings.search_index_cpu_total_ms = [query.index_total_usec / 1000.0]
 	timings.search_index_max_batch_ms = [query.index_max_usec / 1000.0]
+	timings.search_index_body_ms = [query.render_total_usec / 1000.0]
+	timings.search_index_fields_ms = [query.fields_total_usec / 1000.0]
 	_require(query.index_calls > 0, "search index timing captures actual budgeted calls")
 	_require(query.diagnostics().indexed == query.diagnostics().index_total, "search index completes")
 	var hidden: Dictionary = query.page({"tab":"records", "all_sections":true, "needle":FIXTURE.HIDDEN}, 0, key)
@@ -111,6 +133,8 @@ func run(tree: SceneTree) -> Dictionary:
 		var sentinel: String = unseen.locales[locale].body
 		_require(query.page({"tab":"clues", "all_sections":true, "needle":sentinel}, 0, key).count == 0, "unrequested hint body is not indexed")
 	panel.set_process(false)
+	var body_comparison := {}
+	if compare_body == "1": body_comparison = _compare_legacy_body_paths(fixture.archive, locale)
 	var baseline: Dictionary = fixture.manifest.counts
 	for iteration in range(warm):
 		start = Time.get_ticks_usec()
@@ -171,8 +195,39 @@ func run(tree: SceneTree) -> Dictionary:
 		errors.append_array(lifecycle.errors)
 	return {"ok":errors.is_empty(), "errors":errors, "manifest":fixture.manifest, "locale":locale, "warm_iterations":warm,
 		"search_index_calls":query.index_calls,
+		"legacy_body_path_comparison":body_comparison,
 		"lifecycle":lifecycle,
 		"timings_ms":timings, "engine":Engine.get_version_info().string, "os":OS.get_name(), "os_version":OS.get_version(),
 		"cpu":OS.get_processor_name(), "cpu_threads":OS.get_processor_count(), "display":DisplayServer.get_name(),
 		"acceptance":"MEASUREMENT_ONLY", "not_covered":["OS_input", "IME", "device_class_acceptance", "rendered_visual_QA",
 			"OS_disk_cache_flush", "input_frame_capture", "50_open_close_memory", "warm_UI_input_p95"]}
+
+
+func _compare_legacy_body_paths(archive: Dictionary, locale: String) -> Dictionary:
+	var entries: Array = archive.entries.filter(func(entry: Dictionary) -> bool: return entry.record_class == "legacy")
+	var repository := DialogueRepository.new()
+	_require(repository.is_ready() and not entries.is_empty(), "legacy path comparison has a catalog and retained rows")
+	if not repository.is_ready() or entries.is_empty(): return {"ok":false}
+	var baseline: Array = []
+	var measurements: Array = []
+	for mode in ["body", "history", "history", "body"]:
+		var rendered: Array = []
+		var failures := 0
+		var start := Time.get_ticks_usec()
+		for entry in entries:
+			if mode == "body":
+				var result := repository.render_legacy_body(entry, locale)
+				if not result.ok: failures += 1
+				rendered.append(result.get("text", ""))
+			else:
+				var projected: Dictionary = entry.duplicate(false)
+				projected.sequence = int(entry.sequence)
+				var result := repository.render_history({"entries":[projected]}, locale)
+				if not result.ok: failures += 1
+				rendered.append(result.entries[0].text if not result.entries.is_empty() else "")
+		measurements.append({"path":mode, "rows":entries.size(), "ms":(Time.get_ticks_usec() - start) / 1000.0})
+		_require(failures == 0, "all retained rows render in path comparison")
+		if baseline.is_empty(): baseline = rendered
+		else: _require(rendered == baseline, "same-process legacy paths preserve every original body")
+	return {"ok":errors.is_empty(), "locale":locale, "measurements":measurements,
+		"scope":"PAIRED_RENDER_PATHS_WITH_SHARED_CURRENT_VALIDATION_NOT_PREPATCH_FULL_SEARCH"}

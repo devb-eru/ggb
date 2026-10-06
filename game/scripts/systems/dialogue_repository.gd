@@ -55,13 +55,52 @@ func get_text(line_id: StringName, locale: String, variables: Dictionary = {}) -
 	var variable_specs: Dictionary = definition.get("variables", {})
 	if not _variables_match(variable_specs, variables):
 		return "[%s:ERR_TEXT_VARIABLES]" % id
-	var rendered := String(locale_table[id])
+	return _substitute_validated_text(String(locale_table[id]), variables, variable_specs)
+
+
+func _render_validated_text(id: String, locale: String, variables: Dictionary, variable_specs: Dictionary) -> String:
+	var resolved_locale := _normalize_locale(locale)
+	var locale_table: Dictionary = _localized_text.get(resolved_locale, {})
+	if not locale_table.has(id):
+		locale_table = _localized_text.get(_fallback_locale, {})
+	if not locale_table.has(id):
+		return "[%s]" % id
+	return _substitute_validated_text(String(locale_table[id]), variables, variable_specs)
+
+
+func _substitute_validated_text(rendered: String, variables: Dictionary, variable_specs: Dictionary) -> String:
 	for variable_name in variable_specs.keys():
 		var variable_value: Variant = variables[variable_name]
 		if String(variable_specs[variable_name]) == "int":
 			variable_value = int(variable_value)
 		rendered = rendered.replace("{%s}" % variable_name, str(variable_value))
 	return rendered
+
+
+# One retained row can be rendered without allocating a complete history result.
+func render_legacy_body(entry_value: Variant, locale: String) -> Dictionary:
+	if not is_ready(): return {"ok": false, "error_id": get_errors()[0]}
+	if not entry_value is Dictionary or entry_value.get("record_class") not in ["legacy", "unmapped"] or not entry_value.get("legacy_payload") is Dictionary:
+		return {"ok": false, "error_id": "ERR_DIALOGUE_HISTORY_ENTRY_TYPE"}
+	var sequence: Variant = entry_value.get("sequence")
+	if typeof(sequence) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(sequence)) or float(sequence) < 0 or float(sequence) != floorf(float(sequence)):
+		return {"ok": false, "error_id": "ERR_DIALOGUE_HISTORY_SEQUENCE"}
+	return _render_legacy_payload(entry_value.legacy_payload, locale)
+
+
+func _render_legacy_payload(history_entry: Dictionary, locale: String) -> Dictionary:
+	if not history_entry.get("line_id") is String or not history_entry.get("speaker_id") is String:
+		return {"ok": false, "error_id": "ERR_DIALOGUE_HISTORY_ID_TYPE"}
+	var line_id: String = history_entry.line_id
+	if not _entries.has(line_id): return {"ok": false, "error_id": "ERR_DIALOGUE_HISTORY_LINE_ID"}
+	var definition: Dictionary = _entries[line_id]
+	if history_entry.speaker_id != definition.get("speaker_id", ""):
+		return {"ok": false, "error_id": "ERR_DIALOGUE_HISTORY_SPEAKER_ID"}
+	var variables: Variant = history_entry.get("variables", {})
+	var specs: Dictionary = definition.get("variables", {})
+	if not variables is Dictionary or not _variables_match(specs, variables):
+		return {"ok": false, "error_id": "ERR_DIALOGUE_HISTORY_VARIABLES"}
+	return {"ok": true, "line_id": line_id, "speaker_id": String(definition.speaker_id), "text": _render_validated_text(line_id, locale, variables, specs)}
 
 
 func render_history(history_value: Variant, locale: String) -> Dictionary:
@@ -90,27 +129,16 @@ func render_history(history_value: Variant, locale: String) -> Dictionary:
 			else:
 				errors.append(String(authored.error_id))
 			continue
-		if not history_entry.get("line_id") is String or not history_entry.get("speaker_id") is String:
-			errors.append("ERR_DIALOGUE_HISTORY_ID_TYPE")
-			continue
-		var line_id := String(history_entry.get("line_id", ""))
-		if not _entries.has(line_id):
-			errors.append("ERR_DIALOGUE_HISTORY_LINE_ID")
-			continue
-		var definition: Dictionary = _entries[line_id]
-		if String(history_entry.get("speaker_id", "")) != String(definition.get("speaker_id", "")):
-			errors.append("ERR_DIALOGUE_HISTORY_SPEAKER_ID")
-			continue
-		var variables: Variant = history_entry.get("variables", {})
-		if not variables is Dictionary or not _variables_match(definition.get("variables", {}), variables):
-			errors.append("ERR_DIALOGUE_HISTORY_VARIABLES")
+		var body := _render_legacy_payload(history_entry, locale)
+		if not body.ok:
+			errors.append(body.error_id)
 			continue
 		rendered_entries.append({
 			"sequence": int(history_entry.get("sequence", -1)),
 			"chapter_id": HISTORY_CONTEXT.normalize_chapter(history_entry.get("chapter_id")),
-			"line_id": line_id,
-			"speaker_id": String(definition["speaker_id"]),
-			"text": get_text(StringName(line_id), locale, history_entry.get("variables", {})),
+			"line_id": body.line_id,
+			"speaker_id": body.speaker_id,
+			"text": body.text,
 		})
 	return {"ok": errors.is_empty(), "entries": rendered_entries, "error_ids": errors}
 

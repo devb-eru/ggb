@@ -326,14 +326,11 @@ func _render_body(key: String) -> Dictionary:
 		text = entry.legacy_payload.variables.text
 	elif row.legacy:
 		if _repository == null: _repository = REPOSITORY.new()
-		# The compatibility renderer receives one entry, never the full history.
-		var projected := entry.duplicate(false)
-		projected.sequence = int(entry.sequence)
-		var rendered: Dictionary = _repository.render_history({"entries": [projected]}, _locale)
-		if rendered.entries.is_empty():
+		var rendered: Dictionary = _repository.render_legacy_body(entry, _locale)
+		if not rendered.ok:
 			_errors[key] = "NB_QUERY_LEGACY_RENDER"
 			return _error("NB_QUERY_LEGACY_RENDER")
-		text = rendered.entries[0].text
+		text = rendered.text
 	else:
 		var rendered := CONTENT.render_segment(entry, row.reference.segment_id, _locale)
 		if not rendered.ok:
