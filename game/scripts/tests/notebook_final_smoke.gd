@@ -11,6 +11,7 @@ const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const JOURNAL := preload("res://scripts/systems/journal_four_notebook.gd")
 const FATHER := preload("res://scripts/systems/father_final_record.gd")
 const CONFRONTATION := preload("res://scripts/systems/researcher_confrontation.gd")
+const CORE_TEST := preload("res://scripts/tests/notebook_core_smoke.gd")
 const SLOT := "__test_notebook_final"
 var errors := PackedStringArray()
 var fixtures := {}
@@ -18,6 +19,7 @@ var covered := {}
 var segments := {}
 var view: BasementController
 var serial := 0
+var retained_decisions := 0
 
 class ControlledSave extends Node:
 	var reject_game := false
@@ -61,6 +63,8 @@ func run(tree: SceneTree) -> Dictionary:
 			for decision in ["reality", "stay"]: _decision(intent, decision)
 		_ending_failure()
 		_legacy()
+		print("FINAL_PHASE: ", language, " retained anonymous chain")
+		await _retained_anonymous_chain(tree)
 		for id in diagnostic.content_ids:
 			if not String(id).begins_with(NOTES.PREFIX): continue
 			_expect(covered.has(id + ":" + language), "unvisited actual ID " + id + ":" + language)
@@ -71,13 +75,15 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
+	_expect(retained_decisions == 12, "both locales retain anonymous material across three provisional intents and both ending decisions")
+	print("FINAL_RETAINED_DECISIONS: ", retained_decisions)
 	print("FINAL_COVERAGE: actual ID/locales=", covered.size(), " segment/locales=", segments.size())
 	return {"ok":errors.is_empty(), "errors":errors, "actual_id_locales":covered.size(), "actual_segment_locales":segments.size(),
 		"not_covered":["durable_app_restart_cursor", "unified_notebook_UI", "OS_input"]}
 
 
-func _father(journal_mask: int = -1) -> void:
-	var initial := _fixture("F1")
+func _father(journal_mask: int = -1, source: Dictionary = {}) -> void:
+	var initial := _fixture("F1") if source.is_empty() else source.duplicate(true)
 	if journal_mask >= 0:
 		for index in range(JOURNAL.RULES.OWNERS.size()):
 			var owner: String = JOURNAL.RULES.OWNERS[index]
@@ -97,6 +103,7 @@ func _father(journal_mask: int = -1) -> void:
 		initial.meta_progress.knowledge_entries.chapter_notebook.J4 = original.text
 		_expect(JOURNAL.write(initial, original.text, {"chapter_id":"CHAPTER_3", "node_id":"J4", "location_id":"M1_CENTRAL_HALL"}, TranslationServer.get_locale()).ok, "prior J4 acquisition fixture")
 	_install(initial)
+	if not source.is_empty(): _restore_retained()
 	_present()
 	var before := GameState.get_snapshot()
 	var prior_ledger: Dictionary = before.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()).duplicate(true)
@@ -155,16 +162,18 @@ func _father(journal_mask: int = -1) -> void:
 	_collect()
 
 
-func _confrontation(mode: String) -> void:
-	var state := _fixture("F2")
-	for servant in state.meta_progress.servants.values(): servant.core_event_complete = mode == "public"
-	state.meta_progress.servants.edgar.core_event_complete = true
-	var iris: Dictionary = state.meta_progress.servants.iris
-	iris.core_event_complete = mode != "inferred_only"
-	iris.bond = 4 if mode == "direct_private" else 2 if mode == "indirect" else 0
-	iris.alert = 4 if mode == "denied" else 0
+func _confrontation(mode: String, retained: Dictionary = {}) -> void:
+	var state := _fixture("F2") if retained.is_empty() else retained.duplicate(true)
+	if retained.is_empty():
+		for servant in state.meta_progress.servants.values(): servant.core_event_complete = mode == "public"
+		state.meta_progress.servants.edgar.core_event_complete = true
+		var iris: Dictionary = state.meta_progress.servants.iris
+		iris.core_event_complete = mode != "inferred_only"
+		iris.bond = 4 if mode == "direct_private" else 2 if mode == "indirect" else 0
+		iris.alert = 4 if mode == "denied" else 0
 	_expect(CONFRONTATION.iris_state(state) == mode, "fixture relation variant " + mode)
 	_install(state)
+	if not retained.is_empty(): _restore_retained()
 	_press("F2_ENTER")
 	_expect(_count("F2_ENTER_" + mode.to_upper()) == 1, "only first confrontation line observed")
 	_expect(_count("F2_OPTIONS") == 0, "questions not displayed under dialogue")
@@ -241,10 +250,12 @@ func _ending_failure() -> void:
 	saver.free()
 
 
-func _decision(intent: String, decision: String) -> void:
-	var state := _fixture("F3")
-	state.meta_progress.knowledge_entries.f0_provisional_intent = intent
+func _decision(intent: String, decision: String, retained: Dictionary = {}) -> void:
+	var state := _fixture("F3") if retained.is_empty() else retained.duplicate(true)
+	if retained.is_empty(): state.meta_progress.knowledge_entries.f0_provisional_intent = intent
+	else: _expect(state.meta_progress.knowledge_entries.f0_provisional_intent == intent, "retained provisional intent is not rewritten by the final test")
 	_install(state)
+	if not retained.is_empty(): _restore_retained()
 	_present()
 	_press("F3_ENTER")
 	_drain()
@@ -273,6 +284,55 @@ func _decision(intent: String, decision: String) -> void:
 	for entry in _archive().entries: CONTENT.render_entry(entry, "en-US" if TranslationServer.get_locale().begins_with("ko") else "ko-KR")
 	_expect(GameState.get_snapshot() == saved, "replay cannot change branch or relationship")
 	_collect()
+
+
+func _retained_anonymous_chain(tree: SceneTree) -> void:
+	var core := CORE_TEST.new()
+	core._install(core._fixture("F0_D"))
+	core.view = VIEW.new()
+	core.view.configure_session(core.SLOT, "F0_D")
+	tree.current_scene.add_child(core.view)
+	await tree.process_frame
+	core.view._dismiss_dialogue_for_test()
+	core._roles(false)
+	var role_source := GameState.get_snapshot()
+	for intent in ["reality", "stay", "undecided"]:
+		core._authority("house_glyph", intent, role_source)
+		var original := GameState.get_snapshot()
+		_father(-1, original)
+		_check_retained_anonymous(core, original, "unset")
+		var after_father := GameState.get_snapshot()
+		_confrontation(CONFRONTATION.iris_state(after_father), after_father)
+		_check_retained_anonymous(core, original, "unset")
+		var inspection_source := GameState.get_snapshot()
+		for decision in ["reality", "stay"]:
+			_decision(intent, decision, inspection_source)
+			_check_retained_anonymous(core, original, decision)
+			retained_decisions += 1
+	_expect(core.anonymous_reviews == 16, "role, authority and final stages all review actual anonymous records")
+	errors.append_array(core.errors)
+	core.view.queue_free()
+	await tree.process_frame
+	SaveManager.delete_test_slot(core.SLOT)
+
+
+func _restore_retained() -> void:
+	_expect(view._restore_presentation(), "retained final cursor uses actual presentation restoration")
+	_present()
+
+
+func _check_retained_anonymous(core: RefCounted, original: Dictionary, decision: String) -> void:
+	var saved := GameState.get_snapshot()
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "retained anonymous final stage reload")
+	_expect(StateSnapshotValidator.same_persisted_value(saved, GameState.get_snapshot()), "final reload preserves actual anonymous chain")
+	var current_entries := {}
+	for current in _archive().entries: current_entries[current.entry_uid] = current
+	for entry in original.meta_progress.dialogue_history.entries:
+		var found: Dictionary = current_entries.get(entry.entry_uid, {})
+		_expect(not found.is_empty() and found.observation == entry.observation and found.sequence == entry.sequence, "final truth and choice cannot rewrite earlier core observations")
+	_expect(GameState.get_snapshot().meta_progress.servants == original.meta_progress.servants, "final anonymous path never awards a relationship")
+	_expect(GameState.get_snapshot().ending_run.final_decision == decision, "anonymous browsing cannot alter final decision")
+	core._anonymous_review()
 
 
 func _failures() -> void:
