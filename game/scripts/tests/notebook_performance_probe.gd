@@ -3,6 +3,7 @@ extends RefCounted
 const FIXTURE := preload("res://scripts/tests/notebook_performance_fixture.gd")
 const PANEL := preload("res://scripts/ui/notebook_panel.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
+const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const SLOT := "__test_notebook_performance"
 var errors: Array = []
 var timings := {}
@@ -167,6 +168,7 @@ func run(tree: SceneTree) -> Dictionary:
 		_require(_counts(appended.archive) == expected, "normal quota does not evict protected or legacy records")
 		var snapshot := GameState.make_default_snapshot()
 		snapshot.meta_progress.dialogue_history = appended.archive
+		snapshot.meta_progress.knowledge_entries[KNOWLEDGE.KEY] = fixture.ledger.duplicate(true)
 		start = Time.get_ticks_usec()
 		var saved: Dictionary = SaveManager.save_snapshot(SLOT, "SAVE_BROKEN_RESET_COMPLETE", snapshot, 1, "NB_PERF_%d" % iteration)
 		_record("durable_save_ms", start)

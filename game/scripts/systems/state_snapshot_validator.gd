@@ -149,8 +149,12 @@ func _validate_meta_progress(value: Variant, errors: PackedStringArray) -> void:
 			errors.append("ERR_SNAPSHOT_META_JOURNAL_RANGE")
 	for field in ["knowledge_entries", "failure_knowledge", "event_history"]:
 		_require_type(meta.get(field), TYPE_DICTIONARY, "META_%s" % field.to_upper(), errors)
-	_validate_dialogue_history(meta.get("dialogue_history"), errors)
 	var knowledge: Variant = meta.get("knowledge_entries")
+	var ledger_check := {}
+	if knowledge is Dictionary and knowledge.has("notebook_knowledge") and meta.get("dialogue_history") is Dictionary:
+		ledger_check = preload("res://scripts/systems/notebook_knowledge.gd").validate(knowledge.notebook_knowledge, meta.dialogue_history)
+	# Successful ledger validation includes the complete archive in this call.
+	_validate_dialogue_history(meta.get("dialogue_history"), errors, ledger_check.get("ok", false))
 	if knowledge is Dictionary and knowledge.has("dialogue_observed_facts"):
 		if not preload("res://scripts/systems/dialogue_observed_facts.gd").valid_facts(knowledge.dialogue_observed_facts):
 			errors.append("ERR_SNAPSHOT_DIALOGUE_OBSERVED_FACTS")
@@ -158,8 +162,7 @@ func _validate_meta_progress(value: Variant, errors: PackedStringArray) -> void:
 		if not meta.get("dialogue_history") is Dictionary:
 			errors.append("NB_KNOWLEDGE_ARCHIVE")
 		else:
-			var checked := preload("res://scripts/systems/notebook_knowledge.gd").validate(knowledge.notebook_knowledge, meta.dialogue_history)
-			if not checked.ok: errors.append(checked.error_id)
+			if not ledger_check.ok: errors.append(ledger_check.error_id)
 	elif meta.get("dialogue_history") is Dictionary and meta.dialogue_history.get("source_links") is Array:
 		for link in meta.dialogue_history.source_links:
 			if link is Dictionary and link.get("consumer_kind") is String and link.consumer_kind == "knowledge_source":
@@ -168,15 +171,16 @@ func _validate_meta_progress(value: Variant, errors: PackedStringArray) -> void:
 	_validate_servants(meta.get("servants"), errors)
 
 
-func _validate_dialogue_history(value: Variant, errors: PackedStringArray) -> void:
+func _validate_dialogue_history(value: Variant, errors: PackedStringArray, archive_checked: bool = false) -> void:
 	if not _require_dictionary(value, "DIALOGUE_HISTORY", errors):
 		return
 	var history: Dictionary = value
 	if history.has("schema_version"):
-		var archive_check := preload("res://scripts/systems/notebook_archive.gd").validate(history)
-		if not archive_check.ok:
-			errors.append(String(archive_check.get("error_id", "NB_ARCHIVE_INVALID")))
-			return
+		if not archive_checked:
+			var archive_check := preload("res://scripts/systems/notebook_archive.gd").validate(history)
+			if not archive_check.ok:
+				errors.append(String(archive_check.get("error_id", "NB_ARCHIVE_INVALID")))
+				return
 		var original_entries: Array = []
 		for entry in history.entries:
 			if entry.record_class in ["legacy", "unmapped"]:

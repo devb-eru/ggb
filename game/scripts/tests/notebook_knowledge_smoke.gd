@@ -8,6 +8,21 @@ const SLOT := "__test_notebook_knowledge"
 var errors := PackedStringArray()
 
 
+class FullArchiveRecheck extends StateSnapshotValidator:
+	func _validate_dialogue_history(value: Variant, problems: PackedStringArray, _archive_checked: bool = false) -> void:
+		super._validate_dialogue_history(value, problems, false)
+
+
+class CountArchiveChecks extends StateSnapshotValidator:
+	var reused := 0
+	var checked := 0
+	func _validate_dialogue_history(value: Variant, problems: PackedStringArray, archive_checked: bool = false) -> void:
+		if value is Dictionary and value.has("schema_version"):
+			if archive_checked: reused += 1
+			else: checked += 1
+		super._validate_dialogue_history(value, problems, archive_checked)
+
+
 class LostAcknowledgement:
 	extends Node
 	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
@@ -26,12 +41,67 @@ func run(tree: SceneTree) -> Dictionary:
 	_validate_source_retention()
 	_validate_dense_ledger()
 	_validate_numeric_sources()
+	_validate_snapshot_archive_reuse()
 	await _validate_live_retry(tree)
 	await _validate_legacy(tree)
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
 	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _validate_snapshot_archive_reuse() -> void:
+	var acquired := KNOWLEDGE.acquire(KNOWLEDGE.create(), ARCHIVE.create(), _observe(), ARCHIVE.new_uid())
+	_expect(acquired.ok, "snapshot reuse fixture acquired with real source links")
+	if not acquired.ok: return
+	var state := GameState.make_default_snapshot()
+	state.meta_progress.dialogue_history = acquired.archive
+	state.meta_progress.knowledge_entries[KNOWLEDGE.KEY] = acquired.ledger
+	var variants: Array = [state.duplicate(true)]
+	var empty := GameState.make_default_snapshot()
+	empty.meta_progress.dialogue_history = ARCHIVE.create()
+	empty.meta_progress.knowledge_entries[KNOWLEDGE.KEY] = KNOWLEDGE.create()
+	variants.append(empty)
+	var no_ledger := state.duplicate(true)
+	no_ledger.meta_progress.knowledge_entries.erase(KNOWLEDGE.KEY)
+	variants.append(no_ledger)
+	for mutation in ["ledger_schema", "ledger_revision", "source_missing", "source_origin", "orphan_links", "archive_version", "archive_entry", "archive_sequence", "archive_protection", "legacy_payload", "missing_history", "non_dictionary_history", "legacy_history"]:
+		var altered := state.duplicate(true)
+		var archive: Dictionary = altered.meta_progress.dialogue_history
+		var ledger: Dictionary = altered.meta_progress.knowledge_entries[KNOWLEDGE.KEY]
+		match mutation:
+			"ledger_schema": ledger.schema_version = 99
+			"ledger_revision": ledger.revision += 1
+			"source_missing": ledger.revisions[0].source_refs.clear()
+			"source_origin": ledger.revisions[0].observation_ref.source_origin_id = ARCHIVE.new_uid()
+			"orphan_links": ledger.revisions.clear(); ledger.revision = 0
+			"archive_version": archive.schema_version = 99
+			"archive_entry": archive.entries[0].observation.segments[0].safe_variables = []
+			"archive_sequence": archive.entries[0].sequence = -1
+			"archive_protection": archive.entries[0].protection_reasons.clear()
+			"legacy_payload":
+				var old := ARCHIVE.migrate_verified_legacy({"next_sequence":1, "entries":[{"sequence":0, "line_id":"OLD_UNKNOWN", "speaker_id":"SYSTEM", "variables":{}}]}, "reuse-legacy".sha256_text())
+				_expect(old.ok, "legacy validation reuse fixture migrates")
+				if old.ok:
+					old.archive.entries[0].legacy_payload.line_id = ""
+					altered.meta_progress.dialogue_history = old.archive
+					altered.meta_progress.knowledge_entries[KNOWLEDGE.KEY] = KNOWLEDGE.create()
+			"missing_history": altered.meta_progress.erase("dialogue_history")
+			"non_dictionary_history": altered.meta_progress.dialogue_history = []
+			"legacy_history": altered.meta_progress.dialogue_history = {"next_sequence":0, "entries":[]}
+		variants.append(altered)
+	for index in range(variants.size()):
+		var fixture: Dictionary = variants[index]
+		var frozen := fixture.duplicate(true)
+		var validator := CountArchiveChecks.new()
+		var result := validator.validate(fixture)
+		_expect(result == FullArchiveRecheck.new().validate(fixture), "single-check snapshot has identical acceptance and ordered errors " + str(index))
+		_expect(fixture == frozen, "snapshot archive validation never mutates caller " + str(index))
+		if index < 2: _expect(result.ok and validator.reused == 1 and validator.checked == 0, "only a fully successful ledger reuses its checked archive")
+		elif index < 12: _expect(not result.ok and validator.reused == 0 and validator.checked == 1, "failed ledger or missing ledger retains the full archive check " + str(index))
+		elif index == 12: _expect(not result.ok and validator.reused == 1 and validator.checked == 0, "valid archive and empty ledger still check invalid legacy payload")
+		else: _expect(not result.ok and validator.reused == 0 and validator.checked == 0, "missing or pre-archive history never receives a structural reuse token")
+	print("KNOWLEDGE_SNAPSHOT_REUSE_CASES: ", variants.size())
 
 
 func _observe(id: String = "NB_NOTE_P_PULSE", version: int = 1) -> Dictionary:
