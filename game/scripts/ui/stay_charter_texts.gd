@@ -24,7 +24,7 @@ const LABELS := {
 	"checked": [" · 확인함", " · Reviewed"],
 	"memory_finish": ["세 원칙을 유지한다", "Retain all three principles"],
 	"neutral": ["표시만 바뀐다 · 기억과 결정을 바꾸지 않는다", "Only the display changes · Memories and decisions stay intact"],
-	"neutral_detail": ["어느 표시든 S5의 진실과 현재 기억은 유지된다.", "Both displays retain the truth of S5 and your current memories."],
+	"neutral_detail": ["어느 표시를 선택해도 이미 확인한 진실과 현재 기억은 유지된다.", "Whichever display you choose, the truth you have verified and your current memories remain intact."],
 	"appearance_finish": ["이 표시로 계속한다", "Continue with this display"],
 	"autonomy": ["주 공간·휴식 시간은 각자 선택한다. 경고는 제공하되 이동을 자동 봉쇄하지 않는다.\n에드가는 일정표를 제안만 한다. 누구도 다른 인격의 기억·이름을 단독 삭제하지 못한다.", "Each person chooses their own space and rest periods. Warnings are provided without automatically blocking movement.\nEdgar may only propose a schedule. No one may unilaterally erase another personality's memories or name."],
 	"proposed": [" · 제안", " · Proposed"],

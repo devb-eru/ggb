@@ -1,5 +1,53 @@
 {
 	"contents": {
+		"NB_STAY_APPEARANCE_NEUTRAL_LABEL": {
+			"1": {
+				"action_or_variant": "APPEARANCE_NEUTRAL_LABEL",
+				"disclosure_owner": "actual_display",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {"body": "Only the display changes · Memories and decisions stay intact", "speaker": "Scene", "summary": "The display rule visible at that time", "title": "Appearance and Memory"},
+					"ko-KR": {"body": "표시만 바뀐다 · 기억과 결정을 바꾸지 않는다", "speaker": "장면", "summary": "당시 화면에서 확인한 표시 원칙", "title": "외형과 기억"}
+				},
+				"localization_keys": {"body": "stay_charter_texts:neutral"},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": ["EDS_APPEARANCE_CONTROL"],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": ["clue_source"],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_build_stay_charter",
+				"speaker_id": "SYSTEM",
+				"variables": {"body": {}},
+				"visible_segment_ids": ["body"]
+			}
+		},
+		"NB_STAY_APPEARANCE_NEUTRAL_DETAIL": {
+			"1": {
+				"action_or_variant": "APPEARANCE_NEUTRAL_DETAIL",
+				"disclosure_owner": "actual_status_display_after_click",
+				"entry_kind": "document_segment",
+				"event_id": "EDS_APPEARANCE_CONTROL",
+				"locales": {
+					"en-US": {"body": "Whichever display you choose, the truth you have verified and your current memories remain intact.", "speaker": "Scene", "summary": "The display rule explicitly inspected at that time", "title": "Appearance and Memory"},
+					"ko-KR": {"body": "어느 표시를 선택해도 이미 확인한 진실과 현재 기억은 유지된다.", "speaker": "장면", "summary": "당시 직접 조사한 표시 원칙", "title": "외형과 기억"}
+				},
+				"localization_keys": {"body": "stay_charter_texts:neutral_detail"},
+				"location_source": "actual_ending_node_before_commit_or_display",
+				"mapping_status": "AUTHORED_ID",
+				"node_ids": ["EDS_APPEARANCE_CONTROL"],
+				"owner": "planning/engineering",
+				"producer_id": "NP19",
+				"protection_reasons": ["clue_source"],
+				"source_file": "scripts/chapters/basement_controller.gd",
+				"source_symbol": "_inspect_stay_display_rule",
+				"speaker_id": "SYSTEM",
+				"variables": {"body": {}},
+				"visible_segment_ids": ["body"]
+			}
+		},
 		"NB_STAY_APPEARANCE_FINISH_OPTIONS": {
 			"1": {
 				"action_or_variant": "APPEARANCE_FINISH_OPTIONS",

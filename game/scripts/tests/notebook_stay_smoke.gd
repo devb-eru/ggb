@@ -14,6 +14,7 @@ var covered := {}
 var segments := {}
 var view: BasementController
 var serial := 0
+var checks := 0
 
 class ControlledSave extends Node:
 	var reject_game := false
@@ -41,8 +42,12 @@ func run(tree: SceneTree) -> Dictionary:
 	tree.current_scene.add_child(view)
 	await tree.process_frame
 	view._dismiss_dialogue_for_test()
+	var focused := "--notebook-stay-neutral-only" in OS.get_cmdline_user_args()
 	for language in ["ko-KR","en-US"]:
 		TranslationServer.set_locale(language)
+		if focused:
+			_neutral_status()
+			continue
 		print("STAY_PHASE: ",language," charter and communication")
 		_charter()
 		print("STAY_PHASE: ",language," table branches and seating")
@@ -52,6 +57,7 @@ func run(tree: SceneTree) -> Dictionary:
 		_writing()
 		_failures()
 		_modal_failures()
+		_neutral_status()
 		_credits_excluded()
 		for id in diagnostic.content_ids:
 			if not String(id).begins_with(NOTES.PREFIX): continue
@@ -64,7 +70,66 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor",flavor)
 	print("STAY_COVERAGE: actual ID/locales=",covered.size()," segment/locales=",segments.size())
+	print("STAY_ASSERTIONS: ", checks, " focused=", focused)
 	return {"ok":errors.is_empty(),"errors":errors,"actual_id_locales":covered.size(),"actual_segment_locales":segments.size(),"not_covered":["durable_app_restart_cursor","unified_notebook_UI","OS_input"]}
+
+
+func _neutral_status() -> void:
+	_install(_fixture("EDS_APPEARANCE_CONTROL"))
+	_present()
+	_expect(_count("APPEARANCE_NEUTRAL_LABEL") == 1, "visible neutral rule label is recorded")
+	_expect(_count("APPEARANCE_NEUTRAL_DETAIL") == 0, "unclicked neutral rule detail is not disclosed")
+	var before := GameState.get_snapshot()
+	_press("STAY_MODE_NEUTRAL")
+	_expect(_count("APPEARANCE_NEUTRAL_DETAIL") == 1, "clicked neutral rule detail is recorded")
+	_expect(not view._status_label.text.contains("S5"), "neutral rule detail never exposes internal stage ID")
+	_neutral_gameplay_unchanged(before)
+	var entry: Dictionary = _archive().entries.back()
+	_expect(entry.observation.content_id == NOTES.PREFIX + "APPEARANCE_NEUTRAL_DETAIL" and entry.observation.node_id == "EDS_APPEARANCE_CONTROL", "neutral detail keeps actual source node")
+	var opposite := "ko-KR" if TranslationServer.get_locale().begins_with("en") else "en-US"
+	var rendered := CONTENT.render_entry(entry, opposite)
+	_expect(rendered.ok and not rendered.entry.text.contains("S5"), "neutral detail replays in other language without internal ID")
+	_press("STAY_MODE_NEUTRAL")
+	_expect(_count("APPEARANCE_NEUTRAL_DETAIL") == 2, "explicit repeat inspection is a distinct observation")
+	view._render_room()
+	_present()
+	_expect(_count("APPEARANCE_NEUTRAL_LABEL") == 1 and _count("APPEARANCE_NEUTRAL_DETAIL") == 2, "repaint does not manufacture status or label observations")
+	var generation := view._notebook_surfaces.generation
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "neutral observations load from disk")
+	before = GameState.get_snapshot()
+	view._inspect_stay_display_rule(generation)
+	_expect(GameState.get_snapshot() == before, "stale status callback cannot write after external load")
+	_expect(_count("APPEARANCE_NEUTRAL_DETAIL") == 2, "neutral observations persist after reload")
+	_collect()
+	_install(_fixture("EDS_APPEARANCE_CONTROL"))
+	_present()
+	before = GameState.get_snapshot()
+	var hash_before := FileAccess.get_sha256(SaveManager._slot_paths(SLOT).main)
+	var saver := ControlledSave.new()
+	saver.reject_history = true
+	view.session._save = saver
+	_press("STAY_MODE_NEUTRAL")
+	_expect(GameState.get_snapshot() == before and FileAccess.get_sha256(SaveManager._slot_paths(SLOT).main) == hash_before, "failed neutral observation preserves gameplay and disk")
+	_expect(_count("APPEARANCE_NEUTRAL_DETAIL") == 0 and view._hotspot_layer.get_node_or_null("NOTEBOOK_SURFACE_RETRY") != null, "failed neutral observation exposes explicit retry without disclosure")
+	saver.reject_history = false
+	saver.lose_ack = true
+	_expect(view._flush_notebook_surfaces(view._notebook_surfaces.generation, true), "neutral retry reconciles lost acknowledgement")
+	_expect(_count("APPEARANCE_NEUTRAL_DETAIL") == 1, "neutral retry records exactly one observation")
+	_neutral_gameplay_unchanged(before)
+	view.session._save = SaveManager
+	saver.free()
+	_collect()
+
+
+func _neutral_gameplay_unchanged(before: Dictionary) -> void:
+	var after := GameState.get_snapshot()
+	var receipt := preload("res://scripts/systems/notebook_surface_receipt.gd")
+	_expect(StateSnapshotValidator.new().validate(after).ok and not receipt.read(after, view._notebook_surface_scope()).is_empty(), "neutral receipt and full snapshot validate")
+	after.meta_progress.dialogue_history = before.meta_progress.dialogue_history.duplicate(true)
+	if before.loop_state.event_local_states.has(receipt.KEY):
+		after.loop_state.event_local_states[receipt.KEY] = before.loop_state.event_local_states[receipt.KEY].duplicate(true)
+	else: after.loop_state.event_local_states.erase(receipt.KEY)
+	_expect(StateSnapshotValidator.same_persisted_value(before, after), "neutral observation changes no policy, appearance, memory, relationship or ending")
 
 
 func _charter() -> void:
@@ -402,6 +467,7 @@ func _collect() -> void:
 
 
 func _expect(condition: bool, message: String) -> void:
+	checks += 1
 	if not condition:
 		errors.append(message)
 		print("STAY_ASSERT: ",message)

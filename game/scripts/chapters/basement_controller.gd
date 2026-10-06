@@ -1421,9 +1421,9 @@ func _tick_demo_stinger(delta: float) -> void:
 		_render_room()
 
 
-func _queue_stay_surface(key: String, text: String) -> void:
+func _queue_stay_surface(key: String, text: String, new_attempt: bool = false) -> void:
 	if _notebook_surface_enabled():
-		_notebook_surfaces.queue(STAY_NOTES.PREFIX + key,text,TranslationServer.get_locale(),REALITY_NOTES.context(session.snapshot(),session.history_context()))
+		_notebook_surfaces.queue(STAY_NOTES.PREFIX + key,text,TranslationServer.get_locale(),REALITY_NOTES.context(session.snapshot(),session.history_context()),new_attempt)
 
 
 func _stay_board(key: String, text: String, rect: Rect2) -> void:
@@ -1808,7 +1808,8 @@ func _build_stay_charter() -> void:
 		"EDS_APPEARANCE_CONTROL":
 			_stay_world_choice("APPEARANCE",0,"STAY_LAYERED",STAY_TEXTS.mode("layered",locale),Rect2(200,260,700,200),"stay_appearance","layered")
 			_stay_world_choice("APPEARANCE",1,"STAY_CONTEXTUAL",STAY_TEXTS.mode("contextual",locale),Rect2(1020,260,700,200),"stay_appearance","contextual")
-			_add_hotspot("STAY_MODE_NEUTRAL",_stay_text("neutral"),Rect2(460,540,1000,100),func(): _set_status(_stay_text("neutral_detail")))
+			_queue_stay_surface("APPEARANCE_NEUTRAL_LABEL", _stay_text("neutral"))
+			_add_hotspot("STAY_MODE_NEUTRAL",_stay_text("neutral"),Rect2(460,540,1000,100),_inspect_stay_display_rule.bind(_notebook_surfaces.generation))
 			if not mode.is_empty(): _stay_world_choice("APPEARANCE_FINISH",0,"STAY_APPEARANCE_FINISH",_stay_text("appearance_finish"),Rect2(400,750,1120,100),"stay_appearance_finish",null)
 		"EDS_AUTONOMY_CHARTER":
 			_stay_board("AUTONOMY",_stay_text("autonomy"),Rect2(200,180,1520,120))
@@ -1817,6 +1818,16 @@ func _build_stay_charter() -> void:
 				_stay_world_choice("ROLE_%s_%s" % [String(owner).to_upper(),"PROPOSED" if owner in local.proposed else "FIXED"],0,"STAY_ROLE_"+owner,STAY_TEXTS.owner(owner,locale)+_stay_text("proposed" if owner in local["proposed"] else "fixed"),Rect2(250+(index%2)*750,350+(index/2)*140,670,100),"stay_propose",owner)
 				index += 1
 			if local["proposed"].size() == 5: _stay_world_choice("AUTONOMY_FINISH",0,"STAY_AUTONOMY_FINISH",_stay_text("autonomy_finish"),Rect2(400,790,1120,85),"stay_autonomy_finish",null)
+
+
+func _inspect_stay_display_rule(generation: int) -> void:
+	if _interaction_blocked() or session.stage() != "STAY_CHARTER" or session.snapshot().ending_run.current_node_id != "EDS_APPEARANCE_CONTROL": return
+	if _notebook_surface_enabled() and not _notebook_surfaces.live(_notebook_surface_scope(), generation): return
+	if not _notebook_surface_allowed(): return
+	var text := _stay_text("neutral_detail")
+	_set_status(text)
+	_queue_stay_surface("APPEARANCE_NEUTRAL_DETAIL", text, true)
+	if not _flush_notebook_surfaces(generation): _set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 
 
 func _toggle_stay_inspection() -> void:

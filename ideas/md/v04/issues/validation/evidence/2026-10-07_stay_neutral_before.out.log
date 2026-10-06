@@ -1,0 +1,11 @@
+Godot Engine v4.7.2.stable.steam.ed1daf0bf - https://godotengine.org
+
+GGB title bootstrap initialized.
+STAY_ASSERT: visible neutral rule label is recorded
+STAY_ASSERT: clicked neutral rule detail is recorded
+STAY_ASSERT: neutral rule detail never exposes internal stage ID
+STAY_ASSERT: visible neutral rule label is recorded
+STAY_ASSERT: clicked neutral rule detail is recorded
+STAY_ASSERT: neutral rule detail never exposes internal stage ID
+STAY_COVERAGE: actual ID/locales=2 segment/locales=4
+NOTEBOOK_STAY_SMOKE: { "ok": false, "errors": ["visible neutral rule label is recorded", "clicked neutral rule detail is recorded", "neutral rule detail never exposes internal stage ID", "visible neutral rule label is recorded", "clicked neutral rule detail is recorded", "neutral rule detail never exposes internal stage ID"], "actual_id_locales": 2, "actual_segment_locales": 4, "not_covered": ["durable_app_restart_cursor", "unified_notebook_UI", "OS_input"] }

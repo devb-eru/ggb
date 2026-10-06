@@ -75,6 +75,7 @@
 | [`GGB-ERR-2026-0045`](GGB-ERR-2026-0045_개발F3복사본_수첩namespace_분류누락.md) | VERIFIED | DONE | 개발 F3 복사본 수첩 namespace 분류 누락 |
 | [`GGB-ERR-2026-0046`](GGB-ERR-2026-0046_개발F3복사본_표시위치namespace_분류누락.md) | VERIFIED | DONE | 개발 F3 복사본 표시 위치 namespace 분류 누락 |
 | [`GGB-ERR-2026-0047`](GGB-ERR-2026-0047_표시위치_미래임시파일_덮어쓰기.md) | VERIFIED | DONE | 표시 위치 미래 임시 파일 덮어쓰기 |
+| [`GGB-ERR-2026-0048`](GGB-ERR-2026-0048_잔류표시원칙_조사기록_누락.md) | VERIFIED | DONE | 잔류 표시 원칙 조사 기록 누락 |
 
 ## 관리
 
