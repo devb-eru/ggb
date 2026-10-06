@@ -366,10 +366,21 @@ func _encode_payload(header: Dictionary, snapshot: Dictionary) -> Dictionary:
 	var payload: Dictionary = _canonicalize({"save_header":header, "state":snapshot})
 	payload.save_header.checksum = ""
 	var unsigned_text := JSON.stringify(payload, "\t", false)
+	var header_prefix := _save_header_prefix(payload.save_header)
 	var checksum := _checksum_text(unsigned_text)
 	# Replacing this existing value preserves the already canonical key order.
 	payload.save_header.checksum = checksum
-	return {"text":JSON.stringify(payload, "\t", false), "checksum":checksum}
+	var signed_text: String
+	if unsigned_text.begins_with(header_prefix):
+		signed_text = _save_header_prefix(payload.save_header) + unsigned_text.substr(header_prefix.length())
+	else:
+		# Preserve the original encoder if the engine's JSON layout changes.
+		signed_text = JSON.stringify(payload, "\t", false)
+	return {"text":signed_text, "checksum":checksum}
+
+
+func _save_header_prefix(header: Dictionary) -> String:
+	return "{\n\t\"save_header\": " + JSON.stringify(header, "\t", false).replace("\n", "\n\t")
 
 
 func load_slot(slot_id: String) -> Dictionary:

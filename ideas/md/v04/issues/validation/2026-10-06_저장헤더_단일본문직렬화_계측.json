@@ -1,0 +1,4152 @@
+{
+  "acceptance": "MEASUREMENT_ONLY",
+  "requested_cold": 1,
+  "before": {
+    "pack_sha256": "31C8CEBD72C489C17A320A1942103C4EECA83672C76C072B2E71257458E5EF8A",
+    "runs": [
+      {
+        "durable_save_ms": [
+          1094.117,
+          1637.117,
+          2058.504
+        ],
+        "name": "NB-PERF-N2000-ko-KR-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-N2000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "36c759a9acefd01de48d56323353afb7a1b139a2a6cf31b42328257282e57e64",
+          "utf8_bytes": 1815265
+        },
+        "saved_slot_load_ms": [
+          469.514
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.267,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.201
+              },
+              {
+                "duration_ms": 0.21,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.488
+              },
+              {
+                "duration_ms": 0.616,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.711
+              },
+              {
+                "duration_ms": 403.282,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 214.023
+              },
+              {
+                "duration_ms": 375.972,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 652.919
+              },
+              {
+                "duration_ms": 430.322,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 625.294
+              },
+              {
+                "duration_ms": 2.369,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1055.703
+              },
+              {
+                "duration_ms": 0.184,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1058.206
+              },
+              {
+                "duration_ms": 0.148,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1058.404
+              },
+              {
+                "duration_ms": 0.137,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1058.565
+              }
+            ],
+            "ok": true,
+            "total_ms": 1094.07,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 423.213,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 12.128
+              },
+              {
+                "duration_ms": 432.229,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.216
+              },
+              {
+                "duration_ms": 0.381,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 436.491
+              },
+              {
+                "duration_ms": 0.206,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 436.892
+              },
+              {
+                "duration_ms": 372.75,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 638.207
+              },
+              {
+                "duration_ms": 471.048,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1055.034
+              },
+              {
+                "duration_ms": 542.297,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1022.899
+              },
+              {
+                "duration_ms": 12.542,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1565.299
+              },
+              {
+                "duration_ms": 0.217,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1578.032
+              },
+              {
+                "duration_ms": 0.327,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1578.266
+              },
+              {
+                "duration_ms": 0.204,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1578.615
+              }
+            ],
+            "ok": true,
+            "total_ms": 1637.066,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 460.9,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 10.909
+              },
+              {
+                "duration_ms": 468.763,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.829
+              },
+              {
+                "duration_ms": 448.967,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 495.58
+              },
+              {
+                "duration_ms": 472.717,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 472.61
+              },
+              {
+                "duration_ms": 0.301,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 945.351
+              },
+              {
+                "duration_ms": 434.513,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1096.07
+              },
+              {
+                "duration_ms": 386.151,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1572.632
+              },
+              {
+                "duration_ms": 441.601,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1542.764
+              },
+              {
+                "duration_ms": 8.827,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1984.447
+              },
+              {
+                "duration_ms": 0.133,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1993.411
+              },
+              {
+                "duration_ms": 0.11,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1993.558
+              },
+              {
+                "duration_ms": 0.103,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1993.677
+              }
+            ],
+            "ok": true,
+            "total_ms": 2058.429,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          1173.283,
+          1625.275,
+          2005.641
+        ],
+        "name": "NB-PERF-N2000-en-US-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-N2000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "36c759a9acefd01de48d56323353afb7a1b139a2a6cf31b42328257282e57e64",
+          "utf8_bytes": 1815265
+        },
+        "saved_slot_load_ms": [
+          493.176
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.215,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.593
+              },
+              {
+                "duration_ms": 0.175,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.823
+              },
+              {
+                "duration_ms": 0.144,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.009
+              },
+              {
+                "duration_ms": 399.815,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 223.962
+              },
+              {
+                "duration_ms": 440.939,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 667.921
+              },
+              {
+                "duration_ms": 500.584,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 636.388
+              },
+              {
+                "duration_ms": 2.172,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1137.05
+              },
+              {
+                "duration_ms": 0.14,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1139.344
+              },
+              {
+                "duration_ms": 0.111,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1139.495
+              },
+              {
+                "duration_ms": 0.111,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1139.616
+              }
+            ],
+            "ok": true,
+            "total_ms": 1173.238,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 455.642,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 10.874
+              },
+              {
+                "duration_ms": 463.455,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.026
+              },
+              {
+                "duration_ms": 0.341,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 467.518
+              },
+              {
+                "duration_ms": 0.352,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 467.874
+              },
+              {
+                "duration_ms": 401.984,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 660.239
+              },
+              {
+                "duration_ms": 410.065,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1100.781
+              },
+              {
+                "duration_ms": 472.684,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1070.897
+              },
+              {
+                "duration_ms": 11.919,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1543.697
+              },
+              {
+                "duration_ms": 0.437,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1555.84
+              },
+              {
+                "duration_ms": 0.26,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1556.3
+              },
+              {
+                "duration_ms": 0.217,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1556.58
+              }
+            ],
+            "ok": true,
+            "total_ms": 1625.219,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 416.794,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 11.989
+              },
+              {
+                "duration_ms": 425.961,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.039
+              },
+              {
+                "duration_ms": 409.098,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 460.737
+              },
+              {
+                "duration_ms": 440.586,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 430.03
+              },
+              {
+                "duration_ms": 0.322,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 870.636
+              },
+              {
+                "duration_ms": 384.736,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1080.622
+              },
+              {
+                "duration_ms": 388.881,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1509.811
+              },
+              {
+                "duration_ms": 447.381,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1476.572
+              },
+              {
+                "duration_ms": 8.618,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1924.037
+              },
+              {
+                "duration_ms": 0.155,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1932.803
+              },
+              {
+                "duration_ms": 0.124,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1932.971
+              },
+              {
+                "duration_ms": 0.11,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1933.106
+              }
+            ],
+            "ok": true,
+            "total_ms": 2005.576,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          3705.579,
+          5064.387,
+          6196.576
+        ],
+        "name": "NB-PERF-L10000-ko-KR-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 295000
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 10000,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-L10000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+          "utf8_bytes": 5434278
+        },
+        "saved_slot_load_ms": [
+          1510.234
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.317,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 7.353
+              },
+              {
+                "duration_ms": 0.269,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 7.691
+              },
+              {
+                "duration_ms": 0.223,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 7.974
+              },
+              {
+                "duration_ms": 1351.927,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 659.341
+              },
+              {
+                "duration_ms": 1393.777,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 2099.303
+              },
+              {
+                "duration_ms": 1527.393,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2045.524
+              },
+              {
+                "duration_ms": 6.293,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 3573.037
+              },
+              {
+                "duration_ms": 0.309,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 3579.564
+              },
+              {
+                "duration_ms": 0.221,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 3579.895
+              },
+              {
+                "duration_ms": 0.179,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 3580.135
+              }
+            ],
+            "ok": true,
+            "total_ms": 3705.537,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 1368.451,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 24.249
+              },
+              {
+                "duration_ms": 1390.514,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.312
+              },
+              {
+                "duration_ms": 0.26,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1394.862
+              },
+              {
+                "duration_ms": 0.131,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1395.134
+              },
+              {
+                "duration_ms": 1265.856,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 2013.353
+              },
+              {
+                "duration_ms": 1385.503,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 3357.907
+              },
+              {
+                "duration_ms": 1513.429,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 3309.803
+              },
+              {
+                "duration_ms": 11.422,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 4823.313
+              },
+              {
+                "duration_ms": 0.154,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 4834.895
+              },
+              {
+                "duration_ms": 0.099,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 4835.061
+              },
+              {
+                "duration_ms": 0.083,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 4835.168
+              }
+            ],
+            "ok": true,
+            "total_ms": 5064.332,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 1315.565,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 22.4
+              },
+              {
+                "duration_ms": 1336.603,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.591
+              },
+              {
+                "duration_ms": 1123.836,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1376.982
+              },
+              {
+                "duration_ms": 1162.864,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1340.214
+              },
+              {
+                "duration_ms": 0.262,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2503.1
+              },
+              {
+                "duration_ms": 1337.192,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 3018.129
+              },
+              {
+                "duration_ms": 1339.393,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 4451.63
+              },
+              {
+                "duration_ms": 1489.261,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 4389.954
+              },
+              {
+                "duration_ms": 16.364,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 5879.292
+              },
+              {
+                "duration_ms": 0.135,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 5895.798
+              },
+              {
+                "duration_ms": 0.115,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 5895.944
+              },
+              {
+                "duration_ms": 0.105,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 5896.069
+              }
+            ],
+            "ok": true,
+            "total_ms": 6196.499,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          3777.796,
+          5041.336,
+          6881.664
+        ],
+        "name": "NB-PERF-L10000-en-US-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 295000
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 10000,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-L10000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+          "utf8_bytes": 5434278
+        },
+        "saved_slot_load_ms": [
+          1462.725
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.201,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.181
+              },
+              {
+                "duration_ms": 0.148,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.397
+              },
+              {
+                "duration_ms": 0.137,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.553
+              },
+              {
+                "duration_ms": 1361.972,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 765.49
+              },
+              {
+                "duration_ms": 1346.57,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 2205.127
+              },
+              {
+                "duration_ms": 1476.178,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2155.094
+              },
+              {
+                "duration_ms": 13.883,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 3631.366
+              },
+              {
+                "duration_ms": 0.095,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 3645.363
+              },
+              {
+                "duration_ms": 0.057,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 3645.465
+              },
+              {
+                "duration_ms": 0.053,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 3645.527
+              }
+            ],
+            "ok": true,
+            "total_ms": 3777.742,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 1409.69,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 29.277
+              },
+              {
+                "duration_ms": 1436.429,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.365
+              },
+              {
+                "duration_ms": 0.345,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1441.836
+              },
+              {
+                "duration_ms": 0.172,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1442.196
+              },
+              {
+                "duration_ms": 1329.388,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 2090.222
+              },
+              {
+                "duration_ms": 1263.286,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 3494.298
+              },
+              {
+                "duration_ms": 1391.412,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 3444.918
+              },
+              {
+                "duration_ms": 15.21,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 4836.416
+              },
+              {
+                "duration_ms": 0.154,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 4851.778
+              },
+              {
+                "duration_ms": 0.134,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 4851.945
+              },
+              {
+                "duration_ms": 0.362,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 4852.089
+              }
+            ],
+            "ok": true,
+            "total_ms": 5041.279,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 1435.583,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 36.714
+              },
+              {
+                "duration_ms": 1469.98,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.539
+              },
+              {
+                "duration_ms": 1411.158,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1524.062
+              },
+              {
+                "duration_ms": 1463.787,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1475.553
+              },
+              {
+                "duration_ms": 0.253,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2939.365
+              },
+              {
+                "duration_ms": 1320.282,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 3655.011
+              },
+              {
+                "duration_ms": 1376.278,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 5052.104
+              },
+              {
+                "duration_ms": 1526.957,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 5006.202
+              },
+              {
+                "duration_ms": 29.179,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 6533.279
+              },
+              {
+                "duration_ms": 0.235,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 6562.687
+              },
+              {
+                "duration_ms": 0.181,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 6562.94
+              },
+              {
+                "duration_ms": 0.164,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 6563.137
+              }
+            ],
+            "ok": true,
+            "total_ms": 6881.595,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          2499.662,
+          3343.823,
+          4151.985
+        ],
+        "name": "NB-PERF-P2001-ko-KR-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 237456,
+            "ko-KR": 261020,
+            "legacy": 0
+          },
+          "bookmarks": 50,
+          "comparison": 12,
+          "counts": {
+            "legacy": 0,
+            "normal": 2001,
+            "protected": 2001
+          },
+          "fixture_id": "NB-PERF-P2001",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "f9c81734eb11029e6b101e41a6d65405d3a04f0f685bec23a138b214e79259bc",
+          "utf8_bytes": 3692933
+        },
+        "saved_slot_load_ms": [
+          980.479
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.623,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 8.256
+              },
+              {
+                "duration_ms": 0.396,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 8.903
+              },
+              {
+                "duration_ms": 0.292,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 9.316
+              },
+              {
+                "duration_ms": 873.831,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 428.08
+              },
+              {
+                "duration_ms": 971.187,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1362.986
+              },
+              {
+                "duration_ms": 1092.478,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1321.224
+              },
+              {
+                "duration_ms": 3.134,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2413.812
+              },
+              {
+                "duration_ms": 0.421,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2417.155
+              },
+              {
+                "duration_ms": 0.327,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2417.601
+              },
+              {
+                "duration_ms": 0.302,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2417.958
+              }
+            ],
+            "ok": true,
+            "total_ms": 2499.61,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 927.075,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 24.33
+              },
+              {
+                "duration_ms": 946.453,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.36
+              },
+              {
+                "duration_ms": 0.286,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 952.849
+              },
+              {
+                "duration_ms": 0.163,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 953.147
+              },
+              {
+                "duration_ms": 859.669,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1290.521
+              },
+              {
+                "duration_ms": 903.58,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 2205.362
+              },
+              {
+                "duration_ms": 1021.195,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2166.197
+              },
+              {
+                "duration_ms": 27.777,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 3187.471
+              },
+              {
+                "duration_ms": 0.327,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 3215.533
+              },
+              {
+                "duration_ms": 0.28,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 3215.894
+              },
+              {
+                "duration_ms": 0.261,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 3216.195
+              }
+            ],
+            "ok": true,
+            "total_ms": 3343.773,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 724.787,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 18.317
+              },
+              {
+                "duration_ms": 741.19,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.393
+              },
+              {
+                "duration_ms": 854.145,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 774.401
+              },
+              {
+                "duration_ms": 886.142,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 744.602
+              },
+              {
+                "duration_ms": 0.456,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1630.782
+              },
+              {
+                "duration_ms": 870.274,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 2044.354
+              },
+              {
+                "duration_ms": 907.399,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 2977.64
+              },
+              {
+                "duration_ms": 1015.971,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2930.744
+              },
+              {
+                "duration_ms": 19.405,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 3946.821
+              },
+              {
+                "duration_ms": 0.28,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 3966.677
+              },
+              {
+                "duration_ms": 0.193,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 3966.977
+              },
+              {
+                "duration_ms": 0.492,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 3967.187
+              }
+            ],
+            "ok": true,
+            "total_ms": 4151.934,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          2370.403,
+          3400.854,
+          4446.063
+        ],
+        "name": "NB-PERF-P2001-en-US-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 237456,
+            "ko-KR": 261020,
+            "legacy": 0
+          },
+          "bookmarks": 50,
+          "comparison": 12,
+          "counts": {
+            "legacy": 0,
+            "normal": 2001,
+            "protected": 2001
+          },
+          "fixture_id": "NB-PERF-P2001",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "f9c81734eb11029e6b101e41a6d65405d3a04f0f685bec23a138b214e79259bc",
+          "utf8_bytes": 3692933
+        },
+        "saved_slot_load_ms": [
+          938.825
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.217,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.288
+              },
+              {
+                "duration_ms": 0.138,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.517
+              },
+              {
+                "duration_ms": 0.133,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.662
+              },
+              {
+                "duration_ms": 924.412,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 354.56
+              },
+              {
+                "duration_ms": 884.526,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1342.416
+              },
+              {
+                "duration_ms": 985.556,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1308.262
+              },
+              {
+                "duration_ms": 2.086,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2293.894
+              },
+              {
+                "duration_ms": 0.163,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2296.103
+              },
+              {
+                "duration_ms": 0.123,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2296.28
+              },
+              {
+                "duration_ms": 0.106,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2296.415
+              }
+            ],
+            "ok": true,
+            "total_ms": 2370.354,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 878.662,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 18.016
+              },
+              {
+                "duration_ms": 894.617,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.971
+              },
+              {
+                "duration_ms": 0.362,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 898.626
+              },
+              {
+                "duration_ms": 0.252,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 899.01
+              },
+              {
+                "duration_ms": 964.696,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1276.423
+              },
+              {
+                "duration_ms": 863.341,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 2304.211
+              },
+              {
+                "duration_ms": 971.864,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2266.949
+              },
+              {
+                "duration_ms": 17.351,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 3238.928
+              },
+              {
+                "duration_ms": 0.328,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 3256.509
+              },
+              {
+                "duration_ms": 0.199,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 3256.861
+              },
+              {
+                "duration_ms": 0.174,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 3257.078
+              }
+            ],
+            "ok": true,
+            "total_ms": 3400.799,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 910.418,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 28.18
+              },
+              {
+                "duration_ms": 933.406,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.682
+              },
+              {
+                "duration_ms": 946.77,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 976.864
+              },
+              {
+                "duration_ms": 985.666,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 940.109
+              },
+              {
+                "duration_ms": 0.37,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1925.804
+              },
+              {
+                "duration_ms": 890.912,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 2292.849
+              },
+              {
+                "duration_ms": 924.826,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 3245.994
+              },
+              {
+                "duration_ms": 1036.072,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 3207.176
+              },
+              {
+                "duration_ms": 14.288,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 4243.334
+              },
+              {
+                "duration_ms": 0.149,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 4257.776
+              },
+              {
+                "duration_ms": 0.116,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 4257.937
+              },
+              {
+                "duration_ms": 0.107,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 4258.063
+              }
+            ],
+            "ok": true,
+            "total_ms": 4445.984,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          1171.694,
+          1602.721,
+          2211.981
+        ],
+        "name": "NB-PERF-LONG-ko-KR-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 444794,
+            "ko-KR": 458038,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 1980,
+            "protected": 26
+          },
+          "fixture_id": "NB-PERF-LONG",
+          "long_document_utf8_bytes": 32768,
+          "long_documents": 20,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "baf4573daa580deb030810e47865583c84a6833cfacbbf46a7bd5e0d61972207",
+          "utf8_bytes": 2472815
+        },
+        "saved_slot_load_ms": [
+          527.871
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.235,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.695
+              },
+              {
+                "duration_ms": 0.162,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.944
+              },
+              {
+                "duration_ms": 0.136,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.115
+              },
+              {
+                "duration_ms": 419.154,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 162.012
+              },
+              {
+                "duration_ms": 441.878,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 633.175
+              },
+              {
+                "duration_ms": 540.413,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 591.503
+              },
+              {
+                "duration_ms": 3.243,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1132.045
+              },
+              {
+                "duration_ms": 0.259,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1135.483
+              },
+              {
+                "duration_ms": 0.187,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1135.761
+              },
+              {
+                "duration_ms": 0.173,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1135.966
+              }
+            ],
+            "ok": true,
+            "total_ms": 1171.65,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 425.625,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 18.45
+              },
+              {
+                "duration_ms": 438.846,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.018
+              },
+              {
+                "duration_ms": 0.278,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 444.898
+              },
+              {
+                "duration_ms": 0.111,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 445.186
+              },
+              {
+                "duration_ms": 403.734,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 625.188
+              },
+              {
+                "duration_ms": 415.64,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1068.248
+              },
+              {
+                "duration_ms": 485.273,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1038.637
+              },
+              {
+                "duration_ms": 22.502,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1524.015
+              },
+              {
+                "duration_ms": 0.189,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1546.686
+              },
+              {
+                "duration_ms": 0.157,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1546.888
+              },
+              {
+                "duration_ms": 0.127,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1547.056
+              }
+            ],
+            "ok": true,
+            "total_ms": 1602.657,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 443.957,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 15.314
+              },
+              {
+                "duration_ms": 456.139,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.481
+              },
+              {
+                "duration_ms": 477.477,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 491.336
+              },
+              {
+                "duration_ms": 509.474,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 460.645
+              },
+              {
+                "duration_ms": 0.362,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 970.145
+              },
+              {
+                "duration_ms": 372.646,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1189.129
+              },
+              {
+                "duration_ms": 445.663,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1604.038
+              },
+              {
+                "duration_ms": 523.727,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1573.737
+              },
+              {
+                "duration_ms": 16.022,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2097.579
+              },
+              {
+                "duration_ms": 0.222,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2113.807
+              },
+              {
+                "duration_ms": 0.177,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2114.047
+              },
+              {
+                "duration_ms": 0.162,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2114.238
+              }
+            ],
+            "ok": true,
+            "total_ms": 2211.928,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          1638.033,
+          1669.137,
+          2267.817
+        ],
+        "name": "NB-PERF-LONG-en-US-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 444794,
+            "ko-KR": 458038,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 1980,
+            "protected": 26
+          },
+          "fixture_id": "NB-PERF-LONG",
+          "long_document_utf8_bytes": 32768,
+          "long_documents": 20,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "baf4573daa580deb030810e47865583c84a6833cfacbbf46a7bd5e0d61972207",
+          "utf8_bytes": 2472815
+        },
+        "saved_slot_load_ms": [
+          563.317
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.304,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.99
+              },
+              {
+                "duration_ms": 0.149,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.31
+              },
+              {
+                "duration_ms": 0.114,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.466
+              },
+              {
+                "duration_ms": 653.7,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 244.14
+              },
+              {
+                "duration_ms": 567.84,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 942.476
+              },
+              {
+                "duration_ms": 660.455,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 910.82
+              },
+              {
+                "duration_ms": 2.446,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1571.358
+              },
+              {
+                "duration_ms": 0.211,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1573.999
+              },
+              {
+                "duration_ms": 0.177,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1574.224
+              },
+              {
+                "duration_ms": 0.213,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1574.415
+              }
+            ],
+            "ok": true,
+            "total_ms": 1637.986,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 435.647,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 12.949
+              },
+              {
+                "duration_ms": 446.003,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.037
+              },
+              {
+                "duration_ms": 0.328,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 450.081
+              },
+              {
+                "duration_ms": 0.199,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 450.427
+              },
+              {
+                "duration_ms": 422.069,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 589.837
+              },
+              {
+                "duration_ms": 492.412,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1060.358
+              },
+              {
+                "duration_ms": 576.708,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1022.6
+              },
+              {
+                "duration_ms": 12.616,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1599.457
+              },
+              {
+                "duration_ms": 0.175,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1612.237
+              },
+              {
+                "duration_ms": 0.143,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1612.426
+              },
+              {
+                "duration_ms": 0.126,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1612.58
+              }
+            ],
+            "ok": true,
+            "total_ms": 1669.084,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 398.933,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 15.504
+              },
+              {
+                "duration_ms": 410.718,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.472
+              },
+              {
+                "duration_ms": 513.706,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 445.027
+              },
+              {
+                "duration_ms": 544.831,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 415.205
+              },
+              {
+                "duration_ms": 0.37,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 960.063
+              },
+              {
+                "duration_ms": 452.353,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1179.59
+              },
+              {
+                "duration_ms": 445.533,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1683.124
+              },
+              {
+                "duration_ms": 521.657,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1646.964
+              },
+              {
+                "duration_ms": 9.493,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2168.703
+              },
+              {
+                "duration_ms": 0.119,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2178.317
+              },
+              {
+                "duration_ms": 0.102,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2178.445
+              },
+              {
+                "duration_ms": 0.086,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2178.555
+              }
+            ],
+            "ok": true,
+            "total_ms": 2267.758,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      }
+    ],
+    "sampling_complete": false,
+    "source_summary": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-save-header-before-measure-20261006\\summary.json",
+    "engine_sha256": "12310C74BDDA7DCD43F28E971F33047DCECADD436B68169D61CE41009006DF38"
+  },
+  "after": {
+    "pack_sha256": "41A21B399BCED3C9C4E7FA5CAE04DD6DCC8EAE0F1A4A5BB6771A67FED10B5ADB",
+    "runs": [
+      {
+        "durable_save_ms": [
+          1097.2,
+          1551.93,
+          1855.122
+        ],
+        "name": "NB-PERF-N2000-ko-KR-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-N2000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "36c759a9acefd01de48d56323353afb7a1b139a2a6cf31b42328257282e57e64",
+          "utf8_bytes": 1815265
+        },
+        "saved_slot_load_ms": [
+          480.767
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.436,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.08
+              },
+              {
+                "duration_ms": 0.356,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.54
+              },
+              {
+                "duration_ms": 0.315,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.918
+              },
+              {
+                "duration_ms": 306.913,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 231.156
+              },
+              {
+                "duration_ms": 434.568,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 593.084
+              },
+              {
+                "duration_ms": 508.408,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 549.827
+              },
+              {
+                "duration_ms": 3.171,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1058.346
+              },
+              {
+                "duration_ms": 0.202,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1061.668
+              },
+              {
+                "duration_ms": 0.156,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1061.886
+              },
+              {
+                "duration_ms": 0.141,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1062.056
+              }
+            ],
+            "ok": true,
+            "total_ms": 1097.145,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 442.202,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 11.62
+              },
+              {
+                "duration_ms": 450.713,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.779
+              },
+              {
+                "duration_ms": 0.273,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 454.531
+              },
+              {
+                "duration_ms": 0.119,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 454.813
+              },
+              {
+                "duration_ms": 306.104,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 613.637
+              },
+              {
+                "duration_ms": 462.323,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 974.817
+              },
+              {
+                "duration_ms": 522.387,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 942.262
+              },
+              {
+                "duration_ms": 14.916,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1464.726
+              },
+              {
+                "duration_ms": 0.23,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1479.875
+              },
+              {
+                "duration_ms": 0.165,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1480.123
+              },
+              {
+                "duration_ms": 0.146,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1480.301
+              }
+            ],
+            "ok": true,
+            "total_ms": 1551.877,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 396.797,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 16.2
+              },
+              {
+                "duration_ms": 408.664,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.333
+              },
+              {
+                "duration_ms": 424.793,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 443.335
+              },
+              {
+                "duration_ms": 455.221,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 414.018
+              },
+              {
+                "duration_ms": 0.363,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 869.266
+              },
+              {
+                "duration_ms": 316.265,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1059.948
+              },
+              {
+                "duration_ms": 344.748,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1404.775
+              },
+              {
+                "duration_ms": 391.564,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1383.833
+              },
+              {
+                "duration_ms": 8.737,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1775.481
+              },
+              {
+                "duration_ms": 0.28,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1784.652
+              },
+              {
+                "duration_ms": 0.188,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1784.95
+              },
+              {
+                "duration_ms": 0.184,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1785.153
+              }
+            ],
+            "ok": true,
+            "total_ms": 1855.066,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          937.672,
+          1526.225,
+          1929.911
+        ],
+        "name": "NB-PERF-N2000-en-US-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-N2000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "36c759a9acefd01de48d56323353afb7a1b139a2a6cf31b42328257282e57e64",
+          "utf8_bytes": 1815265
+        },
+        "saved_slot_load_ms": [
+          473.406
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.395,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.849
+              },
+              {
+                "duration_ms": 0.272,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.268
+              },
+              {
+                "duration_ms": 0.231,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.557
+              },
+              {
+                "duration_ms": 241.097,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 180.306
+              },
+              {
+                "duration_ms": 407.051,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 459.882
+              },
+              {
+                "duration_ms": 469.492,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 429.525
+              },
+              {
+                "duration_ms": 2.103,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 899.101
+              },
+              {
+                "duration_ms": 0.174,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 901.536
+              },
+              {
+                "duration_ms": 0.117,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 901.723
+              },
+              {
+                "duration_ms": 0.135,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 901.851
+              }
+            ],
+            "ok": true,
+            "total_ms": 937.628,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 388.206,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 11.592
+              },
+              {
+                "duration_ms": 396.781,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.511
+              },
+              {
+                "duration_ms": 0.349,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 401.344
+              },
+              {
+                "duration_ms": 0.128,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 401.706
+              },
+              {
+                "duration_ms": 335.851,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 573.942
+              },
+              {
+                "duration_ms": 441.557,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 951.705
+              },
+              {
+                "duration_ms": 512.881,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 921.93
+              },
+              {
+                "duration_ms": 14.846,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1434.931
+              },
+              {
+                "duration_ms": 0.282,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1450.147
+              },
+              {
+                "duration_ms": 0.192,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1450.452
+              },
+              {
+                "duration_ms": 0.17,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1450.66
+              }
+            ],
+            "ok": true,
+            "total_ms": 1526.17,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 369.636,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 11.546
+              },
+              {
+                "duration_ms": 377.69,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.532
+              },
+              {
+                "duration_ms": 473.702,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 412.426
+              },
+              {
+                "duration_ms": 504.958,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 382.248
+              },
+              {
+                "duration_ms": 0.39,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 887.233
+              },
+              {
+                "duration_ms": 311.273,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1090.803
+              },
+              {
+                "duration_ms": 382.971,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1442.399
+              },
+              {
+                "duration_ms": 439.815,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1411.405
+              },
+              {
+                "duration_ms": 9.103,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1851.293
+              },
+              {
+                "duration_ms": 0.15,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1860.567
+              },
+              {
+                "duration_ms": 0.123,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1860.73
+              },
+              {
+                "duration_ms": 0.115,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1860.864
+              }
+            ],
+            "ok": true,
+            "total_ms": 1929.868,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          3140.916,
+          4945.62,
+          6061.316
+        ],
+        "name": "NB-PERF-L10000-ko-KR-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 295000
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 10000,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-L10000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+          "utf8_bytes": 5434278
+        },
+        "saved_slot_load_ms": [
+          1580.239
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.287,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 7.212
+              },
+              {
+                "duration_ms": 0.226,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 7.521
+              },
+              {
+                "duration_ms": 0.52,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 7.76
+              },
+              {
+                "duration_ms": 859.15,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 628.469
+              },
+              {
+                "duration_ms": 1302.672,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1568.047
+              },
+              {
+                "duration_ms": 1450.052,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1522.882
+              },
+              {
+                "duration_ms": 3.177,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2973.037
+              },
+              {
+                "duration_ms": 0.269,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2976.374
+              },
+              {
+                "duration_ms": 0.214,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2976.66
+              },
+              {
+                "duration_ms": 0.154,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2976.891
+              }
+            ],
+            "ok": true,
+            "total_ms": 3140.839,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 1352.963,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 31.901
+              },
+              {
+                "duration_ms": 1383.781,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.347
+              },
+              {
+                "duration_ms": 0.388,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1388.179
+              },
+              {
+                "duration_ms": 0.218,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1388.583
+              },
+              {
+                "duration_ms": 1023.853,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 2119.893
+              },
+              {
+                "duration_ms": 1370.88,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 3231.389
+              },
+              {
+                "duration_ms": 1508.052,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 3179.1
+              },
+              {
+                "duration_ms": 32.575,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 4687.261
+              },
+              {
+                "duration_ms": 0.339,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 4720.094
+              },
+              {
+                "duration_ms": 0.274,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 4720.459
+              },
+              {
+                "duration_ms": 0.372,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 4720.753
+              }
+            ],
+            "ok": true,
+            "total_ms": 4945.54,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 1401.443,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 23.764
+              },
+              {
+                "duration_ms": 1424.64,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.713
+              },
+              {
+                "duration_ms": 1403.206,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1481.703
+              },
+              {
+                "duration_ms": 1460.504,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1428.383
+              },
+              {
+                "duration_ms": 0.242,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2888.928
+              },
+              {
+                "duration_ms": 963.384,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 3519.536
+              },
+              {
+                "duration_ms": 1133.117,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 4553.985
+              },
+              {
+                "duration_ms": 1272.311,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 4504.06
+              },
+              {
+                "duration_ms": 15.492,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 5776.452
+              },
+              {
+                "duration_ms": 0.15,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 5792.125
+              },
+              {
+                "duration_ms": 0.133,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 5792.288
+              },
+              {
+                "duration_ms": 0.12,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 5792.432
+              }
+            ],
+            "ok": true,
+            "total_ms": 6061.26,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          3430.139,
+          4775.047,
+          5698.796
+        ],
+        "name": "NB-PERF-L10000-en-US-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 295000
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 10000,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-L10000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+          "utf8_bytes": 5434278
+        },
+        "saved_slot_load_ms": [
+          1436.942
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.574,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 5.948
+              },
+              {
+                "duration_ms": 0.268,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.542
+              },
+              {
+                "duration_ms": 0.231,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.823
+              },
+              {
+                "duration_ms": 997.083,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 658.302
+              },
+              {
+                "duration_ms": 1427.891,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1737.317
+              },
+              {
+                "duration_ms": 1563.398,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1697.301
+              },
+              {
+                "duration_ms": 3.732,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 3260.814
+              },
+              {
+                "duration_ms": 0.275,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 3264.739
+              },
+              {
+                "duration_ms": 0.227,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 3265.033
+              },
+              {
+                "duration_ms": 0.192,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 3265.278
+              }
+            ],
+            "ok": true,
+            "total_ms": 3430.09,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 1322.654,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 29.38
+              },
+              {
+                "duration_ms": 1349.998,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.994
+              },
+              {
+                "duration_ms": 0.286,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1354.029
+              },
+              {
+                "duration_ms": 0.173,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1354.329
+              },
+              {
+                "duration_ms": 1053.566,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1967.147
+              },
+              {
+                "duration_ms": 1338.323,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 3096.41
+              },
+              {
+                "duration_ms": 1491.947,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 3046.912
+              },
+              {
+                "duration_ms": 21.962,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 4538.958
+              },
+              {
+                "duration_ms": 0.136,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 4561.059
+              },
+              {
+                "duration_ms": 0.112,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 4561.206
+              },
+              {
+                "duration_ms": 0.119,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 4561.327
+              }
+            ],
+            "ok": true,
+            "total_ms": 4774.975,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 1225.415,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 30.296
+              },
+              {
+                "duration_ms": 1253.48,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.235
+              },
+              {
+                "duration_ms": 1119.578,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1307.036
+              },
+              {
+                "duration_ms": 1170.567,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 1257.734
+              },
+              {
+                "duration_ms": 0.24,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2428.319
+              },
+              {
+                "duration_ms": 962.787,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 3038.326
+              },
+              {
+                "duration_ms": 1233.762,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 4069.58
+              },
+              {
+                "duration_ms": 1360.668,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 4027.5
+              },
+              {
+                "duration_ms": 23.116,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 5388.268
+              },
+              {
+                "duration_ms": 0.166,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 5411.543
+              },
+              {
+                "duration_ms": 0.136,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 5411.722
+              },
+              {
+                "duration_ms": 0.118,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 5411.869
+              }
+            ],
+            "ok": true,
+            "total_ms": 5698.732,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          2073.353,
+          3016.323,
+          4035.255
+        ],
+        "name": "NB-PERF-P2001-ko-KR-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 237456,
+            "ko-KR": 261020,
+            "legacy": 0
+          },
+          "bookmarks": 50,
+          "comparison": 12,
+          "counts": {
+            "legacy": 0,
+            "normal": 2001,
+            "protected": 2001
+          },
+          "fixture_id": "NB-PERF-P2001",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "f9c81734eb11029e6b101e41a6d65405d3a04f0f685bec23a138b214e79259bc",
+          "utf8_bytes": 3692933
+        },
+        "saved_slot_load_ms": [
+          912.712
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.536,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 7.372
+              },
+              {
+                "duration_ms": 0.317,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 7.937
+              },
+              {
+                "duration_ms": 0.27,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 8.269
+              },
+              {
+                "duration_ms": 581.859,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 396.639
+              },
+              {
+                "duration_ms": 880.093,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1049.718
+              },
+              {
+                "duration_ms": 975.868,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1007.256
+              },
+              {
+                "duration_ms": 2.1,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1983.214
+              },
+              {
+                "duration_ms": 0.159,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1985.44
+              },
+              {
+                "duration_ms": 0.124,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1985.612
+              },
+              {
+                "duration_ms": 0.124,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1985.747
+              }
+            ],
+            "ok": true,
+            "total_ms": 2073.31,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 874.145,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 17.408
+              },
+              {
+                "duration_ms": 889.787,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.866
+              },
+              {
+                "duration_ms": 0.371,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 893.698
+              },
+              {
+                "duration_ms": 0.229,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 894.085
+              },
+              {
+                "duration_ms": 588.592,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1269.852
+              },
+              {
+                "duration_ms": 883.109,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1928.726
+              },
+              {
+                "duration_ms": 953.372,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1888.449
+              },
+              {
+                "duration_ms": 27.352,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2841.881
+              },
+              {
+                "duration_ms": 0.207,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2869.425
+              },
+              {
+                "duration_ms": 0.174,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2869.649
+              },
+              {
+                "duration_ms": 0.17,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2869.839
+              }
+            ],
+            "ok": true,
+            "total_ms": 3016.263,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 860.992,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 16.98
+              },
+              {
+                "duration_ms": 876.096,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.956
+              },
+              {
+                "duration_ms": 876.512,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 914.307
+              },
+              {
+                "duration_ms": 912.993,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 880.079
+              },
+              {
+                "duration_ms": 0.396,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1793.101
+              },
+              {
+                "duration_ms": 669.552,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 2149.649
+              },
+              {
+                "duration_ms": 926.482,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 2884.892
+              },
+              {
+                "duration_ms": 1020.413,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2843.152
+              },
+              {
+                "duration_ms": 14.37,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 3863.649
+              },
+              {
+                "duration_ms": 0.233,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 3878.197
+              },
+              {
+                "duration_ms": 0.177,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 3878.451
+              },
+              {
+                "duration_ms": 0.168,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 3878.643
+              }
+            ],
+            "ok": true,
+            "total_ms": 4035.186,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          1992.302,
+          2801.006,
+          4050.255
+        ],
+        "name": "NB-PERF-P2001-en-US-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 237456,
+            "ko-KR": 261020,
+            "legacy": 0
+          },
+          "bookmarks": 50,
+          "comparison": 12,
+          "counts": {
+            "legacy": 0,
+            "normal": 2001,
+            "protected": 2001
+          },
+          "fixture_id": "NB-PERF-P2001",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "f9c81734eb11029e6b101e41a6d65405d3a04f0f685bec23a138b214e79259bc",
+          "utf8_bytes": 3692933
+        },
+        "saved_slot_load_ms": [
+          942.042
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.276,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 8.049
+              },
+              {
+                "duration_ms": 0.253,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 8.341
+              },
+              {
+                "duration_ms": 0.209,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 8.606
+              },
+              {
+                "duration_ms": 558.695,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 396.378
+              },
+              {
+                "duration_ms": 826.453,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1008.233
+              },
+              {
+                "duration_ms": 935.122,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 974.234
+              },
+              {
+                "duration_ms": 2.429,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1909.435
+              },
+              {
+                "duration_ms": 0.162,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1911.982
+              },
+              {
+                "duration_ms": 0.114,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1912.156
+              },
+              {
+                "duration_ms": 0.102,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1912.28
+              }
+            ],
+            "ok": true,
+            "total_ms": 1992.245,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 770.028,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 21.591
+              },
+              {
+                "duration_ms": 789.442,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.943
+              },
+              {
+                "duration_ms": 0.256,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 793.413
+              },
+              {
+                "duration_ms": 0.113,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 793.679
+              },
+              {
+                "duration_ms": 516.714,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1122.068
+              },
+              {
+                "duration_ms": 896.411,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1681.779
+              },
+              {
+                "duration_ms": 1012.884,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1649.256
+              },
+              {
+                "duration_ms": 32.599,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2662.28
+              },
+              {
+                "duration_ms": 0.269,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2695.133
+              },
+              {
+                "duration_ms": 0.203,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2695.424
+              },
+              {
+                "duration_ms": 0.183,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2695.645
+              }
+            ],
+            "ok": true,
+            "total_ms": 2800.939,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 904.175,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 22.742
+              },
+              {
+                "duration_ms": 924.122,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.901
+              },
+              {
+                "duration_ms": 826.806,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 981.981
+              },
+              {
+                "duration_ms": 881.812,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 929.05
+              },
+              {
+                "duration_ms": 0.353,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1810.887
+              },
+              {
+                "duration_ms": 575,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 2247.46
+              },
+              {
+                "duration_ms": 899.164,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 2886.833
+              },
+              {
+                "duration_ms": 1015.954,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 2846.248
+              },
+              {
+                "duration_ms": 12.881,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 3862.282
+              },
+              {
+                "duration_ms": 0.146,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 3875.317
+              },
+              {
+                "duration_ms": 0.119,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 3875.475
+              },
+              {
+                "duration_ms": 0.111,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 3875.603
+              }
+            ],
+            "ok": true,
+            "total_ms": 4050.187,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          1209.289,
+          1806.548,
+          2293.089
+        ],
+        "name": "NB-PERF-LONG-ko-KR-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 444794,
+            "ko-KR": 458038,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 1980,
+            "protected": 26
+          },
+          "fixture_id": "NB-PERF-LONG",
+          "long_document_utf8_bytes": 32768,
+          "long_documents": 20,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "baf4573daa580deb030810e47865583c84a6833cfacbbf46a7bd5e0d61972207",
+          "utf8_bytes": 2472815
+        },
+        "saved_slot_load_ms": [
+          555.067
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.304,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 14.701
+              },
+              {
+                "duration_ms": 0.21,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 15.022
+              },
+              {
+                "duration_ms": 0.166,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 15.242
+              },
+              {
+                "duration_ms": 371.846,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 212.43
+              },
+              {
+                "duration_ms": 497.271,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 633.33
+              },
+              {
+                "duration_ms": 571.477,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 598.577
+              },
+              {
+                "duration_ms": 2.474,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1170.136
+              },
+              {
+                "duration_ms": 0.14,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1172.72
+              },
+              {
+                "duration_ms": 0.107,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1172.872
+              },
+              {
+                "duration_ms": 0.09,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1172.99
+              }
+            ],
+            "ok": true,
+            "total_ms": 1209.246,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 491.326,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 12.857
+              },
+              {
+                "duration_ms": 501.447,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 4.094
+              },
+              {
+                "duration_ms": 0.505,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 505.585
+              },
+              {
+                "duration_ms": 0.19,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 506.107
+              },
+              {
+                "duration_ms": 365.951,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 717.328
+              },
+              {
+                "duration_ms": 537.151,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1133.241
+              },
+              {
+                "duration_ms": 615.664,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1099.367
+              },
+              {
+                "duration_ms": 19.294,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1715.116
+              },
+              {
+                "duration_ms": 0.167,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1734.579
+              },
+              {
+                "duration_ms": 0.104,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1734.76
+              },
+              {
+                "duration_ms": 0.085,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1734.872
+              }
+            ],
+            "ok": true,
+            "total_ms": 1806.486,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 504.949,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 12.159
+              },
+              {
+                "duration_ms": 514.165,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.825
+              },
+              {
+                "duration_ms": 505.261,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 551.771
+              },
+              {
+                "duration_ms": 540.657,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 518.006
+              },
+              {
+                "duration_ms": 0.432,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1058.695
+              },
+              {
+                "duration_ms": 312.757,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1288.567
+              },
+              {
+                "duration_ms": 465.045,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1665.085
+              },
+              {
+                "duration_ms": 563.149,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1617.691
+              },
+              {
+                "duration_ms": 14.591,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2180.955
+              },
+              {
+                "duration_ms": 0.215,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2195.737
+              },
+              {
+                "duration_ms": 0.169,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2195.968
+              },
+              {
+                "duration_ms": 0.151,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2196.15
+              }
+            ],
+            "ok": true,
+            "total_ms": 2293.034,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      },
+      {
+        "durable_save_ms": [
+          1119.857,
+          1658.068,
+          2139.857
+        ],
+        "name": "NB-PERF-LONG-en-US-0",
+        "errors": [],
+        "os": "10.0.26200",
+        "functional_pass": true,
+        "exit_code": 0,
+        "manifest": {
+          "body_bytes": {
+            "en-US": 444794,
+            "ko-KR": 458038,
+            "legacy": 0
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 0,
+            "normal": 1980,
+            "protected": 26
+          },
+          "fixture_id": "NB-PERF-LONG",
+          "long_document_utf8_bytes": 32768,
+          "long_documents": 20,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "baf4573daa580deb030810e47865583c84a6833cfacbbf46a7bd5e0d61972207",
+          "utf8_bytes": 2472815
+        },
+        "saved_slot_load_ms": [
+          470.779
+        ],
+        "engine": "4.7.2-stable (steam)",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "save_stage_profile": [
+          {
+            "calls": [
+              {
+                "duration_ms": 0.363,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 18.241
+              },
+              {
+                "duration_ms": 0.24,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 18.628
+              },
+              {
+                "duration_ms": 0.206,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 18.882
+              },
+              {
+                "duration_ms": 281.092,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 217.731
+              },
+              {
+                "duration_ms": 484.462,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 539.805
+              },
+              {
+                "duration_ms": 550.992,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 510.114
+              },
+              {
+                "duration_ms": 12.701,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1061.203
+              },
+              {
+                "duration_ms": 0.186,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1074.058
+              },
+              {
+                "duration_ms": 0.108,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1074.256
+              },
+              {
+                "duration_ms": 0.084,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1074.373
+              }
+            ],
+            "ok": true,
+            "total_ms": 1119.799,
+            "transaction": "NB_PERF_0"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 385.887,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 20.292
+              },
+              {
+                "duration_ms": 401.755,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 6.059
+              },
+              {
+                "duration_ms": 0.355,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 407.86
+              },
+              {
+                "duration_ms": 0.285,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 408.232
+              },
+              {
+                "duration_ms": 391.576,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 635.261
+              },
+              {
+                "duration_ms": 463.359,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1060.831
+              },
+              {
+                "duration_ms": 541.958,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1036.779
+              },
+              {
+                "duration_ms": 20.655,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 1578.822
+              },
+              {
+                "duration_ms": 0.161,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 1599.636
+              },
+              {
+                "duration_ms": 0.134,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 1599.811
+              },
+              {
+                "duration_ms": 0.145,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 1599.958
+              }
+            ],
+            "ok": true,
+            "total_ms": 1658,
+            "transaction": "NB_PERF_1"
+          },
+          {
+            "calls": [
+              {
+                "duration_ms": 493.901,
+                "file": "progress.json",
+                "stage": "validate_text_nested",
+                "start_ms": 15.224
+              },
+              {
+                "duration_ms": 506.581,
+                "file": "progress.json",
+                "stage": "read_and_validate",
+                "start_ms": 3.706
+              },
+              {
+                "duration_ms": 444.578,
+                "file": "progress.bak.json",
+                "stage": "validate_text_nested",
+                "start_ms": 543.394
+              },
+              {
+                "duration_ms": 479.327,
+                "file": "progress.bak.json",
+                "stage": "read_and_validate",
+                "start_ms": 510.311
+              },
+              {
+                "duration_ms": 0.252,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 989.656
+              },
+              {
+                "duration_ms": 343.255,
+                "file": "",
+                "stage": "encode_payload",
+                "start_ms": 1164.784
+              },
+              {
+                "duration_ms": 413.916,
+                "file": "progress.tmp.json",
+                "stage": "validate_text_nested",
+                "start_ms": 1557.883
+              },
+              {
+                "duration_ms": 492.958,
+                "file": "progress.tmp.json",
+                "stage": "read_and_validate",
+                "start_ms": 1523.772
+              },
+              {
+                "duration_ms": 18.694,
+                "file": "",
+                "stage": "commit_prepared",
+                "start_ms": 2016.862
+              },
+              {
+                "duration_ms": 0.25,
+                "file": "f3_reselect.json",
+                "stage": "read_and_validate",
+                "start_ms": 2035.781
+              },
+              {
+                "duration_ms": 0.204,
+                "file": "f3_reselect.json.tmp",
+                "stage": "read_and_validate",
+                "start_ms": 2036.05
+              },
+              {
+                "duration_ms": 0.324,
+                "file": "f3_reselect.json.bak",
+                "stage": "read_and_validate",
+                "start_ms": 2036.27
+              }
+            ],
+            "ok": true,
+            "total_ms": 2139.789,
+            "transaction": "NB_PERF_2"
+          }
+        ]
+      }
+    ],
+    "sampling_complete": false,
+    "source_summary": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-save-header-after-measure-20261006\\summary.json",
+    "engine_sha256": "12310C74BDDA7DCD43F28E971F33047DCECADD436B68169D61CE41009006DF38"
+  },
+  "profiling_mode": "SAVE_STAGES",
+  "requested_warm": 3,
+  "format_version": 1,
+  "nested_validation_is_part_of_read": true
+}

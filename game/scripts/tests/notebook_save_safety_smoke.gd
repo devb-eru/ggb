@@ -3,6 +3,7 @@ extends RefCounted
 const SLOT := "__test_notebook_save_safety"
 var errors := PackedStringArray()
 var checks := 0
+var encoding_cases := 0
 
 
 class PromotionFailure:
@@ -19,6 +20,11 @@ class SummaryProbe:
 	func _validate_save_text(text: String, path: String) -> Dictionary:
 		validations += 1
 		return super._validate_save_text(text, path)
+
+
+class PrefixFallback extends "res://scripts/autoload/save_manager.gd":
+	func _save_header_prefix(_header: Dictionary) -> String:
+		return "unmatched JSON layout"
 
 
 func _expect(ok: bool, message: String) -> void:
@@ -189,22 +195,51 @@ func _test_corrupt_main() -> void:
 
 
 func _test_encoding() -> void:
-	var header := {"z_last":"끝", "checksum":"", "schema_version":2, "a_first":&"start"}
+	var headers := [
+		{"z_last":"끝", "checksum":"", "schema_version":2, "a_first":&"start"},
+		{"checksum":"previous signature", "schema_version":1, "text":"\"checksum\": \"\"\n\t\\"},
+		{"00_nested":{"checksum":"", "lines":["한글", "\n\t", {"checksum":"nested"}]}, "checksum":"", "z":[true, null, 1.25]},
+		{"z_last":"checksum inserted after canonicalization", "schema_version":2},
+		{},
+	]
 	var samples := [GameState.make_default_snapshot(),
 		{"z": [{"b":&"name", "a":"한글\n\"checksum\": \"\""}, null, true, false, 7, 7.25], "a":{"2":"two", "1":"one"}},
-		{"nested":{"text":"앞면 / back \\ tab\t", "array":[[], {}, ["x"]]}}]
+		{"nested":{"text":"앞면 / back \\ tab\t", "array":[[], {}, ["x"]]}},
+		{"checksum":"", "save_header":{"checksum":"do not replace"}, "rows":[{"checksum":""}]},
+		{},
+	]
+	var fallback := PrefixFallback.new()
 	for state in samples:
-		var before := JSON.stringify(state, "", true)
-		var header_before := JSON.stringify(header, "", true)
-		# Independent copy of the previous on-disk encoder, including key order.
-		var old := {"save_header":header.duplicate(true), "state":SaveManager._canonicalize(state)}
-		var unsigned := JSON.stringify(SaveManager._canonicalize(old), "\t", false)
-		old.save_header.checksum = SaveManager._checksum_text(unsigned)
-		var expected := JSON.stringify(SaveManager._canonicalize(old), "\t", false)
-		var encoded: Dictionary = SaveManager._encode_payload(header, state)
-		_expect(encoded.text.to_utf8_buffer() == expected.to_utf8_buffer(), "signed payload bytes match previous encoder")
-		_expect(encoded.checksum == old.save_header.checksum, "checksum matches previous encoder")
-		_expect(JSON.stringify(state, "", true) == before and JSON.stringify(header, "", true) == header_before, "encoder leaves source and header unchanged")
+		for header in headers: _compare_encoding(header, state, fallback)
+	for id in preload("res://scripts/tests/notebook_performance_fixture.gd").IDS:
+		var fixture := preload("res://scripts/tests/notebook_performance_fixture.gd").build(id)
+		_expect(fixture.ok, "large encoding fixture " + id)
+		if not fixture.ok: continue
+		var state := GameState.make_default_snapshot()
+		state.meta_progress.dialogue_history = fixture.archive
+		state.meta_progress.knowledge_entries.notebook_knowledge = fixture.ledger
+		_compare_encoding(headers[0], state, fallback)
+	fallback.free()
+	_expect(encoding_cases == 29, "all small/header and four large byte-parity fixtures executed")
+	print("NOTEBOOK_ENCODING_PARITY_CASES: ", encoding_cases)
+
+
+func _compare_encoding(header: Dictionary, state: Dictionary, fallback: Node) -> void:
+	encoding_cases += 1
+	var before := JSON.stringify(state, "", true)
+	var header_before := JSON.stringify(header, "", true)
+	# Reference the immediately preceding encoder, including missing-key order.
+	var old: Dictionary = SaveManager._canonicalize({"save_header":header, "state":state})
+	old.save_header.checksum = ""
+	var unsigned := JSON.stringify(old, "\t", false)
+	_expect(unsigned.begins_with(SaveManager._save_header_prefix(old.save_header)), "tested JSON layout actually takes the header-only fast path")
+	old.save_header.checksum = SaveManager._checksum_text(unsigned)
+	var expected := JSON.stringify(old, "\t", false)
+	var encoded: Dictionary = SaveManager._encode_payload(header, state)
+	_expect(encoded.text.to_utf8_buffer() == expected.to_utf8_buffer(), "signed payload bytes match previous encoder")
+	_expect(encoded.checksum == old.save_header.checksum, "checksum matches previous encoder")
+	_expect(fallback._encode_payload(header, state) == encoded, "unexpected JSON layout falls back to identical full encoding")
+	_expect(JSON.stringify(state, "", true) == before and JSON.stringify(header, "", true) == header_before, "encoder leaves source and header unchanged")
 
 
 func _test_failed_promotion(main_kind: String) -> void:
