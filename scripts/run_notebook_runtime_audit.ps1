@@ -6,7 +6,7 @@ param(
     [ValidateRange(1, 3600)][int]$TimeoutSeconds = 1200
 )
 $ErrorActionPreference = 'Stop'
-$allowed = @('chapter-one', 'chapter-one-notes', 'modals', 'stay', 'chapter-surfaces', 'prologue-surfaces')
+$allowed = @('chapter-one', 'chapter-one-notes', 'modals', 'stay', 'chapter-surfaces', 'prologue-surfaces', 'mara1', 'iris', 'luca')
 if ($Suites.Count -eq 0 -or @($Suites | Where-Object { $_ -cnotin $allowed }).Count -gt 0 -or
     @($Suites | Select-Object -Unique).Count -ne $Suites.Count) { throw 'Select distinct supported suites' }
 $engine = (Resolve-Path -LiteralPath $EnginePath).Path
@@ -45,7 +45,7 @@ try {
             stderr_sha256=(Get-FileHash -LiteralPath $stderr).Hash.ToLowerInvariant()}
         [IO.File]::WriteAllText((Join-Path $evidence ($suite + '.run.json')),
             ($receipt | ConvertTo-Json), [Text.UTF8Encoding]::new($false))
-        Get-Content -LiteralPath $stdout | Where-Object { $_ -match '^NOTEBOOK_[A-Z_]+_SMOKE:|^.*COVERAGE:|^.*PHASE:|^STAY_ASSERTIONS:' }
+        Get-Content -LiteralPath $stdout | Where-Object { $_ -match '^NOTEBOOK_[A-Z0-9_]+_SMOKE:|^.*COVERAGE:|^.*PHASE:|^STAY_ASSERTIONS:' }
         if (-not $finished) { throw ('Suite timeout: ' + $suite) }
         if ($child.ExitCode -ne 0) { throw ('Suite failed: ' + $suite) }
     }

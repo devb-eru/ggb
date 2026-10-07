@@ -12,6 +12,7 @@ const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const SLOT := "__test_notebook_iris"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var segments := {}
 var view: BasementController
@@ -66,6 +67,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
+	_expect(runtime_audit.emit("iris", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 45, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "outcome_scenarios": _scenarios().size() * 2,
 		"not_covered": ["other_relationship_producers", "durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
 
@@ -361,6 +363,7 @@ func _entry(key: String) -> Dictionary:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored":
 			_expect(false, "Iris route cannot silently produce unmapped history")

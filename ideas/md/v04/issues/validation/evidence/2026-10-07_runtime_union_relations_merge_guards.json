@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "stale_source": {
+    "errors": [
+      "STALE_SCRIPT_CORPUS"
+    ],
+    "pass": true
+  },
+  "duplicate_reports": {
+    "pass": true,
+    "report_count": 6,
+    "distinct_runtime_route_tuples": 294
+  }
+}

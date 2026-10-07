@@ -1,0 +1,34 @@
+{
+  "digit_output_filter_pass": true,
+  "union_self_test": "RUNTIME_UNION_SELF_TEST: PASS (cross-catalog latest versions in both orders, historical coverage, deduplication, unknown counts, missing locale, summary PASS, 14 invalid reports, 5 invalid receipts, 12 invalid logs)",
+  "schema": 1,
+  "cases": [
+    {
+      "name": "empty",
+      "pass": true,
+      "expected_error": "Select distinct supported suites"
+    },
+    {
+      "name": "duplicate",
+      "pass": true,
+      "expected_error": "Select distinct supported suites"
+    },
+    {
+      "name": "case",
+      "pass": true,
+      "expected_error": "Select distinct supported suites"
+    },
+    {
+      "name": "user_project",
+      "pass": true,
+      "expected_error": "Use an isolated project copy"
+    },
+    {
+      "name": "existing_evidence",
+      "pass": true,
+      "expected_error": "Evidence must be a new directory"
+    }
+  ],
+  "runner_sha256": "252AAE61D9E8A5C04D5E6224C615420D747ACD5DFD69E64DC2C01BCE1067297B",
+  "parser_pass": true
+}

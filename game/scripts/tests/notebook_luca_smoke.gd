@@ -13,6 +13,7 @@ const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const SLOT := "__test_notebook_luca"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var segments := {}
 var view: BasementController
@@ -74,6 +75,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
+	_expect(runtime_audit.emit("luca", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 31, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "enum_cases": enum_cases,
 		"relationship_cases": relationship_cases, "not_covered": ["other_relationship_producers", "durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
 
@@ -409,6 +411,7 @@ func _entry(key: String, latest: bool = false) -> Dictionary:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored":
 			_expect(false, "Luca route cannot silently produce unmapped history")
