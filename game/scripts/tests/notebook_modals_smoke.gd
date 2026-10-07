@@ -10,6 +10,7 @@ const CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
 const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 const SLOT := "__test_notebook_modals"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var segments := {}
 var view: BasementController
@@ -69,6 +70,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
+	_expect(runtime_audit.emit("modals", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(),
 		"field_recovery_cases": field_recovery_cases, "field_visibility_guards": field_visibility_guards, "not_covered": ["durable_restart_cursor", "OS_input", "remaining_unrecorded_modals"]}
 
@@ -407,6 +409,7 @@ func _one_authored(id: String) -> Dictionary:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_history())
 	for entry in _history().entries:
 		if entry.get("record_class") != "authored" or entry.observation.producer_id != "NP05": continue
 		for segment in entry.observation.segments:

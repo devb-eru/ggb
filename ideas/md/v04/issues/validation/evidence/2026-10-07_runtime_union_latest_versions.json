@@ -1,0 +1,252 @@
+{
+  "ok": true,
+  "after_script_sha256": "B69C8D960C5B16FB4F445041D0206C9E095024BDA7EA5EAFBADC4443EABE615B",
+  "latest_inventory_checks": [
+    {
+      "producer": "NP01",
+      "union_latest": 158,
+      "inventory_latest": 158
+    },
+    {
+      "producer": "NP02",
+      "union_latest": 56,
+      "inventory_latest": 56
+    },
+    {
+      "producer": "NP03",
+      "union_latest": 18,
+      "inventory_latest": 18
+    },
+    {
+      "producer": "NP04",
+      "union_latest": 190,
+      "inventory_latest": 190
+    },
+    {
+      "producer": "NP05",
+      "union_latest": 578,
+      "inventory_latest": 578
+    },
+    {
+      "producer": "NP06",
+      "union_latest": 52,
+      "inventory_latest": 52
+    },
+    {
+      "producer": "NP07",
+      "union_latest": 294,
+      "inventory_latest": 294
+    },
+    {
+      "producer": "NP08",
+      "union_latest": 198,
+      "inventory_latest": 198
+    },
+    {
+      "producer": "NP09",
+      "union_latest": 254,
+      "inventory_latest": 254
+    },
+    {
+      "producer": "NP10",
+      "union_latest": 64,
+      "inventory_latest": 64
+    },
+    {
+      "producer": "NP11",
+      "union_latest": 104,
+      "inventory_latest": 104
+    },
+    {
+      "producer": "NP12",
+      "union_latest": 78,
+      "inventory_latest": 78
+    },
+    {
+      "producer": "NP13",
+      "union_latest": 148,
+      "inventory_latest": 148
+    },
+    {
+      "producer": "NP14",
+      "union_latest": 518,
+      "inventory_latest": 518
+    },
+    {
+      "producer": "NP15",
+      "union_latest": 480,
+      "inventory_latest": 480
+    },
+    {
+      "producer": "NP16",
+      "union_latest": 328,
+      "inventory_latest": 328
+    },
+    {
+      "producer": "NP17",
+      "union_latest": 312,
+      "inventory_latest": 312
+    },
+    {
+      "producer": "NP18",
+      "union_latest": 336,
+      "inventory_latest": 336
+    },
+    {
+      "producer": "NP19",
+      "union_latest": 350,
+      "inventory_latest": 350
+    },
+    {
+      "producer": "NP20",
+      "union_latest": 120,
+      "inventory_latest": 120
+    },
+    {
+      "producer": "NP21",
+      "union_latest": 318,
+      "inventory_latest": 318
+    },
+    {
+      "producer": "NP22",
+      "union_latest": 0,
+      "inventory_latest": 0
+    }
+  ],
+  "after_np06": {
+    "producer": "NP06",
+    "observed_route_tuples": 0,
+    "latest_registered_segment_locale_count": 52,
+    "observed_latest_segment_locale_count": 0,
+    "missing_latest_segment_locales": [
+      "NB_CH1_NOTE_A1_HOUSE_GLYPH@2:body:en-US",
+      "NB_CH1_NOTE_A1_HOUSE_GLYPH@2:body:ko-KR",
+      "NB_CH1_NOTE_A1_INK_CORNER@2:body:en-US",
+      "NB_CH1_NOTE_A1_INK_CORNER@2:body:ko-KR",
+      "NB_CH1_NOTE_A1_SENTENCE@2:body:en-US",
+      "NB_CH1_NOTE_A1_SENTENCE@2:body:ko-KR",
+      "NB_CH1_NOTE_A2@1:body:en-US",
+      "NB_CH1_NOTE_A2@1:body:ko-KR",
+      "NB_CH1_NOTE_B1_EDGAR@1:body:en-US",
+      "NB_CH1_NOTE_B1_EDGAR@1:body:ko-KR",
+      "NB_CH1_NOTE_B1_LUCA@1:body:en-US",
+      "NB_CH1_NOTE_B1_LUCA@1:body:ko-KR",
+      "NB_CH1_NOTE_B1_MARA1@1:body:en-US",
+      "NB_CH1_NOTE_B1_MARA1@1:body:ko-KR",
+      "NB_CH1_NOTE_B1_MARA2@1:body:en-US",
+      "NB_CH1_NOTE_B1_MARA2@1:body:ko-KR",
+      "NB_CH1_NOTE_B1@1:body:en-US",
+      "NB_CH1_NOTE_B1@1:body:ko-KR",
+      "NB_CH1_NOTE_B3_A@1:body:en-US",
+      "NB_CH1_NOTE_B3_A@1:body:ko-KR",
+      "NB_CH1_NOTE_B4@1:body:en-US",
+      "NB_CH1_NOTE_B4@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_EXCLUDED@1:body:en-US",
+      "NB_CH1_NOTE_BF_EXCLUDED@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_OUTPUT@1:body:en-US",
+      "NB_CH1_NOTE_BF_OUTPUT@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_PHASE_BETWEEN@1:body:en-US",
+      "NB_CH1_NOTE_BF_PHASE_BETWEEN@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_PHASE_SIMULTANEOUS@1:body:en-US",
+      "NB_CH1_NOTE_BF_PHASE_SIMULTANEOUS@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_PHASE_TOO_EARLY@1:body:en-US",
+      "NB_CH1_NOTE_BF_PHASE_TOO_EARLY@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_PHASE_UNSET@1:body:en-US",
+      "NB_CH1_NOTE_BF_PHASE_UNSET@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_REFERENCE@1:body:en-US",
+      "NB_CH1_NOTE_BF_REFERENCE@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_RELAY@1:body:en-US",
+      "NB_CH1_NOTE_BF_RELAY@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_RESOLVED@1:body:en-US",
+      "NB_CH1_NOTE_BF_RESOLVED@1:body:ko-KR",
+      "NB_CH1_NOTE_CLOCK_BEDROOM@1:body:en-US",
+      "NB_CH1_NOTE_CLOCK_BEDROOM@1:body:ko-KR",
+      "NB_CH1_NOTE_CLOCK_GREAT_CLOCK@1:body:en-US",
+      "NB_CH1_NOTE_CLOCK_GREAT_CLOCK@1:body:ko-KR",
+      "NB_CH1_NOTE_CLOCK_LIBRARY_OUTER@1:body:en-US",
+      "NB_CH1_NOTE_CLOCK_LIBRARY_OUTER@1:body:ko-KR",
+      "NB_CH1_NOTE_CLOCK_PARLOR@1:body:en-US",
+      "NB_CH1_NOTE_CLOCK_PARLOR@1:body:ko-KR",
+      "NB_CH1_NOTE_J1@1:body:en-US",
+      "NB_CH1_NOTE_J1@1:body:ko-KR",
+      "NB_CH1_NOTE_J2@1:body:en-US",
+      "NB_CH1_NOTE_J2@1:body:ko-KR"
+    ],
+    "required_branch_coverage": "NOT_AUDITED",
+    "new_unmapped_count": null,
+    "excluded_ui_count": null,
+    "legacy_count_by_producer": null
+  },
+  "before_script_sha256": "4B10DFA40D3CF9C9F2BC051E0138304534DEEE66301DB944EDB02CE743FF9507",
+  "before_np06": {
+    "producer": "NP06",
+    "observed_route_tuples": 0,
+    "latest_registered_segment_locale_count": 58,
+    "observed_latest_segment_locale_count": 0,
+    "missing_latest_segment_locales": [
+      "NB_CH1_NOTE_A1_HOUSE_GLYPH@1:body:en-US",
+      "NB_CH1_NOTE_A1_HOUSE_GLYPH@1:body:ko-KR",
+      "NB_CH1_NOTE_A1_HOUSE_GLYPH@2:body:en-US",
+      "NB_CH1_NOTE_A1_HOUSE_GLYPH@2:body:ko-KR",
+      "NB_CH1_NOTE_A1_INK_CORNER@1:body:en-US",
+      "NB_CH1_NOTE_A1_INK_CORNER@1:body:ko-KR",
+      "NB_CH1_NOTE_A1_INK_CORNER@2:body:en-US",
+      "NB_CH1_NOTE_A1_INK_CORNER@2:body:ko-KR",
+      "NB_CH1_NOTE_A1_SENTENCE@1:body:en-US",
+      "NB_CH1_NOTE_A1_SENTENCE@1:body:ko-KR",
+      "NB_CH1_NOTE_A1_SENTENCE@2:body:en-US",
+      "NB_CH1_NOTE_A1_SENTENCE@2:body:ko-KR",
+      "NB_CH1_NOTE_A2@1:body:en-US",
+      "NB_CH1_NOTE_A2@1:body:ko-KR",
+      "NB_CH1_NOTE_B1_EDGAR@1:body:en-US",
+      "NB_CH1_NOTE_B1_EDGAR@1:body:ko-KR",
+      "NB_CH1_NOTE_B1_LUCA@1:body:en-US",
+      "NB_CH1_NOTE_B1_LUCA@1:body:ko-KR",
+      "NB_CH1_NOTE_B1_MARA1@1:body:en-US",
+      "NB_CH1_NOTE_B1_MARA1@1:body:ko-KR",
+      "NB_CH1_NOTE_B1_MARA2@1:body:en-US",
+      "NB_CH1_NOTE_B1_MARA2@1:body:ko-KR",
+      "NB_CH1_NOTE_B1@1:body:en-US",
+      "NB_CH1_NOTE_B1@1:body:ko-KR",
+      "NB_CH1_NOTE_B3_A@1:body:en-US",
+      "NB_CH1_NOTE_B3_A@1:body:ko-KR",
+      "NB_CH1_NOTE_B4@1:body:en-US",
+      "NB_CH1_NOTE_B4@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_EXCLUDED@1:body:en-US",
+      "NB_CH1_NOTE_BF_EXCLUDED@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_OUTPUT@1:body:en-US",
+      "NB_CH1_NOTE_BF_OUTPUT@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_PHASE_BETWEEN@1:body:en-US",
+      "NB_CH1_NOTE_BF_PHASE_BETWEEN@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_PHASE_SIMULTANEOUS@1:body:en-US",
+      "NB_CH1_NOTE_BF_PHASE_SIMULTANEOUS@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_PHASE_TOO_EARLY@1:body:en-US",
+      "NB_CH1_NOTE_BF_PHASE_TOO_EARLY@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_PHASE_UNSET@1:body:en-US",
+      "NB_CH1_NOTE_BF_PHASE_UNSET@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_REFERENCE@1:body:en-US",
+      "NB_CH1_NOTE_BF_REFERENCE@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_RELAY@1:body:en-US",
+      "NB_CH1_NOTE_BF_RELAY@1:body:ko-KR",
+      "NB_CH1_NOTE_BF_RESOLVED@1:body:en-US",
+      "NB_CH1_NOTE_BF_RESOLVED@1:body:ko-KR",
+      "NB_CH1_NOTE_CLOCK_BEDROOM@1:body:en-US",
+      "NB_CH1_NOTE_CLOCK_BEDROOM@1:body:ko-KR",
+      "NB_CH1_NOTE_CLOCK_GREAT_CLOCK@1:body:en-US",
+      "NB_CH1_NOTE_CLOCK_GREAT_CLOCK@1:body:ko-KR",
+      "NB_CH1_NOTE_CLOCK_LIBRARY_OUTER@1:body:en-US",
+      "NB_CH1_NOTE_CLOCK_LIBRARY_OUTER@1:body:ko-KR",
+      "NB_CH1_NOTE_CLOCK_PARLOR@1:body:en-US",
+      "NB_CH1_NOTE_CLOCK_PARLOR@1:body:ko-KR",
+      "NB_CH1_NOTE_J1@1:body:en-US",
+      "NB_CH1_NOTE_J1@1:body:ko-KR",
+      "NB_CH1_NOTE_J2@1:body:en-US",
+      "NB_CH1_NOTE_J2@1:body:ko-KR"
+    ],
+    "required_branch_coverage": "NOT_AUDITED",
+    "new_unmapped_count": null,
+    "excluded_ui_count": null,
+    "legacy_count_by_producer": null
+  },
+  "trace_log": "2026-10-07_runtime_union_expanded_stay.out.log"
+}

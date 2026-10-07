@@ -10,6 +10,7 @@ const QUERY := preload("res://scripts/systems/notebook_query.gd")
 const PANEL := preload("res://scripts/ui/notebook_panel.gd")
 const SLOT := "__test_notebook_chapter_one_notes"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var observed_tuples := {}
 var serial := 0
@@ -47,6 +48,7 @@ func run(tree: SceneTree) -> Dictionary:
 	print("NOTEBOOK_NP06_ACTUAL_RETENTION_ROUTES:", retention_routes)
 	TranslationServer.set_locale(language)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
+	_expect(runtime_audit.emit("chapter-one-notes", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "guard_fixture": "BF_PHASE_UNSET", "not_covered": ["NP05", "NP07+", "new_notebook_UI", "OS_input"]}
 
 
@@ -348,6 +350,7 @@ func _report_tuples() -> void:
 
 func _collect(locale: String) -> void:
 	var state := GameState.get_snapshot()
+	runtime_audit.capture(state.meta_progress.dialogue_history)
 	_expect(KNOWLEDGE.validate(_ledger(), state.meta_progress.dialogue_history).ok, "complete source graph validates")
 	for row in _ledger().revisions:
 		var entry: Dictionary = ARCHIVE.resolve(state.meta_progress.dialogue_history, row.observation_ref).entry

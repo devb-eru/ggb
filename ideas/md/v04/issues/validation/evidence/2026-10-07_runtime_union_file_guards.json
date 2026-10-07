@@ -1,0 +1,27 @@
+[
+  {
+    "fixture": "missing_receipt",
+    "rejected": true,
+    "reason": "Cannot find path 'C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-runtime-guard-fixture-4749552a326f4af79ac0e98b38405164\\missing_receipt.run.json' because it does not exist."
+  },
+  {
+    "fixture": "tampered_stdout",
+    "rejected": true,
+    "reason": "Missing, failed, or altered run receipt"
+  },
+  {
+    "fixture": "script_stderr",
+    "rejected": true,
+    "reason": "PASS marker and error-free logs required (except known certificate-store warning)"
+  },
+  {
+    "fixture": "failed_exit",
+    "rejected": true,
+    "reason": "Missing, failed, or altered run receipt"
+  },
+  {
+    "fixture": "stale_script_corpus",
+    "rejected": true,
+    "reason": "STALE_SCRIPT_CORPUS"
+  }
+]

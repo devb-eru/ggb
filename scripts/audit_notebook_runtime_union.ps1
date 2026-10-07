@@ -13,6 +13,18 @@ function Test-Integer($Value) {
     return $Value -is [int] -or $Value -is [long]
 }
 
+function Add-CatalogDefinitions($Definitions, $Latest, $LatestVersions, [string]$Id, $Versions) {
+    foreach ($version in $Versions.Keys) {
+        $number = [int]$version
+        $Definitions["${Id}@${number}"] = $Versions[$version]
+        if (-not $LatestVersions.ContainsKey($Id) -or $number -gt $LatestVersions[$Id]) {
+            if ($LatestVersions.ContainsKey($Id)) { $Latest.Remove("${Id}@$($LatestVersions[$Id])") | Out-Null }
+            $LatestVersions[$Id] = $number
+            $Latest["${Id}@${number}"] = $true
+        }
+    }
+}
+
 function Test-RunReceipt($Receipt, [string]$StdoutHash, [string]$StderrHash) {
     return $Receipt -is [System.Collections.IDictionary] -and (Test-Integer $Receipt.schema_version) -and $Receipt.schema_version -eq 1 -and
         $Receipt.completed -is [bool] -and $Receipt.completed -and (Test-Integer $Receipt.exit_code) -and $Receipt.exit_code -eq 0 -and
@@ -20,7 +32,13 @@ function Test-RunReceipt($Receipt, [string]$StdoutHash, [string]$StderrHash) {
 }
 
 function Test-RunText([string]$Stdout, [string]$Stderr) {
-    if ($Stdout -notmatch '(?m)^NOTEBOOK_[A-Z0-9_]+_SMOKE: PASS\r?$' -or $Stdout -match 'SCRIPT ERROR|Parse Error|Compile Error') { return $false }
+    $markers = [regex]::Matches($Stdout, '(?m)^NOTEBOOK_[A-Z0-9_]+_SMOKE: PASS(?: (?<summary>\{[^\r\n]*\}))?\r?$')
+    if ($markers.Count -ne 1 -or $Stdout -match 'SCRIPT ERROR|Parse Error|Compile Error') { return $false }
+    if ($markers[0].Groups['summary'].Success) {
+        try { $summary = $markers[0].Groups['summary'].Value | ConvertFrom-Json -AsHashtable }
+        catch { return $false }
+        if ($summary.ok -isnot [bool] -or -not $summary.ok -or $summary.errors -isnot [array] -or $summary.errors.Count -ne 0) { return $false }
+    }
     foreach ($line in ($Stderr -split '\r?\n')) {
         if ($line -match '^(SCRIPT ERROR|ERROR:)' -and $line -cne 'ERROR: Failed to read the root certificate store.') { return $false }
     }
@@ -112,11 +130,32 @@ if ($SelfTest) {
     $latest = New-OrdinalMap
     $latest['ID@1'] = $true
     $context = @{definitions=$definitions;latest=$latest;fingerprints=@{catalog=('a'*64)};source_corpus=@{file_count=1;sha256=('b'*64)}}
+    foreach ($order in @(@(1,2), @(2,1))) {
+        $versions = New-OrdinalMap
+        $history = New-OrdinalMap
+        $current = New-OrdinalMap
+        foreach ($number in $order) { Add-CatalogDefinitions $history $current $versions 'ID' @{ "$number"=$definitions['ID@1'] } }
+        if ($history.Count -ne 2 -or $current.Count -ne 1 -or -not $current.ContainsKey('ID@2') -or $current.ContainsKey('ID@1')) {
+            throw 'Cross-catalog latest-version selection failed'
+        }
+    }
     $report = @'
 {"schema_version":1,"suite_id":"fixture","suite_ok":true,"ok":true,"errors":[],"tuple_fields":["producer","content","version","node","variant","segment","locale"],"tuples":[["NP19","ID",1,"NODE","RULE","body","ko-KR"]],"sampled_entry_classes":{"authored":1,"legacy":0,"unmapped":0},"required_branch_coverage":"NOT_AUDITED","new_unmapped_count":null,"excluded_ui_count":null}
 '@ | ConvertFrom-Json -AsHashtable
     $report.catalog_fingerprints = $context.fingerprints.Clone()
     $report.source_corpus = @{basis='res://scripts/**/*.gd';file_count=1;sha256=('b'*64)}
+    $versionContext = $context.Clone()
+    $versionContext.definitions = $history
+    $versionContext.latest = $current
+    $historical = Merge-Reports @($report) $versionContext
+    if (-not $historical.ok -or $historical.distinct_runtime_route_tuples -ne 1 -or
+        $historical.producers[18].latest_registered_segment_locale_count -ne 2 -or
+        $historical.producers[18].observed_latest_segment_locale_count -ne 0) { throw 'Historical observations are not latest coverage' }
+    $latestReport = $report | ConvertTo-Json -Depth 20 | ConvertFrom-Json -AsHashtable
+    $latestReport.tuples[0][2] = 2
+    $newest = Merge-Reports @($report, $latestReport) $versionContext
+    if (-not $newest.ok -or $newest.distinct_runtime_route_tuples -ne 2 -or
+        $newest.producers[18].observed_latest_segment_locale_count -ne 1) { throw 'Latest coverage must preserve distinct historical tuples' }
     $valid = Merge-Reports @($report,$report) $context
     if (-not $valid.ok -or $valid.distinct_runtime_route_tuples -ne 1 -or $valid.producers[18].missing_latest_segment_locales.Count -ne 1 -or
         $null -ne $valid.producers[18].new_unmapped_count -or $valid.sampled_entry_counts_by_report.Count -ne 2 -or
@@ -156,11 +195,17 @@ if ($SelfTest) {
     }
     $pass = 'NOTEBOOK_FIXTURE_SMOKE: PASS'
     if (-not (Test-RunText $pass 'ERROR: Failed to read the root certificate store.')) { throw 'Valid log rejected' }
+    if (-not (Test-RunText ($pass + ' {"ok": true, "errors": []}') '')) { throw 'Valid summary log rejected' }
     foreach ($stderr in @('SCRIPT ERROR: failed','ERROR: failed','ERROR: Parse Error')) {
         if (Test-RunText $pass $stderr) { throw 'Failed stderr accepted' }
     }
     if ((Test-RunText 'not a PASS marker' '') -or (Test-RunText ($pass + "`nSCRIPT ERROR: failed") '')) { throw 'Invalid stdout accepted' }
-    'RUNTIME_UNION_SELF_TEST: PASS (deduplication, unknown counts, missing locale, 14 invalid reports, 5 invalid receipts, 5 invalid logs)'
+    if ((Test-RunText ($pass + 'ENGER') '') -or (Test-RunText ($pass + ' failed') '')) { throw 'Invalid PASS suffix accepted' }
+    foreach ($summary in @('{"ok": false, "errors": []}', '{"ok": true}', '{"ok": true, "errors": ["failure"]}', '{not_json}')) {
+        if (Test-RunText ($pass + ' ' + $summary) '') { throw 'Invalid PASS summary accepted' }
+    }
+    if (Test-RunText ($pass + "`n" + $pass) '') { throw 'Ambiguous PASS markers accepted' }
+    'RUNTIME_UNION_SELF_TEST: PASS (cross-catalog latest versions in both orders, historical coverage, deduplication, unknown counts, missing locale, summary PASS, 14 invalid reports, 5 invalid receipts, 12 invalid logs)'
     exit 0
 }
 
@@ -170,15 +215,13 @@ $inventory = (& (Join-Path $PSScriptRoot 'audit_notebook_producer_inventory.ps1'
 if (-not $inventory.ok) { throw 'Catalog inventory failed' }
 $definitions = New-OrdinalMap
 $latest = New-OrdinalMap
+$latestVersions = New-OrdinalMap
 $fingerprints = @{}
 foreach ($file in $inventory.catalog_fingerprints) {
     $fingerprints[$file.catalog] = $file.sha256.ToLowerInvariant()
     $data = Get-Content -LiteralPath (Join-Path $game $file.catalog.Substring(6)) -Raw | ConvertFrom-Json -AsHashtable
     foreach ($id in $data.contents.Keys) {
-        $versions = $data.contents[$id]
-        $last = @($versions.Keys | ForEach-Object { [int]$_ } | Sort-Object -Descending)[0]
-        foreach ($version in $versions.Keys) { $definitions["${id}@${version}"] = $versions[$version] }
-        $latest["${id}@${last}"] = $true
+        Add-CatalogDefinitions $definitions $latest $latestVersions $id $data.contents[$id]
     }
 }
 $scriptRows = New-OrdinalMap

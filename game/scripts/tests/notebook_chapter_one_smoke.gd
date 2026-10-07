@@ -8,6 +8,7 @@ const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const FEEDBACK := preload("res://scripts/systems/chapter_one_notebook.gd")
 const SLOT := "__test_notebook_chapter_one"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var observed_tuples := {}
 var covered_segments := {}
@@ -52,6 +53,7 @@ func run(tree: SceneTree) -> Dictionary:
 	print("NOTEBOOK_NP04_CROSS_RESET_AUDIT: " + JSON.stringify({"paths": cross_reset_paths, "errors": errors}))
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
+	_expect(runtime_audit.emit("chapter-one", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": covered_segments.size(), "producer_paths": ["NP04"], "guard_fixtures": ["LAYOUT_MISSING", "PHASE_UNSET", "DESK_VISIT", "ALCOVE_VISIT", "GAP_VISIT", "LINK_VISIT", "LINK_OPEN_VISIT"], "not_covered": ["NP05", "NP06", "app_restart_cursor", "OS_input"]}
 
 
@@ -498,6 +500,7 @@ func _report_tuples() -> void:
 
 func _collect(language: String) -> void:
 	var state := GameState.get_snapshot()
+	runtime_audit.capture(state.meta_progress.dialogue_history)
 	_expect(ARCHIVE.validate(state.meta_progress.dialogue_history).ok, "CH1 archive validates")
 	for entry in state.meta_progress.dialogue_history.entries:
 		_expect(entry.record_class == "authored", "actual producer cannot silently become unmapped")
