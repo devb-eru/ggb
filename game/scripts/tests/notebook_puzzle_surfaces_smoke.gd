@@ -14,6 +14,7 @@ const MIRROR := preload("res://scripts/ui/black_mirror_display_texts.gd")
 const BASEMENT := preload("res://scripts/ui/basement_display_texts.gd")
 const SLOT := "__test_notebook_puzzle_surfaces"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var segments := {}
 var fixtures := {}
@@ -76,6 +77,7 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor",flavor)
 	print("PUZZLE_SURFACE_COVERAGE: actual IDs/locales=",covered.size()," segments/locales=",segments.size()," matrix cases=",matrix_cases)
+	_expect(runtime_audit.emit("puzzle-surfaces", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok":errors.is_empty(),"errors":errors,"not_covered":["unified_notebook_comparison_UI","OS_input","B4_C5_D4_visual_assets"]}
 
 
@@ -333,6 +335,7 @@ func _count(key: String) -> int:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	errors.append_array(PUBLIC_LABELS.screen_errors(view))
 	coverage.collect(_archive().entries, "puzzle-surfaces")
 	var before := GameState.get_snapshot()

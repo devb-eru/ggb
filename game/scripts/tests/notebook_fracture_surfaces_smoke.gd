@@ -7,6 +7,7 @@ const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const TEXTS := preload("res://scripts/ui/fracture_surface_texts.gd")
 const SLOT := "__test_notebook_fracture_surfaces"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var view: BasementController
 var serial := 0
@@ -56,6 +57,7 @@ func run(tree: SceneTree) -> Dictionary:
 		SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
+	_expect(runtime_audit.emit("fracture-surfaces", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": TEXTS.authored_rows().size(), "covered_id_locales": covered.size(),
 		"not_covered": ["durable_app_restart_cursor", "OS_input", "shared_notebook_UI", "other_producers_static_panels"]}
 
@@ -370,6 +372,7 @@ func _count(key: String) -> int:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored" or not entry.observation.content_id.begins_with(TEXTS.PREFIX): continue
 		var observed: Dictionary = entry.observation

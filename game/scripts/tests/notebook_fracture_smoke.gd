@@ -10,6 +10,7 @@ const CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
 const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 const SLOT := "__test_notebook_fracture"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var segments := {}
 var serial := 0
@@ -67,6 +68,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
+	_expect(runtime_audit.emit("fracture", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(),
 		"rest_recovery_cases": rest_recovery_cases, "not_covered": ["timed_panel_and_guidance_disclosure", "world_question_choice_capture", "static_board_disclosure", "app_restart_cursor", "OS_input", "shared_notebook_UI"]}
 
@@ -548,6 +550,7 @@ func _entry(id: String) -> Dictionary:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored":
 			_expect(false, "mapped fracture paths cannot silently become unmapped")

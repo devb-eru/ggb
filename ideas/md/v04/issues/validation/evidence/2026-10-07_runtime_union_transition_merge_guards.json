@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "duplicate_report_count": 12,
+  "duplicate_union_count": 1020,
+  "stale_errors": [
+    "STALE_SCRIPT_CORPUS"
+  ],
+  "catalog_count": 29,
+  "independent_denominator_producers": 22,
+  "source_corpus": {
+    "file_count": 261,
+    "sha256": "230718d54955417cf7b00f5c1954476074b96f1ed5b324a6ea1a3328110e68b7"
+  },
+  "hint_original_audit": {
+    "required": 150,
+    "support_cases": 16,
+    "recovery_cases": 150,
+    "historical_required": 24,
+    "observed": 150,
+    "historical_replayed": 24
+  }
+}

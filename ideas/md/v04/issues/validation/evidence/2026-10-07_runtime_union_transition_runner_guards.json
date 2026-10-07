@@ -1,0 +1,33 @@
+{
+  "cases": [
+    {
+      "expected_error": "Select distinct supported suites",
+      "pass": true,
+      "name": "empty"
+    },
+    {
+      "expected_error": "Select distinct supported suites",
+      "pass": true,
+      "name": "duplicate"
+    },
+    {
+      "expected_error": "Select distinct supported suites",
+      "pass": true,
+      "name": "case"
+    },
+    {
+      "expected_error": "Use an isolated project copy",
+      "pass": true,
+      "name": "user_project"
+    },
+    {
+      "expected_error": "Evidence must be a new directory",
+      "pass": true,
+      "name": "existing_evidence"
+    }
+  ],
+  "parser_pass": true,
+  "schema": 1,
+  "runner_sha256": "AC6DEDE2C4A119B69566F209AC9888D08417FD24D9CB94090BFED9F48C02215B",
+  "union_self_test": "RUNTIME_UNION_SELF_TEST: PASS (cross-catalog latest versions in both orders, historical coverage, deduplication, unknown counts, missing locale, summary PASS, 14 invalid reports, 5 invalid receipts, 12 invalid logs)"
+}

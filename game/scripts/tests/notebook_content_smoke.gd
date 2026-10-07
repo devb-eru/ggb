@@ -11,6 +11,7 @@ const PROVIDERS := [preload("res://scripts/ui/clock_hint_texts.gd"), preload("re
 const SLOT := "__test_notebook_content"
 const LIVE_STAGES := ["B3_A", "B3_B", "BF", "C3", "C4", "CF", "D0_A", "D1", "DF", "D4", "F0_A", "F0_B", "F0_C", "F0_D", "F0_E"]
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var required_tuples := {}
 var observed_tuples := {}
@@ -74,6 +75,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
+	_expect(runtime_audit.emit("content", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_hint_ids": hint_ids.size(), "covered_id_locales": covered.size(), "producer_groups_covered": ["NP20"], "other_groups": "NOT_COVERED"}
 
 
@@ -290,6 +292,7 @@ func _validate_live_hints(tree: SceneTree, stage: String, language: String) -> v
 		var count: int = GameState.get_snapshot().meta_progress.dialogue_history.entries.size()
 		button.pressed.emit()
 		var after := GameState.get_snapshot()
+		runtime_audit.capture(after.meta_progress.dialogue_history)
 		_expect(after.meta_progress.dialogue_history.entries.size() == count + 1, "only requested hint appends one observation")
 		var entry: Dictionary = after.meta_progress.dialogue_history.entries.back()
 		errors.append_array(PUBLIC_LABELS.live_errors(entry))
@@ -366,6 +369,7 @@ func _validate_failed_write(tree: SceneTree, stage: String, language: String, le
 	var committed := GameState.get_snapshot()
 	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "retried hint is durably reloadable")
 	_expect(StateSnapshotValidator.same_persisted_value(committed, GameState.get_snapshot()), "retry reload preserves exact committed source and presentation state")
+	runtime_audit.capture(GameState.get_snapshot().meta_progress.dialogue_history)
 	recovery_cases.append({"node":stage, "level":level + 1, "locale":language, "ok":errors.size() == initial_errors})
 	view.queue_free()
 	fake.free()
@@ -401,6 +405,7 @@ func _validate_skipped_hints(tree: SceneTree, language: String, attempts: int, s
 	request.pressed.emit()
 	var history: Dictionary = GameState.get_snapshot().meta_progress.dialogue_history
 	_expect(history.entries.size() == before + 1 and history.entries.back().observation.content_id == "NB_HINT_B3_B_H%d" % (level + 1), "support jump grants only the requested hint, never skipped levels")
+	runtime_audit.capture(history)
 	var unchanged := GameState.get_snapshot()
 	unchanged.meta_progress.dialogue_history = state.meta_progress.dialogue_history
 	_expect(_gameplay(unchanged) == _gameplay(state), "stronger support never repairs pins or changes puzzle and relationship state")

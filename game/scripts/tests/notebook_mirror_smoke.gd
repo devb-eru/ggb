@@ -10,6 +10,7 @@ const CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
 const ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 const SLOT := "__test_notebook_mirror"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var segments := {}
 var serial := 0
@@ -65,6 +66,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
+	_expect(runtime_audit.emit("mirror", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": ids.size(), "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(),
 		"choice_recovery_cases": recovery_cases, "guard_fixtures": ["MIXTURE_ORDER"], "not_covered": ["static_puzzle_board_disclosure", "app_restart_cursor", "OS_input", "shared_notebook_UI"]}
 
@@ -485,6 +487,7 @@ func _has(id: String) -> bool:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	coverage.collect(_archive().entries, "mirror")
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored":
