@@ -5,6 +5,7 @@ const TEXT := preload("res://data/dialogue/prologue/prologue_text.tres")
 var surface_ids := {}
 var surface_segments := {}
 var matrix_cases := 0
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 
 class ControlledSave extends Node:
 	var reject := true
@@ -36,6 +37,7 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor",flavor)
 	print("PROLOGUE_SURFACE_COVERAGE: IDs/locales=",surface_ids.size()," segments/locales=",surface_segments.size()," matrix cases=",matrix_cases)
+	_expect(runtime_audit.emit("prologue-surfaces", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok":errors.is_empty(),"errors":errors,"not_covered":["unified_notebook_UI","OS_input","restart_cursor"]}
 
 
@@ -206,6 +208,7 @@ func _present(view: Node) -> void:
 
 func _collect(language: String) -> void:
 	super._collect(language)
+	runtime_audit.capture(_archive())
 	for entry in _archive().entries:
 		var observation: Dictionary = entry.get("observation",{})
 		var id := String(observation.get("content_id",""))

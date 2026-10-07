@@ -21,6 +21,7 @@ var view: ChapterOneController
 var serial := 0
 var matrix_cases := 0
 var inherited_paths: Array = []
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 
 class ControlledSave extends Node:
 	var reject := true
@@ -67,6 +68,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor",flavor)
 	print("CHAPTER_SURFACE_COVERAGE: actual IDs/locales=",covered.size()," segments/locales=",segments.size()," matrix cases=",matrix_cases)
 	print("NOTEBOOK_INHERITED_ACTION_AUDIT: " + JSON.stringify({"paths": inherited_paths, "errors": errors}))
+	_expect(runtime_audit.emit("chapter-surfaces", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok":errors.is_empty(),"errors":errors,"not_covered":["prologue_surfaces","unified_notebook_UI","OS_input","restart_cursor","B2_exact_modal_pause"]}
 
 
@@ -374,6 +376,7 @@ func _has_id(id: String) -> bool:
 
 func _collect() -> void:
 	var before := GameState.get_snapshot()
+	runtime_audit.capture(_archive())
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored": continue
 		var observation: Dictionary = entry.observation

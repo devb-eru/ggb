@@ -903,6 +903,12 @@ foreach ($file in $godotSourceFiles) {
     $text = [System.IO.File]::ReadAllText($file.FullName, $utf8)
     foreach ($match in [regex]::Matches($text, 'res://(?<path>[^"''\r\n]+)')) {
         $resourcePath = $match.Groups['path'].Value
+        # The runtime audit basis is a corpus description, not a loadable resource.
+        if ($relativePath -eq 'game/scripts/tests/notebook_runtime_audit.gd' -and
+            $resourcePath -eq 'scripts/**/*.gd' -and
+            $text.Substring(0, $match.Index).EndsWith('"basis":"')) {
+            continue
+        }
         $candidate = Join-Path $gameRoot $resourcePath.Replace("/", "\")
         if (-not (Test-Path -LiteralPath $candidate)) {
             Add-ValidationError "GODOT_RESOURCE_REF" $relativePath "res://$resourcePath"

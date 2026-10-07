@@ -15,6 +15,7 @@ var segments := {}
 var view: BasementController
 var serial := 0
 var checks := 0
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 
 class ControlledSave extends Node:
 	var reject_game := false
@@ -71,6 +72,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor",flavor)
 	print("STAY_COVERAGE: actual ID/locales=",covered.size()," segment/locales=",segments.size())
 	print("STAY_ASSERTIONS: ", checks, " focused=", focused)
+	_expect(runtime_audit.emit("stay-focused" if focused else "stay", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok":errors.is_empty(),"errors":errors,"actual_id_locales":covered.size(),"actual_segment_locales":segments.size(),"not_covered":["durable_app_restart_cursor","unified_notebook_UI","OS_input"]}
 
 
@@ -452,6 +454,7 @@ func _count(key: String) -> int:
 
 func _collect() -> void:
 	var state := GameState.get_snapshot()
+	runtime_audit.capture(_archive())
 	for entry in _archive().entries:
 		_expect(entry.get("record_class") == "authored","no unmapped stay history")
 		if entry.get("record_class") != "authored": continue
