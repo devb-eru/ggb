@@ -22,6 +22,8 @@ const LOCATIONS := {
 }
 
 const UI := {
+	"f3_copy_save_warning": ["현재 진행은 저장되었습니다. 다른 선택 확인용 사본은 저장하지 못했습니다.", "Your progress was saved, but the copy for reviewing another choice could not be saved."],
+	"ending_meta_save_warning": ["마지막 장면은 저장되었습니다. 감상 기록 저장은 재시도가 필요합니다.", "The final scene was saved. Saving the ending record needs a retry."],
 	"basement_door": ["서쪽 지하 계단문", "West Basement Stair Door"],
 	"descend": ["지하 계단으로", "To the Basement Stairs"],
 	"back_clock": ["대시계로", "To the Great Clock"],

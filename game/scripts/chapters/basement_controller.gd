@@ -94,6 +94,10 @@ func _history_enabled() -> bool:
 	return not (current_stage == "D5" and SaveManager.get_build_flavor() == "demo")
 
 func _feedback(result: Dictionary) -> void:
+	# Administrative save warnings must not replace authored story feedback.
+	var warning := String(result.get("auxiliary_warning", ""))
+	if result.get("ok", false) and warning in ["f3_copy_save_warning", "ending_meta_save_warning"]:
+		_set_status(BASEMENT_TEXTS.ui(warning, TranslationServer.get_locale()))
 	if session != null and session.stage() == "D5" and SaveManager.get_build_flavor() == "demo" and result.get("ok", false):
 		_set_status(BASEMENT_TEXTS.ui("d5_demo_running", TranslationServer.get_locale()))
 		return

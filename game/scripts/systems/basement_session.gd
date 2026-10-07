@@ -752,13 +752,9 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 	if result.get("ok", false) and _save_point(state) == "SAVE_F3_COMPLETE":
 		var copy: Dictionary = _save.capture_f3_reselect(slot_id)
 		if not copy.get("ok", false):
-			result["text"] = "현재 진행은 저장되었습니다. 다른 선택 확인용 사본은 저장하지 못했습니다."
-			result["text_id"] = ""
-			result.erase("notebook_feedback")
+			result["auxiliary_warning"] = "f3_copy_save_warning"
 	if result.get("ok", false) and state["ending_run"].get("current_node_id", "") in ["CREDITS_REALITY", "CREDITS_STAY"]:
 		var meta := ensure_ending_meta()
 		if not meta.get("ok", false):
-			result["text"] = "마지막 장면은 저장되었습니다. 감상 기록 저장은 재시도가 필요합니다."
-			result["text_id"] = ""
-			result.erase("notebook_feedback")
+			result["auxiliary_warning"] = "ending_meta_save_warning"
 	return result
