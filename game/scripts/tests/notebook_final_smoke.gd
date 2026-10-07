@@ -16,6 +16,7 @@ const FIELD := preload("res://scripts/systems/field_notebook.gd")
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
 const SLOT := "__test_notebook_final"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var fixtures := {}
 var covered := {}
 var segments := {}
@@ -86,6 +87,7 @@ func run(tree: SceneTree) -> Dictionary:
 	print("FINAL_RETAINED_DECISIONS: ", retained_decisions)
 	print("FINAL_RETAINED_ENDINGS: ", retained_endings)
 	print("FINAL_COVERAGE: actual ID/locales=", covered.size(), " segment/locales=", segments.size())
+	_expect(runtime_audit.emit("final", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok":errors.is_empty(), "errors":errors, "actual_id_locales":covered.size(), "actual_segment_locales":segments.size(), "retained_decisions":retained_decisions, "retained_endings":retained_endings, "focused_retained_endings_only":"--notebook-retained-endings-only" in OS.get_cmdline_user_args(),
 		"not_covered":["durable_app_restart_cursor", "unified_notebook_UI", "OS_input"]}
 
@@ -573,6 +575,7 @@ func _count(key: String) -> int:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	errors.append_array(PUBLIC_LABELS.screen_errors(view))
 	var state := GameState.get_snapshot()
 	for entry in _archive().entries:

@@ -12,6 +12,7 @@ const QUERY := preload("res://scripts/systems/notebook_query.gd")
 const BOARD := preload("res://scripts/chapters/core_overlay_board.gd")
 const SLOT := "__test_notebook_core"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var fixtures := {}
 var covered := {}
 var covered_segments := {}
@@ -87,6 +88,7 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(anonymous_reviews == 24, "both locales preserve all three actual mark histories across all nine mark-intent combinations")
 	print("CORE_ANONYMOUS_REVIEWS: ", anonymous_reviews)
 	print("CORE_COVERAGE: actual IDs/locales=", covered.size(), " segments/locales=", covered_segments.size(), " catalog/rule cases=", matrices)
+	_expect(runtime_audit.emit("core", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok":errors.is_empty(), "errors":errors, "actual_id_locales":covered.size(), "matrix_cases":matrices, "anonymous_reviews":anonymous_reviews,
 		"not_covered":["durable_app_restart_cursor", "unified_notebook_UI", "visual_comparison_renderer", "OS_input"]}
 
@@ -466,6 +468,7 @@ func _count(key: String) -> int:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	errors.append_array(PUBLIC_LABELS.screen_errors(view))
 	for entry in _archive().entries:
 		errors.append_array(PUBLIC_LABELS.live_errors(entry))

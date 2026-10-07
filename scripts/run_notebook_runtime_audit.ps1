@@ -6,7 +6,7 @@ param(
     [ValidateRange(1, 3600)][int]$TimeoutSeconds = 1200
 )
 $ErrorActionPreference = 'Stop'
-$allowed = @('chapter-one', 'chapter-one-notes', 'modals', 'stay', 'chapter-surfaces', 'prologue-surfaces', 'mara1', 'iris', 'luca', 'authority-archive', 'settlement', 'journal-four-display')
+$allowed = @('chapter-one', 'chapter-one-notes', 'modals', 'stay', 'chapter-surfaces', 'prologue-surfaces', 'mara1', 'iris', 'luca', 'authority-archive', 'settlement', 'journal-four-display', 'core', 'final', 'reality')
 if ($Suites.Count -eq 0 -or @($Suites | Where-Object { $_ -cnotin $allowed }).Count -gt 0 -or
     @($Suites | Select-Object -Unique).Count -ne $Suites.Count) { throw 'Select distinct supported suites' }
 $engine = (Resolve-Path -LiteralPath $EnginePath).Path

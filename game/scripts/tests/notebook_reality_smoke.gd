@@ -12,6 +12,7 @@ const WAKE := preload("res://scripts/systems/reality_wake.gd")
 const FIELD := preload("res://scripts/systems/field_notebook.gd")
 const SLOT := "__test_notebook_reality"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var fixtures := {}
 var covered := {}
 var segments := {}
@@ -81,6 +82,7 @@ func run(tree: SceneTree) -> Dictionary:
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor",flavor)
 	print("REALITY_COVERAGE: actual ID/locales=",covered.size()," segment/locales=",segments.size())
+	_expect(runtime_audit.emit("reality", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok":errors.is_empty(),"errors":errors,"actual_id_locales":covered.size(),"actual_segment_locales":segments.size(),
 		"handoff_masks":handoff_masks,"historical_confirmations":historical_confirmations,
 		"focused_history_only":"--notebook-handoff-history-only" in OS.get_cmdline_user_args(),
@@ -556,6 +558,7 @@ func _count(key: String) -> int:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	var state := GameState.get_snapshot()
 	for entry in _archive().entries:
 		_expect(entry.get("record_class") == "authored","no unmapped reality history")

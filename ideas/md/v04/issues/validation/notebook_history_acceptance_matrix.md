@@ -1,6 +1,7 @@
 # 통합 수첩 인수 항목 대조표
 
 - 기준: develop `30a376b4a6ec207a5908e5bf4434c5bc7bba294f`.
+- 후속 근거 갱신: 시작 기준 develop `4e6e396`. 최초 대조표의 범위는 유지하고 생산자 합집합/의미 버전 검사 링크를 추가했다. 모든 인수 완료를 뜻하지 않는다.
 - 정본: [검토·구현 계획](notebook_history_review_plan.md), [전체 ToDo](notebook_history_TODO.md).
 - 목적: NB-Q01~20, NB-AQ01~18 각각의 코드 검사 위치와 남은 인수 증거를 연결한다. 이번 문서는 **완료 선언이 아닌 T26 중간 감사**다.
 - 코드 파일명은 `game/scripts/tests/` 기준이다. 함수 검색은 검사 위치를 찾는 데 사용했으며 그 자체를 실행 PASS로 세지 않았다.
@@ -18,6 +19,7 @@
 | 관계 | [이리스 144조건](2026-10-05_이리스_관계수치_전조합_공개검증.md), [5인 선택 저장 재시도](2026-10-05_사용인_선택창_저장재시도_검증.md): 완료 시점 공개·저장. 이후 F2/엔딩의 모든 조합은 별도 |
 | 선택·물리 수첩 | [현장 수첩 복귀](2026-10-05_현장수첩_선택창복귀_공개조건검증.md), [엔딩 결정 복귀](2026-10-05_엔딩결정_저장실패_복귀검증.md): 읽기/확정과 단순 조회의 경계 |
 | 생산자·명칭 | [생산자 감사](../../../../../docs/notebook_producer_audit_validation.md), [공개 명칭](../../../../../docs/notebook_public_labels_validation.md), [전 버전 메타데이터](2026-10-05_수첩_메타데이터_전버전감사.md): 과거 보고서의 기준 패키지 실패와 후속 수정 PASS를 구별 |
+| 관계·후반 실행 합집합 | [T19f 사용인 5인·J4·결산](2026-10-07_수첩생산자_5인J4결산_합집합.md), [T19g 코어·최종 선택·두 엔딩](2026-10-07_수첩생산자_코어최종엔딩_합집합.md): 각기 동일 소스 실행 묶음의 NP10~15/NP16~19 등록 문단·언어 관찰. 두 소스의 경로 수를 합산하지 않고 필수 분기·신규 미매핑·정적 제외 전수는 별도 |
 | 성능 | [읽기 모델 비동기 갱신](2026-10-05_수첩_비동기모델갱신_검증.md), 최초 화면 구성 보고서: 병목 수정과 단일 탐색 표본. 정식 장비별 cold/warm 합격 자료가 아님 |
 
 ## 2. NB-Q 필수 시나리오
@@ -55,7 +57,7 @@
 | NB-AQ04 | 모든 저장 형식 정상/손상/미래/이관 중단 | migration, save-safety, gallery `_legacy_and_damage` | 대조 필요. Q13과 같은 저장 입구 행렬을 공유하되 checksum·UID·원본 검사를 별도 열로 구분 / T26 |
 | NB-AQ05 | 안 본 뒷면은 검색/비교/페이지/대체 설명에도 없음 | query `_test_disclosure`, visual, metadata 부분 공개 | 자동 근거 있음. 실제 최초 공개 생산자와 자료 연결 대조 / T10~T19 |
 | NB-AQ06 | 출처 보호·정리된 앵커 안내 | archive·person-retention·investigation `_test_sources`, view 복원 | [소비자별 대조](2026-10-06_출처보호_소비자별_감사.md)와 [반증/갤러리 결합](2026-10-06_대량정리후_가설갤러리_출처이동.md) PASS. 대표 한국어 경로의 headless 버튼 검증이며 전체 본편 출처 공급과 실제 입력은 별도 / T26i·T26j·T10~T19·T22 |
-| NB-AQ07 | 의미 변경·최종 공개 후에도 과거 revision 불변 | query `_test_revisions`, public-labels 버전 보존, J4/field 재생 | [F1/J5 이후 J4 보존](2026-10-06_J5복원후_J4원문보존_검증.md) 한영 6조건 PASS. 원문 불변과 정상 인용 보호 추가를 구분. 모든 이전 의미 버전·전편/OS 입력은 별도 / T15a·T26 |
+| NB-AQ07 | 의미 변경·최종 공개 후에도 과거 revision 불변 | query `_test_revisions`, public-labels 버전 보존, J4/field 재생 | [F1/J5 이후 J4 보존](2026-10-06_J5복원후_J4원문보존_검증.md) 한영 6조건과 [T19g 인계 문서의 과거 확인·명시 재열람](2026-10-07_수첩생산자_코어최종엔딩_합집합.md) PASS. 원문 불변과 정상 인용 보호 추가를 구분. 모든 이전 의미 버전·전편/OS 입력은 별도 / T15a·T19g·T26 |
 | NB-AQ08 | 재방문/다른 선택만 새 발생, 재표시는 멱등 | surface-resume, presentation, chapter 반복 조사, Iris 전조합 | 자동 근거 있음. 나머지 생산자별 실제 발생/재표시 구분 / T10~T19 |
 | NB-AQ09 | 자유 메모 제외, 기존 A1/SUBJECT 유지 | self-mark, authority-archive, view store·입력 메뉴 | 대조 필요. 저장 스키마/입력 필드 정적 목록과 A1/SUBJECT 실행 증거 결합 / T26 |
 | NB-AQ10 | P/A1/A2/D5/E1/E2/F1 정체·루프 암시 순서 | memory-disclosure, prologue/fracture/final 생산자 | 자동 근거 + 실제 전편 화면/검색 검수 미완료 / T10~T19·T22 |
@@ -64,7 +66,7 @@
 | NB-AQ13 | 51행·필터 끝·갱신·언어 변경 안정성 | query `_test_order_cache`, view restore, search, host refresh | 자동 근거 있음. 긴 검색 및 실제 포커스 검사와 연결 / T22·T26 |
 | NB-AQ14 | n/N·IME·Esc·Alt+Tab·예약 후 슬롯 변경 | host/opening input guards, query/search UI | 자동 scope 검사는 있음. IME·OS 입력의 한 계층 소비 미완료 / T22 |
 | NB-AQ15 | 일반 2001+보호 2001+legacy10000 모두 보존 | archive retention, migration `_validate_retention_commit(true)` | [혼합 저장 검사](2026-10-06_혼합기록_저장보존_검증.md) PASS. 일반 초과 1개만 정리, 저장 거부/응답 유실/reload 검증. 성능 인수는 별도 미완료 / T24·T26h |
-| NB-AQ16 | 22생산자·전 분기·한영·미매핑/미실행/ID 노출 0 | 생산자별 suite·카탈로그 감사·ERR-0026 | 전체 필수 경로 합집합·분모 확정과 실제 화면 미완료 / T10~T19·T25 |
+| NB-AQ16 | 22생산자·전 분기·한영·미매핑/미실행/ID 노출 0 | 생산자별 suite·카탈로그 감사·ERR-0026, T19f/g 등록 문단 관찰 | NP10~19의 명시된 등록 문단/언어 관찰은 추가됐지만 서로 다른 소스의 총수를 더하지 않는다. 전체 필수 경로/제외·신규 미매핑·실제 화면 인수는 미완료 / T10~T19·T25 |
 | NB-AQ17 | 저장 객체 불변과 현재 언어 표시를 별도 비교 | query metadata/legacy, 생산자 과거 버전 재생 | 자동 근거 있음. 모든 저장 입구의 원본 바이트/객체 검사 연결 / T26 |
 | NB-AQ18 | fixture·장비·cold/warm p95·메모리·프레임 | performance/lifecycle probe, 비동기/화면 구성 보고서 | 명시적 미완료. 현재 단일 headless 표본으로 대체 불가 / T20·T21·T24 |
 

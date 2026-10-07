@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "duplicate_report_count": 8,
+  "duplicate_union_count": 1650,
+  "stale_errors": [
+    "STALE_SCRIPT_CORPUS"
+  ],
+  "catalog_count": 29,
+  "independent_denominator_producers": 22,
+  "source_corpus": {
+    "sha256": "871913589d04793b3702beace2f6b9022f9df4eee616244eef92612a1cc675ef",
+    "file_count": 261
+  },
+  "historical_route_tuples": 16,
+  "historical_routes_by_producer": [
+    {
+      "count": 12,
+      "producer": "NP05"
+    },
+    {
+      "count": 4,
+      "producer": "NP18"
+    }
+  ]
+}
