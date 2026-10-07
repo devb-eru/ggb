@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "native_runs": 21,
+  "duplicate_reports": 42,
+  "distinct_tuples": 5134,
+  "duplicate_invariant": true,
+  "candidate_source_rejected": [
+    "STALE_SCRIPT_CORPUS"
+  ],
+  "independent_producer_denominators": 22,
+  "all_script_hashes_unchanged": 261,
+  "all_catalog_hashes_unchanged": 29,
+  "source_corpus": {
+    "file_count": 261,
+    "sha256": "230718d54955417cf7b00f5c1954476074b96f1ed5b324a6ea1a3328110e68b7"
+  },
+  "required_branch_coverage": "NOT_AUDITED",
+  "new_unmapped_count": null,
+  "excluded_ui_count": null
+}

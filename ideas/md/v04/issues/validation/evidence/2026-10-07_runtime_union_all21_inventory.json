@@ -1,0 +1,477 @@
+{
+  "ok": true,
+  "errors": [],
+  "authored_ids": 1685,
+  "semantic_versions": 1736,
+  "missing_ko_fields": 0,
+  "missing_en_fields": 0,
+  "producers": [
+    {
+      "producer": "NP01",
+      "authored_ids": 79,
+      "semantic_versions": 79,
+      "latest_versions": 79,
+      "latest_segments": 79,
+      "catalogs": [
+        "res://data/notebook/prologue_v1.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP02",
+      "authored_ids": 14,
+      "semantic_versions": 14,
+      "latest_versions": 14,
+      "latest_segments": 28,
+      "catalogs": [
+        "res://data/notebook/prologue_v1.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP03",
+      "authored_ids": 9,
+      "semantic_versions": 9,
+      "latest_versions": 9,
+      "latest_segments": 9,
+      "catalogs": [
+        "res://data/notebook/prologue_notes_v1.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP04",
+      "authored_ids": 57,
+      "semantic_versions": 57,
+      "latest_versions": 57,
+      "latest_segments": 95,
+      "catalogs": [
+        "res://data/notebook/chapter_one_v1.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP05",
+      "authored_ids": 123,
+      "semantic_versions": 124,
+      "latest_versions": 123,
+      "latest_segments": 289,
+      "catalogs": [
+        "res://data/notebook/modals_v1.json",
+        "res://data/notebook/record_labels_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP06",
+      "authored_ids": 26,
+      "semantic_versions": 29,
+      "latest_versions": 26,
+      "latest_segments": 26,
+      "catalogs": [
+        "res://data/notebook/chapter_one_notes_v1.json",
+        "res://data/notebook/self_mark_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP07",
+      "authored_ids": 100,
+      "semantic_versions": 100,
+      "latest_versions": 100,
+      "latest_segments": 147,
+      "catalogs": [
+        "res://data/notebook/mirror_v1.json",
+        "res://data/notebook/puzzle_surfaces_v1.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP08",
+      "authored_ids": 73,
+      "semantic_versions": 78,
+      "latest_versions": 73,
+      "latest_segments": 99,
+      "catalogs": [
+        "res://data/notebook/basement_v1.json",
+        "res://data/notebook/puzzle_labels_v2.json",
+        "res://data/notebook/puzzle_surfaces_v1.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP09",
+      "authored_ids": 117,
+      "semantic_versions": 117,
+      "latest_versions": 117,
+      "latest_segments": 127,
+      "catalogs": [
+        "res://data/notebook/fracture_surfaces_v1.json",
+        "res://data/notebook/fracture_v1.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP10",
+      "authored_ids": 27,
+      "semantic_versions": 28,
+      "latest_versions": 27,
+      "latest_segments": 32,
+      "catalogs": [
+        "res://data/notebook/mara1_v1.json",
+        "res://data/notebook/relationship_labels_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP11",
+      "authored_ids": 45,
+      "semantic_versions": 46,
+      "latest_versions": 45,
+      "latest_segments": 52,
+      "catalogs": [
+        "res://data/notebook/iris_v1.json",
+        "res://data/notebook/relationship_labels_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP12",
+      "authored_ids": 31,
+      "semantic_versions": 32,
+      "latest_versions": 31,
+      "latest_segments": 39,
+      "catalogs": [
+        "res://data/notebook/luca_v1.json",
+        "res://data/notebook/relationship_labels_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP13",
+      "authored_ids": 45,
+      "semantic_versions": 46,
+      "latest_versions": 45,
+      "latest_segments": 74,
+      "catalogs": [
+        "res://data/notebook/edgar_v1.json",
+        "res://data/notebook/relationship_labels_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP14",
+      "authored_ids": 103,
+      "semantic_versions": 104,
+      "latest_versions": 103,
+      "latest_segments": 259,
+      "catalogs": [
+        "res://data/notebook/mara2_v1.json",
+        "res://data/notebook/relationship_labels_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP15",
+      "authored_ids": 178,
+      "semantic_versions": 184,
+      "latest_versions": 178,
+      "latest_segments": 240,
+      "catalogs": [
+        "res://data/notebook/journal_four_display_v1.json",
+        "res://data/notebook/journal_four_v1.json",
+        "res://data/notebook/record_labels_v2.json",
+        "res://data/notebook/settlement_v1.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP16",
+      "authored_ids": 122,
+      "semantic_versions": 140,
+      "latest_versions": 122,
+      "latest_segments": 164,
+      "catalogs": [
+        "res://data/notebook/core_v1.json",
+        "res://data/notebook/puzzle_labels_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP17",
+      "authored_ids": 66,
+      "semantic_versions": 67,
+      "latest_versions": 66,
+      "latest_segments": 156,
+      "catalogs": [
+        "res://data/notebook/final_v1.json",
+        "res://data/notebook/puzzle_labels_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP18",
+      "authored_ids": 153,
+      "semantic_versions": 154,
+      "latest_versions": 153,
+      "latest_segments": 168,
+      "catalogs": [
+        "res://data/notebook/reality_v1.json",
+        "res://data/notebook/record_labels_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP19",
+      "authored_ids": 120,
+      "semantic_versions": 120,
+      "latest_versions": 120,
+      "latest_segments": 175,
+      "catalogs": [
+        "res://data/notebook/stay_v1.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP20",
+      "authored_ids": 60,
+      "semantic_versions": 71,
+      "latest_versions": 60,
+      "latest_segments": 60,
+      "catalogs": [
+        "res://data/notebook/hints_v1.json",
+        "res://data/notebook/puzzle_labels_v2.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP21",
+      "authored_ids": 137,
+      "semantic_versions": 137,
+      "latest_versions": 137,
+      "latest_segments": 159,
+      "catalogs": [
+        "res://data/notebook/chapter_surfaces_v1.json",
+        "res://data/notebook/prologue_surfaces_v1.json"
+      ],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    },
+    {
+      "producer": "NP22",
+      "authored_ids": 0,
+      "semantic_versions": 0,
+      "latest_versions": 0,
+      "latest_segments": 0,
+      "catalogs": [],
+      "runtime_coverage": "NOT_AUDITED",
+      "legacy_count": null,
+      "excluded_count": null,
+      "unmapped_runtime_count": null,
+      "unexecuted_required_branches": null
+    }
+  ],
+  "scope": "Registered catalog metadata only; not runtime route coverage or save-file inventory.",
+  "registered_catalogs": 29,
+  "catalog_fingerprints": [
+    {
+      "catalog": "res://data/notebook/hints_v1.json",
+      "sha256": "C7CB8CDB544418CEEF2C55F3E57E8A908BBBDD743B8A043781777E61DF3EBD84"
+    },
+    {
+      "catalog": "res://data/notebook/prologue_v1.json",
+      "sha256": "4221FEEB5BA422E23245E470A88473003DEBFC2E4B7E36A23F2795ADB30D6B6A"
+    },
+    {
+      "catalog": "res://data/notebook/prologue_notes_v1.json",
+      "sha256": "A84BB21A1DABBC1972610BD9D0631577335C79F5A76D12D0B7DEABDB25979A06"
+    },
+    {
+      "catalog": "res://data/notebook/chapter_one_v1.json",
+      "sha256": "2047D4382BAC28C012BB1E7384DF2C447DB620943C88D945506C174978833B2B"
+    },
+    {
+      "catalog": "res://data/notebook/chapter_one_notes_v1.json",
+      "sha256": "8B4B3BFD46DBBB8A5012E32BFDEC74279A92FF45179EB3D6A8C945958A4A4A21"
+    },
+    {
+      "catalog": "res://data/notebook/modals_v1.json",
+      "sha256": "E2AF9DED7E0784401A6AA7214D65D1948C450D783AAABB200B9D4E061734584A"
+    },
+    {
+      "catalog": "res://data/notebook/mirror_v1.json",
+      "sha256": "42D31AD557C795401BDB0FC5A46785C331E0CEE1EC7A5CC38077894C7265DB41"
+    },
+    {
+      "catalog": "res://data/notebook/basement_v1.json",
+      "sha256": "B8ACB8291E27D8657C50B6B2F894C7DC1E26A6A42C4930DF8195C405DDE85CF2"
+    },
+    {
+      "catalog": "res://data/notebook/fracture_v1.json",
+      "sha256": "D6320B170883E66C9FB9051B1A6BDB98FF15BB7D08827ACD7D70501B5E864EB3"
+    },
+    {
+      "catalog": "res://data/notebook/fracture_surfaces_v1.json",
+      "sha256": "6200EE74EA5144711245CC4D2FC237BE31BA1043A1B5F2D8F98786E5DA68B77D"
+    },
+    {
+      "catalog": "res://data/notebook/mara1_v1.json",
+      "sha256": "A30DED66CFD0736C1278D4C4514AFBC00E5B3A5D3951F41A582CA2ACA657F050"
+    },
+    {
+      "catalog": "res://data/notebook/iris_v1.json",
+      "sha256": "9362F77247E3D5F39AB3898E94135DC0BFDAAB536028908FD20639A811E6CFDC"
+    },
+    {
+      "catalog": "res://data/notebook/luca_v1.json",
+      "sha256": "B384739C174143B1E630970D225A9739C16B81395AEA3EA60F2499DB4584A71E"
+    },
+    {
+      "catalog": "res://data/notebook/edgar_v1.json",
+      "sha256": "5105075FB64942355DB3D3335E70BCB330B84253DBCB7CC4CAE84C2C7175C41C"
+    },
+    {
+      "catalog": "res://data/notebook/mara2_v1.json",
+      "sha256": "9F66A23661E413409B7A81F9BE033C9F857B75848F2FA90B8D4E179B88FFF6BF"
+    },
+    {
+      "catalog": "res://data/notebook/settlement_v1.json",
+      "sha256": "D440F3948DBE7615E12FC12FD0C3D827031F2E44B8E5B57CA6177AD18A540A76"
+    },
+    {
+      "catalog": "res://data/notebook/journal_four_v1.json",
+      "sha256": "AB97A2E4415D388564D92AECB40420C257E4B6DD2D67B20BF97644625127198F"
+    },
+    {
+      "catalog": "res://data/notebook/journal_four_display_v1.json",
+      "sha256": "2A3B5B3B46D085E0CDB4DFBA388B4D6C53780ECDA6AEEE60431EED036AE694E1"
+    },
+    {
+      "catalog": "res://data/notebook/core_v1.json",
+      "sha256": "129627E90FB5BDD6BA5D98E91802C5D66F3EAD4EB22893A191A9C5E79C04A294"
+    },
+    {
+      "catalog": "res://data/notebook/final_v1.json",
+      "sha256": "B33E538FB14FFAB62944D392E3823F041F0A5BB6AD74B6E4EEC79A9BC34CD063"
+    },
+    {
+      "catalog": "res://data/notebook/reality_v1.json",
+      "sha256": "2179AAE7F7EC2A657FADA6B235753FCDEA69A244A7C2FA353B60DC4849007E99"
+    },
+    {
+      "catalog": "res://data/notebook/stay_v1.json",
+      "sha256": "ED797B06555E2A6CC9A1434916CEF05844945874E2B6E4F9DCF59030AB468D67"
+    },
+    {
+      "catalog": "res://data/notebook/puzzle_surfaces_v1.json",
+      "sha256": "01414E1455FC3CE47F2AF911B5FE137929D03953E8355323206B36D819F675F3"
+    },
+    {
+      "catalog": "res://data/notebook/chapter_surfaces_v1.json",
+      "sha256": "B46E8F16C7254793E123B022975A0C85F555297B826831C60047340A8077FB85"
+    },
+    {
+      "catalog": "res://data/notebook/prologue_surfaces_v1.json",
+      "sha256": "9B955AB03D69D734F8E06699D3A0AA65843C5BCC9DB7F14CCDED37AE73B476C1"
+    },
+    {
+      "catalog": "res://data/notebook/self_mark_v2.json",
+      "sha256": "70511C773EF18D58A55523EBAAE32AD125C02ABCAA720A6F4D540FAB861DF4D6"
+    },
+    {
+      "catalog": "res://data/notebook/relationship_labels_v2.json",
+      "sha256": "563A04006B3C70DC260AAE6ACA9D8C49CFE6B85AF02825C2EC5C9C0B3B9838AB"
+    },
+    {
+      "catalog": "res://data/notebook/record_labels_v2.json",
+      "sha256": "CA9A5228317729E396C5A54B482B31C34B100E948F1E6CE17B5DC742E2BC01A8"
+    },
+    {
+      "catalog": "res://data/notebook/puzzle_labels_v2.json",
+      "sha256": "64E187C32EE535436A580CABD6A491EA604A80E865DF914DF00366EF320ABF91"
+    }
+  ]
+}
