@@ -11,6 +11,13 @@ static var _loaded := false
 static var _review_identifier: RegEx
 static var _catalog_mutex := Mutex.new()
 static var _identifier_mutex := Mutex.new()
+const SUBSTITUTION_CACHE_LIMIT := 128
+const SUBSTITUTION_CHARACTER_LIMIT := 131072
+const SUBSTITUTION_TEMPLATE_LIMIT := 8192
+static var _substitution_mutex := Mutex.new()
+static var _substitution_cache: Dictionary = {}
+static var _substitution_characters := 0
+static var _substitution_builds := 0
 
 
 static func hint_descriptor(stage: String, level: int) -> Dictionary:
@@ -306,19 +313,56 @@ static func _serialized_variables(variables: Dictionary) -> Dictionary:
 
 static func _substitute(template: String, variables: Dictionary, specs: Dictionary, enums: Dictionary = {}, locale: String = "ko-KR") -> String:
 	if specs.is_empty(): return template
-	# A callback-like single pass prevents variable values from becoming new templates.
-	var regex := RegEx.new()
-	regex.compile("\\{([A-Za-z][A-Za-z0-9_]*)\\}")
+	# Cached tokens describe only the template; values are never parsed or cached.
 	var result := ""
-	var offset := 0
-	for found in regex.search_all(template):
-		var key := found.get_string(1)
+	for part in _compiled_template(template):
+		if not part[0]:
+			result += part[1]
+			continue
+		var key: String = part[1]
 		var value: Variant = int(variables[key]) if specs[key] == "int" else variables[key]
 		if String(specs[key]).begins_with("enum:"):
 			value = enums[String(specs[key]).trim_prefix("enum:")][locale][variables[key]]
-		result += template.substr(offset, found.get_start() - offset) + str(value)
+		result += str(value)
+	return result
+
+
+static func _compiled_template(template: String) -> Array:
+	_substitution_mutex.lock()
+	if _substitution_cache.has(template):
+		var cached: Array = _substitution_cache[template]
+		_substitution_mutex.unlock()
+		return cached
+	_substitution_mutex.unlock()
+	var regex := RegEx.new()
+	regex.compile("\\{([A-Za-z][A-Za-z0-9_]*)\\}")
+	var parts: Array = []
+	var offset := 0
+	for found in regex.search_all(template):
+		parts.append([false, template.substr(offset, found.get_start() - offset)])
+		parts.append([true, found.get_string(1)])
 		offset = found.get_end()
-	return result + template.substr(offset)
+	parts.append([false, template.substr(offset)])
+	for part in parts: part.make_read_only()
+	parts.make_read_only()
+	_substitution_mutex.lock()
+	_substitution_builds += 1
+	if template.length() <= SUBSTITUTION_TEMPLATE_LIMIT and not _substitution_cache.has(template):
+		while _substitution_cache.size() >= SUBSTITUTION_CACHE_LIMIT or _substitution_characters + template.length() > SUBSTITUTION_CHARACTER_LIMIT:
+			var oldest: String = _substitution_cache.keys()[0]
+			_substitution_characters -= oldest.length()
+			_substitution_cache.erase(oldest)
+		_substitution_cache[template] = parts
+		_substitution_characters += template.length()
+	_substitution_mutex.unlock()
+	return parts
+
+
+static func substitution_diagnostics() -> Dictionary:
+	_substitution_mutex.lock()
+	var result := {"entries":_substitution_cache.size(), "characters":_substitution_characters, "builds":_substitution_builds}
+	_substitution_mutex.unlock()
+	return result
 
 
 static func _integer(value: Variant) -> bool:

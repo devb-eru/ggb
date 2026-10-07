@@ -1,0 +1,2988 @@
+{
+  "micro_abba": [
+    {
+      "mode": "oracle",
+      "ms": 21.085,
+      "rows": 2000
+    },
+    {
+      "mode": "cache",
+      "ms": 10.863,
+      "rows": 2000
+    },
+    {
+      "mode": "cache",
+      "ms": 10.723,
+      "rows": 2000
+    },
+    {
+      "mode": "oracle",
+      "ms": 21.525,
+      "rows": 2000
+    }
+  ],
+  "concurrent_workers": 8,
+  "scope": "MEASUREMENT_ONLY_NOT_PERFORMANCE_ACCEPTANCE",
+  "metadata_checks": 74828,
+  "performance": [
+    {
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "ko-KR",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 295000
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 10000,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-L10000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+          "utf8_bytes": 5434278
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [],
+        "search_index_calls": 343,
+        "timings_ms": {
+          "append_prune_ms": [
+            1171.621
+          ],
+          "durable_save_ms": [
+            3813.529
+          ],
+          "first_page_model_ms": [
+            137.281
+          ],
+          "first_search_ui_ms": [
+            3187.9
+          ],
+          "fixture_build_ms": [
+            2624.334
+          ],
+          "fixture_parse_ms": [
+            542.109
+          ],
+          "model_to_panel_ms": [
+            2520.336
+          ],
+          "panel_present_ms": [
+            676.814
+          ],
+          "query_open_ms": [
+            1682.248
+          ],
+          "saved_slot_load_ms": [
+            1212.187
+          ],
+          "search_index_body_ms": [
+            834.321
+          ],
+          "search_index_cpu_total_ms": [
+            1489.258
+          ],
+          "search_index_fields_ms": [
+            318.177
+          ],
+          "search_index_max_batch_ms": [
+            6.178
+          ],
+          "slot_inspect_after_write_ms": [
+            63.829
+          ],
+          "slot_inspect_unchanged_ms": [
+            65.261,
+            65.0
+          ],
+          "two_materials_model_ms": [
+            0.677
+          ],
+          "warm_facets_model_ms": [
+            378.715
+          ],
+          "warm_page_model_ms": [
+            108.367
+          ],
+          "warm_search_hidden_model_ms": [
+            171.606
+          ],
+          "warm_search_long_model_ms": [
+            114.328
+          ],
+          "warm_search_match_model_ms": [
+            115.678
+          ],
+          "warm_search_miss_model_ms": [
+            113.096
+          ]
+        },
+        "warm_iterations": 1
+      },
+      "phase": "before"
+    },
+    {
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "en-US",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 295000
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 10000,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-L10000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+          "utf8_bytes": 5434278
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [],
+        "search_index_calls": 353,
+        "timings_ms": {
+          "append_prune_ms": [
+            1320.862
+          ],
+          "durable_save_ms": [
+            3619.42
+          ],
+          "first_page_model_ms": [
+            109.976
+          ],
+          "first_search_ui_ms": [
+            2891.076
+          ],
+          "fixture_build_ms": [
+            2378.322
+          ],
+          "fixture_parse_ms": [
+            535.777
+          ],
+          "model_to_panel_ms": [
+            2739.17
+          ],
+          "panel_present_ms": [
+            602.034
+          ],
+          "query_open_ms": [
+            2010.134
+          ],
+          "saved_slot_load_ms": [
+            1883.45
+          ],
+          "search_index_body_ms": [
+            866.86
+          ],
+          "search_index_cpu_total_ms": [
+            1554.456
+          ],
+          "search_index_fields_ms": [
+            310.561
+          ],
+          "search_index_max_batch_ms": [
+            7.142
+          ],
+          "slot_inspect_after_write_ms": [
+            75.458
+          ],
+          "slot_inspect_unchanged_ms": [
+            70.288,
+            65.928
+          ],
+          "two_materials_model_ms": [
+            0.568
+          ],
+          "warm_facets_model_ms": [
+            468.591
+          ],
+          "warm_page_model_ms": [
+            81.252
+          ],
+          "warm_search_hidden_model_ms": [
+            163.749
+          ],
+          "warm_search_long_model_ms": [
+            196.31
+          ],
+          "warm_search_match_model_ms": [
+            108.475
+          ],
+          "warm_search_miss_model_ms": [
+            109.788
+          ]
+        },
+        "warm_iterations": 1
+      },
+      "phase": "before"
+    },
+    {
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "ko-KR",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 295000
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 10000,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-L10000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+          "utf8_bytes": 5434278
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [],
+        "search_index_calls": 346,
+        "timings_ms": {
+          "append_prune_ms": [
+            1156.222
+          ],
+          "durable_save_ms": [
+            3927.71
+          ],
+          "first_page_model_ms": [
+            116.627
+          ],
+          "first_search_ui_ms": [
+            3464.082
+          ],
+          "fixture_build_ms": [
+            3000.721
+          ],
+          "fixture_parse_ms": [
+            649.896
+          ],
+          "model_to_panel_ms": [
+            3312.924
+          ],
+          "panel_present_ms": [
+            1165.069
+          ],
+          "query_open_ms": [
+            1988.427
+          ],
+          "saved_slot_load_ms": [
+            1761.665
+          ],
+          "search_index_body_ms": [
+            850.307
+          ],
+          "search_index_cpu_total_ms": [
+            1519.161
+          ],
+          "search_index_fields_ms": [
+            322.551
+          ],
+          "search_index_max_batch_ms": [
+            6.537
+          ],
+          "slot_inspect_after_write_ms": [
+            67.839
+          ],
+          "slot_inspect_unchanged_ms": [
+            77.848,
+            78.236
+          ],
+          "two_materials_model_ms": [
+            0.775
+          ],
+          "warm_facets_model_ms": [
+            333.538
+          ],
+          "warm_page_model_ms": [
+            108.641
+          ],
+          "warm_search_hidden_model_ms": [
+            134.349
+          ],
+          "warm_search_long_model_ms": [
+            165.086
+          ],
+          "warm_search_match_model_ms": [
+            101.098
+          ],
+          "warm_search_miss_model_ms": [
+            118.082
+          ]
+        },
+        "warm_iterations": 1
+      },
+      "phase": "after"
+    },
+    {
+      "result": {
+        "acceptance": "MEASUREMENT_ONLY",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+        "cpu_threads": 20,
+        "display": "headless",
+        "engine": "4.7.2-stable (steam)",
+        "errors": [],
+        "legacy_body_path_comparison": {},
+        "lifecycle": {},
+        "locale": "en-US",
+        "manifest": {
+          "body_bytes": {
+            "en-US": 118294,
+            "ko-KR": 131668,
+            "legacy": 295000
+          },
+          "bookmarks": 0,
+          "comparison": 3,
+          "counts": {
+            "legacy": 10000,
+            "normal": 2000,
+            "protected": 6
+          },
+          "fixture_id": "NB-PERF-L10000",
+          "long_document_utf8_bytes": 0,
+          "long_documents": 0,
+          "seed": "ggb-notebook-perf-v1",
+          "sha256": "cb640d6a7d1956b796f09a9c8b8be6b7758f2e098b4c71841474e47560c624a8",
+          "utf8_bytes": 5434278
+        },
+        "not_covered": [
+          "OS_input",
+          "IME",
+          "device_class_acceptance",
+          "rendered_visual_QA",
+          "OS_disk_cache_flush",
+          "input_frame_capture",
+          "50_open_close_memory",
+          "warm_UI_input_p95"
+        ],
+        "ok": true,
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "save_stage_profile": [],
+        "search_index_calls": 375,
+        "timings_ms": {
+          "append_prune_ms": [
+            1225.442
+          ],
+          "durable_save_ms": [
+            4130.527
+          ],
+          "first_page_model_ms": [
+            93.985
+          ],
+          "first_search_ui_ms": [
+            3086.576
+          ],
+          "fixture_build_ms": [
+            2546.095
+          ],
+          "fixture_parse_ms": [
+            559.767
+          ],
+          "model_to_panel_ms": [
+            2964.182
+          ],
+          "panel_present_ms": [
+            661.85
+          ],
+          "query_open_ms": [
+            2184.432
+          ],
+          "saved_slot_load_ms": [
+            1216.407
+          ],
+          "search_index_body_ms": [
+            916.703
+          ],
+          "search_index_cpu_total_ms": [
+            1660.669
+          ],
+          "search_index_fields_ms": [
+            333.616
+          ],
+          "search_index_max_batch_ms": [
+            9.394
+          ],
+          "slot_inspect_after_write_ms": [
+            76.506
+          ],
+          "slot_inspect_unchanged_ms": [
+            69.881,
+            64.697
+          ],
+          "two_materials_model_ms": [
+            1.549
+          ],
+          "warm_facets_model_ms": [
+            454.998
+          ],
+          "warm_page_model_ms": [
+            134.122
+          ],
+          "warm_search_hidden_model_ms": [
+            199.876
+          ],
+          "warm_search_long_model_ms": [
+            181.59
+          ],
+          "warm_search_match_model_ms": [
+            128.451
+          ],
+          "warm_search_miss_model_ms": [
+            139.787
+          ]
+        },
+        "warm_iterations": 1
+      },
+      "phase": "after"
+    }
+  ],
+  "schema": 1,
+  "whole_search_improvement_demonstrated": false,
+  "full_query_checks": 6863,
+  "focused_checks": 170,
+  "iterations_per_worker": 100,
+  "baseline_commit": "910a139517c509bd25eedc402a4a782b7b1c667c",
+  "source_hashes": [
+    {
+      "path": "game/scripts/systems/notebook_content.gd",
+      "sha256": "554669A811BC99E6B93EB4CB8E3D2FB142E1E5B679461105811ACE364D277B64"
+    },
+    {
+      "path": "game/scripts/tests/notebook_substitution_smoke.gd",
+      "sha256": "A2FE40EF56880E20080E83A3FFFCC58FAD243A4DAA09E87C6896F591EEFD6C3F"
+    },
+    {
+      "path": "game/scripts/tests/notebook_content_smoke.gd",
+      "sha256": "60DB7728009B5A40AA0B35AF073440D0B14CB91DCD7BF7DB767C6C9FD27F9DBF"
+    }
+  ],
+  "content_recovery": {
+    "errors": [],
+    "recovery_cases": [
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "ko-KR",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "ko-KR",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "ko-KR",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "ko-KR",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "ko-KR",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "B3_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "B3_B",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "BF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "C3",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "C4",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "CF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "D0_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "D1",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "DF",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "D4",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "F0_A",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "F0_B",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "F0_C",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "F0_D",
+        "ok": true
+      },
+      {
+        "level": 1,
+        "locale": "en-US",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 2,
+        "locale": "en-US",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 3,
+        "locale": "en-US",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 4,
+        "locale": "en-US",
+        "node": "F0_E",
+        "ok": true
+      },
+      {
+        "level": 5,
+        "locale": "en-US",
+        "node": "F0_E",
+        "ok": true
+      }
+    ],
+    "scope": "NP20_REJECTED_SAVE_RETRY_AND_BF_SUPPORT_NOT_OS_INPUT",
+    "support_cases": [
+      {
+        "attempts": 0,
+        "locale": "ko-KR",
+        "offered_level": 0,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 1,
+        "locale": "ko-KR",
+        "offered_level": 0,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 2,
+        "locale": "ko-KR",
+        "offered_level": 3,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 3,
+        "locale": "ko-KR",
+        "offered_level": 4,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 4,
+        "locale": "ko-KR",
+        "offered_level": 5,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 7,
+        "locale": "ko-KR",
+        "offered_level": 5,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 2,
+        "locale": "ko-KR",
+        "offered_level": 0,
+        "ok": true,
+        "status": "resolved"
+      },
+      {
+        "attempts": 4,
+        "locale": "ko-KR",
+        "offered_level": 0,
+        "ok": true,
+        "status": "resolved"
+      },
+      {
+        "attempts": 0,
+        "locale": "en-US",
+        "offered_level": 0,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 1,
+        "locale": "en-US",
+        "offered_level": 0,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 2,
+        "locale": "en-US",
+        "offered_level": 3,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 3,
+        "locale": "en-US",
+        "offered_level": 4,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 4,
+        "locale": "en-US",
+        "offered_level": 5,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 7,
+        "locale": "en-US",
+        "offered_level": 5,
+        "ok": true,
+        "status": "active"
+      },
+      {
+        "attempts": 2,
+        "locale": "en-US",
+        "offered_level": 0,
+        "ok": true,
+        "status": "resolved"
+      },
+      {
+        "attempts": 4,
+        "locale": "en-US",
+        "offered_level": 0,
+        "ok": true,
+        "status": "resolved"
+      }
+    ]
+  },
+  "content_branch": {
+    "catalog_sha256": {
+      "res://data/notebook/hints_v1.json": "c7cb8cdb544418ceef2c55f3e57e8a908bbbdd743b8a043781777e61df3ebd84",
+      "res://data/notebook/puzzle_labels_v2.json": "64e187c32ee535436a580cabd6a491ea604a80e865df914df00366ef320abf91"
+    },
+    "errors": [],
+    "historical_replayed": [
+      "[\"NP20\",\"NB_HINT_C4_H1\",1,\"C4\",\"requested_H1\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_C4_H1\",1,\"C4\",\"requested_H1\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_C4_H1\",1,\"CF\",\"requested_H1\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_C4_H1\",1,\"CF\",\"requested_H1\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_D0_A_H1\",1,\"D0_A\",\"requested_H1\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_D0_A_H1\",1,\"D0_A\",\"requested_H1\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_F0_A_H1\",1,\"F0_A\",\"requested_H1\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_F0_A_H1\",1,\"F0_A\",\"requested_H1\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_F0_C_H1\",1,\"F0_C\",\"requested_H1\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_F0_C_H1\",1,\"F0_C\",\"requested_H1\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_F0_C_H2\",1,\"F0_C\",\"requested_H2\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_F0_C_H2\",1,\"F0_C\",\"requested_H2\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_F0_C_H3\",1,\"F0_C\",\"requested_H3\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_F0_C_H3\",1,\"F0_C\",\"requested_H3\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_F0_C_H4\",1,\"F0_C\",\"requested_H4\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_F0_C_H4\",1,\"F0_C\",\"requested_H4\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_F0_C_H5\",1,\"F0_C\",\"requested_H5\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_F0_C_H5\",1,\"F0_C\",\"requested_H5\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_F0_D_H3\",1,\"F0_D\",\"requested_H3\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_F0_D_H3\",1,\"F0_D\",\"requested_H3\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_F0_D_H5\",1,\"F0_D\",\"requested_H5\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_F0_D_H5\",1,\"F0_D\",\"requested_H5\",\"body\",\"ko-KR\"]",
+      "[\"NP20\",\"NB_HINT_F0_E_H2\",1,\"F0_E\",\"requested_H2\",\"body\",\"en-US\"]",
+      "[\"NP20\",\"NB_HINT_F0_E_H2\",1,\"F0_E\",\"requested_H2\",\"body\",\"ko-KR\"]"
+    ],
+    "historical_required": 24,
+    "not_covered": [],
+    "observed": [
+      [
+        "NP20",
+        "NB_HINT_B3_A_H1",
+        1.0,
+        "B3_A",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_A_H1",
+        1.0,
+        "B3_A",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_A_H2",
+        1.0,
+        "B3_A",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_A_H2",
+        1.0,
+        "B3_A",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_A_H3",
+        1.0,
+        "B3_A",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_A_H3",
+        1.0,
+        "B3_A",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_A_H4",
+        1.0,
+        "B3_A",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_A_H4",
+        1.0,
+        "B3_A",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_A_H5",
+        1.0,
+        "B3_A",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_A_H5",
+        1.0,
+        "B3_A",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H1",
+        1.0,
+        "B3_B",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H1",
+        1.0,
+        "B3_B",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H1",
+        1.0,
+        "BF",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H1",
+        1.0,
+        "BF",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H2",
+        1.0,
+        "B3_B",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H2",
+        1.0,
+        "B3_B",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H2",
+        1.0,
+        "BF",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H2",
+        1.0,
+        "BF",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H3",
+        1.0,
+        "B3_B",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H3",
+        1.0,
+        "B3_B",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H3",
+        1.0,
+        "BF",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H3",
+        1.0,
+        "BF",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H4",
+        1.0,
+        "B3_B",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H4",
+        1.0,
+        "B3_B",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H4",
+        1.0,
+        "BF",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H4",
+        1.0,
+        "BF",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H5",
+        1.0,
+        "B3_B",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H5",
+        1.0,
+        "B3_B",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H5",
+        1.0,
+        "BF",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_B3_B_H5",
+        1.0,
+        "BF",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C3_H1",
+        1.0,
+        "C3",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C3_H1",
+        1.0,
+        "C3",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C3_H2",
+        1.0,
+        "C3",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C3_H2",
+        1.0,
+        "C3",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C3_H3",
+        1.0,
+        "C3",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C3_H3",
+        1.0,
+        "C3",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C3_H4",
+        1.0,
+        "C3",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C3_H4",
+        1.0,
+        "C3",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C3_H5",
+        1.0,
+        "C3",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C3_H5",
+        1.0,
+        "C3",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H1",
+        2.0,
+        "C4",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H1",
+        2.0,
+        "C4",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H1",
+        2.0,
+        "CF",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H1",
+        2.0,
+        "CF",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H2",
+        1.0,
+        "C4",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H2",
+        1.0,
+        "C4",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H2",
+        1.0,
+        "CF",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H2",
+        1.0,
+        "CF",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H3",
+        1.0,
+        "C4",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H3",
+        1.0,
+        "C4",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H3",
+        1.0,
+        "CF",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H3",
+        1.0,
+        "CF",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H4",
+        1.0,
+        "C4",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H4",
+        1.0,
+        "C4",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H4",
+        1.0,
+        "CF",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H4",
+        1.0,
+        "CF",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H5",
+        1.0,
+        "C4",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H5",
+        1.0,
+        "C4",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H5",
+        1.0,
+        "CF",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_C4_H5",
+        1.0,
+        "CF",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D0_A_H1",
+        2.0,
+        "D0_A",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D0_A_H1",
+        2.0,
+        "D0_A",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D0_A_H2",
+        1.0,
+        "D0_A",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D0_A_H2",
+        1.0,
+        "D0_A",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D0_A_H3",
+        1.0,
+        "D0_A",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D0_A_H3",
+        1.0,
+        "D0_A",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D0_A_H4",
+        1.0,
+        "D0_A",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D0_A_H4",
+        1.0,
+        "D0_A",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D0_A_H5",
+        1.0,
+        "D0_A",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D0_A_H5",
+        1.0,
+        "D0_A",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H1",
+        1.0,
+        "D1",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H1",
+        1.0,
+        "D1",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H1",
+        1.0,
+        "DF",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H1",
+        1.0,
+        "DF",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H2",
+        1.0,
+        "D1",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H2",
+        1.0,
+        "D1",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H2",
+        1.0,
+        "DF",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H2",
+        1.0,
+        "DF",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H3",
+        1.0,
+        "D1",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H3",
+        1.0,
+        "D1",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H3",
+        1.0,
+        "DF",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H3",
+        1.0,
+        "DF",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H4",
+        1.0,
+        "D1",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H4",
+        1.0,
+        "D1",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H4",
+        1.0,
+        "DF",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H4",
+        1.0,
+        "DF",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H5",
+        1.0,
+        "D1",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H5",
+        1.0,
+        "D1",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H5",
+        1.0,
+        "DF",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D1_H5",
+        1.0,
+        "DF",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D4_H1",
+        1.0,
+        "D4",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D4_H1",
+        1.0,
+        "D4",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D4_H2",
+        1.0,
+        "D4",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D4_H2",
+        1.0,
+        "D4",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D4_H3",
+        1.0,
+        "D4",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D4_H3",
+        1.0,
+        "D4",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D4_H4",
+        1.0,
+        "D4",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D4_H4",
+        1.0,
+        "D4",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D4_H5",
+        1.0,
+        "D4",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_D4_H5",
+        1.0,
+        "D4",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_A_H1",
+        2.0,
+        "F0_A",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_A_H1",
+        2.0,
+        "F0_A",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_A_H2",
+        1.0,
+        "F0_A",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_A_H2",
+        1.0,
+        "F0_A",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_A_H3",
+        1.0,
+        "F0_A",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_A_H3",
+        1.0,
+        "F0_A",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_A_H4",
+        1.0,
+        "F0_A",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_A_H4",
+        1.0,
+        "F0_A",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_A_H5",
+        1.0,
+        "F0_A",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_A_H5",
+        1.0,
+        "F0_A",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_B_H1",
+        1.0,
+        "F0_B",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_B_H1",
+        1.0,
+        "F0_B",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_B_H2",
+        1.0,
+        "F0_B",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_B_H2",
+        1.0,
+        "F0_B",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_B_H3",
+        1.0,
+        "F0_B",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_B_H3",
+        1.0,
+        "F0_B",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_B_H4",
+        1.0,
+        "F0_B",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_B_H4",
+        1.0,
+        "F0_B",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_B_H5",
+        1.0,
+        "F0_B",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_B_H5",
+        1.0,
+        "F0_B",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_C_H1",
+        2.0,
+        "F0_C",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_C_H1",
+        2.0,
+        "F0_C",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_C_H2",
+        2.0,
+        "F0_C",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_C_H2",
+        2.0,
+        "F0_C",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_C_H3",
+        2.0,
+        "F0_C",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_C_H3",
+        2.0,
+        "F0_C",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_C_H4",
+        2.0,
+        "F0_C",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_C_H4",
+        2.0,
+        "F0_C",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_C_H5",
+        2.0,
+        "F0_C",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_C_H5",
+        2.0,
+        "F0_C",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_D_H1",
+        1.0,
+        "F0_D",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_D_H1",
+        1.0,
+        "F0_D",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_D_H2",
+        1.0,
+        "F0_D",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_D_H2",
+        1.0,
+        "F0_D",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_D_H3",
+        2.0,
+        "F0_D",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_D_H3",
+        2.0,
+        "F0_D",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_D_H4",
+        1.0,
+        "F0_D",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_D_H4",
+        1.0,
+        "F0_D",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_D_H5",
+        2.0,
+        "F0_D",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_D_H5",
+        2.0,
+        "F0_D",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_E_H1",
+        1.0,
+        "F0_E",
+        "requested_H1",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_E_H1",
+        1.0,
+        "F0_E",
+        "requested_H1",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_E_H2",
+        2.0,
+        "F0_E",
+        "requested_H2",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_E_H2",
+        2.0,
+        "F0_E",
+        "requested_H2",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_E_H3",
+        1.0,
+        "F0_E",
+        "requested_H3",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_E_H3",
+        1.0,
+        "F0_E",
+        "requested_H3",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_E_H4",
+        1.0,
+        "F0_E",
+        "requested_H4",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_E_H4",
+        1.0,
+        "F0_E",
+        "requested_H4",
+        "body",
+        "ko-KR"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_E_H5",
+        1.0,
+        "F0_E",
+        "requested_H5",
+        "body",
+        "en-US"
+      ],
+      [
+        "NP20",
+        "NB_HINT_F0_E_H5",
+        1.0,
+        "F0_E",
+        "requested_H5",
+        "body",
+        "ko-KR"
+      ]
+    ],
+    "observed_count": 150,
+    "required_count": 150,
+    "scope": "NP20_CONTROLLER_REQUEST_DISPLAY_AND_COMMIT_NOT_OS_INPUT",
+    "tuple_fields": [
+      "producer",
+      "content",
+      "version",
+      "node",
+      "variant",
+      "segment",
+      "locale"
+    ],
+    "unmapped": []
+  },
+  "content_micro_abba": [
+    {
+      "mode": "oracle",
+      "ms": 33.265,
+      "rows": 2000
+    },
+    {
+      "mode": "cache",
+      "ms": 16.735,
+      "rows": 2000
+    },
+    {
+      "mode": "cache",
+      "ms": 17.125,
+      "rows": 2000
+    },
+    {
+      "mode": "oracle",
+      "ms": 35.24,
+      "rows": 2000
+    }
+  ],
+  "tested_process_exit_codes": {
+    "before_ko": 0,
+    "query": 0,
+    "content": 0,
+    "after_en": 0,
+    "after_ko": 0,
+    "focused": 0,
+    "before_en": 0
+  }
+}

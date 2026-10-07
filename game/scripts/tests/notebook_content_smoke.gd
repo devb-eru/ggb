@@ -46,6 +46,7 @@ func run(tree: SceneTree) -> Dictionary:
 	errors.append_array(PUBLIC_LABELS.catalog_errors())
 	_validate_segments()
 	_validate_enums()
+	errors.append_array(preload("res://scripts/tests/notebook_substitution_smoke.gd").new().run().errors)
 	for language in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(language)
 		for stage in LIVE_STAGES:
