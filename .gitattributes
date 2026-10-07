@@ -17,6 +17,8 @@
 # Runtime receipts hash the original stdout/stderr bytes.
 ideas/md/v04/issues/validation/evidence/*_runtime_union_*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 ideas/md/v04/issues/validation/evidence/*_sidecar_feedback_*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+ideas/md/v04/issues/validation/evidence/*_producer_contract_*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+ideas/md/v04/issues/validation/evidence/*_producer_contract_*.gd -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 # Large or binary assets. Requires Git LFS.
 *.png filter=lfs diff=lfs merge=lfs -text

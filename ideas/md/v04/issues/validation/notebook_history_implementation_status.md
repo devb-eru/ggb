@@ -1,5 +1,11 @@
 # 통합 수첩 구현 현황
 
+## 2026-10-07 신규 Writer 엄격 개발 검증
+
+기준 develop `f01f4bd`. [엄격 검증](2026-10-07_수첩writer_엄격개발검증.md)에서 descriptor 없는 신규 원문이 개발 검증을 통과하던 ERR-0051을 한영 12실패 단언으로 재현했다. debug `--notebook-require-authored`와 runner `-RequireAuthored`를 추가해 신형 writer의 누락 ID를 후보/현재 상태·revision·저장 호출 변경 전에 거부한다. 잘못된 descriptor 타입도 반환 오류로 처리하며 원문 역검색이나 fallback ID를 만들지 않는다.
+
+엄격 v2 45단언·비엄격 v2 37단언·엄격 옵션의 일반 모드 41단언 PASS. runner의 결함 이전 코드 거부(native 1), 프롤로그 표면 164 ID-언어/176 문단-언어·252조건, final 132/312 및 익명 자료 최종 선택 12/엔딩 후속 4경로도 PASS다. 같은 적용 코드의 두 trace 고유 1,266경로를 재검증했고 원자료/receipt·초기 재현 소스를 보존했다. ERR-0051 RESOLVED/REVIEW, T19k의 develop 전달 확인은 남긴다. 구형 last_feedback 예외 등록과 전 생산자 엄격 적용은 T19l이며 T10/T19 전체·실기·성능·4.6.3 채택은 미완료, rollout OFF를 유지한다.
+
 ## 2026-10-07 보조 저장 실패의 대사 보존
 
 기준 develop `8a7cf62`, 수정 전달 `1a70bef`. [ERR-0050 수정](2026-10-07_보조저장실패_대사보존_수정검증.md)은 본편 성공 후 사본/감상 저장 실패가 원 대사를 교체하던 오류를 원 피드백 유지와 별도 언어별 UI 경고로 분리했다. 한영/기본·v2/두 엔딩/기록 실패 우선순위·재시도 집중 28조건과 기존 final 132 ID-언어/312 문단-언어 PASS. 작업본 전체 261개 스크립트가 검사 후보와 각 SHA가 같고 final trace를 적용 소스로 재검증했다. `1a70bef` Git 아카이브에서도 세 코드 SHA/final trace/구형 trace 거부/28조건 원자료 receipt와 문서 421개 검사 PASS다. ERR-0050 VERIFIED/DONE, T19j의 명시 경계 완료다. 수정 전 T19i의 21검사와 서로 다른 소스 결과를 합산하지 않는다. 전체 신규 미매핑·필수 분기·성능·실기 전편·4.6.3 채택과 rollout OFF는 유지한다.

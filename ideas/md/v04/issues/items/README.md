@@ -4,6 +4,7 @@
 
 | ID | 해결 상태 | 작업 상태 | 제목 |
 | --- | --- | --- | --- |
+| [`GGB-ERR-2026-0051`](GGB-ERR-2026-0051_신규미등록대사_엄격개발검증_누락.md) | RESOLVED | REVIEW | 신규 미등록 대사의 엄격 개발 검증 누락 |
 | [`GGB-CNF-2026-0001`](GGB-CNF-2026-0001_J4와_E3_4M_선행_순서_충돌.md) | VERIFIED | DONE | J4와 E3_4M 선행 순서 충돌 |
 | [`GGB-CNF-2026-0002`](GGB-CNF-2026-0002_D5_이후_휴식과_S3_재생성_충돌.md) | VERIFIED | DONE | D5 이후 휴식과 S3 재생성 충돌 |
 | [`GGB-CNF-2026-0003`](GGB-CNF-2026-0003_SYS_COMMIT_SYS_MEMORY_처리_순서_충돌.md) | VERIFIED | DONE | SYS_COMMIT·SYS_MEMORY 처리 순서 충돌 |

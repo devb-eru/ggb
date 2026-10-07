@@ -1,5 +1,7 @@
 # 수첩 생산자 재감사와 재선택 안내 분리
 
+2026-10-07 후속: [엄격 writer 개발 검증](../ideas/md/v04/issues/validation/2026-10-07_수첩writer_엄격개발검증.md)에 신규 descriptor 누락의 저장 전 거부와 `run_notebook_runtime_audit.ps1 -RequireAuthored` 사용법을 정리한다. 아래 2026-10-04 결과를 이 엄격 옵션 통과나 전편 신규 미매핑 0 근거로 변환하지 않는다. 구형 last_feedback의 명시 예외와 전 생산자 엄격 적용은 여전히 후속 감사다.
+
 기준: 2026-10-04, develop `5830d41`. 전체 계획은 `IN_PROGRESS`이며 이 보고서는 NP01~NP22 전체 인수 완료 선언이 아니다.
 
 ## 1. 확인한 결함과 수정

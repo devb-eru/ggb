@@ -17,18 +17,13 @@ static func record(game: Node, saves: Node, slot: String, point: String, speaker
 
 static func append_to_snapshot(state: Dictionary, speaker: String, text: String, locale: String, chapter_id: String, observed_fact_ids: Variant, context: Dictionary) -> Dictionary:
 	# The caller owns a detached candidate and must commit it with its gameplay writes.
-	var history: Dictionary = state["meta_progress"]["dialogue_history"]
-	if history.has("schema_version"):
-		if not context.has("notebook_content") and requires_authored():
-			return {"ok": false, "error_ids": ["NB_PRODUCER_ID_REQUIRED"]}
-		if context.has("notebook_content") and not context.notebook_content is Dictionary:
-			return {"ok": false, "error_ids": ["NB_CONTENT_DESCRIPTOR"]}
 	var cursor: Dictionary = context.get("presentation_cursor", {})
 	if context.has("presentation_cursor") and not PRESENTATION.matches(cursor, state):
 		return {"ok": false, "error_ids": ["NB_PRESENTATION_STALE"]}
 	var facts := preload("res://scripts/systems/dialogue_observed_facts.gd").capture(state, observed_fact_ids)
 	if not facts.ok:
 		return facts
+	var history: Dictionary = state["meta_progress"]["dialogue_history"]
 	var payload := {
 		"chapter_id": chapter_id, "line_id": "CH1_HISTORY_TRANSCRIPT", "speaker_id": "SYSTEM",
 		"variables": {"speaker": speaker, "text": text}, "viewed_locale": locale,
@@ -62,11 +57,6 @@ static func append_to_snapshot(state: Dictionary, speaker: String, text: String,
 		history.next_sequence = int(history.next_sequence) + 1
 	if not cursor.is_empty(): PRESENTATION.install(state, cursor)
 	return {"ok": true, "changed": true, "entry_uid": entry_uid}
-
-
-static func requires_authored() -> bool:
-	# Audit mode must not silently accept new raw dialogue as a mapped producer.
-	return OS.is_debug_build() and "--notebook-require-authored" in OS.get_cmdline_user_args()
 
 
 static func save_cursor(game: Node, saves: Node, slot: String, point: String, cursor: Dictionary) -> Dictionary:

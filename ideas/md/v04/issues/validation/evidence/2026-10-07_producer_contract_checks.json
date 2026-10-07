@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "f01f4bd372b9b6400ec19dc0666864842d13446a",
+  "checks": [
+    {
+      "name": "import",
+      "exit_code": 0,
+      "completed": true,
+      "log_hashes_match": true
+    },
+    {
+      "name": "baseline-strict",
+      "exit_code": 1,
+      "completed": true,
+      "log_hashes_match": true
+    },
+    {
+      "name": "strict-v2",
+      "exit_code": 0,
+      "completed": true,
+      "log_hashes_match": true
+    },
+    {
+      "name": "transitional-v2",
+      "exit_code": 0,
+      "completed": true,
+      "log_hashes_match": true
+    },
+    {
+      "name": "strict-ordinary",
+      "exit_code": 0,
+      "completed": true,
+      "log_hashes_match": true
+    },
+    {
+      "name": "strict-suites/producer-contract",
+      "exit_code": 0,
+      "completed": true,
+      "log_hashes_match": true
+    },
+    {
+      "name": "strict-suites/prologue-surfaces",
+      "exit_code": 0,
+      "completed": true,
+      "log_hashes_match": true
+    },
+    {
+      "name": "strict-suites/final",
+      "exit_code": 0,
+      "completed": true,
+      "log_hashes_match": true
+    },
+    {
+      "name": "negative-runner/producer-contract",
+      "exit_code": 1,
+      "completed": true,
+      "log_hashes_match": true
+    }
+  ],
+  "source_corpus": {
+    "sha256": "caa377b2924f08ce9888855ca32b8af920328ac0fba11cb49212a68de921b161",
+    "file_count": 262
+  },
+  "runner_sha256": "b98b52702022e76187d71308c85f433708b747bc92609c1b1a869bb33609ce5c",
+  "engine_sha256": "12310c74bdda7dcd43f28e971f33047dcecadd436b68169d61ce41009006df38",
+  "three_source_hashes_match": true
+}
