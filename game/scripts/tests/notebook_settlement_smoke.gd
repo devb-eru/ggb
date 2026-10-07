@@ -10,6 +10,7 @@ const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const SLOT := "__test_notebook_settlement"
 const OUTCOMES := [["responsibility_recorded", "authority_returned"], ["original_attribution", "protected_identifiers"], ["full_disclosure", "stabilize_first"], ["external_truth", "shelter_projection"], ["merged", "separated"]]
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var segments := {}
 var view: BasementController
@@ -82,6 +83,7 @@ func run(tree: SceneTree) -> Dictionary:
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
 	_expect(evening_mask_routes == 64, "all 32 completion masks execute in both locales")
 	print("NOTEBOOK_E5_MASK_ROUTES:", evening_mask_routes)
+	_expect(runtime_audit.emit("settlement", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 75, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "routes": routes, "matrix_cases": matrix_cases, "evening_mask_routes": evening_mask_routes,
 		"not_covered": ["NP15_J4_and_minimum_access", "durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
 
@@ -441,6 +443,7 @@ func _entry_uid(uid: String) -> Dictionary:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored":
 			_expect(false, "settlement route cannot silently produce unmapped history")

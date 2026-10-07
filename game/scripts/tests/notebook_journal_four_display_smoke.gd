@@ -14,6 +14,7 @@ const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const EVENT_NOTES := preload("res://scripts/systems/notebook_event_notes.gd")
 const SLOT := "__test_notebook_journal_four_display"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var segments := {}
 var view: BasementController
@@ -72,6 +73,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(locale)
 	ProjectSettings.set_setting("ggb/build_flavor", flavor)
+	_expect(runtime_audit.emit("journal-four-display", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 102, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "confirmation_matrix": matrix_cases, "order_surfaces": order_surfaces,
 		"read_routes": read_routes, "not_covered": ["durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
 
@@ -385,6 +387,7 @@ func _count(key: String) -> int:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	for entry in _archive().entries:
 		_expect(entry.get("record_class") == "authored", "J4 route cannot silently write unmapped history")
 		if entry.get("record_class") != "authored": continue

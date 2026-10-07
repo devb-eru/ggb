@@ -13,6 +13,7 @@ const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 const SLOT := "__test_notebook_authority_archive"
 var errors := PackedStringArray()
+var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").new()
 var covered := {}
 var segments := {}
 var view: BasementController
@@ -83,6 +84,7 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale(old_locale)
 	ProjectSettings.set_setting("ggb/build_flavor", old_flavor)
+	_expect(runtime_audit.emit("authority-archive", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok": errors.is_empty(), "errors": errors, "authored_ids": 148, "covered_id_locales": covered.size(), "covered_segment_locales": segments.size(), "outcomes": outcomes, "matrix_cases": matrix_cases,
 		"not_covered": ["NP15_minimum_access_and_settlement", "durable_app_restart_cursor", "shared_notebook_UI", "OS_input"]}
 
@@ -571,6 +573,7 @@ func _entry_uid(uid: String) -> Dictionary:
 
 
 func _collect() -> void:
+	runtime_audit.capture(_archive())
 	for entry in _archive().entries:
 		if entry.get("record_class") != "authored":
 			_expect(false, "authority/archive route cannot silently produce unmapped history")

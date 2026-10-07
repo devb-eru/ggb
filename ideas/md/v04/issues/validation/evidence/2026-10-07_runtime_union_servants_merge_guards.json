@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "duplicate_report_count": 12,
+  "duplicate_union_count": 1478,
+  "stale_errors": [
+    "STALE_SCRIPT_CORPUS"
+  ],
+  "catalog_count": 29,
+  "source_corpus": {
+    "sha256": "2cf4b4a5d33234feae743bc94c51c00a272581de36d73f98c1322923d76dd11f",
+    "file_count": 261
+  }
+}
