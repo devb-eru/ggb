@@ -4,7 +4,7 @@
 
 기준 develop `f01f4bd`. [엄격 검증](2026-10-07_수첩writer_엄격개발검증.md)에서 descriptor 없는 신규 원문이 개발 검증을 통과하던 ERR-0051을 한영 12실패 단언으로 재현했다. debug `--notebook-require-authored`와 runner `-RequireAuthored`를 추가해 신형 writer의 누락 ID를 후보/현재 상태·revision·저장 호출 변경 전에 거부한다. 잘못된 descriptor 타입도 반환 오류로 처리하며 원문 역검색이나 fallback ID를 만들지 않는다.
 
-엄격 v2 45단언·비엄격 v2 37단언·엄격 옵션의 일반 모드 41단언 PASS. runner의 결함 이전 코드 거부(native 1), 프롤로그 표면 164 ID-언어/176 문단-언어·252조건, final 132/312 및 익명 자료 최종 선택 12/엔딩 후속 4경로도 PASS다. 같은 적용 코드의 두 trace 고유 1,266경로를 재검증했고 원자료/receipt·초기 재현 소스를 보존했다. ERR-0051 RESOLVED/REVIEW, T19k의 develop 전달 확인은 남긴다. 구형 last_feedback 예외 등록과 전 생산자 엄격 적용은 T19l이며 T10/T19 전체·실기·성능·4.6.3 채택은 미완료, rollout OFF를 유지한다.
+엄격 v2 45단언·비엄격 v2 37단언·엄격 옵션의 일반 모드 41단언 PASS. runner의 결함 이전 코드 거부(native 1), 프롤로그 표면 164 ID-언어/176 문단-언어·252조건, final 132/312 및 익명 자료 최종 선택 12/엔딩 후속 4경로도 PASS다. 같은 적용 코드의 두 trace 고유 1,266경로를 재검증했고 원자료/receipt·초기 재현 소스를 보존했다. develop `acfe788` 아카이브에서도 코드/재현 소스·native receipt 9세트·runner SHA와 두 엄격 trace/문서 검증 PASS. ERR-0051 VERIFIED/DONE, T19k 명시 범위 완료다. 구형 last_feedback 예외 등록과 전 생산자 엄격 적용은 T19l이며 T10/T19 전체·실기·성능·4.6.3 채택은 미완료, rollout OFF를 유지한다.
 
 ## 2026-10-07 보조 저장 실패의 대사 보존
 
