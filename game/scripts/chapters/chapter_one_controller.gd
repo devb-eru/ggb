@@ -223,7 +223,8 @@ func _record_current_history_line() -> bool:
 	context["presentation_token"] = _dialogue_lines[_dialogue_index].presentation_token
 	if _dialogue_lines[_dialogue_index].has("notebook_content"):
 		context["notebook_content"] = _dialogue_lines[_dialogue_index].notebook_content
-	var result := session.record_viewed_line(_speaker_label.text, _dialogue_label.text, TranslationServer.get_locale(), context)
+	var speaker := String(_dialogue_lines[_dialogue_index].speaker) if context.has(ChapterOneSession.LEGACY_FEEDBACK.REPLAY) else _speaker_label.text
+	var result := session.record_viewed_line(speaker, _dialogue_label.text, TranslationServer.get_locale(), context)
 	if not result.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false
@@ -547,6 +548,22 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 
 
 func _feedback(result: Dictionary) -> void:
+	if result.get("ok", false) and result.has(ChapterOneSession.LEGACY_FEEDBACK.ORIGIN):
+		var origin: Variant = result[ChapterOneSession.LEGACY_FEEDBACK.ORIGIN]
+		if not ChapterOneSession.LEGACY_FEEDBACK.valid_origin(origin):
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return
+		var legacy_lines: Array = []
+		var raw: Array = ChapterOneSession.LEGACY_FEEDBACK.paragraphs(origin)
+		var verified := ChapterOneSession.LEGACY_FEEDBACK.verify(session.snapshot(), ChapterOneSession.LEGACY_FEEDBACK.line_context(origin, 0), String(origin.feedback.get("speaker", "주인공")), raw[0], [])
+		if not verified.ok:
+			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+			return
+		for index in range(raw.size()):
+			var context := ChapterOneSession.LEGACY_FEEDBACK.line_context(origin, index)
+			legacy_lines.append({"speaker": String(origin.feedback.get("speaker", "주인공")), "text": raw[index], "portrait": "", "history_context": context, "presentation_token": context.presentation_token})
+		_show_dialogue(legacy_lines, result.get("presentation_after", Callable()))
+		return
 	var text := String(result.get("text", ""))
 	if not String(result.get("text_id", "")).is_empty():
 		text = _dialogue_ui_text(String(result["text_id"]))

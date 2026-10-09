@@ -99,6 +99,8 @@ func _ready() -> void:
 		call_deferred("_run_notebook_content_smoke")
 	elif "--notebook-producer-contract-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_producer_contract_smoke")
+	elif "--notebook-legacy-feedback-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
+		call_deferred("_run_notebook_legacy_feedback_smoke")
 	elif "--notebook-prologue-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
 		call_deferred("_run_notebook_prologue_smoke")
 	elif "--notebook-knowledge-smoke" in OS.get_cmdline_user_args() and OS.is_debug_build():
@@ -290,6 +292,12 @@ func _run_notebook_content_smoke() -> void:
 func _run_notebook_producer_contract_smoke() -> void:
 	var result: Dictionary = preload("res://scripts/tests/notebook_producer_contract_smoke.gd").new().run()
 	print("NOTEBOOK_PRODUCER_CONTRACT_SMOKE: " + ("PASS " + str(result) if result.ok else str(result)))
+	get_tree().quit(0 if result.ok else 1)
+
+
+func _run_notebook_legacy_feedback_smoke() -> void:
+	var result: Dictionary = await preload("res://scripts/tests/notebook_legacy_feedback_smoke.gd").new().run(get_tree())
+	print("NOTEBOOK_LEGACY_FEEDBACK_SMOKE: " + ("PASS " + str(result) if result.ok else str(result)))
 	get_tree().quit(0 if result.ok else 1)
 
 

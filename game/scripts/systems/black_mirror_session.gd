@@ -46,7 +46,7 @@ func initialize() -> Dictionary:
 	if not knowledge.has("j2_restored_day"):
 		knowledge["j2_restored_day"] = int(state["loop_state"]["day_index"])
 	state["loop_state"]["event_local_states"][MIRROR_KEY] = mirror_local(state)
-	return _commit_feedback(state, String(initialized.get("text", "")), String(initialized.get("speaker", "주인공")), String(initialized.get("text_id", "")), initialized.get("history_context", {}), initialized.get("notebook_feedback", []))
+	return _commit_feedback(state, String(initialized.get("text", "")), String(initialized.get("speaker", "주인공")), String(initialized.get("text_id", "")), initialized.get("history_context", {}), initialized.get("notebook_feedback", []), initialized.get(LEGACY_FEEDBACK.ORIGIN, {}), int(initialized.get("feedback_contract_version", LEGACY_FEEDBACK.VERSION)))
 
 
 func stage() -> String:

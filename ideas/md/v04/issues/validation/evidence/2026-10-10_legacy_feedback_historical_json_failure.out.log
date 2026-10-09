@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.steam.ed1daf0bf - https://godotengine.org
+
+GGB title bootstrap initialized.
+LEGACY_HISTORY_DIAGNOSTIC: {"history_context":{"chapter_id":"CHAPTER_2","location_id":"M0_CLOCK_HEART","node_id":"D4","old_detail":"보관한 출처"},"speaker":"주인공","text":"예전 첫 문단.\n예전 둘째 문단.","text_id":"CH1_HISTORY_SAVE_ERROR"}
+LEGACY_HISTORY_JSON: false SOURCE: false
+LEGACY_HISTORY_DIAGNOSTIC: {"history_context":{"chapter_id":"CHAPTER_2","location_id":"M0_CLOCK_HEART","node_id":"D4","old_detail":"보관한 출처"},"speaker":"주인공","text":"예전 첫 문단.\n예전 둘째 문단.","text_id":"CH1_HISTORY_SAVE_ERROR"}
+LEGACY_HISTORY_JSON: false SOURCE: false
+NOTEBOOK_LEGACY_FEEDBACK_AUDIT: {"assertions":214,"errors":["explicit old context accepted: { \"ok\": false, \"error_ids\": [\"NB_LEGACY_FEEDBACK_PROVENANCE\"] }","explicit old context accepted: { \"ok\": false, \"error_ids\": [\"NB_LEGACY_FEEDBACK_PROVENANCE\"] }"],"ok":false,"scope":"LEGACY_FEEDBACK_ONLY_NOT_FULL_PRODUCER_OR_OS_ACCEPTANCE","strict":true}
+NOTEBOOK_LEGACY_FEEDBACK_SMOKE: { "ok": false, "errors": ["explicit old context accepted: { \"ok\": false, \"error_ids\": [\"NB_LEGACY_FEEDBACK_PROVENANCE\"] }", "explicit old context accepted: { \"ok\": false, \"error_ids\": [\"NB_LEGACY_FEEDBACK_PROVENANCE\"] }"], "assertions": 214, "strict": true, "scope": "LEGACY_FEEDBACK_ONLY_NOT_FULL_PRODUCER_OR_OS_ACCEPTANCE" }

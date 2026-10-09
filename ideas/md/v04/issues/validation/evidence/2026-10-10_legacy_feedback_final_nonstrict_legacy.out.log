@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.steam.ed1daf0bf - https://godotengine.org
+
+GGB title bootstrap initialized.
+NOTEBOOK_LEGACY_FEEDBACK_AUDIT: {"assertions":300,"errors":[],"ok":true,"scope":"LEGACY_FEEDBACK_ONLY_NOT_FULL_PRODUCER_OR_OS_ACCEPTANCE","strict":false}
+NOTEBOOK_LEGACY_FEEDBACK_SMOKE: PASS { "ok": true, "errors": [], "assertions": 300, "strict": false, "scope": "LEGACY_FEEDBACK_ONLY_NOT_FULL_PRODUCER_OR_OS_ACCEPTANCE" }

@@ -7,6 +7,7 @@ const HISTORY_CHAPTER_ID := "CHAPTER_1"
 const HISTORY_CONTEXT := preload("res://scripts/systems/dialogue_history_context.gd")
 const NOTEBOOK_FEEDBACK := preload("res://scripts/systems/chapter_one_notebook.gd")
 const NOTEBOOK_NOTES := preload("res://scripts/systems/chapter_one_notes.gd")
+const LEGACY_FEEDBACK := preload("res://scripts/systems/notebook_legacy_feedback.gd")
 const LOCAL_KEY := "CHAPTER_ONE"
 const MARKS := {"sentence": "내일 아침, 이 문장을 읽어.", "house_glyph": "창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문", "ink_corner": "페이지 모서리의 잉크 한 방울"}
 const CLOCK_ROOMS := {"M2_BEDROOM": "bedroom", "M1_PARLOR": "parlor", "M1_LIBRARY_OUTER": "library_outer", "M1_GREAT_CLOCK": "great_clock"}
@@ -31,6 +32,8 @@ var _writer: StateWriter
 var _pending_feedback_text_id := ""
 var _pending_feedback_context: Dictionary = {}
 var _pending_notebook_feedback: Array = []
+var _pending_legacy_feedback: Dictionary = {}
+var _pending_feedback_contract_version := LEGACY_FEEDBACK.VERSION
 var _presentation_commit_override: Dictionary = {}
 
 
@@ -107,8 +110,14 @@ func initialize() -> Dictionary:
 		state["loop_state"]["location_id"] = "M2_BEDROOM"
 	state["loop_state"]["event_local_states"][LOCAL_KEY] = local_state(state)
 	var last: Dictionary = local_state(state).get("last_feedback", {})
+	var source := LEGACY_FEEDBACK.prepare(last, state.meta_progress.dialogue_history)
+	if not source.ok: return source
+	var origin: Dictionary = source.origin
+	var context: Dictionary = last.get("history_context", {}) if origin.is_empty() else LEGACY_FEEDBACK.context_for(origin)
 	var descriptors: Array = NOTEBOOK_FEEDBACK.paragraphs("WAKE") if last.is_empty() else last.get("notebook_feedback", [])
-	return _commit_feedback(state, String(last.get("text", NOTEBOOK_FEEDBACK.FIXED.WAKE)), String(last.get("speaker", "주인공")), String(last.get("text_id", "")), last.get("history_context", {}), descriptors)
+	var version := LEGACY_FEEDBACK.VERSION
+	if not state.meta_progress.dialogue_history.has("schema_version") and not last.is_empty() and not last.has(LEGACY_FEEDBACK.STAMP) and descriptors.is_empty(): version = 0
+	return _commit_feedback(state, String(last.get("text", NOTEBOOK_FEEDBACK.FIXED.WAKE)), String(last.get("speaker", "주인공")), String(last.get("text_id", "")), context, descriptors, origin, version)
 
 
 func act(action: String, value: Variant = null) -> Dictionary:
@@ -464,8 +473,10 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 	# Capture the source event before installing a snapshot that advances the story.
 	var context := history_context() if _pending_feedback_context.is_empty() else _pending_feedback_context.duplicate(true)
 	var local := local_state(state)
-	if not text.is_empty():
+	if not text.is_empty() and _pending_feedback_contract_version > 0:
 		local["last_feedback"] = {"text": text, "speaker": speaker, "text_id": text_id, "history_context": context}
+		local.last_feedback[LEGACY_FEEDBACK.STAMP] = LEGACY_FEEDBACK.VERSION
+		if not _pending_legacy_feedback.is_empty(): local.last_feedback[LEGACY_FEEDBACK.ORIGIN] = _pending_legacy_feedback.duplicate(true)
 		if not _pending_notebook_feedback.is_empty(): local.last_feedback.notebook_feedback = _pending_notebook_feedback.duplicate(true)
 	state["loop_state"]["event_local_states"][LOCAL_KEY] = local
 	var inventory: Array = state["loop_state"]["inventory"]
@@ -490,21 +501,30 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 		if not committed:
 			_game.rollback_failed_persistence(installed["previous_snapshot"], int(installed["revision"]), transaction, &"ERR_CAMPAIGN_SAVE")
 			return saved
-	return {"ok": true, "text": text, "speaker": speaker, "text_id": text_id, "stage": stage(), "history_context": context, "notebook_feedback": _pending_notebook_feedback.duplicate(true)}
+	var result := {"ok": true, "text": text, "speaker": speaker, "text_id": text_id, "stage": stage(), "history_context": context, "notebook_feedback": _pending_notebook_feedback.duplicate(true)}
+	result.feedback_contract_version = _pending_feedback_contract_version
+	if not _pending_legacy_feedback.is_empty(): result[LEGACY_FEEDBACK.ORIGIN] = _pending_legacy_feedback.duplicate(true)
+	return result
 
 
-func _commit_feedback(state: Dictionary, text: String, speaker: String, text_id: String, context: Dictionary = {}, notebook_feedback: Array = []) -> Dictionary:
+func _commit_feedback(state: Dictionary, text: String, speaker: String, text_id: String, context: Dictionary = {}, notebook_feedback: Array = [], legacy_origin: Dictionary = {}, contract_version: int = LEGACY_FEEDBACK.VERSION) -> Dictionary:
 	# Keep subclass commit hooks while passing display metadata through the transaction.
 	var previous_id := _pending_feedback_text_id
 	var previous_context := _pending_feedback_context
 	var previous_notebook := _pending_notebook_feedback
+	var previous_legacy := _pending_legacy_feedback
+	var previous_version := _pending_feedback_contract_version
 	_pending_feedback_text_id = text_id
 	_pending_feedback_context = context
 	_pending_notebook_feedback = notebook_feedback
+	_pending_legacy_feedback = legacy_origin
+	_pending_feedback_contract_version = contract_version
 	var result := _commit(state, text, speaker)
 	_pending_feedback_text_id = previous_id
 	_pending_feedback_context = previous_context
 	_pending_notebook_feedback = previous_notebook
+	_pending_legacy_feedback = previous_legacy
+	_pending_feedback_contract_version = previous_version
 	return result
 
 

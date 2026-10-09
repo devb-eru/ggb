@@ -1,0 +1,123 @@
+{
+  "scope": "RAW_RECEIPT_INTEGRITY_NOT_OS_OR_FULL_ACCEPTANCE",
+  "schema_version": 1,
+  "all_final_native_zero": true,
+  "checked_utc": "2026-10-09T20:50:52.1337258Z",
+  "runs": [
+    {
+      "name": "2026-10-10_legacy_feedback_current_strict_contract.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_current_strict_legacy.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_final_import.run.json",
+      "completed": true,
+      "scope": "FINAL_SOURCE",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_final_nonstrict_contract.run.json",
+      "completed": true,
+      "scope": "FINAL_SOURCE",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_final_nonstrict_legacy.run.json",
+      "completed": true,
+      "scope": "FINAL_SOURCE",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_final_strict_chapter.run.json",
+      "completed": true,
+      "scope": "FINAL_SOURCE",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_final_strict_contract.run.json",
+      "completed": true,
+      "scope": "FINAL_SOURCE",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_final_strict_legacy.run.json",
+      "completed": true,
+      "scope": "FINAL_SOURCE",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_historical_context_failure.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 1
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_historical_diagnostic_failure.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 1
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_historical_json_failure.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 1
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_initial_fixture_failure.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 1
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_interim_chapter.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_interim_contract_pass.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_interim_locale_pass.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_migration_interim_chapter.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_normalized_locale_failure.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 1
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_strict_contract.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 0
+    },
+    {
+      "name": "2026-10-10_legacy_feedback_strict_legacy.run.json",
+      "completed": true,
+      "scope": "INTERIM_DIFFERENT_SOURCES",
+      "exit_code": 0
+    }
+  ],
+  "ok": true
+}

@@ -567,12 +567,13 @@ func _persistence(view: Node, tree: SceneTree) -> void:
 	# Older last_feedback has no explicit descriptor. Never infer one from text_id.
 	var legacy := GameState.get_snapshot()
 	legacy.loop_state.event_local_states.CHAPTER_ONE.last_feedback.erase("notebook_feedback")
+	legacy.loop_state.event_local_states.CHAPTER_ONE.last_feedback.erase(ChapterOneSession.LEGACY_FEEDBACK.STAMP)
 	_install(legacy)
 	var old: Dictionary = view.session.initialize()
 	_expect(old.notebook_feedback.is_empty(), "legacy feedback is not retroactively mapped")
 	view._feedback(old)
 	_drain(view)
-	_expect(GameState.get_snapshot().meta_progress.dialogue_history.entries.back().record_class == "unmapped", "old displayed feedback remains explicitly unmapped")
+	_expect(GameState.get_snapshot().meta_progress.dialogue_history.entries.back().record_class == "legacy", "old displayed feedback retains legacy source without retroactive IDs")
 	var before_read := GameState.get_snapshot()
 	view._open_notebook()
 	if is_instance_valid(view._notebook_host):

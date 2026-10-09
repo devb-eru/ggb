@@ -92,7 +92,7 @@ func initialize() -> Dictionary:
 	if state["fracture_state"]["broken_reset_triggered"] and not knowledge.get("E1_wake_seen", false):
 		knowledge["E1_wake_seen"] = true
 		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E1_WAKE, ["E1_WAKE"], [["NOTE_E1_WAKE", "E1_WAKE", FRACTURE_NOTES.NOTES.E1_WAKE]])
-	return _commit_feedback(state, String(result.get("text", "")), String(result.get("speaker", "주인공")), String(result.get("text_id", "")), result.get("history_context", {}), result.get("notebook_feedback", []))
+	return _commit_feedback(state, String(result.get("text", "")), String(result.get("speaker", "주인공")), String(result.get("text_id", "")), result.get("history_context", {}), result.get("notebook_feedback", []), result.get(LEGACY_FEEDBACK.ORIGIN, {}), int(result.get("feedback_contract_version", LEGACY_FEEDBACK.VERSION)))
 
 
 func stage() -> String:

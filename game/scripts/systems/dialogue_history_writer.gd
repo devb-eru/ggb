@@ -3,6 +3,7 @@ extends RefCounted
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const PRESENTATION := preload("res://scripts/systems/notebook_presentation.gd")
 const SURFACE_RECEIPT := preload("res://scripts/systems/notebook_surface_receipt.gd")
+const LEGACY_FEEDBACK := preload("res://scripts/systems/notebook_legacy_feedback.gd")
 
 
 static func record(game: Node, saves: Node, slot: String, point: String, speaker: String, text: String, locale: String, chapter_id: String = "LEGACY", observed_fact_ids: Variant = [], context: Dictionary = {}) -> Dictionary:
@@ -18,8 +19,13 @@ static func record(game: Node, saves: Node, slot: String, point: String, speaker
 static func append_to_snapshot(state: Dictionary, speaker: String, text: String, locale: String, chapter_id: String, observed_fact_ids: Variant, context: Dictionary) -> Dictionary:
 	# The caller owns a detached candidate and must commit it with its gameplay writes.
 	var history: Dictionary = state["meta_progress"]["dialogue_history"]
+	var legacy_origin: Dictionary = {}
 	if history.has("schema_version"):
-		if not context.has("notebook_content") and requires_authored():
+		if context.has(LEGACY_FEEDBACK.REPLAY):
+			var source := LEGACY_FEEDBACK.verify(state, context, speaker, text, observed_fact_ids)
+			if not source.ok: return source
+			legacy_origin = source.origin
+		if legacy_origin.is_empty() and not context.has("notebook_content") and requires_authored():
 			return {"ok": false, "error_ids": ["NB_PRODUCER_ID_REQUIRED"]}
 		if context.has("notebook_content") and not context.notebook_content is Dictionary:
 			return {"ok": false, "error_ids": ["NB_CONTENT_DESCRIPTOR"]}
@@ -40,7 +46,11 @@ static func append_to_snapshot(state: Dictionary, speaker: String, text: String,
 		frozen.erase("surface_receipt")
 		if not frozen.has("presentation_token"): frozen.presentation_token = ARCHIVE.new_uid()
 		var appended: Dictionary
-		if frozen.has("notebook_content"):
+		if not legacy_origin.is_empty():
+			frozen.erase("observed_fact_ids")
+			payload.viewed_locale = "en-US" if locale.begins_with("en") else "ko-KR"
+			appended = ARCHIVE.append_legacy_feedback(history, payload, frozen, legacy_origin, int(history.revision))
+		elif frozen.has("notebook_content"):
 			var observed := preload("res://scripts/systems/notebook_content.gd").observe(frozen.notebook_content, frozen, speaker, text, locale)
 			if not observed.ok: return observed
 			appended = ARCHIVE.append_observation(history, observed.observation, int(history.revision))

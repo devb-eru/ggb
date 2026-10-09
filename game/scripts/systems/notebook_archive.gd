@@ -8,6 +8,7 @@ const COMPARISON_LIMIT := 12
 const SESSION_PRUNED := "session_pruned"
 const CONTEXT := preload("res://scripts/systems/dialogue_history_context.gd")
 const LEGACY_NOTES := preload("res://scripts/systems/notebook_legacy_notes.gd")
+const LEGACY_FEEDBACK := preload("res://scripts/systems/notebook_legacy_feedback.gd")
 const OBSERVATION := preload("res://scripts/systems/notebook_observation_schema.gd")
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
@@ -71,10 +72,11 @@ static func validate(value: Variant) -> Dictionary:
 		if not _strings(entry.get("protection_reasons"), true): return _error("NB_ENTRY_PROTECTION")
 		if entry.has(SESSION_PRUNED) and (entry.get("record_class") != "authored" or not entry[SESSION_PRUNED] is bool or entry[SESSION_PRUNED] != true): return _error("NB_SESSION_RETENTION")
 		if entry.has(LEGACY_NOTES.MARKER) and not LEGACY_NOTES.validate_entry(entry): return _error("NB_LEGACY_NOTE_SNAPSHOT")
+		if entry.has(LEGACY_FEEDBACK.MARKER) and not LEGACY_FEEDBACK.valid_entry(entry): return _error("NB_LEGACY_FEEDBACK_PROVENANCE")
 		if entry.get("record_class") in ["legacy", "unmapped"]:
 			if not entry.get("legacy_payload") is Dictionary: return _error("NB_LEGACY_PAYLOAD")
 			if not _integer(entry.legacy_payload.get("sequence")) or int(entry.legacy_payload.sequence) != int(entry.sequence): return _error("NB_LEGACY_SEQUENCE")
-			if entry.record_class == "unmapped":
+			if entry.record_class == "unmapped" or entry.has(LEGACY_FEEDBACK.MARKER):
 				if not entry.get("snapshot_context") is Dictionary or not _uid(entry.snapshot_context.get("presentation_token")): return _error("NB_UNMAPPED_CONTEXT")
 				var token: String = entry.snapshot_context.presentation_token
 				if tokens.has(token): return _error("NB_DUPLICATE_PRESENTATION")
@@ -251,6 +253,32 @@ static func append_unmapped(archive: Dictionary, payload: Dictionary, context: D
 	var raw := payload.duplicate(true)
 	raw.sequence = int(candidate.next_sequence)
 	var entry := {"entry_uid": new_uid(), "source_origin_id": archive.source_origin_id, "sequence": raw.sequence, "record_class": "unmapped", "chapter_id": CONTEXT.normalize_chapter(payload.get("chapter_id")), "legacy_payload": raw, "snapshot_context": context.duplicate(true), "protection_reasons": []}
+	candidate.entries.append(entry)
+	candidate.next_sequence = int(candidate.next_sequence) + 1
+	var result := _finish(candidate)
+	result["entry_uid"] = entry.entry_uid
+	return result
+
+
+static func append_legacy_feedback(archive: Dictionary, payload: Dictionary, context: Dictionary, origin: Dictionary, expected_revision: int) -> Dictionary:
+	var ready := _ready(archive, expected_revision)
+	if not ready.ok: return ready
+	var raw := payload.duplicate(true)
+	raw.sequence = int(archive.next_sequence)
+	var entry := {"entry_uid": new_uid(), "source_origin_id": archive.source_origin_id, "sequence": raw.sequence, "record_class": "legacy", "chapter_id": CONTEXT.normalize_chapter(payload.get("chapter_id")), "legacy_payload": raw, "snapshot_context": context.duplicate(true), "protection_reasons": []}
+	entry[LEGACY_FEEDBACK.MARKER] = origin.duplicate(true)
+	if not LEGACY_FEEDBACK.valid_entry(entry): return _error("NB_LEGACY_FEEDBACK_PROVENANCE")
+	for previous in archive.entries:
+		if not previous.has(LEGACY_FEEDBACK.MARKER) or previous.snapshot_context.presentation_token != context.presentation_token: continue
+		var previous_payload: Dictionary = previous.legacy_payload.duplicate(true)
+		var current_payload := payload.duplicate(true)
+		previous_payload.erase("sequence")
+		# Reopening in another UI language cannot translate or overwrite this old raw source.
+		previous_payload.erase("viewed_locale")
+		current_payload.erase("viewed_locale")
+		if previous_payload != current_payload or previous.snapshot_context != context or previous[LEGACY_FEEDBACK.MARKER] != origin: return _error("NB_PRESENTATION_CONFLICT")
+		return {"ok": true, "archive": archive.duplicate(true), "entry_uid": previous.entry_uid, "changed": false, "pruned_uids": []}
+	var candidate := archive.duplicate(true)
 	candidate.entries.append(entry)
 	candidate.next_sequence = int(candidate.next_sequence) + 1
 	var result := _finish(candidate)
