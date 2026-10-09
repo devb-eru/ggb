@@ -1,6 +1,6 @@
 # 수첩 생산자 재감사와 재선택 안내 분리
 
-2026-10-07 후속: [엄격 writer 개발 검증](../ideas/md/v04/issues/validation/2026-10-07_수첩writer_엄격개발검증.md)에 신규 descriptor 누락의 저장 전 거부와 `run_notebook_runtime_audit.ps1 -RequireAuthored` 사용법을 정리한다. 아래 2026-10-04 결과를 이 엄격 옵션 통과나 전편 신규 미매핑 0 근거로 변환하지 않는다. 2026-10-10 구형 last_feedback의 출처 보존·실제 문단별 재표시 예외는 [후속 검증](../ideas/md/v04/issues/validation/2026-10-10_구형피드백_출처분리_검증.md)에 분리한다. 전 생산자 엄격 적용은 여전히 후속 감사다.
+2026-10-07 후속: [엄격 writer 개발 검증](../ideas/md/v04/issues/validation/2026-10-07_수첩writer_엄격개발검증.md)에 신규 descriptor 누락의 저장 전 거부와 `run_notebook_runtime_audit.ps1 -RequireAuthored` 사용법을 정리한다. 아래 2026-10-04 결과를 이 엄격 옵션 통과나 전편 신규 미매핑 0 근거로 변환하지 않는다. 2026-10-10 구형 last_feedback의 출처 보존·실제 문단별 재표시 예외는 [후속 검증](../ideas/md/v04/issues/validation/2026-10-10_구형피드백_출처분리_검증.md)에 분리한다. 같은 소스 엄격 21검사는 아래 후속 근거로 갱신했고 독립 필수 호출·신규 유입/제외 전수는 여전히 남는다.
 
 기준: 2026-10-04, develop `5830d41`. 전체 계획은 `IN_PROGRESS`이며 이 보고서는 NP01~NP22 전체 인수 완료 선언이 아니다.
 
