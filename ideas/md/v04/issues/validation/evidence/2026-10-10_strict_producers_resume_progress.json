@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "source_sha256": "a28fa80abe20bab249bafeab5761546686ebed6cd91d0be8414c8d6263e4eb3f",
+  "planned_suites": [
+    "fracture",
+    "fracture-surfaces",
+    "puzzle-surfaces",
+    "chapter-one-notes",
+    "chapter-surfaces",
+    "prologue-surfaces",
+    "mara1",
+    "luca",
+    "iris",
+    "stay",
+    "mirror",
+    "chapter-one",
+    "content",
+    "modals",
+    "journal-four-display",
+    "settlement",
+    "core",
+    "final",
+    "reality",
+    "authority-archive"
+  ],
+  "terminal_suites": [
+    {
+      "suite": "fracture",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_fracture.run.json"
+    },
+    {
+      "suite": "fracture-surfaces",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_fracture-surfaces.run.json"
+    },
+    {
+      "suite": "puzzle-surfaces",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_puzzle-surfaces.run.json"
+    },
+    {
+      "suite": "chapter-one-notes",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_chapter-one-notes.run.json"
+    },
+    {
+      "suite": "chapter-surfaces",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_chapter-surfaces.run.json"
+    },
+    {
+      "suite": "prologue-surfaces",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_prologue-surfaces.run.json"
+    },
+    {
+      "suite": "mara1",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_mara1.run.json"
+    },
+    {
+      "suite": "luca",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_luca.run.json"
+    },
+    {
+      "suite": "iris",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_iris.run.json"
+    },
+    {
+      "suite": "stay",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_stay.run.json"
+    },
+    {
+      "suite": "mirror",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_mirror.run.json"
+    },
+    {
+      "suite": "chapter-one",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_chapter-one.run.json"
+    },
+    {
+      "suite": "content",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_content.run.json"
+    },
+    {
+      "suite": "modals",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_modals.run.json"
+    },
+    {
+      "suite": "journal-four-display",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_journal-four-display.run.json"
+    },
+    {
+      "suite": "settlement",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_settlement.run.json"
+    },
+    {
+      "suite": "core",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_core.run.json"
+    },
+    {
+      "suite": "final",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_final.run.json"
+    },
+    {
+      "suite": "reality",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 1800,
+      "receipt": "2026-10-10_strict_producers_resume_reality.run.json"
+    },
+    {
+      "suite": "authority-archive",
+      "completed": true,
+      "exit_code": 0,
+      "runner_returned_ok": true,
+      "timeout_seconds": 3600,
+      "receipt": "2026-10-10_strict_producers_resume_authority-archive.run.json"
+    }
+  ],
+  "reused_suite": "basement",
+  "scope": "SEQUENTIAL_TERMINAL_RECEIPTS_NOT_FULL_REQUIRED_BRANCH_AUDIT"
+}

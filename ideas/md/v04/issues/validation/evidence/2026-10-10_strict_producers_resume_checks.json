@@ -1,0 +1,173 @@
+{
+  "ok": true,
+  "native_strict_runs": 21,
+  "new_runs": 20,
+  "reused_same_source_basement_runs": 1,
+  "source_corpus": {
+    "file_count": 264,
+    "sha256": "a28fa80abe20bab249bafeab5761546686ebed6cd91d0be8414c8d6263e4eb3f"
+  },
+  "script_hashes_match": 264,
+  "catalog_hashes_match": 29,
+  "independent_producer_denominators": 22,
+  "distinct_runtime_route_tuples": 5134,
+  "duplicate_reports": 42,
+  "duplicate_invariant": true,
+  "pre_fix_source_rejected": [
+    "STALE_SCRIPT_CORPUS"
+  ],
+  "union_self_test": "RUNTIME_UNION_SELF_TEST: PASS (cross-catalog latest versions in both orders, historical coverage, deduplication, unknown counts, missing locale, summary PASS, 14 invalid reports, 5 invalid receipts, 12 invalid logs)",
+  "inventory_self_test": "PRODUCER_INVENTORY_SELF_TEST: PASS (valid/empty catalogs, versions, unknown counts, 17 invalid fixtures)",
+  "receipts": [
+    {
+      "receipt": "2026-10-10_strict_producers_fixed_basement.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_fracture.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_fracture-surfaces.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_puzzle-surfaces.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_chapter-one-notes.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_chapter-surfaces.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_prologue-surfaces.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_mara1.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_luca.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_iris.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_stay.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_mirror.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_chapter-one.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_content.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_modals.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_journal-four-display.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_settlement.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_core.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_final.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_reality.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_resume_authority-archive.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "raw_hashes_match": true
+    }
+  ],
+  "required_branch_coverage": "NOT_AUDITED",
+  "new_unmapped_count": null,
+  "excluded_ui_count": null
+}

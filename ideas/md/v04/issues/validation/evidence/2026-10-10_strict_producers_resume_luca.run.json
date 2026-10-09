@@ -1,0 +1,10 @@
+{
+  "require_authored": true,
+  "exit_code": 0,
+  "stdout_sha256": "3b350e6f2e0ebef823943310acc703b3ef9c3942f2e020e65184cb0f3a554538",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "finished_utc": "2026-10-09T22:04:03.5548030Z",
+  "started_utc": "2026-10-09T22:00:02.5687926Z",
+  "schema_version": 1,
+  "completed": true
+}
