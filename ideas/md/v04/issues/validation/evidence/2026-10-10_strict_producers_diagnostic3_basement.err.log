@@ -1,0 +1,26 @@
+SCRIPT ERROR: Invalid access to property or key 'observation' on a base object of type 'Dictionary'.
+   at: _modals (res://scripts/tests/notebook_basement_smoke.gd:246)
+   GDScript backtrace (most recent call first):
+       [0] _modals (res://scripts/tests/notebook_basement_smoke.gd:246)
+ERROR: Can't take value from empty array.
+   at: back (core/variant/array.cpp:360)
+   GDScript backtrace (most recent call first):
+       [0] _cancel_guards (res://scripts/tests/notebook_basement_smoke.gd:441)
+       [1] _failures (res://scripts/tests/notebook_basement_smoke.gd:268)
+       [2] run (res://scripts/tests/notebook_basement_smoke.gd:64)
+       [3] _modals (res://scripts/tests/notebook_basement_smoke.gd:246)
+SCRIPT ERROR: Invalid call. Nonexistent function 'duplicate' in base 'Nil'.
+   at: _cancel_guards (res://scripts/tests/notebook_basement_smoke.gd:441)
+   GDScript backtrace (most recent call first):
+       [0] _cancel_guards (res://scripts/tests/notebook_basement_smoke.gd:441)
+       [1] _failures (res://scripts/tests/notebook_basement_smoke.gd:268)
+       [2] run (res://scripts/tests/notebook_basement_smoke.gd:64)
+       [3] _modals (res://scripts/tests/notebook_basement_smoke.gd:246)
+SCRIPT ERROR: Invalid access to property or key 'observation' on a base object of type 'Dictionary'.
+   at: _failures (res://scripts/tests/notebook_basement_smoke.gd:269)
+   GDScript backtrace (most recent call first):
+       [0] _failures (res://scripts/tests/notebook_basement_smoke.gd:269)
+       [1] run (res://scripts/tests/notebook_basement_smoke.gd:64)
+       [2] _modals (res://scripts/tests/notebook_basement_smoke.gd:246)
+WARNING: 3 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

@@ -179,9 +179,11 @@ func _route(tree: SceneTree) -> void:
 		_expect(source.ok and source.entry.observation.content_id != "NB_BASEMENT_HEART_PULL_AUXILIARY", "event-written release note cannot cite its not-yet-displayed result dialogue")
 	var before_read := GameState.get_snapshot()
 	view._open_notebook()
+	var review_host = view._notebook_host
 	if is_instance_valid(view._notebook_host):
 		_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(view.get_tree(), view._notebook_host), "notebook model ready before read-only inspection")
 	view._close_modal()
+	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").closed(tree, review_host) and not view._notebook_is_open(), "read-only notebook closes before the next fixture")
 	for entry in _archive().entries:
 		if entry.get("record_class") == "authored":
 			var rendered := CONTENT.render_entry(entry, "en-US" if TranslationServer.get_locale().begins_with("ko") else "ko-KR")
@@ -237,7 +239,9 @@ func _modals(tree: SceneTree) -> void:
 			var choice: Dictionary = request.row.choices[index]
 			if choice.kind == "ui":
 				_expect(GameState.get_snapshot() == before and view._notebook_is_open(), "review opens the notebook without changing any persisted state")
-				view._notebook_host.request_close()
+				var review_host = view._notebook_host
+				review_host.request_close()
+				_expect(await preload("res://scripts/tests/notebook_test_wait.gd").closed(tree, review_host) and not view._notebook_is_open(), "review close completes before another confirmation")
 				_expect(GameState.get_snapshot() == before and view._modal_active, "review returns to the same confirmation without operating the mechanism")
 			elif choice.kind != "confirm":
 				_expect(_cancel_state_matches(before, GameState.get_snapshot(), request, [choice.content_id]), "cancel changes only its observed choice and completed cursor")

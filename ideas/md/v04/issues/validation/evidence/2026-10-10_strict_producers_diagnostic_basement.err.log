@@ -1,0 +1,10 @@
+SCRIPT ERROR: Parse Error: Identifier "locale" not declared in the current scope.
+   at: GDScript::reload (res://scripts/tests/notebook_basement_smoke.gd:238)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/systems/bootstrap.gd:0)
+ERROR: Failed to load script "res://scripts/systems/bootstrap.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _run_notebook_basement_smoke (res://scripts/systems/bootstrap.gd:365)
+   GDScript backtrace (most recent call first):
+       [0] _run_notebook_basement_smoke (res://scripts/systems/bootstrap.gd:365)

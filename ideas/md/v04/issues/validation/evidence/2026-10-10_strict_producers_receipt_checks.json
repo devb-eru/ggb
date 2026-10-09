@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "sets": [
+    {
+      "receipt": "2026-10-10_strict_producers_basement.run.json",
+      "completed": true,
+      "exit_code": 1,
+      "require_authored": true,
+      "hashes_match": true,
+      "cohort": "INITIAL_FIXED_SOURCE"
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_content.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "hashes_match": true,
+      "cohort": "INITIAL_FIXED_SOURCE"
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_diagnostic_basement.run.json",
+      "completed": true,
+      "exit_code": -1,
+      "require_authored": true,
+      "hashes_match": true,
+      "cohort": "DIAGNOSTIC_NOT_FINAL"
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_diagnostic2_basement.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "hashes_match": true,
+      "cohort": "DIAGNOSTIC_NOT_FINAL"
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_diagnostic3_basement.run.json",
+      "completed": true,
+      "exit_code": 1,
+      "require_authored": true,
+      "hashes_match": true,
+      "cohort": "DIAGNOSTIC_NOT_FINAL"
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_diagnostic4_basement.run.json",
+      "completed": true,
+      "exit_code": 1,
+      "require_authored": true,
+      "hashes_match": true,
+      "cohort": "DIAGNOSTIC_NOT_FINAL"
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_fixed_basement.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "hashes_match": true,
+      "cohort": "FINAL_TEST_FIX"
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_fixed_nonstrict_basement.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": false,
+      "hashes_match": true,
+      "cohort": "FINAL_TEST_FIX"
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_fixed_repeat_basement.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "hashes_match": true,
+      "cohort": "FINAL_TEST_FIX"
+    },
+    {
+      "receipt": "2026-10-10_strict_producers_mirror.run.json",
+      "completed": true,
+      "exit_code": 0,
+      "require_authored": true,
+      "hashes_match": true,
+      "cohort": "INITIAL_FIXED_SOURCE"
+    }
+  ],
+  "final_source_count": 3,
+  "scope": "FINAL_THREE_BASEMENT_RUNS_ONLY; DIAGNOSTIC_PARTIAL_PASS_IS_NOT_FULL_COVERAGE"
+}

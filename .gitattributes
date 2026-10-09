@@ -15,6 +15,7 @@
 *.txt text eol=lf
 
 # Runtime receipts hash the original stdout/stderr bytes.
+ideas/md/v04/issues/validation/evidence/*_strict_producers_*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 ideas/md/v04/issues/validation/evidence/*_legacy_feedback_*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 ideas/md/v04/issues/validation/evidence/*_runtime_union_*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 ideas/md/v04/issues/validation/evidence/*_sidecar_feedback_*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
