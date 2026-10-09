@@ -1,0 +1,18 @@
+{
+  "completed": true,
+  "stderr_sha256": "927d33f853f049d6e06bf544419975dd8176cfc274719011646e86f7d6329c75",
+  "started_utc": "2026-10-07T10:24:02.8382853Z",
+  "arguments": [
+    "--headless",
+    "--path",
+    "\"C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-463-current-contract-fe6a149db9a24630a0475a70a23b73ec\\source\\game\"",
+    "--",
+    "--notebook-query-smoke",
+    "--ggb-dev-notebook-v2"
+  ],
+  "schema_version": 1,
+  "case": "query",
+  "exit_code": 0,
+  "stdout_sha256": "e3529ba65eacc733387c7f342f7839f76a56b963aa5f670434b460d2c245a7df",
+  "finished_utc": "2026-10-07T10:26:53.8615632Z"
+}

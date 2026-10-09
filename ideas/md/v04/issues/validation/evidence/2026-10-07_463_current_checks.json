@@ -1,0 +1,89 @@
+{
+  "ok": true,
+  "source_corpus": {
+    "sha256": "caa377b2924f08ce9888855ca32b8af920328ac0fba11cb49212a68de921b161",
+    "file_count": 262
+  },
+  "production_engine_adopted": false,
+  "whole_goal_complete": false,
+  "expected_timeout_count": 2,
+  "verified_utc": "2026-10-09T20:02:49.5449939Z",
+  "native_completed_count": 7,
+  "trace_route_tuples": 408,
+  "schema_version": 1,
+  "generated_uid_files": [
+    "scripts/tests/notebook_runtime_audit.gd.uid",
+    "scripts/tests/notebook_scope_smoke.gd.uid",
+    "scripts/tests/notebook_substitution_smoke.gd.uid",
+    "scripts/tests/notebook_view_future_smoke.gd.uid"
+  ],
+  "committed_game_files": 636,
+  "native_results": [
+    {
+      "completed": true,
+      "exit_code": 0,
+      "case": "import",
+      "expected_timeout": false,
+      "raw_hashes_match": true
+    },
+    {
+      "completed": true,
+      "exit_code": 0,
+      "case": "producer-contract",
+      "expected_timeout": false,
+      "raw_hashes_match": true
+    },
+    {
+      "completed": true,
+      "exit_code": 0,
+      "case": "prologue-surfaces",
+      "expected_timeout": false,
+      "raw_hashes_match": true
+    },
+    {
+      "completed": true,
+      "exit_code": 0,
+      "case": "migration",
+      "expected_timeout": false,
+      "raw_hashes_match": true
+    },
+    {
+      "completed": true,
+      "exit_code": 0,
+      "case": "host",
+      "expected_timeout": false,
+      "raw_hashes_match": true
+    },
+    {
+      "completed": true,
+      "exit_code": 0,
+      "case": "query",
+      "expected_timeout": false,
+      "raw_hashes_match": true
+    },
+    {
+      "completed": true,
+      "exit_code": 0,
+      "case": "campaign-ordinary",
+      "expected_timeout": false,
+      "raw_hashes_match": true
+    },
+    {
+      "completed": false,
+      "exit_code": -1,
+      "case": "final-timeout",
+      "expected_timeout": true,
+      "raw_hashes_match": true
+    },
+    {
+      "completed": false,
+      "exit_code": -1,
+      "case": "campaign-v2-timeout",
+      "expected_timeout": true,
+      "raw_hashes_match": true
+    }
+  ],
+  "source_archive_sha256": "6e9cfdf5348b0993fcd503c25f367d01a3d150a89ed66e438dc70aa2dcb50a83",
+  "rollout_enabled": false,
+  "final_retry_result": "UNKNOWN_NO_RECEIPT"
+}

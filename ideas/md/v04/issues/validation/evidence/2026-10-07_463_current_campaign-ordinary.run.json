@@ -1,0 +1,17 @@
+{
+  "completed": true,
+  "stderr_sha256": "927d33f853f049d6e06bf544419975dd8176cfc274719011646e86f7d6329c75",
+  "started_utc": "2026-10-07T10:26:53.8867183Z",
+  "arguments": [
+    "--headless",
+    "--path",
+    "\"C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-463-current-contract-fe6a149db9a24630a0475a70a23b73ec\\source\\game\"",
+    "--",
+    "--full-campaign-smoke"
+  ],
+  "schema_version": 1,
+  "case": "campaign-ordinary",
+  "exit_code": 0,
+  "stdout_sha256": "ee876a43454e0f0e0a4748297a068354778430dfee89066472adf834d71c2a81",
+  "finished_utc": "2026-10-07T10:29:11.8373614Z"
+}

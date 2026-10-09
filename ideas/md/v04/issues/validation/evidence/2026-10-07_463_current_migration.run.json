@@ -1,0 +1,17 @@
+{
+  "completed": true,
+  "stderr_sha256": "927d33f853f049d6e06bf544419975dd8176cfc274719011646e86f7d6329c75",
+  "started_utc": "2026-10-07T10:19:48.5150852Z",
+  "arguments": [
+    "--headless",
+    "--path",
+    "\"C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-463-current-contract-fe6a149db9a24630a0475a70a23b73ec\\source\\game\"",
+    "--",
+    "--notebook-migration-smoke"
+  ],
+  "schema_version": 1,
+  "case": "migration",
+  "exit_code": 0,
+  "stdout_sha256": "7236494ec9d35bb5d6c05c1a6f3a2cad31b0ab01c9738aac667b395a10f66c01",
+  "finished_utc": "2026-10-07T10:21:37.7997417Z"
+}
