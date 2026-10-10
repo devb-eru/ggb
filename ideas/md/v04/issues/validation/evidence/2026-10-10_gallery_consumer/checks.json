@@ -1,0 +1,52 @@
+{
+  "ok": true,
+  "checks": 5177,
+  "receipts": 3,
+  "consumer_cases": 128,
+  "write_cases": 18,
+  "runtime_checks": 3094,
+  "source_sha256": "b17f75faffdc18ab660992f5c19773d239595cf4e579e8e521ddefc1e484acc6",
+  "data_sha256": "af1ff4a6fb3c427b8dbc22ea273e2b57904252338e392a05abdb40b8a735660a",
+  "negative": [
+    {
+      "reason": "Focused denominator",
+      "id": "missing_case",
+      "rejected": true
+    },
+    {
+      "reason": "Missing, duplicate, or unexpected case",
+      "id": "duplicate_case",
+      "rejected": true
+    },
+    {
+      "reason": "Object repeat evidence differs from independent mask",
+      "id": "repeat_mask",
+      "rejected": true
+    },
+    {
+      "reason": "Displayed body text differs from canonical observed version",
+      "id": "body_text",
+      "rejected": true
+    },
+    {
+      "reason": "Write/retry duplicates or failed record",
+      "id": "write_duplicate",
+      "rejected": true
+    },
+    {
+      "reason": "Native receipt completion/mode/status",
+      "id": "native_status",
+      "rejected": true
+    },
+    {
+      "reason": "Runtime source/data cohort",
+      "id": "source_hash",
+      "rejected": true
+    },
+    {
+      "reason": "Raw log hash",
+      "id": "log_hash",
+      "rejected": true
+    }
+  ]
+}

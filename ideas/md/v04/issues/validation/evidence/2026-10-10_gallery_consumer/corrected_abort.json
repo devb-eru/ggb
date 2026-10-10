@@ -1,0 +1,5 @@
+{
+  "utc": "2026-10-10T01:57:02.4866850Z",
+  "reason": "Consumer checkpoint is before final-frame completion; capture correctly refuses it. Wrong positive fixture, not product defect.",
+  "pid": 24896
+}

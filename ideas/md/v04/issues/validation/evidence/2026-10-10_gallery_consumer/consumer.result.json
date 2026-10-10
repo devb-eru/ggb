@@ -1,0 +1,3175 @@
+{
+  "cases": [
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/0/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/0/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/0/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/0/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/1/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/1/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/1/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/1/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/2/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/2/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/2/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/2/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/3/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/3/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/3/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/3/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/4/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/4/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/4/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/4/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/5/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/5/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/5/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/5/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/6/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/6/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/6/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/6/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/7/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/7/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/ko-KR/7/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/ko-KR/7/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/0/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/0/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/0/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/0/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/1/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/1/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/1/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/1/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/2/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/2/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/2/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/2/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/3/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/3/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/3/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/3/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/4/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/4/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/4/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/4/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/5/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/5/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/5/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/5/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/6/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/6/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/6/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/6/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/7/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/7/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/ko-KR/7/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/ko-KR/7/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/0/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/0/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/0/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/0/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/1/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/1/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/1/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/1/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/2/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/2/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/2/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/2/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/3/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/3/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/3/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/3/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/4/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/4/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/4/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/4/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/5/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/5/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/5/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/5/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/6/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/6/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/6/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/6/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/7/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/7/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "legacy/en-US/7/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "legacy/en-US/7/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/0/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/0/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/0/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/0/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/1/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/1/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/1/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/1/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/2/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/2/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/2/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/2/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/3/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/3/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "2721305e099e9ba4e42a6644c159c26dad37a673899184d33f424cb1c5e8bd57",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/3/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": false,
+          "text_sha256": "df9b1f103019f5c5d000cdd9ca9545d36c098184957ca6c7145d51ff5ced39b2",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/3/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/4/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/4/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/4/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/4/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/5/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/5/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "f66b515d346b5db50a325549a08374499ba84da1017d688e2bb77e521228ba86",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/5/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": false,
+          "text_sha256": "e9514920b2d354135d7902bb4a04e270ab9a9791f3103f4843aecd0842b201cd",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/5/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/6/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/6/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "21e9e7d7f7ceabba3ed8de95420e3c2dab337d239407ea38d4f7cd95c83ea8dc",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/6/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": false,
+          "text_sha256": "1fc47c5638ed90f84c1412f978512466e3c6ca3ded18f441018c1c70f4a47d4b",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/6/maintained/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/7/captured/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/7/captured/en-US",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "1c3a586698993c2aacc7d6c15abe5f3366a36dd6fb41358f02a3d9ea8952daed",
+          "title": "신체 확인 · 손"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "feb19ce8d3327316ea67566bb8245db960cf5cae764af089484a3142b8e4c27a",
+          "title": "신체 확인 · 호흡 표시기"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "153f2036c64a812e982142e80708c32d8d4e6250b7ec0d4bd7f9d0148e35ea8f",
+          "title": "신체 확인 · 고정 벨트"
+        }
+      ],
+      "key": "authored/en-US/7/maintained/ko-KR",
+      "passed": true
+    },
+    {
+      "bodies": [
+        {
+          "object_id": "OBJ_REALITY_HAND",
+          "repeated": true,
+          "text_sha256": "00278a95859485e9c8c7a398ef578c4c93e8209d4dd04db83d8e7b6455e8b355",
+          "title": "Body check · Hand"
+        },
+        {
+          "object_id": "OBJ_REALITY_BREATH_MONITOR",
+          "repeated": true,
+          "text_sha256": "92f97f284e3bbce9e80ab45ea826f1f3f2cca2ea2a21281938d4dff0c0ccc76a",
+          "title": "Body check · Breathing monitor"
+        },
+        {
+          "object_id": "OBJ_REALITY_RESTRAINT",
+          "repeated": true,
+          "text_sha256": "2c25214128a174098a0997956f20ca0f9d9086699667f2446379e942a95b8f9c",
+          "title": "Body check · Restraint"
+        }
+      ],
+      "key": "authored/en-US/7/maintained/en-US",
+      "passed": true
+    }
+  ],
+  "checks": 3094,
+  "errors": [],
+  "ok": true,
+  "required_cases": 128,
+  "required_writes": 18,
+  "schema_version": 1,
+  "suite_id": "gallery-consumer",
+  "writes": [
+    {
+      "key": "OBJ_REALITY_HAND/ko-KR/normal",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_HAND/ko-KR/reject_retry",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_HAND/ko-KR/lost_ack",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_BREATH_MONITOR/ko-KR/normal",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_BREATH_MONITOR/ko-KR/reject_retry",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_BREATH_MONITOR/ko-KR/lost_ack",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_RESTRAINT/ko-KR/normal",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_RESTRAINT/ko-KR/reject_retry",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_RESTRAINT/ko-KR/lost_ack",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_HAND/en-US/normal",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_HAND/en-US/reject_retry",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_HAND/en-US/lost_ack",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_BREATH_MONITOR/en-US/normal",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_BREATH_MONITOR/en-US/reject_retry",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_BREATH_MONITOR/en-US/lost_ack",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_RESTRAINT/en-US/normal",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_RESTRAINT/en-US/reject_retry",
+      "passed": true,
+      "repeat_records": 1
+    },
+    {
+      "key": "OBJ_REALITY_RESTRAINT/en-US/lost_ack",
+      "passed": true,
+      "repeat_records": 1
+    }
+  ]
+}
