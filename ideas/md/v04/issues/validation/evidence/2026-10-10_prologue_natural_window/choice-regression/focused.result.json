@@ -1,0 +1,1087 @@
+{
+  "cases": [
+    {
+      "kind": "candidate",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "basic"
+    },
+    {
+      "kind": "candidate",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "window"
+    },
+    {
+      "kind": "candidate",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "combined"
+    },
+    {
+      "kind": "candidate",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "stale_note"
+    },
+    {
+      "kind": "candidate",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "malformed"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "promotion"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "replace"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "service"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "progress_changed"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "pending_note_changed"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "handoff"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "after_action"
+    },
+    {
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "after_action_failure"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "options_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "selected_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "options_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "selected_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "selected_locale"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "selected_context"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "answer_author"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "answer_locked"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "answer_silent"
+    },
+    {
+      "kind": "restore",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "phase": "choosing"
+    },
+    {
+      "kind": "restore",
+      "locale": "ko_KR",
+      "mode": "p3_journal",
+      "passed": true,
+      "phase": "selection_pending"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "options_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "selected_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "options_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "selected_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "selected_locale"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "selected_context"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "answer_father_tea"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "answer_mansion_age"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "answer_luca_tenure"
+    },
+    {
+      "kind": "restore",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "phase": "choosing"
+    },
+    {
+      "kind": "restore",
+      "locale": "ko_KR",
+      "mode": "p4_father",
+      "passed": true,
+      "phase": "selection_pending"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "options_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "selected_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "options_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "selected_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "selected_locale"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "selected_context"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "answer_confirm"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "answer_cancel"
+    },
+    {
+      "kind": "restore",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "phase": "choosing"
+    },
+    {
+      "kind": "restore",
+      "locale": "ko_KR",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "phase": "selection_pending"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "options_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "selected_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "options_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "selected_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "selected_locale"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "selected_context"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "answer_confirm"
+    },
+    {
+      "kind": "choice",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "answer_cancel"
+    },
+    {
+      "kind": "restore",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "phase": "choosing"
+    },
+    {
+      "kind": "restore",
+      "locale": "ko_KR",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "phase": "selection_pending"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "same_locale"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "other_locale"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "location"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "occurrence"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "content"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "completed"
+    },
+    {
+      "fixture": "NB-PERF-N2000",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-L10000",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-P2001",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-LONG",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true
+    },
+    {
+      "kind": "candidate",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "basic"
+    },
+    {
+      "kind": "candidate",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "window"
+    },
+    {
+      "kind": "candidate",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "combined"
+    },
+    {
+      "kind": "candidate",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "stale_note"
+    },
+    {
+      "kind": "candidate",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "malformed"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "promotion"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "replace"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "service"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "progress_changed"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "pending_note_changed"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "handoff"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "after_action"
+    },
+    {
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "after_action_failure"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "options_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "selected_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "options_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "selected_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "selected_locale"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "selected_context"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "answer_author"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "answer_locked"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "scenario": "answer_silent"
+    },
+    {
+      "kind": "restore",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "phase": "choosing"
+    },
+    {
+      "kind": "restore",
+      "locale": "en_US",
+      "mode": "p3_journal",
+      "passed": true,
+      "phase": "selection_pending"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "options_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "selected_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "options_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "selected_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "selected_locale"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "selected_context"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "answer_father_tea"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "answer_mansion_age"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "scenario": "answer_luca_tenure"
+    },
+    {
+      "kind": "restore",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "phase": "choosing"
+    },
+    {
+      "kind": "restore",
+      "locale": "en_US",
+      "mode": "p4_father",
+      "passed": true,
+      "phase": "selection_pending"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "options_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "selected_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "options_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "selected_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "selected_locale"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "selected_context"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "answer_confirm"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "scenario": "answer_cancel"
+    },
+    {
+      "kind": "restore",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "phase": "choosing"
+    },
+    {
+      "kind": "restore",
+      "locale": "en_US",
+      "mode": "P1_EXIT",
+      "passed": true,
+      "phase": "selection_pending"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "options_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "selected_fail"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "options_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "selected_replace"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "selected_locale"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "selected_context"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "answer_confirm"
+    },
+    {
+      "kind": "choice",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "scenario": "answer_cancel"
+    },
+    {
+      "kind": "restore",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "phase": "choosing"
+    },
+    {
+      "kind": "restore",
+      "locale": "en_US",
+      "mode": "P6_SLEEP",
+      "passed": true,
+      "phase": "selection_pending"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "same_locale"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "other_locale"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "location"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "occurrence"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "content"
+    },
+    {
+      "kind": "retry_identity",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "completed"
+    },
+    {
+      "fixture": "NB-PERF-N2000",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-L10000",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-P2001",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-LONG",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true
+    }
+  ],
+  "checks": 2128,
+  "errors": [],
+  "ok": true,
+  "required_cases": 152,
+  "scope": "HEADLESS actual choice/modal callbacks, durable ordering and recreated controllers; not OS input, separate-process async restart or p95",
+  "timings": [
+    {
+      "begin_ms": 53.474,
+      "fixture": "NB-PERF-N2000",
+      "locale": "ko_KR",
+      "scope": "HEADLESS n=1 composite durable return; excludes reload",
+      "total_ms": 2006.036,
+      "worker_frames": 263
+    },
+    {
+      "begin_ms": 143.517,
+      "fixture": "NB-PERF-L10000",
+      "locale": "ko_KR",
+      "scope": "HEADLESS n=1 composite durable return; excludes reload",
+      "total_ms": 5289.708,
+      "worker_frames": 686
+    },
+    {
+      "begin_ms": 87.849,
+      "fixture": "NB-PERF-P2001",
+      "locale": "ko_KR",
+      "scope": "HEADLESS n=1 composite durable return; excludes reload",
+      "total_ms": 3455.616,
+      "worker_frames": 444
+    },
+    {
+      "begin_ms": 88.461,
+      "fixture": "NB-PERF-LONG",
+      "locale": "ko_KR",
+      "scope": "HEADLESS n=1 composite durable return; excludes reload",
+      "total_ms": 1910.979,
+      "worker_frames": 232
+    },
+    {
+      "begin_ms": 50.083,
+      "fixture": "NB-PERF-N2000",
+      "locale": "en_US",
+      "scope": "HEADLESS n=1 composite durable return; excludes reload",
+      "total_ms": 1509.321,
+      "worker_frames": 197
+    },
+    {
+      "begin_ms": 254.607,
+      "fixture": "NB-PERF-L10000",
+      "locale": "en_US",
+      "scope": "HEADLESS n=1 composite durable return; excludes reload",
+      "total_ms": 4636.759,
+      "worker_frames": 578
+    },
+    {
+      "begin_ms": 92.439,
+      "fixture": "NB-PERF-P2001",
+      "locale": "en_US",
+      "scope": "HEADLESS n=1 composite durable return; excludes reload",
+      "total_ms": 2949.971,
+      "worker_frames": 369
+    },
+    {
+      "begin_ms": 54.085,
+      "fixture": "NB-PERF-LONG",
+      "locale": "en_US",
+      "scope": "HEADLESS n=1 composite durable return; excludes reload",
+      "total_ms": 1490.594,
+      "worker_frames": 186
+    }
+  ]
+}

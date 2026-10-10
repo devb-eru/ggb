@@ -1,0 +1,5 @@
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:751)
+       [1] _ready (res://scripts/systems/bootstrap.gd:48)

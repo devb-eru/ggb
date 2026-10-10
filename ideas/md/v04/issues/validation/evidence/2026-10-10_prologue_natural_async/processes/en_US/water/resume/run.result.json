@@ -1,0 +1,1090 @@
+{
+  "checks": 21,
+  "errors": [],
+  "locale": "ko_KR",
+  "mode": "water",
+  "ok": true,
+  "phase": "resume",
+  "physical": {
+    "bottom_wet": false,
+    "dust_spread": false,
+    "middle_stain": false,
+    "top_dust": false
+  },
+  "prior_entries": [
+    {
+      "entry_uid": "04223f21d2774b199580648478a4f955",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_CLOTH",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "4b4ea502970f24ba3d08d64809cee945",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Soft cloth",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_CLOTH:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_CLOTH"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 0,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "64888e0ebabfaeb15f2030ebad9f96c2",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_BRUSH",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "ee4db56d1e4eba0c476f6d39fc66e5bf",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Coarse brush",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_BRUSH:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_BRUSH"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 1,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "004f701284973d09f32fa03cdd44fe5b",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_WATER",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "40f3ad7a553a7366ed0e749a1b139fc6",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Water bottle",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_WATER:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_WATER"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 2,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "e3ccaa4d7d5c6b400d4c43c370a7e685",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_SPANNER",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "c454c7446231ea7794079bdebe8354bb",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Mara 1's spanner",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_SPANNER:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_SPANNER"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 3,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "1d053de2e918da28482fe9972385b772",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "9d91cb8560ade22b53fc4a81b9351cb6",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Window 1 · Close-up\nStain in the middle",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "1"
+            },
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 4,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "fad6802d214411bbc51c845979a4cdbc",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "58590559aff3d6255a70f79efe1f61f8",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Window 2 · Close-up\nDust at the top",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 2.0,
+              "stage": "0"
+            },
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 5,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "6f1714b85074ae35d7c10fa1de4c8689",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "a4b059fbba414eb9bf233e37979bad58",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Window 3 · Close-up\nDust at the top",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 3.0,
+              "stage": "0"
+            },
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 6,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "dee6e9f0e0cc0a387e5b85edc8b91d9f",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_CLOCK_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "251ea4f916433b0d695ceb0e194f11e4",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Parlor clock",
+            "disclosure": "displayed",
+            "localization_key": "P2_CLOCK_LABEL:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_CLOCK_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 7,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "a2f40b4270fa6d3b42b717aa681121ed",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_MULTILINE",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "a3d1ea86db8fd159043bf609d462b8d5",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "f703c658a86a918cca8b94f5afe3cc9d",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "d9fb0d770fec55ce785739d2ea3e99b1",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Window 1 close-up · Stain in the middle",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:header",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "1"
+            },
+            "segment_id": "header",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Top\nClean",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:top",
+            "safe_variables": {
+              "top": "P2_CLEAR"
+            },
+            "segment_id": "top",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Middle\nStain",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:middle",
+            "safe_variables": {
+              "middle": "P2_STAIN"
+            },
+            "segment_id": "middle",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Bottom\nDry",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:bottom",
+            "safe_variables": {
+              "bottom": "P2_DRY"
+            },
+            "segment_id": "bottom",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "WINDOW_INSPECTION_MULTILINE"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 8,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "1680b336a014c38ad15b0e2cb4d6b3f1",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_WATER_STAIN",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "c29f16d856997718af4fa294367f7f64",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "e10146a7107645c8b14b39b09ea18479",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "14ca1419c207fdeb171a1b90b7a468f1",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "The water loosened the stain. Wipe the moisture below with the dry side of the soft cloth.",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_WATER_STAIN:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_WATER_STAIN"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 9,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "8e4bfec3d9e2a61e227c8c8fb1baf687",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_MULTILINE",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "fee092c4095ca4645b46a116d4d0ac9c",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Window 1 close-up · Moisture at the bottom",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:header",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "2"
+            },
+            "segment_id": "header",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Top\nClean",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:top",
+            "safe_variables": {
+              "top": "P2_CLEAR"
+            },
+            "segment_id": "top",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Middle\nClean",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:middle",
+            "safe_variables": {
+              "middle": "P2_CLEAR"
+            },
+            "segment_id": "middle",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Bottom\nWet",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:bottom",
+            "safe_variables": {
+              "bottom": "P2_WET"
+            },
+            "segment_id": "bottom",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "WINDOW_INSPECTION_MULTILINE"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 10,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    }
+  ],
+  "saved_entries": [
+    {
+      "entry_uid": "04223f21d2774b199580648478a4f955",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_CLOTH",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "4b4ea502970f24ba3d08d64809cee945",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Soft cloth",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_CLOTH:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_CLOTH"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 0,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "64888e0ebabfaeb15f2030ebad9f96c2",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_BRUSH",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "ee4db56d1e4eba0c476f6d39fc66e5bf",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Coarse brush",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_BRUSH:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_BRUSH"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 1,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "004f701284973d09f32fa03cdd44fe5b",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_WATER",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "40f3ad7a553a7366ed0e749a1b139fc6",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Water bottle",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_WATER:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_WATER"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 2,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "e3ccaa4d7d5c6b400d4c43c370a7e685",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_SPANNER",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "c454c7446231ea7794079bdebe8354bb",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Mara 1's spanner",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_SPANNER:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_SPANNER"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 3,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "1d053de2e918da28482fe9972385b772",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "9d91cb8560ade22b53fc4a81b9351cb6",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Window 1 · Close-up\nStain in the middle",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "1"
+            },
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 4,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "fad6802d214411bbc51c845979a4cdbc",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "58590559aff3d6255a70f79efe1f61f8",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Window 2 · Close-up\nDust at the top",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 2.0,
+              "stage": "0"
+            },
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 5,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "6f1714b85074ae35d7c10fa1de4c8689",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "a4b059fbba414eb9bf233e37979bad58",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Window 3 · Close-up\nDust at the top",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 3.0,
+              "stage": "0"
+            },
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 6,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "dee6e9f0e0cc0a387e5b85edc8b91d9f",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_CLOCK_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "251ea4f916433b0d695ceb0e194f11e4",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Parlor clock",
+            "disclosure": "displayed",
+            "localization_key": "P2_CLOCK_LABEL:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_CLOCK_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 7,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "a2f40b4270fa6d3b42b717aa681121ed",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_MULTILINE",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "a3d1ea86db8fd159043bf609d462b8d5",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "f703c658a86a918cca8b94f5afe3cc9d",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "d9fb0d770fec55ce785739d2ea3e99b1",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Window 1 close-up · Stain in the middle",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:header",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "1"
+            },
+            "segment_id": "header",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Top\nClean",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:top",
+            "safe_variables": {
+              "top": "P2_CLEAR"
+            },
+            "segment_id": "top",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Middle\nStain",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:middle",
+            "safe_variables": {
+              "middle": "P2_STAIN"
+            },
+            "segment_id": "middle",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Bottom\nDry",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:bottom",
+            "safe_variables": {
+              "bottom": "P2_DRY"
+            },
+            "segment_id": "bottom",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "WINDOW_INSPECTION_MULTILINE"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 8,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "1680b336a014c38ad15b0e2cb4d6b3f1",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_WATER_STAIN",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "c29f16d856997718af4fa294367f7f64",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "e10146a7107645c8b14b39b09ea18479",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "14ca1419c207fdeb171a1b90b7a468f1",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "The water loosened the stain. Wipe the moisture below with the dry side of the soft cloth.",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_WATER_STAIN:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_WATER_STAIN"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 9,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "8e4bfec3d9e2a61e227c8c8fb1baf687",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_MULTILINE",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "fee092c4095ca4645b46a116d4d0ac9c",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "Window 1 close-up · Moisture at the bottom",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:header",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "2"
+            },
+            "segment_id": "header",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Top\nClean",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:top",
+            "safe_variables": {
+              "top": "P2_CLEAR"
+            },
+            "segment_id": "top",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Middle\nClean",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:middle",
+            "safe_variables": {
+              "middle": "P2_CLEAR"
+            },
+            "segment_id": "middle",
+            "viewed_locale": "en-US"
+          },
+          {
+            "captured_text": "Bottom\nWet",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:bottom",
+            "safe_variables": {
+              "bottom": "P2_WET"
+            },
+            "segment_id": "bottom",
+            "viewed_locale": "en-US"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "WINDOW_INSPECTION_MULTILINE"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 10,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "7b7a10d987aa71472637ff127326336e",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_BOTTOM_CLEAN",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "9395159794d5d719d371eb407268fdbf",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "4cb58e83791db364bbd196a127976cdb",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "4aed07c3103791ae5620c7313dfc5881",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "부드러운 천의 마른 면으로 아래 물기를 걷어냈다.",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_BOTTOM_CLEAN:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_BOTTOM_CLEAN"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 11,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    },
+    {
+      "entry_uid": "bf204e652779673a239f1b41be80c87d",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_MULTILINE",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "5343cb3e4e2abea5de259edaedf20fea",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "7a06a1a7d418a1f25aafa2167e990b09",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "82ada7b6c7854d03e7a8385d6a579fd4",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "창 1 확대 · 완료",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:header",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "3"
+            },
+            "segment_id": "header",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "위쪽\n정리됨",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:top",
+            "safe_variables": {
+              "top": "P2_CLEAR"
+            },
+            "segment_id": "top",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "가운데\n정리됨",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:middle",
+            "safe_variables": {
+              "middle": "P2_CLEAR"
+            },
+            "segment_id": "middle",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "아래\n마른 상태",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:bottom",
+            "safe_variables": {
+              "bottom": "P2_DRY"
+            },
+            "segment_id": "bottom",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "WINDOW_INSPECTION_MULTILINE"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 12,
+      "source_origin_id": "0ced6db2cd9a500c0cc3d59069091f19"
+    }
+  ],
+  "scope": "independent HEADLESS process restore and actual callbacks, not OS input"
+}

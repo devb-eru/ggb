@@ -168,6 +168,8 @@ var _prologue_dispatch_point := "SAVE_NEW_GAME"
 var _prologue_dispatch_complete := false
 var _prologue_dispatch_surfaces: Array = []
 var _prologue_async_request: Dictionary = {}
+var _prologue_action_retry: Dictionary = {}
+var _prologue_input_active := false
 var _dialogue_after := Callable()
 var _dialogue_active := false
 var _modal_active := false
@@ -301,13 +303,7 @@ func _flush_prologue_surfaces(generation: int, explicit_retry: bool = false) -> 
 	if not _prologue_async_request.is_empty(): return false
 	if _prologue_restoring_room: return true
 	if _prologue_dispatch_active:
-		if not _dialogue_active and not _dialogue_choice_active and not _modal_active:
-			_prologue_surfaces.prepare_receipts()
-			for id in _prologue_surfaces.requests:
-				var request: Dictionary = _prologue_surfaces.requests[id]
-				if request.recorded or (id not in _prologue_surfaces.active and not request.attempted): continue
-				if not _prologue_dispatch_surfaces.any(func(item: Dictionary) -> bool: return item.context.presentation_token == request.context.presentation_token):
-					_prologue_dispatch_surfaces.append(request)
+		_collect_prologue_surfaces()
 		return true
 	if _notebook_is_open(): return false
 	if not _prologue_surface_enabled(): return true
@@ -327,7 +323,6 @@ func _flush_prologue_surfaces(generation: int, explicit_retry: bool = false) -> 
 			batch.append({"speaker":row.speaker, "text":row.text, "locale":row.locale, "context":row.context.duplicate(true)})
 		if batch.is_empty(): return _finish_prologue_surface_flush(true, generation)
 		var payload := _prologue_candidate_request()
-		payload.surfaces.append_array(batch)
 		_begin_prologue_async("surfaces", payload)
 		return false
 	var saved := _prologue_surfaces.flush(self,_prologue_surface_scope(),explicit_retry)
@@ -354,6 +349,16 @@ func _finish_prologue_surface_flush(saved: bool, generation: int) -> bool:
 
 
 func _retry_prologue_surfaces(generation: int) -> void:
+	if not _prologue_action_retry.is_empty():
+		var retry := _prologue_action_retry
+		var window := {}
+		if _inspection_active and _current_room == "M1_PARLOR": window = {"schema_version":1, "window":_inspected_window, "selected_item":_selected_item}
+		if not is_inside_tree() or is_queued_for_deletion() or not _prologue_async_request.is_empty() or _notebook_is_open() or _dialogue_active or _dialogue_choice_active or _modal_active: return
+		if not _prologue_surfaces.live(retry.scope, generation) or generation != retry.generation or retry.scope != _prologue_surface_scope(): return
+		if retry.surface_requests != _prologue_surfaces.requests or retry.surface_active != _prologue_surfaces.active: return
+		if retry.payload.scope != _notebook_event_scope() or retry.payload.locale != TranslationServer.get_locale() or retry.payload.progress != _progress or retry.payload.pending_notes != _pending_notebook or retry.payload.inventory != _inventory_item_ids() or retry.payload.window != window: return
+		_begin_prologue_async("action", retry.payload.duplicate(true), {}, retry.point)
+		return
 	if _flush_prologue_surfaces(generation,true):
 		call_deferred("_resume_after_surface_retry",generation,_prologue_surface_scope())
 
@@ -1098,6 +1103,7 @@ func _inspect_bedroom(object_id: String) -> void:
 
 
 func _leave_bedroom_morning() -> void:
+	if _begin_prologue_input(_leave_bedroom_morning): return
 	if _interaction_blocked():
 		return
 	if Array(_progress.get("p1_inspections", [])).size() < 2:
@@ -1208,6 +1214,7 @@ func _open_window_inspection(index: int) -> void:
 
 
 func _close_window_inspection(update_status: bool = true) -> void:
+	if update_status and _inspection_active and _begin_prologue_input(_close_window_inspection.bind(update_status)): return
 	if _inspection_active and not _window_input_live(): return
 	if _inspection_active and not _prologue_surface_allowed(): return
 	if _inspection_active and update_status and _prologue_cursor_enabled():
@@ -1298,6 +1305,7 @@ func _refresh_window_inspection(new_observation: bool = false) -> void:
 
 
 func _on_window_zone_pressed(zone_id: String) -> void:
+	if _begin_prologue_input(_on_window_zone_pressed.bind(zone_id)): return
 	if not _window_input_live(): return
 	if _interaction_blocked(): return
 	if _selected_item.is_empty():
@@ -1315,6 +1323,7 @@ func _on_window_item_dropped(item_id: String, target_id: String) -> void:
 
 
 func _apply_window_tool(item_id: String, zone_id: String) -> void:
+	if _begin_prologue_input(_apply_window_tool.bind(item_id, zone_id)): return
 	if not _window_input_live(): return
 	if _interaction_blocked(): return
 	var states: Array = _progress.get("window_states", [])
@@ -1507,6 +1516,7 @@ func _localized_p3_choices() -> Dictionary:
 
 
 func _show_p3_journal_choices() -> void:
+	if _begin_prologue_input(_show_p3_journal_choices): return
 	_p3_journal_prompt_active = true
 	_show_dialogue_choice_set(
 		"p3_journal",
@@ -1924,6 +1934,7 @@ func _localized_p4_choices() -> Dictionary:
 
 
 func _show_p4_father_choices() -> void:
+	if _begin_prologue_input(_show_p4_father_choices): return
 	if _interaction_blocked() or bool(_progress.get("P4_complete", false)):
 		return
 	if int(_progress.get("tea_step", 0)) < TEA_STEPS.size() or not bool(_progress.get("p4_memory_anchor_seen", false)):
@@ -2034,6 +2045,7 @@ func _complete_p5() -> void:
 
 
 func _on_sleep_bed() -> void:
+	if _begin_prologue_input(_on_sleep_bed): return
 	if _interaction_blocked():
 		return
 	_show_prologue_confirmation(
@@ -2144,6 +2156,7 @@ func _add_hotspot(id: String, label: String, rect: Rect2, action: Callable) -> v
 
 func _dispatch_prologue_hotspot(action: Callable, generation: int, scope: Dictionary) -> void:
 	if _prologue_surface_enabled() and (not _prologue_surfaces.live(_prologue_surface_scope(),generation) or scope != _prologue_surface_scope()): return
+	if _begin_prologue_input(action): return
 	if _interaction_blocked(): return
 	action.call()
 
@@ -2206,6 +2219,7 @@ func _update_inventory(items: Array) -> void:
 
 
 func _on_inventory_slot_pressed(index: int) -> void:
+	if _begin_prologue_input(_on_inventory_slot_pressed.bind(index)): return
 	if _inspection_active and not _window_input_live(): return
 	if _interaction_blocked() or index >= _inventory_slots.size():
 		return
@@ -2418,7 +2432,30 @@ func _complete_prologue_terminal() -> void:
 	if after.is_valid(): after.call()
 
 
+func _begin_prologue_input(action: Callable) -> bool:
+	if not _prologue_async_enabled() or _prologue_restoring_room or _prologue_dispatch_active: return false
+	if not is_inside_tree() or is_queued_for_deletion() or not _prologue_async_request.is_empty() or _notebook_is_open() or _dialogue_active or _dialogue_choice_active or _modal_active: return true
+	if _prologue_surfaces.retry_required:
+		_finish_prologue_surface_flush(false, _prologue_surfaces.generation)
+		return true
+	_prologue_input_active = true
+	_run_prologue_action(action)
+	_prologue_input_active = false
+	return true
+
+
+func _collect_prologue_surfaces() -> void:
+	if not _prologue_surface_enabled(): return
+	_prologue_surfaces.prepare_receipts()
+	for id in _prologue_surfaces.requests:
+		var row: Dictionary = _prologue_surfaces.requests[id]
+		if row.recorded or (id not in _prologue_surfaces.active and not row.attempted): continue
+		row.attempted = true
+		if not _prologue_dispatch_surfaces.any(func(item: Dictionary) -> bool: return item.context.presentation_token == row.context.presentation_token): _prologue_dispatch_surfaces.append(row)
+
+
 func _run_prologue_action(action: Callable) -> void:
+	var input_action := _prologue_input_active
 	if not _prologue_cursor_enabled():
 		action.call()
 		return
@@ -2426,12 +2463,23 @@ func _run_prologue_action(action: Callable) -> void:
 	_prologue_dispatch_active = true
 	_prologue_dispatch_point = String(SaveManager.inspect_slot(_slot_id).get("save_point_id", "SAVE_NEW_GAME"))
 	_prologue_dispatch_complete = false
+	if _prologue_async_enabled(): _collect_prologue_surfaces()
 	action.call()
 	_prologue_dispatch_active = false
-	if _dialogue_active or _dialogue_choice_active or not _prologue_confirmation.is_empty(): return
+	if _prologue_async_enabled():
+		if _dialogue_active:
+			_record_prologue_history()
+			return
+		if _dialogue_choice_active:
+			_record_choice_history()
+			return
+		if not _prologue_confirmation.is_empty():
+			_record_prologue_confirmation_options(_prologue_confirmation)
+			return
+	elif _dialogue_active or _dialogue_choice_active or not _prologue_confirmation.is_empty(): return
 	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
 	if _prologue_async_enabled():
-		_begin_prologue_async("progress", _prologue_candidate_request({}, _prologue_dispatch_complete, true), {}, _prologue_dispatch_point)
+		_begin_prologue_async("action" if input_action else "progress", _prologue_candidate_request({}, _prologue_dispatch_complete, not input_action), {}, _prologue_dispatch_point)
 		return
 	if not _persist_prologue_progress(_prologue_dispatch_point, _prologue_dispatch_complete, saves, {}, true):
 		_restore_prologue_cursor()
@@ -2479,6 +2527,7 @@ func _record_prologue_history() -> bool:
 	var context: Dictionary = line.get("history_context", {}).duplicate(true)
 	if line.has("notebook_content"): context.notebook_content = line.notebook_content
 	if _prologue_async_enabled():
+		if _prologue_dispatch_active: return false
 		var recording := {"speaker":_speaker_label.text, "text":_dialogue_label.text, "context":context, "presentation":_prologue_dialogue_spec()}
 		_begin_prologue_async("line", _prologue_candidate_request(recording, _prologue_dispatch_complete))
 		return false
@@ -2494,11 +2543,11 @@ func _prologue_async_enabled() -> bool:
 
 
 func _prologue_surface_async_enabled() -> bool:
-	# Ordinary surfaces remain experimental until natural action boundaries are joined.
-	return _prologue_async_enabled() and "--ggb-dev-notebook-surface-async" in OS.get_cmdline_user_args()
+	return _prologue_async_enabled()
 
 
-func _prologue_candidate_request(recording: Dictionary = {}, complete: bool = false, complete_cursor: bool = false) -> Dictionary:
+func _prologue_candidate_request(recording: Dictionary = {}, complete: bool = false, complete_cursor: bool = false, collect_surfaces: bool = true) -> Dictionary:
+	if collect_surfaces and _prologue_async_enabled(): _collect_prologue_surfaces()
 	var window := {}
 	if _prologue_cursor_enabled() and _inspection_active and _current_room == "M1_PARLOR":
 		window = {"schema_version":1, "window":_inspected_window, "selected_item":_selected_item}
@@ -2515,7 +2564,7 @@ func _prologue_async_live(request: Dictionary) -> bool:
 	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
 	if not is_inside_tree() or is_queued_for_deletion() or not is_same(_prologue_async_request, request) or not is_instance_valid(saves) or saves.get_instance_id() != request.save_id: return false
 	if request.scope != _notebook_event_scope() or request.locale != TranslationServer.get_locale() or request.room != _current_room or request.progress != _progress or request.notes != _pending_notebook: return false
-	if request.kind == "surfaces":
+	if request.kind in ["surfaces", "action"]:
 		var window := {}
 		if _inspection_active and _current_room == "M1_PARLOR": window = {"schema_version":1, "window":_inspected_window, "selected_item":_selected_item}
 		return not _notebook_is_open() and not _dialogue_active and not _dialogue_choice_active and not _modal_active and _prologue_surfaces.live(request.surface_scope, request.surface_generation) and request.surface_scope == _prologue_surface_scope() and request.surface_requests == _prologue_surfaces.requests and request.surface_active == _prologue_surfaces.active and request.inventory == _inventory_item_ids() and request.window == window
@@ -2536,13 +2585,16 @@ func _begin_prologue_async(kind: String, payload: Dictionary = {}, cursor: Dicti
 		"index":_dialogue_index, "token":_dialogue_lines[_dialogue_index].get("presentation_token", "") if _dialogue_active else "",
 		"save_id":saves.get_instance_id(), "disabled":_dialogue_next.disabled, "status":_status_label.text}
 	request.controls = []
-	if kind == "surfaces":
+	if kind in ["surfaces", "action"]:
 		request.surface_scope = _prologue_surface_scope().duplicate(true)
 		request.surface_generation = _prologue_surfaces.generation
 		request.surface_requests = _prologue_surfaces.requests.duplicate(true)
 		request.surface_active = _prologue_surfaces.active.duplicate()
 		request.inventory = payload.inventory.duplicate()
 		request.window = payload.window.duplicate(true)
+		if kind == "action":
+			request.payload = payload.duplicate(true)
+			request.point = point
 	elif kind.begins_with("choice_"):
 		request.choice_mode = _dialogue_choice_mode
 		request.choice_capture = _prologue_choice_capture.duplicate(true)
@@ -2588,12 +2640,20 @@ func _begin_prologue_async(kind: String, payload: Dictionary = {}, cursor: Dicti
 		if kind == "surfaces":
 			_prologue_surfaces.retry_required = true
 			_finish_prologue_surface_flush(false, request.surface_generation)
+		if kind == "action":
+			_prologue_action_retry = {"payload":request.payload, "point":request.point, "scope":request.surface_scope, "generation":request.surface_generation, "surface_requests":request.surface_requests, "surface_active":request.surface_active}
+			_prologue_surfaces.retry_required = true
+			_finish_prologue_surface_flush(false, request.surface_generation)
 		return
 	_set_status("" if request.status == _dialogue_ui_text("CH1_HISTORY_SAVE_ERROR") else request.status)
-	if kind in ["line", "progress", "surfaces", "choice_options", "choice_selected", "confirmation_options", "confirmation_selected"]:
+	if kind in ["line", "progress", "surfaces", "action", "choice_options", "choice_selected", "confirmation_options", "confirmation_selected"]:
 		_pending_notebook.clear()
 		_confirm_prologue_dispatch_surfaces()
 	match kind:
+		"action":
+			_prologue_action_retry = {}
+			_prologue_surfaces.retry_required = false
+			_finish_prologue_surface_flush(true, request.surface_generation)
 		"surfaces":
 			for id in _prologue_surfaces.requests:
 				var row: Dictionary = _prologue_surfaces.requests[id]
@@ -2618,6 +2678,7 @@ func _begin_prologue_async(kind: String, payload: Dictionary = {}, cursor: Dicti
 func _record_prologue_text(speaker: String, text: String, context: Dictionary = {}, presentation: Dictionary = {}) -> bool:
 	if not _prologue_async_request.is_empty(): return false
 	if _prologue_async_enabled() and presentation.get("kind") == "choice":
+		if _prologue_dispatch_active: return false
 		var kind := "choice_" if _dialogue_choice_active else "confirmation_"
 		kind += "options" if presentation.phase == "choosing" else "selected"
 		var recording := {"speaker":speaker, "text":text, "context":context, "presentation":presentation}
@@ -3272,7 +3333,9 @@ func _persist_prologue_progress(save_point_id: String, prologue_complete: bool, 
 	# The reset already persisted the permanent notebook. The departing prologue
 	# controller's fresh physical defaults must not replace it during handoff.
 	if _is_prologue_complete() and recording.is_empty() and not complete_cursor: return true
-	var prepared := preload("res://scripts/systems/prologue_save_candidate.gd").prepare(GameState.get_snapshot(), _prologue_candidate_request(recording, prologue_complete, complete_cursor))
+	# Startup progress must not consume surfaces queued for the async worker.
+	var collect_surfaces := not recording.is_empty() or complete_cursor or not _prologue_async_enabled()
+	var prepared := preload("res://scripts/systems/prologue_save_candidate.gd").prepare(GameState.get_snapshot(), _prologue_candidate_request(recording, prologue_complete, complete_cursor, collect_surfaces))
 	if not prepared.ok:
 		_set_status("수첩 저장 실패: %s" % prepared.error_id if prepared.get("note_error", false) else _dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false

@@ -1,0 +1,1053 @@
+{
+  "checks": 21,
+  "errors": [],
+  "locale": "en_US",
+  "mode": "brush",
+  "ok": true,
+  "phase": "resume",
+  "physical": {
+    "bottom_wet": false,
+    "dust_spread": true,
+    "middle_stain": true,
+    "top_dust": true
+  },
+  "prior_entries": [
+    {
+      "entry_uid": "250018b9ee67533334a429e3487ad0c0",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_CLOTH",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "4363880712f783d8629fc940454f46c4",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "부드러운 천",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_CLOTH:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_CLOTH"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 0,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "6eff84408c3ed364eae24386b8485875",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_BRUSH",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "e225fab756c8bbb6b02f3c41918817f2",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "거친 솔",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_BRUSH:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_BRUSH"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 1,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "5cf8d89408b154e205611166df3b6cda",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_WATER",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "d09c88d2bb46fafad8a739d27872cb4c",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "물병",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_WATER:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_WATER"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 2,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "e137b70bf03b442fc47feb80853eca2a",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_SPANNER",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "99f8805aa3c03260a494d1bae49356ea",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "마라 1의 스패너",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_SPANNER:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_SPANNER"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 3,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "da90a838b447e04c423c80b865632842",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "e20f72493bec751fc6e6c8c431f744c6",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "1번 창 · 확대\n위쪽 먼지",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "0"
+            },
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 4,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "f11387de303e15a571dcea12ef046af5",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "b74ddb98be593955214365251ef4aea2",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "2번 창 · 확대\n위쪽 먼지",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 2.0,
+              "stage": "0"
+            },
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 5,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "223ec9b520dd7fcefcb3bbce4158c6d6",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "e7ca6699f34219f2a6c31301c90826bb",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "3번 창 · 확대\n위쪽 먼지",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 3.0,
+              "stage": "0"
+            },
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 6,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "9a48343db3a118c16bad6c538d8711f6",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_CLOCK_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "853cf61d169e9e81e56568d967cc841e",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "대응접실 시계",
+            "disclosure": "displayed",
+            "localization_key": "P2_CLOCK_LABEL:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_CLOCK_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 7,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "7cc2606a8fc44900f2882114dc724e94",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_MULTILINE",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "724728f3ef043cada588ccf8d4dd8ee2",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "0e00fad17a5016569f28f6ee17f716c3",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "95c472536866a6d0124966a980f753db",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "창 1 확대 · 위쪽 먼지",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:header",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "0"
+            },
+            "segment_id": "header",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "위쪽\n먼지",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:top",
+            "safe_variables": {
+              "top": "P2_DUST"
+            },
+            "segment_id": "top",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "가운데\n얼룩",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:middle",
+            "safe_variables": {
+              "middle": "P2_STAIN"
+            },
+            "segment_id": "middle",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "아래\n마른 상태",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:bottom",
+            "safe_variables": {
+              "bottom": "P2_DRY"
+            },
+            "segment_id": "bottom",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "WINDOW_INSPECTION_MULTILINE"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 8,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "2080f11228c679cce8d70cc21bbe06de",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_BRUSH_FEEDBACK",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "f61a659059db7a7a774a8e711f2e6356",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "b52419a801a39622d55fc9c496c9b2c6",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "44ce595d6da97894ca39437cc51e3bd2",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "거친 솔이 먼지를 양옆으로 퍼뜨렸다. 부드러운 천으로 바로 복구할 수 있다.",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_BRUSH_FEEDBACK:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_BRUSH_FEEDBACK"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 9,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "f368709dd2b2169d6b9894a4b99d027f",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_MULTILINE",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "f9d9f6e9ec592b8d22f1aab78a7b00f0",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "창 1 확대 · 위쪽 먼지",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:header",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "0"
+            },
+            "segment_id": "header",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "위쪽\n먼지가 양옆으로 퍼짐",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:top",
+            "safe_variables": {
+              "top": "P2_SPREAD"
+            },
+            "segment_id": "top",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "가운데\n얼룩",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:middle",
+            "safe_variables": {
+              "middle": "P2_STAIN"
+            },
+            "segment_id": "middle",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "아래\n마른 상태",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:bottom",
+            "safe_variables": {
+              "bottom": "P2_DRY"
+            },
+            "segment_id": "bottom",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "WINDOW_INSPECTION_MULTILINE"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 10,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "19b1845d6f03737efd49b3deed5bb791",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PR_P2_TOOL_BRUSH_LINE",
+        "content_protection": [],
+        "content_version": 1,
+        "conversation_session_id": "5f2197f5f35dd7b1376fce8da8d0917f",
+        "entry_kind": "dialogue",
+        "event_id": "P2",
+        "event_occurrence_id": "090d1a3f5960559b991dfedac7fdf8ab",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "dbaef9cb621333a9e372b5b67f8facc5",
+        "producer_id": "NP01",
+        "segments": [
+          {
+            "captured_text": "아가씨, 그 솔 말고 부드러운 천 말임다! 퍼진 먼지는 위에서부터 다시 모으면 됨다.",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_BRUSH_LINE",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "MARA1",
+        "variant_id": "spoken"
+      },
+      "protection_reasons": [
+        "person_source:81cdd2bf318fe0c05794e971d40a5a2d"
+      ],
+      "record_class": "authored",
+      "sequence": 11,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    }
+  ],
+  "saved_entries": [
+    {
+      "entry_uid": "250018b9ee67533334a429e3487ad0c0",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_CLOTH",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "4363880712f783d8629fc940454f46c4",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "부드러운 천",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_CLOTH:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_CLOTH"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 0,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "6eff84408c3ed364eae24386b8485875",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_BRUSH",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "e225fab756c8bbb6b02f3c41918817f2",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "거친 솔",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_BRUSH:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_BRUSH"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 1,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "5cf8d89408b154e205611166df3b6cda",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_WATER",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "d09c88d2bb46fafad8a739d27872cb4c",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "물병",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_WATER:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_WATER"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 2,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "e137b70bf03b442fc47feb80853eca2a",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_SPANNER",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "99f8805aa3c03260a494d1bae49356ea",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "마라 1의 스패너",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_SPANNER:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_SPANNER"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 3,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "da90a838b447e04c423c80b865632842",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "e20f72493bec751fc6e6c8c431f744c6",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "1번 창 · 확대\n위쪽 먼지",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "0"
+            },
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 4,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "f11387de303e15a571dcea12ef046af5",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "b74ddb98be593955214365251ef4aea2",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "2번 창 · 확대\n위쪽 먼지",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 2.0,
+              "stage": "0"
+            },
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 5,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "223ec9b520dd7fcefcb3bbce4158c6d6",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_WINDOW_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "e7ca6699f34219f2a6c31301c90826bb",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "3번 창 · 확대\n위쪽 먼지",
+            "disclosure": "displayed",
+            "localization_key": "P2_WINDOW_LABEL:body",
+            "safe_variables": {
+              "index": 3.0,
+              "stage": "0"
+            },
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_WINDOW_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 6,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "9a48343db3a118c16bad6c538d8711f6",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_CLOCK_LABEL",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "853cf61d169e9e81e56568d967cc841e",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "대응접실 시계",
+            "disclosure": "displayed",
+            "localization_key": "P2_CLOCK_LABEL:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_CLOCK_LABEL"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 7,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "7cc2606a8fc44900f2882114dc724e94",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_MULTILINE",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "724728f3ef043cada588ccf8d4dd8ee2",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "0e00fad17a5016569f28f6ee17f716c3",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "95c472536866a6d0124966a980f753db",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "창 1 확대 · 위쪽 먼지",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:header",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "0"
+            },
+            "segment_id": "header",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "위쪽\n먼지",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:top",
+            "safe_variables": {
+              "top": "P2_DUST"
+            },
+            "segment_id": "top",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "가운데\n얼룩",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:middle",
+            "safe_variables": {
+              "middle": "P2_STAIN"
+            },
+            "segment_id": "middle",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "아래\n마른 상태",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:bottom",
+            "safe_variables": {
+              "bottom": "P2_DRY"
+            },
+            "segment_id": "bottom",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "WINDOW_INSPECTION_MULTILINE"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 8,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "2080f11228c679cce8d70cc21bbe06de",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_P2_TOOL_BRUSH_FEEDBACK",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "f61a659059db7a7a774a8e711f2e6356",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "b52419a801a39622d55fc9c496c9b2c6",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "44ce595d6da97894ca39437cc51e3bd2",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "거친 솔이 먼지를 양옆으로 퍼뜨렸다. 부드러운 천으로 바로 복구할 수 있다.",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_BRUSH_FEEDBACK:body",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "P2_TOOL_BRUSH_FEEDBACK"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 9,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "f368709dd2b2169d6b9894a4b99d027f",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PROLOGUE_SURFACE_WINDOW_INSPECTION_MULTILINE",
+        "content_protection": [
+          "clue_source"
+        ],
+        "content_version": 1,
+        "conversation_session_id": "309d263bcb238256986ff139c77cddee",
+        "entry_kind": "document_segment",
+        "event_id": "P2",
+        "event_occurrence_id": "c9259e62b859fb7c2ce55a822790520e",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "f9d9f6e9ec592b8d22f1aab78a7b00f0",
+        "producer_id": "NP21",
+        "segments": [
+          {
+            "captured_text": "창 1 확대 · 위쪽 먼지",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:header",
+            "safe_variables": {
+              "index": 1.0,
+              "stage": "0"
+            },
+            "segment_id": "header",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "위쪽\n먼지가 양옆으로 퍼짐",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:top",
+            "safe_variables": {
+              "top": "P2_SPREAD"
+            },
+            "segment_id": "top",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "가운데\n얼룩",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:middle",
+            "safe_variables": {
+              "middle": "P2_STAIN"
+            },
+            "segment_id": "middle",
+            "viewed_locale": "ko-KR"
+          },
+          {
+            "captured_text": "아래\n마른 상태",
+            "disclosure": "displayed",
+            "localization_key": "WINDOW_INSPECTION_MULTILINE:bottom",
+            "safe_variables": {
+              "bottom": "P2_DRY"
+            },
+            "segment_id": "bottom",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "SYSTEM",
+        "variant_id": "WINDOW_INSPECTION_MULTILINE"
+      },
+      "protection_reasons": [
+        "content:clue_source"
+      ],
+      "record_class": "authored",
+      "sequence": 10,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    },
+    {
+      "entry_uid": "19b1845d6f03737efd49b3deed5bb791",
+      "observation": {
+        "chapter_id": "PROLOGUE",
+        "content_id": "NB_PR_P2_TOOL_BRUSH_LINE",
+        "content_protection": [],
+        "content_version": 1,
+        "conversation_session_id": "5f2197f5f35dd7b1376fce8da8d0917f",
+        "entry_kind": "dialogue",
+        "event_id": "P2",
+        "event_occurrence_id": "090d1a3f5960559b991dfedac7fdf8ab",
+        "location_id": "M1_PARLOR",
+        "node_id": "P2",
+        "presentation_token": "dbaef9cb621333a9e372b5b67f8facc5",
+        "producer_id": "NP01",
+        "segments": [
+          {
+            "captured_text": "아가씨, 그 솔 말고 부드러운 천 말임다! 퍼진 먼지는 위에서부터 다시 모으면 됨다.",
+            "disclosure": "displayed",
+            "localization_key": "P2_TOOL_BRUSH_LINE",
+            "safe_variables": {},
+            "segment_id": "body",
+            "viewed_locale": "ko-KR"
+          }
+        ],
+        "speaker_id": "MARA1",
+        "variant_id": "spoken"
+      },
+      "protection_reasons": [
+        "person_source:81cdd2bf318fe0c05794e971d40a5a2d"
+      ],
+      "record_class": "authored",
+      "sequence": 11,
+      "source_origin_id": "56ee9662e691493c2ca18302efe65d41"
+    }
+  ],
+  "scope": "independent HEADLESS process restore and actual callbacks, not OS input"
+}

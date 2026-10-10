@@ -1,0 +1,3816 @@
+class_name PrologueController
+extends Control
+
+signal return_to_title_requested
+signal campaign_requested(slot_id: String)
+signal audio_settings_changed(settings: Dictionary)
+signal menu_audio_pause_requested(paused: bool)
+signal audio_cue_requested(cue_id: StringName)
+signal audio_room_requested(room_id: String)
+var _audio_dialogue_index := -1
+
+var _audio_settings_panel: PanelContainer
+var _key_settings_panel: PanelContainer
+var _display_settings_panel: PanelContainer
+var _audio_profile_store := AccessibilityProfileStore.new()
+
+const MANSION_BACKGROUND := preload("res://assets/prologue/prologue_mansion_hall_v01.png")
+const ROOMS_PRIMARY_ATLAS := preload("res://assets/prologue/prologue_rooms_primary_atlas_v01.png")
+const ROOMS_SECONDARY_ATLAS := preload("res://assets/prologue/prologue_rooms_secondary_atlas_v01.png")
+const SERVANT_ATLAS := preload("res://assets/prologue/prologue_servants_atlas_v01.png")
+const ROOM_ART_SCRIPT := preload("res://scripts/prologue/prologue_room_art.gd")
+const WINDOW_INSPECTION_ART_SCRIPT := preload("res://scripts/prologue/prologue_window_inspection_art.gd")
+const INVENTORY_DRAG_SLOT_SCRIPT := preload("res://scripts/ui/inventory_drag_slot.gd")
+const INVENTORY_DROP_TARGET_SCRIPT := preload("res://scripts/ui/inventory_drop_target.gd")
+const PROLOGUE_SURFACES := preload("res://scripts/systems/notebook_prologue_surfaces.gd")
+const PROLOGUE_CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
+
+const ROOM_NAMES := {
+	"M2_BEDROOM": "주인공의 침실",
+	"M1_CENTRAL_HALL": "중앙홀",
+	"M1_PARLOR": "대응접실",
+	"M1_LIBRARY_OUTER": "외부 서고",
+	"M1_NORTH_ARCHIVE_HALL": "북쪽 기록 회랑",
+	"M1_KITCHEN": "주방",
+	"M1_GREENHOUSE_VESTIBULE": "온실 앞",
+}
+const PORTRAIT_REGIONS := {
+	"EDGAR": Rect2(0, 0, 350, 941),
+	"MARA1": Rect2(330, 0, 410, 941),
+	"MARA2": Rect2(650, 0, 380, 941),
+	"LUCA": Rect2(1000, 0, 300, 941),
+	"IRIS": Rect2(1230, 0, 442, 941),
+}
+const ROOM_ATLAS_REGIONS := {
+	"M2_BEDROOM": {"atlas": "primary", "region": Rect2(0, 0, 836, 470)},
+	"M1_PARLOR": {"atlas": "primary", "region": Rect2(836, 0, 836, 470)},
+	"M1_LIBRARY_OUTER": {"atlas": "primary", "region": Rect2(0, 470, 836, 471)},
+	"M1_KITCHEN": {"atlas": "primary", "region": Rect2(836, 470, 836, 471)},
+	"M1_NORTH_ARCHIVE_HALL": {"atlas": "secondary", "region": Rect2(0, 0, 836, 470)},
+	"M1_GREENHOUSE_VESTIBULE": {"atlas": "secondary", "region": Rect2(836, 0, 836, 470)},
+	"M2_BEDROOM_NIGHT": {"atlas": "secondary", "region": Rect2(0, 470, 836, 471)},
+	"M2_BEDROOM_RESET": {"atlas": "secondary", "region": Rect2(836, 470, 836, 471)},
+}
+const P3_BOOKS := {
+	"BOOK_MECHANICAL": {"label": "기계 도면집", "shelf": "SHELF_CLOCK"},
+	"BOOK_FLORA": {"label": "온실 식물지", "shelf": "SHELF_FLOWER"},
+	"BOOK_LEDGER": {"label": "식탁 업무록", "shelf": "SHELF_CUP"},
+}
+const P3_JOURNAL_CHOICES := {
+	"author": {
+		"label": "누가 쓴 장부입니까?",
+		"response": "주인님의 기록입니다.",
+	},
+	"locked": {
+		"label": "왜 잠겨 있습니까?",
+		"response": "손상된 기록은 잘못 읽히기 쉽습니다.",
+	},
+	"silent": {
+		"label": "말없이 내려놓는다",
+		"response": "",
+	},
+}
+const P4_FATHER_CHOICES := {
+	"father_tea": {
+		"label": "아버지가 좋아한 차인가요?",
+		"response": "네... 비슷한 향을 좋아하셨어요.\n정확히 같은지는... 이제 자신이 없지만요.",
+	},
+	"mansion_age": {
+		"label": "이 저택은 언제부터 있었나요?",
+		"response": "아가씨가 기억하는 만큼 오래됐다고... 들었어요.",
+	},
+	"luca_tenure": {
+		"label": "루카는 여기서 오래 일했나요?",
+		"response": "오래요... 아주 오래요.\n그런데 며칠이라고 세면, 늘 같은 수가 나와서...",
+	},
+}
+const P4_FATHER_CHOICE_ORDER := ["father_tea", "mansion_age", "luca_tenure"]
+const P3B_LABELS := {
+	"EDGAR": "에드가 · LOCK",
+	"MARA1": "마라 1 · MAINT",
+	"LUCA": "루카 · BIO",
+	"IRIS": "이리스 · CLIMATE",
+	"MARA2": "마라 2 · ARCHIVE",
+}
+const P3B_OWNERS := ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]
+const TEA_STEPS := [
+	"빈 잔 데우기",
+	"데운 물 버리기",
+	"찻잎 한 스푼",
+	"뜨거운 물 붓기",
+	"모래시계 기다리기",
+	"잔에 따르기",
+]
+const TEA_STEP_ITEMS := ["HOT_WATER", "CUP", "TEA_LEAVES", "HOT_WATER", "TIMER", "TEAPOT"]
+const TEA_STEP_ITEM_LABELS := ["뜨거운 물", "빈 찻잔", "찻잎", "뜨거운 물", "모래시계", "찻주전자"]
+
+var _dialogue_texts := DialogueRepository.new()
+var _slot_id := "slot_01"
+var _resume_id := "P1_ENTRY"
+var _test_mode := false
+var _progress: Dictionary = {}
+var _pending_notebook: Dictionary = {}
+var _selected_item := ""
+var _current_room := "M2_BEDROOM"
+
+var _background: TextureRect
+var _room_art
+var _hotspot_layer: Control
+var _location_label: Label
+var _objective_label: Label
+var _status_label: Label
+var _notebook_button: Button
+var _inventory_panel: PanelContainer
+var _inventory_slots: Array[Button] = []
+var _menu_button: Button
+var _dialogue_layer: Control
+var _portrait: TextureRect
+var _speaker_label: Label
+var _dialogue_label: Label
+var _dialogue_scroll: ScrollContainer
+var _reading_text_scale := 1.0
+var _dialogue_next: Button
+var _dialogue_choice_blocker: ColorRect
+var _dialogue_choice_panel: PanelContainer
+var _dialogue_choice_header: Label
+var _dialogue_choice_buttons: Array[Button] = []
+var _dialogue_choice_focus_index := 0
+var _dialogue_choice_active := false
+var _dialogue_choice_mode := ""
+var _modal_layer: Control
+var _modal_panel: PanelContainer
+var _modal_body: VBoxContainer
+var _inspection_layer: Control
+var _inspection_panel: PanelContainer
+var _window_title: Label
+var _window_hint_label: Label
+var _window_feedback_label: Label
+var _window_art
+var _window_drop_targets: Dictionary = {}
+var _inspected_window := -1
+var _inspection_active := false
+var _inspection_scope := {}
+var _fade: ColorRect
+
+var _dialogue_lines: Array = []
+var _dialogue_index := 0
+var _prologue_history_index := -1
+var _choice_history_recorded := false
+var _choice_history_context: Dictionary = {}
+var _choice_selected_tokens: Dictionary = {}
+var _prologue_confirmation: Dictionary = {}
+var _prologue_cursor_scope: Dictionary = {}
+var _prologue_restoring_room := false
+var _prologue_restored_cursor: Dictionary = {}
+var _prologue_choice_capture: Dictionary = {}
+var _prologue_dispatch_active := false
+var _prologue_dispatch_point := "SAVE_NEW_GAME"
+var _prologue_dispatch_complete := false
+var _prologue_dispatch_surfaces: Array = []
+var _prologue_async_request: Dictionary = {}
+var _prologue_action_retry: Dictionary = {}
+var _prologue_input_active := false
+var _dialogue_after := Callable()
+var _dialogue_active := false
+var _modal_active := false
+var _p3_journal_prompt_active := false
+var _history_selected := "ALL"
+var _history_scroll_positions: Dictionary = {}
+var _history_warning := ""
+var _history_generation := 0
+var _prologue_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
+var _prologue_surface_saves: Node
+var _prologue_surface_retry: Button
+var _prologue_surface_focus: WeakRef
+var _notebook_host
+var _menu_audio_paused := false
+
+
+func _unified_notebook_enabled() -> bool:
+	return not _test_mode and preload("res://scripts/systems/notebook_rollout.gd").enabled() and GameState.get_value("meta_progress.dialogue_history.schema_version", 0) == 2
+
+
+func _notebook_is_open() -> bool:
+	return is_instance_valid(_notebook_host)
+
+
+func _try_open_unified_notebook(tab: String) -> bool:
+	if not _unified_notebook_enabled(): return false
+	if _notebook_is_open(): return true
+	var blocked := _notebook_open_block_reason()
+	if not blocked.is_empty():
+		_set_status(blocked)
+		return true
+	_notebook_host = preload("res://scripts/systems/notebook_host.gd").new()
+	get_parent().add_child(_notebook_host)
+	if not _notebook_host.begin(self, GameState, SaveManager, tab):
+		_notebook_host.queue_free()
+		_notebook_host = null
+		_set_status("기록을 열지 못했습니다. 저장 상태를 확인해 주세요." if not TranslationServer.get_locale().begins_with("en") else "Unable to open records. Check save status.")
+	return true
+
+
+func _notebook_open_block_reason() -> String:
+	if not _prologue_async_request.is_empty():
+		return "표시 중인 기록의 저장을 먼저 완료해 주세요." if not TranslationServer.get_locale().begins_with("en") else "Finish saving the displayed record first."
+	if (is_instance_valid(_fade) and _fade.visible) or GameState.get_value("reset_state.phase", "idle") != "idle":
+		return "전환이 끝난 뒤 수첩을 열 수 있습니다." if not TranslationServer.get_locale().begins_with("en") else "Open the notebook after this transition finishes."
+	if _uses_prologue_history() and ((_dialogue_active and _prologue_history_index != _dialogue_index) or (_dialogue_choice_active and not _choice_history_recorded)):
+		return "표시 중인 기록의 저장을 먼저 완료해 주세요." if not TranslationServer.get_locale().begins_with("en") else "Finish saving the displayed record first."
+	return ""
+
+
+func _notebook_context_node() -> String:
+	if _dialogue_active and _dialogue_index >= 0 and _dialogue_index < _dialogue_lines.size():
+		return String(_dialogue_lines[_dialogue_index].get("history_context", {}).get("node_id", ""))
+	if _dialogue_choice_active: return String(_choice_history_context.get("node_id", ""))
+	return _prologue_surface_node() if _uses_prologue_history() else ""
+
+
+func _notebook_tools() -> Array:
+	if _dialogue_active or _dialogue_choice_active or _modal_active or _inspection_active: return []
+	return [{"id": "NotebookLegacyNotes", "label": "기존 수첩 원문" if not TranslationServer.get_locale().begins_with("en") else "Earlier notebook text", "action": _open_legacy_notebook}]
+
+
+func _remember_menu_audio_pause(paused: bool) -> void:
+	_menu_audio_paused = paused
+
+
+func _resume_after_notebook(scope: Dictionary) -> void:
+	if is_queued_for_deletion() or _notebook_is_open() or scope != _prologue_surface_scope() or not _prologue_surface_enabled(): return
+	_resume_after_surface_retry(_prologue_surfaces.generation, scope)
+
+
+func _prologue_surface_enabled() -> bool:
+	return not _prologue_restoring_room and _uses_prologue_history() and not _is_prologue_complete() and preload("res://scripts/systems/notebook_rollout.gd").enabled() and GameState.get_value("meta_progress.dialogue_history.schema_version",0) == 2
+
+
+func _prologue_surface_node() -> String:
+	if _current_room == "M2_BEDROOM": return "P6" if _progress.get("P4_complete",false) else "P1"
+	return {"M1_PARLOR":"P2","M1_LIBRARY_OUTER":"P3","M1_NORTH_ARCHIVE_HALL":"P3B","M1_KITCHEN":"P4","M1_GREENHOUSE_VESTIBULE":"P5","M1_CENTRAL_HALL":"PF"}.get(_current_room,"P1")
+
+
+func _prologue_surface_scope() -> Dictionary:
+	var scope := _notebook_event_scope()
+	scope.location = _current_room
+	scope.node = _prologue_surface_node()
+	scope.day = GameState.get_value("loop_state.day_index",0)
+	return scope
+
+
+func _begin_prologue_surfaces() -> void:
+	if _prologue_restoring_room:
+		_prologue_surfaces.begin({})
+		return
+	if not _prologue_surface_enabled(): return
+	if _prologue_surface_async_enabled() and not _prologue_dispatch_active:
+		# Retain observed values until the deferred batch includes the rebuilt view.
+		for id in _prologue_surfaces.active:
+			if not _prologue_surfaces.requests[id].recorded: _prologue_surfaces.requests[id].attempted = true
+	else:
+		_flush_prologue_surfaces(_prologue_surfaces.generation)
+	_clear_prologue_surface_retry()
+	_prologue_surfaces.begin(_prologue_surface_scope(), GameState.get_snapshot())
+	call_deferred("_flush_prologue_surfaces",_prologue_surfaces.generation)
+
+
+func _queue_prologue_surface(descriptor: Dictionary, text: String, new_attempt: bool = false) -> void:
+	if not _prologue_surface_enabled(): return
+	var context := {"node_id":_prologue_surface_node(),"chapter_id":"PROLOGUE","location_id":_current_room}
+	_prologue_surfaces.queue_descriptor(descriptor,text,TranslationServer.get_locale(),context,new_attempt)
+	call_deferred("_flush_prologue_surfaces",_prologue_surfaces.generation)
+
+
+func _surface_text(key: String, variables: Dictionary = {}, safe_variables: Dictionary = {}) -> String:
+	var text := _dialogue_ui_text(key,variables)
+	_queue_prologue_surface(PROLOGUE_SURFACES.surface(key,safe_variables),text)
+	return text
+
+
+func _surface_status(key: String, variables: Dictionary = {}, safe_variables: Dictionary = {}) -> void:
+	var text := _dialogue_ui_text(key,variables)
+	_set_status(text)
+	_queue_prologue_surface(PROLOGUE_SURFACES.surface(key,safe_variables),text,true)
+	if not _prologue_surface_async_enabled(): _flush_prologue_surfaces(_prologue_surfaces.generation)
+
+
+func _prologue_surface_allowed() -> bool:
+	return _flush_prologue_surfaces(_prologue_surfaces.generation)
+
+
+func _flush_prologue_surfaces(generation: int, explicit_retry: bool = false) -> bool:
+	if not is_inside_tree() or is_queued_for_deletion(): return false
+	if not _prologue_async_request.is_empty(): return false
+	if _prologue_restoring_room: return true
+	if _prologue_dispatch_active:
+		_collect_prologue_surfaces()
+		return true
+	if _notebook_is_open(): return false
+	if not _prologue_surface_enabled(): return true
+	if _dialogue_active or _dialogue_choice_active or _modal_active:
+		if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
+		return false
+	if not _prologue_surfaces.live(_prologue_surface_scope(),generation): return _prologue_surfaces.scope.is_empty()
+	if _prologue_surface_async_enabled():
+		if _prologue_surfaces.retry_required and not explicit_retry:
+			return _finish_prologue_surface_flush(false, generation)
+		_prologue_surfaces.prepare_receipts()
+		var batch := []
+		for id in _prologue_surfaces.requests:
+			var row: Dictionary = _prologue_surfaces.requests[id]
+			if row.recorded or (id not in _prologue_surfaces.active and not row.attempted): continue
+			row.attempted = true
+			batch.append({"speaker":row.speaker, "text":row.text, "locale":row.locale, "context":row.context.duplicate(true)})
+		if batch.is_empty(): return _finish_prologue_surface_flush(true, generation)
+		var payload := _prologue_candidate_request()
+		_begin_prologue_async("surfaces", payload)
+		return false
+	var saved := _prologue_surfaces.flush(self,_prologue_surface_scope(),explicit_retry)
+	return _finish_prologue_surface_flush(saved, generation)
+
+
+func _finish_prologue_surface_flush(saved: bool, generation: int) -> bool:
+	if saved:
+		var had_focus := is_instance_valid(_prologue_surface_retry) and _prologue_surface_retry.has_focus()
+		_clear_prologue_surface_retry()
+		if had_focus:
+			call_deferred("_restore_prologue_surface_focus")
+	else:
+		if not is_instance_valid(_prologue_surface_retry):
+			var focused := get_viewport().gui_get_focus_owner()
+			_prologue_surface_focus = weakref(focused) if focused != null else weakref(_menu_button)
+			_prologue_surface_retry = _make_button(preload("res://scripts/ui/fracture_surface_texts.gd").retry_text(TranslationServer.get_locale()),Rect2(260,944,1380,94),_retry_prologue_surfaces.bind(generation))
+			_prologue_surface_retry.name = "PROLOGUE_SURFACE_RETRY"
+			_prologue_surface_retry.z_index = 100
+			add_child(_prologue_surface_retry)
+			call_deferred("_focus_visible_control",weakref(_prologue_surface_retry))
+		_prologue_surface_retry.show()
+	return saved
+
+
+func _retry_prologue_surfaces(generation: int) -> void:
+	if not _prologue_action_retry.is_empty():
+		var retry := _prologue_action_retry
+		var window := {}
+		if _inspection_active and _current_room == "M1_PARLOR": window = {"schema_version":1, "window":_inspected_window, "selected_item":_selected_item}
+		if not is_inside_tree() or is_queued_for_deletion() or not _prologue_async_request.is_empty() or _notebook_is_open() or _dialogue_active or _dialogue_choice_active or _modal_active: return
+		if not _prologue_surfaces.live(retry.scope, generation) or generation != retry.generation or retry.scope != _prologue_surface_scope(): return
+		if retry.surface_requests != _prologue_surfaces.requests or retry.surface_active != _prologue_surfaces.active: return
+		if retry.payload.scope != _notebook_event_scope() or retry.payload.locale != TranslationServer.get_locale() or retry.payload.progress != _progress or retry.payload.pending_notes != _pending_notebook or retry.payload.inventory != _inventory_item_ids() or retry.payload.window != window: return
+		_begin_prologue_async("action", retry.payload.duplicate(true), {}, retry.point)
+		return
+	if _flush_prologue_surfaces(generation,true):
+		call_deferred("_resume_after_surface_retry",generation,_prologue_surface_scope())
+
+
+func _resume_after_surface_retry(generation: int, scope: Dictionary) -> void:
+	if not _prologue_surfaces.live(_prologue_surface_scope(),generation) or scope != _prologue_surface_scope() or _interaction_blocked(): return
+	if _current_room == "M1_LIBRARY_OUTER":
+		if _progress.get("p3_journal_seen",false) and String(_progress.get("p3_journal_choice","")) in ["","pending"]: _resume_p3_journal_choice()
+	elif _current_room == "M1_KITCHEN":
+		if _progress.get("p4_life_support_pending",false): _resume_p4_life_support_foreshadow()
+		elif _progress.get("P4_complete",false) and not _progress.get("iris_greeting_seen",false): _show_p4_iris_greeting()
+		elif _progress.get("p4_phase","") == "memory_anchor": _resume_p4_memory_anchor()
+		elif _progress.get("p4_phase","") == "question_answered": _resume_p4_question_answer()
+		elif _progress.get("p4_phase","") == "question" and _progress.get("p4_father_question","") == "": _show_p4_father_choices()
+
+
+func _restore_prologue_surface_focus() -> void:
+	if _dialogue_active or _dialogue_choice_active or _modal_active: return
+	var target = _prologue_surface_focus.get_ref() if _prologue_surface_focus != null else null
+	if not is_instance_valid(target) or not target.is_inside_tree() or not target.is_visible_in_tree(): target = _menu_button
+	if is_instance_valid(target): target.grab_focus()
+
+
+func _clear_prologue_surface_retry() -> void:
+	if is_instance_valid(_prologue_surface_retry):
+		remove_child(_prologue_surface_retry)
+		_prologue_surface_retry.queue_free()
+	_prologue_surface_retry = null
+
+
+func record_viewed_line(speaker: String, text: String, locale: String, context: Dictionary) -> Dictionary:
+	var point := String(SaveManager.inspect_slot(_slot_id).get("save_point_id","SAVE_NEW_GAME"))
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	return preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState,saves,_slot_id,point,speaker,text,locale,"PROLOGUE",[],context)
+
+
+func configure_session(slot_id: String, resume_id: String, test_mode: bool = false) -> void:
+	_clear_prologue_surface_retry()
+	_prologue_surfaces.begin({})
+	_pending_notebook.clear()
+	_slot_id = slot_id
+	_resume_id = resume_id
+	_test_mode = test_mode
+	_history_selected = "ALL"
+	_history_scroll_positions.clear()
+
+
+func _ready() -> void:
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_build_ui()
+	_load_progress()
+	_apply_accessibility_profile()
+	if _restore_prologue_cursor(): return
+	if _restore_window_without_cursor(): return
+	if _is_prologue_complete():
+		_show_after_reset()
+		return
+	_enter_room(String(_progress.get("current_room", "M2_BEDROOM")))
+	if not bool(_progress.get("P1_complete", false)):
+		_show_p1_intro()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _notebook_is_open(): return
+	if not _prologue_async_request.is_empty() and not event.is_action_pressed("ui_page_up", false, true) and not event.is_action_pressed("ui_page_down", false, true):
+		get_viewport().set_input_as_handled()
+		return
+	if is_instance_valid(_display_settings_panel) and _display_settings_panel.visible:
+		if event.is_action_pressed("ui_cancel", false, true):
+			_open_menu()
+			get_viewport().set_input_as_handled()
+		return
+	if is_instance_valid(_key_settings_panel) and _key_settings_panel.visible:
+		if event.is_action_pressed("ui_cancel", false, true):
+			_open_menu()
+			get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("inventory_toggle", false, true) and not _interaction_blocked():
+		for slot: Button in _inventory_slots:
+			if slot.is_visible_in_tree() and not slot.disabled:
+				slot.grab_focus()
+				break
+		get_viewport().set_input_as_handled()
+		return
+	if is_instance_valid(_audio_settings_panel) and _audio_settings_panel.visible:
+		if event.is_action_pressed("ui_cancel", false, true) or event.is_action_pressed("notebook_toggle", false, true):
+			_open_menu()
+			get_viewport().set_input_as_handled()
+		return
+	var page_up := event.is_action_pressed("ui_page_up", false, true)
+	var page_down := event.is_action_pressed("ui_page_down", false, true)
+	if _modal_active and (page_up or page_down):
+		var body_scroll := _history_modal_scroll() if _modal_active else null
+		if body_scroll == null and _modal_body.get_child_count() > 2:
+			body_scroll = _modal_body.get_child(2) as ScrollContainer
+		if body_scroll != null:
+			var direction := -1 if page_up else 1
+			body_scroll.scroll_vertical += direction * maxi(40, int(body_scroll.size.y * 0.8))
+			get_viewport().set_input_as_handled()
+			return
+	if _dialogue_layer.visible and not _modal_active and (page_up or page_down):
+		var direction := -1 if page_up else 1
+		_dialogue_scroll.scroll_vertical += direction * maxi(40, int(_dialogue_scroll.size.y * 0.8))
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("notebook_toggle", false, true):
+		if _unified_notebook_enabled():
+			_open_notebook()
+		elif _dialogue_choice_active:
+			_handle_dialogue_choice_cancel()
+		elif _inspection_active:
+			_close_window_inspection()
+		elif _modal_active:
+			_cancel_prologue_modal()
+		else:
+			_open_notebook()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_cancel", false, true):
+		if _dialogue_choice_active:
+			_handle_dialogue_choice_cancel()
+		elif _inspection_active:
+			_close_window_inspection()
+		elif _modal_active:
+			_cancel_prologue_modal()
+		elif _dialogue_active:
+			_advance_dialogue()
+		else:
+			_open_menu()
+		get_viewport().set_input_as_handled()
+
+
+func _build_ui() -> void:
+	if not menu_audio_pause_requested.is_connected(_remember_menu_audio_pause): menu_audio_pause_requested.connect(_remember_menu_audio_pause)
+	_background = TextureRect.new()
+	_background.name = "MansionBackground"
+	_background.texture = MANSION_BACKGROUND
+	_background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_background.set_meta("asset_id", "BG_PROLOGUE_MANSION_HALL_V01")
+	_background.set_meta("is_generated", true)
+	add_child(_background)
+
+	var atmosphere := ColorRect.new()
+	atmosphere.color = Color(0.02, 0.015, 0.06, 0.14)
+	atmosphere.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	atmosphere.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(atmosphere)
+
+	_room_art = ROOM_ART_SCRIPT.new()
+	_room_art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_room_art.modulate = Color(1.0, 1.0, 1.0, 0.32)
+	add_child(_room_art)
+
+	_hotspot_layer = Control.new()
+	_hotspot_layer.name = "Hotspots"
+	_hotspot_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_hotspot_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_hotspot_layer)
+
+	_build_window_inspection_ui()
+	_build_persistent_ui()
+	_build_dialogue_ui()
+	_build_modal_ui()
+
+	_fade = ColorRect.new()
+	_fade.color = Color(0.0, 0.0, 0.0, 0.0)
+	_fade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_fade.visible = false
+	add_child(_fade)
+	if _unified_notebook_enabled(): move_child(_notebook_button, get_child_count() - 1)
+	if preload("res://scripts/systems/notebook_rollout.gd").enabled() and not _test_mode:
+		var tracker := preload("res://scripts/systems/presentation_view_tracker.gd").new()
+		tracker.name = "PresentationViewTracker"
+		tracker.view = self
+		add_child(tracker)
+
+
+func _build_window_inspection_ui() -> void:
+	_inspection_layer = Control.new()
+	_inspection_layer.name = "WindowInspectionLayer"
+	_inspection_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_inspection_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_inspection_layer.visible = false
+	add_child(_inspection_layer)
+
+	var dimmer := ColorRect.new()
+	dimmer.name = "InspectionDimmer"
+	dimmer.color = Color(0.0, 0.0, 0.0, 0.78)
+	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
+	_place(dimmer, Rect2(0, 86, 1680, 994))
+	_inspection_layer.add_child(dimmer)
+
+	_inspection_panel = PanelContainer.new()
+	_inspection_panel.name = "WindowInspectionPanel"
+	_inspection_panel.add_theme_stylebox_override("panel", _style(Color(0.025, 0.018, 0.050, 0.99), Color(0.70, 0.42, 0.23, 0.98), 5, 12))
+	_place(_inspection_panel, Rect2(210, 115, 1390, 850))
+	_inspection_layer.add_child(_inspection_panel)
+
+	var content := Control.new()
+	content.name = "WindowInspectionContent"
+	_inspection_panel.add_child(content)
+
+	_window_title = Label.new()
+	_window_title.name = "WindowInspectionTitle"
+	_window_title.add_theme_font_size_override("font_size", 32)
+	_window_title.add_theme_color_override("font_color", Color(0.96, 0.79, 0.52))
+	_place(_window_title, Rect2(48, 28, 820, 48))
+	content.add_child(_window_title)
+
+	_window_hint_label = Label.new()
+	_window_hint_label.name = "WindowInspectionHint"
+	_window_hint_label.text = _dialogue_ui_text("P2_ACTIVE_HINT")
+	_window_hint_label.add_theme_font_size_override("font_size", 20)
+	_window_hint_label.add_theme_color_override("font_color", Color(0.91, 0.89, 0.84))
+	_place(_window_hint_label, Rect2(48, 78, 1180, 36))
+	content.add_child(_window_hint_label)
+
+	_window_art = WINDOW_INSPECTION_ART_SCRIPT.new()
+	_window_art.name = "WindowInspectionArt"
+	_place(_window_art, Rect2(70, 120, 1250, 590))
+	content.add_child(_window_art)
+
+	var zone_specs := [
+		{"id": "TOP", "label": _dialogue_ui_text("P2_ZONE_TOP"), "rect": Rect2(160, 170, 1070, 140)},
+		{"id": "MIDDLE", "label": _dialogue_ui_text("P2_ZONE_MIDDLE"), "rect": Rect2(160, 335, 1070, 155)},
+		{"id": "BOTTOM", "label": _dialogue_ui_text("P2_ZONE_BOTTOM"), "rect": Rect2(160, 515, 1070, 145)},
+	]
+	for spec_value in zone_specs:
+		var spec: Dictionary = spec_value
+		var zone_id := String(spec["id"])
+		var target = INVENTORY_DROP_TARGET_SCRIPT.new()
+		target.name = "WindowDrop%s" % zone_id.capitalize()
+		target.configure("WINDOW_ZONE_%s" % zone_id)
+		target.text = String(spec["label"])
+		target.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		target.add_theme_font_size_override("font_size", 22)
+		target.add_theme_stylebox_override("normal", _style(Color(0.04, 0.025, 0.07, 0.34), Color(0.73, 0.61, 0.44, 0.72), 3, 8))
+		target.add_theme_stylebox_override("hover", _style(Color(0.18, 0.08, 0.16, 0.62), Color(0.98, 0.72, 0.34, 0.98), 5, 8))
+		target.add_theme_stylebox_override("focus", _style(Color(0.12, 0.05, 0.15, 0.66), Color(0.60, 0.82, 1.0, 0.98), 5, 8))
+		_place(target, spec["rect"])
+		target.inventory_item_dropped.connect(_on_window_item_dropped)
+		target.pressed.connect(_on_window_zone_pressed.bind(zone_id))
+		_window_drop_targets[zone_id] = target
+		content.add_child(target)
+
+	_window_feedback_label = Label.new()
+	_window_feedback_label.name = "WindowFeedback"
+	_window_feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_window_feedback_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_window_feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_window_feedback_label.add_theme_font_size_override("font_size", 21)
+	_window_feedback_label.add_theme_color_override("font_color", Color(1.0, 0.83, 0.53))
+	_place(_window_feedback_label, Rect2(120, 708, 1110, 72))
+	content.add_child(_window_feedback_label)
+
+	var close_button := _make_button(_dialogue_ui_text("UI_P_CLOSE_ZOOM"), Rect2(1160, 24, 170, 58), _close_window_inspection)
+	close_button.name = "CloseWindowInspection"
+	content.add_child(close_button)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		if is_instance_valid(_menu_button):
+			_menu_button.text = _dialogue_ui_text("UI_P_MENU")
+		if is_instance_valid(_notebook_button):
+			_refresh_notebook_caption()
+
+
+func _notebook_caption() -> String:
+	var keys := PackedStringArray()
+	if InputMap.has_action("notebook_toggle"):
+		for event in InputMap.action_get_events("notebook_toggle"):
+			if event is InputEventKey:
+				keys.append(event.as_text())
+	var names: Array = preload("res://scripts/systems/key_bindings.gd").NAMES["notebook"]
+	var title: String = names[1 if TranslationServer.get_locale().begins_with("en") else 0]
+	return title if keys.is_empty() else title + "\n" + "\n".join(keys)
+
+
+func _refresh_notebook_caption() -> void:
+	_notebook_button.text = _notebook_caption()
+	_notebook_button.tooltip_text = _notebook_button.text.replace("\n", " · ")
+
+
+func _show_notebook_shortcut() -> void:
+	_set_status(_notebook_button.tooltip_text)
+
+
+func _build_persistent_ui() -> void:
+	var top_shade := ColorRect.new()
+	top_shade.color = Color(0.015, 0.01, 0.03, 0.78)
+	_place(top_shade, Rect2(0, 0, 1920, 86))
+	add_child(top_shade)
+
+	_menu_button = _make_button(_dialogue_ui_text("UI_P_MENU"), Rect2(22, 18, 136, 52), _open_menu)
+	_menu_button.name = "MenuButton"
+	add_child(_menu_button)
+
+	_location_label = Label.new()
+	_location_label.name = "LocationLabel"
+	_location_label.add_theme_font_size_override("font_size", 24)
+	_location_label.add_theme_color_override("font_color", Color(0.94, 0.92, 0.86))
+	_location_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_place(_location_label, Rect2(180, 18, 430, 52))
+	add_child(_location_label)
+
+	var objective_panel := PanelContainer.new()
+	objective_panel.add_theme_stylebox_override("panel", _style(Color(0.025, 0.018, 0.055, 0.88), Color(0.48, 0.26, 0.55, 0.85), 2, 10))
+	_place(objective_panel, Rect2(635, 14, 760, 60))
+	add_child(objective_panel)
+	_objective_label = Label.new()
+	_objective_label.name = "ObjectiveLabel"
+	_objective_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_objective_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_objective_label.add_theme_font_size_override("font_size", 20)
+	objective_panel.add_child(_objective_label)
+
+	_status_label = Label.new()
+	_status_label.name = "StatusLabel"
+	_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_status_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_status_label.add_theme_font_size_override("font_size", 18)
+	_status_label.add_theme_color_override("font_color", Color(1.0, 0.83, 0.53))
+	_place(_status_label, Rect2(500, 90, 920, 44))
+	add_child(_status_label)
+
+	_notebook_button = _make_button(_notebook_caption(), Rect2(24, 912, 148, 132), _open_notebook)
+	_notebook_button.name = "NotebookButton"
+	_notebook_button.add_theme_font_size_override("font_size", 22)
+	_notebook_button.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_notebook_button.clip_text = true
+	_notebook_button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_notebook_button.focus_entered.connect(_show_notebook_shortcut)
+	_refresh_notebook_caption()
+	add_child(_notebook_button)
+
+	_inventory_panel = PanelContainer.new()
+	_inventory_panel.name = "InventoryPanel"
+	_inventory_panel.add_theme_stylebox_override("panel", _style(Color(0.035, 0.018, 0.045, 0.91), Color(0.64, 0.25, 0.18, 0.94), 4, 6))
+	_place(_inventory_panel, Rect2(1692, 90, 204, 930))
+	add_child(_inventory_panel)
+	var inventory_margin := MarginContainer.new()
+	inventory_margin.add_theme_constant_override("margin_left", 12)
+	inventory_margin.add_theme_constant_override("margin_top", 14)
+	inventory_margin.add_theme_constant_override("margin_right", 12)
+	inventory_margin.add_theme_constant_override("margin_bottom", 14)
+	_inventory_panel.add_child(inventory_margin)
+	var inventory_column := VBoxContainer.new()
+	inventory_column.add_theme_constant_override("separation", 12)
+	inventory_margin.add_child(inventory_column)
+	var inventory_title := Label.new()
+	inventory_title.text = _dialogue_ui_text("UI_INVENTORY")
+	inventory_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	inventory_title.add_theme_font_size_override("font_size", 19)
+	inventory_column.add_child(inventory_title)
+	var inventory_scroll := ScrollContainer.new()
+	inventory_scroll.name = "InventoryScroll"
+	inventory_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	inventory_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	inventory_scroll.custom_minimum_size.y = 100
+	inventory_scroll.follow_focus = true
+	inventory_column.add_child(inventory_scroll)
+	var slots_column := VBoxContainer.new()
+	slots_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slots_column.add_theme_constant_override("separation", 12)
+	inventory_scroll.add_child(slots_column)
+	for index in range(6):
+		var slot: Button = INVENTORY_DRAG_SLOT_SCRIPT.new()
+		slot.name = "InventorySlot%d" % (index + 1)
+		slot.custom_minimum_size = Vector2(170, 126)
+		slot.text = _dialogue_ui_text("UI_INV_EMPTY")
+		slot.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		slot.add_theme_font_size_override("font_size", 17)
+		slot.add_theme_stylebox_override("normal", _style(Color(0.08, 0.035, 0.075, 0.96), Color(0.63, 0.26, 0.18, 0.92), 4, 4))
+		slot.add_theme_stylebox_override("hover", _style(Color(0.17, 0.055, 0.13, 0.98), Color(0.90, 0.47, 0.26, 1.0), 5, 4))
+		slot.pressed.connect(_on_inventory_slot_pressed.bind(index))
+		slot.drag_started.connect(_on_inventory_drag_started)
+		_inventory_slots.append(slot)
+		slots_column.add_child(slot)
+
+
+func _build_dialogue_ui() -> void:
+	_dialogue_layer = Control.new()
+	_dialogue_layer.name = "DialogueLayer"
+	_dialogue_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_dialogue_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_dialogue_layer.visible = false
+	add_child(_dialogue_layer)
+
+	_portrait = TextureRect.new()
+	_portrait.name = "StandingPortrait"
+	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_place(_portrait, Rect2(40, 110, 650, 940))
+	_dialogue_layer.add_child(_portrait)
+
+	var backing := PanelContainer.new()
+	backing.name = "DialogueBacking"
+	backing.add_theme_stylebox_override("panel", _style(Color(0.008, 0.006, 0.014, 0.91), Color(0.36, 0.18, 0.36, 0.92), 3, 8))
+	_place(backing, Rect2(185, 735, 1490, 310))
+	_dialogue_layer.add_child(backing)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 400)
+	margin.add_theme_constant_override("margin_top", 28)
+	margin.add_theme_constant_override("margin_right", 34)
+	margin.add_theme_constant_override("margin_bottom", 24)
+	backing.add_child(margin)
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 14)
+	margin.add_child(body)
+	_speaker_label = Label.new()
+	_speaker_label.name = "SpeakerLabel"
+	_speaker_label.add_theme_font_size_override("font_size", 25)
+	_speaker_label.add_theme_color_override("font_color", Color(0.93, 0.72, 0.44))
+	body.add_child(_speaker_label)
+	_dialogue_scroll = ScrollContainer.new()
+	_dialogue_scroll.name = "DialogueScroll"
+	_dialogue_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_dialogue_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_dialogue_scroll.custom_minimum_size.y = 80
+	_dialogue_scroll.focus_mode = Control.FOCUS_ALL
+	body.add_child(_dialogue_scroll)
+	_dialogue_label = Label.new()
+	_dialogue_label.name = "DialogueText"
+	_dialogue_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_dialogue_label.add_theme_font_size_override("font_size", 24)
+	_dialogue_label.add_theme_color_override("font_color", Color(0.94, 0.93, 0.91))
+	_dialogue_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_dialogue_scroll.add_child(_dialogue_label)
+	_dialogue_next = Button.new()
+	_dialogue_next.name = "DialogueNext"
+	_dialogue_next.text = _dialogue_ui_text("UI_DIALOGUE_CONTINUE")
+	_dialogue_next.custom_minimum_size = Vector2(170, 46)
+	_dialogue_next.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_dialogue_next.pressed.connect(_advance_dialogue)
+	body.add_child(_dialogue_next)
+
+	_dialogue_choice_blocker = ColorRect.new()
+	_dialogue_choice_blocker.name = "DialogueChoiceInputBlocker"
+	_dialogue_choice_blocker.color = Color(0.0, 0.0, 0.0, 0.16)
+	_dialogue_choice_blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_dialogue_choice_blocker.mouse_filter = Control.MOUSE_FILTER_STOP
+	_dialogue_choice_blocker.visible = false
+	_dialogue_layer.add_child(_dialogue_choice_blocker)
+	_dialogue_layer.move_child(_dialogue_choice_blocker, 0)
+
+	_dialogue_choice_panel = PanelContainer.new()
+	_dialogue_choice_panel.name = "DialogueChoicePanel"
+	_dialogue_choice_panel.add_theme_stylebox_override("panel", _style(Color(0.01, 0.008, 0.018, 0.72), Color(0.29, 0.36, 0.48, 0.64), 2, 3))
+	_place(_dialogue_choice_panel, Rect2(1190, 255, 470, 365))
+	_dialogue_choice_panel.resized.connect(func() -> void:
+		_dialogue_choice_panel.position.x = maxf(24.0, 1660.0 - _dialogue_choice_panel.size.x)
+	)
+	_dialogue_choice_panel.visible = false
+	_dialogue_layer.add_child(_dialogue_choice_panel)
+	var choice_margin := MarginContainer.new()
+	choice_margin.add_theme_constant_override("margin_left", 12)
+	choice_margin.add_theme_constant_override("margin_top", 12)
+	choice_margin.add_theme_constant_override("margin_right", 12)
+	choice_margin.add_theme_constant_override("margin_bottom", 12)
+	_dialogue_choice_panel.add_child(choice_margin)
+	var choice_list := VBoxContainer.new()
+	choice_list.add_theme_constant_override("separation", 10)
+	choice_margin.add_child(choice_list)
+	_dialogue_choice_header = Label.new()
+	_dialogue_choice_header.name = "DialogueChoiceHeader"
+	_dialogue_choice_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_dialogue_choice_header.add_theme_font_size_override("font_size", 18)
+	_dialogue_choice_header.add_theme_color_override("font_color", Color(0.78, 0.81, 0.88))
+	choice_list.add_child(_dialogue_choice_header)
+	for index in range(3):
+		var button := Button.new()
+		button.name = "DialogueChoice%d" % (index + 1)
+		button.custom_minimum_size = Vector2(420, 88)
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.add_theme_font_size_override("font_size", 23)
+		button.add_theme_color_override("font_color", Color(0.94, 0.94, 0.95))
+		button.add_theme_stylebox_override("normal", _choice_style(Color(0.015, 0.012, 0.022, 0.88), Color(0.22, 0.24, 0.31, 0.76), 3))
+		button.add_theme_stylebox_override("hover", _choice_style(Color(0.055, 0.075, 0.09, 0.94), Color(0.37, 0.79, 0.86, 0.94), 5))
+		button.add_theme_stylebox_override("focus", _choice_style(Color(0.055, 0.075, 0.09, 0.98), Color(0.42, 0.86, 0.92, 1.0), 6))
+		button.pressed.connect(_on_dialogue_choice_pressed.bind(index))
+		button.focus_entered.connect(_on_dialogue_choice_focused.bind(index))
+		button.mouse_entered.connect(_focus_dialogue_choice.bind(index))
+		_dialogue_choice_buttons.append(button)
+		choice_list.add_child(button)
+
+
+func _build_modal_ui() -> void:
+	_modal_layer = Control.new()
+	_modal_layer.name = "ModalLayer"
+	_modal_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_modal_layer.visible = false
+	add_child(_modal_layer)
+	var dimmer := ColorRect.new()
+	dimmer.color = Color(0.0, 0.0, 0.0, 0.76)
+	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_modal_layer.add_child(dimmer)
+	_modal_panel = PanelContainer.new()
+	_modal_panel.add_theme_stylebox_override("panel", _style(Color(0.035, 0.022, 0.060, 0.99), Color(0.66, 0.35, 0.58, 0.95), 4, 12))
+	_place(_modal_panel, Rect2(510, 190, 900, 700))
+	_modal_layer.add_child(_modal_panel)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 48)
+	margin.add_theme_constant_override("margin_top", 42)
+	margin.add_theme_constant_override("margin_right", 48)
+	margin.add_theme_constant_override("margin_bottom", 42)
+	_modal_panel.add_child(margin)
+	_modal_body = VBoxContainer.new()
+	_modal_body.add_theme_constant_override("separation", 18)
+	margin.add_child(_modal_body)
+
+
+func _load_progress() -> void:
+	_pending_notebook.clear()
+	_progress = _default_progress()
+	if _test_mode:
+		_normalize_window_states()
+		return
+	var event_states: Dictionary = GameState.get_value(&"loop_state.event_local_states", {})
+	if event_states.get("PROLOGUE") is Dictionary:
+		var stored_progress: Dictionary = event_states["PROLOGUE"]
+		_progress.merge(stored_progress, true)
+		if not stored_progress.has("window_states"):
+			_progress["window_states"] = _window_states_from_stages(Array(stored_progress.get("windows", [0, 0, 0])))
+		var legacy_journal_choice := String(_progress.get("p3_journal_choice", ""))
+		if legacy_journal_choice in ["author", "locked"]:
+			var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
+			if legacy_journal_choice not in asked_questions:
+				asked_questions.append(legacy_journal_choice)
+			_progress["p3_journal_questions_asked"] = asked_questions
+			_progress["p3_journal_choice"] = "pending"
+		if bool(_progress.get("P4_complete", false)):
+			_progress["p4_phase"] = "complete"
+			_progress["p4_memory_anchor_seen"] = true
+		elif int(_progress.get("tea_step", 0)) >= TEA_STEPS.size() and String(_progress.get("p4_phase", "brewing")) == "brewing":
+			_progress["p4_phase"] = "memory_anchor"
+	_normalize_window_states()
+	_current_room = String(_progress.get("current_room", "M2_BEDROOM"))
+	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {})
+	# Only a fresh event creates acquisition evidence; loading old prose does not.
+	if not event_states.has("PROLOGUE") and not knowledge.has("prologue_notebook_entries") and not knowledge.get("PROLOGUE_COMPLETE", false):
+		_queue_notebook_observation("NOTE_P_DUTIES")
+
+
+func _default_progress() -> Dictionary:
+	return {
+		"P1_complete": false,
+		"P2_complete": false,
+		"P3_complete": false,
+		"P3B_complete": false,
+		"P4_complete": false,
+		"P5_complete": false,
+		"P6_complete": false,
+		"iris_greeting_seen": false,
+		"current_room": "M2_BEDROOM",
+		"time_block": "morning",
+		"p1_inspections": [],
+		"windows": [0, 0, 0],
+		"window_states": _make_default_window_states(),
+		"bird_observed": false,
+		"p2_brush_hint_seen": false,
+		"p2_spanner_hint_seen": false,
+		"p3_placed": {},
+		"p3_journal_seen": false,
+		"p3_journal_choice": "",
+		"p3_journal_questions_asked": [],
+		"p3b_placed": {},
+		"tea_step": 0,
+		"p4_phase": "brewing",
+		"p4_life_support_seen": false,
+		"p4_life_support_recorded": false,
+		"p4_memory_anchor_seen": false,
+		"p4_handle_return_used": false,
+		"p4_father_question": "",
+		"p5_observations": [],
+		"introduced": [],
+		"notebook_entries": ["오늘의 일과: 대응접실 창문, 외부 서고 책, 북쪽 회랑 초상화."],
+		"intros_seen": [],
+	}
+
+
+func _apply_accessibility_profile() -> void:
+	var profile_result := AccessibilityProfileStore.new().load_profile()
+	preload("res://scripts/systems/key_bindings.gd").apply_bindings(profile_result.profile.get("key_bindings", preload("res://scripts/systems/key_bindings.gd").defaults()))
+	_refresh_notebook_caption()
+	var profile: Dictionary = profile_result.get("profile", {})
+	var scale := float(profile.get("text_scale", 1.0))
+	var ui_theme := Theme.new()
+	ui_theme.default_font_size = int(round(19.0 * scale))
+	theme = ui_theme
+	_apply_reading_text_scale(scale)
+
+func _apply_reading_text_scale(scale: float) -> void:
+	_reading_text_scale = clampf(scale, 1.0, 2.0)
+	_dialogue_label.add_theme_font_size_override("font_size", int(round(24 * _reading_text_scale)))
+	_speaker_label.add_theme_font_size_override("font_size", int(round(25 * _reading_text_scale)))
+	_dialogue_next.add_theme_font_size_override("font_size", int(round(20 * _reading_text_scale)))
+	var extra_height := 170.0 * (_reading_text_scale - 1.0)
+	_place(_dialogue_layer.get_node("DialogueBacking"), Rect2(185,735-extra_height,1490,310+extra_height))
+	for button in _dialogue_choice_buttons:
+		button.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
+	_apply_window_text_scale()
+	for slot in _inventory_slots:
+		slot.add_theme_font_size_override("font_size", int(round(17 * _reading_text_scale)))
+
+
+func _apply_window_text_scale() -> void:
+	_window_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_window_hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_window_title.add_theme_font_size_override("font_size", int(round(32 * _reading_text_scale)))
+	_window_hint_label.add_theme_font_size_override("font_size", int(round(20 * _reading_text_scale)))
+	_window_feedback_label.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
+	var enlarged := _reading_text_scale > 1.0
+	_place(_window_title, Rect2(48, 28, 1080, 160) if enlarged else Rect2(48, 28, 1080, 48))
+	_place(_window_hint_label, Rect2(48, 190, 1250, 110) if enlarged else Rect2(48, 78, 1180, 36))
+	_place(_window_art, Rect2(70, 310, 1250, 370) if enlarged else Rect2(70, 120, 1250, 590))
+	_place(_window_feedback_label, Rect2(48, 690, 1250, 140) if enlarged else Rect2(120, 708, 1110, 72))
+	var normal_rects := [Rect2(160, 170, 1070, 140), Rect2(160, 335, 1070, 155), Rect2(160, 515, 1070, 145)]
+	var zones := ["TOP", "MIDDLE", "BOTTOM"]
+	for index in range(zones.size()):
+		var target = _window_drop_targets[zones[index]]
+		target.add_theme_font_size_override("font_size", int(round(22 * _reading_text_scale)))
+		_place(target, Rect2(160, 315 + 115 * index, 1070, 110) if enlarged else normal_rects[index])
+	_refresh_window_inspection()
+	for index in range(zones.size()):
+		_place(_window_drop_targets[zones[index]], Rect2(160, 315 + 115 * index, 1070, 110) if enlarged else normal_rects[index])
+
+
+func _show_p1_intro() -> void:
+	_add_unique("introduced", "EDGAR")
+	_show_dialogue([
+		_prologue_line("P1_WAKE_LIGHT", "SYSTEM"),
+		_prologue_line("P1_WAKE_KNOCK", "SYSTEM"),
+		_prologue_line("P1_WAKE_EDGAR", "에드가", {"portrait": "EDGAR"}),
+		_prologue_line("P1_WAKE_TASKS", "에드가", {"portrait": "EDGAR"}),
+	], _show_p1_objective)
+
+
+func _show_p1_objective() -> void:
+	_set_status(_dialogue_ui_text("P1_WAKE_OBJECTIVE"))
+
+
+func _return_to_hall_after_dialogue() -> void:
+	_close_window_inspection(false)
+	_enter_room("M1_CENTRAL_HALL")
+
+
+func _finish_prologue_handoff() -> void:
+	campaign_requested.emit(_slot_id)
+
+
+func _enter_room(room_id: String) -> void:
+	if not _prologue_surface_allowed(): return
+	_close_window_inspection(false)
+	_current_room = room_id
+	_begin_prologue_surfaces()
+	audio_room_requested.emit(room_id)
+	_progress["current_room"] = room_id
+	_location_label.text = _dialogue_ui_text("ROOM_" + room_id) if ROOM_NAMES.has(room_id) else room_id
+	_set_room_background(room_id)
+	_selected_item = ""
+	_update_inventory([])
+	_clear_hotspots()
+	_room_art.set_room(room_id, _progress)
+	match room_id:
+		"M2_BEDROOM":
+			_build_bedroom()
+		"M1_CENTRAL_HALL":
+			_build_hall()
+		"M1_PARLOR":
+			_build_parlor()
+		"M1_LIBRARY_OUTER":
+			_build_library()
+		"M1_NORTH_ARCHIVE_HALL":
+			_build_archive()
+		"M1_KITCHEN":
+			_build_kitchen()
+		"M1_GREENHOUSE_VESTIBULE":
+			_build_greenhouse()
+	_update_objective()
+	_save_progress()
+
+
+func _rebuild_current_room_content() -> void:
+	_begin_prologue_surfaces()
+	_clear_hotspots()
+	_room_art.set_room(_current_room, _progress)
+	match _current_room:
+		"M1_PARLOR":
+			_build_parlor()
+		"M1_LIBRARY_OUTER":
+			_build_library()
+		"M1_NORTH_ARCHIVE_HALL":
+			_build_archive()
+		"M1_KITCHEN":
+			_build_kitchen()
+	_update_objective()
+
+
+func _build_bedroom() -> void:
+	if bool(_progress.get("P4_complete", false)):
+		_progress["time_block"] = "night"
+		_add_hotspot("BED", _dialogue_ui_text("P6_NIGHT_BED"), Rect2(245, 640, 480, 170), _on_sleep_bed)
+		_add_hotspot("WINDOW", _surface_text("P6_NIGHT_WINDOW"), Rect2(1280, 210, 300, 380), _inspect_bedroom.bind("window"))
+		_add_hotspot("HALL", _dialogue_ui_text("P6_NIGHT_EXPLORE"), Rect2(790, 870, 360, 92), _enter_room.bind("M1_CENTRAL_HALL"))
+		if not _intro_seen("P6"):
+			_mark_intro("P6")
+			_show_dialogue([
+				_prologue_line("P6_NIGHT_EDGAR_DONE", "에드가", {"portrait": "EDGAR"}),
+				_prologue_line("P6_NIGHT_EDGAR_REST", "에드가", {"portrait": "EDGAR"}),
+			])
+		return
+
+	_add_hotspot("BED", _surface_text("P1_LABEL_BED"), Rect2(180, 610, 560, 210), _inspect_bedroom.bind("bed"))
+	_add_hotspot("WINDOW", _surface_text("P1_LABEL_WINDOW"), Rect2(1250, 180, 330, 410), _inspect_bedroom.bind("window"))
+	_add_hotspot("PHOTO", _surface_text("P1_LABEL_PHOTO"), Rect2(930, 245, 190, 245), _inspect_bedroom.bind("photo"))
+	_add_hotspot("NOTEBOOK", _surface_text("P1_LABEL_NOTEBOOK"), Rect2(610, 690, 180, 115), _inspect_bedroom.bind("notebook"))
+	_add_hotspot("EXIT", _dialogue_ui_text("P1_LABEL_EXIT"), Rect2(825, 850, 300, 100), _leave_bedroom_morning)
+
+
+func _inspect_bedroom(object_id: String) -> void:
+	if _interaction_blocked():
+		return
+	_add_unique("p1_inspections", object_id)
+	var lines := {
+		"bed": "P1_INSPECT_BED",
+		"window": "P1_INSPECT_WINDOW",
+		"photo": "P1_INSPECT_PHOTO",
+		"notebook": "P1_INSPECT_NOTEBOOK",
+	}
+	if object_id == "notebook":
+		_add_notebook("NOTE_P_IMPRESSIONS")
+	var key := "P6_INSPECT_WINDOW" if object_id == "window" and bool(_progress.get("P4_complete", false)) else String(lines[object_id])
+	_show_dialogue([_prologue_line(key, "주인공")])
+	_room_art.set_room(_current_room, _progress)
+	_save_progress()
+
+
+func _leave_bedroom_morning() -> void:
+	if _begin_prologue_input(_leave_bedroom_morning): return
+	if _interaction_blocked():
+		return
+	if Array(_progress.get("p1_inspections", [])).size() < 2:
+		_show_prologue_confirmation(
+			"P1_EXIT",
+			_dialogue_ui_text("P1_EXIT_TITLE"),
+			_dialogue_ui_text("P1_EXIT_CONFIRM"),
+			[
+				{"id": "confirm", "label": _dialogue_ui_text("P1_EXIT_START"), "action": _complete_p1},
+				{"id": "cancel", "label": _dialogue_ui_text("P1_EXIT_STAY"), "action": _close_modal},
+			]
+		)
+		return
+	_complete_p1()
+
+
+func _complete_p1() -> void:
+	_close_modal()
+	_progress["P1_complete"] = true
+	_progress["time_block"] = "morning"
+	_add_unique("introduced", "EDGAR")
+	_save_progress()
+	_enter_room("M1_CENTRAL_HALL")
+	_show_dialogue([
+		_prologue_line("P1_HALL_VIEW", "SYSTEM"),
+		_prologue_line("P1_HALL_EDGAR", "에드가", {"portrait": "EDGAR"}),
+	])
+
+
+func _build_hall() -> void:
+	var morning_complete := _morning_tasks_complete()
+	if not bool(_progress.get("P4_complete", false)):
+		_add_hotspot("PARLOR", _task_label(_dialogue_ui_text("UI_DUTY_PARLOR"), "P2_complete"), Rect2(110, 410, 350, 180), _enter_room.bind("M1_PARLOR"))
+		_add_hotspot("LIBRARY", _task_label(_dialogue_ui_text("UI_DUTY_LIBRARY"), "P3_complete"), Rect2(1120, 445, 300, 180), _enter_room.bind("M1_LIBRARY_OUTER"))
+		_add_hotspot("ARCHIVE", _task_label(_dialogue_ui_text("UI_DUTY_ARCHIVE"), "P3B_complete"), Rect2(690, 240, 350, 150), _enter_room.bind("M1_NORTH_ARCHIVE_HALL"))
+		if morning_complete:
+			_add_hotspot("KITCHEN", _dialogue_ui_text("UI_DUTY_KITCHEN"), Rect2(1430, 430, 260, 180), _enter_room.bind("M1_KITCHEN"))
+		else:
+			_add_hotspot("REPORT", _dialogue_ui_text("UI_DUTY_REPORT"), Rect2(760, 650, 360, 105), _report_tasks)
+		return
+
+	_progress["time_block"] = "evening_free"
+	_add_hotspot("GREENHOUSE", _task_label(_dialogue_ui_text("PF_GREENHOUSE"), "P5_complete"), Rect2(1415, 405, 275, 190), _enter_room.bind("M1_GREENHOUSE_VESTIBULE"))
+	_add_hotspot("BEDROOM", _dialogue_ui_text("PF_BEDROOM"), Rect2(720, 220, 420, 150), _enter_room.bind("M2_BEDROOM"))
+	_add_hotspot("PARLOR", _surface_text("PF_PARLOR"), Rect2(120, 430, 330, 160), _evening_ambient.bind("PF_LIGHT"))
+	_add_hotspot("LIBRARY", _surface_text("PF_LIBRARY"), Rect2(1110, 460, 310, 160), _evening_ambient.bind("PF_PAGES"))
+
+
+func _report_tasks() -> void:
+	var missing: Array[String] = []
+	var mask := 0
+	var index := 0
+	for pair in [["P2_complete", "UI_DUTY_PARLOR"], ["P3_complete", "UI_DUTY_LIBRARY"], ["P3B_complete", "UI_DUTY_ARCHIVE"]]:
+		if not bool(_progress.get(pair[0], false)):
+			missing.append(_dialogue_ui_text(pair[1]))
+			mask |= 1 << index
+		index += 1
+	if mask == 0: return
+	_show_dialogue([_prologue_line("DUTY_%d" % mask, "에드가", {"portrait": "EDGAR"}, {"tasks": ", ".join(missing)})])
+
+
+func _build_parlor() -> void:
+	_normalize_window_states()
+	_sync_window_stages()
+	_update_inventory([
+		{"id": "SOFT_CLOTH", "label": _surface_text("P2_TOOL_CLOTH")},
+		{"id": "COARSE_BRUSH", "label": _surface_text("P2_TOOL_BRUSH")},
+		{"id": "WATER", "label": _surface_text("P2_TOOL_WATER")},
+		{"id": "SPANNER", "label": _surface_text("P2_TOOL_SPANNER")},
+	])
+	var windows: Array = _progress.get("windows", [0, 0, 0])
+	for index in range(3):
+		var stage := int(windows[index])
+		_add_hotspot("WINDOW_%d" % index, _dialogue_ui_text("P2_WINDOW_LABEL", {"index": index + 1, "state": _window_stage_name(stage)}), Rect2(300 + index * 420, 250, 300, 390), _on_window_pressed.bind(index))
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface("P2_WINDOW_LABEL",{"index":index+1,"stage":str(stage)}),_hotspot_layer.get_node("WINDOW_%d" % index).text)
+	_add_hotspot("CLOCK", _surface_text("P2_CLOCK_LABEL"), Rect2(1450, 185, 180, 190), _show_dialogue.bind([_prologue_line("P2_CLOCK_OBSERVATION", "주인공")]))
+	_add_back_to_hall()
+	if not _intro_seen("P2"):
+		_mark_intro("P2")
+		_add_unique("introduced", "MARA1")
+		_show_dialogue([
+			_prologue_line("P2_TOOL_INTRO", "마라 1", {"portrait": "MARA1"}),
+			_prologue_line("P2_TOOL_GUIDE", "마라 1", {"portrait": "MARA1"}),
+		])
+
+
+func _on_window_pressed(index: int) -> void:
+	if _dialogue_active or _modal_active:
+		return
+	_open_window_inspection(index)
+
+
+func _open_window_inspection(index: int) -> void:
+	if _interaction_blocked(): return
+	_normalize_window_states()
+	if index < 0 or index >= Array(_progress.get("window_states", [])).size():
+		return
+	_inspected_window = index
+	_inspection_active = true
+	_inspection_layer.visible = true
+	_inspection_scope = _notebook_event_scope()
+	_selected_item = ""
+	_refresh_inventory_selection()
+	_set_window_feedback("P2_DRAG")
+	_refresh_window_inspection(true)
+	_set_status(_dialogue_ui_text("P2_INSPECTING", {"index": index + 1}))
+	if _prologue_cursor_enabled(): _save_progress()
+
+
+func _close_window_inspection(update_status: bool = true) -> void:
+	if update_status and _inspection_active and _begin_prologue_input(_close_window_inspection.bind(update_status)): return
+	if _inspection_active and not _window_input_live(): return
+	if _inspection_active and not _prologue_surface_allowed(): return
+	if _inspection_active and update_status and _prologue_cursor_enabled():
+		_inspection_active = false
+		if not _save_progress():
+			_inspection_active = true
+			return
+	if _inspection_layer != null:
+		_inspection_layer.visible = false
+	_inspection_active = false
+	_inspected_window = -1
+	_inspection_scope = {}
+	if update_status and _status_label != null:
+		_set_status(_dialogue_ui_text("P2_CLOSED"))
+	_refresh_inventory_selection()
+	if update_status and _current_room == "M1_PARLOR": _rebuild_current_room_content()
+
+
+func _window_input_live() -> bool:
+	return _prologue_restoring_room or _test_mode or _inspection_scope == _notebook_event_scope()
+
+
+func _saved_window_view() -> Dictionary:
+	if not _prologue_cursor_enabled(): return {}
+	var value: Variant = GameState.get_value("loop_state.event_local_states." + PROLOGUE_CURSOR.WINDOW_KEY, {})
+	if not PROLOGUE_CURSOR.valid_window(value) or _is_prologue_complete() or _current_room != "M1_PARLOR": return {}
+	if not String(value.selected_item).is_empty() and value.selected_item not in GameState.get_value("loop_state.inventory", []): return {}
+	return value.duplicate(true)
+
+
+func _restore_window_view(value: Dictionary) -> void:
+	if value.is_empty(): return
+	_inspected_window = int(value.window)
+	_selected_item = value.selected_item
+	_inspection_scope = _notebook_event_scope()
+	_inspection_active = true
+	_inspection_layer.show()
+	var was_restoring := _prologue_restoring_room
+	_prologue_restoring_room = true
+	_refresh_window_inspection()
+	_window_feedback_label.text = _dialogue_ui_text("P2_DRAG")
+	_prologue_restoring_room = was_restoring
+	# Restoring is read-only; subsequent explicit input needs a fresh capture scope.
+	_prologue_surfaces.begin(_prologue_surface_scope(), GameState.get_snapshot())
+
+
+func _restore_window_without_cursor() -> bool:
+	var view := _saved_window_view()
+	if view.is_empty(): return false
+	_prologue_restoring_room = true
+	_enter_room(_current_room)
+	_load_progress()
+	_prologue_restoring_room = false
+	_restore_window_view(view)
+	return true
+
+
+func _save_window_selection(previous: String) -> void:
+	if not _inspection_active or not _prologue_cursor_enabled(): return
+	if not _window_input_live() or not _save_progress():
+		_selected_item = previous
+		_refresh_inventory_selection()
+
+
+func _refresh_window_inspection(new_observation: bool = false) -> void:
+	if not _inspection_active or _inspected_window < 0:
+		return
+	var states: Array = _progress.get("window_states", [])
+	if _inspected_window >= states.size():
+		return
+	var state: Dictionary = states[_inspected_window]
+	_window_title.text = _dialogue_ui_text("P2_TITLE", {"index": _inspected_window + 1, "state": _window_stage_name(_stage_from_window_state(state))})
+	_window_art.set_window_state(_inspected_window, state)
+	var clean := _is_window_clean(state)
+	var top = _window_drop_targets["TOP"]
+	var middle = _window_drop_targets["MIDDLE"]
+	var bottom = _window_drop_targets["BOTTOM"]
+	top.text = _dialogue_ui_text("P2_TOP", {"state": _dialogue_ui_text("P2_SPREAD" if bool(state.get("dust_spread", false)) else ("P2_DUST" if bool(state.get("top_dust", true)) else "P2_CLEAR"))})
+	middle.text = _dialogue_ui_text("P2_MIDDLE", {"state": _dialogue_ui_text("P2_STAIN" if bool(state.get("middle_stain", true)) else "P2_CLEAR")})
+	bottom.text = _dialogue_ui_text("P2_BOTTOM", {"state": _dialogue_ui_text("P2_WET" if bool(state.get("bottom_wet", false)) else "P2_DRY")})
+	for target_value in _window_drop_targets.values():
+		if _reading_text_scale > 1.0:
+			target_value.text = target_value.text.replace("\n", " · ")
+		target_value.set_drop_enabled(not clean)
+	_window_hint_label.text = _dialogue_ui_text("P2_CLEAN_HINT" if clean else "P2_ACTIVE_HINT")
+	_queue_prologue_surface(PROLOGUE_SURFACES.window(_inspected_window,_stage_from_window_state(state),state,_reading_text_scale > 1.0),_window_title.text+"\n"+top.text+"\n"+middle.text+"\n"+bottom.text,new_observation)
+	_refresh_inventory_selection()
+
+
+func _on_window_zone_pressed(zone_id: String) -> void:
+	if _begin_prologue_input(_on_window_zone_pressed.bind(zone_id)): return
+	if not _window_input_live(): return
+	if _interaction_blocked(): return
+	if _selected_item.is_empty():
+		_set_window_feedback("P2_SELECT_HINT")
+		return
+	_on_window_item_dropped(_selected_item, "WINDOW_ZONE_%s" % zone_id)
+
+
+func _on_window_item_dropped(item_id: String, target_id: String) -> void:
+	if not _window_input_live(): return
+	if _dialogue_active or _modal_active or not _inspection_active:
+		return
+	var zone_id := target_id.trim_prefix("WINDOW_ZONE_")
+	_apply_window_tool(item_id, zone_id)
+
+
+func _apply_window_tool(item_id: String, zone_id: String) -> void:
+	if _begin_prologue_input(_apply_window_tool.bind(item_id, zone_id)): return
+	if not _window_input_live(): return
+	if _interaction_blocked(): return
+	var states: Array = _progress.get("window_states", [])
+	if _inspected_window < 0 or _inspected_window >= states.size():
+		return
+	var state: Dictionary = states[_inspected_window].duplicate(true)
+	if _is_window_clean(state):
+		_set_window_feedback("P2_TOOL_ALREADY")
+		return
+	var feedback_kind := "neutral"
+	match item_id:
+		"SPANNER":
+			_set_window_feedback("P2_TOOL_SPANNER_FEEDBACK")
+			if not bool(_progress.get("p2_spanner_hint_seen", false)):
+				_progress["p2_spanner_hint_seen"] = true
+				_show_dialogue([_prologue_line("P2_TOOL_SPANNER_LINE", "마라 1", {"portrait": "MARA1"})])
+		"COARSE_BRUSH":
+			state["top_dust"] = true
+			state["dust_spread"] = true
+			feedback_kind = "wrong"
+			_set_window_feedback("P2_TOOL_BRUSH_FEEDBACK")
+			if not bool(_progress.get("p2_brush_hint_seen", false)):
+				_progress["p2_brush_hint_seen"] = true
+				_show_dialogue([_prologue_line("P2_TOOL_BRUSH_LINE", "마라 1", {"portrait": "MARA1"})])
+		"WATER":
+			if zone_id == "MIDDLE" and not bool(state.get("top_dust", true)) and bool(state.get("middle_stain", true)):
+				state["middle_stain"] = false
+				state["bottom_wet"] = true
+				feedback_kind = "water"
+				_set_window_feedback("P2_TOOL_WATER_STAIN")
+			elif zone_id == "BOTTOM" and not bool(state.get("top_dust", true)) and not bool(state.get("middle_stain", true)):
+				state["bottom_wet"] = true
+				feedback_kind = "water"
+				_set_window_feedback("P2_TOOL_WATER_BOTTOM")
+			else:
+				feedback_kind = "wrong"
+				_set_window_feedback("P2_TOOL_WATER_WRONG")
+		"SOFT_CLOTH":
+			match zone_id:
+				"TOP":
+					state["top_dust"] = false
+					state["dust_spread"] = false
+					feedback_kind = "correct"
+					_set_window_feedback("P2_TOOL_TOP_CLEAN")
+					if _inspected_window == 2 and not bool(_progress.get("bird_observed", false)):
+						_progress["bird_observed"] = true
+						_add_notebook("NOTE_P_BIRD")
+						_show_dialogue([
+							_prologue_line("P2_TOOL_BIRD", "SYSTEM"),
+							_prologue_line("P2_TOOL_BIRD_LINE", "마라 1", {"portrait": "MARA1"}),
+						])
+				"MIDDLE":
+					if bool(state.get("top_dust", true)):
+						feedback_kind = "falling_dust"
+						_set_window_feedback("P2_TOOL_MIDDLE_ORDER")
+					elif bool(state.get("middle_stain", true)):
+						state["middle_stain"] = false
+						feedback_kind = "correct"
+						_set_window_feedback("P2_TOOL_MIDDLE_CLEAN")
+					else:
+						_set_window_feedback("P2_TOOL_MIDDLE_ALREADY")
+				"BOTTOM":
+					if bool(state.get("top_dust", true)) or bool(state.get("middle_stain", true)):
+						feedback_kind = "falling_dust"
+						_set_window_feedback("P2_TOOL_BOTTOM_ORDER")
+					elif bool(state.get("bottom_wet", false)):
+						state["bottom_wet"] = false
+						feedback_kind = "correct"
+						_set_window_feedback("P2_TOOL_BOTTOM_CLEAN")
+					else:
+						_set_window_feedback("P2_TOOL_BOTTOM_ALREADY")
+		_:
+			_set_window_feedback("P2_TOOL_INVALID")
+	states[_inspected_window] = state
+	_progress["window_states"] = states
+	_sync_window_stages()
+	_room_art.set_room("M1_PARLOR", _progress)
+	_refresh_window_inspection()
+	match feedback_kind:
+		"falling_dust":
+			_window_art.play_falling_dust()
+		"wrong":
+			_window_art.play_feedback(Color(0.78, 0.20, 0.18))
+		"water":
+			_window_art.play_feedback(Color(0.25, 0.62, 0.90))
+		"correct":
+			_window_art.play_feedback(Color(0.92, 0.72, 0.30))
+	if not _save_progress():
+		_load_progress()
+		var was_restoring := _prologue_restoring_room
+		_prologue_restoring_room = true
+		_room_art.set_room("M1_PARLOR", _progress)
+		_refresh_window_inspection()
+		_prologue_restoring_room = was_restoring
+		return
+	if _all_windows_clean() and not bool(_progress.get("P2_complete", false)):
+		_complete_p2()
+
+
+func _complete_p2() -> void:
+	_progress["P2_complete"] = true
+	_add_notebook("NOTE_P_WINDOWS")
+	_update_objective()
+	_save_progress()
+	_show_dialogue([
+		_prologue_line("P2_TOOL_COMPLETE_LINE", "마라 1", {"portrait": "MARA1"}),
+	], _return_to_hall_after_dialogue)
+
+
+func _set_window_feedback(key: String) -> void:
+	var message := _dialogue_ui_text(key)
+	_window_feedback_label.text = message
+	_set_status(message)
+	if key in PROLOGUE_SURFACES.WINDOW_FEEDBACK:
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface(key),message,true)
+		if not _prologue_surface_async_enabled(): _flush_prologue_surfaces(_prologue_surfaces.generation)
+
+
+func _build_library() -> void:
+	var inventory: Array = []
+	var placed: Dictionary = _progress.get("p3_placed", {})
+	for book_id in P3_BOOKS:
+		if book_id not in placed.values():
+			inventory.append({"id": book_id, "label": _surface_text("P3_NAME_" + String(book_id))})
+	_update_inventory(inventory)
+	var shelves := [
+		["SHELF_CLOCK", _dialogue_ui_text("P3_SHELF_CLOCK"), Rect2(315, 300, 285, 300)],
+		["SHELF_FLOWER", _dialogue_ui_text("P3_SHELF_FLOWER"), Rect2(720, 300, 285, 300)],
+		["SHELF_CUP", _dialogue_ui_text("P3_SHELF_CUP"), Rect2(1125, 300, 285, 300)],
+	]
+	for shelf in shelves:
+		var occupant := String(placed.get(shelf[0], ""))
+		var label := String(shelf[1]) if occupant.is_empty() else _dialogue_ui_text("P3_PLACED", {"book": _dialogue_ui_text("P3_NAME_" + occupant)})
+		_add_inventory_drop_hotspot(String(shelf[0]), label, shelf[2], _on_shelf_pressed.bind(String(shelf[0])), _on_shelf_item_dropped)
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface("P3_"+String(shelf[0]) if occupant.is_empty() else "P3_PLACED_"+String(shelf[0]).trim_prefix("SHELF_"),{} if occupant.is_empty() else {"book":occupant}),label)
+	_add_hotspot("INNER_DOOR", _surface_text("P3_INNER_DOOR"), Rect2(1460, 210, 205, 460), _inspect_inner_door)
+	_add_back_to_hall()
+	var needs_journal_choice := bool(_progress.get("p3_journal_seen", false)) \
+		and String(_progress.get("p3_journal_choice", "")) in ["", "pending"] \
+		and not _p3_journal_prompt_active
+	if not _intro_seen("P3"):
+		_mark_intro("P3")
+		_show_dialogue([
+			_prologue_line("P3_INTRO", "에드가", {"portrait": "EDGAR"}),
+			_prologue_line("P3_RESTRICTED", "에드가", {"portrait": "EDGAR"}),
+		], _resume_p3_journal_choice if needs_journal_choice else Callable())
+	elif needs_journal_choice and not _prologue_restoring_room:
+		call_deferred("_resume_p3_journal_choice")
+
+
+func _on_shelf_pressed(shelf_id: String) -> void:
+	if _interaction_blocked() or bool(_progress.get("P3_complete", false)):
+		return
+	if _selected_item not in P3_BOOKS:
+		_set_status(_dialogue_ui_text("P3_SELECT"))
+		return
+	var expected := String(P3_BOOKS[_selected_item]["shelf"])
+	if shelf_id != expected:
+		_surface_status("P3_WRONG")
+		return
+	var placed: Dictionary = _progress.get("p3_placed", {})
+	placed[shelf_id] = _selected_item
+	_progress["p3_placed"] = placed
+	var journal_discovered := false
+	if _selected_item == "BOOK_MECHANICAL" and not bool(_progress.get("p3_journal_seen", false)):
+		_progress["p3_journal_seen"] = true
+		_progress["p3_journal_choice"] = "pending"
+		_p3_journal_prompt_active = true
+		journal_discovered = true
+		_add_notebook("NOTE_P_JOURNAL")
+	_selected_item = ""
+	_save_progress()
+	_rebuild_current_room_content()
+	if journal_discovered:
+		_show_dialogue([
+			_prologue_line("P3_DISCOVER", "SYSTEM"),
+			_prologue_line("P3_LEDGER", "에드가", {"portrait": "EDGAR"}),
+		], _show_p3_journal_choices)
+		return
+	_finish_p3_book_placement()
+
+
+func _localized_p3_choices() -> Dictionary:
+	var choices := P3_JOURNAL_CHOICES.duplicate(true)
+	for choice_id in choices:
+		choices[choice_id]["label"] = _dialogue_ui_text("P3_Q_" + String(choice_id).to_upper())
+		if choice_id != "silent":
+			choices[choice_id]["response"] = _dialogue_ui_text("P3_A_" + String(choice_id).to_upper())
+	return choices
+
+
+func _show_p3_journal_choices() -> void:
+	if _begin_prologue_input(_show_p3_journal_choices): return
+	_p3_journal_prompt_active = true
+	_show_dialogue_choice_set(
+		"p3_journal",
+		_dialogue_ui_text("P3_HEADER"),
+		"주인공",
+		_dialogue_ui_text("P3_PROMPT"),
+		"EDGAR",
+		["author", "locked", "silent"],
+		_localized_p3_choices()
+	)
+
+
+func _show_dialogue_choice_set(
+	mode: String,
+	header: String,
+	speaker: String,
+	prompt: String,
+	portrait_id: String,
+	choice_order: Array,
+	choice_data: Dictionary
+) -> void:
+	if _prologue_restoring_room: return
+	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
+	_dialogue_active = false
+	_dialogue_lines.clear()
+	_dialogue_after = Callable()
+	_dialogue_choice_mode = mode
+	_choice_history_recorded = false
+	_choice_selected_tokens.clear()
+	var event: String = {"p3_journal": "P3", "p4_father": "P4"}.get(mode, "")
+	var archive := preload("res://scripts/systems/notebook_archive.gd")
+	_choice_history_context = {"node_id": event, "chapter_id": "PROLOGUE", "location_id": _current_room, "event_occurrence_id": archive.new_uid(), "conversation_session_id": archive.new_uid(), "presentation_token": archive.new_uid()}
+	_prologue_cursor_scope = _notebook_event_scope()
+	_prologue_choice_capture = {"mode": mode, "header": header, "prompt": prompt, "speaker": speaker, "portrait": portrait_id, "order": choice_order.duplicate(), "labels": {}, "tokens": {}, "last_selected": "", "focus": 0}
+	for id in choice_order: _prologue_choice_capture.labels[id] = choice_data[id].label
+	_dialogue_choice_active = true
+	_dialogue_layer.visible = true
+	_dialogue_choice_blocker.visible = true
+	_dialogue_choice_panel.visible = true
+	_dialogue_next.visible = false
+	_dialogue_choice_header.text = header
+	_speaker_label.text = _localized_speaker(speaker)
+	_dialogue_label.text = prompt
+	_dialogue_scroll.scroll_vertical = 0
+	_set_dialogue_portrait(portrait_id)
+	for index in range(_dialogue_choice_buttons.size()):
+		var button := _dialogue_choice_buttons[index]
+		var choice_id := String(choice_order[index]) if index < choice_order.size() else ""
+		button.set_meta("choice_id", choice_id)
+		button.set_meta("choice_label", String(choice_data.get(choice_id, {}).get("label", "")))
+		button.visible = not choice_id.is_empty()
+	_refresh_dialogue_choice_labels()
+	var initial_index := _first_unasked_p3_choice_index() if mode == "p3_journal" else 0
+	initial_index = mini(initial_index, choice_order.size() - 1)
+	if not _prologue_restored_cursor.is_empty():
+		_choice_history_context = _prologue_restored_cursor.lines[0].history_context.duplicate(true)
+		_choice_history_recorded = true
+		_prologue_choice_capture = PROLOGUE_CURSOR.localized_choice(_prologue_restored_cursor, TranslationServer.get_locale())
+		_choice_selected_tokens = _prologue_choice_capture.tokens.duplicate()
+		initial_index = int(_prologue_choice_capture.focus)
+	_focus_dialogue_choice(initial_index)
+	_record_choice_history()
+
+
+func _record_choice_history() -> bool:
+	if not _prologue_async_request.is_empty(): return false
+	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope(): return false
+	if not _uses_prologue_history() or _choice_history_recorded:
+		return true
+	var lines: Array[String] = [_dialogue_choice_header.text, _dialogue_label.text]
+	var segments := {"header": {}, "prompt": {}}
+	for button in _dialogue_choice_buttons:
+		if button.visible:
+			lines.append(String(button.get_meta("choice_label", "")))
+			segments[String(button.get_meta("choice_id", ""))] = {}
+	var context := _choice_history_context.duplicate(true)
+	context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(context.node_id) + "_OPTIONS", 1, segments)
+	var spec := _prologue_choice_spec(_dialogue_ui_text("HISTORY_OPTIONS"), "\n".join(lines), context)
+	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), "\n".join(lines), context, spec):
+		return false
+	_choice_history_recorded = true
+	return true
+
+
+func _prologue_choice_spec(speaker: String = "", text: String = "", context: Dictionary = {}) -> Dictionary:
+	if not _prologue_cursor_enabled(): return {}
+	if not context.is_empty():
+		_prologue_choice_capture["options_line"] = {"speaker": speaker, "text": text, "presentation_token": context.presentation_token, "history_context": context.duplicate(true), "notebook_content": context.notebook_content}
+	var choice := _prologue_choice_capture.duplicate(true)
+	var line: Dictionary = choice.get("options_line", _prologue_restored_cursor.get("lines", [{}])[0]).duplicate(true)
+	choice.erase("options_line")
+	choice.tokens = _choice_selected_tokens.duplicate()
+	choice.focus = _dialogue_choice_focus_index
+	return {"kind": "choice", "line": line, "choice": choice, "phase": "choosing" if choice.last_selected.is_empty() else "selection_pending"}
+
+
+func _restore_prologue_choice(value: Dictionary) -> void:
+	var choice := PROLOGUE_CURSOR.localized_choice(value, TranslationServer.get_locale())
+	if choice.mode in ["p3_journal", "p4_father"]:
+		var data := {}
+		for id in choice.order: data[id] = {"label": choice.labels[id]}
+		_p3_journal_prompt_active = choice.mode == "p3_journal"
+		_show_dialogue_choice_set(choice.mode, choice.header, choice.speaker, choice.prompt, choice.portrait, choice.order, data)
+		_prologue_choice_capture.options_line = value.lines[0].duplicate(true)
+	else:
+		var confirm := _complete_p1 if choice.mode == "P1_EXIT" else _begin_first_sleep
+		_show_prologue_confirmation(choice.mode, choice.header, choice.prompt, [
+			{"id": "confirm", "label": choice.labels.confirm, "action": confirm},
+			{"id": "cancel", "label": choice.labels.cancel, "action": _close_modal},
+		])
+
+
+func _answer_p3_journal_choice(choice_id: String) -> void:
+	if not P3_JOURNAL_CHOICES.has(choice_id):
+		return
+	_hide_dialogue_choices()
+	if choice_id == "silent":
+		_dialogue_layer.visible = false
+		_p3_journal_prompt_active = false
+		_progress["p3_journal_choice"] = "silent"
+		_save_progress()
+		_surface_status("P3_SILENT_STATUS")
+		_finish_p3_book_placement()
+		return
+	var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
+	if choice_id not in asked_questions:
+		asked_questions.append(choice_id)
+	_progress["p3_journal_questions_asked"] = asked_questions
+	_progress["p3_journal_choice"] = "pending"
+	_save_progress()
+	_show_prologue_answer([
+		_prologue_line("P3_A_" + choice_id.to_upper(), "에드가", {"portrait": "EDGAR"}),
+	], _show_p3_journal_choices)
+
+
+func _resume_p3_journal_choice() -> void:
+	if _notebook_is_open() or _current_room != "M1_LIBRARY_OUTER" or _dialogue_active or _modal_active or _p3_journal_prompt_active:
+		return
+	if not _progress.get("p3_journal_seen", false) or _progress.get("p3_journal_choice", "") not in ["", "pending"]: return
+	_p3_journal_prompt_active = true
+	_progress["p3_journal_choice"] = "pending"
+	_save_progress()
+	_show_dialogue([
+		_prologue_line("P3_RESUME", "SYSTEM"),
+		_prologue_line("P3_LEDGER", "에드가", {"portrait": "EDGAR"}),
+	], _show_p3_journal_choices)
+
+
+func _finish_p3_book_placement() -> void:
+	var placed: Dictionary = _progress.get("p3_placed", {})
+	if placed.size() >= 3 and not bool(_progress.get("P3_complete", false)):
+		_progress["P3_complete"] = true
+		_save_progress()
+		_rebuild_current_room_content()
+		_show_dialogue([_prologue_line("P3_COMPLETE", "에드가", {"portrait": "EDGAR"})], _return_to_hall_after_dialogue)
+		return
+	_save_progress()
+	_rebuild_current_room_content()
+
+
+func _on_shelf_item_dropped(item_id: String, shelf_id: String) -> void:
+	if _interaction_blocked(): return
+	_selected_item = item_id
+	_on_shelf_pressed(shelf_id)
+
+
+func _inspect_inner_door() -> void:
+	_show_dialogue([_prologue_line("P3_DOOR", "주인공")])
+
+
+func _build_archive() -> void:
+	var inventory: Array = []
+	var placed: Dictionary = _progress.get("p3b_placed", {})
+	for owner_id in P3B_LABELS:
+		if owner_id not in placed.values():
+			inventory.append({"id": "LABEL_%s" % owner_id, "label": _surface_text("P3B_" + String(owner_id))})
+	_update_inventory(inventory)
+	var visuals := [_dialogue_ui_text("P3B_V_EDGAR"), _dialogue_ui_text("P3B_V_MARA1"), _dialogue_ui_text("P3B_V_LUCA"), _dialogue_ui_text("P3B_V_IRIS"), _dialogue_ui_text("P3B_V_MARA2")]
+	for index in range(5):
+		var owner: String = String(P3B_OWNERS[index])
+		var assigned := _owner_at_portrait(index)
+		var suffix := "\n[%s]" % _dialogue_ui_text("P3B_" + assigned) if not assigned.is_empty() else ""
+		_add_inventory_drop_hotspot("PORTRAIT_%d" % index, "%s%s" % [visuals[index], suffix], Rect2(205 + index * 280, 260 + (index % 2) * 35, 235, 310), _on_portrait_pressed.bind(index, owner), _on_portrait_item_dropped)
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface("PORTRAIT_"+owner+("_UNASSIGNED" if assigned.is_empty() else "_ASSIGNED"),{} if assigned.is_empty() else {"owner":assigned}),"%s%s" % [visuals[index],suffix])
+	_add_back_to_hall()
+	if not _intro_seen("P3B"):
+		_mark_intro("P3B")
+		_add_unique("introduced", "MARA2")
+		_show_dialogue([
+			_prologue_line("P3B_INTRO", "마라 2", {"portrait": "MARA2"}),
+			_prologue_line("P3B_HINT", "마라 2", {"portrait": "MARA2"}),
+		])
+
+
+func _on_portrait_pressed(index: int, expected_owner: String) -> void:
+	if _interaction_blocked() or bool(_progress.get("P3B_complete", false)):
+		return
+	if not _selected_item.begins_with("LABEL_"):
+		_set_status(_dialogue_ui_text("P3B_DRAG"))
+		return
+	var selected_owner := _selected_item.trim_prefix("LABEL_")
+	if selected_owner != expected_owner:
+		_show_dialogue([_prologue_line("P3B_WRONG", "마라 2", {"portrait": "MARA2"})])
+		return
+	var placed: Dictionary = _progress.get("p3b_placed", {})
+	placed[str(index)] = selected_owner
+	_progress["p3b_placed"] = placed
+	_selected_item = ""
+	if placed.size() >= 5:
+		_progress["P3B_complete"] = true
+		_add_notebook("NOTE_P_SIGNATURES")
+		_save_progress()
+		_rebuild_current_room_content()
+		_show_dialogue([
+			_prologue_line("P3B_PATTERNS", "SYSTEM"),
+			_prologue_line("P3B_COMPLETE", "마라 2", {"portrait": "MARA2"}),
+			_prologue_line("P3B_NAME", "마라 2", {"portrait": "MARA2"}),
+		], _return_to_hall_after_dialogue)
+		return
+	_save_progress()
+	_rebuild_current_room_content()
+
+
+func _on_portrait_item_dropped(item_id: String, target_id: String) -> void:
+	if _interaction_blocked(): return
+	var index := int(target_id.trim_prefix("PORTRAIT_"))
+	if index < 0 or index >= P3B_OWNERS.size():
+		return
+	_selected_item = item_id
+	_on_portrait_pressed(index, String(P3B_OWNERS[index]))
+
+
+func _owner_at_portrait(index: int) -> String:
+	var placed: Dictionary = _progress.get("p3b_placed", {})
+	return String(placed.get(str(index), ""))
+
+
+func _build_kitchen() -> void:
+	var step := int(_progress.get("tea_step", 0))
+	if step < TEA_STEPS.size():
+		_update_inventory([
+			{"id": "CUP", "label": _surface_text("P4_TEA_ITEM_CUP")},
+			{"id": "HOT_WATER", "label": _surface_text("P4_TEA_ITEM_HOT_WATER")},
+			{"id": "TEA_LEAVES", "label": _surface_text("P4_TEA_ITEM_TEA_LEAVES")},
+			{"id": "SPOON", "label": _surface_text("P4_TEA_ITEM_SPOON")},
+			{"id": "TIMER", "label": _surface_text("P4_TEA_ITEM_TIMER")},
+			{"id": "TEAPOT", "label": _surface_text("P4_TEA_ITEM_TEAPOT")},
+		])
+		for index in range(TEA_STEPS.size()):
+			var done := index < step
+			var label := "%d. %s\n%s%s" % [index + 1, _dialogue_ui_text("P4_TEA_STEP_%d" % index), _dialogue_ui_text("P4_TEA_ITEM_" + String(TEA_STEP_ITEMS[index])), " · " + _dialogue_ui_text("UI_DUTY_COMPLETE") if done else ""]
+			_add_inventory_drop_hotspot("TEA_%d" % index, label, Rect2(320 + (index % 3) * 390, 300 + (index / 3) * 170, 330, 120), _on_tea_target_pressed.bind(index), _on_tea_item_dropped)
+			_queue_prologue_surface(PROLOGUE_SURFACES.surface("P4_STEP_%d_%s" % [index,"DONE" if done else "PENDING"]),label)
+	else:
+		_update_inventory([])
+		var handle_label := _dialogue_ui_text("P4_LINK_HANDLE")
+		if bool(_progress.get("p4_handle_return_used", false)):
+			handle_label += _dialogue_ui_text("P4_LINK_RETURNED")
+		_add_hotspot("P4_CUP_HANDLE", handle_label, Rect2(420, 320, 440, 230), _turn_p4_cup_handle)
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface("P4_HANDLE_RETURNED" if _progress.get("p4_handle_return_used",false) else "P4_HANDLE_LEFT"),handle_label)
+		var cup := Control.new()
+		cup.set_script(load("res://scripts/prologue/prologue_cup_art.gd"))
+		cup.name = "P4_CUP_ART"
+		cup.position = Vector2(570, 160)
+		cup.size = Vector2(140, 140)
+		_hotspot_layer.add_child(cup)
+		_add_hotspot("P4_ASK_LUCA", _dialogue_ui_text("P4_LINK_ASK"), Rect2(1010, 340, 430, 190), _show_p4_father_choices)
+	if bool(_progress.get("p4_life_support_seen", false)) and (not bool(_progress.get("p4_life_support_recorded", false)) or _pending_notebook.has("NOTE_P_PULSE")):
+		_add_hotspot("P4_RECORD_PULSE", _dialogue_ui_text("P4_LINK_RECORD"), Rect2(710, 690, 500, 100), _record_p4_life_support_pulse)
+	if not _intro_seen("P4"):
+		_mark_intro("P4")
+		_add_unique("introduced", "LUCA")
+		_show_dialogue([
+			_prologue_line("P4_LINK_INTRO", "루카", {"portrait": "LUCA"}),
+			_prologue_line("P4_LINK_GUIDE", "루카", {"portrait": "LUCA"}),
+		])
+	elif bool(_progress.get("p4_life_support_pending", false)):
+		call_deferred("_resume_p4_life_support_foreshadow")
+	elif bool(_progress.get("P4_complete", false)) and not bool(_progress.get("iris_greeting_seen", false)):
+		call_deferred("_show_p4_iris_greeting")
+	elif String(_progress.get("p4_phase", "")) == "memory_anchor":
+		call_deferred("_resume_p4_memory_anchor")
+	elif String(_progress.get("p4_phase", "")) == "question_answered":
+		call_deferred("_resume_p4_question_answer")
+	elif String(_progress.get("p4_phase", "")) == "question" and String(_progress.get("p4_father_question", "")).is_empty():
+		call_deferred("_show_p4_father_choices")
+
+
+func _on_tea_step(index: int) -> void:
+	if _interaction_blocked() or bool(_progress.get("P4_complete", false)):
+		return
+	var step := int(_progress.get("tea_step", 0))
+	if step >= TEA_STEPS.size():
+		return
+	if index != step:
+		_surface_status("P4_TEA_ORDER", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % step)}, {"step":str(step)})
+		return
+	_progress["tea_step"] = step + 1
+	_surface_status("P4_TEA_DONE", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % index)}, {"step":str(index)})
+	if step + 1 >= TEA_STEPS.size():
+		_begin_p4_memory_anchor()
+		return
+	_save_progress()
+	_rebuild_current_room_content()
+	if index == 4 and not bool(_progress.get("p4_life_support_seen", false)):
+		_show_p4_life_support_foreshadow()
+
+
+func _on_tea_target_pressed(index: int) -> void:
+	if _interaction_blocked(): return
+	if _selected_item.is_empty():
+		_set_status(_dialogue_ui_text("P4_TEA_DRAG"))
+		return
+	_on_tea_item_dropped(_selected_item, "TEA_%d" % index)
+
+
+func _on_tea_item_dropped(item_id: String, target_id: String) -> void:
+	if _interaction_blocked(): return
+	var index := int(target_id.trim_prefix("TEA_"))
+	if index < 0 or index >= TEA_STEPS.size():
+		return
+	if item_id != String(TEA_STEP_ITEMS[index]):
+		_surface_status("P4_TEA_REQUIRES", {"step": _dialogue_ui_text("P4_TEA_STEP_%d" % index), "item": _dialogue_ui_text("P4_TEA_ITEM_" + String(TEA_STEP_ITEMS[index]))}, {"step":str(index),"item":str(index)})
+		return
+	_selected_item = item_id
+	_on_tea_step(index)
+
+
+func _show_p4_life_support_foreshadow() -> void:
+	_progress["p4_life_support_seen"] = true
+	_progress["p4_life_support_pending"] = true
+	_save_progress()
+	_rebuild_current_room_content()
+	_resume_p4_life_support_foreshadow()
+
+
+func _resume_p4_life_support_foreshadow() -> void:
+	if _interaction_blocked() or _current_room != "M1_KITCHEN" or not bool(_progress.get("p4_life_support_pending", false)):
+		return
+	_show_dialogue([
+		_prologue_line("P4_MEMORY_PULSE", "SYSTEM", {"p4_pulse": "pulse", "audio_cue": "AUD_SIG_LUCA"}),
+		_prologue_line("P4_MEMORY_EARS", "SYSTEM", {"p4_pulse": "ears"}),
+		_prologue_line("P4_MEMORY_REPLY", "SYSTEM", {"p4_pulse": "reply"}),
+	], _complete_p4_life_support_foreshadow)
+
+
+func _complete_p4_life_support_foreshadow() -> void:
+	_progress["p4_life_support_pending"] = false
+	if not _save_progress():
+		_progress["p4_life_support_pending"] = true
+	_rebuild_current_room_content()
+
+
+func _record_p4_life_support_pulse() -> void:
+	if _interaction_blocked() or (bool(_progress.get("p4_life_support_recorded", false)) and not _pending_notebook.has("NOTE_P_PULSE")):
+		return
+	if not bool(_progress.get("p4_life_support_seen", false)):
+		return
+	_progress["p4_life_support_recorded"] = true
+	_add_notebook("NOTE_P_PULSE")
+	if not _save_progress(): return
+	_rebuild_current_room_content()
+	_set_status(_dialogue_ui_text("P4_MEMORY_NOTE"))
+
+
+func _begin_p4_memory_anchor() -> void:
+	_progress["p4_phase"] = "memory_anchor"
+	_progress["p4_memory_anchor_seen"] = true
+	_save_progress()
+	_rebuild_current_room_content()
+	_resume_p4_memory_anchor()
+
+
+func _resume_p4_memory_anchor() -> void:
+	if _interaction_blocked() or _current_room != "M1_KITCHEN" or String(_progress.get("p4_phase", "")) != "memory_anchor":
+		return
+	_progress["p4_memory_anchor_seen"] = true
+	_show_dialogue([
+		_prologue_line("P4_MEMORY_GROOVE", "SYSTEM"),
+		_prologue_line("P4_MEMORY_SCRAPE", "SYSTEM"),
+		_prologue_line("P4_MEMORY_HAND", "SYSTEM"),
+		_prologue_line("P4_MEMORY_ABSENCE", "SYSTEM"),
+		_prologue_line("P4_MEMORY_WHY", "주인공"),
+		_prologue_line("P4_MEMORY_PAUSE", "SYSTEM"),
+		_prologue_line("P4_MEMORY_HABIT", "루카", {"portrait": "LUCA"}),
+	], _finish_p4_memory_anchor)
+
+
+func _finish_p4_memory_anchor() -> void:
+	_progress["p4_phase"] = "memory_anchor_ready"
+	_save_progress()
+
+
+func _turn_p4_cup_handle() -> void:
+	if _interaction_blocked() or int(_progress.get("tea_step", 0)) < TEA_STEPS.size():
+		return
+	if bool(_progress.get("p4_handle_return_used", false)):
+		_show_dialogue([_prologue_line("P4_MEMORY_ALREADY", "주인공")])
+		return
+	_progress["p4_handle_return_used"] = true
+	_save_progress()
+	_rebuild_current_room_content()
+	_show_dialogue([
+		_prologue_line("P4_MEMORY_TURN", "SYSTEM", {"cup_pose": "turned"}),
+		_prologue_line("P4_MEMORY_RETURN", "SYSTEM", {"cup_pose": "returned"}),
+	])
+
+
+func _localized_p4_choices() -> Dictionary:
+	var choices := P4_FATHER_CHOICES.duplicate(true)
+	for choice_id in choices:
+		choices[choice_id]["label"] = _dialogue_ui_text("P4_Q_" + String(choice_id).to_upper())
+		choices[choice_id]["response"] = _dialogue_ui_text("P4_A_" + String(choice_id).to_upper())
+	return choices
+
+
+func _show_p4_father_choices() -> void:
+	if _begin_prologue_input(_show_p4_father_choices): return
+	if _interaction_blocked() or bool(_progress.get("P4_complete", false)):
+		return
+	if int(_progress.get("tea_step", 0)) < TEA_STEPS.size() or not bool(_progress.get("p4_memory_anchor_seen", false)):
+		return
+	_progress["p4_phase"] = "question"
+	if not _prologue_async_enabled(): _save_progress()
+	_show_dialogue_choice_set(
+		"p4_father",
+		_dialogue_ui_text("P4_HEADER"),
+		"주인공",
+		_dialogue_ui_text("P4_PROMPT"),
+		"LUCA",
+		P4_FATHER_CHOICE_ORDER,
+		_localized_p4_choices()
+	)
+
+
+func _answer_p4_father_choice(choice_id: String) -> void:
+	if not P4_FATHER_CHOICES.has(choice_id) or not String(_progress.get("p4_father_question", "")).is_empty():
+		return
+	if String(_progress.get("p4_phase", "")) != "question" or not _dialogue_choice_active or _dialogue_choice_mode != "p4_father":
+		return
+	_hide_dialogue_choices()
+	_progress["p4_father_question"] = choice_id
+	_progress["p4_phase"] = "question_answered"
+	_save_progress()
+	_present_p4_question_answer(choice_id)
+
+
+func _resume_p4_question_answer() -> void:
+	if _notebook_is_open() or _dialogue_active or _dialogue_choice_active or bool(_progress.get("P4_complete", false)):
+		return
+	var choice_id := String(_progress.get("p4_father_question", ""))
+	if P4_FATHER_CHOICES.has(choice_id):
+		_present_p4_question_answer(choice_id)
+
+
+func _present_p4_question_answer(choice_id: String) -> void:
+	var lines: Array = [_prologue_line("P4_A_" + choice_id.to_upper(), "루카", {"portrait": "LUCA"})]
+	if choice_id == "luca_tenure":
+		lines.append(_prologue_line("P4_TENURE_PAUSE", "SYSTEM"))
+		lines.append(_prologue_line("P4_SERVE", "루카", {"portrait": "LUCA"}))
+	_show_prologue_answer(lines, _finish_p4_after_question)
+
+
+func _finish_p4_after_question() -> void:
+	_progress["P4_complete"] = true
+	_progress["p4_phase"] = "complete"
+	_progress["time_block"] = "evening_free"
+	_save_progress()
+	_show_p4_iris_greeting()
+
+
+func _show_p4_iris_greeting() -> void:
+	if _dialogue_active or bool(_progress.get("iris_greeting_seen", false)):
+		return
+	_add_unique("introduced", "IRIS")
+	_show_dialogue([
+		_prologue_line("P4_LINK_IRIS_HELLO", "이리스", {"portrait": "IRIS"}),
+		_prologue_line("P4_LINK_IRIS_INVITE", "이리스", {"portrait": "IRIS"}),
+	], _complete_p4_iris_greeting)
+
+
+func _complete_p4_iris_greeting() -> void:
+	_progress["iris_greeting_seen"] = true
+	_save_progress()
+	_enter_room("M1_CENTRAL_HALL")
+
+
+func _build_greenhouse() -> void:
+	_begin_prologue_surfaces()
+	_clear_hotspots()
+	var observations: Array = _progress.get("p5_observations", [])
+	_add_hotspot("CORRIDOR_WINDOW", _observed_label(_dialogue_ui_text("P5_CORRIDOR_LABEL"), "corridor", observations), Rect2(230, 245, 300, 350), _observe_weather.bind("corridor"))
+	_add_hotspot("GREENHOUSE_GLASS", _observed_label(_dialogue_ui_text("P5_GLASS_LABEL"), "glass", observations), Rect2(670, 205, 420, 430), _observe_weather.bind("glass"))
+	_add_hotspot("THRESHOLD", _observed_label(_dialogue_ui_text("P5_THRESHOLD_LABEL"), "threshold", observations), Rect2(1140, 570, 350, 150), _observe_weather.bind("threshold"))
+	for target in [["CORRIDOR_WINDOW","P5_CORRIDOR_LABEL","corridor"],["GREENHOUSE_GLASS","P5_GLASS_LABEL","glass"],["THRESHOLD","P5_THRESHOLD_LABEL","threshold"]]:
+		_queue_prologue_surface(PROLOGUE_SURFACES.surface(target[1]+("_CHECKED" if target[2] in observations else "_UNCHECKED")),_hotspot_layer.get_node(target[0]).text)
+	if observations.size() >= 3 and not bool(_progress.get("P5_complete", false)):
+		_add_hotspot("RECORD", _dialogue_ui_text("P5_RECORD"), Rect2(700, 760, 500, 100), _complete_p5)
+	_add_back_to_hall()
+	if not _intro_seen("P5"):
+		_mark_intro("P5")
+		_show_dialogue([
+			_prologue_line("P5_HELLO", "이리스", {"portrait": "IRIS"}),
+			_prologue_line("P5_OUTSIDE", "이리스", {"portrait": "IRIS"}),
+		])
+
+
+func _observe_weather(observation_id: String) -> void:
+	if _interaction_blocked():
+		return
+	_add_unique("p5_observations", observation_id)
+	_show_dialogue([_prologue_line("P5_" + observation_id.to_upper(), "주인공")])
+	_save_progress()
+	_build_greenhouse()
+
+
+func _complete_p5() -> void:
+	_progress["P5_complete"] = true
+	_add_notebook("NOTE_P_WEATHER")
+	_save_progress()
+	_build_greenhouse()
+	_show_dialogue([
+		_prologue_line("P5_QUESTION", "주인공"),
+		_prologue_line("P5_ANSWER", "이리스", {"portrait": "IRIS"}),
+	], _return_to_hall_after_dialogue)
+
+
+func _on_sleep_bed() -> void:
+	if _begin_prologue_input(_on_sleep_bed): return
+	if _interaction_blocked():
+		return
+	_show_prologue_confirmation(
+		"P6_SLEEP",
+		_dialogue_ui_text("P6_TITLE"),
+		_dialogue_ui_text("P6_BODY"),
+		[
+			{"id": "confirm", "label": _dialogue_ui_text("P6_SLEEP"), "action": _begin_first_sleep},
+			{"id": "cancel", "label": _dialogue_ui_text("P6_CANCEL"), "action": _close_modal},
+		]
+	)
+
+
+func _begin_first_sleep() -> void:
+	_close_modal()
+	var previous_progress := _progress.duplicate(true)
+	var previous_pending := _pending_notebook.duplicate(true)
+	_progress["P6_complete"] = true
+	_add_notebook("NOTE_P_SLEEP")
+	if _test_mode:
+		_progress["prologue_complete"] = true
+		return
+	var saved := _save_progress("SAVE_P6_COMPLETE", true)
+	if not saved:
+		_progress = previous_progress
+		_pending_notebook = previous_pending
+		_set_status(_dialogue_ui_text("P6_SAVE_ERROR"))
+		return
+	_show_dialogue([
+		_prologue_line("P6_DARK", "SYSTEM"),
+		_prologue_line("P6_SOUND", "SYSTEM"),
+	], _perform_normal_reset)
+
+
+func _perform_normal_reset() -> void:
+	var scope := _notebook_event_scope()
+	_fade.visible = true
+	var tween := create_tween()
+	tween.tween_property(_fade, "color", Color(0.0, 0.0, 0.0, 1.0), 1.2)
+	await tween.finished
+	if scope != _notebook_event_scope():
+		_fade.visible = false
+		return
+	var result: Dictionary = get_parent().request_sleep_transition(_slot_id)
+	if not bool(result.get("ok", false)):
+		_fade.visible = false
+		_set_status("리셋 절차 오류: %s" % ", ".join(result.get("error_ids", [])))
+		_restore_prologue_cursor()
+		return
+	_progress = _default_progress()
+	_progress["current_room"] = "M2_BEDROOM"
+	_pending_notebook.clear()
+	_fade.color = Color(0.0, 0.0, 0.0, 1.0)
+	_show_after_reset()
+	var reveal := create_tween()
+	reveal.tween_property(_fade, "color", Color(0.0, 0.0, 0.0, 0.0), 1.4)
+	await reveal.finished
+	_fade.visible = false
+
+
+func _show_after_reset() -> void:
+	_current_room = "M2_BEDROOM"
+	_set_room_background("M2_BEDROOM_RESET")
+	_location_label.text = _dialogue_ui_text("R1_ROOM")
+	_clear_hotspots()
+	_update_inventory([])
+	_room_art.set_room("M2_BEDROOM", _progress)
+	_objective_label.text = _dialogue_ui_text("R1_OBJECTIVE")
+	_show_dialogue([
+		_prologue_line("R1_WAKE", "SYSTEM"),
+		_prologue_line("R1_SAME", "주인공"),
+		_prologue_line("R1_NOTES", "SYSTEM"),
+	], _finish_prologue_handoff)
+
+
+func _set_room_background(room_id: String) -> void:
+	var resolved_room := room_id
+	if room_id == "M2_BEDROOM" and bool(_progress.get("P4_complete", false)):
+		resolved_room = "M2_BEDROOM_NIGHT"
+	if not ROOM_ATLAS_REGIONS.has(resolved_room):
+		_background.texture = MANSION_BACKGROUND
+		return
+	var spec: Dictionary = ROOM_ATLAS_REGIONS[resolved_room]
+	var texture := AtlasTexture.new()
+	texture.atlas = ROOMS_PRIMARY_ATLAS if String(spec["atlas"]) == "primary" else ROOMS_SECONDARY_ATLAS
+	texture.region = spec["region"]
+	_background.texture = texture
+
+
+func _evening_ambient(text_id: String) -> void:
+	_show_dialogue([_prologue_line(text_id, "주인공")])
+
+
+func _add_back_to_hall() -> void:
+	_add_hotspot("BACK", _dialogue_ui_text("UI_P_BACK"), Rect2(720, 875, 400, 90), _enter_room.bind("M1_CENTRAL_HALL"))
+
+
+func _add_hotspot(id: String, label: String, rect: Rect2, action: Callable) -> void:
+	var wrapped := _dispatch_prologue_hotspot.bind(action,_prologue_surfaces.generation,_prologue_surface_scope()) if _uses_prologue_history() else action
+	var button := _make_button(label, rect, wrapped)
+	button.name = id
+	button.mouse_filter = Control.MOUSE_FILTER_STOP
+	button.add_theme_stylebox_override("normal", _style(Color(0.04, 0.02, 0.065, 0.72), Color(0.69, 0.39, 0.34, 0.84), 3, 7))
+	button.add_theme_stylebox_override("hover", _style(Color(0.15, 0.045, 0.14, 0.90), Color(0.95, 0.59, 0.31, 1.0), 5, 7))
+	button.add_theme_stylebox_override("focus", _style(Color(0.10, 0.03, 0.12, 0.88), Color(0.59, 0.78, 0.98, 1.0), 5, 7))
+	_hotspot_layer.add_child(button)
+
+
+func _dispatch_prologue_hotspot(action: Callable, generation: int, scope: Dictionary) -> void:
+	if _prologue_surface_enabled() and (not _prologue_surfaces.live(_prologue_surface_scope(),generation) or scope != _prologue_surface_scope()): return
+	if _begin_prologue_input(action): return
+	if _interaction_blocked(): return
+	action.call()
+
+
+func _dispatch_prologue_drop(item_id: String, target_id: String, action: Callable, generation: int, scope: Dictionary) -> void:
+	_dispatch_prologue_hotspot(action.bind(item_id,target_id),generation,scope)
+
+
+func _add_inventory_drop_hotspot(id: String, label: String, rect: Rect2, click_action: Callable, drop_action: Callable) -> void:
+	var target = INVENTORY_DROP_TARGET_SCRIPT.new()
+	target.name = id
+	target.configure(id)
+	target.text = label
+	target.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	target.add_theme_font_size_override("font_size", 20)
+	target.add_theme_stylebox_override("normal", _style(Color(0.04, 0.02, 0.065, 0.72), Color(0.69, 0.39, 0.34, 0.84), 3, 7))
+	target.add_theme_stylebox_override("hover", _style(Color(0.15, 0.045, 0.14, 0.90), Color(0.95, 0.59, 0.31, 1.0), 5, 7))
+	target.add_theme_stylebox_override("focus", _style(Color(0.10, 0.03, 0.12, 0.88), Color(0.59, 0.78, 0.98, 1.0), 5, 7))
+	_place(target, rect)
+	if _uses_prologue_history():
+		var generation: int = _prologue_surfaces.generation
+		var scope := _prologue_surface_scope()
+		target.pressed.connect(_dispatch_prologue_hotspot.bind(click_action,generation,scope))
+		target.inventory_item_dropped.connect(_dispatch_prologue_drop.bind(drop_action,generation,scope))
+	else:
+		target.pressed.connect(click_action)
+		target.inventory_item_dropped.connect(drop_action)
+	_hotspot_layer.add_child(target)
+
+
+func _clear_hotspots() -> void:
+	for child in _hotspot_layer.get_children():
+		_hotspot_layer.remove_child(child)
+		child.queue_free()
+
+
+func _make_button(label: String, rect: Rect2, action: Callable) -> Button:
+	var button := Button.new()
+	button.text = label
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button.add_theme_font_size_override("font_size", 20)
+	button.add_theme_stylebox_override("normal", _style(Color(0.055, 0.025, 0.075, 0.96), Color(0.60, 0.30, 0.24, 0.94), 3, 7))
+	button.add_theme_stylebox_override("hover", _style(Color(0.15, 0.045, 0.14, 0.98), Color(0.95, 0.57, 0.30, 1.0), 4, 7))
+	button.add_theme_stylebox_override("focus", _style(Color(0.10, 0.035, 0.12, 0.98), Color(0.55, 0.77, 0.98, 1.0), 4, 7))
+	_place(button, rect)
+	button.pressed.connect(action)
+	return button
+
+
+func _update_inventory(items: Array) -> void:
+	_progress["inventory"] = items.duplicate(true)
+	for index in range(_inventory_slots.size()):
+		var slot := _inventory_slots[index]
+		if index < items.size():
+			var item: Dictionary = items[index]
+			slot.set_inventory_item(String(item.get("id", "")), String(item.get("label", item.get("id", ""))))
+		else:
+			slot.set_inventory_item("", "")
+	_refresh_inventory_selection()
+
+
+func _on_inventory_slot_pressed(index: int) -> void:
+	if _begin_prologue_input(_on_inventory_slot_pressed.bind(index)): return
+	if _inspection_active and not _window_input_live(): return
+	if _interaction_blocked() or index >= _inventory_slots.size():
+		return
+	var item_id := String(_inventory_slots[index].get_meta("item_id", ""))
+	if item_id.is_empty():
+		return
+	var previous := _selected_item
+	_selected_item = item_id
+	_set_status(_dialogue_ui_text("UI_INV_SELECTED", {"item": _inventory_slots[index].text}))
+	_refresh_inventory_selection()
+	_save_window_selection(previous)
+
+
+func _on_inventory_drag_started(item_id: String) -> void:
+	if _inspection_active and not _window_input_live(): return
+	if _interaction_blocked(): return
+	var previous := _selected_item
+	_selected_item = item_id
+	var display_name := item_id
+	for slot in _inventory_slots:
+		if String(slot.get_meta("item_id", "")) == item_id:
+			display_name = slot.text.replace("\n", " ")
+			break
+	_set_status(_dialogue_ui_text("UI_INV_DRAGGING", {"item": display_name}))
+	_refresh_inventory_selection()
+	_save_window_selection(previous)
+
+
+func _refresh_inventory_selection() -> void:
+	for slot in _inventory_slots:
+		var item_id := String(slot.get_meta("item_id", ""))
+		var selected := item_id == _selected_item and not _selected_item.is_empty()
+		var drying_hint := false
+		if _inspection_active and _inspected_window >= 0 and item_id == "SOFT_CLOTH":
+			var states: Array = _progress.get("window_states", [])
+			if _inspected_window < states.size():
+				drying_hint = bool((states[_inspected_window] as Dictionary).get("bottom_wet", false))
+		if not item_id.is_empty():
+			slot.tooltip_text = _dialogue_ui_text("UI_INV_DRY_HINT" if drying_hint else "UI_INV_DRAG_HINT")
+		slot.add_theme_stylebox_override("normal", _style(
+			Color(0.18, 0.055, 0.13, 0.98) if selected else (Color(0.11, 0.13, 0.18, 0.98) if drying_hint else Color(0.08, 0.035, 0.075, 0.96)),
+			Color(0.97, 0.68, 0.31, 1.0) if selected else (Color(0.55, 0.84, 1.0, 1.0) if drying_hint else Color(0.63, 0.26, 0.18, 0.92)),
+			5 if selected or drying_hint else 4,
+			4
+		))
+
+
+func _show_dialogue(lines: Array, after: Callable = Callable(), start_index: int = 0) -> void:
+	if _prologue_restoring_room: return
+	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
+	_prologue_history_index = -1
+	_audio_dialogue_index = -1
+	_hide_dialogue_choices()
+	_dialogue_lines = lines.duplicate(true)
+	var occurrence := preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	var conversation := preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	for line in _dialogue_lines:
+		if not line.has("presentation_token"):
+			line.presentation_token = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		var context: Dictionary = line.get("history_context", {}).duplicate(true)
+		if not context.has("event_occurrence_id"): context.event_occurrence_id = occurrence
+		if not context.has("conversation_session_id"): context.conversation_session_id = conversation
+		context.presentation_token = line.presentation_token
+		line.history_context = context
+	_dialogue_index = clampi(start_index, 0, maxi(0, _dialogue_lines.size() - 1))
+	if _prologue_cursor_enabled():
+		_prologue_cursor_scope = _notebook_event_scope()
+		if not _prologue_restored_cursor.is_empty(): _prologue_history_index = _dialogue_index
+	_dialogue_after = after
+	_dialogue_active = not _dialogue_lines.is_empty()
+	_dialogue_layer.visible = _dialogue_active
+	if _dialogue_active:
+		_present_dialogue_line()
+
+
+func _dialogue_ui_text(text_id: String, variables: Dictionary = {}) -> String:
+	return _dialogue_texts.get_text(text_id, TranslationServer.get_locale(), variables)
+
+
+func _prologue_line(key: String, speaker: String, extras: Dictionary = {}, variables: Dictionary = {}) -> Dictionary:
+	var content := preload("res://scripts/systems/notebook_content.gd")
+	var id := "NB_PR_" + key
+	var row := content.definition(id, 1)
+	var line := extras.duplicate(true)
+	line.speaker = speaker
+	line.text = _dialogue_ui_text(row.get("source_text_id", key), variables)
+	line.notebook_content = content.descriptor(id, 1, {"body": {}})
+	line.history_context = {"node_id": row.get("event_id", ""), "chapter_id": "PROLOGUE", "location_id": _current_room}
+	return line
+
+
+func _show_prologue_answer(lines: Array, after: Callable) -> void:
+	for line in lines:
+		if line.history_context.node_id != _choice_history_context.get("node_id", ""): continue
+		for field in ["event_occurrence_id", "conversation_session_id"]:
+			line.history_context[field] = _choice_history_context[field]
+	_show_dialogue(lines, after)
+
+
+func _localized_speaker(speaker: String) -> String:
+	var names := {
+		"SYSTEM": "SYSTEM", "주인공": "SUBJECT", "SUBJECT": "SUBJECT",
+		"에드가": "EDGAR", "EDGAR": "EDGAR", "마라 1": "MARA1", "MARA1": "MARA1",
+		"마라 2": "MARA2", "MARA2": "MARA2", "루카": "LUKA", "LUKA": "LUKA",
+		"이리스": "IRIS", "IRIS": "IRIS"
+	}
+	if not names.has(speaker):
+		return speaker
+	return _dialogue_ui_text("UI_SPEAKER_" + String(names[speaker]))
+
+
+func _present_dialogue_line() -> void:
+	var line: Dictionary = _dialogue_lines[_dialogue_index]
+	var pulse_art := _dialogue_layer.get_node_or_null("P4_PULSE_ART")
+	if line.has("p4_pulse") and pulse_art == null:
+		pulse_art = Control.new()
+		pulse_art.set_script(preload("res://scripts/prologue/prologue_pulse_art.gd"))
+		pulse_art.name = "P4_PULSE_ART"
+		pulse_art.position = Vector2(640, 230)
+		pulse_art.size = Vector2(640, 280)
+		_dialogue_layer.add_child(pulse_art)
+	if pulse_art != null:
+		var pulse_profile: Dictionary = AccessibilityProfileStore.new().load_profile().get("profile", {})
+		pulse_art.present(String(line.get("p4_pulse", "")), String(pulse_profile.get("motion_mode", "standard")) != "standard")
+	if _audio_dialogue_index != _dialogue_index:
+		_audio_dialogue_index = _dialogue_index
+		if line.has("audio_cue"):
+			audio_cue_requested.emit(StringName(line.audio_cue))
+	if line.get("cup_pose", "") in ["turned", "returned"]:
+		var cup := _hotspot_layer.get_node_or_null("P4_CUP_ART")
+		if cup != null:
+			var profile: Dictionary = AccessibilityProfileStore.new().load_profile().get("profile", {})
+			cup.show_angle(TAU if line["cup_pose"] == "turned" else PI, String(profile.get("motion_mode", "standard")) != "standard")
+	_speaker_label.text = _localized_speaker(String(line.get("speaker", "SYSTEM")))
+	_dialogue_label.text = String(line.get("text", ""))
+	_dialogue_scroll.scroll_vertical = 0
+	var portrait_id := String(line.get("portrait", ""))
+	_set_dialogue_portrait(portrait_id)
+	_dialogue_next.visible = true
+	_dialogue_next.text = _dialogue_ui_text("UI_DIALOGUE_FINISH" if _dialogue_index >= _dialogue_lines.size() - 1 else "UI_DIALOGUE_CONTINUE")
+	call_deferred("_focus_visible_control", weakref(_dialogue_next))
+	_record_prologue_history()
+
+
+func _uses_prologue_history() -> bool:
+	return not _test_mode
+
+
+func _prologue_cursor_enabled() -> bool:
+	return _uses_prologue_history() and GameState.get_value("meta_progress.dialogue_history.schema_version", 0) == 2
+
+
+func _prologue_dialogue_spec(phase: String = "reading") -> Dictionary:
+	if not _prologue_cursor_enabled(): return {}
+	var route := PROLOGUE_CURSOR.route(self, _dialogue_after)
+	return {"kind": "dialogue", "lines": _dialogue_lines, "index": _dialogue_index, "after": route.get("value", {"invalid": true}) if route.ok else {"invalid": true}, "phase": phase}
+
+
+func _prologue_build_cursor(state: Dictionary, spec: Dictionary) -> Dictionary:
+	if spec.kind == "choice":
+		return PROLOGUE_CURSOR.create_prologue_choice(state, spec.line, spec.choice, TranslationServer.get_locale(), spec.phase)
+	return PROLOGUE_CURSOR.create(state, "prologue_controller", spec.lines, spec.index, TranslationServer.get_locale(), spec.after, spec.phase)
+
+
+func _prologue_save_cursor(cursor: Dictionary) -> bool:
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	var point := String(SaveManager.inspect_slot(_slot_id).get("save_point_id", "SAVE_NEW_GAME"))
+	var result := preload("res://scripts/systems/dialogue_history_writer.gd").save_cursor(GameState, saves, _slot_id, point, cursor)
+	if not result.ok: _set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+	return result.ok
+
+
+func _finish_prologue_dialogue() -> void:
+	var built := _prologue_build_cursor(GameState.get_snapshot(), _prologue_dialogue_spec("finish_pending"))
+	if not built.ok: return
+	if _prologue_async_enabled():
+		_begin_prologue_async("finish", {}, built.value)
+		return
+	if not _prologue_save_cursor(built.value): return
+	_finish_prologue_after_pending(built.value)
+
+
+func _finish_prologue_after_pending(cursor: Dictionary) -> void:
+	var after := _dialogue_after
+	if after.is_null() or after.get_method() == &"_finish_prologue_handoff":
+		var completed: Dictionary = cursor.duplicate(true)
+		completed.phase = "completed"
+		completed.after = {}
+		if _prologue_async_enabled():
+			_begin_prologue_async("completed", {}, completed)
+			return
+		if not _prologue_save_cursor(completed): return
+		_complete_prologue_terminal()
+	elif after.get_method() == &"_perform_normal_reset":
+		_dialogue_active = false
+		_dialogue_layer.hide()
+		after.call()
+	else:
+		_dialogue_active = false
+		_dialogue_layer.hide()
+		_run_prologue_action(after)
+	_prologue_surface_allowed()
+
+
+func _complete_prologue_terminal() -> void:
+	var after := _dialogue_after
+	_dialogue_active = false
+	_dialogue_layer.hide()
+	_dialogue_after = Callable()
+	if after.is_valid(): after.call()
+
+
+func _begin_prologue_input(action: Callable) -> bool:
+	if not _prologue_async_enabled() or _prologue_restoring_room or _prologue_dispatch_active: return false
+	if not is_inside_tree() or is_queued_for_deletion() or not _prologue_async_request.is_empty() or _notebook_is_open() or _dialogue_active or _dialogue_choice_active or _modal_active: return true
+	if _prologue_surfaces.retry_required:
+		_finish_prologue_surface_flush(false, _prologue_surfaces.generation)
+		return true
+	_prologue_input_active = true
+	_run_prologue_action(action)
+	_prologue_input_active = false
+	return true
+
+
+func _collect_prologue_surfaces() -> void:
+	if not _prologue_surface_enabled(): return
+	_prologue_surfaces.prepare_receipts()
+	for id in _prologue_surfaces.requests:
+		var row: Dictionary = _prologue_surfaces.requests[id]
+		if row.recorded or (id not in _prologue_surfaces.active and not row.attempted): continue
+		row.attempted = true
+		if not _prologue_dispatch_surfaces.any(func(item: Dictionary) -> bool: return item.context.presentation_token == row.context.presentation_token): _prologue_dispatch_surfaces.append(row)
+
+
+func _run_prologue_action(action: Callable) -> void:
+	var input_action := _prologue_input_active
+	if not _prologue_cursor_enabled():
+		action.call()
+		return
+	# Delay progress-only writes until the next presentation or completed cursor exists.
+	_prologue_dispatch_active = true
+	_prologue_dispatch_point = String(SaveManager.inspect_slot(_slot_id).get("save_point_id", "SAVE_NEW_GAME"))
+	_prologue_dispatch_complete = false
+	if _prologue_async_enabled(): _collect_prologue_surfaces()
+	action.call()
+	_prologue_dispatch_active = false
+	if _prologue_async_enabled():
+		if _dialogue_active:
+			_record_prologue_history()
+			return
+		if _dialogue_choice_active:
+			_record_choice_history()
+			return
+		if not _prologue_confirmation.is_empty():
+			_record_prologue_confirmation_options(_prologue_confirmation)
+			return
+	elif _dialogue_active or _dialogue_choice_active or not _prologue_confirmation.is_empty(): return
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	if _prologue_async_enabled():
+		_begin_prologue_async("action" if input_action else "progress", _prologue_candidate_request({}, _prologue_dispatch_complete, not input_action), {}, _prologue_dispatch_point)
+		return
+	if not _persist_prologue_progress(_prologue_dispatch_point, _prologue_dispatch_complete, saves, {}, true):
+		_restore_prologue_cursor()
+
+
+func _restore_prologue_cursor() -> bool:
+	if not _prologue_cursor_enabled(): return false
+	var state := GameState.get_snapshot()
+	var value := PROLOGUE_CURSOR.read(state)
+	if not PROLOGUE_CURSOR.restorable(value, state) or value.family != "prologue_controller": return false
+	var window_view := _saved_window_view()
+	if _prologue_cursor_scope != _notebook_event_scope(): _prologue_dispatch_surfaces.clear()
+	_prologue_restoring_room = true
+	_pending_notebook.clear()
+	_load_progress()
+	_p3_journal_prompt_active = false
+	_hide_dialogue_choices()
+	_dialogue_active = false
+	_dialogue_layer.hide()
+	_modal_active = false
+	_modal_layer.hide()
+	if _is_prologue_complete(): _show_after_reset()
+	else: _enter_room(_current_room)
+	# Room construction must not mutate saved intro flags while restoring a view.
+	_load_progress()
+	_prologue_restoring_room = false
+	_prologue_cursor_scope = _notebook_event_scope()
+	_prologue_restored_cursor = value
+	if value.phase != "completed":
+		if value.kind == "dialogue":
+			_show_dialogue(PROLOGUE_CURSOR.localized_lines(value, TranslationServer.get_locale()), PROLOGUE_CURSOR.callable_for(self, value.after), int(value.index))
+		else:
+			_restore_prologue_choice(value)
+	_prologue_restored_cursor = {}
+	_restore_window_view(window_view)
+	return true
+
+
+func _record_prologue_history() -> bool:
+	if not _prologue_async_request.is_empty(): return false
+	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope(): return false
+	if not _uses_prologue_history() or not _dialogue_active or _prologue_history_index == _dialogue_index:
+		return true
+	var line: Dictionary = _dialogue_lines[_dialogue_index]
+	var context: Dictionary = line.get("history_context", {}).duplicate(true)
+	if line.has("notebook_content"): context.notebook_content = line.notebook_content
+	if _prologue_async_enabled():
+		if _prologue_dispatch_active: return false
+		var recording := {"speaker":_speaker_label.text, "text":_dialogue_label.text, "context":context, "presentation":_prologue_dialogue_spec()}
+		_begin_prologue_async("line", _prologue_candidate_request(recording, _prologue_dispatch_complete))
+		return false
+	if not _record_prologue_text(_speaker_label.text, _dialogue_label.text, context, _prologue_dialogue_spec()):
+		return false
+	_prologue_history_index = _dialogue_index
+	return true
+
+
+func _prologue_async_enabled() -> bool:
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	return OS.is_debug_build() and "--ggb-dev-notebook-async" in OS.get_cmdline_user_args() and _prologue_cursor_enabled() and is_instance_valid(saves) and saves.is_inside_tree() and saves.has_method("begin_history_write")
+
+
+func _prologue_surface_async_enabled() -> bool:
+	return _prologue_async_enabled()
+
+
+func _prologue_candidate_request(recording: Dictionary = {}, complete: bool = false, complete_cursor: bool = false) -> Dictionary:
+	if _prologue_async_enabled(): _collect_prologue_surfaces()
+	var window := {}
+	if _prologue_cursor_enabled() and _inspection_active and _current_room == "M1_PARLOR":
+		window = {"schema_version":1, "window":_inspected_window, "selected_item":_selected_item}
+	var surfaces: Array = []
+	for surface in _prologue_dispatch_surfaces:
+		surfaces.append({"speaker":surface.speaker, "text":surface.text, "locale":surface.locale, "context":surface.context.duplicate(true)})
+	return {"progress":_progress.duplicate(true), "pending_notes":_pending_notebook.duplicate(true), "scope":_notebook_event_scope(),
+		"inventory":_inventory_item_ids(), "surfaces":surfaces, "room":_current_room, "locale":TranslationServer.get_locale(),
+		"window":window, "complete":complete, "already_complete":_is_prologue_complete(), "cursor_enabled":_prologue_cursor_enabled(),
+		"recording":recording.duplicate(true), "complete_cursor":complete_cursor}
+
+
+func _prologue_async_live(request: Dictionary) -> bool:
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	if not is_inside_tree() or is_queued_for_deletion() or not is_same(_prologue_async_request, request) or not is_instance_valid(saves) or saves.get_instance_id() != request.save_id: return false
+	if request.scope != _notebook_event_scope() or request.locale != TranslationServer.get_locale() or request.room != _current_room or request.progress != _progress or request.notes != _pending_notebook: return false
+	if request.kind in ["surfaces", "action"]:
+		var window := {}
+		if _inspection_active and _current_room == "M1_PARLOR": window = {"schema_version":1, "window":_inspected_window, "selected_item":_selected_item}
+		return not _notebook_is_open() and not _dialogue_active and not _dialogue_choice_active and not _modal_active and _prologue_surfaces.live(request.surface_scope, request.surface_generation) and request.surface_scope == _prologue_surface_scope() and request.surface_requests == _prologue_surfaces.requests and request.surface_active == _prologue_surfaces.active and request.inventory == _inventory_item_ids() and request.window == window
+	if request.kind.begins_with("choice_"):
+		return _dialogue_choice_active and request.choice_mode == _dialogue_choice_mode and request.choice_capture == _prologue_choice_capture and request.choice_tokens == _choice_selected_tokens and request.choice_context == _choice_history_context
+	if request.kind.begins_with("confirmation_"):
+		return _modal_active and is_same(request.confirmation, _prologue_confirmation) and request.generation == _history_generation and request.confirmation_state == _prologue_confirmation.choice and request.confirmation_context == _prologue_confirmation.context and request.confirmation_tokens == _prologue_confirmation.tokens
+	if request.kind == "progress": return not _dialogue_active and not _dialogue_choice_active and request.modal == _modal_active
+	return _dialogue_active and _dialogue_index == request.index and _dialogue_index >= 0 and _dialogue_index < _dialogue_lines.size() and _dialogue_lines[_dialogue_index].get("presentation_token") == request.token
+
+
+func _begin_prologue_async(kind: String, payload: Dictionary = {}, cursor: Dictionary = {}, point: String = "") -> void:
+	if not _prologue_async_request.is_empty(): return
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	if point.is_empty(): point = _prologue_dispatch_point if _prologue_dispatch_active else String(SaveManager.inspect_slot(_slot_id).get("save_point_id", "SAVE_NEW_GAME"))
+	var request := {"kind":kind, "scope":_notebook_event_scope(), "locale":TranslationServer.get_locale(), "room":_current_room,
+		"progress":_progress.duplicate(true), "notes":_pending_notebook.duplicate(true), "modal":_modal_active,
+		"index":_dialogue_index, "token":_dialogue_lines[_dialogue_index].get("presentation_token", "") if _dialogue_active else "",
+		"save_id":saves.get_instance_id(), "disabled":_dialogue_next.disabled, "status":_status_label.text}
+	request.controls = []
+	if kind in ["surfaces", "action"]:
+		request.surface_scope = _prologue_surface_scope().duplicate(true)
+		request.surface_generation = _prologue_surfaces.generation
+		request.surface_requests = _prologue_surfaces.requests.duplicate(true)
+		request.surface_active = _prologue_surfaces.active.duplicate()
+		request.inventory = payload.inventory.duplicate()
+		request.window = payload.window.duplicate(true)
+		if kind == "action":
+			request.payload = payload.duplicate(true)
+			request.point = point
+	elif kind.begins_with("choice_"):
+		request.choice_mode = _dialogue_choice_mode
+		request.choice_capture = _prologue_choice_capture.duplicate(true)
+		request.choice_tokens = _choice_selected_tokens.duplicate(true)
+		request.choice_context = _choice_history_context.duplicate(true)
+		request.selected = _prologue_choice_capture.get("last_selected", "")
+		for button in _dialogue_choice_buttons:
+			request.controls.append({"control":weakref(button), "disabled":button.disabled})
+			button.disabled = true
+	elif kind.begins_with("confirmation_"):
+		request.confirmation = _prologue_confirmation
+		request.generation = _history_generation
+		request.confirmation_state = _prologue_confirmation.choice.duplicate(true)
+		request.confirmation_context = _prologue_confirmation.context.duplicate(true)
+		request.confirmation_tokens = _prologue_confirmation.tokens.duplicate(true)
+		request.selected = _prologue_confirmation.choice.get("last_selected", "")
+		for control in _modal_body.get_children():
+			if control is Button:
+				request.controls.append({"control":weakref(control), "disabled":control.disabled})
+				control.disabled = true
+	request.pending_status = "대화 기록을 저장하고 있습니다." if request.locale.begins_with("ko") else "Saving dialogue history."
+	_prologue_async_request = request
+	_dialogue_next.disabled = true
+	_set_status(request.pending_status)
+	var writer := preload("res://scripts/systems/dialogue_history_writer.gd")
+	var guard := _prologue_async_live.bind(request)
+	var result: Dictionary
+	if cursor.is_empty(): result = await writer.save_prologue_async(GameState, saves, _slot_id, point, payload, guard)
+	else: result = await writer.save_cursor_async(GameState, saves, _slot_id, point, cursor, guard)
+	if not is_inside_tree() or not is_same(_prologue_async_request, request): return
+	var live := _prologue_async_live(request)
+	_prologue_async_request = {}
+	_dialogue_next.disabled = request.disabled
+	for saved_control in request.controls:
+		var control = saved_control.control.get_ref()
+		if is_instance_valid(control): control.disabled = saved_control.disabled
+	if not live:
+		if _status_label.text == request.pending_status: _set_status("")
+		return
+	if not result.ok:
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		if kind == "progress": _restore_prologue_cursor()
+		if kind == "surfaces":
+			_prologue_surfaces.retry_required = true
+			_finish_prologue_surface_flush(false, request.surface_generation)
+		if kind == "action":
+			_prologue_action_retry = {"payload":request.payload, "point":request.point, "scope":request.surface_scope, "generation":request.surface_generation, "surface_requests":request.surface_requests, "surface_active":request.surface_active}
+			_prologue_surfaces.retry_required = true
+			_finish_prologue_surface_flush(false, request.surface_generation)
+		return
+	_set_status("" if request.status == _dialogue_ui_text("CH1_HISTORY_SAVE_ERROR") else request.status)
+	if kind in ["line", "progress", "surfaces", "action", "choice_options", "choice_selected", "confirmation_options", "confirmation_selected"]:
+		_pending_notebook.clear()
+		_confirm_prologue_dispatch_surfaces()
+	match kind:
+		"action":
+			_prologue_action_retry = {}
+			_prologue_surfaces.retry_required = false
+			_finish_prologue_surface_flush(true, request.surface_generation)
+		"surfaces":
+			for id in _prologue_surfaces.requests:
+				var row: Dictionary = _prologue_surfaces.requests[id]
+				if id in request.surface_active or row.attempted: row.recorded = true
+			_prologue_surfaces.retry_required = false
+			_finish_prologue_surface_flush(true, request.surface_generation)
+			call_deferred("_resume_after_surface_retry", request.surface_generation, request.surface_scope)
+		"line": _prologue_history_index = request.index
+		"choice_options": _choice_history_recorded = true
+		"choice_selected": _continue_prologue_choice(request.selected)
+		"confirmation_options": request.confirmation.recorded = true
+		"confirmation_selected":
+			_prologue_confirmation = {}
+			_run_prologue_action(request.confirmation.actions[request.selected])
+		"finish": _finish_prologue_after_pending(cursor)
+		"completed":
+			_complete_prologue_terminal()
+			_prologue_surface_allowed()
+		"progress": _prologue_surface_allowed()
+
+
+func _record_prologue_text(speaker: String, text: String, context: Dictionary = {}, presentation: Dictionary = {}) -> bool:
+	if not _prologue_async_request.is_empty(): return false
+	if _prologue_async_enabled() and presentation.get("kind") == "choice":
+		if _prologue_dispatch_active: return false
+		var kind := "choice_" if _dialogue_choice_active else "confirmation_"
+		kind += "options" if presentation.phase == "choosing" else "selected"
+		var recording := {"speaker":speaker, "text":text, "context":context, "presentation":presentation}
+		_begin_prologue_async(kind, _prologue_candidate_request(recording, _prologue_dispatch_complete))
+		return false
+	var slot := SaveManager.inspect_slot(_slot_id)
+	var point := String(slot.get("save_point_id", "SAVE_NEW_GAME"))
+	if _prologue_cursor_enabled() and not presentation.is_empty():
+		var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+		return _persist_prologue_progress(_prologue_dispatch_point if _prologue_dispatch_active else point, _prologue_dispatch_complete, saves, {"speaker": speaker, "text": text, "context": context, "presentation": presentation})
+	var result := preload("res://scripts/systems/dialogue_history_writer.gd").record(GameState, SaveManager, _slot_id, point, speaker, text, TranslationServer.get_locale(), "PROLOGUE", [], context)
+	if not result.get("ok", false):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return false
+	return true
+
+
+func _set_dialogue_portrait(portrait_id: String) -> void:
+	_portrait.visible = PORTRAIT_REGIONS.has(portrait_id)
+	if not _portrait.visible:
+		return
+	var texture := AtlasTexture.new()
+	texture.atlas = SERVANT_ATLAS
+	texture.region = PORTRAIT_REGIONS[portrait_id]
+	_portrait.texture = texture
+
+
+func _hide_dialogue_choices() -> void:
+	_dialogue_choice_active = false
+	if _dialogue_choice_blocker != null:
+		_dialogue_choice_blocker.visible = false
+	if _dialogue_choice_panel != null:
+		_dialogue_choice_panel.visible = false
+	if _dialogue_next != null:
+		_dialogue_next.visible = true
+
+
+func _refresh_dialogue_choice_labels() -> void:
+	var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
+	for index in range(_dialogue_choice_buttons.size()):
+		var button := _dialogue_choice_buttons[index]
+		var choice_id := String(button.get_meta("choice_id", ""))
+		var label := String(button.get_meta("choice_label", choice_id))
+		var prefix := "▶ " if index == _dialogue_choice_focus_index else "   "
+		var suffix := "  [%s]" % _dialogue_ui_text("UI_P_CHECKED") if _dialogue_choice_mode == "p3_journal" and choice_id in asked_questions else ""
+		button.text = "%s%s%s" % [prefix, label, suffix]
+
+
+func _first_unasked_p3_choice_index() -> int:
+	var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
+	for index in range(2):
+		var choice_id := String(_dialogue_choice_buttons[index].get_meta("choice_id", ""))
+		if choice_id not in asked_questions:
+			return index
+	return 2
+
+
+func _focus_dialogue_choice(index: int) -> void:
+	if _dialogue_choice_buttons.is_empty():
+		return
+	_dialogue_choice_focus_index = clampi(index, 0, _dialogue_choice_buttons.size() - 1)
+	_refresh_dialogue_choice_labels()
+	call_deferred("_focus_visible_control", weakref(_dialogue_choice_buttons[_dialogue_choice_focus_index]))
+
+
+func _on_dialogue_choice_focused(index: int) -> void:
+	_dialogue_choice_focus_index = clampi(index, 0, _dialogue_choice_buttons.size() - 1)
+	_refresh_dialogue_choice_labels()
+
+
+func _on_dialogue_choice_pressed(index: int) -> void:
+	if not _prologue_async_request.is_empty(): return
+	if _notebook_is_open(): return
+	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope(): return
+	if not _dialogue_choice_active or index < 0 or index >= _dialogue_choice_buttons.size():
+		return
+	var choice_id := String(_dialogue_choice_buttons[index].get_meta("choice_id", ""))
+	if choice_id.is_empty() or not _dialogue_choice_buttons[index].visible:
+		return
+	if _uses_prologue_history():
+		if not _record_choice_history():
+			return
+		if not _choice_selected_tokens.has(choice_id) or (_prologue_cursor_enabled() and _prologue_choice_capture.get("last_selected", "") != choice_id):
+			_choice_selected_tokens[choice_id] = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		_prologue_choice_capture.last_selected = choice_id
+		var context := _choice_history_context.duplicate(true)
+		context.presentation_token = _choice_selected_tokens[choice_id]
+		context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(context.node_id) + "_SELECT_" + choice_id.to_upper(), 1, {"body": {}})
+		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), String(_dialogue_choice_buttons[index].get_meta("choice_label", "")), context, _prologue_choice_spec()):
+			return
+	_continue_prologue_choice(choice_id)
+
+
+func _continue_prologue_choice(choice_id: String) -> void:
+	match _dialogue_choice_mode:
+		"p3_journal":
+			_run_prologue_action(_answer_p3_journal_choice.bind(choice_id))
+		"p4_father":
+			_run_prologue_action(_answer_p4_father_choice.bind(choice_id))
+
+
+func _focus_p3_silent_choice() -> void:
+	for index in range(_dialogue_choice_buttons.size()):
+		if String(_dialogue_choice_buttons[index].get_meta("choice_id", "")) == "silent":
+			_focus_dialogue_choice(index)
+			break
+	_set_status("선택 구간을 끝내려면 '말없이 내려놓는다'를 선택하십시오.")
+
+
+func _handle_dialogue_choice_cancel() -> void:
+	if _dialogue_choice_mode == "p3_journal":
+		_focus_p3_silent_choice()
+	else:
+		_set_status("루카에게 건넬 질문 하나를 선택해야 한다.")
+
+
+func _advance_dialogue() -> void:
+	if not _prologue_async_request.is_empty(): return
+	if _notebook_is_open(): return
+	if _prologue_cursor_enabled() and is_instance_valid(_fade) and _fade.visible: return
+	if not _record_prologue_history():
+		return
+	if not _dialogue_active:
+		return
+	if _prologue_cursor_enabled() and _dialogue_index == _dialogue_lines.size() - 1:
+		_finish_prologue_dialogue()
+		return
+	_dialogue_index += 1
+	if _dialogue_index < _dialogue_lines.size():
+		_present_dialogue_line()
+		return
+	_dialogue_active = false
+	_dialogue_layer.visible = false
+	var after := _dialogue_after
+	_dialogue_after = Callable()
+	if after.is_valid():
+		after.call()
+	_prologue_surface_allowed()
+
+
+func _dismiss_dialogue_for_test() -> void:
+	_hide_dialogue_choices()
+	_dialogue_active = false
+	_dialogue_layer.visible = false
+	_dialogue_lines.clear()
+	_dialogue_after = Callable()
+
+
+func _open_menu() -> void:
+	if not _prologue_async_request.is_empty(): return
+	if _dialogue_active or _dialogue_choice_active:
+		return
+	menu_audio_pause_requested.emit(true)
+	if _uses_prologue_history():
+		_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
+			{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
+			{"label": _dialogue_ui_text("CH1_HISTORY_TITLE"), "action": _open_dialogue_history},
+			{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
+		] + _settings_menu_actions())
+		return
+	_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
+		{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
+		{"label": _dialogue_ui_text("UI_P_RETURN_TITLE"), "action": _return_to_title},
+	] + _settings_menu_actions())
+
+
+func _settings_menu_actions() -> Array:
+	return [
+		{"label": _audio_settings_label(), "action": _open_audio_settings},
+		{"label": _key_settings_label(), "action": _open_key_settings},
+		{"label": _display_settings_label(), "action": _open_display_settings},
+	]
+
+
+func _audio_settings_label() -> String:
+	return "Audio settings" if TranslationServer.get_locale().begins_with("en") else "음향 설정"
+
+
+func _key_settings_label() -> String:
+	return "Keyboard settings" if TranslationServer.get_locale().begins_with("en") else "키보드 설정"
+
+
+func _display_settings_label() -> String:
+	return "Display settings" if TranslationServer.get_locale().begins_with("en") else "화면 설정"
+
+
+func _open_display_settings() -> void:
+	if _dialogue_active or _dialogue_choice_active: return
+	if not is_instance_valid(_display_settings_panel):
+		_display_settings_panel = preload("res://scripts/ui/display_settings_panel.gd").new()
+		_modal_layer.add_child(_display_settings_panel)
+		_display_settings_panel.back_requested.connect(_open_menu)
+	_display_settings_panel.profile_store = _audio_profile_store
+	var profile: Dictionary = _audio_profile_store.load_profile().profile
+	_display_settings_panel.load_values(profile.get("display", preload("res://scripts/systems/display_settings.gd").DEFAULT), TranslationServer.get_locale())
+	var panel_theme := Theme.new()
+	panel_theme.default_font_size = int(round(18 * _reading_text_scale))
+	_display_settings_panel.theme = panel_theme
+	_modal_panel.hide()
+	_modal_layer.show()
+	_modal_active = true
+	menu_audio_pause_requested.emit(true)
+	_display_settings_panel.show()
+	_display_settings_panel.back.call_deferred("grab_focus")
+
+
+func _open_key_settings() -> void:
+	if _dialogue_active or _dialogue_choice_active: return
+	if not is_instance_valid(_key_settings_panel):
+		_key_settings_panel = preload("res://scripts/ui/key_settings_panel.gd").new()
+		_modal_layer.add_child(_key_settings_panel)
+		_key_settings_panel.back_requested.connect(_open_menu)
+		_key_settings_panel.apply_requested.connect(_apply_game_key_settings)
+	var profile: Dictionary = _audio_profile_store.load_profile().profile
+	_key_settings_panel.load_values(profile.get("key_bindings", preload("res://scripts/systems/key_bindings.gd").defaults()), TranslationServer.get_locale())
+	var panel_theme := Theme.new()
+	panel_theme.default_font_size = int(round(18 * _reading_text_scale))
+	_key_settings_panel.theme = panel_theme
+	_modal_panel.hide()
+	_modal_layer.show()
+	_modal_active = true
+	menu_audio_pause_requested.emit(true)
+	_key_settings_panel.show()
+	_key_settings_panel.back.call_deferred("grab_focus")
+
+
+func _apply_game_key_settings(bindings: Dictionary) -> void:
+	var profile: Dictionary = _audio_profile_store.load_profile().profile.duplicate(true)
+	profile["key_bindings"] = bindings.duplicate(true)
+	if not _audio_profile_store.save_profile(profile).get("ok", false):
+		_key_settings_panel.show_save_error()
+		return
+	preload("res://scripts/systems/key_bindings.gd").apply_bindings(bindings)
+	_refresh_notebook_caption()
+	_open_menu()
+
+
+func _open_audio_settings() -> void:
+	if _dialogue_active or _dialogue_choice_active:
+		return
+	if not is_instance_valid(_audio_settings_panel):
+		_audio_settings_panel = preload("res://scripts/ui/audio_settings_panel.gd").new()
+		_modal_layer.add_child(_audio_settings_panel)
+		_audio_settings_panel.back_requested.connect(_open_menu)
+		_audio_settings_panel.apply_requested.connect(_apply_game_audio_settings)
+	var profile: Dictionary = _audio_profile_store.load_profile().profile
+	_audio_settings_panel.load_values(profile.get("audio", AccessibilityProfileStore.DEFAULT_AUDIO), TranslationServer.get_locale())
+	var panel_theme := Theme.new()
+	panel_theme.default_font_size = int(round(18 * _reading_text_scale))
+	_audio_settings_panel.theme = panel_theme
+	_modal_panel.hide()
+	_modal_layer.show()
+	_modal_active = true
+	menu_audio_pause_requested.emit(true)
+	_audio_settings_panel.show()
+	_audio_settings_panel.back.call_deferred("grab_focus")
+
+
+func _apply_game_audio_settings(settings: Dictionary) -> void:
+	var profile: Dictionary = _audio_profile_store.load_profile().profile.duplicate(true)
+	profile["audio"] = settings.duplicate()
+	if not bool(_audio_profile_store.save_profile(profile).get("ok", false)):
+		_audio_settings_panel.show_save_error()
+		return
+	audio_settings_changed.emit(settings.duplicate())
+	_open_menu()
+
+
+func _open_dialogue_history() -> void:
+	if _try_open_unified_notebook("dialogue"): return
+	var result := _dialogue_texts.render_history(GameState.get_value(&"meta_progress.dialogue_history", {}), TranslationServer.get_locale())
+	_show_history_result(result)
+
+
+func _show_history_result(result: Dictionary) -> void:
+	_remember_history_scroll()
+	_history_warning = ""
+	if not result.get("ok", false):
+		_history_warning = _dialogue_ui_text("CH1_HISTORY_READ_ERROR")
+		var errors: Array = Array(result.get("error_ids", []))
+		if not errors.is_empty():
+			_history_warning += "\n" + _dialogue_texts.get_text("CH1_HISTORY_DIAGNOSTIC", TranslationServer.get_locale(), {"count": errors.size(), "codes": ", ".join(errors)})
+	var chapter_order := ["ALL"]
+	var chapter_titles := {
+		"ALL": _dialogue_ui_text("CH1_HISTORY_CHAPTER_ALL"),
+		"PROLOGUE": _dialogue_ui_text("CH1_HISTORY_CHAPTER_PROLOGUE"),
+		"CHAPTER_1": _dialogue_ui_text("CH1_HISTORY_CHAPTER_1"),
+		"CHAPTER_2": _dialogue_ui_text("CH1_HISTORY_CHAPTER_2"),
+		"CHAPTER_3": _dialogue_ui_text("CH1_HISTORY_CHAPTER_3"),
+		"CHAPTER_4": _dialogue_ui_text("CH1_HISTORY_CHAPTER_4"),
+		"LEGACY": _dialogue_ui_text("CH1_HISTORY_CHAPTER_LEGACY"),
+	}
+	var grouped: Dictionary = {"ALL": []}
+	for entry in result.get("entries", []):
+		var chapter_id: String = preload("res://scripts/systems/dialogue_history_context.gd").normalize_chapter(entry.get("chapter_id"))
+		if not grouped.has(chapter_id):
+			grouped[chapter_id] = []
+		grouped[chapter_id].append(entry)
+		grouped["ALL"].append(entry)
+	for chapter_id in ["PROLOGUE", "CHAPTER_1", "CHAPTER_2", "CHAPTER_3", "CHAPTER_4", "LEGACY"]:
+		if grouped.has(chapter_id):
+			chapter_order.append(chapter_id)
+	_show_chapter_history_modal(chapter_order, chapter_titles, grouped)
+
+
+func _show_chapter_history_modal(chapter_order: Array, chapter_titles: Dictionary, grouped: Dictionary) -> void:
+	_history_generation += 1
+	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
+	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
+	if is_instance_valid(_audio_settings_panel): _audio_settings_panel.hide()
+	_modal_panel.show()
+	for child in _modal_body.get_children():
+		_modal_body.remove_child(child)
+		child.queue_free()
+	_place(_modal_panel, Rect2(300, 90, 1320, 900) if _reading_text_scale >= 1.5 else Rect2(510, 150, 900, 780))
+
+	var title_label := Label.new()
+	title_label.text = _dialogue_ui_text("CH1_HISTORY_TITLE")
+	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title_label.add_theme_font_size_override("font_size", int(round(34 * _reading_text_scale)))
+	title_label.add_theme_color_override("font_color", Color(0.94, 0.72, 0.44))
+	_modal_body.add_child(title_label)
+	_modal_body.add_child(HSeparator.new())
+
+	var chapter_buttons := GridContainer.new()
+	chapter_buttons.name = "HistoryChapterButtons"
+	chapter_buttons.columns = 2 if _reading_text_scale >= 1.5 else 3
+	chapter_buttons.add_theme_constant_override("h_separation", 8)
+	chapter_buttons.add_theme_constant_override("v_separation", 8)
+	chapter_buttons.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_modal_body.add_child(chapter_buttons)
+
+	var body_scroll := ScrollContainer.new()
+	body_scroll.name = "HistoryTranscriptScroll"
+	body_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	body_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body_scroll.custom_minimum_size.y = 100
+	body_scroll.focus_mode = Control.FOCUS_ALL
+	_modal_body.add_child(body_scroll)
+
+	var body_label := Label.new()
+	body_label.name = "HistoryTranscript"
+	body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body_label.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
+	body_label.add_theme_color_override("font_color", Color(0.93, 0.92, 0.90))
+	body_scroll.add_child(body_label)
+
+	var selected_chapter := _history_selected if _history_selected in chapter_order else "ALL"
+	var selected_button: Button
+	for chapter_id in chapter_order:
+		var id := String(chapter_id)
+		var button := Button.new()
+		button.name = "HistoryChapter_%s" % id
+		button.text = String(chapter_titles.get(id, id))
+		button.custom_minimum_size = Vector2(0, 52)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.toggle_mode = true
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.add_theme_font_size_override("font_size", int(round(17 * _reading_text_scale)))
+		button.add_theme_stylebox_override("normal", _style(Color(0.10, 0.035, 0.11, 0.98), Color(0.66, 0.35, 0.34, 0.95), 2, 7))
+		button.add_theme_stylebox_override("hover", _style(Color(0.18, 0.055, 0.14, 0.99), Color(0.86, 0.55, 0.42, 0.98), 2, 7))
+		chapter_buttons.add_child(button)
+		button.pressed.connect(func() -> void:
+			_remember_history_scroll()
+			_show_selected_history_chapter(id, chapter_titles, grouped, body_label, body_scroll, chapter_buttons)
+		)
+		if id == selected_chapter:
+			selected_button = button
+
+	if not _history_warning.is_empty():
+		var retry_button := Button.new()
+		retry_button.name = "HistoryRetry"
+		retry_button.text = _dialogue_ui_text("CH1_HISTORY_RETRY")
+		retry_button.custom_minimum_size.y = 48
+		retry_button.pressed.connect(_open_dialogue_history)
+		_modal_body.add_child(retry_button)
+
+	var close_button := Button.new()
+	close_button.name = "HistoryClose"
+	close_button.text = _dialogue_ui_text("UI_NOTE_CLOSE")
+	close_button.custom_minimum_size.y = 58
+	close_button.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
+	close_button.add_theme_stylebox_override("normal", _style(Color(0.10, 0.035, 0.11, 0.98), Color(0.66, 0.35, 0.34, 0.95), 3, 7))
+	close_button.pressed.connect(_close_modal)
+	_modal_body.add_child(close_button)
+
+	_modal_active = true
+	_modal_layer.visible = true
+	_show_selected_history_chapter(selected_chapter, chapter_titles, grouped, body_label, body_scroll, chapter_buttons)
+	call_deferred("_cycle_modal_focus")
+	call_deferred("_focus_visible_control", weakref(selected_button if not grouped["ALL"].is_empty() else close_button))
+
+
+func _show_selected_history_chapter(chapter_id: String, chapter_titles: Dictionary, grouped: Dictionary, body_label: Label, body_scroll: ScrollContainer, chapter_buttons: Container) -> void:
+	_history_selected = chapter_id
+	_history_generation += 1
+	var paragraphs: Array[String] = []
+	var entries: Array = grouped.get(chapter_id, [])
+	if not _history_warning.is_empty():
+		paragraphs.append(_history_warning)
+	if not entries.is_empty():
+		paragraphs.append(String(chapter_titles[chapter_id]))
+	for entry in entries:
+		var text := String(entry.get("text", ""))
+		paragraphs.append(text)
+	body_label.text = "\n\n".join(paragraphs) if not paragraphs.is_empty() else _dialogue_ui_text("CH1_HISTORY_EMPTY")
+	for child in chapter_buttons.get_children():
+		var button := child as Button
+		if button != null:
+			button.set_pressed_no_signal(button.name == "HistoryChapter_%s" % chapter_id)
+	_restore_history_scroll(weakref(body_scroll), chapter_id, _history_generation)
+
+
+func _remember_history_scroll() -> void:
+	var scroll := _history_modal_scroll()
+	if scroll != null:
+		_history_scroll_positions[_history_selected] = scroll.scroll_vertical
+
+
+func _restore_history_scroll(reference: WeakRef, chapter_id: String, generation: int) -> void:
+	await get_tree().process_frame
+	var scroll := reference.get_ref() as ScrollContainer
+	if generation != _history_generation or not is_instance_valid(scroll) or not _modal_active:
+		return
+	scroll.scroll_vertical = int(_history_scroll_positions.get(chapter_id, scroll.get_v_scroll_bar().max_value))
+
+
+func _history_modal_scroll() -> ScrollContainer:
+	if not _modal_active or not is_instance_valid(_modal_body):
+		return null
+	return _modal_body.get_node_or_null("HistoryTranscriptScroll") as ScrollContainer
+
+
+func _localized_notebook_entry(entry: String) -> String:
+	# Legacy saves contain Korean prose; translate for display without rewriting history.
+	var texts := _dialogue_texts
+	for text_id in ["NOTE_P_DUTIES","NOTE_P_IMPRESSIONS","NOTE_P_BIRD","NOTE_P_WINDOWS","NOTE_P_JOURNAL","NOTE_P_SIGNATURES","NOTE_P_PULSE","NOTE_P_WEATHER","NOTE_P_SLEEP","NOTE_P_TEA"]:
+		if entry == texts.get_text(text_id, "ko-KR"):
+			return texts.get_text(text_id, TranslationServer.get_locale())
+	return entry
+
+
+func _open_notebook() -> void:
+	if _try_open_unified_notebook("clues"): return
+	_open_legacy_notebook()
+
+
+func _open_legacy_notebook() -> void:
+	if _dialogue_active or _dialogue_choice_active:
+		return
+	var entries: Array = _progress.get("notebook_entries", [])
+	if not _test_mode and (_is_prologue_complete() or GameState.get_value(&"meta_progress.dialogue_history", {}).has("schema_version")):
+		entries = GameState.get_value(&"meta_progress.knowledge_entries", {}).get("prologue_notebook_entries", [])
+	var body := _dialogue_ui_text("UI_NOTE_EMPTY") if entries.is_empty() else "\n\n".join(entries.map(func(value: Variant) -> String: return "- %s" % _localized_notebook_entry(String(value))))
+	if not _pending_notebook.is_empty():
+		body += "\n\n[아직 저장되지 않은 기록이 있습니다. 사건 화면에서 저장을 다시 시도해 주세요.]" if not TranslationServer.get_locale().begins_with("en") else "\n\n[Some notes are not saved yet. Retry saving from the event screen.]"
+	_show_modal(_dialogue_ui_text("UI_NOTE_TITLE"), body, [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
+
+
+func _show_prologue_confirmation(key: String, title: String, body: String, actions: Array) -> void:
+	if _prologue_restoring_room: return
+	var content := preload("res://scripts/systems/notebook_content.gd")
+	var archive := preload("res://scripts/systems/notebook_archive.gd")
+	var row := content.definition("NB_PR_" + key + "_OPTIONS", 1)
+	var context := {"node_id": row.get("event_id", ""), "chapter_id": "PROLOGUE", "location_id": _current_room, "event_occurrence_id": archive.new_uid(), "conversation_session_id": archive.new_uid(), "presentation_token": archive.new_uid()}
+	var request := {"key": key, "generation": _history_generation + 1, "recorded": false, "context": context, "text": title + "\n" + body, "labels": {}, "tokens": {}, "actions": {}}
+	request.scope = _notebook_event_scope()
+	request.choice = {"mode": key, "header": title, "prompt": body, "speaker": "SYSTEM", "portrait": "", "order": [], "labels": {}, "tokens": {}, "last_selected": "", "focus": 0}
+	var segments := {"header": {}, "prompt": {}}
+	var wrapped: Array = []
+	for action in actions:
+		request.text += "\n" + String(action.label)
+		request.labels[action.id] = action.label
+		request.choice.order.append(action.id)
+		request.choice.labels[action.id] = action.label
+		request.actions[action.id] = action.action
+		segments[action.id] = {}
+		wrapped.append({"label": action.label, "action": _prologue_confirmation_pressed.bind(request, action.id)})
+	request.context.notebook_content = content.descriptor("NB_PR_" + key + "_OPTIONS", 1, segments)
+	request.line = {"speaker": _dialogue_ui_text("HISTORY_OPTIONS"), "text": request.text, "presentation_token": context.presentation_token, "history_context": request.context.duplicate(true), "notebook_content": request.context.notebook_content}
+	if not _prologue_restored_cursor.is_empty():
+		request.choice = PROLOGUE_CURSOR.localized_choice(_prologue_restored_cursor, TranslationServer.get_locale())
+		request.line = _prologue_restored_cursor.lines[0].duplicate(true)
+		request.context = request.line.history_context.duplicate(true)
+		request.tokens = request.choice.tokens.duplicate()
+		request.recorded = true
+	_show_modal(title, body, wrapped)
+	_prologue_confirmation = request
+	_record_prologue_confirmation_options(request)
+
+
+func _record_prologue_confirmation_options(request: Dictionary) -> bool:
+	if not _prologue_async_request.is_empty(): return false
+	if request.recorded or not _uses_prologue_history(): return true
+	var spec := {"kind": "choice", "line": request.line, "choice": request.choice, "phase": "choosing"} if _prologue_cursor_enabled() else {}
+	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), request.text, request.context, spec): return false
+	request.recorded = true
+	return true
+
+
+func _prologue_confirmation_pressed(request: Dictionary, choice: String) -> void:
+	if not _prologue_async_request.is_empty(): return
+	if _notebook_is_open(): return
+	if not _modal_active or request.generation != _history_generation: return
+	if request.scope != _notebook_event_scope(): return
+	if not request.actions.has(choice): return
+	if not _record_prologue_confirmation_options(request): return
+	if _uses_prologue_history():
+		if not request.tokens.has(choice) or request.choice.last_selected != choice: request.tokens[choice] = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		request.choice.last_selected = choice
+		request.choice.tokens = request.tokens.duplicate()
+		var context: Dictionary = request.context.duplicate(true)
+		context.presentation_token = request.tokens[choice]
+		context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(request.key) + "_" + choice.to_upper(), 1, {"body": {}})
+		var spec := {"kind": "choice", "line": request.line, "choice": request.choice, "phase": "selection_pending"} if _prologue_cursor_enabled() else {}
+		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), request.labels[choice], context, spec): return
+	_prologue_confirmation = {}
+	_run_prologue_action(request.actions[choice])
+
+
+func _cancel_prologue_modal() -> void:
+	if not _prologue_confirmation.is_empty():
+		_prologue_confirmation_pressed(_prologue_confirmation, "cancel")
+	else:
+		_close_modal()
+
+
+func _show_modal(title: String, body: String, actions: Array) -> void:
+	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
+	_prologue_confirmation = {}
+	_remember_history_scroll()
+	_history_generation += 1
+	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
+	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
+	if is_instance_valid(_audio_settings_panel):
+		_audio_settings_panel.hide()
+	_modal_panel.show()
+	for child in _modal_body.get_children():
+		_modal_body.remove_child(child)
+		child.queue_free()
+	var title_label := Label.new()
+	title_label.text = title
+	_place(_modal_panel, Rect2(300, 90, 1320, 900) if _reading_text_scale >= 1.5 else Rect2(510, 190, 900, 700))
+	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title_label.add_theme_font_size_override("font_size", int(round(34 * _reading_text_scale)))
+	title_label.add_theme_color_override("font_color", Color(0.94, 0.72, 0.44))
+	_modal_body.add_child(title_label)
+	var rule := HSeparator.new()
+	_modal_body.add_child(rule)
+	var body_label := Label.new()
+	body_label.name = "ModalBodyText"
+	body_label.text = body
+	body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body_label.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
+	body_label.add_theme_color_override("font_color", Color(0.93, 0.92, 0.90))
+	var body_scroll := ScrollContainer.new()
+	body_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	body_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body_scroll.custom_minimum_size.y = 100
+	body_scroll.focus_mode = Control.FOCUS_ALL
+	_modal_body.add_child(body_scroll)
+	body_scroll.add_child(body_label)
+	for action_value in actions:
+		var action: Dictionary = action_value
+		var button := Button.new()
+		button.text = String(action.get("label", _dialogue_ui_text("UI_DIALOGUE_CONTINUE")))
+		button.custom_minimum_size = Vector2(0, 58)
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
+		button.add_theme_stylebox_override("normal", _style(Color(0.10, 0.035, 0.11, 0.98), Color(0.66, 0.35, 0.34, 0.95), 3, 7))
+		button.pressed.connect(action.get("action", _close_modal))
+		_modal_body.add_child(button)
+	_modal_active = true
+	_modal_layer.visible = true
+	call_deferred("_cycle_modal_focus")
+	if _modal_body.get_child_count() > 3:
+		call_deferred("_focus_visible_control", weakref(_modal_body.get_child(3)))
+
+
+func _cycle_modal_focus() -> void:
+	if not _modal_active or not _modal_layer.is_visible_in_tree():
+		return
+	var controls: Array[Control] = []
+	_collect_modal_focus(_modal_body, controls)
+	for index in range(controls.size()):
+		controls[index].focus_next = controls[index].get_path_to(controls[(index + 1) % controls.size()])
+		controls[index].focus_previous = controls[index].get_path_to(controls[posmod(index - 1, controls.size())])
+
+
+func _collect_modal_focus(node: Node, controls: Array[Control]) -> void:
+	for child in node.get_children():
+		if child is Control and not child.is_visible_in_tree():
+			continue
+		if child is Control and child.focus_mode == Control.FOCUS_ALL:
+			if not child is BaseButton or not child.disabled:
+				controls.append(child)
+		_collect_modal_focus(child, controls)
+
+
+func _focus_visible_control(reference: WeakRef) -> void:
+	var control := reference.get_ref() as Control
+	if is_instance_valid(control) and control.is_inside_tree() and control.is_visible_in_tree():
+		control.grab_focus()
+
+
+func _close_modal() -> void:
+	if _notebook_is_open():
+		_notebook_host.request_close()
+		return
+	_prologue_confirmation = {}
+	_remember_history_scroll()
+	_history_generation += 1
+	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
+	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
+	if is_instance_valid(_audio_settings_panel):
+		_audio_settings_panel.hide()
+	_modal_panel.show()
+	menu_audio_pause_requested.emit(false)
+	_modal_active = false
+	_modal_layer.visible = false
+	_prologue_surface_allowed()
+
+
+func _return_to_title() -> void:
+	_close_modal()
+	if not _prologue_surface_allowed(): return
+	if not _save_progress(): return
+	return_to_title_requested.emit()
+
+
+func _save_progress(save_point_id: String = "SAVE_NEW_GAME", prologue_complete: bool = false) -> bool:
+	if _prologue_restoring_room: return true
+	if _prologue_dispatch_active:
+		if save_point_id != "SAVE_NEW_GAME": _prologue_dispatch_point = save_point_id
+		_prologue_dispatch_complete = _prologue_dispatch_complete or prologue_complete
+		return true
+	if not _prologue_async_request.is_empty(): return false
+	if _prologue_cursor_enabled():
+		if _dialogue_active and _prologue_history_index != _dialogue_index: return _record_prologue_history()
+		if _dialogue_choice_active and not _choice_history_recorded: return _record_choice_history()
+	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
+	return _persist_prologue_progress(save_point_id, prologue_complete, saves)
+
+
+func _persist_prologue_progress(save_point_id: String, prologue_complete: bool, saves: Node, recording: Dictionary = {}, complete_cursor: bool = false) -> bool:
+	if _test_mode:
+		return true
+	# The reset already persisted the permanent notebook. The departing prologue
+	# controller's fresh physical defaults must not replace it during handoff.
+	if _is_prologue_complete() and recording.is_empty() and not complete_cursor: return true
+	var prepared := preload("res://scripts/systems/prologue_save_candidate.gd").prepare(GameState.get_snapshot(), _prologue_candidate_request(recording, prologue_complete, complete_cursor))
+	if not prepared.ok:
+		_set_status("수첩 저장 실패: %s" % prepared.error_id if prepared.get("note_error", false) else _dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return false
+	var candidate: Dictionary = prepared.snapshot
+	var writer := StateWriter.new(GameState)
+	var transaction_id := StringName("PROLOGUE_R%06d" % (GameState.revision + 1))
+	var result := writer.install_snapshot(candidate, GameState.revision, transaction_id)
+	if not bool(result.get("ok", false)):
+		_set_status("상태 기록 실패: %s" % ", ".join(result.get("error_ids", [])))
+		return false
+	var save_result: Dictionary = saves.save_snapshot(_slot_id, save_point_id, GameState.get_snapshot(), GameState.revision, String(transaction_id))
+	if not bool(save_result.get("ok", false)):
+		var confirmed: Dictionary = saves.confirm_snapshot_commit(_slot_id, String(transaction_id)) if saves.has_method("confirm_snapshot_commit") else {}
+		if confirmed.get("ok", false) and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), confirmed.snapshot):
+			_pending_notebook.clear()
+			_confirm_prologue_dispatch_surfaces()
+			return true
+		GameState.rollback_failed_persistence(result["previous_snapshot"], int(result["revision"]), transaction_id, StringName(save_result.get("error_id", &"ERR_SAVE_UNKNOWN")))
+		_set_status("자동 저장 실패: %s" % ", ".join(save_result.get("error_ids", [])))
+		return false
+	_pending_notebook.clear()
+	_confirm_prologue_dispatch_surfaces()
+	return true
+
+
+func _confirm_prologue_dispatch_surfaces() -> void:
+	for request in _prologue_dispatch_surfaces:
+		request.attempted = true
+		request.recorded = true
+	_prologue_dispatch_surfaces.clear()
+
+
+func _inventory_item_ids() -> Array:
+	var ids: Array = []
+	for slot in _inventory_slots:
+		var item_id := String(slot.get_meta("item_id", ""))
+		if not item_id.is_empty():
+			ids.append(item_id)
+	return ids
+
+
+func _is_prologue_complete() -> bool:
+	if _test_mode:
+		return false
+	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {})
+	return bool(knowledge.get("PROLOGUE_COMPLETE", false)) and int(GameState.get_value(&"loop_state.day_index", 0)) >= 1
+
+
+func _morning_tasks_complete() -> bool:
+	return bool(_progress.get("P2_complete", false)) and bool(_progress.get("P3_complete", false)) and bool(_progress.get("P3B_complete", false))
+
+
+func _update_objective() -> void:
+	if not bool(_progress.get("P1_complete", false)):
+		_objective_label.text = _dialogue_ui_text("UI_OBJECTIVE_P1")
+	elif not _morning_tasks_complete():
+		var count := int(bool(_progress.get("P2_complete", false))) + int(bool(_progress.get("P3_complete", false))) + int(bool(_progress.get("P3B_complete", false)))
+		_objective_label.text = _dialogue_ui_text("UI_OBJECTIVE_MORNING", {"count": count})
+	elif not bool(_progress.get("P4_complete", false)):
+		if int(_progress.get("tea_step", 0)) >= TEA_STEPS.size():
+			_objective_label.text = _dialogue_ui_text("UI_OBJECTIVE_TEA_MEMORY")
+		else:
+			_objective_label.text = _dialogue_ui_text("UI_OBJECTIVE_TEA")
+	else:
+		_objective_label.text = _dialogue_ui_text("UI_OBJECTIVE_EVENING")
+
+
+func _task_label(label: String, flag: String) -> String:
+	return "%s\n%s" % [label, _dialogue_ui_text("UI_DUTY_COMPLETE" if bool(_progress.get(flag, false)) else "UI_DUTY_PENDING")]
+
+
+func _window_stage_name(stage: int) -> String:
+	return _dialogue_ui_text(["P2_STAGE_TOP", "P2_STAGE_MIDDLE", "P2_STAGE_BOTTOM", "UI_DUTY_COMPLETE"][clampi(stage, 0, 3)])
+
+
+func _make_default_window_states() -> Array:
+	var states: Array = []
+	for _index in range(3):
+		states.append({
+			"top_dust": true,
+			"middle_stain": true,
+			"bottom_wet": false,
+			"dust_spread": false,
+		})
+	return states
+
+
+func _window_states_from_stages(stages: Array) -> Array:
+	var states: Array = []
+	for index in range(3):
+		var stage := int(stages[index]) if index < stages.size() else 0
+		states.append({
+			"top_dust": stage <= 0,
+			"middle_stain": stage <= 1,
+			"bottom_wet": stage == 2,
+			"dust_spread": false,
+		})
+	return states
+
+
+func _normalize_window_states() -> void:
+	var states_value: Variant = _progress.get("window_states", [])
+	if not (states_value is Array) or states_value.size() != 3:
+		_progress["window_states"] = _window_states_from_stages(Array(_progress.get("windows", [0, 0, 0])))
+		return
+	var normalized: Array = []
+	for state_value in states_value:
+		var state: Dictionary = state_value if state_value is Dictionary else {}
+		normalized.append({
+			"top_dust": bool(state.get("top_dust", true)),
+			"middle_stain": bool(state.get("middle_stain", true)),
+			"bottom_wet": bool(state.get("bottom_wet", false)),
+			"dust_spread": bool(state.get("dust_spread", false)),
+		})
+	_progress["window_states"] = normalized
+
+
+func _sync_window_stages() -> void:
+	_normalize_window_states()
+	var stages: Array = []
+	for state_value in Array(_progress.get("window_states", [])):
+		stages.append(_stage_from_window_state(state_value))
+	_progress["windows"] = stages
+
+
+func _stage_from_window_state(state: Dictionary) -> int:
+	if bool(state.get("top_dust", true)) or bool(state.get("dust_spread", false)):
+		return 0
+	if bool(state.get("middle_stain", true)):
+		return 1
+	if bool(state.get("bottom_wet", false)):
+		return 2
+	return 3
+
+
+func _is_window_clean(state: Dictionary) -> bool:
+	return _stage_from_window_state(state) == 3
+
+
+func _all_windows_clean() -> bool:
+	var states: Array = _progress.get("window_states", [])
+	return states.size() == 3 and states.all(func(state: Variant) -> bool: return state is Dictionary and _is_window_clean(state))
+
+
+func _observed_label(label: String, observation_id: String, observations: Array) -> String:
+	return "%s%s" % [label, "\n[%s]" % _dialogue_ui_text("UI_P_CHECKED") if observation_id in observations else ""]
+
+
+func _set_status(message: String) -> void:
+	_status_label.text = message
+
+
+func _add_notebook(text_id: String) -> void:
+	var entry := _dialogue_texts.get_text(text_id, "ko-KR")
+	var entries: Array = _progress.get("notebook_entries", [])
+	if entry not in entries:
+		entries.append(entry)
+		_queue_notebook_observation(text_id)
+	_progress["notebook_entries"] = entries
+
+
+func _notebook_event_scope() -> Dictionary:
+	var history: Dictionary = GameState.get_value(&"meta_progress.dialogue_history", {})
+	return {"namespace": SaveManager.get_build_flavor(), "slot": _slot_id, "load_epoch": GameState.load_epoch, "origin": history.get("source_origin_id", ""), "branch": history.get("branch_id", "")}
+
+
+func _queue_notebook_observation(text_id: String) -> void:
+	if _test_mode or _pending_notebook.has(text_id): return
+	var history: Dictionary = GameState.get_value(&"meta_progress.dialogue_history", {})
+	if not history.has("schema_version"): return
+	var knowledge: Dictionary = GameState.get_value(&"meta_progress.knowledge_entries", {})
+	for revision in knowledge.get("notebook_knowledge", {}).get("revisions", []):
+		if revision.metadata.knowledge_id == text_id: return
+	var content := preload("res://scripts/systems/notebook_content.gd")
+	var archive := preload("res://scripts/systems/notebook_archive.gd")
+	var row := content.definition("NB_" + text_id, 1)
+	if row.is_empty():
+		_pending_notebook[text_id] = {"error_id": "NB_NOTE_UNMAPPED"}
+		return
+	var locale := "en-US" if TranslationServer.get_locale().begins_with("en") else "ko-KR"
+	var context := {"node_id": row.event_id, "chapter_id": "PROLOGUE", "location_id": _current_room, "event_occurrence_id": archive.new_uid(), "conversation_session_id": archive.new_uid(), "presentation_token": archive.new_uid()}
+	var observed := content.observe(content.descriptor("NB_" + text_id, 1, {"body": {}}), context, row.locales[locale].speaker, _dialogue_texts.get_text(text_id, locale), locale, "replay_committed")
+	_pending_notebook[text_id] = {"scope": _notebook_event_scope(), "revision_uid": archive.new_uid(), "observation": observed.observation} if observed.ok else observed
+
+
+func _add_unique(key: String, value: String) -> void:
+	var values: Array = _progress.get(key, [])
+	if value not in values:
+		values.append(value)
+	_progress[key] = values
+
+
+func _intro_seen(intro_id: String) -> bool:
+	return intro_id in Array(_progress.get("intros_seen", []))
+
+
+func _mark_intro(intro_id: String) -> void:
+	_add_unique("intros_seen", intro_id)
+
+
+func _interaction_blocked() -> bool:
+	return not _prologue_async_request.is_empty() or _notebook_is_open() or _dialogue_active or _dialogue_choice_active or _modal_active or not _prologue_surface_allowed()
+
+
+func _place(control: Control, rect: Rect2) -> void:
+	control.position = rect.position
+	control.size = rect.size
+
+
+func _style(background: Color, border: Color, border_width: int, radius: int) -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = background
+	box.border_color = border
+	box.border_width_left = border_width
+	box.border_width_top = border_width
+	box.border_width_right = border_width
+	box.border_width_bottom = border_width
+	box.corner_radius_top_left = radius
+	box.corner_radius_top_right = radius
+	box.corner_radius_bottom_left = radius
+	box.corner_radius_bottom_right = radius
+	box.content_margin_left = 12.0
+	box.content_margin_right = 12.0
+	box.content_margin_top = 8.0
+	box.content_margin_bottom = 8.0
+	return box
+
+
+func _choice_style(background: Color, border: Color, left_border_width: int) -> StyleBoxFlat:
+	var box := _style(background, border, 1, 2)
+	box.border_width_left = left_border_width
+	box.content_margin_left = 22.0
+	box.content_margin_right = 16.0
+	box.content_margin_top = 12.0
+	box.content_margin_bottom = 12.0
+	return box
+
+
+func run_smoke_scenario() -> PackedStringArray:
+	var errors := PackedStringArray()
+	_progress = _default_progress()
+	_progress["P1_complete"] = true
+	_enter_room("M1_PARLOR")
+	_dismiss_dialogue_for_test()
+	for item_id in ["SOFT_CLOTH", "COARSE_BRUSH", "WATER", "SPANNER"]:
+		if item_id not in _inventory_item_ids():
+			errors.append("P2 inventory item missing: %s" % item_id)
+	_on_window_pressed(0)
+	if not _inspection_active or not _inspection_layer.visible or _inspected_window != 0:
+		errors.append("P2 window click did not open inspection view")
+	if _window_drop_targets.size() != 3:
+		errors.append("P2 inspection does not expose three pollution zones")
+	var initial_state: Dictionary = (Array(_progress["window_states"])[0] as Dictionary).duplicate(true)
+	_drag_inventory_item_to_target_for_smoke("SPANNER", _window_drop_targets["TOP"], errors)
+	_dismiss_dialogue_for_test()
+	if Array(_progress["window_states"])[0] != initial_state:
+		errors.append("P2 spanner changed window state")
+	_drag_inventory_item_to_target_for_smoke("COARSE_BRUSH", _window_drop_targets["TOP"], errors)
+	_dismiss_dialogue_for_test()
+	if not bool((Array(_progress["window_states"])[0] as Dictionary).get("dust_spread", false)):
+		errors.append("P2 coarse brush did not spread dust")
+	_drag_inventory_item_to_target_for_smoke("SOFT_CLOTH", _window_drop_targets["BOTTOM"], errors)
+	if _stage_from_window_state(Array(_progress["window_states"])[0]) != 0:
+		errors.append("P2 bottom-first mistake advanced the window")
+	_drag_inventory_item_to_target_for_smoke("SOFT_CLOTH", _window_drop_targets["TOP"], errors)
+	_drag_inventory_item_to_target_for_smoke("WATER", _window_drop_targets["MIDDLE"], errors)
+	if not bool((Array(_progress["window_states"])[0] as Dictionary).get("bottom_wet", false)):
+		errors.append("P2 water did not leave removable bottom moisture")
+	if "SOFT_CLOTH" not in _inventory_item_ids():
+		errors.append("P2 tool was consumed after use")
+	_drag_inventory_item_to_target_for_smoke("SOFT_CLOTH", _window_drop_targets["BOTTOM"], errors)
+	for window_index in range(1, 3):
+		_on_window_pressed(window_index)
+		_drag_inventory_item_to_target_for_smoke("SOFT_CLOTH", _window_drop_targets["TOP"], errors)
+		_dismiss_dialogue_for_test()
+		_drag_inventory_item_to_target_for_smoke("SOFT_CLOTH", _window_drop_targets["MIDDLE"], errors)
+	_dismiss_dialogue_for_test()
+	if not bool(_progress.get("P2_complete", false)):
+		errors.append("P2 did not complete")
+
+	_run_p3_silent_close_smoke(errors)
+	_enter_room("M1_LIBRARY_OUTER")
+	_dismiss_dialogue_for_test()
+	for book_id in P3_BOOKS:
+		if book_id not in _inventory_item_ids():
+			errors.append("P3 inventory book missing: %s" % book_id)
+	var p3_book_order := ["BOOK_FLORA", "BOOK_LEDGER", "BOOK_MECHANICAL"]
+	for book_id in p3_book_order:
+		var shelf_id := String(P3_BOOKS[book_id]["shelf"])
+		_drag_inventory_item_to_target_for_smoke(book_id, _hotspot_layer.get_node(shelf_id), errors)
+		if book_id != "BOOK_MECHANICAL":
+			_dismiss_dialogue_for_test()
+			continue
+		if not _dialogue_active or _dialogue_lines.size() != 2:
+			errors.append("P3 journal discovery dialogue missing")
+		while _dialogue_active:
+			_advance_dialogue()
+		if not _dialogue_choice_active or not _dialogue_choice_panel.visible or _dialogue_next.visible:
+			errors.append("P3 dialogue choice list missing after Edgar dialogue")
+		if _modal_active:
+			errors.append("P3 journal choices still use the centered modal")
+		var choice_labels: Array[String] = []
+		var author_button: Button
+		var locked_button: Button
+		var silent_button: Button
+		for button in _dialogue_choice_buttons:
+			var choice_id := String(button.get_meta("choice_id", ""))
+			choice_labels.append(String(P3_JOURNAL_CHOICES[choice_id]["label"]))
+			match choice_id:
+				"author":
+					author_button = button
+				"locked":
+					locked_button = button
+				"silent":
+					silent_button = button
+		for choice_id in ["author", "locked", "silent"]:
+			if String(P3_JOURNAL_CHOICES[choice_id]["label"]) not in choice_labels:
+				errors.append("P3 journal choice missing: %s" % choice_id)
+		if author_button == null or locked_button == null or silent_button == null:
+			errors.append("P3 journal choice button unavailable")
+			return errors
+		author_button.pressed.emit()
+		if not _dialogue_active or _dialogue_label.text != _dialogue_ui_text("P3_A_AUTHOR"):
+			errors.append("P3 journal selected answer was not presented")
+		_advance_dialogue()
+		if not _dialogue_choice_active or bool(_progress.get("P3_complete", false)):
+			errors.append("P3 author answer did not return to choices")
+		locked_button.pressed.emit()
+		if not _dialogue_active or _dialogue_label.text != _dialogue_ui_text("P3_A_LOCKED"):
+			errors.append("P3 journal locked answer was not presented")
+		_advance_dialogue()
+		if not _dialogue_choice_active or bool(_progress.get("P3_complete", false)):
+			errors.append("P3 locked answer did not return to choices")
+		var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
+		if "author" not in asked_questions or "locked" not in asked_questions:
+			errors.append("P3 asked question history missing")
+		silent_button.pressed.emit()
+		if _dialogue_choice_active:
+			errors.append("P3 silent choice did not close choice list")
+		_dismiss_dialogue_for_test()
+	if not bool(_progress.get("P3_complete", false)) or not bool(_progress.get("p3_journal_seen", false)):
+		errors.append("P3 did not complete with journal")
+	if String(_progress.get("p3_journal_choice", "")) != "silent":
+		errors.append("P3 journal choice section ended without silent choice")
+
+	_enter_room("M1_NORTH_ARCHIVE_HALL")
+	_dismiss_dialogue_for_test()
+	for index in range(P3B_OWNERS.size()):
+		_drag_inventory_item_to_target_for_smoke("LABEL_%s" % P3B_OWNERS[index], _hotspot_layer.get_node("PORTRAIT_%d" % index), errors)
+		_dismiss_dialogue_for_test()
+	if not bool(_progress.get("P3B_complete", false)):
+		errors.append("P3B did not complete")
+
+	_enter_room("M1_KITCHEN")
+	_dismiss_dialogue_for_test()
+	for index in range(TEA_STEPS.size()):
+		_drag_inventory_item_to_target_for_smoke(String(TEA_STEP_ITEMS[index]), _hotspot_layer.get_node("TEA_%d" % index), errors)
+		if index == 4:
+			if not bool(_progress.get("p4_life_support_seen", false)):
+				errors.append("P4 life-support foreshadow did not trigger while tea steeped")
+			if _dialogue_lines.size() != 3 or String(_dialogue_lines[0].get("text", "")) != _dialogue_ui_text("P4_MEMORY_PULSE"):
+				errors.append("P4 life-support sensory sequence is incomplete")
+			var interrupted := _progress.duplicate(true)
+			_advance_dialogue()
+			_dismiss_dialogue_for_test()
+			_progress = interrupted
+			_resume_p4_life_support_foreshadow()
+			if not _dialogue_active or _dialogue_index != 0 or not bool(_progress.get("p4_life_support_pending", false)):
+				errors.append("P4 interrupted sensory sequence did not resume")
+			for beat in range(3):
+				_advance_dialogue()
+			if bool(_progress.get("p4_life_support_pending", false)):
+				errors.append("P4 acknowledged sensory sequence remained pending")
+			_resume_p4_life_support_foreshadow()
+			if _dialogue_active:
+				errors.append("P4 acknowledged sensory sequence replayed")
+		_dismiss_dialogue_for_test()
+	if not bool(_progress.get("p4_memory_anchor_seen", false)) or bool(_progress.get("P4_complete", false)):
+		errors.append("P4 memory anchor did not pause completion after six tea steps")
+	if _hotspot_layer.get_node_or_null("P4_CUP_HANDLE") == null or _hotspot_layer.get_node_or_null("P4_ASK_LUCA") == null:
+		errors.append("P4 memory-anchor interaction hotspots are missing")
+	_record_p4_life_support_pulse()
+	if "주방의 규칙적인 진동" not in Array(_progress.get("notebook_entries", [])):
+		errors.append("P4 notebook pulse entry is missing or over-explained")
+	_turn_p4_cup_handle()
+	if not bool(_progress.get("p4_handle_return_used", false)) or _dialogue_lines.size() != 2:
+		errors.append("P4 cup handle did not return exactly once after release")
+	_dismiss_dialogue_for_test()
+	_show_p4_father_choices()
+	if not _dialogue_choice_active or _dialogue_choice_mode != "p4_father":
+		errors.append("P4 father question choices did not open")
+	var expected_p4_choice_ids := {
+		"father_tea": ["P4_Q_FATHER_TEA", "P4_A_FATHER_TEA"],
+		"mansion_age": ["P4_Q_MANSION_AGE", "P4_A_MANSION_AGE"],
+		"luca_tenure": ["P4_Q_LUCA_TENURE", "P4_A_LUCA_TENURE"],
+	}
+	for index in range(P4_FATHER_CHOICE_ORDER.size()):
+		var expected_choice_id := String(P4_FATHER_CHOICE_ORDER[index])
+		var button := _dialogue_choice_buttons[index]
+		if String(button.get_meta("choice_id", "")) != expected_choice_id:
+			errors.append("P4 father question order mismatch: %s" % expected_choice_id)
+		if String(button.get_meta("choice_label", "")) != _dialogue_ui_text(String(expected_p4_choice_ids[expected_choice_id][0])):
+			errors.append("P4 father question label mismatch: %s" % expected_choice_id)
+		if String(P4_FATHER_CHOICES[expected_choice_id]["response"]) != _dialogue_texts.get_text(String(expected_p4_choice_ids[expected_choice_id][1]), "ko-KR"):
+			errors.append("P4 father answer text mismatch: %s" % expected_choice_id)
+	var tenure_button := _dialogue_choice_buttons[2]
+	tenure_button.pressed.emit()
+	if not _dialogue_active or _dialogue_lines.size() != 3 or String(_dialogue_lines[0].get("text", "")) != _dialogue_ui_text("P4_A_LUCA_TENURE"):
+		errors.append("P4 Luca tenure answer or topic-change beat is missing")
+	_answer_p4_father_choice("father_tea")
+	if String(_progress.get("p4_father_question", "")) != "luca_tenure":
+		errors.append("P4 accepted more than one father question")
+	while _dialogue_active:
+		_advance_dialogue()
+	if not bool(_progress.get("P4_complete", false)) or not bool(_progress.get("iris_greeting_seen", false)):
+		errors.append("P4 or Iris greeting did not complete")
+	if String(_progress.get("p4_father_question", "")) != "luca_tenure":
+		errors.append("P4 selected father question was not recorded")
+
+	_enter_room("M1_GREENHOUSE_VESTIBULE")
+	_dismiss_dialogue_for_test()
+	for pair in [["corridor", "corridor"], ["glass", "glass"], ["threshold", "threshold"]]:
+		_observe_weather(pair[0])
+		_dismiss_dialogue_for_test()
+	_complete_p5()
+	_dismiss_dialogue_for_test()
+	if not bool(_progress.get("P5_complete", false)):
+		errors.append("P5 did not complete")
+	if _inventory_slots.size() != 6 or _menu_button == null or _notebook_button == null:
+		errors.append("persistent UI contract missing")
+	return errors
+
+
+func _run_p3_silent_close_smoke(errors: PackedStringArray) -> void:
+	_enter_room("M1_LIBRARY_OUTER")
+	_dismiss_dialogue_for_test()
+	_drag_inventory_item_to_target_for_smoke("BOOK_MECHANICAL", _hotspot_layer.get_node("SHELF_CLOCK"), errors)
+	while _dialogue_active:
+		_advance_dialogue()
+	var silent_button: Button
+	for button in _dialogue_choice_buttons:
+		if String(button.get_meta("choice_id", "")) == "silent":
+			silent_button = button
+			break
+	if silent_button == null:
+		errors.append("P3 silent close test could not find choice button")
+	else:
+		silent_button.pressed.emit()
+		if _dialogue_layer.visible or _dialogue_choice_active:
+			errors.append("P3 silent choice left dialogue UI visible before book sorting completed")
+		if bool(_progress.get("P3_complete", false)):
+			errors.append("P3 silent close test completed event with books remaining")
+	_dismiss_dialogue_for_test()
+	_progress["P3_complete"] = false
+	_progress["p3_placed"] = {}
+	_progress["p3_journal_seen"] = false
+	_progress["p3_journal_choice"] = ""
+	_progress["p3_journal_questions_asked"] = []
+	_p3_journal_prompt_active = false
+	_selected_item = ""
+
+
+func _drag_inventory_item_to_target_for_smoke(item_id: String, target: Control, errors: PackedStringArray) -> bool:
+	var source: Button
+	for slot in _inventory_slots:
+		if String(slot.get_meta("item_id", "")) == item_id:
+			source = slot
+			break
+	if source == null:
+		errors.append("inventory drag source not found: %s" % item_id)
+		return false
+	var data: Variant = source.get_drag_payload_for_test()
+	if not (data is Dictionary) or String(data.get("item_id", "")) != item_id:
+		errors.append("inventory drag payload mismatch: %s" % item_id)
+		return false
+	if not target._can_drop_data(Vector2.ZERO, data):
+		errors.append("inventory target rejected drag payload: %s -> %s" % [item_id, target.name])
+		return false
+	target._drop_data(Vector2.ZERO, data)
+	return true

@@ -1,0 +1,42 @@
+SCRIPT ERROR: Invalid access to property or key '[{"content_id":"NB_PROLOGUE_SURFACE_P1_LABEL_BED","content_version":1,"segments":{"body":{}},"variant_id":"P1_LABEL_BED"},"ko_KR"]' on a base object of type 'Dictionary'.
+   at: _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+   GDScript backtrace (most recent call first):
+       [0] _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+       [1] _settle_surface (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:45)
+SCRIPT ERROR: Invalid access to property or key '[{"content_id":"NB_PROLOGUE_SURFACE_P1_LABEL_BED","content_version":1,"segments":{"body":{}},"variant_id":"P1_LABEL_BED"},"ko_KR"]' on a base object of type 'Dictionary'.
+   at: _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:85)
+   GDScript backtrace (most recent call first):
+       [0] _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:85)
+       [1] _ready (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:10)
+       [2] _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:131)
+SCRIPT ERROR: Invalid access to property or key '[{"content_id":"NB_PROLOGUE_SURFACE_P1_LABEL_BED","content_version":1,"segments":{"body":{}},"variant_id":"P1_LABEL_BED"},"ko_KR"]' on a base object of type 'Dictionary'.
+   at: _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+   GDScript backtrace (most recent call first):
+       [0] _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+       [1] _settle_surface (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:45)
+SCRIPT ERROR: Invalid access to property or key '[{"content_id":"NB_PROLOGUE_SURFACE_P1_LABEL_BED","content_version":1,"segments":{"body":{}},"variant_id":"P1_LABEL_BED"},"ko_KR"]' on a base object of type 'Dictionary'.
+   at: _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+   GDScript backtrace (most recent call first):
+       [0] _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+       [1] _settle_surface (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:45)
+SCRIPT ERROR: Invalid access to property or key '[{"content_id":"NB_PROLOGUE_SURFACE_P1_LABEL_BED","content_version":1,"segments":{"body":{}},"variant_id":"P1_LABEL_BED"},"en_US"]' on a base object of type 'Dictionary'.
+   at: _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+   GDScript backtrace (most recent call first):
+       [0] _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+       [1] _settle_surface (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:45)
+SCRIPT ERROR: Invalid access to property or key '[{"content_id":"NB_PROLOGUE_SURFACE_P1_LABEL_BED","content_version":1,"segments":{"body":{}},"variant_id":"P1_LABEL_BED"},"en_US"]' on a base object of type 'Dictionary'.
+   at: _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:85)
+   GDScript backtrace (most recent call first):
+       [0] _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:85)
+       [1] _ready (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:10)
+       [2] _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:131)
+SCRIPT ERROR: Invalid access to property or key '[{"content_id":"NB_PROLOGUE_SURFACE_P1_LABEL_BED","content_version":1,"segments":{"body":{}},"variant_id":"P1_LABEL_BED"},"en_US"]' on a base object of type 'Dictionary'.
+   at: _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+   GDScript backtrace (most recent call first):
+       [0] _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+       [1] _settle_surface (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:45)
+SCRIPT ERROR: Invalid access to property or key '[{"content_id":"NB_PROLOGUE_SURFACE_P1_LABEL_BED","content_version":1,"segments":{"body":{}},"variant_id":"P1_LABEL_BED"},"en_US"]' on a base object of type 'Dictionary'.
+   at: _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+   GDScript backtrace (most recent call first):
+       [0] _surface_case (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:118)
+       [1] _settle_surface (res://__history_async_7ed306ef17744220820075136aeb0c66/notebook_prologue_surface_async_audit.gd:45)
