@@ -71,6 +71,36 @@ func begin_notebook_reference(game: Node, slot: String, collection: String, refe
 	return {"ok":true, "pending":true, "id":command_id}
 
 
+func begin_history_write(game: Node, slot: String, point: String, recording: Dictionary, expected_revision: int, command_id: String, completion_guard: Callable = Callable()) -> Dictionary:
+	if not _notebook_job.is_empty(): return _load_failure(&"NB_COMMAND_BUSY")
+	if not is_inside_tree() or not is_instance_valid(game): return _load_failure(&"NB_COMMAND_SERVICE_UNAVAILABLE")
+	if not _is_safe_slot_id(slot): return _load_failure(&"ERR_SAVE_SLOT_ID")
+	if expected_revision != game.revision: return _load_failure(&"NB_COMMAND_STALE_REVISION")
+	if command_id.length() != 32 or not command_id.is_valid_hex_number(): return _load_failure(&"NB_COMMAND_ID")
+	if recording.get("kind") not in ["dialogue", "cursor"]: return _load_failure(&"NB_HISTORY_REQUEST")
+	var paths := _slot_paths(slot)
+	paths.pending = paths.temporary
+	paths.temporary = paths.main.get_base_dir().path_join("progress.history_" + command_id + ".tmp.json")
+	var source_stamps := {}
+	for kind in ["main", "backup", "pending"]:
+		var source := preload("res://scripts/systems/notebook_save_worker.gd").read_source(paths[kind])
+		if not source.ok: return source
+		source_stamps[kind] = source.stamp
+	var request := {"id":command_id, "slot":slot, "point":point, "recording":recording.duplicate(true),
+		"revision":expected_revision, "snapshot":game.get_snapshot(), "paths":paths,
+		"expected_stamps":source_stamps,
+		"transaction":"HISTORY_R%06d_%s" % [expected_revision + 1, command_id],
+		"storage":{"flavor":get_build_flavor(), "root":get_save_root()}}
+	var worker = load("res://scripts/systems/notebook_save_worker.gd").new()
+	var thread := Thread.new()
+	if thread.start(worker.prepare_history.bind(get_script(), request)) != OK: return _load_failure(&"NB_COMMAND_THREAD_START")
+	_notebook_results.erase(command_id)
+	_notebook_job = {"kind":"history", "id":command_id, "slot":slot, "paths":paths, "game":weakref(game), "revision":expected_revision,
+		"load_epoch":int(game.load_epoch), "flavor":get_build_flavor(), "root":get_save_root(), "thread":thread, "worker":worker, "cancelled":false,
+		"guard":completion_guard, "guard_enabled":not completion_guard.is_null()}
+	return {"ok":true, "pending":true, "id":command_id}
+
+
 func notebook_reference_result(command_id: String) -> Dictionary:
 	if _notebook_results.has(command_id):
 		var result: Dictionary = _notebook_results[command_id]
@@ -111,10 +141,11 @@ func _finish_notebook_reference(job: Dictionary, result: Variant) -> Dictionary:
 	if not result is Dictionary: return _load_failure(&"NB_COMMAND_PREPARE")
 	if not result.get("ok", false): return result
 	var worker = job.worker
-	for kind in ["main", "backup"]:
+	for kind in result.source_stamps:
 		var current: Dictionary = worker.read_source(job.paths[kind])
 		if not current.ok or current.stamp != result.source_stamps[kind]: return _load_failure(&"NB_COMMAND_SOURCE_CHANGED")
-	if not result.changed: return {"ok":true, "changed":false}
+	if not result.changed:
+		return {"ok":true, "changed":false, "entry_uid":result.get("entry_uid", "")} if job.get("kind") == "history" else {"ok":true, "changed":false}
 	var temporary: Dictionary = worker.read_source(job.paths.temporary)
 	if not temporary.ok or temporary.stamp != result.temporary_stamp: return _load_failure(&"ERR_SAVE_TEMP_VERIFY")
 	for source in result.sources.values():
@@ -125,12 +156,15 @@ func _finish_notebook_reference(job: Dictionary, result: Variant) -> Dictionary:
 		var confirmed := confirm_snapshot_commit(job.slot, result.transaction)
 		if not confirmed.get("ok", false) or not StateSnapshotValidator.same_persisted_value(result.snapshot, confirmed.snapshot): return promoted
 	# No await between the final revision check, promotion and the live installation.
-	var revision: int = game.commit_validated_snapshot(result.snapshot, job.revision, StringName(result.transaction), PackedStringArray(["meta_progress"]))
+	var changed_paths := PackedStringArray(["meta_progress", "loop_state"]) if job.get("kind") == "history" else PackedStringArray(["meta_progress"])
+	var revision: int = game.commit_validated_snapshot(result.snapshot, job.revision, StringName(result.transaction), changed_paths)
 	if revision < 0: return _load_failure(&"NB_COMMAND_INSTALL")
 	_cache_summary(_summary_key(job.paths.main), result.temporary_stamp, result.summary)
 	if not result.snapshot.meta_progress.knowledge_entries.get("F3_complete", false): _clear_previous_f3(job.slot)
 	save_completed.emit(StringName(job.slot), StringName(result.point))
-	return {"ok":true, "changed":true, "recovered_acknowledgement":not promoted.ok}
+	var completed := {"ok":true, "changed":true, "recovered_acknowledgement":not promoted.ok}
+	if job.get("kind") == "history": completed.entry_uid = result.get("entry_uid", "")
+	return completed
 
 
 func list_slot_summaries() -> Array[Dictionary]:
@@ -247,6 +281,8 @@ func save_snapshot(
 	revision: int,
 	transaction_id: String
 ) -> Dictionary:
+	if _notebook_job.get("kind") == "history" and _notebook_job.slot == slot_id and _notebook_job.root == get_save_root():
+		return _save_failure(slot_id, &"NB_COMMAND_BUSY")
 	if not _is_safe_slot_id(slot_id):
 		return _save_failure(slot_id, &"ERR_SAVE_SLOT_ID")
 	var slot_dir := "%s/%s" % [get_save_root(), slot_id]

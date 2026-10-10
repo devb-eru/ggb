@@ -79,6 +79,29 @@ static func requires_authored() -> bool:
 	return OS.is_debug_build() and "--notebook-require-authored" in OS.get_cmdline_user_args()
 
 
+static func record_async(game: Node, saves: Node, slot: String, point: String, speaker: String, text: String, locale: String, chapter_id: String = "LEGACY", observed_fact_ids: Variant = [], context: Dictionary = {}, completion_guard: Callable = Callable()) -> Dictionary:
+	if text.is_empty(): return {"ok":true}
+	return await _write_async(game, saves, slot, point, {"kind":"dialogue", "speaker":speaker, "text":text,
+		"locale":locale, "chapter":chapter_id, "facts":observed_fact_ids, "context":context}, completion_guard)
+
+
+static func save_cursor_async(game: Node, saves: Node, slot: String, point: String, cursor: Dictionary, completion_guard: Callable = Callable()) -> Dictionary:
+	return await _write_async(game, saves, slot, point, {"kind":"cursor", "cursor":cursor}, completion_guard)
+
+
+static func _write_async(game: Node, saves: Node, slot: String, point: String, recording: Dictionary, completion_guard: Callable) -> Dictionary:
+	if not is_instance_valid(game) or not is_instance_valid(saves) or not saves.has_method("begin_history_write") or not saves.is_inside_tree(): return {"ok":false, "error_id":"NB_COMMAND_SERVICE_UNAVAILABLE"}
+	var command := ARCHIVE.new_uid()
+	var begun: Dictionary = saves.begin_history_write(game, slot, point, recording, game.revision, command, completion_guard)
+	if not begun.ok: return begun
+	var tree := saves.get_tree()
+	while is_instance_valid(saves):
+		var result: Dictionary = saves.notebook_reference_result(command)
+		if not result.get("pending", false): return result
+		await tree.process_frame
+	return {"ok":false, "error_id":"NB_COMMAND_CANCELLED"}
+
+
 static func save_cursor(game: Node, saves: Node, slot: String, point: String, cursor: Dictionary) -> Dictionary:
 	var state: Dictionary = game.get_snapshot()
 	if not PRESENTATION.matches(cursor, state) or not PRESENTATION.observed(cursor, state):

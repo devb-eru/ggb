@@ -1,0 +1,30 @@
+{
+  "root": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-history-async-fc385b0e5b6544f38954bbecf2f809d8",
+  "project": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-history-async-fc385b0e5b6544f38954bbecf2f809d8\\source\\game",
+  "head": "4fad14207424a62a90c919bad2925a775ce299ed",
+  "engine": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-runtime-76ab9ae83a384f3192811ae421e7d53e\\Godot_v4.6.3-stable_win64.exe",
+  "engine_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "archive_sha256": "aa1b914d3644a2b8cb532026335373e90c0558090d6c8e348f2c24f274da1cd4",
+  "files": [
+    {
+      "path": "game/scripts/autoload/save_manager.gd",
+      "baseline_sha256": "a6e45203a5d910b0c1d26e08c8585dc37dabcad8b66b6445990d5b07a1c5c26a",
+      "candidate_sha256": "87f4aee163d97cdff9e8a390e3516875f130b6a38be0bdef09905b664516e548"
+    },
+    {
+      "path": "game/scripts/systems/notebook_save_worker.gd",
+      "baseline_sha256": "fdd2d5343e9d6f63098476c774dfc75613b57bd1678dffadad24420ec132c04a",
+      "candidate_sha256": "21f767ee16f37adfe206ee4dbb75e619e6f3e5c33280e5f8359b21706de567b0"
+    },
+    {
+      "path": "game/scripts/systems/dialogue_history_writer.gd",
+      "baseline_sha256": "83079f64d5db6c07721f5e6ef935ae38c151a65d25b18b840e5648cc40593dae",
+      "candidate_sha256": "28f50989bdfdc380b3bc17dbd7b5883b02e84779ee1c69599b27a42268dc1840"
+    },
+    {
+      "path": "game/scripts/chapters/chapter_one_controller.gd",
+      "baseline_sha256": "578e1e1636c8d5a8aac82eda848bec75a0f1146f6948a36f11864b1db027a25c",
+      "candidate_sha256": "c62712a6275d01c9d30d5576cbab73fc329675dc2011a97e5a59e4271ef161a5"
+    }
+  ]
+}

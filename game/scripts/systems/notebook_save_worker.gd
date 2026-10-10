@@ -75,3 +75,60 @@ func _prepare_with_storage(storage: Node, request: Dictionary) -> Dictionary:
 	return {"ok":true, "changed":true, "snapshot":state, "sources":sources, "source_stamps":stamps,
 		"temporary_stamp":temp_source.stamp, "summary":storage._summary_from_validated(verified),
 		"point":point, "transaction":transaction, "checksum":encoded.checksum}
+
+
+func prepare_history(storage_script: Script, request: Dictionary) -> Dictionary:
+	var storage: Node = storage_script.new()
+	storage._storage_context = request.storage.duplicate(true)
+	var result := _prepare_history_with_storage(storage, request)
+	storage.free()
+	return result
+
+
+func _prepare_history_with_storage(storage: Node, request: Dictionary) -> Dictionary:
+	var state: Dictionary = request.snapshot
+	var recording: Dictionary = request.recording
+	var appended: Dictionary
+	if recording.kind == "dialogue":
+		appended = preload("res://scripts/systems/dialogue_history_writer.gd").append_to_snapshot(state,
+			recording.speaker, recording.text, recording.locale, recording.chapter, recording.facts, recording.context)
+	else:
+		var cursor: Dictionary = recording.cursor
+		var presentation := preload("res://scripts/systems/notebook_presentation.gd")
+		if not presentation.matches(cursor, state) or not presentation.observed(cursor, state): return {"ok":false, "error_id":"NB_PRESENTATION_STALE"}
+		presentation.install(state, cursor)
+		appended = {"ok":true, "changed":true, "entry_uid":""}
+	if not appended.ok: return appended
+	var checked := StateSnapshotValidator.new().validate(state)
+	if not checked.ok: return checked
+	var paths: Dictionary = request.paths
+	var sources := {}
+	var stamps := {}
+	for kind in ["main", "backup", "pending"]:
+		var raw := read_source(paths[kind])
+		if not raw.ok: return raw
+		if raw.stamp != request.expected_stamps[kind]: return {"ok":false, "error_id":"NB_COMMAND_SOURCE_CHANGED"}
+		stamps[kind] = raw.stamp
+		var source: Dictionary = storage._validate_save_text(raw.bytes.get_string_from_utf8(), paths[kind]) if raw.exists else {"ok":false, "error_id":"ERR_SAVE_NOT_FOUND"}
+		if storage._is_incompatible(source): return source
+		if kind != "pending": sources[kind] = source
+	if not appended.changed: return {"ok":true, "changed":false, "entry_uid":appended.entry_uid, "source_stamps":stamps}
+	var run_id: String = sources.main.get("header", {}).get("run_id", "") if sources.main.ok else ""
+	if run_id.is_empty(): run_id = ARCHIVE.new_uid()
+	var schema: int = storage.SCHEMA_VERSION if state.meta_progress.dialogue_history.has("schema_version") else 1
+	var header: Dictionary = storage._make_save_header(request.slot, request.point, request.revision + 1, request.transaction, run_id, schema)
+	var encoded: Dictionary = storage._encode_payload(header, state)
+	if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(paths.main.get_base_dir())) != OK: return {"ok":false, "error_id":"ERR_SAVE_CREATE_DIRECTORY"}
+	var file := FileAccess.open(paths.temporary, FileAccess.WRITE)
+	if file == null: return {"ok":false, "error_id":"ERR_SAVE_TEMP_OPEN"}
+	file.store_string(encoded.text)
+	file.flush()
+	file.close()
+	var temporary := read_source(paths.temporary)
+	if not temporary.ok: return temporary
+	var verified: Dictionary = storage._validate_save_text(temporary.bytes.get_string_from_utf8(), paths.temporary)
+	if not verified.ok or not StateSnapshotValidator.same_persisted_value(state, verified.snapshot): return {"ok":false, "error_id":"ERR_SAVE_TEMP_VERIFY"}
+	for source in sources.values(): source.erase("snapshot")
+	return {"ok":true, "changed":true, "snapshot":state, "entry_uid":appended.entry_uid, "sources":sources, "source_stamps":stamps,
+		"temporary_stamp":temporary.stamp, "summary":storage._summary_from_validated(verified), "point":request.point,
+		"transaction":request.transaction, "checksum":encoded.checksum}

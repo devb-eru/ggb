@@ -1,0 +1,10 @@
+SCRIPT ERROR: Parse Error: Cannot infer the type of "full" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://__history_async_96f04acb712d4563b0696ad8c82c4367/notebook_history_async_audit.gd:109)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "started" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://__history_async_96f04acb712d4563b0696ad8c82c4367/notebook_history_async_audit.gd:117)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "result" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://__history_async_96f04acb712d4563b0696ad8c82c4367/notebook_history_async_audit.gd:141)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "no_op" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://__history_async_96f04acb712d4563b0696ad8c82c4367/notebook_history_async_audit.gd:160)
+ERROR: Failed to load script "res://__history_async_96f04acb712d4563b0696ad8c82c4367/notebook_history_async_audit.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)

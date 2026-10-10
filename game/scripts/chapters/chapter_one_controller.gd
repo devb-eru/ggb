@@ -19,6 +19,7 @@ var _edgar_paused_before_focus := false
 var _rendering := false
 var _world_focus := ""
 var _history_recorded_index := -1
+var _history_async_request: Dictionary = {}
 var _choice_modal_generation := 0
 var _recorded_modal_request: Dictionary = {}
 var _modal_dispatch_context: Dictionary = {}
@@ -207,11 +208,77 @@ func _present_dialogue_line() -> void:
 	_record_current_history_line()
 
 
+func _async_history_enabled() -> bool:
+	return OS.is_debug_build() and "--ggb-dev-notebook-async" in OS.get_cmdline_user_args() and _history_enabled() and session._save.is_inside_tree() and session._save.has_method("begin_history_write") and session._game.get_value("meta_progress.dialogue_history.schema_version", 0) == 2 and PRESENTATION.family(self) in PRESENTATION.FAMILIES
+
+
+func _interaction_blocked() -> bool:
+	return not _history_async_request.is_empty() or super._interaction_blocked()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not _history_async_request.is_empty():
+		if event.is_action_pressed("ui_page_up", false, true) or event.is_action_pressed("ui_page_down", false, true):
+			super._unhandled_input(event)
+		else:
+			get_viewport().set_input_as_handled()
+		return
+	super._unhandled_input(event)
+
+
+func _history_async_live(request: Dictionary) -> bool:
+	return is_inside_tree() and not is_queued_for_deletion() and is_same(_history_async_request, request) and _dialogue_active and session != null and is_instance_valid(session._save) and is_instance_valid(session._game) and request.save_id == session._save.get_instance_id() and request.game_id == session._game.get_instance_id() and request.scope == _recorded_choice_scope() and request.index == _dialogue_index and request.token == _dialogue_lines[_dialogue_index].get("presentation_token") and request.locale == TranslationServer.get_locale() and request.stage == session.stage()
+
+
+func _begin_async_history(cursor: Dictionary = {}) -> void:
+	if not _history_async_request.is_empty() or not _dialogue_active: return
+	var request := {"scope":_recorded_choice_scope(), "index":_dialogue_index, "token":_dialogue_lines[_dialogue_index].presentation_token,
+		"locale":TranslationServer.get_locale(), "stage":session.stage(), "status":_status_label.text, "disabled":_dialogue_next.disabled,
+		"save_id":session._save.get_instance_id(), "game_id":session._game.get_instance_id()}
+	_history_async_request = request
+	_dialogue_next.disabled = true
+	_set_status("대화 기록을 저장하고 있습니다." if request.locale.begins_with("ko") else "Saving dialogue history.")
+	var guard := _history_async_live.bind(request)
+	var writer := preload("res://scripts/systems/dialogue_history_writer.gd")
+	var result: Dictionary
+	if not cursor.is_empty():
+		result = await writer.save_cursor_async(session._game, session._save, session.slot_id, session._save_point(session.snapshot()), cursor, guard)
+	else:
+		var line: Dictionary = _dialogue_lines[_dialogue_index]
+		var context: Dictionary = line.get("history_context", {}).duplicate(true)
+		var built := _presentation_cursor()
+		if not built.ok:
+			result = {"ok":false}
+		else:
+			context.presentation_cursor = built.value
+			context.presentation_token = line.presentation_token
+			context.observed_fact_ids = line.get("observed_fact_ids", [])
+			if line.has("notebook_content"): context.notebook_content = line.notebook_content
+			var speaker := String(line.speaker) if context.has(ChapterOneSession.LEGACY_FEEDBACK.REPLAY) else _speaker_label.text
+			var chapter := session.history_chapter_id() if context.is_empty() else ChapterOneSession.HISTORY_CONTEXT.normalize_chapter(context.get("chapter_id"))
+			result = await writer.record_async(session._game, session._save, session.slot_id, session._save_point(session.snapshot()), speaker, _dialogue_label.text,
+				request.locale, chapter, line.get("observed_fact_ids", []), context, guard)
+	if not is_inside_tree() or not is_same(_history_async_request, request): return
+	var live := _history_async_live(request)
+	_history_async_request = {}
+	_dialogue_next.disabled = request.disabled
+	if not live: return
+	if not result.ok:
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	_set_status("" if request.status == _dialogue_ui_text("CH1_HISTORY_SAVE_ERROR") else request.status)
+	_history_recorded_index = request.index
+	if not cursor.is_empty(): _complete_dialogue_advance()
+
+
 func _record_current_history_line() -> bool:
 	if not _history_enabled() or not _dialogue_active:
 		return true
 	if _presentation_enabled() and _presentation_scope != _recorded_choice_scope(): return false
 	if _history_recorded_index == _dialogue_index: return true
+	if _async_history_enabled():
+		_begin_async_history()
+		return false
 	var context: Dictionary = _dialogue_lines[_dialogue_index].get("history_context", {}).duplicate(true)
 	if _presentation_enabled():
 		var cursor := _presentation_cursor()
@@ -255,15 +322,23 @@ func _open_dialogue_history() -> void:
 
 func _advance_dialogue() -> void:
 	if _notebook_is_open(): return
+	if not _history_async_request.is_empty(): return
 	if not _record_current_history_line():
 		return
 	if _presentation_enabled() and _dialogue_active and _dialogue_index == _dialogue_lines.size() - 1:
 		var cursor := _presentation_cursor("completed" if _dialogue_after.is_null() else "finish_pending")
 		if not cursor.ok: return
+		if _async_history_enabled():
+			_begin_async_history(cursor.value)
+			return
 		var saved := preload("res://scripts/systems/dialogue_history_writer.gd").save_cursor(session._game, session._save, session.slot_id, session._save_point(session.snapshot()), cursor.value)
 		if not saved.ok:
 			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 			return
+	_complete_dialogue_advance()
+
+
+func _complete_dialogue_advance() -> void:
 	super._advance_dialogue()
 	if not _dialogue_active:
 		call_deferred("_restore_world_focus")
@@ -925,6 +1000,7 @@ func _board_label(text: String, rect: Rect2) -> void:
 
 
 func _notebook_open_block_reason() -> String:
+	if not _history_async_request.is_empty(): return "표시 중인 기록의 저장을 먼저 완료해 주세요." if not TranslationServer.get_locale().begins_with("en") else "Finish saving the displayed record first."
 	var reason := super._notebook_open_block_reason()
 	if not reason.is_empty(): return reason
 	if (_dialogue_active and _history_recorded_index != _dialogue_index) or (not _recorded_modal_request.is_empty() and not _recorded_modal_request.recorded):
