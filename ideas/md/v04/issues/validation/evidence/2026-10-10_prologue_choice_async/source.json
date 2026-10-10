@@ -1,0 +1,19 @@
+{
+  "root": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-prologue-choice-6bb88e9261184a20a8a6e87c8424b4a6",
+  "project": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-prologue-choice-6bb88e9261184a20a8a6e87c8424b4a6\\source\\game",
+  "head": "683d3e268e91b4a9bb72436020ea0bb429cb8733",
+  "engine": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-runtime-76ab9ae83a384f3192811ae421e7d53e\\Godot_v4.6.3-stable_win64.exe",
+  "engine_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "files": [
+    {
+      "path": "game/scripts/prologue/prologue_controller.gd",
+      "baseline_sha256": "5d5f563735fd31edb2efe4cd2a3cc1303015decf20e2eae2b36cfed52fe8a3e6",
+      "candidate_sha256": "97f78d1fb15b0acf5d1c0f94d78956f521b58415eb66d27d56debdeff63e5c82"
+    },
+    {
+      "path": "game/scripts/systems/prologue_save_candidate.gd",
+      "baseline_sha256": "d8e26ea050296c95443cadfeddebae77797870da6f8e6140ba6262f72ba3a8fe",
+      "candidate_sha256": "f7d4f204cdc7806c87776936a89a84eae48acf91a8c5ea3dffd6b7d8e52ff8c5"
+    }
+  ]
+}

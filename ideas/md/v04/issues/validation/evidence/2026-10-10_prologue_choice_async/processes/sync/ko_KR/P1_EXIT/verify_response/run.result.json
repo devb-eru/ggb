@@ -1,0 +1,25 @@
+{
+  "checks": 7,
+  "errors": [],
+  "locale": "ko_KR",
+  "mode": "P1_EXIT",
+  "observed": {
+    "cursor_kind": "dialogue",
+    "cursor_phase": "reading",
+    "cursor_token": "d9c5b4486f80f71ac0154d9a4dbf989d",
+    "entry_uids": [
+      "cc1191d88bd0756765ececf1b01a8c67",
+      "9a12b67e6b51b55cfee9e2bb318b4dbd",
+      "4fbc53811c00ac0c8c73588c6f206e39",
+      "3d081a98220b47da9b5df3467e10b00e",
+      "0fdf578e09b7af0ea5a95ac12f95080d",
+      "d57d34ced6f4c9d495ee1b7bed3ce19b",
+      "1ab8513ab5140b0ec4caa7097ffb33d9"
+    ],
+    "snapshot_sha256": "72eac627ab00b317155398eaddcf0eaa713902bc9ab49b0d6a50707c1fb71e3c"
+  },
+  "ok": true,
+  "phase": "verify_response",
+  "saving": "sync",
+  "scope": "native HEADLESS disk/process boundary; current locale restore, no physical input or full prologue completion"
+}

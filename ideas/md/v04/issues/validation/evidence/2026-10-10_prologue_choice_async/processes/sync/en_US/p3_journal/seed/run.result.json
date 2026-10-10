@@ -1,0 +1,20 @@
+{
+  "checks": 7,
+  "errors": [],
+  "locale": "en_US",
+  "mode": "p3_journal",
+  "observed": {
+    "cursor_kind": "choice",
+    "cursor_phase": "selection_pending",
+    "cursor_token": "83d963120b3792f996e8ae48be8373d4",
+    "entry_uids": [
+      "989c2806372217bc4f8400ac38746099",
+      "90014c63cc87053b84d40bcb13e8d768"
+    ],
+    "snapshot_sha256": "e0996eb0cbee243edfe3e83cc0ce7b4aa4bcc5944dbdb592b78eb02456485056"
+  },
+  "ok": true,
+  "phase": "seed",
+  "saving": "sync",
+  "scope": "native HEADLESS disk/process boundary; current locale restore, no physical input or full prologue completion"
+}

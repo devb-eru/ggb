@@ -1,0 +1,23 @@
+{
+  "checks": 14,
+  "errors": [],
+  "locale": "en_US",
+  "mode": "P6_SLEEP",
+  "observed": {
+    "cursor_kind": "dialogue",
+    "cursor_phase": "reading",
+    "cursor_token": "bc7b99b24ed1d5095885ff6bdeb6a8fe",
+    "entry_uids": [
+      "c907735a31f031651a06294033314547",
+      "067370c374805eb0a6a46805b4aa3971",
+      "158a237d31846e0cbbf55541ce3401eb",
+      "f025eb8e99a2cd4716918bc6d629eaac",
+      "c8270a1b03c26541fd3c2c45e07d4090"
+    ],
+    "snapshot_sha256": "0a5ba8654b2fa447fe219f25e0d1a01a0df5bcb232e1715192e5e0014c3dfa89"
+  },
+  "ok": true,
+  "phase": "resume",
+  "saving": "sync",
+  "scope": "native HEADLESS disk/process boundary; current locale restore, no physical input or full prologue completion"
+}

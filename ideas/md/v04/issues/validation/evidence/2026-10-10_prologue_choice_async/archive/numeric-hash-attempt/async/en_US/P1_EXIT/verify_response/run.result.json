@@ -1,0 +1,25 @@
+{
+  "checks": 7,
+  "errors": [],
+  "locale": "en_US",
+  "mode": "P1_EXIT",
+  "observed": {
+    "cursor_kind": "dialogue",
+    "cursor_phase": "reading",
+    "cursor_token": "2c2fb82a1d29a190879d74dd3a765f76",
+    "entry_uids": [
+      "377785955de721408d8a6e411efb3d38",
+      "b947201bd63cd93cc3e8ec02a490fda7",
+      "cfffb0fec2d1a7b2101a6c04c3b1d10d",
+      "8077a7ba55da2ee790abca98473065fa",
+      "26ab7026cb5d58eac1dd3b6b2b1f8ca7",
+      "e817b6f49be0779f7c7a5d3b48cee492",
+      "d8afb6d37a39bf44f6854c950efc7035"
+    ],
+    "snapshot_sha256": "480850259d04da527b225fea6004016f0a0e1853b57e38d2efb70946020242e5"
+  },
+  "ok": true,
+  "phase": "verify_response",
+  "saving": "async",
+  "scope": "native HEADLESS disk/process boundary; current locale restore, no physical input or full prologue completion"
+}

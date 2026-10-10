@@ -1,0 +1,4 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROLOGUE_CHOICE_PROCESS_AUDIT: {"checks":16,"errors":["explicit process retry reuses original selected token"],"locale":"en_US","mode":"P1_EXIT","observed":{"cursor_kind":"dialogue","cursor_phase":"reading","cursor_token":"04406f40b2b00ada0ec5a5f257894bb3","entry_uids":["89782f7e2b3abc7eb7eb86af8d9281a0","ffbc69f533a53174a23b6b028f8b4f9a","99371ad2bf1fffd746f6e86994f4e8b3","c33749c6a668cd3ead204632e322b33c","1fb366b5ce032c7229d756b3dd486772","0f7b41263c30ddcfa9b3c4b7c8b9c8cb","5c20560ca831863040e7eb4b1183f9a3"],"snapshot_sha256":"bc6c729ccaab49dbd83aeabc24f32ba24e93bc22461360a4d6d69048a560ed44"},"ok":false,"phase":"resume","saving":"sync","scope":"native HEADLESS disk/process boundary; current locale restore, no physical input or full prologue completion"}
+PROLOGUE_CHOICE_PROCESS_SMOKE:FAIL

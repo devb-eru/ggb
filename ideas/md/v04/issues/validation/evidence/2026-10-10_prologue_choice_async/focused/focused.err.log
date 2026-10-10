@@ -1,0 +1,4 @@
+SCRIPT ERROR: Parse Error: Cannot infer the type of "frozen" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://__history_async_9b5658cc1f2f4629a09c05ed336305a0/notebook_prologue_choice_async_audit.gd:199)
+ERROR: Failed to load script "res://__history_async_9b5658cc1f2f4629a09c05ed336305a0/notebook_prologue_choice_async_audit.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)

@@ -1,0 +1,4 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROLOGUE_CHOICE_PROCESS_AUDIT: {"checks":7,"errors":[],"locale":"ko_KR","mode":"p4_father","observed":{"cursor_kind":"dialogue","cursor_phase":"reading","cursor_token":"bbec39dc0f30178c3579cc0ede3150a6","entry_uids":["6c68dcc07d161af62805c663fb6bf47c","c4f2c4c902f65876080bb618947f13c4","a41ce4bce5065b51556c29356ec0c599","1a90314826244c67e59968473b4ac72e"],"snapshot_sha256":"aff386d2ff9aba62b9dbbee8a40e16df0c05cca16cb7465985ac3765c4b32cd9"},"ok":true,"phase":"verify_response","saving":"sync","scope":"native HEADLESS disk/process boundary; current locale restore, no physical input or full prologue completion"}
+PROLOGUE_CHOICE_PROCESS_SMOKE:PASS

@@ -1,0 +1,4 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROLOGUE_CHOICE_PROCESS_AUDIT: {"checks":11,"errors":["explicit action is durable and singular across processes"],"locale":"en_US","mode":"p3_journal","observed":{"cursor_kind":"choice","cursor_phase":"selection_pending","cursor_token":"a7c2496cad9495f217601029eb26780c","diagnostic_error":"NB_PRESENTATION_CONFLICT","entry_uids":["6ea0e1c08f716116d79b24506a522369","06d3fde0d9e68273169d65d79e11bd58"],"snapshot_sha256":"0c83dc860fa6a65fa481f51c0c667879c67d983e7721147d0b571527081527ff"},"ok":false,"phase":"resume","scope":"native HEADLESS disk/process boundary; current locale restore, no physical input or full prologue completion"}
+PROLOGUE_CHOICE_PROCESS_SMOKE:FAIL

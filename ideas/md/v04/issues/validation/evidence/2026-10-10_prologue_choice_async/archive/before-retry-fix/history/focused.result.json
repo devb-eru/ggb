@@ -1,0 +1,827 @@
+{
+  "cases": [
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "883bc02451587a0bf4929d8deb83eef9",
+        "ok": true,
+        "recovered_acknowledgement": false
+      },
+      "scenario": "success"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_CANCELLED",
+        "error_ids": [
+          "NB_COMMAND_CANCELLED"
+        ],
+        "ok": false
+      },
+      "scenario": "cancel"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_STALE_REVISION",
+        "error_ids": [
+          "NB_COMMAND_STALE_REVISION"
+        ],
+        "ok": false
+      },
+      "scenario": "revision"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_STALE_REVISION",
+        "error_ids": [
+          "NB_COMMAND_STALE_REVISION"
+        ],
+        "ok": false
+      },
+      "scenario": "reload"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_SCOPE",
+        "error_ids": [
+          "NB_COMMAND_SCOPE"
+        ],
+        "ok": false
+      },
+      "scenario": "root"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_SCOPE",
+        "error_ids": [
+          "NB_COMMAND_SCOPE"
+        ],
+        "ok": false
+      },
+      "scenario": "guard"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_SOURCE_CHANGED",
+        "error_ids": [
+          "NB_COMMAND_SOURCE_CHANGED"
+        ],
+        "ok": false
+      },
+      "scenario": "disk"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_SOURCE_CHANGED",
+        "error_ids": [
+          "NB_COMMAND_SOURCE_CHANGED"
+        ],
+        "ok": false
+      },
+      "scenario": "backup"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_SOURCE_CHANGED",
+        "error_ids": [
+          "NB_COMMAND_SOURCE_CHANGED"
+        ],
+        "ok": false
+      },
+      "scenario": "pending"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "ERR_SAVE_TEMP_VERIFY",
+        "error_ids": [
+          "ERR_SAVE_TEMP_VERIFY"
+        ],
+        "ok": false
+      },
+      "scenario": "temporary"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "ERR_SAVE_FUTURE_SCHEMA",
+        "error_ids": [
+          "ERR_SAVE_FUTURE_SCHEMA"
+        ],
+        "ok": false
+      },
+      "scenario": "future"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_ids": [
+          "NB_PRODUCER_ID_REQUIRED"
+        ],
+        "ok": false
+      },
+      "scenario": "missing_id"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "error_id": "ERR_SAVE_PROMOTE",
+        "error_ids": [
+          "ERR_SAVE_PROMOTE"
+        ],
+        "ok": false
+      },
+      "scenario": "promotion"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "f6bea20790ca582afcc20be7ec3e1537",
+        "ok": true,
+        "recovered_acknowledgement": true
+      },
+      "scenario": "ack"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "1a0a24c4fc7dfabdd19fb5c121547d8e",
+        "ok": true,
+        "recovered_acknowledgement": false
+      },
+      "scenario": "busy"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "d3268219ca273d0e12e554d850b83a29",
+        "ok": true,
+        "recovered_acknowledgement": false
+      },
+      "scenario": "unchanged"
+    },
+    {
+      "kind": "api",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "1a080afa8d8a6c7e6b79049da1a87286",
+        "ok": true,
+        "recovered_acknowledgement": false
+      },
+      "scenario": "input_mutation"
+    },
+    {
+      "family": 0,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "family": 0,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "promotion"
+    },
+    {
+      "family": 0,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "replace"
+    },
+    {
+      "family": 0,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "family": 0,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "storage"
+    },
+    {
+      "family": 1,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "family": 1,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "promotion"
+    },
+    {
+      "family": 1,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "replace"
+    },
+    {
+      "family": 1,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "family": 1,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "storage"
+    },
+    {
+      "family": 2,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "family": 2,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "promotion"
+    },
+    {
+      "family": 2,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "replace"
+    },
+    {
+      "family": 2,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "family": 2,
+      "kind": "ui",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "storage"
+    },
+    {
+      "fixture": "NB-PERF-N2000",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "82c249c35d2bbdb1ebf83a02e8220794",
+        "ok": true,
+        "recovered_acknowledgement": false
+      }
+    },
+    {
+      "fixture": "NB-PERF-L10000",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "a9fca07f3f9c1291381b5fda84ee7f9b",
+        "ok": true,
+        "recovered_acknowledgement": false
+      }
+    },
+    {
+      "fixture": "NB-PERF-P2001",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "5633dd5f0ea567c4d9c2b53b4840f303",
+        "ok": true,
+        "recovered_acknowledgement": false
+      }
+    },
+    {
+      "fixture": "NB-PERF-LONG",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "9b4d926358b88cea3925fa6d303134ce",
+        "ok": true,
+        "recovered_acknowledgement": false
+      }
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "2d40d192d67ded61bd4595f8f7466e32",
+        "ok": true,
+        "recovered_acknowledgement": false
+      },
+      "scenario": "success"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_CANCELLED",
+        "error_ids": [
+          "NB_COMMAND_CANCELLED"
+        ],
+        "ok": false
+      },
+      "scenario": "cancel"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_STALE_REVISION",
+        "error_ids": [
+          "NB_COMMAND_STALE_REVISION"
+        ],
+        "ok": false
+      },
+      "scenario": "revision"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_STALE_REVISION",
+        "error_ids": [
+          "NB_COMMAND_STALE_REVISION"
+        ],
+        "ok": false
+      },
+      "scenario": "reload"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_SCOPE",
+        "error_ids": [
+          "NB_COMMAND_SCOPE"
+        ],
+        "ok": false
+      },
+      "scenario": "root"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_SCOPE",
+        "error_ids": [
+          "NB_COMMAND_SCOPE"
+        ],
+        "ok": false
+      },
+      "scenario": "guard"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_SOURCE_CHANGED",
+        "error_ids": [
+          "NB_COMMAND_SOURCE_CHANGED"
+        ],
+        "ok": false
+      },
+      "scenario": "disk"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_SOURCE_CHANGED",
+        "error_ids": [
+          "NB_COMMAND_SOURCE_CHANGED"
+        ],
+        "ok": false
+      },
+      "scenario": "backup"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "NB_COMMAND_SOURCE_CHANGED",
+        "error_ids": [
+          "NB_COMMAND_SOURCE_CHANGED"
+        ],
+        "ok": false
+      },
+      "scenario": "pending"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "ERR_SAVE_TEMP_VERIFY",
+        "error_ids": [
+          "ERR_SAVE_TEMP_VERIFY"
+        ],
+        "ok": false
+      },
+      "scenario": "temporary"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "ERR_SAVE_FUTURE_SCHEMA",
+        "error_ids": [
+          "ERR_SAVE_FUTURE_SCHEMA"
+        ],
+        "ok": false
+      },
+      "scenario": "future"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_ids": [
+          "NB_PRODUCER_ID_REQUIRED"
+        ],
+        "ok": false
+      },
+      "scenario": "missing_id"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "error_id": "ERR_SAVE_PROMOTE",
+        "error_ids": [
+          "ERR_SAVE_PROMOTE"
+        ],
+        "ok": false
+      },
+      "scenario": "promotion"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "48f94d4dd036b2767e3b5b2c5707ff07",
+        "ok": true,
+        "recovered_acknowledgement": true
+      },
+      "scenario": "ack"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "2d462870bbfd3782e19784bdf3bb6f97",
+        "ok": true,
+        "recovered_acknowledgement": false
+      },
+      "scenario": "busy"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "96c6e1c5761153b67f744fbb95634c49",
+        "ok": true,
+        "recovered_acknowledgement": false
+      },
+      "scenario": "unchanged"
+    },
+    {
+      "kind": "api",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "d0366bb5c1e452dc7fc72adb9fc155d2",
+        "ok": true,
+        "recovered_acknowledgement": false
+      },
+      "scenario": "input_mutation"
+    },
+    {
+      "family": 0,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "family": 0,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "promotion"
+    },
+    {
+      "family": 0,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "replace"
+    },
+    {
+      "family": 0,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "family": 0,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "storage"
+    },
+    {
+      "family": 1,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "family": 1,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "promotion"
+    },
+    {
+      "family": 1,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "replace"
+    },
+    {
+      "family": 1,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "family": 1,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "storage"
+    },
+    {
+      "family": 2,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "family": 2,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "promotion"
+    },
+    {
+      "family": 2,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "replace"
+    },
+    {
+      "family": 2,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "family": 2,
+      "kind": "ui",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "storage"
+    },
+    {
+      "fixture": "NB-PERF-N2000",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "fe129d5c161e802c2d7faba81ee9fc01",
+        "ok": true,
+        "recovered_acknowledgement": false
+      }
+    },
+    {
+      "fixture": "NB-PERF-L10000",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "d77d012781bb8c5f4a53a25bacf819b9",
+        "ok": true,
+        "recovered_acknowledgement": false
+      }
+    },
+    {
+      "fixture": "NB-PERF-P2001",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "7d8599dcf7c3638ca4b6b3d60b387e16",
+        "ok": true,
+        "recovered_acknowledgement": false
+      }
+    },
+    {
+      "fixture": "NB-PERF-LONG",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true,
+      "result": {
+        "changed": true,
+        "entry_uid": "a0e25396ecd08762b23fd37bb35e5118",
+        "ok": true,
+        "recovered_acknowledgement": false
+      }
+    }
+  ],
+  "checks": 870,
+  "errors": [],
+  "ok": true,
+  "required_cases": 72,
+  "scope": "HEADLESS actual Control callbacks and disk saves; not physical Windows input or p95",
+  "timings": [
+    {
+      "begin_ms": 32.725,
+      "dispatch_ms": 55.843,
+      "fixture": "NB-PERF-N2000",
+      "locale": "ko_KR",
+      "max_wait_frame_ms": 8.25,
+      "scope": "HEADLESS n=1 durable return; excludes post-commit load",
+      "total_ms": 1110.027,
+      "worker_frames": 150
+    },
+    {
+      "begin_ms": 113.541,
+      "dispatch_ms": 159.198,
+      "fixture": "NB-PERF-L10000",
+      "locale": "ko_KR",
+      "max_wait_frame_ms": 20.063,
+      "scope": "HEADLESS n=1 durable return; excludes post-commit load",
+      "total_ms": 3273.625,
+      "worker_frames": 434
+    },
+    {
+      "begin_ms": 65.778,
+      "dispatch_ms": 111.377,
+      "fixture": "NB-PERF-P2001",
+      "locale": "ko_KR",
+      "max_wait_frame_ms": 96.115,
+      "scope": "HEADLESS n=1 durable return; excludes post-commit load",
+      "total_ms": 2143.179,
+      "worker_frames": 273
+    },
+    {
+      "begin_ms": 37.181,
+      "dispatch_ms": 86.245,
+      "fixture": "NB-PERF-LONG",
+      "locale": "ko_KR",
+      "max_wait_frame_ms": 47.802,
+      "scope": "HEADLESS n=1 durable return; excludes post-commit load",
+      "total_ms": 1171.72,
+      "worker_frames": 147
+    },
+    {
+      "begin_ms": 33.322,
+      "dispatch_ms": 52.428,
+      "fixture": "NB-PERF-N2000",
+      "locale": "en_US",
+      "max_wait_frame_ms": 7.006,
+      "scope": "HEADLESS n=1 durable return; excludes post-commit load",
+      "total_ms": 1017.46,
+      "worker_frames": 137
+    },
+    {
+      "begin_ms": 114.847,
+      "dispatch_ms": 166.359,
+      "fixture": "NB-PERF-L10000",
+      "locale": "en_US",
+      "max_wait_frame_ms": 22.23,
+      "scope": "HEADLESS n=1 durable return; excludes post-commit load",
+      "total_ms": 3270.476,
+      "worker_frames": 432
+    },
+    {
+      "begin_ms": 71.706,
+      "dispatch_ms": 115.481,
+      "fixture": "NB-PERF-P2001",
+      "locale": "en_US",
+      "max_wait_frame_ms": 87.479,
+      "scope": "HEADLESS n=1 durable return; excludes post-commit load",
+      "total_ms": 2144.592,
+      "worker_frames": 273
+    },
+    {
+      "begin_ms": 39.393,
+      "dispatch_ms": 64.72,
+      "fixture": "NB-PERF-LONG",
+      "locale": "en_US",
+      "max_wait_frame_ms": 47.252,
+      "scope": "HEADLESS n=1 durable return; excludes post-commit load",
+      "total_ms": 1124.263,
+      "worker_frames": 143
+    }
+  ]
+}

@@ -3,6 +3,7 @@ extends RefCounted
 const NOTES := preload("res://scripts/systems/notebook_knowledge.gd")
 const CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
 const HISTORY := preload("res://scripts/systems/dialogue_history_writer.gd")
+const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 
 
 static func prepare(previous: Dictionary, request: Dictionary) -> Dictionary:
@@ -61,8 +62,13 @@ static func prepare(previous: Dictionary, request: Dictionary) -> Dictionary:
 		if not built.ok: return built
 		var context: Dictionary = recording.context.duplicate(true)
 		context.presentation_cursor = built.value
-		var appended := HISTORY.append_to_snapshot(candidate, recording.speaker, recording.text, request.locale, "PROLOGUE", [], context)
-		if not appended.ok: return appended
+		var retry := _committed_choice_retry(previous, recording, request.locale)
+		if not retry.ok: return retry
+		if retry.committed:
+			CURSOR.install(candidate, built.value)
+		else:
+			var appended := HISTORY.append_to_snapshot(candidate, recording.speaker, recording.text, request.locale, "PROLOGUE", [], context)
+			if not appended.ok: return appended
 	elif request.complete_cursor:
 		var cursor := CURSOR.read(previous)
 		if not CURSOR.matches(cursor, previous) or not CURSOR.observed(cursor, previous) or cursor.family != "prologue_controller": return {"ok":false, "error_id":"NB_PRESENTATION_STALE"}
@@ -71,3 +77,31 @@ static func prepare(previous: Dictionary, request: Dictionary) -> Dictionary:
 		CURSOR.install(candidate, cursor)
 	elif request.cursor_enabled: CURSOR.carry(candidate, previous)
 	return {"ok":true, "snapshot":candidate}
+
+
+static func _committed_choice_retry(previous: Dictionary, recording: Dictionary, locale: String) -> Dictionary:
+	var spec: Dictionary = recording.presentation
+	var prior := CURSOR.read(previous)
+	var not_committed := {"ok":true, "committed":false}
+	if spec.get("kind") != "choice" or spec.get("phase") != "selection_pending": return not_committed
+	if not CURSOR.matches(prior, previous) or not CURSOR.observed(prior, previous) or prior.family != "prologue_controller" or prior.kind != "choice" or prior.phase != "selection_pending": return not_committed
+	var selected: String = spec.choice.get("last_selected", "")
+	if selected.is_empty() or prior.choice.mode != spec.choice.mode or prior.choice.last_selected != selected: return not_committed
+	var token: String = prior.choice.tokens.get(selected, "")
+	if token.is_empty() or recording.context.get("presentation_token") != token or spec.choice.tokens.get(selected) != token or prior.lines[0].presentation_token != spec.line.presentation_token: return not_committed
+	var fresh := CONTENT.observe(recording.context.notebook_content, recording.context, recording.speaker, recording.text, locale)
+	if not fresh.ok: return fresh
+	for entry in previous.meta_progress.dialogue_history.entries:
+		if entry.get("record_class") == "authored" and entry.observation.presentation_token == token:
+			# Redisclosure changes display language, never the original observation or intent.
+			if _choice_identity(entry.observation) != _choice_identity(fresh.observation): return {"ok":false, "error_id":"NB_PRESENTATION_CONFLICT"}
+			return {"ok":true, "committed":true}
+	return not_committed
+
+
+static func _choice_identity(observation: Dictionary) -> Dictionary:
+	var identity := observation.duplicate(true)
+	for segment in identity.segments:
+		segment.erase("captured_text")
+		segment.erase("viewed_locale")
+	return identity

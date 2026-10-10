@@ -1547,6 +1547,7 @@ func _show_dialogue_choice_set(
 
 
 func _record_choice_history() -> bool:
+	if not _prologue_async_request.is_empty(): return false
 	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope(): return false
 	if not _uses_prologue_history() or _choice_history_recorded:
 		return true
@@ -1903,7 +1904,7 @@ func _show_p4_father_choices() -> void:
 	if int(_progress.get("tea_step", 0)) < TEA_STEPS.size() or not bool(_progress.get("p4_memory_anchor_seen", false)):
 		return
 	_progress["p4_phase"] = "question"
-	_save_progress()
+	if not _prologue_async_enabled(): _save_progress()
 	_show_dialogue_choice_set(
 		"p4_father",
 		_dialogue_ui_text("P4_HEADER"),
@@ -2484,6 +2485,10 @@ func _prologue_async_live(request: Dictionary) -> bool:
 	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
 	if not is_inside_tree() or is_queued_for_deletion() or not is_same(_prologue_async_request, request) or not is_instance_valid(saves) or saves.get_instance_id() != request.save_id: return false
 	if request.scope != _notebook_event_scope() or request.locale != TranslationServer.get_locale() or request.room != _current_room or request.progress != _progress or request.notes != _pending_notebook: return false
+	if request.kind.begins_with("choice_"):
+		return _dialogue_choice_active and request.choice_mode == _dialogue_choice_mode and request.choice_capture == _prologue_choice_capture and request.choice_tokens == _choice_selected_tokens and request.choice_context == _choice_history_context
+	if request.kind.begins_with("confirmation_"):
+		return _modal_active and is_same(request.confirmation, _prologue_confirmation) and request.generation == _history_generation and request.confirmation_state == _prologue_confirmation.choice and request.confirmation_context == _prologue_confirmation.context and request.confirmation_tokens == _prologue_confirmation.tokens
 	if request.kind == "progress": return not _dialogue_active and not _dialogue_choice_active and request.modal == _modal_active
 	return _dialogue_active and _dialogue_index == request.index and _dialogue_index >= 0 and _dialogue_index < _dialogue_lines.size() and _dialogue_lines[_dialogue_index].get("presentation_token") == request.token
 
@@ -2496,6 +2501,27 @@ func _begin_prologue_async(kind: String, payload: Dictionary = {}, cursor: Dicti
 		"progress":_progress.duplicate(true), "notes":_pending_notebook.duplicate(true), "modal":_modal_active,
 		"index":_dialogue_index, "token":_dialogue_lines[_dialogue_index].get("presentation_token", "") if _dialogue_active else "",
 		"save_id":saves.get_instance_id(), "disabled":_dialogue_next.disabled, "status":_status_label.text}
+	request.controls = []
+	if kind.begins_with("choice_"):
+		request.choice_mode = _dialogue_choice_mode
+		request.choice_capture = _prologue_choice_capture.duplicate(true)
+		request.choice_tokens = _choice_selected_tokens.duplicate(true)
+		request.choice_context = _choice_history_context.duplicate(true)
+		request.selected = _prologue_choice_capture.get("last_selected", "")
+		for button in _dialogue_choice_buttons:
+			request.controls.append({"control":weakref(button), "disabled":button.disabled})
+			button.disabled = true
+	elif kind.begins_with("confirmation_"):
+		request.confirmation = _prologue_confirmation
+		request.generation = _history_generation
+		request.confirmation_state = _prologue_confirmation.choice.duplicate(true)
+		request.confirmation_context = _prologue_confirmation.context.duplicate(true)
+		request.confirmation_tokens = _prologue_confirmation.tokens.duplicate(true)
+		request.selected = _prologue_confirmation.choice.get("last_selected", "")
+		for control in _modal_body.get_children():
+			if control is Button:
+				request.controls.append({"control":weakref(control), "disabled":control.disabled})
+				control.disabled = true
 	request.pending_status = "대화 기록을 저장하고 있습니다." if request.locale.begins_with("ko") else "Saving dialogue history."
 	_prologue_async_request = request
 	_dialogue_next.disabled = true
@@ -2509,6 +2535,9 @@ func _begin_prologue_async(kind: String, payload: Dictionary = {}, cursor: Dicti
 	var live := _prologue_async_live(request)
 	_prologue_async_request = {}
 	_dialogue_next.disabled = request.disabled
+	for saved_control in request.controls:
+		var control = saved_control.control.get_ref()
+		if is_instance_valid(control): control.disabled = saved_control.disabled
 	if not live:
 		if _status_label.text == request.pending_status: _set_status("")
 		return
@@ -2517,11 +2546,17 @@ func _begin_prologue_async(kind: String, payload: Dictionary = {}, cursor: Dicti
 		if kind == "progress": _restore_prologue_cursor()
 		return
 	_set_status("" if request.status == _dialogue_ui_text("CH1_HISTORY_SAVE_ERROR") else request.status)
-	if kind in ["line", "progress"]:
+	if kind in ["line", "progress", "choice_options", "choice_selected", "confirmation_options", "confirmation_selected"]:
 		_pending_notebook.clear()
 		_confirm_prologue_dispatch_surfaces()
 	match kind:
 		"line": _prologue_history_index = request.index
+		"choice_options": _choice_history_recorded = true
+		"choice_selected": _continue_prologue_choice(request.selected)
+		"confirmation_options": request.confirmation.recorded = true
+		"confirmation_selected":
+			_prologue_confirmation = {}
+			_run_prologue_action(request.confirmation.actions[request.selected])
 		"finish": _finish_prologue_after_pending(cursor)
 		"completed":
 			_complete_prologue_terminal()
@@ -2530,6 +2565,13 @@ func _begin_prologue_async(kind: String, payload: Dictionary = {}, cursor: Dicti
 
 
 func _record_prologue_text(speaker: String, text: String, context: Dictionary = {}, presentation: Dictionary = {}) -> bool:
+	if not _prologue_async_request.is_empty(): return false
+	if _prologue_async_enabled() and presentation.get("kind") == "choice":
+		var kind := "choice_" if _dialogue_choice_active else "confirmation_"
+		kind += "options" if presentation.phase == "choosing" else "selected"
+		var recording := {"speaker":speaker, "text":text, "context":context, "presentation":presentation}
+		_begin_prologue_async(kind, _prologue_candidate_request(recording, _prologue_dispatch_complete))
+		return false
 	var slot := SaveManager.inspect_slot(_slot_id)
 	var point := String(slot.get("save_point_id", "SAVE_NEW_GAME"))
 	if _prologue_cursor_enabled() and not presentation.is_empty():
@@ -2615,6 +2657,10 @@ func _on_dialogue_choice_pressed(index: int) -> void:
 		context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(context.node_id) + "_SELECT_" + choice_id.to_upper(), 1, {"body": {}})
 		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), String(_dialogue_choice_buttons[index].get_meta("choice_label", "")), context, _prologue_choice_spec()):
 			return
+	_continue_prologue_choice(choice_id)
+
+
+func _continue_prologue_choice(choice_id: String) -> void:
 	match _dialogue_choice_mode:
 		"p3_journal":
 			_run_prologue_action(_answer_p3_journal_choice.bind(choice_id))
@@ -3015,6 +3061,7 @@ func _show_prologue_confirmation(key: String, title: String, body: String, actio
 
 
 func _record_prologue_confirmation_options(request: Dictionary) -> bool:
+	if not _prologue_async_request.is_empty(): return false
 	if request.recorded or not _uses_prologue_history(): return true
 	var spec := {"kind": "choice", "line": request.line, "choice": request.choice, "phase": "choosing"} if _prologue_cursor_enabled() else {}
 	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), request.text, request.context, spec): return false
@@ -3023,6 +3070,7 @@ func _record_prologue_confirmation_options(request: Dictionary) -> bool:
 
 
 func _prologue_confirmation_pressed(request: Dictionary, choice: String) -> void:
+	if not _prologue_async_request.is_empty(): return
 	if _notebook_is_open(): return
 	if not _modal_active or request.generation != _history_generation: return
 	if request.scope != _notebook_event_scope(): return

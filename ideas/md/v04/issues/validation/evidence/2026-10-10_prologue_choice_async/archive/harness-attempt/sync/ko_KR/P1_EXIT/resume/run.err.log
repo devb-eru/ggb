@@ -1,0 +1,5 @@
+SCRIPT ERROR: Invalid access to property or key 'tokens' on a base object of type 'Dictionary'.
+   at: _selected_token (res://__history_async_f4fac9ebfa704e168b07c51549d5be83/notebook_prologue_choice_async_audit.gd:97)
+   GDScript backtrace (most recent call first):
+       [0] _selected_token (res://__history_async_f4fac9ebfa704e168b07c51549d5be83/notebook_prologue_choice_async_audit.gd:97)
+       [1] _ready (res://__history_async_f4fac9ebfa704e168b07c51549d5be83/notebook_prologue_choice_process_audit.gd:52)
