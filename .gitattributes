@@ -40,6 +40,7 @@ ideas/md/v04/issues/validation/evidence/2026-10-10_prologue_surface_async/** -te
 ideas/md/v04/issues/validation/evidence/2026-10-10_prologue_natural_window/** -text whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab,cr-at-eol
 ideas/md/v04/issues/validation/evidence/2026-10-10_prologue_natural_async/** -text whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab,cr-at-eol
 ideas/md/v04/issues/validation/evidence/2026-10-10_reset_async/** -text whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab,cr-at-eol
+ideas/md/v04/issues/validation/evidence/2026-10-10_campaign_sleep_async/** -text whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab,cr-at-eol
 
 # Large or binary assets. Requires Git LFS.
 *.png filter=lfs diff=lfs merge=lfs -text

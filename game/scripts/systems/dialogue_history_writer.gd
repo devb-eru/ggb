@@ -97,6 +97,10 @@ static func save_reset_step_async(game: Node, saves: Node, slot: String, point: 
 	return await _write_async(game, saves, slot, point, {"kind":"reset", "payload":payload}, completion_guard)
 
 
+static func save_wake_async(game: Node, saves: Node, slot: String, point: String, payload: Dictionary, completion_guard: Callable = Callable()) -> Dictionary:
+	return await _write_async(game, saves, slot, point, {"kind":"wake", "payload":payload}, completion_guard)
+
+
 static func _write_async(game: Node, saves: Node, slot: String, point: String, recording: Dictionary, completion_guard: Callable) -> Dictionary:
 	if not is_instance_valid(game) or not is_instance_valid(saves) or not saves.has_method("begin_history_write") or not saves.is_inside_tree(): return {"ok":false, "error_id":"NB_COMMAND_SERVICE_UNAVAILABLE"}
 	var command := ARCHIVE.new_uid()

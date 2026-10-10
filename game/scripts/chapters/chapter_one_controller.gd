@@ -20,6 +20,7 @@ var _rendering := false
 var _world_focus := ""
 var _history_recorded_index := -1
 var _history_async_request: Dictionary = {}
+var _campaign_sleep_request: Dictionary = {}
 var _choice_modal_generation := 0
 var _recorded_modal_request: Dictionary = {}
 var _modal_dispatch_context: Dictionary = {}
@@ -300,6 +301,7 @@ func _record_current_history_line() -> bool:
 
 
 func _open_menu() -> void:
+	if _reset_transition_pending: return
 	if not _utility_request.is_empty(): return
 	if session == null:
 		super._open_menu()
@@ -802,11 +804,54 @@ func _confirm_sleep() -> void:
 
 
 func _sleep_now() -> void:
+	if _reset_transition_pending or not _history_async_request.is_empty(): return
 	_close_modal()
+	if _modal_active: return
 	if not _notebook_surface_allowed(): return
-	var result := session.sleep()
+	var result: Dictionary
+	if _async_history_enabled(): result = await _run_campaign_sleep_async()
+	else: result = session.sleep()
+	if not is_inside_tree() or is_queued_for_deletion(): return
+	if not result.get("ok", false) and _async_history_enabled():
+		_show_sleep_save_failure(_sleep_now)
+		return
 	_render_room()
 	_feedback(result)
+
+
+func _campaign_sleep_live(request: Dictionary) -> bool:
+	return is_inside_tree() and not is_queued_for_deletion() and _reset_transition_pending \
+		and is_same(_campaign_sleep_request, request) and session != null \
+		and session.get_instance_id() == request.session_id and session.slot_id == request.slot and _slot_id == request.slot \
+		and is_instance_valid(session._game) and is_instance_valid(session._save) \
+		and session._game.get_instance_id() == request.game_id and session._save.get_instance_id() == request.save_id \
+		and int(session._game.load_epoch) == request.epoch and TranslationServer.get_locale() == request.locale
+
+
+func _run_campaign_sleep_async() -> Dictionary:
+	if _reset_transition_pending: return {"ok":false, "error_id":"NB_COMMAND_BUSY"}
+	var request := {"session_id":session.get_instance_id(), "slot":session.slot_id, "epoch":int(session._game.load_epoch),
+		"game_id":session._game.get_instance_id(), "save_id":session._save.get_instance_id(), "locale":TranslationServer.get_locale()}
+	_campaign_sleep_request = request
+	_reset_transition_pending = true
+	var paused := _edgar_timer.paused
+	_edgar_timer.paused = true
+	_set_status("수면 전환을 저장하고 있습니다." if request.locale.begins_with("ko") else "Saving the sleep transition.")
+	var result := await session.sleep_async(_campaign_sleep_live.bind(request))
+	if not is_inside_tree() or not is_same(_campaign_sleep_request, request): return {"ok":false, "error_id":"NB_COMMAND_SCOPE"}
+	var live := _campaign_sleep_live(request)
+	_campaign_sleep_request = {}
+	_reset_transition_pending = false
+	_edgar_timer.paused = paused
+	return result if live else {"ok":false, "error_id":"NB_COMMAND_SCOPE"}
+
+
+func _show_sleep_save_failure(retry: Callable) -> void:
+	var english := TranslationServer.get_locale().begins_with("en")
+	_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+	_show_modal("Sleep save failed" if english else "수면 전환 저장 실패",
+		"Only the last durable step is kept. Retry to continue; the reset will not run twice." if english else "마지막으로 저장된 단계만 유지됩니다. 재시도하면 그 다음부터 이어지며 리셋을 중복 실행하지 않습니다.",
+		[{"label":"Retry" if english else "다시 시도", "action":retry}])
 
 
 func _localized_notebook_entry(entry: String) -> String:

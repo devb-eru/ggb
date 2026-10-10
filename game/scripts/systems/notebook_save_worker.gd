@@ -104,6 +104,12 @@ func _prepare_history_with_storage(storage: Node, request: Dictionary) -> Dictio
 		request.point = ResetCoordinator.save_point_for(prepared.reset_type, prepared.phase)
 		request.transaction = "%s_%s_R%06d_%s" % [prepared.reset_transaction_id, prepared.phase.to_upper(), request.revision + 1, request.id]
 		appended = {"ok":true, "changed":true, "entry_uid":""}
+	elif recording.kind == "wake":
+		var prepared := _prepare_wake(state, recording.get("payload", {}))
+		if not prepared.ok: return prepared
+		state = prepared.snapshot
+		request.transaction = "WAKE_R%06d_%s" % [request.revision + 1, request.id]
+		appended = {"ok":true, "changed":true, "entry_uid":""}
 	else:
 		var cursor: Dictionary = recording.cursor
 		var presentation := preload("res://scripts/systems/notebook_presentation.gd")
@@ -144,3 +150,84 @@ func _prepare_history_with_storage(storage: Node, request: Dictionary) -> Dictio
 	return {"ok":true, "changed":true, "snapshot":state, "entry_uid":appended.entry_uid, "sources":sources, "source_stamps":stamps,
 		"temporary_stamp":temporary.stamp, "summary":storage._summary_from_validated(verified), "point":request.point,
 		"transaction":request.transaction, "checksum":encoded.checksum}
+
+
+func _prepare_wake(previous: Dictionary, payload: Dictionary) -> Dictionary:
+	if payload.get("family") not in ["chapter_one_session", "black_mirror_session", "basement_session"] or not payload.get("snapshot") is Dictionary:
+		return {"ok":false, "error_id":"NB_WAKE_REQUEST"}
+	if previous.reset_state.phase != "idle" or payload.get("reset_transaction_id") != previous.reset_state.last_completed_transaction_id:
+		return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+	var candidate: Dictionary = payload.snapshot
+	if not candidate.get("meta_progress") is Dictionary or not candidate.get("loop_state") is Dictionary \
+		or not _unchanged_outside(previous, candidate, ["meta_progress", "loop_state"]) \
+		or not _unchanged_outside(previous.meta_progress, candidate.meta_progress, ["knowledge_entries", "dialogue_history"]) \
+		or not _unchanged_outside(previous.loop_state, candidate.loop_state, ["location_id", "inventory", "event_local_states"]):
+		return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+	var checked := StateSnapshotValidator.new().validate(candidate)
+	if not checked.ok: return checked
+	var old_knowledge: Dictionary = previous.meta_progress.knowledge_entries
+	var new_knowledge: Dictionary = candidate.meta_progress.knowledge_entries
+	if not _unchanged_outside(old_knowledge, new_knowledge, ["j2_restored_day", "j3_restored_day", "E1_wake_seen", "D6_rest_route", "chapter_notebook", "notebook_knowledge"]) \
+		or not _unchanged_outside(old_knowledge.get("chapter_notebook", {}), new_knowledge.get("chapter_notebook", {}), ["NOTE_E1_WAKE"]):
+		return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+	for key in ["j2_restored_day", "j3_restored_day"]:
+		if old_knowledge.has(key):
+			if new_knowledge.get(key) != old_knowledge[key]: return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+		elif new_knowledge.has(key) and new_knowledge[key] != previous.loop_state.day_index: return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+	if new_knowledge.has("D6_rest_route") and (not old_knowledge.has("D6_rest_route") or new_knowledge.D6_rest_route != old_knowledge.D6_rest_route):
+		return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+	if old_knowledge.has("D6_rest_route") and not new_knowledge.has("D6_rest_route") and payload.family != "basement_session":
+		return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+	var first_broken_wake: bool = payload.family == "basement_session" and previous.fracture_state.broken_reset_triggered and not old_knowledge.get("E1_wake_seen", false)
+	if not first_broken_wake and (old_knowledge.get("E1_wake_seen") != new_knowledge.get("E1_wake_seen") \
+		or old_knowledge.get("chapter_notebook", {}).get("NOTE_E1_WAKE") != new_knowledge.get("chapter_notebook", {}).get("NOTE_E1_WAKE")):
+		return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+	if first_broken_wake and (new_knowledge.get("E1_wake_seen") != true \
+		or new_knowledge.get("chapter_notebook", {}).get("NOTE_E1_WAKE") != preload("res://scripts/systems/fracture_notebook.gd").NOTES.E1_WAKE):
+		return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+	var old: Dictionary = previous.meta_progress.dialogue_history
+	var next: Dictionary = candidate.meta_progress.dialogue_history
+	if old.has("schema_version"):
+		if not _unchanged_outside(old, next, ["revision", "next_sequence", "entries", "source_links"]): return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+		var old_ledger: Dictionary = old_knowledge.get("notebook_knowledge", preload("res://scripts/systems/notebook_knowledge.gd").create())
+		var new_ledger: Dictionary = new_knowledge.get("notebook_knowledge", preload("res://scripts/systems/notebook_knowledge.gd").create())
+		var revisions: Array = old_ledger.get("revisions", [])
+		var new_revisions: Array = new_ledger.get("revisions", [])
+		if not _unchanged_outside(old_ledger, new_ledger, ["revision", "revisions"]) or new_revisions.size() != revisions.size() + (1 if first_broken_wake else 0):
+			return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+		for index in range(revisions.size()):
+			if not StateSnapshotValidator.same_persisted_value(revisions[index], new_revisions[index]): return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+		if next.source_links.size() < old.source_links.size(): return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+		for index in range(old.source_links.size()):
+			if not StateSnapshotValidator.same_persisted_value(old.source_links[index], next.source_links[index]): return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+		var rows := {}
+		for entry in next.entries: rows[entry.entry_uid] = entry
+		var originals := {}
+		var eligible: Array = []
+		for entry in old.entries:
+			originals[entry.entry_uid] = true
+			if entry.record_class == "authored" and ARCHIVE._reasons(next, entry).is_empty(): eligible.append(entry.entry_uid)
+		var expected_pruned: Array = eligible.slice(0, maxi(eligible.size() - ARCHIVE.NORMAL_LIMIT, 0))
+		var added := 0
+		for entry in next.entries:
+			if originals.has(entry.entry_uid): continue
+			if not first_broken_wake or entry.record_class != "authored" or entry.observation.content_id != "NB_FRACTURE_NOTE_E1_WAKE": return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+			added += 1
+		if added != (1 if first_broken_wake else 0): return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+		for entry in old.entries:
+			if not rows.has(entry.entry_uid):
+				if entry.entry_uid not in expected_pruned: return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+			elif entry.entry_uid in expected_pruned: return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+			elif not _unchanged_outside(entry, rows[entry.entry_uid], ["protection_reasons", "session_pruned"]):
+				return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+	elif not StateSnapshotValidator.same_persisted_value(old, next):
+		return {"ok":false, "error_id":"NB_WAKE_SCOPE"}
+	return {"ok":true, "snapshot":candidate}
+
+
+func _unchanged_outside(previous: Dictionary, next: Dictionary, allowed: Array) -> bool:
+	for key in previous:
+		if key not in allowed and (not next.has(key) or not StateSnapshotValidator.same_persisted_value(previous[key], next[key])): return false
+	for key in next:
+		if key not in allowed and not previous.has(key): return false
+	return true

@@ -35,6 +35,10 @@ var _pending_notebook_feedback: Array = []
 var _pending_legacy_feedback: Dictionary = {}
 var _pending_feedback_contract_version := LEGACY_FEEDBACK.VERSION
 var _presentation_commit_override: Dictionary = {}
+var _sleep_async_running := false
+var _sleep_wake_pending: Dictionary = {}
+var _wake_candidate_active := false
+var _wake_candidate_snapshot: Dictionary = {}
 
 
 func _init(game: Node, save: Node, slot: String) -> void:
@@ -45,6 +49,7 @@ func _init(game: Node, save: Node, slot: String) -> void:
 
 
 func snapshot() -> Dictionary:
+	if _wake_candidate_active: return _wake_candidate_snapshot.duplicate(true)
 	return _game.get_snapshot()
 
 
@@ -422,12 +427,70 @@ func act(action: String, value: Variant = null) -> Dictionary:
 
 
 func sleep() -> Dictionary:
+	if _sleep_async_running or not _sleep_wake_pending.is_empty(): return _reject("수면 전환 저장을 먼저 완료한다.")
 	var state := snapshot()
 	if state["loop_state"]["location_id"] != "M2_BEDROOM" or not local_state(state)["routine_done"]:
 		return _reject("오늘의 일과를 마친 뒤 같은 침실에서 잠든다.")
 	var result := ResetCoordinator.new(_game, _save).request_normal_reset(slot_id)
 	if not result.get("ok", false):
 		return result
+	return initialize()
+
+
+func sleep_async(guard: Callable = Callable()) -> Dictionary:
+	if _sleep_async_running: return _reject("수면 전환 저장을 먼저 완료한다.")
+	var state := snapshot()
+	var pending := String(state.reset_state.phase) != "idle"
+	if not pending and _sleep_wake_pending.is_empty() and (state.loop_state.location_id != "M2_BEDROOM" or not local_state(state).routine_done):
+		return _reject("오늘의 일과를 마친 뒤 같은 침실에서 잠든다.")
+	return await _sleep_transition_async("resume" if pending else "normal", guard)
+
+
+func _sleep_transition_async(route: String, guard: Callable) -> Dictionary:
+	if _sleep_async_running: return _reject("수면 전환 저장을 먼저 완료한다.")
+	_sleep_async_running = true
+	var result: Dictionary
+	if _sleep_wake_pending.is_empty():
+		var coordinator := ResetCoordinator.new(_game, _save)
+		match route:
+			"normal": result = await coordinator.request_normal_reset_async(slot_id, "", guard)
+			"broken": result = await coordinator.request_broken_reset_async(slot_id, "", guard)
+			"resume": result = await coordinator.resume_pending_reset_async(slot_id, "", guard)
+			"rest": result = {"ok":true}
+			_: result = {"ok":false, "error_id":"ERR_RESET_SLEEP_ROUTE"}
+		if result.ok:
+			_sleep_wake_pending = {"epoch":int(_game.load_epoch), "revision":_game.revision,
+				"transaction":String(_game.get_value("reset_state.last_completed_transaction_id", "")), "rest":route == "rest"}
+	else:
+		result = {"ok":true}
+	if result.ok: result = await _persist_wake_async(guard)
+	_sleep_async_running = false
+	return result
+
+
+func _persist_wake_async(guard: Callable) -> Dictionary:
+	if int(_game.load_epoch) != _sleep_wake_pending.epoch or _game.revision != _sleep_wake_pending.revision \
+		or String(_game.get_value("reset_state.last_completed_transaction_id", "")) != _sleep_wake_pending.transaction \
+		or (not guard.is_null() and (not guard.is_valid() or not guard.call())):
+		return {"ok":false, "error_id":"NB_COMMAND_SCOPE"}
+	# Capture the existing subclass initialization chain without staging live state.
+	# There is no await while the session's draft snapshot is active.
+	_wake_candidate_snapshot = _game.get_snapshot()
+	_wake_candidate_active = true
+	var feedback := _wake_feedback(bool(_sleep_wake_pending.rest))
+	var candidate := _wake_candidate_snapshot
+	_wake_candidate_active = false
+	_wake_candidate_snapshot = {}
+	if not feedback.get("ok", false): return feedback
+	var payload := {"snapshot":candidate, "family":get_script().resource_path.get_file().get_basename(),
+		"reset_transaction_id":_sleep_wake_pending.transaction}
+	var saved := await preload("res://scripts/systems/dialogue_history_writer.gd").save_wake_async(_game, _save, slot_id, _save_point(candidate), payload, guard)
+	if not saved.ok: return saved
+	_sleep_wake_pending = {}
+	return feedback
+
+
+func _wake_feedback(_post_rest: bool) -> Dictionary:
 	return initialize()
 
 
@@ -488,6 +551,9 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 			inventory.append(item_id)
 	if not _presentation_commit_override.is_empty():
 		preload("res://scripts/systems/notebook_presentation.gd").install(state, _presentation_commit_override)
+	if _wake_candidate_active:
+		_wake_candidate_snapshot = state.duplicate(true)
+		return _commit_result(text, speaker, text_id, context)
 	var transaction := StringName("CH1_R%06d" % (_game.revision + 1))
 	var installed := _writer.install_snapshot(state, _game.revision, transaction)
 	if not installed.get("ok", false):
@@ -501,6 +567,10 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 		if not committed:
 			_game.rollback_failed_persistence(installed["previous_snapshot"], int(installed["revision"]), transaction, &"ERR_CAMPAIGN_SAVE")
 			return saved
+	return _commit_result(text, speaker, text_id, context)
+
+
+func _commit_result(text: String, speaker: String, text_id: String, context: Dictionary) -> Dictionary:
 	var result := {"ok": true, "text": text, "speaker": speaker, "text_id": text_id, "stage": stage(), "history_context": context, "notebook_feedback": _pending_notebook_feedback.duplicate(true)}
 	result.feedback_contract_version = _pending_feedback_contract_version
 	if not _pending_legacy_feedback.is_empty(): result[LEGACY_FEEDBACK.ORIGIN] = _pending_legacy_feedback.duplicate(true)

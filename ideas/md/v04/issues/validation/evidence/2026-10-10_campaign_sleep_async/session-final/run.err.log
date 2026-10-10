@@ -1,0 +1,6 @@
+SCRIPT ERROR: Invalid access to property or key 'notebook_knowledge' on a base object of type 'Dictionary'.
+   at: _payload_case (res://__campaign_sleep_22593953f04b4f29a01a94b8372d4482/notebook_campaign_sleep_audit.gd:153)
+   GDScript backtrace (most recent call first):
+       [0] _payload_case (res://__campaign_sleep_22593953f04b4f29a01a94b8372d4482/notebook_campaign_sleep_audit.gd:153)
+       [1] _ready (res://__campaign_sleep_22593953f04b4f29a01a94b8372d4482/notebook_campaign_sleep_audit.gd:43)
+       [2] _scope_case (res://__campaign_sleep_22593953f04b4f29a01a94b8372d4482/notebook_campaign_sleep_audit.gd:209)

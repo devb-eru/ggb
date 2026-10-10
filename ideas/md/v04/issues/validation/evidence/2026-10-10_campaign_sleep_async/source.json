@@ -1,0 +1,44 @@
+{
+  "root": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-campaign-sleep-1d7c88eefae644f3ad805f3be4ddae3f",
+  "project": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-campaign-sleep-1d7c88eefae644f3ad805f3be4ddae3f\\source\\game",
+  "head": "20d442fe2caa25594d9e86b92f3759c74ea85a65",
+  "engine": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-runtime-76ab9ae83a384f3192811ae421e7d53e\\Godot_v4.6.3-stable_win64.exe",
+  "engine_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "files": [
+    {
+      "baseline_sha256": "f2eded5cb99d6bd06d72f3e694ada9997fd75e9d626dff23110dbab8028468fe",
+      "path": "game/scripts/systems/chapter_one_session.gd",
+      "candidate_sha256": "b92a625d774c1c79671276bee3c3b75e00d3d8999b10401ec45ea16a95610ee9"
+    },
+    {
+      "baseline_sha256": "062be624015af4ff068e26660bbc189c2c9c9d2aa63f0be3cb5dafe3a2fbb880",
+      "path": "game/scripts/systems/basement_session.gd",
+      "candidate_sha256": "1d310c1d9260347d764e2b2c1cfa6df4a82dc56e8183b4553bfb4662ae84035a"
+    },
+    {
+      "baseline_sha256": "c62712a6275d01c9d30d5576cbab73fc329675dc2011a97e5a59e4271ef161a5",
+      "path": "game/scripts/chapters/chapter_one_controller.gd",
+      "candidate_sha256": "c405d3b9c796c988b461353b2578c2e3b2905f3703aa96a0f3404359cfae06f4"
+    },
+    {
+      "baseline_sha256": "778443c6e6f3f72634841c02d0620628c7fe888e0af389844f107dbe51f700d5",
+      "path": "game/scripts/chapters/basement_controller.gd",
+      "candidate_sha256": "599a0136478474f956259f0ce3c726e6b148043186f33e0dc6ecca29c8d890d1"
+    },
+    {
+      "baseline_sha256": "5886abda697b3baa860849a35b18263acb8b95fd1355d5eddf4587f8d638783c",
+      "path": "game/scripts/systems/dialogue_history_writer.gd",
+      "candidate_sha256": "a371527f779113bc7eeb3973e50cbe90e860f44215622c449a2d9ed546fa9392"
+    },
+    {
+      "baseline_sha256": "9554c5757cf6f6311abfd4d9946387653e45885d123e59ed2ab15f5e6aeea690",
+      "path": "game/scripts/autoload/save_manager.gd",
+      "candidate_sha256": "302f422621979f80102ff0b489a73245ab49b4228a2452c77be9c6a6109cb267"
+    },
+    {
+      "baseline_sha256": "c997c6f110df71f5beab34c4b8e18e5bd00b21efcc8ebe15a4e63d8af19f9c2e",
+      "path": "game/scripts/systems/notebook_save_worker.gd",
+      "candidate_sha256": "009fe48f1c3511338336dce8be4e73c4ca0253c716f8214979bd1453d1caf505"
+    }
+  ]
+}

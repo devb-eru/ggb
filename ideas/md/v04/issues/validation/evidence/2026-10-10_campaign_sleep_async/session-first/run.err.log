@@ -1,0 +1,4 @@
+SCRIPT ERROR: Parse Error: Cannot infer the type of "id" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://__campaign_sleep_ecafe5fa5b40419889fd82fdb9d0c960/notebook_campaign_sleep_audit.gd:50)
+ERROR: Failed to load script "res://__campaign_sleep_ecafe5fa5b40419889fd82fdb9d0c960/notebook_campaign_sleep_audit.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)

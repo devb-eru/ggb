@@ -458,7 +458,12 @@ func _tick_d6_sleep_transition(delta: float) -> void:
 	if _d6_sleep_transition_seconds >= D6_SLEEP_TRANSITION_SECONDS:
 		_d6_sleep_transition_active = false
 		set_process(false)
-		var result := session.sleep()
+		if _async_history_enabled():
+			await _complete_d6_sleep_async()
+			return
+		var result: Dictionary
+		result = session.sleep()
+		if not is_inside_tree() or is_queued_for_deletion(): return
 		_d6_sleep_transition_failed = not result.get("ok", false)
 		if not _d6_sleep_transition_failed:
 			_d6_sleep_transition_route = ""
@@ -468,6 +473,25 @@ func _tick_d6_sleep_transition(delta: float) -> void:
 	var current_beat := 0 if _d6_sleep_transition_seconds < 2.0 else (1 if _d6_sleep_transition_seconds < 4.0 else 2)
 	if current_beat != previous_beat:
 		_render_room()
+
+
+func _complete_d6_sleep_async() -> void:
+	var result := await _run_campaign_sleep_async()
+	if not is_inside_tree() or is_queued_for_deletion(): return
+	_d6_sleep_transition_failed = not result.get("ok", false)
+	if _d6_sleep_transition_failed:
+		_show_sleep_save_failure(_retry_d6_sleep_save)
+		return
+	_d6_sleep_transition_route = ""
+	_render_room()
+	_feedback(result)
+
+
+func _retry_d6_sleep_save() -> void:
+	if _reset_transition_pending: return
+	_close_modal()
+	if _modal_active: return
+	await _complete_d6_sleep_async()
 
 
 func _present_dialogue_line() -> void:

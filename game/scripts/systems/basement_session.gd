@@ -706,6 +706,7 @@ func _d6_action(action: String, value: String) -> Dictionary:
 
 
 func sleep() -> Dictionary:
+	if _sleep_async_running or not _sleep_wake_pending.is_empty(): return _reject("수면 전환 저장을 먼저 완료한다.")
 	if snapshot()["fracture_state"].get("final_sleep_lock", false): return _reject("최종 확인 중에는 세계 내 수면을 하지 않는다. 저장과 불러오기는 가능하다.")
 	if stage() == "DEMO_END": return _reject("데모 공개 범위는 여기까지다. 본편에서 이어진다.")
 	var capsule_ready: bool = stage() == "D6" and snapshot()["loop_state"]["location_id"] == "H0_SERVICE_SPINE" and snapshot()["loop_state"]["event_local_states"].get("D6", {}).get("fracture_rest_route", "") == "emergency_capsule"
@@ -723,6 +724,30 @@ func sleep() -> Dictionary:
 		&"POST_BROKEN_REST":
 			return _fracture_commit(snapshot(), FRACTURE_NOTES.TEXT.POST_REST, ["POST_REST"])
 	return _reject("현재 수면 경로를 확인할 수 없다.")
+
+
+func sleep_async(guard: Callable = Callable()) -> Dictionary:
+	if _sleep_async_running: return _reject("수면 전환 저장을 먼저 완료한다.")
+	var state := snapshot()
+	if state.fracture_state.get("final_sleep_lock", false): return _reject("최종 확인 중에는 세계 내 수면을 하지 않는다. 저장과 불러오기는 가능하다.")
+	if stage() == "DEMO_END": return _reject("데모 공개 범위는 여기까지다. 본편에서 이어진다.")
+	if not _sleep_wake_pending.is_empty(): return await _sleep_transition_async("resume", guard)
+	var route := ResetCoordinator.new(_game, _save).resolve_sleep_route()
+	if route == &"RESUME_PENDING_RESET": return await _sleep_transition_async("resume", guard)
+	var capsule_ready: bool = stage() == "D6" and state.loop_state.location_id == "H0_SERVICE_SPINE" and state.loop_state.event_local_states.get("D6", {}).get("fracture_rest_route", "") == "emergency_capsule"
+	if state.loop_state.location_id != "M2_BEDROOM" and not capsule_ready: return _reject("휴식할 침실이나 확인한 비상 캡슐에서 잠든다.")
+	match route:
+		&"NORMAL_RESET": return await super.sleep_async(guard)
+		&"BROKEN_RESET":
+			if not known("d5_complete"): return _reject("파열된 공간을 먼저 확인한다.")
+			return await _sleep_transition_async("broken", guard)
+		&"POST_BROKEN_REST": return await _sleep_transition_async("rest", guard)
+	return _reject("현재 수면 경로를 확인할 수 없다.")
+
+
+func _wake_feedback(post_rest: bool) -> Dictionary:
+	if post_rest: return _fracture_commit(snapshot(), FRACTURE_NOTES.TEXT.POST_REST, ["POST_REST"])
+	return initialize()
 
 
 func _save_point(state: Dictionary) -> String:
@@ -749,6 +774,7 @@ func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> 
 	inventory.erase("MANSION_FLOORPLAN")
 	if local["floorplan_ready"]: inventory.append("MANSION_FLOORPLAN")
 	var result: Dictionary = super._commit(state, text, speaker)
+	if _wake_candidate_active: return result
 	if result.get("ok", false) and _save_point(state) == "SAVE_F3_COMPLETE":
 		var copy: Dictionary = _save.capture_f3_reselect(slot_id)
 		if not copy.get("ok", false):

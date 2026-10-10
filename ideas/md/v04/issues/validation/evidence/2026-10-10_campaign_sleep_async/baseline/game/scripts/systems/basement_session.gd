@@ -1,0 +1,760 @@
+class_name BasementSession
+extends BlackMirrorSession
+
+const MARA1_NOTES := preload("res://scripts/systems/mara1_notebook.gd")
+const IRIS_NOTES := preload("res://scripts/systems/iris_notebook.gd")
+const LUCA_NOTES := preload("res://scripts/systems/luca_notebook.gd")
+const EDGAR_NOTES := preload("res://scripts/systems/edgar_notebook.gd")
+const MARA2_NOTES := preload("res://scripts/systems/mara2_notebook.gd")
+const SETTLEMENT_NOTES := preload("res://scripts/systems/settlement_notebook.gd")
+const JOURNAL_NOTES := preload("res://scripts/systems/journal_four_notebook.gd")
+const JOURNAL_DISPLAY := preload("res://scripts/systems/journal_four_display_notebook.gd")
+
+const BASEMENT := preload("res://data/puzzles/puzzle_basement.tres")
+const BASEMENT_NOTES := preload("res://scripts/systems/basement_notebook.gd")
+const FRACTURE_NOTES := preload("res://scripts/systems/fracture_notebook.gd")
+const BASEMENT_KEY := "BASEMENT"
+const MARA1_RELATIONSHIP := preload("res://scripts/systems/mara1_relationship.gd")
+const IRIS_RELATIONSHIP := preload("res://scripts/systems/iris_relationship.gd")
+const LUCA_RELATIONSHIP := preload("res://scripts/systems/luca_relationship.gd")
+const EDGAR_RELATIONSHIP := preload("res://scripts/systems/edgar_relationship.gd")
+const MARA2_RELATIONSHIP := preload("res://scripts/systems/mara2_relationship.gd")
+const JOURNAL_FOUR := preload("res://scripts/systems/journal_four.gd")
+const LAST_EVENING := preload("res://scripts/systems/last_evening.gd")
+const CORE_APPROACH := preload("res://scripts/systems/core_approach.gd")
+const CORE_ROOMS := preload("res://scripts/systems/core_room_network.gd")
+const CORE_SAMPLES := preload("res://scripts/systems/core_samples.gd")
+const CORE_OVERLAY := preload("res://scripts/systems/core_overlay.gd")
+const CORE_ROLES := preload("res://scripts/systems/core_record_roles.gd")
+const CORE_SELF := preload("res://scripts/systems/core_self_authority.gd")
+const CORE_NOTES := preload("res://scripts/systems/core_notebook.gd")
+const FINAL_NOTES := preload("res://scripts/systems/final_notebook.gd")
+const REALITY_NOTES := preload("res://scripts/systems/reality_notebook.gd")
+const FATHER_RECORD := preload("res://scripts/systems/father_final_record.gd")
+const CONFRONTATION := preload("res://scripts/systems/researcher_confrontation.gd")
+const FINAL_INSPECTION := preload("res://scripts/systems/final_inspection.gd")
+const ENDING_DECISION := preload("res://scripts/systems/ending_decision.gd")
+const ENDING_ENTRY := preload("res://scripts/systems/ending_entry.gd")
+const REALITY_WAKE := preload("res://scripts/systems/reality_wake.gd")
+const FIELD_NOTEBOOK := preload("res://scripts/systems/field_notebook.gd")
+const REALITY_SURFACE := preload("res://scripts/systems/reality_surface.gd")
+const STAY_CHARTER := preload("res://scripts/systems/stay_charter.gd")
+const STAY_STORY := preload("res://scripts/systems/stay_story.gd")
+const STAY_NOTES := preload("res://scripts/systems/stay_notebook.gd")
+const ENDING_CREDITS := preload("res://scripts/systems/ending_credits.gd")
+const D4_REACTION := preload("res://scripts/systems/d4_reaction_selector.gd")
+var ending_meta_store = preload("res://scripts/systems/ending_meta_store.gd").new()
+
+func ensure_ending_meta() -> Dictionary:
+	var meta: Dictionary = ending_meta_store.commit_completed(snapshot())
+	if not meta.get("ok", false): return meta
+	var archive = preload("res://scripts/systems/ending_gallery_store.gd").new(ending_meta_store.root_path.path_join("ending_gallery"))
+	return archive.capture(snapshot())
+
+const E2_ANSWERS := {
+	"house": "위장 필터가 해제되었습니다. 수면으로 정상 리셋을 복구할 수는 없습니다. 눈앞의 장치가 사라진 저택을 대신하는 것이 아니라, 줄곧 그 아래에 있었습니다.",
+	"body": "아가씨의 바깥 몸은... 냉각 장치에 있어요. 생존 신호는 유지되고 있어요. 하지만 깨어나도 안전한지는... 아직 보장할 수 없어요.",
+	"memory": "저희의 생체 신경 코어와 인격 프로세스는 물리 리셋 대상이 아니었습니다. 귀하가 잊었다고 생각한 어제도 기억합니다. 오래 숨겼습니다.",
+}
+const E1_OBJECTS := {
+	"bed": "매트리스의 푹신함 아래 둥근 캡슐 곡면이 만져진다. 손목의 고정구가 미세하게 떨린다. 귀를 대면 내 심장보다 느린 냉각 펌프음이 들린다. 같은 침대가 아니라, 같은 장치를 침대로 보았던 걸까.",
+	"window": "겨울 아침인데 유리는 차갑지 않다. 체온보다 조금 낮을 뿐이다. 새 한 마리가 같은 궤도를 반복하다 중간에서 사라진다. [동일 궤도 반복 00:04] 바깥 풍경은 방 안에 그림자를 만들지 않는다.",
+	"mirror": "내가 숨을 내쉰 뒤에 거울 속 가슴이 내려간다. 반 박자 늦다. 손끝을 대자 유리 대신 얇은 막이 밀린다. 검은 거울 아래에서 보았던 진단 패널과 같은 감촉이다.",
+	"call_cord": "천 끈 안에서 광섬유 다발이 꺾인다. 종 대신 루카의 생체 신호음과 빠른 세 음이 겹친다. 아래층은 조용하다. 주방 방향에 연두 보조등이 켜지고 이중 맥박 문양이 떠오른다.",
+}
+const BASEMENT_LINKS := {"M1_BASEMENT_ENTRY": "M1_GREAT_CLOCK", "B1_BASEMENT_STAIR": "M1_BASEMENT_ENTRY", "B1_AXIS_CHAMBER": "B1_BASEMENT_STAIR", "B1_STORAGE": "B1_AXIS_CHAMBER", "B1_CLOCKWORK_HEART": "B1_STORAGE"}
+
+
+func basement_local(state: Dictionary = {}) -> Dictionary:
+	var source := snapshot() if state.is_empty() else state
+	var result := {"drawer_points": [], "floorplan_ready": false, "rotation": 0, "flipped": false, "anchor": "", "axes": BASEMENT.axis_default(), "storage_seen": [], "heart": BASEMENT.heart_default()}
+	result.merge(source["loop_state"]["event_local_states"].get(BASEMENT_KEY, {}), true)
+	return result
+
+
+func initialize() -> Dictionary:
+	if int(snapshot()["meta_progress"]["journal_stage"]) < 3: return _reject("일지 3단계를 먼저 복원한다.")
+	var result := super.initialize()
+	if not result.get("ok", false): return result
+	var state := snapshot()
+	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
+	if knowledge.has("D6_rest_route"):
+		var legacy_route := String(knowledge["D6_rest_route"])
+		if not state["fracture_state"]["broken_reset_triggered"] and knowledge.get("d5_complete", false) and legacy_route in ["bedroom", "capsule"]:
+			var rest: Dictionary = state["loop_state"]["event_local_states"].get("D6", {}).duplicate(true)
+			if not rest.has("fracture_rest_route"):
+				rest["fracture_rest_route"] = "emergency_capsule" if legacy_route == "capsule" else "bedroom"
+			state["loop_state"]["event_local_states"]["D6"] = rest
+		knowledge.erase("D6_rest_route")
+	if not knowledge.has("j3_restored_day"):
+		knowledge["j3_restored_day"] = int(state["loop_state"]["day_index"])
+	state["loop_state"]["event_local_states"][BASEMENT_KEY] = basement_local(state)
+	if state["fracture_state"]["broken_reset_triggered"] and not knowledge.get("E1_wake_seen", false):
+		knowledge["E1_wake_seen"] = true
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E1_WAKE, ["E1_WAKE"], [["NOTE_E1_WAKE", "E1_WAKE", FRACTURE_NOTES.NOTES.E1_WAKE]])
+	return _commit_feedback(state, String(result.get("text", "")), String(result.get("speaker", "주인공")), String(result.get("text_id", "")), result.get("history_context", {}), result.get("notebook_feedback", []), result.get(LEGACY_FEEDBACK.ORIGIN, {}), int(result.get("feedback_contract_version", LEGACY_FEEDBACK.VERSION)))
+
+
+func stage() -> String:
+	var state := snapshot()
+	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
+	var local := basement_local(state)
+	if state["ending_run"].get("branch_committed", false):
+		if state["ending_run"].get("credits_completed",false): return "POST_CREDITS"
+		if state["ending_run"]["current_node_id"] in ["CREDITS_REALITY","CREDITS_STAY"]: return "ENDING_CREDITS"
+		if state["ending_run"]["current_node_id"] in STAY_STORY.NODES: return "STAY_STORY"
+		if state["ending_run"]["current_node_id"] in STAY_CHARTER.NODES: return "STAY_CHARTER"
+		if state["ending_run"]["current_node_id"] in REALITY_SURFACE.NODES: return "REALITY_SURFACE"
+		if state["ending_run"]["current_node_id"] in FIELD_NOTEBOOK.NODES: return "FIELD_NOTEBOOK"
+		if state["ending_run"]["current_node_id"] in REALITY_WAKE.NODES: return "REALITY_WAKE"
+		return "ENDING_SEQUENCE" if state["ending_run"]["current_node_id"] in ENDING_ENTRY.NODES else "ENDING_BODY_PENDING"
+	if knowledge.get("j4_confirmed", false):
+		if int(state["meta_progress"]["journal_stage"]) < 4: return "J4"
+		if not state["meta_progress"]["servants"]["edgar"]["core_event_complete"] and not knowledge.get("edgar_minimum_access", false): return "E3_4M"
+		if knowledge.get("f0_entered", false):
+			if knowledge.get("F2_complete", false): return "EDC" if FINAL_INSPECTION.progress(state)["choice_open"] else "F3"
+			if knowledge.get("J5_complete", false): return "F2"
+			if knowledge.get("F0_E_complete", false): return "F1"
+			if knowledge.get("f0_record_roles_solved", false): return "F0_E"
+			if knowledge.get("f0_overlay_complete", false): return "F0_D"
+			if knowledge.get("f0_system_samples_verified", false): return "F0_C"
+			return "F0_B" if knowledge.get("f0_room_feedback_loop_solved", false) else "F0_A"
+		return "E6" if knowledge.get("e5_locked_in", false) else "E5"
+	if state["fracture_state"]["broken_reset_triggered"]:
+		if state["loop_state"]["location_id"] in ["M1_NORTH_ARCHIVE_HALL", "M1_COLOR_ROOM_ENTRY", "H0_COLOR_SEPARATION", "H0_PERSONALITY_ARCHIVE"]: return "E3_5"
+		if state["loop_state"]["location_id"] in ["M1_GREAT_CLOCK", "H0_CLOCK_MACHINE"]: return "E3_4"
+		if knowledge.get("relationship_hub_open", false) and state["loop_state"]["location_id"] in ["M1_KITCHEN", "H0_LIFE_SUPPORT"]: return "E3_3"
+		if state["loop_state"]["location_id"] in ["M1_GREENHOUSE", "H0_CLIMATE_CONTROL"]: return "E3_2"
+		if state["loop_state"]["location_id"] in ["M1_SERVICE_HALL", "M1_WIRING_ROOM"]: return "E3_1"
+		if state["loop_state"]["location_id"] == "M2_BEDROOM": return "E1_ENTRY"
+		if knowledge.get("relationship_hub_open", false): return "E_HUB"
+		if luca_s2_pending(): return "LUCA_S2" if state["loop_state"]["location_id"] == "M1_KITCHEN" else "LUCA_GUIDE"
+		return "E2_INTRO"
+	if knowledge.get("d5_complete", false): return "DEMO_END" if _save.get_build_flavor() == "demo" else "D6"
+	if state["fracture_state"]["camouflage_filter"] == "disabled": return "D5"
+	if int(state["loop_state"]["day_index"]) <= int(knowledge.get("j3_restored_day", state["loop_state"]["day_index"])): return "D_SLEEP"
+	if local["axes"]["locked"]: return "DF"
+	if local["axes"]["open"]: return "D4" if local["storage_seen"].size() >= 2 else "D2"
+	if knowledge.get("basement_overlay_solved", false): return "D1"
+	if local["floorplan_ready"]: return "D0_A"
+	return "D0"
+
+
+func available_rooms() -> Array:
+	return super.available_rooms() + BASEMENT_LINKS.keys() + ["M1_SERVICE_HALL", "M1_WIRING_ROOM", "M1_GREENHOUSE", "M1_DINING_ROOM", "H0_CLIMATE_CONTROL", "H0_LIFE_SUPPORT", "H0_CLOCK_MACHINE", "H0_COLOR_SEPARATION", "H0_PERSONALITY_ARCHIVE", "H0_CORE_PATH", "H0_CORE_RECORDS", "H0_CORE_CHAMBER", "R0_CRYO_CHAMBER", "R0_FACILITY_EXIT", "R0_SURFACE_THRESHOLD"]
+
+
+func _rooms_connected(from: String, to: String, knowledge: Dictionary) -> bool:
+	if from == to: return true
+	if from in BASEMENT_LINKS or to in BASEMENT_LINKS:
+		return BASEMENT_LINKS.get(from, "") == to or BASEMENT_LINKS.get(to, "") == from
+	return super._rooms_connected(from, to, knowledge)
+
+
+func can_use_basement_shortcut(fast_path: bool = false) -> bool:
+	var state := snapshot()
+	var local := basement_local(state)
+	if state["loop_state"]["location_id"] != "M2_BEDROOM" or local["axes"]["locked"] or local["axes"]["open"]:
+		return false
+	if state["fracture_state"]["camouflage_filter"] == "disabled" or state["fracture_state"]["broken_reset_triggered"] or stage() == "D_SLEEP":
+		return false
+	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
+	if fast_path:
+		return knowledge.get("basement_access_fast_path", false)
+	return knowledge.get("basement_overlay_solved", false) \
+		and not knowledge.get("basement_access_fast_path", false) \
+		and state["meta_progress"]["failure_knowledge"].get("D1", {}).get("status", "") == "active"
+
+
+func d5_reaction() -> Dictionary:
+	var local: Variant = snapshot()["loop_state"]["event_local_states"].get("D5", {})
+	if not local is Dictionary:
+		return D4_REACTION.none()
+	var reaction: Variant = local.get("D4_REACTION", {})
+	return reaction.duplicate(true) if reaction is Dictionary and reaction.has("owner") else D4_REACTION.none()
+
+
+func act(action: String, value: Variant = null) -> Dictionary:
+	if action == "d5_focus":
+		if _save.get_build_flavor() != "full" or stage() != "D5" or str(value) not in ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]:
+			return _reject("현재 바라볼 수 있는 진단 투사가 아니다.")
+		var state := snapshot()
+		var local: Dictionary = state["loop_state"]["event_local_states"].get("D5", {}).duplicate(true)
+		local["D5_FOCUS_OWNER"] = str(value)
+		state["loop_state"]["event_local_states"]["D5"] = local
+		preload("res://scripts/systems/notebook_presentation.gd").carry(state, snapshot())
+		return _commit(state, "")
+	if stage() == "D6":
+		return _d6_action(action, str(value))
+	if _save.get_build_flavor() == "demo":
+		var demo_stage := stage()
+		if demo_stage == "DEMO_END" or (demo_stage == "D5" and action != "d_fracture"):
+			return _reject("데모 종료 연출 중에는 저택 행동을 진행하지 않는다.")
+	if action.begins_with("credits_"):
+		var result: Dictionary = ENDING_CREDITS.apply(snapshot(), action.trim_prefix("credits_"), value)
+		if result.get("ok", false):
+			var meta: Dictionary = ensure_ending_meta()
+			if not meta.get("ok", false):
+				return _reject("엔딩 감상 기록을 저장하지 못했습니다. 현재 진행은 유지됩니다. 저장 공간을 확인한 뒤 다시 시도해 주세요. (%s)" % meta.get("error", "unknown"))
+		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
+	if action.begins_with("story_"):
+		var result: Dictionary = STAY_STORY.apply(snapshot(), action.trim_prefix("story_"), value)
+		if result.get("ok",false) and action == "story_write":
+			var written := STAY_NOTES.write_sentence(result.state,int(value),REALITY_NOTES.context(snapshot(),history_context()),TranslationServer.get_locale())
+			if not written.ok: return written
+		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
+	if action.begins_with("stay_"):
+		var result: Dictionary = STAY_CHARTER.apply(snapshot(), action.trim_prefix("stay_"), value)
+		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
+	if action.begins_with("surface_"):
+		var result: Dictionary = REALITY_SURFACE.apply(snapshot(), action.trim_prefix("surface_"), value)
+		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
+	if action.begins_with("field_"):
+		var result: Dictionary = FIELD_NOTEBOOK.apply(snapshot(), action.trim_prefix("field_"), value)
+		if result.get("ok", false) and action == "field_read":
+			var page := str(value.get("page", "")) if value is Dictionary else str(value)
+			var expanded: bool = value.get("expanded", false) if value is Dictionary else false
+			var confirmed: Dictionary = {}
+			if _presentation_commit_override.get("kind") == "modal":
+				confirmed = _presentation_commit_override.lines[0].history_context
+			var written := REALITY_NOTES.write_field(result.state, page, expanded, REALITY_NOTES.context(snapshot(), history_context()), TranslationServer.get_locale(), confirmed)
+			if not written.ok: return written
+		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
+	if action.begins_with("reality_"):
+		var result: Dictionary = REALITY_WAKE.apply(snapshot(), action.trim_prefix("reality_"), value)
+		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
+	if action.begins_with("ending_"):
+		var result: Dictionary = ENDING_ENTRY.apply(snapshot(), action.trim_prefix("ending_"), value)
+		return _commit(result["state"], result["text"]) if result.get("ok", false) else _reject(result["text"])
+	if snapshot()["ending_run"].get("branch_committed", false): return _reject("최종 결정은 저장되었다. 확정된 엔딩에서 이어진다.")
+	if action == "edc_commit":
+		var result: Dictionary = ENDING_DECISION.commit(snapshot(), str(value))
+		return _final_result(result)
+	if action.begins_with("f3_"):
+		var result: Dictionary = FINAL_INSPECTION.apply(snapshot(), action.trim_prefix("f3_"), value)
+		return _final_result(result)
+	if action.begins_with("f2_"):
+		var result: Dictionary = CONFRONTATION.apply(snapshot(), action.trim_prefix("f2_"), value)
+		return _final_result(result)
+	if action.begins_with("f1_"):
+		var result: Dictionary = FATHER_RECORD.apply(snapshot(), action.trim_prefix("f1_"), value)
+		return _final_result(result)
+	if action.begins_with("f0e_"):
+		var result: Dictionary = CORE_SELF.apply(snapshot(), action.trim_prefix("f0e_"), value)
+		return _core_result(result)
+	if action.begins_with("f0d_"):
+		var result: Dictionary = CORE_ROLES.apply(snapshot(), action.trim_prefix("f0d_"), value)
+		return _core_result(result)
+	if action == "f0c":
+		if not known("f0_system_samples_verified") or known("f0_overlay_complete") or snapshot()["loop_state"]["location_id"] != "H0_CORE_PATH": return _reject("표본을 검증한 뒤 중첩 자료를 조사한다.")
+		if not value is Dictionary: return _reject("자료 조작을 선택한다.")
+		var state := snapshot()
+		var local: Dictionary = state["loop_state"]["event_local_states"].get("F0_C", CORE_OVERLAY.initial())
+		var result: Dictionary = CORE_OVERLAY.act(local, str(value.get("action", "")), str(value.get("layer", "")), value.get("value"))
+		if not result.get("ok", false): return _core_result(result)
+		state["loop_state"]["event_local_states"]["F0_C"] = result["state"]
+		if result["state"]["complete"]:
+			state["meta_progress"]["knowledge_entries"]["f0_overlay_complete"] = true
+			state["meta_progress"]["event_history"]["F0_C"] = {"event_id": "F0_C", "lifecycle": "completed"}
+		result.state = state
+		return _core_result(result)
+	if action.begins_with("f0b_"):
+		var result: Dictionary = CORE_SAMPLES.apply(snapshot(), action.trim_prefix("f0b_"), value)
+		return _core_result(result)
+	if action.begins_with("f0a_"):
+		var result: Dictionary = CORE_ROOMS.apply(snapshot(), action.trim_prefix("f0a_"), value)
+		return _core_result(result)
+	if action.begins_with("e6_"):
+		return _settlement_action("E6", action.trim_prefix("e6_"), value)
+	if action.begins_with("e5_"):
+		return _settlement_action("E5", action.trim_prefix("e5_"), value)
+	if action.begins_with("j4_"):
+		return _journal_action(action.trim_prefix("j4_"), value)
+	if known("j4_confirmed"): return _reject("사용인 조사 단계가 종료되었다. 기록 정리와 다음 저녁으로 이어진다.")
+	if snapshot()["fracture_state"]["broken_reset_triggered"]:
+		if action.begins_with("mara2_"):
+			return _mara2_action(action.trim_prefix("mara2_"), value)
+		if action.begins_with("edgar_"):
+			return _edgar_action(action.trim_prefix("edgar_"), value)
+		if action.begins_with("luca_"):
+			return _luca_action(action.trim_prefix("luca_"), value)
+		if action.begins_with("iris_"):
+			return _iris_action(action.trim_prefix("iris_"), value)
+		if action.begins_with("mara1_"):
+			return _mara1_action(action.trim_prefix("mara1_"), value)
+		if action == "e1_inspect": return _inspect_e1(String(value))
+		if action.begins_with("e2_"): return _intro_action(action, "" if value == null else str(value))
+		if action != "move": return _reject("어제의 일과와 장치 조작은 끝났다. 달라진 아침을 확인한다.")
+		if not known("E1_complete"): return _reject("같은 아침이 아니다. 방 안의 서로 다른 세 곳을 확인한다.")
+		var state := snapshot()
+		var source := String(state["loop_state"]["location_id"])
+		var target := String(value)
+		var links := {"M2_BEDROOM": "M1_CENTRAL_HALL", "M1_KITCHEN": "M1_CENTRAL_HALL"}
+		if known("relationship_hub_open"):
+			links["M1_NORTH_ARCHIVE_HALL"] = "M1_CENTRAL_HALL"
+			links["M1_COLOR_ROOM_ENTRY"] = "M1_NORTH_ARCHIVE_HALL"
+			links["H0_COLOR_SEPARATION"] = "M1_COLOR_ROOM_ENTRY"
+			links["H0_PERSONALITY_ARCHIVE"] = "H0_COLOR_SEPARATION"
+			links["M1_GREAT_CLOCK"] = "M1_CENTRAL_HALL"
+			links["H0_CLOCK_MACHINE"] = "M1_GREAT_CLOCK"
+			links["H0_LIFE_SUPPORT"] = "M1_KITCHEN"
+			links["M1_GREENHOUSE"] = "M1_CENTRAL_HALL"
+			links["H0_CLIMATE_CONTROL"] = "M1_GREENHOUSE"
+			links["M1_SERVICE_HALL"] = "M1_CENTRAL_HALL"
+			links["M1_WIRING_ROOM"] = "M1_SERVICE_HALL"
+		if target == "H0_PERSONALITY_ARCHIVE" and not MARA2_RELATIONSHIP.progress(state)["overlay"]: return _reject("세 초상화의 공통 결손을 먼저 확인한다.")
+		if links.get(source, "") != target and links.get(target, "") != source: return _reject("모두 중앙홀에 모이고 있다.")
+		state["loop_state"]["location_id"] = target
+		var move_key := "MOVE_KITCHEN" if target == "M1_KITCHEN" else "MOVE_CORRIDOR"
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT[move_key], [move_key])
+	if action == "move":
+		var target := String(value)
+		var local := basement_local()
+		if target in BASEMENT_LINKS and not known("basement_overlay_solved"): return _reject("기록 내실에서 평면도와 지하 좌표를 먼저 검증한다.")
+		if target in ["B1_STORAGE", "B1_CLOCKWORK_HEART"] and not local["axes"]["open"]: return _reject("세 축 장치 뒤의 지하창고 문이 잠겨 있다.")
+		if target == "B1_CLOCKWORK_HEART" and local["storage_seen"].size() < 2: return _reject("반복되는 선반 사이에서 같은 부품의 방향을 비교한다.")
+	if not action.begins_with("d_"): return super.act(action, value)
+	if stage() == "D_SLEEP": return _reject("복원한 세 번째 일지를 기억한 채 잠들고 다음 아침에 조사한다.")
+	if stage() in ["DEMO_END", "E1_ENTRY"]: return _reject("이전 지하 장치 절차는 끝났다.")
+	var state := snapshot()
+	var event_context := history_context()
+	if state.meta_progress.dialogue_history.has("schema_version"):
+		event_context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		event_context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	var meta: Dictionary = state["meta_progress"]
+	var knowledge: Dictionary = meta["knowledge_entries"]
+	var loop: Dictionary = state["loop_state"]
+	var local := basement_local(state)
+	loop["event_local_states"][BASEMENT_KEY] = local
+	var room := String(loop["location_id"])
+	var text := ""
+	var feedback_key := ""
+	var notes: Array = []
+	match action:
+		"d_drawer_point":
+			if room != "M1_LIBRARY_INNER" or String(value) not in ["bedroom", "greenhouse", "great_clock"]: return _reject("기록 내실 책상의 세 눌림점을 확인한다.")
+			if not known("C5_MIRROR_TRACING"): return _reject("거울 회로 투명지를 먼저 수첩에 기록한다.")
+			if value not in local["drawer_points"]: local["drawer_points"].append(value)
+			if local["drawer_points"].size() == 3:
+				local["floorplan_ready"] = true
+				text = BASEMENT_NOTES.FIXED.FLOORPLAN
+				feedback_key = "FLOORPLAN"
+				notes.append(["", "FLOORPLAN", text])
+		"d_rotate", "d_flip", "d_anchor", "d_overlay":
+			if room != "M1_LIBRARY_INNER" or not local["floorplan_ready"]: return _reject("서재 작업대에 세 자료를 준비한다.")
+			if action == "d_rotate": local["rotation"] = (int(local["rotation"]) + 90) % 360
+			elif action == "d_flip": local["flipped"] = not local["flipped"]
+			elif action == "d_anchor":
+				if String(value) not in ["bedroom", "greenhouse", "great_clock"]: return _reject("세 기준점 중 하나를 고정한다.")
+				local["anchor"] = String(value)
+			else:
+				var checked: Dictionary = BASEMENT.inspect_overlay(local["rotation"], local["flipped"], local["anchor"])
+				text = checked["text"]
+				feedback_key = "OVERLAY_SUCCESS" if checked.ok else "OVERLAY_MISMATCH"
+				if checked["ok"]:
+					knowledge["basement_overlay_solved"] = true
+					knowledge["basement_axis_depths"] = checked["depths"]
+					notes.append(["D0_A", "PLAN", text])
+		"d_axis_depth", "d_axis_push", "d_axis_central":
+			if room != "B1_AXIS_CHAMBER" or not known("basement_overlay_solved"): return _reject("지하의 세 축 장치에서 도면을 적용한다.")
+			var confirmed := false
+			var input: Variant = value
+			if action != "d_axis_depth":
+				if not value is Dictionary: return _reject("조작 대상과 비가역 확인이 필요하다.")
+				input = value.get("value", "")
+				confirmed = bool(value.get("confirmed", false))
+			var verb: String = {"d_axis_depth": "depth", "d_axis_push": "push", "d_axis_central": "central"}[action]
+			var result: Dictionary = BASEMENT.axis_action(local["axes"], verb, input, confirmed)
+			if not result["ok"]: return _reject(result["text"])
+			local["axes"] = result["state"]
+			text = result["text"]
+			feedback_key = result.feedback_key
+			if result["hard_failure"]:
+				var old: Dictionary = meta["failure_knowledge"].get("D1", {})
+				var record: Dictionary = local["axes"]["failure"].duplicate(true)
+				record["status"] = "active"
+				record["attempts"] = int(old.get("attempts", 0)) + 1
+				meta["failure_knowledge"]["D1"] = record
+				notes.append(["DF", "FAILURE_" + String(record.category).to_upper(), text + "\n" + BASEMENT_NOTES.FIXED.FAILURE_SUFFIX])
+			elif local["axes"]["open"]:
+				knowledge["basement_access_fast_path"] = true
+				if meta["failure_knowledge"].has("D1"): meta["failure_knowledge"]["D1"]["status"] = "resolved"
+				notes.append(["D2", "ACCESS", BASEMENT_NOTES.FIXED.ACCESS])
+				if meta.failure_knowledge.has("D1"): notes.append(["", "RESOLVED", BASEMENT_NOTES.RESOLVED])
+		"d_shortcut", "d_fastpath":
+			if not can_use_basement_shortcut(action == "d_fastpath"): return _reject("수면 뒤 닫힌 지하창고를 다시 준비할 때 사용하는 동선이다. 이미 열린 문이나 파열 이후에는 이전 절차를 반복하지 않는다.")
+			if room != "M2_BEDROOM" or local["axes"]["locked"]: return _reject("리셋 뒤 같은 침실에서 준비 동선을 시작한다.")
+			if action == "d_shortcut" and not meta["failure_knowledge"].has("D1"): return _reject("실패 뒤 확인한 축 기록이 필요하다.")
+			if action == "d_fastpath" and not known("basement_access_fast_path"): return _reject("지하창고를 한 번 직접 열어야 한다.")
+			local["floorplan_ready"] = true
+			var chapter_local := local_state(state)
+			chapter_local["routine_done"] = true
+			loop["event_local_states"][LOCAL_KEY] = chapter_local
+			loop["time_block"] = "evening_free"
+			loop["location_id"] = "B1_AXIS_CHAMBER"
+			if action == "d_shortcut":
+				local["axes"]["depths"].merge(meta["failure_knowledge"]["D1"].get("verified_depths", {}), true)
+				text = BASEMENT_NOTES.FIXED.SHORTCUT
+				feedback_key = "SHORTCUT"
+			else:
+				local["axes"]["open"] = true
+				local["axes"]["pushed"] = BASEMENT.AXES.duplicate()
+				local["axes"]["depths"] = BASEMENT.DEPTHS.duplicate()
+				text = BASEMENT_NOTES.FIXED.FASTPATH
+				feedback_key = "FASTPATH"
+		"d_storage":
+			if room != "B1_STORAGE" or String(value) not in ["barrel", "cable", "filter", "drawing"]: return _reject("지하창고의 선반을 조사한다.")
+			if value not in local["storage_seen"]: local["storage_seen"].append(value)
+			text = BASEMENT_NOTES.STORAGE[String(value)]
+			feedback_key = "STORAGE_" + String(value).to_upper()
+			if local["storage_seen"].size() >= 2:
+				text += "\n" + BASEMENT_NOTES.FIXED.DOOR
+				feedback_key += "_DOOR"
+		"d_heart":
+			if room != "B1_CLOCKWORK_HEART" or not value is Dictionary: return _reject("태엽 심장실에서 조작한다.")
+			var result: Dictionary = BASEMENT.heart_action(local["heart"], String(value.get("action", "")), value.get("value"), bool(value.get("confirmed", false)))
+			if not result["ok"]: return _reject(result["text"])
+			local["heart"] = result["state"]
+			text = result["text"]
+			feedback_key = result.feedback_key
+			if result["filter_off"]:
+				state["fracture_state"]["camouflage_filter"] = "disabled"
+				knowledge["d4_filter_release"] = true
+				var d5_local: Dictionary = loop["event_local_states"].get("D5", {}).duplicate(true)
+				d5_local["D4_REACTION"] = D4_REACTION.select(state)
+				loop["event_local_states"]["D5"] = d5_local
+				notes.append(["D4", "D4", BASEMENT_NOTES.FIXED.D4])
+		"d_fracture":
+			if stage() != "D5": return _reject("위장 필터를 해제한 뒤 확인한다.")
+			knowledge["d5_complete"] = true
+			text = FRACTURE_NOTES.TEXT.D5_COMPLETE
+			return _fracture_commit(state, text, ["D5_COMPLETE"], [["D5", "D5", text]])
+		_:
+			return _reject("정의되지 않은 지하 조사다.")
+	for note in notes:
+		if not String(note[0]).is_empty(): _note(knowledge, note[0], note[2])
+		var written := BASEMENT_NOTES.write(state, note[1], note[2], event_context, TranslationServer.get_locale())
+		if not written.ok: return written
+	event_context.erase("conversation_session_id")
+	return _commit_feedback(state, text, "주인공", "", event_context, BASEMENT_NOTES.paragraphs(feedback_key))
+
+
+func luca_s2_pending() -> bool:
+	return not known("LUCA_S2_complete") and not snapshot()["meta_progress"]["servants"]["luca"]["core_event_complete"]
+
+
+func _final_result(result: Dictionary) -> Dictionary:
+	if not result.get("ok", false): return _reject(result.get("text", "기록을 확인한다."))
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	var keys: Array = result.get("notebook_keys", [])
+	var written := FINAL_NOTES.write(result.state, keys, context, TranslationServer.get_locale())
+	if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, FINAL_NOTES.paragraphs(keys))
+
+
+func _core_result(result: Dictionary) -> Dictionary:
+	if not result.get("ok", false):
+		var rejected := _reject(result.get("text", "자료를 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = CORE_NOTES.PREFIX + "STATUS_" + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	var evidence: Array = result.get("evidence", [])
+	var written := CORE_NOTES.write(result.state, evidence, context, TranslationServer.get_locale())
+	if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, CORE_NOTES.paragraphs(evidence))
+
+
+func _journal_action(action: String, value: Variant) -> Dictionary:
+	var result := JOURNAL_FOUR.apply(snapshot(), action, value)
+	if not result.ok:
+		var rejected := _reject(result.get("text", "기록을 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = JOURNAL_DISPLAY.PREFIX + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	var descriptors := JOURNAL_DISPLAY.paragraphs(result.feedback_key)
+	if action == "read":
+		var written := JOURNAL_NOTES.write(result.state, result.text, context, TranslationServer.get_locale())
+		if not written.ok: return written
+		descriptors = JOURNAL_DISPLAY.read_paragraphs(written.get("descriptor", {}))
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, descriptors)
+
+
+func _settlement_action(group: String, action: String, value: Variant) -> Dictionary:
+	var result: Dictionary = LAST_EVENING.apply(snapshot(), action, value) if group == "E5" else CORE_APPROACH.apply(snapshot(), action, value)
+	if not result.ok: return _reject(result.text)
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	if group == "E6" and action == "mara2" and value == "write":
+		var written := SETTLEMENT_NOTES.write_name(result.state, context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, SETTLEMENT_NOTES.paragraphs(group, result.feedback_keys))
+
+
+func _edgar_action(action: String, value: Variant) -> Dictionary:
+	var result := EDGAR_RELATIONSHIP.apply(snapshot(), action, value)
+	if not result.ok:
+		var rejected := _reject(result.get("text", "기록을 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = EDGAR_NOTES.PREFIX + "STATUS_" + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	if action == "choose":
+		var written := EDGAR_NOTES.write(result.state, context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, EDGAR_NOTES.paragraphs(result.feedback_keys))
+
+
+func _mara2_action(action: String, value: Variant) -> Dictionary:
+	var result := MARA2_RELATIONSHIP.apply(snapshot(), action, value)
+	if not result.ok:
+		var rejected := _reject(result.get("text", "기록을 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = MARA2_NOTES.PREFIX + "STATUS_" + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	if action == "choose":
+		var written := MARA2_NOTES.write(result.state, context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, MARA2_NOTES.paragraphs(result.feedback_keys, result.feedback_variables))
+
+
+func _luca_action(action: String, value: Variant) -> Dictionary:
+	var result := LUCA_RELATIONSHIP.apply(snapshot(), action, value)
+	if not result.ok:
+		var rejected := _reject(result.get("text", "기록을 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = LUCA_NOTES.PREFIX + "STATUS_" + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	if action == "choose":
+		var written := LUCA_NOTES.write(result.state, context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, LUCA_NOTES.paragraphs(result.feedback_keys, result.cycle_values))
+
+
+func _iris_action(action: String, value: Variant) -> Dictionary:
+	var result := IRIS_RELATIONSHIP.apply(snapshot(), action, value)
+	if not result.ok:
+		var rejected := _reject(result.get("text", "기록을 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = IRIS_NOTES.PREFIX + "STATUS_" + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	if action == "choose":
+		var written := IRIS_NOTES.write(result.state, context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, IRIS_NOTES.paragraphs(result.feedback_keys))
+
+
+func _mara1_action(action: String, value: Variant) -> Dictionary:
+	var result := MARA1_RELATIONSHIP.apply(snapshot(), action, value)
+	if not result.ok:
+		var rejected := _reject(result.get("text", "기록을 확인한다."))
+		if result.has("notebook_status"): rejected.notebook_status = MARA1_NOTES.PREFIX + "STATUS_" + result.notebook_status
+		return rejected
+	var context := history_context()
+	if result.state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	if action == "choose":
+		var written := MARA1_NOTES.write(result.state, str(value), context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(result.state, result.text, "주인공", "", context, MARA1_NOTES.paragraphs(result.feedback_key))
+
+
+func _fracture_commit(state: Dictionary, text: String, ids: Array, notes: Array = [], speaker: String = "주인공") -> Dictionary:
+	var context := history_context()
+	if state.meta_progress.dialogue_history.has("schema_version"):
+		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
+	for note in notes:
+		_note(state.meta_progress.knowledge_entries, note[0], note[2])
+		var written := FRACTURE_NOTES.write(state, note[1], note[2], context, TranslationServer.get_locale())
+		if not written.ok: return written
+	context.erase("conversation_session_id")
+	return _commit_feedback(state, text, speaker, "", context, FRACTURE_NOTES.paragraphs(ids))
+
+
+func _intro_action(action: String, value: String) -> Dictionary:
+	if not known("E1_complete"): return _reject("먼저 달라진 아침을 확인한다.")
+	var state := snapshot()
+	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
+	if action == "e2_luca":
+		if stage() != "LUCA_S2": return _reject("루카와의 첫 만남은 이미 지나갔다.")
+		if value == "ask": return _fracture_commit(state, FRACTURE_NOTES.TEXT.LUCA_ASK, ["LUCA_ASK"], [], "루카")
+		if value not in ["hold", "withdraw"]: return _reject("손을 잡거나 물러날 수 있다.")
+		knowledge["LUCA_S2_complete"] = true
+		knowledge["LUCA_S2_choice"] = value
+		if value == "hold":
+			var luca: Dictionary = state["meta_progress"]["servants"]["luca"]
+			luca["bond"] = mini(5, int(luca["bond"]) + 1)
+		state["meta_progress"]["event_history"]["LUCA_S2"] = {"lifecycle": "completed", "outcome_id": value, "relationship_delta_applied": true}
+		state["loop_state"]["location_id"] = "M1_CENTRAL_HALL"
+		var key := "LUCA_" + value.to_upper()
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT[key], [key], [], "루카")
+	if stage() != "E2_INTRO": return _reject("중앙홀의 보고를 먼저 확인한다.")
+	if action == "e2_report":
+		knowledge["E2_report_seen"] = true
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E2_REPORT, ["E2_REPORT"])
+	if not knowledge.get("E2_report_seen", false): return _reject("에드가의 보고를 먼저 듣는다.")
+	if action == "e2_question" and E2_ANSWERS.has(value):
+		var asked: Array = knowledge.get("E2_questions_seen", []).duplicate()
+		if value not in asked: asked.append(value)
+		knowledge["E2_questions_seen"] = asked
+		return _fracture_commit(state, E2_ANSWERS[value], ["E2_ANSWER_" + value.to_upper()], [], "루카" if value == "body" else "에드가")
+	if action == "e2_finish":
+		knowledge["E2_INTRO_complete"] = true
+		knowledge["relationship_hub_open"] = true
+		knowledge["E_HUB_destinations"] = ["E3_1", "E3_2", "E3_3", "E3_4", "E3_5"]
+		var index_key := "INDEX_KNOWN" if knowledge.get("mara2_archive_index_known", false) else "INDEX_ANONYMOUS"
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E2_FINISH, ["E2_FINISH"], [
+			["NOTE_E2_REPORT", "E2_REPORT", FRACTURE_NOTES.NOTES.E2_REPORT],
+			["NOTE_ARCHIVE_INDEX", index_key, FRACTURE_NOTES.NOTES[index_key]],
+		], "에드가")
+	return _reject("확인할 질문을 선택한다.")
+
+
+func _inspect_e1(object_id: String) -> Dictionary:
+	if not E1_OBJECTS.has(object_id) or snapshot()["loop_state"]["location_id"] != "M2_BEDROOM":
+		return _reject("침실에서 확인할 수 있는 대상이 아니다.")
+	var state := snapshot()
+	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
+	var seen: Array = knowledge.get("E1_objects_seen", []).duplicate()
+	if object_id in seen:
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E1_REPEAT_BED if object_id == "bed" else String(E1_OBJECTS[object_id]), ["E1_REPEAT_BED" if object_id == "bed" else "E1_" + object_id.to_upper()])
+	seen.append(object_id)
+	knowledge["E1_objects_seen"] = seen
+	var text := String(E1_OBJECTS[object_id])
+	var ids: Array = ["E1_" + object_id.to_upper()]
+	var notes: Array = []
+	if seen.size() >= 3 and not knowledge.get("E1_complete", false):
+		knowledge["E1_complete"] = true
+		knowledge["KN_E1_RESET_DID_NOT_RESTORE"] = true
+		notes.append(["NOTE_E1_DIFFERENT_MORNING", "E1_DIFFERENT", FRACTURE_NOTES.NOTES.E1_DIFFERENT])
+		text += "\n" + FRACTURE_NOTES.TEXT.E1_UNLOCK
+		ids.append("E1_UNLOCK")
+	if seen.size() == 4:
+		knowledge["E1_all_objects_seen"] = true
+		text += "\n" + FRACTURE_NOTES.TEXT.E1_ALL
+		ids.append("E1_ALL")
+	return _fracture_commit(state, text, ids, notes)
+
+
+func _d6_action(action: String, value: String) -> Dictionary:
+	var state := snapshot()
+	var room := String(state["loop_state"]["location_id"])
+	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
+	if action == "d6_move":
+		if value not in ["H0_SERVICE_SPINE", "M2_BEDROOM"]:
+			return _reject("표시된 휴식 경로를 따른다.")
+		if value == "M2_BEDROOM" and room != "H0_SERVICE_SPINE":
+			return _reject("드러난 서비스 통로를 지나 침실로 간다.")
+		state["loop_state"]["location_id"] = value
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.D6_MOVE, ["D6_MOVE"])
+	if action == "d6_guidance":
+		var local: Dictionary = state["loop_state"]["event_local_states"].get("D6", {}).duplicate(true)
+		var checkpoint := int(local.get("guidance_checkpoint", 0))
+		var next := 180 if checkpoint < 180 else (300 if checkpoint < 300 else 480)
+		if checkpoint >= 480 or value != str(next): return _reject("다음 안내 시점을 확인한다.")
+		local["guidance_checkpoint"] = next
+		state["loop_state"]["event_local_states"]["D6"] = local
+		return _commit(state, "")
+	if action == "d6_inspect" and room == "H0_SERVICE_SPINE":
+		var descriptions := FRACTURE_NOTES.INSPECTIONS
+		if not descriptions.has(value): return _reject("통로에서 조사할 대상을 확인한다.")
+		var seen: Array = knowledge.get("D6_objects_seen", []).duplicate()
+		if value not in seen: seen.append(value)
+		knowledge["D6_objects_seen"] = seen
+		var key := "D6_" + value.to_upper()
+		return _fracture_commit(state, descriptions[value], [key], [["D6_" + value, key, descriptions[value]]])
+	if action == "d6_rest":
+		if not ((value == "bedroom" and room == "M2_BEDROOM") or (value == "capsule" and room == "H0_SERVICE_SPINE")):
+			return _reject("현재 위치의 휴식 장치를 확인한다.")
+		var rest: Dictionary = state["loop_state"]["event_local_states"].get("D6", {}).duplicate(true)
+		rest["fracture_rest_route"] = "emergency_capsule" if value == "capsule" else "bedroom"
+		state["loop_state"]["event_local_states"]["D6"] = rest
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.D6_REST, ["D6_REST"])
+	return _reject("이전 일과와 장치 조작은 끝났다. 드러난 통로와 휴식 경로를 확인한다.")
+
+
+func sleep() -> Dictionary:
+	if snapshot()["fracture_state"].get("final_sleep_lock", false): return _reject("최종 확인 중에는 세계 내 수면을 하지 않는다. 저장과 불러오기는 가능하다.")
+	if stage() == "DEMO_END": return _reject("데모 공개 범위는 여기까지다. 본편에서 이어진다.")
+	var capsule_ready: bool = stage() == "D6" and snapshot()["loop_state"]["location_id"] == "H0_SERVICE_SPINE" and snapshot()["loop_state"]["event_local_states"].get("D6", {}).get("fracture_rest_route", "") == "emergency_capsule"
+	if snapshot()["loop_state"]["location_id"] != "M2_BEDROOM" and not capsule_ready: return _reject("휴식할 침실이나 확인한 비상 캡슐에서 잠든다.")
+	var reset := ResetCoordinator.new(_game, _save)
+	match reset.resolve_sleep_route():
+		&"NORMAL_RESET": return super.sleep()
+		&"BROKEN_RESET":
+			if not known("d5_complete"): return _reject("파열된 공간을 먼저 확인한다.")
+			var result := reset.request_broken_reset(slot_id)
+			return initialize() if result.get("ok", false) else result
+		&"RESUME_PENDING_RESET":
+			var result := reset.resume_pending_reset(slot_id)
+			return initialize() if result.get("ok", false) else result
+		&"POST_BROKEN_REST":
+			return _fracture_commit(snapshot(), FRACTURE_NOTES.TEXT.POST_REST, ["POST_REST"])
+	return _reject("현재 수면 경로를 확인할 수 없다.")
+
+
+func _save_point(state: Dictionary) -> String:
+	if state["ending_run"].get("credits_completed",false): return "SAVE_ENDING_COMPLETE"
+	if state["ending_run"].get("branch_committed", false) and state["ending_run"].has("completed_nodes"): return "SAVE_ENDING_NODE"
+	if state["ending_run"].get("branch_committed", false): return "SAVE_ENDING_BRANCH"
+	if state["meta_progress"]["knowledge_entries"].get("F3_complete", false): return "SAVE_F3_COMPLETE"
+	if state["meta_progress"]["knowledge_entries"].get("F2_complete", false): return "SAVE_F2_COMPLETE"
+	if state["meta_progress"]["knowledge_entries"].get("f0_entered", false): return "SAVE_CAMPAIGN_PROGRESS"
+	if state["meta_progress"]["knowledge_entries"].get("e5_locked_in", false): return "SAVE_E5_COMPLETE"
+	if state["meta_progress"]["knowledge_entries"].get("J4_complete", false): return "SAVE_J4_COMPLETE"
+	if state["fracture_state"]["broken_reset_triggered"]:
+		return "SAVE_BROKEN_RESET_COMPLETE"
+	if state["meta_progress"]["knowledge_entries"].get("d5_complete", false):
+		return "SAVE_D5_COMPLETE" if _save.get_build_flavor() == "demo" else "SAVE_FRACTURE_CONFIRMED"
+	if state["fracture_state"]["camouflage_filter"] == "disabled": return "SAVE_D4_COMPLETE"
+	return super._save_point(state)
+
+
+func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> Dictionary:
+	var local := basement_local(state)
+	state["loop_state"]["event_local_states"][BASEMENT_KEY] = local
+	var inventory: Array = state["loop_state"]["inventory"]
+	inventory.erase("MANSION_FLOORPLAN")
+	if local["floorplan_ready"]: inventory.append("MANSION_FLOORPLAN")
+	var result: Dictionary = super._commit(state, text, speaker)
+	if result.get("ok", false) and _save_point(state) == "SAVE_F3_COMPLETE":
+		var copy: Dictionary = _save.capture_f3_reselect(slot_id)
+		if not copy.get("ok", false):
+			result["auxiliary_warning"] = "f3_copy_save_warning"
+	if result.get("ok", false) and state["ending_run"].get("current_node_id", "") in ["CREDITS_REALITY", "CREDITS_STAY"]:
+		var meta := ensure_ending_meta()
+		if not meta.get("ok", false):
+			result["auxiliary_warning"] = "ending_meta_save_warning"
+	return result

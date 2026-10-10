@@ -77,8 +77,9 @@ func begin_history_write(game: Node, slot: String, point: String, recording: Dic
 	if not _is_safe_slot_id(slot): return _load_failure(&"ERR_SAVE_SLOT_ID")
 	if expected_revision != game.revision: return _load_failure(&"NB_COMMAND_STALE_REVISION")
 	if command_id.length() != 32 or not command_id.is_valid_hex_number(): return _load_failure(&"NB_COMMAND_ID")
-	if recording.get("kind") not in ["dialogue", "cursor", "prologue", "reset"]: return _load_failure(&"NB_HISTORY_REQUEST")
+	if recording.get("kind") not in ["dialogue", "cursor", "prologue", "reset", "wake"]: return _load_failure(&"NB_HISTORY_REQUEST")
 	if recording.kind == "reset" and not recording.get("payload") is Dictionary: return _load_failure(&"ERR_RESET_REQUEST")
+	if recording.kind == "wake" and not recording.get("payload") is Dictionary: return _load_failure(&"NB_WAKE_REQUEST")
 	var paths := _slot_paths(slot)
 	paths.pending = paths.temporary
 	paths.temporary = paths.main.get_base_dir().path_join("progress.history_" + command_id + ".tmp.json")
