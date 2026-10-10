@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "focused-fixed/focused.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "focused-fixed/focused.out.log",
+      "bytes": 13288,
+      "sha256": "f69d6aa05b00a3361500bdb43a61904a9a7b28e42bd5fb938da4f5f859841efe"
+    },
+    {
+      "path": "focused-fixed/focused.result.json",
+      "bytes": 17225,
+      "sha256": "4f9d54d7b7e8f5f399298dacc63d824b537519c52831f3dc51b9009905786284"
+    },
+    {
+      "path": "focused-fixed/focused.run.json",
+      "bytes": 31416,
+      "sha256": "0313c67d5fbc95845d1f6aa72fbcc071ee0602f28de92f6dc02c5f8e95f46d90"
+    },
+    {
+      "path": "focused/focused.err.log",
+      "bytes": 462,
+      "sha256": "6f5add0a3f833c4e562cd55eca4772f8404f8c3c68f80ca1dce41d37bad9bee7"
+    },
+    {
+      "path": "focused/focused.out.log",
+      "bytes": 75,
+      "sha256": "b16651cbedbab0a7b519f9e5b498eea40cb33bfb72252e264a7f4c2412765d58"
+    },
+    {
+      "path": "focused/focused.run.json",
+      "bytes": 31417,
+      "sha256": "79143b343fd852e6bec91af699efcb8ee17ea111b93d46a2e2d267cdfd2a1859"
+    },
+    {
+      "path": "host/host.err.log",
+      "bytes": 316,
+      "sha256": "afbd7f8504594a409fea4ec4ccb162d993e2abafbd0111876d602bf34cdcc7c2"
+    },
+    {
+      "path": "host/host.out.log",
+      "bytes": 1416,
+      "sha256": "8f3a0859de54c85073d6c5d8a39976088dcdb4711ee99594183483540f8e36b3"
+    },
+    {
+      "path": "host/host.run.json",
+      "bytes": 31351,
+      "sha256": "66a9122291e0780ed3f6ec6a3ba775700552454298278057bed704897bc8de47"
+    },
+    {
+      "path": "import.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "import.out.log",
+      "bytes": 22124,
+      "sha256": "ac19bdc8698c7b62a532b721df69c3928ac16227ecd19910510884c697a21fe9"
+    },
+    {
+      "path": "initial_harness.gd",
+      "bytes": 10565,
+      "sha256": "6c9d96680da40246d73339679842a893270260f047b8ac14176ad32c71168e7f"
+    },
+    {
+      "path": "migration/migration.err.log",
+      "bytes": 316,
+      "sha256": "afbd7f8504594a409fea4ec4ccb162d993e2abafbd0111876d602bf34cdcc7c2"
+    },
+    {
+      "path": "migration/migration.out.log",
+      "bytes": 374,
+      "sha256": "7236494ec9d35bb5d6c05c1a6f3a2cad31b0ab01c9738aac667b395a10f66c01"
+    },
+    {
+      "path": "migration/migration.run.json",
+      "bytes": 31356,
+      "sha256": "e5950bfd9816d96441dc9bf28084144695ceae57ef4153b93c4891674f678b41"
+    },
+    {
+      "path": "source.json",
+      "bytes": 804,
+      "sha256": "37261d29a1c1e3ae551ab8e3002dbd170f62584dfa710b126b66d88e47d8e8d0"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "root": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-save-preflight-bd566ece13e441cebb7f848146c7e0ef",
+  "project": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-save-preflight-bd566ece13e441cebb7f848146c7e0ef\\source\\game",
+  "head": "ba636b3c34f137e8060baa908446bc3b30d4af5a",
+  "engine": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-runtime-76ab9ae83a384f3192811ae421e7d53e\\Godot_v4.6.3-stable_win64.exe",
+  "engine_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "baseline_save_sha256": "bd140ac8b92f28cfac59f264787c7152051439d2dcba86f9f37a82d920007480",
+  "candidate_save_sha256": "a6e45203a5d910b0c1d26e08c8585dc37dabcad8b66b6445990d5b07a1c5c26a",
+  "archive_sha256": "63bfc11d91d2c36f8252a2974ea238c0c564f0effd5b2a98b250a807b172f586"
+}

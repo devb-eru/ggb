@@ -32,6 +32,7 @@ ideas/md/v04/issues/validation/evidence/2026-10-10_gallery_consumer/*.log -text 
 ideas/md/v04/issues/validation/evidence/2026-10-10_gallery_consumer/*.gd -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 ideas/md/v04/issues/validation/evidence/2026-10-10_release_candidate/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 ideas/md/v04/issues/validation/evidence/2026-10-10_perf_repeats/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+ideas/md/v04/issues/validation/evidence/2026-10-10_save_preflight/** -text whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab,cr-at-eol
 
 # Large or binary assets. Requires Git LFS.
 *.png filter=lfs diff=lfs merge=lfs -text

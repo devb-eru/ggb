@@ -1,0 +1,4 @@
+SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
+   at: GDScript::reload (res://__save_preflight_52423414f377439c99dd8dfd1bb2134c/notebook_save_preflight_audit.gd:41)
+ERROR: Failed to load script "res://__save_preflight_52423414f377439c99dd8dfd1bb2134c/notebook_save_preflight_audit.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)

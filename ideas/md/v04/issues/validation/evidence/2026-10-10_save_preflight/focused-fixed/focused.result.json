@@ -1,0 +1,488 @@
+{
+  "checks": 217,
+  "errors": [],
+  "measurements": [
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 823.822
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 478.064
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 546.978
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 824.411
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 851.283
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 573.211
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 2605.492
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 1509.416
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 1516.012
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 2564.856
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 2545.933
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 1391.722
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 1749.64
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 954.908
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 906.115
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 1618.626
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 1626.294
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 963.402
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 825.681
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 495.159
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 455.587
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 825.98
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 844.017
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "ko_KR",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 452.606
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 803.521
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 634.123
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 508.314
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 954.478
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 789.987
+    },
+    {
+      "archive_sha256": "bf1ec2000fa0247e063143dc466e3e103528ed1c4ab5a8474e169cfbe3f8276e",
+      "fixture": "NB-PERF-N2000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 464.495
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 2559.713
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 1495.461
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 1614.324
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 2677.202
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 2876.278
+    },
+    {
+      "archive_sha256": "f3061cc024e1d7dd14b03b3441c4e71aaefa8d4405fd553019ef38e920106d33",
+      "fixture": "NB-PERF-L10000",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 1812.383
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 1806.442
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 935.117
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 976.188
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 1587.704
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 1618.384
+    },
+    {
+      "archive_sha256": "0db47c72c89e0e517e2b4685e82faec46e03ddd6a1b5ecc6f3ba40d7a21da2b6",
+      "fixture": "NB-PERF-P2001",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 883.776
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 810.772
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 0,
+      "total_ms": 515.605
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 591.53
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 1,
+      "total_ms": 901.955
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "uncached",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 950.39
+    },
+    {
+      "archive_sha256": "63c5bc2596e1d1cb5b5bc4a106a68b617d765fd5c7282c3dca6194de286dafdb",
+      "fixture": "NB-PERF-LONG",
+      "ledger_sha256": "d0c5462e413ffd29d83b009cabce5e0faabb97f2653c807fd3001dda032c78db",
+      "locale": "en_US",
+      "mode": "certificate",
+      "ok": true,
+      "repeat": 2,
+      "total_ms": 492.132
+    }
+  ],
+  "ok": true,
+  "scope": "HEADLESS sync save preflight, exploratory paired n=3"
+}

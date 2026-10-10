@@ -19,7 +19,10 @@ const SAVE_ROOT := "user://saves"
 const PRODUCT_SLOT_IDS := ["slot_01", "slot_02", "slot_03"]
 const SUMMARY_CACHE_LIMIT := 8
 const SUMMARY_CACHE_ENTRY_BYTES := 4096
+const SAVE_SOURCE_CACHE_LIMIT := 8
+const SAVE_SOURCE_CACHE_ENTRY_BYTES := 4096
 var _summary_cache := {}
+var _save_source_cache := {}
 var _storage_context := {}
 var _notebook_job: Dictionary = {}
 var _notebook_results := {}
@@ -252,9 +255,9 @@ func save_snapshot(
 		return _save_failure(slot_id, &"ERR_SAVE_CREATE_DIRECTORY")
 
 	var paths := _slot_paths(slot_id)
-	var previous := _read_and_validate(paths["main"])
+	var previous := _read_save_source(paths["main"])
 	if _is_incompatible(previous): return _save_failure(slot_id, previous.error_id)
-	var previous_backup := _read_and_validate(paths.backup)
+	var previous_backup := _read_save_source(paths.backup)
 	if _is_incompatible(previous_backup): return _save_failure(slot_id, previous_backup.error_id)
 	var pending := _read_and_validate(paths.temporary)
 	if _is_incompatible(pending): return _save_failure(slot_id, pending.error_id)
@@ -638,7 +641,44 @@ func _read_and_validate(path: String, capture_summary: bool = false) -> Dictiona
 	if capture_summary and validated.get("ok", false):
 		# Bind metadata to the exact text that was validated, not the planned write.
 		_cache_summary(_summary_key(path), raw_text.sha256_text(), _summary_from_validated(validated))
+		_cache_save_source(raw_text.sha256_text(), validated)
 	return validated
+
+
+func _save_source_cache_allowed() -> bool:
+	# Custom storage implementations retain their complete virtual validation path.
+	return NOTEBOOK_ROLLOUT.enabled() and get_script() == load("res://scripts/autoload/save_manager.gd")
+
+
+func _save_source_key(fingerprint: String) -> String:
+	return JSON.stringify([get_save_root(), get_build_flavor(), NOTEBOOK_ROLLOUT.enabled(), fingerprint])
+
+
+func _cache_save_source(fingerprint: String, validated: Dictionary) -> void:
+	if not _save_source_cache_allowed() or validated.get("source_schema_version") != SCHEMA_VERSION:
+		return
+	var certificate := {"ok":true, "header":validated.header.duplicate(true), "source_schema_version":SCHEMA_VERSION}
+	if JSON.stringify(certificate).to_utf8_buffer().size() > SAVE_SOURCE_CACHE_ENTRY_BYTES:
+		return
+	var key := _save_source_key(fingerprint)
+	_save_source_cache.erase(key)
+	_save_source_cache[key] = certificate
+	while _save_source_cache.size() > SAVE_SOURCE_CACHE_LIMIT:
+		_save_source_cache.erase(_save_source_cache.keys()[0])
+
+
+func _read_save_source(path: String) -> Dictionary:
+	if _save_source_cache_allowed() and not _save_source_cache.is_empty():
+		# Rehash the actual complete file; mtime and the stored checksum are not proof.
+		var source := preload("res://scripts/systems/notebook_save_worker.gd").read_source(path)
+		if source.get("ok", false) and source.get("exists", false):
+			var key := _save_source_key(source.stamp)
+			if _save_source_cache.has(key):
+				var certificate: Dictionary = _save_source_cache[key].duplicate(true)
+				certificate.source_path = path
+				return certificate
+	# This narrow preflight never supplies a snapshot to load or ACK recovery.
+	return _read_and_validate(path)
 
 
 func _validate_save_text(raw_text: String, path: String) -> Dictionary:
