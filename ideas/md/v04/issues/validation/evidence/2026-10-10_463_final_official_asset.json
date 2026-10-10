@@ -1,0 +1,23 @@
+{
+  "release_api": "https://api.github.com/repos/godotengine/godot/releases/tags/4.6.3-stable",
+  "release_id": 326249817,
+  "tag": "4.6.3-stable",
+  "published_utc": "2026-05-20T20:49:16Z",
+  "asset_id": 425559552,
+  "asset_name": "Godot_v4.6.3-stable_win64.exe.zip",
+  "asset_bytes": 79844616,
+  "asset_url": "https://github.com/godotengine/godot/releases/download/4.6.3-stable/Godot_v4.6.3-stable_win64.exe.zip",
+  "official_digest": "sha256:e39986a178d585ce7ac198fb8de6ea436366dc0cc00e594810c2e3e104c04b90",
+  "download_sha256": "e39986a178d585ce7ac198fb8de6ea436366dc0cc00e594810c2e3e104c04b90",
+  "executable_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "base_commit": "058b2401187f1722eb96d1aceb7d11be5c6b965b",
+  "source_archive_sha256": "c8b4006eb1646ece73a8e8383ba91fd3ccf38b3bf7035e680020fb613557641b",
+  "product_engine_changed": false,
+  "original_game_files": 640,
+  "generated_uid_files": [
+    "game/scripts/tests/notebook_runtime_audit.gd.uid",
+    "game/scripts/tests/notebook_scope_smoke.gd.uid",
+    "game/scripts/tests/notebook_substitution_smoke.gd.uid",
+    "game/scripts/tests/notebook_view_future_smoke.gd.uid"
+  ]
+}

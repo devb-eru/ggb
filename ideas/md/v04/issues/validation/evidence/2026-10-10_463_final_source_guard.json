@@ -1,0 +1,3214 @@
+{
+  "base_commit": "058b2401187f1722eb96d1aceb7d11be5c6b965b",
+  "archive_sha256": "c8b4006eb1646ece73a8e8383ba91fd3ccf38b3bf7035e680020fb613557641b",
+  "engine_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "zip_sha256": "e39986a178d585ce7ac198fb8de6ea436366dc0cc00e594810c2e3e104c04b90",
+  "files": [
+    {
+      "path": "game/.gitattributes",
+      "bytes": 80,
+      "sha256": "21b01a606c9f85f18bb9230245f00ab104df7409cbb2fe9423f6751ca72ba754"
+    },
+    {
+      "path": "game/.gitignore",
+      "bytes": 175,
+      "sha256": "3026558c464b4ee203431b20daf47818218e11abfb28661cd437ca6988534f17"
+    },
+    {
+      "path": "game/README.md",
+      "bytes": 3648,
+      "sha256": "c39451b2ec97d34f5d07f3e8066bb2018185560c845a866eebf0f41d6f196c5c"
+    },
+    {
+      "path": "game/addons/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/assets/art/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/assets/audio/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/assets/fonts/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/assets/prologue/prologue_mansion_hall_v01.png",
+      "bytes": 2163966,
+      "sha256": "204886b79d6a2f1f79ddf0c7d2dced3c3283ec003e3c73462beea1e03c79fabf"
+    },
+    {
+      "path": "game/assets/prologue/prologue_mansion_hall_v01.png.import",
+      "bytes": 995,
+      "sha256": "5093cf19ac7bedfc4957ccf6a7ea9e5770949045a706e87240294937cd071fd5"
+    },
+    {
+      "path": "game/assets/prologue/prologue_rooms_primary_atlas_v01.png",
+      "bytes": 2567901,
+      "sha256": "d8d0c18d51df4859b88dd258c241e6f4de406544cf3a4cf65191ab4d77f41bdd"
+    },
+    {
+      "path": "game/assets/prologue/prologue_rooms_primary_atlas_v01.png.import",
+      "bytes": 1016,
+      "sha256": "40e45627691b35bb19b364f8a42cff553ac68ec99a3feb14c2f885775ba8ea8f"
+    },
+    {
+      "path": "game/assets/prologue/prologue_rooms_secondary_atlas_v01.png",
+      "bytes": 2509117,
+      "sha256": "82a258be76abe9fa7487a2f53981bc79a4001341a372fda80312d43b37905552"
+    },
+    {
+      "path": "game/assets/prologue/prologue_rooms_secondary_atlas_v01.png.import",
+      "bytes": 1022,
+      "sha256": "c6c784c2f9d24e3cd446ed2825e158b96ae8d93bf4a8be21abcb1404365a0c36"
+    },
+    {
+      "path": "game/assets/prologue/prologue_servants_atlas_v01.png",
+      "bytes": 1982648,
+      "sha256": "dab71a820e12ed946c50d3bcdc9967e81cd194a386da713acad9418ffb4bced2"
+    },
+    {
+      "path": "game/assets/prologue/prologue_servants_atlas_v01.png.import",
+      "bytes": 1000,
+      "sha256": "60a1c469e12bd944ff0bcd7a696fbf60988a18823933b5d5f9bbc1ffadae2d04"
+    },
+    {
+      "path": "game/assets/shaders/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/assets/ui/title/ui_title_manor_background_v01.png",
+      "bytes": 2377652,
+      "sha256": "1f2d9109a860824733cadab3fa9900e50425033a1a713a8958b56fc58712c02a"
+    },
+    {
+      "path": "game/assets/ui/title/ui_title_manor_background_v01.png.import",
+      "bytes": 1007,
+      "sha256": "c4208bc4e890919835d5bf015ef8aeba30a0a78c1ab1f90445d1d5b22c45b5c4"
+    },
+    {
+      "path": "game/background.gd",
+      "bytes": 849,
+      "sha256": "9eedd09ac1d3fc66e365afecaef9cfe46421702ecce54379f688ffe82e6b0583"
+    },
+    {
+      "path": "game/background.gd.uid",
+      "bytes": 19,
+      "sha256": "87a88ac8339f987496f789396e85ba19522edcd1b63c9525f3f18f06c87577e4"
+    },
+    {
+      "path": "game/background1.png",
+      "bytes": 20327,
+      "sha256": "f669178dbd19298ad4053e96352725d932b1521ff98c9ab7315ab527cfccc627"
+    },
+    {
+      "path": "game/background1.png.import",
+      "bytes": 937,
+      "sha256": "cc63e1eff889bd11609378da35712d74a0215c942a09e9dda03e735f95f3808c"
+    },
+    {
+      "path": "game/background2.png",
+      "bytes": 26319,
+      "sha256": "4458b9f095f3e9d3ec17098540130e13a370335679f7221fb83bb7e261140aed"
+    },
+    {
+      "path": "game/background2.png.import",
+      "bytes": 937,
+      "sha256": "9293c4017b0eae73c113aa81285ead089145737db85f5cc733f7123aaa5c6c09"
+    },
+    {
+      "path": "game/background3.png",
+      "bytes": 24410,
+      "sha256": "f905cc895b30addb6fef971865c03f6bedb8aa7afc92e09bd87402ee8fdc4ff8"
+    },
+    {
+      "path": "game/background3.png.import",
+      "bytes": 937,
+      "sha256": "8d8cb296a0d3edda3a62a19305c906a01a88137432806e146714a01a65e73d8d"
+    },
+    {
+      "path": "game/data/development/checkpoints.json",
+      "bytes": 2956169,
+      "sha256": "9918b75fb50b8815144558e9b99cbe5ddd80ef062725642b57724214b868a082"
+    },
+    {
+      "path": "game/data/dialogue/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/data/dialogue/chapter_one/chapter_one_text.tres",
+      "bytes": 43446,
+      "sha256": "cb3bebfae8fd98a9865a14b90b05c5be8fde273b980a91b51d6dd954df9598b1"
+    },
+    {
+      "path": "game/data/dialogue/prologue/prologue_text.tres",
+      "bytes": 36176,
+      "sha256": "99c64bd60ba128c713aa28722379da0739939d752d677be52ef9fe53f2785726"
+    },
+    {
+      "path": "game/data/dialogue/system/foundation_text_catalog.tres",
+      "bytes": 8530,
+      "sha256": "03f8f17d7f536f61b3ffd9aec282a868fc48eeedb12503ead312723c7cf5b84d"
+    },
+    {
+      "path": "game/data/dialogue/system/title_extension_text.tres",
+      "bytes": 1903,
+      "sha256": "0b4107a42a2744c4e60b5cde994c9888309095c85ccfb8d9a243ea3ff4874f74"
+    },
+    {
+      "path": "game/data/events/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/data/events/system/event_foundation_smoke.tres",
+      "bytes": 1576,
+      "sha256": "3ce062833b51010a0aa0bf13e7ac35409de633944f91b1c62e4b145ad1e10e90"
+    },
+    {
+      "path": "game/data/notebook/basement_v1.json",
+      "bytes": 133347,
+      "sha256": "b8acb8291e27d8657c50b6b2f894c7dc1e26a6a42c4930df8195c405dde85cf2"
+    },
+    {
+      "path": "game/data/notebook/chapter_one_notes_v1.json",
+      "bytes": 71912,
+      "sha256": "8b4b3bfd46dbbb8a5012e32bfdec74279a92ff45179eb3d6a8c945958a4a4a21"
+    },
+    {
+      "path": "game/data/notebook/chapter_one_v1.json",
+      "bytes": 147456,
+      "sha256": "2047d4382bac28c012bb1e7384df2c447db620943c88d945506c174978833b2b"
+    },
+    {
+      "path": "game/data/notebook/chapter_surfaces_v1.json",
+      "bytes": 82719,
+      "sha256": "b46e8f16c7254793e123b022975a0c85f555297b826831c60047340a8077fb85"
+    },
+    {
+      "path": "game/data/notebook/core_v1.json",
+      "bytes": 187354,
+      "sha256": "129627e90fb5bdd6ba5d98e91802c5d66f3ead4eb22893a191a9c5e79c04a294"
+    },
+    {
+      "path": "game/data/notebook/edgar_v1.json",
+      "bytes": 66705,
+      "sha256": "5105075fb64942355db3d3335e70bcb330b84253dbcb7cc4cae84c2c7175c41c"
+    },
+    {
+      "path": "game/data/notebook/final_v1.json",
+      "bytes": 119634,
+      "sha256": "b33e538fb14ffab62944d392e3823f041f0a5bb6ad74b6e4eec79a9bc34cd063"
+    },
+    {
+      "path": "game/data/notebook/fracture_surfaces_v1.json",
+      "bytes": 67686,
+      "sha256": "6200ee74ea5144711245cc4d2fc237be31ba1043a1b5f2d8f98786e5da68b77d"
+    },
+    {
+      "path": "game/data/notebook/fracture_v1.json",
+      "bytes": 157767,
+      "sha256": "d6320b170883e66c9fb9051b1a6bdb98ff15bb7d08827acd7d70501b5e864eb3"
+    },
+    {
+      "path": "game/data/notebook/hints_v1.json",
+      "bytes": 97016,
+      "sha256": "c7cb8cdb544418ceef2c55f3e57e8a908bbbdd743b8a043781777e61df3ebd84"
+    },
+    {
+      "path": "game/data/notebook/iris_v1.json",
+      "bytes": 61138,
+      "sha256": "9362f77247e3d5f39ab3898e94135dc0bfdaab536028908fd20639a811e6cfdc"
+    },
+    {
+      "path": "game/data/notebook/journal_four_display_v1.json",
+      "bytes": 148497,
+      "sha256": "2a3b5b3b46d085e0cdb4dfba388b4d6c53780ecda6aeee60431eed036ae694e1"
+    },
+    {
+      "path": "game/data/notebook/journal_four_v1.json",
+      "bytes": 12725,
+      "sha256": "ab97a2e4415d388564d92aecb40420c257e4b6dd2d67b20bf97644625127198f"
+    },
+    {
+      "path": "game/data/notebook/luca_v1.json",
+      "bytes": 43517,
+      "sha256": "b384739c174143b1e630970d225a9739c16b81395aea3ea60f2499db4584a71e"
+    },
+    {
+      "path": "game/data/notebook/mara1_v1.json",
+      "bytes": 39797,
+      "sha256": "a30ded66cfd0736c1278d4c4514afbc00e5b3a5d3951f41a582ca2aca657f050"
+    },
+    {
+      "path": "game/data/notebook/mara2_v1.json",
+      "bytes": 161504,
+      "sha256": "9f66a23661e413409b7a81f9be033c9f857b75848f2fa90b8d4e179b88fff6bf"
+    },
+    {
+      "path": "game/data/notebook/mirror_v1.json",
+      "bytes": 160646,
+      "sha256": "42d31ad557c795401bdb0fc5a46785c331e0cee1ec7a5cc38077894c7265db41"
+    },
+    {
+      "path": "game/data/notebook/modals_v1.json",
+      "bytes": 333350,
+      "sha256": "e2af9ded7e0784401a6aa7214d65d1948c450d783aaabb200b9d4e061734584a"
+    },
+    {
+      "path": "game/data/notebook/prologue_notes_v1.json",
+      "bytes": 14827,
+      "sha256": "a84bb21a1dabbc1972610bd9d0631577335c79f5a76d12d0b7deabdb25979a06"
+    },
+    {
+      "path": "game/data/notebook/prologue_surfaces_v1.json",
+      "bytes": 113114,
+      "sha256": "9b955ab03d69d734f8e06699d3a0aa65843c5bcc9db7f14ccded37ae73b476c1"
+    },
+    {
+      "path": "game/data/notebook/prologue_v1.json",
+      "bytes": 128261,
+      "sha256": "4221feeb5ba422e23245e470a88473003debfc2e4b7e36a23f2795adb30d6b6a"
+    },
+    {
+      "path": "game/data/notebook/puzzle_labels_v2.json",
+      "bytes": 85436,
+      "sha256": "64e187c32ee535436a580cabd6a491ea604a80e865df914df00366ef320abf91"
+    },
+    {
+      "path": "game/data/notebook/puzzle_surfaces_v1.json",
+      "bytes": 92962,
+      "sha256": "01414e1455fc3ce47f2af911b5fe137929d03953e8355323206b36d819f675f3"
+    },
+    {
+      "path": "game/data/notebook/reality_v1.json",
+      "bytes": 230683,
+      "sha256": "2179aae7f7ec2a657fada6b235753fcdea69a244a7c2fa353b60dc4849007e99"
+    },
+    {
+      "path": "game/data/notebook/record_labels_v2.json",
+      "bytes": 32983,
+      "sha256": "ca9a5228317729e396c5a54b482b31c34b100e948f1e6ce17b5dc742e2bc01a8"
+    },
+    {
+      "path": "game/data/notebook/relationship_labels_v2.json",
+      "bytes": 6896,
+      "sha256": "563a04006b3c70dc260aae6aca9d8c49cfe6b85af02825c2ec5c9c0b3b9838ab"
+    },
+    {
+      "path": "game/data/notebook/self_mark_v2.json",
+      "bytes": 11539,
+      "sha256": "70511c773ef18d58a55523ebaae32ad125c02abcaa720a6f4d540fab861df4d6"
+    },
+    {
+      "path": "game/data/notebook/settlement_v1.json",
+      "bytes": 103209,
+      "sha256": "d440f3948dbe7615e12fc12fd0c3d827031f2e44b8e5b57ca6177ad18a540a76"
+    },
+    {
+      "path": "game/data/notebook/stay_v1.json",
+      "bytes": 170347,
+      "sha256": "ed797b06555e2a6cc9a1434916cef05844945874e2b6e4f9dcf59030ab468d67"
+    },
+    {
+      "path": "game/data/puzzles/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/data/puzzles/puzzle_basement.tres",
+      "bytes": 208,
+      "sha256": "be633646ed81e70b79f690fb9376df9c4455538a8895a4b9e0e4409334d59f1a"
+    },
+    {
+      "path": "game/data/puzzles/puzzle_black_mirror.tres",
+      "bytes": 215,
+      "sha256": "f2452f07b0e82c2262e3a80616cb478e949682b3404ff6a2ebf75d9e2a5f4586"
+    },
+    {
+      "path": "game/data/puzzles/puzzle_clock_network.tres",
+      "bytes": 217,
+      "sha256": "ffc6449a2b49574dcc728adf78dfd3f5e1fee79055867be9a4b17639c43c1a1b"
+    },
+    {
+      "path": "game/data/registries/audio_cue_registry.json",
+      "bytes": 1231,
+      "sha256": "c3058a5112d3eab93beee33d4c01e4b2dd6635e9273675354cb685ae747c3e33"
+    },
+    {
+      "path": "game/data/registries/cnt_shared_vocab.json",
+      "bytes": 6034,
+      "sha256": "1bc3a4f6b726c173e0578253ec3a0846e985d7cc2152506e0ad20e3fcaa740cb"
+    },
+    {
+      "path": "game/data/registries/save_point_registry.json",
+      "bytes": 2894,
+      "sha256": "fb26e77c1f2dc76c2534319271b7d70508b884ffd337a04768b426dc0f936c36"
+    },
+    {
+      "path": "game/data/registries/text_registry.json",
+      "bytes": 35957,
+      "sha256": "5cecf16d2bf097e17d6d917691528ceb0b025be7131519847eddbb449a654e75"
+    },
+    {
+      "path": "game/data/registries/ui_asset_registry.json",
+      "bytes": 928,
+      "sha256": "9ba35d0be67f14f714d6e0c3e37f8667d73efa8efc039195f867a902657bbb01"
+    },
+    {
+      "path": "game/data/states/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/data/states/fixtures/corrupted_primary.txt",
+      "bytes": 52,
+      "sha256": "00fca86a53a6030f3cdcbf327aebf54b58116ffcd2d659622e55f64d1dead30c"
+    },
+    {
+      "path": "game/data/states/fixtures/future_schema_2.json",
+      "bytes": 182,
+      "sha256": "b0999b9fa50a8ad4d2c26bef567daf8721a8ecb46f780a191116c91c1f997bb0"
+    },
+    {
+      "path": "game/data/states/fixtures/new_game_schema_1.json",
+      "bytes": 401,
+      "sha256": "e8a2b6b10af0f87d063392b57eda379188e069fcf504b42bc7cd55a85cb618f9"
+    },
+    {
+      "path": "game/data/states/fixtures/normal_reset_schema_1.json",
+      "bytes": 395,
+      "sha256": "6bf681843dcbfe11e4e6256a6279ec4384ce150f568e19e1088181d8ee331207"
+    },
+    {
+      "path": "game/data/states/state_path_registry.json",
+      "bytes": 7136,
+      "sha256": "fad51efba245cb98b556bda8f4c2c44cd0650ab981e40d53c91fc86bd5ee2e62"
+    },
+    {
+      "path": "game/drawer.gd",
+      "bytes": 835,
+      "sha256": "ea3cee6f52d7fdce3e6ed173a7df0f7690d445a7ee02c03bfe206926de5d61c4"
+    },
+    {
+      "path": "game/drawer.gd.uid",
+      "bytes": 19,
+      "sha256": "866f068588ea3d0aebf1eaf7e0a1a2170ecc47c8f584fa433f23b5c0f05b69e4"
+    },
+    {
+      "path": "game/drawer_close.png",
+      "bytes": 26066,
+      "sha256": "fa446508adeb8f2a2a666185fc726ce9a5734882f524075d757e507c79c636b4"
+    },
+    {
+      "path": "game/drawer_close.png.import",
+      "bytes": 940,
+      "sha256": "2f95453064d250d599c5a8e1018af3968b8a7ee8d82eb402d5c16e7bb4b83b47"
+    },
+    {
+      "path": "game/drawer_open.png",
+      "bytes": 26327,
+      "sha256": "6b2a9aa09d86806fa240da4c6ff29e437794857ad60875558933122ee1c90f72"
+    },
+    {
+      "path": "game/drawer_open.png.import",
+      "bytes": 937,
+      "sha256": "a8977aaf5a99b21d71525a531d0c0e0ab7d2aab0fca4ebf359937012606259a5"
+    },
+    {
+      "path": "game/export_presets.cfg",
+      "bytes": 475,
+      "sha256": "23efdb35a4c30f5439ddcda35a977f8d68902cf319202034ffeabb7809d8c02c"
+    },
+    {
+      "path": "game/icon.svg",
+      "bytes": 995,
+      "sha256": "6c80384360a5b269d1054bfb27241258154e2cc8167c522016fdc1820e84e0f8"
+    },
+    {
+      "path": "game/icon.svg.import",
+      "bytes": 1013,
+      "sha256": "144a259bd4e16d30e1569938637961a6743f25333fc3f00a81f8d2eea529d716"
+    },
+    {
+      "path": "game/key.gd",
+      "bytes": 1170,
+      "sha256": "5c338302e179bef5db9994a99eefd804ceac6e8cc1ad1f4496c2041ef7db2675"
+    },
+    {
+      "path": "game/key.gd.uid",
+      "bytes": 20,
+      "sha256": "8ef0318ed3cd83ce4a7cf0b0c74de98625e0c908a90c5c1e7fe61deb4579a5c9"
+    },
+    {
+      "path": "game/key.png",
+      "bytes": 26441,
+      "sha256": "9f7a7aca02da29e938599bb13a3d87501627133ff2c66f537065ef3815c440cd"
+    },
+    {
+      "path": "game/key.png.import",
+      "bytes": 913,
+      "sha256": "fbd8fe5054be74bc114f3d16cae8ca281453d1f63ab5353d9c154aba3ab66fba"
+    },
+    {
+      "path": "game/lock.gd",
+      "bytes": 230,
+      "sha256": "f2dca913b77e1831bc24caadec9b7bf26861f3ee620f0a76b652cf47e9db6730"
+    },
+    {
+      "path": "game/lock.gd.uid",
+      "bytes": 20,
+      "sha256": "999e1415c021daa69389e8fbd056bfc74e7e4cc41219de0fb02e6511e4120a0a"
+    },
+    {
+      "path": "game/lock.png",
+      "bytes": 25555,
+      "sha256": "e54067a766a30441ce2838323d24d31391e68f38d21ef526fe4c4e0d3fb2dc8c"
+    },
+    {
+      "path": "game/lock.png.import",
+      "bytes": 916,
+      "sha256": "8d6cb7d9517d0dc80be1df26ff80be08fd59a7f43bb8e690adb506ab97aa4068"
+    },
+    {
+      "path": "game/next_button.gd",
+      "bytes": 221,
+      "sha256": "aef870780b715bb9707c14e3143c38351c7a0fc8cdbe6ea8f4ff2aff096911c9"
+    },
+    {
+      "path": "game/next_button.gd.uid",
+      "bytes": 20,
+      "sha256": "2025d2b04d404dafb2dec9ee97c946219eaa42613d4ae88ee82057bb8aa39dda"
+    },
+    {
+      "path": "game/practice_inventory.gd",
+      "bytes": 338,
+      "sha256": "505a1ae99b95763401f9873683070786a16b3468f6985405cd8ce6329ab769d6"
+    },
+    {
+      "path": "game/practice_inventory.gd.uid",
+      "bytes": 19,
+      "sha256": "34d1d9e8dbbd72bff2e7bb15d8dcc3680211cf4518c52b589e57a3d274044bb9"
+    },
+    {
+      "path": "game/practice_scene_controller.gd",
+      "bytes": 1682,
+      "sha256": "9eeae68d6154f1e02f9c1afde1a9a53b5b9d88ec9ed42ca7c9f91df82287fb51"
+    },
+    {
+      "path": "game/practice_scene_controller.gd.uid",
+      "bytes": 20,
+      "sha256": "aefd5344be0f7a8bfc0f018872ef50788e29ca792821eeec6240aad28e6f53c6"
+    },
+    {
+      "path": "game/previous_button.gd",
+      "bytes": 229,
+      "sha256": "6b9c7e45fb11726fe5cfc84b214fead686a450a7c73785b08cf2e942b2bb4459"
+    },
+    {
+      "path": "game/previous_button.gd.uid",
+      "bytes": 20,
+      "sha256": "708ad90d8d89fa93472ef925027299e7cb1439b5ac1d8e664bade5abf647788d"
+    },
+    {
+      "path": "game/project.godot",
+      "bytes": 3763,
+      "sha256": "bc4606897cf7f489084af27a257e076f89dd851f3d0475da2475ba8689bceaca"
+    },
+    {
+      "path": "game/scenes/events/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/scenes/main/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/scenes/main/main.tscn",
+      "bytes": 1047,
+      "sha256": "4f348a8bd5db63616dfd6a7c09c2c0fd94965a1c310c1b06d0a5735be710f370"
+    },
+    {
+      "path": "game/scenes/prologue/prologue.tscn",
+      "bytes": 323,
+      "sha256": "cb7d84f99ee245997710c972f7f06d110c1e1877544c76c6e19ac87fa20d55b4"
+    },
+    {
+      "path": "game/scenes/rooms/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/scenes/ui/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/scenes/ui/start_screen.tscn",
+      "bytes": 31839,
+      "sha256": "d4804d5438d1dc8709e3e6432d86a992e985a18fa86fcb69db813fa0dafe5ff1"
+    },
+    {
+      "path": "game/scripts/autoload/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/scripts/autoload/event_manager.gd",
+      "bytes": 2814,
+      "sha256": "6f2743175d986b94410d9b60b3ac681775ffc2c698a16fa4e89640efc1122125"
+    },
+    {
+      "path": "game/scripts/autoload/event_manager.gd.uid",
+      "bytes": 20,
+      "sha256": "07d827fe18e260cb5a7cd60baae9cbab728fb5cffb7c197eeafbc99b4fe951f8"
+    },
+    {
+      "path": "game/scripts/autoload/game_state.gd",
+      "bytes": 3366,
+      "sha256": "ff9a6c5284927158de3796f246cf0714bfe7cf7223df05d1574bcca9e9c02e1a"
+    },
+    {
+      "path": "game/scripts/autoload/game_state.gd.uid",
+      "bytes": 20,
+      "sha256": "4ea928e4a0e545f504bad9c00000798c20e857f92e35f9d42792db806373ddd5"
+    },
+    {
+      "path": "game/scripts/autoload/save_manager.gd",
+      "bytes": 39316,
+      "sha256": "bd140ac8b92f28cfac59f264787c7152051439d2dcba86f9f37a82d920007480"
+    },
+    {
+      "path": "game/scripts/autoload/save_manager.gd.uid",
+      "bytes": 20,
+      "sha256": "85777f183393bb2649381a96325c003dd8215ee509b585d0d694b4a33465554b"
+    },
+    {
+      "path": "game/scripts/chapters/basement_controller.gd",
+      "bytes": 134214,
+      "sha256": "778443c6e6f3f72634841c02d0620628c7fe888e0af389844f107dbe51f700d5"
+    },
+    {
+      "path": "game/scripts/chapters/basement_controller.gd.uid",
+      "bytes": 19,
+      "sha256": "9587c37a4dc39ac451c19a99113e7866cb6cb2f709b70b1d5f144905b9aab48b"
+    },
+    {
+      "path": "game/scripts/chapters/black_mirror_controller.gd",
+      "bytes": 17706,
+      "sha256": "a0acd4f216f2dcad240e76a99a7df9b81daf168325c3fe04df78ff6fc88beb3a"
+    },
+    {
+      "path": "game/scripts/chapters/black_mirror_controller.gd.uid",
+      "bytes": 20,
+      "sha256": "91b33026eaca5980ec450093e9cd2ace8eb0738670e3076c04f66b8f144a8a1b"
+    },
+    {
+      "path": "game/scripts/chapters/chapter_one_controller.gd",
+      "bytes": 53460,
+      "sha256": "578e1e1636c8d5a8aac82eda848bec75a0f1146f6948a36f11864b1db027a25c"
+    },
+    {
+      "path": "game/scripts/chapters/chapter_one_controller.gd.uid",
+      "bytes": 20,
+      "sha256": "409783f0b62227cd49fc89fc5d9074f737312306d4f3ffc29c6fdf0a534ec4fd"
+    },
+    {
+      "path": "game/scripts/chapters/core_overlay_board.gd",
+      "bytes": 2378,
+      "sha256": "f92a95c6088bdd5f25bdb9c77b35d9d72ea463692d0042fb68e3b3b02fb92b58"
+    },
+    {
+      "path": "game/scripts/chapters/core_overlay_board.gd.uid",
+      "bytes": 20,
+      "sha256": "cfa758d68471b20e0da1f75490a88c26ddda2f4ad21cd132499cb19f246f22af"
+    },
+    {
+      "path": "game/scripts/chapters/mirror_overlay_diagram.gd",
+      "bytes": 57,
+      "sha256": "a5de622fa7761d7f16f12084acf6e29658de16d5378214b2572ac9a7fadeddce"
+    },
+    {
+      "path": "game/scripts/chapters/mirror_overlay_diagram.gd.uid",
+      "bytes": 20,
+      "sha256": "a54e83987d10e30540d9465c6d83aca407f21463545ddc2f7c48b7a5069c1409"
+    },
+    {
+      "path": "game/scripts/chapters/mirror_route_feedback.gd",
+      "bytes": 5534,
+      "sha256": "8dc3d6d54a7289f9860fcc346d1144667353e28fe9871597eec57e98baf97e54"
+    },
+    {
+      "path": "game/scripts/chapters/mirror_route_feedback.gd.uid",
+      "bytes": 20,
+      "sha256": "2f2a4be156c6e531c8db7499fa799bd7318c58f6dda991046b2805ee4bf91fd3"
+    },
+    {
+      "path": "game/scripts/data_types/basement_puzzle.gd",
+      "bytes": 7872,
+      "sha256": "dbcc10738054c9d949c06e878c53edf74fa24323b22847722d3ebbaaa422aa4d"
+    },
+    {
+      "path": "game/scripts/data_types/basement_puzzle.gd.uid",
+      "bytes": 19,
+      "sha256": "79063cea10595ea9e7feddfa91780ed1a062d21e53c43de4ab91487df9bab6c1"
+    },
+    {
+      "path": "game/scripts/data_types/black_mirror_puzzle.gd",
+      "bytes": 3130,
+      "sha256": "9faf401eb627fb45c126df2f24f2c1b96d23979c0d131ea2363b528d681f20a6"
+    },
+    {
+      "path": "game/scripts/data_types/black_mirror_puzzle.gd.uid",
+      "bytes": 19,
+      "sha256": "3b9e112164b503f9b1c54cf618a25ebe4f24cc7c6ce8cc40d6f2da45b90e3530"
+    },
+    {
+      "path": "game/scripts/data_types/clock_network_puzzle.gd",
+      "bytes": 4547,
+      "sha256": "d8799a775c7dde4270a51763c88344b4dc27a1487ba9169d8ddee37430176328"
+    },
+    {
+      "path": "game/scripts/data_types/clock_network_puzzle.gd.uid",
+      "bytes": 19,
+      "sha256": "4a98cfc6412b2b2329444b91c8398c189edc52707d5bd77fa7d5648c5ad8b922"
+    },
+    {
+      "path": "game/scripts/data_types/event_definition.gd",
+      "bytes": 413,
+      "sha256": "9ede921ba713d73e7a95ee475f8cb878975b42257a5ebeb7c5ef4a99885e8bdb"
+    },
+    {
+      "path": "game/scripts/data_types/event_definition.gd.uid",
+      "bytes": 20,
+      "sha256": "fa18d1a473d5f20261a5632d0b42643996afea139d1d5e90206d6293d2e94c72"
+    },
+    {
+      "path": "game/scripts/data_types/event_node_definition.gd",
+      "bytes": 179,
+      "sha256": "e7cc43ac84fbb35a2c07f794e3cf76a6bc136274409731d2af1a248c6c912d40"
+    },
+    {
+      "path": "game/scripts/data_types/event_node_definition.gd.uid",
+      "bytes": 20,
+      "sha256": "2a11d6e55fc7067f88109dc5e206aabc6882a80a29092a1944353aaccc9e37bf"
+    },
+    {
+      "path": "game/scripts/data_types/localized_text_catalog.gd",
+      "bytes": 126,
+      "sha256": "4fc744dc4656c643ac31fbee5b9f4a58ca83ac6988b54acf83810598a26ffbe8"
+    },
+    {
+      "path": "game/scripts/data_types/localized_text_catalog.gd.uid",
+      "bytes": 20,
+      "sha256": "4562d27fcab0bce380731bd1d52c3cb43d2cefef5b181c7f205d9a6a23e3f1e1"
+    },
+    {
+      "path": "game/scripts/data_types/state_write.gd",
+      "bytes": 363,
+      "sha256": "6ad1d32bd22986f6184ca09bb7a76463f0641917d8e14f45e7515f644fa16d70"
+    },
+    {
+      "path": "game/scripts/data_types/state_write.gd.uid",
+      "bytes": 20,
+      "sha256": "15911b7c3cc77ba181f406338f67425ed22a7fe8486c2943b3f309e17a5a535c"
+    },
+    {
+      "path": "game/scripts/data_types/typed_state_value.gd",
+      "bytes": 772,
+      "sha256": "25861a17643a6b781b0a85cfe9a7ca57ab8aff02b5c073ec7975d04677b39661"
+    },
+    {
+      "path": "game/scripts/data_types/typed_state_value.gd.uid",
+      "bytes": 20,
+      "sha256": "6f18560ef370ac3c3cf37fc93a64f46a01fc484f24ffbf79ba2ed96cb3b8ec4a"
+    },
+    {
+      "path": "game/scripts/interactables/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_controller.gd",
+      "bytes": 161035,
+      "sha256": "71ad39b2f606649da94a0863ef6f3ee55e1ba8dc14d5a3414ebdb7be705af1c9"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_controller.gd.uid",
+      "bytes": 20,
+      "sha256": "6dfca9912a759fe4af34d38c3f47c6c63b779b6ceedfa2aef250273ea8d4267c"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_cup_art.gd",
+      "bytes": 819,
+      "sha256": "768f3e5d3f19deec502fde44ecf932a3cc6019ed7287ea7da9ea984d6b1e9f75"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_cup_art.gd.uid",
+      "bytes": 20,
+      "sha256": "f9d3d0489cbf2135ff069588b4ae86d3b0b3dcd02c74b369c2026dcf4184238d"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_pulse_art.gd",
+      "bytes": 2603,
+      "sha256": "e72c9a663d5b71c1d2810f18b4f10db429541980676a4889ad908af182c190b8"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_pulse_art.gd.uid",
+      "bytes": 20,
+      "sha256": "974755bf46498acb01cff5854d33bcc91e6b064f6ed5190a58d6c738fb836d30"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_room_art.gd",
+      "bytes": 6012,
+      "sha256": "b7549ac77c11e23b914b547c4d28c1f04c810206d0b729246ff07be6facc1840"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_room_art.gd.uid",
+      "bytes": 18,
+      "sha256": "4f6b35d62ec0ce1bc9ca3825c4578afe6ddf7176d7d09d1dbd232dc4c06f976b"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_window_inspection_art.gd",
+      "bytes": 4851,
+      "sha256": "c6577444339150e4cff5e76c9a343f831dbb72633a61a4f372972574a1c2c0ef"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_window_inspection_art.gd.uid",
+      "bytes": 20,
+      "sha256": "e5044f72aebf88a1d49b9ff756dc79e531c1a5490f0c0542827242f6727842c9"
+    },
+    {
+      "path": "game/scripts/systems/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/scripts/systems/accessibility_profile_store.gd",
+      "bytes": 6399,
+      "sha256": "e4be87ce192a1f4c8900def329248ef96b8a9cb4d7546ab151cac5bc00d01dfb"
+    },
+    {
+      "path": "game/scripts/systems/accessibility_profile_store.gd.uid",
+      "bytes": 20,
+      "sha256": "bc9a1256f0b04174d43103cac7944ac1800a829f125acb3771d2170489c35cc8"
+    },
+    {
+      "path": "game/scripts/systems/basement_notebook.gd",
+      "bytes": 2445,
+      "sha256": "c0ba6ec46210f5d59586583cbfd39bfb673ffe8483b04c831ff70fca5a3f96f2"
+    },
+    {
+      "path": "game/scripts/systems/basement_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "c6f1095aa655963b29cbae3190f35c07f0bde90edf1d44c615acf3762d28719c"
+    },
+    {
+      "path": "game/scripts/systems/basement_session.gd",
+      "bytes": 48497,
+      "sha256": "062be624015af4ff068e26660bbc189c2c9c9d2aa63f0be3cb5dafe3a2fbb880"
+    },
+    {
+      "path": "game/scripts/systems/basement_session.gd.uid",
+      "bytes": 19,
+      "sha256": "065af6129256e4089661891c2649981b4e5d9fc81fd8cb83314f2419aff4bebf"
+    },
+    {
+      "path": "game/scripts/systems/black_mirror_session.gd",
+      "bytes": 18248,
+      "sha256": "dab632bd8065bf46540ed1697fce26a109be0080a2fd2e13211cb86dd490b25a"
+    },
+    {
+      "path": "game/scripts/systems/black_mirror_session.gd.uid",
+      "bytes": 19,
+      "sha256": "165c320b73750d0aa9b9279e7faa3239f268f2614a94c8aa5ed15ab5fb64908b"
+    },
+    {
+      "path": "game/scripts/systems/bootstrap.gd",
+      "bytes": 37941,
+      "sha256": "7b50054999d4a63662d31823554151469dbdaf8733031fa8c93fe5e3b60bac88"
+    },
+    {
+      "path": "game/scripts/systems/bootstrap.gd.uid",
+      "bytes": 20,
+      "sha256": "1a1c457bd7f742a7a0ef8d6b1f34a2ebb4a05bfb4544b9c2e2dbccc1bd554abf"
+    },
+    {
+      "path": "game/scripts/systems/chapter_one_notebook.gd",
+      "bytes": 1900,
+      "sha256": "91582305aba3ada65c33dc2149ee2e47377bff7a763672957d208b38b02600ab"
+    },
+    {
+      "path": "game/scripts/systems/chapter_one_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "cb7fbde0309af77e51f786d386d09cd2c36d8df819660425407f6f74bbf1a03f"
+    },
+    {
+      "path": "game/scripts/systems/chapter_one_notes.gd",
+      "bytes": 953,
+      "sha256": "24b53cc97beb4324ef3687ce7381481988eb03ea782511147f279d0dae113c7f"
+    },
+    {
+      "path": "game/scripts/systems/chapter_one_notes.gd.uid",
+      "bytes": 20,
+      "sha256": "2b1b5627279615c7bcc0e622629b998c041d83a76cc8049c0209866f8070a8ba"
+    },
+    {
+      "path": "game/scripts/systems/chapter_one_session.gd",
+      "bytes": 31024,
+      "sha256": "f2eded5cb99d6bd06d72f3e694ada9997fd75e9d626dff23110dbab8028468fe"
+    },
+    {
+      "path": "game/scripts/systems/chapter_one_session.gd.uid",
+      "bytes": 19,
+      "sha256": "287c0f52b8a7cf7b9c92f6591e175c466e43f5569d465a38be4d4f6b5dec5bdf"
+    },
+    {
+      "path": "game/scripts/systems/core_approach.gd",
+      "bytes": 6820,
+      "sha256": "3db4717e84f523bb9c065bdfbb6cd7f48301c86f83ced6530a86f304c634f7b3"
+    },
+    {
+      "path": "game/scripts/systems/core_approach.gd.uid",
+      "bytes": 20,
+      "sha256": "971619dce67a18700de85b2ea19cf5f0cc9cfedbc00725d9dd4e051813e3027e"
+    },
+    {
+      "path": "game/scripts/systems/core_notebook.gd",
+      "bytes": 14660,
+      "sha256": "8eaf4b600f4fcc567f9c91ca856c9da30bfe18d2ee69174239d170a5dca28a6e"
+    },
+    {
+      "path": "game/scripts/systems/core_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "bb2023ad971e7ce7f2c8c6f634bb943f1d357f54660418791b456ddc62713012"
+    },
+    {
+      "path": "game/scripts/systems/core_overlay.gd",
+      "bytes": 4172,
+      "sha256": "8a9a6f7b3800354e95be013c0d11c5aa28a0bc96f38505b441102f6d6cba7592"
+    },
+    {
+      "path": "game/scripts/systems/core_overlay.gd.uid",
+      "bytes": 20,
+      "sha256": "9abbc7be2cae3edeaf15705ff5db50943bfbd303753b8cca5f5b862f625a6b2e"
+    },
+    {
+      "path": "game/scripts/systems/core_record_roles.gd",
+      "bytes": 5225,
+      "sha256": "f686f40e78213a601edf0695f078806bdce51d85b9ad29e26dd0f9efcadad571"
+    },
+    {
+      "path": "game/scripts/systems/core_record_roles.gd.uid",
+      "bytes": 20,
+      "sha256": "920718d1ebdaf1d1c8f461faa77c0e175fa9d7a5ad261b8faf979dc315f7a0af"
+    },
+    {
+      "path": "game/scripts/systems/core_room_network.gd",
+      "bytes": 6077,
+      "sha256": "ad2c63b328d55b98dea247848a23663d0b8089b4495aa7597d56fce548feec48"
+    },
+    {
+      "path": "game/scripts/systems/core_room_network.gd.uid",
+      "bytes": 20,
+      "sha256": "3dcc81e9b9ca042f5c55001abbfca9b8735a7a4b7622ce742b5526f22d804f74"
+    },
+    {
+      "path": "game/scripts/systems/core_samples.gd",
+      "bytes": 5169,
+      "sha256": "85d85c4bc779b1cf82e5c447374253518a6df3df22139b820d13332ca5d8ccdc"
+    },
+    {
+      "path": "game/scripts/systems/core_samples.gd.uid",
+      "bytes": 20,
+      "sha256": "a4390202302af4814a5f1ae1acf75e3a19d2f3fb9a126c11110c79b5846aa4f6"
+    },
+    {
+      "path": "game/scripts/systems/core_self_authority.gd",
+      "bytes": 4256,
+      "sha256": "ebcb017a9b890cfb16204c70d2b3c048bd7bbb776fb320df525041385efbafc0"
+    },
+    {
+      "path": "game/scripts/systems/core_self_authority.gd.uid",
+      "bytes": 20,
+      "sha256": "42e774bbf9c10c3a9ecddc86dcb53be865911d140f75b5dce055a4aac5566398"
+    },
+    {
+      "path": "game/scripts/systems/d4_reaction_selector.gd",
+      "bytes": 1319,
+      "sha256": "b14dcbc4e96d31d733abe34957587759aa167a1b16851c80e673ec8558bc5d3e"
+    },
+    {
+      "path": "game/scripts/systems/d4_reaction_selector.gd.uid",
+      "bytes": 20,
+      "sha256": "7a7a8b987aef8ad1b205acfea72145661bde272fbb6787675750f04910b27fe1"
+    },
+    {
+      "path": "game/scripts/systems/developer_checkpoints.gd",
+      "bytes": 6839,
+      "sha256": "4caac3cb890580f662c0a508e9c76f2f670b1de01dad16fe60b4114750cb0251"
+    },
+    {
+      "path": "game/scripts/systems/developer_checkpoints.gd.uid",
+      "bytes": 20,
+      "sha256": "97cf1634bd16b226ba5f5ea8ff361f4729d5f9d4ded35fb62735af67454e2f36"
+    },
+    {
+      "path": "game/scripts/systems/dialogue_history_context.gd",
+      "bytes": 1237,
+      "sha256": "d50cb3aee6b4e0c76131d9fe93551298f3efa21ce49f6aaa6c61f980541c10fc"
+    },
+    {
+      "path": "game/scripts/systems/dialogue_history_context.gd.uid",
+      "bytes": 19,
+      "sha256": "116a01e3697188a3d00bddb1a0b3b11eea1c5f455a22f1783d82026e9086814d"
+    },
+    {
+      "path": "game/scripts/systems/dialogue_history_writer.gd",
+      "bytes": 6315,
+      "sha256": "83079f64d5db6c07721f5e6ef935ae38c151a65d25b18b840e5648cc40593dae"
+    },
+    {
+      "path": "game/scripts/systems/dialogue_history_writer.gd.uid",
+      "bytes": 20,
+      "sha256": "da1e8c4cd67ab9954373122104ebec8abc53ace75611476b750142d123c80360"
+    },
+    {
+      "path": "game/scripts/systems/dialogue_observed_facts.gd",
+      "bytes": 1886,
+      "sha256": "75f61e282722866b0c1a8bda4b0e22969fb264fceee195d04f59ceb737bd4ff5"
+    },
+    {
+      "path": "game/scripts/systems/dialogue_observed_facts.gd.uid",
+      "bytes": 20,
+      "sha256": "a9f8eabeaca505c3a5cb4d0dc9f1497abce5a8aa1e0d7865f253c7980e1afc0f"
+    },
+    {
+      "path": "game/scripts/systems/dialogue_repository.gd",
+      "bytes": 10636,
+      "sha256": "b7b53550e9531ab209ade159759c4574a1bb63cc2a1b85e91aff7feb45aefed9"
+    },
+    {
+      "path": "game/scripts/systems/dialogue_repository.gd.uid",
+      "bytes": 20,
+      "sha256": "f85b4fabd1c09e2506fd7b9c814b1a9ffe4eb2080a0e4b91d0ed6646fdcb54d7"
+    },
+    {
+      "path": "game/scripts/systems/display_settings.gd",
+      "bytes": 4007,
+      "sha256": "64ddab2f9c129d83412a9294fec54aa4666ba80fdbab76bd6c71696e758b49c2"
+    },
+    {
+      "path": "game/scripts/systems/display_settings.gd.uid",
+      "bytes": 20,
+      "sha256": "d28ed7dafeacfe9675e2d497951c23b2e5ec61d3bfe3ac40a482ea7deaebc20b"
+    },
+    {
+      "path": "game/scripts/systems/edgar_notebook.gd",
+      "bytes": 4866,
+      "sha256": "ae0f2728fc9db399bfce3b4f1943bf712226b2c6d948342d2c180c6b3d613f90"
+    },
+    {
+      "path": "game/scripts/systems/edgar_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "d1dd330422ace5e99a84dea860348ad49c0ee23613f3195b76fe16982f66acba"
+    },
+    {
+      "path": "game/scripts/systems/edgar_relationship.gd",
+      "bytes": 9120,
+      "sha256": "d310935cb0c595dcb70a90633ba9ba02ee2749c2a2d13406122a074958027d2b"
+    },
+    {
+      "path": "game/scripts/systems/edgar_relationship.gd.uid",
+      "bytes": 19,
+      "sha256": "e12f37cc745369518224c061d3030713107949727d540f36a5f43bd5550f7497"
+    },
+    {
+      "path": "game/scripts/systems/ending_credits.gd",
+      "bytes": 2796,
+      "sha256": "48372abd6e5c54f7c78e7d42b46d29615d830b62de92ed3640bd747f31fb29fd"
+    },
+    {
+      "path": "game/scripts/systems/ending_credits.gd.uid",
+      "bytes": 20,
+      "sha256": "74f3e4d9ae017f8d6292187f2f335238bcaa09713756669f05fdcded9b6a384b"
+    },
+    {
+      "path": "game/scripts/systems/ending_decision.gd",
+      "bytes": 2541,
+      "sha256": "bff826519222443369487641da810e889a1cf0e5bee027305fae45e429b1d2a4"
+    },
+    {
+      "path": "game/scripts/systems/ending_decision.gd.uid",
+      "bytes": 20,
+      "sha256": "e938d5a675cc0e4dd3e7fe79f0203d2bc922bebdb13b4a1c530473e771475a70"
+    },
+    {
+      "path": "game/scripts/systems/ending_entry.gd",
+      "bytes": 5397,
+      "sha256": "2e81e74a1835fa58c4f6369f44444f4025a3ff919c936a4e7f906af12902c1ed"
+    },
+    {
+      "path": "game/scripts/systems/ending_entry.gd.uid",
+      "bytes": 20,
+      "sha256": "cc3581b2d79d788c19ce415ee66436d96a6eb8dd23382cda20b700580e4205b6"
+    },
+    {
+      "path": "game/scripts/systems/ending_gallery_pages.gd",
+      "bytes": 5726,
+      "sha256": "5bef2b1467bd620ac10e4cafe98f6247182f3c038b138c1fd4a017f1f01d561d"
+    },
+    {
+      "path": "game/scripts/systems/ending_gallery_pages.gd.uid",
+      "bytes": 20,
+      "sha256": "f3cb23312c08222764ba4d5da75badf04deb0af8c82a426855cef0ef7873a4c8"
+    },
+    {
+      "path": "game/scripts/systems/ending_gallery_store.gd",
+      "bytes": 5004,
+      "sha256": "3adbd1fffc85168dd3eed054a88ec64f2cf5b9f8a9fd0a7c8c31d2c22d4ddb56"
+    },
+    {
+      "path": "game/scripts/systems/ending_gallery_store.gd.uid",
+      "bytes": 20,
+      "sha256": "6a9b65ca7433c6efd6fa39640b8cb57019652fa90b23dac3e35df1bcc4cd7931"
+    },
+    {
+      "path": "game/scripts/systems/ending_meta_store.gd",
+      "bytes": 3836,
+      "sha256": "9466b3fd88e8cec2906f436c7851cd962292616da4660247d8767a3e291af558"
+    },
+    {
+      "path": "game/scripts/systems/ending_meta_store.gd.uid",
+      "bytes": 20,
+      "sha256": "de3afb3bee7514ec320433bfe781a6f755b307a368ff1616bd1e3bb9b34f1033"
+    },
+    {
+      "path": "game/scripts/systems/father_final_record.gd",
+      "bytes": 7874,
+      "sha256": "9ae58d2611ff10de5daf731a6c0a2a12176cfd5f56025bc89ee3252411636e5f"
+    },
+    {
+      "path": "game/scripts/systems/father_final_record.gd.uid",
+      "bytes": 20,
+      "sha256": "d517061132111f826c74ef4d824b736a97f8f6e67db2a8ba2ef2cdb1ae851662"
+    },
+    {
+      "path": "game/scripts/systems/field_notebook.gd",
+      "bytes": 10503,
+      "sha256": "b2deba827dfa40d314d81ae8089182291cc970f700d3534b2c7c4b85759125c3"
+    },
+    {
+      "path": "game/scripts/systems/field_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "36824f25eee51977f7ec266cfa45cad34ec799ce27fc25856a3ddf68c7920ce8"
+    },
+    {
+      "path": "game/scripts/systems/final_inspection.gd",
+      "bytes": 5023,
+      "sha256": "476cd8f450cb14eab6ecc35ab7c328352624967390bc7f3929768a878643607e"
+    },
+    {
+      "path": "game/scripts/systems/final_inspection.gd.uid",
+      "bytes": 18,
+      "sha256": "c1a903900f5ddd5b123f56028ef87a60cb4edfc09a89306b77001914624fa19d"
+    },
+    {
+      "path": "game/scripts/systems/final_notebook.gd",
+      "bytes": 1189,
+      "sha256": "bbd1021608a5bb12fe98511def9320d5e80e7396fd2a448ae56081992e7cd273"
+    },
+    {
+      "path": "game/scripts/systems/final_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "944a28e80753a1dd1a7249d744c1ca803d25f5a2b2c4b12587ee3ee5fff43ca4"
+    },
+    {
+      "path": "game/scripts/systems/fracture_notebook.gd",
+      "bytes": 4715,
+      "sha256": "91f415ba18a224cf4de0dc934ea8d4c88970837908bd293b9a4a4f72e26edd94"
+    },
+    {
+      "path": "game/scripts/systems/fracture_notebook.gd.uid",
+      "bytes": 19,
+      "sha256": "3060558da2b95e9e0c49b4c94984dbc6688535ad8ac3561c392bb5946a390b70"
+    },
+    {
+      "path": "game/scripts/systems/game_audio.gd",
+      "bytes": 4001,
+      "sha256": "eb4b69ed97753ea48bc77a878727725e55beba560bd776964a0fefc24ed05527"
+    },
+    {
+      "path": "game/scripts/systems/game_audio.gd.uid",
+      "bytes": 20,
+      "sha256": "0f5b0626778134d521324a5da23a55f29710f18af0f854a07e152d9a6aee8862"
+    },
+    {
+      "path": "game/scripts/systems/input_router.gd",
+      "bytes": 1463,
+      "sha256": "143e9b3b44ced91343f9cde8b1382082f76182563ceec41c0bb215650f21c38d"
+    },
+    {
+      "path": "game/scripts/systems/input_router.gd.uid",
+      "bytes": 20,
+      "sha256": "b316f1b55d1c653de1bb5b7120509a4499f4ea62013f926e683c180124a3963b"
+    },
+    {
+      "path": "game/scripts/systems/interaction_router.gd",
+      "bytes": 384,
+      "sha256": "f3968787ee94f2602756b0a5c60e09670f80cff8ac67964cace6708cdd5541bf"
+    },
+    {
+      "path": "game/scripts/systems/interaction_router.gd.uid",
+      "bytes": 20,
+      "sha256": "317010c344b1e617d2d09ca3b0e7a27c51cd70770acc1452039b0f7dc81d54a2"
+    },
+    {
+      "path": "game/scripts/systems/iris_notebook.gd",
+      "bytes": 5267,
+      "sha256": "cde5dbf8921dba0891fd9cf251582ba3f66841dad8194314420608727746f6e4"
+    },
+    {
+      "path": "game/scripts/systems/iris_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "8fe2a4a6f47457a9cc6cc9792ebe160ce42338df7707d4441fa53b507f9bab18"
+    },
+    {
+      "path": "game/scripts/systems/iris_relationship.gd",
+      "bytes": 8828,
+      "sha256": "62b4b84b7f8c2c8bf2fa47872e429f1c12739a83483192962933eee4957cd5b8"
+    },
+    {
+      "path": "game/scripts/systems/iris_relationship.gd.uid",
+      "bytes": 20,
+      "sha256": "3f4ffb89c6230bb478ae412f1e7b48c33304ee0b8c47251540e3d8f22e50713f"
+    },
+    {
+      "path": "game/scripts/systems/journal_four.gd",
+      "bytes": 7926,
+      "sha256": "f2245a24acc2eea88f05540fe69e046f8630cccfbf7273b5594a885b732ab003"
+    },
+    {
+      "path": "game/scripts/systems/journal_four.gd.uid",
+      "bytes": 19,
+      "sha256": "2578055d793209553f1fbed7c2e5202a8cc2cfb3a193c31109222eb214de2ad4"
+    },
+    {
+      "path": "game/scripts/systems/journal_four_display_notebook.gd",
+      "bytes": 3348,
+      "sha256": "6b441d1a4d2615025f0f7bbc3ed6cae5a0ba51d0fa8512107d3d81d6ce943927"
+    },
+    {
+      "path": "game/scripts/systems/journal_four_display_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "7e30c3e99e1dc6aca2e47aef47d08c89a6fff14c01b5356be8e85cbbedb6286a"
+    },
+    {
+      "path": "game/scripts/systems/journal_four_notebook.gd",
+      "bytes": 4812,
+      "sha256": "b13ee3b7101e4a15a075ab2de75543505d85a9deaf7c4bc74111b96a376e8d5f"
+    },
+    {
+      "path": "game/scripts/systems/journal_four_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "e3fb0a28d42cf96442b89cce356c6263db5c11717858671e511b969b1270762d"
+    },
+    {
+      "path": "game/scripts/systems/key_bindings.gd",
+      "bytes": 3185,
+      "sha256": "2e10a5b0bbda01ece707522ebcadba81848331f5aa3207c967ca8b80b395ccc4"
+    },
+    {
+      "path": "game/scripts/systems/key_bindings.gd.uid",
+      "bytes": 19,
+      "sha256": "c412e3bb3542be8156ca259c3010d33601bb458b525e16fbfe05a9bddc8ed83f"
+    },
+    {
+      "path": "game/scripts/systems/last_evening.gd",
+      "bytes": 11714,
+      "sha256": "e602f9538efa990c70e0f4dcf7a98ae65d5f1d981c32377a47a64fb4ca154ba8"
+    },
+    {
+      "path": "game/scripts/systems/last_evening.gd.uid",
+      "bytes": 20,
+      "sha256": "c70b3b60475067f00336091b4b2e3bb2c89a34f8c128783bd13166017ede8555"
+    },
+    {
+      "path": "game/scripts/systems/load_coordinator.gd",
+      "bytes": 5577,
+      "sha256": "5ee324ff480512d25ff4c4f0e6af5fb4153f40eac5fa6de06238975fdd0a7522"
+    },
+    {
+      "path": "game/scripts/systems/load_coordinator.gd.uid",
+      "bytes": 19,
+      "sha256": "3efac9a40b33d1b9e292185f3ddd9a885fd66b24835ee581f68b24acff76f361"
+    },
+    {
+      "path": "game/scripts/systems/luca_notebook.gd",
+      "bytes": 4736,
+      "sha256": "9d6107cf22d872482a3be707f392ff619fa90a3f1b41925013fad6a29a6e90b9"
+    },
+    {
+      "path": "game/scripts/systems/luca_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "b6d66804b0d0a58538172c49e36a2b8b98c460549688757db1b9a44c9ba64928"
+    },
+    {
+      "path": "game/scripts/systems/luca_relationship.gd",
+      "bytes": 7896,
+      "sha256": "2a5b91763b8305547b4f372ae5222ad05a91cc3e87aeb2591adb68e3e550b42d"
+    },
+    {
+      "path": "game/scripts/systems/luca_relationship.gd.uid",
+      "bytes": 19,
+      "sha256": "efd8366ddecc83b845339f903bc13727a897f0ddfac7c9c2a0f4c37477d64ba5"
+    },
+    {
+      "path": "game/scripts/systems/mara1_notebook.gd",
+      "bytes": 4568,
+      "sha256": "d13e0e8514ad7d2c552c22b4320f425f1d9992f287ea2af906901e9074e91135"
+    },
+    {
+      "path": "game/scripts/systems/mara1_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "ebb737b84fcb98cfcc7ce10064a2a7e1da842277491e7202ae1a9aa215c3a548"
+    },
+    {
+      "path": "game/scripts/systems/mara1_relationship.gd",
+      "bytes": 6969,
+      "sha256": "2ddce363f783edc75148b3a9d9c4a6dfed86fbcbce8033e8d7eafb8bb2789d27"
+    },
+    {
+      "path": "game/scripts/systems/mara1_relationship.gd.uid",
+      "bytes": 19,
+      "sha256": "c8ed840921f4801abd39863795da36e02dc1ed26156c3d8815753f616d39b4dd"
+    },
+    {
+      "path": "game/scripts/systems/mara2_notebook.gd",
+      "bytes": 6993,
+      "sha256": "3eac566b99c7f76acd0a6b0fcf0266300e7ae2cf6d19172c3c1ec30ed2f1f29b"
+    },
+    {
+      "path": "game/scripts/systems/mara2_notebook.gd.uid",
+      "bytes": 19,
+      "sha256": "e466f6577e8cc4de729bb525da2f68623f015dc1c0506d7c1c751a98b7ea7702"
+    },
+    {
+      "path": "game/scripts/systems/mara2_relationship.gd",
+      "bytes": 9955,
+      "sha256": "6459d6aac09cd0582350dc6d98b498f9f5cd8ed2e232e8e57f959341ab580c2a"
+    },
+    {
+      "path": "game/scripts/systems/mara2_relationship.gd.uid",
+      "bytes": 19,
+      "sha256": "581f2d4bc33a651848cf2e180314b1c3436d7c9ff674fca11787331e0dec8a80"
+    },
+    {
+      "path": "game/scripts/systems/mirror_notebook.gd",
+      "bytes": 4302,
+      "sha256": "08dd8621a8dfa053c0b67a7fb078783f833f356bd2ae675a5ee461f1204f7bad"
+    },
+    {
+      "path": "game/scripts/systems/mirror_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "68b024d044d424f38d3d41b22d88c2f6b07c521b1a61604f6e223689c80613f9"
+    },
+    {
+      "path": "game/scripts/systems/modal_notebook.gd",
+      "bytes": 2505,
+      "sha256": "e24ae400f0da8c79b3045b3904a0e76e1f02bf66946d76b18f863c725477e46b"
+    },
+    {
+      "path": "game/scripts/systems/modal_notebook.gd.uid",
+      "bytes": 19,
+      "sha256": "9e351d5e5fe8435acbcf6a3e20b90fffb8e3dce252bec8974ee9fe772035e3cf"
+    },
+    {
+      "path": "game/scripts/systems/notebook_archive.gd",
+      "bytes": 23909,
+      "sha256": "a1c01dc5b085fcb855cdacefe3b174a27be305434414f4921aa3a84b15a92aaf"
+    },
+    {
+      "path": "game/scripts/systems/notebook_archive.gd.uid",
+      "bytes": 19,
+      "sha256": "40ff0f403561809228184154ecfb20f1e76569e87f41c363bf82ca300c98e21f"
+    },
+    {
+      "path": "game/scripts/systems/notebook_browse_labels.gd",
+      "bytes": 5086,
+      "sha256": "a2f67c70269370e934869f49a831d3b4fc3cb68b098a7ffb474b07f751c9afae"
+    },
+    {
+      "path": "game/scripts/systems/notebook_browse_labels.gd.uid",
+      "bytes": 20,
+      "sha256": "6c5e1e1957956ac37964007b0a46b01278c2205bc6c694bebd67cec0886c4625"
+    },
+    {
+      "path": "game/scripts/systems/notebook_chapter_surfaces.gd",
+      "bytes": 1505,
+      "sha256": "9561c112f0eb58ff573ea2e6f4bf8b5719b4dad283f70760e404b522325540e6"
+    },
+    {
+      "path": "game/scripts/systems/notebook_chapter_surfaces.gd.uid",
+      "bytes": 20,
+      "sha256": "314279a3ab008775eadb64fd95ca47285093f2c15d17d70ce21ec5d2ced6b3e8"
+    },
+    {
+      "path": "game/scripts/systems/notebook_commands.gd",
+      "bytes": 3447,
+      "sha256": "f6307313d9ef2d54c82e472675e04cdf2e33823f33eb2ede20705d4701bc27af"
+    },
+    {
+      "path": "game/scripts/systems/notebook_commands.gd.uid",
+      "bytes": 20,
+      "sha256": "cf15b5a6eb6211169592b570ad252895d75ebc29597be17f6903bb2bb617f7c0"
+    },
+    {
+      "path": "game/scripts/systems/notebook_content.gd",
+      "bytes": 21338,
+      "sha256": "554669a811bc99e6b93eb4cb8e3d2fb142e1e5b679461105811ace364d277b64"
+    },
+    {
+      "path": "game/scripts/systems/notebook_content.gd.uid",
+      "bytes": 20,
+      "sha256": "41668d5831fe7e45f12f801ab79884da43df53d3ef5f1caa89920a1ee73193ef"
+    },
+    {
+      "path": "game/scripts/systems/notebook_event_notes.gd",
+      "bytes": 3286,
+      "sha256": "51790eae9c6d7eac70cb5d41255fd3654e5725e1519806c7ed0da81c74c58fd4"
+    },
+    {
+      "path": "game/scripts/systems/notebook_event_notes.gd.uid",
+      "bytes": 20,
+      "sha256": "93c56adf64fce499214410e1f8e5ad6d0298a8372d12523bd7dc1d30a768ca3c"
+    },
+    {
+      "path": "game/scripts/systems/notebook_gallery_host.gd",
+      "bytes": 9603,
+      "sha256": "479574d613ceeabfba9bdfe73c9eb333347fe0beb595d6387cd5a5c2e9d8bb27"
+    },
+    {
+      "path": "game/scripts/systems/notebook_gallery_host.gd.uid",
+      "bytes": 20,
+      "sha256": "8e4e8d612acc919fb2c2d845a7617495e6a22a0cfcedd46bcdc061f383005aff"
+    },
+    {
+      "path": "game/scripts/systems/notebook_host.gd",
+      "bytes": 21919,
+      "sha256": "8891984b8a412cbaa69b397a055f87eb803bacbdd6ec7c653153a1647807a694"
+    },
+    {
+      "path": "game/scripts/systems/notebook_host.gd.uid",
+      "bytes": 20,
+      "sha256": "4f1026a193dbb70b19c4b8d96ec850c6f6b102de6f8b852883690f7a365ab958"
+    },
+    {
+      "path": "game/scripts/systems/notebook_investigation.gd",
+      "bytes": 3310,
+      "sha256": "3ae1905bc415b244dfb8dccb778480050827f07f901867ed143901c251ed28a5"
+    },
+    {
+      "path": "game/scripts/systems/notebook_investigation.gd.uid",
+      "bytes": 20,
+      "sha256": "73a918dd5b1cb275023b2ac62f96503ec4721784c9ddf7a56484b1759a33c180"
+    },
+    {
+      "path": "game/scripts/systems/notebook_knowledge.gd",
+      "bytes": 10601,
+      "sha256": "ea6bbe938aad4f568f6ff2f58ea9ea12234d70b25a4edc8bc536b70213a320ea"
+    },
+    {
+      "path": "game/scripts/systems/notebook_knowledge.gd.uid",
+      "bytes": 19,
+      "sha256": "9284be67c9064701186202ba2ae4ce37fcc1da725bcfa1742a81e782cdc055b3"
+    },
+    {
+      "path": "game/scripts/systems/notebook_legacy_feedback.gd",
+      "bytes": 7991,
+      "sha256": "1ffc667d746ae260361b253bb5d6a2171178157f9246e3ca6ab68325434f03f3"
+    },
+    {
+      "path": "game/scripts/systems/notebook_legacy_feedback.gd.uid",
+      "bytes": 20,
+      "sha256": "6ca25e1d82941a1bea7f1bb73c7b64672c61017152f2c395c0eee2ea49671eac"
+    },
+    {
+      "path": "game/scripts/systems/notebook_legacy_notes.gd",
+      "bytes": 4369,
+      "sha256": "eab7adb6fef3d606cfb5a58fcb9696aff8953eef34af213943457eebee18c8bf"
+    },
+    {
+      "path": "game/scripts/systems/notebook_legacy_notes.gd.uid",
+      "bytes": 20,
+      "sha256": "71b05ee8c8ae140f69ff3c8f0208cc009e8986d7249ca3685e1390161571b667"
+    },
+    {
+      "path": "game/scripts/systems/notebook_migration.gd",
+      "bytes": 2253,
+      "sha256": "f68bf1d085410584f9a8fc87551648fc09573054659fecb0049b53e4acb46d24"
+    },
+    {
+      "path": "game/scripts/systems/notebook_migration.gd.uid",
+      "bytes": 20,
+      "sha256": "3c7ab013ba196d382b7e678eb7c3e02c091e8818d7367274c572431d6b330d25"
+    },
+    {
+      "path": "game/scripts/systems/notebook_modal_presentation.gd",
+      "bytes": 4568,
+      "sha256": "17aa27df03723a916c05b396477aeaf739a9b038422b566d706c45140febfd9a"
+    },
+    {
+      "path": "game/scripts/systems/notebook_modal_presentation.gd.uid",
+      "bytes": 20,
+      "sha256": "f1a03c49ea5f386c5d8769253eb7202b6671db37a5bd97ac69c17aaf57e994c6"
+    },
+    {
+      "path": "game/scripts/systems/notebook_observation_schema.gd",
+      "bytes": 3379,
+      "sha256": "38e433f99569ed161ac2e5f5a6bba050a55e9b545fad55adeb2416d7bc9cc355"
+    },
+    {
+      "path": "game/scripts/systems/notebook_observation_schema.gd.uid",
+      "bytes": 20,
+      "sha256": "cbf4d71cc4054e334b48fe4ab8d8f33b4c60dd24f9a2dfb3951689197428e31c"
+    },
+    {
+      "path": "game/scripts/systems/notebook_presentation.gd",
+      "bytes": 17847,
+      "sha256": "78c5417b4635c2dfb920b667858070256297147aa3ec0ae72f8e939313250cfb"
+    },
+    {
+      "path": "game/scripts/systems/notebook_presentation.gd.uid",
+      "bytes": 19,
+      "sha256": "f85c57c3ee9f10821b70235d2682bbbaea4424427773c03ba1705afb8ae4df44"
+    },
+    {
+      "path": "game/scripts/systems/notebook_prologue_surfaces.gd",
+      "bytes": 2049,
+      "sha256": "a3a8b74a51c8c4fe5fbe71487a741f759288ba4125e2140b840ce6f7c9ecfda9"
+    },
+    {
+      "path": "game/scripts/systems/notebook_prologue_surfaces.gd.uid",
+      "bytes": 20,
+      "sha256": "13a97b7266d859be45a2260ea8d299ab073070b0cfc1715892d0d28b13426467"
+    },
+    {
+      "path": "game/scripts/systems/notebook_puzzle_labels.gd",
+      "bytes": 2018,
+      "sha256": "f74ad6688d1944bb03b5985d9d5f0d629cbfce1c695f9d3b0a3dc4b2b5e9f3b3"
+    },
+    {
+      "path": "game/scripts/systems/notebook_puzzle_labels.gd.uid",
+      "bytes": 19,
+      "sha256": "bd33db6c92ae11fe06442eb806dd9d432f1852909e8e7dc405726a7c60a8ab37"
+    },
+    {
+      "path": "game/scripts/systems/notebook_puzzle_surfaces.gd",
+      "bytes": 3376,
+      "sha256": "8d4c3a6e1ca042edbb22c596917a6c58131f66279b73d04736d4c4847a4f06e4"
+    },
+    {
+      "path": "game/scripts/systems/notebook_puzzle_surfaces.gd.uid",
+      "bytes": 20,
+      "sha256": "27abd36187783d75f4b810ff614c71f66669dc9795df31156b0b615c13b61efa"
+    },
+    {
+      "path": "game/scripts/systems/notebook_query.gd",
+      "bytes": 35874,
+      "sha256": "b4e64df8260ecfe4c01959c8cd05a252a81d1edcd5f6f51a75a0bf51c43e9515"
+    },
+    {
+      "path": "game/scripts/systems/notebook_query.gd.uid",
+      "bytes": 20,
+      "sha256": "f46dbbc85a1ffd9106b9ca1234987666c19705e245aeb1b2e7f68a498c153ac4"
+    },
+    {
+      "path": "game/scripts/systems/notebook_rollout.gd",
+      "bytes": 657,
+      "sha256": "608542d3d37bca4696d2d720516fea9c851bf3957c11449ed998658be8bf4c1f"
+    },
+    {
+      "path": "game/scripts/systems/notebook_rollout.gd.uid",
+      "bytes": 20,
+      "sha256": "71eaf3f03442a186d76679dbeccdd416cc80e0ae24f26a5ad7dce07988084f21"
+    },
+    {
+      "path": "game/scripts/systems/notebook_save_worker.gd",
+      "bytes": 4534,
+      "sha256": "fdd2d5343e9d6f63098476c774dfc75613b57bd1678dffadad24420ec132c04a"
+    },
+    {
+      "path": "game/scripts/systems/notebook_save_worker.gd.uid",
+      "bytes": 20,
+      "sha256": "c90408018761ffa62bbe45cbe2a94ef42929e7af7c93df72b07e738e1860dbe4"
+    },
+    {
+      "path": "game/scripts/systems/notebook_surface_capture.gd",
+      "bytes": 6477,
+      "sha256": "8e92bf046ed285caa9e1be272d6f7835cf4cd8206470c1bfe25bdbbdc00a9c21"
+    },
+    {
+      "path": "game/scripts/systems/notebook_surface_capture.gd.uid",
+      "bytes": 20,
+      "sha256": "403e7e5935717d93f41746aa1a5a07b054085ffda18ef222eb3d9db3d09fb590"
+    },
+    {
+      "path": "game/scripts/systems/notebook_surface_receipt.gd",
+      "bytes": 4927,
+      "sha256": "d2c370198984fc00f00fe33323a766c6cfd2ee2f489d3b581f60626d04818382"
+    },
+    {
+      "path": "game/scripts/systems/notebook_surface_receipt.gd.uid",
+      "bytes": 20,
+      "sha256": "92122b21a4dc6c66daf0e99fa553353e633ed60407c444cdde0708d34ef63371"
+    },
+    {
+      "path": "game/scripts/systems/notebook_view_store.gd",
+      "bytes": 10790,
+      "sha256": "28dea4e4f47066b737ccb251b4c42087f3ecca0de7069e57ef9c74cf0337e635"
+    },
+    {
+      "path": "game/scripts/systems/notebook_view_store.gd.uid",
+      "bytes": 20,
+      "sha256": "3fa3caf16a7cba93fb285e1b65686f7d96f3f622d2b45d7a9ce2a60b99e5ec51"
+    },
+    {
+      "path": "game/scripts/systems/notebook_visuals.gd",
+      "bytes": 10104,
+      "sha256": "c3a6f6068774c248a75f5883510176de46f5b98df2f0a75e408627982151ce1c"
+    },
+    {
+      "path": "game/scripts/systems/notebook_visuals.gd.uid",
+      "bytes": 20,
+      "sha256": "1f8078fdf477b4a48e0fe31dc9b7eee655a12a67cbb53236e774942acc2715ff"
+    },
+    {
+      "path": "game/scripts/systems/presentation_view_store.gd",
+      "bytes": 4756,
+      "sha256": "b2f1f5d6689ec1e13a49956c21a93dcfaa8532afd5724c115ef4c36707ab2c65"
+    },
+    {
+      "path": "game/scripts/systems/presentation_view_store.gd.uid",
+      "bytes": 19,
+      "sha256": "4044599bf4b897e8488222bdb3e8101244e33af045c8816264203fe7d36dab75"
+    },
+    {
+      "path": "game/scripts/systems/presentation_view_tracker.gd",
+      "bytes": 7826,
+      "sha256": "c0ad60b0223214ca93b9e9666038735576c1b987e38a029131ae6efdbd455e71"
+    },
+    {
+      "path": "game/scripts/systems/presentation_view_tracker.gd.uid",
+      "bytes": 20,
+      "sha256": "8ca5af5c2339fc8a2c36bb6ec1cde608ce5088252f51c82f53aef7f1ad22da3a"
+    },
+    {
+      "path": "game/scripts/systems/reality_notebook.gd",
+      "bytes": 8573,
+      "sha256": "399d9d3514cdcb88d21361b8f286e653a07187dc8ee7eb7e451a04e3289ce7dc"
+    },
+    {
+      "path": "game/scripts/systems/reality_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "ae480cf8efac8a9e1e65c456056500e65e6ddc03cbb1a09735e32121b7190a6e"
+    },
+    {
+      "path": "game/scripts/systems/reality_surface.gd",
+      "bytes": 4617,
+      "sha256": "d56e122e0107f2ebcc6294b70c4808deac2cdc969e69a983195d8f8bf6d43bd8"
+    },
+    {
+      "path": "game/scripts/systems/reality_surface.gd.uid",
+      "bytes": 20,
+      "sha256": "3a7508fd34b54681d83bfd9dcd473d01e74bfd3606cd877ebac170d808297f09"
+    },
+    {
+      "path": "game/scripts/systems/reality_wake.gd",
+      "bytes": 9276,
+      "sha256": "836099e2462c87b50856ad0b5b0e6dcda7608dce77d2b04207ecb1da5a68e40e"
+    },
+    {
+      "path": "game/scripts/systems/reality_wake.gd.uid",
+      "bytes": 20,
+      "sha256": "152524402de7ec7f7523eb6e4e7dc566657f1b9e66290cded5ca450f3f065f98"
+    },
+    {
+      "path": "game/scripts/systems/researcher_confrontation.gd",
+      "bytes": 6906,
+      "sha256": "b9a9c88ef2e8d661588a855d54e06905e15070d209de39dbad9678cb463615b1"
+    },
+    {
+      "path": "game/scripts/systems/researcher_confrontation.gd.uid",
+      "bytes": 20,
+      "sha256": "b903fbf4893d808a225ae3bbb2b1131755012c5b327f1014dc1a900c13e25863"
+    },
+    {
+      "path": "game/scripts/systems/reset_coordinator.gd",
+      "bytes": 9586,
+      "sha256": "48255f4338fa47f4f5f30f7b50cfd2fbfb3efabff00600ab4d019e62b86c6df9"
+    },
+    {
+      "path": "game/scripts/systems/reset_coordinator.gd.uid",
+      "bytes": 20,
+      "sha256": "b539e253aec02ec6ada7b73add2f059e488765fb4bff81143e83cb9dd3205a20"
+    },
+    {
+      "path": "game/scripts/systems/settlement_notebook.gd",
+      "bytes": 3905,
+      "sha256": "8faa23375768120ec5eca219d6a32048776c00e4f85080c93c2189a13a2b0627"
+    },
+    {
+      "path": "game/scripts/systems/settlement_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "ccb6b598ae6e38253f3ee73398b2d45f7a89ef51295c8ec7b09ef34f95ce3687"
+    },
+    {
+      "path": "game/scripts/systems/state_snapshot_validator.gd",
+      "bytes": 22535,
+      "sha256": "c413a382b274d9282b92643daaa653597fff6292e88e34764bae6d8e0cea5cc7"
+    },
+    {
+      "path": "game/scripts/systems/state_snapshot_validator.gd.uid",
+      "bytes": 20,
+      "sha256": "9d298fd2bc0c3e82125db945bea2a4a31418e91ad03e7af1c62ad981a1e7a506"
+    },
+    {
+      "path": "game/scripts/systems/state_writer.gd",
+      "bytes": 7605,
+      "sha256": "96b59d171c33c677c4aef9fe0fbe8c38cea902b702a601981352ce5b2224da9a"
+    },
+    {
+      "path": "game/scripts/systems/state_writer.gd.uid",
+      "bytes": 20,
+      "sha256": "83ff50e4a312e616c30be783cbe8be01542c7f034de37da6a0beeabe0c89c586"
+    },
+    {
+      "path": "game/scripts/systems/stay_charter.gd",
+      "bytes": 4435,
+      "sha256": "d104a17403ddc5fdbecf2837b29dbb35c5d4fd11433bfc0da93b6977ecd8c898"
+    },
+    {
+      "path": "game/scripts/systems/stay_charter.gd.uid",
+      "bytes": 19,
+      "sha256": "c212a9797755397aaf45d9645dd688a706583132c4b7fc3f388bf080f2c3d1b9"
+    },
+    {
+      "path": "game/scripts/systems/stay_notebook.gd",
+      "bytes": 4119,
+      "sha256": "a5bce224eaeafd41d416933744b7ae1b7d434e65a7f97ca8463e469bb885db95"
+    },
+    {
+      "path": "game/scripts/systems/stay_notebook.gd.uid",
+      "bytes": 20,
+      "sha256": "2107465fe6214d620cb47a58adb5c3beabed4696a1edbe09a77f52d5e6e1c0ae"
+    },
+    {
+      "path": "game/scripts/systems/stay_story.gd",
+      "bytes": 9347,
+      "sha256": "99aa0876cc8a1a0d60be377f2e33f209e2a111b0b638aa59389e8c37f99064ad"
+    },
+    {
+      "path": "game/scripts/systems/stay_story.gd.uid",
+      "bytes": 20,
+      "sha256": "7ab4a57e9672664b413376a4d17ccb6c1c35d6574fc78c7adc8bd7bbc03ac90f"
+    },
+    {
+      "path": "game/scripts/tests/application_focus_smoke.gd",
+      "bytes": 6646,
+      "sha256": "19f6619668b1817ff72562920fa2942367561f476f1fd734de3519c3b04d886c"
+    },
+    {
+      "path": "game/scripts/tests/application_focus_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "4d4d437e2d35de5515cbad134dac095600fdb5ebd892ee955cacc9124e3b21af"
+    },
+    {
+      "path": "game/scripts/tests/basement_puzzle_smoke.gd",
+      "bytes": 4100,
+      "sha256": "3b2e7d0b49c2225866c2ccebcd37263e6d4f3575e6120006037d9e99de354217"
+    },
+    {
+      "path": "game/scripts/tests/basement_puzzle_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "2d6c0a5c3f3c5acc7fe64086c4cce9865afe953831fe70650a84ce8e4dd8a667"
+    },
+    {
+      "path": "game/scripts/tests/basement_session_smoke.gd",
+      "bytes": 217744,
+      "sha256": "b7f4ac4fcbd130966779f85018f67849fa437e17aeb239334c72f84dae001628"
+    },
+    {
+      "path": "game/scripts/tests/basement_session_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "db98026c8e59369516bd647d6b9199b79b798f54976b54c2f502286d110f7d3f"
+    },
+    {
+      "path": "game/scripts/tests/black_mirror_smoke.gd",
+      "bytes": 30655,
+      "sha256": "85898c84ac09de3fc5cb3137f0d00f9d3e5e8be46a23cfb8a97ae5fdb9eac56c"
+    },
+    {
+      "path": "game/scripts/tests/black_mirror_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "9d072c0a6d958a1d435a2b19a6ff1ae925f1e81e9f297cef7933704e047b9df5"
+    },
+    {
+      "path": "game/scripts/tests/chapter_one_smoke.gd",
+      "bytes": 54922,
+      "sha256": "5c7d6d951f80f4ab0b60e2b1684b56011419acd86f5e8a351815cd93e11ed52f"
+    },
+    {
+      "path": "game/scripts/tests/chapter_one_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "457f1807747f2c3132de03b16f6f55901b6c271d581303d7515faa193c073961"
+    },
+    {
+      "path": "game/scripts/tests/core_overlay_smoke.gd",
+      "bytes": 1877,
+      "sha256": "c0e8c4f1e29894b4026865c9e3d811a0a295203f7d6e0406c64750658811a5d2"
+    },
+    {
+      "path": "game/scripts/tests/core_overlay_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "8de7c1e30cc47183dc84039bcd9b5cc947168a430b4590abe025a1ccc7d74084"
+    },
+    {
+      "path": "game/scripts/tests/developer_checkpoint_generator.gd",
+      "bytes": 4339,
+      "sha256": "5ed68c4e412304fd9f4f90cac23d9bfb236b1bab97d6ed53d1237328c9fa8354"
+    },
+    {
+      "path": "game/scripts/tests/developer_checkpoint_generator.gd.uid",
+      "bytes": 19,
+      "sha256": "bc7156797105d7fc6b6e3448e7802c8b9cb0b17cb3267014ea2f1d324e514bf3"
+    },
+    {
+      "path": "game/scripts/tests/developer_checkpoint_smoke.gd",
+      "bytes": 21644,
+      "sha256": "cc1379d6bf73cbe25e3df53b78409646be44f966e53cedf486e644795ee7e2b4"
+    },
+    {
+      "path": "game/scripts/tests/developer_checkpoint_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "498ee488c934abbd0d82c9a48eddd33fe768bcba71ec7da234084d3fe6df6efd"
+    },
+    {
+      "path": "game/scripts/tests/dialogue_history_smoke.gd",
+      "bytes": 11292,
+      "sha256": "74427b2f76af4938478a0bd90b1d5a38e668eee0edbc58d35d2f1917736633ad"
+    },
+    {
+      "path": "game/scripts/tests/dialogue_history_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "d5497a3ff56ca7d0477abaf9d10c9d8f5841a2f19bc31ba02c2e8491890dba42"
+    },
+    {
+      "path": "game/scripts/tests/display_settings_smoke.gd",
+      "bytes": 3428,
+      "sha256": "9f18174038c75450f4dfb17c80dedeb757c8eec9c9da70d70c6a1aa38b8744a1"
+    },
+    {
+      "path": "game/scripts/tests/display_settings_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "72964c92a74e94237a96f0cfbbd8890711710aafbedb66cc45bb3203a0642845"
+    },
+    {
+      "path": "game/scripts/tests/ending_meta_smoke.gd",
+      "bytes": 1895,
+      "sha256": "8d677b035680a1aac9da9dc15d3a082bd617a8e4199173159270f55478cce849"
+    },
+    {
+      "path": "game/scripts/tests/ending_meta_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "43153213d97a43bf44980745d0b9049df3ec27db4b187fcbd7c35cd4227ac573"
+    },
+    {
+      "path": "game/scripts/tests/foundation_runtime_regression.gd",
+      "bytes": 21987,
+      "sha256": "e124f5c9f8247f6392b27a0b41ef7b45d5567553005ed1dae12158d5b87be8e1"
+    },
+    {
+      "path": "game/scripts/tests/foundation_runtime_regression.gd.uid",
+      "bytes": 20,
+      "sha256": "3b7ae50e08e0dae3186624d100c79f29f3e827b8e584136da8d226b581ac87ed"
+    },
+    {
+      "path": "game/scripts/tests/foundation_smoke_runner.gd",
+      "bytes": 9072,
+      "sha256": "2ff85cabcc39fcae2252298059c447c5da3c15e99c0aa7246b96145da727f3e9"
+    },
+    {
+      "path": "game/scripts/tests/foundation_smoke_runner.gd.uid",
+      "bytes": 19,
+      "sha256": "ee05a1fe858f80d53bb221323717d72b190cdb407bb6eb183b71b16acacacba8"
+    },
+    {
+      "path": "game/scripts/tests/full_campaign_smoke.gd",
+      "bytes": 40361,
+      "sha256": "d263e0c2943b2175a8e606ffc78ee7b5dc589180981ec7d4e436bcf412f8e14a"
+    },
+    {
+      "path": "game/scripts/tests/full_campaign_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "542d7570b4e804ec5322c4b6d2d27b911b1e5e5928d9c7b2d3ad3281f04a04cc"
+    },
+    {
+      "path": "game/scripts/tests/game_audio_smoke.gd",
+      "bytes": 2267,
+      "sha256": "ace604d92a8d1f66755abb22156bdba43d0e954c0f7e55e3fc530e62258dab31"
+    },
+    {
+      "path": "game/scripts/tests/game_audio_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "7537bd352cc13d1b4583cdf5f5aee8b059cf9bfab1361a5fa2d65bc64f2e95ca"
+    },
+    {
+      "path": "game/scripts/tests/iris_confession_smoke.gd",
+      "bytes": 2744,
+      "sha256": "21369a53dee10ef027c6c7170478710695f7950aecf04311853436e13bb6b0b2"
+    },
+    {
+      "path": "game/scripts/tests/iris_confession_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "5777645dfb20974ce9789d76be01e545806a507e675b19957f2c5ae69cde38b8"
+    },
+    {
+      "path": "game/scripts/tests/key_binding_restart_smoke.gd",
+      "bytes": 1452,
+      "sha256": "69a678b6a2c829abd913eabea81398d3dd4fa442d30ce4e698fe8b96fcdef90d"
+    },
+    {
+      "path": "game/scripts/tests/key_binding_restart_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "35706028c9ffbd9d15b46c627a2db1b44e1f9ec5e6c0401187cd30bdc7d4a72a"
+    },
+    {
+      "path": "game/scripts/tests/notebook_archive_smoke.gd",
+      "bytes": 23897,
+      "sha256": "849d768f10c884e01bd3e0e240ebaa804a888ec3795f9cd1cda8af9f4722add9"
+    },
+    {
+      "path": "game/scripts/tests/notebook_archive_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "ef7a635eccdcffa057f4d122d43487f030a3250beeb183fd2a29529062de894b"
+    },
+    {
+      "path": "game/scripts/tests/notebook_async_save_smoke.gd",
+      "bytes": 13619,
+      "sha256": "d48733bfbbb1ab9a16e2ac6a2f242c26cacfe76dd85ae7a65c1647fe2f7f68bc"
+    },
+    {
+      "path": "game/scripts/tests/notebook_async_save_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "424f94a5788fdd72261c8bb7caecf0614dd0b4797b089a1ec6e581afb50ab58b"
+    },
+    {
+      "path": "game/scripts/tests/notebook_authority_archive_smoke.gd",
+      "bytes": 30630,
+      "sha256": "c1c674c4cfa707bfe1bbf2f27abfe05a7ad188f1452d43e2fd8041cd29fd3186"
+    },
+    {
+      "path": "game/scripts/tests/notebook_authority_archive_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "60a3cd0ab44c4f71e5612cf02638235211ee30d8774abf2570c93aa6b551b0ef"
+    },
+    {
+      "path": "game/scripts/tests/notebook_basement_smoke.gd",
+      "bytes": 31609,
+      "sha256": "b033a3fc037445adb987a49f11fc51c0ba4efdaca44581c99c4f85ceb0a5182a"
+    },
+    {
+      "path": "game/scripts/tests/notebook_basement_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "8e2e3bb0addf352f1ed8120211eee57ad2b3003dab31fbed26dd16f2f86d13de"
+    },
+    {
+      "path": "game/scripts/tests/notebook_browse_smoke.gd",
+      "bytes": 20098,
+      "sha256": "fe02430c7800acff51d7ea20b64ffff412ae02c540350e7d27665e351bbcd742"
+    },
+    {
+      "path": "game/scripts/tests/notebook_browse_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "22854dd00d70aed10613ab57d04e527ee21083b0f134fd646d455fbd1c136c2a"
+    },
+    {
+      "path": "game/scripts/tests/notebook_chapter_one_notes_smoke.gd",
+      "bytes": 24020,
+      "sha256": "40544b0e59f36beaba6e03e25979d94d8fe5e8eb94b50369fb4f8309d2ad65d4"
+    },
+    {
+      "path": "game/scripts/tests/notebook_chapter_one_notes_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "a2f0fedeb9ba7b02af917dd421a42ee9208150fce752d01b67c2cd2a22fbd7f8"
+    },
+    {
+      "path": "game/scripts/tests/notebook_chapter_one_smoke.gd",
+      "bytes": 37334,
+      "sha256": "3311c568d2ea55bb003774143f9f7436b65684b750bab36ba63a0595ce3a2629"
+    },
+    {
+      "path": "game/scripts/tests/notebook_chapter_one_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "4da8209346381c3f1c167f997dd6438bad85600d3a455a1177683a62dda552d7"
+    },
+    {
+      "path": "game/scripts/tests/notebook_chapter_surfaces_smoke.gd",
+      "bytes": 19458,
+      "sha256": "42f310791c747411402f8d350080f3ec9b7a50db77f91357eadad55f720dea09"
+    },
+    {
+      "path": "game/scripts/tests/notebook_chapter_surfaces_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "ef2276b75d023d7f758f775415a1760691882dd2609d0043d5c56783f90ccdeb"
+    },
+    {
+      "path": "game/scripts/tests/notebook_content_smoke.gd",
+      "bytes": 26574,
+      "sha256": "90fcdacf2fa29818fb031885853cc07786bf46ba5c0b8ee3c51e73c83e87b160"
+    },
+    {
+      "path": "game/scripts/tests/notebook_content_smoke.gd.uid",
+      "bytes": 18,
+      "sha256": "43aabc26355c5a4667ed470670af931c6e1f6cae61975a07babd756e47766981"
+    },
+    {
+      "path": "game/scripts/tests/notebook_core_smoke.gd",
+      "bytes": 23864,
+      "sha256": "d2ffce34d1a328eb08e26cbe88f57cf9acbc1dad67dc4f48df0fc18250ae58f2"
+    },
+    {
+      "path": "game/scripts/tests/notebook_core_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "9526b604740517a15d152278edf298ca6dbb274903e6271b5318a0ccbe80f1b9"
+    },
+    {
+      "path": "game/scripts/tests/notebook_final_smoke.gd",
+      "bytes": 29823,
+      "sha256": "4865b54f9d1587d952ad039e4c9ce669c4f679b2eb4715af00dd2649e4031711"
+    },
+    {
+      "path": "game/scripts/tests/notebook_final_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "07e553627d428764667383ece6f300474bac3ad7eba0d4e3b01d3edf78fd7e23"
+    },
+    {
+      "path": "game/scripts/tests/notebook_fracture_smoke.gd",
+      "bytes": 32076,
+      "sha256": "f19cc4628e7f1b8ca6ea3232ded9c7054577a3cd13f7de3843b8f001122d5fc4"
+    },
+    {
+      "path": "game/scripts/tests/notebook_fracture_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "5c1f33f63add134d7e65f3823647946fa03d38e6e4ea842a6704183416067a54"
+    },
+    {
+      "path": "game/scripts/tests/notebook_fracture_surfaces_smoke.gd",
+      "bytes": 18083,
+      "sha256": "1586facb1e9105e936451b73017e629b5711d54c50380991801be34220431ce3"
+    },
+    {
+      "path": "game/scripts/tests/notebook_fracture_surfaces_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "3e9482b4b7c49ffa5480e365179911ce90c2222a7b84189b5f163dfa2cde69b0"
+    },
+    {
+      "path": "game/scripts/tests/notebook_gallery_smoke.gd",
+      "bytes": 27866,
+      "sha256": "929cd51be0de03a3d9788331d9c08977dbf1797caccfb86c4a370d3908ac6e3b"
+    },
+    {
+      "path": "game/scripts/tests/notebook_gallery_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "217bc1916e2b472c3b5d370a81f4256c0e9ef47e7b65847c38fc19a7a15d7e67"
+    },
+    {
+      "path": "game/scripts/tests/notebook_host_smoke.gd",
+      "bytes": 50613,
+      "sha256": "e1c0bd59fb5e4ce9d48bdec4c827ba5205e5aecf43bca71d0648e24ada1255bc"
+    },
+    {
+      "path": "game/scripts/tests/notebook_host_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "4bfa8ab6ee933e3fb26cee0968fb907ab4b63f4980d50a350ff084ede5520245"
+    },
+    {
+      "path": "game/scripts/tests/notebook_investigation_smoke.gd",
+      "bytes": 13529,
+      "sha256": "2523fcc5f3837ae51112bc85df480dc07be75f09e70ea884bab57f0abef29080"
+    },
+    {
+      "path": "game/scripts/tests/notebook_investigation_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "cbeb375fe537b148f446bb8e39fc06c3573c2066377084248dbccb99b08bddd9"
+    },
+    {
+      "path": "game/scripts/tests/notebook_iris_smoke.gd",
+      "bytes": 19516,
+      "sha256": "43d0fe262d768a1fe9c561399308aa7648513bf4456d073c16869be5a9626c58"
+    },
+    {
+      "path": "game/scripts/tests/notebook_iris_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "d96d13bc2fbc3d842fb470b2781d65740fc4cbe2ebcbb74a20053c09dc7dc213"
+    },
+    {
+      "path": "game/scripts/tests/notebook_journal_four_display_smoke.gd",
+      "bytes": 21104,
+      "sha256": "c17d904badd17f8be27302d81cbc658b7a6b4f65480cb01743553ef86c711daf"
+    },
+    {
+      "path": "game/scripts/tests/notebook_journal_four_display_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "20d3c70837e60d79db2e5cf54f7017e17eae91f5931157b445a3a2c3e6bd0ed1"
+    },
+    {
+      "path": "game/scripts/tests/notebook_journal_four_smoke.gd",
+      "bytes": 15452,
+      "sha256": "4bce40f0e9b23595dbda68cf14331d8373fb2051b1788bc089f9ba42b70fbdf6"
+    },
+    {
+      "path": "game/scripts/tests/notebook_journal_four_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "eada463f65578e7150d714e7e9ccedcef77b5a453917ab0689b216dfe5bfbc47"
+    },
+    {
+      "path": "game/scripts/tests/notebook_knowledge_smoke.gd",
+      "bytes": 28457,
+      "sha256": "dc791e70ba9a8c1074249b30399c98def49fb63295e6c5f0ae5f2588fdec81a5"
+    },
+    {
+      "path": "game/scripts/tests/notebook_knowledge_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "002763325e9d6fe4eb0415c7a96ebc1fd20cdf4743bbb239d286237a56d4b2bb"
+    },
+    {
+      "path": "game/scripts/tests/notebook_legacy_feedback_smoke.gd",
+      "bytes": 18392,
+      "sha256": "58e6032dc27b0accdcf90ce5e195953033c5b202a6b8bc6ca790934641a3020a"
+    },
+    {
+      "path": "game/scripts/tests/notebook_legacy_feedback_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "b3a40ac2740a2d6453524bb93ae7d19770638aba9a408a0f048b28b0a8d6579f"
+    },
+    {
+      "path": "game/scripts/tests/notebook_legacy_notes_smoke.gd",
+      "bytes": 15576,
+      "sha256": "035119fc3964f9a4a13d1d2a247233158f613e0e6b736683d21c96ec7fcb5b07"
+    },
+    {
+      "path": "game/scripts/tests/notebook_legacy_notes_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "de2ec56c4ba5ae17261def885c167cd7eb8b6ad7fc08d94601a2b9fe727bd13f"
+    },
+    {
+      "path": "game/scripts/tests/notebook_lifecycle_probe.gd",
+      "bytes": 7137,
+      "sha256": "e7d39dca1fc4830a4469642d627f0abd59af624b2192e30786bdb80b30196065"
+    },
+    {
+      "path": "game/scripts/tests/notebook_lifecycle_probe.gd.uid",
+      "bytes": 20,
+      "sha256": "f2cb3647871f653a4ba4deb548509b51e5950456da8abc813ce80d14adcb3821"
+    },
+    {
+      "path": "game/scripts/tests/notebook_luca_smoke.gd",
+      "bytes": 21315,
+      "sha256": "19f5b9f31d64bac5de57745dfd3d004c03483e1f2e5feea6673ab089f28fd231"
+    },
+    {
+      "path": "game/scripts/tests/notebook_luca_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "1a7d6208fab0b9e60b4b82273278899882929ae1780c0c5e4d9302689c24cacf"
+    },
+    {
+      "path": "game/scripts/tests/notebook_mara1_smoke.gd",
+      "bytes": 18769,
+      "sha256": "2bbda1e2192c9322d30e1994fe41d3352169aa10bf29d36e352db98441565a5b"
+    },
+    {
+      "path": "game/scripts/tests/notebook_mara1_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "dd417bc4f88d3fc636fde294a8694e23103d188bc3d164cd668a0080d8ce83f6"
+    },
+    {
+      "path": "game/scripts/tests/notebook_memory_disclosure_smoke.gd",
+      "bytes": 12549,
+      "sha256": "48054e4b172966a1324dd25ecbbc9229227ab6c9aab217898a06ab75ddb4aed7"
+    },
+    {
+      "path": "game/scripts/tests/notebook_memory_disclosure_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "e79469e39a25b30cdd473f03e078dbb071af02ec85ddc9703ebdceffc2a65029"
+    },
+    {
+      "path": "game/scripts/tests/notebook_metadata_smoke.gd",
+      "bytes": 10889,
+      "sha256": "c59888a771e6bbab3288d135ad9cef3459fefdf9e3cc2706f0e493e3eb75e897"
+    },
+    {
+      "path": "game/scripts/tests/notebook_metadata_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "f18a50e25205c921b32932e255110b67887e87bb067069cfaddbbddd6d5f0929"
+    },
+    {
+      "path": "game/scripts/tests/notebook_migration_smoke.gd",
+      "bytes": 43324,
+      "sha256": "a0020ebb36bd8021ec7ea02b02eae8c29bd230b579e9b394ec37ca0e31ea32c7"
+    },
+    {
+      "path": "game/scripts/tests/notebook_migration_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "06b3cb22e9830dd4be998a09077bffb23ff0be7808c673c196a986374bda968f"
+    },
+    {
+      "path": "game/scripts/tests/notebook_mirror_smoke.gd",
+      "bytes": 25633,
+      "sha256": "da51ca815067a0b4b2557341f5291245427d68c681f8c271fdca8ed45a611017"
+    },
+    {
+      "path": "game/scripts/tests/notebook_mirror_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "b284184ff70cbdd8ebf10504ac87b711fcf0e90283f0bed3ac96228351c9ae73"
+    },
+    {
+      "path": "game/scripts/tests/notebook_modal_presentation_smoke.gd",
+      "bytes": 35217,
+      "sha256": "229bcbdc40bb2c8ec909cbb948caf15a020e55172b60e0d939f745ca4ab74055"
+    },
+    {
+      "path": "game/scripts/tests/notebook_modal_presentation_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "b6755fcbf1def11b7f4306c70c7136a02bc5c175d8eefd6115f9d027d8cccfcf"
+    },
+    {
+      "path": "game/scripts/tests/notebook_modals_smoke.gd",
+      "bytes": 22735,
+      "sha256": "98372f2ee3969e2bd0e0f1878611720ab7ad3b4f565fb6a0b287f38c242307cc"
+    },
+    {
+      "path": "game/scripts/tests/notebook_modals_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "0da5338275ae45aaa278f3dfc35aa0adcb15e6cd42e287a2649ea6dac7403249"
+    },
+    {
+      "path": "game/scripts/tests/notebook_opening_smoke.gd",
+      "bytes": 11279,
+      "sha256": "c3829face6155bc8d270ee14bc58810796c7678df83981f1496ac0336a2169f5"
+    },
+    {
+      "path": "game/scripts/tests/notebook_opening_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "24c91150e9a75306a2bfbef458e1628ad863facfef58ef662b1be1d4ecb1c90a"
+    },
+    {
+      "path": "game/scripts/tests/notebook_performance_fixture.gd",
+      "bytes": 6845,
+      "sha256": "ee4eabc5a1c9975b3a01f29b273a1a2af47e8bffc49619579712c077eab3a56a"
+    },
+    {
+      "path": "game/scripts/tests/notebook_performance_fixture.gd.uid",
+      "bytes": 20,
+      "sha256": "bb8f9bb4519c8e141b61ca9e1560a453ba160f0c37015d1f9c1933e5edd0f4da"
+    },
+    {
+      "path": "game/scripts/tests/notebook_performance_probe.gd",
+      "bytes": 14570,
+      "sha256": "45651966858ab255048bb99708dc736ab4481cdaf89b8e12761a04604e2bfc55"
+    },
+    {
+      "path": "game/scripts/tests/notebook_performance_probe.gd.uid",
+      "bytes": 19,
+      "sha256": "8d274895b15f714d6f882ef41cada11aaede9ff1328d9e8fc7e01e482b93db3a"
+    },
+    {
+      "path": "game/scripts/tests/notebook_person_retention_smoke.gd",
+      "bytes": 11185,
+      "sha256": "fe97cd152a97159ed0746c98ef9c0d13751747623a482bff7d451b449bc0b99c"
+    },
+    {
+      "path": "game/scripts/tests/notebook_person_retention_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "bd6068b7dc17f8b8a8f596ccce59ad73e1beef2ca528af7c116371a991490e52"
+    },
+    {
+      "path": "game/scripts/tests/notebook_presentation_smoke.gd",
+      "bytes": 30243,
+      "sha256": "3b9770a1e32106a8536cdac687b2c0e842c526458e0920114656456421de0caf"
+    },
+    {
+      "path": "game/scripts/tests/notebook_presentation_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "a60bedfbfe2044625de69f2a39138312c1685c3a1bcb746c427a480d39dbae7b"
+    },
+    {
+      "path": "game/scripts/tests/notebook_producer_contract_smoke.gd",
+      "bytes": 6268,
+      "sha256": "1215ebe29c4f2c37bc9719eb8597069b5da24ff81d1ba0084aae1cdf350dceb6"
+    },
+    {
+      "path": "game/scripts/tests/notebook_producer_contract_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "cdd52373acc819883cb51f5a2486cf89053190ad33698ec1727734769b4ab880"
+    },
+    {
+      "path": "game/scripts/tests/notebook_prologue_presentation_smoke.gd",
+      "bytes": 24645,
+      "sha256": "a79fbbe2ed5d79f8910857036eec34d6cab7662837f10afdc1839d8e03307a66"
+    },
+    {
+      "path": "game/scripts/tests/notebook_prologue_presentation_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "e44841ffe49d175c266d73b66a346a37564d3f1efda93b2dd905d34db0867e39"
+    },
+    {
+      "path": "game/scripts/tests/notebook_prologue_smoke.gd",
+      "bytes": 15610,
+      "sha256": "2645c849892b262d73d7ec88396b4a9d45e788e8da8c835654b112e66afa55cb"
+    },
+    {
+      "path": "game/scripts/tests/notebook_prologue_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "1a9fa6da615771d0e65c45de3f7655b3cb18dfc125a6946cba267ea5f8861da2"
+    },
+    {
+      "path": "game/scripts/tests/notebook_prologue_surfaces_smoke.gd",
+      "bytes": 12978,
+      "sha256": "fd4f543ef9577ab670781fc68e1b15918cd4c45e90fe15a78c8f7674091c4b35"
+    },
+    {
+      "path": "game/scripts/tests/notebook_prologue_surfaces_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "618bb5232a07939ad2d7f2baa8b140c73ab4479af9c61dbe2fe3b2e021c8955b"
+    },
+    {
+      "path": "game/scripts/tests/notebook_public_puzzle_labels.gd",
+      "bytes": 5613,
+      "sha256": "02c1d8c7360c030e7298e375e4d54fbd9c510f48b9ab4ebbbb9f519b9994ecc4"
+    },
+    {
+      "path": "game/scripts/tests/notebook_public_puzzle_labels.gd.uid",
+      "bytes": 20,
+      "sha256": "70045cb146676043913cfc3a382f7e27a45dcdfd9352ff734a58feddb320ef9d"
+    },
+    {
+      "path": "game/scripts/tests/notebook_puzzle_audit_smoke.gd",
+      "bytes": 2115,
+      "sha256": "0445f250ecda42865b573aaeafd49249389d99af01f01598b06361d791fd0e0f"
+    },
+    {
+      "path": "game/scripts/tests/notebook_puzzle_audit_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "3dd487957a4397a502f710d847f42084c89dfa7b0b9296c3c1cbcd3551338535"
+    },
+    {
+      "path": "game/scripts/tests/notebook_puzzle_coverage.gd",
+      "bytes": 3290,
+      "sha256": "bcc40c548d72f73c35bfdf20289ddfb15dd1aa65fa5c68d5e95339cd33329c82"
+    },
+    {
+      "path": "game/scripts/tests/notebook_puzzle_coverage.gd.uid",
+      "bytes": 20,
+      "sha256": "d5685e7387b3096d54f7d0e19894c9cb198c8fc6a2510be94679598db9b037b7"
+    },
+    {
+      "path": "game/scripts/tests/notebook_puzzle_surfaces_smoke.gd",
+      "bytes": 16812,
+      "sha256": "8c282e90d6c81fbcaf5b4fb308063bd5736b35f6be994b26ce216a68d387281a"
+    },
+    {
+      "path": "game/scripts/tests/notebook_puzzle_surfaces_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "a09c2620c1f0c55958880d9725a5353012a033f86dbaaf688cebd6a9f0c48c19"
+    },
+    {
+      "path": "game/scripts/tests/notebook_query_smoke.gd",
+      "bytes": 40537,
+      "sha256": "2fa413a64f83108d2f01cb7a1f424044640693522bebf4ea0b996b1c4a08acd3"
+    },
+    {
+      "path": "game/scripts/tests/notebook_query_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "d1c6052f7f57667b4358ee15e20c474292f3bd27acc3d2fdf89d87acb1eabbbf"
+    },
+    {
+      "path": "game/scripts/tests/notebook_reality_smoke.gd",
+      "bytes": 29128,
+      "sha256": "81fab36e68853e262aed2e778cd3bc5c099c2be4fe1ccc2e43f3ce39ed183a95"
+    },
+    {
+      "path": "game/scripts/tests/notebook_reality_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "2081efe6ac5eecacbe161f0c73fca845d29be62d4371e526c66d6b151e97b009"
+    },
+    {
+      "path": "game/scripts/tests/notebook_relationship_choice_retry.gd",
+      "bytes": 5457,
+      "sha256": "0954652fc4b2806afe7bcbaef0d4bc76893fe65545b349965fdcc56d4be0ae11"
+    },
+    {
+      "path": "game/scripts/tests/notebook_relationship_choice_retry.gd.uid",
+      "bytes": 20,
+      "sha256": "2a39b1d602ee74a385679f6ca447c06c77927b8fd10ced22481222a8b4e1049e"
+    },
+    {
+      "path": "game/scripts/tests/notebook_relationship_label_assertions.gd",
+      "bytes": 3528,
+      "sha256": "573130ea2818de1b058ea58efdc020a1678efd40a80cbff7dd440e8dd9b20e57"
+    },
+    {
+      "path": "game/scripts/tests/notebook_relationship_label_assertions.gd.uid",
+      "bytes": 20,
+      "sha256": "3e0110e7de82045bd9dda5885d21f03d8b360c764abca540611d8f479bdb1547"
+    },
+    {
+      "path": "game/scripts/tests/notebook_reselect_presentation_smoke.gd",
+      "bytes": 15029,
+      "sha256": "68e2b69fe60cf2683672e6621ed553e75ff10bfef14774eb33168b881f5213d5"
+    },
+    {
+      "path": "game/scripts/tests/notebook_reselect_presentation_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "2fd4824c90eb9c04397efe3fcb445ef385d804cdc4a0dd6e4ece13b91e489f27"
+    },
+    {
+      "path": "game/scripts/tests/notebook_retention_fixture.gd",
+      "bytes": 1571,
+      "sha256": "bbb1d2371809946fa6536b6472326b894529c261d80e5d9f0f56b7dabae6a3b2"
+    },
+    {
+      "path": "game/scripts/tests/notebook_retention_fixture.gd.uid",
+      "bytes": 20,
+      "sha256": "e6e96fd7328240b636154d83f843ebac03cce496be5fe715329561d462b39ee2"
+    },
+    {
+      "path": "game/scripts/tests/notebook_runtime_audit.gd",
+      "bytes": 3293,
+      "sha256": "2bfb7561ce0102391268943c34df33559f0843e9fffad4b00977d974899b11d7"
+    },
+    {
+      "path": "game/scripts/tests/notebook_save_safety_smoke.gd",
+      "bytes": 20201,
+      "sha256": "2272c74c187b1e033e206014cb2b24e20b12c2d87c4465542dc4595475c1336d"
+    },
+    {
+      "path": "game/scripts/tests/notebook_save_safety_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "37db57ec0ef6e78c3477d35f056417b29db002272eef3bccbd83aa48b621359e"
+    },
+    {
+      "path": "game/scripts/tests/notebook_scope_smoke.gd",
+      "bytes": 3493,
+      "sha256": "a44c0f8c9a236a0fadcafacf32cb5632b2b98602a6935ebbbf08ed8cbda304fc"
+    },
+    {
+      "path": "game/scripts/tests/notebook_search_smoke.gd",
+      "bytes": 7805,
+      "sha256": "9bb2b76e7ad0a97136f086c2ec0e4fc9a7c881c16ddd30385708e496e4cdd950"
+    },
+    {
+      "path": "game/scripts/tests/notebook_search_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "99a6be6ff4c6a571ae53b89a7b49715c69668b5719859709906c6dfc16242ad0"
+    },
+    {
+      "path": "game/scripts/tests/notebook_self_mark_smoke.gd",
+      "bytes": 15001,
+      "sha256": "d629c98829431691bbe02909b0ad1166b9700a404b62dfb3969eb7f060bc5124"
+    },
+    {
+      "path": "game/scripts/tests/notebook_self_mark_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "cbb99fd3ad0ba8722304135f864d7f0be73c7d2415de2a6de093b2c185620259"
+    },
+    {
+      "path": "game/scripts/tests/notebook_settlement_smoke.gd",
+      "bytes": 22763,
+      "sha256": "81c5bc8af7f75ba3a4d19621bfe9cefb408fbf0b137d9de773551770f0dde6bc"
+    },
+    {
+      "path": "game/scripts/tests/notebook_settlement_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "969997121edb2e4717e2d53fe84a3895b8c5fa8c0c313447cc8c5319e030a85c"
+    },
+    {
+      "path": "game/scripts/tests/notebook_state_assertions.gd",
+      "bytes": 4519,
+      "sha256": "4caa3a8ec87be5ef24860aebe2a70d1a70ed67e9dbcac6a779896df867030d42"
+    },
+    {
+      "path": "game/scripts/tests/notebook_state_assertions.gd.uid",
+      "bytes": 20,
+      "sha256": "e376a44b6a1d588cb8c8f842de5c338114b1d23471c53fa44f55d331dcefad36"
+    },
+    {
+      "path": "game/scripts/tests/notebook_stay_smoke.gd",
+      "bytes": 21633,
+      "sha256": "b127989e77eb41e4fe72bccbca108087448cd6be56652970e4992cb7de8be706"
+    },
+    {
+      "path": "game/scripts/tests/notebook_stay_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "69d4c5f6ec915ff44e31aea62952388cf96b8850eaf8f64aafa1b49437bea0c0"
+    },
+    {
+      "path": "game/scripts/tests/notebook_substitution_smoke.gd",
+      "bytes": 4939,
+      "sha256": "a2fe40ef56880e20080e83a3fffcc58fad243a4daa09e87c6896f591eefd6c3f"
+    },
+    {
+      "path": "game/scripts/tests/notebook_surface_resume_smoke.gd",
+      "bytes": 15789,
+      "sha256": "7d5efff0b839dfa277eced3200d7c4c73903b4296c78d861cba5146172d7d764"
+    },
+    {
+      "path": "game/scripts/tests/notebook_surface_resume_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "759574dd800e533708382191124ae73245b9c8ba346713277e55c05f8b4938d0"
+    },
+    {
+      "path": "game/scripts/tests/notebook_test_wait.gd",
+      "bytes": 834,
+      "sha256": "57f707c407fb346dc14b873c53c193c084a227660ce81e5484d26a010a412ed6"
+    },
+    {
+      "path": "game/scripts/tests/notebook_test_wait.gd.uid",
+      "bytes": 20,
+      "sha256": "1f9fa69151a535e87f16c4235ac17b69351a10f58cbf2c30e96bdb5f45f1f978"
+    },
+    {
+      "path": "game/scripts/tests/notebook_view_future_smoke.gd",
+      "bytes": 3144,
+      "sha256": "a365cfbf5e8cdc505f736c71d4da7aee2182a653b01e048868ccbce39e206a7b"
+    },
+    {
+      "path": "game/scripts/tests/notebook_view_smoke.gd",
+      "bytes": 22506,
+      "sha256": "bd56c534c289a8489b0eaf8e2df8d4696d1a89b34ec50f40bdee0ec4b9562c03"
+    },
+    {
+      "path": "game/scripts/tests/notebook_view_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "6b77c97f027fab4f11dbd7daba248d178f23a6e43b546df1f8d36ce419a5f916"
+    },
+    {
+      "path": "game/scripts/tests/notebook_visual_smoke.gd",
+      "bytes": 14069,
+      "sha256": "0b51933593cd32e06f49f07bcf738b3485cb0178c38b546194289b2281514740"
+    },
+    {
+      "path": "game/scripts/tests/notebook_visual_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "c5e2e4c4db1e5d5e09a3db233206177edc78cae2a54d8f9d7256aebd57cda5c4"
+    },
+    {
+      "path": "game/scripts/tests/practice_scene_smoke.gd",
+      "bytes": 1835,
+      "sha256": "54093f993e9332e9113275ae314c98dfa517d4690cd46b33cc28282dc45f8a85"
+    },
+    {
+      "path": "game/scripts/tests/practice_scene_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "31fc871e4d08c792fc9f2634c76278956b4dd75509975cf8a279ac88cc23d153"
+    },
+    {
+      "path": "game/scripts/tests/presentation_view_smoke.gd",
+      "bytes": 13280,
+      "sha256": "6f4b3bbb358a3ed8edade9da7e2efd5093f645e965784b71b941a67df1d16e9b"
+    },
+    {
+      "path": "game/scripts/tests/presentation_view_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "839ddaa86517524aae716bfddf92604d4c500b91fd07a9c55d4e98b75ceb1745"
+    },
+    {
+      "path": "game/scripts/tests/prologue_scene_smoke.gd",
+      "bytes": 45587,
+      "sha256": "64e983959517214b65685c746147e7251dcd8e1dff7e1f18215efd2731b4a867"
+    },
+    {
+      "path": "game/scripts/tests/prologue_scene_smoke.gd.uid",
+      "bytes": 19,
+      "sha256": "9d381a2eeb9b5cb10be7fa35404edc0559b731ecbb95b8f20179dfa4eb2be0d6"
+    },
+    {
+      "path": "game/scripts/tests/start_screen_smoke.gd",
+      "bytes": 43226,
+      "sha256": "dbd9aa24bda39a46f69739b776a0e33df0a5921101c4ab44629cca81a9bac525"
+    },
+    {
+      "path": "game/scripts/tests/start_screen_smoke.gd.uid",
+      "bytes": 20,
+      "sha256": "71359a6518747afdfe663bd81c34a4d872f23e8c882a9752690195ea7cbb7d18"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_authority_archive_v1.gd",
+      "bytes": 6352,
+      "sha256": "beaa5bec08130ce89e4b322e6bcf7d363401b5606cd4ffd8c27cfe8a1505c7a7"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_authority_archive_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "4f427791fecbe67b8b2d297623dab928a677feb6dc2fce50e2769a16db45bb8e"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_basement_v1.gd",
+      "bytes": 10891,
+      "sha256": "4f89e01589dc7f32fb9300285236b02197227dd92c813a9e0bf1ec77202cc017"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_basement_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "39f3944ea5838753ef6272c0193ec0e110d5a43b41c2012e50ebe306139ba5d9"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_chapter_one_notes_v1.gd",
+      "bytes": 6866,
+      "sha256": "71f88b2eb53bee1d1dd836e4557d332f5e310081ba783d578e7328b527de968f"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_chapter_one_notes_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "e6318a041804b01145cb0d989aef8856ba2678ebad54ad6f8f12667a31eb5b1b"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_chapter_one_v1.gd",
+      "bytes": 6684,
+      "sha256": "414190e67dc0dbab264dfaab8b9bc9f5470e2120b7305b117e2af5d62550d0a7"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_chapter_one_v1.gd.uid",
+      "bytes": 19,
+      "sha256": "9caffd20de73f45852fda57a872de8d0e0bb34c2ed62480cb4f293cb8dae0dce"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_chapter_surfaces_v1.gd",
+      "bytes": 7298,
+      "sha256": "e25c2ad9384313ddaa8a03a3a510d305d408f303b4f0e2a19a91bc24a8b5198a"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_chapter_surfaces_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "a828008736ecaa25e81f78c778fe27bea357b02622f5367b4e8ca12c83706af7"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_core_v1.gd",
+      "bytes": 5833,
+      "sha256": "2f525fb7c8a77af53d117201ef80b843924dad63ccb7a1bba0f011ceeed7ee6c"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_core_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "db22d9a0df0b5564eb7782c5a810e8cc472025a308aa9e3a590d329c3170d6e5"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_final_v1.gd",
+      "bytes": 9337,
+      "sha256": "986cedd8c89dfecb7c95c9a81eeaf60ca9ec69d702be313032281fe474237d19"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_final_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "0e586e09058d9c64aa4843a53a8941aff326cbfc7a2df84355e60372e3dba386"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_fracture_surfaces_v1.gd",
+      "bytes": 2045,
+      "sha256": "5529fde5ece0fe49d7043ca12db7370750f9c178e2f0f358f391f6ca7c7235ef"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_fracture_surfaces_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "14ace224fc03148488c0be725a64642c9cbbd3266391e3557e65640803ee0225"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_fracture_v1.gd",
+      "bytes": 10152,
+      "sha256": "db470c4a32a2a1ec73d69628a987142ed50ba8e86c53ff5f97a617791cef2fbd"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_fracture_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "7162f1d7c48e22764c72fe5f8c825996097cd4cdf7d78c42c510396c2e46f363"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_hints_v1.gd",
+      "bytes": 3282,
+      "sha256": "6f312dc5b65bba7176f4501cc5883de7e867da5c2931a5a8c872432c75936217"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_hints_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "36a7612a944789cd7b839b27aba088211e315aeed6fcf5a1d6ae1f43999dba68"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_iris_v1.gd",
+      "bytes": 5637,
+      "sha256": "df130bd25890ab3de04e95673016dd572143b2eed3ac7a8d2d93f2934ee71791"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_iris_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "e73ec44ff75985f537383b5bf4b9c11de54efb32fd4ec48f58f783d14616dfc0"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_journal_four_display_v1.gd",
+      "bytes": 7597,
+      "sha256": "cc99a5b8fb152da9bf0c5e8eb9ad21c4e282e7d9cc0ace973357a16e42b76527"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_journal_four_display_v1.gd.uid",
+      "bytes": 19,
+      "sha256": "fd1c4407a26328b52fe2c19c4a36b70df9138bebe7e6810b9e172fa841780f78"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_journal_four_v1.gd",
+      "bytes": 3228,
+      "sha256": "ccf14a6aef7b30aadde40d417fc8e07d2f99ef7babaeeb7b66727637e1a186dc"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_journal_four_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "867fdae9e433e398110e21d9f2720aeebdfdb02bb2cdb63a28abb805592681d0"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_luca_v1.gd",
+      "bytes": 6010,
+      "sha256": "410bb6815dfac6665efcb428968a24ce4ae701ac2fbd330debbfba458b5871c8"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_luca_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "2d95135bd6257d09f8d2b6bdda335d51286a1cddc44ca4e12a017805a4b3db68"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_mara1_v1.gd",
+      "bytes": 3566,
+      "sha256": "206fbd290abce279d9909295e4a0d1331fb66c02a04ef72748f87cf09e078011"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_mara1_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "5ae263b821342da6f67aac8a05b63d6adbfcf5436d42c78545ef9658b837b3b2"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_mirror_v1.gd",
+      "bytes": 9480,
+      "sha256": "9d5f83d3b7f2b99b68a61b28efd327aed6d56327b3d948020d317f3fe5038ad1"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_mirror_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "1beed60f5e0106676ea8f5a83033eb8a34be600cc176a2992fc8857af2d1e008"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_modals_v1.gd",
+      "bytes": 11497,
+      "sha256": "a931c3a7bc6570aa13eeea13cd72116d5cfaa3f97cac6d049fbbbf5e7340d365"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_modals_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "08f6b8ff0316b86ebd3bfbb215244f3cedc1c40c2b72f72f57e0d2944accca29"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_prologue_notes_v1.gd",
+      "bytes": 3024,
+      "sha256": "1ea112d5d08438e0248751a9a5a6795d2356446690356b4e7f9b8c1bb6e481f2"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_prologue_notes_v1.gd.uid",
+      "bytes": 19,
+      "sha256": "d10e7ffe0930261971f27d5149d40f13dfd905618aca687731aec9f8fe65a702"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_prologue_surfaces_v1.gd",
+      "bytes": 7520,
+      "sha256": "e2993dee8fb8d6f96fb7ba1e153e666216bbf824cfe4a33f92f9b5af7118b974"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_prologue_surfaces_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "6f93091c5a401f362126b38ba0b54dd9a8d3c08e5fbc35505dc73055a506784e"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_prologue_v1.gd",
+      "bytes": 10946,
+      "sha256": "3c114f5e362588a3bf56a7e78f9d40ff7d07c9932e287d1663632f5edd7c8c7c"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_prologue_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "ecf340fc38a040f14354272f3d5861b2f08753aa918a4409194017d2142fead3"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_puzzle_surfaces_v1.gd",
+      "bytes": 10526,
+      "sha256": "85418ca993f2880ac6e36eec9d25f4d6115ab706dd19d9685e65a552306d6d9b"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_puzzle_surfaces_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "1d44584defaa2681d4e83f553554bdee97cb07034cfe1d1df08859be027cf173"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_reality_v1.gd",
+      "bytes": 12166,
+      "sha256": "3f8df11bac9e2e2454316984a08fe8b324737b3a02ad4dc4ffca89571e643dd4"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_reality_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "cf5c0216b8eb696d9298ad0a37d2f64813b8db98d358a3ff7b2765f1bdc773c0"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_settlement_v1.gd",
+      "bytes": 5799,
+      "sha256": "861da61e932df6814245f565839a959fc922310b86870456b6a70d3cb4bb5544"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_settlement_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "d8af6bd1ce93cf4311abcda0146cdebcfadc9ed1584ff5f439355406c20d1f82"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_stay_v1.gd",
+      "bytes": 11238,
+      "sha256": "011a6dcb665c6b6dbe47dcb8a4883800f279ffa8e57d3c1adab945e92abcc187"
+    },
+    {
+      "path": "game/scripts/tools/seed_notebook_stay_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "8e0856e37b09bc7033f456e3de8b8d366d108bf1a8b093b7995b6d579108bd11"
+    },
+    {
+      "path": "game/scripts/ui/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "game/scripts/ui/audio_settings_panel.gd",
+      "bytes": 3178,
+      "sha256": "65faf1ae6c19a0f7a53c6aa5c8aaf090eac7a6c741168e07be0fc38deaa8963f"
+    },
+    {
+      "path": "game/scripts/ui/audio_settings_panel.gd.uid",
+      "bytes": 20,
+      "sha256": "8886318317e4716c2e1b5c9f48b91694bd6bd13b91ccab2223a896b082bb805e"
+    },
+    {
+      "path": "game/scripts/ui/basement_display_texts.gd",
+      "bytes": 23789,
+      "sha256": "e319ffecef31540ef75e2b54b9b697c82ae0e1dfeae71583c6b9e16fb293e997"
+    },
+    {
+      "path": "game/scripts/ui/basement_display_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "d0b8665567717250fbf4cd11a403735cd8e08adda01bcc0034843d24d82836d1"
+    },
+    {
+      "path": "game/scripts/ui/basement_hint_texts.gd",
+      "bytes": 5838,
+      "sha256": "c42bcdcb45172f02ef059c1e44bd98fc840a4027ee7a9a3cc446bec1df623f1c"
+    },
+    {
+      "path": "game/scripts/ui/basement_hint_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "445afa4638c1ffbfc6b0dafca27f4a3af658c7d87a7a22c5a26fbd77bcd6e59e"
+    },
+    {
+      "path": "game/scripts/ui/black_mirror_display_texts.gd",
+      "bytes": 27147,
+      "sha256": "9181a204c54d712fb820d9ca69fd01072e9f31f8674eee6320b63a7464a0eeae"
+    },
+    {
+      "path": "game/scripts/ui/black_mirror_display_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "43f1c9bad3c8c857611642b597c998e37e2675182e7db497373160b0266d4bb9"
+    },
+    {
+      "path": "game/scripts/ui/chapter_one_display_texts.gd",
+      "bytes": 6931,
+      "sha256": "400fd22fa0f4b052ca7702d3b6fe3d1bf6832a8c25418e22936e8a2d990b4a64"
+    },
+    {
+      "path": "game/scripts/ui/chapter_one_display_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "7f1036aea024f80a892c94ca1ba503867377c00cb2734026e0a02f88a79b1c3d"
+    },
+    {
+      "path": "game/scripts/ui/cleaner_quantity_table.gd",
+      "bytes": 1177,
+      "sha256": "f9fd6801bf6e9e6b414a9c50a581e29f01d5be4d9e59896eef11d685a5f33297"
+    },
+    {
+      "path": "game/scripts/ui/cleaner_quantity_table.gd.uid",
+      "bytes": 19,
+      "sha256": "6b532dd4cd8ec5ef49a3631c7c727ccd1db09a16cf454b2906dda169bbff862b"
+    },
+    {
+      "path": "game/scripts/ui/clock_hint_texts.gd",
+      "bytes": 3807,
+      "sha256": "516ea07d7aed3f2adc54c6e0c9ef10015274ca7a22c5a77d1c55150c3b4e73c6"
+    },
+    {
+      "path": "game/scripts/ui/clock_hint_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "4f3a96a4d942149873f3e2bb733e924eb2a3c21091a49f676bfc0a6b3aa33f6c"
+    },
+    {
+      "path": "game/scripts/ui/core_hint_texts.gd",
+      "bytes": 9848,
+      "sha256": "239ba1350b27a1b2c0bbd2aaf8371ac8b2b42c4ab4bbca866c4ffe5519c7042c"
+    },
+    {
+      "path": "game/scripts/ui/core_hint_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "6e429377d3efc93a730797b51eac7f12fb54101e549e1a2541915c289b3c3ec5"
+    },
+    {
+      "path": "game/scripts/ui/core_story_texts.gd",
+      "bytes": 38556,
+      "sha256": "bd8b296fbaa13e9d4b51dc277ffa62b1d06a71fceb1b9e559edbb655c13abfff"
+    },
+    {
+      "path": "game/scripts/ui/core_story_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "cc3b56bc1f2a11f61fd96fc7f56dbefced7bfee6b5d9d6d4d8195b60469477ea"
+    },
+    {
+      "path": "game/scripts/ui/d5_transition_art.gd",
+      "bytes": 5977,
+      "sha256": "6763f5328c2f09728b7b7d793a42e850c8d2fd108375a13a0c6b0f3700ed946a"
+    },
+    {
+      "path": "game/scripts/ui/d5_transition_art.gd.uid",
+      "bytes": 20,
+      "sha256": "bfa36e65d68c22a88bcbf396239e1b7aafa9aaee7741bfb118858718486d1b89"
+    },
+    {
+      "path": "game/scripts/ui/developer_panel.gd",
+      "bytes": 6576,
+      "sha256": "d270b982cbdc99b861bba20e237396cae60fd786de714539ed41875abb3ec65c"
+    },
+    {
+      "path": "game/scripts/ui/developer_panel.gd.uid",
+      "bytes": 19,
+      "sha256": "b953b9a4c1b4a4ebbe6eb015acf15faf8285634a333fdcf8de3466f6efafc4fa"
+    },
+    {
+      "path": "game/scripts/ui/display_settings_panel.gd",
+      "bytes": 6364,
+      "sha256": "fdb0d07ce90d7c74eaf362720a1f5120dca57f558f3285b93c412d1ef0ec39ea"
+    },
+    {
+      "path": "game/scripts/ui/display_settings_panel.gd.uid",
+      "bytes": 20,
+      "sha256": "ad751b87d51895cf444c1cb660e55c38e48d7dde03bbf3c3385e5f6102080f65"
+    },
+    {
+      "path": "game/scripts/ui/ending_credits_texts.gd",
+      "bytes": 4669,
+      "sha256": "a51cdfa45fc8342b7dec72e6a77ba1248cc6fbb1250a22354812ff6c656482ec"
+    },
+    {
+      "path": "game/scripts/ui/ending_credits_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "e42fc5d516c2f9f426da2bcc1c9a753460b1b8991760826991dee63c28cc82b4"
+    },
+    {
+      "path": "game/scripts/ui/ending_decision_texts.gd",
+      "bytes": 10239,
+      "sha256": "3cbe023a726f24097004fdda4f5a1720bad0f6a819158742576be4bf8cf1b359"
+    },
+    {
+      "path": "game/scripts/ui/ending_decision_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "a40c2bb533470852a7781a54ab818c6902093091406cb907c586d30466573304"
+    },
+    {
+      "path": "game/scripts/ui/ending_gallery_texts.gd",
+      "bytes": 8127,
+      "sha256": "1e0063516b63c278fddab4f029eb5005f4bd48c78b52635d4f4682d48fd6d326"
+    },
+    {
+      "path": "game/scripts/ui/ending_gallery_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "6bd8d614187fca7d18fb3a5f665418b23505e19becec90ad4779e8d96aac6bec"
+    },
+    {
+      "path": "game/scripts/ui/ending_signature.gd",
+      "bytes": 1677,
+      "sha256": "0b519485b5f66cfa9c246b915e9751d39fcc624b3da790023c6e7acbf6b046a6"
+    },
+    {
+      "path": "game/scripts/ui/ending_signature.gd.uid",
+      "bytes": 20,
+      "sha256": "cecd3f5814b0196ad9ae72ac5142c37137fe2bca6cebf50345deb13f15130cb6"
+    },
+    {
+      "path": "game/scripts/ui/field_notebook_texts.gd",
+      "bytes": 9135,
+      "sha256": "9a64476ba1375b76048a84204aeeed7aa66f274bd4d3ba24ed1156c2a84cf1a8"
+    },
+    {
+      "path": "game/scripts/ui/field_notebook_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "abd313d61e100945e5323480c73c4e1fc3ee01f6738397babe61a908df296274"
+    },
+    {
+      "path": "game/scripts/ui/fracture_common_display_texts.gd",
+      "bytes": 13264,
+      "sha256": "cfa0df27412cf1d8695d38281b7f12eb576b771c746d785698250e046eaaf332"
+    },
+    {
+      "path": "game/scripts/ui/fracture_common_display_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "a806a300eeb04fc3159bde27a2394ed3ec873e1f4eda5424960d71fac9f71343"
+    },
+    {
+      "path": "game/scripts/ui/fracture_resolution_display_texts.gd",
+      "bytes": 30043,
+      "sha256": "fbc13506aa52d38ba76bc7f8d9a4a7e517b09729ad9f9a7942b3778c7c5ca592"
+    },
+    {
+      "path": "game/scripts/ui/fracture_resolution_display_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "3b3649e3960f5b7ba00ec43d11ab7bf32b2f92f84dbedd320b324469517f2b78"
+    },
+    {
+      "path": "game/scripts/ui/fracture_rest_texts.gd",
+      "bytes": 13445,
+      "sha256": "a987ce013e4483e6723d26048ab62879a41221925c107af8f315a5a8a3f7800a"
+    },
+    {
+      "path": "game/scripts/ui/fracture_rest_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "333c241ef5fbb55b861ca24c0d6896a37091bd773d08fcc00b7f8bfd29e7adfb"
+    },
+    {
+      "path": "game/scripts/ui/fracture_surface_texts.gd",
+      "bytes": 5911,
+      "sha256": "e7a85ce81f577fdcfb4345dab5a977e5af3ae2d196bea179f86a08489e22c8b0"
+    },
+    {
+      "path": "game/scripts/ui/fracture_surface_texts.gd.uid",
+      "bytes": 19,
+      "sha256": "b5d1be7f81ae41b1c53c194d58b0aff93b0eebd4a8516a3b341e1034a4d82abd"
+    },
+    {
+      "path": "game/scripts/ui/fracture_transition_texts.gd",
+      "bytes": 7673,
+      "sha256": "20d31826c6868b11b2657a1abfea41b220f51c9415481999efa2a2e415876ded"
+    },
+    {
+      "path": "game/scripts/ui/fracture_transition_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "0ace797affcb68ff2dc62eb0b60f29ac55fe8b0d15f124f812d08f265719d0b3"
+    },
+    {
+      "path": "game/scripts/ui/gothic_title_button.gd",
+      "bytes": 4697,
+      "sha256": "2d78434791bc0632a28bca83c68a98d48864b53efdfa1d07942785c74707cf61"
+    },
+    {
+      "path": "game/scripts/ui/gothic_title_button.gd.uid",
+      "bytes": 19,
+      "sha256": "ce0d1446d4823cdca3e903c28393c9913852cc145bf85efb7a5884fa886ae910"
+    },
+    {
+      "path": "game/scripts/ui/inventory_drag_slot.gd",
+      "bytes": 1995,
+      "sha256": "aca0713d8ba212d14cf0a6f1c6d4149f0a6fbac3671b949f7d348c2fe7648cb7"
+    },
+    {
+      "path": "game/scripts/ui/inventory_drag_slot.gd.uid",
+      "bytes": 20,
+      "sha256": "0407c2bca128c8840447061d4197140d1cac7c20bc3d1b833b1f553ab0955b3d"
+    },
+    {
+      "path": "game/scripts/ui/inventory_drop_target.gd",
+      "bytes": 1444,
+      "sha256": "60f63e77ee51ce27336535ae2d996ce9d213a40ef05658529b3b8d9a59bf07f0"
+    },
+    {
+      "path": "game/scripts/ui/inventory_drop_target.gd.uid",
+      "bytes": 20,
+      "sha256": "0d9cbd95a4167f5e062953ebe4616a9d0c26bf1f85163aefa35dc05901751d12"
+    },
+    {
+      "path": "game/scripts/ui/key_settings_panel.gd",
+      "bytes": 5101,
+      "sha256": "5a65e8de5bd5a3e5fe1ec572f66be2c70b1c0b2e2166e1455f9168304a558e9a"
+    },
+    {
+      "path": "game/scripts/ui/key_settings_panel.gd.uid",
+      "bytes": 19,
+      "sha256": "96269c07c5c0e0dbfa6ca2624f7f84dd29cae06f33ea3ff1242c5efed27b89b1"
+    },
+    {
+      "path": "game/scripts/ui/mirror_hint_texts.gd",
+      "bytes": 4243,
+      "sha256": "1d2d1805133d2f9d72b7b71efe5526c9e3c494cacabff4ab343daaa3b933fcdc"
+    },
+    {
+      "path": "game/scripts/ui/mirror_hint_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "ec4947fd1c6f3586af4750a4da5e0c4907693d05ab69d78481340f2dfead02de"
+    },
+    {
+      "path": "game/scripts/ui/notebook_browser.gd",
+      "bytes": 9605,
+      "sha256": "cbd838f2f6196736314f2e7528be7bdc34b2ffa22b25a63a6269eb94719ed3af"
+    },
+    {
+      "path": "game/scripts/ui/notebook_browser.gd.uid",
+      "bytes": 20,
+      "sha256": "4c7b7b1227e5ac1b50732f2e901ad960ad4d922ce274cbbb13667645abe2ee9e"
+    },
+    {
+      "path": "game/scripts/ui/notebook_mirror_overlay_v1.gd",
+      "bytes": 1695,
+      "sha256": "d55a4a0b498b6e017a1ebe06d62ecf896207ae060ec45c2481d148ef6652b299"
+    },
+    {
+      "path": "game/scripts/ui/notebook_mirror_overlay_v1.gd.uid",
+      "bytes": 20,
+      "sha256": "26e1c50038f7745f41f0faa2911fa387f7d33a6ee28c8785c8ace28b82f8a5a3"
+    },
+    {
+      "path": "game/scripts/ui/notebook_panel.gd",
+      "bytes": 51540,
+      "sha256": "b6f53b83c6deb428daad59640621ad60f6b450ddbcc697bf10737c6036c70ec6"
+    },
+    {
+      "path": "game/scripts/ui/notebook_panel.gd.uid",
+      "bytes": 20,
+      "sha256": "8610f0d72cfed3b814da19c35a434bbc8af488b7189ea59f45665acfce9bd2f4"
+    },
+    {
+      "path": "game/scripts/ui/notebook_search_text.gd",
+      "bytes": 939,
+      "sha256": "7ce770e3cb3a6fe5eaba438392b65b22ea8ae8a978dd8fcb9783895b986ce653"
+    },
+    {
+      "path": "game/scripts/ui/notebook_search_text.gd.uid",
+      "bytes": 20,
+      "sha256": "93d42c6975307704622cdb0c53524e8733f126d1dbbdc6dd62a2f8090c7709a9"
+    },
+    {
+      "path": "game/scripts/ui/notebook_visual_canvas.gd",
+      "bytes": 3846,
+      "sha256": "e4af73731b1f14c73b1f42a254916020e1d4c602a10cd2d6f20c240881ba3eaf"
+    },
+    {
+      "path": "game/scripts/ui/notebook_visual_canvas.gd.uid",
+      "bytes": 20,
+      "sha256": "c9a165155a155c3677598b4862267103b7ff1957027b30bd6ddec7ee4e7e6b3e"
+    },
+    {
+      "path": "game/scripts/ui/notebook_visual_viewer.gd",
+      "bytes": 3829,
+      "sha256": "ef04547dbc66955dbcb305c377fc279bfe453954152daf3c885e4a6673546a5f"
+    },
+    {
+      "path": "game/scripts/ui/notebook_visual_viewer.gd.uid",
+      "bytes": 20,
+      "sha256": "1757d0537a33785418d8525e5e45a31d5222cce19a30ffd43b809b248ab35fe1"
+    },
+    {
+      "path": "game/scripts/ui/reality_surface_texts.gd",
+      "bytes": 3903,
+      "sha256": "36ac13c2173be1a605bead17a3af8ea3dc7aa76f920623eaca34c3cb1bdb844f"
+    },
+    {
+      "path": "game/scripts/ui/reality_surface_texts.gd.uid",
+      "bytes": 19,
+      "sha256": "e52f8fe476d29f414366efe0cbe1b8f521d41e9bfaab93c01ddf5ce4f5fb206f"
+    },
+    {
+      "path": "game/scripts/ui/reality_wake_texts.gd",
+      "bytes": 8904,
+      "sha256": "44bec4de10436cc876d8bf607de42ade41c3304ed96f043029f511afc0de6f37"
+    },
+    {
+      "path": "game/scripts/ui/reality_wake_texts.gd.uid",
+      "bytes": 19,
+      "sha256": "e924c3214e8e34ba3a07fb2e05f01b2a5da55ced24f7903e1bd069fa0891bd6b"
+    },
+    {
+      "path": "game/scripts/ui/relationship_display_texts.gd",
+      "bytes": 50527,
+      "sha256": "b8d8d802f75e17a2e8b475c2ee3943a4ebbfc4711564dbed988cd56ab1dabb04"
+    },
+    {
+      "path": "game/scripts/ui/relationship_display_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "f37a04fe0bc341ebf8f1b8ff72ed84c7c4e4aef0c8d7e3860595abf7ea4bcf08"
+    },
+    {
+      "path": "game/scripts/ui/start_screen.gd",
+      "bytes": 36901,
+      "sha256": "a1f24c3a722602b3fcc9a83c99c32eedfbbf3c257a09b09cab9b89f369efbe8f"
+    },
+    {
+      "path": "game/scripts/ui/start_screen.gd.uid",
+      "bytes": 20,
+      "sha256": "e3e8a22c216b7b0be1ee2dcc65539564e419b83fa70e4cc314b8a6eb9bc7abf5"
+    },
+    {
+      "path": "game/scripts/ui/stay_charter_texts.gd",
+      "bytes": 4250,
+      "sha256": "1bcd9776595bd8adcc5dafa6b478332db60abf71445f7bfef870d47c437c54b4"
+    },
+    {
+      "path": "game/scripts/ui/stay_charter_texts.gd.uid",
+      "bytes": 20,
+      "sha256": "8161bffd78f6239b848d704fa35af7f4ee549b6b916d8fd12fdf0a996ec8ac1f"
+    },
+    {
+      "path": "game/scripts/ui/stay_story_texts.gd",
+      "bytes": 8021,
+      "sha256": "d497cc7ea135686ecea2674508a9bf50f911635a09c64b0e47dd18b759ccf9b4"
+    },
+    {
+      "path": "game/scripts/ui/stay_story_texts.gd.uid",
+      "bytes": 19,
+      "sha256": "3fed4db37826f03edab52fbdfe7af5d8be1d2b2a1ac50089ef32f4b16e7c1320"
+    },
+    {
+      "path": "game/scripts/ui/ui_title_placeholder_art.gd",
+      "bytes": 7947,
+      "sha256": "0500a0a27ca083b6ab277c6be9f89cb1faf707a5c36a92d1f9afb9e44528a057"
+    },
+    {
+      "path": "game/scripts/ui/ui_title_placeholder_art.gd.uid",
+      "bytes": 20,
+      "sha256": "84d03615ce392b2e6b72beb03acbbe7ead15282c3d84e0bb5c3afcf70a569c83"
+    },
+    {
+      "path": "game/signal_practice.tscn",
+      "bytes": 2954,
+      "sha256": "2a2374034488bacf1fab8d3de2ea4db9f0226a4e0a44c2a7a59f7d850aaebfdd"
+    }
+  ],
+  "generated_uid_files": [
+    "game/scripts/tests/notebook_runtime_audit.gd.uid",
+    "game/scripts/tests/notebook_scope_smoke.gd.uid",
+    "game/scripts/tests/notebook_substitution_smoke.gd.uid",
+    "game/scripts/tests/notebook_view_future_smoke.gd.uid"
+  ]
+}

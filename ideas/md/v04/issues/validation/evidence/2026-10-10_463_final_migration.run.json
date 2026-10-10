@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "mode": "migration",
+  "pid": 38848,
+  "completed": true,
+  "exit_code": 0,
+  "require_authored": true,
+  "notebook_v2": true,
+  "arguments": [
+    "--headless",
+    "--path",
+    "\"C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-463-final-compat-76e7003a7f044925bc3ba04c87e15d57\\source\\game\"",
+    "--",
+    "--notebook-migration-smoke",
+    "--ggb-dev-notebook-v2",
+    "--notebook-require-authored",
+    "--notebook-producer-trace"
+  ],
+  "started_utc": "2026-10-10T01:11:29.9557354Z",
+  "finished_utc": "2026-10-10T01:12:24.4771266Z",
+  "timeout_seconds": 3600,
+  "engine_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "runner_sha256": "083a6e4af86b033696278b6a191f0f87bcf7551b2ec7c3b02378e4e036c2cd59",
+  "source_corpus": {
+    "file_count": 264,
+    "sha256": "08fb92454227daf678824f2721f8a5946b8ecce002c03bd7b74cdb13bb991708"
+  },
+  "data_corpus": {
+    "file_count": 52,
+    "sha256": "af1ff4a6fb3c427b8dbc22ea273e2b57904252338e392a05abdb40b8a735660a"
+  },
+  "source_unchanged": true,
+  "stdout_sha256": "7236494ec9d35bb5d6c05c1a6f3a2cad31b0ab01c9738aac667b395a10f66c01",
+  "stderr_sha256": "afbd7f8504594a409fea4ec4ccb162d993e2abafbd0111876d602bf34cdcc7c2"
+}

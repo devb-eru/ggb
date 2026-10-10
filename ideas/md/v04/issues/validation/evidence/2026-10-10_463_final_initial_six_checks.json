@@ -1,0 +1,65 @@
+{
+  "ok": true,
+  "checks": 699,
+  "base_commit": "058b2401187f1722eb96d1aceb7d11be5c6b965b",
+  "source_corpus": {
+    "sha256": "08fb92454227daf678824f2721f8a5946b8ecce002c03bd7b74cdb13bb991708",
+    "file_count": 264
+  },
+  "data_corpus": {
+    "sha256": "af1ff4a6fb3c427b8dbc22ea273e2b57904252338e392a05abdb40b8a735660a",
+    "file_count": 52
+  },
+  "original_files": 640,
+  "runs": [
+    {
+      "completed": true,
+      "runner_sha256": "5e8985f653081c604bb53062b317cc1dcec6f6de6ace213de23fe1fbd7625dbf",
+      "mode": "import",
+      "exit_code": 0
+    },
+    {
+      "completed": true,
+      "runner_sha256": "5e8985f653081c604bb53062b317cc1dcec6f6de6ace213de23fe1fbd7625dbf",
+      "mode": "final",
+      "exit_code": 0
+    },
+    {
+      "completed": true,
+      "runner_sha256": "5e8985f653081c604bb53062b317cc1dcec6f6de6ace213de23fe1fbd7625dbf",
+      "mode": "campaign-v2",
+      "exit_code": 0
+    },
+    {
+      "completed": true,
+      "runner_sha256": "5e8985f653081c604bb53062b317cc1dcec6f6de6ace213de23fe1fbd7625dbf",
+      "mode": "campaign-ordinary",
+      "exit_code": 0
+    },
+    {
+      "completed": true,
+      "runner_sha256": "5e8985f653081c604bb53062b317cc1dcec6f6de6ace213de23fe1fbd7625dbf",
+      "mode": "pack",
+      "exit_code": 0
+    },
+    {
+      "completed": true,
+      "runner_sha256": "5e8985f653081c604bb53062b317cc1dcec6f6de6ace213de23fe1fbd7625dbf",
+      "mode": "pack-foundation",
+      "exit_code": 0
+    }
+  ],
+  "traces": [
+    {
+      "sampled_entry_classes": {
+        "authored": 2674,
+        "legacy": 0,
+        "unmapped": 0
+      },
+      "mode": "final",
+      "required_branch_coverage": "NOT_AUDITED",
+      "observed_tuples": 858
+    }
+  ],
+  "scope": "Specified automated compatibility runs only; not engine adoption, exhaustive producer branches, physical input or performance acceptance."
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "mode": "pack-foundation",
+  "pid": 33760,
+  "completed": true,
+  "exit_code": 0,
+  "require_authored": false,
+  "notebook_v2": false,
+  "arguments": [
+    "--headless",
+    "--path",
+    "\"C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-463-final-compat-76e7003a7f044925bc3ba04c87e15d57\\pack-foundation\\empty\"",
+    "--main-pack",
+    "\"C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-463-final-compat-76e7003a7f044925bc3ba04c87e15d57\\latest_notebook.pck\"",
+    "--",
+    "--foundation-smoke"
+  ],
+  "started_utc": "2026-10-10T01:07:37.1840031Z",
+  "finished_utc": "2026-10-10T01:07:49.2111270Z",
+  "timeout_seconds": 3600,
+  "engine_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "runner_sha256": "5e8985f653081c604bb53062b317cc1dcec6f6de6ace213de23fe1fbd7625dbf",
+  "source_corpus": {
+    "file_count": 264,
+    "sha256": "08fb92454227daf678824f2721f8a5946b8ecce002c03bd7b74cdb13bb991708"
+  },
+  "data_corpus": {
+    "file_count": 52,
+    "sha256": "af1ff4a6fb3c427b8dbc22ea273e2b57904252338e392a05abdb40b8a735660a"
+  },
+  "source_unchanged": true,
+  "stdout_sha256": "b54724139f49c3c8470cc993476b038648636c4732de2f52628294b26cb2a031",
+  "stderr_sha256": "afbd7f8504594a409fea4ec4ccb162d993e2abafbd0111876d602bf34cdcc7c2",
+  "pack_sha256": "2e50c4ab3571fd41a28a58b1a4dd7e385057011e452b40b03e0199dc2d02e1fe",
+  "pack_bytes": 17894004
+}

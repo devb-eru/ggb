@@ -1,0 +1,5 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+GGB title bootstrap initialized.
+NOTEBOOK_PRODUCER_CONTRACT_AUDIT: {"assertions":45,"cases":[{"locale":"ko-KR","raw_rejected":false,"versioned":false},{"locale":"ko-KR","raw_rejected":true,"versioned":true},{"locale":"en-US","raw_rejected":false,"versioned":false},{"locale":"en-US","raw_rejected":true,"versioned":true}],"errors":[],"scope":"WRITER_CONTRACT_NOT_FULL_PRODUCER_COVERAGE","strict_requested":true}
+NOTEBOOK_PRODUCER_CONTRACT_SMOKE: PASS { "ok": true, "errors": [], "assertions": 45, "strict_requested": true }
