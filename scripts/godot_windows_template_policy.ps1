@@ -1,7 +1,8 @@
 function Get-GodotWindowsTemplateDirectory {
     param(
         [Parameter(Mandatory = $true)][string]$TemplateRoot,
-        [Parameter(Mandatory = $true)][string]$RuntimeVersion
+        [Parameter(Mandatory = $true)][string]$RuntimeVersion,
+        [ValidateSet('debug', 'release')][string]$Configuration = 'debug'
     )
 
     $version = $RuntimeVersion.Trim()
@@ -21,9 +22,9 @@ function Get-GodotWindowsTemplateDirectory {
     if ((Get-Content -LiteralPath $marker -Raw).Trim() -cne $templateVersion) {
         throw "Godot export template version marker does not match $templateVersion"
     }
-    $debugTemplate = Join-Path $directory 'windows_debug_x86_64.exe'
-    if (-not (Test-Path -LiteralPath $debugTemplate -PathType Leaf)) {
-        throw "Windows debug x64 export template is missing: $debugTemplate"
+    $template = Join-Path $directory ("windows_{0}_x86_64.exe" -f $Configuration.ToLowerInvariant())
+    if (-not (Test-Path -LiteralPath $template -PathType Leaf)) {
+        throw "Windows $Configuration x64 export template is missing: $template"
     }
     return $directory
 }

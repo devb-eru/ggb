@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "checks": 13056,
+  "receipts": 5,
+  "native_steps": 7,
+  "policy_cases_per_shell": 19,
+  "probe_checks_per_locale": 27,
+  "product_files": 640,
+  "negative": [
+    {
+      "id": "native_failure",
+      "reason": "Native process did not complete successfully",
+      "rejected": true
+    },
+    {
+      "id": "debug_export",
+      "reason": "Actual export is not release",
+      "rejected": true
+    },
+    {
+      "id": "other_template",
+      "reason": "Exact official engine/release template",
+      "rejected": true
+    },
+    {
+      "id": "product_mutation",
+      "reason": "Original product source differs in release probe",
+      "rejected": true
+    },
+    {
+      "id": "missing_stage",
+      "reason": "Exact required native steps",
+      "rejected": true
+    },
+    {
+      "id": "raw_hash",
+      "reason": "Raw native log hash",
+      "rejected": true
+    }
+  ],
+  "production_pack_sha256": "a9c1df94ae5897972a4c6068961109a971b311e6cb1b2d811b6540bd141fed0d",
+  "probe_pack_sha256": "9ca3a8507ba696569b239862d1b02707f9f94b6ff8361f08fe731211013a7576"
+}

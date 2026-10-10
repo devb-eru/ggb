@@ -1,0 +1,4 @@
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+WARNING: Foundation smoke is unavailable in release builds.
+   at: push_warning (core/variant/variant_utility.cpp:1034)

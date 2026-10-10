@@ -1,0 +1,30 @@
+[
+  {
+    "file": "GGB_release.exe",
+    "path": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-artifacts-81bd255fc9ea4c709b0fad9942a7bfed\\production\\GGB_release.exe",
+    "sha256": "9635acd1df035f69a2102b500be25a7981cea70d5533d5e5e89c96cd149f67d5",
+    "bytes": 104559616,
+    "kind": "production"
+  },
+  {
+    "file": "GGB_release.pck",
+    "path": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-artifacts-81bd255fc9ea4c709b0fad9942a7bfed\\production\\GGB_release.pck",
+    "sha256": "a9c1df94ae5897972a4c6068961109a971b311e6cb1b2d811b6540bd141fed0d",
+    "bytes": 17893956,
+    "kind": "production"
+  },
+  {
+    "file": "GGB_release.exe",
+    "path": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-artifacts-81bd255fc9ea4c709b0fad9942a7bfed\\compatibility_test_only\\GGB_release.exe",
+    "sha256": "9635acd1df035f69a2102b500be25a7981cea70d5533d5e5e89c96cd149f67d5",
+    "bytes": 104559616,
+    "kind": "compatibility_test_only"
+  },
+  {
+    "file": "GGB_release.pck",
+    "path": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-artifacts-81bd255fc9ea4c709b0fad9942a7bfed\\compatibility_test_only\\GGB_release.pck",
+    "sha256": "9ca3a8507ba696569b239862d1b02707f9f94b6ff8361f08fe731211013a7576",
+    "bytes": 17900092,
+    "kind": "compatibility_test_only"
+  }
+]

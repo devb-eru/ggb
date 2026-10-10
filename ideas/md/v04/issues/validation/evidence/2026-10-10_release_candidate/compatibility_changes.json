@@ -1,0 +1,8 @@
+{
+  "main_scene_before": "res://scenes/main/main.tscn",
+  "main_scene_after": "res://__release_probe/windows_release_probe.tscn",
+  "original_project_sha256": "bc4606897cf7f489084af27a257e076f89dd851f3d0475da2475ba8689bceaca",
+  "probe_project_sha256": "5c57d511401aeb16253656bd5c84a818b55726f0640c46dbfe5e36ba06ac6e8c",
+  "probe_script_sha256": "5de49761fec3d439be7a15e78a577e89bb17a02cd1a19557a9fafce77beb3b52",
+  "probe_scene_sha256": "e8396548015745682b47acd5d317220d66f55d92b7b0e72547da83fb03184661"
+}

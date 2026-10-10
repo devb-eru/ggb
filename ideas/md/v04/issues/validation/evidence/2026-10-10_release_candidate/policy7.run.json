@@ -1,0 +1,9 @@
+{
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "pid": 29308,
+  "policy_sha256": "38a4c632d698e70ad50ceaaef6eafd098fae2c3673e6cda72cca231c1060c5cb",
+  "exit_code": 0,
+  "test_sha256": "ea070c5fbd64820a2835d60d802257cec028a366f104fba091bd54d29bf5cd8e",
+  "shell": "C:\\Users\\beruo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+  "stdout_sha256": "2a468f41ec66d8b3adb8db1d5ae09115ab57ef1991e9bfaf39abd23c3c09ac7a"
+}
