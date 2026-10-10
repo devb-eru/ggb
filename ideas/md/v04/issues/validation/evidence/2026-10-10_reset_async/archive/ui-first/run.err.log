@@ -1,0 +1,6 @@
+SCRIPT ERROR: Parse Error: Cannot infer the type of "buttons" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://__reset_async_fd16706003a34a299f96e63f99ee34f5/notebook_reset_ui_audit.gd:45)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "retry_buttons" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://__reset_async_fd16706003a34a299f96e63f99ee34f5/notebook_reset_ui_audit.gd:77)
+ERROR: Failed to load script "res://__reset_async_fd16706003a34a299f96e63f99ee34f5/notebook_reset_ui_audit.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)

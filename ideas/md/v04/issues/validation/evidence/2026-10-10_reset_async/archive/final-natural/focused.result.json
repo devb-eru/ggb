@@ -1,0 +1,521 @@
+{
+  "cases": [
+    {
+      "display_token": "7dc3d26f47da992567136d8d88a8a244",
+      "locale": "ko_KR",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": false,
+        "dust_spread": true,
+        "middle_stain": true,
+        "top_dust": true
+      },
+      "scenario": "brush",
+      "tool_actions": 1,
+      "worker_kind": "line"
+    },
+    {
+      "display_token": "733466b3a21780570c9290366533e223",
+      "locale": "ko_KR",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": false,
+        "dust_spread": false,
+        "middle_stain": true,
+        "top_dust": true
+      },
+      "scenario": "spanner",
+      "tool_actions": 1,
+      "worker_kind": "line"
+    },
+    {
+      "display_token": "",
+      "locale": "ko_KR",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": false,
+        "dust_spread": false,
+        "middle_stain": true,
+        "top_dust": false
+      },
+      "scenario": "cloth",
+      "tool_actions": 1,
+      "worker_kind": "action"
+    },
+    {
+      "display_token": "",
+      "locale": "ko_KR",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": true,
+        "dust_spread": false,
+        "middle_stain": false,
+        "top_dust": false
+      },
+      "scenario": "water",
+      "tool_actions": 1,
+      "worker_kind": "action"
+    },
+    {
+      "display_token": "f486684ab3f894589a49b077fab6713f",
+      "locale": "ko_KR",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": false,
+        "dust_spread": false,
+        "middle_stain": true,
+        "top_dust": false
+      },
+      "scenario": "bird",
+      "tool_actions": 1,
+      "worker_kind": "line"
+    },
+    {
+      "display_token": "",
+      "locale": "ko_KR",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": true,
+        "dust_spread": false,
+        "middle_stain": false,
+        "top_dust": false
+      },
+      "scenario": "promotion",
+      "tool_actions": 1,
+      "worker_kind": "action"
+    },
+    {
+      "display_token": "",
+      "locale": "ko_KR",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": true,
+        "dust_spread": false,
+        "middle_stain": false,
+        "top_dust": false
+      },
+      "scenario": "ack",
+      "tool_actions": 1,
+      "worker_kind": "action"
+    },
+    {
+      "kind": "route",
+      "locale": "ko_KR",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p2_complete"
+    },
+    {
+      "kind": "route",
+      "locale": "ko_KR",
+      "passed": true,
+      "room": "M1_PARLOR",
+      "scenario": "room_intro"
+    },
+    {
+      "kind": "route",
+      "locale": "ko_KR",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p3_books"
+    },
+    {
+      "kind": "route",
+      "locale": "ko_KR",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p3_drop"
+    },
+    {
+      "kind": "route",
+      "locale": "ko_KR",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p3b_labels"
+    },
+    {
+      "kind": "route",
+      "locale": "ko_KR",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p4_father"
+    },
+    {
+      "kind": "route",
+      "locale": "ko_KR",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p4_tenure"
+    },
+    {
+      "kind": "route",
+      "locale": "ko_KR",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p5_weather"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "scope"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "generation"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "progress"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "notes"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "inventory"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "window"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "service"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "active"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "scope"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "generation"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "progress"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "notes"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "inventory"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "window"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "requests"
+    },
+    {
+      "display_token": "eeb8e60faa4442b77401c60d94f08014",
+      "locale": "en_US",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": false,
+        "dust_spread": true,
+        "middle_stain": true,
+        "top_dust": true
+      },
+      "scenario": "brush",
+      "tool_actions": 1,
+      "worker_kind": "line"
+    },
+    {
+      "display_token": "43c07bff461523e8d9e56730faa884fa",
+      "locale": "en_US",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": false,
+        "dust_spread": false,
+        "middle_stain": true,
+        "top_dust": true
+      },
+      "scenario": "spanner",
+      "tool_actions": 1,
+      "worker_kind": "line"
+    },
+    {
+      "display_token": "",
+      "locale": "en_US",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": false,
+        "dust_spread": false,
+        "middle_stain": true,
+        "top_dust": false
+      },
+      "scenario": "cloth",
+      "tool_actions": 1,
+      "worker_kind": "action"
+    },
+    {
+      "display_token": "",
+      "locale": "en_US",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": true,
+        "dust_spread": false,
+        "middle_stain": false,
+        "top_dust": false
+      },
+      "scenario": "water",
+      "tool_actions": 1,
+      "worker_kind": "action"
+    },
+    {
+      "display_token": "26aad02b01746ef98d563db3b046796c",
+      "locale": "en_US",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": false,
+        "dust_spread": false,
+        "middle_stain": true,
+        "top_dust": false
+      },
+      "scenario": "bird",
+      "tool_actions": 1,
+      "worker_kind": "line"
+    },
+    {
+      "display_token": "",
+      "locale": "en_US",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": true,
+        "dust_spread": false,
+        "middle_stain": false,
+        "top_dust": false
+      },
+      "scenario": "promotion",
+      "tool_actions": 1,
+      "worker_kind": "action"
+    },
+    {
+      "display_token": "",
+      "locale": "en_US",
+      "passed": true,
+      "physical_expected": {
+        "bottom_wet": true,
+        "dust_spread": false,
+        "middle_stain": false,
+        "top_dust": false
+      },
+      "scenario": "ack",
+      "tool_actions": 1,
+      "worker_kind": "action"
+    },
+    {
+      "kind": "route",
+      "locale": "en_US",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p2_complete"
+    },
+    {
+      "kind": "route",
+      "locale": "en_US",
+      "passed": true,
+      "room": "M1_PARLOR",
+      "scenario": "room_intro"
+    },
+    {
+      "kind": "route",
+      "locale": "en_US",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p3_books"
+    },
+    {
+      "kind": "route",
+      "locale": "en_US",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p3_drop"
+    },
+    {
+      "kind": "route",
+      "locale": "en_US",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p3b_labels"
+    },
+    {
+      "kind": "route",
+      "locale": "en_US",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p4_father"
+    },
+    {
+      "kind": "route",
+      "locale": "en_US",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p4_tenure"
+    },
+    {
+      "kind": "route",
+      "locale": "en_US",
+      "passed": true,
+      "room": "M1_CENTRAL_HALL",
+      "scenario": "p5_weather"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "scope"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "generation"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "progress"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "notes"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "inventory"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "window"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "service"
+    },
+    {
+      "kind": "stale_action",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "active"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "scope"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "generation"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "progress"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "notes"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "inventory"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "window"
+    },
+    {
+      "kind": "stale_retry",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "requests"
+    }
+  ],
+  "checks": 1256,
+  "errors": [],
+  "ok": true,
+  "required_cases": 64,
+  "scope": "HEADLESS actual inventory/hotspot/window/choice signals; fixed event boundaries, not full campaign, OS input or performance acceptance"
+}

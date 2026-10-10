@@ -1,0 +1,39 @@
+{
+  "root": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-reset-worker-dcf6ddaa06cd4fb6a86425480851f181",
+  "project": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-reset-worker-dcf6ddaa06cd4fb6a86425480851f181\\source\\game",
+  "head": "ede16eef62145121c41634ba9a0c7999b26a0712",
+  "engine": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-runtime-76ab9ae83a384f3192811ae421e7d53e\\Godot_v4.6.3-stable_win64.exe",
+  "engine_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "files": [
+    {
+      "candidate_sha256": "9554c5757cf6f6311abfd4d9946387653e45885d123e59ed2ab15f5e6aeea690",
+      "baseline_sha256": "db092b7dd2923aea155ba9cdc7d97cfba6107149bc6b0d2d119e5f3bcd4ff4f0",
+      "path": "game/scripts/autoload/save_manager.gd"
+    },
+    {
+      "candidate_sha256": "5886abda697b3baa860849a35b18263acb8b95fd1355d5eddf4587f8d638783c",
+      "baseline_sha256": "32a955e993bc000599c35f3a5a78c7cd67829913fdefb77c681aed13699f60a9",
+      "path": "game/scripts/systems/dialogue_history_writer.gd"
+    },
+    {
+      "candidate_sha256": "c997c6f110df71f5beab34c4b8e18e5bd00b21efcc8ebe15a4e63d8af19f9c2e",
+      "baseline_sha256": "4c9ee340c748808bb6a045fa5fc3b405f1d833a6d8b96ee267b74cf48cb518f5",
+      "path": "game/scripts/systems/notebook_save_worker.gd"
+    },
+    {
+      "candidate_sha256": "3c62b10bdc6bb2ad309eb4ab74eaa67ef24d838cea0dd9c9bd495a783c803eed",
+      "baseline_sha256": "48255f4338fa47f4f5f30f7b50cfd2fbfb3efabff00600ab4d019e62b86c6df9",
+      "path": "game/scripts/systems/reset_coordinator.gd"
+    },
+    {
+      "candidate_sha256": "fc8c866da8193fa33bb5c889b643ff52cdb94262f3139aa74ae4a8566f5d88b1",
+      "baseline_sha256": "7b50054999d4a63662d31823554151469dbdaf8733031fa8c93fe5e3b60bac88",
+      "path": "game/scripts/systems/bootstrap.gd"
+    },
+    {
+      "candidate_sha256": "0048915f0a75de039d8e410d7366e9854ba9ed17b7ec6ef51f5d8e24a293b0ea",
+      "baseline_sha256": "84a8c8e618c1c8de1252c541071242b645df6b113484a9ec1b96bbeba8da2567",
+      "path": "game/scripts/prologue/prologue_controller.gd"
+    }
+  ]
+}

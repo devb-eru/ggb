@@ -1,0 +1,20 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+RESET_UI_AUDIT: {"cases":[{"kind":"sleep_ui","locale":"ko_KR","passed":true,"scenario":"success"},{"kind":"sleep_ui","locale":"ko_KR","passed":true,"scenario":"reject_initial"},{"kind":"sleep_ui","locale":"ko_KR","passed":true,"scenario":"reject_physical"},{"kind":"sleep_ui","locale":"ko_KR","passed":true,"scenario":"ack_physical"},{"kind":"sleep_ui","locale":"ko_KR","passed":true,"scenario":"locale"},{"kind":"sleep_ui","locale":"ko_KR","passed":true,"scenario":"cancel"},{"kind":"boot_ui","locale":"ko_KR","passed":true,"reset_type":"normal"},{"kind":"boot_ui","locale":"ko_KR","passed":true,"reset_type":"broken"},{"kind":"sleep_ui","locale":"en_US","passed":true,"scenario":"success"},{"kind":"sleep_ui","locale":"en_US","passed":true,"scenario":"reject_initial"},{"kind":"sleep_ui","locale":"en_US","passed":true,"scenario":"reject_physical"},{"kind":"sleep_ui","locale":"en_US","passed":true,"scenario":"ack_physical"},{"kind":"sleep_ui","locale":"en_US","passed":true,"scenario":"locale"},{"kind":"sleep_ui","locale":"en_US","passed":true,"scenario":"cancel"},{"kind":"boot_ui","locale":"en_US","passed":true,"reset_type":"normal"},{"kind":"boot_ui","locale":"en_US","passed":true,"reset_type":"broken"}],"checks":356,"errors":[],"ok":true,"required_cases":16,"scope":"HEADLESS actual P6 bed/confirmation/dialogue/retry controls and real bootstrap; no physical OS input or full playthrough"}
+RESET_UI_SMOKE:PASS

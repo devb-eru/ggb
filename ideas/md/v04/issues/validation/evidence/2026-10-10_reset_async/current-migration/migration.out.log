@@ -1,0 +1,8 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+GGB title bootstrap initialized.
+NOTEBOOK_MIXED_RETENTION: legacy=10000 protected=2001 ordinary=2000; save rejection, lost acknowledgement, reload checked
+NOTEBOOK_OWNED_NORMALIZATION_CASES: 26
+NOTEBOOK_ENCODING_PARITY_CASES: 29
+NOTEBOOK_SAVE_SAFETY_CHECKS: 381
+NOTEBOOK_MIGRATION_SMOKE: PASS

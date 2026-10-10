@@ -1,0 +1,12 @@
+ERROR: Condition "len == 0" is true. Returning: FAILED
+   at: update (core/crypto/hashing_context.cpp:53)
+   GDScript backtrace (most recent call first):
+       [0] read_source (res://scripts/systems/notebook_save_worker.gd:19)
+       [1] _prepare_history_with_storage (res://scripts/systems/notebook_save_worker.gd:120)
+       [2] prepare_history (res://scripts/systems/notebook_save_worker.gd:83)
+ERROR: Condition "len == 0" is true. Returning: FAILED
+   at: update (core/crypto/hashing_context.cpp:53)
+   GDScript backtrace (most recent call first):
+       [0] read_source (res://scripts/systems/notebook_save_worker.gd:19)
+       [1] _prepare_history_with_storage (res://scripts/systems/notebook_save_worker.gd:120)
+       [2] prepare_history (res://scripts/systems/notebook_save_worker.gd:83)

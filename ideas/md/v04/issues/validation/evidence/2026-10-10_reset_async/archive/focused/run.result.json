@@ -1,0 +1,905 @@
+{
+  "cases": [
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "guard"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "revision"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "epoch"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "cancel"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "root"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "source"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "busy"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "payload"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "guard"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "revision"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "epoch"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "cancel"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "root"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "source"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "busy"
+    },
+    {
+      "kind": "stale",
+      "locale": "ko_KR",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "payload"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "normal"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "guard"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "revision"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "epoch"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "cancel"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "root"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "source"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "busy"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "normal",
+      "scenario": "payload"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "phase",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "reject",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "sleep_confirmed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "player_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "memory_committed",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "physical_reset_complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "morning_loaded",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "route_selected",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "complete",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "ack",
+      "locale": "en_US",
+      "passed": true,
+      "phase": "idle",
+      "reset_type": "broken"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "guard"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "revision"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "epoch"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "cancel"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "root"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "source"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "busy"
+    },
+    {
+      "kind": "stale",
+      "locale": "en_US",
+      "passed": true,
+      "reset_type": "broken",
+      "scenario": "payload"
+    }
+  ],
+  "checks": 3212,
+  "errors": [],
+  "ok": true,
+  "required_cases": 128,
+  "scope": "HEADLESS reset coordinator, actual worker/disk and phase-stop reload; no OS input, cross-process recovery or latency budget acceptance"
+}

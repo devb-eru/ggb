@@ -1,0 +1,148 @@
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:103)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:103)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:103)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:103)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:103)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _boot_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:123)
+       [3] request_normal_reset_async (res://scripts/systems/reset_coordinator.gd:68)
+       [4] _request_reset_async (res://scripts/systems/reset_coordinator.gd:94)
+       [5] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:104)
+       [6] _commit_step_async (res://scripts/systems/reset_coordinator.gd:120)
+       [7] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [8] _write_async (res://scripts/systems/dialogue_history_writer.gd:108)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _boot_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:123)
+       [3] request_broken_reset_async (res://scripts/systems/reset_coordinator.gd:72)
+       [4] _request_reset_async (res://scripts/systems/reset_coordinator.gd:94)
+       [5] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:104)
+       [6] _commit_step_async (res://scripts/systems/reset_coordinator.gd:120)
+       [7] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [8] _write_async (res://scripts/systems/dialogue_history_writer.gd:108)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _boot_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:141)
+       [5] _wait_storage (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:10)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:103)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:103)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:103)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:103)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:34)
+       [3] _ready (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:16)
+       [4] _sleep_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:103)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _boot_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:123)
+       [3] request_normal_reset_async (res://scripts/systems/reset_coordinator.gd:68)
+       [4] _request_reset_async (res://scripts/systems/reset_coordinator.gd:94)
+       [5] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:104)
+       [6] _commit_step_async (res://scripts/systems/reset_coordinator.gd:120)
+       [7] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [8] _write_async (res://scripts/systems/dialogue_history_writer.gd:108)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _boot_ui (res://__reset_async_7a9e9103cbaf43908af2d1081d64c4e0/notebook_reset_ui_audit.gd:123)
+       [3] request_broken_reset_async (res://scripts/systems/reset_coordinator.gd:72)
+       [4] _request_reset_async (res://scripts/systems/reset_coordinator.gd:94)
+       [5] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:104)
+       [6] _commit_step_async (res://scripts/systems/reset_coordinator.gd:120)
+       [7] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [8] _write_async (res://scripts/systems/dialogue_history_writer.gd:108)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:810)
