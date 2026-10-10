@@ -1,0 +1,52 @@
+SCRIPT ERROR: Invalid access to property or key 'revision' on a base object of type 'previously freed'.
+   at: ResetCoordinator._commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+   GDScript backtrace (most recent call first):
+       [0] _commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+       [1] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [2] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+SCRIPT ERROR: Invalid access to property or key 'ok' on a base object of type 'Dictionary'.
+   at: ResetCoordinator._run_async_until_stop (res://scripts/systems/reset_coordinator.gd:108)
+   GDScript backtrace (most recent call first):
+       [0] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:108)
+       [1] _commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+       [2] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [3] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+SCRIPT ERROR: Invalid access to property or key 'revision' on a base object of type 'previously freed'.
+   at: ResetCoordinator._commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+   GDScript backtrace (most recent call first):
+       [0] _commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+       [1] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [2] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+SCRIPT ERROR: Invalid access to property or key 'ok' on a base object of type 'Dictionary'.
+   at: ResetCoordinator._run_async_until_stop (res://scripts/systems/reset_coordinator.gd:108)
+   GDScript backtrace (most recent call first):
+       [0] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:108)
+       [1] _commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+       [2] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [3] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+SCRIPT ERROR: Invalid access to property or key 'revision' on a base object of type 'previously freed'.
+   at: ResetCoordinator._commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+   GDScript backtrace (most recent call first):
+       [0] _commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+       [1] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [2] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+SCRIPT ERROR: Invalid access to property or key 'ok' on a base object of type 'Dictionary'.
+   at: ResetCoordinator._run_async_until_stop (res://scripts/systems/reset_coordinator.gd:108)
+   GDScript backtrace (most recent call first):
+       [0] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:108)
+       [1] _commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+       [2] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [3] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+SCRIPT ERROR: Invalid access to property or key 'revision' on a base object of type 'previously freed'.
+   at: ResetCoordinator._commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+   GDScript backtrace (most recent call first):
+       [0] _commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+       [1] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [2] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+SCRIPT ERROR: Invalid access to property or key 'ok' on a base object of type 'Dictionary'.
+   at: ResetCoordinator._run_async_until_stop (res://scripts/systems/reset_coordinator.gd:108)
+   GDScript backtrace (most recent call first):
+       [0] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:108)
+       [1] _commit_step_async (res://scripts/systems/reset_coordinator.gd:130)
+       [2] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [3] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)

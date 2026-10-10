@@ -1,0 +1,4 @@
+SCRIPT ERROR: Parse Error: Expected expression for match pattern.
+   at: GDScript::reload (res://__reset_async_560ac3f7e10141f3b4ad989334732b55/notebook_reset_lifetime_audit.gd:66)
+ERROR: Failed to load script "res://__reset_async_560ac3f7e10141f3b4ad989334732b55/notebook_reset_lifetime_audit.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)
