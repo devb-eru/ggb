@@ -237,7 +237,7 @@ static func _apply_physical_reset(snapshot: Dictionary, reset_type: String) -> v
 	var previous_loop: Dictionary = snapshot["loop_state"]
 	snapshot["loop_state"] = {
 		"day_index": int(previous_loop["day_index"]) + 1,
-		"location_id": "M1_BEDROOM",
+		"location_id": "M2_BEDROOM",
 		"time_block": "morning",
 		"inventory": [],
 		"physical_changes": {},

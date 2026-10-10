@@ -7,6 +7,7 @@ var route := ""
 var point := ""
 var cut := ""
 var case_dir := ""
+var legacy_kind := ""
 
 class CutStorage extends "res://scripts/autoload/save_manager.gd":
     var armed := false
@@ -50,16 +51,57 @@ func _ready() -> void:
     point = _argument("--reset-process-point")
     cut = _argument("--reset-process-cut")
     case_dir = _argument("--reset-process-dir")
+    legacy_kind = _argument("--reset-process-legacy")
     var locale := _argument("--reset-process-locale")
     TranslationServer.set_locale(locale)
     _expect(phase in ["seed", "resume", "verify"] and route in ["p6", "chapter", "mirror", "basement", "bedroom", "capsule", "rest"] and point in PHASES + ["wake"] and cut in ["prepared", "promoted"] and locale in ["ko_KR", "en_US"], "explicit process coordinates")
-    if phase == "seed": await _seed_cut()
+    _expect(legacy_kind in ["", "new", "replay", "pending"] and (legacy_kind.is_empty() or (legacy_kind == "pending" and route in ["chapter", "bedroom"] and point in PHASES and cut == "promoted") or (route in ["chapter", "mirror", "basement", "bedroom"] and point == "wake" and cut == "promoted")), "explicit legacy alias fixture coordinates")
+    if phase == "seed":
+        if legacy_kind in ["", "pending"]: await _seed_cut()
+        else: _seed_legacy()
     else: await _recover()
     var result := {"ok":errors.is_empty(), "errors":errors, "checks":checks, "phase":phase, "route":route, "point":point, "cut":cut, "locale":locale,
-        "scope":"fresh HEADLESS process and actual bootstrap/P6 controls; no Windows physical input"}
+        "legacy_kind":legacy_kind, "scope":"fresh HEADLESS process and actual bootstrap/P6 controls; legacy fixtures are not interrupted reset workers; no Windows physical input"}
     print("RESET_PROCESS_AUDIT: ", JSON.stringify(result))
     print("RESET_PROCESS_SMOKE:", "PASS" if errors.is_empty() else "FAIL")
     get_tree().quit(0 if errors.is_empty() else 1)
+
+func _seed_legacy() -> void:
+    var fixture := SLEEP_FIXTURE.new()
+    var state: Dictionary = fixture._route_seed(route)
+    errors.append_array(fixture.errors)
+    checks += fixture.checks
+    state.loop_state.location_id = "M1_BEDROOM"
+    state.loop_state.event_local_states.CHAPTER_ONE.erase("last_feedback")
+    state.loop_state.event_local_states.erase("NOTEBOOK_PRESENTATION")
+    if route == "bedroom":
+        state.fracture_state.broken_reset_triggered = true
+        state.fracture_state.camouflage_filter = "broken"
+        state.fracture_state.world_phase = "S3"
+        state.meta_progress.knowledge_entries.erase("E1_wake_seen")
+    _seed(state)
+    if legacy_kind == "replay":
+        var client = fixture._session(route, SaveManager)
+        if route == "bedroom": state.meta_progress.knowledge_entries.E1_wake_seen = true
+        var context := {"node_id":"E1_ENTRY" if route == "bedroom" else client.stage(), "chapter_id":"CHAPTER_3" if route == "bedroom" else client.history_chapter_id(), "location_id":"M1_BEDROOM"}
+        var text: String = preload("res://scripts/systems/fracture_notebook.gd").TEXT.E1_WAKE if route == "bedroom" else preload("res://scripts/systems/chapter_one_notebook.gd").FIXED.WAKE
+        var descriptors: Array = preload("res://scripts/systems/fracture_notebook.gd").paragraphs(["E1_WAKE"]) if route == "bedroom" else preload("res://scripts/systems/chapter_one_notebook.gd").paragraphs("WAKE")
+        _expect(client._commit_feedback(state, text, "주인공", "", context, descriptors).ok, "genuine legacy feedback saved")
+        var line := _line("NB_FRACTURE_E1_WAKE" if route == "bedroom" else "NB_CH1_WAKE", context.node_id)
+        line.history_context = context
+        _expect(WRITER.record(GameState, SaveManager, SLOT, "SAVE_CAMPAIGN_PROGRESS", line.speaker, line.text, TranslationServer.get_locale(), context.chapter_id, [], _recording(line).context).ok, "genuine earlier alias observation durable")
+    fixture.free()
+    var manager := CutStorage.new()
+    manager.point = point
+    manager.cut = cut
+    manager.directory = case_dir
+    manager.prior = GameState.get_snapshot()
+    manager.failures = errors
+    add_child(manager)
+    var paths := SaveManager._slot_paths(SLOT)
+    var disk := SaveManager._read_and_validate(paths.main)
+    _expect(disk.ok, "legacy alias fixture validated before cold start")
+    manager._freeze(paths, disk)
 
 func _seed_cut() -> void:
     if route == "p6":
@@ -195,7 +237,32 @@ func _recover() -> void:
             await _host_settle(host)
             _expect(is_instance_valid(host._prologue) and host._prologue is ChapterOneController, "completed R1 deferred handoff settles before cold re-open snapshot")
     var after := GameState.get_snapshot()
-    var expected_day: int = int(evidence.baseline.loop_state.day_index) + (0 if route == "rest" else 1)
+    _expect(after.loop_state.location_id == "M2_BEDROOM", "fresh wake installs canonical bedroom")
+    if legacy_kind.is_empty() and (point == "wake" or PHASES.find(point) >= PHASES.find("physical_reset_complete")):
+        _expect(evidence.candidate.loop_state.location_id == "M2_BEDROOM", "new physical/wake candidate already uses canonical bedroom")
+    var feedback: Dictionary = after.loop_state.event_local_states.CHAPTER_ONE.last_feedback
+    var uncommitted_rest: bool = legacy_kind.is_empty() and route == "rest" and point == "wake" and cut == "prepared"
+    var expected_location := "LEGACY_UNKNOWN" if uncommitted_rest else ("M1_BEDROOM" if legacy_kind == "replay" else "M2_BEDROOM")
+    _expect(feedback.history_context.location_id == expected_location, "new waking source canonical; old feedback source unchanged")
+    var cursor := CURSOR.read(after)
+    _expect(not cursor.get("lines", []).is_empty(), "wake presentation has actual displayed lines")
+    for line in cursor.get("lines", []):
+        _expect(line.get("history_context", {}).get("location_id") == expected_location, "wake presentation records genuine source bedroom")
+    var old_uids: Array = evidence.baseline.meta_progress.dialogue_history.entries.map(func(row: Dictionary) -> String: return row.entry_uid)
+    var wake_count := 0
+    for entry in after.meta_progress.dialogue_history.entries:
+        if entry.entry_uid in old_uids or not entry.has("observation"): continue
+        var observation: Dictionary = entry.observation
+        if observation.get("content_id") not in ["NB_CH1_WAKE", "NB_FRACTURE_E1_WAKE", "NB_FRACTURE_NOTE_E1_WAKE", "NB_FRACTURE_POST_REST"]: continue
+        wake_count += 1
+        _expect(observation.location_id == expected_location, "authored waking source uses genuine bedroom: " + observation.content_id)
+    if uncommitted_rest:
+        _expect(wake_count == 0, "uncommitted rest cannot fabricate an authored waking source")
+        var origin: Dictionary = feedback.get("legacy_feedback_origin", {})
+        _expect(StateSnapshotValidator.same_persisted_value(origin.get("feedback"), evidence.baseline.loop_state.event_local_states.CHAPTER_ONE.last_feedback), "uncommitted rest retains genuine prior legacy feedback instead of relabeling it")
+    else:
+        _expect(wake_count > 0, "actual authored wake observed rather than merely normalized live position")
+    var expected_day: int = int(evidence.baseline.loop_state.day_index) + (0 if route == "rest" or legacy_kind in ["new", "replay"] else 1)
     _expect(after.loop_state.day_index == expected_day and after.reset_state.phase == "idle", "fresh process completes exactly one reset or unchanged post-fracture rest")
     _preserved(evidence.baseline, after)
     _preserved(prior, after)

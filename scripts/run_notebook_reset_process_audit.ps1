@@ -9,7 +9,8 @@ param(
     [Parameter(Mandatory)][string]$EnginePath,
     [Parameter(Mandatory)][string]$ProjectPath,
     [Parameter(Mandatory)][string]$EvidencePath,
-    [ValidateRange(1,1800)][int]$TimeoutSeconds=120
+    [ValidateRange(1,1800)][int]$TimeoutSeconds=120,
+    [ValidateSet('','new','replay','pending')][string]$LegacyKind=''
 )
 $ErrorActionPreference='Stop'
 $engine=(Resolve-Path -LiteralPath $EnginePath).Path
@@ -23,6 +24,9 @@ foreach($path in @($project,$evidence,$profile,$case)){
 }
 if((Test-Path -LiteralPath $evidence) -or ($Phase -eq 'seed' -and ((Test-Path -LiteralPath $profile) -or (Test-Path -LiteralPath $case))) -or ($Phase -ne 'seed' -and (-not (Test-Path -LiteralPath $profile) -or -not (Test-Path -LiteralPath (Join-Path $case 'cut.json'))))){throw 'Evidence/profile/case phase conflict'}
 if(($Route -eq 'p6' -and $Point -eq 'wake') -or ($Route -eq 'rest' -and $Point -ne 'wake')){throw 'Unsupported persistence boundary'}
+if($LegacyKind -eq 'pending'){
+    if($Route -notin @('chapter','bedroom') -or $Point -eq 'wake' -or $Cut -ne 'promoted'){throw 'Unsupported old pending reset coordinate'}
+}elseif($LegacyKind -and ($Route -notin @('chapter','mirror','basement','bedroom') -or $Point -ne 'wake' -or $Cut -ne 'promoted')){throw 'Unsupported legacy fixture coordinate'}
 function Get-Corpus {
     $rows=@(Get-ChildItem -LiteralPath (Join-Path $project 'scripts') -Filter '*.gd' -File -Recurse | Sort-Object FullName | ForEach-Object {$_.FullName.Substring($project.Length+1).Replace('\','/')+"`t"+(Get-FileHash -LiteralPath $_.FullName).Hash.ToLowerInvariant()})
     [ordered]@{file_count=$rows.Count;rows=$rows}
@@ -59,6 +63,7 @@ try {
     if($LASTEXITCODE -ne 0){throw 'Engine version failed'}
     $start=[DateTime]::UtcNow.ToString('o')
     $argsList=@('--headless','--verbose','--path',('"'+$project+'"'),('"'+(Join-Path $dir 'notebook_reset_process_audit.tscn')+'"'),'--','--ggb-dev-notebook-v2','--ggb-dev-notebook-async','--notebook-require-authored',('--reset-process-phase='+$Phase),('--reset-process-route='+$Route),('--reset-process-point='+$Point),('--reset-process-cut='+$Cut),('--reset-process-dir="'+$case+'"'),('--reset-process-locale='+$Locale))
+    if($LegacyKind){$argsList+=('--reset-process-legacy='+$LegacyKind)}
     $child=Start-Process -FilePath $engine -ArgumentList $argsList -WindowStyle Hidden -PassThru -RedirectStandardOutput $out -RedirectStandardError $err
     Write-Output ('Reset process '+$Route+'/'+$Point+'/'+$Cut+'/'+$Phase+' PID='+$child.Id)
     if($Phase -eq 'seed'){
@@ -87,7 +92,7 @@ try {
         $summaries=@($lines | Where-Object {$_.StartsWith('RESET_PROCESS_AUDIT: ')})
         if($summaries.Count -ne 1){throw 'Ambiguous process summary'}
         $result=$summaries[0].Substring('RESET_PROCESS_AUDIT: '.Length) | ConvertFrom-Json
-        if(-not $result.ok -or @($result.errors).Count -or $result.phase -cne $Phase -or $result.route -cne $Route -or $result.point -cne $Point -or $result.cut -cne $Cut -or $result.locale -cne $Locale){throw 'Recovery result mismatch'}
+        if(-not $result.ok -or @($result.errors).Count -or $result.phase -cne $Phase -or $result.route -cne $Route -or $result.point -cne $Point -or $result.cut -cne $Cut -or $result.locale -cne $Locale -or $result.legacy_kind -cne $LegacyKind){throw 'Recovery result mismatch'}
         if((Get-Digest (Join-Path $case 'cut.json')) -cne $cutBefore){throw 'Immutable cut evidence changed'}
     }
     if(Select-String -LiteralPath $out,$err -Pattern 'SCRIPT ERROR|Parse Error|Compile Error|ObjectDB instances leaked|resources still in use' -Quiet){throw 'Script/native warning failure'}
@@ -96,7 +101,7 @@ try {
     $failure=$_.Exception.Message
 }finally{
     if($null -ne $child -and -not $child.HasExited){$child.Kill();$child.WaitForExit()}
-    $receipt=[ordered]@{ok=($failure -eq '');failure=$failure;profile=$profile;case_path=$case;phase=$Phase;route=$Route;point=$Point;cut=$Cut;locale=$Locale;completed=$finished;terminated_by_runner=$terminated;pid=if($child){$child.Id}else{$null};exit_code=if($child){$child.ExitCode}else{$null};started_utc=$start;finished_utc=[DateTime]::UtcNow.ToString('o');
+    $receipt=[ordered]@{ok=($failure -eq '');failure=$failure;profile=$profile;case_path=$case;phase=$Phase;route=$Route;point=$Point;cut=$Cut;locale=$Locale;legacy_kind=$LegacyKind;completed=$finished;terminated_by_runner=$terminated;pid=if($child){$child.Id}else{$null};exit_code=if($child){$child.ExitCode}else{$null};started_utc=$start;finished_utc=[DateTime]::UtcNow.ToString('o');
         engine_version=$version;engine_sha256=Get-Digest $engine;runner_sha256=Get-Digest $PSCommandPath;harnesses=$harnesses;source_corpus=$source;source_unchanged=(($source | ConvertTo-Json -Depth 6 -Compress) -ceq ((Get-Corpus) | ConvertTo-Json -Depth 6 -Compress));
         stdout_sha256=Get-Digest $out;stderr_sha256=Get-Digest $err;cut_sha256=Get-Digest (Join-Path $case 'cut.json');details_sha256=Get-Digest (Join-Path $case ($Phase+'_details.json'));resumed_sha256=Get-Digest (Join-Path $case 'resumed_snapshot.json')}
     [IO.File]::WriteAllText((Join-Path $evidence 'run.json'),($receipt | ConvertTo-Json -Depth 8),[Text.UTF8Encoding]::new($false))

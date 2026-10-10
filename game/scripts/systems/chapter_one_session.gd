@@ -79,8 +79,8 @@ func known(key: String) -> bool:
 	return bool(snapshot()["meta_progress"]["knowledge_entries"].get(key, false))
 
 
-func stage() -> String:
-	var state := snapshot()
+func stage(state: Dictionary = {}) -> String:
+	if state.is_empty(): state = snapshot()
 	var meta: Dictionary = state["meta_progress"]
 	var knowledge: Dictionary = meta["knowledge_entries"]
 	if int(meta["journal_stage"]) >= 2:
@@ -119,6 +119,8 @@ func initialize() -> Dictionary:
 	if not source.ok: return source
 	var origin: Dictionary = source.origin
 	var context: Dictionary = last.get("history_context", {}) if origin.is_empty() else LEGACY_FEEDBACK.context_for(origin)
+	# New waking sources use the normalized candidate; saved originals keep their context.
+	if last.is_empty(): context = history_context(state)
 	var descriptors: Array = NOTEBOOK_FEEDBACK.paragraphs("WAKE") if last.is_empty() else last.get("notebook_feedback", [])
 	var version := LEGACY_FEEDBACK.VERSION
 	if not state.meta_progress.dialogue_history.has("schema_version") and not last.is_empty() and not last.has(LEGACY_FEEDBACK.STAMP) and descriptors.is_empty(): version = 0
@@ -502,8 +504,9 @@ func history_chapter_id() -> String:
 	return HISTORY_CONTEXT.chapter_for_stage(stage())
 
 
-func history_context() -> Dictionary:
-	return HISTORY_CONTEXT.capture(stage(), String(snapshot()["loop_state"]["location_id"]))
+func history_context(state: Dictionary = {}) -> Dictionary:
+	if state.is_empty(): return HISTORY_CONTEXT.capture(stage(), String(snapshot()["loop_state"]["location_id"]))
+	return HISTORY_CONTEXT.capture(stage(state), String(state["loop_state"]["location_id"]))
 
 
 func record_viewed_line(speaker: String, text: String, locale: String, context: Dictionary = {}) -> Dictionary:

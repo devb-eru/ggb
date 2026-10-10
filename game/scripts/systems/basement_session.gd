@@ -91,12 +91,12 @@ func initialize() -> Dictionary:
 	state["loop_state"]["event_local_states"][BASEMENT_KEY] = basement_local(state)
 	if state["fracture_state"]["broken_reset_triggered"] and not knowledge.get("E1_wake_seen", false):
 		knowledge["E1_wake_seen"] = true
-		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E1_WAKE, ["E1_WAKE"], [["NOTE_E1_WAKE", "E1_WAKE", FRACTURE_NOTES.NOTES.E1_WAKE]])
+		return _fracture_commit(state, FRACTURE_NOTES.TEXT.E1_WAKE, ["E1_WAKE"], [["NOTE_E1_WAKE", "E1_WAKE", FRACTURE_NOTES.NOTES.E1_WAKE]], "주인공", history_context(state))
 	return _commit_feedback(state, String(result.get("text", "")), String(result.get("speaker", "주인공")), String(result.get("text_id", "")), result.get("history_context", {}), result.get("notebook_feedback", []), result.get(LEGACY_FEEDBACK.ORIGIN, {}), int(result.get("feedback_contract_version", LEGACY_FEEDBACK.VERSION)))
 
 
-func stage() -> String:
-	var state := snapshot()
+func stage(state: Dictionary = {}) -> String:
+	if state.is_empty(): state = snapshot()
 	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
 	var local := basement_local(state)
 	if state["ending_run"].get("branch_committed", false):
@@ -128,7 +128,7 @@ func stage() -> String:
 		if state["loop_state"]["location_id"] in ["M1_SERVICE_HALL", "M1_WIRING_ROOM"]: return "E3_1"
 		if state["loop_state"]["location_id"] == "M2_BEDROOM": return "E1_ENTRY"
 		if knowledge.get("relationship_hub_open", false): return "E_HUB"
-		if luca_s2_pending(): return "LUCA_S2" if state["loop_state"]["location_id"] == "M1_KITCHEN" else "LUCA_GUIDE"
+		if luca_s2_pending(state): return "LUCA_S2" if state["loop_state"]["location_id"] == "M1_KITCHEN" else "LUCA_GUIDE"
 		return "E2_INTRO"
 	if knowledge.get("d5_complete", false): return "DEMO_END" if _save.get_build_flavor() == "demo" else "D6"
 	if state["fracture_state"]["camouflage_filter"] == "disabled": return "D5"
@@ -439,8 +439,9 @@ func act(action: String, value: Variant = null) -> Dictionary:
 	return _commit_feedback(state, text, "주인공", "", event_context, BASEMENT_NOTES.paragraphs(feedback_key))
 
 
-func luca_s2_pending() -> bool:
-	return not known("LUCA_S2_complete") and not snapshot()["meta_progress"]["servants"]["luca"]["core_event_complete"]
+func luca_s2_pending(state: Dictionary = {}) -> bool:
+	if state.is_empty(): state = snapshot()
+	return not state["meta_progress"]["knowledge_entries"].get("LUCA_S2_complete", false) and not state["meta_progress"]["servants"]["luca"]["core_event_complete"]
 
 
 func _final_result(result: Dictionary) -> Dictionary:
@@ -590,8 +591,8 @@ func _mara1_action(action: String, value: Variant) -> Dictionary:
 	return _commit_feedback(result.state, result.text, "주인공", "", context, MARA1_NOTES.paragraphs(result.feedback_key))
 
 
-func _fracture_commit(state: Dictionary, text: String, ids: Array, notes: Array = [], speaker: String = "주인공") -> Dictionary:
-	var context := history_context()
+func _fracture_commit(state: Dictionary, text: String, ids: Array, notes: Array = [], speaker: String = "주인공", source_context: Dictionary = {}) -> Dictionary:
+	var context := history_context() if source_context.is_empty() else source_context.duplicate(true)
 	if state.meta_progress.dialogue_history.has("schema_version"):
 		context.event_occurrence_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()
 		context.conversation_session_id = preload("res://scripts/systems/notebook_archive.gd").new_uid()

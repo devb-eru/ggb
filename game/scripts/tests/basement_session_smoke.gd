@@ -124,7 +124,7 @@ class UnavailableEndingMeta extends RefCounted:
 		return {"ok":false,"error":"injected_write_failure"}
 
 class PendingEndingSession extends BasementSession:
-	func stage() -> String:
+	func stage(_state: Dictionary = {}) -> String:
 		return "ENDING_BODY_PENDING"
 
 

@@ -49,8 +49,8 @@ func initialize() -> Dictionary:
 	return _commit_feedback(state, String(initialized.get("text", "")), String(initialized.get("speaker", "주인공")), String(initialized.get("text_id", "")), initialized.get("history_context", {}), initialized.get("notebook_feedback", []), initialized.get(LEGACY_FEEDBACK.ORIGIN, {}), int(initialized.get("feedback_contract_version", LEGACY_FEEDBACK.VERSION)))
 
 
-func stage() -> String:
-	var state := snapshot()
+func stage(state: Dictionary = {}) -> String:
+	if state.is_empty(): state = snapshot()
 	var knowledge: Dictionary = state["meta_progress"]["knowledge_entries"]
 	var local := mirror_local(state)
 	if int(state["meta_progress"]["journal_stage"]) >= 3: return "J3_COMPLETE"
