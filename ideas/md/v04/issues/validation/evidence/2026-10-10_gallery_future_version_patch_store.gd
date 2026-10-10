@@ -57,9 +57,7 @@ func _read_path(path: String, id: String) -> Dictionary:
 	var document: Dictionary = parser.data
 	if not _supported_version(document.get("gallery_version")): return {"ok":false,"error":"gallery_version"}
 	var payload: Variant = document.get("payload")
-	var checksum: Variant = document.get("checksum")
-	if not payload is String or not checksum is String: return {"ok":false,"error":"gallery_checksum"}
-	if checksum != id or payload.sha256_text() != id: return {"ok":false,"error":"gallery_checksum"}
+	if not payload is String or document.get("checksum") != id or payload.sha256_text() != id: return {"ok":false,"error":"gallery_checksum"}
 	if parser.parse(payload) != OK or not parser.data is Dictionary: return {"ok":false,"error":"gallery_state"}
 	var state := StateSnapshotValidator.new().normalize(parser.data)
 	if not _completed(state): return {"ok":false,"error":"gallery_incomplete"}

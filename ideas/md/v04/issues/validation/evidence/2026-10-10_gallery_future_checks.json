@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "cases": 324,
+  "checks": 3155,
+  "native_runs": 4,
+  "source_corpus": {
+    "basis": "res://scripts/**/*.gd",
+    "file_count": 264,
+    "sha256": "08fb92454227daf678824f2721f8a5946b8ecce002c03bd7b74cdb13bb991708"
+  },
+  "original_files_preserved": true,
+  "negative_checks": 5,
+  "actual_input": false,
+  "all_producers": false
+}

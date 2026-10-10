@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "mode": "migration",
+  "completed": true,
+  "exit_code": 1,
+  "require_authored": true,
+  "expected_failure": false,
+  "started_utc": "2026-10-10T00:20:16.4394802Z",
+  "finished_utc": "2026-10-10T00:21:10.7193334Z",
+  "engine_sha256": "12310c74bdda7dcd43f28e971f33047dcecadd436b68169d61ce41009006df38",
+  "harness_sha256": null,
+  "scene_sha256": null,
+  "runner_sha256": "25ec101989cd77d50ad540407c224e064b58cdd9cb2e3815026511279a7cbdc2",
+  "store_sha256": "d1bf720cac801766b6904ac5b2e05538be21bc480c45701712c3d2deea843404",
+  "stdout_sha256": "1d42d6a7f48fba065ba30dd7ebab03ba85557195d4de84265368c17fb5a10c6f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

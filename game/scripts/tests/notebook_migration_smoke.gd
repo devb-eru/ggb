@@ -4,6 +4,7 @@ const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const MIGRATION := preload("res://scripts/systems/notebook_migration.gd")
 const COMMANDS := preload("res://scripts/systems/notebook_commands.gd")
 const WRITER := preload("res://scripts/systems/dialogue_history_writer.gd")
+const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const SLOT := "__test_notebook_migration"
 var errors := PackedStringArray()
@@ -337,11 +338,16 @@ func _validate_commands() -> void:
 	result = COMMANDS.set_reference(GameState, fault, SLOT, "comparison", reference, true, scope, GameState.revision, ARCHIVE.new_uid())
 	_expect(result.ok and result.get("recovered_acknowledgement", false), "lost success response resolved against verified disk commit")
 	_expect(SaveManager.load_slot(SLOT).snapshot == GameState.get_snapshot(), "lost acknowledgement never rolls back a committed pin")
-	var presentation := {"presentation_token": ARCHIVE.new_uid()}
-	var observed := WRITER.record(GameState, fault, SLOT, "SAVE_NEW_GAME", "Narrator", "Visible retry", "en-US", "PROLOGUE", [], presentation)
+	var descriptor := CONTENT.descriptor("NB_PR_DUTY_1", 1, {"body": {}})
+	var shown := CONTENT.presentation(descriptor, "en-US")
+	_expect(shown.get("ok", false), "lost response fixture has authored presentation")
+	var presentation := {"presentation_token": ARCHIVE.new_uid(), "notebook_content": descriptor,
+		"node_id": "PG", "location_id": "M1_PARLOR", "chapter_id": "PROLOGUE",
+		"event_occurrence_id": ARCHIVE.new_uid(), "conversation_session_id": ARCHIVE.new_uid()}
+	var observed := WRITER.record(GameState, fault, SLOT, "SAVE_NEW_GAME", shown.speaker, shown.text, "en-US", "PROLOGUE", [], presentation)
 	_expect(observed.ok and observed.get("recovered_acknowledgement", false), "observed line also confirms lost success response")
 	var observed_state := GameState.get_snapshot()
-	var repeated := WRITER.record(GameState, SaveManager, SLOT, "SAVE_NEW_GAME", "Narrator", "Visible retry", "en-US", "PROLOGUE", [], presentation)
+	var repeated := WRITER.record(GameState, SaveManager, SLOT, "SAVE_NEW_GAME", shown.speaker, shown.text, "en-US", "PROLOGUE", [], presentation)
 	_expect(repeated.ok and repeated.entry_uid == observed.entry_uid and GameState.get_snapshot() == observed_state, "same presentation retry returns existing UID without another append")
 	_expect(SaveManager.load_slot(SLOT).snapshot == observed_state, "observed context reloads unchanged")
 	fault.free()

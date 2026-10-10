@@ -19,8 +19,6 @@ func capture(source: Dictionary) -> Dictionary:
 	var id := payload.sha256_text()
 	var path := root_path.path_join(id + ".json")
 	if FileAccess.file_exists(path): return read_entry(id)
-	var temporary := _temporary_write_guard(path + ".tmp")
-	if not temporary.ok: return temporary
 	if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(root_path)) != OK: return {"ok":false,"error":"gallery_directory"}
 	var file := FileAccess.open(path + ".tmp", FileAccess.WRITE)
 	if file == null: return {"ok":false,"error":"gallery_write"}
@@ -55,11 +53,9 @@ func _read_path(path: String, id: String) -> Dictionary:
 	file.close()
 	if error != OK or not parser.data is Dictionary: return {"ok":false,"error":"gallery_document"}
 	var document: Dictionary = parser.data
-	if not _supported_version(document.get("gallery_version")): return {"ok":false,"error":"gallery_version"}
+	if document.get("gallery_version") != 1: return {"ok":false,"error":"gallery_version"}
 	var payload: Variant = document.get("payload")
-	var checksum: Variant = document.get("checksum")
-	if not payload is String or not checksum is String: return {"ok":false,"error":"gallery_checksum"}
-	if checksum != id or payload.sha256_text() != id: return {"ok":false,"error":"gallery_checksum"}
+	if not payload is String or document.get("checksum") != id or payload.sha256_text() != id: return {"ok":false,"error":"gallery_checksum"}
 	if parser.parse(payload) != OK or not parser.data is Dictionary: return {"ok":false,"error":"gallery_state"}
 	var state := StateSnapshotValidator.new().normalize(parser.data)
 	if not _completed(state): return {"ok":false,"error":"gallery_incomplete"}
@@ -67,21 +63,6 @@ func _read_path(path: String, id: String) -> Dictionary:
 	if not adapted.ok: return {"ok":false,"error":"gallery_notebook_migration"}
 	state = adapted.snapshot
 	return {"ok":true,"id":id,"state":state,"branch":state["ending_run"]["branch_id"],"all_seen":state["ending_run"].get("all_ceremony_seen",false)}
-
-func _supported_version(value: Variant) -> bool:
-	return typeof(value) in [TYPE_INT, TYPE_FLOAT] and value == 1
-
-func _temporary_write_guard(path: String) -> Dictionary:
-	if not FileAccess.file_exists(path): return {"ok":true}
-	var file := FileAccess.open(path, FileAccess.READ)
-	if file == null: return {"ok":false,"error":"gallery_read"}
-	var parser := JSON.new()
-	var parsed := parser.parse(file.get_as_text())
-	file.close()
-	# Incomplete current writes are replaceable; an explicit unsupported format is not.
-	if parsed == OK and parser.data is Dictionary and parser.data.has("gallery_version"):
-		if not _supported_version(parser.data.gallery_version): return {"ok":false,"error":"gallery_version"}
-	return {"ok":true}
 
 func _completed(state: Dictionary) -> bool:
 	if not StateSnapshotValidator.new().validate(state).get("ok", false): return false

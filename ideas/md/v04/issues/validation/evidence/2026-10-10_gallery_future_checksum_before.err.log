@@ -1,0 +1,460 @@
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'float' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'bool' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Array' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:80)
+       [3] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] list_entries (res://scripts/systems/ending_gallery_store.gd:46)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:83)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
+SCRIPT ERROR: Invalid operands 'Dictionary' and 'String' in operator '!='.
+   at: EndingGalleryStore._read_path (res://scripts/systems/ending_gallery_store.gd:60)
+   GDScript backtrace (most recent call first):
+       [0] _read_path (res://scripts/systems/ending_gallery_store.gd:60)
+       [1] read_entry (res://scripts/systems/ending_gallery_store.gd:39)
+       [2] capture (res://scripts/systems/ending_gallery_store.gd:21)
+       [3] _case (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:87)
+       [4] _run (res://__gallery_future_audit_d1b00385dd0a410cb88a57d2b204b57c/notebook_gallery_future_audit.gd:33)
