@@ -711,8 +711,9 @@ func _launch_prologue(slot_id: String, resume_id: String) -> void:
 			if not reset_result.get("ok", false):
 				_start_screen.show_load_error(reset_result.get("error_ids", PackedStringArray()))
 				return
-		_launch_campaign(slot_id)
-		return
+		if not preload("res://scripts/systems/notebook_presentation.gd").first_wake_pending(GameState.get_snapshot()):
+			_launch_campaign(slot_id)
+			return
 	if is_instance_valid(_prologue):
 		_prologue.queue_free()
 	_prologue = PROLOGUE_SCENE.instantiate()
@@ -733,7 +734,10 @@ func _finish_reset_campaign_launch(result: Dictionary, slot_id: String, generati
 	if not result.ok:
 		_start_screen.show_load_error(result.get("error_ids", PackedStringArray()))
 		return
-	_launch_campaign(slot_id)
+	if preload("res://scripts/systems/notebook_presentation.gd").first_wake_pending(GameState.get_snapshot()):
+		_launch_prologue(slot_id, "R1_ENTRY")
+	else:
+		_launch_campaign(slot_id)
 
 
 func _on_campaign_requested(slot_id: String, source: WeakRef) -> void:
@@ -744,7 +748,7 @@ func _on_campaign_requested(slot_id: String, source: WeakRef) -> void:
 
 
 func _launch_campaign(slot_id: String) -> void:
-	if preload("res://scripts/systems/notebook_presentation.gd").resume_family(GameState.get_snapshot()) == "prologue_controller":
+	if preload("res://scripts/systems/notebook_presentation.gd").first_wake_pending(GameState.get_snapshot()) or preload("res://scripts/systems/notebook_presentation.gd").resume_family(GameState.get_snapshot()) == "prologue_controller":
 		_launch_prologue(slot_id, "P1_ENTRY")
 		return
 	_audio.stop_all()

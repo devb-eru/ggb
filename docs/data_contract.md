@@ -373,6 +373,10 @@ NP21 프롤로그는 `prologue_surfaces_v1.json`의 82개 정의·88개 segment�
 
 동일 ID의 저장을 반복 생성할 수 있지만 최신 완전 transaction만 현재 진행으로 승격한다. 세계 리셋 도중의 중간 상태를 안전 지점으로 표시하지 않는다.
 
+개발 v2 프롤로그의 초기 기상 인계에는 `knowledge_entries.PROLOGUE_FIRST_WAKE_REQUIRED`와 `PROLOGUE_FIRST_WAKE_COMPLETED`를 사용한다. 첫 수면 P6 후보에 REQUIRED=true를 함께 저장하고, R1의 `NB_PR_R1_WAKE`·`NB_PR_R1_SAME`·`NB_PR_R1_NOTES` 세 문장 완료 커서의 내구 확정에 COMPLETED=true를 함께 저장한다. 두 표지는 운영용 인계 사실이며 플레이어용 단서 원문, 관계 수치 또는 엔딩 의향이 아니다. 표지 자체만으로 미관찰 대사나 자료를 공개하지 않는다.
+
+REQUIRED가 있고 COMPLETED가 없으면 Bootstrap은 보류된 리셋의 남은 단계만 완료한 뒤 기존 미완료 커서를 복구하거나 R1 첫 문장을 제시한다. 완료 표지를 추가한 뒤 같은 후보의 커서 anchor를 계산하므로, 지식 갱신 때문에 바로 무효화된 커서를 저장하지 않는다. 완료된 인계의 재실행은 리셋·일차·관계·이전 관찰 원문을 변경하지 않는다. 표지 없는 기존 저장과 개발 체크포인트를 미완료 R1으로 일괄 추정하지 않는다. 기존 구형 모드의 저장/인계 정책과 제품 엔진·rollout 설정은 이 추가 계약으로 변경하지 않는다.
+
 안전 저장 순서:
 
 1. GameState snapshot을 고정한다.

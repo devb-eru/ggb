@@ -37,18 +37,29 @@ func _make_view() -> Node:
 func _prologue_settle(view: Node) -> int:
     var start := Time.get_ticks_msec()
     var frames := 0
-    while is_instance_valid(view) and not view._prologue_async_request.is_empty():
+    var idle_frames := 0
+    # Initial surfaces start deferred; include their writer before reseeding a slot.
+    while idle_frames < 3:
         if Time.get_ticks_msec() - start > 60000:
             _expect(false, "prologue pending timed out")
             break
+        var pending: bool = is_instance_valid(view) and not view._prologue_async_request.is_empty()
+        pending = pending or not SaveManager._notebook_job.is_empty()
         await get_tree().process_frame
-        frames += 1
+        pending = pending or (is_instance_valid(view) and not view._prologue_async_request.is_empty()) or not SaveManager._notebook_job.is_empty()
+        if pending:
+            idle_frames = 0
+            frames += 1
+        else:
+            idle_frames += 1
     return frames
 
 func _candidate_case(scenario: String, locale: String) -> void:
     var initial_errors := errors.size()
+    await _prologue_settle(null)
     _seed(_fixture_state())
     var view = _make_view()
+    await _prologue_settle(view)
     view._queue_notebook_observation("NOTE_P_DUTIES")
     var request: Dictionary = view._prologue_candidate_request()
     if scenario == "window": request.window = {"schema_version":1, "window":1, "selected_item":"SOFT_CLOTH"}
@@ -93,8 +104,10 @@ func _candidate_case(scenario: String, locale: String) -> void:
             if scenario == "choice": _expect(CURSOR.read(prepared.snapshot).kind == "choice", "synchronous choice candidate still supported")
     _expect(StateSnapshotValidator.same_persisted_value(original, GameState.get_snapshot()) and request == frozen, "candidate preserves caller and live state")
     cases.append({"kind":"candidate", "scenario":scenario, "locale":locale, "passed":initial_errors == errors.size()})
+    await _prologue_settle(view)
     view.queue_free()
     await get_tree().process_frame
+    await _prologue_settle(null)
     SaveManager.delete_test_slot(SLOT)
 
 func _handoff(_slot: String) -> void: handoffs += 1
@@ -107,10 +120,11 @@ func _prologue_ui(scenario: String, locale: String) -> void:
         seed.meta_progress.knowledge_entries.PROLOGUE_COMPLETE = true
         seed.meta_progress.knowledge_entries.prologue_notebook_entries = ["already saved before reset"]
         seed.meta_progress.knowledge_entries.notebook_knowledge = preload("res://scripts/systems/notebook_knowledge.gd").create()
+    await _prologue_settle(null)
     _seed(seed)
     var view = _make_view()
+    await _prologue_settle(view)
     if scenario == "handoff":
-        await _prologue_settle(view)
         view._dismiss_dialogue_for_test()
     var manager: Node = SaveManager
     if scenario == "promotion": manager = FailedPromotion.new()
@@ -188,6 +202,7 @@ func _prologue_ui(scenario: String, locale: String) -> void:
     cases.append({"kind":"ui", "scenario":scenario, "locale":locale, "passed":initial_errors == errors.size()})
     view.queue_free()
     await get_tree().process_frame
+    await _prologue_settle(null)
     if manager != SaveManager: manager.free()
     SaveManager.delete_test_slot(SLOT)
 
@@ -198,8 +213,10 @@ func _prologue_large(id: String, locale: String) -> void:
     var state := _fixture_state()
     state.meta_progress.dialogue_history = fixture.archive
     state.meta_progress.knowledge_entries.notebook_knowledge = fixture.ledger
+    await _prologue_settle(null)
     _seed(state)
     var view = _make_view()
+    await _prologue_settle(view)
     view._queue_notebook_observation("NOTE_P_DUTIES")
     var start := Time.get_ticks_usec()
     view._show_dialogue([_line()])
@@ -213,4 +230,5 @@ func _prologue_large(id: String, locale: String) -> void:
     cases.append({"kind":"large", "fixture":id, "locale":locale, "passed":initial_errors == errors.size()})
     view.queue_free()
     await get_tree().process_frame
+    await _prologue_settle(null)
     SaveManager.delete_test_slot(SLOT)

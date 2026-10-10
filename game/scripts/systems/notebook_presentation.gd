@@ -4,6 +4,8 @@ extends RefCounted
 const KEY := "NOTEBOOK_PRESENTATION"
 const WINDOW_KEY := "NOTEBOOK_WINDOW_INSPECTION"
 const VERSION := 4
+const FIRST_WAKE_REQUIRED := "PROLOGUE_FIRST_WAKE_REQUIRED"
+const FIRST_WAKE_COMPLETED := "PROLOGUE_FIRST_WAKE_COMPLETED"
 const FAMILIES := ["chapter_one_controller", "black_mirror_controller", "basement_controller", "prologue_controller"]
 const PROLOGUE_ROUTES := ["_show_p1_objective", "_return_to_hall_after_dialogue", "_resume_p3_journal_choice", "_show_p3_journal_choices", "_complete_p4_life_support_foreshadow", "_finish_p4_memory_anchor", "_finish_p4_after_question", "_complete_p4_iris_greeting", "_perform_normal_reset", "_finish_prologue_handoff"]
 const PROLOGUE_CHOICES := {"p3_journal": ["author", "locked", "silent"], "p4_father": ["father_tea", "mansion_age", "luca_tenure"], "P1_EXIT": ["confirm", "cancel"], "P6_SLEEP": ["confirm", "cancel"]}
@@ -30,6 +32,11 @@ static func family(owner: Object) -> String:
 static func resume_family(state: Dictionary) -> String:
 	var value := read(state)
 	return value.family if matches(value, state) and observed(value, state) and value.phase != "completed" else ""
+
+
+static func first_wake_pending(state: Dictionary) -> bool:
+	var knowledge: Dictionary = state.meta_progress.knowledge_entries
+	return knowledge.get(FIRST_WAKE_REQUIRED, false) == true and knowledge.get(FIRST_WAKE_COMPLETED, false) != true
 
 
 static func completed_handoff(state: Dictionary, target: String) -> bool:
@@ -230,6 +237,11 @@ static func create_utility(state: Dictionary, owner_family: String, utility: Dic
 
 static func install(state: Dictionary, value: Dictionary) -> void:
 	var updated := value.duplicate(true)
+	# The physical reset clears local cursors; its first-wake handoff must survive that boundary.
+	if updated.family == "prologue_controller" and updated.phase == "completed" and updated.kind == "dialogue":
+		var ids: Array = updated.lines.map(func(line: Dictionary) -> String: return String(line.get("notebook_content", {}).get("content_id", "")))
+		if ids == ["NB_PR_R1_WAKE", "NB_PR_R1_SAME", "NB_PR_R1_NOTES"] and first_wake_pending(state):
+			state.meta_progress.knowledge_entries[FIRST_WAKE_COMPLETED] = true
 	updated.anchor = anchor(state)
 	updated.source_origin_id = state.meta_progress.dialogue_history.source_origin_id
 	updated.branch_id = state.meta_progress.dialogue_history.branch_id

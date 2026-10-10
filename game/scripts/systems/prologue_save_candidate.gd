@@ -31,6 +31,8 @@ static func prepare(previous: Dictionary, request: Dictionary) -> Dictionary:
 		if bool(progress.get(marker, false)): knowledge[markers[marker]] = true
 	if bool(progress.get("p4_memory_anchor_seen", false)): knowledge.MEM_FATHER_TEA_HAND_FRAGMENT = "sensory_fragment"
 	if request.complete or bool(progress.get("P6_complete", false)): knowledge.PROLOGUE_COMPLETE = true
+	if request.cursor_enabled and not request.already_complete and (request.complete or bool(progress.get("P6_complete", false))):
+		knowledge[CURSOR.FIRST_WAKE_REQUIRED] = true
 	var history: Dictionary = previous.meta_progress.dialogue_history.duplicate(true)
 	if not request.pending_notes.is_empty():
 		var ledger: Dictionary = knowledge.get(NOTES.KEY, NOTES.create())
