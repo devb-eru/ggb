@@ -1,0 +1,35 @@
+{
+  "root": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-prologue-async-fbb529dce6cc47f5a5505350a951c5a5",
+  "project": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-prologue-async-fbb529dce6cc47f5a5505350a951c5a5\\source\\game",
+  "head": "dd7c7b36a75cbd509ff0b77d61ac4dd32d5748e5",
+  "engine": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-runtime-76ab9ae83a384f3192811ae421e7d53e\\Godot_v4.6.3-stable_win64.exe",
+  "engine_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "files": [
+    {
+      "path": "game/scripts/autoload/save_manager.gd",
+      "baseline_sha256": "87f4aee163d97cdff9e8a390e3516875f130b6a38be0bdef09905b664516e548",
+      "candidate_sha256": "db092b7dd2923aea155ba9cdc7d97cfba6107149bc6b0d2d119e5f3bcd4ff4f0"
+    },
+    {
+      "path": "game/scripts/systems/notebook_save_worker.gd",
+      "baseline_sha256": "21f767ee16f37adfe206ee4dbb75e619e6f3e5c33280e5f8359b21706de567b0",
+      "candidate_sha256": "4c9ee340c748808bb6a045fa5fc3b405f1d833a6d8b96ee267b74cf48cb518f5"
+    },
+    {
+      "path": "game/scripts/systems/dialogue_history_writer.gd",
+      "baseline_sha256": "28f50989bdfdc380b3bc17dbd7b5883b02e84779ee1c69599b27a42268dc1840",
+      "candidate_sha256": "32a955e993bc000599c35f3a5a78c7cd67829913fdefb77c681aed13699f60a9"
+    },
+    {
+      "path": "game/scripts/prologue/prologue_controller.gd",
+      "baseline_sha256": "71ad39b2f606649da94a0863ef6f3ee55e1ba8dc14d5a3414ebdb7be705af1c9",
+      "candidate_sha256": "5d5f563735fd31edb2efe4cd2a3cc1303015decf20e2eae2b36cfed52fe8a3e6"
+    },
+    {
+      "path": "game/scripts/systems/prologue_save_candidate.gd",
+      "baseline_sha256": "absent",
+      "candidate_sha256": "d8e26ea050296c95443cadfeddebae77797870da6f8e6140ba6262f72ba3a8fe"
+    }
+  ],
+  "generated_uid_sha256": "0146000bd6785bd15ba946a9fdacc77cd03d94f8eca07b03c4b9059585324db8"
+}

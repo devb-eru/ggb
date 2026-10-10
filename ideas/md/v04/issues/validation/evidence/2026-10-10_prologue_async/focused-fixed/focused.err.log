@@ -1,0 +1,24 @@
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: <anonymous lambda> (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+       [1] _prologue_ui (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+       [2] _prologue_settle (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: <anonymous lambda> (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+       [1] _prologue_ui (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+       [2] _prologue_settle (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: <anonymous lambda> (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+       [1] _prologue_ui (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+       [2] _prologue_settle (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: <anonymous lambda> (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+       [1] _prologue_ui (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:169)
+       [2] _prologue_settle (res://__history_async_236be921f1f942aea186b000b8779387/notebook_prologue_async_audit.gd:46)

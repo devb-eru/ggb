@@ -77,7 +77,7 @@ func begin_history_write(game: Node, slot: String, point: String, recording: Dic
 	if not _is_safe_slot_id(slot): return _load_failure(&"ERR_SAVE_SLOT_ID")
 	if expected_revision != game.revision: return _load_failure(&"NB_COMMAND_STALE_REVISION")
 	if command_id.length() != 32 or not command_id.is_valid_hex_number(): return _load_failure(&"NB_COMMAND_ID")
-	if recording.get("kind") not in ["dialogue", "cursor"]: return _load_failure(&"NB_HISTORY_REQUEST")
+	if recording.get("kind") not in ["dialogue", "cursor", "prologue"]: return _load_failure(&"NB_HISTORY_REQUEST")
 	var paths := _slot_paths(slot)
 	paths.pending = paths.temporary
 	paths.temporary = paths.main.get_base_dir().path_join("progress.history_" + command_id + ".tmp.json")
@@ -89,7 +89,7 @@ func begin_history_write(game: Node, slot: String, point: String, recording: Dic
 	var request := {"id":command_id, "slot":slot, "point":point, "recording":recording.duplicate(true),
 		"revision":expected_revision, "snapshot":game.get_snapshot(), "paths":paths,
 		"expected_stamps":source_stamps,
-		"transaction":"HISTORY_R%06d_%s" % [expected_revision + 1, command_id],
+		"transaction":("PROLOGUE_R%06d_%s" if recording.kind == "prologue" else "HISTORY_R%06d_%s") % [expected_revision + 1, command_id],
 		"storage":{"flavor":get_build_flavor(), "root":get_save_root()}}
 	var worker = load("res://scripts/systems/notebook_save_worker.gd").new()
 	var thread := Thread.new()

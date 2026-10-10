@@ -92,6 +92,11 @@ func _prepare_history_with_storage(storage: Node, request: Dictionary) -> Dictio
 	if recording.kind == "dialogue":
 		appended = preload("res://scripts/systems/dialogue_history_writer.gd").append_to_snapshot(state,
 			recording.speaker, recording.text, recording.locale, recording.chapter, recording.facts, recording.context)
+	elif recording.kind == "prologue":
+		var prepared := preload("res://scripts/systems/prologue_save_candidate.gd").prepare(state, recording.get("payload", {}))
+		if not prepared.ok: return prepared
+		state = prepared.snapshot
+		appended = {"ok":true, "changed":true, "entry_uid":""}
 	else:
 		var cursor: Dictionary = recording.cursor
 		var presentation := preload("res://scripts/systems/notebook_presentation.gd")
