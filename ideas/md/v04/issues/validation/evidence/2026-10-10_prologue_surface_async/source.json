@@ -1,0 +1,14 @@
+{
+  "root": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-prologue-surface-84e9def402ee4adeb4e832d04b95af11",
+  "project": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-prologue-surface-84e9def402ee4adeb4e832d04b95af11\\source\\game",
+  "head": "73c70ab0b9fd1878803bec138fec646ac5e70dc8",
+  "engine": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-release-runtime-76ab9ae83a384f3192811ae421e7d53e\\Godot_v4.6.3-stable_win64.exe",
+  "engine_sha256": "ef90e929ba1a6a4322860285d97f40f4aa349c90329a91b0e8b55b8df0f4cb00",
+  "files": [
+    {
+      "path": "game/scripts/prologue/prologue_controller.gd",
+      "baseline_sha256": "97f78d1fb15b0acf5d1c0f94d78956f521b58415eb66d27d56debdeff63e5c82",
+      "candidate_sha256": "b76c423370e605dfa3bc4cb9575b6695176ff584f95d19be4a41190019ced878"
+    }
+  ]
+}

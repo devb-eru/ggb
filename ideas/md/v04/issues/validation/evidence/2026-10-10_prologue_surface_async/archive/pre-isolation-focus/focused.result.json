@@ -1,0 +1,387 @@
+{
+  "cases": [
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "promotion"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "request_changed"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "active_changed"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "generation"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "scope"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "service"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "progress"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "notes"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "inventory"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "window"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "dialogue"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "modal"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "notebook"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "stale_note"
+    },
+    {
+      "kind": "surface",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "unknown_content"
+    },
+    {
+      "kind": "extra",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "repaint"
+    },
+    {
+      "kind": "extra",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "new_attempt"
+    },
+    {
+      "kind": "extra",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "p2_plain_tools"
+    },
+    {
+      "kind": "extra",
+      "locale": "ko_KR",
+      "passed": true,
+      "scenario": "pending_repaint"
+    },
+    {
+      "fixture": "NB-PERF-N2000",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-L10000",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-P2001",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-LONG",
+      "kind": "large",
+      "locale": "ko_KR",
+      "passed": true
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "success"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "promotion"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "ack"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "request_changed"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "active_changed"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "generation"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "scope"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "locale"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "service"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "progress"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "notes"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "inventory"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "window"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "dialogue"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "modal"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "notebook"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "stale_note"
+    },
+    {
+      "kind": "surface",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "unknown_content"
+    },
+    {
+      "kind": "extra",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "repaint"
+    },
+    {
+      "kind": "extra",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "new_attempt"
+    },
+    {
+      "kind": "extra",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "p2_plain_tools"
+    },
+    {
+      "kind": "extra",
+      "locale": "en_US",
+      "passed": true,
+      "scenario": "pending_repaint"
+    },
+    {
+      "fixture": "NB-PERF-N2000",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-L10000",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-P2001",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true
+    },
+    {
+      "fixture": "NB-PERF-LONG",
+      "kind": "large",
+      "locale": "en_US",
+      "passed": true
+    }
+  ],
+  "checks": 40860,
+  "errors": [],
+  "ok": true,
+  "required_cases": 52,
+  "scope": "HEADLESS actual prologue surface callbacks and atomic disk batch; not full prologue, physical input or p95",
+  "timings": [
+    {
+      "begin_ms": 46.355,
+      "fixture": "NB-PERF-N2000",
+      "locale": "ko_KR",
+      "scope": "HEADLESS n=1 ordinary surface batch; excludes setup/reload, not p95",
+      "total_ms": 2042.008,
+      "worker_frames": 271
+    },
+    {
+      "begin_ms": 147.956,
+      "fixture": "NB-PERF-L10000",
+      "locale": "ko_KR",
+      "scope": "HEADLESS n=1 ordinary surface batch; excludes setup/reload, not p95",
+      "total_ms": 5893.759,
+      "worker_frames": 772
+    },
+    {
+      "begin_ms": 93.717,
+      "fixture": "NB-PERF-P2001",
+      "locale": "ko_KR",
+      "scope": "HEADLESS n=1 ordinary surface batch; excludes setup/reload, not p95",
+      "total_ms": 4211.033,
+      "worker_frames": 549
+    },
+    {
+      "begin_ms": 49.963,
+      "fixture": "NB-PERF-LONG",
+      "locale": "ko_KR",
+      "scope": "HEADLESS n=1 ordinary surface batch; excludes setup/reload, not p95",
+      "total_ms": 1916.993,
+      "worker_frames": 244
+    },
+    {
+      "begin_ms": 44.728,
+      "fixture": "NB-PERF-N2000",
+      "locale": "en_US",
+      "scope": "HEADLESS n=1 ordinary surface batch; excludes setup/reload, not p95",
+      "total_ms": 2021.841,
+      "worker_frames": 270
+    },
+    {
+      "begin_ms": 187.578,
+      "fixture": "NB-PERF-L10000",
+      "locale": "en_US",
+      "scope": "HEADLESS n=1 ordinary surface batch; excludes setup/reload, not p95",
+      "total_ms": 5968.344,
+      "worker_frames": 780
+    },
+    {
+      "begin_ms": 115.351,
+      "fixture": "NB-PERF-P2001",
+      "locale": "en_US",
+      "scope": "HEADLESS n=1 ordinary surface batch; excludes setup/reload, not p95",
+      "total_ms": 3711.999,
+      "worker_frames": 476
+    },
+    {
+      "begin_ms": 51.664,
+      "fixture": "NB-PERF-LONG",
+      "locale": "en_US",
+      "scope": "HEADLESS n=1 ordinary surface batch; excludes setup/reload, not p95",
+      "total_ms": 1948.614,
+      "worker_frames": 249
+    }
+  ]
+}

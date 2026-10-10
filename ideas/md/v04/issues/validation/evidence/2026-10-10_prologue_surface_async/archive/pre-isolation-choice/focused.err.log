@@ -1,0 +1,1390 @@
+SCRIPT ERROR: Invalid access to property or key 'snapshot' on a base object of type 'Dictionary'.
+   at: _prologue_ui (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:150)
+   GDScript backtrace (most recent call first):
+       [0] _prologue_ui (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:150)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:35)
+       [2] _candidate_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:98)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:217)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:39)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'snapshot' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:200)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:200)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:39)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:39)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'snapshot' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:200)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:200)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:39)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:139)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _replace_context (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:109)
+   GDScript backtrace (most recent call first):
+       [0] _replace_context (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:109)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:130)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '1' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:195)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'tokens' on a base object of type 'Dictionary'.
+   at: _selected_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:97)
+   GDScript backtrace (most recent call first):
+       [0] _selected_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:97)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:196)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:139)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _replace_context (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:109)
+   GDScript backtrace (most recent call first):
+       [0] _replace_context (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:109)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:130)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '1' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:195)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'tokens' on a base object of type 'Dictionary'.
+   at: _selected_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:97)
+   GDScript backtrace (most recent call first):
+       [0] _selected_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:97)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:196)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'snapshot' on a base object of type 'Dictionary'.
+   at: _prologue_ui (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:150)
+   GDScript backtrace (most recent call first):
+       [0] _prologue_ui (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:150)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:35)
+       [2] _candidate_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:98)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:217)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:39)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'snapshot' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:200)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:200)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:39)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'presentation_token' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:39)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'snapshot' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:200)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:200)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:39)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [2] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [3] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:139)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _replace_context (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:109)
+   GDScript backtrace (most recent call first):
+       [0] _replace_context (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:109)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:130)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '1' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:195)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'tokens' on a base object of type 'Dictionary'.
+   at: _selected_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:97)
+   GDScript backtrace (most recent call first):
+       [0] _selected_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:97)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:196)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:139)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _replace_context (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:109)
+   GDScript backtrace (most recent call first):
+       [0] _replace_context (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:109)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:130)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:137)
+       [4] _finish_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:182)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:37)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:123)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '1' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:128)
+       [2] _ready (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:38)
+       [3] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [4] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+   GDScript backtrace (most recent call first):
+       [0] _choice_case (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:143)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Dictionary'.
+   at: _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+   GDScript backtrace (most recent call first):
+       [0] _options_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:94)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:190)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[Node]')
+   at: _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _press (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:91)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:195)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'tokens' on a base object of type 'Dictionary'.
+   at: _selected_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:97)
+   GDScript backtrace (most recent call first):
+       [0] _selected_token (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:97)
+       [1] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:196)
+       [2] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+SCRIPT ERROR: Invalid access to property or key 'phase' on a base object of type 'Dictionary'.
+   at: _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+   GDScript backtrace (most recent call first):
+       [0] _restore_choice (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_choice_async_audit.gd:199)
+       [1] _prologue_settle (res://__history_async_046f888e5e0841ad869b006f9e734504/notebook_prologue_async_audit.gd:46)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:810)

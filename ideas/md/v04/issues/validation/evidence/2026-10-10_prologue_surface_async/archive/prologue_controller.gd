@@ -261,7 +261,7 @@ func _begin_prologue_surfaces() -> void:
 		_prologue_surfaces.begin({})
 		return
 	if not _prologue_surface_enabled(): return
-	if _prologue_surface_async_enabled() and not _prologue_dispatch_active:
+	if _prologue_async_enabled() and not _prologue_dispatch_active:
 		# Retain observed values until the deferred batch includes the rebuilt view.
 		for id in _prologue_surfaces.active:
 			if not _prologue_surfaces.requests[id].recorded: _prologue_surfaces.requests[id].attempted = true
@@ -289,7 +289,7 @@ func _surface_status(key: String, variables: Dictionary = {}, safe_variables: Di
 	var text := _dialogue_ui_text(key,variables)
 	_set_status(text)
 	_queue_prologue_surface(PROLOGUE_SURFACES.surface(key,safe_variables),text,true)
-	if not _prologue_surface_async_enabled(): _flush_prologue_surfaces(_prologue_surfaces.generation)
+	if not _prologue_async_enabled(): _flush_prologue_surfaces(_prologue_surfaces.generation)
 
 
 func _prologue_surface_allowed() -> bool:
@@ -297,7 +297,6 @@ func _prologue_surface_allowed() -> bool:
 
 
 func _flush_prologue_surfaces(generation: int, explicit_retry: bool = false) -> bool:
-	if not is_inside_tree() or is_queued_for_deletion(): return false
 	if not _prologue_async_request.is_empty(): return false
 	if _prologue_restoring_room: return true
 	if _prologue_dispatch_active:
@@ -315,7 +314,7 @@ func _flush_prologue_surfaces(generation: int, explicit_retry: bool = false) -> 
 		if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
 		return false
 	if not _prologue_surfaces.live(_prologue_surface_scope(),generation): return _prologue_surfaces.scope.is_empty()
-	if _prologue_surface_async_enabled():
+	if _prologue_async_enabled():
 		if _prologue_surfaces.retry_required and not explicit_retry:
 			return _finish_prologue_surface_flush(false, generation)
 		_prologue_surfaces.prepare_receipts()
@@ -1430,7 +1429,7 @@ func _set_window_feedback(key: String) -> void:
 	_set_status(message)
 	if key in PROLOGUE_SURFACES.WINDOW_FEEDBACK:
 		_queue_prologue_surface(PROLOGUE_SURFACES.surface(key),message,true)
-		if not _prologue_surface_async_enabled(): _flush_prologue_surfaces(_prologue_surfaces.generation)
+		if not _prologue_async_enabled(): _flush_prologue_surfaces(_prologue_surfaces.generation)
 
 
 func _build_library() -> void:
@@ -2491,11 +2490,6 @@ func _record_prologue_history() -> bool:
 func _prologue_async_enabled() -> bool:
 	var saves: Node = _prologue_surface_saves if _prologue_surface_saves != null else SaveManager
 	return OS.is_debug_build() and "--ggb-dev-notebook-async" in OS.get_cmdline_user_args() and _prologue_cursor_enabled() and is_instance_valid(saves) and saves.is_inside_tree() and saves.has_method("begin_history_write")
-
-
-func _prologue_surface_async_enabled() -> bool:
-	# Ordinary surfaces remain experimental until natural action boundaries are joined.
-	return _prologue_async_enabled() and "--ggb-dev-notebook-surface-async" in OS.get_cmdline_user_args()
 
 
 func _prologue_candidate_request(recording: Dictionary = {}, complete: bool = false, complete_cursor: bool = false) -> Dictionary:

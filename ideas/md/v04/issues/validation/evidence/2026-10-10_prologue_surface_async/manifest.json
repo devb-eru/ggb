@@ -1,0 +1,249 @@
+{
+  "files": [
+    {
+      "path": "archive/pre-isolation-choice/focused.err.log",
+      "sha256": "24313cb69647f17de262dfd6746b693360ba80d62bbf03004a2c45dc523393cf",
+      "bytes": 149938
+    },
+    {
+      "path": "archive/pre-isolation-choice/focused.out.log",
+      "sha256": "673f96041c92f13d0b30fb2dfa4f1b01f07fffbf7bbe5859570391d10c3c6423",
+      "bytes": 18619
+    },
+    {
+      "path": "archive/pre-isolation-choice/focused.run.json",
+      "sha256": "1aafd77c9175b1e16434afa8437bf5c526f7987eabcf0147a0f88e2734abde0f",
+      "bytes": 31707
+    },
+    {
+      "path": "archive/pre-isolation-focus/focused.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "archive/pre-isolation-focus/focused.out.log",
+      "sha256": "fcfb2724e71312d8d5f2e9d1b330587e80656014994abdc672c28bdfb75077de",
+      "bytes": 5576
+    },
+    {
+      "path": "archive/pre-isolation-focus/focused.result.json",
+      "sha256": "7d420eec585048311007a2bff598c89a249f41e043508b0b1adbf3574b4967b6",
+      "bytes": 8503
+    },
+    {
+      "path": "archive/pre-isolation-focus/focused.run.json",
+      "sha256": "ce0c3d2703941f007ccb8f062417f4e95f9c2328e480cb5529a2792791d89a80",
+      "bytes": 31707
+    },
+    {
+      "path": "archive/pre-isolation-focus/notebook_prologue_surface_async_audit.gd",
+      "sha256": "1b757b33b98dd3f305060d73b29b05698b920c0131a58f774cb0a61ae2d204c9",
+      "bytes": 14412
+    },
+    {
+      "path": "archive/prologue_controller.gd",
+      "sha256": "bd3bde9173cce96f2c7ad4d4571a700ef6caa0f37931b9908d497e99928447c2",
+      "bytes": 169745
+    },
+    {
+      "path": "archive/run_notebook_prologue_surface_async_audit.ps1",
+      "sha256": "e0112c11b5f734e4004334102d50e734d0a56b648ae488b6b2c32c26518d048c",
+      "bytes": 5110
+    },
+    {
+      "path": "choice/focused.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "choice/focused.out.log",
+      "sha256": "f0a1620f0b1db7b8841da7011bcdf4aced1f2b78ca462f617ffc51b16942a9eb",
+      "bytes": 14921
+    },
+    {
+      "path": "choice/focused.result.json",
+      "sha256": "1dad0e12c0e1aa35776b7e00be6868b90b71a1ad408a93ea990aebb9329dfe9e",
+      "bytes": 23550
+    },
+    {
+      "path": "choice/focused.run.json",
+      "sha256": "45d61bcc119240ba7d14d558b303492fde97c27e6a3f3ccde04a64775f93eb05",
+      "bytes": 31707
+    },
+    {
+      "path": "cursor_completed/run.err.log",
+      "sha256": "afbd7f8504594a409fea4ec4ccb162d993e2abafbd0111876d602bf34cdcc7c2",
+      "bytes": 316
+    },
+    {
+      "path": "cursor_completed/run.json",
+      "sha256": "af820a307335fe5783941d1219e8eec71f122bdb99dbffc1c41482bee41af965",
+      "bytes": 31518
+    },
+    {
+      "path": "cursor_completed/run.out.log",
+      "sha256": "df46c6e1532e7736d8cf9f97017726ccf387405fb40af4dd9bbe4a82e96613a1",
+      "bytes": 206
+    },
+    {
+      "path": "cursor_resume/run.err.log",
+      "sha256": "afbd7f8504594a409fea4ec4ccb162d993e2abafbd0111876d602bf34cdcc7c2",
+      "bytes": 316
+    },
+    {
+      "path": "cursor_resume/run.json",
+      "sha256": "3a5c437555133bc15ae9f7122a8edd5f8c9ca2356d2bc8291430fc8e36857a3e",
+      "bytes": 31515
+    },
+    {
+      "path": "cursor_resume/run.out.log",
+      "sha256": "6f76a913189b1334c922b0eb1c66913a5a50c5832c44b5fcc11782ac76f8372a",
+      "bytes": 203
+    },
+    {
+      "path": "cursor_seed/run.err.log",
+      "sha256": "afbd7f8504594a409fea4ec4ccb162d993e2abafbd0111876d602bf34cdcc7c2",
+      "bytes": 316
+    },
+    {
+      "path": "cursor_seed/run.json",
+      "sha256": "aa171bd7e73f76ee97ee192c6d74c2148d2c7a8bad114134ba831d00f08b4ebd",
+      "bytes": 31513
+    },
+    {
+      "path": "cursor_seed/run.out.log",
+      "sha256": "3fb84404c9a380026da63a55ce57e41966407456f36e67bdbafc015b13acf529",
+      "bytes": 201
+    },
+    {
+      "path": "diagnostic/focused.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "diagnostic/focused.out.log",
+      "sha256": "16d17f7526d42bc97ebbc9b2946237875571743fbee9fd1a9d8dd4a8b4295a05",
+      "bytes": 43344
+    },
+    {
+      "path": "diagnostic/focused.run.json",
+      "sha256": "39b20203b4b8918b98594c8f73cba95529a838f12716a00ca1c14bbf0c72517c",
+      "bytes": 31707
+    },
+    {
+      "path": "diagnostic/notebook_prologue_surface_async_audit.gd",
+      "sha256": "84ed8cefa3a2791323345cf5db5b7577dff4bd148f3236a0e45eae06ae0cf5dc",
+      "bytes": 13158
+    },
+    {
+      "path": "focused-final/focused.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "focused-final/focused.out.log",
+      "sha256": "273eb0892ea4fa8596286d1c3c99c450a1e11a4a4122d991d7c4311c26d66c54",
+      "bytes": 5721
+    },
+    {
+      "path": "focused-final/focused.result.json",
+      "sha256": "5a058cd446da6ff3e6524d14032ed3e672250cdbe3027a6af2a10211cfe70fbc",
+      "bytes": 8744
+    },
+    {
+      "path": "focused-final/focused.run.json",
+      "sha256": "f90026193362602bada788b9e5a9882a25a074a6c79d5dffb86bb79077626711",
+      "bytes": 31707
+    },
+    {
+      "path": "focused/focused.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "focused/focused.out.log",
+      "sha256": "ca6a962319dbacc24cb4adc9a97e842c48649bd6fa68ef0c44119d9aea022c5c",
+      "bytes": 6690
+    },
+    {
+      "path": "focused/focused.run.json",
+      "sha256": "b0456de332782f3b8d765f11eb860020cb18f1e2d29073a5a5b0a4137bd16c46",
+      "bytes": 31707
+    },
+    {
+      "path": "focused/notebook_prologue_surface_async_audit.gd",
+      "sha256": "332780354fda15323d5df4f2ff82e744f9363510aaebd36177490c3421a98d1f",
+      "bytes": 12765
+    },
+    {
+      "path": "history/focused.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "history/focused.out.log",
+      "sha256": "8192355504228c5d9761646a0555d3bcdf3927cd2f4d30f3b0785a73d72c27f4",
+      "bytes": 11539
+    },
+    {
+      "path": "history/focused.result.json",
+      "sha256": "dad76373f3b7c824612112b70fc2a6a81fa9b15cff1b49bb839de94e67c539ea",
+      "bytes": 18662
+    },
+    {
+      "path": "history/focused.run.json",
+      "sha256": "2f643554f353df6387c13e2a2edadb88e22ef3736964a88601e9236aa8b3dc1a",
+      "bytes": 31517
+    },
+    {
+      "path": "host/host.err.log",
+      "sha256": "afbd7f8504594a409fea4ec4ccb162d993e2abafbd0111876d602bf34cdcc7c2",
+      "bytes": 316
+    },
+    {
+      "path": "host/host.out.log",
+      "sha256": "287a90dcde9c9c5d0b727d306f5a8985daeab2edd2da17ee0ec8aacfa4c120c3",
+      "bytes": 1416
+    },
+    {
+      "path": "host/host.run.json",
+      "sha256": "c09138e5753a08311a8a61325b633c6115f6f948ee89868388b64bbb973c2942",
+      "bytes": 31470
+    },
+    {
+      "path": "migration/migration.err.log",
+      "sha256": "afbd7f8504594a409fea4ec4ccb162d993e2abafbd0111876d602bf34cdcc7c2",
+      "bytes": 316
+    },
+    {
+      "path": "migration/migration.out.log",
+      "sha256": "7236494ec9d35bb5d6c05c1a6f3a2cad31b0ab01c9738aac667b395a10f66c01",
+      "bytes": 374
+    },
+    {
+      "path": "migration/migration.run.json",
+      "sha256": "0fdd2453d07750cc43671730981a55543c20df68a30eda81a34ccdbb7dd0ac18",
+      "bytes": 31475
+    },
+    {
+      "path": "prologue/run.err.log",
+      "sha256": "afbd7f8504594a409fea4ec4ccb162d993e2abafbd0111876d602bf34cdcc7c2",
+      "bytes": 316
+    },
+    {
+      "path": "prologue/run.json",
+      "sha256": "4000192af846ebd9b69292218a2ff0f87cac237712275769186bfa364c6a0fd5",
+      "bytes": 31504
+    },
+    {
+      "path": "prologue/run.out.log",
+      "sha256": "0cd6e65f5416c4a385984e652d4cae93febfd5298caff4988115e194ce3055e1",
+      "bytes": 15891
+    },
+    {
+      "path": "source.json",
+      "sha256": "6d491347b4aa18de5bb0f5b0bc45186faa52dc521596d3d43682b89709c0243a",
+      "bytes": 813
+    }
+  ]
+}
