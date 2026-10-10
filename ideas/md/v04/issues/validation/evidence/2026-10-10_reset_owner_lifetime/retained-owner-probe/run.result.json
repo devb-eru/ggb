@@ -1,0 +1,153 @@
+{
+  "cases": [
+    {
+      "boundary": "fade",
+      "day_after": 1,
+      "day_before": 0,
+      "kind": "p6",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_before": "idle",
+      "reset_type": "normal",
+      "scenario": "control"
+    },
+    {
+      "boundary": "fade",
+      "day_after": 0,
+      "day_before": 0,
+      "kind": "p6",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_before": "idle",
+      "reset_type": "normal",
+      "scenario": "view_reenter"
+    },
+    {
+      "boundary": "write",
+      "day_after": 0,
+      "day_before": 0,
+      "kind": "p6",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_before": "idle",
+      "reset_type": "normal",
+      "scenario": "view_reenter"
+    },
+    {
+      "boundary": "write",
+      "day_after": 0,
+      "day_before": 0,
+      "kind": "p6",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_before": "idle",
+      "reset_type": "normal",
+      "scenario": "host_reenter"
+    },
+    {
+      "boundary": "write",
+      "day_after": 0,
+      "day_before": 0,
+      "kind": "boot",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase_after": "memory_committed",
+      "phase_before": "memory_committed",
+      "reset_type": "normal",
+      "scenario": "host_reenter"
+    },
+    {
+      "boundary": "complete",
+      "day_after": 1,
+      "day_before": 1,
+      "kind": "boot",
+      "locale": "ko_KR",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_before": "idle",
+      "reset_type": "normal",
+      "scenario": "host_reenter"
+    },
+    {
+      "boundary": "fade",
+      "day_after": 1,
+      "day_before": 0,
+      "kind": "p6",
+      "locale": "en_US",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_before": "idle",
+      "reset_type": "normal",
+      "scenario": "control"
+    },
+    {
+      "boundary": "fade",
+      "day_after": 0,
+      "day_before": 0,
+      "kind": "p6",
+      "locale": "en_US",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_before": "idle",
+      "reset_type": "normal",
+      "scenario": "view_reenter"
+    },
+    {
+      "boundary": "write",
+      "day_after": 0,
+      "day_before": 0,
+      "kind": "p6",
+      "locale": "en_US",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_before": "idle",
+      "reset_type": "normal",
+      "scenario": "view_reenter"
+    },
+    {
+      "boundary": "write",
+      "day_after": 0,
+      "day_before": 0,
+      "kind": "p6",
+      "locale": "en_US",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_before": "idle",
+      "reset_type": "normal",
+      "scenario": "host_reenter"
+    },
+    {
+      "boundary": "write",
+      "day_after": 0,
+      "day_before": 0,
+      "kind": "boot",
+      "locale": "en_US",
+      "passed": true,
+      "phase_after": "memory_committed",
+      "phase_before": "memory_committed",
+      "reset_type": "normal",
+      "scenario": "host_reenter"
+    },
+    {
+      "boundary": "complete",
+      "day_after": 1,
+      "day_before": 1,
+      "kind": "boot",
+      "locale": "en_US",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_before": "idle",
+      "reset_type": "normal",
+      "scenario": "host_reenter"
+    }
+  ],
+  "checks": 172,
+  "errors": [],
+  "ok": true,
+  "required_cases": 12,
+  "scope": "HEADLESS actual P6 controls, fade/write/reveal and bootstrap write/completion owner lifetime; no OS input or cross-process acceptance"
+}

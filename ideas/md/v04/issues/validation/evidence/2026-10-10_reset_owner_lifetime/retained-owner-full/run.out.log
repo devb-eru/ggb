@@ -1,0 +1,194 @@
+WorkerThreadPool: 20 threads, 6 max low-priority.
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+Unrecognized output string "misc2" in mapping:
+030000008a2e0000dd10000000000000,Hand Held Legend GC Ultimate,a:b0,b:b2,back:b17,dpdown:b5,dpleft:b6,dpright:b7,dpup:b4,guide:b18,leftshoulder:b10,leftstick:b8,lefttrigger:a3,leftx:a0,lefty:a1,misc1:b19,misc2:b24,paddle1:b13,paddle2:b12,rightshoulder:b11,rightstick:b9,righttrigger:a4,rightx:a2,righty:a5,start:b16,x:b1,y:b3,platform:Windows,
+Unrecognized output string "misc2" in mapping:
+030000000d0f00000202000000000000,Horipad O Nintendo Switch 2 Controller,a:b1,b:b0,back:b8,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b12,leftshoulder:b4,leftstick:b10,lefttrigger:b6,leftx:a0,lefty:a1,misc1:b13,misc2:b14,rightshoulder:b5,rightstick:b11,righttrigger:b7,rightx:a2,righty:a3,start:b9,x:b3,y:b2,platform:Windows,
+Unrecognized output string "misc2" in mapping:
+030000000d0f00009601000000000000,Horipad Steam,a:b0,b:b1,back:b10,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b12,leftshoulder:b6,leftstick:b13,lefttrigger:b8,leftx:a0,lefty:a1,misc2:b2,paddle1:b5,paddle2:b15,paddle3:b18,paddle4:b19,rightshoulder:b7,rightstick:b14,righttrigger:b9,rightx:a3,righty:a4,start:b11,x:b3,y:b4,platform:Windows,
+Unrecognized output string "misc2" in mapping:
+030000007e0500006920000000000000,Nintendo Switch 2 Pro Controller,a:b0,b:b1,back:b14,dpdown:b8,dpleft:b10,dpright:b9,dpup:b11,guide:b16,leftshoulder:b12,leftstick:b15,lefttrigger:b13,leftx:a0,lefty:a1~,misc1:b17,misc2:b20,paddle1:b18,paddle2:b19,rightshoulder:b4,rightstick:b7,righttrigger:b5,rightx:a2,righty:a3~,start:b6,x:b2,y:b3,platform:Windows,
+Using "default" pen tablet driver...
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 2475187701
+EDITOR API HASH: 3867286884
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: res://scripts/autoload/game_state.gd
+Loading resource: res://scripts/autoload/save_manager.gd
+Loading resource: res://scripts/autoload/event_manager.gd
+Loading resource: res://data/events/system/event_foundation_smoke.tres
+Loading resource: res://scripts/data_types/event_definition.gd
+Loaded system CA certificates
+Loading resource: res://__reset_owner_3a956d8bb3f54af28e0e3c1bd57d5b7a/notebook_reset_owner_audit.tscn
+Loading resource: res://__reset_owner_3a956d8bb3f54af28e0e3c1bd57d5b7a/notebook_reset_owner_audit.gd
+Loading resource: res://scenes/main/main.tscn
+Loading resource: res://scripts/systems/bootstrap.gd
+Loading resource: res://scenes/prologue/prologue.tscn
+Loading resource: res://scripts/prologue/prologue_controller.gd
+Loading resource: res://assets/prologue/prologue_mansion_hall_v01.png
+Loading resource: res://.godot/imported/prologue_mansion_hall_v01.png-d94cae752d5446c57ab817682bae6656.ctex
+Loading resource: res://assets/prologue/prologue_rooms_primary_atlas_v01.png
+Loading resource: res://.godot/imported/prologue_rooms_primary_atlas_v01.png-fb4b2b2318bdb41410099c51b9698c23.ctex
+Loading resource: res://assets/prologue/prologue_rooms_secondary_atlas_v01.png
+Loading resource: res://.godot/imported/prologue_rooms_secondary_atlas_v01.png-8b044007499dbd7eefc136eb5a7e101c.ctex
+Loading resource: res://assets/prologue/prologue_servants_atlas_v01.png
+Loading resource: res://.godot/imported/prologue_servants_atlas_v01.png-82eb52552c94db485908adb0df6f50a4.ctex
+Loading resource: res://data/dialogue/system/foundation_text_catalog.tres
+Loading resource: res://scripts/data_types/localized_text_catalog.gd
+Loading resource: res://data/dialogue/system/title_extension_text.tres
+Loading resource: res://data/dialogue/prologue/prologue_text.tres
+Loading resource: res://data/dialogue/chapter_one/chapter_one_text.tres
+Loading resource: res://data/puzzles/puzzle_clock_network.tres
+Loading resource: res://scripts/data_types/clock_network_puzzle.gd
+Loading resource: res://data/puzzles/puzzle_black_mirror.tres
+Loading resource: res://scripts/data_types/black_mirror_puzzle.gd
+Loading resource: res://data/puzzles/puzzle_basement.tres
+Loading resource: res://scripts/data_types/basement_puzzle.gd
+Loading resource: res://scenes/ui/start_screen.tscn
+Loading resource: res://assets/ui/title/ui_title_manor_background_v01.png
+Loading resource: res://.godot/imported/ui_title_manor_background_v01.png-d32637c971a9dc710e2789b6aa82dfdb.ctex
+Loading resource: res://scripts/systems/interaction_router.gd
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+GGB title bootstrap initialized.
+RESET_OWNER_AUDIT: {"cases":[{"boundary":"fade","day_after":1,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"control"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_queue"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_free"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_detach"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reenter"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reparent"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_queue"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_free"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_detach"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_reenter"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"coordinator_replace"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"slot_replace"},{"boundary":"write","day_after":1,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"control"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_queue"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_free"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_detach"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reenter"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reparent"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_queue"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_free"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_detach"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_reenter"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"coordinator_replace"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"slot_replace"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"control"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_queue"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_free"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_detach"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reenter"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reparent"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_queue"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_free"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_detach"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_reenter"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"coordinator_replace"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"slot_replace"},{"boundary":"write","day_after":1,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"memory_committed","reset_type":"normal","scenario":"control"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"host_queue"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"host_free"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"host_detach"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"host_reenter"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"host_reparent"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"coordinator_replace"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"epoch_replace"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"control"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_queue"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_free"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_detach"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_reenter"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_reparent"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"coordinator_replace"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"epoch_replace"},{"boundary":"write","day_after":1,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"memory_committed","reset_type":"broken","scenario":"control"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"host_queue"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"host_free"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"host_detach"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"host_reenter"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"host_reparent"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"coordinator_replace"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"epoch_replace"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"control"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"host_queue"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"host_free"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"host_detach"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"host_reenter"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"host_reparent"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"coordinator_replace"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"ko_KR","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"epoch_replace"},{"boundary":"fade","day_after":1,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"control"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_queue"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_free"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_detach"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reenter"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reparent"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_queue"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_free"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_detach"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_reenter"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"coordinator_replace"},{"boundary":"fade","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"slot_replace"},{"boundary":"write","day_after":1,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"control"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_queue"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_free"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_detach"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reenter"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reparent"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_queue"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_free"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_detach"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_reenter"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"coordinator_replace"},{"boundary":"write","day_after":0,"day_before":0,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"slot_replace"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"control"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_queue"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_free"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_detach"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reenter"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"view_reparent"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_queue"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_free"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_detach"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_reenter"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"coordinator_replace"},{"boundary":"reveal","day_after":1,"day_before":1,"kind":"p6","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"slot_replace"},{"boundary":"write","day_after":1,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"memory_committed","reset_type":"normal","scenario":"control"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"host_queue"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"host_free"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"host_detach"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"host_reenter"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"host_reparent"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"coordinator_replace"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"normal","scenario":"epoch_replace"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"control"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_queue"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_free"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_detach"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_reenter"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"host_reparent"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"coordinator_replace"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"normal","scenario":"epoch_replace"},{"boundary":"write","day_after":1,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"memory_committed","reset_type":"broken","scenario":"control"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"host_queue"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"host_free"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"host_detach"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"host_reenter"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"host_reparent"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"coordinator_replace"},{"boundary":"write","day_after":0,"day_before":0,"kind":"boot","locale":"en_US","passed":true,"phase_after":"memory_committed","phase_before":"memory_committed","reset_type":"broken","scenario":"epoch_replace"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"control"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"host_queue"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"host_free"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"host_detach"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"host_reenter"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"host_reparent"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"coordinator_replace"},{"boundary":"complete","day_after":1,"day_before":1,"kind":"boot","locale":"en_US","passed":true,"phase_after":"idle","phase_before":"idle","reset_type":"broken","scenario":"epoch_replace"}],"checks":1898,"errors":[],"ok":true,"required_cases":136,"scope":"HEADLESS actual P6 controls, fade/write/reveal and bootstrap write/completion owner lifetime; no OS input or cross-process acceptance"}
+RESET_OWNER_SMOKE:PASS
+XR: Clearing primary interface
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"

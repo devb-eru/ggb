@@ -1,0 +1,120 @@
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:104)
+       [3] _ready (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:25)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:104)
+       [3] _ready (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:26)
+       [4] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:168)
+       [5] _dispose (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:92)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:104)
+       [3] _ready (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:27)
+       [4] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:168)
+       [5] _dispose (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:92)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:104)
+       [3] _ready (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:28)
+       [4] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:168)
+       [5] _dispose (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:92)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _boot_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:184)
+       [3] request_normal_reset_async (res://scripts/systems/reset_coordinator.gd:70)
+       [4] _request_reset_async (res://scripts/systems/reset_coordinator.gd:98)
+       [5] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:109)
+       [6] _commit_step_async (res://scripts/systems/reset_coordinator.gd:132)
+       [7] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [8] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _boot_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:184)
+       [3] request_normal_reset_async (res://scripts/systems/reset_coordinator.gd:70)
+       [4] _request_reset_async (res://scripts/systems/reset_coordinator.gd:98)
+       [5] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:109)
+       [6] _commit_step_async (res://scripts/systems/reset_coordinator.gd:132)
+       [7] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [8] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:104)
+       [3] _ready (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:25)
+       [4] _boot_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:227)
+       [5] _dispose (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:92)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:104)
+       [3] _ready (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:26)
+       [4] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:168)
+       [5] _dispose (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:92)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:104)
+       [3] _ready (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:27)
+       [4] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:168)
+       [5] _dispose (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:92)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:104)
+       [3] _ready (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:28)
+       [4] _p6_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:168)
+       [5] _dispose (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:92)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _boot_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:184)
+       [3] request_normal_reset_async (res://scripts/systems/reset_coordinator.gd:70)
+       [4] _request_reset_async (res://scripts/systems/reset_coordinator.gd:98)
+       [5] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:109)
+       [6] _commit_step_async (res://scripts/systems/reset_coordinator.gd:132)
+       [7] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [8] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:781)
+       [1] _ready (res://scripts/systems/bootstrap.gd:49)
+       [2] _boot_owner (res://__reset_owner_d3870356e9054479b16f1c3d9ab57276/notebook_reset_owner_audit.gd:184)
+       [3] request_normal_reset_async (res://scripts/systems/reset_coordinator.gd:70)
+       [4] _request_reset_async (res://scripts/systems/reset_coordinator.gd:98)
+       [5] _run_async_until_stop (res://scripts/systems/reset_coordinator.gd:109)
+       [6] _commit_step_async (res://scripts/systems/reset_coordinator.gd:132)
+       [7] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [8] _write_async (res://scripts/systems/dialogue_history_writer.gd:112)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)

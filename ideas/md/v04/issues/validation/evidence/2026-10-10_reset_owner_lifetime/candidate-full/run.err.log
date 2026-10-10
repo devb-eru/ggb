@@ -1,0 +1,311 @@
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 2 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 2 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 1 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 1 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 2 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 2 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 1 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 1 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 2 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 2 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+WARNING: GGB expects Godot 4.7.x, but the current runtime is 4.6.x.
+   at: push_warning (core/variant/variant_utility.cpp:1034)
+   GDScript backtrace (most recent call first):
+       [0] _validate_engine_version (res://scripts/systems/bootstrap.gd:832)
+       [1] _ready (res://scripts/systems/bootstrap.gd:83)
+       [2] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:105)
+       [3] _ready (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:34)
+       [4] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+       [5] _dispose (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:93)
+SCRIPT ERROR: Invalid type in function '_dispose' in base 'Node (notebook_reset_owner_audit.gd)'. The Object-derived class of argument 1 (previously freed) is not a subclass of the expected argument class.
+   at: _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
+   GDScript backtrace (most recent call first):
+       [0] _p6_owner (res://__reset_owner_cacab8607219482eb24545c7b18fa33a/notebook_reset_owner_audit.gd:170)
