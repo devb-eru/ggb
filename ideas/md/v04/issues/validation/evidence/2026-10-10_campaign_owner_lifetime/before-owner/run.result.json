@@ -1,0 +1,110 @@
+{
+  "cases": [
+    {
+      "boundary": "first",
+      "day_after": 2,
+      "day_at_retirement": 1,
+      "locale": "ko_KR",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "control"
+    },
+    {
+      "boundary": "first",
+      "day_after": 2,
+      "day_at_retirement": 1,
+      "locale": "ko_KR",
+      "passed": false,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "owner_reenter"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "ko_KR",
+      "passed": false,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "session_replace"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "ko_KR",
+      "passed": false,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "service_free"
+    },
+    {
+      "boundary": "first",
+      "day_after": 2,
+      "day_at_retirement": 1,
+      "locale": "en_US",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "control"
+    },
+    {
+      "boundary": "first",
+      "day_after": 2,
+      "day_at_retirement": 1,
+      "locale": "en_US",
+      "passed": false,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "owner_reenter"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "en_US",
+      "passed": false,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "session_replace"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "en_US",
+      "passed": false,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "service_free"
+    }
+  ],
+  "checks": 246,
+  "errors": [
+    "retired callback never installs prepared reset/wake",
+    "retired callback preserves main and backup bytes",
+    "retired callback starts no following worker",
+    "old callback cannot overwrite replacement UI or show retry",
+    "old callback cannot overwrite replacement UI or show retry",
+    "old callback cannot overwrite replacement UI or show retry",
+    "retired callback never installs prepared reset/wake",
+    "retired callback preserves main and backup bytes",
+    "retired callback starts no following worker",
+    "old callback cannot overwrite replacement UI or show retry",
+    "old callback cannot overwrite replacement UI or show retry",
+    "old callback cannot overwrite replacement UI or show retry"
+  ],
+  "ok": false,
+  "required_cases": 8,
+  "scope": "HEADLESS actual campaign/D6 callbacks, scene owner retirement/re-entry and exact durable reset/wake boundary; no OS input or cross-process acceptance"
+}

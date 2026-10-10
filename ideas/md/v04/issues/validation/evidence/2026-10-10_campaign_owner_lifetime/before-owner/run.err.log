@@ -1,0 +1,30 @@
+SCRIPT ERROR: Cannot call method 'is_inside_tree' on a previously freed instance.
+   at: ChapterOneController._async_history_enabled (res://scripts/chapters/chapter_one_controller.gd:213)
+   GDScript backtrace (most recent call first):
+       [0] _async_history_enabled (res://scripts/chapters/chapter_one_controller.gd:213)
+       [1] _sleep_now (res://scripts/chapters/chapter_one_controller.gd:815)
+       [2] _run_campaign_sleep_async (res://scripts/chapters/chapter_one_controller.gd:846)
+       [3] sleep_async (res://scripts/systems/chapter_one_session.gd:446)
+       [4] _sleep_transition_async (res://scripts/systems/chapter_one_session.gd:468)
+       [5] request_normal_reset_async (res://scripts/systems/reset_coordinator.gd:70)
+       [6] _request_reset_async (res://scripts/systems/reset_coordinator.gd:98)
+       [7] _commit_step_async (res://scripts/systems/reset_coordinator.gd:119)
+       [8] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [9] _write_async (res://scripts/systems/dialogue_history_writer.gd:115)
+SCRIPT ERROR: Cannot call method 'is_inside_tree' on a previously freed instance.
+   at: ChapterOneController._async_history_enabled (res://scripts/chapters/chapter_one_controller.gd:213)
+   GDScript backtrace (most recent call first):
+       [0] _async_history_enabled (res://scripts/chapters/chapter_one_controller.gd:213)
+       [1] _sleep_now (res://scripts/chapters/chapter_one_controller.gd:815)
+       [2] _run_campaign_sleep_async (res://scripts/chapters/chapter_one_controller.gd:846)
+       [3] sleep_async (res://scripts/systems/chapter_one_session.gd:446)
+       [4] _sleep_transition_async (res://scripts/systems/chapter_one_session.gd:468)
+       [5] request_normal_reset_async (res://scripts/systems/reset_coordinator.gd:70)
+       [6] _request_reset_async (res://scripts/systems/reset_coordinator.gd:98)
+       [7] _commit_step_async (res://scripts/systems/reset_coordinator.gd:119)
+       [8] save_reset_step_async (res://scripts/systems/dialogue_history_writer.gd:97)
+       [9] _write_async (res://scripts/systems/dialogue_history_writer.gd:115)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:810)

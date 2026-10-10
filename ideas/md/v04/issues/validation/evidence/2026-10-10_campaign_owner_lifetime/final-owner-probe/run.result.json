@@ -1,0 +1,102 @@
+{
+  "cases": [
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "ko_KR",
+      "passed": false,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "control"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "ko_KR",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "owner_free"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "ko_KR",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "owner_queue"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "ko_KR",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "owner_detach"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "en_US",
+      "passed": false,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "control"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "en_US",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "owner_free"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "en_US",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "owner_queue"
+    },
+    {
+      "boundary": "first",
+      "day_after": 1,
+      "day_at_retirement": 1,
+      "locale": "en_US",
+      "passed": true,
+      "phase_after": "idle",
+      "phase_at_retirement": "idle",
+      "route": "chapter",
+      "scenario": "owner_detach"
+    }
+  ],
+  "checks": 238,
+  "errors": [
+    "live owner completes one reset or rest",
+    "live owner unlocks without a failure modal",
+    "live owner completes one reset or rest",
+    "live owner unlocks without a failure modal"
+  ],
+  "ok": false,
+  "required_cases": 8,
+  "scope": "HEADLESS actual campaign/D6 callbacks, scene owner retirement/re-entry and exact durable reset/wake boundary; no OS input or cross-process acceptance"
+}
