@@ -1,0 +1,14 @@
+{
+  "pid": 34344,
+  "args": [
+    "--headless",
+    "--path",
+    "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-perf-repeat-038b9e9ec0ad4b80af7ea5bdc87065b8\\source\\game",
+    "--export-pack",
+    "Windows Desktop Debug",
+    "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-perf-repeat-038b9e9ec0ad4b80af7ea5bdc87065b8\\GGB_perf.pck"
+  ],
+  "name": "pack",
+  "exit_code": 0,
+  "completed": true
+}

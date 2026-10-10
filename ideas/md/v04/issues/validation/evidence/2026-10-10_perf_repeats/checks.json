@@ -1,0 +1,41 @@
+{
+  "ok": true,
+  "checks": 26626,
+  "processes": 160,
+  "groups": 8,
+  "cold_per_group": 20,
+  "warm_per_group": 100,
+  "acceptance": "MEASUREMENT_ONLY",
+  "negative": [
+    {
+      "id": "sampling_count",
+      "rejected": true,
+      "reason": "Required complete sampling configuration"
+    },
+    {
+      "id": "missing_cold",
+      "rejected": true,
+      "reason": "Exactly 160 processes and eight groups"
+    },
+    {
+      "id": "duplicate_process",
+      "rejected": true,
+      "reason": "Unique cold process name"
+    },
+    {
+      "id": "wrong_p95",
+      "rejected": true,
+      "reason": "Independently recomputed nearest-rank statistics"
+    },
+    {
+      "id": "native_failure",
+      "rejected": true,
+      "reason": "Actual native completion and result"
+    },
+    {
+      "id": "raw_hash",
+      "rejected": true,
+      "reason": "Raw evidence bytes and hash"
+    }
+  ]
+}

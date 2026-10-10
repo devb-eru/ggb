@@ -1,0 +1,91 @@
+{
+  "name": "NB-PERF-N2000-en-US-8",
+  "process_id": 28884,
+  "exit_code": 0,
+  "functional_pass": true,
+  "failure": "",
+  "wall_seconds": 6.7413078,
+  "peak_working_set_bytes": 440991744,
+  "result": {
+    "acceptance": "MEASUREMENT_ONLY",
+    "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+    "cpu_threads": 20,
+    "display": "headless",
+    "engine": "4.6.3-stable (official)",
+    "errors": [],
+    "legacy_body_path_comparison": {},
+    "lifecycle": {},
+    "locale": "en-US",
+    "manifest": {
+      "body_bytes": {
+        "en-US": 118294,
+        "ko-KR": 131668,
+        "legacy": 0
+      },
+      "bookmarks": 0,
+      "comparison": 3,
+      "counts": {
+        "legacy": 0,
+        "normal": 2000,
+        "protected": 6
+      },
+      "fixture_id": "NB-PERF-N2000",
+      "long_document_utf8_bytes": 0,
+      "long_documents": 0,
+      "seed": "ggb-notebook-perf-v1",
+      "sha256": "36c759a9acefd01de48d56323353afb7a1b139a2a6cf31b42328257282e57e64",
+      "utf8_bytes": 1815265
+    },
+    "not_covered": [
+      "OS_input",
+      "IME",
+      "device_class_acceptance",
+      "rendered_visual_QA",
+      "OS_disk_cache_flush",
+      "input_frame_capture",
+      "50_open_close_memory",
+      "warm_UI_input_p95"
+    ],
+    "ok": true,
+    "os": "Windows",
+    "os_version": "10.0.26200",
+    "save_stage_profile": [],
+    "search_index_calls": 55,
+    "timings_ms": {
+      "first_page_model_ms": [
+        6.862
+      ],
+      "first_search_ui_ms": [
+        479.628
+      ],
+      "fixture_build_ms": [
+        592.267
+      ],
+      "fixture_parse_ms": [
+        73.245
+      ],
+      "model_to_panel_ms": [
+        382.442
+      ],
+      "panel_present_ms": [
+        137.43
+      ],
+      "query_open_ms": [
+        229.13
+      ],
+      "search_index_body_ms": [
+        163.249
+      ],
+      "search_index_cpu_total_ms": [
+        238.779
+      ],
+      "search_index_fields_ms": [
+        33.313
+      ],
+      "search_index_max_batch_ms": [
+        5.089
+      ]
+    },
+    "warm_iterations": 0
+  }
+}

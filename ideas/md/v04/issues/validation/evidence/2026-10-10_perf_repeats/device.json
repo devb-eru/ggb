@@ -1,0 +1,36 @@
+{
+  "cpu": [
+    {
+      "Name": "12th Gen Intel(R) Core(TM) i7-12700H",
+      "NumberOfCores": 14,
+      "NumberOfLogicalProcessors": 20
+    }
+  ],
+  "gpu": [
+    {
+      "Name": "Intel(R) Iris(R) Xe Graphics",
+      "DriverVersion": "32.0.101.7088"
+    }
+  ],
+  "memory": [
+    {
+      "TotalPhysicalMemory": 34070847488
+    }
+  ],
+  "os": [
+    {
+      "Caption": "Microsoft Windows 11 Pro Education",
+      "Version": "10.0.26200",
+      "BuildNumber": "26200"
+    }
+  ],
+  "disks": [
+    {
+      "Model": "SAMSUNG MZVL21T0HCLR-00BL2",
+      "MediaType": "Fixed hard disk media",
+      "Size": 1024203640320
+    }
+  ],
+  "power_plan": "전원 구성표 GUID: 85d583c5-cf2e-4197-80fd-3789a227a72c  (Legion Balance Mode )",
+  "game_dev_cli_available": false
+}
