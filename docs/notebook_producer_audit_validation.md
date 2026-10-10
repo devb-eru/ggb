@@ -8,6 +8,8 @@
 
 ## 1. 확인한 결함과 수정
 
+2026-10-10 [상속 UI 국소 후속](../ideas/md/v04/issues/validation/2026-10-10_상속UI_필수호출_신규기록_감사.md)은 C 10단계/D5 전 7단계의 실제 호출 400조건·첫/재조사 callback 800회와 교체 버튼 144조건을 독립 대조했다. 새 authored 1,296/legacy 0/unmapped 0, 원문 보존·디스크 복원·재그리기·5개 무결성 반례 거부 PASS다. 빈 원장 fixture의 국소 신규 delta이며 전체 신규 발생/구형 이관/관리 UI 제외·NP22 소비·전편 도달성/OS 입력 인수로 확대하지 않는다. 제품 코드는 변경하지 않았다.
+
 ### NP22 재선택 알림이 이야기 기록을 생성함
 
 `basement_controller.gd`의 `_create_reselect`, `_resume_reselect`는 생성 실패·로드 실패·복사본 진입 안내를 `_show_dialogue`로 표시했다. 이 경로는 실제 본편 대사 writer와 재개 커서를 사용하므로, `EXCLUDED_UI`로 정한 관리 안내가 신규 `unmapped` 기록이 되고 복사본의 대사 커서까지 바꿀 수 있었다.

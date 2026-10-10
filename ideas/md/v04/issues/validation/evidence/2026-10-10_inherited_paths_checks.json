@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "checks": {
+    "action_cases": 400,
+    "actual_dispatches": 800,
+    "excluded_control_cases": 144,
+    "new_entries": 1296,
+    "baseline_entries": 0,
+    "observed_segment_tuples": 1296
+  },
+  "source_corpus": {
+    "basis": "res://scripts/**/*.gd",
+    "file_count": 264,
+    "sha256": "a28fa80abe20bab249bafeab5761546686ebed6cd91d0be8414c8d6263e4eb3f"
+  },
+  "catalogs": 29,
+  "test_source_hashes_match": true,
+  "raw_hashes_match": true,
+  "negative_checks": [
+    "duplicate_call",
+    "missing_repeat",
+    "wrong_node",
+    "new_unmapped",
+    "missing_exclusion"
+  ],
+  "not_covered": [
+    "natural_campaign_reachability",
+    "OS_input",
+    "save_failure_and_process_restart",
+    "legacy_migration",
+    "NP22_consumers",
+    "all_producers",
+    "post_fracture_inherited_controls"
+  ]
+}

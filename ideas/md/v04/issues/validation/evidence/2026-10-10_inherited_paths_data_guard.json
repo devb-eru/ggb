@@ -1,0 +1,214 @@
+{
+  "verified_utc": "2026-10-09T23:58:39.3831942Z",
+  "files": [
+    {
+      "path": "res://data/development/checkpoints.json",
+      "sha256": "9918b75fb50b8815144558e9b99cbe5ddd80ef062725642b57724214b868a082"
+    },
+    {
+      "path": "res://data/dialogue/.gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "res://data/dialogue/chapter_one/chapter_one_text.tres",
+      "sha256": "cb3bebfae8fd98a9865a14b90b05c5be8fde273b980a91b51d6dd954df9598b1"
+    },
+    {
+      "path": "res://data/dialogue/prologue/prologue_text.tres",
+      "sha256": "99c64bd60ba128c713aa28722379da0739939d752d677be52ef9fe53f2785726"
+    },
+    {
+      "path": "res://data/dialogue/system/foundation_text_catalog.tres",
+      "sha256": "03f8f17d7f536f61b3ffd9aec282a868fc48eeedb12503ead312723c7cf5b84d"
+    },
+    {
+      "path": "res://data/dialogue/system/title_extension_text.tres",
+      "sha256": "0b4107a42a2744c4e60b5cde994c9888309095c85ccfb8d9a243ea3ff4874f74"
+    },
+    {
+      "path": "res://data/events/.gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "res://data/events/system/event_foundation_smoke.tres",
+      "sha256": "3ce062833b51010a0aa0bf13e7ac35409de633944f91b1c62e4b145ad1e10e90"
+    },
+    {
+      "path": "res://data/notebook/basement_v1.json",
+      "sha256": "b8acb8291e27d8657c50b6b2f894c7dc1e26a6a42c4930df8195c405dde85cf2"
+    },
+    {
+      "path": "res://data/notebook/chapter_one_notes_v1.json",
+      "sha256": "8b4b3bfd46dbbb8a5012e32bfdec74279a92ff45179eb3d6a8c945958a4a4a21"
+    },
+    {
+      "path": "res://data/notebook/chapter_one_v1.json",
+      "sha256": "2047d4382bac28c012bb1e7384df2c447db620943c88d945506c174978833b2b"
+    },
+    {
+      "path": "res://data/notebook/chapter_surfaces_v1.json",
+      "sha256": "b46e8f16c7254793e123b022975a0c85f555297b826831c60047340a8077fb85"
+    },
+    {
+      "path": "res://data/notebook/core_v1.json",
+      "sha256": "129627e90fb5bdd6ba5d98e91802c5d66f3ead4eb22893a191a9c5e79c04a294"
+    },
+    {
+      "path": "res://data/notebook/edgar_v1.json",
+      "sha256": "5105075fb64942355db3d3335e70bcb330b84253dbcb7cc4cae84c2c7175c41c"
+    },
+    {
+      "path": "res://data/notebook/final_v1.json",
+      "sha256": "b33e538fb14ffab62944d392e3823f041f0a5bb6ad74b6e4eec79a9bc34cd063"
+    },
+    {
+      "path": "res://data/notebook/fracture_surfaces_v1.json",
+      "sha256": "6200ee74ea5144711245cc4d2fc237be31ba1043a1b5f2d8f98786e5da68b77d"
+    },
+    {
+      "path": "res://data/notebook/fracture_v1.json",
+      "sha256": "d6320b170883e66c9fb9051b1a6bdb98ff15bb7d08827acd7d70501b5e864eb3"
+    },
+    {
+      "path": "res://data/notebook/hints_v1.json",
+      "sha256": "c7cb8cdb544418ceef2c55f3e57e8a908bbbdd743b8a043781777e61df3ebd84"
+    },
+    {
+      "path": "res://data/notebook/iris_v1.json",
+      "sha256": "9362f77247e3d5f39ab3898e94135dc0bfdaab536028908fd20639a811e6cfdc"
+    },
+    {
+      "path": "res://data/notebook/journal_four_display_v1.json",
+      "sha256": "2a3b5b3b46d085e0cdb4dfba388b4d6c53780ecda6aeee60431eed036ae694e1"
+    },
+    {
+      "path": "res://data/notebook/journal_four_v1.json",
+      "sha256": "ab97a2e4415d388564d92aecb40420c257e4b6dd2d67b20bf97644625127198f"
+    },
+    {
+      "path": "res://data/notebook/luca_v1.json",
+      "sha256": "b384739c174143b1e630970d225a9739c16b81395aea3ea60f2499db4584a71e"
+    },
+    {
+      "path": "res://data/notebook/mara1_v1.json",
+      "sha256": "a30ded66cfd0736c1278d4c4514afbc00e5b3a5d3951f41a582ca2aca657f050"
+    },
+    {
+      "path": "res://data/notebook/mara2_v1.json",
+      "sha256": "9f66a23661e413409b7a81f9be033c9f857b75848f2fa90b8d4e179b88fff6bf"
+    },
+    {
+      "path": "res://data/notebook/mirror_v1.json",
+      "sha256": "42d31ad557c795401bdb0fc5a46785c331e0cee1ec7a5cc38077894c7265db41"
+    },
+    {
+      "path": "res://data/notebook/modals_v1.json",
+      "sha256": "e2af9ded7e0784401a6aa7214d65d1948c450d783aaabb200b9d4e061734584a"
+    },
+    {
+      "path": "res://data/notebook/prologue_notes_v1.json",
+      "sha256": "a84bb21a1dabbc1972610bd9d0631577335c79f5a76d12d0b7deabdb25979a06"
+    },
+    {
+      "path": "res://data/notebook/prologue_surfaces_v1.json",
+      "sha256": "9b955ab03d69d734f8e06699d3a0aa65843c5bcc9db7f14ccded37ae73b476c1"
+    },
+    {
+      "path": "res://data/notebook/prologue_v1.json",
+      "sha256": "4221feeb5ba422e23245e470a88473003debfc2e4b7e36a23f2795adb30d6b6a"
+    },
+    {
+      "path": "res://data/notebook/puzzle_labels_v2.json",
+      "sha256": "64e187c32ee535436a580cabd6a491ea604a80e865df914df00366ef320abf91"
+    },
+    {
+      "path": "res://data/notebook/puzzle_surfaces_v1.json",
+      "sha256": "01414e1455fc3ce47f2af911b5fe137929d03953e8355323206b36d819f675f3"
+    },
+    {
+      "path": "res://data/notebook/reality_v1.json",
+      "sha256": "2179aae7f7ec2a657fada6b235753fcdea69a244a7c2fa353b60dc4849007e99"
+    },
+    {
+      "path": "res://data/notebook/record_labels_v2.json",
+      "sha256": "ca9a5228317729e396c5a54b482b31c34b100e948f1e6ce17b5dc742e2bc01a8"
+    },
+    {
+      "path": "res://data/notebook/relationship_labels_v2.json",
+      "sha256": "563a04006b3c70dc260aae6aca9d8c49cfe6b85af02825c2ec5c9c0b3b9838ab"
+    },
+    {
+      "path": "res://data/notebook/self_mark_v2.json",
+      "sha256": "70511c773ef18d58a55523ebaae32ad125c02abcaa720a6f4d540fab861df4d6"
+    },
+    {
+      "path": "res://data/notebook/settlement_v1.json",
+      "sha256": "d440f3948dbe7615e12fc12fd0c3d827031f2e44b8e5b57ca6177ad18a540a76"
+    },
+    {
+      "path": "res://data/notebook/stay_v1.json",
+      "sha256": "ed797b06555e2a6cc9a1434916cef05844945874e2b6e4f9dcf59030ab468d67"
+    },
+    {
+      "path": "res://data/puzzles/.gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "res://data/puzzles/puzzle_basement.tres",
+      "sha256": "be633646ed81e70b79f690fb9376df9c4455538a8895a4b9e0e4409334d59f1a"
+    },
+    {
+      "path": "res://data/puzzles/puzzle_black_mirror.tres",
+      "sha256": "f2452f07b0e82c2262e3a80616cb478e949682b3404ff6a2ebf75d9e2a5f4586"
+    },
+    {
+      "path": "res://data/puzzles/puzzle_clock_network.tres",
+      "sha256": "ffc6449a2b49574dcc728adf78dfd3f5e1fee79055867be9a4b17639c43c1a1b"
+    },
+    {
+      "path": "res://data/registries/audio_cue_registry.json",
+      "sha256": "c3058a5112d3eab93beee33d4c01e4b2dd6635e9273675354cb685ae747c3e33"
+    },
+    {
+      "path": "res://data/registries/cnt_shared_vocab.json",
+      "sha256": "1bc3a4f6b726c173e0578253ec3a0846e985d7cc2152506e0ad20e3fcaa740cb"
+    },
+    {
+      "path": "res://data/registries/save_point_registry.json",
+      "sha256": "fb26e77c1f2dc76c2534319271b7d70508b884ffd337a04768b426dc0f936c36"
+    },
+    {
+      "path": "res://data/registries/text_registry.json",
+      "sha256": "5cecf16d2bf097e17d6d917691528ceb0b025be7131519847eddbb449a654e75"
+    },
+    {
+      "path": "res://data/registries/ui_asset_registry.json",
+      "sha256": "9ba35d0be67f14f714d6e0c3e37f8667d73efa8efc039195f867a902657bbb01"
+    },
+    {
+      "path": "res://data/states/.gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "res://data/states/state_path_registry.json",
+      "sha256": "fad51efba245cb98b556bda8f4c2c44cd0650ab981e40d53c91fc86bd5ee2e62"
+    },
+    {
+      "path": "res://data/states/fixtures/corrupted_primary.txt",
+      "sha256": "00fca86a53a6030f3cdcbf327aebf54b58116ffcd2d659622e55f64d1dead30c"
+    },
+    {
+      "path": "res://data/states/fixtures/future_schema_2.json",
+      "sha256": "b0999b9fa50a8ad4d2c26bef567daf8721a8ecb46f780a191116c91c1f997bb0"
+    },
+    {
+      "path": "res://data/states/fixtures/new_game_schema_1.json",
+      "sha256": "e8a2b6b10af0f87d063392b57eda379188e069fcf504b42bc7cd55a85cb618f9"
+    },
+    {
+      "path": "res://data/states/fixtures/normal_reset_schema_1.json",
+      "sha256": "6bf681843dcbfe11e4e6256a6279ec4384ce150f568e19e1088181d8ee331207"
+    }
+  ],
+  "basis": "all game/data files, post-start comparison"
+}

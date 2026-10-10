@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "completed": true,
+  "exit_code": 0,
+  "require_authored": true,
+  "started_utc": "2026-10-09T23:55:58.0745240Z",
+  "finished_utc": "2026-10-09T23:59:52.0553598Z",
+  "engine_sha256": "12310c74bdda7dcd43f28e971f33047dcecadd436b68169d61ce41009006df38",
+  "harness_sha256": "d1b34aa126d725c58056a83bdc01d9f0ca910ac4a9a7ef616fa356de8d313e93",
+  "scene_sha256": "0ab7362852dc593f398e2cebe6cb97f50912eb6baafacc832a9fd0c72378b811",
+  "runner_sha256": "c9acd1ffe0b7b6bea640bd6e9d126a623d74ca533c684290dcc8e7064b22e14c",
+  "stdout_sha256": "2cd2e9dc565ed031b590dd31208b5f692c4b68d03299288b6ffec8d4f680458e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
