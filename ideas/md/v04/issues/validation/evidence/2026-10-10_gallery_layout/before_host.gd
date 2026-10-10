@@ -90,11 +90,12 @@ func _open_model() -> bool:
 
 
 func _present(view: Dictionary) -> void:
-	panel.set_reference_editable(false, true, false)
-	panel.present(model, _locale, "clues", _font_scale, view)
+	panel.present(model, _locale, "clues", _font_scale)
+	panel.set_reference_editable(false, true)
 	panel.set_review_state(_view_state.seen, _view_state.groups)
 	panel.show_notice(TEXTS.text("notebook_readonly", _locale))
 	panel._close.text = TEXTS.text("back", _locale)
+	if not view.is_empty(): panel.restore_view(view)
 
 
 func refresh() -> void:

@@ -1,0 +1,342 @@
+Godot Engine v4.7.2.stable.steam.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started 프로젝트 초기화 (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | 파일 구조 스캔 중...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | 전역 클래스 이름을 불러오는 중...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | GDExtensions 검증 중...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | 오토로드 스크립트를 만드는 중...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | 플러그인을 초기화 중...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | 파일 스캔 시작 중...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started 전역 클래스를 등록하는 중... (272 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | BasementController[39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | BlackMirrorController[39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | ChapterOneController[39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | BasementPuzzle[39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | BlackMirrorPuzzle[39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | ClockNetworkPuzzle[39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | EventDefinition[39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | EventNodeDefinition[39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | LocalizedTextCatalog[39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | StateWrite[39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | TypedStateValue[39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | PrologueController[39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | PrologueRoomArt[39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | PrologueWindowInspectionArt[39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | AccessibilityProfileStore[39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | BasementSession[39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | BlackMirrorSession[39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | ChapterOneSession[39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | CoreApproach[39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | CoreOverlay[39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | CoreRecordRoles[39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | CoreRoomNetwork[39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | CoreSamples[39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | CoreSelfAuthority[39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | D4ReactionSelector[39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | DialogueRepository[39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | EdgarRelationship[39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | EndingCredits[39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | EndingDecision[39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | EndingEntry[39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | EndingGalleryPages[39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | EndingGalleryStore[39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | EndingMetaStore[39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | FatherFinalRecord[39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | FieldNotebook[39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | FinalInspection[39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | InputRouter[39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | InteractionRouter[39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | IrisRelationship[39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | JournalFour[39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | LastEvening[39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | LoadCoordinator[39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | LucaRelationship[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | Mara1Relationship[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | Mara2Relationship[39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | RealitySurface[39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | RealityWake[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | ResearcherConfrontation[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | ResetCoordinator[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | StateSnapshotValidator[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | StateWriter[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | StayCharter[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | StayStory[39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | FoundationRuntimeRegression[39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | FoundationSmokeRunner[39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | StartScreenSmokeRunner[39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | BlackMirrorDisplayTexts[39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | ChapterOneDisplayTexts[39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | GothicTitleButton[39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | InventoryDragSlot[39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | InventoryDropTarget[39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | StartScreen[39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | UITitlePlaceholderArt[39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | PracticeBackground[39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | PracticeDrawer[39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | PracticeKey[39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | PracticeLock[39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | PracticeInventory[39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  99% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started 액션 스캔 중... (13 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | prologue_mansion_hall_v01.png[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | prologue_rooms_primary_atlas_v01.png[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | prologue_rooms_secondary_atlas_v01.png[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | prologue_servants_atlas_v01.png[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | ui_title_manor_background_v01.png[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | background1.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | background2.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | background3.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | drawer_close.png[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | drawer_open.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | icon.svg[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | key.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | lock.png[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started 애셋 (다시) 가져오는 중 (13 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[   7% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  14% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  21% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  28% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  35% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  42% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  50% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  57% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  64% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  71% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  78% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  85% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[   0% ] [90m[1mreimport[22m | 다시 가져오기 전 작업을 수행 중...[39m[0m
+[   0% ] [90m[1mreimport[22m | prologue_mansion_hall_v01.png[39m[0m
+[   7% ] [90m[1mreimport[22m | prologue_rooms_primary_atlas_v01.png[39m[0m
+[  14% ] [90m[1mreimport[22m | prologue_rooms_secondary_atlas_v01.png[39m[0m
+[  21% ] [90m[1mreimport[22m | prologue_servants_atlas_v01.png[39m[0m
+[  28% ] [90m[1mreimport[22m | ui_title_manor_background_v01.png[39m[0m
+[  35% ] [90m[1mreimport[22m | background1.png[39m[0m
+[  42% ] [90m[1mreimport[22m | background2.png[39m[0m
+[  50% ] [90m[1mreimport[22m | background3.png[39m[0m
+[  57% ] [90m[1mreimport[22m | drawer_close.png[39m[0m
+[  64% ] [90m[1mreimport[22m | drawer_open.png[39m[0m
+[  71% ] [90m[1mreimport[22m | icon.svg[39m[0m
+[  78% ] [90m[1mreimport[22m | key.png[39m[0m
+[  85% ] [90m[1mreimport[22m | lock.png[39m[0m
+[  92% ] [90m[1mreimport[22m | 애셋 가져오기 마무리 중...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started 애셋 (다시) 가져오는 중 (13 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | 다시 가져오기 후 작업을 수행 중...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started 편집기를 불러오는 중 (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | 편집기 레이아웃을 불러오는 중...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | 독을 불러오는 중...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

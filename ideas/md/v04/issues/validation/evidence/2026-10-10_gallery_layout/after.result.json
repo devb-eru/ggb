@@ -1,0 +1,634 @@
+{
+  "cases": [
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/list/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/list/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/detail/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/detail/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/comparison/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/comparison/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/list/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/list/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/detail/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/detail/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/comparison/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/comparison/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/list/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/list/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/detail/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/detail/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/comparison/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/comparison/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/list/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/list/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/detail/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/detail/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/comparison/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/comparison/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/list/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/list/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/detail/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/detail/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/comparison/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/comparison/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/list/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/list/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/detail/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/detail/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/comparison/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/comparison/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/list/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/list/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/detail/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/detail/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/comparison/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/comparison/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/list/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/list/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/detail/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/detail/refresh",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 4,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 4,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/comparison/open",
+      "passed": true,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 6,
+        "page": 2,
+        "preview": 14
+      },
+      "expected_comparison": 6,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/comparison/refresh",
+      "passed": true,
+      "rows": 14
+    }
+  ],
+  "checks": 670,
+  "errors": [],
+  "ok": true,
+  "required_cases": 48,
+  "schema_version": 1,
+  "suite_id": "gallery-layout"
+}

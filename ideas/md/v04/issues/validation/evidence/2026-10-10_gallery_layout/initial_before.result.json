@@ -1,0 +1,779 @@
+{
+  "cases": [
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/list/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/list/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/detail/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/detail/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/comparison/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/1/comparison/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/list/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/list/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/detail/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/detail/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/comparison/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/ko-KR/2/comparison/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/list/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/list/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/detail/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/detail/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/comparison/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/1/comparison/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/list/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/list/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/detail/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/detail/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/comparison/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "REALITY/en-US/2/comparison/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/list/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/list/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/detail/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/detail/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/comparison/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/1/comparison/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/list/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/list/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/detail/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/detail/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/comparison/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/ko-KR/2/comparison/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/list/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/list/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/detail/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/detail/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/comparison/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/1/comparison/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/list/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/list/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/detail/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/detail/refresh",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 5,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 3,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/comparison/open",
+      "passed": false,
+      "rows": 14
+    },
+    {
+      "calls": {
+        "comparison": 7,
+        "page": 3,
+        "preview": 23
+      },
+      "expected_comparison": 5,
+      "expected_page": 2,
+      "expected_preview": 14,
+      "key": "STAY/en-US/2/comparison/refresh",
+      "passed": false,
+      "rows": 14
+    }
+  ],
+  "checks": 670,
+  "errors": [
+    "REALITY/ko-KR/1/list/open constructs only restored list",
+    "REALITY/ko-KR/1/list/open renders each row once",
+    "REALITY/ko-KR/1/list/open constructs basket once",
+    "REALITY/ko-KR/1/list/refresh constructs only restored list",
+    "REALITY/ko-KR/1/list/refresh renders each row once",
+    "REALITY/ko-KR/1/list/refresh constructs basket once",
+    "REALITY/ko-KR/1/detail/open constructs only restored list",
+    "REALITY/ko-KR/1/detail/open renders each row once",
+    "REALITY/ko-KR/1/detail/open constructs basket once",
+    "REALITY/ko-KR/1/detail/refresh constructs only restored list",
+    "REALITY/ko-KR/1/detail/refresh renders each row once",
+    "REALITY/ko-KR/1/detail/refresh constructs basket once",
+    "REALITY/ko-KR/1/comparison/open constructs only restored list",
+    "REALITY/ko-KR/1/comparison/open renders each row once",
+    "REALITY/ko-KR/1/comparison/open constructs basket once",
+    "REALITY/ko-KR/1/comparison/refresh constructs only restored list",
+    "REALITY/ko-KR/1/comparison/refresh renders each row once",
+    "REALITY/ko-KR/1/comparison/refresh constructs basket once",
+    "REALITY/ko-KR/2/list/open constructs only restored list",
+    "REALITY/ko-KR/2/list/open renders each row once",
+    "REALITY/ko-KR/2/list/open constructs basket once",
+    "REALITY/ko-KR/2/list/refresh constructs only restored list",
+    "REALITY/ko-KR/2/list/refresh renders each row once",
+    "REALITY/ko-KR/2/list/refresh constructs basket once",
+    "REALITY/ko-KR/2/detail/open constructs only restored list",
+    "REALITY/ko-KR/2/detail/open renders each row once",
+    "REALITY/ko-KR/2/detail/open constructs basket once",
+    "REALITY/ko-KR/2/detail/refresh constructs only restored list",
+    "REALITY/ko-KR/2/detail/refresh renders each row once",
+    "REALITY/ko-KR/2/detail/refresh constructs basket once",
+    "REALITY/ko-KR/2/comparison/open constructs only restored list",
+    "REALITY/ko-KR/2/comparison/open renders each row once",
+    "REALITY/ko-KR/2/comparison/open constructs basket once",
+    "REALITY/ko-KR/2/comparison/refresh constructs only restored list",
+    "REALITY/ko-KR/2/comparison/refresh renders each row once",
+    "REALITY/ko-KR/2/comparison/refresh constructs basket once",
+    "REALITY/en-US/1/list/open constructs only restored list",
+    "REALITY/en-US/1/list/open renders each row once",
+    "REALITY/en-US/1/list/open constructs basket once",
+    "REALITY/en-US/1/list/refresh constructs only restored list",
+    "REALITY/en-US/1/list/refresh renders each row once",
+    "REALITY/en-US/1/list/refresh constructs basket once",
+    "REALITY/en-US/1/detail/open constructs only restored list",
+    "REALITY/en-US/1/detail/open renders each row once",
+    "REALITY/en-US/1/detail/open constructs basket once",
+    "REALITY/en-US/1/detail/refresh constructs only restored list",
+    "REALITY/en-US/1/detail/refresh renders each row once",
+    "REALITY/en-US/1/detail/refresh constructs basket once",
+    "REALITY/en-US/1/comparison/open constructs only restored list",
+    "REALITY/en-US/1/comparison/open renders each row once",
+    "REALITY/en-US/1/comparison/open constructs basket once",
+    "REALITY/en-US/1/comparison/refresh constructs only restored list",
+    "REALITY/en-US/1/comparison/refresh renders each row once",
+    "REALITY/en-US/1/comparison/refresh constructs basket once",
+    "REALITY/en-US/2/list/open constructs only restored list",
+    "REALITY/en-US/2/list/open renders each row once",
+    "REALITY/en-US/2/list/open constructs basket once",
+    "REALITY/en-US/2/list/refresh constructs only restored list",
+    "REALITY/en-US/2/list/refresh renders each row once",
+    "REALITY/en-US/2/list/refresh constructs basket once",
+    "REALITY/en-US/2/detail/open constructs only restored list",
+    "REALITY/en-US/2/detail/open renders each row once",
+    "REALITY/en-US/2/detail/open constructs basket once",
+    "REALITY/en-US/2/detail/refresh constructs only restored list",
+    "REALITY/en-US/2/detail/refresh renders each row once",
+    "REALITY/en-US/2/detail/refresh constructs basket once",
+    "REALITY/en-US/2/comparison/open constructs only restored list",
+    "REALITY/en-US/2/comparison/open renders each row once",
+    "REALITY/en-US/2/comparison/open constructs basket once",
+    "REALITY/en-US/2/comparison/refresh constructs only restored list",
+    "REALITY/en-US/2/comparison/refresh renders each row once",
+    "REALITY/en-US/2/comparison/refresh constructs basket once",
+    "STAY/ko-KR/1/list/open constructs only restored list",
+    "STAY/ko-KR/1/list/open renders each row once",
+    "STAY/ko-KR/1/list/open constructs basket once",
+    "STAY/ko-KR/1/list/refresh constructs only restored list",
+    "STAY/ko-KR/1/list/refresh renders each row once",
+    "STAY/ko-KR/1/list/refresh constructs basket once",
+    "STAY/ko-KR/1/detail/open constructs only restored list",
+    "STAY/ko-KR/1/detail/open renders each row once",
+    "STAY/ko-KR/1/detail/open constructs basket once",
+    "STAY/ko-KR/1/detail/refresh constructs only restored list",
+    "STAY/ko-KR/1/detail/refresh renders each row once",
+    "STAY/ko-KR/1/detail/refresh constructs basket once",
+    "STAY/ko-KR/1/comparison/open constructs only restored list",
+    "STAY/ko-KR/1/comparison/open renders each row once",
+    "STAY/ko-KR/1/comparison/open constructs basket once",
+    "STAY/ko-KR/1/comparison/refresh constructs only restored list",
+    "STAY/ko-KR/1/comparison/refresh renders each row once",
+    "STAY/ko-KR/1/comparison/refresh constructs basket once",
+    "STAY/ko-KR/2/list/open constructs only restored list",
+    "STAY/ko-KR/2/list/open renders each row once",
+    "STAY/ko-KR/2/list/open constructs basket once",
+    "STAY/ko-KR/2/list/refresh constructs only restored list",
+    "STAY/ko-KR/2/list/refresh renders each row once",
+    "STAY/ko-KR/2/list/refresh constructs basket once",
+    "STAY/ko-KR/2/detail/open constructs only restored list",
+    "STAY/ko-KR/2/detail/open renders each row once",
+    "STAY/ko-KR/2/detail/open constructs basket once",
+    "STAY/ko-KR/2/detail/refresh constructs only restored list",
+    "STAY/ko-KR/2/detail/refresh renders each row once",
+    "STAY/ko-KR/2/detail/refresh constructs basket once",
+    "STAY/ko-KR/2/comparison/open constructs only restored list",
+    "STAY/ko-KR/2/comparison/open renders each row once",
+    "STAY/ko-KR/2/comparison/open constructs basket once",
+    "STAY/ko-KR/2/comparison/refresh constructs only restored list",
+    "STAY/ko-KR/2/comparison/refresh renders each row once",
+    "STAY/ko-KR/2/comparison/refresh constructs basket once",
+    "STAY/en-US/1/list/open constructs only restored list",
+    "STAY/en-US/1/list/open renders each row once",
+    "STAY/en-US/1/list/open constructs basket once",
+    "STAY/en-US/1/list/refresh constructs only restored list",
+    "STAY/en-US/1/list/refresh renders each row once",
+    "STAY/en-US/1/list/refresh constructs basket once",
+    "STAY/en-US/1/detail/open constructs only restored list",
+    "STAY/en-US/1/detail/open renders each row once",
+    "STAY/en-US/1/detail/open constructs basket once",
+    "STAY/en-US/1/detail/refresh constructs only restored list",
+    "STAY/en-US/1/detail/refresh renders each row once",
+    "STAY/en-US/1/detail/refresh constructs basket once",
+    "STAY/en-US/1/comparison/open constructs only restored list",
+    "STAY/en-US/1/comparison/open renders each row once",
+    "STAY/en-US/1/comparison/open constructs basket once",
+    "STAY/en-US/1/comparison/refresh constructs only restored list",
+    "STAY/en-US/1/comparison/refresh renders each row once",
+    "STAY/en-US/1/comparison/refresh constructs basket once",
+    "STAY/en-US/2/list/open constructs only restored list",
+    "STAY/en-US/2/list/open renders each row once",
+    "STAY/en-US/2/list/open constructs basket once",
+    "STAY/en-US/2/list/refresh constructs only restored list",
+    "STAY/en-US/2/list/refresh renders each row once",
+    "STAY/en-US/2/list/refresh constructs basket once",
+    "STAY/en-US/2/detail/open constructs only restored list",
+    "STAY/en-US/2/detail/open renders each row once",
+    "STAY/en-US/2/detail/open constructs basket once",
+    "STAY/en-US/2/detail/refresh constructs only restored list",
+    "STAY/en-US/2/detail/refresh renders each row once",
+    "STAY/en-US/2/detail/refresh constructs basket once",
+    "STAY/en-US/2/comparison/open constructs only restored list",
+    "STAY/en-US/2/comparison/open renders each row once",
+    "STAY/en-US/2/comparison/open constructs basket once",
+    "STAY/en-US/2/comparison/refresh constructs only restored list",
+    "STAY/en-US/2/comparison/refresh renders each row once",
+    "STAY/en-US/2/comparison/refresh constructs basket once"
+  ],
+  "ok": false,
+  "required_cases": 48,
+  "schema_version": 1,
+  "suite_id": "gallery-layout"
+}

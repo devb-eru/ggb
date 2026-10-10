@@ -1,0 +1,44 @@
+{
+  "ok": true,
+  "checks": 1158,
+  "receipts": 4,
+  "focused_cases": 48,
+  "source_before": "08fb92454227daf678824f2721f8a5946b8ecce002c03bd7b74cdb13bb991708",
+  "source_after": "b17f75faffdc18ab660992f5c19773d239595cf4e579e8e521ddefc1e484acc6",
+  "runtime_dialogue_files": 4,
+  "runtime_dialogue_sha256": "307f91adf2b6910ad2a3cef73509b404cfdda0a375bbae129bc939ed6294cd13",
+  "full_data_files": 52,
+  "full_data_sha256": "af1ff4a6fb3c427b8dbc22ea273e2b57904252338e392a05abdb40b8a735660a",
+  "negative": [
+    {
+      "rejected": true,
+      "reason": "Result denominator/status",
+      "id": "missing_case"
+    },
+    {
+      "rejected": true,
+      "reason": "Missing, duplicate, or unexpected case",
+      "id": "duplicate_case"
+    },
+    {
+      "rejected": true,
+      "reason": "Measured counts REALITY/ko-KR/1/list/open",
+      "id": "false_count"
+    },
+    {
+      "rejected": true,
+      "reason": "Assertion/error denominator",
+      "id": "hide_error"
+    },
+    {
+      "rejected": true,
+      "reason": "Receipt native status",
+      "id": "native_status"
+    },
+    {
+      "rejected": true,
+      "reason": "Raw log hash",
+      "id": "log_hash"
+    }
+  ]
+}
