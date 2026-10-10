@@ -2155,6 +2155,7 @@ class NormalResetTask extends RefCounted:
 
 
 func _exit_tree() -> void:
+	_history_generation += 1
 	if not _normal_reset_request.is_empty() and is_instance_valid(_fade): _fade.hide()
 	_normal_reset_generation += 1
 	_normal_reset_request = {}
@@ -3207,9 +3208,15 @@ func _remember_history_scroll() -> void:
 
 
 func _restore_history_scroll(reference: WeakRef, chapter_id: String, generation: int) -> void:
-	await get_tree().process_frame
+	if not is_inside_tree() or is_queued_for_deletion(): return
+	# A one-shot connection releases its arguments when this owner is removed.
+	get_tree().process_frame.connect(_apply_history_scroll.bind(reference, chapter_id, generation), CONNECT_ONE_SHOT)
+
+
+func _apply_history_scroll(reference: WeakRef, chapter_id: String, generation: int) -> void:
+	if not is_inside_tree() or is_queued_for_deletion(): return
 	var scroll := reference.get_ref() as ScrollContainer
-	if generation != _history_generation or not is_instance_valid(scroll) or not _modal_active:
+	if generation != _history_generation or not is_instance_valid(scroll) or scroll.is_queued_for_deletion() or not scroll.is_visible_in_tree() or scroll != _history_modal_scroll():
 		return
 	scroll.scroll_vertical = int(_history_scroll_positions.get(chapter_id, scroll.get_v_scroll_bar().max_value))
 

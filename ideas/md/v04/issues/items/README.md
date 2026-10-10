@@ -35,8 +35,8 @@
 | [`GGB-ERR-2026-0066`](GGB-ERR-2026-0066_기상신규기록_침실위치_구형ID.md) | VERIFIED | DONE | 기상 신규 기록의 구형 침실 위치 ID |
 | [`GGB-ERR-2026-0067`](GGB-ERR-2026-0067_프롤로그회귀_초기저장_대기누락.md) | VERIFIED | DONE | 프롤로그 회귀의 초기 저장 대기 누락 |
 | [`GGB-ERR-2026-0068`](GGB-ERR-2026-0068_복귀감사_숫자표현_변조오판.md) | VERIFIED | DONE | 복귀 감사의 숫자 표현 변조 오판 |
-| [`GGB-ERR-2026-0069`](GGB-ERR-2026-0069_지하통합검사_수첩준비완료_대기누락.md) | OPEN | READY | 지하 통합 검사의 수첩 준비 완료 대기 누락 |
-| [`GGB-ERR-2026-0070`](GGB-ERR-2026-0070_지하통합검사_종료시_WeakRef누수.md) | OPEN | READY | 지하 통합 검사 종료 시 WeakRef 누수 |
+| [`GGB-ERR-2026-0069`](GGB-ERR-2026-0069_지하통합검사_수첩준비완료_대기누락.md) | VERIFIED | DONE | 지하 통합 검사의 수첩 준비 완료 대기 누락 |
+| [`GGB-ERR-2026-0070`](GGB-ERR-2026-0070_지하통합검사_종료시_WeakRef누수.md) | VERIFIED | DONE | 지하 통합 검사 종료 시 WeakRef 누수 |
 | [`GGB-ERR-2026-0060`](GGB-ERR-2026-0060_수면화면_재진입_이전리셋재개.md) | VERIFIED | DONE | 수면 화면 재진입 시 이전 리셋 재개 |
 | [`GGB-ERR-2026-0061`](GGB-ERR-2026-0061_만료수면콜백_교체화면_오류UI.md) | VERIFIED | DONE | 만료 수면 콜백의 교체 화면 오류 UI |
 | [`GGB-ERR-2026-0062`](GGB-ERR-2026-0062_수면화면종료_대기코루틴_누수.md) | VERIFIED | DONE | 수면 화면 종료 시 대기 코루틴 누수 |

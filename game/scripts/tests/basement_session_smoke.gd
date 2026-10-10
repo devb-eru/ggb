@@ -86,6 +86,7 @@ func _drain_dialogue(view: Node) -> void:
 
 func _history_text(view: Node) -> String:
 	if view._notebook_is_open():
+		if not await _await_history_ready(view): return ""
 		var panel = view._notebook_host.panel
 		_expect(panel._filters.tab == "dialogue", "menu opens unified dialogue tab")
 		var key: String = view._notebook_host.model.latest_dialogue_key()
@@ -99,12 +100,36 @@ func _history_text(view: Node) -> String:
 	return transcript.text if transcript != null else ""
 
 
-func _close_history(view: Node) -> void:
+func _await_history_ready(view: Node) -> bool:
+	var deadline := Time.get_ticks_msec() + 15000
+	while is_instance_valid(view) and view._notebook_is_open():
+		var host = view._notebook_host
+		if not host._opening:
+			var ready: bool = is_instance_valid(host.panel) and host.panel.is_visible_in_tree() and host._refresh_job.is_empty()
+			_expect(ready, "history model and visible panel are ready")
+			return ready
+		if Time.get_ticks_msec() >= deadline or (host._refresh_job.is_empty() and host._loading_retry.is_visible_in_tree()):
+			_expect(false, "history model preparation failed or timed out")
+			return false
+		await tree.process_frame
+	_expect(false, "history owner disappeared before model readiness")
+	return false
+
+
+func _close_history(view: Node) -> bool:
 	if view._notebook_is_open():
 		view._notebook_host.request_close()
+		var deadline := Time.get_ticks_msec() + 15000
+		while view._notebook_is_open() and Time.get_ticks_msec() < deadline:
+			await tree.process_frame
+		if view._notebook_is_open():
+			_expect(false, "history close did not finish before returning to its menu")
+			return false
 		_expect(view._modal_active, "history returns to its calling menu")
+		if not view._modal_active: return false
 		view._close_modal()
 	else: (view._modal_body.get_node("HistoryClose") as Button).pressed.emit()
+	return true
 
 
 func _history_entry_preserved(entries: Array, expected: Dictionary) -> bool:
@@ -902,8 +927,11 @@ func _validate_full_transition() -> void:
 	var before_history: Dictionary = game.get_snapshot()
 	view._open_menu()
 	(view._modal_body.get_child(4) as Button).pressed.emit()
-	_expect(_history_text(view).contains(shown_text), "E1 history available through menu")
-	_close_history(view)
+	_expect((await _history_text(view)).contains(shown_text), "E1 history available through menu")
+	if not await _close_history(view):
+		view.queue_free()
+		await tree.process_frame
+		return
 	_expect(game.get_snapshot() == before_history, "E1 history viewer is read only")
 	TranslationServer.set_locale(e_common_locale)
 	for choice_method in ["_show_mara1_choice", "_show_iris_choice", "_show_luca_choice", "_show_edgar_choice", "_show_mara2_choice"]:
@@ -2545,9 +2573,31 @@ func _validate_field_notebook(session: BasementSession) -> void:
 		_expect(LoadCoordinator.new(game,saves).load_and_install(SLOT).get("ok",false),"Field page reload")
 		_expect(_history_entry_preserved(game.get_value("meta_progress.dialogue_history.entries", []), expanded_entries.back()), "Expanded reading identity and immutable content survive reload")
 		view._render_room()
-	view._render_room()
+	if view._presentation_enabled():
+		_expect(view._notebook_surface_allowed(), "field surface preparation finishes before the stale-click baseline")
+		var before_stale_finish: Dictionary = session.snapshot()
+		_expect(view._presentation_scope != view._recorded_choice_scope(), "field reload invalidates the old presentation owner")
+		view._hotspot_layer.get_node("FIELD_FINISH").pressed.emit()
+		_expect(session.snapshot() == before_stale_finish, "old field screen cannot dispatch after reload")
+	view.queue_free()
+	await tree.process_frame
+	view = VIEW.new()
+	view.configure_session(SLOT, "FIELD_NOTEBOOK")
+	root.add_child(view)
+	await tree.process_frame
+	view._dismiss_dialogue_for_test()
+	_expect(view._hotspot_layer.has_node("FIELD_FINISH"), "freshly loaded field screen has its completion action")
+	if not view._hotspot_layer.has_node("FIELD_FINISH"):
+		view.queue_free()
+		await tree.process_frame
+		return
 	view._hotspot_layer.get_node("FIELD_FINISH").pressed.emit()
 	_expect(session.snapshot()["loop_state"]["location_id"] == "R0_FACILITY_EXIT","Field notebook leads to physical exit")
+	_expect(view._hotspot_layer.has_node("EXIT_STATUS_POWER"), "physical exit controls follow the completed field transition")
+	if not view._hotspot_layer.has_node("EXIT_STATUS_POWER"):
+		view.queue_free()
+		await tree.process_frame
+		return
 	_expect(not session.act("field_unlock").get("ok",false),"Exit cannot skip three status checks")
 	for id in rules.EXIT:
 		view._hotspot_layer.get_node(id).pressed.emit()
@@ -2735,8 +2785,11 @@ func _validate_credits(session: BasementSession) -> void:
 	var history_button := view._modal_body.get_child(4) as Button
 	_expect(history_button.text == view._dialogue_ui_text("CH1_HISTORY_TITLE"), "post credits offers existing dialogue history")
 	history_button.pressed.emit()
-	_expect(not _history_text(view).is_empty(), "post credits opens preserved history")
-	_close_history(view)
+	_expect(not (await _history_text(view)).is_empty(), "post credits opens preserved history")
+	if not await _close_history(view):
+		view.queue_free()
+		await tree.process_frame
+		return
 	_expect(session.snapshot() == before_gallery and FileAccess.get_file_as_bytes(source_path) == source_bytes, "post credits history preserves state and save bytes")
 	var pages = preload("res://scripts/systems/ending_gallery_pages.gd")
 	_expect(not pages.build(before_gallery).is_empty(), "Gallery contains completed final frame")

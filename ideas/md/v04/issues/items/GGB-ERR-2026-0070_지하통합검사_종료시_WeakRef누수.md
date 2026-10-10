@@ -4,15 +4,17 @@
 | --- | --- |
 | 유형 | 오류 ERR |
 | 심각도 | 낮음 |
-| 해결 상태 | OPEN |
-| 작업 상태 | READY |
+| 해결 상태 | VERIFIED |
+| 작업 상태 | DONE |
 | 우선순위 | P2 |
 | 담당자 | Codex |
 | 목표 마일스톤 | `FULL_00_CONTENT_COMPLETE` |
 | 최초 확인 | 2026-10-11 |
-| 영역 | BasementSessionSmoke / deferred focus·process_frame 대기 수명 |
+| 영역 | PrologueController 구형 스크롤 복원 / process_frame 대기 수명 |
 
 ## 확인된 내용
+
+아래는 수정 전 진단이다. 현재 해결 상태와 최종 성공 분모는 마지막 해결 근거 절을 따른다.
 
 기상 출처 후보의 기본 지하 통합 검사는 `BASEMENT_SESSION_SMOKE: PASS`, 실행 단언 13,921개, native 0으로 끝났다. 그러나 verbose 로그에는 `ObjectDB instances leaked at exit`, `WeakRef` 객체 다섯 개와 `process_frame`의 고아 StringName 여섯 참조가 남았다. 행동 PASS와 native 0만으로 종료 수명 검사까지 통과한 것으로 볼 수 없다.
 
@@ -29,7 +31,13 @@
 
 - [x] 기본 모드 행동 통과와 종료 누수의 분리 기록.
 - [x] 구형 기준본의 동일 행동 PASS와 종료 누수 비교.
-- [ ] 생성 경로 국소 재현.
-- [ ] 회수/취소 조치 후 같은 소스 전체 무누수 검사.
+- [x] 생성 경로 국소 재현.
+- [x] 회수/취소 조치 후 같은 소스 전체 무누수 검사.
 
 해결 전까지 이 실행은 추가 진단이며, 합격 회귀 묶음 수에 포함하지 않는다. 전체 Windows 완주나 실제 종료 입력의 증거도 아니다.
+
+2026-10-11 후속: 실제 PrologueController의 구형 기록 복원을 10조건·16단언으로 좁혔다. 수정 전 화면 삭제 두 조건은 WeakRef 두 개를 남겼으며 분리·재진입·대상 교체·숨김 네 조건에서 오래된 스크롤이 변경됐다. `_restore_history_scroll()`의 Node-owned `await process_frame` 경로를 한 번 실행되는 signal 콜백으로 바꾸고, 이탈 세대/현재 스크롤/표시 수명을 확인한다. 살아 있는 현재 대상의 저장 위치 42 복원은 유지한다.
+
+## 해결 근거
+
+[최종 검증](../validation/2026-10-11_지하검사_준비경계_및_구형스크롤수명_검증.md): 최종 같은 265제품 소스의 작은 수명 검사 두 실행은 각각 10조건·16단언/native 0/verbose 무누수다. 전체 기본 13,925단언/개발 14,080단언도 native 0/PASS/verbose 무누수이며 관련 프롤로그·선택·이관 회귀와 봉인 8성공 실행·독립 522확인/8반례 거부까지 통과했다. VERIFIED는 이 종료 수명 범위이며 실제 Windows 종료 입력·전편·전체 성능/엔진 채택의 완료가 아니다. 첫 후보 수명 PASS를 최종 분모에 섞지 않는다. develop 전달은 보고서의 7절에서 따로 추적한다.
