@@ -1,0 +1,11 @@
+{
+  "file": "images/10-dialogue-states.png",
+  "refs": [
+    "images/08-gameplay-layout-v3.png",
+    "references/character-mara2.png",
+    "references/character-iris.png",
+    "references/character-edgar.png",
+    "images/01-notebook-v2.png"
+  ],
+  "prompt": "Unified GGB art direction: hand-drawn dark gray outlines with varying weight, broad angular painted shading, restrained dry-brush texture, muted purple-gray shadows, ivory paper and fabric. Match supplied actual standing-character and book illustrations. No photorealistic leather, photographic paper, glossy 3D rendering or excessive golden filigree. Clear Korean UI lettering is typeset, not distressed. Decorative wear stays at edges. These are design proposals, not new canonical puzzle solutions.\nUse case: ui-mockup. A 2x2 board of four GGB dialogue states. Image1 is exact gameplay HUD style: top-left menu/location, right inventory same position DIMMED, bottom-left notebook, atmospheric black bottom gradient with foliage, no rectangle enclosing dialogue. Images2,3,4 are actual Mara2, Iris, Edgar standing characters, preserve their identity, costume and painted style. Image5 is notebook style. Upper-left: '말하기' caption, Mara2 on LEFT faithfully lavender hair, long striped ears, white/dark maid costume and magenta bow; name '마라 2', dialogue '위쪽에 작은 홈이 있네.' with '자동 끔', '대화 기록 H', next diamond. Upper-right: '관찰' caption, Edgar on LEFT subdued, blue hair, glasses, horns, white tail and dark maid dress, no speaker name plaque; category label '관찰', body '종이 위쪽에 작은 홈이 있다.' Lower-left: '대화 선택' caption, Iris LEFT faithfully ivory bridal dress, wings, blonde hair purple roses; name '이리스', question '무엇을 물어볼까요?'; two equally styled choices centered to right of character: '종이의 홈에 대해 묻는다', '주변을 더 살펴본다'; small '선택 대기 · 자동 멈춤'. All three gameplay panels keep the corner HUD anchors, dim right inventory, notebook accessible; text does not cover faces or hair silhouettes. Lower-right: '대화 기록' caption, bright open notebook with purple ribbon, tabs '단서','대화','기록','인물' with 대화 selected; two history rows '마라 2' / '위쪽에 작은 홈이 있네.' and '관찰' / '종이 위쪽에 작은 홈이 있다.'; top-right '닫기 Esc', bottom '읽던 대화로'. No future lines, no rewind button. Short lines and legible Korean text. These are interface sample lines, no new lore."
+}

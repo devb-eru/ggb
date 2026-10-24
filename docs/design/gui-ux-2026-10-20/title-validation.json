@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-20",
+  "method": "Local IAB browser via cua_repl; read-only DOM observations after actual UI interactions",
+  "url": "http://127.0.0.1:8765/title-preview.html",
+  "source_character": "references/character-protagonist.png",
+  "source_character_mode": "RGBA",
+  "source_character_alpha_range": [0, 255],
+  "pointer_response": {
+    "background_matrix_translation": [8.86, -3.44],
+    "character_matrix_translation": [-2.95, 1.29],
+    "menu_before_and_after_identical": true,
+    "menu_bounds": {"x": 164.40625, "y": 153.58334350585938, "width": 366.75, "height": 482.96875}
+  },
+  "reduce_motion_after_pointer_move": {
+    "checkbox": true,
+    "background_translation": [0, 0],
+    "character_translation": [0, 0]
+  },
+  "horizontal_overflow": false,
+  "keyboard_enter_opens_dialog": true,
+  "dialog_image_loaded": "images/08-gameplay-layout-v3.png",
+  "dialog_open_resets_background": true,
+  "escape_closes_dialog": true,
+  "focus_after_close": "새 이야기",
+  "screenshot": "images/12-title-preview.jpg",
+  "not_claimed": ["Godot runtime QA", "all game screen accessibility", "OS-level reduced-motion setting changed"]
+}

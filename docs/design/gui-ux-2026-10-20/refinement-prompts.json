@@ -1,0 +1,29 @@
+{
+  "mode": "built-in image_gen",
+  "edits": [
+    {
+      "id": "03",
+      "input": "images/03-exploration.png",
+      "output": "images/03-exploration-v2.png",
+      "prompt": "Use case: precise-object-edit. Edit this 2x2 GGB GUI board only to complete visible navigation affordances. Preserve all four compositions, artwork, typography, color, object positions, and existing Korean text. In upper-left exploration panel, add a compact readable objective below the outside panel heading, exact text '시계의 흔적을 조사한다', on an opaque charcoal strip, without covering the desk hotspot. In lower-right map panel add a small top bar titled '지도' and a clear '닫기 Esc' button at the top right of the paper panel, inside its bounds; preserve the whole map and legend. Do not change the other two panels. No added icons or new story content."
+    },
+    {
+      "id": "04",
+      "input": "images/04-puzzles.png",
+      "output": "images/04-puzzles-v2.png",
+      "prompt": "Use case: precise-object-edit. Edit ONLY the bottom-right quadrant of this 2x2 board to make it solely a failure-result screen. Keep the other three quadrants pixel-layout-equivalent and preserve their text and imagery. Bottom-right keep heading '다시 시도하기', sentence '일부 연결을 다시 살펴보자', two sections '유지되는 정보' and '다시 준비할 것', and buttons '자료 확인' and '돌아가기'. REMOVE the entire inset irreversible-execution warning and its '취소' and '실행' buttons; replace that inset with quiet empty ivory whitespace and one neutral sentence '확인한 자료를 다시 살펴볼 수 있습니다.' The bottom-right outside caption must be exactly '4. 실패 후 확인'. Do not add any new warning or execution button. Maintain the beautiful warm paper, gothic margins, graphite text and brass trim."
+    },
+    {
+      "id": "06",
+      "input": "images/06-settings.png",
+      "output": "images/06-settings-v2.png",
+      "prompt": "Use case: precise-object-edit. Correct ONLY the settings iconography and source signature sample chips in this 2x2 Korean GGB board. Preserve all layout, text sizes, paper, panels, and all other controls. This game supports keyboard and mouse, not gamepad: replace every controller-shaped icon next to '조작' with a simple keyboard icon. The five source chips in the upper-right panel must read exactly left to right '에드가', '마라 1', '루카', '이리스', '마라 2'. Their exact visual mapping: 에드가 = navy #1F2A5A upright single lock-pillar line; 마라 1 = orange #E9782D single diagonal brush stroke; 루카 = black and lime #B7F34A TWO heartbeat pulses with a solid-plus-dashed line, never concentric rings; 이리스 = ivory and pale yellow #F5D978 radiating PETALS with gray edge, not a red star; 마라 2 = purple #8D5BD6 nested DOUBLE rectangular frame. Small colors are secondary to distinct patterns and name labels. If those chips also appear in the dimmed lower-right background correct them consistently. Keep all other Korean text unchanged."
+    },
+    {
+      "id": "07",
+      "input": "images/07-late-game.png",
+      "output": "images/07-late-game-v2.png",
+      "prompt": "Use case: precise-object-edit. Correct the semantic content of ONLY the upper two panels in this 2x2 GGB board to match the actual story. Preserve lower two panels entirely. Preserve upper panel layout, ivory paper, graphite text and equal ending-card size and brightness. Upper-left five source thumbnails must be monochrome provenance patterns, not astronomical puzzle thumbnails: 에드가 upright single lock-pillar; 마라 1 single diagonal brush stroke; 루카 double heartbeat solid-plus-dashed; 이리스 radiating petals; 마라 2 double nested rectangular frame. Preserve those exact names. Replace the two artifact illustrations with simple readable manuscript text blocks under existing headings '원본 기록' and '확인한 내용'. Left text exactly '그들은 집을 움직이고, 계절을 고치고, 심장을 뛰게 하고, 문을 잠글 수 있다.' Right text exactly '저택을 유지할 권한과 내 선택을 실행할 권한은 다르다.' No extra paragraphs or invented lore. Upper-right choice screen: left title '기상 절차 실행', subheading '확실한 정보', lines '외부 신체 기상' and '다섯 인격 저전력 보존'; subheading '불확실한 정보', lines '외부 환경' and '장기 생존'. Right title '안정화 루프 복원', subheading '확실한 정보', lines '현재 기억 유지' and '다섯 인격의 활동 의식 유지'; subheading '불확실한 정보', lines '시설 수명' and '자원 균형'. BOTH buttons remain exactly '절차 살펴보기', same color, size, and brightness. Central '수첩 확인' is the only focus ring. Add a small balanced line beneath both cards if it fits: '어느 절차도 아직 실행되지 않았다.' Never add assertions that the records contradict the choices or imply one is right. Keep all typography clean and readable."
+    }
+  ]
+}

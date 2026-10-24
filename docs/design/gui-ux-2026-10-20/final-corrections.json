@@ -1,0 +1,12 @@
+[
+  {
+    "file": "images/05-menus-v3.png",
+    "input": "images/05-menus-v2.png",
+    "prompt": "Use case: precise-object-edit. Change ONLY two small thumbnail areas on this 2x2 board. Upper-right panel: SLOT3 is '빈 슬롯', so remove the red X error-document icon from that empty slot. Replace it with a quiet outlined plus on plain ivory. Lower-right recovery panel: the TOP row '현재 저장 · 읽을 수 없음' thumbnail currently depicts a ruined room; replace ONLY that ruined-room thumbnail rectangle with a large neutral document-with-question-mark pictogram on gray paper. Keep its adjacent red X and text. Preserve everything else exactly, including character, title menu, 3-slot text, pause, all buttons and background. No other modification."
+  },
+  {
+    "file": "images/06-settings-v4.png",
+    "input": "images/06-settings-v3.png",
+    "prompt": "Use case: text-localization. Change ONLY a mislabeled category in the upper-right panel: the LAST sidebar row, beside the GLOBE icon, must read '언어', not '조작'. The keyboard icon row above remains '조작'. All other text, all four panels, colors, patterns, key-conflict H keys, composition and illustration must stay unchanged. Only this one Korean word correction."
+  }
+]

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GGB · 시작 화면 모션 시안</title>
+<style>
+:root{color-scheme:dark;font-family:"Malgun Gothic",sans-serif;color:#f3ecdf;background:#101015}
+*{box-sizing:border-box}body{margin:0}button,a,input{font:inherit}button,a{touch-action:manipulation}
+a{color:#d8c9eb}button{color:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px double #fff;outline-offset:5px}
+.previewbar{min-height:54px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;padding:12px 24px;font-size:14px;background:#191820}
+.previewbar p{margin:0}.previewbar label{display:flex;align-items:center;gap:8px}
+#stage{position:relative;width:min(100%,1600px);aspect-ratio:16/9;margin:auto;overflow:hidden;background:#171422;isolation:isolate}
+#background{position:absolute;inset:-3%;background:url("images/12-title-background.png") center/cover;will-change:transform}
+.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,9,17,.76),rgba(15,13,25,.3) 46%,transparent 66%);pointer-events:none}
+#character{position:absolute;width:57%;height:140%;object-fit:contain;object-position:top center;right:0;top:2%;pointer-events:none;will-change:transform;filter:drop-shadow(-12px 4px 20px #0b071d88)}
+.menu{position:absolute;top:14%;left:13%;width:29%;z-index:2;text-align:center}
+h1{font:clamp(34px,6vw,88px)/1 Georgia,serif;letter-spacing:.12em;margin:0;text-shadow:0 3px 12px #000}
+.subtitle{font-size:clamp(11px,1.2vw,18px);letter-spacing:.28em;margin:12px 0 25px;color:#cfc4d8}
+nav{display:grid;gap:clamp(4px,.7vw,11px)}nav button{background:linear-gradient(90deg,transparent,#12111cbb,transparent);border:0;border-bottom:1px solid #aa9c7859;padding:.55em .3em;font-size:clamp(13px,1.45vw,22px);position:relative}
+nav button:before,nav button:after{content:"✧";position:absolute;color:#a49ab5;font-size:.8em;top:29%}nav button:before{left:2%}nav button:after{right:2%}
+nav button:hover,nav button:focus-visible{background:linear-gradient(90deg,transparent,#433550ce,transparent);color:#fff}
+nav button[aria-disabled=true]{color:#9c95a4}#saveHint{margin:12px 0 0;font-size:clamp(10px,1vw,15px);color:#c1b6c7}
+.edition{position:absolute;bottom:3%;left:3%;font-size:clamp(10px,.9vw,14px);color:#bfb4c4}
+dialog{background:#ece3d7;color:#28232c;border:1px solid #65576b;border-radius:3px;padding:26px;width:min(90vw,900px);max-height:90vh}
+dialog::backdrop{background:#0a0811cc}dialog h2{margin-top:0;font-size:24px}dialog p{line-height:1.6}dialog button{color:#f3ecdf;background:#302735;border:1px solid #65576b;padding:10px 20px}dialog img{max-width:100%;display:block;margin-bottom:18px}dialog a{color:#513f68}.dialogActions{display:flex;gap:16px;align-items:center}
+.notes{max-width:1100px;margin:24px auto;padding:0 24px;line-height:1.7;color:#c5bdcb}.notes h2{font-size:19px}.notes p{margin:6px 0}
+@media(max-width:650px){.previewbar{padding:10px 14px;gap:12px}.menu{top:8%;left:7%;width:36%}.subtitle{margin:6px 0 9px}nav{gap:2px}nav button{padding:.3em}.edition{display:none}}
+@media(prefers-reduced-motion:reduce){#background,#character{transform:none!important}}
+</style>
+<header class="previewbar">
+  <p>시작 화면 · 디자인 미리보기</p>
+  <label><input id="reduceMotion" type="checkbox"> 움직임 줄이기</label>
+  <a href="gallery.html">전체 GUI 시안</a>
+</header>
+<main id="stage" aria-label="커서에 반응하는 시작 화면 시안">
+  <div id="background" aria-hidden="true"></div>
+  <div class="shade"></div>
+  <img id="character" src="references/character-protagonist.png" alt="해골 인형을 안고 있는 주인공">
+  <section class="menu" aria-label="시작 메뉴">
+    <h1>GGB</h1><p class="subtitle">게임 타이틀 시안</p>
+    <nav>
+      <button data-action="new">새 이야기</button>
+      <button data-action="continue" aria-disabled="true" aria-describedby="saveHint">이어하기</button>
+      <button data-action="load">불러오기</button>
+      <button data-action="records">감상 기록</button>
+      <button data-action="settings">설정</button>
+      <button data-action="exit">나가기</button>
+    </nav>
+    <p id="saveHint">저장 기록이 없습니다</p>
+  </section>
+  <span class="edition">ART DIRECTION · 2026.10.20</span>
+</main>
+<section class="notes">
+  <h2>커서를 움직여 확인하세요</h2>
+  <p>배경은 최대 가로 12px·세로 8px, 주인공은 반대 방향으로 최대 4px·3px 움직입니다. 메뉴와 클릭 영역은 고정됩니다.</p>
+  <p>주인공은 제공된 원본 스탠딩을 그대로 배치했습니다. 눈동자 변형 대신 배경과 인물 사이의 움직임 차이로 깊이를 표현합니다.</p>
+  <p>버튼은 해당 디자인 시안을 엽니다. 게임 실행·저장·종료 기능은 없는 독립 미리보기입니다. GGB는 임시 로고입니다.</p>
+</section>
+<dialog id="detail"><h2 id="dialogTitle"></h2><p id="dialogText"></p><img id="dialogImage" alt=""><div class="dialogActions"><button id="closeDialog">돌아가기</button><a id="fullImage" target="_blank">이미지 크게 보기</a></div></dialog>
+<script>
+const stage=document.querySelector('#stage'),bg=document.querySelector('#background'),character=document.querySelector('#character');
+const reduce=document.querySelector('#reduceMotion'),media=matchMedia('(prefers-reduced-motion: reduce)'),dialog=document.querySelector('#detail');
+let tx=0,ty=0,x=0,y=0,raf=0,lastTime=0;
+reduce.checked=media.matches;
+function disabled(){return reduce.checked||media.matches||dialog.open||document.hidden}
+function paint(){bg.style.transform=`translate(${(x*12).toFixed(2)}px,${(y*8).toFixed(2)}px)`;character.style.transform=`translate(${(-x*4).toFixed(2)}px,${(-y*3).toFixed(2)}px)`}
+function reset(){tx=ty=x=y=0;cancelAnimationFrame(raf);raf=0;lastTime=0;paint()}
+function animate(t){const dt=lastTime?Math.min(t-lastTime,50):16;lastTime=t;const k=1-Math.exp(-dt/140);x+=(tx-x)*k;y+=(ty-y)*k;paint();if(Math.abs(tx-x)+Math.abs(ty-y)>.001){raf=requestAnimationFrame(animate)}else{raf=0;lastTime=0}}
+function start(){if(!raf)raf=requestAnimationFrame(animate)}
+stage.addEventListener('pointermove',e=>{if(disabled()||e.pointerType==='touch')return;const r=stage.getBoundingClientRect();tx=Math.max(-1,Math.min(1,(e.clientX-r.left)/r.width*2-1));ty=Math.max(-1,Math.min(1,(e.clientY-r.top)/r.height*2-1));start()});
+stage.addEventListener('pointerleave',()=>{tx=ty=0;start()});
+reduce.addEventListener('change',reset);media.addEventListener('change',()=>{reduce.checked=media.matches;reset()});
+window.addEventListener('blur',reset);document.addEventListener('visibilitychange',reset);
+const screens={
+new:['새 이야기 · 대화 시안','게임 시작 후 대화 화면의 배치 예시입니다. 실제 게임은 실행하지 않습니다.','images/08-gameplay-layout-v4.png'],
+continue:['이어하기','유효한 저장이 없을 때는 실행하지 않고 이유를 알려 줍니다. 이 미리보기는 실제 저장 파일을 읽지 않습니다.',null],
+load:['불러오기 · 슬롯 시안','3개 슬롯과 복구 화면의 배치입니다. 날짜·진행은 시안용입니다.','images/05-menus-v3.png'],
+records:['감상 기록 · 후반 시안','실제로 감상한 기록만 표시하는 화면입니다. 아래 보드는 후반 설계 내용을 포함합니다.','images/07-late-game-v2.png'],
+settings:['설정 · 미리보기','화면 위쪽의 ‘움직임 줄이기’로 이 타이틀의 움직임을 끌 수 있습니다. 시스템의 모션 감소 설정도 우선 적용합니다.','images/06-settings-v5.png'],
+exit:['나가기','실제 게임에서는 종료 확인을 표시합니다. 이 미리보기는 브라우저를 종료하지 않습니다.',null]};
+document.querySelectorAll('nav button').forEach(button=>button.addEventListener('click',()=>{const [title,body,src]=screens[button.dataset.action];document.querySelector('#dialogTitle').textContent=title;document.querySelector('#dialogText').textContent=body;const im=document.querySelector('#dialogImage'),link=document.querySelector('#fullImage');im.hidden=link.hidden=!src;if(src){im.src=src;im.alt=title;link.href=src}dialog.showModal();reset()}));
+document.querySelector('#closeDialog').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
+</script>
+</html>

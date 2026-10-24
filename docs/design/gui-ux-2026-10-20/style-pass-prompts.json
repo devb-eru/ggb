@@ -1,0 +1,62 @@
+{
+  "mode": "built-in image_gen",
+  "shared": "Unified GGB art direction: hand-drawn dark gray outlines with varying weight, broad angular painted shading, restrained dry-brush texture, muted purple-gray shadows, ivory paper and fabric. Match supplied actual standing-character and book illustrations. No photorealistic leather, photographic paper, glossy 3D rendering or excessive golden filigree. Clear Korean UI lettering is typeset, not distressed. Decorative wear stays at edges. These are design proposals, not new canonical puzzle solutions.",
+  "boards": [
+    {
+      "file": "images/02-compare-v2.png",
+      "refs": [
+        "images/02-compare.png",
+        "images/01-notebook-v2.png",
+        "references/object-open-book.png"
+      ],
+      "prompt": "Use case: style-transfer. Image1 is edit target. Image2 is approved new notebook style. Image3 is user's actual open book illustration. Repaint Image1 in this unified hand-painted 2D style. Preserve every panel composition, all Korean labels and text, clear typography, control positions and functionality. Replace photoreal distressed paper with smooth illustrated ivory and dark irregular edges. Broad purple-gray painted shadows, dark charcoal strokes, subdued purple ribbon accents instead of glossy gold. Keep characters absent unless explicitly required. Do not introduce new icons, story facts or puzzle rules. Preserve two stacked screens: simultaneous A/B comparison above and single-pane A/B switching below. Preserve read-only status."
+    },
+    {
+      "file": "images/04-puzzles-v3.png",
+      "refs": [
+        "images/04-puzzles-v2.png",
+        "images/01-notebook-v2.png",
+        "references/object-open-book.png"
+      ],
+      "prompt": "Use case: style-transfer. Image1 is edit target. Image2 is approved new notebook style. Image3 is user's actual open book illustration. Repaint Image1 in this unified hand-painted 2D style. Preserve every panel composition, all Korean labels and text, clear typography, control positions and functionality. Replace photoreal distressed paper with smooth illustrated ivory and dark irregular edges. Broad purple-gray painted shadows, dark charcoal strokes, subdued purple ribbon accents instead of glossy gold. Keep characters absent unless explicitly required. Do not introduce new icons, story facts or puzzle rules. Preserve four screens: clock puzzle, journal reconstruction, five-level hint menu, failure result. No irreversible execution warning inside failure result. The notebook icon must be an open book, not a clipboard."
+    },
+    {
+      "file": "images/05-menus-v2.png",
+      "refs": [
+        "images/05-menus.png",
+        "images/01-notebook-v2.png",
+        "references/object-open-book.png",
+        "references/character-protagonist.png",
+        "references/title-layout.png"
+      ],
+      "prompt": "Use case: style-transfer. Image1 is edit target. Image2 is approved new notebook style. Image3 is user's actual open book illustration. Repaint Image1 in this unified hand-painted 2D style. Preserve every panel composition, all Korean labels and text, clear typography, control positions and functionality. Replace photoreal distressed paper with smooth illustrated ivory and dark irregular edges. Broad purple-gray painted shadows, dark charcoal strokes, subdued purple ribbon accents instead of glossy gold. Keep characters absent unless explicitly required. Do not introduce new icons, story facts or puzzle rules. Additional Image4 is actual protagonist and Image5 is title layout reference ONLY. REPLACE upper-left title quadrant with logo GGB and vertical text menu on LEFT ('새 이야기','이어하기','불러오기','감상 기록','설정','나가기') and actual protagonist waist-up large RIGHT. Faithful peach/black twintails, violet eyes, spotted hat and skull doll. Dark painted manor. Keep other three quadrants' slot, pause and recovery UI positions/text. Replace corrupt save's dramatic destruction picture with a neutral document/error pictogram."
+    },
+    {
+      "file": "images/06-settings-v3.png",
+      "refs": [
+        "images/06-settings-v2.png",
+        "images/01-notebook-v2.png",
+        "references/object-open-book.png"
+      ],
+      "prompt": "Use case: style-transfer. Image1 is edit target. Image2 is approved new notebook style. Image3 is user's actual open book illustration. Repaint Image1 in this unified hand-painted 2D style. Preserve every panel composition, all Korean labels and text, clear typography, control positions and functionality. Replace photoreal distressed paper with smooth illustrated ivory and dark irregular edges. Broad purple-gray painted shadows, dark charcoal strokes, subdued purple ribbon accents instead of glossy gold. Keep characters absent unless explicitly required. Do not introduce new icons, story facts or puzzle rules. Preserve PC keyboard icons. For upper-right source samples, make names exact '에드가','마라 1','루카','이리스','마라 2'. Keep navy upright line, orange diagonal stroke, lime two heartbeat pulses (one solid one dashed), ivory/yellow petals, purple nested double frame. No gamepad. Bottom-left key conflict: selected '소지품' proposed key H, existing '대화 기록' H, callout says '이미 사용 중인 키입니다.' so the displayed conflict is internally consistent. Do not show different keys as conflicting."
+    },
+    {
+      "file": "images/09-direct-interaction-v2.png",
+      "refs": [
+        "images/09-direct-interaction.png",
+        "images/01-notebook-v2.png",
+        "references/object-open-book.png"
+      ],
+      "prompt": "Use case: style-transfer. Image1 is edit target. Image2 is approved new notebook style. Image3 is user's actual open book illustration. Repaint Image1 in this unified hand-painted 2D style. Preserve every panel composition, all Korean labels and text, clear typography, control positions and functionality. Replace photoreal distressed paper with smooth illustrated ivory and dark irregular edges. Broad purple-gray painted shadows, dark charcoal strokes, subdued purple ribbon accents instead of glossy gold. Keep characters absent unless explicitly required. Do not introduce new icons, story facts or puzzle rules. Repaint drawer/key/objects as 2D illustrated shapes with clear silhouettes. Preserve the four-step object->closeup->key-on-lock->open drawer sequence. In all four panels bottom-left notebook icon must be a worn closed book with PURPLE RIBBON, not a loose document. Top-left menu/location and right inventory fixed."
+    },
+    {
+      "file": "images/07-late-game-v2.png",
+      "refs": [
+        "images/07-late-game.png",
+        "images/01-notebook-v2.png",
+        "references/object-open-book.png"
+      ],
+      "prompt": "Use case: style-transfer. Image1 is edit target. Image2 is approved new notebook style. Image3 is user's actual open book illustration. Repaint Image1 in this unified hand-painted 2D style. Preserve every panel composition, all Korean labels and text, clear typography, control positions and functionality. Replace photoreal distressed paper with smooth illustrated ivory and dark irregular edges. Broad purple-gray painted shadows, dark charcoal strokes, subdued purple ribbon accents instead of glossy gold. Keep characters absent unless explicitly required. Do not introduce new icons, story facts or puzzle rules. Use case: precise-object-edit. Correct the semantic content of the upper two panels in this 2x2 GGB board to match the actual story. Preserve lower two panels' content and layout while matching hand-painted style. Preserve upper panel layout, ivory paper, graphite text and equal ending-card size and brightness. Upper-left five source thumbnails must be monochrome provenance patterns, not astronomical puzzle thumbnails: 에드가 upright single lock-pillar; 마라 1 single diagonal brush stroke; 루카 double heartbeat solid-plus-dashed; 이리스 radiating petals; 마라 2 double nested rectangular frame. Preserve those exact names. Replace the two artifact illustrations with simple readable manuscript text blocks under existing headings '원본 기록' and '확인한 내용'. Left text exactly '그들은 집을 움직이고, 계절을 고치고, 심장을 뛰게 하고, 문을 잠글 수 있다.' Right text exactly '저택을 유지할 권한과 내 선택을 실행할 권한은 다르다.' No extra paragraphs or invented lore. Upper-right choice screen: left title '기상 절차 실행', subheading '확실한 정보', lines '외부 신체 기상' and '다섯 인격 저전력 보존'; subheading '불확실한 정보', lines '외부 환경' and '장기 생존'. Right title '안정화 루프 복원', subheading '확실한 정보', lines '현재 기억 유지' and '다섯 인격의 활동 의식 유지'; subheading '불확실한 정보', lines '시설 수명' and '자원 균형'. BOTH buttons remain exactly '절차 살펴보기', same color, size, and brightness. Central '수첩 확인' is the only focus ring. Add a small balanced line beneath both cards if it fits: '어느 절차도 아직 실행되지 않았다.' Never add assertions that the records contradict the choices or imply one is right. Keep all typography clean and readable."
+    }
+  ]
+}

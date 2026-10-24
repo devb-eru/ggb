@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-21",
+  "mode": "built-in image_gen",
+  "jobs": [
+    {
+      "input": "images/08-gameplay-layout-v3.png",
+      "output": "images/08-gameplay-layout-v4.png",
+      "prompt": "Use case: precise-object-edit. Make ONLY the dialogue reading area noticeably wider horizontally in this exact screen. Preserve image dimensions, camera, protagonist face/pose/costume, background, menu/location upper left, dimmed right inventory, bottom-left notebook and Auto, next/log controls. Dialogue style remains atmospheric dark bottom gradient with corner foliage, NO rectangular bordered box. CURRENT dialogue name starts near x=580 and body x=620 on this 1672-wide image. NEW name plaque center around x=330 and body left around x=335 (20% width), with reading area's right edge around x=1450 (87% width), stopping before inventory. Extend the fine name rule continuously toward x=1450 so the broader span is clearly visible. Name and body shift LEFT, body font stays same large readable size, not condensed or stretched. Name exact '주인공'. Body keep EXACT two separate lines: '이 종이는 어디에서 찾았나요?' / '위쪽에 작은 홈이 있네요.' Keep their vertical baseline approximately unchanged. Softly deepen black gradient behind leftmost text where it crosses the lower character torso, keep face and doll's face unobscured above. Do not move character or inventory to create width. No new text, controls or decorations; preserve hand-painted style. This is a width-only dialogue layout refinement."
+    },
+    {
+      "input": "images/10-dialogue-states.png",
+      "output": "images/10-dialogue-states-v2.png",
+      "prompt": "Use case: precise-object-edit. Widen ONLY the bottom dialogue/narration reading areas in the TOP-LEFT, TOP-RIGHT and BOTTOM-LEFT panels of this 2x2 GUI board. In each relevant panel use panel-local body left=20% and right=87% (right before unchanged inventory rail), instead of starting around 36%. Move the dialogue name plaque left with the text and extend its thin name rule to 87% of panel width. Preserve the same font size, all exact existing Korean text, same approximate vertical positions. Dark gradient spans underneath the lower torso where needed for readability, but character faces stay untouched. Upper-left name '마라 2', body '위쪽에 작은 홈이 있네.'; upper-right narration '종이 위쪽에 작은 홈이 있다.' with no new speaker plaque; lower-left name '이리스', body '무엇을 물어볼까요?'. Keep lower-left choice ribbons in their original position and size. Bottom-right notebook history must stay unchanged. Preserve all 4 characters/artwork/poses, background, upper-left menu/location in each panel, dim right inventories, notebook/Auto and next/history controls, top state captions. No solid rectangle around dialogue, no new content. The ONLY visual change is wider dialogue text areas with their starting edge further left and longer name rule."
+    }
+  ]
+}

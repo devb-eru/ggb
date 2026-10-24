@@ -1,0 +1,5 @@
+{
+  "input": "images/06-settings-v4.png",
+  "file": "images/06-settings-v5.png",
+  "prompt": "This is a single word correction, NOT a redesign. In the TOP RIGHT quadrant, the left dark sidebar has five rows. Top to bottom required text is exactly 접근성 / 화면 / 소리 / 조작 / 언어. The FIFTH row has a GLOBE icon and currently incorrectly says 조작. Erase that FIFTH row's word and write 언어 (Korean for Language) beside the globe. This target is around x=1000,y=315 in the 1672x941 image. DO NOT edit the fourth keyboard row. Also retain lower-left globe row 언어. Every other pixel, panel, icon, phrase, control, illustration and layout should be unchanged. Ensure the upper-right globe row actually reads 언어 before finalizing."
+}

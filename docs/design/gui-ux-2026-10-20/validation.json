@@ -1,0 +1,650 @@
+{
+  "generated_at": "2026-10-20T18:25:43.220317+00:00",
+  "scope": "static artifacts only; not Godot execution or raster-background contrast",
+  "selected_boards": [
+    "images/08-gameplay-layout-v4.png",
+    "images/01-notebook-v3.png",
+    "images/11-map.png",
+    "images/10-dialogue-states-v3.png",
+    "images/09-direct-interaction-v2.png",
+    "images/02-compare-v2.png",
+    "images/04-puzzles-v3.png",
+    "images/05-menus-v3.png",
+    "images/06-settings-v5.png",
+    "images/07-late-game-v2.png"
+  ],
+  "missing_links": [],
+  "links": [
+    {
+      "source": "art-direction.md",
+      "target": "references/character-edgar.png",
+      "exists": true
+    },
+    {
+      "source": "art-direction.md",
+      "target": "references/character-iris.png",
+      "exists": true
+    },
+    {
+      "source": "art-direction.md",
+      "target": "references/character-mara2.png",
+      "exists": true
+    },
+    {
+      "source": "art-direction.md",
+      "target": "references/character-protagonist.png",
+      "exists": true
+    },
+    {
+      "source": "art-direction.md",
+      "target": "references/map-layout.png",
+      "exists": true
+    },
+    {
+      "source": "art-direction.md",
+      "target": "references/object-clock-book.png",
+      "exists": true
+    },
+    {
+      "source": "art-direction.md",
+      "target": "references/object-closed-book.png",
+      "exists": true
+    },
+    {
+      "source": "art-direction.md",
+      "target": "references/object-open-book.png",
+      "exists": true
+    },
+    {
+      "source": "art-direction.md",
+      "target": "references/object-petal-book.png",
+      "exists": true
+    },
+    {
+      "source": "art-direction.md",
+      "target": "title-preview.html",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "README.md",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "art-direction.md",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "final-direction-prompts.json",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "images/01-notebook-v3.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "images/02-compare-v2.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "images/04-puzzles-v3.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "images/05-menus-v3.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "images/06-settings-v5.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "images/07-late-game-v2.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "images/08-gameplay-layout-v4.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "images/09-direct-interaction-v2.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "images/10-dialogue-states-v3.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "images/11-map.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "references/character-edgar.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "references/character-iris.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "references/character-mara2.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "references/character-protagonist.png",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "review.md",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "screen-spec.md",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "style-pass-prompts.json",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "title-preview.html",
+      "exists": true
+    },
+    {
+      "source": "gallery.html",
+      "target": "validation.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "../../../game/assets/ui/ggb_gothic_start_screen.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "../../../ideas/md/v04/16_색상연출_UI_접근성규칙.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "../../decisions/GGB-DEC-2026-0012_통합_수첩_범위와_기록_보존.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "../../meta_ui_flow.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "../../playtest/2026-10-04_1차_피드백_분석및개선안.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "../../product_contract.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "art-direction.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "dialogue-final-prompt.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "dialogue-width-prompts.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "final-corrections.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "final-direction-prompts.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "gallery.html",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "images/01-notebook-v3.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "images/02-compare-v2.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "images/04-puzzles-v3.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "images/05-menus-v3.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "images/06-settings-v5.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "images/07-late-game-v2.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "images/08-gameplay-layout-v4.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "images/09-direct-interaction-v2.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "images/10-dialogue-states-v3.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "images/11-map.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "notebook-tabs-prompts.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "prompts.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "references/notebook-left-tabs-layout.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "references/notebook-tabs-style.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "references/user-layout.png",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "refinement-prompts.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "review.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "rusty-lake-prompts.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "rusty-lake-reference.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "screen-spec.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "settings-label-correction.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "style-pass-prompts.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "title-preview.html",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "user-layout-prompts.json",
+      "exists": true
+    },
+    {
+      "source": "review.md",
+      "target": "images/12-title-preview.jpg",
+      "exists": true
+    },
+    {
+      "source": "review.md",
+      "target": "title-validation.json",
+      "exists": true
+    },
+    {
+      "source": "screen-spec.md",
+      "target": "art-direction.md",
+      "exists": true
+    },
+    {
+      "source": "screen-spec.md",
+      "target": "rusty-lake-reference.md",
+      "exists": true
+    },
+    {
+      "source": "title-preview.html",
+      "target": "gallery.html",
+      "exists": true
+    },
+    {
+      "source": "title-preview.html",
+      "target": "images/05-menus-v3.png",
+      "exists": true
+    },
+    {
+      "source": "title-preview.html",
+      "target": "images/06-settings-v5.png",
+      "exists": true
+    },
+    {
+      "source": "title-preview.html",
+      "target": "images/07-late-game-v2.png",
+      "exists": true
+    },
+    {
+      "source": "title-preview.html",
+      "target": "images/08-gameplay-layout-v4.png",
+      "exists": true
+    },
+    {
+      "source": "title-preview.html",
+      "target": "images/12-title-background.png",
+      "exists": true
+    },
+    {
+      "source": "title-preview.html",
+      "target": "references/character-protagonist.png",
+      "exists": true
+    },
+    {
+      "source": "work-item.md",
+      "target": "review.md",
+      "exists": true
+    },
+    {
+      "source": "work-item.md",
+      "target": "validation.json",
+      "exists": true
+    }
+  ],
+  "png_files": [
+    {
+      "file": "images/01-notebook-v2.png",
+      "width": 1671,
+      "height": 941,
+      "sha256": "b80ac2983ead956efdebc0a7895b3d1580e422ed7f957f6ff61b6b954f623787"
+    },
+    {
+      "file": "images/01-notebook-v3.png",
+      "width": 1671,
+      "height": 941,
+      "sha256": "83c65806b36c99f176ee04ab972130080006656bf71a5a3a433abf7e6e4300de"
+    },
+    {
+      "file": "images/01-notebook.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "28e1a6e31f5716b04cd48cab60e7f40803f00d506b1e5efd7c3d1139eeac0339"
+    },
+    {
+      "file": "images/02-compare-v2.png",
+      "width": 1182,
+      "height": 1330,
+      "sha256": "36ce69ec6e63e33172f2367eee77055b3f0b79c8366ac9fa1c3ee2ccc0467ee2"
+    },
+    {
+      "file": "images/02-compare.png",
+      "width": 1182,
+      "height": 1330,
+      "sha256": "5689cc065b1bd2f7076de5bcb154dd6aa87ac5ed36e2567a6144eb6020325993"
+    },
+    {
+      "file": "images/03-exploration-v2.png",
+      "width": 1673,
+      "height": 940,
+      "sha256": "1b5bb96ac771f219f0c6a426e38c085f540d3065ed76f121c5b46998c18f2b1c"
+    },
+    {
+      "file": "images/03-exploration-v3.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "1dc64fc29f5206f6334a74df7bc9b296102a3f7bde24dd2d340e3480b0fe93b6"
+    },
+    {
+      "file": "images/03-exploration.png",
+      "width": 1672,
+      "height": 940,
+      "sha256": "154c6eb13890b1cd6a1c5d0c0146e15ad82892068a039d7f395d001510ceb0ee"
+    },
+    {
+      "file": "images/04-puzzles-v2.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "fb12df17e05b64d71b57221f36d916b78f49474033782f0f6726bdf63a8e598f"
+    },
+    {
+      "file": "images/04-puzzles-v3.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "1daa7ab617bb57ea2b64297793b6fcd3a1ba9c72da4dd0e33b5f4faf14e55551"
+    },
+    {
+      "file": "images/04-puzzles.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "df37be83bbeb6f4d30c8171e76a3979dcec8a86c327c4cb89f4cea9b965d48e5"
+    },
+    {
+      "file": "images/05-menus-v2.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "de61965a179147e7683c9e9119690d448c073cd4f6cff5336e73f37dd51632d3"
+    },
+    {
+      "file": "images/05-menus-v3.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "7651e0ee4e4c0ae21a971b34b2052295768028f51f437f843d2b5c68b2a8578e"
+    },
+    {
+      "file": "images/05-menus.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "99ef2c8daccf9a5ad3478668b309ad9128f5966b8793bf401413eae9c45099c4"
+    },
+    {
+      "file": "images/06-settings-v2.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "758fa834a3fb9cadaccaf1235bf58db4b3a4bbbbdb56076cce4de3c73ad3e3f1"
+    },
+    {
+      "file": "images/06-settings-v3.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "8e12abf6cc752c5d898d923ac4b9878a1a00b8e59433dfcb57818234eb264ad7"
+    },
+    {
+      "file": "images/06-settings-v4.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "7eba4f812346be2b5c8261ef2c1f4d4617d0c29a18526dee16c2d4e11516d408"
+    },
+    {
+      "file": "images/06-settings-v5.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "76cf24dcec8f7f2a5a05d37cc57ec30c2200a2007560731903825a7cc67f90d8"
+    },
+    {
+      "file": "images/06-settings.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "cd5204af5b20f1a238266ff2b10ebab3578e29612d38584931b22b60085909e4"
+    },
+    {
+      "file": "images/07-late-game-v2.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "7d35e366ea17443eecc338dfcc8b236088acab4c940c7b81230bfa55207c0019"
+    },
+    {
+      "file": "images/07-late-game.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "126b0f8ff428524682c28522906f38062d0e2e076290c8cf28ed9df5ba561d7f"
+    },
+    {
+      "file": "images/08-gameplay-layout-v2.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "d344e7dfbdee290568e1a3e6ca7c02704700322bc7d76c72ad07c22bab5c30ea"
+    },
+    {
+      "file": "images/08-gameplay-layout-v3.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "f16af303f9b2b6c03ca32a8f23e30c671ee9cdb1cf0d52065e114f32925b16b9"
+    },
+    {
+      "file": "images/08-gameplay-layout-v4.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "2b4ad08d6f2711a844c5ab59745a88268593c7118d515c812d465c2a38b6ede3"
+    },
+    {
+      "file": "images/08-gameplay-layout.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "484105b8d5be061bd11186f77d14e415f9f3800e5a15d56823e7f924085c21ab"
+    },
+    {
+      "file": "images/09-direct-interaction-v2.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "7a035f85c955a1663bc63361abd64080ab154235e02f6071838aba7bf7df84c2"
+    },
+    {
+      "file": "images/09-direct-interaction.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "db36ff2801a1a4a921792122c365bf7735940a004c825fe5a48830cda7a00486"
+    },
+    {
+      "file": "images/10-dialogue-states-v2.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "918324a8a3d16aaea6f398d737a831d56b6640b8aeec85aaab13bd0770fa4418"
+    },
+    {
+      "file": "images/10-dialogue-states-v3.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "7aa49292d3d14b9d24e0c1da42c62af64dd793b883f7f80545b81e1b634b0a6c"
+    },
+    {
+      "file": "images/10-dialogue-states.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "40d9af243fe50974ed845cf721d8d4d8e6892f5cec70c7222e68ff6beebdb977"
+    },
+    {
+      "file": "images/11-map.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "54cf992f1db7127a192fcc9c5c5024b8c8243b9870c8e993e6a2e2807e952b3f"
+    },
+    {
+      "file": "images/12-title-background.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "c526c8c299b57c0d9a40f348aa7934d0813132485f7c8bf2398086163e509f29"
+    }
+  ],
+  "json_parse_pass": [
+    "dialogue-final-prompt.json",
+    "dialogue-prompts.json",
+    "dialogue-width-prompts.json",
+    "final-corrections.json",
+    "final-direction-prompts.json",
+    "notebook-tabs-prompts.json",
+    "prompts.json",
+    "refinement-prompts.json",
+    "rusty-lake-prompts.json",
+    "settings-label-correction.json",
+    "style-pass-prompts.json",
+    "title-validation.json",
+    "user-layout-prompts.json"
+  ],
+  "candidate_solid_color_contrast": [
+    {
+      "foreground": "#25252B",
+      "background": "#F1EADD",
+      "ratio": 12.74
+    },
+    {
+      "foreground": "#56525A",
+      "background": "#F1EADD",
+      "ratio": 6.38
+    },
+    {
+      "foreground": "#F5F0E5",
+      "background": "#19191F",
+      "ratio": 15.4
+    }
+  ]
+}
