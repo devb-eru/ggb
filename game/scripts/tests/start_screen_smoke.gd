@@ -136,19 +136,20 @@ func _validate_key_settings(screen: StartScreen) -> void:
 	_expect(screen._key_panel._capture == "cancel", "duplicate key capture rejected", _errors)
 	await _binding_key(KEY_F8)
 	_expect(screen._key_panel._capture.is_empty(), "new binding captured", _errors)
-	_expect(InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_ESCAPE)), "draft does not replace applied input", _errors)
-	screen._key_panel.apply.pressed.emit()
-	_expect(InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_F8)), "saved cancel key applied", _errors)
-	_expect(not InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_ESCAPE)), "old Escape removed", _errors)
-	_expect("F8" in screen._menu_hint.text and "Escape" not in screen._menu_hint.text, "title hint displays current cancel binding", _errors)
+	_expect(InputMap.action_has_event("ui_cancel", bindings.key_event(KEY_F8)), "cancel binding applies immediately", _errors)
+	_expect(not InputMap.action_has_event("ui_cancel", bindings.key_event(KEY_ESCAPE)), "old Escape removed", _errors)
 	var loaded: Dictionary = AccessibilityProfileStore.new(TEST_PROFILE_ROOT).load_profile().profile
 	_expect(int(loaded.key_bindings.cancel[0]) == KEY_F8, "new store reload retains binding", _errors)
 	bindings.apply_bindings(bindings.defaults())
 	screen.refresh_profile()
-	_expect(InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_F8)), "profile refresh restores runtime binding", _errors)
+	_expect(InputMap.action_has_event("ui_cancel", bindings.key_event(KEY_F8)), "profile refresh restores runtime binding", _errors)
 	var controls_profile: Dictionary = screen._profile_from_controls(screen._settings_text_option, screen._settings_signature_option, screen._settings_motion_option, screen._settings_captions)
 	_expect(controls_profile.key_bindings == loaded.key_bindings, "ordinary settings preserve bindings", _errors)
-	screen._open_key_settings()
+	screen._key_panel.profile_store = RejectAudioProfile.new(TEST_PROFILE_ROOT)
+	screen._key_panel.begin_capture("cancel")
+	await _binding_key(KEY_F9)
+	_expect(screen._key_panel.visible and InputMap.action_has_event("ui_cancel", bindings.key_event(KEY_F8)), "failed immediate save keeps previous inputs and panel", _errors)
+	screen._key_panel.profile_store = _profile_store
 	screen._key_panel.begin_capture("next")
 	await _binding_key(KEY_F9)
 	screen._key_panel.begin_capture("previous")
@@ -156,39 +157,21 @@ func _validate_key_settings(screen: StartScreen) -> void:
 	screen._key_panel.begin_capture("cancel")
 	await _binding_key(KEY_ESCAPE)
 	_expect(screen._key_panel._capture.is_empty(), "Escape assigned instead of closing panel", _errors)
-	screen._profile_store = RejectAudioProfile.new()
-	screen._key_panel.apply.pressed.emit()
-	_expect(screen._active_modal() == screen._key_panel and InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_F8)), "failed save keeps old inputs and panel", _errors)
-	screen._profile_store = _profile_store
-	screen._key_panel.apply.pressed.emit()
-	screen._open_key_settings()
-	await _tree.process_frame
 	screen._key_panel.buttons.confirm.grab_focus()
 	await _binding_key(KEY_F9)
-	_expect(screen.get_viewport().gui_get_focus_owner() == screen._key_panel.buttons.cancel, "rebound next navigates real GUI focus", _errors)
+	_expect(screen.get_viewport().gui_get_focus_owner() == screen._key_panel._key_targets.confirm[1], "rebound next reaches secondary confirm button", _errors)
 	await _binding_key(KEY_F10)
-	_expect(screen.get_viewport().gui_get_focus_owner() == screen._key_panel.buttons.confirm, "rebound previous navigates real GUI focus", _errors)
+	_expect(screen.get_viewport().gui_get_focus_owner() == screen._key_panel.buttons.confirm, "rebound previous navigates actual GUI focus", _errors)
 	screen._key_panel.begin_capture("next")
 	await _binding_key(KEY_TAB)
 	screen._key_panel.begin_capture("previous")
 	await _binding_key(KEY_TAB | KEY_MASK_SHIFT)
-	_expect(int(screen._key_panel._draft.previous[0]) == (KEY_TAB | KEY_MASK_SHIFT), "Shift Tab captured with modifier", _errors)
+	_expect(int(screen._key_panel._draft.key_bindings.previous[0]) == (KEY_TAB | KEY_MASK_SHIFT), "Shift Tab captured with modifier", _errors)
 	screen._key_panel.back.pressed.emit()
 	screen._open_key_settings()
-	_expect(int(screen._key_panel._draft.next[0]) == KEY_F9, "back discards draft", _errors)
-	if CAPTURE_ARG in OS.get_cmdline_user_args():
-		var scale_before: float = screen._profile.text_scale
-		screen._profile.text_scale = 2.0
-		screen._apply_profile()
-		await _tree.process_frame
-		await _tree.process_frame
-		await RenderingServer.frame_post_draw
-		_capture_screen(screen, "keyboard_settings_1280x720_200.png", "keyboard")
-		screen._profile.text_scale = scale_before
-		screen._apply_profile()
+	_expect(int(screen._key_panel._draft.key_bindings.next[0]) == KEY_TAB, "Back retains immediately applied bindings", _errors)
 	screen._key_panel.restore.pressed.emit()
-	screen._key_panel.apply.pressed.emit()
-	_expect(InputMap.action_has_event("ui_cancel", preload("res://scripts/systems/key_bindings.gd").key_event(KEY_ESCAPE)), "restore defaults applied", _errors)
+	_expect(InputMap.action_has_event("ui_cancel", bindings.key_event(KEY_ESCAPE)), "restore defaults applies immediately", _errors)
 	var mouse := InputEventMouseButton.new()
 	mouse.button_index = MOUSE_BUTTON_LEFT
 	_expect(InputMap.action_has_event("interact_confirm", mouse), "keyboard replacement preserves mouse", _errors)
@@ -232,42 +215,28 @@ func _validate_audio_settings(screen: StartScreen) -> void:
 	screen._on_settings_pressed()
 	screen._audio_button.pressed.emit()
 	await _tree.process_frame
-	_expect(screen._active_modal() == screen._audio_panel, "audio panel opens from settings", _errors)
+	_expect(screen._active_modal() == screen._audio_panel and screen._audio_panel._page == "audio", "audio tab opens from settings", _errors)
 	screen._audio_panel.sliders.master.value = 37
-	screen._audio_panel.mute.button_pressed = true
+	screen._audio_panel.mute.get_child(0).pressed.emit()
 	screen._audio_panel.back.pressed.emit()
-	_expect(screen.get_audio_settings().master == 1.0, "audio cancel preserves profile", _errors)
+	_expect(screen.get_audio_settings().master == 0.37, "Back retains immediately applied audio", _errors)
 	screen._open_audio_settings()
-	screen._audio_panel.sliders.master.value = 37
 	screen._audio_panel.sliders.effects.value = 0
-	screen._audio_panel.mute.button_pressed = true
-	screen._audio_panel.apply.pressed.emit()
 	var loaded: Dictionary = _profile_store.load_profile().profile
-	_expect(is_equal_approx(loaded.audio.master, 0.37) and loaded.audio.muted and loaded.audio.effects == 0.0, "audio saved and reloaded", _errors)
+	_expect(is_equal_approx(loaded.audio.master, 0.37) and loaded.audio.muted and loaded.audio.effects == 0.0, "audio saved and reloaded immediately", _errors)
 	var rebuilt: Dictionary = screen._profile_from_controls(screen._settings_text_option, screen._settings_signature_option, screen._settings_motion_option, screen._settings_captions)
-	_expect(rebuilt.audio == loaded.audio, "accessibility edits retain audio", _errors)
-	screen._open_audio_settings()
-	screen._profile_store = RejectAudioProfile.new()
+	_expect(rebuilt.audio == loaded.audio, "ordinary settings retain audio", _errors)
+	screen._audio_panel.profile_store = RejectAudioProfile.new(TEST_PROFILE_ROOT)
 	screen._audio_panel.sliders.master.value = 99
-	screen._audio_panel.apply.pressed.emit()
-	_expect(screen._active_modal() == screen._audio_panel and not screen._audio_panel.error_label.text.is_empty(), "audio failed save stays open with error", _errors)
-	_expect(screen.get_audio_settings() == loaded.audio, "audio failed save preserves applied values", _errors)
-	screen._profile_store = _profile_store
+	_expect(screen._audio_panel.visible and not screen._audio_panel.error_label.text.is_empty(), "failed immediate audio save stays open with error", _errors)
+	_expect(screen.get_audio_settings().master == 0.37 and screen._audio_panel.sliders.master.value == 37, "failed audio save restores previous value", _errors)
+	screen._audio_panel.profile_store = _profile_store
 	var old_locale: String = screen._locale
 	screen._locale = "en-US"
+	screen._close_modal()
 	screen._open_audio_settings()
-	_expect(screen._audio_panel.heading.text == "Audio settings", "English audio labels", _errors)
-	_expect(screen._audio_panel.labels.master.text == "Master volume: 37%", "audio percentage shown", _errors)
-	if CAPTURE_ARG in OS.get_cmdline_user_args():
-		var scale_before: float = screen._profile.text_scale
-		screen._profile.text_scale = 2.0
-		screen._apply_profile()
-		await _tree.process_frame
-		await _tree.process_frame
-		await RenderingServer.frame_post_draw
-		_capture_screen(screen, "audio_settings_1280x720_200.png", "audio")
-		screen._profile.text_scale = scale_before
-		screen._apply_profile()
+	_expect(screen._audio_panel.heading.text == "Audio", "English audio heading", _errors)
+	_expect(screen._audio_panel.labels.master.text == "Master volume" and screen._audio_panel.sliders.master.get_parent().get_node("Value").text == "37%", "native audio caption and percentage shown", _errors)
 	screen._locale = old_locale
 	screen._apply_audio_settings(AccessibilityProfileStore.DEFAULT_AUDIO.duplicate())
 	screen._close_modal()
@@ -467,7 +436,7 @@ func _capture_screen(screen: StartScreen, output_file: String, capture_name: Str
 			(_tree.current_scene as Control).size if _tree.current_scene is Control else Vector2.ZERO,
 			screen.size,
 			image.get_size(),
-			(screen.get_node("SafeArea/MainLayout/MenuCard") as Control).get_global_rect(),
+			(screen.get_node("HtmlTitleComposition/TitleMenuLayout") as Control).get_global_rect(),
 			[
 				(screen.get_node("%ContinueButton") as Control).get_global_rect(),
 				(screen.get_node("%NewGameButton") as Control).get_global_rect(),
@@ -512,11 +481,11 @@ func _validate_asset_registry(screen: StartScreen) -> void:
 			_expect(String(node.get_meta("asset_id", "")) == asset_id, "asset metadata mismatch: %s" % asset_id, _errors)
 			_expect(bool(node.get_meta("is_placeholder", false)), "placeholder marker missing: %s" % asset_id, _errors)
 		if asset_id == "UI_TITLE":
-			var expected_background := "res://assets/ui/title/ui_title_manor_background_v01.png"
+			var expected_background := "res://assets/ui/design_2026_10/menu_background__r01.png"
 			var background_path := String(entry.get("background_path", ""))
 			_expect(background_path == expected_background, "title background registry path mismatch", _errors)
 			_expect(ResourceLoader.exists(background_path), "registered title background is unavailable", _errors)
-			_expect(String(entry.get("visual_revision", "")) == "gothic_manor_ui_v02", "title visual revision mismatch", _errors)
+			_expect(String(entry.get("visual_revision", "")) == "html_title_scene_v03", "title visual revision mismatch", _errors)
 			var background := screen.get_node_or_null("%TitleBackground") as TextureRect
 			_expect(background != null, "title background node is missing", _errors)
 			if background != null:
@@ -534,11 +503,9 @@ func _validate_initial_state(screen: StartScreen) -> void:
 	_expect((screen.get_node("%ContinueButton") as Button).disabled, "Continue must be disabled without saves", _errors)
 	_expect((screen.get_node("%LoadButton") as Button).disabled, "Load must be disabled without saves", _errors)
 	_expect(_tree.root.gui_get_focus_owner() == screen.get_node("%NewGameButton"), "New Game did not receive initial keyboard focus", _errors)
-	_expect(not (screen.get_node("%MenuHeader") as Label).text.is_empty(), "menu header text is missing", _errors)
-	_expect(not (screen.get_node("%MenuHint") as Label).text.is_empty(), "menu hint text is missing", _errors)
 	var logo := screen.get_node("%Logo") as Label
-	_expect((screen.get_node("%LogoGhostCyan") as Label).text == logo.text, "cyan logo layer mismatch", _errors)
-	_expect((screen.get_node("%LogoGhostMagenta") as Label).text == logo.text, "magenta logo layer mismatch", _errors)
+	_expect(logo.text == "아빠,\n왜 안 와?", "current official title in native scene", _errors)
+	_expect(screen.get_node_or_null("SafeArea") == null, "obsolete title layout removed", _errors)
 
 
 func _validate_title_treatment(screen: StartScreen) -> void:
@@ -554,15 +521,17 @@ func _validate_title_treatment(screen: StartScreen) -> void:
 	screen._apply_profile()
 	await _tree.process_frame
 	var new_game := screen.get_node("%NewGameButton") as GothicTitleButton
-	_expect(new_game.get_theme_font_size("font_size") == 40, "main menu text did not scale to 200%", _errors)
+	_expect(new_game.get_theme_font_size("font_size") == 52, "main menu text did not scale to 200%", _errors)
 	_expect(new_game.custom_minimum_size.y >= 76.0, "main menu hit target did not grow with text scale", _errors)
 	var viewport_rect := Rect2(screen.global_position, screen.size)
-	var menu_card := screen.get_node("SafeArea/MainLayout/MenuCard") as Control
+	var menu_card := screen.get_node("HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll") as ScrollContainer
 	_expect(_rect_inside(menu_card.get_global_rect(), viewport_rect), "200% title menu overflow", _errors)
 	for extra_button in [screen._gallery_button, screen._import_button]:
 		if extra_button.is_visible_in_tree():
-			_expect(_rect_inside(extra_button.get_global_rect(), menu_card.get_global_rect()), "200% extra menu button overflow: " + extra_button.text, _errors)
 			extra_button.grab_focus()
+			await _tree.process_frame
+			await _tree.process_frame
+			_expect(_rect_inside(extra_button.get_global_rect(), menu_card.get_global_rect()), "200%% focused menu item is scrolled into view: %s %s inside %s" % [extra_button.text, extra_button.get_global_rect(), menu_card.get_global_rect()], _errors)
 			_expect(_tree.root.gui_get_focus_owner() == extra_button, "extra menu button cannot receive keyboard focus", _errors)
 	var logo_stack := screen.get_node("%LogoStack") as Control
 	_expect(_rect_inside(logo_stack.get_global_rect(), viewport_rect), "200% title logo overflow", _errors)
@@ -580,19 +549,21 @@ func _validate_first_run(screen: StartScreen) -> void:
 	await _tree.process_frame
 	var panel := screen.get_node("%FirstRunPanel") as Control
 	_expect(panel.visible, "first-run accessibility panel did not open", _errors)
-	_expect(_tree.root.gui_get_focus_owner() == screen.get_node("%FirstTextOption"), "first-run panel focus target mismatch", _errors)
+	_expect(_tree.root.gui_get_focus_owner() == screen._first_run_panel.initial_focus(), "first-run accessibility tab receives initial focus", _errors)
 	await _binding_key(KEY_TAB | KEY_MASK_SHIFT)
-	_expect(_tree.root.gui_get_focus_owner() == screen._first_apply_button, "first-run reverse Tab wraps inside modal, not background import", _errors)
+	_expect(panel.is_ancestor_of(_tree.root.gui_get_focus_owner()), "first-run reverse Tab remains inside settings", _errors)
 	await _binding_key(KEY_TAB)
-	_expect(_tree.root.gui_get_focus_owner() == screen._first_text_option, "first-run forward Tab wraps to first option", _errors)
-	_expect((screen.get_node("%FirstTextOption") as OptionButton).item_count == 4, "text scale presets mismatch", _errors)
-	_expect((screen.get_node("%FirstSignatureOption") as OptionButton).item_count == 3, "signature presets mismatch", _errors)
-	_expect((screen.get_node("%FirstMotionOption") as OptionButton).item_count == 3, "motion presets mismatch", _errors)
-	_expect((screen.get_node("%FirstCaptions") as CheckButton).button_pressed, "captions must default to enabled", _errors)
+	_expect(panel.is_ancestor_of(_tree.root.gui_get_focus_owner()), "first-run forward Tab remains inside settings", _errors)
+	_expect(screen._first_text_option.item_count == 4, "text scale presets mismatch", _errors)
+	_expect(screen._first_signature_option.item_count == 3, "signature presets mismatch", _errors)
+	_expect(screen._first_motion_option.item_count == 3, "motion presets mismatch", _errors)
+	_expect(screen._first_captions.button_pressed, "captions must default to enabled", _errors)
 	if CAPTURE_ARG in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
 		_capture_screen(screen, CAPTURE_FIRST_RUN_FILE, "first_run")
-	(screen.get_node("%FirstDefaultButton") as Button).pressed.emit()
+	screen._first_default_button.pressed.emit()
+	_expect(panel.visible and not screen._profile.first_run_complete, "first-run defaults do not skip setup", _errors)
+	screen._first_apply_button.pressed.emit()
 	await _tree.process_frame
 	await _tree.process_frame
 	var profile_result := _profile_store.load_profile()
@@ -652,8 +623,10 @@ func _validate_slot_modes(screen: StartScreen) -> void:
 	screen.new_game_requested.connect(func(slot_id: String) -> void: requested_new_slots.append(slot_id))
 	screen.load_game_requested.connect(func(slot_id: String) -> void: requested_load_slots.append(slot_id))
 	for index in range(1, 4):
-		_expect(not (screen.get_node("%%SlotButton%d" % index) as Button).disabled, "empty new-game slot is disabled: %d" % index, _errors)
-	(screen.get_node("%SlotButton1") as Button).pressed.emit()
+		_expect(not screen._slot_buttons[index - 1].disabled, "empty new-game slot is disabled: %d" % index, _errors)
+	screen._slot_buttons[0].pressed.emit()
+	_expect(requested_new_slots.is_empty(), "selecting slot waits for explicit start", _errors)
+	screen._active_slot_ui.confirm_button.pressed.emit()
 	await _tree.process_frame
 	_expect(requested_new_slots == ["slot_01"], "new-game slot signal mismatch", _errors)
 
@@ -673,10 +646,12 @@ func _validate_slot_modes(screen: StartScreen) -> void:
 	(screen.get_node("%LoadButton") as Button).pressed.emit()
 	await _tree.process_frame
 	_expect((screen.get_node("%SlotPanel") as Control).visible, "load slot panel did not open", _errors)
-	_expect(not (screen.get_node("%SlotButton1") as Button).disabled, "valid load slot is disabled", _errors)
-	_expect((screen.get_node("%SlotButton2") as Button).disabled, "empty load slot is enabled", _errors)
-	_expect((screen.get_node("%SlotButton3") as Button).disabled, "empty load slot is enabled", _errors)
-	(screen.get_node("%SlotButton1") as Button).pressed.emit()
+	_expect(not screen._slot_buttons[0].disabled, "valid load slot is disabled", _errors)
+	_expect(screen._slot_buttons[1].disabled, "empty load slot is enabled", _errors)
+	_expect(screen._slot_buttons[2].disabled, "empty load slot is enabled", _errors)
+	screen._slot_buttons[0].pressed.emit()
+	_expect(requested_load_slots.is_empty(), "selecting slot waits for explicit load", _errors)
+	screen._active_slot_ui.confirm_button.pressed.emit()
 	await _tree.process_frame
 	_expect(requested_load_slots == ["slot_01"], "load slot signal mismatch", _errors)
 	(screen.get_node("%ContinueButton") as Button).pressed.emit()
@@ -715,9 +690,8 @@ func _validate_layout(screen: StartScreen) -> void:
 	_expect(is_equal_approx(screen.size.aspect(), 16.0 / 9.0), "start screen logical aspect ratio is not 16:9", _errors)
 	var viewport_rect := Rect2(screen.global_position, screen.size)
 	for node_path in [
-		"SafeArea/MainLayout/MenuCard",
-		"SafeArea/MainLayout/MenuCard/MenuMargin/Menu/NewGameButton",
-		"SafeArea/MainLayout/MenuCard/MenuMargin/Menu/QuitButton",
+		"HtmlTitleComposition/TitleMenuLayout",
+		"HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll",
 	]:
 		var control := screen.get_node(node_path) as Control
 		_expect(control != null and _rect_inside(control.get_global_rect(), viewport_rect), "1280x720 layout overflow: %s" % node_path, _errors)

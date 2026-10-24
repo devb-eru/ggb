@@ -1,33 +1,15 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene format=3 uid="uid://dj3044kucojph"]
 
 [ext_resource type="Script" path="res://scripts/ui/start_screen.gd" id="1_start"]
-[ext_resource type="Script" path="res://scripts/ui/ui_title_placeholder_art.gd" id="2_art"]
-[ext_resource type="Texture2D" path="res://assets/ui/title/ui_title_manor_background_v01.png" id="3_background"]
+[ext_resource type="Texture2D" path="res://assets/ui/design_2026_10/menu_background__r01.png" id="3_background"]
 [ext_resource type="Script" path="res://scripts/ui/gothic_title_button.gd" id="4_button"]
+[ext_resource type="Script" path="res://scripts/ui/title_composition.gd" id="5_composition"]
+[ext_resource type="Texture2D" path="res://assets/ui/design_2026_10/character_protagonist.png" id="6_character"]
 
-[sub_resource type="StyleBoxFlat" id="StyleMenu"]
-bg_color = Color(0.025, 0.006, 0.027, 0.945)
-border_width_left = 6
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.68, 0.105, 0.075, 0.92)
-shadow_color = Color(0.16, 0.005, 0.07, 0.7)
-shadow_size = 24
+[ext_resource type="PackedScene" path="res://scenes/ui/new_game_panel.tscn" id="7_new_slots"]
+[ext_resource type="PackedScene" path="res://scenes/ui/load_game_panel.tscn" id="8_load_slots"]
 
-[sub_resource type="StyleBoxFlat" id="StyleModal"]
-bg_color = Color(0.035, 0.012, 0.052, 0.985)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.56, 0.10, 0.24, 0.82)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-shadow_color = Color(0, 0, 0, 0.72)
-shadow_size = 28
+[ext_resource type="PackedScene" path="res://scenes/ui/settings/settings_screen.tscn" id="9_settings"]
 
 [sub_resource type="StyleBoxFlat" id="StyleButton"]
 content_margin_left = 42.0
@@ -37,6 +19,15 @@ border_width_left = 5
 border_width_top = 1
 border_width_bottom = 1
 border_color = Color(0.43, 0.055, 0.12, 0.78)
+
+[sub_resource type="StyleBoxFlat" id="StyleButtonPressed"]
+content_margin_left = 48.0
+content_margin_right = 50.0
+bg_color = Color(0.22, 0.012, 0.14, 1)
+border_width_left = 8
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(1, 0.39, 0.1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleButtonHover"]
 content_margin_left = 46.0
@@ -48,15 +39,6 @@ border_width_bottom = 1
 border_color = Color(0.94, 0.24, 0.08, 0.96)
 shadow_color = Color(0.45, 0.01, 0.24, 0.6)
 shadow_size = 6
-
-[sub_resource type="StyleBoxFlat" id="StyleButtonPressed"]
-content_margin_left = 48.0
-content_margin_right = 50.0
-bg_color = Color(0.22, 0.012, 0.14, 1)
-border_width_left = 8
-border_width_top = 1
-border_width_bottom = 1
-border_color = Color(1, 0.39, 0.1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleButtonDisabled"]
 content_margin_left = 42.0
@@ -79,7 +61,54 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="StartScreen" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleModal"]
+bg_color = Color(0.035, 0.012, 0.052, 0.985)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.56, 0.1, 0.24, 0.82)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.72)
+shadow_size = 28
+
+[sub_resource type="StyleBoxEmpty" id="TitleEmpty"]
+
+[sub_resource type="StyleBoxFlat" id="TitleHover"]
+bg_color = Color(0.26, 0.20, 0.31, 0.65)
+
+[sub_resource type="Theme" id="TitleTheme"]
+default_font_size = 18
+Button/colors/font_color = Color(0.952941, 0.92549, 0.87451, 1)
+Button/colors/font_hover_color = Color(0.952941, 0.92549, 0.87451, 1)
+Button/colors/font_pressed_color = Color(0.952941, 0.92549, 0.87451, 1)
+Button/colors/font_focus_color = Color(0.952941, 0.92549, 0.87451, 1)
+Button/colors/font_disabled_color = Color(0.611765, 0.584314, 0.643137, 1)
+Button/constants/outline_size = 0
+Button/styles/normal = SubResource("TitleEmpty")
+Button/styles/disabled = SubResource("TitleEmpty")
+Button/styles/focus = SubResource("TitleEmpty")
+Button/styles/hover = SubResource("TitleHover")
+Button/styles/pressed = SubResource("TitleHover")
+TitlePlainButton/base_type = &"Button"
+TitlePlainButton/styles/hover = SubResource("TitleEmpty")
+TitlePlainButton/styles/pressed = SubResource("TitleEmpty")
+
+[sub_resource type="SystemFont" id="TitleFont"]
+font_names = PackedStringArray("Georgia", "serif")
+
+[sub_resource type="Gradient" id="TitleGradient"]
+colors = PackedColorArray(0.04, 0.035, 0.067, 0.8, 0.04, 0.035, 0.067, 0)
+
+[sub_resource type="GradientTexture2D" id="TitleShadeTexture"]
+gradient = SubResource("TitleGradient")
+fill_from = Vector2(0, 0)
+fill_to = Vector2(0.68, 0)
+
+[node name="StartScreen" type="Control" unique_id=1595564561]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -88,21 +117,19 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_start")
 
-[node name="TitleBackground" type="TextureRect" parent="."]
+[node name="TitleBackground" type="TextureRect" parent="." unique_id=918017766]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchor_left = -0.03
+anchor_top = -0.03
+anchor_right = 1.03
+anchor_bottom = 1.03
 mouse_filter = 2
 texture = ExtResource("3_background")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PlaceholderArt" type="Control" parent="."]
-unique_name_in_owner = true
+[node name="HtmlTitleComposition" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -110,297 +137,175 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("2_art")
-overlay_only = true
+theme = SubResource("TitleTheme")
+script = ExtResource("5_composition")
 
-[node name="ReadabilityWash" type="ColorRect" parent="."]
+[node name="TitleShade" type="TextureRect" parent="HtmlTitleComposition"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 mouse_filter = 2
-color = Color(0.008, 0.01, 0.022, 0.12)
+texture = SubResource("TitleShadeTexture")
+expand_mode = 1
 
-[node name="SafeArea" type="MarginContainer" parent="."]
+[node name="TitleProtagonist" type="TextureRect" parent="HtmlTitleComposition"]
 layout_mode = 1
-anchors_preset = 15
+anchor_left = 0.43
+anchor_top = 0.02
 anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 56
-theme_override_constants/margin_top = 48
-theme_override_constants/margin_right = 56
-theme_override_constants/margin_bottom = 64
+anchor_bottom = 1.42
+mouse_filter = 2
+texture = ExtResource("6_character")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="MainLayout" type="HBoxContainer" parent="SafeArea"]
-layout_mode = 2
-theme_override_constants/separation = 64
-
-[node name="Identity" type="VBoxContainer" parent="SafeArea/MainLayout"]
-layout_mode = 2
-size_flags_horizontal = 3
+[node name="TitleMenuLayout" type="VBoxContainer" parent="HtmlTitleComposition"]
+layout_mode = 1
+anchor_left = 0.13
+anchor_top = 0.14
+anchor_right = 0.42
+anchor_bottom = 0.93
 theme_override_constants/separation = 14
 
-[node name="TopSpacer" type="Control" parent="SafeArea/MainLayout/Identity"]
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Eyebrow" type="Label" parent="SafeArea/MainLayout/Identity"]
+[node name="LogoStack" type="Control" parent="HtmlTitleComposition/TitleMenuLayout" unique_id=374963253]
 unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.54, 0.9, 0.93, 1)
-theme_override_constants/outline_size = 8
-theme_override_colors/font_outline_color = Color(0.02, 0.03, 0.06, 0.9)
-theme_override_font_sizes/font_size = 16
-text = ""
-
-[node name="LogoStack" type="Control" parent="SafeArea/MainLayout/Identity"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(520, 120)
+custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="LogoGhostCyan" type="Label" parent="SafeArea/MainLayout/Identity/LogoStack"]
+[node name="Logo" type="Label" parent="HtmlTitleComposition/TitleMenuLayout/LogoStack" unique_id=1138131018]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -5.0
-offset_top = -1.0
-offset_right = -5.0
-offset_bottom = -1.0
-grow_horizontal = 2
-grow_vertical = 2
 mouse_filter = 2
-theme_override_colors/font_color = Color(0.08, 0.82, 0.84, 0.42)
-theme_override_font_sizes/font_size = 104
-text = ""
-vertical_alignment = 1
-
-[node name="LogoGhostMagenta" type="Label" parent="SafeArea/MainLayout/Identity/LogoStack"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 6.0
-offset_top = 3.0
-offset_right = 6.0
-offset_bottom = 3.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_color = Color(0.94, 0.015, 0.37, 0.52)
-theme_override_font_sizes/font_size = 104
-text = ""
-vertical_alignment = 1
-
-[node name="Logo" type="Label" parent="SafeArea/MainLayout/Identity/LogoStack"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_color = Color(0.96, 0.94, 0.91, 1)
+theme_override_colors/font_color = Color(0.960784, 0.941176, 0.898039, 1)
 theme_override_colors/font_shadow_color = Color(0.02, 0.005, 0.04, 0.95)
 theme_override_colors/font_outline_color = Color(0.035, 0.01, 0.055, 0.98)
 theme_override_constants/shadow_offset_x = 5
 theme_override_constants/shadow_offset_y = 5
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 104
-text = ""
+theme_override_fonts/font = SubResource("TitleFont")
+theme_override_font_sizes/font_size = 64
+text = "아빠,\n왜 안 와?"
+horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
 
-[node name="Rule" type="ColorRect" parent="SafeArea/MainLayout/Identity"]
-custom_minimum_size = Vector2(520, 2)
-layout_mode = 2
-size_flags_horizontal = 0
-mouse_filter = 2
-color = Color(0.83, 0.045, 0.43, 0.78)
-
-[node name="Tagline" type="Label" parent="SafeArea/MainLayout/Identity"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(520, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
-theme_override_constants/outline_size = 6
-theme_override_colors/font_outline_color = Color(0.02, 0.03, 0.06, 0.88)
-theme_override_font_sizes/font_size = 24
-text = ""
-autowrap_mode = 2
-
-[node name="BottomSpacer" type="Control" parent="SafeArea/MainLayout/Identity"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="MenuCard" type="PanelContainer" parent="SafeArea/MainLayout"]
-custom_minimum_size = Vector2(420, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleMenu")
-
-[node name="MenuMargin" type="MarginContainer" parent="SafeArea/MainLayout/MenuCard"]
-layout_mode = 2
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 26
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 26
-
-[node name="Menu" type="VBoxContainer" parent="SafeArea/MainLayout/MenuCard/MenuMargin"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="MenuTopSpacer" type="Control" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="MenuHeader" type="Label" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.52, 0.82, 0.84, 0.9)
-theme_override_colors/font_outline_color = Color(0.015, 0.008, 0.02, 0.95)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 14
-text = ""
-
-[node name="MenuHeaderRule" type="ColorRect" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
-custom_minimum_size = Vector2(0, 2)
+[node name="LogoMenuGap" type="Control" parent="HtmlTitleComposition/TitleMenuLayout"]
+custom_minimum_size = Vector2(0, 23)
 layout_mode = 2
 mouse_filter = 2
-color = Color(0.72, 0.08, 0.26, 0.64)
 
-[node name="ContinueButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+[node name="TitleMenuScroll" type="ScrollContainer" parent="HtmlTitleComposition/TitleMenuLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Menu" type="VBoxContainer" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll" unique_id=81095006]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="NewGameButton" type="Button" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll/Menu" unique_id=379139386]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-focus_mode = 2
-disabled = true
-script = ExtResource("4_button")
-menu_index = "01"
-theme_override_colors/font_disabled_color = Color(0.4, 0.43, 0.5, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleButton")
-theme_override_styles/hover = SubResource("StyleButtonHover")
-theme_override_styles/pressed = SubResource("StyleButtonPressed")
-theme_override_styles/focus = SubResource("StyleFocus")
-theme_override_styles/disabled = SubResource("StyleButtonDisabled")
-text = ""
-alignment = 0
-
-[node name="NewGameButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-focus_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "새 게임"
 script = ExtResource("4_button")
 menu_index = "02"
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleButton")
-theme_override_styles/hover = SubResource("StyleButtonHover")
-theme_override_styles/pressed = SubResource("StyleButtonPressed")
-theme_override_styles/focus = SubResource("StyleFocus")
-text = ""
-alignment = 0
 
-[node name="LoadButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+[node name="ContinueButton" type="Button" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll/Menu" unique_id=1486274886]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-focus_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "계속하기"
 disabled = true
+tooltip_text = "유효한 저장 데이터가 없습니다"
+script = ExtResource("4_button")
+menu_index = "01"
+
+[node name="LoadButton" type="Button" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll/Menu" unique_id=2004073573]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "불러오기"
+disabled = true
+tooltip_text = "유효한 저장 데이터가 없습니다"
 script = ExtResource("4_button")
 menu_index = "03"
-theme_override_colors/font_disabled_color = Color(0.4, 0.43, 0.5, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleButton")
-theme_override_styles/hover = SubResource("StyleButtonHover")
-theme_override_styles/pressed = SubResource("StyleButtonPressed")
-theme_override_styles/focus = SubResource("StyleFocus")
-theme_override_styles/disabled = SubResource("StyleButtonDisabled")
-text = ""
-alignment = 0
 
-[node name="SettingsButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+[node name="GalleryButton" type="Button" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll/Menu"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-focus_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "감상 기록"
+theme_type_variation = &"TitlePlainButton"
+
+[node name="SettingsButton" type="Button" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll/Menu" unique_id=2041748432]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "설정"
 script = ExtResource("4_button")
 menu_index = "04"
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleButton")
-theme_override_styles/hover = SubResource("StyleButtonHover")
-theme_override_styles/pressed = SubResource("StyleButtonPressed")
-theme_override_styles/focus = SubResource("StyleFocus")
-text = ""
-alignment = 0
 
-[node name="QuitButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+[node name="QuitButton" type="Button" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll/Menu" unique_id=1183949676]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-focus_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "종료"
 script = ExtResource("4_button")
 menu_index = "05"
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleButton")
-theme_override_styles/hover = SubResource("StyleButtonHover")
-theme_override_styles/pressed = SubResource("StyleButtonPressed")
-theme_override_styles/focus = SubResource("StyleFocus")
-text = ""
-alignment = 0
 
-[node name="MenuRule" type="HSeparator" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
-layout_mode = 2
-
-[node name="ContentButton" type="Button" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+[node name="ContentButton" type="Button" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll/Menu" unique_id=65531553]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
-focus_mode = 2
-theme_override_font_sizes/font_size = 16
-flat = true
-text = ""
-alignment = 0
+theme_override_font_sizes/font_size = 20
+text = "콘텐츠 상세"
 script = ExtResource("4_button")
 menu_index = "INFO"
 chrome_role = "secondary"
 
-[node name="MenuHint" type="Label" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+[node name="ImportButton" type="Button" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll/Menu"]
 unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.5, 0.48, 0.56, 0.82)
-theme_override_colors/font_outline_color = Color(0.015, 0.008, 0.02, 0.94)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 11
-text = ""
-horizontal_alignment = 2
+theme_override_font_sizes/font_size = 18
+text = "데모 저장 가져오기"
+theme_type_variation = &"TitlePlainButton"
 
-[node name="TitleStatus" type="Label" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+[node name="TitleStatus" type="Label" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll/Menu" unique_id=1215185617]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.68, 0.55, 1)
-text = ""
-autowrap_mode = 2
+autowrap_mode = 3
 
-[node name="MenuBottomSpacer" type="Control" parent="SafeArea/MainLayout/MenuCard/MenuMargin/Menu"]
+[node name="SaveAvailabilityHint" type="Label" parent="HtmlTitleComposition/TitleMenuLayout/TitleMenuScroll/Menu"]
 layout_mode = 2
-size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.756863, 0.713726, 0.780392, 1)
+text = "유효한 저장 데이터가 없습니다"
+horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="Footer" type="MarginContainer" parent="."]
+[node name="Footer" type="MarginContainer" parent="." unique_id=1430234172]
 layout_mode = 1
 anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -44.0
@@ -411,26 +316,28 @@ theme_override_constants/margin_left = 56
 theme_override_constants/margin_right = 56
 theme_override_constants/margin_bottom = 18
 
-[node name="FooterRow" type="HBoxContainer" parent="Footer"]
+[node name="FooterRow" type="HBoxContainer" parent="Footer" unique_id=214452705]
 layout_mode = 2
 
-[node name="TemporaryBadge" type="Label" parent="Footer/FooterRow"]
+[node name="TemporaryBadge" type="Label" parent="Footer/FooterRow" unique_id=810147221]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.54, 0.65, 0.78, 0.8)
 theme_override_font_sizes/font_size = 13
-text = ""
+text = "UI_TITLE · 콘셉트 빌드"
 
-[node name="VersionLabel" type="Label" parent="Footer/FooterRow"]
+
+[node name="VersionLabel" type="Label" parent="Footer/FooterRow" unique_id=71740207]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.46, 0.5, 0.58, 0.8)
 theme_override_font_sizes/font_size = 13
-text = ""
 horizontal_alignment = 2
+text = "개발 빌드 0.0.0"
 
-[node name="ModalLayer" type="Control" parent="."]
+
+[node name="ModalLayer" type="Control" parent="." unique_id=1726455755]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -439,7 +346,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ModalDimmer" type="ColorRect" parent="ModalLayer"]
+[node name="ModalDimmer" type="ColorRect" parent="ModalLayer" unique_id=2083704070]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -448,345 +355,46 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 color = Color(0.005, 0.008, 0.015, 0.78)
 
-[node name="SlotPanel" type="PanelContainer" parent="ModalLayer"]
+[node name="SlotPanel" type="Control" parent="ModalLayer" unique_id=1310895465]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(660, 450)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -330.0
-offset_top = -225.0
-offset_right = 330.0
-offset_bottom = 225.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 0
-theme_override_styles/panel = SubResource("StyleModal")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 
-[node name="Margin" type="MarginContainer" parent="ModalLayer/SlotPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 36
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 36
-theme_override_constants/margin_bottom = 32
+[node name="NewGamePanel" parent="ModalLayer/SlotPanel" instance=ExtResource("7_new_slots")]
+layout_mode = 1
 
-[node name="Body" type="VBoxContainer" parent="ModalLayer/SlotPanel/Margin"]
-layout_mode = 2
-theme_override_constants/separation = 14
+[node name="Background" parent="ModalLayer/SlotPanel/NewGamePanel" index="0"]
+visible = false
 
-[node name="SlotTitle" type="Label" parent="ModalLayer/SlotPanel/Margin/Body"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = ""
+[node name="LoadGamePanel" parent="ModalLayer/SlotPanel" instance=ExtResource("8_load_slots")]
+visible = false
+layout_mode = 1
 
-[node name="SlotRule" type="HSeparator" parent="ModalLayer/SlotPanel/Margin/Body"]
-layout_mode = 2
+[node name="Background" parent="ModalLayer/SlotPanel/LoadGamePanel" index="0"]
+visible = false
 
-[node name="SlotButton1" type="Button" parent="ModalLayer/SlotPanel/Margin/Body"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 70)
-layout_mode = 2
-focus_mode = 2
-theme_override_font_sizes/font_size = 19
-theme_override_styles/normal = SubResource("StyleButton")
-theme_override_styles/hover = SubResource("StyleButtonHover")
-theme_override_styles/pressed = SubResource("StyleButtonPressed")
-theme_override_styles/focus = SubResource("StyleFocus")
-theme_override_styles/disabled = SubResource("StyleButtonDisabled")
-text = ""
-alignment = 0
-
-[node name="SlotButton2" type="Button" parent="ModalLayer/SlotPanel/Margin/Body"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 70)
-layout_mode = 2
-focus_mode = 2
-theme_override_font_sizes/font_size = 19
-theme_override_styles/normal = SubResource("StyleButton")
-theme_override_styles/hover = SubResource("StyleButtonHover")
-theme_override_styles/pressed = SubResource("StyleButtonPressed")
-theme_override_styles/focus = SubResource("StyleFocus")
-theme_override_styles/disabled = SubResource("StyleButtonDisabled")
-text = ""
-alignment = 0
-
-[node name="SlotButton3" type="Button" parent="ModalLayer/SlotPanel/Margin/Body"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 70)
-layout_mode = 2
-focus_mode = 2
-theme_override_font_sizes/font_size = 19
-theme_override_styles/normal = SubResource("StyleButton")
-theme_override_styles/hover = SubResource("StyleButtonHover")
-theme_override_styles/pressed = SubResource("StyleButtonPressed")
-theme_override_styles/focus = SubResource("StyleFocus")
-theme_override_styles/disabled = SubResource("StyleButtonDisabled")
-text = ""
-alignment = 0
-
-[node name="SlotBackButton" type="Button" parent="ModalLayer/SlotPanel/Margin/Body"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-focus_mode = 2
-text = ""
-
-[node name="FirstRunPanel" type="PanelContainer" parent="ModalLayer"]
+[node name="FirstRunPanel" parent="ModalLayer" instance=ExtResource("9_settings")]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(780, 610)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -390.0
-offset_top = -305.0
-offset_right = 390.0
-offset_bottom = 305.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 0
-theme_override_styles/panel = SubResource("StyleModal")
 
-[node name="Margin" type="MarginContainer" parent="ModalLayer/FirstRunPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 34
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 34
+[node name="Background" parent="ModalLayer/FirstRunPanel/Surface" index="0"]
+visible = false
 
-[node name="Body" type="VBoxContainer" parent="ModalLayer/FirstRunPanel/Margin"]
-layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="FirstRunTitle" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = ""
-
-[node name="FirstRunDescription" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body"]
-unique_name_in_owner = true
-layout_mode = 2
-text = ""
-autowrap_mode = 2
-
-[node name="FirstRule" type="HSeparator" parent="ModalLayer/FirstRunPanel/Margin/Body"]
-layout_mode = 2
-
-[node name="TextRow" type="HBoxContainer" parent="ModalLayer/FirstRunPanel/Margin/Body"]
-layout_mode = 2
-
-[node name="FirstTextLabel" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body/TextRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = ""
-
-[node name="FirstTextOption" type="OptionButton" parent="ModalLayer/FirstRunPanel/Margin/Body/TextRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 48)
-layout_mode = 2
-focus_mode = 2
-
-[node name="SignatureRow" type="HBoxContainer" parent="ModalLayer/FirstRunPanel/Margin/Body"]
-layout_mode = 2
-
-[node name="FirstSignatureLabel" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body/SignatureRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = ""
-
-[node name="FirstSignatureOption" type="OptionButton" parent="ModalLayer/FirstRunPanel/Margin/Body/SignatureRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 48)
-layout_mode = 2
-focus_mode = 2
-
-[node name="MotionRow" type="HBoxContainer" parent="ModalLayer/FirstRunPanel/Margin/Body"]
-layout_mode = 2
-
-[node name="FirstMotionLabel" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body/MotionRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = ""
-
-[node name="FirstMotionOption" type="OptionButton" parent="ModalLayer/FirstRunPanel/Margin/Body/MotionRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 48)
-layout_mode = 2
-focus_mode = 2
-
-[node name="FirstCaptions" type="CheckButton" parent="ModalLayer/FirstRunPanel/Margin/Body"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-focus_mode = 2
-button_pressed = true
-text = ""
-
-[node name="FirstPreview" type="PanelContainer" parent="ModalLayer/FirstRunPanel/Margin/Body"]
-custom_minimum_size = Vector2(0, 72)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleButtonDisabled")
-
-[node name="PreviewText" type="Label" parent="ModalLayer/FirstRunPanel/Margin/Body/FirstPreview"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.8, 0.92, 1)
-text = ""
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="FirstButtons" type="HBoxContainer" parent="ModalLayer/FirstRunPanel/Margin/Body"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="FirstDefaultButton" type="Button" parent="ModalLayer/FirstRunPanel/Margin/Body/FirstButtons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 2
-text = ""
-
-[node name="FirstApplyButton" type="Button" parent="ModalLayer/FirstRunPanel/Margin/Body/FirstButtons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 2
-text = ""
-
-[node name="SettingsPanel" type="PanelContainer" parent="ModalLayer"]
+[node name="SettingsPanel" parent="ModalLayer" instance=ExtResource("9_settings")]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(720, 540)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -360.0
-offset_top = -270.0
-offset_right = 360.0
-offset_bottom = 270.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 0
-theme_override_styles/panel = SubResource("StyleModal")
 
-[node name="Margin" type="MarginContainer" parent="ModalLayer/SettingsPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 34
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 34
+[node name="Background" parent="ModalLayer/SettingsPanel/Surface" index="0"]
+visible = false
 
-[node name="Body" type="VBoxContainer" parent="ModalLayer/SettingsPanel/Margin"]
-layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="SettingsTitle" type="Label" parent="ModalLayer/SettingsPanel/Margin/Body"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = ""
-
-[node name="SettingsRule" type="HSeparator" parent="ModalLayer/SettingsPanel/Margin/Body"]
-layout_mode = 2
-
-[node name="TextRow" type="HBoxContainer" parent="ModalLayer/SettingsPanel/Margin/Body"]
-layout_mode = 2
-
-[node name="SettingsTextLabel" type="Label" parent="ModalLayer/SettingsPanel/Margin/Body/TextRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = ""
-
-[node name="SettingsTextOption" type="OptionButton" parent="ModalLayer/SettingsPanel/Margin/Body/TextRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 48)
-layout_mode = 2
-focus_mode = 2
-
-[node name="SignatureRow" type="HBoxContainer" parent="ModalLayer/SettingsPanel/Margin/Body"]
-layout_mode = 2
-
-[node name="SettingsSignatureLabel" type="Label" parent="ModalLayer/SettingsPanel/Margin/Body/SignatureRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = ""
-
-[node name="SettingsSignatureOption" type="OptionButton" parent="ModalLayer/SettingsPanel/Margin/Body/SignatureRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 48)
-layout_mode = 2
-focus_mode = 2
-
-[node name="MotionRow" type="HBoxContainer" parent="ModalLayer/SettingsPanel/Margin/Body"]
-layout_mode = 2
-
-[node name="SettingsMotionLabel" type="Label" parent="ModalLayer/SettingsPanel/Margin/Body/MotionRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = ""
-
-[node name="SettingsMotionOption" type="OptionButton" parent="ModalLayer/SettingsPanel/Margin/Body/MotionRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 48)
-layout_mode = 2
-focus_mode = 2
-
-[node name="SettingsCaptions" type="CheckButton" parent="ModalLayer/SettingsPanel/Margin/Body"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-focus_mode = 2
-button_pressed = true
-text = ""
-
-[node name="SettingsSpacer" type="Control" parent="ModalLayer/SettingsPanel/Margin/Body"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Buttons" type="HBoxContainer" parent="ModalLayer/SettingsPanel/Margin/Body"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="SettingsBackButton" type="Button" parent="ModalLayer/SettingsPanel/Margin/Body/Buttons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 2
-text = ""
-
-[node name="SettingsApplyButton" type="Button" parent="ModalLayer/SettingsPanel/Margin/Body/Buttons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 2
-text = ""
-
-[node name="ContentPanel" type="PanelContainer" parent="ModalLayer"]
+[node name="ContentPanel" type="PanelContainer" parent="ModalLayer" unique_id=1400670148]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(760, 500)
@@ -802,47 +410,42 @@ offset_right = 380.0
 offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleModal")
 
-[node name="Margin" type="MarginContainer" parent="ModalLayer/ContentPanel"]
+[node name="Margin" type="MarginContainer" parent="ModalLayer/ContentPanel" unique_id=170899115]
 layout_mode = 2
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 34
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 34
 
-[node name="Body" type="VBoxContainer" parent="ModalLayer/ContentPanel/Margin"]
+[node name="Body" type="VBoxContainer" parent="ModalLayer/ContentPanel/Margin" unique_id=515566272]
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="ContentTitle" type="Label" parent="ModalLayer/ContentPanel/Margin/Body"]
+[node name="ContentTitle" type="Label" parent="ModalLayer/ContentPanel/Margin/Body" unique_id=860601064]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = ""
 
-[node name="ContentRule" type="HSeparator" parent="ModalLayer/ContentPanel/Margin/Body"]
+[node name="ContentRule" type="HSeparator" parent="ModalLayer/ContentPanel/Margin/Body" unique_id=1140264691]
 layout_mode = 2
 
-[node name="ContentBody" type="Label" parent="ModalLayer/ContentPanel/Margin/Body"]
+[node name="ContentBody" type="Label" parent="ModalLayer/ContentPanel/Margin/Body" unique_id=355202959]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.79, 0.82, 0.88, 1)
 theme_override_font_sizes/font_size = 18
-text = ""
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="ContentCloseButton" type="Button" parent="ModalLayer/ContentPanel/Margin/Body"]
+[node name="ContentCloseButton" type="Button" parent="ModalLayer/ContentPanel/Margin/Body" unique_id=670735383]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-focus_mode = 2
-text = ""
 
-[node name="QuitPanel" type="PanelContainer" parent="ModalLayer"]
+[node name="QuitPanel" type="PanelContainer" parent="ModalLayer" unique_id=708706747]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(560, 280)
@@ -858,54 +461,47 @@ offset_right = 280.0
 offset_bottom = 140.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleModal")
 
-[node name="Margin" type="MarginContainer" parent="ModalLayer/QuitPanel"]
+[node name="Margin" type="MarginContainer" parent="ModalLayer/QuitPanel" unique_id=370541379]
 layout_mode = 2
 theme_override_constants/margin_left = 36
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 36
 theme_override_constants/margin_bottom = 32
 
-[node name="Body" type="VBoxContainer" parent="ModalLayer/QuitPanel/Margin"]
+[node name="Body" type="VBoxContainer" parent="ModalLayer/QuitPanel/Margin" unique_id=813533004]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="QuitTitle" type="Label" parent="ModalLayer/QuitPanel/Margin/Body"]
+[node name="QuitTitle" type="Label" parent="ModalLayer/QuitPanel/Margin/Body" unique_id=324949541]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
-text = ""
 
-[node name="QuitBody" type="Label" parent="ModalLayer/QuitPanel/Margin/Body"]
+[node name="QuitBody" type="Label" parent="ModalLayer/QuitPanel/Margin/Body" unique_id=1045680282]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-text = ""
 autowrap_mode = 2
 
-[node name="Buttons" type="HBoxContainer" parent="ModalLayer/QuitPanel/Margin/Body"]
+[node name="Buttons" type="HBoxContainer" parent="ModalLayer/QuitPanel/Margin/Body" unique_id=209498432]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="QuitCancelButton" type="Button" parent="ModalLayer/QuitPanel/Margin/Body/Buttons"]
+[node name="QuitCancelButton" type="Button" parent="ModalLayer/QuitPanel/Margin/Body/Buttons" unique_id=894985212]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
-focus_mode = 2
-text = ""
 
-[node name="QuitConfirmButton" type="Button" parent="ModalLayer/QuitPanel/Margin/Body/Buttons"]
+[node name="QuitConfirmButton" type="Button" parent="ModalLayer/QuitPanel/Margin/Body/Buttons" unique_id=2126984698]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
-focus_mode = 2
-text = ""
 
-[node name="OverwritePanel" type="PanelContainer" parent="ModalLayer"]
+[node name="OverwritePanel" type="PanelContainer" parent="ModalLayer" unique_id=1500672437]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(560, 300)
@@ -921,54 +517,47 @@ offset_right = 280.0
 offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleModal")
 
-[node name="Margin" type="MarginContainer" parent="ModalLayer/OverwritePanel"]
+[node name="Margin" type="MarginContainer" parent="ModalLayer/OverwritePanel" unique_id=833894978]
 layout_mode = 2
 theme_override_constants/margin_left = 36
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 36
 theme_override_constants/margin_bottom = 32
 
-[node name="Body" type="VBoxContainer" parent="ModalLayer/OverwritePanel/Margin"]
+[node name="Body" type="VBoxContainer" parent="ModalLayer/OverwritePanel/Margin" unique_id=1079607464]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="OverwriteTitle" type="Label" parent="ModalLayer/OverwritePanel/Margin/Body"]
+[node name="OverwriteTitle" type="Label" parent="ModalLayer/OverwritePanel/Margin/Body" unique_id=619271968]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
-text = ""
 
-[node name="OverwriteBody" type="Label" parent="ModalLayer/OverwritePanel/Margin/Body"]
+[node name="OverwriteBody" type="Label" parent="ModalLayer/OverwritePanel/Margin/Body" unique_id=1531853717]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-text = ""
 autowrap_mode = 2
 
-[node name="Buttons" type="HBoxContainer" parent="ModalLayer/OverwritePanel/Margin/Body"]
+[node name="Buttons" type="HBoxContainer" parent="ModalLayer/OverwritePanel/Margin/Body" unique_id=125824975]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="OverwriteCancelButton" type="Button" parent="ModalLayer/OverwritePanel/Margin/Body/Buttons"]
+[node name="OverwriteCancelButton" type="Button" parent="ModalLayer/OverwritePanel/Margin/Body/Buttons" unique_id=1214206650]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
-focus_mode = 2
-text = ""
 
-[node name="OverwriteConfirmButton" type="Button" parent="ModalLayer/OverwritePanel/Margin/Body/Buttons"]
+[node name="OverwriteConfirmButton" type="Button" parent="ModalLayer/OverwritePanel/Margin/Body/Buttons" unique_id=502184565]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
-focus_mode = 2
-text = ""
 
-[node name="LaunchPanel" type="PanelContainer" parent="ModalLayer"]
+[node name="LaunchPanel" type="PanelContainer" parent="ModalLayer" unique_id=2002551278]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(680, 360)
@@ -984,39 +573,39 @@ offset_right = 340.0
 offset_bottom = 180.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleModal")
 
-[node name="Margin" type="MarginContainer" parent="ModalLayer/LaunchPanel"]
+[node name="Margin" type="MarginContainer" parent="ModalLayer/LaunchPanel" unique_id=1441929283]
 layout_mode = 2
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 36
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 36
 
-[node name="Body" type="VBoxContainer" parent="ModalLayer/LaunchPanel/Margin"]
+[node name="Body" type="VBoxContainer" parent="ModalLayer/LaunchPanel/Margin" unique_id=13901853]
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="LaunchTitle" type="Label" parent="ModalLayer/LaunchPanel/Margin/Body"]
+[node name="LaunchTitle" type="Label" parent="ModalLayer/LaunchPanel/Margin/Body" unique_id=821528072]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = ""
 
-[node name="LaunchBody" type="Label" parent="ModalLayer/LaunchPanel/Margin/Body"]
+[node name="LaunchBody" type="Label" parent="ModalLayer/LaunchPanel/Margin/Body" unique_id=480503726]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.76, 0.82, 0.91, 1)
 theme_override_font_sizes/font_size = 18
-text = ""
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="LaunchReturnButton" type="Button" parent="ModalLayer/LaunchPanel/Margin/Body"]
+[node name="LaunchReturnButton" type="Button" parent="ModalLayer/LaunchPanel/Margin/Body" unique_id=510596059]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-focus_mode = 2
-text = ""
+
+[editable path="ModalLayer/SlotPanel/NewGamePanel"]
+[editable path="ModalLayer/SlotPanel/LoadGamePanel"]
+[editable path="ModalLayer/FirstRunPanel"]
+[editable path="ModalLayer/SettingsPanel"]

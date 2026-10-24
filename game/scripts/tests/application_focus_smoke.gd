@@ -25,7 +25,7 @@ func run(app: Control) -> Dictionary:
 		_expect(not tree.paused and not app._focus_suspended, "native window restoration resumes safely")
 	app._start_screen._on_settings_pressed()
 	await tree.process_frame
-	var checkbox: CheckButton = app._start_screen._settings_captions
+	var checkbox: Button = app._start_screen._settings_captions.get_child(1)
 	var held := InputEventMouseButton.new()
 	held.button_index = MOUSE_BUTTON_LEFT
 	held.position = checkbox.get_global_rect().get_center()

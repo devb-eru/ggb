@@ -13,14 +13,11 @@ const TEXT_SCALE_VALUES := [1.0, 1.25, 1.5, 2.0]
 const SIGNATURE_VALUES := ["color_pattern_label", "pattern_label", "label_only"]
 const MOTION_VALUES := ["standard", "reduced", "static"]
 
+@export var paper_modal_dimmer_color := Color(0.005, 0.008, 0.015, 0.22)
+
 @onready var _title_background: TextureRect = %TitleBackground
-@onready var _placeholder_art: UITitlePlaceholderArt = %PlaceholderArt
-@onready var _eyebrow: Label = %Eyebrow
 @onready var _logo_stack: Control = %LogoStack
-@onready var _logo_ghost_cyan: Label = %LogoGhostCyan
-@onready var _logo_ghost_magenta: Label = %LogoGhostMagenta
 @onready var _logo: Label = %Logo
-@onready var _tagline: Label = %Tagline
 @onready var _continue_button: Button = %ContinueButton
 @onready var _new_game_button: Button = %NewGameButton
 @onready var _load_button: Button = %LoadButton
@@ -28,8 +25,6 @@ const MOTION_VALUES := ["standard", "reduced", "static"]
 @onready var _quit_button: Button = %QuitButton
 @onready var _content_button: Button = %ContentButton
 @onready var _menu_container: VBoxContainer = %Menu
-@onready var _menu_header: Label = %MenuHeader
-@onready var _menu_hint: Label = %MenuHint
 @onready var _title_buttons: Array[GothicTitleButton] = [
 	%ContinueButton as GothicTitleButton,
 	%NewGameButton as GothicTitleButton,
@@ -42,34 +37,28 @@ const MOTION_VALUES := ["standard", "reduced", "static"]
 @onready var _version_label: Label = %VersionLabel
 @onready var _status_label: Label = %TitleStatus
 @onready var _dimmer: ColorRect = %ModalDimmer
-@onready var _slot_panel: PanelContainer = %SlotPanel
-@onready var _slot_title: Label = %SlotTitle
-@onready var _slot_buttons: Array[Button] = [%SlotButton1, %SlotButton2, %SlotButton3]
-@onready var _slot_back_button: Button = %SlotBackButton
+@onready var _default_dimmer_color: Color = _dimmer.color
+@onready var _slot_panel: Control = %SlotPanel
+@onready var _new_slot_panel: Control = $ModalLayer/SlotPanel/NewGamePanel
+@onready var _load_slot_panel: Control = $ModalLayer/SlotPanel/LoadGamePanel
+var _slot_buttons: Array[Button] = []
+var _slot_back_button: Button
+var _active_slot_ui: Control
 @onready var _first_run_panel: PanelContainer = %FirstRunPanel
-@onready var _first_run_title: Label = %FirstRunTitle
-@onready var _first_run_description: Label = %FirstRunDescription
-@onready var _first_text_label: Label = %FirstTextLabel
-@onready var _first_text_option: OptionButton = %FirstTextOption
-@onready var _first_signature_label: Label = %FirstSignatureLabel
-@onready var _first_signature_option: OptionButton = %FirstSignatureOption
-@onready var _first_motion_label: Label = %FirstMotionLabel
-@onready var _first_motion_option: OptionButton = %FirstMotionOption
-@onready var _first_captions: CheckButton = %FirstCaptions
-@onready var _first_preview: Label = %PreviewText
-@onready var _first_default_button: Button = %FirstDefaultButton
-@onready var _first_apply_button: Button = %FirstApplyButton
 @onready var _settings_panel: PanelContainer = %SettingsPanel
-@onready var _settings_title: Label = %SettingsTitle
-@onready var _settings_text_label: Label = %SettingsTextLabel
-@onready var _settings_text_option: OptionButton = %SettingsTextOption
-@onready var _settings_signature_label: Label = %SettingsSignatureLabel
-@onready var _settings_signature_option: OptionButton = %SettingsSignatureOption
-@onready var _settings_motion_label: Label = %SettingsMotionLabel
-@onready var _settings_motion_option: OptionButton = %SettingsMotionOption
-@onready var _settings_captions: CheckButton = %SettingsCaptions
-@onready var _settings_back_button: Button = %SettingsBackButton
-@onready var _settings_apply_button: Button = %SettingsApplyButton
+@onready var _first_text_option = _first_run_panel.text_size
+@onready var _first_signature_option = _first_run_panel.signature
+@onready var _first_motion_option = _first_run_panel.motion
+@onready var _first_captions = _first_run_panel.captions
+@onready var _first_preview: Label = _first_run_panel.get_node("Surface/ContentScroll/Pages/Accessibility/Preview/Margin/Body/Sample")
+@onready var _first_default_button: Button = _first_run_panel.restore
+@onready var _first_apply_button: Button = _first_run_panel.apply
+@onready var _settings_text_option = _settings_panel.text_size
+@onready var _settings_signature_option = _settings_panel.signature
+@onready var _settings_motion_option = _settings_panel.motion
+@onready var _settings_captions = _settings_panel.captions
+@onready var _settings_back_button: Button = _settings_panel.back
+@onready var _settings_apply_button: Button = _settings_panel.apply
 @onready var _content_panel: PanelContainer = %ContentPanel
 @onready var _content_title: Label = %ContentTitle
 @onready var _content_body: Label = %ContentBody
@@ -92,12 +81,15 @@ const MOTION_VALUES := ["standard", "reduced", "static"]
 var _dialogue := DialogueRepository.new()
 var _profile_store := AccessibilityProfileStore.new()
 var _profile: Dictionary = {}
-var _audio_panel := preload("res://scripts/ui/audio_settings_panel.gd").new()
-var _audio_button := Button.new()
-var _key_panel := preload("res://scripts/ui/key_settings_panel.gd").new()
-var _key_button := Button.new()
-var _display_panel := preload("res://scripts/ui/display_settings_panel.gd").new()
-var _display_button := Button.new()
+@onready var _audio_panel: PanelContainer = _settings_panel
+@onready var _key_panel: PanelContainer = _settings_panel
+@onready var _display_panel: PanelContainer = _settings_panel
+@onready var _language_panel: PanelContainer = _settings_panel
+@onready var _audio_button: Button = _settings_panel.get_node("Surface/Tabs/Audio")
+@onready var _key_button: Button = _settings_panel.get_node("Surface/Tabs/Controls")
+@onready var _display_button: Button = _settings_panel.get_node("Surface/Tabs/Display")
+@onready var _language_button: Button = _settings_panel.get_node("Surface/Tabs/Language")
+@onready var _first_language_button: Button = _first_run_panel.get_node("Surface/Tabs/Language")
 var _locale := "ko-KR"
 var _slot_summaries: Dictionary = {}
 var _latest_slot_id := ""
@@ -106,7 +98,7 @@ var _pending_overwrite_slot := ""
 var _focus_before_modal: Control
 var _input_suspended := false
 var _focus_before_suspend: Control
-var _gallery_button: Button
+@onready var _gallery_button: Button = %GalleryButton
 var _gallery_controls: HBoxContainer
 var _gallery_choices: OptionButton
 var _gallery_previous: Button
@@ -119,11 +111,16 @@ var _gallery_notebook_button: Button
 var _gallery_notebook_host
 var _gallery_entry_index := -1
 var gallery_store := EndingGalleryStore.new()
-var _import_button: Button
+@onready var _import_button: Button = %ImportButton
 var _import_controls: HBoxContainer
 var _import_choices: OptionButton
 var _import_confirm: Button
 var _import_sources: Array[String] = []
+var _title_base_fonts: Dictionary = {}
+var _title_base_heights: Dictionary = {}
+var _logo_base_height := 180.0
+var _logo_base_font := 64
+var _menu_base_separation := 8
 
 
 func configure_profile_store(profile_store: AccessibilityProfileStore) -> void:
@@ -134,21 +131,36 @@ func configure_profile_store(profile_store: AccessibilityProfileStore) -> void:
 
 
 func _ready() -> void:
-	_locale = TranslationServer.get_locale()
+	_locale = "en-US" if TranslationServer.get_locale().begins_with("en") else "ko-KR"
+	_logo_base_height = _logo_stack.custom_minimum_size.y
+	_logo_base_font = _logo.get_theme_font_size("font_size")
+	_menu_base_separation = _menu_container.get_theme_constant("separation")
+	for button in [_continue_button, _new_game_button, _load_button, _settings_button, _quit_button, _content_button, _gallery_button, _import_button]:
+		_title_base_fonts[button] = button.get_theme_font_size("font_size")
+		_title_base_heights[button] = button.custom_minimum_size.y
 	_bind_asset_ids()
+	_active_slot_ui = _new_slot_panel
+	_slot_buttons.assign(_new_slot_panel.rows)
+	_slot_back_button = _new_slot_panel.back_button
+	for panel in [_new_slot_panel, _load_slot_panel]:
+		panel.confirm_requested.connect(_confirm_slot)
+		panel.back_requested.connect(_close_modal)
 	_connect_controls()
 	_setup_gallery()
 	_setup_import()
-	_setup_audio_settings()
-	_setup_key_settings()
-	_setup_display_settings()
-	_populate_options()
+	_setup_settings()
 	var profile_result := _profile_store.load_profile()
 	_profile = profile_result.get("profile", _profile_store.default_profile()).duplicate(true)
+	if _profile.has("locale"):
+		_locale = _profile.locale
+		TranslationServer.set_locale(_locale)
 	_apply_initial_display()
 	_apply_localized_text()
 	_apply_profile()
 	refresh_slots()
+	get_node("HtmlTitleComposition").bind_screen(self)
+	for child in get_node("ModalLayer").get_children():
+		if child not in [_slot_panel, _settings_panel, _first_run_panel]: preload("res://scripts/ui/design_theme.gd").skin_tree(child)
 	(_continue_button if not _continue_button.disabled else _new_game_button).grab_focus()
 
 
@@ -170,7 +182,10 @@ func set_slot_summaries(summaries: Array[Dictionary]) -> void:
 		var slot_id := String(summary.get("slot_id", ""))
 		if slot_id.is_empty():
 			continue
-		_slot_summaries[slot_id] = summary.duplicate(true)
+		var display := summary.duplicate(true)
+		if bool(summary.get("available", false)):
+			display.merge(preload("res://scripts/systems/save_presentation.gd").read(SaveManager.get_save_root(), summary), true)
+		_slot_summaries[slot_id] = display
 		if bool(summary.get("available", false)):
 			var timestamp := int(summary.get("updated_at_utc", 0))
 			if timestamp > latest_timestamp:
@@ -219,12 +234,15 @@ func _apply_input_scope() -> void:
 			control.focus_next = NodePath()
 			control.focus_previous = NodePath()
 	_rebuild_modal_focus_cycle()
+	if modal in [_settings_panel, _first_run_panel] and not _input_suspended:
+		modal._set_preview_scope(modal.preview.pending)
+		modal._focus_cycle()
 
 
 func _rebuild_modal_focus_cycle() -> void:
 	var modal := _active_modal()
 	# These panels maintain their own cycles as capture/preview controls change.
-	if modal == null or modal in [_key_panel, _display_panel] or _input_suspended: return
+	if modal == null or modal in [_settings_panel, _first_run_panel] or _input_suspended: return
 	var controls: Array[Control] = []
 	for child in modal.find_children("*", "Control", true, false):
 		var control := child as Control
@@ -258,13 +276,6 @@ func _connect_controls() -> void:
 	_settings_button.pressed.connect(_on_settings_pressed)
 	_content_button.pressed.connect(_on_content_pressed)
 	_quit_button.pressed.connect(_on_quit_pressed)
-	for index in range(_slot_buttons.size()):
-		_slot_buttons[index].pressed.connect(_on_slot_pressed.bind(index))
-	_slot_back_button.pressed.connect(_close_modal)
-	_first_default_button.pressed.connect(_on_first_run_default)
-	_first_apply_button.pressed.connect(_on_first_run_apply)
-	_settings_back_button.pressed.connect(_close_modal)
-	_settings_apply_button.pressed.connect(_on_settings_apply)
 	_content_close_button.pressed.connect(_close_modal)
 	_quit_cancel_button.pressed.connect(_close_modal)
 	_quit_confirm_button.pressed.connect(func() -> void: quit_requested.emit())
@@ -273,27 +284,9 @@ func _connect_controls() -> void:
 	_launch_return_button.pressed.connect(_close_modal)
 
 
-func _populate_options() -> void:
-	for option in [_first_text_option, _settings_text_option]:
-		option.clear()
-		for value in ["100%", "125%", "150%", "200%"]:
-			option.add_item(value)
-	for option in [_first_signature_option, _settings_signature_option]:
-		option.clear()
-		for line_id in [&"UI_SIGNATURE_COLOR_PATTERN", &"UI_SIGNATURE_PATTERN_LABEL", &"UI_SIGNATURE_LABEL_ONLY"]:
-			option.add_item(_text(line_id))
-	for option in [_first_motion_option, _settings_motion_option]:
-		option.clear()
-		for line_id in [&"UI_MOTION_STANDARD", &"UI_MOTION_REDUCED", &"UI_MOTION_STATIC"]:
-			option.add_item(_text(line_id))
-
-
 func _apply_localized_text() -> void:
-	_eyebrow.text = _text(&"UI_TITLE_EYEBROW")
-	_logo.text = _text(&"UI_TITLE_LOGO")
-	_logo_ghost_cyan.text = _logo.text
-	_logo_ghost_magenta.text = _logo.text
-	_tagline.text = _text(&"UI_TITLE_TAGLINE")
+	_logo.text = "papa,\nwhere r u?" if _locale.begins_with("en") else "아빠,\n왜 안 와?"
+	get_window().title = _logo.text.replace("\n", " ")
 	_continue_button.text = _text(&"UI_TITLE_CONTINUE")
 	_new_game_button.text = _text(&"UI_TITLE_NEW_GAME")
 	_load_button.text = _text(&"UI_TITLE_LOAD")
@@ -301,27 +294,9 @@ func _apply_localized_text() -> void:
 	_quit_button.text = _text(&"UI_TITLE_QUIT")
 	_content_button.text = _text(&"UI_TITLE_CONTENT_DETAILS")
 	if is_instance_valid(_gallery_button): _gallery_button.text = _text(&"UI_TITLE_GALLERY")
-	_menu_header.text = _text(&"UI_TITLE_MENU_HEADER")
-	_menu_hint.text = _text(&"UI_TITLE_MENU_HINT")
+	_import_button.text = _text(&"UI_TITLE_IMPORT_DEMO")
 	_temporary_badge.text = _text(&"UI_TITLE_TEMP_ASSET")
 	_version_label.text = _text(&"UI_TITLE_VERSION")
-	_slot_back_button.text = _text(&"UI_COMMON_BACK")
-	_first_run_title.text = _text(&"UI_FIRST_RUN_TITLE")
-	_first_run_description.text = _text(&"UI_FIRST_RUN_DESCRIPTION")
-	_first_text_label.text = _text(&"UI_ACCESS_TEXT_SCALE")
-	_first_signature_label.text = _text(&"UI_ACCESS_SIGNATURE_MODE")
-	_first_motion_label.text = _text(&"UI_ACCESS_MOTION_MODE")
-	_first_captions.text = _text(&"UI_ACCESS_CAPTIONS")
-	_first_preview.text = _text(&"UI_ACCESS_PREVIEW_SAMPLE")
-	_first_default_button.text = _text(&"UI_ACCESS_DEFAULT_START")
-	_first_apply_button.text = _text(&"UI_ACCESS_APPLY_START")
-	_settings_title.text = _text(&"UI_SETTINGS_TITLE")
-	_settings_text_label.text = _text(&"UI_ACCESS_TEXT_SCALE")
-	_settings_signature_label.text = _text(&"UI_ACCESS_SIGNATURE_MODE")
-	_settings_motion_label.text = _text(&"UI_ACCESS_MOTION_MODE")
-	_settings_captions.text = _text(&"UI_ACCESS_CAPTIONS")
-	_settings_back_button.text = _text(&"UI_COMMON_BACK")
-	_settings_apply_button.text = _text(&"UI_SETTINGS_APPLY")
 	_content_title.text = _text(&"UI_CONTENT_TITLE")
 	_content_body.text = _text(&"UI_CONTENT_BODY")
 	_content_close_button.text = _text(&"UI_COMMON_CLOSE")
@@ -337,10 +312,7 @@ func _apply_localized_text() -> void:
 
 
 func _setup_import() -> void:
-	_import_button = Button.new()
 	_import_button.text = _text(&"UI_TITLE_IMPORT_DEMO")
-	_import_button.custom_minimum_size.y = 46
-	_content_button.get_parent().add_child(_import_button)
 	_import_button.visible = SaveManager.get_build_flavor() == "full"
 	_import_button.pressed.connect(_open_demo_import)
 	_import_controls = HBoxContainer.new()
@@ -386,11 +358,7 @@ func _confirm_demo_import() -> void:
 	load_game_requested.emit(result["slot_id"])
 
 func _setup_gallery() -> void:
-	_gallery_button = Button.new()
-	_gallery_button.name = "GalleryButton"
 	_gallery_button.text = _text(&"UI_TITLE_GALLERY")
-	_gallery_button.custom_minimum_size.y = 46
-	_content_button.get_parent().add_child(_gallery_button)
 	_gallery_button.pressed.connect(_open_gallery)
 	var body_parent := _launch_body.get_parent()
 	var body_index := _launch_body.get_index()
@@ -498,8 +466,9 @@ func _on_continue_pressed() -> void:
 
 func _on_new_game_pressed() -> void:
 	if not bool(_profile.get("first_run_complete", false)):
-		_sync_controls_from_profile(_first_text_option, _first_signature_option, _first_motion_option, _first_captions)
-		_open_modal(_first_run_panel, _first_text_option)
+		_first_run_panel.profile_store = _profile_store
+		_first_run_panel.present(_profile, _locale, true)
+		_open_modal(_first_run_panel, _first_run_panel.initial_focus())
 		return
 	_open_slot_panel("new")
 
@@ -514,29 +483,31 @@ func get_audio_settings() -> Dictionary:
 
 func refresh_profile() -> void:
 	_profile = _profile_store.load_profile().get("profile", _profile_store.default_profile()).duplicate(true)
+	_locale = _profile.get("locale", _locale)
+	TranslationServer.set_locale(_locale)
+	_apply_localized_text()
 	_apply_profile()
 
 
-func _setup_audio_settings() -> void:
-	_settings_panel.get_parent().add_child(_audio_panel)
-	_settings_back_button.get_parent().add_child(_audio_button)
-	_audio_button.text = "Audio settings" if _locale.begins_with("en") else "음향 설정"
-	_audio_button.pressed.connect(_open_audio_settings)
-	_audio_panel.back_requested.connect(_on_settings_pressed)
-	_audio_panel.apply_requested.connect(_apply_audio_settings)
+func _setup_settings() -> void:
+	for panel in [_settings_panel, _first_run_panel]:
+		panel.profile_store = _profile_store
+		panel.profile_applied.connect(_on_settings_profile_applied)
+		panel.back_requested.connect(_close_modal)
+	_first_run_panel.first_run_completed.connect(func(): _open_slot_panel("new", false))
+
+
+func _on_settings_profile_applied(profile: Dictionary, _section: String) -> void:
+	_profile = profile.duplicate(true)
+	_locale = profile.get("locale", _locale)
+	TranslationServer.set_locale(_locale)
+	_apply_localized_text()
+	_apply_profile()
+	refresh_slots()
 
 
 func get_key_bindings() -> Dictionary:
 	return _profile.get("key_bindings", preload("res://scripts/systems/key_bindings.gd").defaults()).duplicate(true)
-
-
-func _setup_key_settings() -> void:
-	_settings_panel.get_parent().add_child(_key_panel)
-	_settings_back_button.get_parent().add_child(_key_button)
-	_key_button.text = "Keyboard" if _locale.begins_with("en") else "키보드"
-	_key_button.pressed.connect(_open_key_settings)
-	_key_panel.back_requested.connect(_on_settings_pressed)
-	_key_panel.apply_requested.connect(_apply_key_settings)
 
 
 func get_display_settings() -> Dictionary:
@@ -545,78 +516,53 @@ func get_display_settings() -> Dictionary:
 
 func _apply_initial_display() -> void:
 	var backend := preload("res://scripts/systems/display_settings.gd").WindowBackend.new(get_window())
-	if not backend.apply(get_display_settings()):
-		backend.apply(preload("res://scripts/systems/display_settings.gd").DEFAULT)
+	if not backend.apply(get_display_settings()): backend.apply(preload("res://scripts/systems/display_settings.gd").DEFAULT)
 
 
-func _setup_display_settings() -> void:
-	_settings_panel.get_parent().add_child(_display_panel)
-	var links := HFlowContainer.new()
-	links.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	links.add_theme_constant_override("h_separation", 16)
-	links.add_theme_constant_override("v_separation", 12)
-	_settings_back_button.get_parent().get_parent().add_child(links)
-	_audio_button.reparent(links)
-	_key_button.reparent(links)
-	links.add_child(_display_button)
-	for button: Button in [_audio_button, _key_button, _display_button]: button.custom_minimum_size.y = 48
-	_display_button.text = "Display" if _locale.begins_with("en") else "화면"
-	_display_button.pressed.connect(_open_display_settings)
-	_display_panel.back_requested.connect(_on_settings_pressed)
-	_display_panel.confirmed.connect(func(value: Dictionary): _profile["display"] = value.duplicate())
+func _open_settings_page(page: String) -> void:
+	var panel: PanelContainer = _first_run_panel if _first_run_panel.visible else _settings_panel
+	panel.profile_store = _profile_store
+	if not panel.visible: panel.present(_profile, _locale, false, page)
+	else: panel.show_page(page, false)
+	_open_modal(panel, panel.initial_focus(), _active_modal() == null)
 
 
 func _open_display_settings() -> void:
-	_display_panel.profile_store = _profile_store
-	_display_panel.load_values(get_display_settings(), _locale)
-	_open_modal(_display_panel, _display_panel.back, false)
+	_open_settings_page("display")
 
 
 func _open_key_settings() -> void:
-	_key_panel.load_values(get_key_bindings(), _locale)
-	_open_modal(_key_panel, _key_panel.back, false)
-
-
-func _apply_key_settings(bindings: Dictionary) -> void:
-	var candidate := _profile.duplicate(true)
-	candidate["key_bindings"] = bindings.duplicate(true)
-	if not _profile_store.save_profile(candidate).get("ok", false):
-		_key_panel.show_save_error()
-		return
-	_profile = candidate
-	preload("res://scripts/systems/key_bindings.gd").apply_bindings(bindings)
-	_refresh_key_hint()
-	_on_settings_pressed()
-
-
-func _refresh_key_hint() -> void:
-	var bindings := get_key_bindings()
-	var key_names := preload("res://scripts/systems/key_bindings.gd")
-	_menu_hint.text = ("%s · CONFIRM\n%s · BACK" if _locale.begins_with("en") else "%s · 확인\n%s · 뒤로") % [key_names.caption(bindings.confirm), key_names.caption(bindings.cancel)]
-	_menu_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_open_settings_page("controls")
 
 
 func _open_audio_settings() -> void:
-	_audio_panel.load_values(get_audio_settings(), _locale)
-	_open_modal(_audio_panel, _audio_panel.back, false)
+	_open_settings_page("audio")
+
+
+func _open_language_settings() -> void:
+	_open_settings_page("language")
+
+
+func _apply_key_settings(bindings: Dictionary) -> void:
+	_settings_panel._draft.key_bindings = bindings.duplicate(true)
+	_settings_panel._commit("controls")
 
 
 func _apply_audio_settings(settings: Dictionary) -> void:
-	var candidate := _profile.duplicate(true)
-	candidate["audio"] = settings.duplicate()
-	var result := _profile_store.save_profile(candidate)
-	if not bool(result.get("ok", false)):
-		_audio_panel.show_save_error()
-		return
-	_profile = candidate
-	audio_settings_changed.emit(get_audio_settings())
-	_on_settings_pressed()
+	_settings_panel._draft.audio = settings.duplicate()
+	_settings_panel._commit("audio")
+
+
+func _apply_language(locale: String) -> void:
+	var panel: PanelContainer = _first_run_panel if _first_run_panel.visible else _settings_panel
+	panel._draft.locale = locale
+	panel._commit("language")
 
 
 func _on_settings_pressed() -> void:
-	_audio_button.text = "Audio settings" if _locale.begins_with("en") else "음향 설정"
-	_sync_controls_from_profile(_settings_text_option, _settings_signature_option, _settings_motion_option, _settings_captions)
-	_open_modal(_settings_panel, _settings_text_option, _active_modal() not in [_audio_panel, _key_panel, _display_panel])
+	_settings_panel.profile_store = _profile_store
+	_settings_panel.present(_profile, _locale)
+	_open_modal(_settings_panel, _settings_panel.initial_focus())
 
 
 func _on_content_pressed() -> void:
@@ -628,7 +574,10 @@ func _on_quit_pressed() -> void:
 
 
 func _on_slot_pressed(index: int) -> void:
-	var slot_id: String = String(SLOT_IDS[index])
+	_active_slot_ui.select_row(_slot_buttons[index])
+
+
+func _confirm_slot(slot_id: String) -> void:
 	var summary: Dictionary = _slot_summaries.get(slot_id, {})
 	if _slot_mode == "load":
 		if bool(summary.get("available", false)):
@@ -637,7 +586,7 @@ func _on_slot_pressed(index: int) -> void:
 		return
 	if bool(summary.get("available", false)):
 		_pending_overwrite_slot = slot_id
-		_overwrite_body.text = _text(&"UI_OVERWRITE_BODY", {"slot": index + 1})
+		_overwrite_body.text = _text(&"UI_OVERWRITE_BODY", {"slot": SLOT_IDS.find(slot_id) + 1})
 		_open_modal(_overwrite_panel, _overwrite_cancel_button, false)
 		return
 	_close_modal()
@@ -645,33 +594,15 @@ func _on_slot_pressed(index: int) -> void:
 
 
 func _on_first_run_default() -> void:
-	var retained := {"audio": get_audio_settings(), "key_bindings": get_key_bindings(), "display": get_display_settings()}
-	_profile = _profile_store.default_profile()
-	_profile.merge(retained, true)
-	_profile["first_run_complete"] = true
-	if not _save_profile():
-		return
-	_apply_profile()
-	_open_slot_panel("new", false)
+	_first_run_panel.restore_defaults()
 
 
 func _on_first_run_apply() -> void:
-	_profile = _profile_from_controls(_first_text_option, _first_signature_option, _first_motion_option, _first_captions)
-	_profile["first_run_complete"] = true
-	if not _save_profile():
-		return
-	_apply_profile()
-	_open_slot_panel("new", false)
+	_first_run_panel.apply_current()
 
 
 func _on_settings_apply() -> void:
-	var first_run_complete := bool(_profile.get("first_run_complete", false))
-	_profile = _profile_from_controls(_settings_text_option, _settings_signature_option, _settings_motion_option, _settings_captions)
-	_profile["first_run_complete"] = first_run_complete
-	if not _save_profile():
-		return
-	_apply_profile()
-	_close_modal()
+	_settings_panel.apply_current()
 
 
 func _confirm_overwrite() -> void:
@@ -689,49 +620,31 @@ func _return_to_slot_panel() -> void:
 
 func _open_slot_panel(mode: String, remember_focus: bool = true) -> void:
 	_slot_mode = mode
-	_slot_title.text = _text(&"UI_SLOT_NEW_TITLE" if mode == "new" else &"UI_SLOT_LOAD_TITLE")
-	_update_slot_buttons()
-	_open_modal(_slot_panel, _slot_buttons[0], remember_focus)
+	_active_slot_ui = _new_slot_panel if mode == "new" else _load_slot_panel
+	_new_slot_panel.visible = mode == "new"
+	_load_slot_panel.visible = mode == "load"
+	_slot_buttons.assign(_active_slot_ui.rows.filter(func(row): return not row.autosave))
+	_slot_back_button = _active_slot_ui.back_button
+	_active_slot_ui.present(_slot_summaries, _latest_slot_id, _locale, float(_profile.get("text_scale", 1.0)))
+	_open_modal(_slot_panel, _active_slot_ui.initial_focus(), remember_focus)
 
 
 func _update_slot_buttons() -> void:
 	if not is_node_ready():
 		return
-	for index in range(SLOT_IDS.size()):
-		var slot_id: String = String(SLOT_IDS[index])
-		var summary: Dictionary = _slot_summaries.get(slot_id, {})
-		var is_available := bool(summary.get("available", false))
-		if is_available:
-			_slot_buttons[index].text = _text(&"UI_SLOT_FILLED", {
-				"slot": index + 1,
-				"day": int(summary.get("day_index", 0)) + 1,
-				"location": String(summary.get("location_id", "")),
-			})
-		else:
-			_slot_buttons[index].text = _text(&"UI_SLOT_EMPTY", {"slot": index + 1})
-		_slot_buttons[index].disabled = _slot_mode == "load" and not is_available
-
-
-func _sync_controls_from_profile(
-	text_option: OptionButton,
-	signature_option: OptionButton,
-	motion_option: OptionButton,
-	captions: CheckButton
-) -> void:
-	text_option.select(maxi(0, TEXT_SCALE_VALUES.find(float(_profile.get("text_scale", 1.0)))))
-	signature_option.select(maxi(0, SIGNATURE_VALUES.find(String(_profile.get("signature_mode", "color_pattern_label")))))
-	motion_option.select(maxi(0, MOTION_VALUES.find(String(_profile.get("motion_mode", "standard")))))
-	captions.button_pressed = bool(_profile.get("captions_enabled", true))
+	if is_instance_valid(_active_slot_ui):
+		_active_slot_ui.present(_slot_summaries, _latest_slot_id, _locale, float(_profile.get("text_scale", 1.0)), false)
 
 
 func _profile_from_controls(
-	text_option: OptionButton,
+	text_option,
 	signature_option: OptionButton,
-	motion_option: OptionButton,
-	captions: CheckButton
+	motion_option,
+	captions
 ) -> Dictionary:
 	return {
 		"audio": get_audio_settings(),
+		"locale": _locale,
 		"key_bindings": get_key_bindings(),
 		"display": get_display_settings(),
 		"accessibility_profile_version": AccessibilityProfileStore.PROFILE_VERSION,
@@ -754,30 +667,25 @@ func _save_profile() -> bool:
 
 func _apply_profile() -> void:
 	preload("res://scripts/systems/key_bindings.gd").apply_bindings(get_key_bindings())
-	_refresh_key_hint()
 	audio_settings_changed.emit(get_audio_settings())
 	var text_scale := float(_profile.get("text_scale", 1.0))
-	var title_theme := Theme.new()
+	var title_theme := preload("res://scripts/ui/design_theme.gd").make_theme()
 	title_theme.default_font_size = int(round(18.0 * text_scale))
 	theme = title_theme
 	var logo_scale := minf(text_scale, 1.55)
-	_logo_stack.custom_minimum_size = Vector2(520.0, 120.0 + 70.0 * (logo_scale - 1.0))
-	for logo_layer in [_logo_ghost_cyan, _logo_ghost_magenta, _logo]:
-		logo_layer.add_theme_font_size_override("font_size", int(round(104.0 * logo_scale)))
-	_eyebrow.add_theme_font_size_override("font_size", int(round(16.0 * text_scale)))
-	_tagline.add_theme_font_size_override("font_size", int(round(24.0 * text_scale)))
-	_menu_header.add_theme_font_size_override("font_size", int(round(14.0 * text_scale)))
-	_menu_hint.add_theme_font_size_override("font_size", int(round(11.0 * text_scale)))
-	_menu_container.add_theme_constant_override("separation", maxi(5, int(round(12.0 - 7.0 * (text_scale - 1.0)))))
+	_logo_stack.custom_minimum_size.y = _logo_base_height * logo_scale
+	_logo.add_theme_font_size_override("font_size", roundi(_logo_base_font * logo_scale))
+	_menu_container.add_theme_constant_override("separation", maxi(5, roundi(_menu_base_separation - 3.0 * (text_scale - 1.0))))
 	var motion_mode := String(_profile.get("motion_mode", "standard"))
 	for button in _title_buttons:
-		var is_secondary := button.chrome_role == "secondary"
-		var base_font_size := 16.0 if is_secondary else 20.0
-		var base_height := 46.0 if is_secondary else 60.0
+		var base_font_size: float = _title_base_fonts[button]
+		var base_height: float = _title_base_heights[button]
 		button.add_theme_font_size_override("font_size", int(round(base_font_size * text_scale)))
 		button.custom_minimum_size = Vector2(button.custom_minimum_size.x, base_height + 16.0 * (text_scale - 1.0))
 		button.set_motion_mode(motion_mode)
-	_placeholder_art.set_motion_mode(motion_mode)
+	if is_instance_valid(_gallery_button):
+		_gallery_button.add_theme_font_size_override("font_size", roundi(_title_base_fonts[_gallery_button] * text_scale))
+		_gallery_button.custom_minimum_size.y = _title_base_heights[_gallery_button] + 16 * (text_scale - 1)
 
 
 func _open_modal(panel: Control, focus_target: Control, remember_focus: bool = true) -> void:
@@ -789,6 +697,7 @@ func _open_modal(panel: Control, focus_target: Control, remember_focus: bool = t
 		_focus_before_modal = current_focus if current_focus is Control else _new_game_button
 	for modal in _modal_panels():
 		modal.visible = modal == panel
+	_dimmer.color = paper_modal_dimmer_color if panel in [_slot_panel, _settings_panel, _first_run_panel] else _default_dimmer_color
 	_dimmer.visible = true
 	panel.visible = true
 	_apply_input_scope()
@@ -802,6 +711,7 @@ func _close_modal() -> void:
 	for modal in _modal_panels():
 		modal.visible = false
 	_dimmer.visible = false
+	_dimmer.color = _default_dimmer_color
 	_apply_input_scope()
 	_restore_scoped_focus.call_deferred(_focus_before_modal)
 
@@ -815,9 +725,6 @@ func _active_modal() -> Control:
 
 func _modal_panels() -> Array[Control]:
 	return [
-		_audio_panel,
-		_key_panel,
-		_display_panel,
 		_slot_panel,
 		_first_run_panel,
 		_settings_panel,
@@ -830,23 +737,16 @@ func _modal_panels() -> Array[Control]:
 
 func _all_interactive_controls() -> Array[Control]:
 	var controls: Array[Control] = [
-		_audio_button,
-		_key_button,
-		_display_button,
 		_continue_button, _new_game_button, _load_button, _settings_button, _quit_button, _content_button,
-		_slot_back_button, _first_text_option, _first_signature_option, _first_motion_option, _first_captions,
-		_first_default_button, _first_apply_button, _settings_text_option, _settings_signature_option,
-		_settings_motion_option, _settings_captions, _settings_back_button, _settings_apply_button,
 		_content_close_button, _quit_cancel_button, _quit_confirm_button, _overwrite_cancel_button,
 		_overwrite_confirm_button, _launch_return_button,
 	]
-	for button in _slot_buttons:
-		controls.append(button)
-	controls.append_array(_audio_panel.interactive_controls())
-	controls.append_array(_key_panel.interactive_controls())
-	controls.append_array(_display_panel.interactive_controls())
-	if is_instance_valid(_gallery_button):
-		controls.append_array([_gallery_button,_gallery_choices,_gallery_previous,_gallery_next,_gallery_notebook_button,_gallery_scroll])
+	for panel in [_new_slot_panel, _load_slot_panel]:
+		controls.append_array(panel.rows)
+		controls.append_array([panel.back_button, panel.close_button, panel.confirm_button])
+	controls.append_array(_settings_panel.interactive_controls())
+	controls.append_array(_first_run_panel.interactive_controls())
+	if is_instance_valid(_gallery_button): controls.append_array([_gallery_button,_gallery_choices,_gallery_previous,_gallery_next,_gallery_notebook_button,_gallery_scroll])
 	if is_instance_valid(_import_button): controls.append_array([_import_button,_import_choices,_import_confirm])
 	return controls
 

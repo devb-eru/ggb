@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cqy18vvtl3xok" path="res://scripts/systems/bootstrap.gd" id="1_bootstrap"]
 [ext_resource type="Script" uid="uid://c18t564gm5n5b" path="res://scripts/systems/input_router.gd" id="2_input"]
 [ext_resource type="Script" uid="uid://bh3w6b2oarxyt" path="res://scripts/systems/interaction_router.gd" id="3_interaction"]
-[ext_resource type="PackedScene" path="res://scenes/ui/start_screen.tscn" id="4_start"]
+[ext_resource type="PackedScene" uid="uid://dj3044kucojph" path="res://scenes/ui/start_screen.tscn" id="4_start"]
 
 [node name="GGBMain" type="Control" unique_id=1295668713]
 layout_mode = 3
