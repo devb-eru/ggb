@@ -1,5 +1,5 @@
 extends Node
-const OUTPUT := "res://../outputs/settings-ui-2026-10-24/"
+var output := ProjectSettings.globalize_path("res://").path_join("../outputs/settings-ui-2026-10-24/")
 var errors: Array[String] = []
 var checks := 0
 class DisplayFixture extends RefCounted:
@@ -14,6 +14,7 @@ class RejectedStore extends AccessibilityProfileStore:
 func _ready() -> void:
 	call_deferred("_run")
 func _run() -> void:
+	DirAccess.make_dir_recursive_absolute(output)
 	var window := get_tree().root
 	window.content_scale_size = Vector2i(1920, 1080)
 	window.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
@@ -40,7 +41,7 @@ func _run() -> void:
 	await _title_and_game()
 	store.delete_test_profile()
 	var report := {"ok":errors.is_empty(),"errors":errors,"checks":checks}
-	var file := FileAccess.open(OUTPUT + "audit.json", FileAccess.WRITE)
+	var file := FileAccess.open(output + "audit.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(report,"\t"))
 	print("SETTINGS_UI_SMOKE: ", JSON.stringify(report))
 	get_tree().quit(0 if errors.is_empty() else 1)
@@ -246,7 +247,7 @@ func _key(code: int) -> void:
 func _shot(name: String) -> void:
 	for index in range(8): await get_tree().process_frame
 	await RenderingServer.frame_post_draw
-	get_tree().root.get_texture().get_image().save_png(OUTPUT + name + ".png")
+	get_tree().root.get_texture().get_image().save_png(output + name + ".png")
 func _expect(condition: bool, message: String) -> void:
 	checks += 1
 	if not condition: errors.append(message)

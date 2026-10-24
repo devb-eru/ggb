@@ -1,7 +1,7 @@
 extends Node
 
 const PRESENTATION := preload("res://scripts/systems/save_presentation.gd")
-const OUTPUT := "res://../outputs/save-load-ui-2026-10-24/"
+var output := ProjectSettings.globalize_path("res://").path_join("../outputs/save-load-ui-2026-10-24/")
 const SLOT := "__test_save_presentation"
 var errors: Array[String] = []
 var stage: Control
@@ -10,7 +10,7 @@ func _ready() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUTPUT))
+	DirAccess.make_dir_recursive_absolute(output)
 	get_tree().root.content_scale_size = Vector2i(1920, 1080)
 	get_tree().root.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
 	get_tree().root.size = Vector2i(1280, 720)
@@ -101,7 +101,7 @@ func _run() -> void:
 	await _presentation_cases()
 	await _real_game_capture(store)
 	var report := {"ok":errors.is_empty(), "errors":errors}
-	var file := FileAccess.open(OUTPUT + "audit.json", FileAccess.WRITE)
+	var file := FileAccess.open(output + "audit.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, "\t"))
 	print("SAVE_LOAD_UI_SMOKE: ", JSON.stringify(report))
 	get_tree().quit(0 if errors.is_empty() else 1)
@@ -167,7 +167,7 @@ func _real_game_capture(store: AccessibilityProfileStore) -> void:
 	var display: Dictionary = PRESENTATION.read(SaveManager.get_save_root(), current)
 	_expect(display.get("thumbnail") is Texture2D and display.get("play_seconds", -1) >= 0, "real new-game bootstrap records thumbnail and clock")
 	if display.get("thumbnail") is Texture2D:
-		display.thumbnail.get_image().save_png(OUTPUT + "06-real-saved-thumbnail.png")
+		display.thumbnail.get_image().save_png(output + "06-real-saved-thumbnail.png")
 	_expect(host._save_presentation._view.get_ref() == host._prologue, "presentation service follows actual game view")
 	host._on_prologue_return_to_title()
 	_expect(host._save_presentation._slot.is_empty(), "returning to title stops gameplay clock")
@@ -181,7 +181,7 @@ func _frames() -> void:
 func _shot(name: String) -> void:
 	await _frames()
 	await RenderingServer.frame_post_draw
-	get_tree().root.get_texture().get_image().save_png(OUTPUT + name + ".png")
+	get_tree().root.get_texture().get_image().save_png(output + name + ".png")
 
 func _click(point: Vector2) -> void:
 	var motion := InputEventMouseMotion.new()

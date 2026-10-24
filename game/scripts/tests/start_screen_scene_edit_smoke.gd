@@ -1,7 +1,7 @@
 extends Node
 
 const SCENE := preload("res://scenes/ui/start_screen.tscn")
-const OUTPUT := "res://../outputs/title-scene-2026-10-24/"
+var output := ProjectSettings.globalize_path("res://").path_join("../outputs/title-scene-2026-10-24/")
 var errors: Array[String] = []
 var stage: Control
 
@@ -9,7 +9,7 @@ func _ready() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUTPUT))
+	DirAccess.make_dir_recursive_absolute(output)
 	get_tree().root.content_scale_size = Vector2i(1920, 1080)
 	get_tree().root.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
 	get_tree().root.size = Vector2i(1280, 720)
@@ -105,7 +105,7 @@ func _run() -> void:
 	await _shot("05-current-title-en")
 	await _check_title_overlays(game)
 	var report := {"ok": errors.is_empty(), "errors": errors}
-	var file := FileAccess.open(OUTPUT + "scene-edit-audit.json", FileAccess.WRITE)
+	var file := FileAccess.open(output + "scene-edit-audit.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, "\t"))
 	print("START_SCREEN_SCENE_EDIT_SMOKE: ", JSON.stringify(report))
 	get_tree().quit(0 if errors.is_empty() else 1)
@@ -180,7 +180,7 @@ func _frames() -> void:
 func _shot(name: String) -> void:
 	await _frames()
 	await RenderingServer.frame_post_draw
-	get_tree().root.get_texture().get_image().save_png(OUTPUT + name + ".png")
+	get_tree().root.get_texture().get_image().save_png(output + name + ".png")
 
 func _expect(ok: bool, message: String) -> void:
 	if not ok: errors.append(message)

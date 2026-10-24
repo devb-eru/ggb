@@ -1,7 +1,7 @@
 extends Node
 
 var errors: Array[String] = []
-var output := "res://../outputs/ui-hud-2026-10-22"
+var output := ProjectSettings.globalize_path("res://").path_join("../outputs/ui-hud-2026-10-22")
 var stage: Control
 
 func _ready() -> void:

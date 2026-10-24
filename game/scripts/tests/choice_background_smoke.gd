@@ -3,13 +3,13 @@ extends Node
 var errors: Array[String] = []
 var panel: PanelContainer
 var buttons: Array[Button] = []
-const OUTPUT := "res://../outputs/choice-background-fix/"
+var output := ProjectSettings.globalize_path("res://").path_join("../outputs/choice-background-fix/")
 
 func _ready() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUTPUT))
+	DirAccess.make_dir_recursive_absolute(output)
 	var window := get_tree().root
 	window.content_scale_size = Vector2i(1280, 720)
 	window.size = Vector2i(1280, 720)
@@ -60,10 +60,10 @@ func _run() -> void:
 	await _key(KEY_DOWN)
 	_check_selection(1)
 	await RenderingServer.frame_post_draw
-	window.get_texture().get_image().save_png(OUTPUT + "05-gameplay-second.png")
+	window.get_texture().get_image().save_png(output + "05-gameplay-second.png")
 	_expect(game._dialogue_choice_active, "focus navigation does not commit a choice")
 	var report := {"ok": errors.is_empty(), "errors": errors}
-	var file := FileAccess.open(OUTPUT + "audit.json", FileAccess.WRITE)
+	var file := FileAccess.open(output + "audit.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, "\t"))
 	print("CHOICE_BACKGROUND_SMOKE: ", JSON.stringify(report))
 	get_tree().quit(0 if errors.is_empty() else 1)
@@ -81,19 +81,22 @@ func _check_selection(index: int) -> void:
 func _check_frame_and_sources() -> void:
 	_expect(panel.get_node_or_null("Margin/Choices/DialogueChoiceHeader") == null, "header removed from scene")
 	_expect(panel.get_theme_stylebox("panel") is StyleBoxEmpty, "no outer frame or panel background")
-	for pair in [["idle", "choice_button_no_diamond__r01.png"], ["selected", "choice_button__r01.png"]]:
-		var source: Texture2D = load("res://assets/ui/design_2026_10/" + pair[1])
+	for pair in [
+		[preload("res://assets/ui/dialogue_editor/choice_idle.res"), preload("res://assets/ui/design_2026_10/choice_button_no_diamond__r01.png")],
+		[preload("res://assets/ui/dialogue_editor/choice_selected.res"), preload("res://assets/ui/design_2026_10/choice_button__r01.png")],
+	]:
+		var source: Texture2D = pair[1]
 		var expected := source.get_image().get_region(Rect2i(65, 226, 2042, 263))
 		expected.resize(700, 96, Image.INTERPOLATE_LANCZOS)
-		var actual: Texture2D = load("res://assets/ui/dialogue_editor/choice_" + pair[0] + ".res")
-		_expect(actual.get_image().get_data() == expected.get_data(), "texture pixels match correct source: " + pair[0])
+		var actual: Texture2D = pair[0]
+		_expect(actual.get_image().get_data() == expected.get_data(), "texture pixels match correct source: " + actual.resource_path)
 
 func _shot(name: String) -> void:
 	await _frames()
 	await RenderingServer.frame_post_draw
 	var rect := Rect2i(panel.get_global_rect())
 	rect = rect.intersection(Rect2i(Vector2i.ZERO, get_tree().root.size))
-	get_tree().root.get_texture().get_image().get_region(rect).save_png(OUTPUT + name + ".png")
+	get_tree().root.get_texture().get_image().get_region(rect).save_png(output + name + ".png")
 
 func _key(code: Key) -> void:
 	for pressed in [true, false]:

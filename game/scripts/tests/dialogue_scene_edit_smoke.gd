@@ -1,12 +1,13 @@
 extends Node
 
 var errors: Array[String] = []
-const OUTPUT := "res://../outputs/dialogue-scene-editor"
+var output := ProjectSettings.globalize_path("res://").path_join("../outputs/dialogue-scene-editor")
 
 func _ready() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
+	DirAccess.make_dir_recursive_absolute(output)
 	var window := get_tree().root
 	window.content_scale_size = Vector2i(1920, 1080)
 	window.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
@@ -23,7 +24,7 @@ func _run() -> void:
 	_expect(preview.get_node("StandingPortrait").texture != null, "standalone scene includes sample character")
 	_expect(preview.get_node("MenuButton").visible and preview.get_node("LocationLabel").text == "주인공의 침실", "standalone scene includes editable top HUD")
 	await RenderingServer.frame_post_draw
-	window.get_texture().get_image().save_png(OUTPUT + "/editor-scene-preview.png")
+	window.get_texture().get_image().save_png(output + "/editor-scene-preview.png")
 	preview.queue_free()
 	await _frames()
 	# Simulate visual Inspector edits, then actually serialize and reload the scene.
@@ -106,7 +107,7 @@ func _run() -> void:
 	_expect(click.position.is_equal_approx(scroll.position), "invisible next region follows moved body")
 	_validate_top_hud(game, "after accessibility refresh")
 	await RenderingServer.frame_post_draw
-	window.get_texture().get_image().save_png(OUTPUT + "/designer-edit-in-game.png")
+	window.get_texture().get_image().save_png(output + "/designer-edit-in-game.png")
 	game.queue_free()
 	await _frames()
 	var fixture = preload("res://scripts/tests/notebook_presentation_smoke.gd").new()
@@ -129,7 +130,7 @@ func _run() -> void:
 	SaveManager.delete_test_slot(fixture.SLOT)
 	DirAccess.remove_absolute("user://__test_dialogue_edited.tscn")
 	var report := {"ok": errors.is_empty(), "errors": errors}
-	var file := FileAccess.open(OUTPUT + "/scene-edit-audit.json", FileAccess.WRITE)
+	var file := FileAccess.open(output + "/scene-edit-audit.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, "\t"))
 	print("DIALOGUE_SCENE_EDIT_SMOKE: ", JSON.stringify(report))
 	get_tree().quit(0 if errors.is_empty() else 1)

@@ -12,7 +12,7 @@ func _ready() -> void:
 
 func _run() -> void:
 	capture = "--capture-design" in OS.get_cmdline_user_args()
-	output = ProjectSettings.globalize_path("res://../outputs/ui-design-audit-2026-10-24")
+	output = ProjectSettings.globalize_path("res://").path_join("../outputs/ui-design-audit-2026-10-24")
 	DirAccess.make_dir_recursive_absolute(output)
 	root.content_scale_size = Vector2i(1920, 1080)
 	root.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
