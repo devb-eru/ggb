@@ -1,0 +1,58 @@
+[gd_resource type="Theme" format=3 uid="uid://dgu7s0g0mbmeq"]
+
+[ext_resource type="Texture2D" path="res://assets/ui/save_load/textures/primary_button.tres" id="1"]
+
+[sub_resource type="StyleBoxTexture" id="disabled"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+texture = ExtResource("1")
+modulate_color = Color(0.7, 0.7, 0.7, 0.55)
+
+[sub_resource type="StyleBoxFlat" id="focus"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.29, 0.25, 0.5, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="hover"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+texture = ExtResource("1")
+modulate_color = Color(1.24, 1.24, 1.32, 1)
+
+[sub_resource type="StyleBoxTexture" id="normal"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+texture = ExtResource("1")
+
+[sub_resource type="StyleBoxTexture" id="pressed"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+texture = ExtResource("1")
+modulate_color = Color(0.75, 0.75, 0.84, 1)
+
+[resource]
+Button/colors/font_color = Color(0.95, 0.925, 0.89, 1)
+Button/colors/font_disabled_color = Color(0.6, 0.57, 0.62, 1)
+Button/colors/font_hover_color = Color(1, 0.98, 0.94, 1)
+Button/colors/font_pressed_color = Color(0.95, 0.925, 0.89, 1)
+Button/font_sizes/font_size = 34
+Button/styles/disabled = SubResource("disabled")
+Button/styles/focus = SubResource("focus")
+Button/styles/hover = SubResource("hover")
+Button/styles/normal = SubResource("normal")
+Button/styles/pressed = SubResource("pressed")

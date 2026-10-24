@@ -1,0 +1,145 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ui/save_slot_row.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/save_load/textures/selected_row.tres" id="2"]
+[ext_resource type="Texture2D" path="res://assets/ui/save_load/textures/autosave_frame.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/ui/save_load/textures/empty_thumbnail.tres" id="4"]
+[ext_resource type="Texture2D" path="res://assets/ui/save_load/textures/thumbnail_frame.tres" id="5"]
+[ext_resource type="Texture2D" path="res://assets/ui/save_load/textures/ink_divider.tres" id="6"]
+[sub_resource type="StyleBoxEmpty" id="Empty"]
+[node name="SaveSlotRow" type="Button"]
+custom_minimum_size = Vector2(0, 180)
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("Empty")
+theme_override_styles/hover = SubResource("Empty")
+theme_override_styles/pressed = SubResource("Empty")
+theme_override_styles/disabled = SubResource("Empty")
+theme_override_styles/focus = SubResource("Empty")
+script = ExtResource("1")
+
+[node name="AutosaveFill" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+offset_left = 48.0
+offset_right = -48.0
+offset_top = 10.0
+offset_bottom = -10.0
+color = Color(0.68, 0.66, 0.82, 0.55)
+
+[node name="SelectedRow" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("2")
+expand_mode = 1
+
+
+[node name="AutosaveFrame" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3")
+expand_mode = 1
+
+
+[node name="Thumbnail" type="TextureRect" parent="."]
+layout_mode = 1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 104.0
+offset_right = 384.0
+offset_top = -63.0
+offset_bottom = 63.0
+mouse_filter = 2
+texture = ExtResource("4")
+expand_mode = 1
+
+[node name="ThumbnailFrame" type="TextureRect" parent="."]
+layout_mode = 1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 104.0
+offset_right = 384.0
+offset_top = -63.0
+offset_bottom = 63.0
+mouse_filter = 2
+texture = ExtResource("5")
+expand_mode = 1
+visible = false
+
+[node name="Text" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.34
+anchor_right = 0.68
+offset_top = 17.0
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Text"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 32
+autowrap_mode = 3
+
+[node name="Detail" type="Label" parent="Text"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 26
+autowrap_mode = 3
+
+[node name="Timing" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.7
+anchor_right = 0.99
+offset_top = 17.0
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Date" type="Label" parent="Timing"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 30
+autowrap_mode = 3
+
+[node name="Duration" type="Label" parent="Timing"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 30
+autowrap_mode = 3
+
+[node name="Empty" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.34
+anchor_right = 0.99
+offset_top = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 32
+text = "비어 있음"
+vertical_alignment = 1
+autowrap_mode = 3
+anchor_bottom = 1.0
+
+[node name="Divider" type="TextureRect" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -18.0
+mouse_filter = 2
+texture = ExtResource("6")
+expand_mode = 1

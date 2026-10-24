@@ -1,0 +1,199 @@
+{
+  "version": 2,
+  "logical_screen": [
+    1920,
+    1080
+  ],
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "id": "paper_panel",
+      "logical_size": [
+        1540,
+        940
+      ],
+      "prompt": "Use case: precise-object-edit, game UI component extraction. Reference is the approved full screen UI style. Deliver ONE standalone component only, a transparent PNG, no text, no numbers, no screenshots or other UI components. Match reference cool ivory, lavender/periwinkle shadows, midnight navy linework, subtle tiny aged-silver details. Hand-painted anime-game prop style, confident contours, simplified brush shading, softly fibrous paper; NOT photographic, NOT PBR, NOT brown sepia or bright gold. Retain crisp readable silhouette. Leave a small transparent margin around whole component. Extract/recreate ONLY the large landscape ivory paper ledger backing, including its ragged layered edges, sparse navy ribbons and violet botanical edge ornaments. Completely EMPTY clean interior: erase title, X, rows, thumbnails, buttons, ALL dividing lines and symbols inside. Keep central 80% very pale calm writing area. Ratio of paper about 1.65:1. Transparent OUTSIDE the paper silhouette; paper interior opaque. One full panel image.",
+      "file": "paper_panel_v01.png",
+      "source_size": [
+        1611,
+        976
+      ],
+      "content_rect": [
+        4,
+        1,
+        1605,
+        972
+      ],
+      "texture": "textures/paper_panel.tres",
+      "sha256": "bc679ad7e0bf44b3e9c1f5f7bc25d340da983ce976c25a32620afc01e03cf55a"
+    },
+    {
+      "id": "autosave_frame",
+      "logical_size": [
+        1280,
+        150
+      ],
+      "prompt": "Use case: precise-object-edit, game UI component extraction. Reference is the approved full screen UI style. Deliver ONE standalone component only, a transparent PNG, no text, no numbers, no screenshots or other UI components. Match reference cool ivory, lavender/periwinkle shadows, midnight navy linework, subtle tiny aged-silver details. Hand-painted anime-game prop style, confident contours, simplified brush shading, softly fibrous paper; NOT photographic, NOT PBR, NOT brown sepia or bright gold. Retain crisp readable silhouette. Leave a small transparent margin around whole component. Extract/recreate ONLY the extremely wide shallow autosave row border: fine double navy ink rules, small blue-gray end caps, narrow periwinkle selection strip on the left. No thumbnail or text or central emblem. Interior must be FULLY TRANSPARENT so separate paper and selection fill show through. Entire frame aspect about 8:1, thin linework, modest mechanical caps. No paper backing.",
+      "file": "autosave_frame_v01.png",
+      "source_size": [
+        2164,
+        727
+      ],
+      "content_rect": [
+        29,
+        197,
+        2105,
+        319
+      ],
+      "texture": "textures/autosave_frame.tres",
+      "sha256": "f16b98c5e2f7e9a7f24edde3957b0534baa9b8042f75736e31c49b936e91a8f9"
+    },
+    {
+      "id": "selected_row",
+      "logical_size": [
+        1280,
+        150
+      ],
+      "prompt": "Use case: precise-object-edit, game UI component extraction. Reference is the approved full screen UI style. Deliver ONE standalone component only, a transparent PNG, no text, no numbers, no screenshots or other UI components. Match reference cool ivory, lavender/periwinkle shadows, midnight navy linework, subtle tiny aged-silver details. Hand-painted anime-game prop style, confident contours, simplified brush shading, softly fibrous paper; NOT photographic, NOT PBR, NOT brown sepia or bright gold. Retain crisp readable silhouette. Leave a small transparent margin around whole component. Recreate ONLY a wide shallow selected manual save-row rectangle. Fine dark navy double outlined corners, subtle pale lavender translucent interior wash, narrow navy selection strip along left edge. No emblem, no center icon, no mechanical caps. Aspect about8:1. Flat clear inner space, standalone rectangle on transparent background. This is used around empty or occupied rows.",
+      "file": "selected_row_v01.png",
+      "source_size": [
+        2172,
+        724
+      ],
+      "content_rect": [
+        74,
+        197,
+        2025,
+        311
+      ],
+      "texture": "textures/selected_row.tres",
+      "sha256": "381b7c1229e231ec58a86fc04243fafc56eb34196d88fc66026802c4f8d0b2d8"
+    },
+    {
+      "id": "thumbnail_frame",
+      "logical_size": [
+        280,
+        126
+      ],
+      "prompt": "Use case: precise-object-edit, game UI component extraction. Reference is the approved full screen UI style. Deliver ONE standalone component only, a transparent PNG, no text, no numbers, no screenshots or other UI components. Match reference cool ivory, lavender/periwinkle shadows, midnight navy linework, subtle tiny aged-silver details. Hand-painted anime-game prop style, confident contours, simplified brush shading, softly fibrous paper; NOT photographic, NOT PBR, NOT brown sepia or bright gold. Retain crisp readable silhouette. Leave a small transparent margin around whole component. Extract/recreate ONLY the landscape screenshot thumbnail frame. Thin navy/silver-gray ink double border with clipped decorative corners and minimal tiny flourishes. Aspect about2.2:1. Entire rectangular CENTER HOLE completely transparent, no image or backing or emblem, outside fully transparent. Fine crisp frame designed to go on top of separate screenshot.",
+      "file": "thumbnail_frame_v01.png",
+      "source_size": [
+        1862,
+        845
+      ],
+      "content_rect": [
+        70,
+        136,
+        1720,
+        570
+      ],
+      "texture": "textures/thumbnail_frame.tres",
+      "sha256": "068ebd4d354eb7c26cb581b44643ea0934f672c58a27b56a362dff8f0bcddf8b"
+    },
+    {
+      "id": "empty_thumbnail",
+      "logical_size": [
+        280,
+        126
+      ],
+      "prompt": "Use case: precise-object-edit, game UI component extraction. Reference is the approved full screen UI style. Deliver ONE standalone component only, a transparent PNG, no text, no numbers, no screenshots or other UI components. Match reference cool ivory, lavender/periwinkle shadows, midnight navy linework, subtle tiny aged-silver details. Hand-painted anime-game prop style, confident contours, simplified brush shading, softly fibrous paper; NOT photographic, NOT PBR, NOT brown sepia or bright gold. Retain crisp readable silhouette. Leave a small transparent margin around whole component. Extract/recreate ONLY the empty-save thumbnail placeholder: horizontal small faded lavender-gray paper rectangle with a thin dark muted navy clipped-corner double border and a single small low-contrast fleur-de-lis silhouette at center. Aspect about2.2:1. Flat soft pale lavender inside. NO text. Outside transparent. Match thumbnail frame style.",
+      "file": "empty_thumbnail_v01.png",
+      "source_size": [
+        1857,
+        847
+      ],
+      "content_rect": [
+        122,
+        144,
+        1613,
+        558
+      ],
+      "texture": "textures/empty_thumbnail.tres",
+      "sha256": "c2d10c7b6b5fa17f665991d42a06bda757af6d4e76312fe43a08fd6583142c36"
+    },
+    {
+      "id": "ink_divider",
+      "logical_size": [
+        1280,
+        24
+      ],
+      "prompt": "Use case: precise-object-edit, game UI component extraction. Reference is the approved full screen UI style. Deliver ONE standalone component only, a transparent PNG, no text, no numbers, no screenshots or other UI components. Match reference cool ivory, lavender/periwinkle shadows, midnight navy linework, subtle tiny aged-silver details. Hand-painted anime-game prop style, confident contours, simplified brush shading, softly fibrous paper; NOT photographic, NOT PBR, NOT brown sepia or bright gold. Retain crisp readable silhouette. Leave a small transparent margin around whole component. Extract/recreate ONLY one very long slender horizontal navy ink divider with a small central fleur-de-lis motif and tiny diamond-shaped tips at both ends. One single horizontal divider, no other lines. Extremely wide and shallow, aspect about40:1. Transparent above below and between lines; no panel. Handdrawn understated design.",
+      "file": "ink_divider_v01.png",
+      "source_size": [
+        2172,
+        724
+      ],
+      "content_rect": [
+        33,
+        323,
+        2106,
+        68
+      ],
+      "texture": "textures/ink_divider.tres",
+      "sha256": "21a87afe6559b3fbc4da32efccaba79776d4e13149ec4002a640c67c40c64ac3"
+    },
+    {
+      "id": "primary_button",
+      "logical_size": [
+        310,
+        90
+      ],
+      "prompt": "Use case: precise-object-edit, game UI component extraction. Reference is the approved full screen UI style. Deliver ONE standalone component only, a transparent PNG, no text, no numbers, no screenshots or other UI components. Match reference cool ivory, lavender/periwinkle shadows, midnight navy linework, subtle tiny aged-silver details. Hand-painted anime-game prop style, confident contours, simplified brush shading, softly fibrous paper; NOT photographic, NOT PBR, NOT brown sepia or bright gold. Retain crisp readable silhouette. Leave a small transparent margin around whole component. Extract/recreate ONLY the bottom-right midnight-navy paper action button without ANY text. Wide horizontal rectangle about3.45:1. Slightly worn paper edges, fine lavender/silver double corner border, restrained violet botanical motifs only at far corners. Flat dark calm central area for ivory text later. No gold, no central emblem. Transparent outside silhouette.",
+      "file": "primary_button_v01.png",
+      "source_size": [
+        2079,
+        756
+      ],
+      "content_rect": [
+        41,
+        130,
+        1997,
+        504
+      ],
+      "texture": "textures/primary_button.tres",
+      "sha256": "8822c04b666781731dde3c282610c41f53596ccd2d25c7197cb86621c6b0a2d5"
+    },
+    {
+      "id": "close_icon",
+      "logical_size": [
+        40,
+        40
+      ],
+      "prompt": "Use case: precise-object-edit, game UI component extraction. Reference is the approved full screen UI style. Deliver ONE standalone component only, a transparent PNG, no text, no numbers, no screenshots or other UI components. Match reference cool ivory, lavender/periwinkle shadows, midnight navy linework, subtle tiny aged-silver details. Hand-painted anime-game prop style, confident contours, simplified brush shading, softly fibrous paper; NOT photographic, NOT PBR, NOT brown sepia or bright gold. Retain crisp readable silhouette. Leave a small transparent margin around whole component. Extract/recreate ONLY the close X icon as two clean crossing tapered ink strokes in very dark navy. Simple slender hand-inked X, readable at40px. No frame, no circle, no paper, no ornament, no extra strokes. Actual transparent background.",
+      "file": "close_icon_v01.png",
+      "source_size": [
+        1268,
+        1241
+      ],
+      "content_rect": [
+        264,
+        272,
+        748,
+        722
+      ],
+      "texture": "textures/close_icon.tres",
+      "sha256": "229482c5d150a56928797db846391b207859928cc33c0043fa1b7a5ceeaebb3b"
+    }
+  ],
+  "reused_assets": [
+    {
+      "id": "menu_background",
+      "file": "res://assets/ui/design_2026_10/menu_background__r01.png",
+      "texture": "textures/menu_background.tres",
+      "logical_size": [
+        1920,
+        1080
+      ]
+    }
+  ],
+  "text_baked": false,
+  "thumbnail_source": "Runtime save screenshot; empty_thumbnail is the fallback.",
+  "reference_screens": [
+    "docs/design/gui-ux-2026-10-20/images/13-load-anime-v2.png",
+    "docs/design/gui-ux-2026-10-20/images/14-new-game-anime-v1.png"
+  ],
+  "atlas_crop": "Alpha > 16 bounding box plus 2px padding; PNG masters unchanged.",
+  "support_resources": [
+    "primary_button_theme.tres"
+  ]
+}

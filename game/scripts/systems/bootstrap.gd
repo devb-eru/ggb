@@ -38,6 +38,7 @@ var _developer_active := false
 var _developer_previous_flavor: Variant
 var _prologue
 var _audio := preload("res://scripts/systems/game_audio.gd").new()
+var _save_presentation := preload("res://scripts/systems/save_presentation.gd").new()
 
 
 class ResetHostTask extends RefCounted:
@@ -77,6 +78,8 @@ func _ready() -> void:
 	_start_screen.process_mode = Node.PROCESS_MODE_PAUSABLE
 	_audio.name = "GameAudio"
 	add_child(_audio)
+	add_child(_save_presentation)
+	_save_presentation.configure(SaveManager)
 	_start_screen.audio_settings_changed.connect(_apply_audio_settings)
 	_apply_audio_settings(_start_screen.get_audio_settings())
 	_audio.request_cue(&"BGM_TITLE")
@@ -727,6 +730,7 @@ func _launch_prologue(slot_id: String, resume_id: String) -> void:
 	_prologue.campaign_requested.connect(_on_campaign_requested.bind(weakref(_prologue)), CONNECT_DEFERRED)
 	_start_screen.visible = false
 	add_child(_prologue)
+	_save_presentation.begin_session(slot_id, _prologue)
 
 
 func _finish_reset_campaign_launch(result: Dictionary, slot_id: String, generation: int) -> void:
@@ -774,9 +778,11 @@ func _launch_campaign(slot_id: String) -> void:
 	_prologue.campaign_requested.connect(_on_campaign_requested.bind(weakref(_prologue)), CONNECT_DEFERRED)
 	_start_screen.visible = false
 	add_child(_prologue)
+	_save_presentation.begin_session(slot_id, _prologue)
 
 
 func _on_prologue_return_to_title() -> void:
+	_save_presentation.end_session()
 	if _developer_active:
 		ProjectSettings.set_setting("ggb/build_flavor", _developer_previous_flavor)
 		_developer_active = false

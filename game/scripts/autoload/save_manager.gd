@@ -260,6 +260,7 @@ func _summary_from_validated(validated: Dictionary) -> Dictionary:
 		"updated_at_utc": int(header.get("updated_at_utc", 0)),
 		"save_point_id": String(header.get("save_point_id", "")),
 		"run_id": String(header.get("run_id", "")),
+		"save_identity": String(header.get("checksum", "")),
 		"day_index": int(loop_state.get("day_index", 0)),
 		"location_id": String(loop_state.get("location_id", "")),
 		"journal_stage": int(meta_progress.get("journal_stage", 0)),
