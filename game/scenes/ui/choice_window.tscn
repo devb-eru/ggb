@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://eku6tov7vo5w"]
+
+[ext_resource type="Script" uid="uid://desnf0qm8hwit" path="res://scripts/ui/choice_window.gd" id="1_script"]
+[ext_resource type="Theme" path="res://assets/ui/dialogue_editor/choice_window_theme.tres" id="2_theme"]
+
+[sub_resource type="StyleBoxEmpty" id="Style_choice_panel"]
+
+[node name="DialogueChoicePanel" type="PanelContainer" unique_id=1629539339]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -538.0
+offset_top = 255.0
+offset_right = -68.0
+offset_bottom = 563.0
+grow_horizontal = 0
+theme = ExtResource("2_theme")
+theme_override_styles/panel = SubResource("Style_choice_panel")
+script = ExtResource("1_script")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=1562865473]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="Choices" type="VBoxContainer" parent="Margin" unique_id=685701026]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DialogueChoice1" type="Button" parent="Margin/Choices" unique_id=1191673356]
+custom_minimum_size = Vector2(420, 88)
+layout_mode = 2
+theme_type_variation = &"DialogueChoiceSelectedButton"
+theme_override_font_sizes/font_size = 23
+text = "이 종이는 어디에서 찾았나요?"
+alignment = 0
+autowrap_mode = 3
+
+[node name="DialogueChoice2" type="Button" parent="Margin/Choices" unique_id=1381389176]
+custom_minimum_size = Vector2(420, 88)
+layout_mode = 2
+theme_type_variation = &"DialogueChoiceButton"
+theme_override_font_sizes/font_size = 23
+text = "작은 홈에 관해 묻는다."
+alignment = 0
+autowrap_mode = 3
+
+[node name="DialogueChoice3" type="Button" parent="Margin/Choices" unique_id=1901999039]
+custom_minimum_size = Vector2(420, 88)
+layout_mode = 2
+theme_type_variation = &"DialogueChoiceButton"
+theme_override_font_sizes/font_size = 23
+text = "대화를 마친다."
+alignment = 0
+autowrap_mode = 3

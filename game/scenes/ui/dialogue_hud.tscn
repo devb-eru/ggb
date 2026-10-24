@@ -1,0 +1,306 @@
+[gd_scene format=3 uid="uid://dv27ugspwt0aq"]
+
+[ext_resource type="Script" uid="uid://bypy64bqx04aj" path="res://scripts/ui/dialogue_hud.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://rkqmwuggnc0c" path="res://assets/ui/dialogue_editor/dialogue_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" uid="uid://bbk7nswu2mu61" path="res://assets/prologue/prologue_mansion_hall_v01.png" id="3_background"]
+[ext_resource type="Texture2D" uid="uid://0rbyr7k4vhn7" path="res://assets/ui/design_2026_10/character_protagonist.png" id="4_character"]
+[ext_resource type="Texture2D" uid="uid://brbmqrlfi1mdt" path="res://assets/ui/design_2026_10/dialogue_overlay__r01.png" id="5_ornament"]
+[ext_resource type="Texture2D" uid="uid://h3yumfubyav8" path="res://assets/ui/design_2026_10/speaker_nameplate__r01.png" id="6_nameplate"]
+[ext_resource type="Texture2D" path="res://assets/ui/dialogue_editor/notebook_icon.res" id="7_notebook"]
+[ext_resource type="PackedScene" uid="uid://eku6tov7vo5w" path="res://scenes/ui/choice_window.tscn" id="8_choices"]
+[ext_resource type="Texture2D" path="res://assets/ui/dialogue_editor/menu_icon.res" id="9_menu"]
+
+[sub_resource type="Gradient" id="Gradient_shadow"]
+colors = PackedColorArray(0.025, 0.02, 0.035, 0, 0.025, 0.02, 0.035, 0.96)
+
+[sub_resource type="GradientTexture2D" id="Texture_shadow"]
+gradient = SubResource("Gradient_shadow")
+fill_to = Vector2(0, 0.42)
+
+[sub_resource type="AtlasTexture" id="Atlas_ornament"]
+atlas = ExtResource("5_ornament")
+region = Rect2(0, 21, 2172, 703)
+
+[sub_resource type="AtlasTexture" id="Atlas_nameplate"]
+atlas = ExtResource("6_nameplate")
+region = Rect2(66, 240, 2059, 250)
+
+[sub_resource type="StyleBoxEmpty" id="Style_body"]
+
+[sub_resource type="SystemFont" id="Font_reading"]
+font_names = PackedStringArray("Batang", "Georgia", "serif")
+subpixel_positioning = 0
+msdf_size = 36
+
+[sub_resource type="StyleBoxEmpty" id="Style_empty"]
+
+[sub_resource type="Theme" id="Theme_transparent_button"]
+Button/styles/disabled = SubResource("Style_empty")
+Button/styles/focus = SubResource("Style_empty")
+Button/styles/hover = SubResource("Style_empty")
+Button/styles/hover_pressed = SubResource("Style_empty")
+Button/styles/normal = SubResource("Style_empty")
+Button/styles/pressed = SubResource("Style_empty")
+
+[node name="DialogueLayer" type="Control" unique_id=2002771939]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -192.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="PreviewBackground" type="TextureRect" parent="." unique_id=1931121052]
+modulate = Color(0.86, 0.86, 0.9, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 192.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_background")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="DialogueChoiceInputBlocker" type="ColorRect" parent="." unique_id=673772016]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.16)
+
+[node name="StandingPortrait" type="TextureRect" parent="." unique_id=739460691]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -1025.0
+offset_right = 900.0
+offset_bottom = 960.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("4_character")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DialogueReadability" type="TextureRect" parent="." unique_id=329766998]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -415.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = SubResource("Texture_shadow")
+expand_mode = 1
+
+[node name="DialogueOrnament" type="TextureRect" parent="." unique_id=783827741]
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+self_modulate = Color(0.85814106, 0.85814106, 0.85814106, 1)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -371.0
+offset_right = 14.0
+offset_bottom = 21.891602
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = SubResource("Atlas_ornament")
+expand_mode = 1
+
+[node name="SpeakerNameplateArt" type="TextureRect" parent="." unique_id=583456405]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.234
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -95.0
+offset_top = -325.0
+offset_right = -80.0
+offset_bottom = -165.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = SubResource("Atlas_nameplate")
+expand_mode = 1
+
+[node name="DialogueBacking" type="PanelContainer" parent="." unique_id=1357744629]
+custom_maximum_size = Vector2(1244, 245)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.234
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -310.0
+offset_right = -83.64795
+offset_bottom = -65.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_body")
+
+[node name="Margin" type="MarginContainer" parent="DialogueBacking" unique_id=1478501807]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Body" type="VBoxContainer" parent="DialogueBacking/Margin" unique_id=347702423]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 36
+
+[node name="SpeakerLabel" type="Label" parent="DialogueBacking/Margin/Body" unique_id=2138233138]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.960784, 0.941176, 0.898039, 1)
+theme_override_fonts/font = SubResource("Font_reading")
+theme_override_font_sizes/font_size = 56
+text = "주인공"
+
+[node name="DialogueScroll" type="ScrollContainer" parent="DialogueBacking/Margin/Body" unique_id=327529109]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="DialogueText" type="Label" parent="DialogueBacking/Margin/Body/DialogueScroll" unique_id=285552155]
+custom_minimum_size = Vector2(1, 1)
+custom_maximum_size = Vector2(1244, 152)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.94, 0.93, 0.91, 1)
+theme_override_constants/line_spacing = 12
+theme_override_fonts/font = SubResource("Font_reading")
+theme_override_font_sizes/font_size = 36
+text = "이 종이는 어디에서 찾았나요?
+위쪽에 작은 홈이 있네요."
+autowrap_mode = 3
+
+[node name="DialogueNext" type="Button" parent="." unique_id=1551522029]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.234
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -222.0
+offset_right = -103.64795
+offset_bottom = -77.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_transparent_button")
+theme_override_font_sizes/font_size = 19
+
+[node name="DialogueHistory" type="Button" parent="." unique_id=1461580693]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -270.0
+offset_top = -64.0
+offset_right = -50.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = SubResource("Theme_transparent_button")
+theme_override_colors/font_color = Color(0.960784, 0.941176, 0.898039, 1)
+theme_override_font_sizes/font_size = 22
+text = "대화기록 (H)"
+
+[node name="DialogueChoicePanel" parent="." unique_id=693564994 instance=ExtResource("8_choices")]
+visible = false
+layout_mode = 1
+
+[node name="NotebookButton" type="Button" parent="." unique_id=1741461015]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -154.0
+offset_right = 148.0
+offset_bottom = -18.0
+grow_vertical = 0
+theme = ExtResource("2_theme")
+theme_type_variation = &"DialogueNotebookButton"
+theme_override_constants/h_separation = 4
+theme_override_constants/icon_max_width = 70
+theme_override_font_sizes/font_size = 20
+text = "수첩"
+icon = ExtResource("7_notebook")
+clip_text = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="MenuButton" type="Button" parent="." unique_id=1537441976]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 234.0
+offset_bottom = 86.0
+theme = ExtResource("2_theme")
+theme_type_variation = &"DialogueNotebookButton"
+theme_override_constants/outline_size = 0
+theme_override_constants/h_separation = 22
+theme_override_font_sizes/font_size = 24
+text = "메뉴"
+icon = ExtResource("9_menu")
+autowrap_mode = 3
+
+[node name="IconDivider" type="ColorRect" parent="MenuButton" unique_id=785800763]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 10.0
+offset_right = 65.0
+offset_bottom = 52.0
+mouse_filter = 2
+color = Color(0.6666667, 0.5254902, 0.34117648, 1)
+
+[node name="LocationDivider" type="ColorRect" parent="." unique_id=2063719277]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 35.0
+offset_right = 261.0
+offset_bottom = 75.0
+mouse_filter = 2
+color = Color(0.7254902, 0.63529414, 0.47843137, 1)
+
+[node name="LocationLabel" type="Label" parent="." unique_id=1320930676]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 24.0
+offset_right = 618.0
+offset_bottom = 86.0
+theme_override_colors/font_color = Color(0.94, 0.92, 0.86, 1)
+theme_override_fonts/font = SubResource("Font_reading")
+theme_override_font_sizes/font_size = 28
+text = "주인공의 침실"
+vertical_alignment = 1
