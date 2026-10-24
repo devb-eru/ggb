@@ -13,6 +13,9 @@ const VISUAL_VIEWER := preload("res://scripts/ui/notebook_visual_viewer.gd")
 const VISUAL_CANVAS := preload("res://scripts/ui/notebook_visual_canvas.gd")
 const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
 const SEARCH_TEXT := preload("res://scripts/ui/notebook_search_text.gd")
+const DESIGN := preload("res://scripts/ui/design_theme.gd")
+var _tab_rail: VBoxContainer
+var _header_scroll: ScrollContainer
 var query
 var _key := ""
 var _locale := "ko-KR"
@@ -470,9 +473,28 @@ func _clear_search() -> void:
 
 
 func _build() -> void:
+	theme = DESIGN.make_theme(true)
+	add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	var spread := HBoxContainer.new()
+	spread.name = "NotebookSpread"
+	spread.add_theme_constant_override("separation", 0)
+	add_child(spread)
+	_tab_rail = VBoxContainer.new()
+	_tab_rail.name = "NotebookLeftBookmarks"
+	_tab_rail.custom_minimum_size.x = 150
+	_tab_rail.add_theme_constant_override("separation", 14)
+	spread.add_child(_tab_rail)
+	var tab_spacer := Control.new()
+	tab_spacer.custom_minimum_size.y = 110
+	_tab_rail.add_child(tab_spacer)
+	var page_margin := MarginContainer.new()
+	page_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for edge in ["left", "right"]: page_margin.add_theme_constant_override("margin_" + edge, 65)
+	for edge in ["top", "bottom"]: page_margin.add_theme_constant_override("margin_" + edge, 65)
+	spread.add_child(page_margin)
 	_content = VBoxContainer.new()
 	_content.name = "NotebookContent"
-	add_child(_content)
+	page_margin.add_child(_content)
 	var top := HBoxContainer.new()
 	_content.add_child(top)
 	_search = LineEdit.new()
@@ -487,11 +509,13 @@ func _build() -> void:
 	_search.text_submitted.connect(func(_value: String) -> void: _search_delay = 0.2)
 	_search.gui_input.connect(_search_input)
 	_close = _button(top, "", func() -> void: close_requested.emit(), "NotebookClose")
-	var tabs := HFlowContainer.new()
-	_content.add_child(tabs)
 	for tab in QUERY.TABS:
-		var button := _button(tabs, tab, set_tab.bind(tab), "NotebookTab_" + tab)
+		var button := _button(_tab_rail, tab, set_tab.bind(tab), "NotebookTab_" + tab)
 		button.toggle_mode = true
+		button.custom_minimum_size = Vector2(150, 64)
+		DESIGN.button(button, false, "tab_idle")
+		button.add_theme_stylebox_override("pressed", DESIGN.box("tab_selected", Color.WHITE, 12))
+		button.add_theme_stylebox_override("hover_pressed", DESIGN.box("tab_selected", Color.WHITE, 12))
 		_tabs[tab] = button
 	var controls := HFlowContainer.new()
 	_filter_controls = controls
@@ -600,6 +624,19 @@ func _build() -> void:
 	_content.add_child(_visual)
 	_visual.closed.connect(_close_visual)
 	_visual.view_changed.connect(_remember_visual)
+	# At large text sizes, tools scroll independently so the reading pane
+	# retains a usable height and search hits can always be brought into view.
+	_header_scroll = ScrollContainer.new()
+	_header_scroll.name = "NotebookToolsScroll"
+	_header_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_header_scroll.follow_focus = true
+	_header_scroll.custom_minimum_size.y = 180
+	_content.add_child(_header_scroll)
+	_content.move_child(_header_scroll, 1)
+	var header := VBoxContainer.new()
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_header_scroll.add_child(header)
+	for control in [_filter_controls, _tools, _notice, _command, _status, _pages, _match_controls]: control.reparent(header)
 
 
 func _apply_labels() -> void:
@@ -622,8 +659,7 @@ func _apply_labels() -> void:
 	find_child("NotebookMatchNext", true, false).text = _l("다음 일치", "Next match")
 	var font_size := roundi(18 * _font_scale)
 	if theme == null or theme.default_font_size != font_size:
-		var notebook_theme := Theme.new()
-		notebook_theme.default_font_size = font_size
+		var notebook_theme := DESIGN.make_theme(true, font_size)
 		theme = notebook_theme
 
 
@@ -664,7 +700,9 @@ func _refresh() -> void:
 		_status.text += " · " + " / ".join(names)
 	_previous.disabled = _page == 0
 	_next.disabled = _page + 1 >= result.pages
-	for tab in _tabs: _tabs[tab].set_pressed_no_signal(_filters.tab == tab)
+	for tab in _tabs:
+		_tabs[tab].set_pressed_no_signal(_filters.tab == tab)
+		_tabs[tab].custom_minimum_size.x = 170 if _filters.tab == tab else 150
 	var browse_button: Button = find_child("NotebookBrowseGroups", true, false)
 	find_child("NotebookInvestigation", true, false).disabled = not query.investigation_available()
 	browse_button.visible = _filters.tab in ["dialogue", "people"]
@@ -929,8 +967,11 @@ func _back() -> void:
 
 func _responsive() -> void:
 	if not is_instance_valid(_body): return
+	_header_scroll.custom_minimum_size.y = clampf(size.y * 0.24, 120, 220)
+	queue_redraw()
 	var compact := size.x < 1050 * _font_scale
 	var browsing: bool = (is_instance_valid(_browser) and _browser.visible) or (is_instance_valid(_visual) and _visual.visible)
+	_header_scroll.visible = not browsing
 	_status.visible = not browsing
 	_match_controls.visible = not browsing and not _comparison_mode and _detail_visible and not String(_filters.get("needle", "")).strip_edges().is_empty()
 	_update_match_controls()
@@ -1171,8 +1212,20 @@ func _button(parent: Node, text: String, action: Callable, node_name: String) ->
 	button.text = text
 	button.pressed.connect(action)
 	button.focus_entered.connect(_changed)
+	var is_row := node_name.begins_with("NotebookRow")
+	DESIGN.button(button, not is_row, "list_row" if is_row else "button_paper")
+	var icons := {"NotebookClose":"icon_close", "NotebookBookmarks":"icon_pin", "NotebookCompare":"icon_compare", "NotebookRefresh":"icon_refresh", "NotebookFilters":"icon_filter", "NotebookReturnList":"icon_back", "NotebookSwapPair":"icon_swap"}
+	if icons.has(node_name): button.icon = DESIGN.icon(icons[node_name], 24)
 	parent.add_child(button)
 	return button
+
+
+func _draw() -> void:
+	# The book is one proportional illustration; UI text and tabs are separate.
+	var book := DESIGN.texture("panel_paper" if size.x < 1050 * _font_scale else "notebook_open")
+	var available := Vector2(maxf(1, size.x - 130), size.y)
+	var fitted := book.get_size() * minf(available.x / book.get_width(), available.y / book.get_height())
+	draw_texture_rect(book, Rect2(Vector2(130, 0) + (available - fitted) * 0.5, fitted), false)
 
 
 func _label(parent: Node, text: String) -> Label:

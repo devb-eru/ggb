@@ -78,6 +78,7 @@ static func prepare(previous: Dictionary, request: Dictionary) -> Dictionary:
 		cursor.after = {}
 		CURSOR.install(candidate, cursor)
 	elif request.cursor_enabled: CURSOR.carry(candidate, previous)
+	preload("res://scripts/systems/discovered_rooms.gd").remember(candidate, previous)
 	return {"ok":true, "snapshot":candidate}
 
 

@@ -1,0 +1,459 @@
+{
+  "source": "ideas/md/v04/05_공간구성지도_및_동선.md",
+  "rooms": {
+    "M2_BEDROOM": {
+      "ko": "주인공 침실",
+      "en": "Bedroom",
+      "position": [
+        0,
+        0
+      ]
+    },
+    "M2_UPPER_HALL": {
+      "ko": "상부 회랑",
+      "en": "Upper Hall",
+      "position": [
+        1,
+        0
+      ]
+    },
+    "M2_STAIR_LANDING": {
+      "ko": "중앙 계단 상부",
+      "en": "Stair Landing",
+      "position": [
+        2,
+        0
+      ]
+    },
+    "M1_CENTRAL_HALL": {
+      "ko": "중앙홀",
+      "en": "Central Hall",
+      "position": [
+        3,
+        2
+      ]
+    },
+    "B1_BASEMENT_STAIR": {
+      "ko": "지하 계단",
+      "en": "Basement Stair",
+      "position": [
+        0,
+        0
+      ]
+    },
+    "B1_AXIS_CHAMBER": {
+      "ko": "세 축 장치",
+      "en": "Axis Chamber",
+      "position": [
+        1,
+        0
+      ]
+    },
+    "B1_STORAGE": {
+      "ko": "지하창고",
+      "en": "Storage",
+      "position": [
+        2,
+        0
+      ]
+    },
+    "B1_CLOCKWORK_HEART": {
+      "ko": "태엽 심장",
+      "en": "Clockwork Heart",
+      "position": [
+        3,
+        0
+      ]
+    },
+    "H0_SERVICE_SPINE": {
+      "ko": "시설 척추",
+      "en": "Service Spine",
+      "position": [
+        2,
+        2
+      ]
+    },
+    "H0_CLOCK_MACHINE": {
+      "ko": "보안 기계실",
+      "en": "Clock Machine",
+      "position": [
+        0,
+        2
+      ]
+    },
+    "H0_LIFE_SUPPORT": {
+      "ko": "생명 유지실",
+      "en": "Life Support",
+      "position": [
+        3,
+        2
+      ]
+    },
+    "H0_CLIMATE_CONTROL": {
+      "ko": "기후 제어실",
+      "en": "Climate Control",
+      "position": [
+        3,
+        1
+      ]
+    },
+    "H0_PERSONALITY_ARCHIVE": {
+      "ko": "인격 아카이브",
+      "en": "Personality Archive",
+      "position": [
+        2,
+        0
+      ]
+    },
+    "H0_CORE_PATH": {
+      "ko": "F0 접근로",
+      "en": "Core Path",
+      "position": [
+        0,
+        1
+      ]
+    },
+    "H0_CORE_RECORDS": {
+      "ko": "코어 기록실",
+      "en": "Core Records",
+      "position": [
+        0,
+        0
+      ]
+    },
+    "H0_CORE_CHAMBER": {
+      "ko": "코어실",
+      "en": "Core Chamber",
+      "position": [
+        1,
+        1
+      ]
+    },
+    "R0_CRYO_CHAMBER": {
+      "ko": "냉각실",
+      "en": "Cryo Chamber",
+      "position": [
+        0,
+        0
+      ]
+    },
+    "R0_FACILITY_EXIT": {
+      "ko": "시설 출구",
+      "en": "Facility Exit",
+      "position": [
+        1,
+        0
+      ]
+    },
+    "R0_SURFACE_THRESHOLD": {
+      "ko": "지표 경계",
+      "en": "Surface Threshold",
+      "position": [
+        2,
+        0
+      ]
+    },
+    "M1_NORTH_ARCHIVE_HALL": {
+      "ko": "북쪽 기록 회랑",
+      "en": "North Archive Hall",
+      "position": [
+        3,
+        1
+      ]
+    },
+    "M1_LIBRARY_OUTER": {
+      "ko": "외부 서고",
+      "en": "Library Outer",
+      "position": [
+        2,
+        1
+      ]
+    },
+    "M1_LIBRARY_INNER": {
+      "ko": "기록 내실",
+      "en": "Library Inner",
+      "position": [
+        2,
+        2
+      ]
+    },
+    "M1_PORTRAIT_STORAGE": {
+      "ko": "초상화 보관실",
+      "en": "Portrait Storage",
+      "position": [
+        2,
+        0
+      ]
+    },
+    "M1_COLOR_ROOM_ENTRY": {
+      "ko": "색분해실 외부",
+      "en": "Color Room Entry",
+      "position": [
+        4,
+        0
+      ]
+    },
+    "M1_WEST_HALL": {
+      "ko": "서쪽 복도",
+      "en": "West Hall",
+      "position": [
+        1,
+        2
+      ]
+    },
+    "M1_GREAT_CLOCK": {
+      "ko": "대시계실",
+      "en": "Great Clock",
+      "position": [
+        0,
+        2
+      ]
+    },
+    "M1_BASEMENT_ENTRY": {
+      "ko": "지하 계단문",
+      "en": "Basement Entry",
+      "position": [
+        1,
+        3
+      ]
+    },
+    "M1_DINING_ROOM": {
+      "ko": "식당",
+      "en": "Dining Room",
+      "position": [
+        4,
+        3
+      ]
+    },
+    "M1_PARLOR": {
+      "ko": "대응접실",
+      "en": "Parlor",
+      "position": [
+        3,
+        3
+      ]
+    },
+    "M1_MIRROR_GALLERY": {
+      "ko": "남쪽 거울 회랑",
+      "en": "Mirror Gallery",
+      "position": [
+        3,
+        4
+      ]
+    },
+    "M1_EAST_HALL": {
+      "ko": "동쪽 복도",
+      "en": "East Hall",
+      "position": [
+        5,
+        2
+      ]
+    },
+    "M1_KITCHEN": {
+      "ko": "주방",
+      "en": "Kitchen",
+      "position": [
+        5,
+        3
+      ]
+    },
+    "M1_GREENHOUSE_VESTIBULE": {
+      "ko": "온실 앞",
+      "en": "Greenhouse Vestibule",
+      "position": [
+        6,
+        2
+      ]
+    },
+    "M1_GREENHOUSE": {
+      "ko": "온실",
+      "en": "Greenhouse",
+      "position": [
+        6,
+        1
+      ]
+    },
+    "M1_SERVICE_HALL": {
+      "ko": "사용인 정비 복도",
+      "en": "Service Hall",
+      "position": [
+        4,
+        2
+      ]
+    },
+    "M1_SERVANT_COMMON": {
+      "ko": "사용인 공용실",
+      "en": "Servant Common",
+      "position": [
+        4,
+        1
+      ]
+    },
+    "M1_TOOL_ROOM": {
+      "ko": "청소도구실",
+      "en": "Tool Room",
+      "position": [
+        5,
+        1
+      ]
+    },
+    "M1_WIRING_ROOM": {
+      "ko": "배선실",
+      "en": "Wiring Room",
+      "position": [
+        5,
+        0
+      ]
+    },
+    "H0_COLOR_SEPARATION": {
+      "ko": "색분해실",
+      "en": "Color Separation",
+      "position": [
+        1,
+        0
+      ]
+    }
+  },
+  "edges": [
+    [
+      "B1_AXIS_CHAMBER",
+      "B1_BASEMENT_STAIR"
+    ],
+    [
+      "B1_AXIS_CHAMBER",
+      "B1_STORAGE"
+    ],
+    [
+      "B1_CLOCKWORK_HEART",
+      "B1_STORAGE"
+    ],
+    [
+      "H0_CLIMATE_CONTROL",
+      "H0_SERVICE_SPINE"
+    ],
+    [
+      "H0_CLOCK_MACHINE",
+      "H0_CORE_PATH"
+    ],
+    [
+      "H0_CLOCK_MACHINE",
+      "H0_SERVICE_SPINE"
+    ],
+    [
+      "H0_CORE_CHAMBER",
+      "H0_CORE_RECORDS"
+    ],
+    [
+      "H0_CORE_PATH",
+      "H0_CORE_RECORDS"
+    ],
+    [
+      "H0_LIFE_SUPPORT",
+      "H0_SERVICE_SPINE"
+    ],
+    [
+      "H0_PERSONALITY_ARCHIVE",
+      "H0_SERVICE_SPINE"
+    ],
+    [
+      "M1_BASEMENT_ENTRY",
+      "M1_WEST_HALL"
+    ],
+    [
+      "M1_CENTRAL_HALL",
+      "M1_DINING_ROOM"
+    ],
+    [
+      "M1_CENTRAL_HALL",
+      "M1_EAST_HALL"
+    ],
+    [
+      "M1_CENTRAL_HALL",
+      "M1_LIBRARY_OUTER"
+    ],
+    [
+      "M1_CENTRAL_HALL",
+      "M1_NORTH_ARCHIVE_HALL"
+    ],
+    [
+      "M1_CENTRAL_HALL",
+      "M1_PARLOR"
+    ],
+    [
+      "M1_CENTRAL_HALL",
+      "M1_SERVICE_HALL"
+    ],
+    [
+      "M1_CENTRAL_HALL",
+      "M1_WEST_HALL"
+    ],
+    [
+      "M1_COLOR_ROOM_ENTRY",
+      "M1_NORTH_ARCHIVE_HALL"
+    ],
+    [
+      "M1_DINING_ROOM",
+      "M1_KITCHEN"
+    ],
+    [
+      "M1_EAST_HALL",
+      "M1_GREENHOUSE_VESTIBULE"
+    ],
+    [
+      "M1_EAST_HALL",
+      "M1_KITCHEN"
+    ],
+    [
+      "M1_GREAT_CLOCK",
+      "M1_WEST_HALL"
+    ],
+    [
+      "M1_GREENHOUSE",
+      "M1_GREENHOUSE_VESTIBULE"
+    ],
+    [
+      "M1_KITCHEN",
+      "M1_SERVICE_HALL"
+    ],
+    [
+      "M1_LIBRARY_INNER",
+      "M1_LIBRARY_OUTER"
+    ],
+    [
+      "M1_MIRROR_GALLERY",
+      "M1_PARLOR"
+    ],
+    [
+      "M1_NORTH_ARCHIVE_HALL",
+      "M1_PORTRAIT_STORAGE"
+    ],
+    [
+      "M1_SERVANT_COMMON",
+      "M1_SERVICE_HALL"
+    ],
+    [
+      "M1_SERVICE_HALL",
+      "M1_TOOL_ROOM"
+    ],
+    [
+      "M1_TOOL_ROOM",
+      "M1_WIRING_ROOM"
+    ],
+    [
+      "M2_BEDROOM",
+      "M2_UPPER_HALL"
+    ],
+    [
+      "M2_STAIR_LANDING",
+      "M2_UPPER_HALL"
+    ],
+    [
+      "R0_CRYO_CHAMBER",
+      "R0_FACILITY_EXIT"
+    ],
+    [
+      "R0_FACILITY_EXIT",
+      "R0_SURFACE_THRESHOLD"
+    ]
+  ]
+}

@@ -2,8 +2,9 @@ extends RefCounted
 
 
 static func enabled() -> bool:
-	# Remove this gate only after producer mapping and disclosure acceptance pass.
-	return OS.is_debug_build() and ("--ggb-dev-notebook-v2" in OS.get_cmdline_user_args() or "--notebook-migration-smoke" in OS.get_cmdline_user_args())
+	# The integrated notebook is the normal UI. Verified legacy saves are adapted
+	# by SaveManager; browsing never manufactures undisclosed observations.
+	return true
 
 
 static func new_history() -> Dictionary:

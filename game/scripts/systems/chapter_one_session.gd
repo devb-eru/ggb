@@ -535,6 +535,7 @@ func _note(knowledge: Dictionary, id: String, text: String) -> void:
 
 
 func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> Dictionary:
+	preload("res://scripts/systems/discovered_rooms.gd").remember(state, snapshot())
 	var text_id := _pending_feedback_text_id
 	# Capture the source event before installing a snapshot that advances the story.
 	var context := history_context() if _pending_feedback_context.is_empty() else _pending_feedback_context.duplicate(true)

@@ -154,6 +154,8 @@ func _validate_meta_progress(value: Variant, errors: PackedStringArray) -> void:
 	for field in ["knowledge_entries", "failure_knowledge", "event_history"]:
 		_require_type(meta.get(field), TYPE_DICTIONARY, "META_%s" % field.to_upper(), errors)
 	var knowledge: Variant = meta.get("knowledge_entries")
+	if knowledge is Dictionary and knowledge.has("visited_rooms_v1") and not preload("res://scripts/systems/discovered_rooms.gd").valid(knowledge.visited_rooms_v1):
+		errors.append("ERR_SNAPSHOT_VISITED_ROOMS")
 	var ledger_check := {}
 	if knowledge is Dictionary and knowledge.has("notebook_knowledge") and meta.get("dialogue_history") is Dictionary:
 		ledger_check = preload("res://scripts/systems/notebook_knowledge.gd").validate(knowledge.notebook_knowledge, meta.dialogue_history)
