@@ -1,0 +1,1586 @@
+{
+  "schema_version": 1,
+  "viewport": [
+    1920,
+    1080
+  ],
+  "source_manifest": "outputs/ui-assets-2026-10-21/manifest.json",
+  "runtime_notes": "Original PNGs preserved. runtime_bbox ignores faint alpha noise; native Godot controls supply all text.",
+  "assets": [
+    {
+      "id": "notebook_open",
+      "file": "notebook_open__r01.png",
+      "logical_size": [
+        1500,
+        850
+      ],
+      "pixel_size": [
+        1671,
+        941
+      ],
+      "content_bbox": [
+        0,
+        26,
+        1670,
+        930
+      ],
+      "runtime_bbox": [
+        14,
+        30,
+        1661,
+        927
+      ],
+      "sha256": "f61cf7931bc99486b07f3545569769dd00710049fcbb68641f95d24aac22665e"
+    },
+    {
+      "id": "tab_idle",
+      "file": "tab_idle__r01.png",
+      "logical_size": [
+        150,
+        64
+      ],
+      "pixel_size": [
+        2172,
+        724
+      ],
+      "content_bbox": [
+        0,
+        9,
+        2110,
+        724
+      ],
+      "runtime_bbox": [
+        66,
+        140,
+        2107,
+        597
+      ],
+      "sha256": "9ed3402a8c0b377d320e726e036c641bd4418d71f209c6e0f4c385419a69c62c"
+    },
+    {
+      "id": "tab_selected",
+      "file": "tab_selected__r01.png",
+      "logical_size": [
+        170,
+        64
+      ],
+      "pixel_size": [
+        1983,
+        793
+      ],
+      "content_bbox": [
+        0,
+        9,
+        1963,
+        793
+      ],
+      "runtime_bbox": [
+        79,
+        156,
+        1894,
+        626
+      ],
+      "sha256": "e2b5e5fe2b221cd991c1b8d19114a5b1cc7b67de3ef2194742ab668e74210502"
+    },
+    {
+      "id": "dialogue_overlay",
+      "file": "dialogue_overlay__r01.png",
+      "logical_size": [
+        1700,
+        380
+      ],
+      "pixel_size": [
+        2172,
+        724
+      ],
+      "content_bbox": [
+        0,
+        21,
+        2172,
+        724
+      ],
+      "runtime_bbox": [
+        0,
+        21,
+        2172,
+        724
+      ],
+      "sha256": "3cb278f51b3615d2363e186a43dd95a090c5a0386a8f03f7c49442465dbf5a5d"
+    },
+    {
+      "id": "speaker_nameplate",
+      "file": "speaker_nameplate__r01.png",
+      "logical_size": [
+        1250,
+        160
+      ],
+      "pixel_size": [
+        2172,
+        724
+      ],
+      "content_bbox": [
+        63,
+        158,
+        2152,
+        545
+      ],
+      "runtime_bbox": [
+        66,
+        240,
+        2125,
+        490
+      ],
+      "sha256": "802cf918b805cce6fb1a6d49f92564a2d98b7a6bc7d10236f79e4527109c4047"
+    },
+    {
+      "id": "button_dark",
+      "file": "button_dark__r01.png",
+      "logical_size": [
+        400,
+        80
+      ],
+      "pixel_size": [
+        2172,
+        724
+      ],
+      "content_bbox": [
+        26,
+        0,
+        2143,
+        662
+      ],
+      "runtime_bbox": [
+        29,
+        174,
+        2141,
+        507
+      ],
+      "sha256": "10b26020acbbcff29ce06fe690dfa6e43cbf970e164f43a552d264051d2a830e"
+    },
+    {
+      "id": "button_paper",
+      "file": "button_paper__r01.png",
+      "logical_size": [
+        400,
+        80
+      ],
+      "pixel_size": [
+        2172,
+        724
+      ],
+      "content_bbox": [
+        0,
+        0,
+        2146,
+        708
+      ],
+      "runtime_bbox": [
+        31,
+        166,
+        2142,
+        523
+      ],
+      "sha256": "5d1ca966d5eea0115afd3a454dca57bf2592305caa0b1c657abe58b7fab64ae1"
+    },
+    {
+      "id": "choice_button",
+      "file": "choice_button__r01.png",
+      "logical_size": [
+        700,
+        96
+      ],
+      "pixel_size": [
+        2172,
+        724
+      ],
+      "content_bbox": [
+        0,
+        18,
+        2150,
+        675
+      ],
+      "runtime_bbox": [
+        70,
+        234,
+        2103,
+        489
+      ],
+      "sha256": "eec67dd5a53a5af5aa49f4f7a7a552cde1715ecb6af681f8d1191cb055e9ef86"
+    },
+    {
+      "id": "panel_dark",
+      "file": "panel_dark__r01.png",
+      "logical_size": [
+        900,
+        600
+      ],
+      "pixel_size": [
+        1536,
+        1024
+      ],
+      "content_bbox": [
+        0,
+        23,
+        1532,
+        1024
+      ],
+      "runtime_bbox": [
+        27,
+        103,
+        1513,
+        906
+      ],
+      "sha256": "3941ae6b393d7e6946ee9e7dac55f329019caaf80b1634aef9c65fdc4315fb7b"
+    },
+    {
+      "id": "panel_paper",
+      "file": "panel_paper__r01.png",
+      "logical_size": [
+        900,
+        600
+      ],
+      "pixel_size": [
+        1536,
+        1024
+      ],
+      "content_bbox": [
+        12,
+        23,
+        1520,
+        1008
+      ],
+      "runtime_bbox": [
+        15,
+        60,
+        1516,
+        969
+      ],
+      "sha256": "4a57c3dd7c9e5191fd3dd964e05c2af4dc7d8900b1b11eeb5cb1bfcf08568934"
+    },
+    {
+      "id": "inventory_slot",
+      "file": "inventory_slot__r01.png",
+      "logical_size": [
+        136,
+        136
+      ],
+      "pixel_size": [
+        1262,
+        1246
+      ],
+      "content_bbox": [
+        33,
+        5,
+        1246,
+        1246
+      ],
+      "runtime_bbox": [
+        65,
+        81,
+        1197,
+        1169
+      ],
+      "sha256": "744f0ef6fdb6fa87288f5e1b1c7316e202cad65fe9929f64a17f2011960eb7b1"
+    },
+    {
+      "id": "inventory_rail",
+      "file": "inventory_rail__r01.png",
+      "logical_size": [
+        170,
+        1000
+      ],
+      "pixel_size": [
+        724,
+        2172
+      ],
+      "content_bbox": [
+        0,
+        0,
+        696,
+        2172
+      ],
+      "runtime_bbox": [
+        199,
+        4,
+        526,
+        2165
+      ],
+      "sha256": "4e07ea6981fa89c8933d5be087c8053fac33c13e3f8c694723e0a09ffba7d828"
+    },
+    {
+      "id": "list_row",
+      "file": "list_row__r01.png",
+      "logical_size": [
+        600,
+        100
+      ],
+      "pixel_size": [
+        2172,
+        724
+      ],
+      "content_bbox": [
+        19,
+        9,
+        2169,
+        704
+      ],
+      "runtime_bbox": [
+        27,
+        200,
+        2144,
+        515
+      ],
+      "sha256": "7669e89e4d16f3fc20a9c6dd8a2e116f0652568927ca75580f7af813cd158712"
+    },
+    {
+      "id": "search_field",
+      "file": "search_field__r01.png",
+      "logical_size": [
+        480,
+        72
+      ],
+      "pixel_size": [
+        2172,
+        724
+      ],
+      "content_bbox": [
+        25,
+        9,
+        2126,
+        698
+      ],
+      "runtime_bbox": [
+        82,
+        215,
+        2090,
+        499
+      ],
+      "sha256": "b9723919a254bfe9850909432ba8160d82e32bb18bdd41443e5a0813cd4529f8"
+    },
+    {
+      "id": "save_slot",
+      "file": "save_slot__r01.png",
+      "logical_size": [
+        850,
+        280
+      ],
+      "pixel_size": [
+        2163,
+        727
+      ],
+      "content_bbox": [
+        0,
+        0,
+        2141,
+        727
+      ],
+      "runtime_bbox": [
+        25,
+        116,
+        2135,
+        610
+      ],
+      "sha256": "115be5fd3691ad5f40d3a7152e954fd9da23cf8cb9347967cb6153bfd76d7d0d"
+    },
+    {
+      "id": "thumbnail_frame",
+      "file": "thumbnail_frame__r01.png",
+      "logical_size": [
+        160,
+        160
+      ],
+      "pixel_size": [
+        1265,
+        1243
+      ],
+      "content_bbox": [
+        12,
+        25,
+        1252,
+        1243
+      ],
+      "runtime_bbox": [
+        15,
+        28,
+        1249,
+        1214
+      ],
+      "sha256": "0c5f9af34fa4b3dadf8c6220ff4a0144fd04359294df8d0cc17692bde583c376"
+    },
+    {
+      "id": "map_paper",
+      "file": "map_paper__r01.png",
+      "logical_size": [
+        1650,
+        900
+      ],
+      "pixel_size": [
+        1672,
+        941
+      ],
+      "content_bbox": [
+        17,
+        0,
+        1656,
+        941
+      ],
+      "runtime_bbox": [
+        22,
+        5,
+        1653,
+        927
+      ],
+      "sha256": "ca45870eae797d9b4ddba22a13d7a61e78babec8f2ced98158b113d4df5a7c33"
+    },
+    {
+      "id": "separator",
+      "file": "separator__r01.png",
+      "logical_size": [
+        900,
+        24
+      ],
+      "pixel_size": [
+        2103,
+        748
+      ],
+      "content_bbox": [
+        17,
+        70,
+        2083,
+        447
+      ],
+      "runtime_bbox": [
+        24,
+        342,
+        2079,
+        407
+      ],
+      "sha256": "683186a723cdf167c27a3d983078f3810230ad22faeaa9dd437a22f76bdef5da"
+    },
+    {
+      "id": "focus_frame",
+      "file": "focus_frame__r01.png",
+      "logical_size": [
+        420,
+        90
+      ],
+      "pixel_size": [
+        1733,
+        907
+      ],
+      "content_bbox": [
+        16,
+        36,
+        1718,
+        875
+      ],
+      "runtime_bbox": [
+        19,
+        272,
+        1714,
+        630
+      ],
+      "sha256": "94ef3b1164bfa536e10ccb1dc19b217a5daadd09faa2c680d128ca2617816c6c"
+    },
+    {
+      "id": "tooltip",
+      "file": "tooltip__r01.png",
+      "logical_size": [
+        400,
+        100
+      ],
+      "pixel_size": [
+        2172,
+        724
+      ],
+      "content_bbox": [
+        27,
+        7,
+        2144,
+        724
+      ],
+      "runtime_bbox": [
+        40,
+        173,
+        2131,
+        584
+      ],
+      "sha256": "776f8624b7550f2b00eaf654a441af274e398457b40ea9e4473d4d85376d5416"
+    },
+    {
+      "id": "keycap",
+      "file": "keycap__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1294,
+        1216
+      ],
+      "content_bbox": [
+        49,
+        36,
+        1274,
+        1192
+      ],
+      "runtime_bbox": [
+        224,
+        226,
+        1060,
+        1014
+      ],
+      "sha256": "a2b995bbe27f43688359b58412b7ecbba2f99b9af242d6930b65d4ba91dbb89b"
+    },
+    {
+      "id": "slider_track",
+      "file": "slider_track__r01.png",
+      "logical_size": [
+        480,
+        24
+      ],
+      "pixel_size": [
+        1774,
+        887
+      ],
+      "content_bbox": [
+        36,
+        87,
+        1746,
+        653
+      ],
+      "runtime_bbox": [
+        39,
+        429,
+        1736,
+        512
+      ],
+      "sha256": "8990ed4bc7ffb1f6b489fca81359d638b9ffd77cbb7837621fcf5eb2633296d5"
+    },
+    {
+      "id": "slider_thumb",
+      "file": "slider_thumb__r02.png",
+      "logical_size": [
+        36,
+        44
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        21,
+        1226,
+        1254
+      ],
+      "runtime_bbox": [
+        311,
+        176,
+        941,
+        1063
+      ],
+      "sha256": "23e5c89cba2f1cf0e03cf6d7f5d832f32460b5e6c2fc383d9b1e78790ecad92d"
+    },
+    {
+      "id": "checkbox_empty",
+      "file": "checkbox_empty__r01.png",
+      "logical_size": [
+        44,
+        44
+      ],
+      "pixel_size": [
+        1300,
+        1209
+      ],
+      "content_bbox": [
+        27,
+        52,
+        1272,
+        1165
+      ],
+      "runtime_bbox": [
+        309,
+        290,
+        991,
+        929
+      ],
+      "sha256": "6102dd9b59ca5a166a98ec7ce9ac1fbc752a588541ce4895e3d288b1ebaa279b"
+    },
+    {
+      "id": "checkbox_checked",
+      "file": "checkbox_checked__r01.png",
+      "logical_size": [
+        44,
+        44
+      ],
+      "pixel_size": [
+        1315,
+        1197
+      ],
+      "content_bbox": [
+        41,
+        19,
+        1301,
+        1173
+      ],
+      "runtime_bbox": [
+        280,
+        224,
+        1042,
+        961
+      ],
+      "sha256": "9cb972da23cb28c52538d7ae7f3454db5f73ba59ce251e75f5f749962816a495"
+    },
+    {
+      "id": "scroll_track",
+      "file": "scroll_track__r01.png",
+      "logical_size": [
+        16,
+        400
+      ],
+      "pixel_size": [
+        941,
+        1672
+      ],
+      "content_bbox": [
+        98,
+        55,
+        830,
+        1595
+      ],
+      "runtime_bbox": [
+        405,
+        58,
+        510,
+        1592
+      ],
+      "sha256": "d1976dfd398525a1dcca84c2c1bb82153d4ea3461f768e9422fa8949e6665ee0"
+    },
+    {
+      "id": "scroll_thumb",
+      "file": "scroll_thumb__r02.png",
+      "logical_size": [
+        16,
+        80
+      ],
+      "pixel_size": [
+        887,
+        1774
+      ],
+      "content_bbox": [
+        65,
+        144,
+        736,
+        1732
+      ],
+      "runtime_bbox": [
+        285,
+        260,
+        603,
+        1486
+      ],
+      "sha256": "ceada8d847b4e71d9d2c32c6630ab4e27fde0df254b3c4fe4af53306325be136"
+    },
+    {
+      "id": "icon_menu",
+      "file": "icon_menu__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        25,
+        71,
+        1198,
+        1187
+      ],
+      "runtime_bbox": [
+        178,
+        337,
+        1077,
+        968
+      ],
+      "sha256": "4c9188c0c3740c3d4aab8bc9e1183f15271ff1f97601022dac622625a29b0298"
+    },
+    {
+      "id": "icon_close",
+      "file": "icon_close__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        33,
+        170,
+        1192,
+        1219
+      ],
+      "runtime_bbox": [
+        163,
+        173,
+        1091,
+        1081
+      ],
+      "sha256": "d365448a9bfb3b90c5c35d457022a6f5f91a1ae88143efc4d211ad18cd42822b"
+    },
+    {
+      "id": "icon_back",
+      "file": "icon_back__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        23,
+        1216,
+        1158
+      ],
+      "runtime_bbox": [
+        161,
+        153,
+        1104,
+        1073
+      ],
+      "sha256": "208e0184fa2116530f3057c896e60d88c098f2700313a48efd2b9a500b9643e7"
+    },
+    {
+      "id": "icon_next",
+      "file": "icon_next__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        73,
+        47,
+        1208,
+        1230
+      ],
+      "runtime_bbox": [
+        240,
+        126,
+        1014,
+        1127
+      ],
+      "sha256": "3b92f9dc4833ee82f55f1b6ca81a23f572dd00321773a9f1e38068b508289688"
+    },
+    {
+      "id": "icon_search",
+      "file": "icon_search__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        81,
+        1166,
+        1200
+      ],
+      "runtime_bbox": [
+        93,
+        85,
+        1150,
+        1152
+      ],
+      "sha256": "acfbe56e3e2cf3c5e2726217e3c8adda154fac2cbf014ace5e6ab3cc6a2fc397"
+    },
+    {
+      "id": "icon_filter",
+      "file": "icon_filter__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        89,
+        23,
+        1160,
+        1228
+      ],
+      "runtime_bbox": [
+        205,
+        262,
+        1047,
+        1015
+      ],
+      "sha256": "319ab77e0bafe0bf1b8ed2259d437275ebbb8952e9714e73b078e323f8b05f80"
+    },
+    {
+      "id": "icon_pin",
+      "file": "icon_pin__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        81,
+        45,
+        1144,
+        1203
+      ],
+      "runtime_bbox": [
+        333,
+        138,
+        1029,
+        1121
+      ],
+      "sha256": "bff24360e29db223c5241d30005d21c2d15c506d6a6f16f48c76462420eafb00"
+    },
+    {
+      "id": "icon_compare",
+      "file": "icon_compare__r02.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        20,
+        1240,
+        1254
+      ],
+      "runtime_bbox": [
+        135,
+        113,
+        1164,
+        1152
+      ],
+      "sha256": "73033c5bbc1490892e0d36c6a843ec8c48833a31dab8adc769524cd22b3f5222"
+    },
+    {
+      "id": "icon_expand",
+      "file": "icon_expand__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        19,
+        1216,
+        1228
+      ],
+      "runtime_bbox": [
+        188,
+        191,
+        1066,
+        1057
+      ],
+      "sha256": "d240ef3f65745ac90ce86ecec4e855d1e6cb50b21c5ebeeb4c61ea8684620302"
+    },
+    {
+      "id": "icon_swap",
+      "file": "icon_swap__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        65,
+        32,
+        1212,
+        1254
+      ],
+      "runtime_bbox": [
+        113,
+        144,
+        1150,
+        1107
+      ],
+      "sha256": "eb88f0572f6868465f835dba5bd3156970eb0e74771ef3cad2a775947d329156"
+    },
+    {
+      "id": "icon_plus",
+      "file": "icon_plus__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        73,
+        53,
+        1208,
+        1204
+      ],
+      "runtime_bbox": [
+        108,
+        105,
+        1146,
+        1140
+      ],
+      "sha256": "6e3681f0f6cfe4342908c87ec1bd0391f3ed9b5b4d7d7948670e9b75bfa09578"
+    },
+    {
+      "id": "icon_minus",
+      "file": "icon_minus__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        39,
+        1224,
+        1214
+      ],
+      "runtime_bbox": [
+        197,
+        532,
+        1058,
+        723
+      ],
+      "sha256": "388883acee330f9bc0b3de43527e3773e3857d2b30ea9504f4db158eaa75b379"
+    },
+    {
+      "id": "icon_chevron",
+      "file": "icon_chevron__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        23,
+        1200,
+        1198
+      ],
+      "runtime_bbox": [
+        112,
+        344,
+        1142,
+        924
+      ],
+      "sha256": "b6e16c18ad898201461b06369e37ec1880b9463e4638ceccb4fdb15e79b943d8"
+    },
+    {
+      "id": "icon_check",
+      "file": "icon_check__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        23,
+        1206,
+        1202
+      ],
+      "runtime_bbox": [
+        148,
+        164,
+        1202,
+        1098
+      ],
+      "sha256": "a61352aa2398301f83929cae26f63a13e5f3077ec10ee683766f5eb9b6b6e7b2"
+    },
+    {
+      "id": "icon_warning",
+      "file": "icon_warning__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        47,
+        53,
+        1206,
+        1230
+      ],
+      "runtime_bbox": [
+        51,
+        131,
+        1203,
+        1112
+      ],
+      "sha256": "7a0af17a6d0cff5608bda2974f6b330c6d568e13d183ad4edac82a2c340c216d"
+    },
+    {
+      "id": "icon_save",
+      "file": "icon_save__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        0,
+        1240,
+        1190
+      ],
+      "runtime_bbox": [
+        203,
+        97,
+        1158,
+        1156
+      ],
+      "sha256": "354d4a29f2dc8f3eba085ebb9188511749712a4b67a3e6513ba936f5f676d9db"
+    },
+    {
+      "id": "icon_notebook",
+      "file": "icon_notebook__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        41,
+        47,
+        1202,
+        1254
+      ],
+      "runtime_bbox": [
+        169,
+        142,
+        1098,
+        1121
+      ],
+      "sha256": "2ada991e0304aec92252499729afdc0d3d1d35f182082830877fa8caed1df1a7"
+    },
+    {
+      "id": "icon_record",
+      "file": "icon_record__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        0,
+        1228,
+        1254
+      ],
+      "runtime_bbox": [
+        219,
+        152,
+        1036,
+        1102
+      ],
+      "sha256": "cbdeae2378dd1dae97e8989d242d18948b7fa67049f3d6944af90e3a8981879b"
+    },
+    {
+      "id": "icon_settings",
+      "file": "icon_settings__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        47,
+        20,
+        1210,
+        1139
+      ],
+      "runtime_bbox": [
+        117,
+        114,
+        1137,
+        1127
+      ],
+      "sha256": "45af6f1918d14a10b829683b47ea6685f0915cdedb788ad0e7df61e72482fcf2"
+    },
+    {
+      "id": "icon_home",
+      "file": "icon_home__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        41,
+        1234,
+        1230
+      ],
+      "runtime_bbox": [
+        165,
+        70,
+        1095,
+        1141
+      ],
+      "sha256": "dab4d45c1a818ff93e3f3a2b6ffdb1a4def9d0dcf224300ff8d1f4e4fdcc1290"
+    },
+    {
+      "id": "icon_audio",
+      "file": "icon_audio__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        23,
+        1228,
+        1235
+      ],
+      "runtime_bbox": [
+        84,
+        203,
+        1174,
+        1086
+      ],
+      "sha256": "26b1c115b08408425041aae94d43d3d7b72838fd6b5d2c2b9d3bf8e9a638ea86"
+    },
+    {
+      "id": "icon_language",
+      "file": "icon_language__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        60,
+        1186,
+        1238
+      ],
+      "runtime_bbox": [
+        132,
+        115,
+        1124,
+        1121
+      ],
+      "sha256": "4c4fc9b7134895721a42b3d19b744dc8dc52ffa27d680b04dbf70daa6ec65000"
+    },
+    {
+      "id": "icon_lock",
+      "file": "icon_lock__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        31,
+        1202,
+        1236
+      ],
+      "runtime_bbox": [
+        287,
+        134,
+        966,
+        1131
+      ],
+      "sha256": "5b67840d70bf1a8c57da35937b6a87808360c299a55f60f4338e4d1ee45de49f"
+    },
+    {
+      "id": "icon_rotate",
+      "file": "icon_rotate__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        29,
+        1208,
+        1220
+      ],
+      "runtime_bbox": [
+        144,
+        74,
+        1140,
+        1166
+      ],
+      "sha256": "19c21dcb3187c3497745ab484513a23255047ee87a9b1df74526c623895992b6"
+    },
+    {
+      "id": "icon_flip",
+      "file": "icon_flip__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        49,
+        97,
+        1176,
+        1204
+      ],
+      "runtime_bbox": [
+        190,
+        252,
+        1064,
+        1003
+      ],
+      "sha256": "9de06e5785c49210ba4eb22b77662732af277d1108e95d85161854da000b198f"
+    },
+    {
+      "id": "icon_eye",
+      "file": "icon_eye__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        33,
+        31,
+        1234,
+        1198
+      ],
+      "runtime_bbox": [
+        54,
+        122,
+        1202,
+        1068
+      ],
+      "sha256": "90e180d2fb1411b6494ad871601c093048584f9f5d7e0732dc50c6c3cad556d4"
+    },
+    {
+      "id": "icon_hand",
+      "file": "icon_hand__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        49,
+        47,
+        1206,
+        1254
+      ],
+      "runtime_bbox": [
+        224,
+        133,
+        1045,
+        1128
+      ],
+      "sha256": "a31151f355aa772b8e8d464040d95144021bd6f022a925dfeeb20d015a76a37c"
+    },
+    {
+      "id": "icon_cursor",
+      "file": "icon_cursor__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        89,
+        115,
+        1071,
+        1174
+      ],
+      "runtime_bbox": [
+        339,
+        179,
+        959,
+        1059
+      ],
+      "sha256": "fe6b65ffccba8fd71607516a8ed114774a71c3af75f7f4753b7ac41809a6385f"
+    },
+    {
+      "id": "icon_location_dot",
+      "file": "icon_location_dot__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        113,
+        312,
+        850,
+        1053
+      ],
+      "runtime_bbox": [
+        409,
+        415,
+        845,
+        853
+      ],
+      "sha256": "5d0e3e0fd09d4b31a3a825a0d7c3f851b162b7ff0217c1a789a3506b17e920d5"
+    },
+    {
+      "id": "icon_info",
+      "file": "icon_info__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        27,
+        1248,
+        1254
+      ],
+      "runtime_bbox": [
+        83,
+        73,
+        1171,
+        1175
+      ],
+      "sha256": "f2448af0154db4d65de2538afac2d898b0ac8d952eebfcdf4a95f4c1b097ed86"
+    },
+    {
+      "id": "icon_auto",
+      "file": "icon_auto__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        0,
+        134,
+        1168,
+        1232
+      ],
+      "runtime_bbox": [
+        229,
+        145,
+        1086,
+        1113
+      ],
+      "sha256": "d2134b809fc56fae4352a9e0bb8750eebddb8a7f5bddd8d4830950b189a228a6"
+    },
+    {
+      "id": "icon_pause",
+      "file": "icon_pause__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        49,
+        21,
+        1202,
+        1174
+      ],
+      "runtime_bbox": [
+        343,
+        244,
+        912,
+        1009
+      ],
+      "sha256": "272b395adf8d8fe7ccebe95490cb0b2a21a1ae7db0874a688579dca66cb9ff2a"
+    },
+    {
+      "id": "icon_refresh",
+      "file": "icon_refresh__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        33,
+        97,
+        1215,
+        1254
+      ],
+      "runtime_bbox": [
+        85,
+        105,
+        1211,
+        1169
+      ],
+      "sha256": "49225cdee320765cfb36f0371f9c892f42b53502ccadb488a87879bee159b941"
+    },
+    {
+      "id": "icon_loading",
+      "file": "icon_loading__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        33,
+        70,
+        1218,
+        1254
+      ],
+      "runtime_bbox": [
+        111,
+        75,
+        1160,
+        1178
+      ],
+      "sha256": "7b60472eeeb4ea87fce71b9068595536f3f5299e57253d7799ad535f3a81bbf2"
+    },
+    {
+      "id": "icon_new_badge",
+      "file": "icon_new_badge__r01.png",
+      "logical_size": [
+        64,
+        64
+      ],
+      "pixel_size": [
+        1254,
+        1254
+      ],
+      "content_bbox": [
+        210,
+        143,
+        977,
+        965
+      ],
+      "runtime_bbox": [
+        341,
+        275,
+        913,
+        961
+      ],
+      "sha256": "7825b4fe08eb218b40750d039095a9afc102f5dd5e56b6496f56d25a2c301a49"
+    },
+    {
+      "id": "menu_background",
+      "file": "menu_background__r01.png",
+      "logical_size": [
+        1920,
+        1080
+      ],
+      "pixel_size": [
+        1672,
+        941
+      ],
+      "content_bbox": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "runtime_bbox": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "sha256": "c526c8c299b57c0d9a40f348aa7934d0813132485f7c8bf2398086163e509f29"
+    }
+  ]
+}
