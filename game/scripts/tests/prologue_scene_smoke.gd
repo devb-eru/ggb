@@ -88,7 +88,7 @@ func _validate_game_key_settings(tree: SceneTree, prologue: Control, errors: Pac
 	var draft := bindings.defaults()
 	draft.cancel = [KEY_F8]
 	prologue._apply_game_key_settings(draft)
-	_expect(not prologue._key_settings_panel.visible and prologue._modal_active, "game binding apply returns to menu", errors)
+	_expect(prologue._key_settings_panel.visible and prologue._modal_active, "game binding applies immediately within settings", errors)
 	_expect(int(store.load_profile().profile.key_bindings.cancel[0]) == KEY_F8, "game bindings persist in profile", errors)
 	prologue._open_key_settings()
 	await tree.process_frame
@@ -117,7 +117,7 @@ func _validate_game_key_settings(tree: SceneTree, prologue: Control, errors: Pac
 	event.pressed = false
 	Input.parse_input_event(event)
 	await tree.process_frame
-	_expect(not prologue._display_settings_panel.visible and not prologue._display_settings_panel.preview.pending, "rebound cancel reverts game display preview", errors)
+	_expect(prologue._display_settings_panel.visible and not prologue._display_settings_panel.preview.pending, "rebound cancel reverts preview within display settings", errors)
 	_expect(backend.state.mode == "windowed", "game preview cancellation restores screen", errors)
 	prologue._open_display_settings()
 	prologue._display_settings_panel.mode.select(0)
@@ -135,6 +135,10 @@ func _validate_game_key_settings(tree: SceneTree, prologue: Control, errors: Pac
 
 func run(tree: SceneTree) -> Dictionary:
 	var prologue = PROLOGUE_SCENE.instantiate()
+	var design = prologue.dialogue_hud_scene.instantiate()
+	var base_dialogue_font: int = design.get_node("DialogueBacking/Margin/Body/DialogueScroll/DialogueText").get_theme_font_size("font_size")
+	var base_choice_font: int = design.get_node("DialogueChoicePanel/Margin/Choices/DialogueChoice1").get_theme_font_size("font_size")
+	design.free()
 	prologue.configure_session("__test_prologue", "P1_ENTRY", true)
 	tree.root.add_child(prologue)
 	await tree.process_frame
@@ -194,7 +198,7 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._show_p1_intro()
 	_expect(prologue._dialogue_lines.size() == 4, "English P1 preserves four opening lines", errors)
 	_expect("Morning light" in prologue._dialogue_label.text, "P1 uses English runtime locale", errors)
-	_expect(prologue._dialogue_next.text == "Continue", "English dialogue continue control", errors)
+	_expect(prologue._dialogue_next.text.is_empty(), "English dialogue advances without a visible next label", errors)
 	prologue._advance_dialogue()
 	_expect("Exactly three knocks" in prologue._dialogue_label.text, "English P1 preserves knock clue", errors)
 	prologue._advance_dialogue()
@@ -203,7 +207,7 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(prologue._dialogue_lines[2]["speaker"] == "에드가", "Localization preserves speaker identity", errors)
 	prologue._advance_dialogue()
 	_expect("northern archive corridor" in prologue._dialogue_label.text, "English P1 includes portrait task", errors)
-	_expect(prologue._dialogue_next.text == "Finish", "English final dialogue control", errors)
+	_expect(prologue._dialogue_next.text.is_empty(), "English final dialogue has no visible next label", errors)
 	prologue._advance_dialogue()
 	_expect(not prologue._dialogue_active, "English P1 completes normally", errors)
 	_expect("Examine the light" in prologue._status_label.text, "English P1 completes with localized objective", errors)
@@ -351,7 +355,8 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(prologue._window_drop_targets["TOP"].get_theme_font_size("font_size") == 44, "Window area doubles text size", errors)
 	var items: Array = []
 	for index in range(6):
-		items.append({"id": "TEST_%d" % index, "label": "A long inventory item label for reading"})
+		# Force overflow even now that the inventory uses the full screen height.
+		items.append({"id": "TEST_%d" % index, "label": "A long inventory item label for reading. ".repeat(2)})
 	prologue._update_inventory(items)
 	await tree.process_frame
 	await tree.process_frame
@@ -445,17 +450,17 @@ func run(tree: SceneTree) -> Dictionary:
 	_expect(prologue._localized_speaker("Unknown witness") == "Unknown witness", "Unknown speaker remains visible", errors)
 	TranslationServer.set_locale("ko_KR")
 	prologue._show_p1_intro()
-	_expect(prologue._dialogue_next.text == "계속", "Korean continue preserved", errors)
+	_expect(prologue._dialogue_next.text.is_empty(), "Korean dialogue has no visible next label", errors)
 	prologue._advance_dialogue()
 	prologue._advance_dialogue()
 	_expect(prologue._speaker_label.text == "에드가", "Korean speaker preserved", errors)
 	prologue._advance_dialogue()
-	_expect(prologue._dialogue_next.text == "마침", "Korean finish preserved", errors)
+	_expect(prologue._dialogue_next.text.is_empty(), "Korean final dialogue has no visible next label", errors)
 	prologue._advance_dialogue()
 	TranslationServer.set_locale(original_locale)
 	prologue._apply_reading_text_scale(2.0)
-	_expect(prologue._dialogue_label.get_theme_font_size("font_size") == 48, "Dialogue applies 200 percent text size", errors)
-	_expect(prologue._dialogue_choice_buttons[0].get_theme_font_size("font_size") == 46, "Choices apply 200 percent text size", errors)
+	_expect(prologue._dialogue_label.get_theme_font_size("font_size") == base_dialogue_font * 2, "Dialogue doubles the scene's configured text size", errors)
+	_expect(prologue._dialogue_choice_buttons[0].get_theme_font_size("font_size") == base_choice_font * 2, "Choices double the scene's configured text size", errors)
 	prologue._show_dialogue([{"speaker":"SYSTEM", "text":"긴 기록의 마지막 문장까지 읽을 수 있어야 한다.\n".repeat(40)}, {"speaker":"SYSTEM", "text":"다음 기록"}])
 	await tree.process_frame
 	await tree.process_frame

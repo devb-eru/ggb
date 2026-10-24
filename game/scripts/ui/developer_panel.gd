@@ -32,9 +32,9 @@ func _ready() -> void:
 	launch_button.text = "개발자 · F10"
 	root.add_child(launch_button)
 	launch_button.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	launch_button.offset_left = -225
+	launch_button.offset_left = -490
 	launch_button.offset_top = 8
-	launch_button.offset_right = -12
+	launch_button.offset_right = -250
 	launch_button.offset_bottom = 60
 	launch_button.pressed.connect(toggle)
 	blocker = ColorRect.new()

@@ -352,8 +352,7 @@ func _open_menu() -> void:
 	if session == null:
 		super._open_menu()
 		return
-	if _dialogue_active or _dialogue_choice_active:
-		return
+	_remember_menu_focus()
 	menu_audio_pause_requested.emit(true)
 	_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
 		{"label": _dialogue_ui_text("UI_DIALOGUE_CONTINUE"), "action": _close_modal},
@@ -730,6 +729,7 @@ func _render_room() -> void:
 		_swap_from = -1
 		_world_focus = ""
 	_current_room = state["loop_state"]["location_id"]
+	_witnessed_rooms[_current_room] = true
 	var local := session.local_state(state)
 	_progress = {"notebook_entries": [], "P1_complete": true}
 	_update_inventory([])

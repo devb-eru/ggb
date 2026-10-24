@@ -1,6 +1,8 @@
 class_name PrologueController
 extends Control
 
+@export var dialogue_hud_scene: PackedScene = preload("res://scenes/ui/dialogue_hud.tscn")
+
 signal return_to_title_requested
 signal campaign_requested(slot_id: String)
 signal audio_settings_changed(settings: Dictionary)
@@ -24,6 +26,7 @@ const INVENTORY_DRAG_SLOT_SCRIPT := preload("res://scripts/ui/inventory_drag_slo
 const INVENTORY_DROP_TARGET_SCRIPT := preload("res://scripts/ui/inventory_drop_target.gd")
 const PROLOGUE_SURFACES := preload("res://scripts/systems/notebook_prologue_surfaces.gd")
 const PROLOGUE_CURSOR := preload("res://scripts/systems/notebook_presentation.gd")
+const DESIGN := preload("res://scripts/ui/design_theme.gd")
 
 const ROOM_NAMES := {
 	"M2_BEDROOM": "주인공의 침실",
@@ -112,6 +115,9 @@ var _progress: Dictionary = {}
 var _pending_notebook: Dictionary = {}
 var _selected_item := ""
 var _current_room := "M2_BEDROOM"
+var _focus_before_menu: WeakRef
+var _map_panel: PanelContainer
+var _witnessed_rooms: Dictionary = {}
 
 var _background: TextureRect
 var _room_art
@@ -120,6 +126,7 @@ var _location_label: Label
 var _objective_label: Label
 var _status_label: Label
 var _notebook_button: Button
+var _notebook_base_font_size := 20
 var _inventory_panel: PanelContainer
 var _inventory_slots: Array[Button] = []
 var _menu_button: Button
@@ -130,9 +137,10 @@ var _dialogue_label: Label
 var _dialogue_scroll: ScrollContainer
 var _reading_text_scale := 1.0
 var _dialogue_next: Button
+var _dialogue_history_button: Button
 var _dialogue_choice_blocker: ColorRect
 var _dialogue_choice_panel: PanelContainer
-var _dialogue_choice_header: Label
+var _dialogue_choice_header_text := ""
 var _dialogue_choice_buttons: Array[Button] = []
 var _dialogue_choice_focus_index := 0
 var _dialogue_choice_active := false
@@ -434,6 +442,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not _prologue_async_request.is_empty() and not event.is_action_pressed("ui_page_up", false, true) and not event.is_action_pressed("ui_page_down", false, true):
 		get_viewport().set_input_as_handled()
 		return
+	if is_instance_valid(_map_panel) and _map_panel.visible:
+		if event.is_action_pressed("ui_cancel", false, true):
+			_open_menu()
+			get_viewport().set_input_as_handled()
+		return
 	if is_instance_valid(_display_settings_panel) and _display_settings_panel.visible:
 		if event.is_action_pressed("ui_cancel", false, true):
 			_open_menu()
@@ -467,6 +480,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			body_scroll.scroll_vertical += direction * maxi(40, int(body_scroll.size.y * 0.8))
 			get_viewport().set_input_as_handled()
 			return
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_H and not event.ctrl_pressed and not event.alt_pressed and not event.meta_pressed and not _modal_active:
+		_open_dialogue_history()
+		get_viewport().set_input_as_handled()
+		return
 	if _dialogue_layer.visible and not _modal_active and (page_up or page_down):
 		var direction := -1 if page_up else 1
 		_dialogue_scroll.scroll_vertical += direction * maxi(40, int(_dialogue_scroll.size.y * 0.8))
@@ -485,14 +502,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			_open_notebook()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_cancel", false, true):
-		if _dialogue_choice_active:
-			_handle_dialogue_choice_cancel()
+		if _modal_active:
+			_cancel_prologue_modal()
+		elif _dialogue_active or _dialogue_choice_active:
+			_open_menu()
+		elif not _selected_item.is_empty():
+			_selected_item = ""
+			_refresh_inventory_selection()
 		elif _inspection_active:
 			_close_window_inspection()
-		elif _modal_active:
-			_cancel_prologue_modal()
-		elif _dialogue_active:
-			_advance_dialogue()
 		else:
 			_open_menu()
 		get_viewport().set_input_as_handled()
@@ -531,7 +549,11 @@ func _build_ui() -> void:
 	_build_window_inspection_ui()
 	_build_persistent_ui()
 	_build_dialogue_ui()
+	# Persistent HUD sits above the portrait, dialogue decoration and shadow.
+	for hud in [_menu_button, _location_label, get_node("LocationDivider"), _notebook_button, _inventory_panel]:
+		move_child(hud, get_child_count() - 1)
 	_build_modal_ui()
+	_apply_design_components()
 
 	_fade = ColorRect.new()
 	_fade.color = Color(0.0, 0.0, 0.0, 0.0)
@@ -539,12 +561,31 @@ func _build_ui() -> void:
 	_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_fade.visible = false
 	add_child(_fade)
-	if _unified_notebook_enabled(): move_child(_notebook_button, get_child_count() - 1)
 	if preload("res://scripts/systems/notebook_rollout.gd").enabled() and not _test_mode:
 		var tracker := preload("res://scripts/systems/presentation_view_tracker.gd").new()
 		tracker.name = "PresentationViewTracker"
 		tracker.view = self
 		add_child(tracker)
+
+
+func _apply_design_components() -> void:
+	theme = DESIGN.make_theme()
+	var inventory_backing := StyleBoxFlat.new()
+	inventory_backing.bg_color = Color("09070d")
+	inventory_backing.set_content_margin_all(0)
+	_inventory_panel.add_theme_stylebox_override("panel", inventory_backing)
+	_modal_panel.add_theme_stylebox_override("panel", DESIGN.box("panel_dark", Color.WHITE, 24))
+	for slot in _inventory_slots: DESIGN.button(slot, false, "inventory_slot")
+	_dialogue_layer.visibility_changed.connect(_update_inventory_dialogue_treatment)
+
+
+func _update_inventory_dialogue_treatment() -> void:
+	var reading := _dialogue_layer.visible
+	_hotspot_layer.visible = not reading
+	_inventory_panel.modulate = Color.WHITE
+	for slot in _inventory_slots:
+		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE if reading else Control.MOUSE_FILTER_STOP
+		slot.focus_mode = Control.FOCUS_NONE if reading else Control.FOCUS_ALL
 
 
 func _build_window_inspection_ui() -> void:
@@ -636,21 +677,19 @@ func _notification(what: int) -> void:
 			_menu_button.text = _dialogue_ui_text("UI_P_MENU")
 		if is_instance_valid(_notebook_button):
 			_refresh_notebook_caption()
+		if is_instance_valid(_dialogue_history_button):
+			_dialogue_history_button.text = "History (H)" if TranslationServer.get_locale().begins_with("en") else "대화기록 (H)"
 
 
 func _notebook_caption() -> String:
-	var keys := PackedStringArray()
-	if InputMap.has_action("notebook_toggle"):
-		for event in InputMap.action_get_events("notebook_toggle"):
-			if event is InputEventKey:
-				keys.append(event.as_text())
 	var names: Array = preload("res://scripts/systems/key_bindings.gd").NAMES["notebook"]
 	var title: String = names[1 if TranslationServer.get_locale().begins_with("en") else 0]
-	return title if keys.is_empty() else title + "\n" + "\n".join(keys)
+	return title
 
 
 func _refresh_notebook_caption() -> void:
 	_notebook_button.text = _notebook_caption()
+	_notebook_button.add_theme_font_size_override("font_size", roundi(_notebook_base_font_size * (0.9 if TranslationServer.get_locale().begins_with("en") else 1.0)))
 	_notebook_button.tooltip_text = _notebook_button.text.replace("\n", " · ")
 
 
@@ -659,23 +698,6 @@ func _show_notebook_shortcut() -> void:
 
 
 func _build_persistent_ui() -> void:
-	var top_shade := ColorRect.new()
-	top_shade.color = Color(0.015, 0.01, 0.03, 0.78)
-	_place(top_shade, Rect2(0, 0, 1920, 86))
-	add_child(top_shade)
-
-	_menu_button = _make_button(_dialogue_ui_text("UI_P_MENU"), Rect2(22, 18, 136, 52), _open_menu)
-	_menu_button.name = "MenuButton"
-	add_child(_menu_button)
-
-	_location_label = Label.new()
-	_location_label.name = "LocationLabel"
-	_location_label.add_theme_font_size_override("font_size", 24)
-	_location_label.add_theme_color_override("font_color", Color(0.94, 0.92, 0.86))
-	_location_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_place(_location_label, Rect2(180, 18, 430, 52))
-	add_child(_location_label)
-
 	var objective_panel := PanelContainer.new()
 	objective_panel.add_theme_stylebox_override("panel", _style(Color(0.025, 0.018, 0.055, 0.88), Color(0.48, 0.26, 0.55, 0.85), 2, 10))
 	_place(objective_panel, Rect2(635, 14, 760, 60))
@@ -696,35 +718,22 @@ func _build_persistent_ui() -> void:
 	_place(_status_label, Rect2(500, 90, 920, 44))
 	add_child(_status_label)
 
-	_notebook_button = _make_button(_notebook_caption(), Rect2(24, 912, 148, 132), _open_notebook)
-	_notebook_button.name = "NotebookButton"
-	_notebook_button.add_theme_font_size_override("font_size", 22)
-	_notebook_button.autowrap_mode = TextServer.AUTOWRAP_OFF
-	_notebook_button.clip_text = true
-	_notebook_button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_notebook_button.focus_entered.connect(_show_notebook_shortcut)
-	_refresh_notebook_caption()
-	add_child(_notebook_button)
 
 	_inventory_panel = PanelContainer.new()
 	_inventory_panel.name = "InventoryPanel"
 	_inventory_panel.add_theme_stylebox_override("panel", _style(Color(0.035, 0.018, 0.045, 0.91), Color(0.64, 0.25, 0.18, 0.94), 4, 6))
-	_place(_inventory_panel, Rect2(1692, 90, 204, 930))
 	add_child(_inventory_panel)
+	_inventory_panel.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
+	_inventory_panel.offset_left = -192
 	var inventory_margin := MarginContainer.new()
-	inventory_margin.add_theme_constant_override("margin_left", 12)
-	inventory_margin.add_theme_constant_override("margin_top", 14)
-	inventory_margin.add_theme_constant_override("margin_right", 12)
-	inventory_margin.add_theme_constant_override("margin_bottom", 14)
+	inventory_margin.add_theme_constant_override("margin_left", 0)
+	inventory_margin.add_theme_constant_override("margin_top", 0)
+	inventory_margin.add_theme_constant_override("margin_right", 0)
+	inventory_margin.add_theme_constant_override("margin_bottom", 0)
 	_inventory_panel.add_child(inventory_margin)
 	var inventory_column := VBoxContainer.new()
-	inventory_column.add_theme_constant_override("separation", 12)
+	inventory_column.add_theme_constant_override("separation", 0)
 	inventory_margin.add_child(inventory_column)
-	var inventory_title := Label.new()
-	inventory_title.text = _dialogue_ui_text("UI_INVENTORY")
-	inventory_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	inventory_title.add_theme_font_size_override("font_size", 19)
-	inventory_column.add_child(inventory_title)
 	var inventory_scroll := ScrollContainer.new()
 	inventory_scroll.name = "InventoryScroll"
 	inventory_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -733,13 +742,16 @@ func _build_persistent_ui() -> void:
 	inventory_scroll.follow_focus = true
 	inventory_column.add_child(inventory_scroll)
 	var slots_column := VBoxContainer.new()
+	slots_column.name = "InventorySlots"
 	slots_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	slots_column.add_theme_constant_override("separation", 12)
+	slots_column.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	slots_column.add_theme_constant_override("separation", 0)
 	inventory_scroll.add_child(slots_column)
 	for index in range(6):
 		var slot: Button = INVENTORY_DRAG_SLOT_SCRIPT.new()
 		slot.name = "InventorySlot%d" % (index + 1)
-		slot.custom_minimum_size = Vector2(170, 126)
+		slot.custom_minimum_size = Vector2(0, 126)
+		slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		slot.text = _dialogue_ui_text("UI_INV_EMPTY")
 		slot.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		slot.add_theme_font_size_override("font_size", 17)
@@ -752,111 +764,47 @@ func _build_persistent_ui() -> void:
 
 
 func _build_dialogue_ui() -> void:
-	_dialogue_layer = Control.new()
-	_dialogue_layer.name = "DialogueLayer"
-	_dialogue_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_dialogue_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_dialogue_layer.visible = false
+	_dialogue_layer = dialogue_hud_scene.instantiate()
 	add_child(_dialogue_layer)
-
-	_portrait = TextureRect.new()
-	_portrait.name = "StandingPortrait"
-	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_place(_portrait, Rect2(40, 110, 650, 940))
-	_dialogue_layer.add_child(_portrait)
-
-	var backing := PanelContainer.new()
-	backing.name = "DialogueBacking"
-	backing.add_theme_stylebox_override("panel", _style(Color(0.008, 0.006, 0.014, 0.91), Color(0.36, 0.18, 0.36, 0.92), 3, 8))
-	_place(backing, Rect2(185, 735, 1490, 310))
-	_dialogue_layer.add_child(backing)
-	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 400)
-	margin.add_theme_constant_override("margin_top", 28)
-	margin.add_theme_constant_override("margin_right", 34)
-	margin.add_theme_constant_override("margin_bottom", 24)
-	backing.add_child(margin)
-	var body := VBoxContainer.new()
-	body.add_theme_constant_override("separation", 14)
-	margin.add_child(body)
-	_speaker_label = Label.new()
-	_speaker_label.name = "SpeakerLabel"
-	_speaker_label.add_theme_font_size_override("font_size", 25)
-	_speaker_label.add_theme_color_override("font_color", Color(0.93, 0.72, 0.44))
-	body.add_child(_speaker_label)
-	_dialogue_scroll = ScrollContainer.new()
-	_dialogue_scroll.name = "DialogueScroll"
-	_dialogue_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	_dialogue_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_dialogue_scroll.custom_minimum_size.y = 80
-	_dialogue_scroll.focus_mode = Control.FOCUS_ALL
-	body.add_child(_dialogue_scroll)
-	_dialogue_label = Label.new()
-	_dialogue_label.name = "DialogueText"
-	_dialogue_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_dialogue_label.add_theme_font_size_override("font_size", 24)
-	_dialogue_label.add_theme_color_override("font_color", Color(0.94, 0.93, 0.91))
-	_dialogue_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_dialogue_scroll.add_child(_dialogue_label)
-	_dialogue_next = Button.new()
-	_dialogue_next.name = "DialogueNext"
-	_dialogue_next.text = _dialogue_ui_text("UI_DIALOGUE_CONTINUE")
-	_dialogue_next.custom_minimum_size = Vector2(170, 46)
-	_dialogue_next.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_portrait = _dialogue_layer.get_node("StandingPortrait")
+	_speaker_label = _dialogue_layer.get_node("DialogueBacking/Margin/Body/SpeakerLabel")
+	_dialogue_scroll = _dialogue_layer.get_node("DialogueBacking/Margin/Body/DialogueScroll")
+	_dialogue_label = _dialogue_scroll.get_node("DialogueText")
+	_dialogue_next = _dialogue_layer.get_node("DialogueNext")
+	_dialogue_history_button = _dialogue_layer.get_node("DialogueHistory")
+	_dialogue_choice_blocker = _dialogue_layer.get_node("DialogueChoiceInputBlocker")
+	_dialogue_choice_panel = _dialogue_layer.get_node("DialogueChoicePanel")
+	var choices: VBoxContainer = _dialogue_choice_panel.get_node("Margin/Choices")
+	_menu_button = _dialogue_layer.get_node("MenuButton")
+	_location_label = _dialogue_layer.get_node("LocationLabel")
+	# Keep authored HUD properties when making these controls persistent during exploration.
+	for path in ["MenuButton", "LocationLabel", "LocationDivider"]:
+		_dialogue_layer.get_node(path).reparent(self, false)
+	_menu_button.text = _dialogue_ui_text("UI_P_MENU")
+	_menu_button.pressed.connect(_open_menu)
+	_notebook_button = _dialogue_layer.get_node("NotebookButton")
+	_notebook_base_font_size = _notebook_button.get_theme_font_size("font_size")
+	# Preserve the scene's visual properties while putting the notebook above dialogue.
+	_notebook_button.reparent(self, false)
+	_notebook_button.pressed.connect(_open_notebook)
+	_refresh_notebook_caption()
+	_dialogue_history_button.text = "History (H)" if TranslationServer.get_locale().begins_with("en") else "대화기록 (H)"
 	_dialogue_next.pressed.connect(_advance_dialogue)
-	body.add_child(_dialogue_next)
-
-	_dialogue_choice_blocker = ColorRect.new()
-	_dialogue_choice_blocker.name = "DialogueChoiceInputBlocker"
-	_dialogue_choice_blocker.color = Color(0.0, 0.0, 0.0, 0.16)
-	_dialogue_choice_blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_dialogue_choice_blocker.mouse_filter = Control.MOUSE_FILTER_STOP
-	_dialogue_choice_blocker.visible = false
-	_dialogue_layer.add_child(_dialogue_choice_blocker)
-	_dialogue_layer.move_child(_dialogue_choice_blocker, 0)
-
-	_dialogue_choice_panel = PanelContainer.new()
-	_dialogue_choice_panel.name = "DialogueChoicePanel"
-	_dialogue_choice_panel.add_theme_stylebox_override("panel", _style(Color(0.01, 0.008, 0.018, 0.72), Color(0.29, 0.36, 0.48, 0.64), 2, 3))
-	_place(_dialogue_choice_panel, Rect2(1190, 255, 470, 365))
-	_dialogue_choice_panel.resized.connect(func() -> void:
-		_dialogue_choice_panel.position.x = maxf(24.0, 1660.0 - _dialogue_choice_panel.size.x)
-	)
-	_dialogue_choice_panel.visible = false
-	_dialogue_layer.add_child(_dialogue_choice_panel)
-	var choice_margin := MarginContainer.new()
-	choice_margin.add_theme_constant_override("margin_left", 12)
-	choice_margin.add_theme_constant_override("margin_top", 12)
-	choice_margin.add_theme_constant_override("margin_right", 12)
-	choice_margin.add_theme_constant_override("margin_bottom", 12)
-	_dialogue_choice_panel.add_child(choice_margin)
-	var choice_list := VBoxContainer.new()
-	choice_list.add_theme_constant_override("separation", 10)
-	choice_margin.add_child(choice_list)
-	_dialogue_choice_header = Label.new()
-	_dialogue_choice_header.name = "DialogueChoiceHeader"
-	_dialogue_choice_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_dialogue_choice_header.add_theme_font_size_override("font_size", 18)
-	_dialogue_choice_header.add_theme_color_override("font_color", Color(0.78, 0.81, 0.88))
-	choice_list.add_child(_dialogue_choice_header)
+	_dialogue_next.gui_input.connect(_on_dialogue_body_input)
+	_dialogue_history_button.pressed.connect(_open_dialogue_history)
 	for index in range(3):
-		var button := Button.new()
-		button.name = "DialogueChoice%d" % (index + 1)
-		button.custom_minimum_size = Vector2(420, 88)
-		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		button.add_theme_font_size_override("font_size", 23)
-		button.add_theme_color_override("font_color", Color(0.94, 0.94, 0.95))
-		button.add_theme_stylebox_override("normal", _choice_style(Color(0.015, 0.012, 0.022, 0.88), Color(0.22, 0.24, 0.31, 0.76), 3))
-		button.add_theme_stylebox_override("hover", _choice_style(Color(0.055, 0.075, 0.09, 0.94), Color(0.37, 0.79, 0.86, 0.94), 5))
-		button.add_theme_stylebox_override("focus", _choice_style(Color(0.055, 0.075, 0.09, 0.98), Color(0.42, 0.86, 0.92, 1.0), 6))
+		var button: Button = choices.get_node("DialogueChoice%d" % (index + 1))
 		button.pressed.connect(_on_dialogue_choice_pressed.bind(index))
 		button.focus_entered.connect(_on_dialogue_choice_focused.bind(index))
 		button.mouse_entered.connect(_focus_dialogue_choice.bind(index))
 		_dialogue_choice_buttons.append(button)
-		choice_list.add_child(button)
+	_dialogue_layer.prepare_for_gameplay()
+
+
+func _on_dialogue_body_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+		_dialogue_scroll.scroll_vertical += -72 if event.button_index == MOUSE_BUTTON_WHEEL_UP else 72
+		_dialogue_next.accept_event()
 
 
 func _build_modal_ui() -> void:
@@ -954,25 +902,19 @@ func _default_progress() -> Dictionary:
 
 
 func _apply_accessibility_profile() -> void:
-	var profile_result := AccessibilityProfileStore.new().load_profile()
+	var profile_result := _audio_profile_store.load_profile()
 	preload("res://scripts/systems/key_bindings.gd").apply_bindings(profile_result.profile.get("key_bindings", preload("res://scripts/systems/key_bindings.gd").defaults()))
 	_refresh_notebook_caption()
 	var profile: Dictionary = profile_result.get("profile", {})
 	var scale := float(profile.get("text_scale", 1.0))
-	var ui_theme := Theme.new()
+	var ui_theme := DESIGN.make_theme()
 	ui_theme.default_font_size = int(round(19.0 * scale))
 	theme = ui_theme
 	_apply_reading_text_scale(scale)
 
 func _apply_reading_text_scale(scale: float) -> void:
 	_reading_text_scale = clampf(scale, 1.0, 2.0)
-	_dialogue_label.add_theme_font_size_override("font_size", int(round(24 * _reading_text_scale)))
-	_speaker_label.add_theme_font_size_override("font_size", int(round(25 * _reading_text_scale)))
-	_dialogue_next.add_theme_font_size_override("font_size", int(round(20 * _reading_text_scale)))
-	var extra_height := 170.0 * (_reading_text_scale - 1.0)
-	_place(_dialogue_layer.get_node("DialogueBacking"), Rect2(185,735-extra_height,1490,310+extra_height))
-	for button in _dialogue_choice_buttons:
-		button.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
+	_dialogue_layer.apply_reading_scale(_reading_text_scale)
 	_apply_window_text_scale()
 	for slot in _inventory_slots:
 		slot.add_theme_font_size_override("font_size", int(round(17 * _reading_text_scale)))
@@ -1027,6 +969,7 @@ func _enter_room(room_id: String) -> void:
 	if not _prologue_surface_allowed(): return
 	_close_window_inspection(false)
 	_current_room = room_id
+	_witnessed_rooms[room_id] = true
 	_begin_prologue_surfaces()
 	audio_room_requested.emit(room_id)
 	_progress["current_room"] = room_id
@@ -1565,7 +1508,7 @@ func _show_dialogue_choice_set(
 	_dialogue_choice_blocker.visible = true
 	_dialogue_choice_panel.visible = true
 	_dialogue_next.visible = false
-	_dialogue_choice_header.text = header
+	_dialogue_choice_header_text = header
 	_speaker_label.text = _localized_speaker(speaker)
 	_dialogue_label.text = prompt
 	_dialogue_scroll.scroll_vertical = 0
@@ -1594,7 +1537,7 @@ func _record_choice_history() -> bool:
 	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope(): return false
 	if not _uses_prologue_history() or _choice_history_recorded:
 		return true
-	var lines: Array[String] = [_dialogue_choice_header.text, _dialogue_label.text]
+	var lines: Array[String] = [_dialogue_choice_header_text, _dialogue_label.text]
 	var segments := {"header": {}, "prompt": {}}
 	for button in _dialogue_choice_buttons:
 		if button.visible:
@@ -2309,6 +2252,7 @@ func _make_button(label: String, rect: Rect2, action: Callable) -> Button:
 	button.add_theme_stylebox_override("focus", _style(Color(0.10, 0.035, 0.12, 0.98), Color(0.55, 0.77, 0.98, 1.0), 4, 7))
 	_place(button, rect)
 	button.pressed.connect(action)
+	DESIGN.button(button)
 	return button
 
 
@@ -2371,6 +2315,7 @@ func _refresh_inventory_selection() -> void:
 			5 if selected or drying_hint else 4,
 			4
 		))
+		slot.add_theme_stylebox_override("normal", DESIGN.box("inventory_slot", Color(1.2, 1.1, 1.25) if selected else Color.WHITE, 12))
 
 
 func _show_dialogue(lines: Array, after: Callable = Callable(), start_index: int = 0) -> void:
@@ -2465,7 +2410,7 @@ func _present_dialogue_line() -> void:
 	var portrait_id := String(line.get("portrait", ""))
 	_set_dialogue_portrait(portrait_id)
 	_dialogue_next.visible = true
-	_dialogue_next.text = _dialogue_ui_text("UI_DIALOGUE_FINISH" if _dialogue_index >= _dialogue_lines.size() - 1 else "UI_DIALOGUE_CONTINUE")
+	_dialogue_next.text = ""
 	call_deferred("_focus_visible_control", weakref(_dialogue_next))
 	_record_prologue_history()
 
@@ -2803,6 +2748,11 @@ func _record_prologue_text(speaker: String, text: String, context: Dictionary = 
 
 
 func _set_dialogue_portrait(portrait_id: String) -> void:
+	var originals := {"EDGAR": "edgar", "MARA2": "mara2", "IRIS": "iris", "PROTAGONIST": "protagonist"}
+	if originals.has(portrait_id):
+		_portrait.visible = true
+		_portrait.texture = load(DESIGN.ROOT + "character_" + originals[portrait_id] + ".png")
+		return
 	_portrait.visible = PORTRAIT_REGIONS.has(portrait_id)
 	if not _portrait.visible:
 		return
@@ -2828,9 +2778,9 @@ func _refresh_dialogue_choice_labels() -> void:
 		var button := _dialogue_choice_buttons[index]
 		var choice_id := String(button.get_meta("choice_id", ""))
 		var label := String(button.get_meta("choice_label", choice_id))
-		var prefix := "▶ " if index == _dialogue_choice_focus_index else "   "
 		var suffix := "  [%s]" % _dialogue_ui_text("UI_P_CHECKED") if _dialogue_choice_mode == "p3_journal" and choice_id in asked_questions else ""
-		button.text = "%s%s%s" % [prefix, label, suffix]
+		button.text = label + suffix
+	_dialogue_choice_panel.set_selected_index(_dialogue_choice_focus_index)
 
 
 func _first_unasked_p3_choice_index() -> int:
@@ -2936,8 +2886,7 @@ func _dismiss_dialogue_for_test() -> void:
 func _open_menu() -> void:
 	if _reset_transition_pending: return
 	if not _prologue_async_request.is_empty(): return
-	if _dialogue_active or _dialogue_choice_active:
-		return
+	_remember_menu_focus()
 	menu_audio_pause_requested.emit(true)
 	if _uses_prologue_history():
 		_show_modal(_dialogue_ui_text("UI_P_MENU"), _dialogue_ui_text("UI_P_AUTOSAVE"), [
@@ -2954,10 +2903,31 @@ func _open_menu() -> void:
 
 func _settings_menu_actions() -> Array:
 	return [
-		{"label": _audio_settings_label(), "action": _open_audio_settings},
-		{"label": _key_settings_label(), "action": _open_key_settings},
-		{"label": _display_settings_label(), "action": _open_display_settings},
+		{"label": "발견한 공간 지도" if not TranslationServer.get_locale().begins_with("en") else "Discovered map", "action": _open_discovered_map},
+		{"label": "Settings" if TranslationServer.get_locale().begins_with("en") else "설정", "action": _open_accessibility_settings},
 	]
+
+
+func _open_discovered_map() -> void:
+	if not _progress.get("P1_complete", false):
+		_set_status("아래층에 내려간 뒤 지도를 확인할 수 있습니다." if not TranslationServer.get_locale().begins_with("en") else "The map is available after your first descent.")
+		return
+	if not is_instance_valid(_map_panel):
+		_map_panel = preload("res://scripts/ui/discovered_map.gd").new()
+		_modal_layer.add_child(_map_panel)
+		_map_panel.back_requested.connect(_open_menu)
+	_modal_panel.hide()
+	_map_panel.present(GameState.get_snapshot(), _current_room, TranslationServer.get_locale(), _reading_text_scale, _witnessed_rooms)
+	_modal_active = true
+	_modal_layer.show()
+
+
+func _remember_menu_focus() -> void:
+	if _modal_active: return
+	var target := get_viewport().gui_get_focus_owner()
+	if _dialogue_choice_active: target = _dialogue_choice_buttons[_dialogue_choice_focus_index]
+	elif _dialogue_active: target = _dialogue_next
+	_focus_before_menu = weakref(target) if target != null else weakref(_menu_button)
 
 
 func _audio_settings_label() -> String:
@@ -2972,86 +2942,57 @@ func _display_settings_label() -> String:
 	return "Display settings" if TranslationServer.get_locale().begins_with("en") else "화면 설정"
 
 
+func _open_accessibility_settings() -> void:
+	_open_settings_page("accessibility")
+
+
 func _open_display_settings() -> void:
-	if _dialogue_active or _dialogue_choice_active: return
-	if not is_instance_valid(_display_settings_panel):
-		_display_settings_panel = preload("res://scripts/ui/display_settings_panel.gd").new()
-		_modal_layer.add_child(_display_settings_panel)
-		_display_settings_panel.back_requested.connect(_open_menu)
-	_display_settings_panel.profile_store = _audio_profile_store
-	var profile: Dictionary = _audio_profile_store.load_profile().profile
-	_display_settings_panel.load_values(profile.get("display", preload("res://scripts/systems/display_settings.gd").DEFAULT), TranslationServer.get_locale())
-	var panel_theme := Theme.new()
-	panel_theme.default_font_size = int(round(18 * _reading_text_scale))
-	_display_settings_panel.theme = panel_theme
-	_modal_panel.hide()
-	_modal_layer.show()
-	_modal_active = true
-	menu_audio_pause_requested.emit(true)
-	_display_settings_panel.show()
-	_display_settings_panel.back.call_deferred("grab_focus")
+	_open_settings_page("display")
 
 
 func _open_key_settings() -> void:
-	if _dialogue_active or _dialogue_choice_active: return
-	if not is_instance_valid(_key_settings_panel):
-		_key_settings_panel = preload("res://scripts/ui/key_settings_panel.gd").new()
-		_modal_layer.add_child(_key_settings_panel)
-		_key_settings_panel.back_requested.connect(_open_menu)
-		_key_settings_panel.apply_requested.connect(_apply_game_key_settings)
-	var profile: Dictionary = _audio_profile_store.load_profile().profile
-	_key_settings_panel.load_values(profile.get("key_bindings", preload("res://scripts/systems/key_bindings.gd").defaults()), TranslationServer.get_locale())
-	var panel_theme := Theme.new()
-	panel_theme.default_font_size = int(round(18 * _reading_text_scale))
-	_key_settings_panel.theme = panel_theme
-	_modal_panel.hide()
-	_modal_layer.show()
-	_modal_active = true
-	menu_audio_pause_requested.emit(true)
-	_key_settings_panel.show()
-	_key_settings_panel.back.call_deferred("grab_focus")
-
-
-func _apply_game_key_settings(bindings: Dictionary) -> void:
-	var profile: Dictionary = _audio_profile_store.load_profile().profile.duplicate(true)
-	profile["key_bindings"] = bindings.duplicate(true)
-	if not _audio_profile_store.save_profile(profile).get("ok", false):
-		_key_settings_panel.show_save_error()
-		return
-	preload("res://scripts/systems/key_bindings.gd").apply_bindings(bindings)
-	_refresh_notebook_caption()
-	_open_menu()
+	_open_settings_page("controls")
 
 
 func _open_audio_settings() -> void:
-	if _dialogue_active or _dialogue_choice_active:
-		return
+	_open_settings_page("audio")
+
+
+func _open_settings_page(page: String) -> void:
 	if not is_instance_valid(_audio_settings_panel):
-		_audio_settings_panel = preload("res://scripts/ui/audio_settings_panel.gd").new()
+		_audio_settings_panel = preload("res://scenes/ui/settings/settings_screen.tscn").instantiate()
+		_audio_settings_panel.profile_store = _audio_profile_store
 		_modal_layer.add_child(_audio_settings_panel)
+		_key_settings_panel = _audio_settings_panel
+		_display_settings_panel = _audio_settings_panel
 		_audio_settings_panel.back_requested.connect(_open_menu)
-		_audio_settings_panel.apply_requested.connect(_apply_game_audio_settings)
-	var profile: Dictionary = _audio_profile_store.load_profile().profile
-	_audio_settings_panel.load_values(profile.get("audio", AccessibilityProfileStore.DEFAULT_AUDIO), TranslationServer.get_locale())
-	var panel_theme := Theme.new()
-	panel_theme.default_font_size = int(round(18 * _reading_text_scale))
-	_audio_settings_panel.theme = panel_theme
+		_audio_settings_panel.profile_applied.connect(_on_game_settings_applied)
+	var panel := _audio_settings_panel
+	panel.profile_store = _audio_profile_store
+	panel.present(_audio_profile_store.load_profile().profile, TranslationServer.get_locale(), false, page)
 	_modal_panel.hide()
 	_modal_layer.show()
 	_modal_active = true
 	menu_audio_pause_requested.emit(true)
-	_audio_settings_panel.show()
-	_audio_settings_panel.back.call_deferred("grab_focus")
+	panel.show()
+	panel._focus_cycle()
+	panel.initial_focus().call_deferred("grab_focus")
+
+
+func _on_game_settings_applied(profile: Dictionary, _section: String) -> void:
+	if profile.has("locale"): TranslationServer.set_locale(profile.locale)
+	_apply_accessibility_profile()
+	audio_settings_changed.emit(profile.get("audio", AccessibilityProfileStore.DEFAULT_AUDIO).duplicate())
+
+
+func _apply_game_key_settings(bindings: Dictionary) -> void:
+	_key_settings_panel._draft.key_bindings = bindings.duplicate(true)
+	_key_settings_panel._commit("controls")
 
 
 func _apply_game_audio_settings(settings: Dictionary) -> void:
-	var profile: Dictionary = _audio_profile_store.load_profile().profile.duplicate(true)
-	profile["audio"] = settings.duplicate()
-	if not bool(_audio_profile_store.save_profile(profile).get("ok", false)):
-		_audio_settings_panel.show_save_error()
-		return
-	audio_settings_changed.emit(settings.duplicate())
-	_open_menu()
+	_audio_settings_panel._draft.audio = settings.duplicate()
+	_audio_settings_panel._commit("audio")
 
 
 func _open_dialogue_history() -> void:
@@ -3322,6 +3263,7 @@ func _cancel_prologue_modal() -> void:
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
+	if is_instance_valid(_map_panel): _map_panel.hide()
 	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
 	_prologue_confirmation = {}
 	_remember_history_scroll()
@@ -3368,6 +3310,7 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 		button.add_theme_stylebox_override("normal", _style(Color(0.10, 0.035, 0.11, 0.98), Color(0.66, 0.35, 0.34, 0.95), 3, 7))
 		button.pressed.connect(action.get("action", _close_modal))
 		_modal_body.add_child(button)
+		DESIGN.button(button)
 	_modal_active = true
 	_modal_layer.visible = true
 	call_deferred("_cycle_modal_focus")
@@ -3402,6 +3345,7 @@ func _focus_visible_control(reference: WeakRef) -> void:
 
 
 func _close_modal() -> void:
+	if is_instance_valid(_map_panel): _map_panel.hide()
 	if _notebook_is_open():
 		_notebook_host.request_close()
 		return
@@ -3416,6 +3360,9 @@ func _close_modal() -> void:
 	menu_audio_pause_requested.emit(false)
 	_modal_active = false
 	_modal_layer.visible = false
+	if _focus_before_menu != null:
+		call_deferred("_focus_visible_control", _focus_before_menu)
+		_focus_before_menu = null
 	_prologue_surface_allowed()
 
 

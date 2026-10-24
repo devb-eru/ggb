@@ -251,6 +251,8 @@ func _host(tree: SceneTree, store: EndingGalleryStore, first: String, second: St
 	host._remember_view()
 	_expect(not host._flush_view() and not host.panel._notice.text.is_empty(), "failed convenience write is visible and non-blocking")
 	var position: Vector2 = host.panel._close.get_global_rect().get_center()
+	# Deliberately overlap the launcher with the current close layout.
+	developer.launch_button.global_position = position - developer.launch_button.size * 0.5
 	_expect(developer.launch_button.get_global_rect().has_point(position), "archive fixture reproduces overlapping close target")
 	var motion := InputEventMouseMotion.new()
 	motion.position = position
