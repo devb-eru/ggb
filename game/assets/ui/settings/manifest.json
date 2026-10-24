@@ -1,0 +1,272 @@
+{
+  "version": 2,
+  "logical_screen": [
+    1920,
+    1080
+  ],
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "id": "settings_paper",
+      "logical_size": [
+        1580,
+        940
+      ],
+      "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/15-settings-accessibility-v1.png",
+      "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY the large main ivory paper backing, landscape 1.7:1 ratio. Keep torn layered paper silhouette, sparse violet flowers at bottom left and bottom right, navy ribbons at top-left and bottom-right. Place the hanging small navy RABBIT charm at LOWER LEFT edge below where the sidebar tabs will be, not at center-left. Remove ALL text, tabs, inner lines, dividers, controls, icons, thumbnails and buttons. Whole middle 80% completely blank pale paper. Transparent outside only.",
+      "file": "settings_paper_v01.png",
+      "source_size": [
+        1635,
+        962
+      ],
+      "content_rect": [
+        20,
+        6,
+        1610,
+        944
+      ],
+      "texture": "textures/settings_paper.tres",
+      "sha256": "e3f345daf0794f78bf68e5dec611cfa395536953a8e10fb76739d668508baef4"
+    },
+    {
+      "id": "bookmark_normal",
+      "logical_size": [
+        240,
+        92
+      ],
+      "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/15-settings-accessibility-v1.png",
+      "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY ONE dark unselected sidebar bookmark/tab: wide horizontal rough navy paper, LEFT end a short pointed chevron nose, right end nearly vertical slightly angled. Thin ivory and lavender double outline, tiny diamond ink emblem near LEFT end. Central/right space completely blank for text added later. Deep midnight navy fill, faint violet botanical texture. Ratio 2.6:1. No text, no hanging ribbons, no other tabs.",
+      "file": "bookmark_normal_v01.png",
+      "source_size": [
+        2022,
+        778
+      ],
+      "content_rect": [
+        75,
+        156,
+        1873,
+        452
+      ],
+      "texture": "textures/bookmark_normal.tres",
+      "sha256": "9efb5ef248532e9d0d85e2da3b3083629736fb5d31215110288706f849151c43"
+    },
+    {
+      "id": "bookmark_selected",
+      "logical_size": [
+        240,
+        92
+      ],
+      "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/15-settings-accessibility-v1.png",
+      "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY ONE SELECTED sidebar bookmark/tab, same shape as reference: wide horizontal rough paper, LEFT end a short pointed chevron nose, right end nearly vertical slightly angled. Thin ivory and lavender double outline, tiny ivory diamond ink emblem near LEFT end. Fill medium muted PERIWINKLE not midnight navy. Central/right space completely blank. Ratio 2.6:1. No text, no other tabs, no hanging ribbons.",
+      "file": "bookmark_selected_v01.png",
+      "source_size": [
+        2022,
+        778
+      ],
+      "content_rect": [
+        53,
+        133,
+        1931,
+        498
+      ],
+      "texture": "textures/bookmark_selected.tres",
+      "sha256": "692e91a1222593455f7338ed66020af5d4c46393eb712e86efb1a6afc497a76e"
+    },
+    {
+      "id": "field_frame",
+      "logical_size": [
+        480,
+        64
+      ],
+      "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/15-settings-accessibility-v1.png",
+      "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY one rectangular settings field outline, very THIN midnight navy hand-inked single border, tiny clipped stepped corners. Wide shallow 7.5:1 shape, restrained and plain. Entire CENTER FULLY TRANSPARENT and outside transparent. No arrows, divisions, selector values, fill, emblems or flourishes. Intended as resizable nine-patch frame; straight calm center edges.",
+      "file": "field_frame_v01.png",
+      "source_size": [
+        2172,
+        724
+      ],
+      "content_rect": [
+        39,
+        238,
+        2095,
+        248
+      ],
+      "texture": "textures/field_frame.tres",
+      "sha256": "631b70aa68871b640f99f76e7f978704271fbbc5c1f3a3bd8b39c4c97bef7c50"
+    },
+    {
+      "id": "field_selected",
+      "logical_size": [
+        180,
+        64
+      ],
+      "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/15-settings-accessibility-v1.png",
+      "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY one selected option segment: wide rectangular muted periwinkle paper fill with very thin navy outer outline and thin ivory inner outline. Tiny clipped corners, restrained plain style, no patterns, no symbols, no stripes, NO text. Ratio 2.8:1. Center flat calm periwinkle for later white label. Outside transparent. Suitable for nine-patch.",
+      "file": "field_selected_v01.png",
+      "source_size": [
+        2098,
+        749
+      ],
+      "content_rect": [
+        96,
+        189,
+        1907,
+        369
+      ],
+      "texture": "textures/field_selected.tres",
+      "sha256": "8a262eb289398c7635d5b9f93911c8dbc3f6fe3c878bd3bfdea210cb6e2a5a72"
+    },
+    {
+      "id": "keycap",
+      "logical_size": [
+        150,
+        64
+      ],
+      "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/18-settings-controls-v1.png",
+      "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY ONE empty keyboard-binding keycap button, rectangular dark midnight navy paper fill, thin ivory double outline with tiny stepped clipped corners. Ratio 2.35:1. No text or symbol or letter or decorative flowers. Slight paper fiber surface. Center very dark calm navy. Transparent outside. Usable resizable nine-patch.",
+      "file": "keycap_v01.png",
+      "source_size": [
+        1919,
+        820
+      ],
+      "content_rect": [
+        156,
+        185,
+        1609,
+        449
+      ],
+      "texture": "textures/keycap.tres",
+      "sha256": "d3e35b5245f81fc2c6d4289748cd5badf429633ddfdf74fbf74fb62f023c3674"
+    },
+    {
+      "id": "preview_paper",
+      "logical_size": [
+        500,
+        440
+      ],
+      "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/19-settings-language-v1.png",
+      "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY the plain near-square inner preview paper: cool very pale ivory paper with sparse subtle fibers, irregular gently wavy slightly torn edges, very thin single muted navy outline. Ratio about1.14:1. Completely EMPTY inside. No flowers, ribbons, symbols or shadow. Transparent outside paper only.",
+      "file": "preview_paper_v01.png",
+      "source_size": [
+        1340,
+        1174
+      ],
+      "content_rect": [
+        96,
+        79,
+        1173,
+        1031
+      ],
+      "texture": "textures/preview_paper.tres",
+      "sha256": "73161b442177e5e500df4a42b93aca8f08a2244af2b6d0ca4159551005b08eab"
+    },
+    {
+      "id": "confirmation_paper",
+      "logical_size": [
+        660,
+        260
+      ],
+      "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/16-settings-display-v1.png",
+      "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY the small confirmation modal paper backing: cool ivory fibrous landscape paper, gently rough irregular silhouette with very thin navy outline, tiny navy botanical curls ONLY at four corners. Ratio2.5:1. Empty interior: erase all title, text, rule/divider, controls and buttons. No extra layers, no ribbon. Transparent outside.",
+      "file": "confirmation_paper_v01.png",
+      "source_size": [
+        1983,
+        793
+      ],
+      "content_rect": [
+        75,
+        86,
+        1834,
+        628
+      ],
+      "texture": "textures/confirmation_paper.tres",
+      "sha256": "03fe843a81c54bf0054fde44f62e6d91e1eb35477b8ccbfe4bdf6b08d44e8917"
+    },
+    {
+      "id": "slider_grabber",
+      "logical_size": [
+        38,
+        38
+      ],
+      "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/17-settings-audio-v1.png",
+      "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY one small diamond-shaped slider handle. Symmetric rotated square outer navy silhouette, double thin ivory and lavender edge, muted periwinkle/navy fill and tiny ivory diamond at its center. Perfect compact 1:1 footprint, crisp readable silhouette at38px. No track or numbers or glow or surrounding frame. Transparent everywhere outside handle.",
+      "file": "slider_grabber_v01.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "content_rect": [
+        306,
+        306,
+        642,
+        642
+      ],
+      "texture": "textures/slider_grabber.tres",
+      "sha256": "e1c7aca070513812726b3b568c4aaa9f8aa9f8ef98831a5b57ea5b9c9e7d4bb3"
+    },
+    {
+      "id": "display_preview",
+      "logical_size": [
+        440,
+        180
+      ],
+      "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/16-settings-display-v1.png",
+      "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY a small landscape ink-and-wash illustration used inside the display preview: fairytale gothic manor silhouette amid a few trees and distant hills, all in soft low-contrast lavender and periwinkle monochrome, simplified hand-painted anime environment drawing. Landscape2.4:1. Contained on a pale lavender paper rectangle with fine navy rectangular frame and tiny corner ticks; no text, arrows, screen buttons, modal, labels or desktop UI. Transparent outside illustration rectangle.",
+      "file": "display_preview_v01.png",
+      "source_size": [
+        1942,
+        809
+      ],
+      "content_rect": [
+        150,
+        193,
+        1642,
+        442
+      ],
+      "texture": "textures/display_preview.tres",
+      "sha256": "9412b0b06e9e57518c0828222a33da1c809acf77441ca30f8e2bfee9d8fde769"
+    }
+  ],
+  "reused_assets": [
+    {
+      "id": "menu_background",
+      "source": "res://assets/ui/save_load/textures/menu_background.tres",
+      "texture": "textures/menu_background.tres"
+    },
+    {
+      "id": "primary_button",
+      "source": "res://assets/ui/save_load/textures/primary_button.tres",
+      "texture": "textures/primary_button.tres"
+    },
+    {
+      "id": "ink_divider",
+      "source": "res://assets/ui/save_load/textures/ink_divider.tres",
+      "texture": "textures/ink_divider.tres"
+    },
+    {
+      "id": "close_icon",
+      "source": "res://assets/ui/save_load/textures/close_icon.tres",
+      "texture": "textures/close_icon.tres"
+    }
+  ],
+  "text_baked": false,
+  "atlas_crop": "Alpha > 16 bounds + 2px. Original PNG pixels preserved.",
+  "themes": [
+    "themes/bookmark.tres",
+    "themes/option.tres",
+    "themes/keycap.tres",
+    "themes/primary.tres"
+  ],
+  "native_styles": [
+    "styles/focus.tres",
+    "styles/slider_track.tres",
+    "styles/slider_fill.tres",
+    "styles/radio_unchecked.tres",
+    "styles/radio_checked.tres"
+  ],
+  "runtime_text": [
+    "All labels, values and key names",
+    "Chevron glyphs ‹ › ⌄",
+    "Direction arrows ↑ ↓ ← →"
+  ]
+}

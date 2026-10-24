@@ -1,0 +1,11 @@
+{
+  "id": "preview_paper",
+  "logical_size": [
+    500,
+    440
+  ],
+  "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/19-settings-language-v1.png",
+  "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY the plain near-square inner preview paper: cool very pale ivory paper with sparse subtle fibers, irregular gently wavy slightly torn edges, very thin single muted navy outline. Ratio about1.14:1. Completely EMPTY inside. No flowers, ribbons, symbols or shadow. Transparent outside paper only.",
+  "file": "preview_paper_v01.png",
+  "source": "C:/Users/beruo/.codex/generated_images/01a1583d-6fb4-7c63-8261-b8093a2c1c19/exec-282f6204-e409-4bad-92fc-8eec511b2818.png"
+}

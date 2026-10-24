@@ -1,0 +1,11 @@
+{
+  "id": "field_frame",
+  "logical_size": [
+    480,
+    64
+  ],
+  "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/15-settings-accessibility-v1.png",
+  "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY one rectangular settings field outline, very THIN midnight navy hand-inked single border, tiny clipped stepped corners. Wide shallow 7.5:1 shape, restrained and plain. Entire CENTER FULLY TRANSPARENT and outside transparent. No arrows, divisions, selector values, fill, emblems or flourishes. Intended as resizable nine-patch frame; straight calm center edges.",
+  "file": "field_frame_v01.png",
+  "source": "C:/Users/beruo/.codex/generated_images/01a1583d-6fb4-7c63-8261-b8093a2c1c19/exec-b21aa4d2-8bca-4cfc-aa88-5639e06bb117.png"
+}

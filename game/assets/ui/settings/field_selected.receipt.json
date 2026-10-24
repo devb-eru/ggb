@@ -1,0 +1,11 @@
+{
+  "id": "field_selected",
+  "logical_size": [
+    180,
+    64
+  ],
+  "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/15-settings-accessibility-v1.png",
+  "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY one selected option segment: wide rectangular muted periwinkle paper fill with very thin navy outer outline and thin ivory inner outline. Tiny clipped corners, restrained plain style, no patterns, no symbols, no stripes, NO text. Ratio 2.8:1. Center flat calm periwinkle for later white label. Outside transparent. Suitable for nine-patch.",
+  "file": "field_selected_v01.png",
+  "source": "C:/Users/beruo/.codex/generated_images/01a1583d-6fb4-7c63-8261-b8093a2c1c19/exec-9e9287ca-d607-4e22-ad8b-8dd6645eae62.png"
+}

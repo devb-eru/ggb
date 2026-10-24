@@ -130,6 +130,8 @@ func validate_profile(profile_value: Variant) -> Dictionary:
 		errors.append("ERR_KEY_BINDINGS")
 	if profile.has("display") and not preload("res://scripts/systems/display_settings.gd").validate(profile.display):
 		errors.append("ERR_DISPLAY_PROFILE")
+	if profile.has("locale") and profile.locale not in ["ko-KR", "en-US"]:
+		errors.append("ERR_LOCALE_PROFILE")
 	return {"ok": errors.is_empty(), "error_ids": errors}
 
 

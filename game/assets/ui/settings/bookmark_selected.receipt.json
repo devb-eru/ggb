@@ -1,0 +1,11 @@
+{
+  "id": "bookmark_selected",
+  "logical_size": [
+    240,
+    92
+  ],
+  "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/15-settings-accessibility-v1.png",
+  "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY ONE SELECTED sidebar bookmark/tab, same shape as reference: wide horizontal rough paper, LEFT end a short pointed chevron nose, right end nearly vertical slightly angled. Thin ivory and lavender double outline, tiny ivory diamond ink emblem near LEFT end. Fill medium muted PERIWINKLE not midnight navy. Central/right space completely blank. Ratio 2.6:1. No text, no other tabs, no hanging ribbons.",
+  "file": "bookmark_selected_v01.png",
+  "source": "C:/Users/beruo/.codex/generated_images/01a1583d-6fb4-7c63-8261-b8093a2c1c19/exec-801c57f0-f9fc-4250-b86c-25e95adaae89.png"
+}

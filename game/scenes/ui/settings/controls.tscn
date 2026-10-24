@@ -1,0 +1,567 @@
+[gd_scene format=3]
+
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/preview_panel.tres" id="preview"]
+[ext_resource type="Script" path="res://scripts/ui/settings_choice.gd" id="choice"]
+[ext_resource type="Texture2D" path="res://assets/ui/settings/textures/ink_divider.tres" id="rule"]
+[ext_resource type="Theme" path="res://assets/ui/settings/themes/bookmark.tres" id="bookmark"]
+[ext_resource type="Theme" path="res://assets/ui/settings/themes/primary.tres" id="primary"]
+[ext_resource type="Theme" path="res://assets/ui/settings/themes/keycap.tres" id="keycap"]
+[ext_resource type="Theme" path="res://assets/ui/settings/themes/option.tres" id="option"]
+[ext_resource type="Font" path="res://assets/ui/settings/themes/settings_font.tres" id="font"]
+[sub_resource type="StyleBoxEmpty" id="Empty"]
+
+
+[node name="Controls" type="HFlowContainer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_minimum_size = Vector2(1220, 430)
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+
+[node name="Left" type="VBoxContainer" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(600, 0)
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Divider" type="ColorRect" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(1, 0)
+mouse_filter = 2
+color = Color(0.48, 0.43, 0.60, 0.65)
+
+[node name="Right" type="VBoxContainer" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(570, 0)
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="confirm" type="HBoxContainer" parent="Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 68)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Left/confirm"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "선택 / 상호작용"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "선택 / 상호작용"
+metadata/en = "Confirm / interact"
+custom_minimum_size = Vector2(245, 0)
+size_flags_vertical = 3
+
+[node name="Keys" type="HFlowContainer" parent="Left/confirm"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+
+[node name="Key_confirm" type="Button" parent="Left/confirm/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "Enter"
+autowrap_mode = 3
+metadata/ko = "Enter"
+metadata/en = "Enter"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Key_confirm_alt" type="Button" parent="Left/confirm/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "Space"
+autowrap_mode = 3
+metadata/ko = "Space"
+metadata/en = "Space"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Rule_confirm" type="TextureRect" parent="Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="cancel" type="HBoxContainer" parent="Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 68)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Left/cancel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "취소 / 메뉴"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "취소 / 메뉴"
+metadata/en = "Cancel / menu"
+custom_minimum_size = Vector2(245, 0)
+size_flags_vertical = 3
+
+[node name="Keys" type="HFlowContainer" parent="Left/cancel"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+
+[node name="Key_cancel" type="Button" parent="Left/cancel/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "Esc"
+autowrap_mode = 3
+metadata/ko = "Esc"
+metadata/en = "Esc"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Rule_cancel" type="TextureRect" parent="Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="notebook" type="HBoxContainer" parent="Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 68)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Left/notebook"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "수첩"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "수첩"
+metadata/en = "Notebook"
+custom_minimum_size = Vector2(245, 0)
+size_flags_vertical = 3
+
+[node name="Keys" type="HFlowContainer" parent="Left/notebook"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+
+[node name="Key_notebook" type="Button" parent="Left/notebook/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "N"
+autowrap_mode = 3
+metadata/ko = "N"
+metadata/en = "N"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Rule_notebook" type="TextureRect" parent="Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="inventory" type="HBoxContainer" parent="Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 68)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Left/inventory"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "소지품"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "소지품"
+metadata/en = "Inventory"
+custom_minimum_size = Vector2(245, 0)
+size_flags_vertical = 3
+
+[node name="Keys" type="HFlowContainer" parent="Left/inventory"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+
+[node name="Key_inventory" type="Button" parent="Left/inventory/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "I"
+autowrap_mode = 3
+metadata/ko = "I"
+metadata/en = "I"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Rule_inventory" type="TextureRect" parent="Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="movement" type="HBoxContainer" parent="Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 68)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Left/movement"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "항목 이동"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "항목 이동"
+metadata/en = "Move focus"
+custom_minimum_size = Vector2(245, 0)
+size_flags_vertical = 3
+
+[node name="Keys" type="HFlowContainer" parent="Left/movement"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+
+[node name="Key_up" type="Button" parent="Left/movement/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(76, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "↑"
+autowrap_mode = 3
+metadata/ko = "↑"
+metadata/en = "↑"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Key_down" type="Button" parent="Left/movement/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(76, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "↓"
+autowrap_mode = 3
+metadata/ko = "↓"
+metadata/en = "↓"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Key_left" type="Button" parent="Left/movement/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(76, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "←"
+autowrap_mode = 3
+metadata/ko = "←"
+metadata/en = "←"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Key_right" type="Button" parent="Left/movement/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(76, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "→"
+autowrap_mode = 3
+metadata/ko = "→"
+metadata/en = "→"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Rule_movement" type="TextureRect" parent="Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="next" type="HBoxContainer" parent="Right"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 68)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Right/next"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "다음 항목"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "다음 항목"
+metadata/en = "Next item"
+custom_minimum_size = Vector2(210, 0)
+size_flags_vertical = 3
+
+[node name="Keys" type="HFlowContainer" parent="Right/next"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+
+[node name="Key_next" type="Button" parent="Right/next/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(240, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "Tab"
+autowrap_mode = 3
+metadata/ko = "Tab"
+metadata/en = "Tab"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Rule_next" type="TextureRect" parent="Right"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="previous" type="HBoxContainer" parent="Right"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 68)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Right/previous"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "이전 항목"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "이전 항목"
+metadata/en = "Previous item"
+custom_minimum_size = Vector2(210, 0)
+size_flags_vertical = 3
+
+[node name="Keys" type="HFlowContainer" parent="Right/previous"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+
+[node name="Key_previous" type="Button" parent="Right/previous/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(240, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "Shift + Tab"
+autowrap_mode = 3
+metadata/ko = "Shift + Tab"
+metadata/en = "Shift + Tab"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Rule_previous" type="TextureRect" parent="Right"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="page_up" type="HBoxContainer" parent="Right"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 68)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Right/page_up"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "이전 페이지"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "이전 페이지"
+metadata/en = "Previous page"
+custom_minimum_size = Vector2(210, 0)
+size_flags_vertical = 3
+
+[node name="Keys" type="HFlowContainer" parent="Right/page_up"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+
+[node name="Key_page_up" type="Button" parent="Right/page_up/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(240, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "Page Up"
+autowrap_mode = 3
+metadata/ko = "Page Up"
+metadata/en = "Page Up"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Rule_page_up" type="TextureRect" parent="Right"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="page_down" type="HBoxContainer" parent="Right"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 68)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Right/page_down"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "다음 페이지"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "다음 페이지"
+metadata/en = "Next page"
+custom_minimum_size = Vector2(210, 0)
+size_flags_vertical = 3
+
+[node name="Keys" type="HFlowContainer" parent="Right/page_down"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+
+[node name="Key_page_down" type="Button" parent="Right/page_down/Keys"]
+layout_mode = 2
+custom_minimum_size = Vector2(240, 64)
+theme = ExtResource("keycap")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "Page Down"
+autowrap_mode = 3
+metadata/ko = "Page Down"
+metadata/en = "Page Down"
+metadata/scale_minimum = true
+theme_override_colors/font_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.96, 0.94, 0.9, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.96, 0.94, 0.9, 1)
+toggle_mode = true
+
+[node name="Rule_page_down" type="TextureRect" parent="Right"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1

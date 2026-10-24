@@ -1,0 +1,11 @@
+{
+  "id": "confirmation_paper",
+  "logical_size": [
+    660,
+    260
+  ],
+  "reference": "C:/Beru/Projects/Games/ggb/docs/design/gui-ux-2026-10-20/images/16-settings-display-v1.png",
+  "prompt": "Use case: precise-object-edit, extract/recreate a SINGLE reusable game UI raster component from approved settings screen reference. This is a standalone transparent-background PNG ASSET, NOT a screenshot, not a sprite sheet, no letters, numbers, labels or watermark. Match exactly hand-painted anime prop style: cool ivory paper, midnight navy ink, muted periwinkle, violet shadows, thin confident slightly imperfect ink outlines, light paper fibers. No brown sepia, bright gold, photorealism, plastic 3D, cast shadow outside silhouette. Keep small transparent padding on all sides; no cropping of extremities. ONLY the small confirmation modal paper backing: cool ivory fibrous landscape paper, gently rough irregular silhouette with very thin navy outline, tiny navy botanical curls ONLY at four corners. Ratio2.5:1. Empty interior: erase all title, text, rule/divider, controls and buttons. No extra layers, no ribbon. Transparent outside.",
+  "file": "confirmation_paper_v01.png",
+  "source": "C:/Users/beruo/.codex/generated_images/01a1583d-6fb4-7c63-8261-b8093a2c1c19/exec-6a92476e-22b2-4446-adb1-76f2e017c3fc.png"
+}

@@ -1,0 +1,23 @@
+[gd_resource type="Theme" load_steps=7 format=3]
+
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/primary_normal.tres" id="1"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/primary_hover.tres" id="2"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/primary_pressed.tres" id="3"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/primary_hover_pressed.tres" id="4"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/primary_disabled.tres" id="5"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/focus.tres" id="6"]
+
+[resource]
+Button/font_sizes/font_size = 28
+Button/colors/font_color = Color(0.96, 0.94, 0.9, 1)
+Button/colors/font_hover_color = Color(0.96, 0.94, 0.9, 1)
+Button/colors/font_focus_color = Color(0.96, 0.94, 0.9, 1)
+Button/colors/font_pressed_color = Color(1, 0.98, 0.94, 1)
+Button/colors/font_hover_pressed_color = Color(1, 0.98, 0.94, 1)
+Button/colors/font_disabled_color = Color(0.48, 0.47, 0.54, 1)
+Button/styles/normal = ExtResource("1")
+Button/styles/hover = ExtResource("2")
+Button/styles/pressed = ExtResource("3")
+Button/styles/hover_pressed = ExtResource("4")
+Button/styles/disabled = ExtResource("5")
+Button/styles/focus = ExtResource("6")

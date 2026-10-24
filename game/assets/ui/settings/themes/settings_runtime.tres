@@ -1,0 +1,49 @@
+[gd_resource type="Theme" format=3]
+[ext_resource type="Font" path="res://assets/ui/settings/themes/settings_font.tres" id="font"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/option_normal.tres" id="normal"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/option_hover.tres" id="hover"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/option_pressed.tres" id="pressed"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/option_disabled.tres" id="disabled"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/slider_track_native.tres" id="slider_track"]
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/slider_fill_native.tres" id="slider_fill"]
+[ext_resource type="Texture2D" path="res://assets/ui/settings/textures/slider_grabber.res" id="grabber"]
+[sub_resource type="StyleBoxEmpty" id="Empty"]
+[resource]
+default_font = ExtResource("font")
+default_font_size = 30
+Label/colors/font_color = Color(0.12, 0.12, 0.24, 1)
+Label/colors/font_hover_color = Color(0.12, 0.12, 0.24, 1)
+Label/colors/font_focus_color = Color(0.12, 0.12, 0.24, 1)
+Label/colors/font_pressed_color = Color(0.12, 0.12, 0.24, 1)
+Label/colors/font_hover_pressed_color = Color(0.12, 0.12, 0.24, 1)
+Button/colors/font_color = Color(0.12, 0.12, 0.24, 1)
+Button/colors/font_hover_color = Color(0.12, 0.12, 0.24, 1)
+Button/colors/font_focus_color = Color(0.12, 0.12, 0.24, 1)
+Button/colors/font_pressed_color = Color(0.12, 0.12, 0.24, 1)
+Button/colors/font_hover_pressed_color = Color(0.12, 0.12, 0.24, 1)
+OptionButton/colors/font_color = Color(0.12, 0.12, 0.24, 1)
+OptionButton/colors/font_hover_color = Color(0.12, 0.12, 0.24, 1)
+OptionButton/colors/font_focus_color = Color(0.12, 0.12, 0.24, 1)
+OptionButton/colors/font_pressed_color = Color(0.12, 0.12, 0.24, 1)
+OptionButton/colors/font_hover_pressed_color = Color(0.12, 0.12, 0.24, 1)
+PopupMenu/colors/font_color = Color(0.12, 0.12, 0.24, 1)
+PopupMenu/colors/font_hover_color = Color(0.12, 0.12, 0.24, 1)
+PopupMenu/colors/font_focus_color = Color(0.12, 0.12, 0.24, 1)
+PopupMenu/colors/font_pressed_color = Color(0.12, 0.12, 0.24, 1)
+PopupMenu/colors/font_hover_pressed_color = Color(0.12, 0.12, 0.24, 1)
+OptionButton/colors/font_disabled_color = Color(0.40, 0.39, 0.49, 1)
+OptionButton/styles/normal = ExtResource("normal")
+OptionButton/styles/hover = ExtResource("hover")
+OptionButton/styles/pressed = ExtResource("pressed")
+OptionButton/styles/disabled = ExtResource("disabled")
+OptionButton/styles/focus = SubResource("Empty")
+ScrollContainer/styles/focus = SubResource("Empty")
+HSlider/styles/focus = SubResource("Empty")
+OptionButton/constants/modulate_arrow = 1
+OptionButton/constants/outline_size = 0
+HSlider/styles/slider = ExtResource("slider_track")
+HSlider/styles/grabber_area = ExtResource("slider_fill")
+HSlider/styles/grabber_area_highlight = ExtResource("slider_fill")
+HSlider/icons/grabber = ExtResource("grabber")
+HSlider/icons/grabber_highlight = ExtResource("grabber")
+HSlider/icons/grabber_disabled = ExtResource("grabber")

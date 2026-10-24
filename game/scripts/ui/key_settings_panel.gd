@@ -59,6 +59,7 @@ func _ready() -> void:
 		if _capture.is_empty() and Bindings.validate(_draft): apply_requested.emit(_draft.duplicate(true)))
 	visibility_changed.connect(func():
 		if not is_visible_in_tree(): _capture = "")
+	preload("res://scripts/ui/design_theme.gd").skin_tree(self)
 	hide()
 
 func load_values(value: Dictionary, locale: String) -> void:

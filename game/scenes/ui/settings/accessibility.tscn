@@ -1,0 +1,334 @@
+[gd_scene format=3]
+
+[ext_resource type="StyleBox" path="res://assets/ui/settings/styles/preview_panel.tres" id="preview"]
+[ext_resource type="Script" path="res://scripts/ui/settings_choice.gd" id="choice"]
+[ext_resource type="Texture2D" path="res://assets/ui/settings/textures/ink_divider.tres" id="rule"]
+[ext_resource type="Theme" path="res://assets/ui/settings/themes/bookmark.tres" id="bookmark"]
+[ext_resource type="Theme" path="res://assets/ui/settings/themes/primary.tres" id="primary"]
+[ext_resource type="Theme" path="res://assets/ui/settings/themes/keycap.tres" id="keycap"]
+[ext_resource type="Theme" path="res://assets/ui/settings/themes/option.tres" id="option"]
+[ext_resource type="Font" path="res://assets/ui/settings/themes/settings_font.tres" id="font"]
+[sub_resource type="StyleBoxEmpty" id="Empty"]
+
+
+[node name="Accessibility" type="HFlowContainer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_minimum_size = Vector2(1220, 430)
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+
+[node name="Fields" type="VBoxContainer" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(690, 0)
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="TextSize" type="HBoxContainer" parent="Fields"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 88)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Fields/TextSize"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "글자 크기"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "글자 크기"
+metadata/en = "Text size"
+custom_minimum_size = Vector2(210, 0)
+size_flags_vertical = 3
+
+[node name="Options" type="HFlowContainer" parent="Fields/TextSize"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 4
+script = ExtResource("choice")
+selected = 0
+
+[node name="Choice0" type="Button" parent="Fields/TextSize/Options"]
+layout_mode = 2
+custom_minimum_size = Vector2(116, 64)
+theme = ExtResource("option")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "100%"
+autowrap_mode = 3
+metadata/ko = "100%"
+metadata/en = "100%"
+metadata/scale_minimum = true
+toggle_mode = true
+button_pressed = true
+
+[node name="Choice1" type="Button" parent="Fields/TextSize/Options"]
+layout_mode = 2
+custom_minimum_size = Vector2(116, 64)
+theme = ExtResource("option")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "125%"
+autowrap_mode = 3
+metadata/ko = "125%"
+metadata/en = "125%"
+metadata/scale_minimum = true
+toggle_mode = true
+button_pressed = false
+
+[node name="Choice2" type="Button" parent="Fields/TextSize/Options"]
+layout_mode = 2
+custom_minimum_size = Vector2(116, 64)
+theme = ExtResource("option")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "150%"
+autowrap_mode = 3
+metadata/ko = "150%"
+metadata/en = "150%"
+metadata/scale_minimum = true
+toggle_mode = true
+button_pressed = false
+
+[node name="Choice3" type="Button" parent="Fields/TextSize/Options"]
+layout_mode = 2
+custom_minimum_size = Vector2(116, 64)
+theme = ExtResource("option")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "200%"
+autowrap_mode = 3
+metadata/ko = "200%"
+metadata/en = "200%"
+metadata/scale_minimum = true
+toggle_mode = true
+button_pressed = false
+
+[node name="Rule1" type="TextureRect" parent="Fields"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="Signature" type="HBoxContainer" parent="Fields"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 88)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Fields/Signature"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "단서 표시"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "단서 표시"
+metadata/en = "Clue display"
+custom_minimum_size = Vector2(210, 0)
+size_flags_vertical = 3
+
+[node name="Options" type="OptionButton" parent="Fields/Signature"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(464, 64)
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 28
+autowrap_mode = 3
+alignment = 1
+item_count = 3
+selected = 0
+popup/item_0/text = "색상 + 문양 + 이름"
+popup/item_1/text = "문양 + 이름"
+popup/item_2/text = "이름만"
+
+[node name="Rule2" type="TextureRect" parent="Fields"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="Motion" type="HBoxContainer" parent="Fields"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 88)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Fields/Motion"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "화면 움직임"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "화면 움직임"
+metadata/en = "Screen movement"
+custom_minimum_size = Vector2(210, 0)
+size_flags_vertical = 3
+
+[node name="Options" type="HFlowContainer" parent="Fields/Motion"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 4
+script = ExtResource("choice")
+selected = 0
+
+[node name="Choice0" type="Button" parent="Fields/Motion/Options"]
+layout_mode = 2
+custom_minimum_size = Vector2(154, 64)
+theme = ExtResource("option")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "기본"
+autowrap_mode = 3
+metadata/ko = "기본"
+metadata/en = "Standard"
+metadata/scale_minimum = true
+toggle_mode = true
+button_pressed = true
+
+[node name="Choice1" type="Button" parent="Fields/Motion/Options"]
+layout_mode = 2
+custom_minimum_size = Vector2(154, 64)
+theme = ExtResource("option")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "줄이기"
+autowrap_mode = 3
+metadata/ko = "줄이기"
+metadata/en = "Reduced"
+metadata/scale_minimum = true
+toggle_mode = true
+button_pressed = false
+
+[node name="Choice2" type="Button" parent="Fields/Motion/Options"]
+layout_mode = 2
+custom_minimum_size = Vector2(154, 64)
+theme = ExtResource("option")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "끄기"
+autowrap_mode = 3
+metadata/ko = "끄기"
+metadata/en = "Off"
+metadata/scale_minimum = true
+toggle_mode = true
+button_pressed = false
+
+[node name="Rule3" type="TextureRect" parent="Fields"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+mouse_filter = 2
+texture = ExtResource("rule")
+expand_mode = 1
+
+[node name="Captions" type="HBoxContainer" parent="Fields"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 88)
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="Fields/Captions"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 30
+text = "감각 자막"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "감각 자막"
+metadata/en = "Sensory captions"
+custom_minimum_size = Vector2(210, 0)
+size_flags_vertical = 3
+
+[node name="Options" type="HFlowContainer" parent="Fields/Captions"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 4
+script = ExtResource("choice")
+selected = 0
+
+[node name="Choice0" type="Button" parent="Fields/Captions/Options"]
+layout_mode = 2
+custom_minimum_size = Vector2(232, 64)
+theme = ExtResource("option")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "켜기"
+autowrap_mode = 3
+metadata/ko = "켜기"
+metadata/en = "On"
+metadata/scale_minimum = true
+toggle_mode = true
+button_pressed = true
+
+[node name="Choice1" type="Button" parent="Fields/Captions/Options"]
+layout_mode = 2
+custom_minimum_size = Vector2(232, 64)
+theme = ExtResource("option")
+theme_override_fonts/font = ExtResource("font")
+theme_override_styles/focus = SubResource("Empty")
+theme_override_font_sizes/font_size = 28
+text = "끄기"
+autowrap_mode = 3
+metadata/ko = "끄기"
+metadata/en = "Off"
+metadata/scale_minimum = true
+toggle_mode = true
+button_pressed = false
+
+[node name="Preview" type="PanelContainer" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(490, 430)
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("preview")
+
+[node name="Margin" type="MarginContainer" parent="./Preview"]
+layout_mode = 2
+
+[node name="Body" type="VBoxContainer" parent="./Preview/Margin"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 36
+
+[node name="Sample" type="Label" parent="./Preview/Margin/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 34
+text = "종이 위쪽에 작은 흠이 있다."
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "종이 위쪽에 작은 흠이 있다."
+metadata/en = "종이 위쪽에 작은 흠이 있다."
+horizontal_alignment = 1
+
+[node name="Captions" type="Label" parent="./Preview/Margin/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_font_sizes/font_size = 28
+text = "[멀리서 종소리가 들린다]"
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/ko = "[멀리서 종소리가 들린다]"
+metadata/en = "[멀리서 종소리가 들린다]"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.45, 0.41, 0.55, 1)

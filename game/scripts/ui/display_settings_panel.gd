@@ -19,6 +19,7 @@ var _english := false
 var _saved: Dictionary = {}
 
 func _ready() -> void:
+	theme = preload("res://scripts/ui/design_theme.gd").make_theme()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	if preview == null: preview = Settings.Preview.new(Settings.WindowBackend.new(get_window()), Settings.validate)
 	var style := StyleBoxFlat.new()
@@ -126,6 +127,7 @@ func _show_reverted() -> void:
 	back.grab_focus()
 
 func _refresh_controls() -> void:
+	add_theme_stylebox_override("panel", preload("res://scripts/ui/design_theme.gd").box("panel_dark", Color.WHITE, 24))
 	mode.disabled = preview.pending
 	resolution.disabled = preview.pending or mode.selected != 0
 	apply.visible = not preview.pending

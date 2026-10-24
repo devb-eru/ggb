@@ -58,6 +58,7 @@ func _ready() -> void:
 	buttons.add_child(apply)
 	back.pressed.connect(func(): back_requested.emit())
 	apply.pressed.connect(func(): apply_requested.emit(values()))
+	preload("res://scripts/ui/design_theme.gd").skin_tree(self)
 	hide()
 
 func load_values(settings: Dictionary, locale: String) -> void:
