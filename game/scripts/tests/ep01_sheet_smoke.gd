@@ -303,6 +303,14 @@ func _first_sleep_flow(game: Node, save: Node) -> void:
 	check(handed_off == [SLOT], "first-morning answer hands off once")
 	check(not PRESENTATION.first_wake_pending(game.get_snapshot()), "expanded first morning commits its handoff receipt")
 	check(int(game.get_value("loop_state.day_index", -1)) == 1, "morning choice never repeats the physical reset")
+	view.queue_free()
+	await get_tree().process_frame
+	var morning_view := VIEW.new()
+	morning_view.configure_session(SLOT, "MORNING_ROUTE")
+	host.add_child(morning_view)
+	await get_tree().process_frame
+	check(morning_view._inventory_panel.is_visible_in_tree(), "first-sleep handoff retains the inventory HUD")
+	check(morning_view._inventory_item_ids() == game.get_value("loop_state.inventory", []), "first morning shows only current physical items")
 	host.queue_free()
 	await get_tree().process_frame
 	save.delete_test_slot(SLOT)

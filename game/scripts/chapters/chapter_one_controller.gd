@@ -733,6 +733,25 @@ func _display_feedback(text: String) -> String:
 	return DISPLAY_TEXTS.feedback(text, TranslationServer.get_locale())
 
 
+func _refresh_campaign_inventory(state: Dictionary) -> void:
+	var items: Array = []
+	var english := DISPLAY_TEXTS.is_english(TranslationServer.get_locale())
+	var names := {
+		"NEUTRAL_CLEANER": "Neutral cleaning solution" if english else "중성 세정제",
+		"MANSION_FLOORPLAN": "Mansion floorplan" if english else "저택 평면도",
+	}
+	for clock_id in CLOCK.CLOCKS:
+		var room := "M2_BEDROOM" if clock_id == "bedroom" else "M1_" + String(clock_id).to_upper()
+		var place := DISPLAY_TEXTS.location_name(room, TranslationServer.get_locale())
+		names["RUB_" + String(clock_id).to_upper()] = place + (" rubbing" if english else " 탁본")
+	var inventory: Array = state.loop_state.inventory
+	if _selected_item not in inventory: _selected_item = ""
+	for item_id in inventory:
+		items.append({"id": item_id, "label": names.get(item_id, item_id)})
+	_update_inventory(items)
+	_inventory_panel.show()
+
+
 func _render_room() -> void:
 	if _rendering or session == null:
 		return
@@ -748,8 +767,7 @@ func _render_room() -> void:
 	_witnessed_rooms[_current_room] = true
 	var local := session.local_state(state)
 	_progress = {"notebook_entries": [], "P1_complete": true}
-	_update_inventory([])
-	_inventory_panel.visible = false
+	_refresh_campaign_inventory(state)
 	_clear_hotspots()
 	var background_id := _current_room
 	if _current_room in ["M1_LIBRARY_INNER", "M1_SERVANT_COMMON"]:
