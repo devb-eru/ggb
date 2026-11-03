@@ -38,10 +38,15 @@ func run(scene_tree: SceneTree) -> Dictionary:
 	saves.delete_test_slot(SLOT)
 	game.reset_for_test()
 
+	print("FULL_CAMPAIGN_PHASE: prologue")
 	if await _run_prologue():
+		print("FULL_CAMPAIGN_PHASE: chapter_one")
 		if _run_chapter_one():
+			print("FULL_CAMPAIGN_PHASE: black_mirror")
 			if _run_black_mirror():
+				print("FULL_CAMPAIGN_PHASE: basement")
 				if _run_basement_to_relationship_hub():
+					print("FULL_CAMPAIGN_PHASE: relationship_tiers")
 					_run_relationship_tiers()
 
 	_cleanup()
@@ -69,7 +74,8 @@ func _run_prologue() -> bool:
 		prologue.queue_free()
 		return false
 
-	var prologue_errors: PackedStringArray = prologue.run_smoke_scenario()
+	print("FULL_CAMPAIGN_PHASE: prologue interactions")
+	var prologue_errors: PackedStringArray = await prologue.run_smoke_scenario()
 	for message in prologue_errors:
 		errors.append("prologue route: " + message)
 	if not prologue_errors.is_empty():
@@ -77,10 +83,22 @@ func _run_prologue() -> bool:
 		return false
 	prologue._enter_room("M2_BEDROOM")
 	prologue._dismiss_dialogue_for_test()
-	prologue._begin_first_sleep()
-	while prologue._dialogue_active:
-		prologue._advance_dialogue()
-	await tree.create_timer(2.8).timeout
+	prologue._on_sleep_bed()
+	await _drain_prologue(prologue)
+	if not _expect(prologue._dialogue_choice_active and prologue._dialogue_choice_mode == "ep01_sleep", "first sleep waits for the authored confirmation"):
+		prologue.queue_free()
+		return false
+	prologue._on_dialogue_choice_pressed(0)
+	await _drain_prologue(prologue)
+	for step in range(600):
+		if not prologue._reset_transition_pending: break
+		await tree.create_timer(0.01).timeout
+	await _drain_prologue(prologue)
+	if not _expect(prologue._dialogue_choice_active and prologue._dialogue_choice_mode == "ep01_morning", "first morning waits for its authored answer"):
+		prologue.queue_free()
+		return false
+	prologue._on_dialogue_choice_pressed(1)
+	await _drain_prologue(prologue)
 	var prologue_ok := (
 		_expect(int(game.get_value("loop_state.day_index", -1)) == 1, "first sleep advances the campaign to day one")
 		and _expect(game.get_value("meta_progress.knowledge_entries.PROLOGUE_COMPLETE", false), "prologue completion survives normal reset")
@@ -90,6 +108,16 @@ func _run_prologue() -> bool:
 	prologue.queue_free()
 	await tree.process_frame
 	return prologue_ok and _reload(SLOT, "prologue boundary reload")
+
+
+func _drain_prologue(view: Control) -> void:
+	for step in range(600):
+		if not view._dialogue_active: return
+		if view._fade.visible:
+			await tree.create_timer(0.02).timeout
+		else:
+			view._advance_dialogue()
+	_expect(false, "prologue authored dialogue terminates")
 
 
 func _run_chapter_one() -> bool:
@@ -208,11 +236,17 @@ func _run_black_mirror() -> bool:
 	_travel_black_mirror(session, "M1_MIRROR_GALLERY")
 	for owner in BLACK_MIRROR.CHANNELS:
 		_step(session.act("c_scan", owner), "C5 scans " + owner)
-	if not _step(session.act("c_record"), "C5 records all five signature channels"):
+	for diagnostic in ["BODY", "PERSONALITY"]:
+		_step(session.act("c_scan", diagnostic), "C5 scans required " + diagnostic)
+	if not _step(session.act("c_record"), "C5 records required diagnostics and optional signatures"):
 		return false
 	_travel_black_mirror(session, "M1_LIBRARY_INNER")
 	_step(session.act("routine"), "J3 opens the restoration workbench")
 	_step(session.act("j3_overlay"), "J3 lays down the circuit overlay")
+	for point in ["BED", "GREEN", "CLOCK"]: _step(session.act("j3_point", point), "J3 identifies reference " + point)
+	_step(session.act("j3_compare"), "J3 rejects the front page's apparent alignment")
+	_step(session.act("j3_flip_page"), "J3 inspects the reverse page")
+	_step(session.act("j3_compare"), "J3 compares both sides without authenticating a map angle")
 	for index in range(4):
 		_step(session.act("j3_piece", index), "J3 places fragment %d" % index)
 	if not _step(session.act("j3_restore"), "J3 restores the third journal page"):

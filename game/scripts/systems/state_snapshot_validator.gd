@@ -146,6 +146,13 @@ func _validate_meta_progress(value: Variant, errors: PackedStringArray) -> void:
 		"servants",
 	]
 	_validate_required_keys(meta, required, "META", errors)
+	if meta.has("iris_season_image") and meta.iris_season_image not in ["spring", "summer", "autumn", "winter"]:
+		errors.append("ERR_SNAPSHOT_IRIS_SEASON_IMAGE")
+	if meta.has("flags"):
+		if _require_dictionary(meta.flags, "META_FLAGS", errors):
+			for key in meta.flags:
+				if not key is String or not meta.flags[key] is bool:
+					errors.append("ERR_SNAPSHOT_META_FLAGS_VALUE")
 	_require_type(meta.get("notebook_persistence_confirmed"), TYPE_BOOL, "META_NOTEBOOK", errors)
 	if _require_type(meta.get("journal_stage"), TYPE_INT, "META_JOURNAL_STAGE", errors):
 		var stage := int(meta["journal_stage"])

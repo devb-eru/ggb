@@ -2,8 +2,8 @@ extends RefCounted
 
 # Only controller-owned presentation actions may cross a process boundary.
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
-const ROUTES := {"_close_modal": [0], "_modal_act": [1, 2], "_sleep_now": [0], "_start_d6_rest": [1],
-	"_open_field_page": [2], "_advance_field_page": [3], "_confirmation_notebook": [0], "_replay_route_feedback": [0]}
+const ROUTES := {"_close_modal": [0], "_modal_act": [1, 2], "_ep01_select": [2], "_sleep_now": [0], "_start_d6_rest": [1],
+	"_open_field_page": [2], "_advance_field_page": [3], "_confirmation_notebook": [0], "_replay_route_feedback": [0], "_stop_sheet_dry_feedback": [0], "_select_j3_memory": [1]}
 
 
 static func route(owner: Object, action: Callable) -> Dictionary:
@@ -16,6 +16,9 @@ static func valid_route(value: Variant) -> bool:
 	if not value is Dictionary or value.size() != 2 or not value.get("method") is String or not value.get("args") is Array: return false
 	if not ROUTES.has(value.method) or value.args.size() not in ROUTES[value.method]: return false
 	match value.method:
+		"_select_j3_memory": return value.args[0] in ["read", "replay", "skip"]
+		"_ep01_select":
+			return preload("res://scripts/systems/ep01_script.gd").valid_context(value.args[0]) and value.args[1] is String and not preload("res://scripts/systems/ep01_script.gd").node(value.args[1]).is_empty()
 		"_modal_act":
 			return value.args[0] is String and not value.args[0].is_empty() and value.args[0].length() <= 80
 		"_start_d6_rest": return value.args[0] in ["bedroom", "capsule", "emergency_capsule"]

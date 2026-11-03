@@ -156,6 +156,7 @@ func _route(tree: SceneTree) -> void:
 	_expect(not ARCHIVE.resolve(_archive(), ARCHIVE.make_reference(first, "line_02")).ok, "unshown second channel sentence is not a valid source")
 	view._dismiss_dialogue_for_test()
 	for owner in ["MARA1", "LUCA", "IRIS", "MARA2"]: _act("c_scan", owner)
+	for diagnostic in ["BODY", "PERSONALITY"]: _act("c_scan", diagnostic)
 	var controlled := ControlledSave.new()
 	controlled.delegate = SaveManager
 	controlled.reject = true
@@ -241,6 +242,7 @@ func _branches(tree: SceneTree) -> void:
 		state.loop_state.event_local_states.BLACK_MIRROR.surface_open = mode == "SURFACE"
 		_install(state)
 		for owner in view.MIRROR_SESSION.CHANNELS: _act("c_scan", owner)
+		for diagnostic in ["BODY", "PERSONALITY"]: _act("c_scan", diagnostic)
 		_act("c_record")
 		_expect(not _has("NB_MIRROR_NOTE_CF_RESOLVED") and _ledger().revisions.size() == 1, "recording without a failed attempt cannot invent a failure or old notes from legacy flags")
 		_collect()
@@ -265,6 +267,10 @@ func _branches(tree: SceneTree) -> void:
 
 func _restore_j3(memory: bool) -> void:
 	_act("j3_overlay")
+	for point in ["BED", "GREEN", "CLOCK"]: _act("j3_point", point)
+	_act("j3_compare")
+	_act("j3_flip_page")
+	_act("j3_compare")
 	for index in range(4): _act("j3_piece", index)
 	var restored := view.session.act("j3_restore")
 	_expect(restored.ok and view.session.stage() == "J3_COMPLETE", "actual J3 restoration")
@@ -324,12 +330,12 @@ func _failures(tree: SceneTree) -> void:
 
 func _choice_recovery(tree: SceneTree) -> void:
 	for spec in [["patrol", 0, "valid"], ["patrol", 1, "valid"], ["patrol", 2, "valid"],
-		["wet", 1, "valid"], ["wet", 1, "invalid"], ["wet", 2, "valid"], ["wet", 2, "invalid"], ["wet", 2, "confiscated"]]:
+		["wet", 0, "valid"], ["wet", 0, "invalid"], ["wet", 2, "valid"], ["wet", 2, "invalid"], ["wet", 2, "confiscated"]]:
 		for follow_up in ["retry", "cancel"]:
 			var old_errors := errors.size()
 			var state := _seed("C4")
 			state.loop_state.location_id = "M1_MIRROR_GALLERY"
-			state.meta_progress.servants.edgar.alert = 4 if spec[2] == "confiscated" else 0
+			state.meta_progress.servants.edgar.alert = 4 if spec[2] == "confiscated" or spec[0] == "patrol" else 0
 			state.meta_progress.servants.edgar.bond = 0
 			state.loop_state.event_local_states.BLACK_MIRROR.merge({"rotation": 0 if spec[2] == "invalid" else 90,
 				"flipped": false, "anchored": true, "path": RULES.PATH.duplicate(), "cleaner_ready": true,
@@ -339,6 +345,7 @@ func _choice_recovery(tree: SceneTree) -> void:
 			view._render_room()
 			if spec[0] == "patrol": view._open_patrol()
 			else: view._confirm_wet_trace()
+			_drain()
 			var request: Dictionary = view._recorded_modal_request
 			_expect(view._modal_active and request.get("recorded", false), "mirror recovery prompt displayed and saved")
 			var shown := GameState.get_snapshot()
@@ -380,7 +387,7 @@ func _choice_recovery(tree: SceneTree) -> void:
 				var local: Dictionary = view.session.mirror_local()
 				if spec[0] == "patrol":
 					_expect(local.intervention_handled and local.cleaner_ready and not local.locked, "patrol retry handles intervention without using cleaner")
-				elif spec[1] == 1:
+				elif spec[1] == 0:
 					_expect(local.dry_passed == (spec[2] == "valid") and local.cleaner_ready and not local.locked, "dry retry diagnoses the actual route without physical consumption")
 					_expect(view._modal_active and not view._recorded_modal_request.is_empty(), "dry retry opens its result modal")
 				else:

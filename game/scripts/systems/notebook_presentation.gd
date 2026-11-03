@@ -7,11 +7,11 @@ const VERSION := 4
 const FIRST_WAKE_REQUIRED := "PROLOGUE_FIRST_WAKE_REQUIRED"
 const FIRST_WAKE_COMPLETED := "PROLOGUE_FIRST_WAKE_COMPLETED"
 const FAMILIES := ["chapter_one_controller", "black_mirror_controller", "basement_controller", "prologue_controller"]
-const PROLOGUE_ROUTES := ["_show_p1_objective", "_return_to_hall_after_dialogue", "_resume_p3_journal_choice", "_show_p3_journal_choices", "_complete_p4_life_support_foreshadow", "_finish_p4_memory_anchor", "_finish_p4_after_question", "_complete_p4_iris_greeting", "_perform_normal_reset", "_finish_prologue_handoff"]
-const PROLOGUE_CHOICES := {"p3_journal": ["author", "locked", "silent"], "p4_father": ["father_tea", "mansion_age", "luca_tenure"], "P1_EXIT": ["confirm", "cancel"], "P6_SLEEP": ["confirm", "cancel"]}
+const PROLOGUE_ROUTES := ["_show_p1_objective", "_return_to_hall_after_dialogue", "_resume_p3_journal_choice", "_show_p3_journal_choices", "_complete_p4_life_support_foreshadow", "_finish_p4_memory_anchor", "_finish_p4_after_question", "_complete_p4_iris_greeting", "_perform_normal_reset", "_finish_prologue_handoff", "_ep01_show_sleep_choices", "_ep01_show_morning_choices"]
+const PROLOGUE_CHOICES := {"p3_journal": ["author", "locked", "silent"], "p4_father": ["father_tea", "mansion_age", "luca_tenure"], "P1_EXIT": ["confirm", "cancel"], "P6_SLEEP": ["confirm", "cancel"], "ep01_sleep": ["confirm", "cancel"], "ep01_morning": ["same", "date", "quiet"]}
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const MODAL := preload("res://scripts/systems/notebook_modal_presentation.gd")
-const LINE_KEYS := ["speaker", "text", "portrait", "history_context", "presentation_token", "notebook_content", "observed_fact_ids", "audio_cue", "d5_focus_allowed", "d4_reaction_owner", "cup_pose", "p4_pulse"]
+const LINE_KEYS := ["speaker", "text", "portrait", "portrait_position", "portrait_state", "history_context", "presentation_token", "notebook_content", "observed_fact_ids", "audio_cue", "d5_focus_allowed", "d4_reaction_owner", "cup_pose", "p4_pulse"]
 
 
 static func read(state: Dictionary) -> Dictionary:
@@ -73,6 +73,8 @@ static func valid_route(value: Variant) -> bool:
 	if not _keys(value, ["method", "args"]) or not value.method is String or not value.args is Array: return false
 	if value.method in PROLOGUE_ROUTES: return value.args.is_empty()
 	match value.method:
+		"_ep01_continue", "_ep01_finish":
+			return value.args.size() == 1 and preload("res://scripts/systems/ep01_script.gd").valid_context(value.args[0])
 		"_do":
 			return value.args.size() == 3 and value.args[0] is String and not value.args[0].is_empty() and value.args[0].length() <= 80 and _json(value.args[1]) and value.args[2] is bool and not value.args[2]
 		"_show_clock_hint_menu":
@@ -122,7 +124,7 @@ static func valid(value: Variant) -> bool:
 		if value.lines.size() != 1 or not value.after.is_empty(): return false
 		if value.phase == "selection_pending" and value.modal.selection_token.is_empty(): return false
 	if value.phase == "completed" and not value.after.is_empty(): return false
-	if not value.after.is_empty() and (value.after.method in PROLOGUE_ROUTES) != (value.family == "prologue_controller"): return false
+	if not value.after.is_empty() and value.after.method not in ["_ep01_continue", "_ep01_finish"] and (value.after.method in PROLOGUE_ROUTES) != (value.family == "prologue_controller"): return false
 	var tokens := {}
 	for line in value.lines:
 		if not line is Dictionary or not _json(line): return false
@@ -131,6 +133,8 @@ static func valid(value: Variant) -> bool:
 		if not line.get("speaker") is String or not line.get("text") is String or not _hex(line.get("presentation_token"), 32): return false
 		for field in ["portrait", "audio_cue", "d4_reaction_owner", "cup_pose", "p4_pulse"]:
 			if line.has(field) and not line[field] is String: return false
+		if line.has("portrait_position") and line.portrait_position not in ["NONE", "LEFT", "CENTER", "RIGHT"]: return false
+		if line.has("portrait_state") and line.portrait_state not in ["NONE", "DEFAULT", "NEUTRAL", "SMILE", "WORRIED", "ANGRY", "SAD", "SURPRISED", "GLITCH"]: return false
 		if line.has("d5_focus_allowed") and not line.d5_focus_allowed is bool: return false
 		if line.has("observed_fact_ids") and (not line.observed_fact_ids is Array or not line.observed_fact_ids.all(func(id: Variant) -> bool: return id is String)): return false
 		if line.text.is_empty() or tokens.has(line.presentation_token): return false
@@ -240,7 +244,8 @@ static func install(state: Dictionary, value: Dictionary) -> void:
 	# The physical reset clears local cursors; its first-wake handoff must survive that boundary.
 	if updated.family == "prologue_controller" and updated.phase == "completed" and updated.kind == "dialogue":
 		var ids: Array = updated.lines.map(func(line: Dictionary) -> String: return String(line.get("notebook_content", {}).get("content_id", "")))
-		if ids == ["NB_PR_R1_WAKE", "NB_PR_R1_SAME", "NB_PR_R1_NOTES"] and first_wake_pending(state):
+		var ep01_morning: bool = not ids.is_empty() and ids.back() == "NB_EP01_RESET_FIRST_013"
+		if (ids == ["NB_PR_R1_WAKE", "NB_PR_R1_SAME", "NB_PR_R1_NOTES"] or ep01_morning) and first_wake_pending(state):
 			state.meta_progress.knowledge_entries[FIRST_WAKE_COMPLETED] = true
 	updated.anchor = anchor(state)
 	updated.source_origin_id = state.meta_progress.dialogue_history.source_origin_id

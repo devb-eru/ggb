@@ -6,6 +6,7 @@ const HISTORY_SESSIONS := [SESSION_SCRIPT, preload("res://scripts/systems/black_
 const CLOCK := preload("res://data/puzzles/puzzle_clock_network.tres")
 const DISPLAY_TEXTS := preload("res://scripts/ui/chapter_one_display_texts.gd")
 const MODAL_NOTES := preload("res://scripts/systems/modal_notebook.gd")
+const EP01 := preload("res://scripts/systems/ep01_script.gd")
 const NOTEBOOK_ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const NOTEBOOK_CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const CHAPTER_SURFACES := preload("res://scripts/systems/notebook_chapter_surfaces.gd")
@@ -425,7 +426,15 @@ func _close_modal() -> void:
 	_notebook_surface_allowed()
 
 
-func _show_recorded_choice(title: String, body: String, actions: Array, descriptor: Dictionary, history_context: Dictionary = {}, view: Dictionary = {}) -> void:
+func _close_recorded_presentation_choice() -> bool:
+	var dispatch := _modal_dispatch_context
+	_modal_dispatch_context = {}
+	_close_modal()
+	_modal_dispatch_context = dispatch
+	return not _modal_active
+
+
+func _show_recorded_choice(title: String, body: String, actions: Array, descriptor: Dictionary, history_context: Dictionary = {}, view: Dictionary = {}, default_focus: int = 0) -> void:
 	var row := NOTEBOOK_CONTENT.definition(descriptor.get("content_id", ""), int(descriptor.get("content_version", 1)))
 	if row.is_empty() or row.get("choices", []).size() != actions.size():
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
@@ -440,7 +449,7 @@ func _show_recorded_choice(title: String, body: String, actions: Array, descript
 	var context := {"generation": _choice_modal_generation + 1, "recorded": false, "text": title + "\n" + body, "history_context": frozen,
 		"scope": _recorded_choice_scope(), "locale": TranslationServer.get_locale(), "row": row, "actions": actions.duplicate(true), "pending_index": -1,
 		"selection_recorded": false, "dispatching": false, "options_speaker": _dialogue_ui_text("HISTORY_OPTIONS"), "selected_speaker": _dialogue_ui_text("HISTORY_SELECTED"),
-		"title": title, "body": body, "view": view.duplicate(true), "focus": 0}
+		"title": title, "body": body, "view": view.duplicate(true), "focus": clampi(default_focus, 0, maxi(0, actions.size() - 1))}
 	_present_recorded_modal(context)
 	_record_modal_options(context)
 
@@ -448,12 +457,13 @@ func _show_recorded_choice(title: String, body: String, actions: Array, descript
 func _present_recorded_modal(context: Dictionary) -> void:
 	context.generation = _choice_modal_generation + 1
 	var wrapped: Array = []
-	context.text = context.title + "\n" + context.body
+	var visible_text: Array = [context.title, context.body].filter(func(value: String) -> bool: return not value.is_empty())
 	for index in range(context.actions.size()):
 		var action: Dictionary = context.actions[index].duplicate()
-		context.text += "\n" + String(action.label)
+		visible_text.append(String(action.label))
 		action["action"] = _recorded_choice_pressed.bind(context, index)
 		wrapped.append(action)
+	context.text = "\n".join(visible_text)
 	_show_modal(context.title, context.body, wrapped)
 	_recorded_modal_request = context
 	_restore_recorded_modal_extras(context.view)
@@ -599,7 +609,7 @@ func _recorded_choice_pressed(context: Dictionary, index: int) -> void:
 	if choice.kind != "ui" and _history_enabled() and not context.selection_recorded:
 		var selected: Dictionary = context.history_context.duplicate(true)
 		selected.presentation_token = context.selection_token
-		selected.notebook_content = NOTEBOOK_CONTENT.descriptor(choice.content_id, 1, {"body": {}})
+		selected.notebook_content = NOTEBOOK_CONTENT.descriptor(choice.content_id, EP01.notebook_version(choice.content_id), {"body": {}})
 		if _presentation_enabled():
 			context.selection_recorded = true
 			var cursor := _modal_cursor(context, "selection_pending")
@@ -647,17 +657,23 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 	if not _notebook_surface_allowed(): return
 	if _interaction_blocked():
 		return
+	if action == "edgar_talk" and show_text and get_script().resource_path.ends_with("/chapter_one_controller.gd") and session.local_state().edgar_state == "entering":
+		_ep01_play("EP01_B2_CAUGHT_001")
+		return
 	if not show_text and _presentation_enabled():
 		var completion := PRESENTATION.completion_for_action(session.snapshot(), PRESENTATION.family(self), action, value)
 		if not completion.is_empty():
 			if _presentation_scope != _recorded_choice_scope(): return
 			session._presentation_commit_override = completion
+	var before_sheet := session.snapshot()
 	var result := _act_with_modal_completion(action, value)
 	session._presentation_commit_override = {}
 	if result.get("ok", false):
 		_set_status("")
 	_render_room()
+	if not show_text and action == "move" and get_script().resource_path.ends_with("/chapter_one_controller.gd") and _ep01_action_feedback(action, value, result, before_sheet): return
 	if show_text:
+		if get_script().resource_path.ends_with("/chapter_one_controller.gd") and _ep01_action_feedback(action, value, result, before_sheet): return
 		if action == "activate_clock" and result.get("ok", false) and session.stage() == "BF":
 			var failure: Dictionary = session.snapshot()["meta_progress"]["failure_knowledge"].get("B3_B", {})
 			if int(failure.get("attempts", 0)) >= 2:
@@ -755,6 +771,8 @@ func _render_room() -> void:
 			var destinations := ["M1_SERVANT_COMMON", "M1_PARLOR", "M1_LIBRARY_OUTER", "M1_GREAT_CLOCK", "M1_NORTH_ARCHIVE_HALL", "M2_BEDROOM"]
 			for index in range(destinations.size()):
 				_action("GO_" + destinations[index], DISPLAY_TEXTS.location_name(destinations[index], locale), Rect2(240 + (index % 3) * 490, 230 + (index / 3) * 210, 410, 140), "move", destinations[index], false)
+			if session.stage() == "AS" and get_script().resource_path.ends_with("/chapter_one_controller.gd"):
+				_add_hotspot("EP01_DAILY_HALL", EP01.text("EP01_DLG_HALL_EDGAR_CH01", locale), Rect2(560, 775, 650, 100), _ep01_play.bind("EP01_HUB_DAILY_HALL"))
 		"M1_SERVANT_COMMON":
 			for index in range(4):
 				var owner: String = ["edgar", "luca", "mara1", "mara2"][index]
@@ -764,6 +782,12 @@ func _render_room() -> void:
 				_action("DOC_" + owner, label, Rect2(260 + (index % 2) * 720, 210 + (index / 2) * 165, 640, 115), "read_schedule", owner)
 				_queue_chapter_surface(CHAPTER_SURFACES.surface("B1_DOC_%s_%s" % [owner.to_upper(), "READ" if session.known("schedule_"+owner) else "UNREAD"]), label)
 			_add_hotspot("B1_BOARD", _dialogue_ui_text("CH1_B1_BOARD"), Rect2(610, 610, 650, 110), _open_schedule_board)
+			if get_script().resource_path.ends_with("/chapter_one_controller.gd"):
+				var owners := ["EDGAR", "MARA1", "LUCA", "IRIS", "MARA2"]
+				for index in range(owners.size()):
+					var owner: String = owners[index]
+					var name_key := "LUKA" if owner == "LUCA" else owner
+					_add_hotspot("EP01_TALK_" + owner, _dialogue_ui_text("UI_SPEAKER_" + name_key), Rect2(140 + index * 325, 775, 300, 100), _ep01_talk.bind(owner, session.stage() == "AS"))
 		"M1_LIBRARY_OUTER":
 			_action("INNER_DOOR", DISPLAY_TEXTS.ui("inner_door", locale), Rect2(1180, 230, 350, 390), "move", "M1_LIBRARY_INNER", false)
 			_queue_chapter_surface(CHAPTER_SURFACES.surface("INNER_DOOR"), DISPLAY_TEXTS.ui("inner_door", locale))
@@ -804,7 +828,10 @@ func _build_loop_bedroom(local: Dictionary) -> void:
 		_action("A2_CONFIRM", _dialogue_ui_text("CH1_BED_CONFIRM"), Rect2(510, 320, 830, 160), "confirm_mark")
 	else:
 		_add_hotspot("NOTEBOOK", _dialogue_ui_text("CH1_BED_NOTEBOOK"), Rect2(350, 240, 470, 100), _open_notebook)
-	_action("AS_ROUTINE", _dialogue_ui_text("CH1_BED_ROUTINE_DONE" if local["routine_done"] else "CH1_BED_ROUTINE"), Rect2(350, 550, 650, 100), "routine")
+	if not local.routine_done and session.stage() == "AS" and get_script().resource_path.ends_with("/chapter_one_controller.gd"):
+		_add_hotspot("AS_ROUTINE", _dialogue_ui_text("CH1_BED_ROUTINE"), Rect2(350, 550, 650, 100), _ep01_routine)
+	else:
+		_action("AS_ROUTINE", _dialogue_ui_text("CH1_BED_ROUTINE_DONE" if local["routine_done"] else "CH1_BED_ROUTINE"), Rect2(350, 550, 650, 100), "routine")
 	_add_hotspot("SLEEP", _dialogue_ui_text("CH1_BED_SLEEP"), Rect2(1090, 580, 510, 140), _confirm_sleep)
 	if session.can_prepare_clock_shortcut():
 		_action("BSHORT", _dialogue_ui_text("CH1_BED_SHORTCUT"), Rect2(360, 730, 880, 100), "shortcut")
@@ -812,6 +839,9 @@ func _build_loop_bedroom(local: Dictionary) -> void:
 
 
 func _open_mark_choices() -> void:
+	if get_script().resource_path.ends_with("/chapter_one_controller.gd") and session.stage() == "A1":
+		_ep01_play("EP01_A1_001", {}, ["EP01_A1_REACTION_001"])
+		return
 	var actions: Array = []
 	for id in SESSION_SCRIPT.MARKS:
 		actions.append({"label": _dialogue_ui_text("CH1_MARK_" + String(id).to_upper()), "action": _modal_act.bind("mark", id)})
@@ -1209,3 +1239,250 @@ func _read_clock_hint(level: int) -> void:
 	if _modal_active: return
 	var descriptor := preload("res://scripts/systems/notebook_content.gd").hint_descriptor(session.stage(), level)
 	_show_dialogue([{"speaker": "주인공", "text": text, "notebook_content": descriptor}], _show_clock_hint_menu.bind(level + 1))
+
+
+func _ep01_play(start: String, finish: Dictionary = {}, stops: Array = [], cases: Dictionary = {}) -> void:
+	_ep01_continue({"start": start, "finish": finish, "stops": stops, "cases": cases, "ids": []})
+
+
+func _ep01_continue(context: Dictionary) -> void:
+	if not EP01.valid_context(context): return
+	var result := EP01.segment(context.start, session.snapshot(), TranslationServer.get_locale(), context.stops, context.cases)
+	if not result.ok:
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		push_error(str(result))
+		return
+	var continuation := context.duplicate(true)
+	continuation.ids.append_array(result.ids)
+	continuation.start = result.next
+	var after: Callable
+	if result.kind == "choice": after = _ep01_continue.bind(continuation)
+	else: after = _ep01_finish.bind(continuation)
+	if not result.lines.is_empty():
+		_show_dialogue(result.lines, after)
+	elif result.kind == "choice":
+		_ep01_open_choice(continuation)
+	else:
+		_ep01_finish(continuation)
+
+
+func _ep01_open_choice(context: Dictionary) -> void:
+	var route: String = context.start
+	var content_id := EP01.options_content_id(route, session.snapshot())
+	var version := EP01.notebook_version(content_id)
+	var descriptor := NOTEBOOK_CONTENT.descriptor(content_id, version, {})
+	var definition := NOTEBOOK_CONTENT.definition(content_id, version)
+	for id in definition.get("visible_segment_ids", []): descriptor.segments[id] = {}
+	var shown := NOTEBOOK_CONTENT.presentation(descriptor, TranslationServer.get_locale())
+	if not shown.ok:
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	var actions := []
+	for edge in EP01.visible_choice_edges(route, session.snapshot()):
+		if edge.target_type == "node":
+			actions.append({"label": EP01.text(edge.target_id, TranslationServer.get_locale()), "action": _ep01_select.bind(context, edge.target_id)})
+	var locale: String = "en-US" if TranslationServer.get_locale().begins_with("en") else "ko-KR"
+	var localized: Dictionary = definition.locales[locale]
+	if route == "EP02_CHOICE_C4_COMMIT" and has_method("_show_sheet_status"): call("_show_sheet_status", "EP02_C4_UI_COMMIT_DEFAULT")
+	var history := {"node_id": route, "chapter_id": "CHAPTER_2" if route.begins_with("EP02_") else "CHAPTER_1", "location_id": session.snapshot().loop_state.location_id}
+	_show_recorded_choice(localized.get("header", ""), localized.get("prompt", ""), actions, descriptor, history, {}, 1 if route == "EP02_CHOICE_C4_COMMIT" else 0)
+
+
+func _ep01_select(context: Dictionary, selected: String) -> void:
+	if not EP01.valid_context(context): return
+	var choice := EP01.node(selected)
+	if choice.get("content_type") != "CHOICE" or not EP01.edges(context.start).any(func(edge: Dictionary) -> bool: return edge.target_id == selected): return
+	var action := ""
+	var argument: Variant = null
+	match selected:
+		"EP01_A1_CH01", "EP01_A1_CH02", "EP01_A1_CH03":
+			action = "mark"
+			argument = {"EP01_A1_CH01": "sentence", "EP01_A1_CH02": "house_glyph", "EP01_A1_CH03": "ink_corner"}[selected]
+		"EP01_AS_CH01", "EP01_AS_CH02", "EP01_DLG_HALL_FINISH_CH01": action = "routine"
+		"EP01_B2_CH02": action = "edgar_hide"
+		"EP01_B2_CAUGHT_CH01", "EP01_B2_CAUGHT_CH02", "EP01_B2_CAUGHT_CH03", "EP01_B2_CAUGHT_CH04": action = "edgar_talk"
+		"EP02_C4_EDGAR_CH01", "EP02_C4_EDGAR_CH02", "EP02_C4_EDGAR_CH03":
+			action = "c_handle_patrol"
+			argument = {"EP02_C4_EDGAR_CH01": "cloth", "EP02_C4_EDGAR_CH02": "question", "EP02_C4_EDGAR_CH03": "wait"}[selected]
+		"EP02_C4_COMMIT_CH03":
+			action = "c_wet"
+			argument = true
+		"EP02_C4_COMMIT_CH01": action = "c_dry"
+	if not action.is_empty():
+		var committed := _act_with_modal_completion(action, argument)
+		if not committed.get("ok", false):
+			_set_status(String(committed.get("text", _dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))))
+			return
+	if selected == "EP02_C4_COMMIT_CH02":
+		if not _close_recorded_presentation_choice(): return
+	else: _close_modal()
+	if _modal_active: return
+	_render_room()
+	var next := context.duplicate(true)
+	if selected.begins_with("EP02_") and selected not in next.ids: next.ids.append(selected)
+	next.start = choice.next_id
+	if selected == "EP02_CF_SLEEP_CH02": next.finish = {"method": "_sleep_now", "args": []}
+	if selected == "EP02_C4_COMMIT_CH02": next.finish = {"method": "_show_sheet_c4_cancel", "args": []}
+	if selected == "EP02_C4_COMMIT_CH01":
+		next.finish = {"method": "_show_sheet_dry_feedback", "args": []}
+		_ep01_finish(next)
+		return
+	if selected == "EP02_C4_COMMIT_CH03":
+		var identities := _ep02_wet_feedback_ids()
+		if not identities.is_empty():
+			var lines := []
+			for identity in identities:
+				if identity not in next.ids: next.ids.append(identity)
+				lines.append(EP01.line(identity, session.snapshot(), TranslationServer.get_locale()))
+			_show_dialogue(lines, _ep01_continue.bind(next))
+			return
+	if selected == "EP01_B2_CH02": next.finish = {"method": "_do", "args": ["edgar_leave", null, false]}
+	if choice.next_type in ["scene", "hub", "end", "episode_exit"]:
+		_ep01_finish(next)
+		return
+	_ep01_continue(next)
+
+
+func _ep02_wet_feedback_ids() -> Array:
+	var state := session.snapshot()
+	var local: Dictionary = state.loop_state.event_local_states.get("BLACK_MIRROR", {})
+	var ids: Array = []
+	if local.get("locked", false):
+		var category: String = state.meta_progress.failure_knowledge.get("C4", {}).get("category", "")
+		var identity := preload("res://scripts/systems/ep02_puzzle_feedback.gd").wet_failure(category)
+		if not identity.is_empty(): ids.append(identity)
+	var captions := preload("res://scripts/systems/ep02_sensory_captions.gd")
+	var sensory := captions.wet(local)
+	if local.get("locked", false) or local.get("surface_open", false):
+		ids.append("EP02_C4_UI_COMMIT_ACCEPT")
+		if state.meta_progress.failure_knowledge.get("C4", {}).get("category") != "tool_confiscated" or local.get("surface_open", false): sensory.push_front("EP02_CAP_WET_START")
+	return captions.decorate(ids, sensory, AccessibilityProfileStore.new().load_profile().get("profile", {}))
+
+
+func _ep01_finish(context: Dictionary) -> void:
+	if not EP01.valid_context(context): return
+	if _presentation_enabled() and _presentation_scope != _recorded_choice_scope(): return
+	var saved := session.finish_sheet_conversation(context.ids)
+	if not saved.get("ok", false):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		# Retain the final line so retrying cannot silently skip a completion receipt.
+		_show_modal(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"), "", [{"label": "다시 시도" if TranslationServer.get_locale().begins_with("ko") else "Retry", "action": _ep01_retry_finish.bind(context)}])
+		return
+	_render_room()
+	if not context.finish.is_empty(): Callable(self, context.finish.method).callv(context.finish.args)
+	elif context.start == "EP01_HUB_DAILY_HALL": _ep01_play("EP01_HUB_DAILY_HALL")
+	elif context.start in ["EP02_SCENE_05", "EP02_SCENE_09", "EP02_SCENE_10", "EP02_SCENE_12"]:
+		_ep01_play(_ep01_scene_followup(context))
+
+
+func _ep01_scene_followup(context: Dictionary) -> String:
+	return EP01.scene_entry(context.start, "EP02")
+
+
+func _ep01_talk(owner: String, routine: bool = false) -> void:
+	if _interaction_blocked() or not _notebook_surface_allowed(): return
+	if not routine and not session.snapshot().meta_progress.notebook_persistence_confirmed:
+		_set_status(_dialogue_ui_text("CH1_B1_NEED_CONFIRM"))
+		return
+	var start := "EP01_AS_" + owner.to_upper() + "_001" if routine else "EP01_B1_" + owner.to_upper() + "_CH01"
+	_ep01_play(start, {}, ["EP01_AS_002", "EP01_HUB_B1"])
+
+
+func _ep01_routine() -> void:
+	if _interaction_blocked() or not _notebook_surface_allowed(): return
+	_ep01_play("EP01_AS_001", {}, ["EP01_COMMON_SLEEP_LOOP"])
+
+
+func _ep01_retry_finish(context: Dictionary) -> void:
+	_close_modal()
+	_ep01_finish(context)
+
+
+func _ep01_action_feedback(action: String, value: Variant, result: Dictionary, before: Dictionary) -> bool:
+	var start := ""
+	var stops: Array = []
+	var cases := {}
+	var finish := {}
+	if not result.get("ok", false):
+		match String(result.get("text_id", "")):
+			"CH1_J1_WRONG_ORDER": start = "EP01_J1_WRONG_001"; stops = ["EP01_J1_002"]
+			"CH1_J1_WRONG_FACE": start = "EP01_J1_WRONG_002"; stops = ["EP01_J1_002"]
+			"CH1_J2_MISALIGNED": start = "EP01_B5_BAD_ROT_001"; stops = ["EP01_B5_002"]
+			"CH1_B1_WRONG":
+				start = "EP01_B1_BOARD_002" if value == "morning" else "EP01_B1_BOARD_004"
+				stops = ["EP01_B1_BOARD_001"]
+	else:
+		match action:
+			"mark":
+				start = {"sentence": "EP01_A1_SENTENCE_001", "house_glyph": "EP01_A1_GLYPH_001", "ink_corner": "EP01_A1_INK_001"}.get(String(value), "")
+				stops = ["EP01_A1_REACTION_001"]
+			"confirm_mark":
+				var mark: String = before.meta_progress.knowledge_entries.get("self_authored_mark", {}).get("type", "sentence")
+				start = {"sentence": "EP01_A2_SENTENCE_001", "house_glyph": "EP01_A2_GLYPH_001", "ink_corner": "EP01_A2_INK_001"}.get(mark, "EP01_A2_SENTENCE_001")
+				var prelude := EP01.segment("EP01_A1_REACTION_001", session.snapshot(), TranslationServer.get_locale())
+				if not prelude.ok: return false
+				var lines := [EP01.line(start, session.snapshot(), TranslationServer.get_locale())]
+				lines.append_array(prelude.lines)
+				var ids: Array = [start]
+				ids.append_array(prelude.ids)
+				_show_dialogue(lines, _ep01_continue.bind({"start": "EP01_A2_001", "finish": {}, "stops": [], "cases": {}, "ids": ids}))
+				return true
+			"routine": start = "EP01_AS_CAP_001"; stops = ["EP01_COMMON_SLEEP_LOOP"]
+			"read_schedule":
+				var prefix: String = {"edgar": "EP01_DOC_WORK_", "luca": "EP01_DOC_DELIVERY_", "mara1": "EP01_DOC_CLEAN_", "mara2": "EP01_DOC_EXPORT_"}.get(String(value), "")
+				var ids := []
+				for row in EP01.source().nodes:
+					if not prefix.is_empty() and String(row.node_id).begins_with(prefix): ids.append(row.node_id)
+				if not ids.is_empty():
+					_ep01_pages(ids)
+					return true
+			"schedule_window": start = "EP01_B1_SUCCESS_001"
+			"inspect_inner":
+				start = {"desk": "EP01_J1_001", "index": "EP01_B2_DRAWER_001", "drawer": "EP01_B2_DRAWER_001", "alcove": "EP01_B2_ALCOVE_001", "gap": "EP01_J1_SUCCESS_003", "link": "EP01_J1_LINK_001"}.get(String(value), "")
+				stops = ["EP01_J1_002", "EP01_J1_SUCCESS_004", "EP01_ROUTER_B2_ATTENTION"]
+				if session.local_state().edgar_state == "entering":
+					_show_dialogue([EP01.line(start, session.snapshot(), TranslationServer.get_locale())], _ep01_continue.bind({"start": "EP01_B2_ROUTE_EDGAR", "finish": {}, "stops": [], "cases": {}, "ids": [start]}))
+					return true
+			"edgar_hide":
+				start = "EP01_B2_HIDE_001"
+				finish = {"method": "_do", "args": ["edgar_leave", null, false]}
+			"edgar_talk": start = "EP01_B2_CAUGHT_001"
+			"edgar_leave": return true
+			"j1_restore": start = "EP01_J1_DOC_001"
+			"rub_clock":
+				start = {"M2_BEDROOM": "EP01_B3A_BED_001", "M1_PARLOR": "EP01_B3A_PARLOR_001", "M1_LIBRARY_OUTER": "EP01_B3A_LIBRARY_001", "M1_GREAT_CLOCK": "EP01_B3A_CLOCK_001"}.get(String(before.loop_state.location_id), "")
+			"board_check":
+				start = "EP01_B3A_SUCCESS_001" if session.known("clock_network_layout_solved") else "EP01_B3A_RETRY_001"
+				if not session.known("clock_network_layout_solved"):
+					var checked: Dictionary = CLOCK.inspect_layout(session.local_state().board)
+					var fault: Dictionary = checked.get("faults", [{}])[0] if not checked.get("faults", []).is_empty() else {}
+					start = {"rotation": "EP01_B3A_BAD_ROT_001", "back": "EP01_B3A_BAD_FLIP_001", "piece": "EP01_B3A_BAD_EDGE_001"}.get(String(fault.get("kind", "")), "EP01_B3A_RETRY_001")
+					stops = ["EP01_B3A_UI_001"]
+				cases.EP01_ROUTER_B3A_REACTION = "EP01_B3A_ROUTE_COMPLETE"
+			"test_clock":
+				var id: String = result.get("text_id", "")
+				start = {"CH1_CLOCK_TEST_OK": "EP01_B3B_TEST_ROLES_OK", "CH1_CLOCK_RESULT_REFERENCE": "EP01_B3B_TEST_REF_BAD", "CH1_CLOCK_RESULT_RELAY": "EP01_B3B_TEST_RELAY_BAD", "CH1_CLOCK_RESULT_OUTPUT": "EP01_B3B_TEST_OUTPUT_BAD"}.get(id, "")
+				stops = ["EP01_B3B_COMMIT_001"]
+			"activate_clock":
+				if session.local_state().signal_generated: start = "EP01_B3_SUCCESS_001"
+				else:
+					var category: String = session.snapshot().meta_progress.failure_knowledge.B3_B.category
+					start = {"reference": "EP01_BF_REF_001", "relay": "EP01_BF_RELAY_001", "output": "EP01_BF_OUTPUT_001", "excluded": "EP01_BF_COMMON_001", "phase_too_early": "EP01_BF_PHASE_M1_001", "phase_simultaneous": "EP01_BF_PHASE_0_001", "phase_between": "EP01_BF_PHASE_HALF_001"}.get(category, "EP01_BF_COMMON_001")
+					if int(session.snapshot().meta_progress.failure_knowledge.B3_B.get("attempts", 0)) >= 2:
+						finish = {"method": "_offer_clock_failure_support", "args": []}
+				stops = ["EP01_B4_001"]
+			"shortcut": start = "EP01_BSHORT_CAP_001"
+			"record_wave": start = "EP01_B4_001"
+			"restore_j2": start = "EP01_B5_SUCCESS_001"
+			"move":
+				if value == "M1_LIBRARY_INNER" and int(before.meta_progress.journal_stage) == 0 and before.loop_state.location_id != "M1_LIBRARY_INNER": start = "EP01_B2_ENTRY_001"
+	if start.is_empty(): return false
+	_ep01_play(start, finish, stops, cases)
+	return true
+
+
+func _ep01_pages(ids: Array, finish: Dictionary = {}) -> void:
+	ids = preload("res://scripts/systems/ep02_disclosure_notices.gd").expand(ids, session.snapshot(), AccessibilityProfileStore.new().load_profile().get("profile", {}))
+	var lines := []
+	for id in ids: lines.append(EP01.line(id, session.snapshot(), TranslationServer.get_locale()))
+	_show_dialogue(lines, _ep01_finish.bind({"start": "", "stops": [], "cases": {}, "ids": ids, "finish": finish}))

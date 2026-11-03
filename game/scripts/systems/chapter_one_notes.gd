@@ -8,10 +8,10 @@ const FAILURE_RESOLVED := "시계망의 신호를 파형으로 기록했다. 이
 
 
 static func write(state: Dictionary, id: String, source_text: String, context: Dictionary, locale: String) -> Dictionary:
-	return EVENT_NOTES.write(state, "NB_CH1_NOTE_" + id, source_text, context, locale, 2 if id in MARK_IDS else 1)
+	return EVENT_NOTES.write(state, "NB_CH1_NOTE_" + id, source_text, context, locale, 3 if id == "A1_SENTENCE" else (2 if id in MARK_IDS else 1))
 
 
 static func mark_text(type: String) -> String:
 	var id := "A1_" + type.to_upper()
 	if id not in MARK_IDS: return ""
-	return CONTENT.definition("NB_CH1_NOTE_" + id, 2).locales["ko-KR"].body
+	return CONTENT.definition("NB_CH1_NOTE_" + id, 3 if id == "A1_SENTENCE" else 2).locales["ko-KR"].body

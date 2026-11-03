@@ -11,6 +11,11 @@ func empty_mixture() -> Dictionary:
 	return {"water": 0, "stabilizer": 0, "active": 0, "order": [], "dispersed": false, "mixed": 0, "foamy": false}
 
 
+func order_locked(mix: Dictionary) -> bool:
+	var order: Array = mix.get("order", [])
+	return order.size() > MATERIALS.size() or order != MATERIALS.slice(0, order.size())
+
+
 func test_mixture(mix: Dictionary) -> Dictionary:
 	var total := int(mix["water"]) + int(mix["stabilizer"]) + int(mix["active"])
 	if total != 8:

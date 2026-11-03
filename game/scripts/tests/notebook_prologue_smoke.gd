@@ -26,10 +26,11 @@ func run(tree: SceneTree) -> Dictionary:
 	var diagnostics := CONTENT.diagnostics()
 	if not diagnostics.ok: return {"ok": false, "errors": diagnostics.error_ids}
 	_prepare_tuple_audit()
-	var ids: Array = diagnostics.content_ids.filter(func(id: String) -> bool: return id.begins_with("NB_PR_") or id.begins_with("NB_NOTE_P_"))
+	var ids: Array = diagnostics.content_ids.filter(func(id: String) -> bool: return CONTENT.definition(id, 1).get("producer_id") in PRODUCERS)
 	for language in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(language)
 		await _route(tree, language)
+		await _legacy_sleep_replay(tree, language)
 		for id in ids: _expect(covered.has(id + ":" + language), "unexecuted authored prologue path: " + id + ":" + language)
 	await _partial_choice_and_retry(tree)
 	var missing: Array = []
@@ -202,12 +203,16 @@ func _route(tree: SceneTree, language: String) -> void:
 	view._inspect_bedroom("window")
 	_drain(view)
 	view._on_sleep_bed()
-	_cancel_key(view)
-	_expect(not view._modal_active and not view._progress.P6_complete, "sleep cancellation never begins reset")
+	_drain(view)
+	_press_choice(view, "cancel")
+	_expect(not view._dialogue_choice_active and not view._progress.P6_complete, "sleep cancellation never begins reset")
 	view._on_sleep_bed()
-	_modal_button(view, view._dialogue_ui_text("P6_SLEEP")).pressed.emit()
+	_drain(view)
+	_press_choice(view, "confirm")
 	_drain(view)
 	await tree.create_timer(3.0).timeout
+	_drain(view)
+	_press_choice(view, "quiet")
 	_drain(view)
 	var state := GameState.get_snapshot()
 	_expect(ARCHIVE.validate(state.meta_progress.dialogue_history).ok, "actual prologue archive validates")
@@ -243,6 +248,33 @@ func _collect(language: String) -> void:
 		_expect(read.ok and not read.entry.fallback, "exact authored prologue version translates")
 		if observation.node_id == "P6" and observation.content_id == "NB_PR_P6_INSPECT_WINDOW":
 			_expect(observation.location_id == "M2_BEDROOM", "nighttime reuse does not claim morning event")
+
+
+func _legacy_sleep_replay(tree: SceneTree, language: String) -> void:
+	# Old saved presentations remain readable after EP01 replaces the live sleep path.
+	var view := _view(tree)
+	await tree.process_frame
+	_drain(view)
+	view._progress.P1_complete = true
+	view._progress.P4_complete = true
+	view._mark_intro("P6")
+	view._prologue_surfaces.begin({})
+	view._enter_room("M2_BEDROOM")
+	_drain(view)
+	for selected in ["confirm", "cancel"]:
+		view._show_prologue_confirmation("P6_SLEEP", view._dialogue_ui_text("P6_TITLE"), view._dialogue_ui_text("P6_BODY"), [
+			{"id": "confirm", "label": view._dialogue_ui_text("P6_SLEEP"), "action": view._close_modal},
+			{"id": "cancel", "label": view._dialogue_ui_text("P6_CANCEL"), "action": view._close_modal},
+		])
+		view._prologue_confirmation_pressed(view._prologue_confirmation, selected)
+	view._show_dialogue([
+		view._prologue_line("P6_DARK", "SYSTEM"), view._prologue_line("P6_SOUND", "SYSTEM"),
+		view._prologue_line("R1_WAKE", "SYSTEM"), view._prologue_line("R1_SAME", "주인공"), view._prologue_line("R1_NOTES", "SYSTEM"),
+	])
+	_drain(view)
+	_collect(language)
+	view.queue_free()
+	await tree.process_frame
 
 
 func _modal_button(view: Node, label: String) -> Button:

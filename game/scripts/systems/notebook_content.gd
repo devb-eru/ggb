@@ -23,7 +23,14 @@ static var _substitution_builds := 0
 static func hint_descriptor(stage: String, level: int) -> Dictionary:
 	if level < 0 or level >= 5: return {}
 	var id := "NB_HINT_%s_H%d" % [ALIASES.get(stage, stage), level + 1]
-	return descriptor(id, PUBLIC_LABELS.version(id), {"body": {}})
+	return descriptor(id, latest_version(id, PUBLIC_LABELS.version(id)), {"body": {}})
+
+
+static func latest_version(id: String, fallback: int = 1) -> int:
+	_load()
+	var version := fallback
+	for candidate in _contents.get(id, {}): version = maxi(version, int(candidate))
+	return version
 
 
 static func descriptor(id: String, version: int, segments: Dictionary) -> Dictionary:
@@ -35,6 +42,24 @@ static func descriptor(id: String, version: int, segments: Dictionary) -> Dictio
 static func definition(id: String, version: int) -> Dictionary:
 	_load()
 	return _contents.get(id, {}).get(str(version), {}).duplicate(true)
+
+
+static func choice_for_options(id: String, options: Dictionary, segment: String) -> Dictionary:
+	var shown := definition(String(options.get("content_id", "")), int(options.get("content_version", 0)))
+	if shown.get("entry_kind") != "options_presented" or not options.get("segments", {}).has(segment): return {}
+	var versions: Array = _contents.get(id, {}).keys()
+	versions.sort_custom(func(a: Variant, b: Variant) -> bool: return int(a) > int(b))
+	for version in versions:
+		var selected := definition(id, int(version))
+		if selected.get("entry_kind") != "choice_confirmed" or selected.get("event_id") != shown.get("event_id"): continue
+		var matches := true
+		# A translated label can stay unchanged while its source-language text changes.
+		for locale in shown.locales:
+			if not shown.locales[locale].has(segment) or selected.locales.get(locale, {}).get("body") != shown.locales[locale][segment]:
+				matches = false
+				break
+		if matches: return descriptor(id, int(version), {"body": {}})
+	return {}
 
 
 static func diagnostics() -> Dictionary:
@@ -199,7 +224,7 @@ static func _load() -> void:
 	if _loaded:
 		_catalog_mutex.unlock()
 		return
-	for path in CATALOGS:
+	for path in CATALOGS + ["res://data/notebook/ep01_sheet_v1.json", "res://data/notebook/ep02_sheet_v1.json", "res://data/notebook/ep02_hint_versions.json", "res://data/notebook/ep02_modal_versions.json", "res://data/notebook/ep02_player_versions.json"]:
 		var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
 		if not data is Dictionary or not _integer(data.get("format_version")) or int(data.format_version) != 1 or not data.get("contents") is Dictionary:
 			_errors.append("NB_CATALOG_FORMAT")

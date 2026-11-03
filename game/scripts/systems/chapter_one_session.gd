@@ -9,7 +9,7 @@ const NOTEBOOK_FEEDBACK := preload("res://scripts/systems/chapter_one_notebook.g
 const NOTEBOOK_NOTES := preload("res://scripts/systems/chapter_one_notes.gd")
 const LEGACY_FEEDBACK := preload("res://scripts/systems/notebook_legacy_feedback.gd")
 const LOCAL_KEY := "CHAPTER_ONE"
-const MARKS := {"sentence": "내일 아침, 이 문장을 읽어.", "house_glyph": "창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문", "ink_corner": "페이지 모서리의 잉크 한 방울"}
+const MARKS := {"sentence": "아빠는 어디에?", "house_glyph": "창문 셋, 뾰족한 지붕, 왼쪽으로 기운 문", "ink_corner": "페이지 모서리의 잉크 한 방울"}
 const CLOCK_ROOMS := {"M2_BEDROOM": "bedroom", "M1_PARLOR": "parlor", "M1_LIBRARY_OUTER": "library_outer", "M1_GREAT_CLOCK": "great_clock"}
 const ROOMS := ["M2_BEDROOM", "M1_CENTRAL_HALL", "M1_SERVANT_COMMON", "M1_PARLOR", "M1_LIBRARY_OUTER", "M1_LIBRARY_INNER", "M1_GREAT_CLOCK", "M1_NORTH_ARCHIVE_HALL"]
 const DOCUMENTS := {
@@ -498,6 +498,29 @@ func _wake_feedback(_post_rest: bool) -> Dictionary:
 
 func available_rooms() -> Array:
 	return ROOMS
+
+
+func finish_sheet_conversation(node_ids: Array) -> Dictionary:
+	var state := snapshot()
+	if node_ids.any(func(id: Variant) -> bool: return id is String and id.begins_with("EP02_")):
+		var applied := preload("res://scripts/systems/sheet_dialogue_effects.gd").apply(state, node_ids)
+		if not applied.get("ok", false): return applied
+	var flags := preload("res://scripts/systems/ep01_script.gd").completed_flags(node_ids)
+	state.loop_state.event_local_states.merge(flags, true)
+	var persistent := preload("res://scripts/systems/ep01_script.gd").completed_persistent_flags(node_ids)
+	if not persistent.is_empty():
+		var completed: Dictionary = state.meta_progress.get("flags", {}).duplicate(true)
+		completed.merge(persistent, true)
+		state.meta_progress["flags"] = completed
+	var presentation := preload("res://scripts/systems/notebook_presentation.gd")
+	var cursor := presentation.read(state)
+	var sheet_choice: bool = cursor.get("kind") == "modal" and cursor.get("phase") == "selection_pending" and cursor.get("modal", {}).get("routes", []).any(func(route: Dictionary) -> bool: return route.get("method") == "_ep01_select")
+	if presentation.matches(cursor, snapshot()) and (cursor.get("phase") == "finish_pending" or sheet_choice):
+		cursor.phase = "completed"
+		cursor.after = {}
+		presentation.install(state, cursor)
+	# Empty feedback preserves the last source and never discloses unseen dialogue.
+	return _commit(state, "")
 
 
 func history_chapter_id() -> String:

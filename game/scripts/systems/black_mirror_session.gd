@@ -4,8 +4,11 @@ extends ChapterOneSession
 const MIRROR := preload("res://data/puzzles/puzzle_black_mirror.tres")
 const MIRROR_NOTES := preload("res://scripts/systems/mirror_notebook.gd")
 const MIRROR_KEY := "BLACK_MIRROR"
+const DIAGNOSTIC_STATE := preload("res://scripts/systems/ep02_diagnostic_state.gd")
+const JOURNAL_REFERENCE := preload("res://scripts/systems/ep02_journal_reference.gd")
 const EXTRA_ROOMS := ["M1_MIRROR_GALLERY", "M1_TOOL_ROOM", "M1_KITCHEN", "M1_COLOR_ROOM_ENTRY"]
 const CHANNELS := {"EDGAR": "에드가 · 수직 잠금선 · 낮은 시계음", "MARA1": "마라 1 · 대각 닦임 · 마른 솔", "LUCA": "루카 · 이중 맥박 · 생체음", "IRIS": "이리스 · 꽃잎 · 유리와 바람", "MARA2": "마라 2 · 이중 액자 · 빠른 세 음"}
+const DIAGNOSTICS := {"BODY": "대상 신체", "PERSONALITY": "인격 채널", "EXTERNAL": "외부 환경", "LIFE": "생명 유지", "WAKE": "기상 절차", "MASK": "위장 필터"}
 const J3_PARTS := [
 	"거울은 네가 건넨 방향을 그대로 돌려주지 않는다.\n보이는 길을 집 위에 놓기 전에, 어느 쪽이 네 손에서 시작됐는지 먼저 되짚어라.",
 	"집의 심장은 가장 낮은 곳에서 뛴다.\n하지만 아래로 내려가는 것만으로는 닿지 못한다.",
@@ -15,8 +18,13 @@ const J3_PARTS := [
 
 func mirror_local(state: Dictionary = {}) -> Dictionary:
 	var source := snapshot() if state.is_empty() else state
-	var local := {"materials_ready": false, "mixture": MIRROR.empty_mixture(), "cleaner_ready": false, "locked": false, "rotation": 0, "flipped": false, "anchored": false, "path": [], "dry_passed": false, "intervention_handled": false, "signal_ready": false, "surface_open": false, "channels_scanned": [], "j3_overlay_seen": false, "j3_order": []}
+	var local := {"materials_ready": false, "mixture": MIRROR.empty_mixture(), "cleaner_ready": false, "locked": false, "rotation": 0, "flipped": false, "anchored": false, "path": [], "dry_passed": false, "intervention_handled": false, "signal_ready": false, "surface_open": false, "channels_scanned": [], "diagnostics_scanned": [], "j3_overlay_seen": false, "j3_order": []}
+	local.merge(JOURNAL_REFERENCE.defaults())
 	local.merge(source["loop_state"]["event_local_states"].get(MIRROR_KEY, {}), true)
+	if local.j3_order is Array:
+		local.j3_order = local.j3_order.map(func(part: Variant) -> Variant:
+			if typeof(part) in [TYPE_INT, TYPE_FLOAT] and is_finite(float(part)) and float(part) == floorf(float(part)) and int(part) in range(4): return int(part)
+			return part)
 	return local
 
 
@@ -67,11 +75,31 @@ func stage(state: Dictionary = {}) -> String:
 
 
 func available_rooms() -> Array:
-	return super.available_rooms() + EXTRA_ROOMS
+	var rooms := super.available_rooms() + EXTRA_ROOMS
+	if known("c5_info_complete"): rooms.append("M1_GREENHOUSE")
+	return rooms
+
+
+func sheet_reactions(state: Dictionary = {}) -> Dictionary:
+	if state.is_empty(): state = snapshot()
+	var known: Dictionary = state.meta_progress.knowledge_entries
+	var room: String = state.loop_state.location_id
+	var effects := preload("res://scripts/systems/sheet_dialogue_effects.gd")
+	var reactions := {}
+	if room == "M1_MIRROR_GALLERY" and known.get("c2_cleaning_record", false):
+		reactions.MARA1_S2 = {"owner": "MARA1", "start": "EP02_MARA1_S2_001", "complete": effects.event_seen(state, "MARA1_S2")}
+	if room == "M1_KITCHEN" and known.get("c21_chemical_record", false):
+		reactions.LUCA_C21 = {"owner": "LUCA", "start": "EP02_ROUTER_C21_REACTION", "complete": state.meta_progress.event_history.get("EP02_DIALOGUE_EFFECTS", {}).has("EFF_EP02_0013")}
+	if room == "M1_COLOR_ROOM_ENTRY":
+		reactions.MARA2_S2 = {"owner": "MARA2", "start": "EP02_MARA2_S2_001", "complete": effects.event_seen(state, "MARA2_S2"), "flavor_only": not known.get("c5_info_complete", false)}
+	if room == "M1_GREENHOUSE" and known.get("c5_info_complete", false):
+		reactions.IRIS_S2 = {"owner": "IRIS", "start": "EP02_IRIS_S2_001", "complete": effects.event_seen(state, "IRIS_S2")}
+	return reactions
 
 
 func _rooms_connected(from: String, to: String, knowledge: Dictionary) -> bool:
-	var links := {"M1_MIRROR_GALLERY": "M1_PARLOR", "M1_TOOL_ROOM": "M1_SERVANT_COMMON", "M1_KITCHEN": "M1_SERVANT_COMMON", "M1_COLOR_ROOM_ENTRY": "M1_NORTH_ARCHIVE_HALL"}
+	var links := {"M1_MIRROR_GALLERY": "M1_PARLOR", "M1_TOOL_ROOM": "M1_SERVANT_COMMON", "M1_KITCHEN": "M1_SERVANT_COMMON", "M1_COLOR_ROOM_ENTRY": "M1_NORTH_ARCHIVE_HALL", "M1_GREENHOUSE": "M1_CENTRAL_HALL"}
+	if to == "M1_GREENHOUSE" and not knowledge.get("c5_info_complete", false): return false
 	for destination in links:
 		if from == destination or to == destination:
 			return from == to or from == links[destination] or to == links[destination]
@@ -94,10 +122,33 @@ func act(action: String, value: Variant = null) -> Dictionary:
 	var room := String(loop["location_id"])
 	if stage() == "C_SLEEP": return _reject("일지의 두 번째 페이지를 기억한 채 잠들고, 다음 아침의 거울을 확인한다.")
 	var text := ""
+	var authored_feedback: Array = []
 	var speaker := "주인공"
 	var notes: Array = []
 	var feedback_key: String = {"c_hypothesis": "HYPOTHESIS", "c_read_cleaning": "CLEANING", "c_read_chemicals": "CHEMICALS", "c_prepare": "PREPARE", "c_shortcut": "SHORTCUT", "c_discard": "DISCARD", "c_disperse": "DISPERSE", "c_settle": "SETTLE", "c_bell": "BELL", "c_verify_plan": "PLAN", "c_record": "RECORD", "j3_overlay": "OVERLAY"}.get(action, "")
 	match action:
+		"c_reason":
+			if not knowledge.get("c2_cleaning_record", false) or not knowledge.get("c21_chemical_record", false): return _reject("두 기록을 먼저 확인한다.")
+			if not value is Dictionary or value.get("ratio") != true or value.get("difference") != true: return _reject("수첩에서 두 양의 관계를 함께 대조한다.")
+			knowledge["c3_ratio_reviewed"] = true
+			var ids := ["EP02_C3_CARD_001", "EP02_C3_CARD_002", "EP02_C3_CARD_SUCCESS_001", "EP02_C3_CARD_SUCCESS_002"]
+			var paragraphs: Array[String] = []
+			for id in ids:
+				paragraphs.append(preload("res://scripts/systems/ep01_script.gd").text(id))
+				authored_feedback.append(preload("res://scripts/systems/notebook_content.gd").descriptor("NB_" + id, preload("res://scripts/systems/ep01_script.gd").notebook_version("NB_" + id), {"body": {}}))
+			text = "\n\n".join(paragraphs)
+		"c_inspect":
+			var ids := preload("res://scripts/systems/ep02_object_surfaces.gd").pages(state, String(value))
+			if ids.is_empty(): return _reject("지금 조사할 수 없는 대상이다.")
+			var seen: Array = local.get("objects_seen", []).duplicate()
+			if value not in seen: seen.append(value)
+			local["objects_seen"] = seen
+			if value == "OBJ_CHEM_CABINET" and local.get("materials_ready", false): local["cabinet_acquisition_seen"] = true
+			var paragraphs: Array[String] = []
+			for id in ids:
+				paragraphs.append(preload("res://scripts/systems/ep01_script.gd").text(id))
+				authored_feedback.append(preload("res://scripts/systems/notebook_content.gd").descriptor("NB_" + id, preload("res://scripts/systems/ep01_script.gd").notebook_version("NB_" + id), {"body": {}}))
+			text = "\n\n".join(paragraphs)
 		"c_observe":
 			if room != "M1_MIRROR_GALLERY": return _reject("대응접실 남쪽의 거울 회랑에서 조사한다.")
 			knowledge["c0_mirror_seen"] = true
@@ -138,21 +189,31 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			elif room != "M1_KITCHEN": return _reject("주방 조합대에서 재료를 준비한다.")
 			local["materials_ready"] = true
 			text = MIRROR_NOTES.FIXED.PREPARE
-		"c_pour", "c_disperse", "c_mix", "c_settle", "c_discard", "c_test":
+		"c_pour", "c_pour_water_five", "c_disperse", "c_mix", "c_settle", "c_discard", "c_discard_cancel", "c_test":
 			if room != "M1_KITCHEN" or not local["materials_ready"]: return _reject("주방에서 재료를 먼저 준비한다.")
 			if local["cleaner_ready"]: return _reject("검증한 세정액은 밀봉해 두었다. 거울을 준비한다.")
 			var mix: Dictionary = local["mixture"]
-			if action == "c_discard":
+			if action not in ["c_discard", "c_discard_cancel", "c_test"] and MIRROR.order_locked(mix):
+				return _reject(preload("res://scripts/systems/ep01_script.gd").text("EP02_C3_UI_POUR_DISABLED"))
+			if action == "c_discard_cancel":
+				if not MIRROR.order_locked(mix): return _reject("폐기를 취소했다.")
+				text = preload("res://scripts/systems/ep01_script.gd").text("EP02_C3_UI_DISCARD_CANCEL")
+				authored_feedback.append(preload("res://scripts/systems/notebook_content.gd").descriptor("NB_EP02_C3_UI_DISCARD_CANCEL", 1, {"body": {}}))
+			elif action == "c_discard":
 				local["mixture"] = MIRROR.empty_mixture()
+				local["mixture_test_failed"] = false
 				text = MIRROR_NOTES.FIXED.DISCARD
-			elif action == "c_pour":
-				var material := String(value)
+			elif action in ["c_pour", "c_pour_water_five"]:
+				var material := "water" if action == "c_pour_water_five" else String(value)
+				var amount := 5 if action == "c_pour_water_five" else 1
 				if material not in MIRROR.MATERIALS: return _reject("표시된 재료를 선택한다.")
-				if material != "water" and mix["water"] == 0: return _reject("안전 라벨: 마른 병에는 첨가하지 않는다. 물이 먼저 필요하다.")
-				if material == "active" and (mix["stabilizer"] == 0 or not mix["dispersed"]): return _reject("원액은 물속에서 안정제가 확산된 뒤에 넣는다.")
-				if int(mix["water"]) + int(mix["stabilizer"]) + int(mix["active"]) >= 8: return _reject("병의 최대 눈금이다. 넘치기 전에 멈추고 폐기 쟁반을 사용한다.")
+				if material != "water" and mix["water"] == 0:
+					return _reject(preload("res://scripts/systems/ep01_script.gd").text("EP02_C3_FB_ACTIVE_FIRST_BLOCK" if material == "active" else "EP02_C3_FB_STABILIZER_FIRST_BLOCK"))
+				if material == "active" and (mix["stabilizer"] == 0 or not mix["dispersed"]):
+					return _reject(preload("res://scripts/systems/ep01_script.gd").text("EP02_C3_FB_ACTIVE_EARLY"))
+				if int(mix["water"]) + int(mix["stabilizer"]) + int(mix["active"]) + amount > 8: return _reject("병의 최대 눈금이다. 넘치기 전에 멈추고 폐기 쟁반을 사용한다.")
 				if mix["order"].is_empty() or mix["order"].back() != material: mix["order"].append(material)
-				mix[material] = int(mix[material]) + 1
+				mix[material] = int(mix[material]) + amount
 				if material == "stabilizer": mix["dispersed"] = false
 				mix["mixed"] = 0
 			elif action == "c_disperse":
@@ -167,6 +228,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				text = MIRROR_NOTES.FIXED.SETTLE
 			else:
 				var tested: Dictionary = MIRROR.test_mixture(mix)
+				local["mixture_test_failed"] = not tested.ok
 				text = tested["text"]
 				feedback_key = "MIXTURE_" + String(tested.category).to_upper()
 				if tested["ok"]:
@@ -180,18 +242,28 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			text = MIRROR_NOTES.FIXED.BELL
 		"c_handle_patrol":
 			if room != "M1_MIRROR_GALLERY" or String(value) not in ["wait", "question", "cloth"]: return _reject("회랑에서 순찰을 확인한다.")
+			if int(meta.servants.edgar.alert) >= 4 and int(meta.servants.edgar.bond) < 4:
+				local["witnesses"] = ["EDGAR"]
 			local["intervention_handled"] = true
 			feedback_key = "PATROL_" + String(value).to_upper()
 			text = MIRROR_NOTES.FIXED[feedback_key]
-		"c_rotate", "c_flip", "c_anchor", "c_segment", "c_clear_plan", "c_dry", "c_verify_plan", "c_wet":
+		"c_rotate", "c_rotate_ccw", "c_transparency", "c_flip", "c_anchor", "c_anchor_other", "c_segment", "c_clear_plan", "c_dry", "c_verify_plan", "c_wet":
 			if room != "M1_MIRROR_GALLERY" or not knowledge.get("c1_cleaning_hypothesis", false): return _reject("거울 앞에서 일지의 가설을 확인한다.")
 			if local["locked"]: return _reject("코팅이 굳었다. 기록을 챙기고 같은 침실에서 잠든다.")
 			if local["surface_open"] or knowledge.get("mirror_tracing_acquired", false): return _reject("진단면이 이미 드러났다. 회로를 기록한다.")
-			if action in ["c_rotate", "c_flip", "c_anchor", "c_segment", "c_clear_plan"]:
+			if action == "c_transparency":
+				if value not in ["low", "high"]: return _reject("표시된 투명도를 선택한다.")
+				local["overlay_transparency"] = String(value)
+			elif action in ["c_rotate", "c_rotate_ccw", "c_flip", "c_anchor", "c_anchor_other", "c_segment", "c_clear_plan"]:
 				local["dry_passed"] = false
-				if action == "c_rotate": local["rotation"] = (int(local["rotation"]) + 90) % 360
+				if action in ["c_rotate", "c_rotate_ccw"]: local["rotation"] = (int(local["rotation"]) + (270 if action == "c_rotate_ccw" else 90)) % 360
 				elif action == "c_flip": local["flipped"] = not local["flipped"]
-				elif action == "c_anchor": local["anchored"] = not local["anchored"]
+				elif action == "c_anchor":
+					local["anchored"] = not local["anchored"]
+					local["anchor_choice"] = "lower" if local["anchored"] else "none"
+				elif action == "c_anchor_other":
+					local["anchored"] = false
+					local["anchor_choice"] = "other"
 				elif action == "c_clear_plan": local["path"] = []
 				elif String(value) in MIRROR.SEGMENTS and local["path"].size() < 4: local["path"].append(String(value))
 				else: return _reject("경로는 네 구간까지 놓는다. 수정하려면 계획을 다시 펼친다.")
@@ -209,7 +281,11 @@ func act(action: String, value: Variant = null) -> Dictionary:
 					feedback_key = "DRY_" + ("SUCCESS" if trace.ok else String(trace.category).to_upper())
 				else:
 					if value != true or not local["cleaner_ready"]: return _reject("검증한 세정액과 되돌릴 수 없는 실행에 대한 확인이 필요하다.")
+					var witnesses: Array = local.get("witnesses", []).duplicate()
+					if sheet_reactions(state).has("MARA1_S2") and "MARA1" not in witnesses: witnesses.append("MARA1")
+					local["witnesses"] = witnesses
 					if int(meta["servants"]["edgar"]["alert"]) >= 4 and int(meta["servants"]["edgar"]["bond"]) < 4 and not local["intervention_handled"]:
+						if "EDGAR" not in local["witnesses"]: local["witnesses"].append("EDGAR")
 						trace = {"ok": false, "category": "tool_confiscated", "verified_prefix": [], "text": MIRROR_NOTES.FIXED.CONFISCATED}
 						if "C4_TOOL_CONFISCATED" not in meta["servants"]["edgar"]["residual_memory"]:
 							meta["servants"]["edgar"]["residual_memory"].append("C4_TOOL_CONFISCATED")
@@ -232,12 +308,26 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		"c_scan", "c_record":
 			if room != "M1_MIRROR_GALLERY" or not knowledge.get("mirror_tracing_acquired", false): return _reject("거울의 진단면을 먼저 드러낸다.")
 			if action == "c_scan":
-				if not CHANNELS.has(String(value)): return _reject("표시된 채널을 선택한다.")
-				if value not in local["channels_scanned"]: local["channels_scanned"].append(value)
-				text = ("진단면: " if local["surface_open"] else "수첩의 진단면 사본: ") + CHANNELS[value] + "\n" + MIRROR_NOTES.FIXED.SCAN_SUFFIX
-				feedback_key = ("SCAN_SURFACE_" if local.surface_open else "SCAN_COPY_") + String(value)
+				if DIAGNOSTICS.has(String(value)):
+					var repeated := DIAGNOSTIC_STATE.seen(state, String(value))
+					if value not in local["diagnostics_scanned"]: local["diagnostics_scanned"].append(value)
+					text = preload("res://scripts/systems/ep01_script.gd").text("EP02_C5_HOT_%s_%s" % [value, "REPEAT" if repeated else "FIRST"])
+					authored_feedback.append(preload("res://scripts/systems/notebook_content.gd").descriptor("NB_EP02_C5_HOT_%s_%s" % [value, "REPEAT" if repeated else "FIRST"], 1, {"body": {}}))
+					var knowledge_id: String = preload("res://scripts/systems/ep01_script.gd").node("EP02_C5_HOT_%s_FIRST" % value).get("knowledge_id", "NONE")
+					if knowledge_id != "NONE": knowledge[knowledge_id] = true
+				elif value == "SUBJECT":
+					local["subject_scanned"] = true
+					text = preload("res://scripts/systems/ep01_script.gd").text("EP02_C5_HOT_SUBJECT_CHANNEL")
+					authored_feedback.append(preload("res://scripts/systems/notebook_content.gd").descriptor("NB_EP02_C5_HOT_SUBJECT_CHANNEL", 1, {"body": {}}))
+				elif CHANNELS.has(String(value)):
+					if value not in local["channels_scanned"]: local["channels_scanned"].append(value)
+					text = ("진단면: " if local["surface_open"] else "수첩의 진단면 사본: ") + CHANNELS[value] + "\n" + MIRROR_NOTES.FIXED.SCAN_SUFFIX
+					feedback_key = ("SCAN_SURFACE_" if local.surface_open else "SCAN_COPY_") + String(value)
+				else: return _reject("표시된 진단 항목을 선택한다.")
+				DIAGNOSTIC_STATE.remember(state, String(value))
 			else:
-				if local["channels_scanned"].size() != 5: return _reject("색 대신 문양과 이름으로 다섯 출처를 모두 대조한다.")
+				var required_count := DIAGNOSTIC_STATE.required_count(state)
+				if not knowledge.get("c5_info_complete", false) and required_count < 2: return _reject(preload("res://scripts/systems/ep01_script.gd").text("EP02_C5_CH_SCAN_PROGRESS_%d" % (required_count + 1)))
 				knowledge["c5_info_complete"] = true
 				knowledge["color_room_entry_inspectable"] = true
 				knowledge["C5_MIRROR_TRACING"] = true
@@ -245,17 +335,36 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				text = MIRROR_NOTES.FIXED.RECORD
 				notes.append(["C5_INFO", "C5_INFO", text + "\n" + "\n".join(CHANNELS.values())])
 				if meta.failure_knowledge.has("C4"): notes.append(["", "CF_RESOLVED", MIRROR_NOTES.FAILURE_RESOLVED])
-		"j3_overlay", "j3_piece", "j3_clear", "j3_restore":
-			if room != "M1_LIBRARY_INNER" or not knowledge.get("c5_info_complete", false) or local_state(state)["edgar_state"] != "absent": return _reject("자료를 기록한 뒤 조용한 기록 내실에서 일지를 펼친다.")
+		"j3_overlay", "j3_remove_trace", "j3_point", "j3_flip_page", "j3_compare", "j3_pick_part", "j3_drop_part", "j3_piece", "j3_clear", "j3_restore":
+			if room == "M1_LIBRARY_INNER" and not knowledge.get("c5_info_complete", false): return _reject(preload("res://scripts/systems/ep01_script.gd").text("EP02_J3_UI_PAGE_LOCKED"))
+			if room != "M1_LIBRARY_INNER" or not knowledge.get("c5_info_complete", false) or local_state(state)["edgar_state"] != "absent": return _reject("자료를 기록한 뒤 조용한 서재 내실에서 일지를 펼친다.")
 			if int(meta["journal_stage"]) >= 3: return _reject("세 번째 페이지는 복원되어 있다.")
-			if action == "j3_overlay":
-				local["j3_overlay_seen"] = true
-				text = MIRROR_NOTES.FIXED.OVERLAY
-			elif action == "j3_clear": local["j3_order"] = []
+			if action in ["j3_overlay", "j3_remove_trace", "j3_point", "j3_flip_page", "j3_compare", "j3_pick_part", "j3_drop_part"]:
+				var applied := JOURNAL_REFERENCE.act(local, action, value)
+				if not applied.ok: return _reject(preload("res://scripts/systems/ep01_script.gd").text(applied.id) if applied.has("id") else applied.text)
+				var paragraphs: Array[String] = []
+				for identity in applied.ids:
+					paragraphs.append(preload("res://scripts/systems/ep01_script.gd").text(identity))
+					authored_feedback.append(preload("res://scripts/systems/notebook_content.gd").descriptor("NB_" + identity, preload("res://scripts/systems/ep01_script.gd").notebook_version("NB_" + identity), {"body": {}}))
+				text = "\n\n".join(paragraphs)
+				if action == "j3_flip_page":
+					var identity := "EP02_SYS_UI_J3_LIMIT"
+					text = preload("res://scripts/systems/ep01_script.gd").text(identity)
+					authored_feedback.append(preload("res://scripts/systems/notebook_content.gd").descriptor("NB_" + identity, preload("res://scripts/systems/ep01_script.gd").notebook_version("NB_" + identity), {"body": {}}))
+				feedback_key = ""
+				if action == "j3_overlay":
+					authored_feedback.clear()
+					text = MIRROR_NOTES.FIXED.OVERLAY
+					feedback_key = "OVERLAY"
+			elif action == "j3_clear":
+				local["j3_order"] = []
+				local.j3_held_part = -1
 			elif action == "j3_piece":
 				if int(value) not in range(4): return _reject("문장 조각을 선택한다.")
 				if value not in local["j3_order"]: local["j3_order"].append(value)
 			else:
+				if not JOURNAL_REFERENCE.ready(local): return _reject("세 기준점과 페이지 앞뒤를 먼저 대조한다. 정확한 방향은 아직 평면도와 확인하지 않았다.")
+				if local.j3_order.size() == 4 and local.j3_order != [0, 1, 2, 3]: return _reject(preload("res://scripts/systems/ep01_script.gd").text("EP02_J3_FB_ORDER_BAD"))
 				if not local["j3_overlay_seen"] or local["j3_order"] != [0, 1, 2, 3]: return _reject("눌림 자국과 문장이 이어지지 않는다. 탁본의 모순을 확인하고 다시 배열한다.")
 				meta["journal_stage"] = 3
 				knowledge["j3_restored_day"] = int(loop["day_index"])
@@ -274,7 +383,13 @@ func act(action: String, value: Variant = null) -> Dictionary:
 		var written := MIRROR_NOTES.write(state, note[1], note[2], event_context, TranslationServer.get_locale())
 		if not written.ok: return written
 	event_context.erase("conversation_session_id")
-	return _commit_feedback(state, text, speaker, "", event_context, MIRROR_NOTES.paragraphs(feedback_key) if not feedback_key.is_empty() else [])
+	return _commit_feedback(state, text, speaker, "", event_context, authored_feedback if not authored_feedback.is_empty() else (MIRROR_NOTES.paragraphs(feedback_key) if not feedback_key.is_empty() else []))
+
+
+func _save_point(state: Dictionary) -> String:
+	if get_script().resource_path.ends_with("/black_mirror_session.gd") and int(state.meta_progress.journal_stage) >= 3 and state.meta_progress.event_history.get("EP02_DIALOGUE_EFFECTS", {}).get("EFF_EP02_0049", false):
+		return "SAVE_J3_COMPLETE"
+	return super._save_point(state)
 
 
 func _commit(state: Dictionary, text: String, speaker: String = "주인공") -> Dictionary:

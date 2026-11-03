@@ -1497,7 +1497,7 @@ func _show_dialogue_choice_set(
 	_dialogue_choice_mode = mode
 	_choice_history_recorded = false
 	_choice_selected_tokens.clear()
-	var event: String = {"p3_journal": "P3", "p4_father": "P4"}.get(mode, "")
+	var event: String = {"p3_journal": "P3", "p4_father": "P4", "ep01_sleep": "EP01_SLEEP", "ep01_morning": "EP01_MORNING"}.get(mode, "")
 	var archive := preload("res://scripts/systems/notebook_archive.gd")
 	_choice_history_context = {"node_id": event, "chapter_id": "PROLOGUE", "location_id": _current_room, "event_occurrence_id": archive.new_uid(), "conversation_session_id": archive.new_uid(), "presentation_token": archive.new_uid()}
 	_prologue_cursor_scope = _notebook_event_scope()
@@ -1539,12 +1539,16 @@ func _record_choice_history() -> bool:
 		return true
 	var lines: Array[String] = [_dialogue_choice_header_text, _dialogue_label.text]
 	var segments := {"header": {}, "prompt": {}}
+	if _dialogue_choice_mode.begins_with("ep01_"):
+		lines = [_dialogue_label.text]
+		segments = {"prompt": {}}
 	for button in _dialogue_choice_buttons:
 		if button.visible:
 			lines.append(String(button.get_meta("choice_label", "")))
 			segments[String(button.get_meta("choice_id", ""))] = {}
 	var context := _choice_history_context.duplicate(true)
-	context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(context.node_id) + "_OPTIONS", 1, segments)
+	var content_id := "NB_PR_" + String(context.node_id) + "_OPTIONS"
+	context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor(content_id, preload("res://scripts/systems/ep01_script.gd").notebook_version(content_id), segments)
 	var spec := _prologue_choice_spec(_dialogue_ui_text("HISTORY_OPTIONS"), "\n".join(lines), context)
 	if not _record_prologue_text(_dialogue_ui_text("HISTORY_OPTIONS"), "\n".join(lines), context, spec):
 		return false
@@ -1566,7 +1570,7 @@ func _prologue_choice_spec(speaker: String = "", text: String = "", context: Dic
 
 func _restore_prologue_choice(value: Dictionary) -> void:
 	var choice := PROLOGUE_CURSOR.localized_choice(value, TranslationServer.get_locale())
-	if choice.mode in ["p3_journal", "p4_father"]:
+	if choice.mode in ["p3_journal", "p4_father", "ep01_sleep", "ep01_morning"]:
 		var data := {}
 		for id in choice.order: data[id] = {"label": choice.labels[id]}
 		_p3_journal_prompt_active = choice.mode == "p3_journal"
@@ -1598,9 +1602,7 @@ func _answer_p3_journal_choice(choice_id: String) -> void:
 	_progress["p3_journal_questions_asked"] = asked_questions
 	_progress["p3_journal_choice"] = "pending"
 	_save_progress()
-	_show_prologue_answer([
-		_prologue_line("P3_A_" + choice_id.to_upper(), "에드가", {"portrait": "EDGAR"}),
-	], _show_p3_journal_choices)
+	_show_prologue_answer(_prologue_response("P3_A_" + choice_id.to_upper(), "에드가", {"portrait": "EDGAR"}), _show_p3_journal_choices)
 
 
 func _resume_p3_journal_choice() -> void:
@@ -1924,7 +1926,7 @@ func _resume_p4_question_answer() -> void:
 
 
 func _present_p4_question_answer(choice_id: String) -> void:
-	var lines: Array = [_prologue_line("P4_A_" + choice_id.to_upper(), "루카", {"portrait": "LUCA"})]
+	var lines: Array = _prologue_response("P4_A_" + choice_id.to_upper(), "루카", {"portrait": "LUCA"})
 	if choice_id == "luca_tenure":
 		lines.append(_prologue_line("P4_TENURE_PAUSE", "SYSTEM"))
 		lines.append(_prologue_line("P4_SERVE", "루카", {"portrait": "LUCA"}))
@@ -1999,15 +2001,46 @@ func _on_sleep_bed() -> void:
 	if _begin_prologue_input(_on_sleep_bed): return
 	if _interaction_blocked():
 		return
-	_show_prologue_confirmation(
-		"P6_SLEEP",
-		_dialogue_ui_text("P6_TITLE"),
-		_dialogue_ui_text("P6_BODY"),
-		[
-			{"id": "confirm", "label": _dialogue_ui_text("P6_SLEEP"), "action": _begin_first_sleep},
-			{"id": "cancel", "label": _dialogue_ui_text("P6_CANCEL"), "action": _close_modal},
-		]
-	)
+	_show_dialogue(_ep01_prologue_lines("EP01_SLEEP_FIRST_001"), _ep01_show_sleep_choices)
+
+
+func _ep01_prologue_lines(start: String) -> Array:
+	var result := preload("res://scripts/systems/ep01_script.gd").segment(start, GameState.get_snapshot(), TranslationServer.get_locale())
+	if not result.ok:
+		push_error(str(result))
+		return []
+	for line in result.lines:
+		line.history_context.chapter_id = "PROLOGUE"
+		line.history_context.location_id = _current_room
+	return result.lines
+
+
+func _ep01_show_sleep_choices() -> void:
+	_ep01_show_prologue_choices("ep01_sleep", "EP01_CHOICE_SLEEP_FIRST", "EP01_SLEEP_FIRST_CHOICE_001", ["confirm", "cancel"], "SYSTEM", "")
+
+
+func _ep01_show_morning_choices() -> void:
+	_ep01_show_prologue_choices("ep01_morning", "EP01_CHOICE_MORNING_FIRST", "EP01_RESET_FIRST_004", ["same", "date", "quiet"], "에드가", "EDGAR")
+
+
+func _ep01_show_prologue_choices(mode: String, route: String, prompt: String, order: Array, speaker: String, portrait: String) -> void:
+	var source := preload("res://scripts/systems/ep01_script.gd")
+	var data := {}
+	var edges := source.edges(route)
+	for index in range(order.size()): data[order[index]] = {"label": source.text(edges[index].target_id, TranslationServer.get_locale())}
+	_show_dialogue_choice_set(mode, "", speaker, source.text(prompt, TranslationServer.get_locale()), portrait, order, data)
+
+
+func _ep01_answer_sleep(choice: String) -> void:
+	_hide_dialogue_choices()
+	_dialogue_layer.hide()
+	if choice == "confirm": _begin_first_sleep()
+
+
+func _ep01_answer_morning(choice: String) -> void:
+	_hide_dialogue_choices()
+	var start: String = {"same": "EP01_RESET_FIRST_005", "date": "EP01_RESET_FIRST_008", "quiet": "EP01_RESET_FIRST_012"}.get(choice, "")
+	if not start.is_empty(): _show_dialogue(_ep01_prologue_lines(start), _finish_prologue_handoff)
 
 
 func _begin_first_sleep() -> void:
@@ -2025,10 +2058,7 @@ func _begin_first_sleep() -> void:
 		_pending_notebook = previous_pending
 		_set_status(_dialogue_ui_text("P6_SAVE_ERROR"))
 		return
-	_show_dialogue([
-		_prologue_line("P6_DARK", "SYSTEM"),
-		_prologue_line("P6_SOUND", "SYSTEM"),
-	], _perform_normal_reset)
+	_show_dialogue(_ep01_prologue_lines("EP01_SLEEP_FIRST_004"), _perform_normal_reset)
 
 
 class NormalResetTask extends RefCounted:
@@ -2163,11 +2193,7 @@ func _show_after_reset() -> void:
 	_update_inventory([])
 	_room_art.set_room("M2_BEDROOM", _progress)
 	_objective_label.text = _dialogue_ui_text("R1_OBJECTIVE")
-	_show_dialogue([
-		_prologue_line("R1_WAKE", "SYSTEM"),
-		_prologue_line("R1_SAME", "주인공"),
-		_prologue_line("R1_NOTES", "SYSTEM"),
-	], _finish_prologue_handoff)
+	_show_dialogue(_ep01_prologue_lines("EP01_RESET_FIRST_002"), _ep01_show_morning_choices)
 
 
 func _set_room_background(room_id: String) -> void:
@@ -2353,13 +2379,28 @@ func _dialogue_ui_text(text_id: String, variables: Dictionary = {}) -> String:
 func _prologue_line(key: String, speaker: String, extras: Dictionary = {}, variables: Dictionary = {}) -> Dictionary:
 	var content := preload("res://scripts/systems/notebook_content.gd")
 	var id := "NB_PR_" + key
-	var row := content.definition(id, 1)
+	var version := preload("res://scripts/systems/ep01_script.gd").notebook_version(id)
+	var row := content.definition(id, version)
 	var line := extras.duplicate(true)
 	line.speaker = speaker
 	line.text = _dialogue_ui_text(row.get("source_text_id", key), variables)
-	line.notebook_content = content.descriptor(id, 1, {"body": {}})
+	line.notebook_content = content.descriptor(id, version, {"body": {}})
 	line.history_context = {"node_id": row.get("event_id", ""), "chapter_id": "PROLOGUE", "location_id": _current_room}
+	var authored := preload("res://scripts/systems/prologue_sheet_script.gd").render_overrides(key)
+	if not authored.is_empty():
+		var names := {"SUBJECT": "주인공", "SYSTEM": "SYSTEM", "SERVANT_EDGAR": "에드가", "SERVANT_MARA1": "마라 1", "SERVANT_MARA2": "마라 2", "SERVANT_LUCA": "루카", "SERVANT_IRIS": "이리스"}
+		if authored.has("speaker_id"): line.speaker = names.get(authored.speaker_id, speaker)
+		if authored.has("character_art"): line.portrait = "" if authored.character_art == "NONE" else authored.character_art
+		if authored.get("portrait_position", "") in ["NONE", "LEFT", "CENTER", "RIGHT"]: line.portrait_position = authored.portrait_position
+		if authored.get("portrait_state", "") in ["NONE", "DEFAULT", "NEUTRAL", "SMILE", "WORRIED", "ANGRY", "SAD", "SURPRISED", "GLITCH"]: line.portrait_state = authored.portrait_state
 	return line
+
+
+func _prologue_response(key: String, speaker: String, extras: Dictionary = {}) -> Array:
+	var lines: Array = []
+	for identity in preload("res://scripts/systems/prologue_sheet_script.gd").response_ids(key):
+		lines.append(_prologue_line(identity, speaker, extras))
+	return lines
 
 
 func _show_prologue_answer(lines: Array, after: Callable) -> void:
@@ -2409,6 +2450,19 @@ func _present_dialogue_line() -> void:
 	_dialogue_scroll.scroll_vertical = 0
 	var portrait_id := String(line.get("portrait", ""))
 	_set_dialogue_portrait(portrait_id)
+	if not _portrait.has_meta("ep01_original_rect"):
+		_portrait.set_meta("ep01_original_rect", Rect2(_portrait.position, _portrait.size))
+	var original_rect: Rect2 = _portrait.get_meta("ep01_original_rect")
+	_portrait.position = original_rect.position
+	if line.has("portrait_position"):
+		match String(line.portrait_position):
+			"RIGHT": _portrait.position.x = _dialogue_layer.size.x - original_rect.size.x - original_rect.position.x
+			"CENTER": _portrait.position.x = (_dialogue_layer.size.x - original_rect.size.x) * 0.5
+			"NONE": _portrait.hide()
+		var state: String = line.get("portrait_state", "DEFAULT")
+		_portrait.set_meta("portrait_state", state)
+		var variant_path := DESIGN.ROOT + "character_" + portrait_id.to_lower() + "_" + state.to_lower() + ".png"
+		if _portrait.visible and ResourceLoader.exists(variant_path): _portrait.texture = load(variant_path)
 	_dialogue_next.visible = true
 	_dialogue_next.text = ""
 	call_deferred("_focus_visible_control", weakref(_dialogue_next))
@@ -2822,7 +2876,16 @@ func _on_dialogue_choice_pressed(index: int) -> void:
 		_prologue_choice_capture.last_selected = choice_id
 		var context := _choice_history_context.duplicate(true)
 		context.presentation_token = _choice_selected_tokens[choice_id]
-		context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor("NB_PR_" + String(context.node_id) + "_SELECT_" + choice_id.to_upper(), 1, {"body": {}})
+		var content_id := "NB_PR_" + String(context.node_id) + "_SELECT_" + choice_id.to_upper()
+		var options_line: Dictionary = _prologue_choice_capture.get("options_line", {})
+		var options: Dictionary = options_line.get("notebook_content", options_line.get("history_context", {}).get("notebook_content", {}))
+		if options.is_empty():
+			context.notebook_content = preload("res://scripts/systems/notebook_content.gd").descriptor(content_id, preload("res://scripts/systems/ep01_script.gd").notebook_version(content_id), {"body": {}})
+		else:
+			context.notebook_content = preload("res://scripts/systems/notebook_content.gd").choice_for_options(content_id, options, choice_id)
+			if context.notebook_content.is_empty():
+				_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+				return
 		if not _record_prologue_text(_dialogue_ui_text("HISTORY_SELECTED"), String(_dialogue_choice_buttons[index].get_meta("choice_label", "")), context, _prologue_choice_spec()):
 			return
 	_continue_prologue_choice(choice_id)
@@ -2834,6 +2897,10 @@ func _continue_prologue_choice(choice_id: String) -> void:
 			_run_prologue_action(_answer_p3_journal_choice.bind(choice_id))
 		"p4_father":
 			_run_prologue_action(_answer_p4_father_choice.bind(choice_id))
+		"ep01_sleep":
+			_run_prologue_action(_ep01_answer_sleep.bind(choice_id))
+		"ep01_morning":
+			_run_prologue_action(_ep01_answer_morning.bind(choice_id))
 
 
 func _focus_p3_silent_choice() -> void:
@@ -2845,7 +2912,11 @@ func _focus_p3_silent_choice() -> void:
 
 
 func _handle_dialogue_choice_cancel() -> void:
-	if _dialogue_choice_mode == "p3_journal":
+	if _dialogue_choice_mode == "ep01_sleep":
+		_on_dialogue_choice_pressed(1)
+	elif _dialogue_choice_mode == "ep01_morning":
+		_focus_dialogue_choice(2)
+	elif _dialogue_choice_mode == "p3_journal":
 		_focus_p3_silent_choice()
 	else:
 		_set_status("루카에게 건넬 질문 하나를 선택해야 한다.")
@@ -3677,7 +3748,7 @@ func run_smoke_scenario() -> PackedStringArray:
 	if not bool(_progress.get("P2_complete", false)):
 		errors.append("P2 did not complete")
 
-	_run_p3_silent_close_smoke(errors)
+	await _run_p3_silent_close_smoke(errors)
 	_enter_room("M1_LIBRARY_OUTER")
 	_dismiss_dialogue_for_test()
 	for book_id in P3_BOOKS:
@@ -3692,8 +3763,7 @@ func run_smoke_scenario() -> PackedStringArray:
 			continue
 		if not _dialogue_active or _dialogue_lines.size() != 2:
 			errors.append("P3 journal discovery dialogue missing")
-		while _dialogue_active:
-			_advance_dialogue()
+		await _drain_smoke_dialogue(errors)
 		if not _dialogue_choice_active or not _dialogue_choice_panel.visible or _dialogue_next.visible:
 			errors.append("P3 dialogue choice list missing after Edgar dialogue")
 		if _modal_active:
@@ -3721,13 +3791,13 @@ func run_smoke_scenario() -> PackedStringArray:
 		author_button.pressed.emit()
 		if not _dialogue_active or _dialogue_label.text != _dialogue_ui_text("P3_A_AUTHOR"):
 			errors.append("P3 journal selected answer was not presented")
-		_advance_dialogue()
+		await _drain_smoke_dialogue(errors)
 		if not _dialogue_choice_active or bool(_progress.get("P3_complete", false)):
 			errors.append("P3 author answer did not return to choices")
 		locked_button.pressed.emit()
 		if not _dialogue_active or _dialogue_label.text != _dialogue_ui_text("P3_A_LOCKED"):
 			errors.append("P3 journal locked answer was not presented")
-		_advance_dialogue()
+		await _drain_smoke_dialogue(errors)
 		if not _dialogue_choice_active or bool(_progress.get("P3_complete", false)):
 			errors.append("P3 locked answer did not return to choices")
 		var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
@@ -3809,8 +3879,7 @@ func run_smoke_scenario() -> PackedStringArray:
 	_answer_p4_father_choice("father_tea")
 	if String(_progress.get("p4_father_question", "")) != "luca_tenure":
 		errors.append("P4 accepted more than one father question")
-	while _dialogue_active:
-		_advance_dialogue()
+	await _drain_smoke_dialogue(errors)
 	if not bool(_progress.get("P4_complete", false)) or not bool(_progress.get("iris_greeting_seen", false)):
 		errors.append("P4 or Iris greeting did not complete")
 	if String(_progress.get("p4_father_question", "")) != "luca_tenure":
@@ -3834,8 +3903,7 @@ func _run_p3_silent_close_smoke(errors: PackedStringArray) -> void:
 	_enter_room("M1_LIBRARY_OUTER")
 	_dismiss_dialogue_for_test()
 	_drag_inventory_item_to_target_for_smoke("BOOK_MECHANICAL", _hotspot_layer.get_node("SHELF_CLOCK"), errors)
-	while _dialogue_active:
-		_advance_dialogue()
+	await _drain_smoke_dialogue(errors)
 	var silent_button: Button
 	for button in _dialogue_choice_buttons:
 		if String(button.get_meta("choice_id", "")) == "silent":
@@ -3854,6 +3922,17 @@ func _run_p3_silent_close_smoke(errors: PackedStringArray) -> void:
 	_progress["p3_placed"] = {}
 	_progress["p3_journal_seen"] = false
 	_progress["p3_journal_choice"] = ""
+
+
+func _drain_smoke_dialogue(errors: PackedStringArray) -> void:
+	for step in range(600):
+		if not _dialogue_active: return
+		await get_tree().process_frame
+		if _fade.visible:
+			await get_tree().create_timer(0.02).timeout
+			continue
+		_advance_dialogue()
+	errors.append("Smoke dialogue did not finish within its bounded input wait")
 	_progress["p3_journal_questions_asked"] = []
 	_p3_journal_prompt_active = false
 	_selected_item = ""

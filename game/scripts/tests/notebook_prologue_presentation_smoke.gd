@@ -65,7 +65,8 @@ func run(tree: SceneTree) -> Dictionary:
 					view._advance_dialogue()
 				"P6":
 					view._on_sleep_bed()
-					view._prologue_confirmation_pressed(view._prologue_confirmation, "confirm")
+					_drain(view)
+					_pick(view, "confirm")
 					view._advance_dialogue()
 				"R1":
 					view._progress.P6_complete = true
@@ -110,6 +111,9 @@ func run(tree: SceneTree) -> Dictionary:
 				_drain(view)
 				if event == "P6":
 					await tree.create_timer(3.0).timeout
+					_drain(view)
+				if event in ["P6", "R1"]:
+					_pick(view, "quiet")
 					_drain(view)
 			view.queue_free()
 			await tree.process_frame
@@ -366,9 +370,10 @@ func _cases(tree: SceneTree) -> void:
 	_expect(view._progress.iris_greeting_seen and view._current_room == "M1_CENTRAL_HALL", "P4 and Iris continuations complete normally")
 	_prepare(view, "P6")
 	view._on_sleep_bed()
+	_drain(view)
 	view = await _reload(tree, view)
-	_expect(view._modal_active and not view._progress.P6_complete, "sleep confirmation awaits explicit input after restart")
-	view._prologue_confirmation_pressed(view._prologue_confirmation, "confirm")
+	_expect(view._dialogue_choice_active and view._dialogue_choice_mode == "ep01_sleep" and not view._progress.P6_complete, "sleep confirmation awaits explicit input after restart")
+	_pick(view, "confirm")
 	_expect(GameState.get_value("meta_progress.knowledge_entries.PROLOGUE_COMPLETE", false) and CURSOR.resume_family(GameState.get_snapshot()) == "prologue_controller", "completion flag cannot skip unfinished P6 lines")
 	view.queue_free()
 	await tree.process_frame
@@ -379,6 +384,8 @@ func _cases(tree: SceneTree) -> void:
 	_drain(view)
 	await tree.create_timer(3.0).timeout
 	_expect(GameState.get_value("loop_state.day_index", 0) == 1 and view._dialogue_active, "normal reset opens R1")
+	_drain(view)
+	_pick(view, "quiet")
 	_drain(view)
 	await tree.process_frame
 	view = tree.current_scene._prologue

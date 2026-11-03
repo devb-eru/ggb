@@ -188,7 +188,7 @@ func run(tree: SceneTree) -> Dictionary:
 	var room_requests: Array[String] = []
 	prologue.audio_cue_requested.connect(func(id: StringName): audio_requests.append(id))
 	prologue.audio_room_requested.connect(func(id: String): room_requests.append(id))
-	var errors: PackedStringArray = prologue.run_smoke_scenario()
+	var errors: PackedStringArray = await prologue.run_smoke_scenario()
 	await _validate_game_key_settings(tree, prologue, errors)
 	_expect(audio_requests.count(&"AUD_SIG_LUCA") == 2, "P4 pulse dispatches on first presentation and simulated interrupted resume only", errors)
 	_expect("M1_KITCHEN" in room_requests, "kitchen entry requests ambience", errors)
@@ -228,18 +228,11 @@ func run(tree: SceneTree) -> Dictionary:
 	prologue._close_window_inspection()
 	var before_sleep_prompt: Dictionary = prologue._progress.duplicate(true)
 	prologue._on_sleep_bed()
-	_expect(prologue._modal_body.get_child(3).text == "Go to sleep", "English sleep confirmation action", errors)
-	_expect(prologue._modal_body.get_child(4).text == "Investigate a little longer", "English sleep cancellation action", errors)
-	await tree.process_frame
-	await tree.process_frame
-	prologue._modal_body.get_child(4).grab_focus()
-	await _modal_tab(tree)
-	_expect(prologue.get_viewport().gui_get_focus_owner() == prologue._modal_body.get_child(2), "Sleep modal Tab wraps to reading area", errors)
-	await _modal_tab(tree, true)
-	_expect(prologue.get_viewport().gui_get_focus_owner() == prologue._modal_body.get_child(4), "Sleep modal Shift+Tab wraps to last action", errors)
-	_expect(prologue._progress == before_sleep_prompt, "Modal keyboard navigation preserves progress", errors)
-	prologue._modal_body.get_child(4).pressed.emit()
-	_expect(not prologue._modal_active, "Sleep cancellation closes prompt", errors)
+	_drain_dialogue(prologue, errors)
+	_expect(prologue._dialogue_choice_buttons[0].text == "잠든다.", "Untranslated source sleep confirmation falls back to Korean", errors)
+	_expect(prologue._dialogue_choice_buttons[1].text == "아직 할 일이 있다.", "Untranslated source sleep cancellation falls back to Korean", errors)
+	prologue._on_dialogue_choice_pressed(1)
+	_expect(not prologue._dialogue_choice_active, "Sleep cancellation closes prompt", errors)
 	_expect(prologue._progress == before_sleep_prompt, "Sleep cancellation preserves all progress", errors)
 	prologue._progress["P5_complete"] = false
 	prologue._progress["p5_observations"] = []

@@ -1,0 +1,621 @@
+{
+  "format_version": 1,
+  "contents": {
+    "NB_HINT_C3_H1": {
+      "2": {
+        "action_or_variant": "requested_H1",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "C3",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "관찰을 총량, 양의 관계, 순서 세 열로 나누면 서로 충돌하지 않는다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Mirror solution · H1"
+          },
+          "ko-KR": {
+            "body": "관찰을 총량, 양의 관계, 순서 세 열로 나누면 서로 충돌하지 않는다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "거울 세정제 · H1"
+          }
+        },
+        "localization_key": "NB_HINT_C3_H1_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_C3_H1_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "C3"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "C3:0",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_C3_FB_HINT1"
+        }
+      }
+    },
+    "NB_HINT_C3_H2": {
+      "2": {
+        "action_or_variant": "requested_H2",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "C3",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "원액과 안정제의 관계부터 고정한다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Mirror solution · H2"
+          },
+          "ko-KR": {
+            "body": "원액과 안정제의 관계부터 고정한다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "거울 세정제 · H2"
+          }
+        },
+        "localization_key": "NB_HINT_C3_H2_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_C3_H2_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "C3"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "C3:1",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_C3_FB_HINT2"
+        }
+      }
+    },
+    "NB_HINT_C3_H3": {
+      "2": {
+        "action_or_variant": "requested_H3",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "C3",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "물은 나머지 둘의 합보다 두 칸 많다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Mirror solution · H3"
+          },
+          "ko-KR": {
+            "body": "물은 나머지 둘의 합보다 두 칸 많다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "거울 세정제 · H3"
+          }
+        },
+        "localization_key": "NB_HINT_C3_H3_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_C3_H3_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "C3"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "C3:2",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_C3_FB_HINT3"
+        }
+      }
+    },
+    "NB_HINT_C3_H4": {
+      "2": {
+        "action_or_variant": "requested_H4",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "C3",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "가능한 정수 조합에서 안정제는 한 칸만 남는다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Mirror solution · H4"
+          },
+          "ko-KR": {
+            "body": "가능한 정수 조합에서 안정제는 한 칸만 남는다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "거울 세정제 · H4"
+          }
+        },
+        "localization_key": "NB_HINT_C3_H4_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_C3_H4_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "C3"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "C3:3",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_C3_FB_HINT4"
+        }
+      }
+    },
+    "NB_HINT_C3_H5": {
+      "2": {
+        "action_or_variant": "requested_H5",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "C3",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "물을 다섯 칸 먼저 넣는 조합을 시험할 수 있다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Mirror solution · H5"
+          },
+          "ko-KR": {
+            "body": "물을 다섯 칸 먼저 넣는 조합을 시험할 수 있다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "거울 세정제 · H5"
+          }
+        },
+        "localization_key": "NB_HINT_C3_H5_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_C3_H5_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "C3"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "C3:4",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_C3_FB_HINT5"
+        }
+      }
+    },
+    "NB_HINT_C4_H1": {
+      "3": {
+        "action_or_variant": "requested_H1",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "C4",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "맞았던 앞부분과 처음 닫힌 지점을 수첩에서 분리해 본다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Black mirror · H1"
+          },
+          "ko-KR": {
+            "body": "맞았던 앞부분과 처음 닫힌 지점을 수첩에서 분리해 본다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "검은 거울 · H1"
+          }
+        },
+        "localization_key": "NB_HINT_C4_H1_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_C4_H1_V2:body"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "C4",
+          "CF"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint:public_puzzle_v2",
+        "speaker_id": "SUBJECT",
+        "text_key": "C4:0",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_C4_FB_HINT1"
+        }
+      }
+    },
+    "NB_HINT_C4_H2": {
+      "2": {
+        "action_or_variant": "requested_H2",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "C4",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "검증한 중첩 변환을 고정하고 경로만 다시 시험할 수 있다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Black mirror · H2"
+          },
+          "ko-KR": {
+            "body": "검증한 중첩 변환을 고정하고 경로만 다시 시험할 수 있다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "검은 거울 · H2"
+          }
+        },
+        "localization_key": "NB_HINT_C4_H2_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_C4_H2_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "C4",
+          "CF"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "C4:1",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_C4_FB_HINT2"
+        }
+      }
+    },
+    "NB_HINT_C4_H3": {
+      "2": {
+        "action_or_variant": "requested_H3",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "C4",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "긴 진동·두 반사·잔향과 직선·두 분기·고리를 한 화면에 놓는다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Black mirror · H3"
+          },
+          "ko-KR": {
+            "body": "긴 진동·두 반사·잔향과 직선·두 분기·고리를 한 화면에 놓는다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "검은 거울 · H3"
+          }
+        },
+        "localization_key": "NB_HINT_C4_H3_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_C4_H3_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "C4",
+          "CF"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "C4:2",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_C4_FB_HINT3"
+        }
+      }
+    },
+    "NB_HINT_C4_H4": {
+      "2": {
+        "action_or_variant": "requested_H4",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "C4",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "다음 경로 후보를 두 개로 줄였다. 마지막 고리 방향을 비교한다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Black mirror · H4"
+          },
+          "ko-KR": {
+            "body": "다음 경로 후보를 두 개로 줄였다. 마지막 고리 방향을 비교한다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "검은 거울 · H4"
+          }
+        },
+        "localization_key": "NB_HINT_C4_H4_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_C4_H4_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "C4",
+          "CF"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "C4:3",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_C4_FB_HINT4"
+        }
+      }
+    },
+    "NB_HINT_J3_H1": {
+      "1": {
+        "action_or_variant": "requested_H1",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "J3",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "거울이 방향을 그대로 돌려준다는 가정을 먼저 버린다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Journal restoration - H1"
+          },
+          "ko-KR": {
+            "body": "거울이 방향을 그대로 돌려준다는 가정을 먼저 버린다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "일지 복원 - H1"
+          }
+        },
+        "localization_key": "NB_HINT_J3_H1_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_J3_H1_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "J3"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "J3:0",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_J3_FB_HINT1"
+        }
+      }
+    },
+    "NB_HINT_J3_H2": {
+      "1": {
+        "action_or_variant": "requested_H2",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "J3",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "침실, 온실, 대시계 세 점은 모두 동시에 맞아야 한다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Journal restoration - H2"
+          },
+          "ko-KR": {
+            "body": "침실, 온실, 대시계 세 점은 모두 동시에 맞아야 한다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "일지 복원 - H2"
+          }
+        },
+        "localization_key": "NB_HINT_J3_H2_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_J3_H2_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "J3"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "J3:1",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_J3_FB_HINT2"
+        }
+      }
+    },
+    "NB_HINT_J3_H3": {
+      "1": {
+        "action_or_variant": "requested_H3",
+        "disclosure_owner": "_read_clock_hint:explicit_request_then_display",
+        "entry_kind": "hint_revealed",
+        "event_id": "J3",
+        "knowledge_ref": "",
+        "locales": {
+          "en-US": {
+            "body": "정확한 회전값은 이 페이지가 아니라 다음 평면도와 함께 검증한다.",
+            "speaker": "Protagonist",
+            "summary": "A hint you requested",
+            "title": "Journal restoration - H3"
+          },
+          "ko-KR": {
+            "body": "정확한 회전값은 이 페이지가 아니라 다음 평면도와 함께 검증한다.",
+            "speaker": "주인공",
+            "summary": "직접 요청한 도움말",
+            "title": "일지 복원 - H3"
+          }
+        },
+        "localization_key": "NB_HINT_J3_H3_BODY",
+        "localization_keys": {
+          "body": "NB_HINT_J3_H3_BODY"
+        },
+        "location_source": "session.history_context:loop_state.location_id",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": [
+          "J3"
+        ],
+        "owner": "development/content",
+        "producer_id": "NP20",
+        "protection_reasons": [
+          "hint"
+        ],
+        "source_file": "scripts/chapters/chapter_one_controller.gd",
+        "source_symbol": "_read_clock_hint",
+        "speaker_id": "SUBJECT",
+        "text_key": "J3:2",
+        "text_source": "res://data/dialogue/sheets/ep02_runtime.json",
+        "variables": {
+          "body": {}
+        },
+        "visible_segment_ids": [
+          "body"
+        ],
+        "source_sheet_segments": {
+          "body": "EP02_J3_FB_HINT3"
+        }
+      }
+    }
+  }
+}
