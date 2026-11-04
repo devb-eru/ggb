@@ -1,0 +1,42 @@
+{
+  "format_version": 1,
+  "contents": {
+    "NB_MIRROR_NOTE_C5_INFO": {
+      "2": {
+        "action_or_variant": "recorded",
+        "disclosure_owner": "event_note_commit",
+        "entry_kind": "document_segment",
+        "event_id": "C5_INFO",
+        "knowledge": {"category": "observation", "epistemic_state": "observed", "knowledge_id": "MIRROR_TRACING", "lifetime": "persistent", "provenance_state": "identified"},
+        "locales": {
+          "en-US": {
+            "body": "I fixed the reflected straight line, fork, and loop, along with the bedroom-window, greenhouse-glass, great-clock reference points and underground coordinates, in my notebook.\nEdgar · vertical lock line · low clock tone\nMara 1 · diagonal wipe · dry brush\nLuca · double pulse · vital tone\nIris · petal halo · glass and wind\nMara 2 · double frame · quick three-note trill",
+            "speaker": "Notebook",
+            "summary": "The compared circuit and five sources",
+            "title": "The compared circuit and five sources"
+          },
+          "ko-KR": {
+            "body": "직선·분기·고리의 반사 원도, 침실 창·온실 유리·대시계 기준점과 지하 좌표를 수첩에 고정했다.\n에드가 · 수직 잠금선 · 낮은 시계음\n마라 1 · 대각 닦임 · 마른 솔\n루카 · 이중 맥박 · 생체음\n이리스 · 꽃잎 · 유리와 바람\n마라 2 · 이중 액자 · 빠른 세 음",
+            "speaker": "수첩",
+            "summary": "대조한 회로와 다섯 출처",
+            "title": "대조한 회로와 다섯 출처"
+          }
+        },
+        "localization_keys": {"body": "NB_MIRROR_NOTE_C5_INFO"},
+        "location_source": "history_context:captured_before_commit",
+        "mapping_status": "AUTHORED_ID",
+        "node_ids": ["C5_INFO", "J3", "J3_COMPLETE"],
+        "owner": "planning/engineering",
+        "producer_id": "NP07",
+        "protection_reasons": ["knowledge"],
+        "source_content_ids": ["NB_MIRROR_SCAN_SURFACE_EDGAR", "NB_MIRROR_SCAN_COPY_EDGAR", "NB_MIRROR_SCAN_SURFACE_MARA1", "NB_MIRROR_SCAN_COPY_MARA1", "NB_MIRROR_SCAN_SURFACE_LUCA", "NB_MIRROR_SCAN_COPY_LUCA", "NB_MIRROR_SCAN_SURFACE_IRIS", "NB_MIRROR_SCAN_COPY_IRIS", "NB_MIRROR_SCAN_SURFACE_MARA2", "NB_MIRROR_SCAN_COPY_MARA2", "NB_EP02_C5_CH_EDGAR_FIRST", "NB_EP02_C5_CH_EDGAR_REPEAT", "NB_EP02_C5_CH_MARA1_FIRST", "NB_EP02_C5_CH_MARA1_REPEAT", "NB_EP02_C5_CH_LUCA_FIRST", "NB_EP02_C5_CH_LUCA_REPEAT", "NB_EP02_C5_CH_IRIS_FIRST", "NB_EP02_C5_CH_IRIS_REPEAT", "NB_EP02_C5_CH_MARA2_FIRST", "NB_EP02_C5_CH_MARA2_REPEAT", "NB_EP02_C5_HOT_EDGAR_CHANNEL", "NB_EP02_C5_HOT_MARA1_CHANNEL", "NB_EP02_C5_HOT_LUCA_CHANNEL", "NB_EP02_C5_HOT_IRIS_CHANNEL", "NB_EP02_C5_HOT_MARA2_CHANNEL", "NB_PUZZLE_C_CHANNEL_EDGAR_UNCHECKED", "NB_PUZZLE_C_CHANNEL_EDGAR_CHECKED", "NB_PUZZLE_C_CHANNEL_MARA1_UNCHECKED", "NB_PUZZLE_C_CHANNEL_MARA1_CHECKED", "NB_PUZZLE_C_CHANNEL_LUCA_UNCHECKED", "NB_PUZZLE_C_CHANNEL_LUCA_CHECKED", "NB_PUZZLE_C_CHANNEL_IRIS_UNCHECKED", "NB_PUZZLE_C_CHANNEL_IRIS_CHECKED", "NB_PUZZLE_C_CHANNEL_MARA2_UNCHECKED", "NB_PUZZLE_C_CHANNEL_MARA2_CHECKED"],
+        "source_file": "scripts/systems/black_mirror_session.gd",
+        "source_knowledge_ids": ["MIRROR_TRACING"],
+        "source_symbol": "act:C5_INFO",
+        "speaker_id": "SUBJECT",
+        "variables": {"body": {}},
+        "visible_segment_ids": ["body"]
+      }
+    }
+  }
+}

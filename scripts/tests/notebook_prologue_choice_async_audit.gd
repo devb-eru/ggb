@@ -50,6 +50,9 @@ func _answers(mode: String) -> Array:
     if mode == "p4_father": return ["father_tea", "mansion_age", "luca_tenure"]
     return ["confirm", "cancel"]
 
+func _is_dialogue_choice(mode: String) -> bool:
+    return mode in ["p3_journal", "p4_father", "ep01_sleep", "ep01_morning"]
+
 func _choice_seed(mode: String) -> Dictionary:
     var state := _fixture_state()
     var progress: Dictionary = state.loop_state.event_local_states.PROLOGUE
@@ -79,10 +82,14 @@ func _show_choice(view: Node, mode: String) -> void:
     if mode == "p3_journal": view._show_p3_journal_choices()
     elif mode == "p4_father": view._show_p4_father_choices()
     elif mode == "P1_EXIT": view._leave_bedroom_morning()
-    else: view._on_sleep_bed()
+    else:
+        # The current sleep entry uses EP01; retain coverage for saved legacy modals.
+        view._show_prologue_confirmation("P6_SLEEP", view._dialogue_ui_text("P6_TITLE"), view._dialogue_ui_text("P6_BODY"), [
+            {"id":"confirm", "label":view._dialogue_ui_text("P6_SLEEP"), "action":view._begin_first_sleep},
+            {"id":"cancel", "label":view._dialogue_ui_text("P6_CANCEL"), "action":view._close_modal}])
 
 func _buttons(view: Node, mode: String) -> Array:
-    if mode.begins_with("p"): return view._dialogue_choice_buttons
+    if _is_dialogue_choice(mode): return view._dialogue_choice_buttons
     return view._modal_body.get_children().filter(func(child: Node) -> bool: return child is Button)
 
 func _press(view: Node, mode: String, answer: String) -> void:
@@ -91,10 +98,10 @@ func _press(view: Node, mode: String, answer: String) -> void:
     buttons[order.find(answer)].pressed.emit()
 
 func _options_token(view: Node, mode: String) -> String:
-    return view._choice_history_context.presentation_token if mode.begins_with("p") else view._prologue_confirmation.context.presentation_token
+    return view._choice_history_context.presentation_token if _is_dialogue_choice(mode) else view._prologue_confirmation.context.presentation_token
 
 func _selected_token(view: Node, mode: String, answer: String) -> String:
-    var tokens: Dictionary = view._choice_selected_tokens if mode.begins_with("p") else view._prologue_confirmation.tokens
+    var tokens: Dictionary = view._choice_selected_tokens if _is_dialogue_choice(mode) else view._prologue_confirmation.tokens
     return tokens.get(answer, "")
 
 func _token_count(token: String) -> int:
@@ -105,7 +112,7 @@ func _pending_controls(view: Node, mode: String) -> void:
     for button in _buttons(view, mode): _expect(button.disabled, "pending disables actual option control " + mode)
 
 func _replace_context(view: Node, mode: String) -> void:
-    if mode.begins_with("p"): view._choice_history_context.presentation_token = ARCHIVE.new_uid()
+    if _is_dialogue_choice(mode): view._choice_history_context.presentation_token = ARCHIVE.new_uid()
     else: view._prologue_confirmation.context.presentation_token = ARCHIVE.new_uid()
 
 func _choice_case(mode: String, scenario: String, locale: String) -> void:
@@ -149,7 +156,7 @@ func _choice_case(mode: String, scenario: String, locale: String) -> void:
     _press(view, mode, answer)
     _expect(view.selection_actions.is_empty() and GameState.revision == revision, "pending selection cannot execute or duplicate " + mode)
     if scenario == "selected_replace":
-        if mode.begins_with("p"): view._dialogue_choice_mode = "replaced"
+        if _is_dialogue_choice(mode): view._dialogue_choice_mode = "replaced"
         else: view._show_modal("Replacement", "Administrative screen", [])
     elif scenario == "selected_locale": TranslationServer.set_locale("en_US" if locale == "ko_KR" else "ko_KR")
     elif scenario == "selected_context": _replace_context(view, mode)
@@ -170,7 +177,7 @@ func _choice_case(mode: String, scenario: String, locale: String) -> void:
     _expect(disk.ok and StateSnapshotValidator.same_persisted_value(disk.snapshot, GameState.get_snapshot()), "response/progress commit disk/live exact " + mode)
     if mode == "p3_journal" and answer != "silent": _expect(answer in view._progress.p3_journal_questions_asked, "actual journal answer applied")
     if mode == "p4_father": _expect(view._progress.p4_father_question == answer and view._dialogue_active, "actual father answer applied")
-    if not mode.begins_with("p") and answer == "cancel": _expect(not view._modal_active and CURSOR.read(GameState.get_snapshot()).phase == "completed", "cancel is durable completed choice")
+    if not _is_dialogue_choice(mode) and answer == "cancel": _expect(not view._modal_active and CURSOR.read(GameState.get_snapshot()).phase == "completed", "cancel is durable completed choice")
     await _finish_case(view, manager, mode, scenario, locale, initial_errors)
 
 func _finish_case(view: Node, manager: Node, mode: String, scenario: String, locale: String, initial_errors: int) -> void:
@@ -181,14 +188,14 @@ func _finish_case(view: Node, manager: Node, mode: String, scenario: String, loc
     if manager != SaveManager: manager.free()
     SaveManager.delete_test_slot(SLOT)
 
-func _restore_choice(mode: String, phase: String, locale: String) -> void:
+func _restore_choice(mode: String, phase: String, locale: String, requested_answer: String = "") -> void:
     var initial_errors := errors.size()
     _seed(_choice_seed(mode))
     var view = _make_choice_view()
     _show_choice(view, mode)
     await _prologue_settle(view)
     var options_token := _options_token(view, mode)
-    var answer: String = _answers(mode)[0]
+    var answer: String = _answers(mode)[0] if requested_answer.is_empty() else requested_answer
     var selected_token := ""
     if phase == "selection_pending":
         view.defer_selected_action = true
@@ -211,7 +218,7 @@ func _restore_choice(mode: String, phase: String, locale: String) -> void:
     _expect(restored.selection_actions.size() == 1 and restored.selection_actions[0].durable, "explicit restored action runs once after durability " + mode)
     _expect(_token_count(options_token) == 1, "restore never re-appends options " + mode)
     if phase == "selection_pending": _expect(_token_count(selected_token) == 1, "restore never re-appends selected token " + mode)
-    cases.append({"kind":"restore", "mode":mode, "phase":phase, "locale":locale, "passed":initial_errors == errors.size()})
+    cases.append({"kind":"restore", "mode":mode, "phase":phase, "locale":locale, "answer":answer, "passed":initial_errors == errors.size()})
     restored.queue_free()
     await get_tree().process_frame
     SaveManager.delete_test_slot(SLOT)
@@ -230,7 +237,8 @@ func _retry_identity_case(scenario: String, locale: String) -> void:
     var target_locale: String = locale if scenario == "same_locale" else ("en_US" if locale == "ko_KR" else "ko_KR")
     var context: Dictionary = view._choice_history_context.duplicate(true)
     context.presentation_token = view._choice_selected_tokens.author
-    context.notebook_content = CONTENT.descriptor("NB_PR_P3_SELECT_" + ("LOCKED" if scenario == "content" else "AUTHOR"), 1, {"body":{}})
+    var answer := "locked" if scenario == "content" else "author"
+    context.notebook_content = CONTENT.choice_for_options("NB_PR_P3_SELECT_" + answer.to_upper(), CURSOR.read(previous).lines[0].notebook_content, answer)
     if scenario == "location": context.location_id = "M1_PARLOR"
     if scenario == "occurrence": context.event_occurrence_id = ARCHIVE.new_uid()
     if scenario == "completed":

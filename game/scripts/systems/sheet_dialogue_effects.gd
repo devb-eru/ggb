@@ -83,3 +83,8 @@ static func event_seen(state: Dictionary, event_id: String) -> bool:
 	for effect in preload("res://scripts/systems/ep01_script.gd").source("EP02").get("effects", []):
 		if effect.event_id == event_id and receipts.has(effect.effect_id): return true
 	return false
+
+
+static func j3_memory_seen(state: Dictionary) -> bool:
+	if state.meta_progress.event_history.get(RECEIPTS, {}).get("EFF_EP02_0046", false): return true
+	return state.meta_progress.dialogue_history.entries.any(func(entry: Dictionary) -> bool: return entry.get("record_class") == "authored" and entry.get("observation", {}).get("content_id") == "NB_EP02_J3_MEMORY_003")

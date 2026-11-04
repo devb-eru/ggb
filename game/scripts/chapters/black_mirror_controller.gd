@@ -110,7 +110,7 @@ func _feedback(result: Dictionary) -> void:
 				_ep01_pages([identity])
 				return
 	if get_script().resource_path.ends_with("/black_mirror_controller.gd") and result.get("ok", false):
-		if _sheet_feedback_action in ["j3_overlay", "j3_remove_trace", "j3_point", "j3_compare", "j3_pick_part", "j3_drop_part"]:
+		if _sheet_feedback_action in ["j3_overlay", "j3_remove_trace", "j3_point", "j3_compare", "j3_flip_page", "j3_pick_part", "j3_drop_part"]:
 			var ids: Array = []
 			if _sheet_feedback_action == "j3_overlay":
 				ids.append("EP02_J3_UI_PLACE_TRACE")
@@ -827,8 +827,7 @@ func _j3_memory_available() -> bool:
 
 
 func _j3_memory_seen() -> bool:
-	if session.snapshot().meta_progress.event_history.get("EP02_DIALOGUE_EFFECTS", {}).get("EFF_EP02_0046", false): return true
-	return session.snapshot().meta_progress.dialogue_history.entries.any(func(entry: Dictionary) -> bool: return entry.get("record_class") == "authored" and entry.get("observation", {}).get("content_id") == "NB_EP02_J3_MEMORY_003")
+	return preload("res://scripts/systems/sheet_dialogue_effects.gd").j3_memory_seen(session.snapshot())
 
 
 func _select_j3_memory(mode: String) -> void:

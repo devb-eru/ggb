@@ -224,7 +224,7 @@ static func _load() -> void:
 	if _loaded:
 		_catalog_mutex.unlock()
 		return
-	for path in CATALOGS + ["res://data/notebook/ep01_sheet_v1.json", "res://data/notebook/ep02_sheet_v1.json", "res://data/notebook/ep02_hint_versions.json", "res://data/notebook/ep02_modal_versions.json", "res://data/notebook/ep02_player_versions.json"]:
+	for path in CATALOGS + ["res://data/notebook/ep01_sheet_v1.json", "res://data/notebook/ep02_sheet_v1.json", "res://data/notebook/ep02_hint_versions.json", "res://data/notebook/ep02_modal_versions.json", "res://data/notebook/ep02_player_versions.json", "res://data/notebook/mirror_disclosure_v2.json", "res://data/notebook/ep02_c4_confirmation_v2.json"]:
 		var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
 		if not data is Dictionary or not _integer(data.get("format_version")) or int(data.format_version) != 1 or not data.get("contents") is Dictionary:
 			_errors.append("NB_CATALOG_FORMAT")

@@ -42,4 +42,4 @@ static func paragraphs(id: String) -> Array:
 
 
 static func write(state: Dictionary, id: String, source: String, context: Dictionary, locale: String) -> Dictionary:
-	return EVENT_NOTES.write(state, "NB_MIRROR_NOTE_" + id, source, context, locale)
+	return EVENT_NOTES.write(state, "NB_MIRROR_NOTE_" + id, source, context, locale, 2 if id == "C5_INFO" else 1)

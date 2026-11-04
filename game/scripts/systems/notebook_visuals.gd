@@ -14,6 +14,7 @@ static func supports(entry: Dictionary, segment: String) -> bool:
 	if not observed.segments.any(func(part: Dictionary) -> bool: return part.segment_id == segment): return false
 	if observed.content_id in SELF_MARKS: return int(observed.content_version) == 2 and segment == "body"
 	if observed.content_id in CORE: return int(observed.content_version) in [1, 2] and segment == "body"
+	if observed.content_id == "NB_MIRROR_NOTE_C5_INFO": return int(observed.content_version) in [1, 2] and segment == "body"
 	if int(observed.content_version) != 1: return false
 	return (segment == "body" and ORIGINALS.has(observed.content_id)) or (segment == "state" and observed.content_id in OVERLAYS)
 

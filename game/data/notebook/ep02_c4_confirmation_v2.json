@@ -1,0 +1,371 @@
+{
+  "format_version": 1,
+  "contents": {
+    "NB_EP02_C4_COMMIT_001": {
+      "2": {
+        "producer_id": "EP02_SHEET",
+        "source_file": "data/dialogue/sheets/ep02_runtime.json",
+        "source_symbol": "EP02_C4_COMMIT_001",
+        "event_id": "EP02_SCENE_08",
+        "node_ids": [
+          "EP02_C4_COMMIT_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_EP02_C4_COMMIT_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "거울의 기록",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "세정제를 묻히면 오늘은 이 경로를 되돌릴 수 없다."
+          },
+          "en-US": {
+            "title": "Mirror record",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "Applying the solution makes this route irreversible for today."
+          }
+        }
+      }
+    },
+    "NB_EP02_C4_COMMIT_CH01": {
+      "2": {
+        "producer_id": "EP02_SHEET",
+        "source_file": "data/dialogue/sheets/ep02_runtime.json",
+        "source_symbol": "EP02_C4_COMMIT_CH01",
+        "event_id": "EP02_SCENE_08",
+        "node_ids": [
+          "EP02_C4_COMMIT_CH01"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_EP02_C4_COMMIT_CH01:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "거울의 기록",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "마른 천으로 다시 시험한다."
+          },
+          "en-US": {
+            "title": "Mirror record",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "Test again with the dry cloth."
+          }
+        }
+      }
+    },
+    "NB_EP02_C4_COMMIT_CH02": {
+      "2": {
+        "producer_id": "EP02_SHEET",
+        "source_file": "data/dialogue/sheets/ep02_runtime.json",
+        "source_symbol": "EP02_C4_COMMIT_CH02",
+        "event_id": "EP02_SCENE_08",
+        "node_ids": [
+          "EP02_C4_COMMIT_CH02"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_EP02_C4_COMMIT_CH02:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "거울의 기록",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "계획을 다시 확인한다."
+          },
+          "en-US": {
+            "title": "Mirror record",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "Review the plan again."
+          }
+        }
+      }
+    },
+    "NB_EP02_C4_COMMIT_CH03": {
+      "2": {
+        "producer_id": "EP02_SHEET",
+        "source_file": "data/dialogue/sheets/ep02_runtime.json",
+        "source_symbol": "EP02_C4_COMMIT_CH03",
+        "event_id": "EP02_SCENE_08",
+        "node_ids": [
+          "EP02_C4_COMMIT_CH03"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_EP02_C4_COMMIT_CH03:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "거울의 기록",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "세정제를 묻혀 실행한다."
+          },
+          "en-US": {
+            "title": "Mirror record",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "Apply the solution and proceed."
+          }
+        }
+      }
+    },
+    "NB_EP02_CHOICE_C4_COMMIT": {
+      "2": {
+        "producer_id": "EP02_SHEET",
+        "source_file": "data/dialogue/sheets/ep02_runtime.json",
+        "source_symbol": "EP02_CHOICE_C4_COMMIT",
+        "event_id": "EP02_CHOICE_C4_COMMIT",
+        "node_ids": [
+          "EP02_CHOICE_C4_COMMIT"
+        ],
+        "action_or_variant": "options",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "options_presented",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "option_0",
+          "option_1",
+          "option_2"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "option_0": {},
+          "option_1": {},
+          "option_2": {}
+        },
+        "localization_keys": {
+          "option_0": "NB_EP02_CHOICE_C4_COMMIT:option_0",
+          "option_1": "NB_EP02_CHOICE_C4_COMMIT:option_1",
+          "option_2": "NB_EP02_CHOICE_C4_COMMIT:option_2"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "거울의 기록",
+            "summary": "확인한 말과 기록",
+            "speaker": "표시된 선택지",
+            "option_0": "마른 천으로 다시 시험한다.",
+            "option_1": "계획을 다시 확인한다.",
+            "option_2": "세정제를 묻혀 실행한다."
+          },
+          "en-US": {
+            "title": "Mirror record",
+            "summary": "Observed words and records",
+            "speaker": "Displayed choices",
+            "option_0": "Test again with the dry cloth.",
+            "option_1": "Review the plan again.",
+            "option_2": "Apply the solution and proceed."
+          }
+        },
+        "default_segments": [
+          "option_0",
+          "option_1",
+          "option_2"
+        ],
+        "cancel_index": -1,
+        "choices": [
+          {
+            "content_id": "NB_EP02_CHOICE_C4_COMMIT_SELECT_0",
+            "kind": "confirm"
+          },
+          {
+            "content_id": "NB_EP02_CHOICE_C4_COMMIT_SELECT_1",
+            "kind": "confirm"
+          },
+          {
+            "content_id": "NB_EP02_CHOICE_C4_COMMIT_SELECT_2",
+            "kind": "confirm"
+          }
+        ]
+      }
+    },
+    "NB_EP02_CHOICE_C4_COMMIT_SELECT_0": {
+      "2": {
+        "producer_id": "EP02_SHEET",
+        "source_file": "data/dialogue/sheets/ep02_runtime.json",
+        "source_symbol": "EP02_CHOICE_C4_COMMIT",
+        "event_id": "EP02_CHOICE_C4_COMMIT",
+        "node_ids": [
+          "EP02_CHOICE_C4_COMMIT"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "choice_confirmed",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_EP02_C4_COMMIT_CH01:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "거울의 기록",
+            "summary": "확인한 말과 기록",
+            "speaker": "선택한 문구",
+            "body": "마른 천으로 다시 시험한다."
+          },
+          "en-US": {
+            "title": "Mirror record",
+            "summary": "Observed words and records",
+            "speaker": "Selected option",
+            "body": "Test again with the dry cloth."
+          }
+        }
+      }
+    },
+    "NB_EP02_CHOICE_C4_COMMIT_SELECT_1": {
+      "2": {
+        "producer_id": "EP02_SHEET",
+        "source_file": "data/dialogue/sheets/ep02_runtime.json",
+        "source_symbol": "EP02_CHOICE_C4_COMMIT",
+        "event_id": "EP02_CHOICE_C4_COMMIT",
+        "node_ids": [
+          "EP02_CHOICE_C4_COMMIT"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "choice_confirmed",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_EP02_C4_COMMIT_CH02:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "거울의 기록",
+            "summary": "확인한 말과 기록",
+            "speaker": "선택한 문구",
+            "body": "계획을 다시 확인한다."
+          },
+          "en-US": {
+            "title": "Mirror record",
+            "summary": "Observed words and records",
+            "speaker": "Selected option",
+            "body": "Review the plan again."
+          }
+        }
+      }
+    },
+    "NB_EP02_CHOICE_C4_COMMIT_SELECT_2": {
+      "2": {
+        "producer_id": "EP02_SHEET",
+        "source_file": "data/dialogue/sheets/ep02_runtime.json",
+        "source_symbol": "EP02_CHOICE_C4_COMMIT",
+        "event_id": "EP02_CHOICE_C4_COMMIT",
+        "node_ids": [
+          "EP02_CHOICE_C4_COMMIT"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "choice_confirmed",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_EP02_C4_COMMIT_CH03:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "거울의 기록",
+            "summary": "확인한 말과 기록",
+            "speaker": "선택한 문구",
+            "body": "세정제를 묻혀 실행한다."
+          },
+          "en-US": {
+            "title": "Mirror record",
+            "summary": "Observed words and records",
+            "speaker": "Selected option",
+            "body": "Apply the solution and proceed."
+          }
+        }
+      }
+    }
+  }
+}

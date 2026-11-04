@@ -268,6 +268,10 @@ func _branches(tree: SceneTree) -> void:
 func _restore_j3(memory: bool) -> void:
 	_act("j3_overlay")
 	for point in ["BED", "GREEN", "CLOCK"]: _act("j3_point", point)
+	if memory:
+		view._ep01_play("EP02_J3_MEMORY_001")
+		_drain()
+		_expect(_has("NB_EP02_J3_MEMORY_003"), "memory variant requires the actually displayed memory scene")
 	_act("j3_compare")
 	_act("j3_flip_page")
 	_act("j3_compare")

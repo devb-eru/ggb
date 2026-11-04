@@ -371,7 +371,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				for key in ["KN_J3_TRACING_DIRECTION_UNTRUSTED", "KN_J3_THREE_REFERENCE_POINTS", "KN_J3_MAP_REQUIRED", "KN_J3_BASEMENT_HEART"]: knowledge[key] = true
 				text = "\n\n".join(J3_PARTS)
 				feedback_key = "J3"
-				if knowledge.get("MEM_FATHER_TEA_HAND_FRAGMENT", "") == "sensory_fragment":
+				if knowledge.get("MEM_FATHER_TEA_HAND_FRAGMENT", "") == "sensory_fragment" and preload("res://scripts/systems/sheet_dialogue_effects.gd").j3_memory_seen(state):
 					knowledge["MEM_FATHER_DRAWN_DOOR_FRAGMENT"] = "episodic_fragment"
 					text += "\n" + MIRROR_NOTES.FIXED.MEMORY
 					feedback_key = "J3_MEMORY"

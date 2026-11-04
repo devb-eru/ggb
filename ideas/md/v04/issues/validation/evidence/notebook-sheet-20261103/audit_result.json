@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "checks": 16905,
+  "runs": 9,
+  "controls": 2,
+  "snapshot_cases": 48,
+  "source_files": 307,
+  "data_files": 63,
+  "raw_files": 165,
+  "packed_json_files": 50,
+  "pack_native_runs": 4,
+  "ordinary_packed_runtime": true,
+  "rejected_mutations": 25,
+  "scope": "native state, matrix, source, durable and packed-catalogue evidence; not OS input, release binary or whole-plan acceptance",
+  "raw_extract": "C:\\Users\\beruo\\AppData\\Local\\Temp\\ggb-sheet-proof-d4ac9b7d7a4142bfa06f3612659db86e"
+}
