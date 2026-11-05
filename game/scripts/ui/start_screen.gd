@@ -515,6 +515,9 @@ func get_display_settings() -> Dictionary:
 
 
 func _apply_initial_display() -> void:
+	# Startup can still restore the initial window mode after child _ready().
+	await get_tree().process_frame
+	if not is_inside_tree() or is_queued_for_deletion(): return
 	var backend := preload("res://scripts/systems/display_settings.gd").WindowBackend.new(get_window())
 	if not backend.apply(get_display_settings()): backend.apply(preload("res://scripts/systems/display_settings.gd").DEFAULT)
 
