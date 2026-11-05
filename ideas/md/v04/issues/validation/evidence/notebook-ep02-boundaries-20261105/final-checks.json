@@ -1,0 +1,44 @@
+{
+  "document_links": [
+    {
+      "source": "ideas/md/v04/issues/validation/2026-11-05_EP02_선택창저장경계_및_완료재시도수명.md",
+      "target": "evidence/notebook-ep02-boundaries-20261105/README.md",
+      "exists": true
+    },
+    {
+      "source": "ideas/md/v04/issues/items/GGB-ERR-2026-0077_시트완료재시도_만료버튼_재실행.md",
+      "target": "../validation/2026-11-05_EP02_선택창저장경계_및_완료재시도수명.md",
+      "exists": true
+    },
+    {
+      "source": "ideas/md/v04/issues/items/GGB-ERR-2026-0077_시트완료재시도_만료버튼_재실행.md",
+      "target": "../validation/evidence/notebook-ep02-boundaries-20261105/README.md",
+      "exists": true
+    }
+  ],
+  "parser_checks": [
+    {
+      "errors": 0,
+      "path": "scripts/audit_notebook_ep02_modal_boundaries.ps1"
+    },
+    {
+      "errors": 0,
+      "path": "C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-notebook-sheet-20261103\\ideas\\md\\v04\\issues\\validation\\evidence\\notebook-ep02-boundaries-20261105\\verifier-negative-tests.ps1"
+    }
+  ],
+  "verifier_negative_tests": 5,
+  "utc": "2026-11-05T12:48:56.1329491Z",
+  "audit": {
+    "ok": true,
+    "source_scripts": 310,
+    "data_files": 63,
+    "boundary_cases": 44,
+    "boundary_checks": 692,
+    "retry_scope_cases": 18,
+    "retry_scope_assertions": 2298,
+    "native_successes": 8,
+    "raw_files": 43,
+    "scope": "EP02 focused regression, not OS/full acceptance"
+  },
+  "archive_sha256": "dbfa1674527714bd4ddbab57780569e5e79e14fa3f959329929967294ab0453a"
+}

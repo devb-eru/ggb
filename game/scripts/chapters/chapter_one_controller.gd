@@ -1384,7 +1384,8 @@ func _ep01_finish(context: Dictionary) -> void:
 	if not saved.get("ok", false):
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		# Retain the final line so retrying cannot silently skip a completion receipt.
-		_show_modal(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"), "", [{"label": "다시 시도" if TranslationServer.get_locale().begins_with("ko") else "Retry", "action": _ep01_retry_finish.bind(context)}])
+		var retry := {"context": context.duplicate(true), "scope": _recorded_choice_scope(), "modal_generation": _choice_modal_generation + 1, "history_generation": _history_generation + 1}
+		_show_modal(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"), "", [{"label": "다시 시도" if TranslationServer.get_locale().begins_with("ko") else "Retry", "action": _ep01_retry_finish.bind(retry)}])
 		return
 	_render_room()
 	if not context.finish.is_empty(): Callable(self, context.finish.method).callv(context.finish.args)
@@ -1411,9 +1412,12 @@ func _ep01_routine() -> void:
 	_ep01_play("EP01_AS_001", {}, ["EP01_COMMON_SLEEP_LOOP"])
 
 
-func _ep01_retry_finish(context: Dictionary) -> void:
+func _ep01_retry_finish(request: Dictionary) -> void:
+	if not is_inside_tree() or is_queued_for_deletion() or not _modal_active or _notebook_is_open(): return
+	if request.get("scope") != _recorded_choice_scope() or request.get("modal_generation") != _choice_modal_generation or request.get("history_generation") != _history_generation: return
 	_close_modal()
-	_ep01_finish(context)
+	if _modal_active: return
+	_ep01_finish(request.context)
 
 
 func _ep01_action_feedback(action: String, value: Variant, result: Dictionary, before: Dictionary) -> bool:

@@ -1,0 +1,45 @@
+{
+  "passed": 5,
+  "tests": [
+    {
+      "passed": true,
+      "name": "archive-hash",
+      "expected": "Archive hash differs",
+      "rejected": true,
+      "reason": "Archive hash differs"
+    },
+    {
+      "passed": true,
+      "name": "source-denominator",
+      "expected": "Frozen source denominator differs",
+      "rejected": true,
+      "reason": "Frozen source denominator differs"
+    },
+    {
+      "passed": true,
+      "name": "raw-hash",
+      "expected": "Raw hash differs",
+      "rejected": true,
+      "reason": "Raw hash differs baseline/run.err.log"
+    },
+    {
+      "passed": true,
+      "name": "selected-observation",
+      "expected": "Rejected/unselected answer was disclosed",
+      "rejected": true,
+      "reason": "Rejected/unselected answer was disclosed: ko-KR/answer/0/false/NB_EP02_CHOICE_C4_COMMIT_SELECT_0"
+    },
+    {
+      "passed": true,
+      "name": "ram-disk",
+      "expected": "Trace RAM/disk differs",
+      "rejected": true,
+      "reason": "Trace RAM/disk differs answer/0/false"
+    }
+  ],
+  "fixture_root": "C:\\Users\\beruo\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{caa55814-d656-4cfe-8fd5-5a914418734e}\\Temp\\ggb-ep02-audit-negative-b27071bb455040ae940f455df23b6418",
+  "total": 5,
+  "verifier_sha256": "ab4cab7d0ab80cf7d53681c399c65df6a86bccb2c8291c103e72ae656c40f057",
+  "command": "./verifier-negative-tests.ps1 -RepoPath <mirror>",
+  "utc": "2026-11-05T12:46:20.3796193Z"
+}

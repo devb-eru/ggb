@@ -1,0 +1,8 @@
+{
+  "command": "./.tmp-notebook-ep02-boundary-package-20261105.ps1",
+  "utc": "2026-11-05T12:43:09.8808075Z",
+  "position": "At C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-notebook-sheet-20261103\\scripts\\audit_notebook_ep02_modal_boundaries.ps1:4 char:59\r\n+ … ion Require([bool]$ok,[string]$message){if(-not $ok){throw $message}}\r\n+                                                        ~~~~~~~~~~~~~~",
+  "error": "Rejected/unselected answer was disclosed",
+  "stack": "at Require, C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-notebook-sheet-20261103\\scripts\\audit_notebook_ep02_modal_boundaries.ps1: line 4\r\nat <ScriptBlock>, C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-notebook-sheet-20261103\\scripts\\audit_notebook_ep02_modal_boundaries.ps1: line 100\r\nat <ScriptBlock>, C:\\Users\\beruo\\.codex\\worktrees\\5b3e\\ggb\\.tmp-notebook-ep02-boundary-package-20261105.ps1: line 52\r\nat <ScriptBlock>, <No file>: line 2",
+  "ok": false
+}

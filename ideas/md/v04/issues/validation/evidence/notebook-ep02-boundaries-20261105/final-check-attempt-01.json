@@ -1,0 +1,7 @@
+{
+  "ok": false,
+  "correction": "Resolve-Path -LiteralPath per script; no verifier or game change",
+  "audit_before_parser": "PASS",
+  "stage": "final-check harness parser",
+  "error": "FileReadError: harness joined RepoPath to an already absolute negative-test script path"
+}

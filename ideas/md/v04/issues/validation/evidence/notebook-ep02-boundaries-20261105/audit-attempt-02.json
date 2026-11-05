@@ -1,0 +1,7 @@
+{
+  "command": "./scripts/audit_notebook_ep02_modal_boundaries.ps1 -EvidencePath ideas/md/v04/issues/validation/evidence/notebook-ep02-boundaries-20261105 -RepoPath .",
+  "utc": "2026-11-05T12:44:20.4846429Z",
+  "ok": true,
+  "verifier_sha256": "a4de8ff78a6690c104d82ed81671622e13a3588522b4a7f7b5e64cfd277d1fc8",
+  "output": "{\r\n  \"ok\": true,\r\n  \"source_scripts\": 310,\r\n  \"data_files\": 63,\r\n  \"boundary_cases\": 44,\r\n  \"boundary_checks\": 692,\r\n  \"retry_scope_cases\": 18,\r\n  \"retry_scope_assertions\": 2298,\r\n  \"native_successes\": 8,\r\n  \"raw_files\": 43,\r\n  \"scope\": \"EP02 focused regression, not OS/full acceptance\"\r\n}\r\n"
+}
