@@ -50,6 +50,7 @@ func run(tree: SceneTree) -> Dictionary:
 		_seed("A1")
 		var view = _view(tree, 0)
 		view._open_mark_choices()
+		_drain_to_choice(view)
 		var controlled := ControlledSave.new()
 		controlled.reject_game = true
 		view.session._save = controlled
@@ -74,10 +75,12 @@ func run(tree: SceneTree) -> Dictionary:
 			_expect(view._modal_active and not GameState.get_snapshot().meta_progress.knowledge_entries.has("self_authored_mark"), "saved answer is not auto executed")
 			var request: Dictionary = view._recorded_modal_request
 			_expect(request.selection_recorded and request.selection_token == CURSOR.read(expected.state).modal.selection_token, "same pending answer token")
-			_expect(request.actions[0].label == CONTENT.definition("NB_MODAL_CH1_MARK_OPTIONS", 1).locales["en-US"].option_0, "current language renders exact choices")
-			var count := _selected_count()
+			var descriptor: Dictionary = CURSOR.read(expected.state).lines[0].notebook_content
+			_expect(request.actions[0].label == CONTENT.definition(descriptor.content_id, descriptor.content_version).locales["en-US"].option_0, "current language renders exact saved choice version")
+			var answer_id: String = request.row.choices[0].content_id
+			var count := _content_count(answer_id)
 			view._recorded_choice_pressed(request, 0)
-			_expect(GameState.get_snapshot().meta_progress.knowledge_entries.has("self_authored_mark") and _selected_count() == count, "explicit retry executes gameplay without duplicate selected record")
+			_expect(GameState.get_snapshot().meta_progress.knowledge_entries.has("self_authored_mark") and _content_count(answer_id) == count and count == 1, "explicit retry executes gameplay without duplicate selected record")
 			while view._dialogue_active: view._advance_dialogue()
 		else:
 			_expect(GameState.get_snapshot().meta_progress.knowledge_entries.has("self_authored_mark") and not view._modal_active, "successful action never reopens original prompt")
@@ -106,8 +109,15 @@ func _cases(tree: SceneTree) -> void:
 		["EDR_FIELD_NOTEBOOK", 2, "_open_field_page", ["FIELD_NOTEBOOK_PREFACE", false]],
 	]:
 		_seed(spec[0])
+		if spec[2] == "_open_patrol":
+			var patrol := GameState.get_snapshot()
+			patrol.meta_progress.servants.edgar.alert = 4
+			patrol.meta_progress.servants.edgar.bond = 0
+			patrol.loop_state.event_local_states.BLACK_MIRROR.intervention_handled = false
+			_expect(StateWriter.new(GameState).install_snapshot(patrol, GameState.revision, StringName("MODAL_PATROL_%d" % serial)).ok, "actual patrol intervention fixture")
 		var view = _view(tree, spec[1])
 		view.callv(spec[2], spec[3])
+		_drain_to_choice(view)
 		var state := GameState.get_snapshot()
 		var cursor := CURSOR.read(state)
 		_expect(cursor.get("kind") == "modal" and CURSOR.matches(cursor, state) and CURSOR.observed(cursor, state), "durable observed modal " + spec[2])
@@ -144,7 +154,13 @@ func _chapter_choice_matrix(tree: SceneTree) -> void:
 				_seed(spec[0])
 				var view = _view(tree, 0)
 				view.call(spec[1])
+				_drain_to_choice(view)
 				var request: Dictionary = view._recorded_modal_request
+				if request.is_empty():
+					_expect(false, "matrix expected recorded choice " + String(spec[1]))
+					view.queue_free()
+					await tree.process_frame
+					continue
 				var before := GameState.get_snapshot()
 				var prompt: Dictionary = before.meta_progress.dialogue_history.entries.back()
 				var prompt_id: String = request.history_context.notebook_content.content_id
@@ -162,12 +178,13 @@ func _chapter_choice_matrix(tree: SceneTree) -> void:
 				var chosen := int(request.row.cancel_index) if selected < 0 else selected
 				var selected_id := ""
 				if chosen >= 0 and request.row.choices[chosen].kind != "ui": selected_id = request.row.choices[chosen].content_id
+				var answer_ids: Array = request.row.choices.filter(func(choice: Dictionary) -> bool: return choice.kind != "ui").map(func(choice: Dictionary) -> String: return choice.content_id)
 				var matched := 0
 				for entry in GameState.get_snapshot().meta_progress.dialogue_history.entries:
 					if not entry.has("observation"):
 						_expect(before.meta_progress.dialogue_history.entries.any(func(old: Dictionary) -> bool: return StateSnapshotValidator.same_persisted_value(old, entry)), "choice adds no unmapped record; preexisting checkpoint feedback remains unchanged")
 						continue
-					if entry.observation.producer_id != "NP05" or entry.observation.content_id == prompt_id: continue
+					if entry.observation.producer_id != prompt.observation.producer_id or entry.observation.content_id not in answer_ids: continue
 					matched += 1
 					_expect(entry.observation.content_id == selected_id, "unselected answers never become observations")
 					_expect(entry.observation.event_occurrence_id == prompt.observation.event_occurrence_id and entry.observation.conversation_session_id == prompt.observation.conversation_session_id, "answer belongs to displayed prompt occurrence")
@@ -302,7 +319,9 @@ func _utilities(tree: SceneTree) -> void:
 	for version in [1, 2, 3]:
 		_seed("A1")
 		var old_view = _view(tree, 0)
-		if version == 3: old_view._open_mark_choices()
+		if version == 3:
+			old_view._open_mark_choices()
+			_drain_to_choice(old_view)
 		else: old_view._show_dialogue([{"speaker": "SYSTEM", "text": "Historical presentation fixture."}])
 		var old_state := GameState.get_snapshot()
 		old_state.loop_state.event_local_states[CURSOR.KEY].schema_version = version
@@ -468,13 +487,14 @@ func _idempotent_field_read(tree: SceneTree) -> void:
 
 
 func _failures(tree: SceneTree) -> void:
-	_seed("A1")
+	# Keep NP05 writer failure checks separate from the EP01 authored intro.
+	_seed("B1")
 	var view = _view(tree, 0)
 	var controlled := ControlledSave.new()
 	view.session._save = controlled
 	controlled.reject = true
 	var before := GameState.get_snapshot()
-	view._open_mark_choices()
+	view._open_schedule_board()
 	_expect(GameState.get_snapshot() == before and not view._recorded_modal_request.recorded, "prompt failure rolls back cursor and history")
 	view._recorded_choice_pressed(view._recorded_modal_request, 0)
 	_expect(GameState.get_snapshot() == before, "failed prompt cannot execute")
@@ -595,6 +615,21 @@ func _view(tree: SceneTree, index: int):
 
 func _selected_count() -> int:
 	return GameState.get_snapshot().meta_progress.dialogue_history.entries.filter(func(entry: Dictionary) -> bool: return entry.get("observation", {}).get("entry_kind", "") == "choice_confirmed").size()
+
+
+func _content_count(content_id: String) -> int:
+	return GameState.get_snapshot().meta_progress.dialogue_history.entries.filter(func(entry: Dictionary) -> bool: return entry.get("observation", {}).get("content_id", "") == content_id).size()
+
+
+func _drain_to_choice(view: Node) -> void:
+	for index in range(64):
+		if not view._dialogue_active: return
+		var before := CURSOR.read(GameState.get_snapshot())
+		view._advance_dialogue()
+		if view._dialogue_active and StateSnapshotValidator.same_persisted_value(before, CURSOR.read(GameState.get_snapshot())):
+			_expect(false, "authored introduction did not advance to its choice")
+			return
+	_expect(false, "authored introduction exceeded bounded choice traversal")
 
 
 func _expect(condition: bool, label: String) -> void:
