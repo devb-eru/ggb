@@ -125,6 +125,7 @@ var _hotspot_layer: Control
 var _location_label: Label
 var _objective_label: Label
 var _status_label: Label
+var _inventory_drag_owns_status := false
 var _notebook_button: Button
 var _notebook_base_font_size := 20
 var _inventory_panel: PanelContainer
@@ -672,7 +673,10 @@ func _build_window_inspection_ui() -> void:
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_TRANSLATION_CHANGED:
+	if what == NOTIFICATION_DRAG_END:
+		if _inventory_drag_owns_status:
+			_set_status("")
+	elif what == NOTIFICATION_TRANSLATION_CHANGED:
 		if is_instance_valid(_menu_button):
 			_menu_button.text = _dialogue_ui_text("UI_P_MENU")
 		if is_instance_valid(_notebook_button):
@@ -2320,6 +2324,7 @@ func _on_inventory_drag_started(item_id: String) -> void:
 			display_name = slot.text.replace("\n", " ")
 			break
 	_set_status(_dialogue_ui_text("UI_INV_DRAGGING", {"item": display_name}))
+	_inventory_drag_owns_status = true
 	_refresh_inventory_selection()
 	_save_window_selection(previous)
 
@@ -3617,6 +3622,7 @@ func _observed_label(label: String, observation_id: String, observations: Array)
 
 
 func _set_status(message: String) -> void:
+	_inventory_drag_owns_status = false
 	_status_label.text = message
 
 

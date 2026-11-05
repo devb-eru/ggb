@@ -1,0 +1,1416 @@
+{
+  "scope": "244 synthetic notification checks, not actual engine/OS drag delivery; related chapter-one regression remains failing",
+  "id": "INVENTORY-DRAG-FEEDBACK-20261105",
+  "archive_sha256": "141aebcc634b6de686c662a2402642933b196de23987bc1b1c2342b8396e131b",
+  "source_files": [
+    {
+      "path": "scripts/autoload/event_manager.gd",
+      "sha256": "6f2743175d986b94410d9b60b3ac681775ffc2c698a16fa4e89640efc1122125"
+    },
+    {
+      "path": "scripts/autoload/game_state.gd",
+      "sha256": "ff9a6c5284927158de3796f246cf0714bfe7cf7223df05d1574bcca9e9c02e1a"
+    },
+    {
+      "path": "scripts/autoload/save_manager.gd",
+      "sha256": "e87bd74af716c9d80ffe7b91c4421e5115625de9f2bd580c001db1dc0243e8b1"
+    },
+    {
+      "path": "scripts/chapters/basement_controller.gd",
+      "sha256": "e4024c077946d8f2acf8abe46de92976487c7930d520af68b173501648cc9dab"
+    },
+    {
+      "path": "scripts/chapters/black_mirror_controller.gd",
+      "sha256": "83f26614558926e2d30158e7f420f3d15f690d6894cb1c3204e7e06ed7da2bce"
+    },
+    {
+      "path": "scripts/chapters/chapter_one_controller.gd",
+      "sha256": "d85788736b4b823b08ea0c41da43df068ee00eaa0ddb1354161869aee576842e"
+    },
+    {
+      "path": "scripts/chapters/core_overlay_board.gd",
+      "sha256": "f92a95c6088bdd5f25bdb9c77b35d9d72ea463692d0042fb68e3b3b02fb92b58"
+    },
+    {
+      "path": "scripts/chapters/mirror_channel_signature.gd",
+      "sha256": "8585a136aff1aac1de448a869fb87e4845dde6a87f0e0bdc82cb69dccfab092f"
+    },
+    {
+      "path": "scripts/chapters/mirror_overlay_diagram.gd",
+      "sha256": "cd5b7822b76388ee5c7578dc45ab92587c1c25e465e67c597ec011af25d7e59f"
+    },
+    {
+      "path": "scripts/chapters/mirror_route_feedback.gd",
+      "sha256": "8dc3d6d54a7289f9860fcc346d1144667353e28fe9871597eec57e98baf97e54"
+    },
+    {
+      "path": "scripts/data_types/basement_puzzle.gd",
+      "sha256": "dbcc10738054c9d949c06e878c53edf74fa24323b22847722d3ebbaaa422aa4d"
+    },
+    {
+      "path": "scripts/data_types/black_mirror_puzzle.gd",
+      "sha256": "6a84ce0bdfbad7d4d6646496e89ac64a5d36ab96235def1399f77ee68ab58aa9"
+    },
+    {
+      "path": "scripts/data_types/clock_network_puzzle.gd",
+      "sha256": "d8799a775c7dde4270a51763c88344b4dc27a1487ba9169d8ddee37430176328"
+    },
+    {
+      "path": "scripts/data_types/event_definition.gd",
+      "sha256": "9ede921ba713d73e7a95ee475f8cb878975b42257a5ebeb7c5ef4a99885e8bdb"
+    },
+    {
+      "path": "scripts/data_types/event_node_definition.gd",
+      "sha256": "e7cc43ac84fbb35a2c07f794e3cf76a6bc136274409731d2af1a248c6c912d40"
+    },
+    {
+      "path": "scripts/data_types/localized_text_catalog.gd",
+      "sha256": "4fc744dc4656c643ac31fbee5b9f4a58ca83ac6988b54acf83810598a26ffbe8"
+    },
+    {
+      "path": "scripts/data_types/state_write.gd",
+      "sha256": "6ad1d32bd22986f6184ca09bb7a76463f0641917d8e14f45e7515f644fa16d70"
+    },
+    {
+      "path": "scripts/data_types/typed_state_value.gd",
+      "sha256": "25861a17643a6b781b0a85cfe9a7ca57ab8aff02b5c073ec7975d04677b39661"
+    },
+    {
+      "path": "scripts/prologue/prologue_controller.gd",
+      "sha256": "2b5d707e80438058c0a9f1714bbd53e115025e321a5ff8c9eac1e87d27c5dc53"
+    },
+    {
+      "path": "scripts/prologue/prologue_cup_art.gd",
+      "sha256": "768f3e5d3f19deec502fde44ecf932a3cc6019ed7287ea7da9ea984d6b1e9f75"
+    },
+    {
+      "path": "scripts/prologue/prologue_pulse_art.gd",
+      "sha256": "e72c9a663d5b71c1d2810f18b4f10db429541980676a4889ad908af182c190b8"
+    },
+    {
+      "path": "scripts/prologue/prologue_room_art.gd",
+      "sha256": "b7549ac77c11e23b914b547c4d28c1f04c810206d0b729246ff07be6facc1840"
+    },
+    {
+      "path": "scripts/prologue/prologue_window_inspection_art.gd",
+      "sha256": "c6577444339150e4cff5e76c9a343f831dbb72633a61a4f372972574a1c2c0ef"
+    },
+    {
+      "path": "scripts/systems/accessibility_profile_store.gd",
+      "sha256": "08462dd2d551550a8dbacbce3d7f511832201f186cb5ddfd18a0a7c725e860e8"
+    },
+    {
+      "path": "scripts/systems/basement_notebook.gd",
+      "sha256": "c0ba6ec46210f5d59586583cbfd39bfb673ffe8483b04c831ff70fca5a3f96f2"
+    },
+    {
+      "path": "scripts/systems/basement_session.gd",
+      "sha256": "f1e56f9a3b7429e1efc1132893d686b28bc4a8f5f4e9869162941e62e2fc057e"
+    },
+    {
+      "path": "scripts/systems/black_mirror_session.gd",
+      "sha256": "f43f4e63aeb6276fa8c2646ad3cba0d3e539fe47a0f1627a2496f5e9f797af3d"
+    },
+    {
+      "path": "scripts/systems/bootstrap.gd",
+      "sha256": "2af8990aeee2c4a8aa2a949d28f74f380b31d3f2dfbf75706e490e3c438f8b18"
+    },
+    {
+      "path": "scripts/systems/chapter_one_notebook.gd",
+      "sha256": "91582305aba3ada65c33dc2149ee2e47377bff7a763672957d208b38b02600ab"
+    },
+    {
+      "path": "scripts/systems/chapter_one_notes.gd",
+      "sha256": "fdb7af279254f21b7c87e74bcae6c83bfbfa5d5967586274c6ff98e57e5c3c54"
+    },
+    {
+      "path": "scripts/systems/chapter_one_session.gd",
+      "sha256": "332dced846d24b8dee869b4a2891ce799d2143d65ed57b7d0c36489bb9708588"
+    },
+    {
+      "path": "scripts/systems/core_approach.gd",
+      "sha256": "3db4717e84f523bb9c065bdfbb6cd7f48301c86f83ced6530a86f304c634f7b3"
+    },
+    {
+      "path": "scripts/systems/core_notebook.gd",
+      "sha256": "8eaf4b600f4fcc567f9c91ca856c9da30bfe18d2ee69174239d170a5dca28a6e"
+    },
+    {
+      "path": "scripts/systems/core_overlay.gd",
+      "sha256": "8a9a6f7b3800354e95be013c0d11c5aa28a0bc96f38505b441102f6d6cba7592"
+    },
+    {
+      "path": "scripts/systems/core_record_roles.gd",
+      "sha256": "f686f40e78213a601edf0695f078806bdce51d85b9ad29e26dd0f9efcadad571"
+    },
+    {
+      "path": "scripts/systems/core_room_network.gd",
+      "sha256": "ad2c63b328d55b98dea247848a23663d0b8089b4495aa7597d56fce548feec48"
+    },
+    {
+      "path": "scripts/systems/core_samples.gd",
+      "sha256": "85d85c4bc779b1cf82e5c447374253518a6df3df22139b820d13332ca5d8ccdc"
+    },
+    {
+      "path": "scripts/systems/core_self_authority.gd",
+      "sha256": "ebcb017a9b890cfb16204c70d2b3c048bd7bbb776fb320df525041385efbafc0"
+    },
+    {
+      "path": "scripts/systems/d4_reaction_selector.gd",
+      "sha256": "b14dcbc4e96d31d733abe34957587759aa167a1b16851c80e673ec8558bc5d3e"
+    },
+    {
+      "path": "scripts/systems/developer_checkpoints.gd",
+      "sha256": "4caac3cb890580f662c0a508e9c76f2f670b1de01dad16fe60b4114750cb0251"
+    },
+    {
+      "path": "scripts/systems/dialogue_history_context.gd",
+      "sha256": "d50cb3aee6b4e0c76131d9fe93551298f3efa21ce49f6aaa6c61f980541c10fc"
+    },
+    {
+      "path": "scripts/systems/dialogue_history_writer.gd",
+      "sha256": "714c76cb49396c53deae77173b7e611a0b12128de8dd4c3b0ae301b6caa8fcce"
+    },
+    {
+      "path": "scripts/systems/dialogue_observed_facts.gd",
+      "sha256": "75f61e282722866b0c1a8bda4b0e22969fb264fceee195d04f59ceb737bd4ff5"
+    },
+    {
+      "path": "scripts/systems/dialogue_repository.gd",
+      "sha256": "b7b53550e9531ab209ade159759c4574a1bb63cc2a1b85e91aff7feb45aefed9"
+    },
+    {
+      "path": "scripts/systems/discovered_rooms.gd",
+      "sha256": "cb14548de7530996e7efe3b56255509c2bbb4b743071960733912cb43b1fbd52"
+    },
+    {
+      "path": "scripts/systems/display_settings.gd",
+      "sha256": "64ddab2f9c129d83412a9294fec54aa4666ba80fdbab76bd6c71696e758b49c2"
+    },
+    {
+      "path": "scripts/systems/edgar_notebook.gd",
+      "sha256": "ae0f2728fc9db399bfce3b4f1943bf712226b2c6d948342d2c180c6b3d613f90"
+    },
+    {
+      "path": "scripts/systems/edgar_relationship.gd",
+      "sha256": "d310935cb0c595dcb70a90633ba9ba02ee2749c2a2d13406122a074958027d2b"
+    },
+    {
+      "path": "scripts/systems/ending_credits.gd",
+      "sha256": "48372abd6e5c54f7c78e7d42b46d29615d830b62de92ed3640bd747f31fb29fd"
+    },
+    {
+      "path": "scripts/systems/ending_decision.gd",
+      "sha256": "bff826519222443369487641da810e889a1cf0e5bee027305fae45e429b1d2a4"
+    },
+    {
+      "path": "scripts/systems/ending_entry.gd",
+      "sha256": "2e81e74a1835fa58c4f6369f44444f4025a3ff919c936a4e7f906af12902c1ed"
+    },
+    {
+      "path": "scripts/systems/ending_gallery_pages.gd",
+      "sha256": "5bef2b1467bd620ac10e4cafe98f6247182f3c038b138c1fd4a017f1f01d561d"
+    },
+    {
+      "path": "scripts/systems/ending_gallery_store.gd",
+      "sha256": "3adbd1fffc85168dd3eed054a88ec64f2cf5b9f8a9fd0a7c8c31d2c22d4ddb56"
+    },
+    {
+      "path": "scripts/systems/ending_meta_store.gd",
+      "sha256": "9466b3fd88e8cec2906f436c7851cd962292616da4660247d8767a3e291af558"
+    },
+    {
+      "path": "scripts/systems/ep01_script.gd",
+      "sha256": "f116881b85988c09ffe0d3d4b689fa9779a7ab4af4ed1b726137d4200433d26f"
+    },
+    {
+      "path": "scripts/systems/ep02_diagnostic_state.gd",
+      "sha256": "89bad905213291731f51d311a1e471d175b34ed846f8ae5c725638e6b178fc87"
+    },
+    {
+      "path": "scripts/systems/ep02_disclosure_notices.gd",
+      "sha256": "70df7a3f7d532b43870b63cf49f76ec63c378c5f6fdfe852a5482a4393a46ac3"
+    },
+    {
+      "path": "scripts/systems/ep02_evidence_notes.gd",
+      "sha256": "656e7d6c7f153cac836a997a1b17916a14f3ddf1530aba097eacca297814ff3e"
+    },
+    {
+      "path": "scripts/systems/ep02_journal_reference.gd",
+      "sha256": "31bbd0de49abc06ca2cdb98ba333fe5d7bdf1cd64a38d9c3aa0923712fe7d219"
+    },
+    {
+      "path": "scripts/systems/ep02_object_surfaces.gd",
+      "sha256": "042d044d19658124a913a6f89c4d95c1e25cc58a8b128a541d8fe70d29ce773e"
+    },
+    {
+      "path": "scripts/systems/ep02_puzzle_feedback.gd",
+      "sha256": "e1c4f0d79a2f274e1b625b15e5b7c7106d7f4597897bf8c91ef3dc6f9e363309"
+    },
+    {
+      "path": "scripts/systems/ep02_sensory_captions.gd",
+      "sha256": "425c97554abef921f29f25cb93ecfa401ed60407e349d22eee4acb29fb279338"
+    },
+    {
+      "path": "scripts/systems/ep02_short_reactions.gd",
+      "sha256": "f5c74c250b8c42dcffa776c3fafaab1b214d1cc5ec83fdfaedf0c2a986cd96fd"
+    },
+    {
+      "path": "scripts/systems/father_final_record.gd",
+      "sha256": "9ae58d2611ff10de5daf731a6c0a2a12176cfd5f56025bc89ee3252411636e5f"
+    },
+    {
+      "path": "scripts/systems/field_notebook.gd",
+      "sha256": "b2deba827dfa40d314d81ae8089182291cc970f700d3534b2c7c4b85759125c3"
+    },
+    {
+      "path": "scripts/systems/final_inspection.gd",
+      "sha256": "476cd8f450cb14eab6ecc35ab7c328352624967390bc7f3929768a878643607e"
+    },
+    {
+      "path": "scripts/systems/final_notebook.gd",
+      "sha256": "bbd1021608a5bb12fe98511def9320d5e80e7396fd2a448ae56081992e7cd273"
+    },
+    {
+      "path": "scripts/systems/fracture_notebook.gd",
+      "sha256": "91f415ba18a224cf4de0dc934ea8d4c88970837908bd293b9a4a4f72e26edd94"
+    },
+    {
+      "path": "scripts/systems/game_audio.gd",
+      "sha256": "eb4b69ed97753ea48bc77a878727725e55beba560bd776964a0fefc24ed05527"
+    },
+    {
+      "path": "scripts/systems/input_router.gd",
+      "sha256": "143e9b3b44ced91343f9cde8b1382082f76182563ceec41c0bb215650f21c38d"
+    },
+    {
+      "path": "scripts/systems/interaction_router.gd",
+      "sha256": "f3968787ee94f2602756b0a5c60e09670f80cff8ac67964cace6708cdd5541bf"
+    },
+    {
+      "path": "scripts/systems/iris_notebook.gd",
+      "sha256": "cde5dbf8921dba0891fd9cf251582ba3f66841dad8194314420608727746f6e4"
+    },
+    {
+      "path": "scripts/systems/iris_relationship.gd",
+      "sha256": "62b4b84b7f8c2c8bf2fa47872e429f1c12739a83483192962933eee4957cd5b8"
+    },
+    {
+      "path": "scripts/systems/journal_four_display_notebook.gd",
+      "sha256": "6b441d1a4d2615025f0f7bbc3ed6cae5a0ba51d0fa8512107d3d81d6ce943927"
+    },
+    {
+      "path": "scripts/systems/journal_four_notebook.gd",
+      "sha256": "b13ee3b7101e4a15a075ab2de75543505d85a9deaf7c4bc74111b96a376e8d5f"
+    },
+    {
+      "path": "scripts/systems/journal_four.gd",
+      "sha256": "f2245a24acc2eea88f05540fe69e046f8630cccfbf7273b5594a885b732ab003"
+    },
+    {
+      "path": "scripts/systems/key_bindings.gd",
+      "sha256": "2e10a5b0bbda01ece707522ebcadba81848331f5aa3207c967ca8b80b395ccc4"
+    },
+    {
+      "path": "scripts/systems/last_evening.gd",
+      "sha256": "e602f9538efa990c70e0f4dcf7a98ae65d5f1d981c32377a47a64fb4ca154ba8"
+    },
+    {
+      "path": "scripts/systems/load_coordinator.gd",
+      "sha256": "5ee324ff480512d25ff4c4f0e6af5fb4153f40eac5fa6de06238975fdd0a7522"
+    },
+    {
+      "path": "scripts/systems/luca_notebook.gd",
+      "sha256": "9d6107cf22d872482a3be707f392ff619fa90a3f1b41925013fad6a29a6e90b9"
+    },
+    {
+      "path": "scripts/systems/luca_relationship.gd",
+      "sha256": "2a5b91763b8305547b4f372ae5222ad05a91cc3e87aeb2591adb68e3e550b42d"
+    },
+    {
+      "path": "scripts/systems/mara1_notebook.gd",
+      "sha256": "d13e0e8514ad7d2c552c22b4320f425f1d9992f287ea2af906901e9074e91135"
+    },
+    {
+      "path": "scripts/systems/mara1_relationship.gd",
+      "sha256": "2ddce363f783edc75148b3a9d9c4a6dfed86fbcbce8033e8d7eafb8bb2789d27"
+    },
+    {
+      "path": "scripts/systems/mara2_notebook.gd",
+      "sha256": "3eac566b99c7f76acd0a6b0fcf0266300e7ae2cf6d19172c3c1ec30ed2f1f29b"
+    },
+    {
+      "path": "scripts/systems/mara2_relationship.gd",
+      "sha256": "6459d6aac09cd0582350dc6d98b498f9f5cd8ed2e232e8e57f959341ab580c2a"
+    },
+    {
+      "path": "scripts/systems/mirror_notebook.gd",
+      "sha256": "edc7351ad3f79681e7db83e4c8452d35b72fdca26ed7bce1cfbd06783acb7c6a"
+    },
+    {
+      "path": "scripts/systems/modal_notebook.gd",
+      "sha256": "af615d2bca452ddf54f2f2e30785a4a2a09f54596f8dac4eb8915fc55f391d5a"
+    },
+    {
+      "path": "scripts/systems/notebook_archive.gd",
+      "sha256": "a1c01dc5b085fcb855cdacefe3b174a27be305434414f4921aa3a84b15a92aaf"
+    },
+    {
+      "path": "scripts/systems/notebook_browse_labels.gd",
+      "sha256": "a2f67c70269370e934869f49a831d3b4fc3cb68b098a7ffb474b07f751c9afae"
+    },
+    {
+      "path": "scripts/systems/notebook_chapter_surfaces.gd",
+      "sha256": "9561c112f0eb58ff573ea2e6f4bf8b5719b4dad283f70760e404b522325540e6"
+    },
+    {
+      "path": "scripts/systems/notebook_commands.gd",
+      "sha256": "f6307313d9ef2d54c82e472675e04cdf2e33823f33eb2ede20705d4701bc27af"
+    },
+    {
+      "path": "scripts/systems/notebook_content.gd",
+      "sha256": "36a79081801ab6b6635c666277434d2e0fa67d734b6ba0bdfaff462565c61259"
+    },
+    {
+      "path": "scripts/systems/notebook_event_notes.gd",
+      "sha256": "51790eae9c6d7eac70cb5d41255fd3654e5725e1519806c7ed0da81c74c58fd4"
+    },
+    {
+      "path": "scripts/systems/notebook_gallery_host.gd",
+      "sha256": "688b89fd4d6e0ea9fdddca9dfd908e551f9689ce064c1912873919f74df6f037"
+    },
+    {
+      "path": "scripts/systems/notebook_host.gd",
+      "sha256": "8891984b8a412cbaa69b397a055f87eb803bacbdd6ec7c653153a1647807a694"
+    },
+    {
+      "path": "scripts/systems/notebook_investigation.gd",
+      "sha256": "3ae1905bc415b244dfb8dccb778480050827f07f901867ed143901c251ed28a5"
+    },
+    {
+      "path": "scripts/systems/notebook_knowledge.gd",
+      "sha256": "ea6bbe938aad4f568f6ff2f58ea9ea12234d70b25a4edc8bc536b70213a320ea"
+    },
+    {
+      "path": "scripts/systems/notebook_legacy_feedback.gd",
+      "sha256": "1ffc667d746ae260361b253bb5d6a2171178157f9246e3ca6ab68325434f03f3"
+    },
+    {
+      "path": "scripts/systems/notebook_legacy_notes.gd",
+      "sha256": "eab7adb6fef3d606cfb5a58fcb9696aff8953eef34af213943457eebee18c8bf"
+    },
+    {
+      "path": "scripts/systems/notebook_migration.gd",
+      "sha256": "f68bf1d085410584f9a8fc87551648fc09573054659fecb0049b53e4acb46d24"
+    },
+    {
+      "path": "scripts/systems/notebook_modal_presentation.gd",
+      "sha256": "9c4f03df82e220567f34070e7df0f71cf646f3aa35febf473558451d9d528596"
+    },
+    {
+      "path": "scripts/systems/notebook_observation_schema.gd",
+      "sha256": "38e433f99569ed161ac2e5f5a6bba050a55e9b545fad55adeb2416d7bc9cc355"
+    },
+    {
+      "path": "scripts/systems/notebook_presentation.gd",
+      "sha256": "e9fe243db03bb5da6363ff43193e6660babd625bd933a003233641d5965515a0"
+    },
+    {
+      "path": "scripts/systems/notebook_prologue_surfaces.gd",
+      "sha256": "a3a8b74a51c8c4fe5fbe71487a741f759288ba4125e2140b840ce6f7c9ecfda9"
+    },
+    {
+      "path": "scripts/systems/notebook_puzzle_labels.gd",
+      "sha256": "f74ad6688d1944bb03b5985d9d5f0d629cbfce1c695f9d3b0a3dc4b2b5e9f3b3"
+    },
+    {
+      "path": "scripts/systems/notebook_puzzle_surfaces.gd",
+      "sha256": "8d4c3a6e1ca042edbb22c596917a6c58131f66279b73d04736d4c4847a4f06e4"
+    },
+    {
+      "path": "scripts/systems/notebook_query.gd",
+      "sha256": "b4e64df8260ecfe4c01959c8cd05a252a81d1edcd5f6f51a75a0bf51c43e9515"
+    },
+    {
+      "path": "scripts/systems/notebook_rollout.gd",
+      "sha256": "d97540339ae20950a54a2b95e154d41779e7a17999fdec528f131c9cfc4b4d3e"
+    },
+    {
+      "path": "scripts/systems/notebook_save_worker.gd",
+      "sha256": "009fe48f1c3511338336dce8be4e73c4ca0253c716f8214979bd1453d1caf505"
+    },
+    {
+      "path": "scripts/systems/notebook_surface_capture.gd",
+      "sha256": "8e92bf046ed285caa9e1be272d6f7835cf4cd8206470c1bfe25bdbbdc00a9c21"
+    },
+    {
+      "path": "scripts/systems/notebook_surface_receipt.gd",
+      "sha256": "d2c370198984fc00f00fe33323a766c6cfd2ee2f489d3b581f60626d04818382"
+    },
+    {
+      "path": "scripts/systems/notebook_view_store.gd",
+      "sha256": "28dea4e4f47066b737ccb251b4c42087f3ecca0de7069e57ef9c74cf0337e635"
+    },
+    {
+      "path": "scripts/systems/notebook_visuals.gd",
+      "sha256": "8066669c9506afbbd7bbfc2eed7db90153bf8a62112fd0482694132df9c03b27"
+    },
+    {
+      "path": "scripts/systems/presentation_view_store.gd",
+      "sha256": "b2f1f5d6689ec1e13a49956c21a93dcfaa8532afd5724c115ef4c36707ab2c65"
+    },
+    {
+      "path": "scripts/systems/presentation_view_tracker.gd",
+      "sha256": "c0ad60b0223214ca93b9e9666038735576c1b987e38a029131ae6efdbd455e71"
+    },
+    {
+      "path": "scripts/systems/prologue_save_candidate.gd",
+      "sha256": "29da12b60f65f010c052b6925cf400bce46edadbff31f71408152f157d6e8bf4"
+    },
+    {
+      "path": "scripts/systems/prologue_sheet_script.gd",
+      "sha256": "353390d4e980d7e15b2eeceeee93e0137a20b9b230e2f9532c7cb6d1c9c7f48b"
+    },
+    {
+      "path": "scripts/systems/reality_notebook.gd",
+      "sha256": "399d9d3514cdcb88d21361b8f286e653a07187dc8ee7eb7e451a04e3289ce7dc"
+    },
+    {
+      "path": "scripts/systems/reality_surface.gd",
+      "sha256": "d56e122e0107f2ebcc6294b70c4808deac2cdc969e69a983195d8f8bf6d43bd8"
+    },
+    {
+      "path": "scripts/systems/reality_wake.gd",
+      "sha256": "836099e2462c87b50856ad0b5b0e6dcda7608dce77d2b04207ecb1da5a68e40e"
+    },
+    {
+      "path": "scripts/systems/researcher_confrontation.gd",
+      "sha256": "b9a9c88ef2e8d661588a855d54e06905e15070d209de39dbad9678cb463615b1"
+    },
+    {
+      "path": "scripts/systems/reset_coordinator.gd",
+      "sha256": "faadfb077f521090e124e0fbcde3e26523ea7b8de6ae7384b4b462b5e2692e71"
+    },
+    {
+      "path": "scripts/systems/save_presentation.gd",
+      "sha256": "656185bbfb04f1f056ef2965738872a8cd62be585a8ea68a8b8ed777d626e872"
+    },
+    {
+      "path": "scripts/systems/settlement_notebook.gd",
+      "sha256": "8faa23375768120ec5eca219d6a32048776c00e4f85080c93c2189a13a2b0627"
+    },
+    {
+      "path": "scripts/systems/sheet_dialogue_effects.gd",
+      "sha256": "445e62d558f3d9d938d7925709de75d066aa41f5fe0ee6cd37e3665b147b853b"
+    },
+    {
+      "path": "scripts/systems/state_snapshot_validator.gd",
+      "sha256": "05298da09bce660e7a3bf5a47f1ce5f6db67262c961974bd5add2945a0253666"
+    },
+    {
+      "path": "scripts/systems/state_writer.gd",
+      "sha256": "96b59d171c33c677c4aef9fe0fbe8c38cea902b702a601981352ce5b2224da9a"
+    },
+    {
+      "path": "scripts/systems/stay_charter.gd",
+      "sha256": "d104a17403ddc5fdbecf2837b29dbb35c5d4fd11433bfc0da93b6977ecd8c898"
+    },
+    {
+      "path": "scripts/systems/stay_notebook.gd",
+      "sha256": "a5bce224eaeafd41d416933744b7ae1b7d434e65a7f97ca8463e469bb885db95"
+    },
+    {
+      "path": "scripts/systems/stay_story.gd",
+      "sha256": "99aa0876cc8a1a0d60be377f2e33f209e2a111b0b638aa59389e8c37f99064ad"
+    },
+    {
+      "path": "scripts/tests/application_focus_smoke.gd",
+      "sha256": "507ed2efb88688a2858cf322892d6a7202dc8842a2759d82bb73198668ce7a2d"
+    },
+    {
+      "path": "scripts/tests/basement_puzzle_smoke.gd",
+      "sha256": "3b2e7d0b49c2225866c2ccebcd37263e6d4f3575e6120006037d9e99de354217"
+    },
+    {
+      "path": "scripts/tests/basement_session_smoke.gd",
+      "sha256": "90e3f3969d8895a1901d3d5fdcbf853dabf59c550cc628a3b2722719f1fca904"
+    },
+    {
+      "path": "scripts/tests/black_mirror_smoke.gd",
+      "sha256": "b38919abd146a93b9c050ba3175e7a9fec0651d76fb0f5639fb1aa7425d49d94"
+    },
+    {
+      "path": "scripts/tests/chapter_one_smoke.gd",
+      "sha256": "5c7d6d951f80f4ab0b60e2b1684b56011419acd86f5e8a351815cd93e11ed52f"
+    },
+    {
+      "path": "scripts/tests/choice_background_smoke.gd",
+      "sha256": "aec15ce7c1da6165310fa3367f95a45ec20ae2ded42f2f17ca0538bcea39b49b"
+    },
+    {
+      "path": "scripts/tests/core_overlay_smoke.gd",
+      "sha256": "c0e8c4f1e29894b4026865c9e3d811a0a295203f7d6e0406c64750658811a5d2"
+    },
+    {
+      "path": "scripts/tests/design_ui_audit.gd",
+      "sha256": "c09cd32eace90326b7f7814e256c0b70b72b89f9158f5dcdbf50aa9d65164435"
+    },
+    {
+      "path": "scripts/tests/developer_checkpoint_generator.gd",
+      "sha256": "5ed68c4e412304fd9f4f90cac23d9bfb236b1bab97d6ed53d1237328c9fa8354"
+    },
+    {
+      "path": "scripts/tests/developer_checkpoint_smoke.gd",
+      "sha256": "cc1379d6bf73cbe25e3df53b78409646be44f966e53cedf486e644795ee7e2b4"
+    },
+    {
+      "path": "scripts/tests/dialogue_history_smoke.gd",
+      "sha256": "74427b2f76af4938478a0bd90b1d5a38e668eee0edbc58d35d2f1917736633ad"
+    },
+    {
+      "path": "scripts/tests/dialogue_hud_audit.gd",
+      "sha256": "17f57e05289af03f90a4ce684ceca7f04706fb1caf392c3c03ce9b79107c2fc2"
+    },
+    {
+      "path": "scripts/tests/dialogue_scene_edit_smoke.gd",
+      "sha256": "2870b71338056c24ab10de6b5e549eea5fb4b9860e38e8689f61de4f416e0cd6"
+    },
+    {
+      "path": "scripts/tests/discovered_rooms_smoke.gd",
+      "sha256": "9ac4c92bffc2e3795ca8f6c67c83f998072134dacd048ea82ebe65662e4b14c4"
+    },
+    {
+      "path": "scripts/tests/display_settings_smoke.gd",
+      "sha256": "9f18174038c75450f4dfb17c80dedeb757c8eec9c9da70d70c6a1aa38b8744a1"
+    },
+    {
+      "path": "scripts/tests/display_startup_smoke.gd",
+      "sha256": "219021c44720cc352188a262f837d61f025c3ffa3d50dd80c8c198f025ea81db"
+    },
+    {
+      "path": "scripts/tests/ending_meta_smoke.gd",
+      "sha256": "8d677b035680a1aac9da9dc15d3a082bd617a8e4199173159270f55478cce849"
+    },
+    {
+      "path": "scripts/tests/ep01_sheet_smoke.gd",
+      "sha256": "a6d8cd05b27bae56cac9d21c2450388181502f7a901a0b7b3f72d6213e779f92"
+    },
+    {
+      "path": "scripts/tests/foundation_runtime_regression.gd",
+      "sha256": "e124f5c9f8247f6392b27a0b41ef7b45d5567553005ed1dae12158d5b87be8e1"
+    },
+    {
+      "path": "scripts/tests/foundation_smoke_runner.gd",
+      "sha256": "2ff85cabcc39fcae2252298059c447c5da3c15e99c0aa7246b96145da727f3e9"
+    },
+    {
+      "path": "scripts/tests/full_campaign_smoke.gd",
+      "sha256": "21e2e4612e5f1c1445e598266223e33d7dbda5c1a5bbfb0ce8672dca6bcf08eb"
+    },
+    {
+      "path": "scripts/tests/game_audio_smoke.gd",
+      "sha256": "ace604d92a8d1f66755abb22156bdba43d0e954c0f7e55e3fc530e62258dab31"
+    },
+    {
+      "path": "scripts/tests/inventory_drag_feedback_cases.gd",
+      "sha256": "5b14c0f6ff33ae64a1abcd2ddb7ba705778cf4abc480854157637c13064d644e"
+    },
+    {
+      "path": "scripts/tests/inventory_drag_feedback_smoke.gd",
+      "sha256": "7c559a48242887cfdb1919023f640947ed9ad569dcc48b3776234e4483d5b2ac"
+    },
+    {
+      "path": "scripts/tests/inventory_hud_smoke.gd",
+      "sha256": "bdd57426e6ebe861b26f5c6af8e00b6c3f8733439ab51eeaadabf986a37a1697"
+    },
+    {
+      "path": "scripts/tests/iris_confession_smoke.gd",
+      "sha256": "21369a53dee10ef027c6c7170478710695f7950aecf04311853436e13bb6b0b2"
+    },
+    {
+      "path": "scripts/tests/key_binding_restart_smoke.gd",
+      "sha256": "69a678b6a2c829abd913eabea81398d3dd4fa442d30ce4e698fe8b96fcdef90d"
+    },
+    {
+      "path": "scripts/tests/notebook_archive_smoke.gd",
+      "sha256": "849d768f10c884e01bd3e0e240ebaa804a888ec3795f9cd1cda8af9f4722add9"
+    },
+    {
+      "path": "scripts/tests/notebook_async_save_smoke.gd",
+      "sha256": "d48733bfbbb1ab9a16e2ac6a2f242c26cacfe76dd85ae7a65c1647fe2f7f68bc"
+    },
+    {
+      "path": "scripts/tests/notebook_authority_archive_smoke.gd",
+      "sha256": "c1c674c4cfa707bfe1bbf2f27abfe05a7ad188f1452d43e2fd8041cd29fd3186"
+    },
+    {
+      "path": "scripts/tests/notebook_basement_smoke.gd",
+      "sha256": "b033a3fc037445adb987a49f11fc51c0ba4efdaca44581c99c4f85ceb0a5182a"
+    },
+    {
+      "path": "scripts/tests/notebook_browse_smoke.gd",
+      "sha256": "fe02430c7800acff51d7ea20b64ffff412ae02c540350e7d27665e351bbcd742"
+    },
+    {
+      "path": "scripts/tests/notebook_chapter_one_notes_smoke.gd",
+      "sha256": "40544b0e59f36beaba6e03e25979d94d8fe5e8eb94b50369fb4f8309d2ad65d4"
+    },
+    {
+      "path": "scripts/tests/notebook_chapter_one_smoke.gd",
+      "sha256": "3311c568d2ea55bb003774143f9f7436b65684b750bab36ba63a0595ce3a2629"
+    },
+    {
+      "path": "scripts/tests/notebook_chapter_surfaces_smoke.gd",
+      "sha256": "42f310791c747411402f8d350080f3ec9b7a50db77f91357eadad55f720dea09"
+    },
+    {
+      "path": "scripts/tests/notebook_content_smoke.gd",
+      "sha256": "90fcdacf2fa29818fb031885853cc07786bf46ba5c0b8ee3c51e73c83e87b160"
+    },
+    {
+      "path": "scripts/tests/notebook_core_smoke.gd",
+      "sha256": "d2ffce34d1a328eb08e26cbe88f57cf9acbc1dad67dc4f48df0fc18250ae58f2"
+    },
+    {
+      "path": "scripts/tests/notebook_ep02_modal_boundaries.gd",
+      "sha256": "3b5cf109efa2ff220da0916519de22c9a7118067c96c7e0d430b05f77f2f540f"
+    },
+    {
+      "path": "scripts/tests/notebook_final_smoke.gd",
+      "sha256": "4865b54f9d1587d952ad039e4c9ce669c4f679b2eb4715af00dd2649e4031711"
+    },
+    {
+      "path": "scripts/tests/notebook_fracture_smoke.gd",
+      "sha256": "f19cc4628e7f1b8ca6ea3232ded9c7054577a3cd13f7de3843b8f001122d5fc4"
+    },
+    {
+      "path": "scripts/tests/notebook_fracture_surfaces_smoke.gd",
+      "sha256": "1586facb1e9105e936451b73017e629b5711d54c50380991801be34220431ce3"
+    },
+    {
+      "path": "scripts/tests/notebook_gallery_smoke.gd",
+      "sha256": "e199935c7923a3072d87cbf242f51b58e849cbf27a5da22f2a2c03fd8f4fccfc"
+    },
+    {
+      "path": "scripts/tests/notebook_host_smoke.gd",
+      "sha256": "e1c0bd59fb5e4ce9d48bdec4c827ba5205e5aecf43bca71d0648e24ada1255bc"
+    },
+    {
+      "path": "scripts/tests/notebook_investigation_smoke.gd",
+      "sha256": "2523fcc5f3837ae51112bc85df480dc07be75f09e70ea884bab57f0abef29080"
+    },
+    {
+      "path": "scripts/tests/notebook_iris_smoke.gd",
+      "sha256": "43d0fe262d768a1fe9c561399308aa7648513bf4456d073c16869be5a9626c58"
+    },
+    {
+      "path": "scripts/tests/notebook_j3_retry_scope_cases.gd",
+      "sha256": "5f839cf74bad8d2ab086b312c17ae6323b45da180365f934469747b3a8fc8acb"
+    },
+    {
+      "path": "scripts/tests/notebook_j3_retry_scope_smoke.gd",
+      "sha256": "ddab893c84b3bd9919c30880b8aca3af3f173aa254a63690bc7318a1e3cd7485"
+    },
+    {
+      "path": "scripts/tests/notebook_journal_four_display_smoke.gd",
+      "sha256": "c17d904badd17f8be27302d81cbc658b7a6b4f65480cb01743553ef86c711daf"
+    },
+    {
+      "path": "scripts/tests/notebook_journal_four_smoke.gd",
+      "sha256": "4bce40f0e9b23595dbda68cf14331d8373fb2051b1788bc089f9ba42b70fbdf6"
+    },
+    {
+      "path": "scripts/tests/notebook_knowledge_smoke.gd",
+      "sha256": "dc791e70ba9a8c1074249b30399c98def49fb63295e6c5f0ae5f2588fdec81a5"
+    },
+    {
+      "path": "scripts/tests/notebook_legacy_feedback_smoke.gd",
+      "sha256": "58e6032dc27b0accdcf90ce5e195953033c5b202a6b8bc6ca790934641a3020a"
+    },
+    {
+      "path": "scripts/tests/notebook_legacy_notes_smoke.gd",
+      "sha256": "035119fc3964f9a4a13d1d2a247233158f613e0e6b736683d21c96ec7fcb5b07"
+    },
+    {
+      "path": "scripts/tests/notebook_lifecycle_probe.gd",
+      "sha256": "e7d39dca1fc4830a4469642d627f0abd59af624b2192e30786bdb80b30196065"
+    },
+    {
+      "path": "scripts/tests/notebook_luca_smoke.gd",
+      "sha256": "19f5b9f31d64bac5de57745dfd3d004c03483e1f2e5feea6673ab089f28fd231"
+    },
+    {
+      "path": "scripts/tests/notebook_mara1_smoke.gd",
+      "sha256": "2bbda1e2192c9322d30e1994fe41d3352169aa10bf29d36e352db98441565a5b"
+    },
+    {
+      "path": "scripts/tests/notebook_memory_disclosure_smoke.gd",
+      "sha256": "48054e4b172966a1324dd25ecbbc9229227ab6c9aab217898a06ab75ddb4aed7"
+    },
+    {
+      "path": "scripts/tests/notebook_metadata_smoke.gd",
+      "sha256": "c59888a771e6bbab3288d135ad9cef3459fefdf9e3cc2706f0e493e3eb75e897"
+    },
+    {
+      "path": "scripts/tests/notebook_migration_smoke.gd",
+      "sha256": "a0020ebb36bd8021ec7ea02b02eae8c29bd230b579e9b394ec37ca0e31ea32c7"
+    },
+    {
+      "path": "scripts/tests/notebook_mirror_j3_smoke.gd",
+      "sha256": "151af6c943692b094f847288146e6b404ccaa86584aa1156788325bbac8eacc4"
+    },
+    {
+      "path": "scripts/tests/notebook_mirror_smoke.gd",
+      "sha256": "42cde0b2e6a5653a592083939c7022fbf7e0c17cbb64d73b858707bbceb0316e"
+    },
+    {
+      "path": "scripts/tests/notebook_modal_presentation_smoke.gd",
+      "sha256": "3e30734e525f2087708deff57e9185859cc2d4bbec8c66ca545a44356055e823"
+    },
+    {
+      "path": "scripts/tests/notebook_modals_smoke.gd",
+      "sha256": "98372f2ee3969e2bd0e0f1878611720ab7ad3b4f565fb6a0b287f38c242307cc"
+    },
+    {
+      "path": "scripts/tests/notebook_opening_smoke.gd",
+      "sha256": "c3829face6155bc8d270ee14bc58810796c7678df83981f1496ac0336a2169f5"
+    },
+    {
+      "path": "scripts/tests/notebook_performance_fixture.gd",
+      "sha256": "ee4eabc5a1c9975b3a01f29b273a1a2af47e8bffc49619579712c077eab3a56a"
+    },
+    {
+      "path": "scripts/tests/notebook_performance_probe.gd",
+      "sha256": "45651966858ab255048bb99708dc736ab4481cdaf89b8e12761a04604e2bfc55"
+    },
+    {
+      "path": "scripts/tests/notebook_person_retention_smoke.gd",
+      "sha256": "fe97cd152a97159ed0746c98ef9c0d13751747623a482bff7d451b449bc0b99c"
+    },
+    {
+      "path": "scripts/tests/notebook_presentation_smoke.gd",
+      "sha256": "3b9770a1e32106a8536cdac687b2c0e842c526458e0920114656456421de0caf"
+    },
+    {
+      "path": "scripts/tests/notebook_producer_contract_smoke.gd",
+      "sha256": "1215ebe29c4f2c37bc9719eb8597069b5da24ff81d1ba0084aae1cdf350dceb6"
+    },
+    {
+      "path": "scripts/tests/notebook_prologue_presentation_smoke.gd",
+      "sha256": "6face072569eb7b08efbfe4cbf932870dfd055bb8d596214b10c1934deb1143b"
+    },
+    {
+      "path": "scripts/tests/notebook_prologue_smoke.gd",
+      "sha256": "21ed7a49440dacb0137bdaf87858d57d146e962d059a3c0d1a7dd941228caa3c"
+    },
+    {
+      "path": "scripts/tests/notebook_prologue_surfaces_smoke.gd",
+      "sha256": "fd4f543ef9577ab670781fc68e1b15918cd4c45e90fe15a78c8f7674091c4b35"
+    },
+    {
+      "path": "scripts/tests/notebook_public_puzzle_labels.gd",
+      "sha256": "02c1d8c7360c030e7298e375e4d54fbd9c510f48b9ab4ebbbb9f519b9994ecc4"
+    },
+    {
+      "path": "scripts/tests/notebook_puzzle_audit_smoke.gd",
+      "sha256": "0445f250ecda42865b573aaeafd49249389d99af01f01598b06361d791fd0e0f"
+    },
+    {
+      "path": "scripts/tests/notebook_puzzle_coverage.gd",
+      "sha256": "bcc40c548d72f73c35bfdf20289ddfb15dd1aa65fa5c68d5e95339cd33329c82"
+    },
+    {
+      "path": "scripts/tests/notebook_puzzle_surfaces_smoke.gd",
+      "sha256": "8c282e90d6c81fbcaf5b4fb308063bd5736b35f6be994b26ce216a68d387281a"
+    },
+    {
+      "path": "scripts/tests/notebook_query_smoke.gd",
+      "sha256": "2fa413a64f83108d2f01cb7a1f424044640693522bebf4ea0b996b1c4a08acd3"
+    },
+    {
+      "path": "scripts/tests/notebook_reality_smoke.gd",
+      "sha256": "81fab36e68853e262aed2e778cd3bc5c099c2be4fe1ccc2e43f3ce39ed183a95"
+    },
+    {
+      "path": "scripts/tests/notebook_relationship_choice_retry.gd",
+      "sha256": "0954652fc4b2806afe7bcbaef0d4bc76893fe65545b349965fdcc56d4be0ae11"
+    },
+    {
+      "path": "scripts/tests/notebook_relationship_label_assertions.gd",
+      "sha256": "573130ea2818de1b058ea58efdc020a1678efd40a80cbff7dd440e8dd9b20e57"
+    },
+    {
+      "path": "scripts/tests/notebook_reselect_presentation_smoke.gd",
+      "sha256": "68e2b69fe60cf2683672e6621ed553e75ff10bfef14774eb33168b881f5213d5"
+    },
+    {
+      "path": "scripts/tests/notebook_retention_fixture.gd",
+      "sha256": "bbb1d2371809946fa6536b6472326b894529c261d80e5d9f0f56b7dabae6a3b2"
+    },
+    {
+      "path": "scripts/tests/notebook_runtime_audit.gd",
+      "sha256": "2bfb7561ce0102391268943c34df33559f0843e9fffad4b00977d974899b11d7"
+    },
+    {
+      "path": "scripts/tests/notebook_save_safety_smoke.gd",
+      "sha256": "2272c74c187b1e033e206014cb2b24e20b12c2d87c4465542dc4595475c1336d"
+    },
+    {
+      "path": "scripts/tests/notebook_scope_smoke.gd",
+      "sha256": "a44c0f8c9a236a0fadcafacf32cb5632b2b98602a6935ebbbf08ed8cbda304fc"
+    },
+    {
+      "path": "scripts/tests/notebook_search_smoke.gd",
+      "sha256": "9bb2b76e7ad0a97136f086c2ec0e4fc9a7c881c16ddd30385708e496e4cdd950"
+    },
+    {
+      "path": "scripts/tests/notebook_self_mark_smoke.gd",
+      "sha256": "d629c98829431691bbe02909b0ad1166b9700a404b62dfb3969eb7f060bc5124"
+    },
+    {
+      "path": "scripts/tests/notebook_settlement_smoke.gd",
+      "sha256": "81c5bc8af7f75ba3a4d19621bfe9cefb408fbf0b137d9de773551770f0dde6bc"
+    },
+    {
+      "path": "scripts/tests/notebook_state_assertions.gd",
+      "sha256": "4caa3a8ec87be5ef24860aebe2a70d1a70ed67e9dbcac6a779896df867030d42"
+    },
+    {
+      "path": "scripts/tests/notebook_stay_smoke.gd",
+      "sha256": "b127989e77eb41e4fe72bccbca108087448cd6be56652970e4992cb7de8be706"
+    },
+    {
+      "path": "scripts/tests/notebook_substitution_smoke.gd",
+      "sha256": "a2fe40ef56880e20080e83a3fffcc58fad243a4daa09e87c6896f591eefd6c3f"
+    },
+    {
+      "path": "scripts/tests/notebook_surface_resume_smoke.gd",
+      "sha256": "7d5efff0b839dfa277eced3200d7c4c73903b4296c78d861cba5146172d7d764"
+    },
+    {
+      "path": "scripts/tests/notebook_test_wait.gd",
+      "sha256": "57f707c407fb346dc14b873c53c193c084a227660ce81e5484d26a010a412ed6"
+    },
+    {
+      "path": "scripts/tests/notebook_view_future_smoke.gd",
+      "sha256": "a365cfbf5e8cdc505f736c71d4da7aee2182a653b01e048868ccbce39e206a7b"
+    },
+    {
+      "path": "scripts/tests/notebook_view_smoke.gd",
+      "sha256": "bd56c534c289a8489b0eaf8e2df8d4696d1a89b34ec50f40bdee0ec4b9562c03"
+    },
+    {
+      "path": "scripts/tests/notebook_visual_smoke.gd",
+      "sha256": "0b51933593cd32e06f49f07bcf738b3485cb0178c38b546194289b2281514740"
+    },
+    {
+      "path": "scripts/tests/practice_scene_smoke.gd",
+      "sha256": "54093f993e9332e9113275ae314c98dfa517d4690cd46b33cc28282dc45f8a85"
+    },
+    {
+      "path": "scripts/tests/presentation_view_smoke.gd",
+      "sha256": "6f4b3bbb358a3ed8edade9da7e2efd5093f645e965784b71b941a67df1d16e9b"
+    },
+    {
+      "path": "scripts/tests/prologue_scene_smoke.gd",
+      "sha256": "f2d8bd9922f1748e17b44314c288b1e6f6afadad300fd1a66beffbea2f43ec94"
+    },
+    {
+      "path": "scripts/tests/save_load_ui_smoke.gd",
+      "sha256": "59285264bb557372bd912d403b130ecf628fc2760be7ddaea21f550c1b4f934b"
+    },
+    {
+      "path": "scripts/tests/settings_ui_smoke.gd",
+      "sha256": "fe7167137dd6f7baa5f1c1248dee17365e57a20b061d1b7c4857cb639eb19af3"
+    },
+    {
+      "path": "scripts/tests/sheet_legacy_choice_smoke.gd",
+      "sha256": "0a855ad1cd20ab00123b623b8ae391075dec7b6fc9ea9d0c5fcdc92807f2ebcd"
+    },
+    {
+      "path": "scripts/tests/sheet_prologue_response_smoke.gd",
+      "sha256": "720dd8e94c209fc37f4e636682458649bb360f691c7be2532a5ce700e916b536"
+    },
+    {
+      "path": "scripts/tests/sheet_sync_regression.gd",
+      "sha256": "4117093974e52697cdac3cd052dfd0156c7fbbface0422acd481aee369d9d2d3"
+    },
+    {
+      "path": "scripts/tests/sheet_sync_smoke.gd",
+      "sha256": "fa2fc1e8c3dcaac8051f165ecd41b7e60d1f96f611d23702cf8ac046335342cf"
+    },
+    {
+      "path": "scripts/tests/start_screen_scene_edit_smoke.gd",
+      "sha256": "b7afc189b81bc4b8d20dc240f3c6dca431f217891878810c2b573a5b3416de96"
+    },
+    {
+      "path": "scripts/tests/start_screen_smoke.gd",
+      "sha256": "64e832e65f2345bbb9ed513d94d7d5a95d0d8c7c4d61864a9a0b2d82a593f89f"
+    },
+    {
+      "path": "scripts/tools/prepare_choice_window_theme.gd",
+      "sha256": "bf1867d3606cee8a4c2a6d580d41438c2f3a9c7255a17c520d58e7b03091d084"
+    },
+    {
+      "path": "scripts/tools/prepare_dialogue_scene_resources.gd",
+      "sha256": "e1bbeb2a7187170ce08a1c9e4036a8e5367084026bb4f5ac6d533b75d25a31c0"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_authority_archive_v1.gd",
+      "sha256": "beaa5bec08130ce89e4b322e6bcf7d363401b5606cd4ffd8c27cfe8a1505c7a7"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_basement_v1.gd",
+      "sha256": "4f89e01589dc7f32fb9300285236b02197227dd92c813a9e0bf1ec77202cc017"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_chapter_one_notes_v1.gd",
+      "sha256": "71f88b2eb53bee1d1dd836e4557d332f5e310081ba783d578e7328b527de968f"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_chapter_one_v1.gd",
+      "sha256": "414190e67dc0dbab264dfaab8b9bc9f5470e2120b7305b117e2af5d62550d0a7"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_chapter_surfaces_v1.gd",
+      "sha256": "e25c2ad9384313ddaa8a03a3a510d305d408f303b4f0e2a19a91bc24a8b5198a"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_core_v1.gd",
+      "sha256": "2f525fb7c8a77af53d117201ef80b843924dad63ccb7a1bba0f011ceeed7ee6c"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_final_v1.gd",
+      "sha256": "986cedd8c89dfecb7c95c9a81eeaf60ca9ec69d702be313032281fe474237d19"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_fracture_surfaces_v1.gd",
+      "sha256": "5529fde5ece0fe49d7043ca12db7370750f9c178e2f0f358f391f6ca7c7235ef"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_fracture_v1.gd",
+      "sha256": "db470c4a32a2a1ec73d69628a987142ed50ba8e86c53ff5f97a617791cef2fbd"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_hints_v1.gd",
+      "sha256": "6f312dc5b65bba7176f4501cc5883de7e867da5c2931a5a8c872432c75936217"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_iris_v1.gd",
+      "sha256": "df130bd25890ab3de04e95673016dd572143b2eed3ac7a8d2d93f2934ee71791"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_journal_four_display_v1.gd",
+      "sha256": "cc99a5b8fb152da9bf0c5e8eb9ad21c4e282e7d9cc0ace973357a16e42b76527"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_journal_four_v1.gd",
+      "sha256": "ccf14a6aef7b30aadde40d417fc8e07d2f99ef7babaeeb7b66727637e1a186dc"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_luca_v1.gd",
+      "sha256": "410bb6815dfac6665efcb428968a24ce4ae701ac2fbd330debbfba458b5871c8"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_mara1_v1.gd",
+      "sha256": "206fbd290abce279d9909295e4a0d1331fb66c02a04ef72748f87cf09e078011"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_mirror_v1.gd",
+      "sha256": "9d5f83d3b7f2b99b68a61b28efd327aed6d56327b3d948020d317f3fe5038ad1"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_modals_v1.gd",
+      "sha256": "a931c3a7bc6570aa13eeea13cd72116d5cfaa3f97cac6d049fbbbf5e7340d365"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_prologue_notes_v1.gd",
+      "sha256": "1ea112d5d08438e0248751a9a5a6795d2356446690356b4e7f9b8c1bb6e481f2"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_prologue_surfaces_v1.gd",
+      "sha256": "e2993dee8fb8d6f96fb7ba1e153e666216bbf824cfe4a33f92f9b5af7118b974"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_prologue_v1.gd",
+      "sha256": "3c114f5e362588a3bf56a7e78f9d40ff7d07c9932e287d1663632f5edd7c8c7c"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_puzzle_surfaces_v1.gd",
+      "sha256": "85418ca993f2880ac6e36eec9d25f4d6115ab706dd19d9685e65a552306d6d9b"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_reality_v1.gd",
+      "sha256": "3f8df11bac9e2e2454316984a08fe8b324737b3a02ad4dc4ffca89571e643dd4"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_settlement_v1.gd",
+      "sha256": "861da61e932df6814245f565839a959fc922310b86870456b6a70d3cb4bb5544"
+    },
+    {
+      "path": "scripts/tools/seed_notebook_stay_v1.gd",
+      "sha256": "011a6dcb665c6b6dbe47dcb8a4883800f279ffa8e57d3c1adab945e92abcc187"
+    },
+    {
+      "path": "scripts/ui/audio_settings_panel.gd",
+      "sha256": "7ceef8f821d5d6c997c246f84f0a8357255da6889577d2fdada205b0d9aee30d"
+    },
+    {
+      "path": "scripts/ui/basement_display_texts.gd",
+      "sha256": "e319ffecef31540ef75e2b54b9b697c82ae0e1dfeae71583c6b9e16fb293e997"
+    },
+    {
+      "path": "scripts/ui/basement_hint_texts.gd",
+      "sha256": "c42bcdcb45172f02ef059c1e44bd98fc840a4027ee7a9a3cc446bec1df623f1c"
+    },
+    {
+      "path": "scripts/ui/black_mirror_display_texts.gd",
+      "sha256": "cd4e4d9d3fb52cde15f33558310b49833e0ddcbe30dc5a30ff7a80a6302fe4eb"
+    },
+    {
+      "path": "scripts/ui/chapter_one_display_texts.gd",
+      "sha256": "400fd22fa0f4b052ca7702d3b6fe3d1bf6832a8c25418e22936e8a2d990b4a64"
+    },
+    {
+      "path": "scripts/ui/choice_window.gd",
+      "sha256": "61eba48030e5691b393522c5989076082b26cc9db8d166e8d0ebf01f5de0d15a"
+    },
+    {
+      "path": "scripts/ui/cleaner_quantity_table.gd",
+      "sha256": "f9fd6801bf6e9e6b414a9c50a581e29f01d5be4d9e59896eef11d685a5f33297"
+    },
+    {
+      "path": "scripts/ui/clock_hint_texts.gd",
+      "sha256": "516ea07d7aed3f2adc54c6e0c9ef10015274ca7a22c5a77d1c55150c3b4e73c6"
+    },
+    {
+      "path": "scripts/ui/core_hint_texts.gd",
+      "sha256": "239ba1350b27a1b2c0bbd2aaf8371ac8b2b42c4ab4bbca866c4ffe5519c7042c"
+    },
+    {
+      "path": "scripts/ui/core_story_texts.gd",
+      "sha256": "bd8b296fbaa13e9d4b51dc277ffa62b1d06a71fceb1b9e559edbb655c13abfff"
+    },
+    {
+      "path": "scripts/ui/d5_transition_art.gd",
+      "sha256": "6763f5328c2f09728b7b7d793a42e850c8d2fd108375a13a0c6b0f3700ed946a"
+    },
+    {
+      "path": "scripts/ui/design_theme.gd",
+      "sha256": "39712fadff4be29904354e9c0ab0b28080bb540dcdd84b13a25c426daf5cc40d"
+    },
+    {
+      "path": "scripts/ui/developer_panel.gd",
+      "sha256": "facb98c19ceeb882e20d30977f37d36764a4dbd36633d993408603acc687679d"
+    },
+    {
+      "path": "scripts/ui/dialogue_hud.gd",
+      "sha256": "8b0d1ccf028b220051dbf594c7e3341d99a5c79c2f8fb76be001538cf73afbcc"
+    },
+    {
+      "path": "scripts/ui/discovered_map.gd",
+      "sha256": "b3e401ae21ea142462d055df90e167a8a2b4ef88ecf180a56b311d514a6a48f3"
+    },
+    {
+      "path": "scripts/ui/display_settings_panel.gd",
+      "sha256": "8f6acf9d9a20258e7afac82b0191051d729e48b15c6e81187c32f03f2b50fce5"
+    },
+    {
+      "path": "scripts/ui/ending_credits_texts.gd",
+      "sha256": "a51cdfa45fc8342b7dec72e6a77ba1248cc6fbb1250a22354812ff6c656482ec"
+    },
+    {
+      "path": "scripts/ui/ending_decision_texts.gd",
+      "sha256": "3cbe023a726f24097004fdda4f5a1720bad0f6a819158742576be4bf8cf1b359"
+    },
+    {
+      "path": "scripts/ui/ending_gallery_texts.gd",
+      "sha256": "1e0063516b63c278fddab4f029eb5005f4bd48c78b52635d4f4682d48fd6d326"
+    },
+    {
+      "path": "scripts/ui/ending_signature.gd",
+      "sha256": "0b519485b5f66cfa9c246b915e9751d39fcc624b3da790023c6e7acbf6b046a6"
+    },
+    {
+      "path": "scripts/ui/field_notebook_texts.gd",
+      "sha256": "9a64476ba1375b76048a84204aeeed7aa66f274bd4d3ba24ed1156c2a84cf1a8"
+    },
+    {
+      "path": "scripts/ui/fracture_common_display_texts.gd",
+      "sha256": "cfa0df27412cf1d8695d38281b7f12eb576b771c746d785698250e046eaaf332"
+    },
+    {
+      "path": "scripts/ui/fracture_resolution_display_texts.gd",
+      "sha256": "fbc13506aa52d38ba76bc7f8d9a4a7e517b09729ad9f9a7942b3778c7c5ca592"
+    },
+    {
+      "path": "scripts/ui/fracture_rest_texts.gd",
+      "sha256": "a987ce013e4483e6723d26048ab62879a41221925c107af8f315a5a8a3f7800a"
+    },
+    {
+      "path": "scripts/ui/fracture_surface_texts.gd",
+      "sha256": "e7a85ce81f577fdcfb4345dab5a977e5af3ae2d196bea179f86a08489e22c8b0"
+    },
+    {
+      "path": "scripts/ui/fracture_transition_texts.gd",
+      "sha256": "20d31826c6868b11b2657a1abfea41b220f51c9415481999efa2a2e415876ded"
+    },
+    {
+      "path": "scripts/ui/gothic_title_button.gd",
+      "sha256": "98bb8d2dcae1e8e007178f23c53ce8a50a69d242692f47f1db50ddf8a65890ff"
+    },
+    {
+      "path": "scripts/ui/inventory_drag_slot.gd",
+      "sha256": "aca0713d8ba212d14cf0a6f1c6d4149f0a6fbac3671b949f7d348c2fe7648cb7"
+    },
+    {
+      "path": "scripts/ui/inventory_drop_target.gd",
+      "sha256": "60f63e77ee51ce27336535ae2d996ce9d213a40ef05658529b3b8d9a59bf07f0"
+    },
+    {
+      "path": "scripts/ui/key_settings_panel.gd",
+      "sha256": "b9121bc0558a45704fe395aae674be9b7064bd78f911cfcdb64c901f274c36d9"
+    },
+    {
+      "path": "scripts/ui/language_settings_panel.gd",
+      "sha256": "e2c09bedcf7758529ad8b1e621505b46e870a46ab572bc7bcc1476bf46e4a5ff"
+    },
+    {
+      "path": "scripts/ui/mirror_hint_texts.gd",
+      "sha256": "1d2d1805133d2f9d72b7b71efe5526c9e3c494cacabff4ab343daaa3b933fcdc"
+    },
+    {
+      "path": "scripts/ui/notebook_browser.gd",
+      "sha256": "cbd838f2f6196736314f2e7528be7bdc34b2ffa22b25a63a6269eb94719ed3af"
+    },
+    {
+      "path": "scripts/ui/notebook_mirror_overlay_v1.gd",
+      "sha256": "d55a4a0b498b6e017a1ebe06d62ecf896207ae060ec45c2481d148ef6652b299"
+    },
+    {
+      "path": "scripts/ui/notebook_panel.gd",
+      "sha256": "3e0cbab1fb34a493750ecf73f5fdd7ea2f8d9fb4a14eec73b144c0f3d756a71a"
+    },
+    {
+      "path": "scripts/ui/notebook_search_text.gd",
+      "sha256": "7ce770e3cb3a6fe5eaba438392b65b22ea8ae8a978dd8fcb9783895b986ce653"
+    },
+    {
+      "path": "scripts/ui/notebook_visual_canvas.gd",
+      "sha256": "e4af73731b1f14c73b1f42a254916020e1d4c602a10cd2d6f20c240881ba3eaf"
+    },
+    {
+      "path": "scripts/ui/notebook_visual_viewer.gd",
+      "sha256": "ef04547dbc66955dbcb305c377fc279bfe453954152daf3c885e4a6673546a5f"
+    },
+    {
+      "path": "scripts/ui/reality_surface_texts.gd",
+      "sha256": "36ac13c2173be1a605bead17a3af8ea3dc7aa76f920623eaca34c3cb1bdb844f"
+    },
+    {
+      "path": "scripts/ui/reality_wake_texts.gd",
+      "sha256": "44bec4de10436cc876d8bf607de42ade41c3304ed96f043029f511afc0de6f37"
+    },
+    {
+      "path": "scripts/ui/relationship_display_texts.gd",
+      "sha256": "b8d8d802f75e17a2e8b475c2ee3943a4ebbfc4711564dbed988cd56ab1dabb04"
+    },
+    {
+      "path": "scripts/ui/save_load_panel.gd",
+      "sha256": "f3fb113258695bf2fcd884c94554220e1c8e67035e63e39f58b3a5aaeeaa7e86"
+    },
+    {
+      "path": "scripts/ui/save_slot_row.gd",
+      "sha256": "6a4685e7d0c1516580f15e3bfc7bbee34ed297513da9ee7e7e6ea467e3ca82a3"
+    },
+    {
+      "path": "scripts/ui/save_slot_text.gd",
+      "sha256": "fad5b878f31f741fe8fd09e5f21f0cd331cf0ebd12b2dc97398b71f3fa47412e"
+    },
+    {
+      "path": "scripts/ui/settings_choice.gd",
+      "sha256": "f77f85a29009eaff51d865bba629026057ebd2fcc0b198a1bfdfc51b05bd5218"
+    },
+    {
+      "path": "scripts/ui/settings_screen.gd",
+      "sha256": "d1256679e3f355b04ee8cf5838acf95a4bf0589d7bc7e480abf626a1b176ae98"
+    },
+    {
+      "path": "scripts/ui/start_screen.gd",
+      "sha256": "0f159ec0f27811281412afa00b2cb84807de6c529bf2bbc1a88012f83e0c75b8"
+    },
+    {
+      "path": "scripts/ui/stay_charter_texts.gd",
+      "sha256": "1bcd9776595bd8adcc5dafa6b478332db60abf71445f7bfef870d47c437c54b4"
+    },
+    {
+      "path": "scripts/ui/stay_story_texts.gd",
+      "sha256": "d497cc7ea135686ecea2674508a9bf50f911635a09c64b0e47dd18b759ccf9b4"
+    },
+    {
+      "path": "scripts/ui/title_composition.gd",
+      "sha256": "3bcc9a8f729cf00c579823971e8da0a45bbfd914092d5865811a8f0115a136f1"
+    },
+    {
+      "path": "scripts/ui/ui_title_placeholder_art.gd",
+      "sha256": "0500a0a27ca083b6ab277c6be9f89cb1faf707a5c36a92d1f9afb9e44528a057"
+    }
+  ],
+  "raw_files": [
+    {
+      "path": "baseline-chapter-one/chapter-one.err.log",
+      "sha256": "24723860e41f60ae70100b27eddf512f31b65461aa16b0e391eadffac4599ce1",
+      "bytes": 1723
+    },
+    {
+      "path": "baseline-chapter-one/chapter-one.json",
+      "sha256": "f1ba75493b8ebcd4d9cc5d3def3d450ec426a925286e1bf9112017d4c53fd3b8",
+      "bytes": 322
+    },
+    {
+      "path": "baseline-chapter-one/chapter-one.out.log",
+      "sha256": "7b74d2c3420acbb3a011976ab0544dd8eb321fae69add7ffa1d88ea837ea0555",
+      "bytes": 191
+    },
+    {
+      "path": "baseline/run.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "baseline/run.json",
+      "sha256": "59721d6f682acb8487d4d6ba735d2211b1eac336322fec62e6424e6443f22a21",
+      "bytes": 48163
+    },
+    {
+      "path": "baseline/run.out.log",
+      "sha256": "d4a02773f150ccad56139c628b5325fbefc9be8759d3005aa61f5b7f20a78189",
+      "bytes": 1415
+    },
+    {
+      "path": "baseline/runner.ps1",
+      "sha256": "7db1e010aceeffe79b9e1aa5aac3cb993428c5839436398232d7a7243b5ae267",
+      "bytes": 2596
+    },
+    {
+      "path": "baseline/source_scripts.zip",
+      "sha256": "2236f4dbe7e844f6af6861645c181dbf0f04ae7f668645d33e7e7637e9b633f7",
+      "bytes": 1302438
+    },
+    {
+      "path": "candidate-related/chapter-one.err.log",
+      "sha256": "24723860e41f60ae70100b27eddf512f31b65461aa16b0e391eadffac4599ce1",
+      "bytes": 1723
+    },
+    {
+      "path": "candidate-related/chapter-one.json",
+      "sha256": "6bd5dc3fc93299c8caa6de9968fbc0ca17b3d2859b46b5c044bd3943586484d4",
+      "bytes": 322
+    },
+    {
+      "path": "candidate-related/chapter-one.out.log",
+      "sha256": "7b74d2c3420acbb3a011976ab0544dd8eb321fae69add7ffa1d88ea837ea0555",
+      "bytes": 191
+    },
+    {
+      "path": "candidate-related/prologue.err.log",
+      "sha256": "62a529488bb432862b6a4eb5711e03810b141001358651be2df094a29b113181",
+      "bytes": 316
+    },
+    {
+      "path": "candidate-related/prologue.json",
+      "sha256": "9e7e57362b33a3620703cb43ed2f0adec997dd192b83d2d597058eaf4febc946",
+      "bytes": 316
+    },
+    {
+      "path": "candidate-related/prologue.out.log",
+      "sha256": "a167782349f0395e06911069876b501b1308969a3eb03a5ece2c5e4308c5f46e",
+      "bytes": 247
+    },
+    {
+      "path": "candidate/run.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "candidate/run.json",
+      "sha256": "d3fd7a51631b9dc64035dc7e3f3d6f9ecfb1845a1bd3d2e5c2b8a49bafd9e680",
+      "bytes": 48162
+    },
+    {
+      "path": "candidate/run.out.log",
+      "sha256": "fbac75a29258ce255419301182204f72ce52b061374d1636d5bcb41c18b9b6f1",
+      "bytes": 327
+    },
+    {
+      "path": "candidate/runner.ps1",
+      "sha256": "7db1e010aceeffe79b9e1aa5aac3cb993428c5839436398232d7a7243b5ae267",
+      "bytes": 2596
+    },
+    {
+      "path": "candidate/source_scripts.zip",
+      "sha256": "9664defd7ae6864e05f716225cacbfe5a95cb68aeb96854264a607d9d7319383",
+      "bytes": 1302484
+    },
+    {
+      "path": "diagnostic-null-field/run.err.log",
+      "sha256": "aa8833219af49f865fa5c0f0b0305bce3c90d822f59d48b1258f8cf84acf8fc4",
+      "bytes": 1412
+    },
+    {
+      "path": "diagnostic-null-field/run.json",
+      "sha256": "a5f992ca707724d6c2add683f0756d0f3c186cd64b1e53ab82bb0220f84fe5b6",
+      "bytes": 48164
+    },
+    {
+      "path": "diagnostic-null-field/run.out.log",
+      "sha256": "cedb3c8e2578590428961e10f50e262f7b8db9229f8d9a4708a7f96f67093a16",
+      "bytes": 1415
+    },
+    {
+      "path": "diagnostic-null-field/runner.ps1",
+      "sha256": "7db1e010aceeffe79b9e1aa5aac3cb993428c5839436398232d7a7243b5ae267",
+      "bytes": 2596
+    },
+    {
+      "path": "diagnostic-null-field/source_scripts.zip",
+      "sha256": "d144f4d86efe94bb17df82926faec49121229f320eea6cf8ab39b5eeda62bdff",
+      "bytes": 1302440
+    },
+    {
+      "path": "diagnostic-strict-flags/prologue.err.log",
+      "sha256": "eac73d64560d4b7d60a6d0d6f071cd5af7fb7e4f342fcce1181b8c146b94e05d",
+      "bytes": 1197
+    },
+    {
+      "path": "diagnostic-strict-flags/prologue.json",
+      "sha256": "02b6eeb141f6877b0e5131fd8f853c1f00dac63b9c4d452c773296faf44d6ff8",
+      "bytes": 350
+    },
+    {
+      "path": "diagnostic-strict-flags/prologue.out.log",
+      "sha256": "051d7d3c6bb1944393399af9bc854920971ea2842ce6dc8f854f47cda4028e50",
+      "bytes": 219
+    },
+    {
+      "path": "prior-mouse-observations/actions.jsonl",
+      "sha256": "b2f942dbec84abef156461cbadc3439d29e1ec0a0a498e347b5149dbb5b07af7",
+      "bytes": 9902
+    },
+    {
+      "path": "prior-mouse-observations/all-morning-tasks-completed.png",
+      "sha256": "2a742113c49fa781467f6728927b4e2574b6322b42a45f99dc8951d03740714e",
+      "bytes": 210870
+    },
+    {
+      "path": "prior-mouse-observations/p3b-completed-drag-status-observation.png",
+      "sha256": "a2135a1ee6cd8907b579a76e8b958495e4c819bf01e2cf1428b28f9732ae22f2",
+      "bytes": 186300
+    },
+    {
+      "path": "prior-mouse-observations/p4-pulse-observed.png",
+      "sha256": "0e742b789f2d287552bed1b2e310cd7085788c9fa96663575c822f85f09aee68",
+      "bytes": 197596
+    }
+  ]
+}
