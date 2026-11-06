@@ -3,7 +3,7 @@ extends Node
 const PRESENTATION := preload("res://scripts/systems/notebook_presentation.gd")
 const STORE := preload("res://scripts/systems/presentation_view_store.gd")
 const COMMANDS := preload("res://scripts/systems/notebook_commands.gd")
-const LAYOUT_VERSION := 1
+const LAYOUT_VERSION := 2
 var store := STORE.new()
 var view: Control
 var scope := {}
@@ -106,6 +106,7 @@ func _surface() -> Dictionary:
 		elif view._prologue_confirmation.is_empty(): return {}
 		id = [_cursor.kind, _cursor.lines[0].presentation_token if not _cursor.lines.is_empty() else _cursor.utility, _cursor.phase]
 		_collect(view._modal_body, "modal", controls, scrolls)
+		if is_instance_valid(view._modal_scroll): scrolls["modal:choices"] = view._modal_scroll
 	elif view._dialogue_choice_active:
 		if _cursor.is_empty() or _cursor.kind != "choice" or _cursor.phase == "completed": return {}
 		id = ["choice", _cursor.lines[0].presentation_token, _cursor.phase]

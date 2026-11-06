@@ -369,11 +369,10 @@ func _open_legacy_notebook() -> void:
 		return
 	super._open_legacy_notebook()
 	if session.stage() == "C3":
-		var button := Button.new()
+		var button: Button = _modal_panel.create_choice_button()
 		button.name = "CleanerQuantityTable"
 		button.text = "Compare quantities" if TranslationServer.get_locale().begins_with("en") else "수첩에서 양을 정리한다"
-		button.custom_minimum_size.y = 58
-		button.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
+		button.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
 		button.pressed.connect(_open_cleaner_quantity_table)
 		_modal_body.add_child(button)
 		_cycle_modal_focus()
@@ -416,11 +415,10 @@ func _open_cleaner_quantity_table(saved_ratio: bool = false, saved_difference: b
 		scroll.scroll_vertical = 0
 	ratio.toggled.connect(refresh)
 	difference.toggled.connect(refresh)
-	var review := Button.new()
+	var review: Button = _modal_panel.create_choice_button()
 	review.name = "QuantitySourceCards"
 	review.text = "Review observation cards" if english else "관찰 카드의 정수 조합을 확인한다"
-	review.custom_minimum_size.y = 58
-	review.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
+	review.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
 	review.pressed.connect(func(): _review_c3_cards(ratio.button_pressed, difference.button_pressed))
 	_modal_body.add_child(review)
 	refresh.call()

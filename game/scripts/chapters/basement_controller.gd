@@ -164,9 +164,9 @@ func _notebook_world_choice(group: String, index: int, id: String, rect: Rect2, 
 	var locale := TranslationServer.get_locale()
 	var label := FRACTURE_COMMON_TEXTS.ui(FRACTURE_SURFACE_TEXTS.CHOICES[group][index], locale)
 	if not _notebook_surface_enabled():
-		_action(id, label, rect, action, value)
+		_add_choice_hotspot(id, label, rect, _do.bind(action, value, true))
 		return
-	_add_hotspot(id, label, rect, _notebook_world_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, locale, action, value))
+	_add_choice_hotspot(id, label, rect, _notebook_world_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, locale, action, value))
 
 
 func _notebook_world_choice_pressed(generation: int, group: String, index: int, label: String, locale: String, action: String, value: String) -> void:
@@ -322,11 +322,11 @@ func _build_d6_inspection() -> void:
 			_action("D6_INSPECT_" + ids[index], labels[index], Rect2(280 + index % 2 * 700, 210 + index / 2 * 180, 610, 130), "d6_inspect", ids[index])
 		_action("D6_INSPECT_notebook", "수첩의 낙서와 배선을 겹쳐 본다", Rect2(280, 550, 1310, 70), "d6_inspect", "notebook")
 		_action("D6_BEDROOM", "침실로 돌아간다", Rect2(280, 640, 610, 100), "d6_move", "M2_BEDROOM", false)
-		_add_hotspot("D6_CAPSULE", "가까운 비상 캡슐에서 쉰다", Rect2(980, 640, 610, 100), _confirm_d6_rest.bind("capsule"))
+		_add_choice_hotspot("D6_CAPSULE", "가까운 비상 캡슐에서 쉰다", Rect2(980, 640, 610, 100), _confirm_d6_rest.bind("capsule"))
 	elif room == "M2_BEDROOM":
 		_location_label.text = "주인공의 침실 · 파열 이후"
 		_action("D6_RETURN", "통로를 조금 더 본다", Rect2(280, 420, 610, 130), "d6_move", "H0_SERVICE_SPINE", false)
-		_add_hotspot("D6_BED", "침대에서 쉰다", Rect2(980, 420, 610, 130), _confirm_d6_rest.bind("bedroom"))
+		_add_choice_hotspot("D6_BED", "침대에서 쉰다", Rect2(980, 420, 610, 130), _confirm_d6_rest.bind("bedroom"))
 	else:
 		_notebook_surface_board("D6_ENTRY", _d6_text(FRACTURE_SURFACE_TEXTS.ENTRY), Rect2(350, 280, 1200, 200))
 		_action("D6_SPINE", "드러난 서비스 통로로", Rect2(510, 600, 870, 130), "d6_move", "H0_SERVICE_SPINE", false)
@@ -516,7 +516,7 @@ func _refresh_d5_focus_controls() -> void:
 		panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_dialogue_layer.add_child(panel)
 		for index in range(5):
-			var button := _make_button("", Rect2(250 + index * 290, 330, 270, 190), _select_d5_focus.bind(owners[index]))
+			var button := _make_choice_button("", Rect2(250 + index * 290, 330, 270, 190), _select_d5_focus.bind(owners[index]))
 			button.name = owners[index]
 			panel.add_child(button)
 	panel.visible = true
@@ -687,10 +687,10 @@ func _build_fracture_intro() -> void:
 			if session.known("E2_report_seen"):
 				_queue_notebook_surface("OPTIONS_E2", FRACTURE_SURFACE_TEXTS.choice_text("E2", TranslationServer.get_locale()))
 				for index in range(3):
-					_notebook_world_choice("E2", index, "E2_Q_%d" % index, Rect2(380, 320 + index * 110, 1170, 85), "e2_question", ["house", "body", "memory"][index])
-				_action("E2_FINISH", FRACTURE_COMMON_TEXTS.ui("e2_finish", TranslationServer.get_locale()), Rect2(380, 710, 1170, 100), "e2_finish")
+					_notebook_world_choice("E2", index, "E2_Q_%d" % index, Rect2(380, 320 + index * 110, 1170, 100), "e2_question", ["house", "body", "memory"][index])
+				_add_choice_hotspot("E2_FINISH", FRACTURE_COMMON_TEXTS.ui("e2_finish", TranslationServer.get_locale()), Rect2(380, 710, 1170, 100), _do.bind("e2_finish", null, true))
 		"E_HUB":
-			_add_hotspot("J4_CONFIRM", FRACTURE_COMMON_TEXTS.ui("hub_finish", TranslationServer.get_locale()), Rect2(570, 885, 800, 60), _show_j4_confirmation)
+			_add_choice_hotspot("J4_CONFIRM", FRACTURE_COMMON_TEXTS.ui("hub_finish", TranslationServer.get_locale()), Rect2(570, 885, 800, 88), _show_j4_confirmation)
 			_objective_label.text = FRACTURE_COMMON_TEXTS.ui("hub_objective", TranslationServer.get_locale())
 			_notebook_surface_board("E_HUB", FRACTURE_COMMON_TEXTS.ui("hub_board", TranslationServer.get_locale()), Rect2(330, 130, 1260, 390))
 			_action("MARA1_ENTRY", FRACTURE_COMMON_TEXTS.ui("hub_mara1", TranslationServer.get_locale()), Rect2(330, 550, 620, 90), "move", "M1_SERVICE_HALL", false)
@@ -792,7 +792,7 @@ func _build_mara1_relationship() -> void:
 	else:
 		_action("MARA_CONFESS", "마라 1의 이야기를 듣는다", Rect2(330, 250, 1250, 150), "mara1_confess")
 		if local["confessed"]:
-			_add_hotspot("MARA_CHOICE", "기록 보존 방식을 정한다", Rect2(330, 520, 1250, 150), _show_mara1_choice)
+			_add_choice_hotspot("MARA_CHOICE", "기록 보존 방식을 정한다", Rect2(330, 520, 1250, 150), _show_mara1_choice)
 	_replace_back("M1_SERVICE_HALL", "작업 회랑으로 · 진행 보존")
 
 
@@ -860,7 +860,7 @@ func _build_iris_relationship() -> void:
 	else:
 		_action("IRIS_CONFRONT", "이리스의 이야기를 듣는다", Rect2(330, 280, 1250, 140), "iris_confront")
 		if local["confronted"]:
-			_add_hotspot("IRIS_CHOICE", "기록과 현재 온실을 어떻게 둘까", Rect2(330, 520, 1250, 140), _show_iris_choice)
+			_add_choice_hotspot("IRIS_CHOICE", "기록과 현재 온실을 어떻게 둘까", Rect2(330, 520, 1250, 140), _show_iris_choice)
 	_replace_back("M1_GREENHOUSE", "온실로 · 진행 보존")
 
 
@@ -927,7 +927,7 @@ func _build_luca_relationship() -> void:
 			_queue_notebook_content(LUCA_NOTES.PREFIX + "SCREEN_LOG_" + id.to_upper(), _relationship_text(rules.LOGS[id]))
 	else:
 		_action("LUCA_CONFESS", "루카의 이야기를 듣는다", Rect2(330, 270, 1250, 150), "luca_confess")
-		if local["confessed"]: _add_hotspot("LUCA_CHOICE", "위험 기록을 읽을 순서를 정한다", Rect2(330, 510, 1250, 150), _show_luca_choice)
+		if local["confessed"]: _add_choice_hotspot("LUCA_CHOICE", "위험 기록을 읽을 순서를 정한다", Rect2(330, 510, 1250, 150), _show_luca_choice)
 	_replace_back("M1_KITCHEN", "주방으로 · 진행 보존")
 
 
@@ -990,7 +990,7 @@ func _build_edgar_relationship() -> void:
 		_action("EDGAR_VALIDATE", "현재 권한 배치 검증", Rect2(300, 720, 1300, 100), "edgar_validate")
 	else:
 		_action("EDGAR_CONFESS", "명령과 에드가의 결정을 대조한다", Rect2(300, 270, 1300, 150), "edgar_confess")
-		if local["confessed"]: _add_hotspot("EDGAR_CHOICE", "책임을 남길 방식을 정한다", Rect2(300, 540, 1300, 150), _show_edgar_choice)
+		if local["confessed"]: _add_choice_hotspot("EDGAR_CHOICE", "책임을 남길 방식을 정한다", Rect2(300, 540, 1300, 150), _show_edgar_choice)
 	_replace_back("M1_GREAT_CLOCK", "대시계로 · 진행 보존")
 
 
@@ -1074,7 +1074,7 @@ func _build_mara2_relationship() -> void:
 		_action("MARA2_CHECKSUM", "12칸 체크섬 비교", Rect2(400, 720, 1100, 100), "mara2_checksum")
 	else:
 		_action("MARA2_CONFESS", "자기 저장 영역 양도 기록을 듣는다", Rect2(300, 270, 1300, 150), "mara2_confess")
-		if local["confessed"]: _add_hotspot("MARA2_CHOICE", "원본과 주석 보존 방식", Rect2(300, 520, 1300, 150), _show_mara2_choice)
+		if local["confessed"]: _add_choice_hotspot("MARA2_CHOICE", "원본과 주석 보존 방식", Rect2(300, 520, 1300, 150), _show_mara2_choice)
 	_replace_back("H0_COLOR_SEPARATION", "색분해실로 · 진행 보존")
 
 
@@ -1236,9 +1236,9 @@ func _reality_board(key: String, text: String, rect: Rect2) -> void:
 
 func _reality_world_choice(group: String, index: int, id: String, label: String, rect: Rect2, action: String, value: Variant) -> void:
 	if not _notebook_surface_enabled():
-		_action(id, label, rect, action, value, false)
+		_add_choice_hotspot(id, label, rect, _do.bind(action, value, false))
 		return
-	_add_hotspot(id, label, rect, _reality_world_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, TranslationServer.get_locale(), action, value))
+	_add_choice_hotspot(id, label, rect, _reality_world_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, TranslationServer.get_locale(), action, value))
 
 
 func _reality_world_choice_pressed(generation: int, group: String, index: int, label: String, locale: String, action: String, value: Variant) -> void:
@@ -1470,7 +1470,7 @@ func _queue_stay_seating(key: String, text: String) -> void:
 
 func _stay_world_choice(group: String, index: int, id: String, label: String, rect: Rect2, action: String, value: Variant) -> void:
 	if not _notebook_surface_enabled():
-		_action(id,label,rect,action,value,false)
+		_add_choice_hotspot(id,label,rect,_do.bind(action,value,false))
 		return
 	var locale := TranslationServer.get_locale()
 	var item := STAY_NOTES.descriptor(group + "_OPTIONS")
@@ -1482,7 +1482,7 @@ func _stay_world_choice(group: String, index: int, id: String, label: String, re
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return
 	_queue_stay_surface(group + "_OPTIONS",shown.text)
-	_add_hotspot(id,label,rect,_stay_world_choice_pressed.bind(_notebook_surfaces.generation,group,index,label,locale,action,value))
+	_add_choice_hotspot(id,label,rect,_stay_world_choice_pressed.bind(_notebook_surfaces.generation,group,index,label,locale,action,value))
 
 
 func _stay_world_choice_pressed(generation: int, group: String, index: int, label: String, locale: String, action: String, value: Variant) -> void:
@@ -1541,14 +1541,14 @@ func _build_stay_story() -> void:
 		"EDS_TABLE_OBJECTS":
 			for index in range(2):
 				var prefix := _story_text("written" if index in local["written"] else "write")
-				_stay_world_choice("WRITE_%d_%s" % [index,"WRITTEN" if index in local.written else "NEW"],0,"STORY_WRITE_%d"%index,prefix+STORY_TEXTS.sentence(index,locale),Rect2(250,180+index*105,1420,85),"story_write",index)
+				_stay_world_choice("WRITE_%d_%s" % [index,"WRITTEN" if index in local.written else "NEW"],0,"STORY_WRITE_%d"%index,prefix+STORY_TEXTS.sentence(index,locale),Rect2(250,180+index*105,1420,95),"story_write",index)
 			var index := 0
 			for owner in rules.TABLE:
 				_add_hotspot("STORY_TABLE_"+owner,STORY_TEXTS.table_title(owner,locale),Rect2(250+(index%2)*750,420+(index/2)*110,670,85),_ending_read.bind(STORY_TEXTS.table_lines(state,owner,locale),"table",owner,"story_"))
 				_queue_stay_surface("TABLE_LABEL_" + String(owner).to_upper(),STORY_TEXTS.table_title(owner,locale))
 				index += 1
-			_stay_world_choice("TEA_" + String(local.tea).to_upper(),0,"STORY_TEA_WARM",_story_text("warm")+(_story_text("selected") if local["tea"] == "warm" else ""),Rect2(250,755,670,60),"story_tea","warm")
-			_stay_world_choice("TEA_" + String(local.tea).to_upper(),1,"STORY_TEA_HOT",_story_text("hot")+(_story_text("selected") if local["tea"] == "hot" else ""),Rect2(1000,755,670,60),"story_tea","hot")
+			_stay_world_choice("TEA_" + String(local.tea).to_upper(),0,"STORY_TEA_WARM",_story_text("warm")+(_story_text("selected") if local["tea"] == "warm" else ""),Rect2(250,755,670,88),"story_tea","warm")
+			_stay_world_choice("TEA_" + String(local.tea).to_upper(),1,"STORY_TEA_HOT",_story_text("hot")+(_story_text("selected") if local["tea"] == "hot" else ""),Rect2(1000,755,670,88),"story_tea","hot")
 			if local["written"].size() == 2: _action("STORY_FINAL",_story_text("final"),Rect2(400,850,1120,80),"story_final",null,false)
 		"EDS_FINAL_FRAME":
 			_objective_label.text = _story_text("final_objective")
@@ -1795,10 +1795,10 @@ func _build_ending_decision() -> void:
 	_objective_label.text = _ending_text("objective")
 	_location_label.text = _ending_text("location")
 	_board_label(_ending_text("notice"), Rect2(250,150,1420,100))
-	_add_hotspot("EDC_REALITY", _ending_text("reality"), Rect2(200,300,700,220), _confirm_ending.bind("reality"))
-	_add_hotspot("EDC_STAY", _ending_text("stay"), Rect2(1020,300,700,220), _confirm_ending.bind("stay"))
+	_add_choice_hotspot("EDC_REALITY", _ending_text("reality"), Rect2(200,300,700,220), _confirm_ending.bind("reality"))
+	_add_choice_hotspot("EDC_STAY", _ending_text("stay"), Rect2(1020,300,700,220), _confirm_ending.bind("stay"))
 	_add_hotspot("EDC_SUBJECT", _ending_text("notebook"), Rect2(610,580,700,130), _edc_summary)
-	_action("EDC_CANCEL", _ending_text("cancel"), Rect2(400,790,1100,100), "f3_cancel")
+	_add_choice_hotspot("EDC_CANCEL", _ending_text("cancel"), Rect2(400,790,1100,100), _do.bind("f3_cancel", null, true))
 	_world_focus = "EDC_SUBJECT"
 	call_deferred("_restore_world_focus")
 
@@ -1849,7 +1849,7 @@ func _build_stay_charter() -> void:
 			for owner in rules.OWNERS:
 				_stay_world_choice("ROLE_%s_%s" % [String(owner).to_upper(),"PROPOSED" if owner in local.proposed else "FIXED"],0,"STAY_ROLE_"+owner,STAY_TEXTS.owner(owner,locale)+_stay_text("proposed" if owner in local["proposed"] else "fixed"),Rect2(250+(index%2)*750,350+(index/2)*140,670,100),"stay_propose",owner)
 				index += 1
-			if local["proposed"].size() == 5: _stay_world_choice("AUTONOMY_FINISH",0,"STAY_AUTONOMY_FINISH",_stay_text("autonomy_finish"),Rect2(400,790,1120,85),"stay_autonomy_finish",null)
+			if local["proposed"].size() == 5: _stay_world_choice("AUTONOMY_FINISH",0,"STAY_AUTONOMY_FINISH",_stay_text("autonomy_finish"),Rect2(400,790,1120,100),"stay_autonomy_finish",null)
 
 
 func _inspect_stay_display_rule(generation: int) -> void:
@@ -1924,9 +1924,9 @@ func _build_confrontation() -> void:
 	_queue_notebook_content(FINAL_NOTES.PREFIX + "F2_OPTIONS", "\n".join(labels))
 	for question in FINAL_NOTES.QUESTIONS:
 		if _notebook_surface_enabled():
-			_add_hotspot("F2_"+question, labels[index], Rect2(350,160+index*115,1200,95), _final_question_pressed.bind(_notebook_surfaces.generation, index, labels[index], locale))
+			_add_choice_hotspot("F2_"+question, labels[index], Rect2(350,160+index*115,1200,95), _final_question_pressed.bind(_notebook_surfaces.generation, index, labels[index], locale))
 		else:
-			_action("F2_"+question, labels[index], Rect2(350,160+index*115,1200,95),"f2_question",question)
+			_add_choice_hotspot("F2_"+question, labels[index], Rect2(350,160+index*115,1200,95),_do.bind("f2_question",question,true))
 		index += 1
 	if not local["recapped"]:
 		_action("F2_RECAP",_core_text("f2_recap"),Rect2(350,790,1200,100),"f2_recap")
@@ -2122,9 +2122,9 @@ func _queue_core_choices(group: String) -> void:
 
 func _core_choice(group: String, index: int, id: String, label: String, rect: Rect2, action: String, value: String) -> void:
 	if not _notebook_surface_enabled():
-		_action(id, label, rect, action, value)
+		_add_choice_hotspot(id, label, rect, _do.bind(action, value, true))
 		return
-	_add_hotspot(id, label, rect, _core_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, TranslationServer.get_locale(), action, value))
+	_add_choice_hotspot(id, label, rect, _core_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, TranslationServer.get_locale(), action, value))
 
 
 func _core_choice_pressed(generation: int, group: String, index: int, label: String, locale: String, action: String, value: String) -> void:
@@ -2158,9 +2158,9 @@ func _settlement_choice(group: String, index: int, id: String, rect: Rect2, acti
 	var locale := TranslationServer.get_locale()
 	var label := _fracture_resolution_text(SETTLEMENT_NOTES.CHOICES[group][index])
 	if not _notebook_surface_enabled():
-		_action(id, label, rect, action, value)
+		_add_choice_hotspot(id, label, rect, _do.bind(action, value, true))
 		return
-	_add_hotspot(id, label, rect, _settlement_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, locale, action, value))
+	_add_choice_hotspot(id, label, rect, _settlement_choice_pressed.bind(_notebook_surfaces.generation, group, index, label, locale, action, value))
 
 
 func _settlement_choice_pressed(generation: int, group: String, index: int, label: String, locale: String, action: String, value: String) -> void:
@@ -2199,11 +2199,11 @@ func _build_core_approach() -> void:
 			_queue_settlement_choices("EDGAR")
 			for index in range(3):
 				var id: String = ["ask", "order", "wait"][index]
-				_settlement_choice("EDGAR", index, "EDGAR_S3_" + id, Rect2(350, 250 + index * 100, 1200, 85), "e6_edgar", id)
+				_settlement_choice("EDGAR", index, "EDGAR_S3_" + id, Rect2(350, 250 + index * 100, 1200, 95), "e6_edgar", id)
 		if not session.known("core_access_open"):
-			_action("E6_OPEN", "후속 대화 없이 접근로를 연다", Rect2(350, 570, 1200, 90), "e6_open")
+			_add_choice_hotspot("E6_OPEN", "후속 대화 없이 접근로를 연다", Rect2(350, 570, 1200, 90), _do.bind("e6_open", null, true))
 		else:
-			_add_hotspot("E6_ENTER", "코어 경로 진입 확인", Rect2(350, 570, 1200, 90), _show_core_entry_confirmation)
+			_add_choice_hotspot("E6_ENTER", "코어 경로 진입 확인", Rect2(350, 570, 1200, 90), _show_core_entry_confirmation)
 	else:
 		_settlement_board("OPTIONAL", Rect2(300, 250, 1300, 200))
 	if location != "M1_NORTH_ARCHIVE_HALL" and rules.pending(state, "MARA2_FU"):
@@ -2242,7 +2242,7 @@ func _build_last_evening() -> void:
 			_settlement_choice("QUESTION", index, "E5_QUESTION_" + question, Rect2(350, 475 + index * 110, 1200, 95), "e5_question", question)
 			index += 1
 	else:
-		_add_hotspot("E5_FINISH", "코어 접근 준비를 마친다", Rect2(350, 600, 1200, 140), _show_e5_confirmation)
+		_add_choice_hotspot("E5_FINISH", "코어 접근 준비를 마친다", Rect2(350, 600, 1200, 140), _show_e5_confirmation)
 
 
 func _show_e5_confirmation() -> void:

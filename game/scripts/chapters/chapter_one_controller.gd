@@ -846,10 +846,11 @@ func _build_loop_bedroom(local: Dictionary) -> void:
 		_action("A2_CONFIRM", _dialogue_ui_text("CH1_BED_CONFIRM"), Rect2(510, 320, 830, 160), "confirm_mark")
 	else:
 		_add_hotspot("NOTEBOOK", _dialogue_ui_text("CH1_BED_NOTEBOOK"), Rect2(350, 240, 470, 100), _open_notebook)
-	if not local.routine_done and session.stage() == "AS" and get_script().resource_path.ends_with("/chapter_one_controller.gd"):
-		_add_hotspot("AS_ROUTINE", _dialogue_ui_text("CH1_BED_ROUTINE"), Rect2(350, 550, 650, 100), _ep01_routine)
-	else:
-		_action("AS_ROUTINE", _dialogue_ui_text("CH1_BED_ROUTINE_DONE" if local["routine_done"] else "CH1_BED_ROUTINE"), Rect2(350, 550, 650, 100), "routine")
+	if not local.routine_done:
+		if session.stage() == "AS" and get_script().resource_path.ends_with("/chapter_one_controller.gd"):
+			_add_hotspot("AS_ROUTINE", _dialogue_ui_text("CH1_BED_ROUTINE"), Rect2(350, 550, 650, 100), _ep01_routine)
+		else:
+			_action("AS_ROUTINE", _dialogue_ui_text("CH1_BED_ROUTINE"), Rect2(350, 550, 650, 100), "routine")
 	_add_hotspot("SLEEP", _dialogue_ui_text("CH1_BED_SLEEP"), Rect2(1090, 580, 510, 140), _confirm_sleep)
 	if session.can_prepare_clock_shortcut():
 		_action("BSHORT", _dialogue_ui_text("CH1_BED_SHORTCUT"), Rect2(360, 730, 880, 100), "shortcut")
@@ -1005,8 +1006,8 @@ func _build_edgar_pressure(local: Dictionary) -> void:
 		return
 	_chapter_board("B2_ENTRY", _dialogue_ui_text("CH1_B2_ENTRY"), Rect2(400, 250, 1120, 160))
 	if "alcove" in local["inspected"]:
-		_action("B2_HIDE", _dialogue_ui_text("CH1_B2_HIDE"), Rect2(380, 490, 540, 140), "edgar_hide")
-	_action("B2_CAUGHT", _dialogue_ui_text("CH1_B2_TALK"), Rect2(1000, 490, 540, 140), "edgar_talk")
+		_add_choice_hotspot("B2_HIDE", _dialogue_ui_text("CH1_B2_HIDE"), Rect2(380, 490, 540, 140), _do.bind("edgar_hide", null, true))
+	_add_choice_hotspot("B2_CAUGHT", _dialogue_ui_text("CH1_B2_TALK"), Rect2(1000, 490, 540, 140), _do.bind("edgar_talk", null, true))
 
 
 func _on_edgar_timeout() -> void:
@@ -1174,11 +1175,10 @@ func _open_legacy_notebook() -> void:
 	var notes: Dictionary = knowledge.get("chapter_notebook", {})
 	_show_modal(_dialogue_ui_text("UI_NOTE_PERMANENT"), _dialogue_ui_text("UI_NOTE_PERSIST"), [{"label": _dialogue_ui_text("UI_NOTE_CLOSE"), "action": _close_modal}])
 	if session.stage() in _supported_hint_stages():
-		var hint_button := Button.new()
+		var hint_button: Button = _modal_panel.create_choice_button()
 		hint_button.name = "ClockHintsButton"
 		hint_button.text = "Organize my thoughts" if TranslationServer.get_locale().begins_with("en") else "생각을 정리한다"
-		hint_button.custom_minimum_size.y = 58
-		hint_button.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
+		hint_button.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
 		hint_button.pressed.connect(_show_clock_hint_menu.bind(0))
 		_modal_body.add_child(hint_button)
 	var scroll := _modal_body.get_child(2) as ScrollContainer

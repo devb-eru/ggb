@@ -149,6 +149,7 @@ var _dialogue_choice_mode := ""
 var _modal_layer: Control
 var _modal_panel: PanelContainer
 var _modal_body: VBoxContainer
+var _modal_scroll: ScrollContainer
 var _inspection_layer: Control
 var _inspection_panel: PanelContainer
 var _window_title: Label
@@ -476,6 +477,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		var body_scroll := _history_modal_scroll() if _modal_active else null
 		if body_scroll == null and _modal_body.get_child_count() > 2:
 			body_scroll = _modal_body.get_child(2) as ScrollContainer
+		var focused := get_viewport().gui_get_focus_owner()
+		if _modal_scroll.get_v_scroll_bar().max_value > _modal_scroll.size.y and focused is Button and _modal_body.is_ancestor_of(focused):
+			body_scroll = _modal_scroll
 		if body_scroll != null:
 			var direction := -1 if page_up else 1
 			body_scroll.scroll_vertical += direction * maxi(40, int(body_scroll.size.y * 0.8))
@@ -575,7 +579,6 @@ func _apply_design_components() -> void:
 	inventory_backing.bg_color = Color("09070d")
 	inventory_backing.set_content_margin_all(0)
 	_inventory_panel.add_theme_stylebox_override("panel", inventory_backing)
-	_modal_panel.add_theme_stylebox_override("panel", DESIGN.box("panel_dark", Color.WHITE, 24))
 	for slot in _inventory_slots: DESIGN.button(slot, false, "inventory_slot")
 	_dialogue_layer.visibility_changed.connect(_update_inventory_dialogue_treatment)
 
@@ -821,19 +824,17 @@ func _build_modal_ui() -> void:
 	dimmer.color = Color(0.0, 0.0, 0.0, 0.76)
 	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_modal_layer.add_child(dimmer)
-	_modal_panel = PanelContainer.new()
-	_modal_panel.add_theme_stylebox_override("panel", _style(Color(0.035, 0.022, 0.060, 0.99), Color(0.66, 0.35, 0.58, 0.95), 4, 12))
-	_place(_modal_panel, Rect2(510, 190, 900, 700))
-	_modal_layer.add_child(_modal_panel)
-	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 48)
-	margin.add_theme_constant_override("margin_top", 42)
-	margin.add_theme_constant_override("margin_right", 48)
-	margin.add_theme_constant_override("margin_bottom", 42)
-	_modal_panel.add_child(margin)
-	_modal_body = VBoxContainer.new()
-	_modal_body.add_theme_constant_override("separation", 18)
-	margin.add_child(_modal_body)
+	_modal_scroll = ScrollContainer.new()
+	_modal_scroll.name = "ModalScroll"
+	_modal_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_modal_scroll.follow_focus = true
+	_place(_modal_scroll, Rect2(510, 190, 900, 700))
+	_modal_layer.add_child(_modal_scroll)
+	_modal_panel = preload("res://scenes/ui/choice_window.tscn").instantiate()
+	_modal_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_modal_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_modal_scroll.add_child(_modal_panel)
+	_modal_body = _modal_panel.get_node("Margin/Choices")
 
 
 func _load_progress() -> void:
@@ -2233,6 +2234,41 @@ func _add_hotspot(id: String, label: String, rect: Rect2, action: Callable) -> v
 	_hotspot_layer.add_child(button)
 
 
+func _make_choice_button(label: String, rect: Rect2, action: Callable) -> Button:
+	var button: Button = _modal_panel.create_choice_button(false)
+	button.theme = _modal_panel.theme
+	button.set_meta("authored_choice", true)
+	button.text = label
+	button.custom_minimum_size = Vector2.ZERO
+	button.add_theme_font_size_override("font_size", roundi(button.get_theme_font_size("font_size") * _reading_text_scale))
+	_place(button, rect)
+	button.pressed.connect(action)
+	button.focus_entered.connect(_highlight_world_choice.bind(button))
+	button.mouse_entered.connect(_hover_world_choice.bind(button))
+	return button
+
+
+func _highlight_world_choice(selected: Button) -> void:
+	if selected.get_parent() == null: return
+	for child in selected.get_parent().get_children():
+		if child is Button and child.get_meta("authored_choice", false):
+			child.theme_type_variation = &"DialogueChoiceSelectedButton" if child == selected else &"DialogueChoiceButton"
+
+
+func _hover_world_choice(button: Button) -> void:
+	if button.disabled or not button.is_visible_in_tree(): return
+	_highlight_world_choice(button)
+	button.grab_focus()
+
+
+func _add_choice_hotspot(id: String, label: String, rect: Rect2, action: Callable) -> void:
+	var wrapped := _dispatch_prologue_hotspot.bind(action, _prologue_surfaces.generation, _prologue_surface_scope()) if _uses_prologue_history() else action
+	var button := _make_choice_button(label, rect, wrapped)
+	button.name = id
+	button.mouse_filter = Control.MOUSE_FILTER_STOP
+	_hotspot_layer.add_child(button)
+
+
 func _dispatch_prologue_hotspot(action: Callable, generation: int, scope: Dictionary) -> void:
 	if _prologue_surface_enabled() and (not _prologue_surfaces.live(_prologue_surface_scope(),generation) or scope != _prologue_surface_scope()): return
 	if _begin_prologue_input(action): return
@@ -3117,7 +3153,7 @@ func _show_chapter_history_modal(chapter_order: Array, chapter_titles: Dictionar
 	for child in _modal_body.get_children():
 		_modal_body.remove_child(child)
 		child.queue_free()
-	_place(_modal_panel, Rect2(300, 90, 1320, 900) if _reading_text_scale >= 1.5 else Rect2(510, 150, 900, 780))
+	_place(_modal_scroll, Rect2(300, 90, 1320, 900) if _reading_text_scale >= 1.5 else Rect2(510, 150, 900, 780))
 
 	var title_label := Label.new()
 	title_label.text = _dialogue_ui_text("CH1_HISTORY_TITLE")
@@ -3354,7 +3390,7 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 		child.queue_free()
 	var title_label := Label.new()
 	title_label.text = title
-	_place(_modal_panel, Rect2(300, 90, 1320, 900) if _reading_text_scale >= 1.5 else Rect2(510, 190, 900, 700))
+	_place(_modal_scroll, Rect2(300, 90, 1320, 900) if _reading_text_scale >= 1.5 else Rect2(510, 190, 900, 700))
 	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title_label.add_theme_font_size_override("font_size", int(round(34 * _reading_text_scale)))
 	title_label.add_theme_color_override("font_color", Color(0.94, 0.72, 0.44))
@@ -3378,15 +3414,12 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 	body_scroll.add_child(body_label)
 	for action_value in actions:
 		var action: Dictionary = action_value
-		var button := Button.new()
+		var button: Button = _modal_panel.create_choice_button()
+		button.name = "ModalChoice%d" % (_modal_body.get_child_count() - 2)
 		button.text = String(action.get("label", _dialogue_ui_text("UI_DIALOGUE_CONTINUE")))
-		button.custom_minimum_size = Vector2(0, 58)
-		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		button.add_theme_font_size_override("font_size", int(round(21 * _reading_text_scale)))
-		button.add_theme_stylebox_override("normal", _style(Color(0.10, 0.035, 0.11, 0.98), Color(0.66, 0.35, 0.34, 0.95), 3, 7))
+		button.add_theme_font_size_override("font_size", int(round(button.get_theme_font_size("font_size") * _reading_text_scale)))
 		button.pressed.connect(action.get("action", _close_modal))
 		_modal_body.add_child(button)
-		DESIGN.button(button)
 	_modal_active = true
 	_modal_layer.visible = true
 	call_deferred("_cycle_modal_focus")
