@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[node name="NotebookAction" type="Button"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "동작"

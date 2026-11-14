@@ -552,7 +552,14 @@ func _commands(tree: SceneTree, host, rows: Array) -> void:
 func _campaign(tree: SceneTree) -> void:
 	var view = await _campaign_view(tree, "A1")
 	view._open_mark_choices()
+	# A1 now introduces the mark choice through the authored EP01 dialogue.
+	# Advance its normal confirm button before capturing the pending modal.
+	for line in range(100):
+		if not view._dialogue_active: break
+		view._dialogue_next.pressed.emit()
+		await tree.process_frame
 	var request: Dictionary = view._recorded_modal_request
+	_expect(view._modal_active and not request.is_empty(), "A1 introduction reaches recorded mark choice before notebook suspension")
 	var before := GameState.get_snapshot()
 	view._open_notebook()
 	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
@@ -645,8 +652,11 @@ func _pause_points(tree: SceneTree) -> void:
 	for object in ["alcove", "index", "drawer"]:
 		view._do("inspect_inner", object)
 		_drain(view)
-	view._do("edgar_hide")
-	_drain(view)
+	var hiding_request: Dictionary = view._recorded_modal_request
+	_expect(view._modal_active and not hiding_request.is_empty() and view.session.local_state().edgar_state == "entering", "actual B2 warning presents its hiding choice")
+	view._recorded_choice_pressed(hiding_request, 1)
+	# The authored hide dialogue ends by making Edgar leave. Suspend during
+	# that dialogue, while the real hidden state and countdown still exist.
 	_expect(view.session.local_state().edgar_state == "hidden", "actual B2 hiding route reached")
 	var before := GameState.get_snapshot()
 	var remaining: float = view._edgar_timer.time_left
@@ -793,6 +803,10 @@ func _developer_overlay(tree: SceneTree) -> void:
 			_expect(focused != null and focused != host.panel._close and host.panel.is_ancestor_of(focused), "developer does not swallow notebook's rebound F10 navigation")
 			if not had_mapping: InputMap.action_erase_event("ui_focus_next", remapped)
 			var position: Vector2 = host.panel._close.get_global_rect().get_center()
+			var launcher_position: Vector2 = developer.launch_button.global_position
+			# Exercise click-through at the edited notebook's actual close target,
+			# independently of the launcher's normal authored corner offsets.
+			developer.launch_button.global_position = position - developer.launch_button.size * 0.5
 			_expect(developer.launch_button.get_global_rect().has_point(position), "fixture reproduces overlapping close target")
 			var motion := InputEventMouseMotion.new()
 			motion.position = position
@@ -805,6 +819,7 @@ func _developer_overlay(tree: SceneTree) -> void:
 				tree.root.push_input(click, true)
 				await tree.process_frame
 			_expect(not view._notebook_is_open() and view.visible and not developer.panel.visible, "close coordinate reaches notebook, not developer menu")
+			developer.launch_button.global_position = launcher_position
 		elif boundary == "owner_destroyed":
 			view.queue_free()
 		else:

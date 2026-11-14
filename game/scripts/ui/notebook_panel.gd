@@ -8,12 +8,12 @@ signal material_viewed(key: String)
 signal view_changed
 
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
-const BROWSER := preload("res://scripts/ui/notebook_browser.gd")
-const VISUAL_VIEWER := preload("res://scripts/ui/notebook_visual_viewer.gd")
-const VISUAL_CANVAS := preload("res://scripts/ui/notebook_visual_canvas.gd")
+@export var material_scene: PackedScene = preload("res://scenes/ui/notebook/notebook_material.tscn")
 const VISUALS := preload("res://scripts/systems/notebook_visuals.gd")
-const SEARCH_TEXT := preload("res://scripts/ui/notebook_search_text.gd")
-const DESIGN := preload("res://scripts/ui/design_theme.gd")
+const SEARCH_PARAGRAPH := preload("res://scenes/ui/notebook/notebook_search_paragraph.tscn")
+const ACTION_SCENE := preload("res://scenes/ui/notebook/notebook_action.tscn")
+const ROW_SCENE := preload("res://scenes/ui/notebook/notebook_record_row.tscn")
+const PARAGRAPH_SCENE := preload("res://scenes/ui/notebook/notebook_paragraph.tscn")
 var _tab_rail: VBoxContainer
 var _header_scroll: ScrollContainer
 var query
@@ -68,11 +68,18 @@ var _matches: Array = []
 var _match_index := -1
 var _match_controls: HFlowContainer
 var _match_status: Label
+var _book_open: TextureRect
+var _book_compact: TextureRect
+var _base_font_size := 18
+var _authored_theme: Theme
+var _native_font_sizes: Dictionary = {}
+var _tab_base_widths: Dictionary = {}
+var _tools_base_height := 220.0
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	_build()
+	_bind_scene()
 	resized.connect(_responsive)
 	set_process(false)
 
@@ -101,6 +108,8 @@ func present(model, locale: String, entry_tab: String = "clues", font_scale: flo
 	_back_stack.clear()
 	_search_delay = -1.0
 	_search.clear()
+	_clear(_detail)
+	for body in _pair_panels: _clear(body)
 	_apply_labels()
 	show()
 	set_process(true)
@@ -472,171 +481,172 @@ func _clear_search() -> void:
 	_refresh_search_detail()
 
 
-func _build() -> void:
-	theme = DESIGN.make_theme(true)
-	add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-	var spread := HBoxContainer.new()
-	spread.name = "NotebookSpread"
-	spread.add_theme_constant_override("separation", 0)
-	add_child(spread)
-	_tab_rail = VBoxContainer.new()
-	_tab_rail.name = "NotebookLeftBookmarks"
-	_tab_rail.custom_minimum_size.x = 150
-	_tab_rail.add_theme_constant_override("separation", 14)
-	spread.add_child(_tab_rail)
-	var tab_spacer := Control.new()
-	tab_spacer.custom_minimum_size.y = 110
-	_tab_rail.add_child(tab_spacer)
-	var page_margin := MarginContainer.new()
-	page_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	for edge in ["left", "right"]: page_margin.add_theme_constant_override("margin_" + edge, 65)
-	for edge in ["top", "bottom"]: page_margin.add_theme_constant_override("margin_" + edge, 65)
-	spread.add_child(page_margin)
-	_content = VBoxContainer.new()
-	_content.name = "NotebookContent"
-	page_margin.add_child(_content)
-	var top := HBoxContainer.new()
-	_content.add_child(top)
-	_search = LineEdit.new()
-	_search.name = "NotebookSearch"
-	_search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_search.clear_button_enabled = true
-	top.add_child(_search)
+func _bind_scene() -> void:
+	# Script.new callers share the same authored tree as the native scene.
+	if not has_node("NotebookSpread"):
+		var authored: Control = load("res://scenes/ui/notebook/notebook_panel.tscn").instantiate()
+		theme = authored.theme
+		_clear_template_owners(authored)
+		for child in authored.get_children():
+			authored.remove_child(child)
+			add_child(child)
+		authored.free()
+	_tab_rail = find_child("NotebookLeftBookmarks", true, false)
+	_content = find_child("NotebookContent", true, false)
+	_search = find_child("NotebookSearch", true, false)
+	_close = find_child("NotebookClose", true, false)
+	_header_scroll = find_child("NotebookToolsScroll", true, false)
+	_filter_controls = find_child("NotebookFilterControls", true, false)
+	_chapter = find_child("NotebookChapterFilter", true, false)
+	_tools = find_child("NotebookTools", true, false)
+	_notice = find_child("NotebookNotice", true, false)
+	_command = find_child("NotebookCommand", true, false)
+	_status = find_child("NotebookStatus", true, false)
+	_pages = find_child("NotebookPages", true, false)
+	_previous = find_child("NotebookPreviousPage", true, false)
+	_next = find_child("NotebookNextPage", true, false)
+	_return_list = find_child("NotebookReturnList", true, false)
+	_match_controls = find_child("NotebookSearchMatches", true, false)
+	_match_status = find_child("NotebookMatchStatus", true, false)
+	_body = find_child("NotebookBody", true, false)
+	_list_scroll = find_child("NotebookListScroll", true, false)
+	_list = _list_scroll.get_child(0)
+	_detail_scroll = find_child("NotebookDetailScroll", true, false)
+	_detail = _detail_scroll.get_child(0)
+	_pair_controls = find_child("NotebookPairControls", true, false)
+	_pair_switch = find_child("NotebookPairSwitch", true, false)
+	_pair_body = find_child("NotebookPairBody", true, false)
+	_browser = find_child("NotebookBrowser", true, false)
+	_visual = find_child("NotebookVisualViewer", true, false)
+	_book_open = get_node("NotebookArtwork/BookOpen")
+	_book_compact = get_node("NotebookArtwork/BookCompact")
+	_tools_base_height = _header_scroll.custom_minimum_size.y
+	theme = theme.duplicate()
+	_authored_theme = theme
+	_base_font_size = theme.default_font_size
+	_cache_native_fonts(self)
 	_search.text_changed.connect(func(_value: String) -> void:
 		_cancel_restoration()
 		_search_delay = 0.2)
-	# Enter in the search field never opens a result or confirms a game choice.
 	_search.text_submitted.connect(func(_value: String) -> void: _search_delay = 0.2)
 	_search.gui_input.connect(_search_input)
-	_close = _button(top, "", func() -> void: close_requested.emit(), "NotebookClose")
+	_connect_button(_close, func() -> void: close_requested.emit())
 	for tab in QUERY.TABS:
-		var button := _button(_tab_rail, tab, set_tab.bind(tab), "NotebookTab_" + tab)
-		button.toggle_mode = true
-		button.custom_minimum_size = Vector2(150, 64)
-		DESIGN.button(button, false, "tab_idle")
-		button.add_theme_stylebox_override("pressed", DESIGN.box("tab_selected", Color.WHITE, 12))
-		button.add_theme_stylebox_override("hover_pressed", DESIGN.box("tab_selected", Color.WHITE, 12))
+		var button: Button = find_child("NotebookTab_" + tab, true, false)
 		_tabs[tab] = button
-	var controls := HFlowContainer.new()
-	_filter_controls = controls
-	_content.add_child(controls)
-	_chapter = OptionButton.new()
-	_chapter.name = "NotebookChapterFilter"
-	controls.add_child(_chapter)
+		_tab_base_widths[tab] = button.custom_minimum_size.x
+		_connect_button(button, set_tab.bind(tab))
 	_chapter.item_selected.connect(func(index: int) -> void:
+		if not _valid(): return
 		_cancel_restoration()
 		var chapter: String = _chapter.get_item_metadata(index)
 		_filters.chapters = [] if chapter.is_empty() else [chapter]
 		_page = 0
 		_refresh())
-	var bookmarks := _button(controls, "", func() -> void:
+	_connect_named("NotebookBookmarks", func() -> void:
 		_cancel_restoration()
 		_filters.bookmarks_only = not _filters.get("bookmarks_only", false)
 		_page = 0
-		_refresh(), "NotebookBookmarks")
-	bookmarks.toggle_mode = true
-	var previous_revisions := _button(controls, "", func() -> void:
+		_refresh())
+	_connect_named("NotebookPreviousRevisions", func() -> void:
 		_cancel_restoration()
 		_filters.include_previous = not _filters.get("include_previous", false)
 		_filters.include_refuted = _filters.include_previous
 		_page = 0
-		_refresh(), "NotebookPreviousRevisions")
-	previous_revisions.toggle_mode = true
-	_button(controls, "", func() -> void:
+		_refresh())
+	_connect_named("NotebookCompare", func() -> void:
 		_cancel_restoration()
 		_comparison_mode = not _comparison_mode
-		_render_pair(), "NotebookCompare")
-	_return_list = _button(controls, "", _return_to_list, "NotebookReturnList")
-	_button(controls, "", func() -> void: refresh_requested.emit(), "NotebookRefresh")
-	_button(controls, "", _open_browser.bind("filters"), "NotebookFilters")
-	_button(controls, "", _open_browser.bind("investigation"), "NotebookInvestigation")
-	_button(controls, "", func() -> void: _open_browser("people" if _filters.tab == "people" else "sessions"), "NotebookBrowseGroups")
-	_tools = HFlowContainer.new()
-	_content.add_child(_tools)
-	_notice = _label(_content, "")
-	_notice.name = "NotebookNotice"
-	_command = VBoxContainer.new()
-	_content.add_child(_command)
-	_status = _label(_content, "")
-	_status.name = "NotebookStatus"
-	var pages := HBoxContainer.new()
-	_pages = pages
-	_content.add_child(pages)
-	_previous = _button(pages, "", _change_page.bind(-1), "NotebookPreviousPage")
-	_next = _button(pages, "", _change_page.bind(1), "NotebookNextPage")
-	_match_controls = HFlowContainer.new()
-	_match_controls.name = "NotebookSearchMatches"
-	_content.add_child(_match_controls)
-	_match_status = _label(_match_controls, "")
-	_match_status.name = "NotebookMatchStatus"
-	_button(_match_controls, "", _move_match.bind(-1), "NotebookMatchPrevious")
-	_button(_match_controls, "", _move_match.bind(1), "NotebookMatchNext")
-	_body = HBoxContainer.new()
-	_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_content.add_child(_body)
-	_list_scroll = _scroll(_body, "NotebookListScroll")
-	_list = VBoxContainer.new()
-	_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_list_scroll.add_child(_list)
-	_detail_scroll = _scroll(_body, "NotebookDetailScroll")
-	_detail = VBoxContainer.new()
-	_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_detail_scroll.add_child(_detail)
-	_pair_controls = HFlowContainer.new()
-	_content.add_child(_pair_controls)
+		_render_pair())
+	_connect_button(_return_list, _return_to_list)
+	_connect_named("NotebookRefresh", func() -> void: refresh_requested.emit())
+	_connect_named("NotebookFilters", _open_browser.bind("filters"))
+	_connect_named("NotebookInvestigation", _open_browser.bind("investigation"))
+	_connect_named("NotebookBrowseGroups", func() -> void: _open_browser("people" if _filters.tab == "people" else "sessions"))
+	_connect_button(_previous, _change_page.bind(-1))
+	_connect_button(_next, _change_page.bind(1))
+	_connect_named("NotebookMatchPrevious", _move_match.bind(-1))
+	_connect_named("NotebookMatchNext", _move_match.bind(1))
 	for side in range(2):
-		var selector := OptionButton.new()
-		selector.name = "NotebookPair" + str(side)
-		selector.fit_to_longest_item = false
-		selector.custom_minimum_size.x = 160
-		_pair_controls.add_child(selector)
+		var selector: OptionButton = find_child("NotebookPair" + str(side), true, false)
 		_pair_selectors.append(selector)
 		selector.item_selected.connect(func(index: int) -> void:
 			select_pair(side, String(selector.get_item_metadata(index))))
-	_button(_pair_controls, "", func() -> void:
+		var scroll: ScrollContainer = find_child("NotebookCompareScroll" + str(side), true, false)
+		_pair_panels.append(scroll.get_child(0))
+	_connect_named("NotebookSwapPair", func() -> void:
 		_cancel_restoration()
 		_pair.reverse()
-		_render_pair(), "NotebookSwapPair")
-	_pair_switch = _button(_pair_controls, "", func() -> void:
+		_render_pair())
+	_connect_button(_pair_switch, func() -> void:
 		_cancel_restoration()
 		_compact_side = 1 - _compact_side
 		_responsive()
 		_mark_visible_pair()
-		_changed(), "NotebookPairSwitch")
-	_pair_body = HBoxContainer.new()
-	_pair_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_content.add_child(_pair_body)
-	for side in range(2):
-		var scroll := _scroll(_pair_body, "NotebookCompareScroll" + str(side))
-		var body := VBoxContainer.new()
-		body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		scroll.add_child(body)
-		_pair_panels.append(body)
-	_browser = BROWSER.new()
-	_browser.name = "NotebookBrowser"
-	_content.add_child(_browser)
+		_changed())
+	for scroll in [_list_scroll, _detail_scroll, _pair_panels[0].get_parent(), _pair_panels[1].get_parent()]:
+		scroll.get_v_scroll_bar().value_changed.connect(func(_value: float) -> void: _changed())
 	_browser.dismissed.connect(_close_browser)
 	_browser.filter_selected.connect(_select_browse)
 	_browser.material_selected.connect(_select_investigation)
 	_browser.layout_changed.connect(func() -> void: _cycle_focus.call_deferred())
-	_visual = VISUAL_VIEWER.new()
-	_visual.name = "NotebookVisualViewer"
-	_content.add_child(_visual)
 	_visual.closed.connect(_close_visual)
 	_visual.view_changed.connect(_remember_visual)
-	# At large text sizes, tools scroll independently so the reading pane
-	# retains a usable height and search hits can always be brought into view.
-	_header_scroll = ScrollContainer.new()
-	_header_scroll.name = "NotebookToolsScroll"
-	_header_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	_header_scroll.follow_focus = true
-	_header_scroll.custom_minimum_size.y = 180
-	_content.add_child(_header_scroll)
-	_content.move_child(_header_scroll, 1)
-	var header := VBoxContainer.new()
-	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_header_scroll.add_child(header)
-	for control in [_filter_controls, _tools, _notice, _command, _status, _pages, _match_controls]: control.reparent(header)
+
+
+func _clear_template_owners(node: Node) -> void:
+	node.owner = null
+	for child in node.get_children(): _clear_template_owners(child)
+
+
+func _connect_named(node_name: String, action: Callable) -> void:
+	_connect_button(find_child(node_name, true, false), action)
+
+
+func _connect_button(button: Button, action: Callable) -> void:
+	button.pressed.connect(action)
+	button.focus_entered.connect(_changed)
+
+
+func _cache_native_fonts(node: Node) -> void:
+	if node in [_browser, _visual]: return
+	if node is Control:
+		var sizes := {}
+		for key in ["font_size", "normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size", "mono_font_size"]:
+			if node.has_theme_font_size_override(key): sizes[key] = node.get_theme_font_size(key)
+		if not sizes.is_empty(): _native_font_sizes[node] = sizes
+	for child in node.get_children(): _cache_native_fonts(child)
+
+
+func _apply_font_scale() -> void:
+	theme = _authored_theme.duplicate()
+	theme.default_font_size = roundi(_base_font_size * _font_scale)
+	_scale_theme_fonts(theme)
+	for control in _native_font_sizes:
+		if not is_instance_valid(control): continue
+		for key in _native_font_sizes[control]:
+			control.add_theme_font_size_override(key, roundi(_native_font_sizes[control][key] * _font_scale))
+	_browser.apply_font_scale(_font_scale)
+	_visual.apply_font_scale(_font_scale)
+
+
+func _scale_theme_fonts(target: Theme) -> void:
+	for type in target.get_font_size_type_list():
+		for key in target.get_font_size_list(type):
+			target.set_font_size(key, type, roundi(target.get_font_size(key, type) * _font_scale))
+
+
+func _scale_dynamic_fonts(control: Control) -> void:
+	if control.theme != null:
+		control.theme = control.theme.duplicate()
+		if control.theme.default_font_size > 0:
+			control.theme.default_font_size = roundi(control.theme.default_font_size * _font_scale)
+		_scale_theme_fonts(control.theme)
+	for key in ["font_size", "normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size", "mono_font_size"]:
+		if control.has_theme_font_size_override(key):
+			control.add_theme_font_size_override(key, roundi(control.get_theme_font_size(key) * _font_scale))
+	for child in control.get_children():
+		if child is Control: _scale_dynamic_fonts(child)
 
 
 func _apply_labels() -> void:
@@ -657,10 +667,7 @@ func _apply_labels() -> void:
 	_pair_switch.text = _l("A/B 화면 전환", "Switch A/B view")
 	find_child("NotebookMatchPrevious", true, false).text = _l("이전 일치", "Previous match")
 	find_child("NotebookMatchNext", true, false).text = _l("다음 일치", "Next match")
-	var font_size := roundi(18 * _font_scale)
-	if theme == null or theme.default_font_size != font_size:
-		var notebook_theme := DESIGN.make_theme(true, font_size)
-		theme = notebook_theme
+	_apply_font_scale()
 
 
 func _refresh() -> void:
@@ -702,7 +709,7 @@ func _refresh() -> void:
 	_next.disabled = _page + 1 >= result.pages
 	for tab in _tabs:
 		_tabs[tab].set_pressed_no_signal(_filters.tab == tab)
-		_tabs[tab].custom_minimum_size.x = 170 if _filters.tab == tab else 150
+		_tabs[tab].custom_minimum_size.x = _tab_base_widths[tab] + (20 if _filters.tab == tab else 0)
 	var browse_button: Button = find_child("NotebookBrowseGroups", true, false)
 	find_child("NotebookInvestigation", true, false).disabled = not query.investigation_available()
 	browse_button.visible = _filters.tab in ["dialogue", "people"]
@@ -726,6 +733,13 @@ func _refresh() -> void:
 
 
 func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool) -> void:
+	var material: VBoxContainer = material_scene.instantiate()
+	target.add_child(material)
+	target = material
+	_scale_dynamic_fonts(material)
+	for child in material.get_children():
+		if child is Control: child.hide()
+		if child is Label or child is RichTextLabel: child.text = ""
 	var matches := QUERY.match_ranges(result, _filters.get("needle", ""))
 	_material_label(target, result.title, "title", matches)
 	_material_label(target, result.location_label, "location_label", matches, 0, _l("장소: ", "Location: "))
@@ -733,39 +747,40 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 	if not result.lifetime_label.is_empty(): _material_label(target, result.lifetime_label, "lifetime_label", matches, 0, _l("정보의 유지 범위: ", "Information lifetime: "))
 	if not result.memory_notice.is_empty(): _material_label(target, result.memory_notice, "memory_notice", matches)
 	if not result.get("retention_notice", "").is_empty():
-		_label(target, result.retention_notice).name = "NotebookRetentionNotice"
+		_field_label(target, "NotebookRetentionNotice", result.retention_notice)
 	var kind := _kind_label(result.kind)
-	if not kind.is_empty(): _label(target, kind)
-	if result.previous: _label(target, _l("이전에 작성된 내용", "Earlier revision"))
+	if not kind.is_empty(): _field_label(target, "Kind", kind)
+	if result.previous: _field_label(target, "Previous", _l("이전에 작성된 내용", "Earlier revision"))
 	var states := {"observed": _l("내용: 관찰", "Content: observed"), "hypothesis": _l("내용: 가설", "Content: hypothesis"), "verified": _l("내용: 검증됨", "Content: verified"), "refuted": _l("내용: 반박됨", "Content: refuted")}
 	var sources := {"unverified": _l("출처: 미확인", "Source: unverified"), "identified": _l("출처: 식별됨", "Source: identified"), "authenticated": _l("출처: 인증됨", "Source: authenticated")}
-	if states.has(result.epistemic): _label(target, states[result.epistemic])
-	if sources.has(result.provenance): _label(target, sources[result.provenance])
+	if states.has(result.epistemic): _field_label(target, "ContentState", states[result.epistemic])
+	if sources.has(result.provenance): _field_label(target, "SourceState", sources[result.provenance])
 	if result.kind == "legacy_note":
-		_label(target, _l("과거 갱신 시점·작성 언어 미상. 사라진 이전 내용은 복원하지 않습니다.", "Past update time / original language unknown. Earlier overwritten text is unavailable."))
-		_label(target, _l("자료를 담을 때 보존한 원문", "Original text preserved when added") if result.note_snapshot else _l("기존 수첩에 남아 있는 마지막 값", "Last value remaining in the earlier notebook"))
-	elif result.legacy: _label(target, _l("이전 원문 · 당시 언어·획득 시점 미확인", "Earlier original text; original language / acquisition time unknown"))
-	elif result.fallback: _label(target, _l("당시 보관된 원문", "Original recorded text") + " (" + result.viewed_locale + ")")
+		_field_label(target, "LegacyDescription", _l("과거 갱신 시점·작성 언어 미상. 사라진 이전 내용은 복원하지 않습니다.", "Past update time / original language unknown. Earlier overwritten text is unavailable."))
+		_field_label(target, "OriginalSource", _l("자료를 담을 때 보존한 원문", "Original text preserved when added") if result.note_snapshot else _l("기존 수첩에 남아 있는 마지막 값", "Last value remaining in the earlier notebook"))
+	elif result.legacy: _field_label(target, "OriginalSource", _l("이전 원문 · 당시 언어·획득 시점 미확인", "Earlier original text; original language / acquisition time unknown"))
+	elif result.fallback: _field_label(target, "OriginalSource", _l("당시 보관된 원문", "Original recorded text") + " (" + result.viewed_locale + ")")
 	if not result.summary.is_empty(): _material_label(target, result.summary, "summary", matches)
 	if not result.speaker.is_empty(): _material_label(target, result.speaker, "speaker", matches)
 	if result.has_visual:
 		var visual: Dictionary = query.visual(result.key, _key)
 		if visual.ok and not visual.material.is_empty():
-			var preview := VISUAL_CANVAS.new()
-			preview.name = "NotebookVisualPreview"
-			preview.custom_minimum_size = Vector2(0, 200)
-			target.add_child(preview)
+			var preview = target.get_node("NotebookVisualPreview")
+			preview.show()
 			preview.configure(visual.material)
 			preview.focus_mode = Control.FOCUS_NONE
 			preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			_label(target, visual.material.description)
-			_button(target, _l("시각 자료 확대", "Enlarge visual material"), _open_visual.bind(result.key), "NotebookVisualOpen_" + String(result.key).sha256_text())
+			_field_label(target, "VisualDescription", visual.material.description)
+			var open: Button = target.get_node("VisualOpen")
+			open.name = "NotebookVisualOpen_" + String(result.key).sha256_text()
+			open.text = _l("시각 자료 확대", "Enlarge visual material")
+			_connect_button(open, _open_visual.bind(result.key))
+			open.show()
 		elif not visual.ok:
-			_label(target, _l("이 시각 자료를 재현하지 못했습니다. 보관 원문은 계속 읽을 수 있습니다.", "This visual could not be replayed. The recorded text remains available."))
-	var paragraphs := VBoxContainer.new()
-	paragraphs.name = "NotebookMaterialBody"
-	paragraphs.add_theme_constant_override("separation", 0)
-	target.add_child(paragraphs)
+			_field_label(target, "VisualError", _l("이 시각 자료를 재현하지 못했습니다. 보관 원문은 계속 읽을 수 있습니다.", "This visual could not be replayed. The recorded text remains available."))
+	var paragraphs: VBoxContainer = target.get_node("NotebookMaterialBody")
+	_clear(paragraphs)
+	paragraphs.show()
 	var parts := String(result.text).split("\n", true)
 	var offset := 0
 	for index in range(parts.size()):
@@ -810,16 +825,28 @@ func _navigate_line(key: String, direction: String) -> void:
 	_close.grab_focus()
 
 
+func _field_label(parent: Node, field: String, text: String) -> Label:
+	var label: Label = parent.get_node(field)
+	label.text = text
+	label.show()
+	return label
+
+
 func _material_label(parent: Node, text: String, field: String, matches: Array, offset: int = 0, prefix: String = "") -> Control:
-	if String(_filters.get("needle", "")).strip_edges().is_empty(): return _label(parent, prefix + text)
+	var authored := parent.has_node("Field_" + field)
+	if String(_filters.get("needle", "")).strip_edges().is_empty():
+		return _field_label(parent, "Field_" + field, prefix + text) if authored else _label(parent, prefix + text)
 	var ranges: Array = []
 	for hit in matches:
 		if hit.field != field: continue
 		var start := maxi(offset, int(hit.offset))
 		var end := mini(offset + text.length(), int(hit.offset) + int(hit.length))
 		if start < end: ranges.append({"offset": prefix.length() + start - offset, "length": end - start})
-	var label := SEARCH_TEXT.new()
-	parent.add_child(label)
+	var label = parent.get_node("FieldSearch_" + field) if authored else SEARCH_PARAGRAPH.instantiate()
+	if not authored:
+		_scale_dynamic_fonts(label)
+		parent.add_child(label)
+	label.show()
 	label.configure(prefix + text, ranges)
 	label.set_meta("search_field", field)
 	label.set_meta("source_offset", offset)
@@ -967,9 +994,10 @@ func _back() -> void:
 
 func _responsive() -> void:
 	if not is_instance_valid(_body): return
-	_header_scroll.custom_minimum_size.y = clampf(size.y * 0.24, 120, 220)
-	queue_redraw()
+	_header_scroll.custom_minimum_size.y = minf(_tools_base_height, size.y * 0.24)
 	var compact := size.x < 1050 * _font_scale
+	_book_open.visible = not compact
+	_book_compact.visible = compact
 	var browsing: bool = (is_instance_valid(_browser) and _browser.visible) or (is_instance_valid(_visual) and _visual.visible)
 	_header_scroll.visible = not browsing
 	_status.visible = not browsing
@@ -1194,45 +1222,20 @@ func _restore_link_position(generation: int, previous: Dictionary) -> void:
 	_changed()
 
 
-func _scroll(parent: Node, node_name: String) -> ScrollContainer:
-	var scroll := ScrollContainer.new()
-	scroll.name = node_name
-	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.follow_focus = true
-	scroll.get_v_scroll_bar().value_changed.connect(func(_value: float) -> void: _changed())
-	parent.add_child(scroll)
-	return scroll
-
-
 func _button(parent: Node, text: String, action: Callable, node_name: String) -> Button:
-	var button := Button.new()
+	var button: Button = (ROW_SCENE if node_name.begins_with("NotebookRow") else ACTION_SCENE).instantiate()
 	button.name = node_name
 	button.text = text
-	button.pressed.connect(action)
-	button.focus_entered.connect(_changed)
-	var is_row := node_name.begins_with("NotebookRow")
-	DESIGN.button(button, not is_row, "list_row" if is_row else "button_paper")
-	var icons := {"NotebookClose":"icon_close", "NotebookBookmarks":"icon_pin", "NotebookCompare":"icon_compare", "NotebookRefresh":"icon_refresh", "NotebookFilters":"icon_filter", "NotebookReturnList":"icon_back", "NotebookSwapPair":"icon_swap"}
-	if icons.has(node_name): button.icon = DESIGN.icon(icons[node_name], 24)
+	_scale_dynamic_fonts(button)
+	_connect_button(button, action)
 	parent.add_child(button)
 	return button
 
 
-func _draw() -> void:
-	# The book is one proportional illustration; UI text and tabs are separate.
-	var book := DESIGN.texture("panel_paper" if size.x < 1050 * _font_scale else "notebook_open")
-	var available := Vector2(maxf(1, size.x - 130), size.y)
-	var fitted := book.get_size() * minf(available.x / book.get_width(), available.y / book.get_height())
-	draw_texture_rect(book, Rect2(Vector2(130, 0) + (available - fitted) * 0.5, fitted), false)
-
-
 func _label(parent: Node, text: String) -> Label:
-	var label := Label.new()
+	var label: Label = PARAGRAPH_SCENE.instantiate()
 	label.text = text
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_scale_dynamic_fonts(label)
 	parent.add_child(label)
 	return label
 

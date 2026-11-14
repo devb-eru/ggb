@@ -1,0 +1,212 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/notebook_search_text.gd" id="search"]
+[ext_resource type="Script" path="res://scripts/ui/notebook_visual_canvas.gd" id="canvas"]
+[ext_resource type="PackedScene" path="res://scenes/ui/notebook/notebook_paragraph.tscn" id="paragraph"]
+
+[node name="NotebookMaterial" type="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Field_title" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "제목"
+autowrap_mode = 3
+
+[node name="FieldSearch_title" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "제목"
+fit_content = true
+scroll_active = false
+script = ExtResource("search")
+
+[node name="Field_location_label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "장소"
+autowrap_mode = 3
+
+[node name="FieldSearch_location_label" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "장소"
+fit_content = true
+scroll_active = false
+script = ExtResource("search")
+
+[node name="Field_source_label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "자료 유형"
+autowrap_mode = 3
+
+[node name="FieldSearch_source_label" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "자료 유형"
+fit_content = true
+scroll_active = false
+script = ExtResource("search")
+
+[node name="Field_lifetime_label" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "보관 상태"
+autowrap_mode = 3
+
+[node name="FieldSearch_lifetime_label" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "보관 상태"
+fit_content = true
+scroll_active = false
+script = ExtResource("search")
+
+[node name="Field_memory_notice" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "기억 상태"
+autowrap_mode = 3
+
+[node name="FieldSearch_memory_notice" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "기억 상태"
+fit_content = true
+scroll_active = false
+script = ExtResource("search")
+
+[node name="NotebookRetentionNotice" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "보관 안내"
+autowrap_mode = 3
+
+[node name="Kind" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "기록 유형"
+autowrap_mode = 3
+
+[node name="Previous" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "이전 기록"
+autowrap_mode = 3
+
+[node name="ContentState" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "내용 상태"
+autowrap_mode = 3
+
+[node name="SourceState" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "출처 상태"
+autowrap_mode = 3
+
+[node name="LegacyDescription" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "이전 기록 설명"
+autowrap_mode = 3
+
+[node name="OriginalSource" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "원문"
+autowrap_mode = 3
+
+[node name="Field_summary" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "요약"
+autowrap_mode = 3
+
+[node name="FieldSearch_summary" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "요약"
+fit_content = true
+scroll_active = false
+script = ExtResource("search")
+
+[node name="Field_speaker" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "화자"
+autowrap_mode = 3
+
+[node name="FieldSearch_speaker" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "화자"
+fit_content = true
+scroll_active = false
+script = ExtResource("search")
+
+[node name="NotebookVisualPreview" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+mouse_filter = 2
+script = ExtResource("canvas")
+
+[node name="VisualDescription" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "자료 설명"
+autowrap_mode = 3
+
+[node name="VisualOpen" type="Button" parent="."]
+visible = false
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "시각 자료 확대"
+
+[node name="VisualError" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "자료 오류"
+autowrap_mode = 3
+
+[node name="NotebookMaterialBody" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="PreviewParagraph" parent="NotebookMaterialBody" instance=ExtResource("paragraph")]
+layout_mode = 2
+text = "설명"

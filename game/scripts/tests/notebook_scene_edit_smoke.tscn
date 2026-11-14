@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/tests/notebook_scene_edit_smoke.gd" id="1"]
+
+[node name="NotebookSceneEditSmoke" type="Node"]
+script = ExtResource("1")

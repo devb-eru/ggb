@@ -1,0 +1,336 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/notebook_panel.gd" id="script"]
+[ext_resource type="Theme" path="res://assets/ui/notebook/themes/notebook.tres" id="theme"]
+[ext_resource type="Texture2D" path="res://assets/ui/notebook/textures/notebook_open.tres" id="book"]
+[ext_resource type="Texture2D" path="res://assets/ui/notebook/textures/panel_paper.tres" id="paper"]
+[ext_resource type="PackedScene" path="res://scenes/ui/notebook/notebook_browser.tscn" id="browser"]
+[ext_resource type="PackedScene" path="res://scenes/ui/notebook/notebook_visual_viewer.tscn" id="visual"]
+[ext_resource type="PackedScene" path="res://scenes/ui/notebook/notebook_record_row.tscn" id="row"]
+[ext_resource type="PackedScene" path="res://scenes/ui/notebook/notebook_material.tscn" id="material"]
+[ext_resource type="Texture2D" path="res://assets/ui/notebook/textures/icon_close.res" id="icon_close"]
+[ext_resource type="Texture2D" path="res://assets/ui/notebook/textures/icon_pin.res" id="icon_pin"]
+[ext_resource type="Texture2D" path="res://assets/ui/notebook/textures/icon_compare.res" id="icon_compare"]
+[ext_resource type="Texture2D" path="res://assets/ui/notebook/textures/icon_refresh.res" id="icon_refresh"]
+[ext_resource type="Texture2D" path="res://assets/ui/notebook/textures/icon_filter.res" id="icon_filter"]
+[ext_resource type="Texture2D" path="res://assets/ui/notebook/textures/icon_back.res" id="icon_back"]
+[ext_resource type="Texture2D" path="res://assets/ui/notebook/textures/icon_swap.res" id="icon_swap"]
+
+[node name="NotebookPanel" type="PanelContainer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1
+anchor_bottom = 1
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("theme")
+script = ExtResource("script")
+
+[node name="NotebookArtwork" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 130
+
+[node name="BookOpen" type="TextureRect" parent="NotebookArtwork"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("book")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BookCompact" type="TextureRect" parent="NotebookArtwork"]
+layout_mode = 2
+visible = false
+mouse_filter = 2
+texture = ExtResource("paper")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NotebookSpread" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="NotebookLeftBookmarks" type="VBoxContainer" parent="NotebookSpread"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 0)
+theme_override_constants/separation = 14
+
+[node name="TopSpacer" type="Control" parent="NotebookSpread/NotebookLeftBookmarks"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 110)
+mouse_filter = 2
+
+[node name="NotebookTab_clues" type="Button" parent="NotebookSpread/NotebookLeftBookmarks"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 64)
+theme_type_variation = &"NotebookBookmark"
+text = "단서"
+toggle_mode = true
+button_pressed = true
+
+[node name="NotebookTab_dialogue" type="Button" parent="NotebookSpread/NotebookLeftBookmarks"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 64)
+theme_type_variation = &"NotebookBookmark"
+text = "대화"
+toggle_mode = true
+
+[node name="NotebookTab_records" type="Button" parent="NotebookSpread/NotebookLeftBookmarks"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 64)
+theme_type_variation = &"NotebookBookmark"
+text = "기록"
+toggle_mode = true
+
+[node name="NotebookTab_people" type="Button" parent="NotebookSpread/NotebookLeftBookmarks"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 64)
+theme_type_variation = &"NotebookBookmark"
+text = "인물"
+toggle_mode = true
+
+[node name="PageMargin" type="MarginContainer" parent="NotebookSpread"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 65
+theme_override_constants/margin_right = 65
+theme_override_constants/margin_top = 65
+theme_override_constants/margin_bottom = 65
+
+[node name="NotebookContent" type="VBoxContainer" parent="NotebookSpread/PageMargin"]
+layout_mode = 2
+
+[node name="SearchBar" type="HBoxContainer" parent="NotebookSpread/PageMargin/NotebookContent"]
+layout_mode = 2
+
+[node name="NotebookSearch" type="LineEdit" parent="NotebookSpread/PageMargin/NotebookContent/SearchBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "공개된 기록 검색"
+clear_button_enabled = true
+
+[node name="NotebookClose" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/SearchBar"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "닫기"
+icon = ExtResource("icon_close")
+
+[node name="NotebookToolsScroll" type="ScrollContainer" parent="NotebookSpread/PageMargin/NotebookContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 220)
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Tools" type="VBoxContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NotebookFilterControls" type="HFlowContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools"]
+layout_mode = 2
+
+[node name="NotebookChapterFilter" type="OptionButton" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookFilterControls"]
+layout_mode = 2
+item_count = 1
+selected = 0
+popup/item_0/text = "장: 전체"
+
+[node name="NotebookBookmarks" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookFilterControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "책갈피만"
+icon = ExtResource("icon_pin")
+toggle_mode = true
+
+[node name="NotebookPreviousRevisions" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookFilterControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "이전·반박된 기록"
+toggle_mode = true
+
+[node name="NotebookCompare" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookFilterControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "담아 둔 자료 비교"
+icon = ExtResource("icon_compare")
+
+[node name="NotebookReturnList" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookFilterControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "목록으로"
+icon = ExtResource("icon_back")
+visible = false
+
+[node name="NotebookRefresh" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookFilterControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "갱신"
+icon = ExtResource("icon_refresh")
+
+[node name="NotebookFilters" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookFilterControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "필터"
+icon = ExtResource("icon_filter")
+
+[node name="NotebookInvestigation" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookFilterControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "현재 조사 관련 자료"
+
+[node name="NotebookBrowseGroups" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookFilterControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "대화 묶음"
+visible = false
+
+[node name="NotebookTools" type="HFlowContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools"]
+layout_mode = 2
+
+[node name="NotebookNotice" type="Label" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools"]
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="NotebookCommand" type="VBoxContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools"]
+layout_mode = 2
+
+[node name="NotebookStatus" type="Label" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools"]
+layout_mode = 2
+autowrap_mode = 3
+text = "기록 수 / 페이지"
+
+[node name="NotebookPages" type="HBoxContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools"]
+layout_mode = 2
+
+[node name="NotebookPreviousPage" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookPages"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "이전 페이지"
+
+[node name="NotebookNextPage" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookPages"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "다음 페이지"
+
+[node name="NotebookSearchMatches" type="HFlowContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools"]
+layout_mode = 2
+visible = false
+
+[node name="NotebookMatchStatus" type="Label" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookSearchMatches"]
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="NotebookMatchPrevious" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookSearchMatches"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "이전 일치"
+
+[node name="NotebookMatchNext" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookToolsScroll/Tools/NotebookSearchMatches"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "다음 일치"
+
+[node name="NotebookBody" type="HBoxContainer" parent="NotebookSpread/PageMargin/NotebookContent"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NotebookListScroll" type="ScrollContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookBody"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="RecordList" type="VBoxContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookBody/NotebookListScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PreviewRecord1" parent="NotebookSpread/PageMargin/NotebookContent/NotebookBody/NotebookListScroll/RecordList" instance=ExtResource("row")]
+layout_mode = 2
+text = "제목\n설명"
+
+[node name="PreviewRecord2" parent="NotebookSpread/PageMargin/NotebookContent/NotebookBody/NotebookListScroll/RecordList" instance=ExtResource("row")]
+layout_mode = 2
+text = "제목\n설명"
+
+[node name="NotebookDetailScroll" type="ScrollContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookBody"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="RecordDetail" type="VBoxContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookBody/NotebookDetailScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PreviewMaterial" parent="NotebookSpread/PageMargin/NotebookContent/NotebookBody/NotebookDetailScroll/RecordDetail" instance=ExtResource("material")]
+layout_mode = 2
+
+[node name="NotebookPairControls" type="HFlowContainer" parent="NotebookSpread/PageMargin/NotebookContent"]
+layout_mode = 2
+visible = false
+
+[node name="NotebookPair0" type="OptionButton" parent="NotebookSpread/PageMargin/NotebookContent/NotebookPairControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(160, 0)
+fit_to_longest_item = false
+
+[node name="NotebookPair1" type="OptionButton" parent="NotebookSpread/PageMargin/NotebookContent/NotebookPairControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(160, 0)
+fit_to_longest_item = false
+
+[node name="NotebookSwapPair" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookPairControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "A/B 교환"
+icon = ExtResource("icon_swap")
+
+[node name="NotebookPairSwitch" type="Button" parent="NotebookSpread/PageMargin/NotebookContent/NotebookPairControls"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "A/B 화면 전환"
+
+[node name="NotebookPairBody" type="HBoxContainer" parent="NotebookSpread/PageMargin/NotebookContent"]
+layout_mode = 2
+size_flags_vertical = 3
+visible = false
+
+[node name="NotebookCompareScroll0" type="ScrollContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookPairBody"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Material" type="VBoxContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookPairBody/NotebookCompareScroll0"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PreviewMaterial" parent="NotebookSpread/PageMargin/NotebookContent/NotebookPairBody/NotebookCompareScroll0/Material" instance=ExtResource("material")]
+layout_mode = 2
+
+[node name="NotebookCompareScroll1" type="ScrollContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookPairBody"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Material" type="VBoxContainer" parent="NotebookSpread/PageMargin/NotebookContent/NotebookPairBody/NotebookCompareScroll1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PreviewMaterial" parent="NotebookSpread/PageMargin/NotebookContent/NotebookPairBody/NotebookCompareScroll1/Material" instance=ExtResource("material")]
+layout_mode = 2
+
+[node name="NotebookBrowser" parent="NotebookSpread/PageMargin/NotebookContent" instance=ExtResource("browser")]
+layout_mode = 2
+visible = false
+
+[node name="NotebookVisualViewer" parent="NotebookSpread/PageMargin/NotebookContent" instance=ExtResource("visual")]
+layout_mode = 2
+visible = false
+
+[editable path="NotebookSpread/PageMargin/NotebookContent/NotebookBrowser"]
+[editable path="NotebookSpread/PageMargin/NotebookContent/NotebookVisualViewer"]

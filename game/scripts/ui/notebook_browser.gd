@@ -5,6 +5,8 @@ signal material_selected(key: String)
 signal dismissed
 signal layout_changed
 
+const ITEM := preload("res://scenes/ui/notebook/notebook_browse_item.tscn")
+const ITEM_LABEL := preload("res://scenes/ui/notebook/notebook_browse_label.tscn")
 const LABELS := preload("res://scripts/systems/notebook_browse_labels.gd")
 var query
 var _query_key := ""
@@ -20,30 +22,74 @@ var _status: Label
 var _actions: HFlowContainer
 var _paging: HFlowContainer
 var _back: Button
+var _apply: Button
+var _reset: Button
+var _previous: Button
+var _next: Button
+var _page_status: Label
+var _base_theme: Theme
+var _base_fonts: Dictionary = {}
+var _font_scale := 1.0
 
 
 func _ready() -> void:
-	size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_heading = _label(self, "")
-	_actions = HFlowContainer.new()
-	add_child(_actions)
-	var scroll := ScrollContainer.new()
-	scroll.name = "NotebookBrowseScroll"
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.follow_focus = true
-	add_child(scroll)
-	var body := VBoxContainer.new()
-	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(body)
-	_status = _label(body, "")
-	_items = VBoxContainer.new()
-	_items.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	body.add_child(_items)
-	_paging = HFlowContainer.new()
-	add_child(_paging)
-	hide()
+	_ensure_scene()
+	_heading = $Heading
+	_actions = $Actions
+	_back = $Actions/NotebookBrowseBack
+	_apply = $Actions/NotebookApplyFilters
+	_reset = $Actions/NotebookResetFilters
+	_status = $NotebookBrowseScroll/Body/Status
+	_items = $NotebookBrowseScroll/Body/Items
+	_paging = $Paging
+	_previous = $Paging/NotebookBrowsePrevious
+	_next = $Paging/NotebookBrowseNext
+	_page_status = $Paging/PageStatus
+	_base_theme = theme
+	for control in find_children("*", "Control", true, false):
+		if control.has_theme_font_size_override("font_size"):
+			_base_fonts[control] = control.get_theme_font_size("font_size")
+	_back.pressed.connect(func() -> void:
+		if _valid(): dismissed.emit())
+	_apply.pressed.connect(func() -> void:
+		if _valid(): filter_selected.emit(_draft.duplicate(true), ""))
+	_reset.pressed.connect(func() -> void:
+		if not _valid(): return
+		_draft = {"tab": _draft.get("tab", "clues")}
+		_draw())
+	_previous.pressed.connect(_change_page.bind(-1))
+	_next.pressed.connect(_change_page.bind(1))
 	set_process(false)
+
+
+func _ensure_scene() -> void:
+	if has_node("NotebookBrowseScroll"): return
+	# Legacy script.new() callers use the same authored children as PackedScene.
+	var authored := load("res://scenes/ui/notebook/notebook_browser.tscn").instantiate() as Control
+	theme = authored.theme
+	size_flags_vertical = authored.size_flags_vertical
+	for child in authored.get_children():
+		_release_authored_owner(child)
+		authored.remove_child(child)
+		add_child(child)
+	authored.free()
+	hide()
+
+
+func _release_authored_owner(node: Node) -> void:
+	# A script.new() root is outside the original PackedScene ownership tree.
+	node.owner = null
+	for child in node.get_children(): _release_authored_owner(child)
+
+
+func apply_font_scale(scale: float) -> void:
+	_font_scale = clampf(scale, 1.0, 2.0)
+	if _base_theme != null:
+		theme = _base_theme.duplicate()
+		theme.default_font_size = roundi(_base_theme.default_font_size * _font_scale)
+	for control in _base_fonts:
+		if is_instance_valid(control):
+			control.add_theme_font_size_override("font_size", roundi(_base_fonts[control] * _font_scale))
 
 
 func present(mode: String, model, locale: String, filters: Dictionary) -> void:
@@ -66,8 +112,6 @@ func dismiss() -> void:
 	_query_key = ""
 	_draft.clear()
 	_clear(_items)
-	_clear(_actions)
-	_clear(_paging)
 	hide()
 	set_process(false)
 
@@ -84,9 +128,12 @@ func _draw() -> void:
 	if not _valid(): return
 	_generation += 1
 	_clear(_items)
-	_clear(_actions)
-	_clear(_paging)
-	_back = _button(_actions, _l("돌아가기", "Back"), func() -> void: dismissed.emit(), "NotebookBrowseBack")
+	_back.text = _l("돌아가기", "Back")
+	_apply.text = _l("적용", "Apply")
+	_reset.text = _l("필터 초기화", "Reset filters")
+	_apply.visible = _mode == "filters"
+	_reset.visible = _mode == "filters"
+	_paging.hide()
 	if _mode == "filters": _draw_filters()
 	elif _mode == "investigation": _draw_investigation()
 	else: _draw_groups()
@@ -97,10 +144,6 @@ func _draw() -> void:
 func _draw_filters() -> void:
 	_heading.text = _l("공개된 자료의 필터", "Filters for disclosed materials")
 	_status.text = _l("같은 항목 안에서는 하나라도 일치, 다른 항목끼리는 모두 일치합니다. 적용 전에는 기존 목록이 바뀌지 않습니다.", "Match any selection within a field, and all selected fields. The list changes only after Apply.")
-	_button(_actions, _l("적용", "Apply"), func() -> void: filter_selected.emit(_draft.duplicate(true), ""), "NotebookApplyFilters")
-	_button(_actions, _l("필터 초기화", "Reset filters"), func() -> void:
-		_draft = {"tab": _draft.get("tab", "clues")}
-		_draw(), "NotebookResetFilters")
 	if not _draft.get("sessions", []).is_empty():
 		_button(_items, _l("대화 묶음 제한 해제", "Clear conversation selection"), func() -> void:
 			_draft.erase("sessions")
@@ -152,15 +195,9 @@ func _draw_groups() -> void:
 			selected[_mode] = [group.id]
 			filter_selected.emit(selected, (group.last_line if not group.last_line.is_empty() else group.last) if _mode == "sessions" else ""), "NotebookGroup_" + String(group.id).sha256_text())
 		button.set_meta("group_id", group.id)
-	var previous := _button(_paging, _l("이전 묶음 페이지", "Previous group page"), func() -> void:
-		_page -= 1
-		_draw(), "NotebookBrowsePrevious")
-	previous.disabled = _page == 0
-	_label(_paging, "%d / %d" % [_page + 1, result.pages])
-	var next := _button(_paging, _l("다음 묶음 페이지", "Next group page"), func() -> void:
-		_page += 1
-		_draw(), "NotebookBrowseNext")
-	next.disabled = _page + 1 >= result.pages
+	_previous.text = _l("이전 묶음 페이지", "Previous group page")
+	_next.text = _l("다음 묶음 페이지", "Next group page")
+	_update_paging(result.pages)
 
 
 func _draw_investigation() -> void:
@@ -179,15 +216,24 @@ func _draw_investigation() -> void:
 		label += "\n" + item.location_label
 		var button := _button(_items, label, func() -> void: material_selected.emit(item.key), "NotebookInvestigationRow_" + String(item.key).sha256_text())
 		button.set_meta("reference_key", item.key)
-	var previous := _button(_paging, _l("이전 자료 페이지", "Previous material page"), func() -> void:
-		_page -= 1
-		_draw(), "NotebookBrowsePrevious")
-	previous.disabled = _page == 0
-	_label(_paging, "%d / %d" % [_page + 1, result.pages])
-	var next := _button(_paging, _l("다음 자료 페이지", "Next material page"), func() -> void:
-		_page += 1
-		_draw(), "NotebookBrowseNext")
-	next.disabled = _page + 1 >= result.pages
+	_previous.text = _l("이전 자료 페이지", "Previous material page")
+	_next.text = _l("다음 자료 페이지", "Next material page")
+	_update_paging(result.pages)
+
+
+func _change_page(direction: int) -> void:
+	if not _valid(): return
+	if direction < 0 and _previous.disabled: return
+	if direction > 0 and _next.disabled: return
+	_page += direction
+	_draw()
+
+
+func _update_paging(pages: int) -> void:
+	_paging.show()
+	_previous.disabled = _page == 0
+	_next.disabled = _page + 1 >= pages
+	_page_status.text = "%d / %d" % [_page + 1, pages]
 
 
 func _valid() -> bool:
@@ -195,11 +241,11 @@ func _valid() -> bool:
 
 
 func _button(parent: Node, text: String, action: Callable, id: String) -> Button:
-	var button := Button.new()
+	var button := ITEM.instantiate() as Button
 	button.name = id
 	button.text = text
-	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if button.has_theme_font_size_override("font_size"):
+		button.add_theme_font_size_override("font_size", roundi(button.get_theme_font_size("font_size") * _font_scale))
 	var generation := _generation
 	button.pressed.connect(func() -> void:
 		if _valid() and generation == _generation: action.call())
@@ -208,9 +254,10 @@ func _button(parent: Node, text: String, action: Callable, id: String) -> Button
 
 
 func _label(parent: Node, text: String) -> Label:
-	var label := Label.new()
+	var label := ITEM_LABEL.instantiate() as Label
 	label.text = text
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	if label.has_theme_font_size_override("font_size"):
+		label.add_theme_font_size_override("font_size", roundi(label.get_theme_font_size("font_size") * _font_scale))
 	parent.add_child(label)
 	return label
 

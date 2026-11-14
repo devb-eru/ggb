@@ -1,0 +1,84 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/notebook_browser.gd" id="script"]
+[ext_resource type="Theme" path="res://assets/ui/notebook/themes/notebook.tres" id="theme"]
+[ext_resource type="PackedScene" path="res://scenes/ui/notebook/notebook_browse_item.tscn" id="item"]
+[ext_resource type="PackedScene" path="res://scenes/ui/notebook/notebook_browse_label.tscn" id="label"]
+
+[node name="NotebookBrowser" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme = ExtResource("theme")
+script = ExtResource("script")
+
+[node name="Heading" type="Label" parent="."]
+layout_mode = 2
+text = "필터 제목"
+autowrap_mode = 3
+
+[node name="Actions" type="HFlowContainer" parent="."]
+layout_mode = 2
+
+[node name="NotebookBrowseBack" type="Button" parent="Actions"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "돌아가기"
+
+[node name="NotebookApplyFilters" type="Button" parent="Actions"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "적용"
+
+[node name="NotebookResetFilters" type="Button" parent="Actions"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "필터 초기화"
+
+[node name="NotebookBrowseScroll" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Body" type="VBoxContainer" parent="NotebookBrowseScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Status" type="Label" parent="NotebookBrowseScroll/Body"]
+layout_mode = 2
+text = "설명"
+autowrap_mode = 3
+
+[node name="Items" type="VBoxContainer" parent="NotebookBrowseScroll/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PreviewCategory" parent="NotebookBrowseScroll/Body/Items" instance=ExtResource("label")]
+layout_mode = 2
+text = "분류"
+
+[node name="PreviewFilter" parent="NotebookBrowseScroll/Body/Items" instance=ExtResource("item")]
+layout_mode = 2
+text = "필터 항목"
+toggle_mode = true
+
+[node name="Paging" type="HFlowContainer" parent="."]
+layout_mode = 2
+
+[node name="NotebookBrowsePrevious" type="Button" parent="Paging"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "이전 자료 페이지"
+
+[node name="PageStatus" type="Label" parent="Paging"]
+layout_mode = 2
+text = "1 / 1"
+
+[node name="NotebookBrowseNext" type="Button" parent="Paging"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "다음 자료 페이지"

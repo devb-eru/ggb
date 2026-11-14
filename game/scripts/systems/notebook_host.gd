@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
-const PANEL := preload("res://scripts/ui/notebook_panel.gd")
+const OVERLAY := preload("res://scenes/ui/notebook/notebook_overlay.tscn")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const COMMANDS := preload("res://scripts/systems/notebook_commands.gd")
@@ -63,44 +63,21 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	_view_scope = VIEW_STORE.persistent_scope(_scope, view_profile)
 	layer = 40
 	process_mode = Node.PROCESS_MODE_PAUSABLE
-	var root := ColorRect.new()
-	root.color = Color(0.025, 0.02, 0.04, 0.99)
-	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(root)
-	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for edge in ["left", "right", "top", "bottom"]: margin.add_theme_constant_override("margin_" + edge, 24)
-	root.add_child(margin)
-	panel = PANEL.new()
-	panel.name = "IntegratedNotebook"
-	margin.add_child(panel)
+	var overlay: Control = OVERLAY.instantiate()
+	panel = overlay.get_node("Margin/IntegratedNotebook")
+	_loading = overlay.get_node("Margin/NotebookLoading")
+	_loading_label = _loading.get_node("Message")
+	_loading_retry = _loading.get_node("NotebookLoadingRetry")
+	_loading_close = _loading.get_node("NotebookLoadingClose")
+	panel.hide()
+	_loading.show()
+	add_child(overlay)
 	panel.close_requested.connect(request_close)
 	panel.reference_requested.connect(_request_reference)
 	panel.refresh_requested.connect(refresh)
-	panel.hide()
-	_loading = VBoxContainer.new()
-	_loading.name = "NotebookLoading"
-	_loading.alignment = BoxContainer.ALIGNMENT_CENTER
-	_loading.theme = Theme.new()
-	_loading.theme.default_font_size = roundi(18 * clampf(controller._reading_text_scale, 1.0, 2.0))
-	margin.add_child(_loading)
-	_loading_label = Label.new()
-	_loading_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_loading_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_loading.add_child(_loading_label)
-	_loading_retry = Button.new()
-	_loading_retry.name = "NotebookLoadingRetry"
-	_loading_retry.custom_minimum_size = Vector2(44, 44)
-	_loading_retry.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_scale_loading(controller._reading_text_scale)
 	_loading_retry.pressed.connect(refresh)
-	_loading.add_child(_loading_retry)
-	_loading_retry.hide()
-	_loading_close = Button.new()
-	_loading_close.name = "NotebookLoadingClose"
-	_loading_close.custom_minimum_size = Vector2(44, 44)
-	_loading_close.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_loading_close.pressed.connect(request_close)
-	_loading.add_child(_loading_close)
 	_mode = controller.process_mode
 	_visible = controller.visible
 	_audio_paused = controller._menu_audio_paused
@@ -118,6 +95,15 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	get_tree().call_group("notebook_input_observers", "refresh_notebook_input")
 	_start_refresh()
 	return true
+
+
+func _scale_loading(font_scale: float) -> void:
+	var scale_factor := clampf(font_scale, 1.0, 2.0)
+	_loading.theme = _loading.theme.duplicate(true)
+	_loading.theme.default_font_size = roundi(_loading.theme.default_font_size * scale_factor)
+	for control in [_loading_label, _loading_retry, _loading_close]:
+		if control.has_theme_font_size_override("font_size"):
+			control.add_theme_font_size_override("font_size", roundi(control.get_theme_font_size("font_size") * scale_factor))
 
 
 func _finish_opening() -> void:

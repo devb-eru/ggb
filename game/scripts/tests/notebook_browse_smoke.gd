@@ -125,11 +125,12 @@ func _test_retention_notice(tree: SceneTree) -> void:
 		panel.present(query, locale, "dialogue")
 		panel.show_detail(detail.key)
 		var label := panel._detail.find_child("NotebookRetentionNotice", true, false) as Label
-		_expect(label != null and label.text == notice, "detail displays retention notice separately: " + locale)
+		_expect(label != null and label.visible and not label.text.is_empty() and label.text == notice, "detail displays retention notice separately: " + locale)
 		panel._comparison_mode = true
 		panel._render_pair()
 		var left := panel._pair_panels[0].find_child("NotebookRetentionNotice", true, false) as Label
-		_expect(left != null and left.text == notice and panel._pair_panels[1].find_child("NotebookRetentionNotice", true, false) == null, "two-material comparison marks only affected side: " + locale)
+		var right := panel._pair_panels[1].find_child("NotebookRetentionNotice", true, false) as Label
+		_expect(left != null and left.visible and not left.text.is_empty() and left.text == notice and (right == null or (not right.visible and right.text.is_empty())), "two-material comparison marks only affected side: " + locale)
 		panel._comparison_mode = false
 		panel.set_filters({"tab":"dialogue", "bookmarks_only":true})
 		panel._open_browser("sessions")

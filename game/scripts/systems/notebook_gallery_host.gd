@@ -3,7 +3,7 @@ extends CanvasLayer
 # This host has no GameState/SaveManager reference. Only view preferences may be saved.
 signal closed
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
-const PANEL := preload("res://scripts/ui/notebook_panel.gd")
+const OVERLAY := preload("res://scenes/ui/notebook/notebook_overlay.tscn")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const MIGRATION := preload("res://scripts/systems/notebook_migration.gd")
 const VIEW_STORE := preload("res://scripts/systems/notebook_view_store.gd")
@@ -49,17 +49,10 @@ func begin(owner: Control, store: EndingGalleryStore, id: String, locale: String
 	_reconcile_seen()
 	layer = 40
 	process_mode = Node.PROCESS_MODE_PAUSABLE
-	var root := ColorRect.new()
-	root.color = Color(0.025, 0.02, 0.04, 0.99)
-	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(root)
-	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for edge in ["left", "right", "top", "bottom"]: margin.add_theme_constant_override("margin_" + edge, 24)
-	root.add_child(margin)
-	panel = PANEL.new()
+	var overlay: Control = OVERLAY.instantiate()
+	panel = overlay.get_node("Margin/IntegratedNotebook")
 	panel.name = "GalleryNotebook"
-	margin.add_child(panel)
+	add_child(overlay)
 	panel.close_requested.connect(request_close)
 	panel.refresh_requested.connect(refresh)
 	panel.reference_requested.connect(_comparison_requested)

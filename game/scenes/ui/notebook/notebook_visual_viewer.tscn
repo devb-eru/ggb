@@ -1,0 +1,96 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/notebook_visual_viewer.gd" id="script"]
+[ext_resource type="Script" path="res://scripts/ui/notebook_visual_canvas.gd" id="canvas"]
+[ext_resource type="Theme" path="res://assets/ui/notebook/themes/notebook.tres" id="theme"]
+
+[node name="NotebookVisualViewer" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme = ExtResource("theme")
+script = ExtResource("script")
+
+[node name="NotebookVisualReturn" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "자료로 돌아가기"
+
+[node name="NotebookVisualScroll" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Body" type="VBoxContainer" parent="NotebookVisualScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="NotebookVisualScroll/Body"]
+layout_mode = 2
+text = "제목"
+autowrap_mode = 3
+
+[node name="Controls" type="HFlowContainer" parent="NotebookVisualScroll/Body"]
+layout_mode = 2
+
+[node name="NotebookVisualIn" type="Button" parent="NotebookVisualScroll/Body/Controls"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "확대"
+
+[node name="NotebookVisualOut" type="Button" parent="NotebookVisualScroll/Body/Controls"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "축소"
+
+[node name="NotebookVisualLeft" type="Button" parent="NotebookVisualScroll/Body/Controls"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "왼쪽 이동"
+
+[node name="NotebookVisualRight" type="Button" parent="NotebookVisualScroll/Body/Controls"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "오른쪽 이동"
+
+[node name="NotebookVisualUp" type="Button" parent="NotebookVisualScroll/Body/Controls"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "위로 이동"
+
+[node name="NotebookVisualDown" type="Button" parent="NotebookVisualScroll/Body/Controls"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "아래로 이동"
+
+[node name="NotebookVisualReset" type="Button" parent="NotebookVisualScroll/Body/Controls"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "기본 위치"
+
+[node name="Status" type="Label" parent="NotebookVisualScroll/Body"]
+layout_mode = 2
+text = "배율 100%"
+autowrap_mode = 3
+
+[node name="NotebookVisualCanvas" type="Control" parent="NotebookVisualScroll/Body"]
+custom_minimum_size = Vector2(0, 260)
+layout_mode = 2
+size_flags_horizontal = 3
+clip_contents = true
+focus_mode = 2
+script = ExtResource("canvas")
+
+[node name="Description" type="Label" parent="NotebookVisualScroll/Body"]
+layout_mode = 2
+text = "설명"
+autowrap_mode = 3
+
+[node name="Help" type="Label" parent="NotebookVisualScroll/Body"]
+layout_mode = 2
+text = "자료 영역에 포커스가 있을 때 방향키로 이동합니다. 휠 확대와 드래그는 보조 조작입니다. 퍼즐의 회전·배선·판정은 바뀌지 않습니다."
+autowrap_mode = 3
