@@ -63,9 +63,16 @@ func _route(tree: SceneTree, type: String, locale: String) -> void:
 	var session := _seed()
 	_expect(session.act("mark", type).ok, "actual mark transaction: " + type + ":" + locale)
 	var state := GameState.get_snapshot()
-	var revision: Dictionary = state.meta_progress.knowledge_entries[KNOWLEDGE.KEY].revisions[0]
+	var content_id := "NB_CH1_NOTE_A1_" + type.to_upper()
+	var version := 3 if type == "sentence" else 2
+	var revisions: Array = state.meta_progress.knowledge_entries[KNOWLEDGE.KEY].revisions.filter(func(value: Dictionary) -> bool:
+		var resolved := ARCHIVE.resolve(state.meta_progress.dialogue_history, value.observation_ref)
+		return resolved.ok and resolved.entry.get("observation", {}).get("content_id", "") == content_id)
+	_expect(revisions.size() == 1, "actual mark is selected by its authored content identity: " + type)
+	if revisions.is_empty(): return
+	var revision: Dictionary = revisions[0]
 	var original := ARCHIVE.resolve(state.meta_progress.dialogue_history, revision.observation_ref)
-	_expect(original.ok and original.entry.observation.content_version == 2, "new event pins authored visual version two")
+	_expect(original.ok and original.entry.observation.content_version == version, "new event pins the current authored mark version: " + type)
 	_expect(revision.metadata.epistemic_state == "hypothesis" and not state.meta_progress.notebook_persistence_confirmed, "visual creation does not verify persistence")
 	_expect(state.meta_progress.knowledge_entries.self_authored_mark == {"type": type, "text": SESSION.MARKS[type], "day": 1}, "existing puzzle mark inputs and their values are unchanged")
 	var entry: Dictionary = original.entry
@@ -78,8 +85,9 @@ func _route(tree: SceneTree, type: String, locale: String) -> void:
 		_expect(visual.version == 2 and not visual.description.is_empty(), "authored shape has a non-colour text description")
 		_expect(not visual.description.contains("F0") and not visual.description.contains("SUBJECT"), "no future authority label in early visual description")
 		if type == "sentence":
-			_expect(visual.text_runs[0].text == ("Tomorrow morning," if locale == "en-US" else "내일 아침,"), "sentence picture keeps writing locale while surrounding UI localizes")
-			_expect(detail.text.contains("Tomorrow morning," if ui_locale == "en-US" else "내일 아침,"), "translated record remains readable independently of picture locale")
+			var definition := CONTENT.definition(content_id, version)
+			_expect(visual.text_runs == definition.visual.text_runs[locale], "current sentence picture uses its observed semantic version and writing locale")
+			_expect(detail.text.contains(definition.locales[ui_locale].body) and detail.text.contains("아빠는 어디에?"), "current authored sentence stays readable independently of surrounding UI language")
 		elif type == "house_glyph":
 			_expect(visual.paths.size() == 7 and visual.paths[5].points[1][0] < visual.paths[5].points[0][0], "three windows, pointed roof and left-leaning door retained")
 			_expect(visual.description.contains("pressed harder" if ui_locale == "en-US" else "힘이 실려") and visual.paths[5].width > visual.paths[1].width, "authored pressure appears in description and relative stroke width")
@@ -175,6 +183,21 @@ func _test_versions() -> void:
 		entry.observation.speaker_id = "EDGAR"
 		_expect(VISUALS.material(entry, "body", "ko-KR").is_empty(), "identity mismatch never generates a visual")
 		_expect(not CONTENT.observe(descriptor, _context("A2"), shown.speaker, shown.text, "ko-KR", "replay_committed").ok, "reopening after sleep cannot masquerade as new writing")
+	# The current sentence is semantic version three. Retained version-two
+	# observations must still replay the exact earlier writing and its locale.
+	for writing_locale in ["ko-KR", "en-US"]:
+		var descriptor := CONTENT.descriptor("NB_CH1_NOTE_A1_SENTENCE", 2, {"body": {}})
+		var shown := CONTENT.presentation(descriptor, writing_locale)
+		var observed := CONTENT.observe(descriptor, _context(), shown.speaker, shown.text, writing_locale, "replay_committed")
+		_expect(observed.ok, "historical version-two sentence remains observable through its original contract")
+		var entry := {"record_class":"authored", "observation":observed.observation}
+		var before := entry.duplicate(true)
+		for ui_locale in ["ko-KR", "en-US"]:
+			var visual := VISUALS.material(entry, "body", ui_locale)
+			_expect(VISUALS.supports(entry, "body") and visual.version == 2 and visual.text_runs[0].text == ("Tomorrow morning," if writing_locale == "en-US" else "내일 아침,"), "historical sentence picture keeps its original version-two wording and writing locale")
+			var expected_text: String = CONTENT.definition("NB_CH1_NOTE_A1_SENTENCE", 2).locales[ui_locale].body
+			_expect(CONTENT.render_segment(entry, "body", ui_locale).entry.text.ends_with(expected_text), "historical version-two record keeps its authored localized body")
+		_expect(entry == before, "historical sentence inspection never rewrites its stored observation")
 
 
 func _test_failed_save() -> void:

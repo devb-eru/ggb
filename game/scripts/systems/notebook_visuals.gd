@@ -12,7 +12,9 @@ static func supports(entry: Dictionary, segment: String) -> bool:
 	if entry.get("record_class") != "authored": return false
 	var observed: Dictionary = entry.observation
 	if not observed.segments.any(func(part: Dictionary) -> bool: return part.segment_id == segment): return false
-	if observed.content_id in SELF_MARKS: return int(observed.content_version) == 2 and segment == "body"
+	if observed.content_id in SELF_MARKS:
+		if int(observed.content_version) not in [2, 3] or segment != "body": return false
+		return CONTENT.definition(observed.content_id, int(observed.content_version)).get("visual", {}).get("kind") == "self_mark_v2"
 	if observed.content_id in CORE: return int(observed.content_version) in [1, 2] and segment == "body"
 	if observed.content_id == "NB_MIRROR_NOTE_C5_INFO": return int(observed.content_version) in [1, 2] and segment == "body"
 	if int(observed.content_version) != 1: return false
@@ -29,7 +31,7 @@ static func material(entry: Dictionary, segment: String, locale: String) -> Dict
 	var en := locale.begins_with("en")
 	var result := {"paths": [], "circles": [], "squares": [], "title": "", "description": "", "version": 1}
 	if observed.content_id in SELF_MARKS:
-		if not _self_mark(result, CONTENT.definition(observed.content_id, 2).get("visual", {}), part.viewed_locale, en): return {}
+		if not _self_mark(result, CONTENT.definition(observed.content_id, int(observed.content_version)).get("visual", {}), part.viewed_locale, en): return {}
 	elif ORIGINALS.has(observed.content_id):
 		_original(result, ORIGINALS[observed.content_id], en)
 	elif observed.content_id in CORE:
