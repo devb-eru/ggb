@@ -29,6 +29,8 @@ var _modal_dispatch_context: Dictionary = {}
 var _utility_request: Dictionary = {}
 var _utility_restoring := false
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
+var use_async_room_saves := false
+var _room_save_request: Dictionary = {}
 
 
 class CampaignSleepTask extends RefCounted:
@@ -63,6 +65,7 @@ class CampaignSleepTask extends RefCounted:
 
 
 func _exit_tree() -> void:
+	_room_save_request = {}
 	# A detached/re-entered node is not the owner of its previous sleep request.
 	_campaign_sleep_generation += 1
 	if _reset_transition_pending and is_instance_valid(_edgar_timer):
@@ -108,6 +111,11 @@ func _flush_notebook_surfaces(generation: int, explicit_retry: bool = false) -> 
 	if _interaction_blocked(): return false
 	if not _notebook_surfaces.live(_notebook_surface_scope(), generation): return not _notebook_surfaces.has_pending()
 	var saved := _notebook_surfaces.flush(session, _notebook_surface_scope(), explicit_retry)
+	_update_surface_retry(generation, saved)
+	return saved
+
+
+func _update_surface_retry(generation: int, saved: bool) -> void:
 	var retry := _hotspot_layer.get_node_or_null("NOTEBOOK_SURFACE_RETRY")
 	if saved and retry != null:
 		var restore_focus: bool = retry is Control and retry.has_focus()
@@ -116,7 +124,54 @@ func _flush_notebook_surfaces(generation: int, explicit_retry: bool = false) -> 
 		if restore_focus: call_deferred("_restore_notebook_surface_focus")
 	elif not saved and retry == null:
 		_add_hotspot("NOTEBOOK_SURFACE_RETRY", preload("res://scripts/ui/fracture_surface_texts.gd").retry_text(TranslationServer.get_locale()), Rect2(280, 945, 1360, 100), _flush_notebook_surfaces.bind(generation, true))
-	return saved
+
+
+func _flush_room_surfaces(generation: int) -> void:
+	if not _async_room_saves_available() or not _notebook_surface_enabled() or _current_room == "M1_LIBRARY_INNER":
+		_flush_notebook_surfaces(generation)
+		return
+	if _interaction_blocked() or not _notebook_surfaces.live(_notebook_surface_scope(), generation) or _notebook_surfaces.retry_required:
+		return
+	var batch := _notebook_surfaces.prepare_batch()
+	if batch.is_empty(): return
+	var request := _start_room_save()
+	var result := await session.record_viewed_surfaces_async(batch, _room_save_can_commit.bind(request))
+	var current := _finish_room_save(request)
+	if not current: return
+	var saved: bool = result.get("ok", false)
+	_notebook_surfaces.finish_batch(batch, saved)
+	_update_surface_retry(generation, saved)
+
+
+func _async_room_saves_available() -> bool:
+	return use_async_room_saves and session != null and session._save == SaveManager and session._game == GameState
+
+
+func _start_room_save() -> Dictionary:
+	var request := {"scope":_recorded_choice_scope(), "generation":_notebook_surfaces.generation,
+		"locale":TranslationServer.get_locale(), "location":_current_room}
+	_room_save_request = request
+	return request
+
+
+func _owns_room_save(request: Dictionary) -> bool:
+	return is_inside_tree() and not is_queued_for_deletion() and is_same(_room_save_request, request)
+
+
+func _room_save_scope_matches(request: Dictionary) -> bool:
+	return _async_room_saves_available() and request.scope == _recorded_choice_scope() \
+		and request.generation == _notebook_surfaces.generation and request.location == _current_room
+
+
+func _room_save_can_commit(request: Dictionary) -> bool:
+	return _owns_room_save(request) and _room_save_scope_matches(request) and request.locale == TranslationServer.get_locale() \
+		and is_visible_in_tree() and not _modal_active and not _notebook_is_open()
+
+
+func _finish_room_save(request: Dictionary) -> bool:
+	if not _owns_room_save(request): return false
+	_room_save_request = {}
+	return _room_save_scope_matches(request)
 
 
 func _restore_notebook_surface_focus() -> void:
@@ -261,10 +316,13 @@ func _async_history_enabled() -> bool:
 
 
 func _interaction_blocked() -> bool:
-	return not _history_async_request.is_empty() or super._interaction_blocked()
+	return not _room_save_request.is_empty() or not _history_async_request.is_empty() or super._interaction_blocked()
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not _room_save_request.is_empty():
+		get_viewport().set_input_as_handled()
+		return
 	if not _history_async_request.is_empty():
 		if event.is_action_pressed("ui_page_up", false, true) or event.is_action_pressed("ui_page_down", false, true):
 			super._unhandled_input(event)
@@ -348,6 +406,7 @@ func _record_current_history_line() -> bool:
 
 
 func _open_menu() -> void:
+	if not _room_save_request.is_empty(): return
 	if _reset_transition_pending: return
 	if not _utility_request.is_empty(): return
 	if session == null:
@@ -656,14 +715,37 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 	if action == "edgar_talk" and show_text and get_script().resource_path.ends_with("/chapter_one_controller.gd") and session.local_state().edgar_state == "entering":
 		_ep01_play("EP01_B2_CAUGHT_001")
 		return
+	var before_sheet := session.snapshot()
 	if not show_text and _presentation_enabled():
-		var completion := PRESENTATION.completion_for_action(session.snapshot(), PRESENTATION.family(self), action, value)
+		var completion := PRESENTATION.completion_for_action(before_sheet, PRESENTATION.family(self), action, value)
 		if not completion.is_empty():
 			if _presentation_scope != _recorded_choice_scope(): return
 			session._presentation_commit_override = completion
-	var before_sheet := session.snapshot()
+	if action == "move" and value is String and not show_text and _async_room_saves_available() \
+		and _notebook_surface_enabled() and before_sheet.reset_state.phase == "idle" \
+		and _current_room != "M1_LIBRARY_INNER" and value != "M1_LIBRARY_INNER" \
+		and PRESENTATION.read(before_sheet).get("phase", "") != "finish_pending" \
+		and _modal_dispatch_context.is_empty():
+		session._presentation_commit_override = {}
+		_move_room_async(value, before_sheet)
+		return
 	var result := _act_with_modal_completion(action, value)
 	session._presentation_commit_override = {}
+	_finish_action(action, value, show_text, before_sheet, result)
+
+
+func _move_room_async(target: String, before: Dictionary) -> void:
+	var request := _start_room_save()
+	_set_status("이동 중…" if request.locale.begins_with("ko") else "Moving…")
+	var result := await session.move_async(target, _room_save_can_commit.bind(request))
+	if not _finish_room_save(request): return
+	if not result.ok and not result.has("text"):
+		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
+		return
+	_finish_action("move", target, false, before, result)
+
+
+func _finish_action(action: String, value: Variant, show_text: bool, before_sheet: Dictionary, result: Dictionary) -> void:
 	if result.get("ok", false):
 		_set_status("")
 	_render_room()
@@ -753,7 +835,7 @@ func _render_room() -> void:
 		return
 	_rendering = true
 	_notebook_surfaces.begin(_notebook_surface_scope(), session.snapshot())
-	call_deferred("_flush_notebook_surfaces", _notebook_surfaces.generation)
+	call_deferred("_flush_room_surfaces", _notebook_surfaces.generation)
 	_remember_world_focus()
 	var state := session.snapshot()
 	if _current_room != state["loop_state"]["location_id"]:
@@ -1140,6 +1222,7 @@ func _board_label(text: String, rect: Rect2) -> void:
 
 
 func _notebook_open_block_reason() -> String:
+	if not _room_save_request.is_empty(): return "현재 저장을 먼저 완료해 주세요." if TranslationServer.get_locale().begins_with("ko") else "Wait for the current save to finish."
 	if not _history_async_request.is_empty(): return "표시 중인 기록의 저장을 먼저 완료해 주세요." if not TranslationServer.get_locale().begins_with("en") else "Finish saving the displayed record first."
 	var reason := super._notebook_open_block_reason()
 	if not reason.is_empty(): return reason

@@ -100,6 +100,11 @@ func live(current: Dictionary, expected_generation: int) -> bool:
 func flush(session: Object, current: Dictionary, explicit_retry: bool = false) -> bool:
 	if scope != current: return false
 	if retry_required and not explicit_retry: return false
+	if session.has_method("record_viewed_surfaces"):
+		var batch := prepare_batch()
+		var saved: bool = batch.is_empty() or session.record_viewed_surfaces(batch).get("ok", false)
+		finish_batch(batch, saved)
+		return saved
 	prepare_receipts()
 	for id in requests:
 		var request: Dictionary = requests[id]
@@ -109,6 +114,23 @@ func flush(session: Object, current: Dictionary, explicit_retry: bool = false) -
 			return false
 	retry_required = false
 	return true
+
+
+func prepare_batch() -> Array:
+	prepare_receipts()
+	var batch: Array = []
+	for id in requests:
+		var request: Dictionary = requests[id]
+		if request.recorded or (id not in active and not request.attempted): continue
+		request.attempted = true
+		batch.append(request)
+	return batch
+
+
+func finish_batch(batch: Array, saved: bool) -> void:
+	for request in batch:
+		request.recorded = saved
+	retry_required = not saved
 
 
 func choose(session: Object, current: Dictionary, group: String, id: String, text: String, locale: String) -> bool:

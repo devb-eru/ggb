@@ -74,6 +74,34 @@ static func append_to_snapshot(state: Dictionary, speaker: String, text: String,
 	return {"ok": true, "changed": true, "entry_uid": entry_uid}
 
 
+static func append_many_to_snapshot(state: Dictionary, entries: Array) -> Dictionary:
+	# The candidate is detached. Discard it on failure, including any earlier items.
+	var changed := false
+	for value in entries:
+		if not value is Dictionary or not value.get("speaker") is String or not value.get("text") is String \
+			or not value.get("locale") is String or not value.get("chapter") is String or not value.get("context") is Dictionary:
+			return {"ok": false, "error_ids": ["NB_HISTORY_REQUEST"]}
+		if value.text.is_empty(): continue
+		var result := append_to_snapshot(state, value.speaker, value.text, value.locale, value.chapter, value.get("facts", []), value.context)
+		if not result.ok: return result
+		changed = changed or result.changed
+	return {"ok": true, "changed": changed}
+
+
+static func record_many(game: Node, saves: Node, slot: String, point: String, state: Dictionary, entries: Array) -> Dictionary:
+	var appended := append_many_to_snapshot(state, entries)
+	if not appended.ok or not appended.changed: return appended
+	return _commit_snapshot(game, saves, slot, point, state, "")
+
+
+static func record_many_async(game: Node, saves: Node, slot: String, point: String, entries: Array, guard: Callable) -> Dictionary:
+	return await _write_async(game, saves, slot, point, {"kind":"surfaces", "entries":entries}, guard)
+
+
+static func move_async(game: Node, saves: Node, slot: String, point: String, target: String, guard: Callable) -> Dictionary:
+	return await _write_async(game, saves, slot, point, {"kind":"chapter_move", "target":target}, guard)
+
+
 static func requires_authored() -> bool:
 	# Audit mode must not silently accept new raw dialogue as a mapped producer.
 	return OS.is_debug_build() and "--notebook-require-authored" in OS.get_cmdline_user_args()

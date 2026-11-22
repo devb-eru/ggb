@@ -92,6 +92,13 @@ func _prepare_history_with_storage(storage: Node, request: Dictionary) -> Dictio
 	if recording.kind == "dialogue":
 		appended = preload("res://scripts/systems/dialogue_history_writer.gd").append_to_snapshot(state,
 			recording.speaker, recording.text, recording.locale, recording.chapter, recording.facts, recording.context)
+	elif recording.kind == "surfaces":
+		appended = preload("res://scripts/systems/dialogue_history_writer.gd").append_many_to_snapshot(state, recording.entries)
+	elif recording.kind == "chapter_move":
+		var prepared := ChapterOneSession.prepare_move(state, recording.target)
+		if not prepared.ok: return prepared
+		state = prepared.snapshot
+		appended = {"ok":true, "changed":true, "feedback":prepared.feedback}
 	elif recording.kind == "prologue":
 		var prepared := preload("res://scripts/systems/prologue_save_candidate.gd").prepare(state, recording.get("payload", {}))
 		if not prepared.ok: return prepared
@@ -130,7 +137,7 @@ func _prepare_history_with_storage(storage: Node, request: Dictionary) -> Dictio
 		var source: Dictionary = storage._validate_save_text(raw.bytes.get_string_from_utf8(), paths[kind]) if raw.exists else {"ok":false, "error_id":"ERR_SAVE_NOT_FOUND"}
 		if storage._is_incompatible(source): return source
 		if kind != "pending": sources[kind] = source
-	if not appended.changed: return {"ok":true, "changed":false, "entry_uid":appended.entry_uid, "source_stamps":stamps}
+	if not appended.changed: return {"ok":true, "changed":false, "entry_uid":appended.get("entry_uid", ""), "source_stamps":stamps}
 	var run_id: String = sources.main.get("header", {}).get("run_id", "") if sources.main.ok else ""
 	if run_id.is_empty(): run_id = ARCHIVE.new_uid()
 	var schema: int = storage.SCHEMA_VERSION if state.meta_progress.dialogue_history.has("schema_version") else 1
@@ -147,9 +154,11 @@ func _prepare_history_with_storage(storage: Node, request: Dictionary) -> Dictio
 	var verified: Dictionary = storage._validate_save_text(temporary.bytes.get_string_from_utf8(), paths.temporary)
 	if not verified.ok or not StateSnapshotValidator.same_persisted_value(state, verified.snapshot): return {"ok":false, "error_id":"ERR_SAVE_TEMP_VERIFY"}
 	for source in sources.values(): source.erase("snapshot")
-	return {"ok":true, "changed":true, "snapshot":state, "entry_uid":appended.entry_uid, "sources":sources, "source_stamps":stamps,
+	var result := {"ok":true, "changed":true, "snapshot":state, "entry_uid":appended.get("entry_uid", ""), "sources":sources, "source_stamps":stamps,
 		"temporary_stamp":temporary.stamp, "summary":storage._summary_from_validated(verified), "point":request.point,
 		"transaction":request.transaction, "checksum":encoded.checksum}
+	if appended.has("feedback"): result.feedback = appended.feedback
+	return result
 
 
 func _prepare_wake(previous: Dictionary, payload: Dictionary) -> Dictionary:

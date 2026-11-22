@@ -772,6 +772,7 @@ func _launch_campaign(slot_id: String) -> void:
 	_prologue.process_mode = Node.PROCESS_MODE_PAUSABLE
 	_prologue.name = "Basement" if script == BASEMENT_SCRIPT else ("BlackMirror" if script == BLACK_MIRROR_SCRIPT else "ChapterOne")
 	_prologue.configure_session(slot_id, "MORNING_ROUTE")
+	if script == CHAPTER_ONE_SCRIPT: _prologue.use_async_room_saves = true
 	_prologue.audio_settings_changed.connect(_apply_audio_settings)
 	_prologue.menu_audio_pause_requested.connect(_set_menu_audio_pause)
 	_prologue.audio_cue_requested.connect(_audio.request_cue)

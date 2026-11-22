@@ -500,6 +500,25 @@ func available_rooms() -> Array:
 	return ROOMS
 
 
+static func prepare_move(previous: Dictionary, target: String) -> Dictionary:
+	# Run the same action against a detached candidate, using the wake preparation path.
+	var presentation := preload("res://scripts/systems/notebook_presentation.gd")
+	if presentation.read(previous).get("phase") == "finish_pending":
+		return {"ok":false, "error_id":"NB_PRESENTATION_STALE"}
+	var detached := ChapterOneSession.new(null, null, "")
+	detached._wake_candidate_active = true
+	detached._wake_candidate_snapshot = previous
+	detached._presentation_commit_override = presentation.completion_for_action(previous, "chapter_one_controller", "move", target)
+	var feedback := detached.act("move", target)
+	if not feedback.ok: return feedback
+	return {"ok":true, "snapshot":detached._wake_candidate_snapshot, "feedback":feedback}
+
+
+func move_async(target: String, guard: Callable) -> Dictionary:
+	var result := await preload("res://scripts/systems/dialogue_history_writer.gd").move_async(_game, _save, slot_id, SAVE_POINT, target, guard)
+	return result.feedback if result.get("ok", false) else result
+
+
 func finish_sheet_conversation(node_ids: Array) -> Dictionary:
 	var state := snapshot()
 	if node_ids.any(func(id: Variant) -> bool: return id is String and id.begins_with("EP02_")):
@@ -535,6 +554,25 @@ func history_context(state: Dictionary = {}) -> Dictionary:
 func record_viewed_line(speaker: String, text: String, locale: String, context: Dictionary = {}) -> Dictionary:
 	var chapter_id := history_chapter_id() if context.is_empty() else HISTORY_CONTEXT.normalize_chapter(context.get("chapter_id"))
 	return preload("res://scripts/systems/dialogue_history_writer.gd").record(_game, _save, slot_id, _save_point(snapshot()), speaker, text, locale, chapter_id, context.get("observed_fact_ids", []), context)
+
+
+func _surface_recordings(batch: Array) -> Array:
+	var entries: Array = []
+	for request in batch:
+		var context: Dictionary = request.context
+		var chapter := history_chapter_id() if context.is_empty() else HISTORY_CONTEXT.normalize_chapter(context.get("chapter_id"))
+		entries.append({"speaker":request.speaker, "text":request.text, "locale":request.locale,
+			"chapter":chapter, "facts":context.get("observed_fact_ids", []), "context":context})
+	return entries
+
+
+func record_viewed_surfaces(batch: Array) -> Dictionary:
+	var state := snapshot()
+	return preload("res://scripts/systems/dialogue_history_writer.gd").record_many(_game, _save, slot_id, _save_point(state), state, _surface_recordings(batch))
+
+
+func record_viewed_surfaces_async(batch: Array, guard: Callable) -> Dictionary:
+	return await preload("res://scripts/systems/dialogue_history_writer.gd").record_many_async(_game, _save, slot_id, _save_point(snapshot()), _surface_recordings(batch), guard)
 
 
 func _rooms_connected(from: String, to: String, knowledge: Dictionary) -> bool:

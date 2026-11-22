@@ -7,6 +7,7 @@ static func _text(key: String, locale: String) -> String:
 const NOTES := preload("res://scripts/systems/notebook_chapter_surfaces.gd")
 const CONTENT := NOTES.CONTENT
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
+const RECEIPT := preload("res://scripts/systems/notebook_surface_receipt.gd")
 const STATE_ASSERTIONS := preload("res://scripts/tests/notebook_state_assertions.gd")
 const CHECKPOINTS := preload("res://scripts/systems/developer_checkpoints.gd")
 const VIEW := preload("res://scripts/chapters/chapter_one_controller.gd")
@@ -26,10 +27,15 @@ var runtime_audit := preload("res://scripts/tests/notebook_runtime_audit.gd").ne
 class ControlledSave extends Node:
 	var reject := true
 	var lose_ack := false
+	var attempts := 0
+	var commits: Array[Dictionary] = []
 	func get_build_flavor() -> String: return SaveManager.get_build_flavor()
 	func save_snapshot(slot: String, point: String, state: Dictionary, revision: int, transaction: String) -> Dictionary:
+		attempts += 1
 		if reject and transaction.begins_with("HISTORY_"): return {"ok":false,"error_ids":["ERR_TEST_CHAPTER_SURFACE"]}
 		var result := SaveManager.save_snapshot(slot,point,state,revision,transaction)
+		if result.ok:
+			commits.append({"location": state.loop_state.location_id, "entries": state.meta_progress.dialogue_history.entries.size()})
 		return {"ok":false,"error_ids":["ERR_TEST_CHAPTER_ACK"]} if result.ok and lose_ack else result
 	func confirm_snapshot_commit(slot: String, transaction: String) -> Dictionary: return SaveManager.confirm_snapshot_commit(slot,transaction)
 
@@ -50,6 +56,7 @@ func run(tree: SceneTree) -> Dictionary:
 		tree.current_scene.add_child(view)
 		view._dismiss_dialogue_for_test()
 		_present()
+		_batch_commit_and_resume()
 		_labels()
 		_journal()
 		_clocks()
@@ -70,6 +77,63 @@ func run(tree: SceneTree) -> Dictionary:
 	print("NOTEBOOK_INHERITED_ACTION_AUDIT: " + JSON.stringify({"paths": inherited_paths, "errors": errors}))
 	_expect(runtime_audit.emit("chapter-surfaces", errors.is_empty()).ok, "runtime trace validates")
 	return {"ok":errors.is_empty(),"errors":errors,"not_covered":["prologue_surfaces","unified_notebook_UI","OS_input","restart_cursor","B2_exact_modal_pause"]}
+
+
+func _batch_commit_and_resume() -> void:
+	_install(_fixture("B1", "M1_CENTRAL_HALL"))
+	var controlled := ControlledSave.new()
+	controlled.reject = false
+	view.session._save = controlled
+	_press("GO_M1_SERVANT_COMMON")
+	_present()
+	_expect(controlled.commits == [
+		{"location": "M1_SERVANT_COMMON", "entries": 0}, {"location": "M1_SERVANT_COMMON", "entries": 4}
+	], "common room saves movement and all four visible labels in two commits")
+	var expected_ids: Array[String] = []
+	for id in ["EDGAR", "LUCA", "MARA1", "MARA2"]: expected_ids.append(NOTES.PREFIX + "B1_DOC_" + id + "_UNREAD")
+	_expect(_archive().entries.map(func(entry: Dictionary) -> String: return entry.observation.content_id) == expected_ids, "common room preserves the four label IDs and their order")
+	_press("BACK")
+	_present()
+	_expect(controlled.commits.size() == 3 and controlled.commits.back() == {"location": "M1_CENTRAL_HALL", "entries": 4}, "hall return commits movement only")
+	_press("GO_M1_SERVANT_COMMON")
+	_expect(controlled.commits.size() == 4 and controlled.commits.back() == {"location": "M1_SERVANT_COMMON", "entries": 4}, "repeat visit commits movement before the new surface batch")
+	var before := GameState.get_snapshot()
+	var paths := SaveManager._slot_paths(SLOT)
+	var bytes := FileAccess.get_file_as_bytes(paths.main)
+	var capture := view._notebook_surfaces
+	var generation := capture.generation
+	var tokens := _surface_tokens(capture)
+	var attempts := controlled.attempts
+	var request: Dictionary = capture.requests[capture.active.back()]
+	var receipt_key: String = request.context.surface_receipt.key
+	request.context.surface_receipt.key = "0".repeat(64)
+	_expect(not view._flush_notebook_surfaces(generation), "invalid fourth receipt rejects the whole prepared batch")
+	_expect(controlled.attempts == attempts and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), before) and FileAccess.get_file_as_bytes(paths.main) == bytes, "invalid last label leaves no partial history or receipt on disk")
+	request.context.surface_receipt.key = receipt_key
+	controlled.reject = true
+	_expect(not view._flush_notebook_surfaces(generation, true), "batch storage failure requires another explicit retry")
+	_expect(controlled.attempts == attempts + 1 and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), before) and FileAccess.get_file_as_bytes(paths.main) == bytes, "failed batch save keeps the committed move and no partial labels")
+	_expect(not view._flush_notebook_surfaces(generation) and controlled.attempts == attempts + 1 and _surface_tokens(capture) == tokens, "failed batch stays pending with the same tokens and no background repeat")
+	controlled.reject = false
+	controlled.lose_ack = true
+	_expect(view._flush_notebook_surfaces(generation, true), "lost acknowledgment recovers the entire written batch")
+	var saved := GameState.get_snapshot()
+	var appended: Array = saved.meta_progress.dialogue_history.entries.slice(4)
+	var receipt := RECEIPT.read(saved, view._notebook_surface_scope())
+	_expect(controlled.commits.size() == 5 and appended.map(func(entry: Dictionary) -> String: return entry.observation.presentation_token) == tokens, "retry commits all original label tokens once")
+	_expect(receipt.get("receipts", {}).size() == 4 and STATE_ASSERTIONS.same_surface_gameplay(before, saved), "retry keeps four matching receipts and changes no gameplay")
+	_expect(LoadCoordinator.new(GameState, SaveManager).load_and_install(SLOT).ok, "batch survives a verified slot reload")
+	view._render_room()
+	_present()
+	_expect(controlled.commits.size() == 5 and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), saved), "reload and redraw recover every label without duplicating the batch")
+	view.session._save = SaveManager
+	controlled.free()
+
+
+func _surface_tokens(capture) -> Array[String]:
+	var tokens: Array[String] = []
+	for key in capture.active: tokens.append(capture.requests[key].context.presentation_token)
+	return tokens
 
 
 func _labels() -> void:
@@ -260,7 +324,10 @@ func _later_controllers(tree: SceneTree) -> void:
 
 
 func _inherited_action(stage: String, room: String, button_id: String, content_id: String, note_id: String = "") -> void:
-	_install(_fixture(stage, room))
+	var fixture := _fixture(stage, room)
+	if button_id == "AS_ROUTINE":
+		fixture.loop_state.event_local_states.CHAPTER_ONE.routine_done = false
+	_install(fixture)
 	_present()
 	var before := GameState.get_snapshot()
 	var start: int = _archive().entries.size()
