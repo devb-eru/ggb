@@ -117,6 +117,10 @@ func _scenario(tree: SceneTree, scenario: String) -> void:
 	var manager: Node = PromotionFailure.new() if scenario == "promotion_failure" else (LostAcknowledgement.new() if scenario == "lost_ack" else STORAGE.new())
 	tree.root.add_child(manager)
 	manager.set_process(false)
+	var display_events: Array[Dictionary] = []
+	var save_root: String = manager.get_save_root()
+	manager.save_display_committed.connect(func(root: String, summary: Dictionary) -> void:
+		display_events.append({"root": root, "summary": summary}))
 	var paths: Dictionary = manager._slot_paths(SLOT)
 	if scenario == "backup_recovery": _write(paths.main, "owned corrupt primary")
 	if scenario in ["future_primary", "future_backup", "design_primary", "design_backup"]:
@@ -155,9 +159,11 @@ func _scenario(tree: SceneTree, scenario: String) -> void:
 			return
 	if frames > 0: _expect(true, "scene frames continue during candidate preparation: " + scenario)
 	_expect(GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(paths.main) == primary and FileAccess.get_file_as_bytes(paths.backup) == backup, "finished worker has not published game or files: " + scenario)
+	_expect(display_events.is_empty(), "worker preparation emits no display commit: " + scenario)
 	if scenario == "shutdown":
 		manager.free()
 		_expect(not FileAccess.file_exists(temporary) and GameState.get_snapshot() == before and FileAccess.get_file_as_bytes(paths.main) == primary and FileAccess.get_file_as_bytes(paths.backup) == backup, "service shutdown joins and discards without publishing")
+		_expect(display_events.is_empty(), "service shutdown emits no display commit")
 		SaveManager.delete_test_slot(SLOT)
 		return
 	match scenario:
@@ -188,15 +194,19 @@ func _scenario(tree: SceneTree, scenario: String) -> void:
 		_expect(GameState.revision == revision + 1 and GameState.get_snapshot().meta_progress.dialogue_history.bookmarks.size() == 1, "live state changes only at durable commit")
 		var loaded: Dictionary = SaveManager.load_slot(SLOT)
 		_expect(loaded.ok and StateSnapshotValidator.same_persisted_value(GameState.get_snapshot(), loaded.snapshot), "committed reference and protection reload together")
+		var verified_summary: Dictionary = manager.inspect_slot(SLOT)
+		_expect(verified_summary.get("save_identity") == loaded.get("header", {}).get("checksum") and display_events == [{"root": save_root, "summary": verified_summary}], "display commit matches the verified save and root: " + scenario)
 		_expect(COMMANDS.scope(GameState, SaveManager, SLOT) == original_scope, "reference-only commit preserves run identity including backup recovery")
 		if scenario == "lost_ack": _expect(result.recovered_acknowledgement, "lost promotion acknowledgement uses verified commit")
 		if scenario == "backup_recovery": _expect(FileAccess.get_file_as_bytes(paths.backup) == backup, "corrupt primary never replaces validated backup")
 	elif scenario == "unchanged":
 		_expect(result.ok and not result.changed and GameState.revision == revision and GameState.get_snapshot() == before, "idempotent no-op leaves live state unchanged")
 		_expect(FileAccess.get_file_as_bytes(paths.main) == primary and FileAccess.get_file_as_bytes(paths.backup) == backup, "idempotent no-op performs no disk promotion")
+		_expect(display_events.is_empty(), "idempotent no-op emits no display commit")
 	else:
 		_expect(not result.ok, "unsafe candidate rejected: " + scenario)
 		_expect(manager._summary_cache.is_empty(), "rejected worker publishes no summary: " + scenario)
+		_expect(display_events.is_empty(), "rejected worker emits no display commit: " + scenario)
 		if scenario.begins_with("design_"): _expect(result.get("error_id") == &"ERR_SAVE_DESIGN_REVISION", "unknown design worker preserves incompatibility error: " + scenario)
 		_expect(GameState.get_snapshot() == before, "rejected candidate leaves current game intact: " + scenario)
 		# Failed promotion restores the verified previous primary into both files.

@@ -208,6 +208,11 @@ func _notebook_is_open() -> bool:
 	return is_instance_valid(_notebook_host)
 
 
+func can_capture_save_preview() -> bool:
+	return not _modal_active and not _notebook_is_open() and not _reset_transition_pending \
+		and not (is_instance_valid(_fade) and _fade.visible)
+
+
 func _try_open_unified_notebook(tab: String) -> bool:
 	if not _unified_notebook_enabled(): return false
 	if _notebook_is_open(): return true

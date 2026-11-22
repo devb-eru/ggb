@@ -10,6 +10,8 @@ func _ready() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
+	if OS.has_environment("GGB_SAVE_LOAD_TEST_OUTPUT"):
+		output = OS.get_environment("GGB_SAVE_LOAD_TEST_OUTPUT").trim_suffix("/") + "/"
 	DirAccess.make_dir_recursive_absolute(output)
 	get_tree().root.content_scale_size = Vector2i(1920, 1080)
 	get_tree().root.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
@@ -109,6 +111,7 @@ func _run() -> void:
 func _presentation_cases() -> void:
 	SaveManager.delete_test_slot(SLOT)
 	var state := GameState.make_default_snapshot()
+	var save_root := SaveManager.get_save_root()
 	_expect(SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", state, 1, "NEW_GAME_TEST_DISPLAY").ok, "create actual presentation test slot")
 	var service := PRESENTATION.new()
 	add_child(service)
@@ -119,38 +122,89 @@ func _presentation_cases() -> void:
 	stage.add_child(room)
 	service.begin_session(SLOT, room)
 	service._seconds = 5048
-	_expect(SaveManager.save_snapshot(SLOT, "P1_ENTRY", state, 2, "TEST_DISPLAY_COMMIT").ok, "actual successful save triggers presentation")
-	await _frames()
-	await RenderingServer.frame_post_draw
+	_expect(SaveManager.save_snapshot(SLOT, "P1_ENTRY", state, 2, "TEST_DISPLAY_COMMIT").ok, "actual save commits while initial capture is pending")
 	var summary: Dictionary = SaveManager.inspect_slot(SLOT)
-	var display: Dictionary = PRESENTATION.read(SaveManager.get_save_root(), summary)
+	_expect(PRESENTATION.read(save_root, summary).is_empty(), "commit returns before publishing optional display data")
+	var display := await _wait_for_thumbnail(save_root, summary)
 	_expect(int(display.get("play_seconds", -1)) == 5048, "time survives presentation file reload")
 	_expect(display.get("thumbnail") is Texture2D, "framebuffer thumbnail stored and reloaded")
+	var thumbnail_paths := _thumbnail_files(save_root, SLOT)
+	_expect(thumbnail_paths.size() == 1, "initial capture publishes one thumbnail")
 	if display.get("thumbnail") is Texture2D:
 		var pixel: Color = display.thumbnail.get_image().get_pixel(280, 126)
 		_expect(absf(pixel.r - room.color.r) < 0.02, "thumbnail contains actual rendered playfield")
+
+	room.color = Color("b54931")
+	service._seconds = 5050
+	_expect(SaveManager.save_snapshot(SLOT, "P1_ENTRY", state, 3, "TEST_DISPLAY_AUTOSAVE_A").ok, "first ordinary save commits")
+	var intermediate: Dictionary = SaveManager.inspect_slot(SLOT)
+	service._seconds = 5051
+	_expect(SaveManager.save_snapshot(SLOT, "P1_ENTRY", state, 4, "TEST_DISPLAY_AUTOSAVE_B").ok, "latest ordinary save commits")
+	var latest: Dictionary = SaveManager.inspect_slot(SLOT)
+	_expect(PRESENTATION.read(save_root, latest).is_empty(), "ordinary save does not publish display data inline")
+	await _frames()
+	_expect(int(PRESENTATION.read(save_root, latest).get("play_seconds", -1)) == 5051, "ordinary saves publish the latest committed play time")
+	_expect(PRESENTATION.read(save_root, summary).is_empty() and PRESENTATION.read(save_root, intermediate).is_empty(), "display rejects previous and superseded save identities")
+	await get_tree().create_timer(1.5).timeout
+	var updated: Dictionary = PRESENTATION.read(save_root, latest)
+	_expect(_thumbnail_files(save_root, SLOT) == thumbnail_paths and updated.get("thumbnail") is Texture2D, "ordinary saves keep the captured thumbnail file")
+	if display.get("thumbnail") is Texture2D and updated.get("thumbnail") is Texture2D:
+		_expect(updated.thumbnail.get_image().get_data() == display.thumbnail.get_image().get_data(), "ordinary saves do not capture the changed playfield")
+
 	var path: String = SaveManager._slot_paths(SLOT).main
 	var saved_bytes := FileAccess.get_file_as_bytes(path)
-	_expect(PRESENTATION.write(SaveManager.get_save_root(), summary, 5050), "display record can update atomically")
+	_expect(PRESENTATION.write(save_root, latest, 5055), "display record can update atomically")
 	_expect(FileAccess.get_file_as_bytes(path) == saved_bytes, "display metadata never changes gameplay save bytes")
-	_expect(int(PRESENTATION.read(SaveManager.get_save_root(), summary).get("play_seconds", -1)) == 5050, "updated presentation reload")
+	_expect(int(PRESENTATION.read(save_root, latest).get("play_seconds", -1)) == 5055, "updated presentation reload")
 	service._seconds = 6000
-	_expect(not SaveManager.save_snapshot(SLOT, "P1_ENTRY", {}, 3, "TEST_DISPLAY_REJECT").ok, "invalid gameplay save rejected")
-	_expect(int(PRESENTATION.read(SaveManager.get_save_root(), summary).get("play_seconds", -1)) == 5050, "failed save does not publish new display time")
-	service._seconds = 5055
+	_expect(not SaveManager.save_snapshot(SLOT, "P1_ENTRY", {}, 5, "TEST_DISPLAY_REJECT").ok, "invalid gameplay save rejected")
+	await _frames()
+	_expect(int(PRESENTATION.read(save_root, latest).get("play_seconds", -1)) == 5055, "failed save does not publish new display time")
+	service._seconds = 5060
 	service.begin_session(SLOT, room)
-	_expect(service._seconds == 5055, "same-run chapter handoff keeps unsaved session time")
+	_expect(service._seconds == 5060, "same-run chapter handoff keeps unsaved session time")
+	_expect(SaveManager.save_snapshot(SLOT, "SAVE_NORMAL_RESET_COMPLETE", state, 6, "TEST_DISPLAY_CHECKPOINT").ok, "representative checkpoint commits")
+	var checkpoint: Dictionary = SaveManager.inspect_slot(SLOT)
+	room.hide()
+	await get_tree().create_timer(1.3).timeout
+	_expect(_thumbnail_files(save_root, SLOT) == thumbnail_paths, "pending checkpoint cannot capture a hidden game view")
+	room.show()
+	var checkpoint_name := "thumbnail_" + String(checkpoint.save_identity).left(16) + ".png"
+	var refreshed := await _wait_for_thumbnail(save_root, checkpoint, checkpoint_name)
+	_expect(_thumbnail_files(save_root, SLOT) == PackedStringArray([checkpoint_name]), "checkpoint refresh replaces the prior thumbnail exactly once")
+	if refreshed.get("thumbnail") is Texture2D:
+		_expect(absf(refreshed.thumbnail.get_image().get_pixel(280, 126).r - room.color.r) < 0.02, "checkpoint thumbnail shows the new visible game frame")
 	service.end_session()
-	_expect(SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", state, 4, "NEW_GAME_TEST_REPLACEMENT").ok, "replace slot with new playthrough")
+	_expect(SaveManager.save_snapshot(SLOT, "SAVE_NEW_GAME", state, 7, "NEW_GAME_TEST_REPLACEMENT").ok, "replace slot with new playthrough")
 	var replacement: Dictionary = SaveManager.inspect_slot(SLOT)
-	_expect(PRESENTATION.read(SaveManager.get_save_root(), replacement).is_empty(), "new run never inherits old thumbnail or duration")
+	_expect(PRESENTATION.read(save_root, replacement).is_empty(), "new run never inherits old thumbnail or duration")
 	service.begin_session(SLOT, room)
 	_expect(service._seconds == 0, "new run clock resets")
 	service.end_session()
+	await get_tree().create_timer(1.5).timeout
+	_expect(not PRESENTATION.read(save_root, replacement).has("thumbnail"), "ending the view cancels its pending capture")
 	service.queue_free()
 	room.queue_free()
 	await _frames()
 	SaveManager.delete_test_slot(SLOT)
+
+func _wait_for_thumbnail(save_root: String, summary: Dictionary, expected_name := "") -> Dictionary:
+	var deadline := Time.get_ticks_msec() + 10000
+	while Time.get_ticks_msec() < deadline:
+		await get_tree().process_frame
+		if not expected_name.is_empty() and expected_name not in _thumbnail_files(save_root, summary.slot_id): continue
+		var display: Dictionary = PRESENTATION.read(save_root, summary)
+		if display.get("thumbnail") is Texture2D:
+			return display
+	return PRESENTATION.read(save_root, summary)
+
+func _thumbnail_files(save_root: String, slot: String) -> PackedStringArray:
+	var thumbnails := PackedStringArray()
+	for name in DirAccess.get_files_at(save_root.path_join(slot)):
+		if name.begins_with("thumbnail_") and name.ends_with(".png"):
+			thumbnails.append(name)
+	thumbnails.sort()
+	return thumbnails
 
 func _real_game_capture(store: AccessibilityProfileStore) -> void:
 	var slot := "__test_real_save_preview"

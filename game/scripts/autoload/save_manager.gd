@@ -1,6 +1,7 @@
 extends Node
 
 signal save_completed(slot_id: StringName, save_point_id: StringName)
+signal save_display_committed(root: String, summary: Dictionary)
 signal save_failed(slot_id: StringName, error_ids: PackedStringArray)
 signal load_recovered(slot_id: StringName, source: StringName)
 
@@ -166,7 +167,7 @@ func _finish_notebook_reference(job: Dictionary, result: Variant) -> Dictionary:
 	if revision < 0: return _load_failure(&"NB_COMMAND_INSTALL")
 	_cache_summary(_summary_key(job.paths.main), result.temporary_stamp, result.summary)
 	if not result.snapshot.meta_progress.knowledge_entries.get("F3_complete", false): _clear_previous_f3(job.slot)
-	save_completed.emit(StringName(job.slot), StringName(result.point))
+	_notify_save_completed(job.slot, result.point, result.summary, job.root)
 	var completed := {"ok":true, "changed":true, "recovered_acknowledgement":not promoted.ok}
 	if job.get("kind") == "history": completed.entry_uid = result.get("entry_uid", "")
 	return completed
@@ -342,11 +343,22 @@ func save_snapshot(
 	if not verified_summary.is_empty():
 		_cache_summary(_summary_key(paths.main), verified_summary.fingerprint, verified_summary.summary)
 
-	save_completed.emit(StringName(slot_id), StringName(save_point_id))
+	_notify_save_completed(slot_id, save_point_id, _summary_from_validated(temp_validation), get_save_root())
 	var warnings := PackedStringArray()
 	if not snapshot.get("meta_progress", {}).get("knowledge_entries", {}).get("F3_complete", false):
 		warnings = _clear_previous_f3(slot_id)
 	return {"ok": true, "path": paths["main"], "checksum": encoded.checksum, "warning_ids": warnings}
+
+
+func _notify_save_completed(slot_id: String, save_point_id: String, verified_summary: Dictionary, root: String) -> void:
+	if not save_display_committed.get_connections().is_empty():
+		var summary := verified_summary.duplicate()
+		summary.erase("ok")
+		summary["slot_id"] = slot_id
+		summary["available"] = true
+		summary["source"] = "main"
+		save_display_committed.emit(root, summary)
+	save_completed.emit(StringName(slot_id), StringName(save_point_id))
 
 
 func _make_save_header(slot_id: String, save_point_id: String, revision: int, transaction_id: String, run_id: String, write_schema: int) -> Dictionary:
