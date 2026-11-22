@@ -1154,14 +1154,14 @@ func _delay_j4_confirmation() -> void:
 	delay.one_shot = true
 	delay.wait_time = 0.5
 	add_child(delay)
-	delay.timeout.connect(_enable_j4_confirm.bind(weakref(confirm)))
+	delay.timeout.connect(_enable_j4_confirm.bind(weakref(confirm), _history_generation))
 	delay.timeout.connect(delay.queue_free)
 	delay.start()
 
 
-func _enable_j4_confirm(reference: WeakRef) -> void:
+func _enable_j4_confirm(reference: WeakRef, generation: int) -> void:
 	var button = reference.get_ref()
-	if is_instance_valid(button) and _modal_active and button.is_inside_tree():
+	if generation == _history_generation and is_instance_valid(button) and _modal_active and button.is_inside_tree():
 		button.disabled = false
 		_cycle_modal_focus()
 

@@ -400,10 +400,6 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 	_recorded_modal_request = {}
 	_choice_modal_generation += 1
 	_remember_world_focus()
-	_remember_history_scroll()
-	for child in _modal_body.get_children():
-		_modal_body.remove_child(child)
-		child.queue_free()
 	super._show_modal(title, body, actions)
 
 
@@ -469,7 +465,7 @@ func _present_recorded_modal(context: Dictionary) -> void:
 	_restore_recorded_modal_extras(context.view)
 	var buttons: Array = _modal_body.get_children().filter(func(child: Node) -> bool: return child is Button)
 	if int(context.focus) in range(buttons.size()):
-		call_deferred("_focus_visible_control", weakref(buttons[int(context.focus)]))
+		call_deferred("_focus_modal_control", weakref(buttons[int(context.focus)]), _history_generation)
 
 
 func _restore_recorded_modal_extras(_view: Dictionary) -> void:

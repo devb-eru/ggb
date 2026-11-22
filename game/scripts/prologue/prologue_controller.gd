@@ -150,6 +150,13 @@ var _modal_layer: Control
 var _modal_panel: PanelContainer
 var _modal_body: VBoxContainer
 var _modal_scroll: ScrollContainer
+var _modal_title: Label
+var _modal_rule: HSeparator
+var _modal_text_scroll: ScrollContainer
+var _modal_text: Label
+var _modal_cache: Control
+var _modal_buttons: Array[Button] = []
+var _modal_actions: Array[Callable] = []
 var _inspection_layer: Control
 var _inspection_panel: PanelContainer
 var _window_title: Label
@@ -840,6 +847,35 @@ func _build_modal_ui() -> void:
 	_modal_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_modal_scroll.add_child(_modal_panel)
 	_modal_body = _modal_panel.get_node("Margin/Choices")
+	_build_modal_contents()
+
+
+func _build_modal_contents() -> void:
+	for child in _modal_body.get_children():
+		_modal_body.remove_child(child)
+		child.queue_free()
+	_modal_cache = Control.new()
+	_modal_cache.hide()
+	_modal_layer.add_child(_modal_cache)
+	_modal_title = Label.new()
+	_modal_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_modal_title.add_theme_color_override("font_color", Color(0.94, 0.72, 0.44))
+	_modal_body.add_child(_modal_title)
+	_modal_rule = HSeparator.new()
+	_modal_body.add_child(_modal_rule)
+	_modal_text_scroll = ScrollContainer.new()
+	_modal_text_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_modal_text_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_modal_text_scroll.custom_minimum_size.y = 100
+	_modal_text_scroll.focus_mode = Control.FOCUS_ALL
+	_modal_body.add_child(_modal_text_scroll)
+	_modal_text = Label.new()
+	_modal_text.name = "ModalBodyText"
+	_modal_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_modal_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_modal_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_modal_text.add_theme_color_override("font_color", Color(0.93, 0.92, 0.90))
+	_modal_text_scroll.add_child(_modal_text)
 
 
 func _load_progress() -> void:
@@ -2779,9 +2815,10 @@ func _begin_prologue_async(kind: String, payload: Dictionary = {}, cursor: Dicti
 	var live := _prologue_async_live(request)
 	_prologue_async_request = {}
 	_dialogue_next.disabled = request.disabled
-	for saved_control in request.controls:
-		var control = saved_control.control.get_ref()
-		if is_instance_valid(control): control.disabled = saved_control.disabled
+	if not kind.begins_with("confirmation_") or request.generation == _history_generation:
+		for saved_control in request.controls:
+			var control = saved_control.control.get_ref()
+			if is_instance_valid(control): control.disabled = saved_control.disabled
 	if not live:
 		if _status_label.text == request.pending_status: _set_status("")
 		return
@@ -3155,18 +3192,10 @@ func _show_chapter_history_modal(chapter_order: Array, chapter_titles: Dictionar
 	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
 	if is_instance_valid(_audio_settings_panel): _audio_settings_panel.hide()
 	_modal_panel.show()
-	for child in _modal_body.get_children():
-		_modal_body.remove_child(child)
-		child.queue_free()
+	_modal_actions.clear()
+	_clear_modal_contents([_modal_title, _modal_rule])
 	_place(_modal_scroll, Rect2(300, 90, 1320, 900) if _reading_text_scale >= 1.5 else Rect2(510, 150, 900, 780))
-
-	var title_label := Label.new()
-	title_label.text = _dialogue_ui_text("CH1_HISTORY_TITLE")
-	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	title_label.add_theme_font_size_override("font_size", int(round(34 * _reading_text_scale)))
-	title_label.add_theme_color_override("font_color", Color(0.94, 0.72, 0.44))
-	_modal_body.add_child(title_label)
-	_modal_body.add_child(HSeparator.new())
+	_set_modal_title(_dialogue_ui_text("CH1_HISTORY_TITLE"))
 
 	var chapter_buttons := GridContainer.new()
 	chapter_buttons.name = "HistoryChapterButtons"
@@ -3390,46 +3419,75 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 	if is_instance_valid(_audio_settings_panel):
 		_audio_settings_panel.hide()
 	_modal_panel.show()
-	for child in _modal_body.get_children():
-		_modal_body.remove_child(child)
-		child.queue_free()
-	var title_label := Label.new()
-	title_label.text = title
+	_modal_actions.clear()
+	var controls: Array[Node] = [_modal_title, _modal_rule, _modal_text_scroll]
+	for index in range(actions.size()):
+		var action: Dictionary = actions[index]
+		var button := _modal_action_button(index)
+		# Cancel input held across a replacement before assigning the next action.
+		if button.button_pressed: button.disabled = true
+		_modal_actions.append(action.get("action", _close_modal))
+		var label := String(action.label) if action.has("label") else _dialogue_ui_text("UI_DIALOGUE_CONTINUE")
+		if button.text != label: button.text = label
+		button.disabled = false
+		_set_modal_font_size(button, int(button.get_meta("modal_base_font_size")))
+		controls.append(button)
+	_clear_modal_contents(controls)
+	for index in range(controls.size()):
+		var control := controls[index]
+		if control.get_parent() == _modal_cache: control.reparent(_modal_body, false)
+		elif control.get_parent() == null: _modal_body.add_child(control)
+		if control.get_index() != index: _modal_body.move_child(control, index)
 	_place(_modal_scroll, Rect2(300, 90, 1320, 900) if _reading_text_scale >= 1.5 else Rect2(510, 190, 900, 700))
-	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	title_label.add_theme_font_size_override("font_size", int(round(34 * _reading_text_scale)))
-	title_label.add_theme_color_override("font_color", Color(0.94, 0.72, 0.44))
-	_modal_body.add_child(title_label)
-	var rule := HSeparator.new()
-	_modal_body.add_child(rule)
-	var body_label := Label.new()
-	body_label.name = "ModalBodyText"
-	body_label.text = body
-	body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	body_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	body_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	body_label.add_theme_font_size_override("font_size", int(round(23 * _reading_text_scale)))
-	body_label.add_theme_color_override("font_color", Color(0.93, 0.92, 0.90))
-	var body_scroll := ScrollContainer.new()
-	body_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	body_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	body_scroll.custom_minimum_size.y = 100
-	body_scroll.focus_mode = Control.FOCUS_ALL
-	_modal_body.add_child(body_scroll)
-	body_scroll.add_child(body_label)
-	for action_value in actions:
-		var action: Dictionary = action_value
-		var button: Button = _modal_panel.create_choice_button()
-		button.name = "ModalChoice%d" % (_modal_body.get_child_count() - 2)
-		button.text = String(action.get("label", _dialogue_ui_text("UI_DIALOGUE_CONTINUE")))
-		button.add_theme_font_size_override("font_size", int(round(button.get_theme_font_size("font_size") * _reading_text_scale)))
-		button.pressed.connect(action.get("action", _close_modal))
-		_modal_body.add_child(button)
+	_set_modal_title(title)
+	if _modal_text.text != body: _modal_text.text = body
+	_set_modal_font_size(_modal_text, 23)
+	_modal_text_scroll.custom_minimum_size = Vector2(0, 100)
+	_modal_text_scroll.scroll_vertical = 0
 	_modal_active = true
 	_modal_layer.visible = true
+	_modal_panel.set_selected_index(_modal_panel.choice_buttons().find(get_viewport().gui_get_focus_owner()))
 	call_deferred("_cycle_modal_focus")
-	if _modal_body.get_child_count() > 3:
-		call_deferred("_focus_visible_control", weakref(_modal_body.get_child(3)))
+	if not actions.is_empty():
+		call_deferred("_focus_modal_control", weakref(_modal_buttons[0]), _history_generation)
+
+
+func _clear_modal_contents(keep: Array) -> void:
+	for child in _modal_body.get_children():
+		if child in keep: continue
+		if child == _modal_text_scroll or child in _modal_buttons:
+			child.reparent(_modal_cache, false)
+		else:
+			_modal_body.remove_child(child)
+			child.queue_free()
+
+
+func _modal_action_button(index: int) -> Button:
+	if index < _modal_buttons.size(): return _modal_buttons[index]
+	var button: Button = _modal_panel.create_choice_button()
+	button.name = "ModalChoice%d" % (index + 1)
+	button.set_meta("modal_base_font_size", button.get_theme_font_size("font_size"))
+	button.pressed.connect(_press_modal_action.bind(index))
+	_modal_buttons.append(button)
+	return button
+
+
+func _press_modal_action(index: int) -> void:
+	if index >= _modal_actions.size(): return
+	var button := _modal_buttons[index]
+	if _modal_active and button.get_parent() == _modal_body and button.is_visible_in_tree() and not button.disabled and not _notebook_is_open():
+		_modal_actions[index].call()
+
+
+func _set_modal_title(title: String) -> void:
+	if _modal_title.text != title: _modal_title.text = title
+	_set_modal_font_size(_modal_title, 34)
+
+
+func _set_modal_font_size(control: Control, base_size: int) -> void:
+	var size := roundi(base_size * _reading_text_scale)
+	if not control.has_theme_font_size_override("font_size") or control.get_theme_font_size("font_size") != size:
+		control.add_theme_font_size_override("font_size", size)
 
 
 func _cycle_modal_focus() -> void:
@@ -3458,6 +3516,11 @@ func _focus_visible_control(reference: WeakRef) -> void:
 		control.grab_focus()
 
 
+func _focus_modal_control(reference: WeakRef, generation: int) -> void:
+	if generation == _history_generation:
+		_focus_visible_control(reference)
+
+
 func _close_modal() -> void:
 	if is_instance_valid(_map_panel): _map_panel.hide()
 	if _notebook_is_open():
@@ -3466,6 +3529,7 @@ func _close_modal() -> void:
 	_prologue_confirmation = {}
 	_remember_history_scroll()
 	_history_generation += 1
+	_modal_actions.clear()
 	if is_instance_valid(_display_settings_panel): _display_settings_panel.hide()
 	if is_instance_valid(_key_settings_panel): _key_settings_panel.hide()
 	if is_instance_valid(_audio_settings_panel):

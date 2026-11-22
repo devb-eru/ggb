@@ -332,7 +332,7 @@ func _restore_recorded_modal_extras(view: Dictionary) -> void:
 	diagram.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	diagram.size_flags_stretch_ratio = 1.5
 	call_deferred("_fit_route_feedback")
-	call_deferred("_focus_visible_control", weakref(_modal_body.get_child(4)))
+	call_deferred("_focus_modal_control", weakref(_modal_body.get_child(4)), _history_generation)
 
 
 func _fit_route_feedback() -> void:
