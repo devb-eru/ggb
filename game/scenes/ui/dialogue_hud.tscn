@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://h3yumfubyav8" path="res://assets/ui/design_2026_10/speaker_nameplate__r01.png" id="6_nameplate"]
 [ext_resource type="PackedScene" uid="uid://eku6tov7vo5w" path="res://scenes/ui/choice_window.tscn" id="8_choices"]
 [ext_resource type="Texture2D" path="res://assets/ui/dialogue_editor/menu_icon.res" id="9_menu"]
+[ext_resource type="Texture2D" path="res://assets/ui/dialogue_editor/notebook_icon.res" id="notebook_icon"]
 
 [sub_resource type="Gradient" id="Gradient_shadow"]
 colors = PackedColorArray(0.025, 0.02, 0.035, 0, 0.025, 0.02, 0.035, 0.96)
@@ -41,8 +42,6 @@ Button/styles/hover_pressed = SubResource("Style_empty")
 Button/styles/normal = SubResource("Style_empty")
 Button/styles/pressed = SubResource("Style_empty")
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hwe0f"]
-load_path = "res://.godot/imported/notebook_icon.png-93abe26af4b76e390f68d5eae08a8953.ctex"
 
 [node name="DialogueLayer" type="Control" unique_id=2002771939]
 clip_contents = true
@@ -254,7 +253,7 @@ theme_type_variation = &"DialogueNotebookButton"
 theme_override_constants/h_separation = 4
 theme_override_constants/icon_max_width = 500
 theme_override_font_sizes/font_size = 20
-icon = SubResource("CompressedTexture2D_hwe0f")
+icon = ExtResource("notebook_icon")
 flat = true
 clip_text = true
 icon_alignment = 1
