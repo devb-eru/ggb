@@ -278,6 +278,9 @@ func _view_preferences(tree: SceneTree) -> void:
 	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	var host = view._notebook_host
 	_expect(host.model.investigation_available() and host.model._investigation == "C3", "actual cleaner controller supplies current investigation")
+	var screen = host._screen
+	var panel = host.panel
+	var first_model = weakref(host.model)
 	var store = host.view_store
 	var scope: Dictionary = host._view_scope.duplicate(true)
 	var frontier: Dictionary = host.model.view_frontier()
@@ -294,12 +297,14 @@ func _view_preferences(tree: SceneTree) -> void:
 	await tree.process_frame
 	view._close_modal()
 	await tree.process_frame
+	_expect(is_instance_valid(screen) and panel.is_inside_tree() and not screen.overlay.visible and panel.query == null and first_model.get_ref() == null, "closing keeps mounted controls but releases the notebook model")
 	var initial: Dictionary = store.load_view(scope, frontier)
 	_expect(initial.source == "primary" and initial.state.general.selected == clue and clue in initial.state.seen, "host close flushes selected card and its read state to a real scoped sidecar")
 	_expect(GameState.get_snapshot() == before and StateSnapshotValidator.same_persisted_value(SaveManager.load_slot(SLOT).snapshot, disk_before), "reading and preference writes change neither runtime nor saved gameplay")
 	view._open_dialogue_history()
 	_expect(await preload("res://scripts/tests/notebook_test_wait.gd").ready(tree, view._notebook_host), "initial notebook model ready")
 	host = view._notebook_host
+	_expect(is_same(host.panel, panel) and panel.close_requested.get_connections().size() == 1, "history entry reuses the mounted controls with one active host")
 	_expect(host.panel._selected == host.model.latest_dialogue_key(), "first actual history-menu entry opens last line of latest session")
 	rows = host.model.page({"tab": "dialogue"}, 0, host.model.cache_key())
 	_expect(not rows.items.is_empty(), "actual history has session lines")
@@ -344,6 +349,7 @@ func _view_preferences(tree: SceneTree) -> void:
 	host = view._notebook_host
 	for frame in range(8): await tree.process_frame
 	_expect(host._view_scope == scope and host.panel._selected == clue and host.panel._seen.has(clue), "fresh controller and load epoch retain same-run UI preferences")
+	_expect(is_same(host.panel, panel) and host._scope.load_epoch > epoch, "replacing the gameplay controller keeps the screen and adopts the new load epoch")
 	_expect(GameState.get_snapshot() == before, "restoring read state cannot grant knowledge or first-reveal effects")
 	var persisted := FileAccess.get_file_as_bytes(files.main)
 	host.view_store = FailedViewStore.new()

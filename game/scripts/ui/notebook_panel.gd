@@ -28,6 +28,7 @@ var _comparison_mode := false
 var _compact_side := 0
 var _detail_visible := false
 var _font_scale := 1.0
+var _applied_font_scale := 0.0
 var _search_delay := -1.0
 var _content: VBoxContainer
 var _search: LineEdit
@@ -50,6 +51,11 @@ var _pair_panels: Array[VBoxContainer] = []
 var _pair_switch: Button
 var _tools: HFlowContainer
 var _command: VBoxContainer
+var _command_message: Label
+var _command_confirm: Button
+var _command_cancel: Button
+var _confirm_command := Callable()
+var _cancel_command := Callable()
 var _notice: Label
 var _reference_editable := false
 var _temporary_comparison := false
@@ -75,6 +81,9 @@ var _authored_theme: Theme
 var _native_font_sizes: Dictionary = {}
 var _tab_base_widths: Dictionary = {}
 var _tools_base_height := 220.0
+var _focus_cycle_pending := false
+var _unused_rows: Array[Button] = []
+var _unused_materials: Dictionary = {}
 
 
 func _ready() -> void:
@@ -82,6 +91,15 @@ func _ready() -> void:
 	_bind_scene()
 	resized.connect(_responsive)
 	set_process(false)
+
+
+func _exit_tree() -> void:
+	for row in _unused_rows:
+		row.free()
+	_unused_rows.clear()
+	for material in _unused_materials.values():
+		material.free()
+	_unused_materials.clear()
 
 
 func present(model, locale: String, entry_tab: String = "clues", font_scale: float = 1.0, initial_view: Dictionary = {}, latest_dialogue: bool = false) -> bool:
@@ -108,8 +126,9 @@ func present(model, locale: String, entry_tab: String = "clues", font_scale: flo
 	_back_stack.clear()
 	_search_delay = -1.0
 	_search.clear()
-	_clear(_detail)
-	for body in _pair_panels: _clear(body)
+	_release_rows()
+	_release_material(_detail)
+	for body in _pair_panels: _release_material(body)
 	_apply_labels()
 	show()
 	set_process(true)
@@ -137,12 +156,22 @@ func dismiss() -> void:
 	hide()
 	query = null
 	_key = ""
+	_filters = {"tab": "clues"}
+	_page = 0
 	_selected = ""
+	_search.clear()
+	_search_delay = -1.0
 	_pair = ["", ""]
+	_comparison_mode = false
+	_compact_side = 0
+	_detail_visible = false
+	_visual_focus = {"control": "", "key": ""}
 	_back_stack.clear()
-	_clear(_list)
-	_clear(_detail)
-	for panel in _pair_panels: _clear(panel)
+	_list_scroll.scroll_vertical = 0
+	_detail_scroll.scroll_vertical = 0
+	_release_rows()
+	_release_material(_detail)
+	for panel in _pair_panels: _release_material(panel)
 	for selector in _pair_selectors: selector.clear()
 	_clear(_tools)
 	clear_command()
@@ -161,28 +190,47 @@ func set_reference_editable(enabled: bool, temporary_comparison: bool = false, r
 
 func add_tool(label: String, action: Callable, id: String) -> void:
 	_button(_tools, label, action, id)
-	_cycle_focus.call_deferred()
+	_queue_focus_cycle()
 
 
 func show_notice(message: String) -> void:
 	_notice.text = message
-	_cycle_focus.call_deferred()
+	_queue_focus_cycle()
 
 
 func show_command(message: String, confirm: Callable, cancel: Callable) -> void:
 	clear_command()
-	_label(_command, message)
-	var buttons := HFlowContainer.new()
-	_command.add_child(buttons)
-	_button(buttons, _l("실행 / 다시 시도", "Apply / retry"), confirm, "NotebookCommandConfirm")
-	var back := _button(buttons, _l("취소", "Cancel"), cancel, "NotebookCommandCancel")
-	back.grab_focus()
-	_cycle_focus.call_deferred()
+	if _command_message == null:
+		_command_message = _label(_command, "")
+		var buttons := HFlowContainer.new()
+		_command.add_child(buttons)
+		_command_confirm = _button(buttons, "", _run_command.bind(true), "NotebookCommandConfirm")
+		_command_cancel = _button(buttons, "", _run_command.bind(false), "NotebookCommandCancel")
+	_command_message.text = message
+	_command_confirm.text = _l("실행 / 다시 시도", "Apply / retry")
+	_command_cancel.text = _l("취소", "Cancel")
+	_command_confirm.disabled = false
+	_command_cancel.disabled = false
+	_confirm_command = confirm
+	_cancel_command = cancel
+	_command.show()
+	_command_cancel.grab_focus()
 
 
 func clear_command() -> void:
-	_clear(_command)
-	_cycle_focus.call_deferred()
+	_command.hide()
+	_confirm_command = Callable()
+	_cancel_command = Callable()
+	if _command_message != null:
+		_command_message.text = ""
+		_command_confirm.disabled = true
+		_command_cancel.disabled = true
+	_queue_focus_cycle()
+
+
+func _run_command(confirm: bool) -> void:
+	var action := _confirm_command if confirm else _cancel_command
+	if _command.is_visible_in_tree() and action.is_valid(): action.call()
 
 
 func capture_view() -> Dictionary:
@@ -233,7 +281,7 @@ func restore_view(view: Dictionary) -> void:
 	_back_stack.clear()
 	_comparison_mode = false
 	_detail_visible = false
-	_clear(_detail)
+	_release_material(_detail)
 	_load_basket(false)
 	if query.page(_filters, 0, _key).complete:
 		_complete_restore()
@@ -301,7 +349,7 @@ func set_tab(tab: String) -> void:
 	_detail_visible = false
 	_back_stack.clear()
 	_comparison_mode = false
-	_clear(_detail)
+	_release_material(_detail)
 	_refresh()
 
 
@@ -317,7 +365,7 @@ func set_filters(filters: Dictionary) -> bool:
 	_selected = ""
 	_detail_visible = false
 	_back_stack.clear()
-	_clear(_detail)
+	_release_material(_detail)
 	_search.set_text(String(_filters.get("needle", "")))
 	_refresh()
 	return true
@@ -328,7 +376,7 @@ func show_detail(key: String, linked: bool = false, preserve_stack: bool = false
 	if mark_seen: _cancel_restoration()
 	var result: Dictionary = query.detail(key, _key)
 	var previous := {"key": _selected, "scroll": _detail_scroll.scroll_vertical, "body": _capture_body(_detail_scroll), "focus": _capture_focus(), "view": {"detail": _detail_visible, "comparing": _comparison_mode}}
-	_clear(_detail)
+	_release_material(_detail)
 	_matches.clear()
 	_match_index = -1
 	if not result.ok:
@@ -382,9 +430,9 @@ func _process(delta: float) -> void:
 		_browser.dismiss()
 		_visual.dismiss()
 		_visual_views.clear()
-		_clear(_list)
-		_clear(_detail)
-		for panel in _pair_panels: _clear(panel)
+		_release_rows()
+		_release_material(_detail)
+		for panel in _pair_panels: _release_material(panel)
 		for selector in _pair_selectors: selector.clear()
 		_pair = ["", ""]
 		_selected = ""
@@ -589,7 +637,7 @@ func _bind_scene() -> void:
 	_browser.dismissed.connect(_close_browser)
 	_browser.filter_selected.connect(_select_browse)
 	_browser.material_selected.connect(_select_investigation)
-	_browser.layout_changed.connect(func() -> void: _cycle_focus.call_deferred())
+	_browser.layout_changed.connect(_queue_focus_cycle)
 	_visual.closed.connect(_close_visual)
 	_visual.view_changed.connect(_remember_visual)
 
@@ -619,6 +667,8 @@ func _cache_native_fonts(node: Node) -> void:
 
 
 func _apply_font_scale() -> void:
+	if _applied_font_scale == _font_scale: return
+	_applied_font_scale = _font_scale
 	theme = _authored_theme.duplicate()
 	theme.default_font_size = roundi(_base_font_size * _font_scale)
 	_scale_theme_fonts(theme)
@@ -675,7 +725,7 @@ func _refresh() -> void:
 	var result: Dictionary = query.page(_filters, _page, _key)
 	if not result.ok: return
 	_page = result.page
-	_clear(_list)
+	_release_rows()
 	for item in result.items:
 		var label: String = item.title
 		var kind := _kind_label(item.kind)
@@ -686,12 +736,7 @@ func _refresh() -> void:
 		if preview.ok: label += "\n" + String(preview.text).replace("\n", " ").left(100)
 		else: label += "\n" + _l("원문 표시 오류", "Original text unavailable")
 		var display_label := _row_label(item.key, label, item.legacy)
-		var button := _button(_list, display_label, show_detail.bind(item.key, false), "NotebookRow_" + String(item.key).sha256_text().left(16))
-		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		button.tooltip_text = display_label
-		button.set_meta("reference_key", item.key)
-		button.set_meta("base_label", label)
-		button.set_meta("legacy", item.legacy)
+		_add_record_row(item.key, display_label, label, item.legacy)
 	if result.items.is_empty():
 		_label(_list, _l("표시할 기록이 없습니다.", "No records to show.") if result.complete else _l("검색 중입니다...", "Search in progress..."))
 		if result.complete:
@@ -733,13 +778,7 @@ func _refresh() -> void:
 
 
 func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool) -> void:
-	var material: VBoxContainer = material_scene.instantiate()
-	target.add_child(material)
-	target = material
-	_scale_dynamic_fonts(material)
-	for child in material.get_children():
-		if child is Control: child.hide()
-		if child is Label or child is RichTextLabel: child.text = ""
+	target = _take_material(target)
 	var matches := QUERY.match_ranges(result, _filters.get("needle", ""))
 	_material_label(target, result.title, "title", matches)
 	_material_label(target, result.location_label, "location_label", matches, 0, _l("장소: ", "Location: "))
@@ -774,12 +813,11 @@ func _render_detail(target: VBoxContainer, result: Dictionary, with_links: bool)
 			var open: Button = target.get_node("VisualOpen")
 			open.name = "NotebookVisualOpen_" + String(result.key).sha256_text()
 			open.text = _l("시각 자료 확대", "Enlarge visual material")
-			_connect_button(open, _open_visual.bind(result.key))
+			open.set_meta("visual_key", result.key)
 			open.show()
 		elif not visual.ok:
 			_field_label(target, "VisualError", _l("이 시각 자료를 재현하지 못했습니다. 보관 원문은 계속 읽을 수 있습니다.", "This visual could not be replayed. The recorded text remains available."))
 	var paragraphs: VBoxContainer = target.get_node("NotebookMaterialBody")
-	_clear(paragraphs)
 	paragraphs.show()
 	var parts := String(result.text).split("\n", true)
 	var offset := 0
@@ -943,7 +981,7 @@ func _render_pair(mark_seen: bool = true) -> void:
 		var selector: OptionButton = _pair_selectors[side]
 		for index in range(selector.item_count):
 			if selector.get_item_metadata(index) == _pair[side]: selector.select(index)
-		_clear(_pair_panels[side])
+		_release_material(_pair_panels[side])
 		_label(_pair_panels[side], "A" if side == 0 else "B")
 		if _comparison_mode and not _pair[side].is_empty():
 			var result: Dictionary = query.detail(_pair[side], _key)
@@ -982,7 +1020,7 @@ func _back() -> void:
 	if previous.key.is_empty():
 		_selected = ""
 		_detail_visible = false
-		_clear(_detail)
+		_release_material(_detail)
 		_responsive()
 	else: show_detail(previous.key, false, true, previous.get("view", {}).get("detail", true))
 	if previous.has("view"):
@@ -1015,7 +1053,7 @@ func _responsive() -> void:
 	_search.editable = not browsing
 	_pair_switch.visible = compact
 	for side in range(2): _pair_panels[side].get_parent().visible = not compact or side == _compact_side
-	_cycle_focus.call_deferred()
+	_queue_focus_cycle()
 
 
 func _open_browser(mode: String) -> void:
@@ -1078,7 +1116,14 @@ func _close_visual() -> void:
 	_changed()
 
 
+func _queue_focus_cycle() -> void:
+	if _focus_cycle_pending: return
+	_focus_cycle_pending = true
+	_cycle_focus.call_deferred()
+
+
 func _cycle_focus() -> void:
+	_focus_cycle_pending = false
 	if not is_inside_tree() or not is_visible_in_tree(): return
 	var controls: Array[Control] = []
 	_collect_focus(self, controls)
@@ -1223,13 +1268,115 @@ func _restore_link_position(generation: int, previous: Dictionary) -> void:
 
 
 func _button(parent: Node, text: String, action: Callable, node_name: String) -> Button:
-	var button: Button = (ROW_SCENE if node_name.begins_with("NotebookRow") else ACTION_SCENE).instantiate()
+	var button: Button = ACTION_SCENE.instantiate()
 	button.name = node_name
 	button.text = text
 	_scale_dynamic_fonts(button)
 	_connect_button(button, action)
 	parent.add_child(button)
 	return button
+
+
+func _add_record_row(key: String, display_label: String, base_label: String, legacy: bool) -> void:
+	var row: Button
+	if _unused_rows.is_empty():
+		row = ROW_SCENE.instantiate()
+		row.text = ""
+		row.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		_connect_button(row, _open_record_row.bind(row))
+	else:
+		row = _unused_rows.pop_back()
+	row.name = "NotebookRow_" + key.sha256_text().left(16)
+	# Shape the record text with the notebook theme available.
+	_list.add_child(row)
+	row.text = display_label
+	row.tooltip_text = display_label
+	row.disabled = false
+	row.set_meta("reference_key", key)
+	row.set_meta("base_label", base_label)
+	row.set_meta("legacy", legacy)
+
+
+func _open_record_row(row: Button) -> void:
+	if row.get_parent() == _list and row.has_meta("reference_key"):
+		show_detail(row.get_meta("reference_key"))
+
+
+func _release_rows() -> void:
+	for index in range(_list.get_child_count() - 1, -1, -1):
+		var child := _list.get_child(index)
+		if child is Button and child.has_meta("reference_key"):
+			child.disabled = true
+			child.set_pressed_no_signal(false)
+			child.text = ""
+			child.tooltip_text = ""
+			child.name = "NotebookRecordRow"
+			child.remove_meta("reference_key")
+			child.remove_meta("base_label")
+			child.remove_meta("legacy")
+			_list.remove_child(child)
+			_unused_rows.append(child)
+		else:
+			_list.remove_child(child)
+			child.queue_free()
+
+
+func _take_material(container: VBoxContainer) -> VBoxContainer:
+	var material: VBoxContainer = _unused_materials.get(container)
+	_unused_materials.erase(container)
+	if material != null and (material.get_meta("source_scene") != material_scene or material.get_meta("font_scale") != _font_scale):
+		material.free()
+		material = null
+	if material == null:
+		material = material_scene.instantiate()
+		material.set_meta("source_scene", material_scene)
+		material.set_meta("font_scale", _font_scale)
+		material.set_meta("authored_children", material.get_child_count())
+		var open := material.get_node_or_null("VisualOpen") as Button
+		if open != null: _connect_button(open, _open_material_visual.bind(open))
+		container.add_child(material)
+		_scale_dynamic_fonts(material)
+		_reset_material(material)
+	else:
+		container.add_child(material)
+	return material
+
+
+func _open_material_visual(button: Button) -> void:
+	if button.has_meta("visual_key"):
+		_open_visual(button.get_meta("visual_key"))
+
+
+func _release_material(container: VBoxContainer) -> void:
+	for child in container.get_children():
+		container.remove_child(child)
+		if child.has_meta("authored_children"):
+			_reset_material(child)
+			_unused_materials[container] = child
+		else:
+			child.queue_free()
+
+
+func _reset_material(material: VBoxContainer) -> void:
+	var authored_count: int = material.get_meta("authored_children")
+	for index in range(material.get_child_count() - 1, authored_count - 1, -1):
+		var child := material.get_child(index)
+		material.remove_child(child)
+		child.queue_free()
+	for child in material.get_children():
+		if child is Control: child.hide()
+		if child is Label: child.text = ""
+		if child is RichTextLabel:
+			if String(child.name).begins_with("FieldSearch_") and child.has_method("configure"): child.configure("", [])
+			else: child.text = ""
+		if child is Button and child.has_meta("visual_key"):
+			child.remove_meta("visual_key")
+			child.name = "VisualOpen"
+			child.text = ""
+			child.set_pressed_no_signal(false)
+	var preview := material.get_node_or_null("NotebookVisualPreview")
+	if preview != null and preview.has_method("configure"): preview.configure({})
+	_clear(material.get_node("NotebookMaterialBody"))
 
 
 func _label(parent: Node, text: String) -> Label:

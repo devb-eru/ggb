@@ -31,6 +31,7 @@ var _generation := 0
 var _render_count := 0
 var _repository
 var _result_cache: Dictionary = {}
+var _prepared_previews: Dictionary = {}
 var _facet_cache: Dictionary = {}
 var _facet_build_count := 0
 var _order_cache: Dictionary = {}
@@ -188,6 +189,7 @@ func close() -> void:
 	_search.clear()
 	_errors.clear()
 	_result_cache.clear()
+	_prepared_previews.clear()
 	_facet_cache.clear()
 	_facet_build_count = 0
 	_order_cache.clear()
@@ -290,7 +292,16 @@ func page(filters: Dictionary, page_index: int, expected_key: String) -> Diction
 func preview(key: String, expected_key: String) -> Dictionary:
 	if not _ready or expected_key != cache_key(): return _error("NB_QUERY_STALE")
 	if not _rows.has(key): return _error("NB_QUERY_UNAVAILABLE")
+	if _prepared_previews.has(key): return _prepared_previews[key].duplicate()
 	return _render_body(key)
+
+
+func prepare_page_previews(filters: Dictionary, page_index: int) -> void:
+	_prepared_previews.clear()
+	var visible := page(filters, page_index, cache_key())
+	if not visible.ok: return
+	for item in visible.items:
+		_prepared_previews[item.key] = _render_body(item.key)
 
 
 func detail(key: String, expected_key: String) -> Dictionary:

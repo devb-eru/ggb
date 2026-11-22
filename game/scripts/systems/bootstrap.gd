@@ -15,6 +15,7 @@ const BASEMENT_SCRIPT := preload("res://scripts/chapters/basement_controller.gd"
 const BASEMENT_SMOKE := preload("res://scripts/tests/basement_session_smoke.gd")
 const BLACK_MIRROR_SMOKE := preload("res://scripts/tests/black_mirror_smoke.gd")
 const FULL_CAMPAIGN_SMOKE := preload("res://scripts/tests/full_campaign_smoke.gd")
+const NOTEBOOK_SCREEN := preload("res://scripts/ui/notebook_screen.gd")
 
 @onready var _start_screen: StartScreen = %StartScreen
 
@@ -76,6 +77,7 @@ class ResetHostTask extends RefCounted:
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_start_screen.process_mode = Node.PROCESS_MODE_PAUSABLE
+	add_child(NOTEBOOK_SCREEN.new())
 	_audio.name = "GameAudio"
 	add_child(_audio)
 	add_child(_save_presentation)

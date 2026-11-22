@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
-const OVERLAY := preload("res://scenes/ui/notebook/notebook_overlay.tscn")
+const SCREEN := preload("res://scripts/ui/notebook_screen.gd")
 const ARCHIVE := preload("res://scripts/systems/notebook_archive.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const COMMANDS := preload("res://scripts/systems/notebook_commands.gd")
@@ -42,6 +42,8 @@ var _refresh_job: Dictionary = {}
 var _refresh_again := false
 var _refresh_notice := ""
 var _opening := false
+var _opening_view: Dictionary = {}
+var _screen
 var _loading: VBoxContainer
 var _loading_label: Label
 var _loading_close: Button
@@ -61,23 +63,25 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	_revision = game.revision
 	_checked_revision = _revision
 	_view_scope = VIEW_STORE.persistent_scope(_scope, view_profile)
-	layer = 40
+	_screen = SCREEN.for_owner(controller)
+	if not _screen.acquire(self):
+		_screen = null
+		return false
 	process_mode = Node.PROCESS_MODE_PAUSABLE
-	var overlay: Control = OVERLAY.instantiate()
-	panel = overlay.get_node("Margin/IntegratedNotebook")
-	_loading = overlay.get_node("Margin/NotebookLoading")
+	panel = _screen.panel
+	_loading = _screen.loading
 	_loading_label = _loading.get_node("Message")
 	_loading_retry = _loading.get_node("NotebookLoadingRetry")
 	_loading_close = _loading.get_node("NotebookLoadingClose")
-	panel.hide()
 	_loading.show()
-	add_child(overlay)
-	panel.close_requested.connect(request_close)
-	panel.reference_requested.connect(_request_reference)
-	panel.refresh_requested.connect(refresh)
+	_screen.connect_for_host(panel.close_requested, request_close)
+	_screen.connect_for_host(panel.reference_requested, _request_reference)
+	_screen.connect_for_host(panel.refresh_requested, refresh)
+	_screen.connect_for_host(panel.material_viewed, _material_viewed)
+	_screen.connect_for_host(panel.view_changed, _remember_view)
 	_scale_loading(controller._reading_text_scale)
-	_loading_retry.pressed.connect(refresh)
-	_loading_close.pressed.connect(request_close)
+	_screen.connect_for_host(_loading_retry.pressed, refresh)
+	_screen.connect_for_host(_loading_close.pressed, request_close)
 	_mode = controller.process_mode
 	_visible = controller.visible
 	_audio_paused = controller._menu_audio_paused
@@ -90,6 +94,7 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 	controller.menu_audio_pause_requested.emit(true)
 	_suspended = true
 	_opening = true
+	_screen.overlay.show()
 	_loading_close.grab_focus()
 	add_to_group("notebook_input_hosts")
 	get_tree().call_group("notebook_input_observers", "refresh_notebook_input")
@@ -99,16 +104,18 @@ func begin(controller: Control, game_state: Node, save_service: Node, tab: Strin
 
 func _scale_loading(font_scale: float) -> void:
 	var scale_factor := clampf(font_scale, 1.0, 2.0)
-	_loading.theme = _loading.theme.duplicate(true)
-	_loading.theme.default_font_size = roundi(_loading.theme.default_font_size * scale_factor)
+	var scaled_theme := _loading.theme.duplicate(true) as Theme
+	scaled_theme.default_font_size = roundi(scaled_theme.default_font_size * scale_factor)
 	for control in [_loading_label, _loading_retry, _loading_close]:
-		if control.has_theme_font_size_override("font_size"):
-			control.add_theme_font_size_override("font_size", roundi(control.get_theme_font_size("font_size") * scale_factor))
+		var base_size: int = _screen.loading_font_size(control) if is_instance_valid(_screen) else control.get_theme_font_size("font_size")
+		control.add_theme_font_size_override("font_size", roundi(base_size * scale_factor))
+	_loading.theme = scaled_theme
 
 
 func _finish_opening() -> void:
 	var controller = _controller.get_ref()
-	var loaded := view_store.load_view(_view_scope, model.view_frontier())
+	var loaded := _opening_view
+	_opening_view = {}
 	_view_state = loaded.state.duplicate(true)
 	_view_writable = loaded.writable
 	_reconcile_seen()
@@ -120,8 +127,6 @@ func _finish_opening() -> void:
 	panel.set_review_state(_view_state.seen, _view_state.groups)
 	for tool in controller._notebook_tools():
 		panel.add_tool(tool.label, _leave_for_tool.bind(tool.action), tool.id)
-	panel.material_viewed.connect(_material_viewed)
-	panel.view_changed.connect(_remember_view)
 	if not String(loaded.warning_id).is_empty():
 		panel.show_notice(_l("이전 열람 위치를 복원하지 못했거나 과거 저장으로 돌아왔습니다. 본문과 고정 자료는 유지됩니다.", "The earlier view could not be restored or this is an earlier save. Records and saved references are unaffected."))
 	_remember_view()
@@ -202,7 +207,7 @@ func _finish_close() -> void:
 	remove_from_group("notebook_input_hosts")
 	get_tree().call_group("notebook_input_observers", "refresh_notebook_input")
 	model.close()
-	panel.dismiss()
+	_release_screen()
 	pending.clear()
 	var controller = _controller.get_ref()
 	if is_instance_valid(controller) and controller.is_inside_tree() and not controller.is_queued_for_deletion():
@@ -234,6 +239,7 @@ func _exit_tree() -> void:
 		_remember_view()
 		_flush_view()
 	model.close()
+	_release_screen()
 	if _suspended:
 		var controller = _controller.get_ref()
 		if is_instance_valid(controller):
@@ -242,6 +248,11 @@ func _exit_tree() -> void:
 				controller.process_mode = _mode
 				controller.visible = _visible
 				controller.menu_audio_pause_requested.emit(_audio_paused)
+
+
+func _release_screen() -> void:
+	if is_instance_valid(_screen): _screen.release(self)
+	_screen = null
 
 
 func _leave_for_tool(action: Callable) -> void:
@@ -277,7 +288,12 @@ func _start_refresh() -> void:
 	# Only a detached snapshot and a new read model cross the worker boundary.
 	# The visible model, Controls and live state remain on the main thread.
 	var filters: Dictionary = {"tab":_entry_tab} if _opening else panel.capture_view().filters
-	var started := thread.start(candidate.prepare_refresh.bind(state.meta_progress.dialogue_history, state.meta_progress.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope.duplicate(true), locale, state.meta_progress.knowledge_entries, _controller.get_ref()._notebook_context_node(), filters))
+	var meta: Dictionary = state.meta_progress
+	var node_id: String = _controller.get_ref()._notebook_context_node()
+	var prepare := candidate.prepare_refresh.bind(meta.dialogue_history, meta.knowledge_entries.get(KNOWLEDGE.KEY, KNOWLEDGE.create()), _scope.duplicate(true), locale, meta.knowledge_entries, node_id, filters)
+	if _opening:
+		prepare = _prepare_opening.bind(prepare, candidate, view_store, _view_scope.duplicate(), _entry_tab)
+	var started := thread.start(prepare)
 	panel.set_reference_editable(false)
 	if started != OK:
 		_refresh_failed()
@@ -292,6 +308,22 @@ func _start_refresh() -> void:
 		_loading_retry.hide()
 	else:
 		panel.show_notice(_l("자료를 갱신하고 있습니다. 기존 자료는 계속 읽을 수 있습니다.", "Refreshing records. You can keep reading the existing view."))
+
+
+static func _prepare_opening(prepare: Callable, candidate, store, scope: Dictionary, tab: String) -> Dictionary:
+	var result: Dictionary = prepare.call()
+	if not result.ok: return result
+	var loaded: Dictionary = store.load_view(scope, candidate.view_frontier())
+	var view: Dictionary = loaded.state.dialogue if tab == "dialogue" else loaded.state.general
+	var filters: Dictionary = candidate.visible_filters(view.get("filters", {"tab": tab}))
+	var anchor: Dictionary = view.get("list_anchor", {})
+	if anchor.is_empty(): anchor = view.get("anchor", {})
+	if view.is_empty() and tab == "dialogue":
+		anchor = candidate.anchor_for(candidate.latest_dialogue_key(), filters)
+	var position: Dictionary = candidate.anchor_page(filters, anchor, candidate.cache_key())
+	candidate.prepare_page_previews(filters, position.get("page", 0))
+	result.opening_view = loaded
+	return result
 
 
 func _poll_refresh() -> void:
@@ -321,6 +353,7 @@ func _poll_refresh() -> void:
 	_checked_revision = _revision
 	if _opening:
 		previous.close()
+		_opening_view = result.opening_view
 		_finish_opening()
 		return
 	_reconcile_seen()

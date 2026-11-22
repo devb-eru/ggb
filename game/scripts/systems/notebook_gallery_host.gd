@@ -3,7 +3,7 @@ extends CanvasLayer
 # This host has no GameState/SaveManager reference. Only view preferences may be saved.
 signal closed
 const QUERY := preload("res://scripts/systems/notebook_query.gd")
-const OVERLAY := preload("res://scenes/ui/notebook/notebook_overlay.tscn")
+const SCREEN := preload("res://scripts/ui/notebook_screen.gd")
 const KNOWLEDGE := preload("res://scripts/systems/notebook_knowledge.gd")
 const MIGRATION := preload("res://scripts/systems/notebook_migration.gd")
 const VIEW_STORE := preload("res://scripts/systems/notebook_view_store.gd")
@@ -28,6 +28,7 @@ var _font_scale := 1.0
 var _suspended := false
 var _closing := false
 var _held: Dictionary = {}
+var _screen
 
 
 func begin(owner: Control, store: EndingGalleryStore, id: String, locale: String, font_scale: float) -> bool:
@@ -47,15 +48,17 @@ func begin(owner: Control, store: EndingGalleryStore, id: String, locale: String
 	_view_state = loaded.state.duplicate(true)
 	_view_writable = loaded.writable
 	_reconcile_seen()
-	layer = 40
+	_screen = SCREEN.for_owner(owner)
+	if not _screen.acquire(self):
+		_screen = null
+		return false
 	process_mode = Node.PROCESS_MODE_PAUSABLE
-	var overlay: Control = OVERLAY.instantiate()
-	panel = overlay.get_node("Margin/IntegratedNotebook")
-	panel.name = "GalleryNotebook"
-	add_child(overlay)
-	panel.close_requested.connect(request_close)
-	panel.refresh_requested.connect(refresh)
-	panel.reference_requested.connect(_comparison_requested)
+	panel = _screen.panel
+	_screen.connect_for_host(panel.close_requested, request_close)
+	_screen.connect_for_host(panel.refresh_requested, refresh)
+	_screen.connect_for_host(panel.reference_requested, _comparison_requested)
+	_screen.connect_for_host(panel.material_viewed, _material_viewed)
+	_screen.connect_for_host(panel.view_changed, _remember_view)
 	_owner = weakref(owner)
 	_owner_mode = owner.process_mode
 	_owner_visible = owner.visible
@@ -66,9 +69,8 @@ func begin(owner: Control, store: EndingGalleryStore, id: String, locale: String
 	owner.hide()
 	owner.process_mode = Node.PROCESS_MODE_DISABLED
 	_suspended = true
+	_screen.overlay.show()
 	_present(_view_state.general)
-	panel.material_viewed.connect(_material_viewed)
-	panel.view_changed.connect(_remember_view)
 	if not String(loaded.warning_id).is_empty(): panel.show_notice(TEXTS.text("notebook_view_reset", _locale))
 	_remember_view()
 	add_to_group("notebook_input_hosts")
@@ -168,7 +170,7 @@ func _finish_close() -> void:
 	_flush_view()
 	var restored := _restore_owner()
 	model.close()
-	panel.dismiss()
+	_release_screen()
 	_source.clear()
 	if restored: closed.emit()
 	queue_free()
@@ -194,7 +196,13 @@ func _exit_tree() -> void:
 		_flush_view()
 		_restore_owner()
 	model.close()
+	_release_screen()
 	_source.clear()
+
+
+func _release_screen() -> void:
+	if is_instance_valid(_screen): _screen.release(self)
+	_screen = null
 
 
 func _reconcile_seen() -> void:

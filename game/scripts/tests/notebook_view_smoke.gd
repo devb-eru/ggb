@@ -11,9 +11,9 @@ var _files: Array[String] = []
 
 class CountedPanel extends "res://scripts/ui/notebook_panel.gd":
 	var initial_row_text := {}
-	func _button(parent: Node, text: String, action: Callable, node_name: String) -> Button:
-		if node_name.begins_with("NotebookRow_"): initial_row_text[node_name] = text
-		return super._button(parent, text, action, node_name)
+	func _add_record_row(key: String, display_label: String, base_label: String, legacy: bool) -> void:
+		initial_row_text["NotebookRow_" + key.sha256_text().left(16)] = display_label
+		super._add_record_row(key, display_label, base_label, legacy)
 	var list_builds := 0
 	var pair_builds := 0
 	var detail_builds := 0
@@ -167,8 +167,25 @@ func _badges(tree: SceneTree, query) -> void:
 	_expect(viewed.size() == 1, "compact comparison marks only the actually visible A material")
 	panel.find_child("NotebookPairSwitch", true, false).pressed.emit()
 	_expect(viewed.size() == 2, "explicit B switch marks the second material, not the whole basket")
+	panel.present(query, "ko-KR", "dialogue", 2.0)
+	var row: Button = panel._list.get_child(0)
+	row.pressed.emit()
+	var material := panel._detail.get_child(0)
+	var commands := []
+	panel.show_command("first", func() -> void: commands.append("first"), func() -> void: pass)
+	var confirm := panel._command_confirm
+	panel.clear_command()
+	confirm.pressed.emit()
+	panel.show_command("second", func() -> void: commands.append("second"), func() -> void: pass)
+	panel._command_confirm.pressed.emit()
+	_expect(panel._command_confirm == confirm and commands == ["second"], "reused confirmation dispatches only its current action")
 	panel.dismiss()
 	_expect(panel._seen.is_empty() and panel._seen_groups.is_empty(), "dismiss releases per-scope seen metadata")
+	_expect(row.get_parent() == null and row.text.is_empty() and not row.has_meta("reference_key"), "dismiss clears detached row content")
+	panel.present(query, "ko-KR", "dialogue", 2.0)
+	_expect(row == panel._list.get_child(0), "reopening reuses the record button")
+	row.pressed.emit()
+	_expect(panel._selected == rows.items[0].key and material == panel._detail.get_child(0), "reused button and material show the current record")
 	panel.queue_free()
 	await tree.process_frame
 

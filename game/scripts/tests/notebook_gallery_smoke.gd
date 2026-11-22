@@ -232,6 +232,7 @@ func _host(tree: SceneTree, store: EndingGalleryStore, first: String, second: St
 	var prefs: Dictionary = views.load_view(view_scope, frontier)
 	_expect(prefs.state.general.pair == ["", ""] and not prefs.state.general.comparing, "temporary comparison does not persist in view preferences")
 	var held := InputEventKey.new()
+	var mounted_panel = host.panel
 	held.keycode = KEY_ENTER
 	held.pressed = true
 	host._input(held)
@@ -242,8 +243,10 @@ func _host(tree: SceneTree, store: EndingGalleryStore, first: String, second: St
 	host._process(0)
 	await tree.process_frame
 	_expect(owner.visible and owner.process_mode == Node.PROCESS_MODE_INHERIT and button.has_focus(), "release restores owner and its prior focus")
+	_expect(mounted_panel.is_inside_tree() and not mounted_panel.is_visible_in_tree() and mounted_panel.query == null, "closed gallery keeps the panel mounted without its capture")
 	host = _new_host(tree)
 	_expect(host.begin(owner, store, first, "en-US", 2.0), "same archive reopens")
+	_expect(is_same(host.panel, mounted_panel), "gallery reuses its mounted notebook panel")
 	for frame in range(3): await tree.process_frame
 	_expect(host.model.comparison(host.model.cache_key()).items.size() == 1, "reopening discards temporary basket and uses captured basket")
 	_expect(host.panel._selected == rows.items[1].key, "same archive retains last reading location")
