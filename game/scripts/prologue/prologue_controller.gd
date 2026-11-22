@@ -3071,7 +3071,7 @@ func _open_discovered_map() -> void:
 		_modal_layer.add_child(_map_panel)
 		_map_panel.back_requested.connect(_open_menu)
 	_modal_panel.hide()
-	_map_panel.present(GameState.get_snapshot(), _current_room, TranslationServer.get_locale(), _reading_text_scale, _witnessed_rooms)
+	_map_panel.present_known(GameState.get_discovered_rooms(), _current_room, TranslationServer.get_locale(), _reading_text_scale, _witnessed_rooms)
 	_modal_active = true
 	_modal_layer.show()
 

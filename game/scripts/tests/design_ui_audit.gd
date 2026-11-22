@@ -117,8 +117,28 @@ func _run() -> void:
 	_expect(not game._map_panel._known.has("H0_CORE_CHAMBER"), "map conceals unvisited room")
 	_expect(get_node("/root/GameState").get_snapshot() == map_state_before, "map browsing preserves gameplay")
 	await _shot("14-discovered-map")
-	game._map_panel.present(get_node("/root/GameState").get_snapshot(), game._current_room, "en-US", 2.0, game._witnessed_rooms)
+	var map_panel = game._map_panel
+	var upper_floor: Button = map_panel._floor_buttons.M2
+	var room_label: Label = map_panel._room_labels[0]
+	var map_theme: Theme = map_panel.theme
+	game._open_menu()
+	game._open_discovered_map()
+	_expect(game._map_panel == map_panel and map_panel._floor_buttons.M2 == upper_floor and map_panel._room_labels[0] == room_label, "reopening the map reuses its panel, floor button, and label")
+	_expect(root.gui_get_focus_owner() == map_panel._back, "reopening the map focuses Back")
+	var map_witnessed: Dictionary = game._witnessed_rooms.duplicate()
+	map_witnessed["M2_BEDROOM"] = true
+	map_panel.present(map_state_before, game._current_room, "en-US", 2.0, map_witnessed)
+	_expect(map_panel.theme == map_theme and room_label.get_theme_font_size("font_size") == 40 and upper_floor.text == "Upper floor", "map reuses its theme and localizes controls at 200 percent")
 	await _shot("16-map-en-200")
+	upper_floor.pressed.emit()
+	_expect(map_panel._room_labels[0] == room_label and map_panel._canvas.rectangles.has("M2_BEDROOM"), "changing floors reuses room labels and shows the visited floor")
+	_expect(not map_panel._canvas.rectangles.has("M1_PARLOR") and map_panel._canvas.current == "M1_PARLOR", "viewing another floor preserves the current room and hides its rectangle")
+	map_panel.present_known({}, "B1_AXIS_CHAMBER", "ko-KR", 1.0)
+	_expect(not upper_floor.visible and map_panel._canvas.rectangles.keys() == ["B1_AXIS_CHAMBER"], "another save hides floors and rooms from the previous save")
+	_expect(map_panel._room_labels[0] == room_label and room_label.text == "세 축 장치", "another save reuses the label with the new room and locale")
+	for index in range(1, map_panel._room_labels.size()):
+		var hidden_label: Label = map_panel._room_labels[index]
+		_expect(not hidden_label.visible and hidden_label.text.is_empty(), "unused map labels conceal the previous save's rooms")
 	game._close_modal()
 	game._selected_item = "SOFT_CLOTH"
 	game._unhandled_input(cancel)

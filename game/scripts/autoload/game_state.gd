@@ -19,6 +19,10 @@ func get_snapshot() -> Dictionary:
 	return _state.duplicate(true)
 
 
+func get_discovered_rooms() -> Dictionary:
+	return preload("res://scripts/systems/discovered_rooms.gd").known(_state)
+
+
 func make_default_snapshot() -> Dictionary:
 	return _make_default_state()
 
