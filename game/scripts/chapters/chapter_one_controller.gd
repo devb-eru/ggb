@@ -188,7 +188,6 @@ func _notebook_surface_allowed() -> bool:
 const PRESENTATION := preload("res://scripts/systems/notebook_presentation.gd")
 var _presentation_scope := {}
 
-
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_build_ui()
@@ -360,7 +359,20 @@ func _begin_async_history(cursor: Dictionary = {}) -> void:
 			context.presentation_token = line.presentation_token
 			context.observed_fact_ids = line.get("observed_fact_ids", [])
 			if line.has("notebook_content"): context.notebook_content = line.notebook_content
-			var speaker := String(line.speaker) if context.has(ChapterOneSession.LEGACY_FEEDBACK.REPLAY) else _speaker_label.text
+			var speaker := String(line.speaker)
+			if context.has("notebook_content"):
+				var shown := NOTEBOOK_CONTENT.presentation(
+					context["notebook_content"],
+					request.locale
+				)
+				if shown.get("ok", false):
+					speaker = String(shown.get("speaker", speaker))
+			if String(line.speaker) in ["주인공", "SUBJECT"]:
+				speaker = _dialogue_ui_text("UI_SPEAKER_SUBJECT")
+			if String(line.speaker) in ["마라 1", "MARA1", "마람"]:
+				speaker = "마라 1"
+			if String(line.speaker) in ["마라 2", "MARA2", "비피"]:
+				speaker = "마라 2"
 			var chapter := session.history_chapter_id() if context.is_empty() else ChapterOneSession.HISTORY_CONTEXT.normalize_chapter(context.get("chapter_id"))
 			result = await writer.record_async(session._game, session._save, session.slot_id, session._save_point(session.snapshot()), speaker, _dialogue_label.text,
 				request.locale, chapter, line.get("observed_fact_ids", []), context, guard)
@@ -391,14 +403,25 @@ func _record_current_history_line() -> bool:
 		if not cursor.ok:
 			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 			return false
+
 		context.presentation_cursor = cursor.value
+		
 	context["observed_fact_ids"] = _dialogue_lines[_dialogue_index].get("observed_fact_ids", [])
 	context["presentation_token"] = _dialogue_lines[_dialogue_index].presentation_token
 	if _dialogue_lines[_dialogue_index].has("notebook_content"):
 		context["notebook_content"] = _dialogue_lines[_dialogue_index].notebook_content
-	var speaker := String(_dialogue_lines[_dialogue_index].speaker) if context.has(ChapterOneSession.LEGACY_FEEDBACK.REPLAY) else _speaker_label.text
+	var speaker := String(_dialogue_lines[_dialogue_index].speaker)
+
+	if context.has("notebook_content"):
+		var shown := NOTEBOOK_CONTENT.presentation(
+			context["notebook_content"],
+			TranslationServer.get_locale()
+		)
+		if shown.get("ok", false):
+			speaker = String(shown.get("speaker", speaker))
 	var result := session.record_viewed_line(speaker, _dialogue_label.text, TranslationServer.get_locale(), context)
 	if not result.get("ok", false):
+		push_error("대화 기록 저장 실패: " + str(result))
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false
 	_history_recorded_index = _dialogue_index
@@ -675,6 +698,7 @@ func _recorded_choice_pressed(context: Dictionary, index: int) -> void:
 			selected.presentation_cursor = cursor.value
 		var result := session.record_viewed_line(context.selected_speaker, context.actions[index].label, context.locale, selected)
 		if not result.get("ok", false):
+			push_error("선택지 기록 저장 실패: " + str(result))
 			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 			return
 		context.selection_recorded = true
@@ -907,7 +931,7 @@ func _render_room() -> void:
 
 
 func _show_mara2_memory() -> void:
-	var line := {"speaker": "마라 2", "portrait": "MARA2", "text": DISPLAY_TEXTS.ui("mara2_memory_line", TranslationServer.get_locale())}
+	var line := {"speaker": "비피", "portrait": "MARA2", "text": DISPLAY_TEXTS.ui("mara2_memory_line", TranslationServer.get_locale())}
 	var descriptors := preload("res://scripts/systems/chapter_one_notebook.gd").paragraphs("MARA2_MEMORY")
 	if not descriptors.is_empty(): line.notebook_content = descriptors[0]
 	_show_dialogue([line])
@@ -955,6 +979,9 @@ func _open_schedule_board() -> void:
 
 func _modal_act(action: String, value: Variant = null) -> void:
 	_close_modal()
+	if _modal_active:
+		push_error("선택지 창을 닫지 못했습니다: " + action)
+		return
 	_do(action, value)
 
 
@@ -1213,7 +1240,7 @@ func _board_label(text: String, rect: Rect2) -> void:
 	_place(panel, rect)
 	_hotspot_layer.add_child(panel)
 	var label := Label.new()
-	label.text = text
+	label.text = text.replace("마라 1", "마라").replace("마라 2", "비피")
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.add_theme_font_size_override("font_size", 23)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -1468,7 +1495,8 @@ func _ep01_finish(context: Dictionary) -> void:
 		return
 	_render_room()
 	if not context.finish.is_empty(): Callable(self, context.finish.method).callv(context.finish.args)
-	elif context.start == "EP01_HUB_DAILY_HALL": _ep01_play("EP01_HUB_DAILY_HALL")
+	elif context.start == "EP01_HUB_DAILY_HALL" and _current_room == "M1_CENTRAL_HALL":
+		_ep01_play("EP01_HUB_DAILY_HALL")
 	elif context.start in ["EP02_SCENE_05", "EP02_SCENE_09", "EP02_SCENE_10", "EP02_SCENE_12"]:
 		_ep01_play(_ep01_scene_followup(context))
 

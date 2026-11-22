@@ -67,17 +67,56 @@ static func text(id: String, locale: String = "ko-KR", variables: Dictionary = {
 	return result
 
 
+
 static func line(id: String, state: Dictionary, locale: String = "ko-KR", variables: Dictionary = {}) -> Dictionary:
 	var row := node(id)
 	if row.is_empty(): return {}
+
 	var descriptor := CONTENT.descriptor("NB_" + id, notebook_version("NB_" + id), {"body": variables})
 	var shown := CONTENT.presentation(descriptor, locale)
 	if not shown.ok: return {}
-	return {"speaker": shown.speaker, "text": shown.text,
-		"portrait": "" if row.character_art == "NONE" else row.character_art,
-		"portrait_position": row.portrait_position, "portrait_state": row.portrait_state,
-		"history_context": {"node_id": id, "chapter_id": "CHAPTER_2" if id.begins_with("EP02_") else "CHAPTER_1", "location_id": state.loop_state.location_id},
-		"notebook_content": descriptor}
+
+	var content_type := String(row.get("content_type", "")).to_upper()
+	var portrait_id := ""
+
+	if content_type in ["DIALOGUE", "MONOLOGUE", "OBJECT"]:
+		portrait_id = String(row.get("character_art", "")).to_upper()
+
+		if portrait_id in ["", "NONE"]:
+			match String(row.get("speaker_id", "")).to_upper():
+				"SUBJECT":
+					portrait_id = "PROTAGONIST"
+				"SERVANT_EDGAR":
+					portrait_id = "EDGAR"
+				"SERVANT_MARA1":
+					portrait_id = "MARA1"
+				"SERVANT_MARA2":
+					portrait_id = "MARA2"
+				"SERVANT_LUCA":
+					portrait_id = "LUCA"
+				"SERVANT_IRIS":
+					portrait_id = "IRIS"
+				_:
+					portrait_id = ""
+
+	var position := "NONE"
+	if not portrait_id.is_empty():
+		position = "LEFT" if portrait_id == "PROTAGONIST" else "RIGHT"
+
+	return {
+		"speaker": shown.speaker,
+		"text": shown.text,
+		"portrait": portrait_id,
+		"portrait_position": position,
+		"portrait_state": row.portrait_state,
+		"history_context": {
+			"node_id": id,
+			"chapter_id": "CHAPTER_2" if id.begins_with("EP02_") else "CHAPTER_1",
+			"location_id": state.loop_state.location_id
+		},
+		"notebook_content": descriptor
+	}
+
 
 
 static func notebook_version(content_id: String) -> int:

@@ -44,6 +44,32 @@ const PORTRAIT_REGIONS := {
 	"LUCA": Rect2(1000, 0, 300, 941),
 	"IRIS": Rect2(1230, 0, 442, 941),
 }
+const PORTRAIT_SETTINGS := {
+	"EDGAR": {
+		"scale": 0.85,
+		"offset": Vector2(0, -50)
+	},
+	"MARA1": {
+		"scale": 0.85,
+		"offset": Vector2(0, 50)
+	},
+	"MARA2": {
+		"scale": 0.7,
+		"offset": Vector2(0, 150)
+	},
+	"LUCA": {
+		"scale": 0.7,
+		"offset": Vector2(0, 120)
+	},
+	"IRIS": {
+		"scale": 0.85,
+		"offset": Vector2(0, -50)
+	},
+	"PROTAGONIST": {
+		"scale": 0.6,
+		"offset": Vector2(100, 250)
+	}
+}
 const ROOM_ATLAS_REGIONS := {
 	"M2_BEDROOM": {"atlas": "primary", "region": Rect2(0, 0, 836, 470)},
 	"M1_PARLOR": {"atlas": "primary", "region": Rect2(836, 0, 836, 470)},
@@ -133,6 +159,8 @@ var _inventory_slots: Array[Button] = []
 var _menu_button: Button
 var _dialogue_layer: Control
 var _portrait: TextureRect
+var _other_portrait: TextureRect
+const SPEAKER_BRIGHTNESS := 0.45
 var _speaker_label: Label
 var _dialogue_label: Label
 var _dialogue_scroll: ScrollContainer
@@ -566,6 +594,7 @@ func _build_ui() -> void:
 	_build_window_inspection_ui()
 	_build_persistent_ui()
 	_build_dialogue_ui()
+	_inventory_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	# Persistent HUD sits above the portrait, dialogue decoration and shadow.
 	for hud in [_menu_button, _location_label, get_node("LocationDivider"), _notebook_button, _inventory_panel]:
 		move_child(hud, get_child_count() - 1)
@@ -705,12 +734,10 @@ func _notebook_caption() -> String:
 	var title: String = names[1 if TranslationServer.get_locale().begins_with("en") else 0]
 	return title
 
-
 func _refresh_notebook_caption() -> void:
-	_notebook_button.text = _notebook_caption()
-	_notebook_button.add_theme_font_size_override("font_size", roundi(_notebook_base_font_size * (0.9 if TranslationServer.get_locale().begins_with("en") else 1.0)))
-	_notebook_button.tooltip_text = _notebook_button.text.replace("\n", " · ")
-
+	var caption := _notebook_caption()
+	_notebook_button.text = ""
+	_notebook_button.tooltip_text = caption.replace("\n", " · ")
 
 func _show_notebook_shortcut() -> void:
 	_set_status(_notebook_button.tooltip_text)
@@ -786,6 +813,17 @@ func _build_dialogue_ui() -> void:
 	_dialogue_layer = dialogue_hud_scene.instantiate()
 	add_child(_dialogue_layer)
 	_portrait = _dialogue_layer.get_node("StandingPortrait")
+	
+	_other_portrait = _portrait.duplicate() as TextureRect
+	_other_portrait.name = "StandingPortraitPartner"
+	
+	_other_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_other_portrait.hide()
+	_dialogue_layer.add_child(_other_portrait)
+	_dialogue_layer.move_child(
+		_other_portrait,
+		_portrait.get_index() + 1
+	)
 	_speaker_label = _dialogue_layer.get_node("DialogueBacking/Margin/Body/SpeakerLabel")
 	_dialogue_scroll = _dialogue_layer.get_node("DialogueBacking/Margin/Body/DialogueScroll")
 	_dialogue_label = _dialogue_scroll.get_node("DialogueText")
@@ -1094,7 +1132,7 @@ func _inspect_bedroom(object_id: String) -> void:
 	if object_id == "notebook":
 		_add_notebook("NOTE_P_IMPRESSIONS")
 	var key := "P6_INSPECT_WINDOW" if object_id == "window" and bool(_progress.get("P4_complete", false)) else String(lines[object_id])
-	_show_dialogue([_prologue_line(key, "주인공")])
+	_show_dialogue([_prologue_line(key, "주인공", {"portrait": "PROTAGONIST"})])
 	_room_art.set_room(_current_room, _progress)
 	_save_progress()
 
@@ -1176,7 +1214,7 @@ func _build_parlor() -> void:
 		var stage := int(windows[index])
 		_add_hotspot("WINDOW_%d" % index, _dialogue_ui_text("P2_WINDOW_LABEL", {"index": index + 1, "state": _window_stage_name(stage)}), Rect2(300 + index * 420, 250, 300, 390), _on_window_pressed.bind(index))
 		_queue_prologue_surface(PROLOGUE_SURFACES.surface("P2_WINDOW_LABEL",{"index":index+1,"stage":str(stage)}),_hotspot_layer.get_node("WINDOW_%d" % index).text)
-	_add_hotspot("CLOCK", _surface_text("P2_CLOCK_LABEL"), Rect2(1450, 185, 180, 190), _show_dialogue.bind([_prologue_line("P2_CLOCK_OBSERVATION", "주인공")]))
+	_add_hotspot("CLOCK", _surface_text("P2_CLOCK_LABEL"), Rect2(1450, 185, 180, 190), _show_dialogue.bind([_prologue_line("P2_CLOCK_OBSERVATION", "주인공", {"portrait": "PROTAGONIST"})]))
 	_add_back_to_hall()
 	if not _intro_seen("P2"):
 		_mark_intro("P2")
@@ -1558,7 +1596,21 @@ func _show_dialogue_choice_set(
 	_speaker_label.text = _localized_speaker(speaker)
 	_dialogue_label.text = prompt
 	_dialogue_scroll.scroll_vertical = 0
-	_set_dialogue_portrait(portrait_id)
+	var speaker_id := _portrait_id_from_line({"speaker": speaker})
+	var display_id := speaker_id if not speaker_id.is_empty() else portrait_id.to_upper()
+	_set_dialogue_portrait(display_id)
+	if not _portrait.has_meta("ep01_original_rect"):
+		_portrait.set_meta(
+			"ep01_original_rect",
+			Rect2(_portrait.position, _portrait.size)
+		)
+	_other_portrait.hide()
+	_portrait.modulate = Color.WHITE
+	if not speaker_id.is_empty() and speaker_id != portrait_id.to_upper():
+		_update_conversation_portraits(
+			{"speaker": speaker, "portrait": speaker_id},
+			[speaker_id, portrait_id.to_upper()]
+		)
 	for index in range(_dialogue_choice_buttons.size()):
 		var button := _dialogue_choice_buttons[index]
 		var choice_id := String(choice_order[index]) if index < choice_order.size() else ""
@@ -1683,7 +1735,7 @@ func _on_shelf_item_dropped(item_id: String, shelf_id: String) -> void:
 
 
 func _inspect_inner_door() -> void:
-	_show_dialogue([_prologue_line("P3_DOOR", "주인공")])
+	_show_dialogue([_prologue_line("P3_DOOR", "주인공", {"portrait": "PROTAGONIST"})])
 
 
 func _build_archive() -> void:
@@ -1898,7 +1950,7 @@ func _resume_p4_memory_anchor() -> void:
 		_prologue_line("P4_MEMORY_SCRAPE", "SYSTEM"),
 		_prologue_line("P4_MEMORY_HAND", "SYSTEM"),
 		_prologue_line("P4_MEMORY_ABSENCE", "SYSTEM"),
-		_prologue_line("P4_MEMORY_WHY", "주인공"),
+		_prologue_line("P4_MEMORY_WHY", "주인공", {"portrait": "PROTAGONIST"}),
 		_prologue_line("P4_MEMORY_PAUSE", "SYSTEM"),
 		_prologue_line("P4_MEMORY_HABIT", "루카", {"portrait": "LUCA"}),
 	], _finish_p4_memory_anchor)
@@ -1913,7 +1965,7 @@ func _turn_p4_cup_handle() -> void:
 	if _interaction_blocked() or int(_progress.get("tea_step", 0)) < TEA_STEPS.size():
 		return
 	if bool(_progress.get("p4_handle_return_used", false)):
-		_show_dialogue([_prologue_line("P4_MEMORY_ALREADY", "주인공")])
+		_show_dialogue([_prologue_line("P4_MEMORY_ALREADY", "주인공", {"portrait": "PROTAGONIST"})])
 		return
 	_progress["p4_handle_return_used"] = true
 	_save_progress()
@@ -2027,7 +2079,7 @@ func _observe_weather(observation_id: String) -> void:
 	if _interaction_blocked():
 		return
 	_add_unique("p5_observations", observation_id)
-	_show_dialogue([_prologue_line("P5_" + observation_id.to_upper(), "주인공")])
+	_show_dialogue([_prologue_line("P5_" + observation_id.to_upper(), "주인공", {"portrait": "PROTAGONIST"})])
 	_save_progress()
 	_build_greenhouse()
 
@@ -2038,7 +2090,7 @@ func _complete_p5() -> void:
 	_save_progress()
 	_build_greenhouse()
 	_show_dialogue([
-		_prologue_line("P5_QUESTION", "주인공"),
+		_prologue_line("P5_QUESTION", "주인공", {"portrait": "PROTAGONIST"}),
 		_prologue_line("P5_ANSWER", "이리스", {"portrait": "IRIS"}),
 	], _return_to_hall_after_dialogue)
 
@@ -2257,7 +2309,7 @@ func _set_room_background(room_id: String) -> void:
 
 
 func _evening_ambient(text_id: String) -> void:
-	_show_dialogue([_prologue_line(text_id, "주인공")])
+	_show_dialogue([_prologue_line(text_id, "주인공", {"portrait": "PROTAGONIST"})])
 
 
 func _add_back_to_hall() -> void:
@@ -2351,7 +2403,7 @@ func _clear_hotspots() -> void:
 
 func _make_button(label: String, rect: Rect2, action: Callable) -> Button:
 	var button := Button.new()
-	button.text = label
+	button.text = _display_character_name(label)
 	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button.add_theme_font_size_override("font_size", 20)
 	button.add_theme_stylebox_override("normal", _style(Color(0.055, 0.025, 0.075, 0.96), Color(0.60, 0.30, 0.24, 0.94), 3, 7))
@@ -2369,7 +2421,10 @@ func _update_inventory(items: Array) -> void:
 		var slot := _inventory_slots[index]
 		if index < items.size():
 			var item: Dictionary = items[index]
-			slot.set_inventory_item(String(item.get("id", "")), String(item.get("label", item.get("id", ""))))
+			slot.set_inventory_item(
+				String(item.get("id", "")),
+				_display_character_name(String(item.get("label", item.get("id", ""))))
+			)
 		else:
 			slot.set_inventory_item("", "")
 	_refresh_inventory_selection()
@@ -2492,8 +2547,18 @@ func _show_prologue_answer(lines: Array, after: Callable) -> void:
 			line.history_context[field] = _choice_history_context[field]
 	_show_dialogue(lines, after)
 
+func _display_character_name(text: String) -> String:
+	if TranslationServer.get_locale().begins_with("en"):
+		return text
+	return text.replace("마라 1", "마라").replace("마라 2", "비피")
 
 func _localized_speaker(speaker: String) -> String:
+	if speaker in ["마라 1", "MARA1", "마라"] and not TranslationServer.get_locale().begins_with("en"):
+		return "마라"
+	if speaker in ["마라 2", "MARA2", "비피"] and not TranslationServer.get_locale().begins_with("en"):
+		return "비피"
+	if speaker in ["주인공", "SUBJECT"] and not TranslationServer.get_locale().begins_with("en"):
+		return "나"
 	var names := {
 		"SYSTEM": "SYSTEM", "주인공": "SUBJECT", "SUBJECT": "SUBJECT",
 		"에드가": "EDGAR", "EDGAR": "EDGAR", "마라 1": "MARA1", "MARA1": "MARA1",
@@ -2530,21 +2595,40 @@ func _present_dialogue_line() -> void:
 	_speaker_label.text = _localized_speaker(String(line.get("speaker", "SYSTEM")))
 	_dialogue_label.text = String(line.get("text", ""))
 	_dialogue_scroll.scroll_vertical = 0
-	var portrait_id := String(line.get("portrait", ""))
+	var portrait_id := String(line.get("portrait", "")).to_upper()
+	if portrait_id.is_empty():
+		portrait_id = _portrait_id_from_line(line)
 	_set_dialogue_portrait(portrait_id)
 	if not _portrait.has_meta("ep01_original_rect"):
 		_portrait.set_meta("ep01_original_rect", Rect2(_portrait.position, _portrait.size))
 	var original_rect: Rect2 = _portrait.get_meta("ep01_original_rect")
 	_portrait.position = original_rect.position
+	var current_id := _portrait_id_from_line(line)
+	var settings := _get_portrait_settings(current_id)
+	var portrait_offset: Vector2 = settings["offset"]
+	_portrait.scale = Vector2.ONE * float(settings["scale"])
+	if current_id == "PROTAGONIST":
+		_portrait.position = Vector2(
+			100.0 + portrait_offset.x,
+			original_rect.position.y + portrait_offset.y
+		)
+	else:
+		_portrait.position = original_rect.position + Vector2(
+			0.0,
+			portrait_offset.y
+		)
 	if line.has("portrait_position"):
-		match String(line.portrait_position):
-			"RIGHT": _portrait.position.x = _dialogue_layer.size.x - original_rect.size.x - original_rect.position.x
-			"CENTER": _portrait.position.x = (_dialogue_layer.size.x - original_rect.size.x) * 0.5
-			"NONE": _portrait.hide()
+		if String(line.get("portrait_position", "")).to_upper() == "NONE":
+			_portrait.hide()
+#		match String(line.portrait_position):
+#			"RIGHT": _portrait.position.x = _dialogue_layer.size.x - original_rect.size.x - original_rect.position.x
+#			"CENTER": _portrait.position.x = (_dialogue_layer.size.x - original_rect.size.x) * 0.5
+#			"NONE": _portrait.hide()
 		var state: String = line.get("portrait_state", "DEFAULT")
 		_portrait.set_meta("portrait_state", state)
 		var variant_path := DESIGN.ROOT + "character_" + portrait_id.to_lower() + "_" + state.to_lower() + ".png"
 		if _portrait.visible and ResourceLoader.exists(variant_path): _portrait.texture = load(variant_path)
+	_update_conversation_portraits(line)
 	_dialogue_next.visible = true
 	_dialogue_next.text = ""
 	call_deferred("_focus_visible_control", weakref(_dialogue_next))
@@ -2705,20 +2789,45 @@ func _restore_prologue_cursor() -> bool:
 	return true
 
 
+
 func _record_prologue_history() -> bool:
-	if not _prologue_async_request.is_empty(): return false
-	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope(): return false
+	if not _prologue_async_request.is_empty():
+		return false
+	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope():
+		return false
 	if not _uses_prologue_history() or not _dialogue_active or _prologue_history_index == _dialogue_index:
 		return true
 	var line: Dictionary = _dialogue_lines[_dialogue_index]
+	var history_speaker := _speaker_label.text
+	if String(line.get("speaker", "")) in ["주인공", "SUBJECT"]:
+		history_speaker = _dialogue_ui_text("UI_SPEAKER_SUBJECT")
+	if String(line.get("speaker", "")) == "마라 2":
+		history_speaker = "마라 2"
+	if String(line.get("speaker", "")) == "마라 1":
+		history_speaker = "마라 1"
 	var context: Dictionary = line.get("history_context", {}).duplicate(true)
-	if line.has("notebook_content"): context.notebook_content = line.notebook_content
+	if line.has("notebook_content"):
+		context.notebook_content = line.notebook_content
 	if _prologue_async_enabled():
-		if _prologue_dispatch_active: return false
-		var recording := {"speaker":_speaker_label.text, "text":_dialogue_label.text, "context":context, "presentation":_prologue_dialogue_spec()}
-		_begin_prologue_async("line", _prologue_candidate_request(recording, _prologue_dispatch_complete))
+		if _prologue_dispatch_active:
+			return false
+		var recording := {
+			"speaker": history_speaker,
+			"text": _dialogue_label.text,
+			"context": context,
+			"presentation": _prologue_dialogue_spec()
+		}
+		_begin_prologue_async(
+			"line",
+			_prologue_candidate_request(recording, _prologue_dispatch_complete)
+		)
 		return false
-	if not _record_prologue_text(_speaker_label.text, _dialogue_label.text, context, _prologue_dialogue_spec()):
+	if not _record_prologue_text(
+		history_speaker,
+		_dialogue_label.text,
+		context,
+		_prologue_dialogue_spec()
+	):
 		return false
 	_prologue_history_index = _dialogue_index
 	return true
@@ -2883,9 +2992,135 @@ func _record_prologue_text(speaker: String, text: String, context: Dictionary = 
 		return false
 	return true
 
+func _portrait_id_from_line(line: Dictionary) -> String:
+	if String(line.get("portrait_position", "")).to_upper() == "NONE":
+		return ""
+	var portrait_id := String(line.get("portrait", "")).to_upper()
+	if portrait_id in ["EDGAR", "MARA1", "MARA2", "LUCA", "IRIS", "PROTAGONIST"]:
+		return portrait_id
+	var speaker := String(line.get("speaker", ""))
+	var speaker_ids := {
+		"주인공": "PROTAGONIST",
+		"나": "PROTAGONIST",
+		"SUBJECT": "PROTAGONIST",
+		"에드가": "EDGAR",
+		"마라 1": "MARA1",
+		"마라 2": "MARA2",
+		"루카": "LUCA",
+		"이리스": "IRIS",
+		"비피": "MARA2",
+		"마람": "MARA1"
+	}
+	return String(speaker_ids.get(speaker, ""))
+
+func _conversation_participants() -> Array[String]:
+	var participants: Array[String] = []
+	for entry in _dialogue_lines:
+		if not entry is Dictionary:
+			continue
+		var candidate := _portrait_id_from_line(entry)
+		if not candidate.is_empty() and candidate not in participants:
+			participants.append(candidate)
+	return participants
+
+func _portrait_texture_for(portrait_id: String) -> Texture2D:
+	var path := DESIGN.ROOT + "character_" + portrait_id.to_lower() + ".png"
+	if ResourceLoader.exists(path):
+		return load(path) as Texture2D
+	if PORTRAIT_REGIONS.has(portrait_id):
+		var texture := AtlasTexture.new()
+		texture.atlas = SERVANT_ATLAS
+		texture.region = PORTRAIT_REGIONS[portrait_id]
+		return texture
+	return null
+
+func _get_character_position(
+	character_id: String,
+	current_line: Dictionary
+) -> String:
+	if _portrait_id_from_line(current_line) == character_id:
+		var current_position := String(
+			current_line.get("portrait_position", "")
+		).to_upper()
+		if current_position in ["LEFT", "CENTER", "RIGHT", "NONE"]:
+			return current_position
+	for entry in _dialogue_lines:
+		if not entry is Dictionary:
+			continue
+		if _portrait_id_from_line(entry) != character_id:
+			continue
+		var position := String(
+			entry.get("portrait_position", "")
+		).to_upper()
+		if position in ["LEFT", "CENTER", "RIGHT"]:
+			return position
+	return "NONE"
+
+func _get_portrait_settings(portrait_id: String) -> Dictionary:
+	return PORTRAIT_SETTINGS.get(
+		portrait_id,
+		{
+			"scale": 1.0,
+			"offset": Vector2.ZERO
+		}
+	)
+
+func _update_conversation_portraits(
+	line: Dictionary,
+	participants_override: Array[String] = []
+) -> void:
+	_portrait.modulate = Color.WHITE
+	_other_portrait.hide()
+	_other_portrait.modulate = Color.WHITE
+	var active_id := _portrait_id_from_line(line)
+	var participants := participants_override if not participants_override.is_empty() else _conversation_participants()
+	if participants.size() != 2:
+		return
+	if active_id not in participants:
+		return
+	var other_id := participants[0] if participants[1] == active_id else participants[1]
+	var other_texture := _portrait_texture_for(other_id)
+	if other_texture == null:
+		return
+	_other_portrait.texture = other_texture
+	_other_portrait.show()
+	var active_settings := _get_portrait_settings(active_id)
+	var other_settings := _get_portrait_settings(other_id)
+	_portrait.scale = Vector2.ONE * float(active_settings["scale"])
+	_other_portrait.scale = Vector2.ONE * float(other_settings["scale"])
+	var original_rect: Rect2 = _portrait.get_meta("ep01_original_rect")
+	var active_offset: Vector2 = active_settings["offset"]
+	var other_offset: Vector2 = other_settings["offset"]
+	var right_position := original_rect.position
+	var protagonist_position := Vector2(
+		100.0,
+		original_rect.position.y
+	)
+	if active_id == "PROTAGONIST":
+		_portrait.position = protagonist_position + active_offset
+	else:
+		_portrait.position = right_position + Vector2(
+			0.0,
+			active_offset.y
+		)
+	if other_id == "PROTAGONIST":
+		_other_portrait.position = protagonist_position + other_offset
+	else:
+		_other_portrait.position = right_position + Vector2(
+			0.0,
+			other_offset.y
+		)
+	_portrait.modulate = Color.WHITE
+	_other_portrait.modulate = Color(
+		SPEAKER_BRIGHTNESS,
+		SPEAKER_BRIGHTNESS,
+		SPEAKER_BRIGHTNESS,
+		1.0
+	)
+
 
 func _set_dialogue_portrait(portrait_id: String) -> void:
-	var originals := {"EDGAR": "edgar", "MARA2": "mara2", "IRIS": "iris", "PROTAGONIST": "protagonist"}
+	var originals := {"EDGAR": "edgar", "LUCA": "luca", "MARA1": "mara1", "MARA2": "mara2", "IRIS": "iris", "PROTAGONIST": "protagonist"}
 	if originals.has(portrait_id):
 		_portrait.visible = true
 		_portrait.texture = load(DESIGN.ROOT + "character_" + originals[portrait_id] + ".png")
@@ -3576,6 +3811,8 @@ func _persist_prologue_progress(save_point_id: String, prologue_complete: bool, 
 	var collect_surfaces := not recording.is_empty() or complete_cursor or not _prologue_async_enabled()
 	var prepared := preload("res://scripts/systems/prologue_save_candidate.gd").prepare(GameState.get_snapshot(), _prologue_candidate_request(recording, prologue_complete, complete_cursor, collect_surfaces))
 	if not prepared.ok:
+		push_error("저장 준비 실패: " + str(prepared))
+		push_error("프롤로그 저장 데이터 생성 실패: " + str(prepared))
 		_set_status("수첩 저장 실패: %s" % prepared.error_id if prepared.get("note_error", false) else _dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false
 	var candidate: Dictionary = prepared.snapshot

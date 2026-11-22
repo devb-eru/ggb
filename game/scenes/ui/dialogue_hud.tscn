@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://0rbyr7k4vhn7" path="res://assets/ui/design_2026_10/character_protagonist.png" id="4_character"]
 [ext_resource type="Texture2D" uid="uid://brbmqrlfi1mdt" path="res://assets/ui/design_2026_10/dialogue_overlay__r01.png" id="5_ornament"]
 [ext_resource type="Texture2D" uid="uid://h3yumfubyav8" path="res://assets/ui/design_2026_10/speaker_nameplate__r01.png" id="6_nameplate"]
-[ext_resource type="Texture2D" path="res://assets/ui/dialogue_editor/notebook_icon.res" id="7_notebook"]
 [ext_resource type="PackedScene" uid="uid://eku6tov7vo5w" path="res://scenes/ui/choice_window.tscn" id="8_choices"]
 [ext_resource type="Texture2D" path="res://assets/ui/dialogue_editor/menu_icon.res" id="9_menu"]
 
@@ -41,6 +40,9 @@ Button/styles/hover = SubResource("Style_empty")
 Button/styles/hover_pressed = SubResource("Style_empty")
 Button/styles/normal = SubResource("Style_empty")
 Button/styles/pressed = SubResource("Style_empty")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hwe0f"]
+load_path = "res://.godot/imported/notebook_icon.png-93abe26af4b76e390f68d5eae08a8953.ctex"
 
 [node name="DialogueLayer" type="Control" unique_id=2002771939]
 clip_contents = true
@@ -84,9 +86,9 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = -140.0
+offset_left = 1062.0
 offset_top = -1025.0
-offset_right = 900.0
+offset_right = 2102.0
 offset_bottom = 960.0
 grow_vertical = 0
 mouse_filter = 2
@@ -243,20 +245,19 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 18.0
-offset_top = -154.0
-offset_right = 148.0
+offset_top = -243.96924
+offset_right = 234.0
 offset_bottom = -18.0
 grow_vertical = 0
 theme = ExtResource("2_theme")
 theme_type_variation = &"DialogueNotebookButton"
 theme_override_constants/h_separation = 4
-theme_override_constants/icon_max_width = 70
+theme_override_constants/icon_max_width = 500
 theme_override_font_sizes/font_size = 20
-text = "수첩"
-icon = ExtResource("7_notebook")
+icon = SubResource("CompressedTexture2D_hwe0f")
+flat = true
 clip_text = true
 icon_alignment = 1
-vertical_icon_alignment = 0
 expand_icon = true
 
 [node name="MenuButton" type="Button" parent="." unique_id=1537441976]

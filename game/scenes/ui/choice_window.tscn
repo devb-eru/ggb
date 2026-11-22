@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://eku6tov7vo5w"]
 
 [ext_resource type="Script" uid="uid://desnf0qm8hwit" path="res://scripts/ui/choice_window.gd" id="1_script"]
-[ext_resource type="Theme" path="res://assets/ui/dialogue_editor/choice_window_theme.tres" id="2_theme"]
+[ext_resource type="Theme" uid="uid://bgnwf3yjcqpga" path="res://assets/ui/dialogue_editor/choice_window_theme.tres" id="2_theme"]
 
 [sub_resource type="StyleBoxEmpty" id="Style_choice_panel"]
 
@@ -9,9 +9,9 @@
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -538.0
+offset_left = -1074.0
 offset_top = 255.0
-offset_right = -68.0
+offset_right = -604.0
 offset_bottom = 563.0
 grow_horizontal = 0
 theme = ExtResource("2_theme")
