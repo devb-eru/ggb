@@ -3,7 +3,6 @@ extends SceneTree
 func _initialize() -> void:
 	var design = load("res://scripts/ui/design_theme.gd")
 	DirAccess.make_dir_recursive_absolute("res://assets/ui/dialogue_editor")
-	ResourceSaver.save(design.icon("icon_notebook", 60), "res://assets/ui/dialogue_editor/notebook_icon.res", ResourceSaver.FLAG_COMPRESS)
 	ResourceSaver.save(design.icon("icon_menu", 38), "res://assets/ui/dialogue_editor/menu_icon.res", ResourceSaver.FLAG_COMPRESS)
 	var theme := Theme.new()
 	theme.default_font_size = 19
