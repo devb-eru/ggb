@@ -1,0 +1,43 @@
+{
+  "format_version": 1,
+  "contents": {
+    "NB_EP01_TEMPLATE_001": {
+      "1": {
+        "producer_id": "EP01_SHEET",
+        "source_file": "data/dialogue/chapter_one/ep01_runtime.json",
+        "source_symbol": "EP01_TEMPLATE_001",
+        "event_id": "EP01_SCENE_TEMPLATE",
+        "node_ids": ["EP01_TEMPLATE_001"],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_EDGAR",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": ["body"],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_EP01_TEMPLATE_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "기록 제목",
+            "summary": "기록 요약",
+            "speaker": "에드가",
+            "body": "[작성할 대사]"
+          },
+          "en-US": {
+            "title": "Record title",
+            "summary": "Record summary",
+            "speaker": "Edgar",
+            "body": "[작성할 대사]"
+          }
+        }
+      }
+    }
+  }
+}
