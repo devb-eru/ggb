@@ -524,6 +524,11 @@ func finish_sheet_conversation(node_ids: Array) -> Dictionary:
 	if node_ids.any(func(id: Variant) -> bool: return id is String and id.begins_with("EP02_")):
 		var applied := preload("res://scripts/systems/sheet_dialogue_effects.gd").apply(state, node_ids)
 		if not applied.get("ok", false): return applied
+	# Mark the Edgar side story complete only after its final narrated line.
+	if "EDS01_COMMON_017" in node_ids:
+		var substory_flags: Dictionary = state.meta_progress.get("flags", {}).duplicate(true)
+		substory_flags["edgar_sub_01_completed"] = true
+		state.meta_progress["flags"] = substory_flags
 	var flags := preload("res://scripts/systems/ep01_script.gd").completed_flags(node_ids)
 	state.loop_state.event_local_states.merge(flags, true)
 	var persistent := preload("res://scripts/systems/ep01_script.gd").completed_persistent_flags(node_ids)

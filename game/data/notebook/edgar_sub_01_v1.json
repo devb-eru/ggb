@@ -1,0 +1,1999 @@
+{
+  "format_version": 1,
+  "contents": {
+	"NB_EDS01_INTRO_001": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_INTRO_001",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_INTRO_001"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_INTRO_001:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "서재 안에서 기척이 느껴진다. 일과를 위해 에드가가 대기하고 있는 모양이다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "서재 안에서 기척이 느껴진다. 일과를 위해 에드가가 대기하고 있는 모양이다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_INTRO_002": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_INTRO_002",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_INTRO_002"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_INTRO_002:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "하아······."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "하아······."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_INTRO_003": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_INTRO_003",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_INTRO_003"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_INTRO_003:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "에드가의 한숨 소리가 들린다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "에드가의 한숨 소리가 들린다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_INTRO_004": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_INTRO_004",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_INTRO_004"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_INTRO_004:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "살짝 벌어진 문틈 사이로 살펴볼까?"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "살짝 벌어진 문틈 사이로 살펴볼까?"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_PEEK_001": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_PEEK_001",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_PEEK_001"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_PEEK_001:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "아주 좁은 틈 사이에 얼굴을 가까이 붙였다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "아주 좁은 틈 사이에 얼굴을 가까이 붙였다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_PEEK_002": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_PEEK_002",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_PEEK_002"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_PEEK_002:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "전등빛 아래에서, 이마를 짚고 있는 에드가가 보인다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "전등빛 아래에서, 이마를 짚고 있는 에드가가 보인다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_PEEK_003": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_PEEK_003",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_PEEK_003"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_PEEK_003:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "안색이 어둡지만··· 그건 원래도 그러지 않았나?"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "안색이 어둡지만··· 그건 원래도 그러지 않았나?"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_PEEK_004": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_PEEK_004",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_PEEK_004"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_PEEK_004:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "그럼에도 어색하다고 느껴지는 건 왜일까."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "그럼에도 어색하다고 느껴지는 건 왜일까."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_PEEK_005": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_PEEK_005",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_PEEK_005"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_PEEK_005:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "짧은 사색에 잠기기 직전, 문틈 사이로 에드가와 눈이 마주친다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "짧은 사색에 잠기기 직전, 문틈 사이로 에드가와 눈이 마주친다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_PEEK_006": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_PEEK_006",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_PEEK_006"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_PEEK_006:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "몰래 지켜보는 건 어디서 배운 예절입니까."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "몰래 지켜보는 건 어디서 배운 예절입니까."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_PEEK_007": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_PEEK_007",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_PEEK_007"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_PEEK_007:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "그럼 그 말투는 어디서 배운 예절인데?"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "그럼 그 말투는 어디서 배운 예절인데?"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_PEEK_008": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_PEEK_008",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_PEEK_008"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_PEEK_008:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "······."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "······."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_001": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_001",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_001"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_001:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "눈치따위 볼 게 있나? 어차피 에드가는 사용인이고, 나는 이 저택의 아가씨인데."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "눈치따위 볼 게 있나? 어차피 에드가는 사용인이고, 나는 이 저택의 아가씨인데."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_002": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_002",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_002"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_002:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "나는 문을 벌컥 열어젖혔다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "나는 문을 벌컥 열어젖혔다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_003": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_003",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_003"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_003:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "서재에 발을 들이는 순간, 여느때와 다름없는 단정한 에드가가 나를 맞이한다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "서재에 발을 들이는 순간, 여느때와 다름없는 단정한 에드가가 나를 맞이한다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_004": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_004",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_004"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_004:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "오셨군요, 아가씨."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "오셨군요, 아가씨."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_005": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_005",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_005"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_005:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "너 평소랑 다르지 않아?"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "너 평소랑 다르지 않아?"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_006": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_006",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_006"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_006:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "무슨 말씀이신지."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "무슨 말씀이신지."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_007": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_007",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_007"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_007:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "그러니까······ 뭔가가······ 너···."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "그러니까······ 뭔가가······ 너···."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_008": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_008",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_008"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_008:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "기분 탓입니다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "기분 탓입니다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_009": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_009",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_009"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_009:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "좀 더 말해봐."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "좀 더 말해봐."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_010": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_010",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_010"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_010:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "무엇을?"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "무엇을?"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_011": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_011",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_011"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_011:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "알았다! 말이 짧아졌어."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "알았다! 말이 짧아졌어."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_012": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_012",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_012"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_012:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "기분 나쁜 일이라도 생긴 모양이지?"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "기분 나쁜 일이라도 생긴 모양이지?"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_ENTER_013": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_ENTER_013",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_ENTER_013"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_ENTER_013:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "······."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "······."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_001": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_001",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_001"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_001:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "별 일 아닙니다. 서류가 많아서요."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "별 일 아닙니다. 서류가 많아서요."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_002": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_002",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_002"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_002:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "네가 보는 종이가 너무 많긴 하지."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "네가 보는 종이가 너무 많긴 하지."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_003": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_003",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_003"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_003:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "하지만 그게 다 무슨 소용이야?"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "하지만 그게 다 무슨 소용이야?"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_004": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_004",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_004"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_004:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "무슨 뜻이십니까."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "무슨 뜻이십니까."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_005": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_005",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_005"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_005:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "그러니까, 그 서류가 어디에 쓰이는지 모르겠다고."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "그러니까, 그 서류가 어디에 쓰이는지 모르겠다고."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_006": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_006",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_006"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_006:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "아가씨는 모르는 게 좋습니다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "아가씨는 모르는 게 좋습니다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_007": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_007",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_007"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_007:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "왜?"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "왜?"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_008": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_008",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_008"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_008:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "어른의 사정이니까요."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "어른의 사정이니까요."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_009": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_009",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_009"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_009:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "그리고, 말해도 아가씨는 못 알아들으십니다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "그리고, 말해도 아가씨는 못 알아들으십니다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_010": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_010",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_010"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_010:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "너 나 무시해?"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "너 나 무시해?"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_011": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_011",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_011"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_011:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "······아닙니다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "······아닙니다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_012": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_012",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_012"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_012:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "왜 말이 느리지?"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "왜 말이 느리지?"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_013": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_013",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_013"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_013:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "아가씨, 일과를 시작할 시간입니다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "아가씨, 일과를 시작할 시간입니다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_014": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_014",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_014"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_014:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "우리 지금 중요한 얘기 중이었어!"
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "우리 지금 중요한 얘기 중이었어!"
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_015": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_015",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_015"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_EDGAR",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_015:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "에드가",
+			"body": "일과보다 중요한 건 없습니다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Edgar",
+			"body": "일과보다 중요한 건 없습니다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_016": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_016",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_016"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_016:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "분명 뭔가 있는 것 같은데······."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "분명 뭔가 있는 것 같은데······."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_COMMON_017": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_COMMON_017",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_COMMON_017"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_COMMON_017:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "다른 날에 한 번 더 물어볼까."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "다른 날에 한 번 더 물어볼까."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_CHOICE_ENTRY_CH01": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_CHOICE_ENTRY_CH01",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_CHOICE_ENTRY_CH01"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_CHOICE_ENTRY_CH01:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "살핀다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "살핀다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_CHOICE_ENTRY_CH02": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_CHOICE_ENTRY_CH02",
+		"event_id": "EDS01_SCENE_01",
+		"node_ids": [
+          "EDS01_CHOICE_ENTRY_CH02"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_CHOICE_ENTRY_CH02:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "주인공",
+			"body": "들어간다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Protagonist",
+			"body": "들어간다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_CHOICE_ENTRY": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_CHOICE_ENTRY",
+		"event_id": "EDS01_CHOICE_ENTRY",
+		"node_ids": [
+          "EDS01_CHOICE_ENTRY"
+		],
+		"action_or_variant": "options",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "options_presented",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+		  "option_0",
+          "option_1"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "option_0": {},
+		  "option_1": {}
+		},
+		"localization_keys": {
+		  "option_0": "NB_EDS01_CHOICE_ENTRY:option_0",
+		  "option_1": "NB_EDS01_CHOICE_ENTRY:option_1"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "표시된 선택지",
+			"option_0": "살핀다.",
+			"option_1": "들어간다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Displayed choices",
+			"option_0": "살핀다.",
+			"option_1": "들어간다."
+		  }
+		},
+		"choices": [
+		  {
+			"content_id": "NB_EDS01_CHOICE_ENTRY_SELECT_0",
+			"kind": "confirm"
+		  },
+		  {
+			"content_id": "NB_EDS01_CHOICE_ENTRY_SELECT_1",
+			"kind": "confirm"
+		  }
+		],
+		"default_segments": [
+		  "option_0",
+          "option_1"
+		],
+		"cancel_index": -1
+	  }
+	},
+	"NB_EDS01_CHOICE_ENTRY_SELECT_0": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_CHOICE_ENTRY_CH01",
+		"event_id": "EDS01_CHOICE_ENTRY",
+		"node_ids": [
+          "EDS01_CHOICE_ENTRY"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "choice_confirmed",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_CHOICE_ENTRY_SELECT_0:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "선택한 문구",
+			"body": "살핀다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Selected option",
+			"body": "살핀다."
+		  }
+		}
+	  }
+	},
+	"NB_EDS01_CHOICE_ENTRY_SELECT_1": {
+	  "1": {
+		"producer_id": "EDS01_SHEET",
+		"source_file": "data/dialogue/substories/edgar_sub_01.json",
+		"source_symbol": "EDS01_CHOICE_ENTRY_CH02",
+		"event_id": "EDS01_CHOICE_ENTRY",
+		"node_ids": [
+          "EDS01_CHOICE_ENTRY"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "choice_confirmed",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_EDS01_CHOICE_ENTRY_SELECT_1:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "에드가 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "선택한 문구",
+			"body": "들어간다."
+		  },
+		  "en-US": {
+			"title": "Edgar substory",
+			"summary": "Observed words and records",
+			"speaker": "Selected option",
+			"body": "들어간다."
+		  }
+		}
+	  }
+	}
+  }
+}

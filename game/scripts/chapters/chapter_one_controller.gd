@@ -1604,7 +1604,15 @@ func _ep01_action_feedback(action: String, value: Variant, result: Dictionary, b
 			"record_wave": start = "EP01_B4_001"
 			"restore_j2": start = "EP01_B5_SUCCESS_001"
 			"move":
-				if value == "M1_LIBRARY_INNER" and int(before.meta_progress.journal_stage) == 0 and before.loop_state.location_id != "M1_LIBRARY_INNER": start = "EP01_B2_ENTRY_001"
+				# Third-loop Edgar side story happens at the OUTER library, before the daily routine.
+				# The inner library is unlocked only after routine_done, so it cannot host this trigger.
+				if value == "M1_LIBRARY_OUTER" and before.loop_state.location_id != "M1_LIBRARY_OUTER" \
+					and int(before.loop_state.day_index) == 2 \
+					and String(before.loop_state.time_block) == "morning" \
+					and not session.local_state().routine_done \
+					and not session.snapshot().meta_progress.get("flags", {}).get("edgar_sub_01_completed", false):
+					start = "EDS01_INTRO_001"
+				elif value == "M1_LIBRARY_INNER" and int(before.meta_progress.journal_stage) == 0 and before.loop_state.location_id != "M1_LIBRARY_INNER": start = "EP01_B2_ENTRY_001"
 	if start.is_empty(): return false
 	_ep01_play(start, finish, stops, cases)
 	return true
