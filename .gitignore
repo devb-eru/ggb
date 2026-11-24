@@ -16,7 +16,7 @@
 /_qa_gdd_v02
 /_qa_gdd_v03
 /_qa_gdd_v03_r2
-/__pycache__
+__pycache__/
 
 # Editor and interrupted-write temporary files
 *.tmp
@@ -32,7 +32,23 @@
 /exports/*
 !/exports/.gitkeep
 /outputs/
+/game/output/**/*.exe
+/game/output/**/*.pck
+/game/output/playtest/*.zip
 /GGB.html
+
+# Local test runs and reproducible EP01 test files
+/output/ggb_batch_*/
+/output/ggb_frame_probe_*/
+/output/ggb_map_ui/
+/output/ggb_reuse_*/
+/output/ggb_save_trace_*/
+/output/ggb_thumbnail_*/
+/output/ggb_*_latest.txt
+/output/ep01-godot-sync/project/
+/output/ep01-godot-sync/userdata/
+/output/ep01-godot-sync/godot-validation.exe
+/output/ep01-godot-sync/*.log
 
 # Local auxiliary worktrees
 /.worktrees/
