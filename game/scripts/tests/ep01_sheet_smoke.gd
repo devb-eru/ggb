@@ -80,11 +80,16 @@ func _run() -> void:
 	get_tree().quit(0 if failures.is_empty() else 1)
 
 
-func _drain(view: Control) -> void:
+func _drain(view: Control) -> Array[String]:
+	var node_ids: Array[String] = []
 	for _step in range(150):
-		if not view._dialogue_active: return
+		if not view._dialogue_active: return node_ids
+		var context: Dictionary = view._dialogue_lines[view._dialogue_index].get("history_context", {})
+		var node_id := String(context.get("node_id", ""))
+		if not node_id.is_empty(): node_ids.append(node_id)
 		view._advance_dialogue()
 	check(false, "dialogue must finish within its authored block")
+	return node_ids
 
 
 func _travel(view: Control, destination: String) -> void:
@@ -131,7 +136,10 @@ func _physical_flow(game: Node, save: Node) -> void:
 	_drain(view)
 	view._do("confirm_mark")
 	check(view._dialogue_lines.any(func(line: Dictionary) -> bool: return line.history_context.node_id == "EP01_A1_REACTION_002"), "yesterday's trace monologue plays at next-morning confirmation")
-	_drain(view)
+	var a2_node_ids := _drain(view)
+	check(a2_node_ids.count("EP01_A2_001") == 1, "A2 continuity statement plays once")
+	check(a2_node_ids.count("EP01_A2_OBSERVE_010") == 1, "A2 retained-mark observation plays once")
+	check(a2_node_ids.count("EP01_A2_003") == 1, "A2 notebook unlock line plays once")
 	check(view._modal_active and view.session.stage() == "B1", "A2 source reaches optional Edgar/continue choice after confirmation")
 	if not view._modal_active: return
 	# The second route continues to the existing schedule investigation surface.

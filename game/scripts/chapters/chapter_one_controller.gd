@@ -1548,14 +1548,6 @@ func _ep01_action_feedback(action: String, value: Variant, result: Dictionary, b
 			"confirm_mark":
 				var mark: String = before.meta_progress.knowledge_entries.get("self_authored_mark", {}).get("type", "sentence")
 				start = {"sentence": "EP01_A2_SENTENCE_001", "house_glyph": "EP01_A2_GLYPH_001", "ink_corner": "EP01_A2_INK_001"}.get(mark, "EP01_A2_SENTENCE_001")
-				var prelude := EP01.segment("EP01_A1_REACTION_001", session.snapshot(), TranslationServer.get_locale())
-				if not prelude.ok: return false
-				var lines := [EP01.line(start, session.snapshot(), TranslationServer.get_locale())]
-				lines.append_array(prelude.lines)
-				var ids: Array = [start]
-				ids.append_array(prelude.ids)
-				_show_dialogue(lines, _ep01_continue.bind({"start": "EP01_A2_001", "finish": {}, "stops": [], "cases": {}, "ids": ids}))
-				return true
 			"routine": start = "EP01_AS_CAP_001"; stops = ["EP01_COMMON_SLEEP_LOOP"]
 			"read_schedule":
 				var prefix: String = {"edgar": "EP01_DOC_WORK_", "luca": "EP01_DOC_DELIVERY_", "mara1": "EP01_DOC_CLEAN_", "mara2": "EP01_DOC_EXPORT_"}.get(String(value), "")
