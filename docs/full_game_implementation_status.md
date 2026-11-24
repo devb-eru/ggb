@@ -54,13 +54,13 @@
 
 전편 영어 진행, 관계 LOW/MID/HIGH/ALL 전편 경로, Windows 마우스 전용·키보드 전용 필수 경로 완주가 완료됐다. 사용자와 합의한 현재 개발 중단선에 도달했다. 최종 에셋 공급과 이를 전제로 한 연출 보강, 목표 플레이타임·퍼즐 체감 실측은 다음 단계의 미완료 범위다.
 
-- 포커스·최소화: [게임 일시정지](application_focus_pause_status.md)를 production bootstrap에 연결했다. 플레이 타이머·입력과 늦은 클릭 release를 보호하고 표시 중인 플레이 컨트롤로 복귀한다. 화면 설정 안전 카운트다운은 예외로 계속 처리한다. 전편 수동 Alt+Tab·다중 모니터 QA 완료를 뜻하지 않는다.
+- 포커스·최소화: [게임 일시정지](validation/input/application_focus_pause_status.md)를 production bootstrap에 연결했다. 플레이 타이머·입력과 늦은 클릭 release를 보호하고 표시 중인 플레이 컨트롤로 복귀한다. 화면 설정 안전 카운트다운은 예외로 계속 처리한다. 전편 수동 Alt+Tab·다중 모니터 QA 완료를 뜻하지 않는다.
 
-- 설정 기능: [키 재설정](keyboard_settings_status.md)과 [화면 설정](display_settings_status.md)을 제목 화면·게임 중 메뉴에 연결했다. 키 저장·복원과 화면 모드·창 크기의 15초 확인/복구를 제공한다. 전체 입력 경로 완주, 독립 UI 배율과 전체 DPI/해상도 조합을 대신 검증한 것은 아니다.
+- 설정 기능: [키 재설정](validation/input/keyboard_settings_status.md)과 [화면 설정](validation/input/display_settings_status.md)을 제목 화면·게임 중 메뉴에 연결했다. 키 저장·복원과 화면 모드·창 크기의 15초 확인/복구를 제공한다. 전체 입력 경로 완주, 독립 UI 배율과 전체 DPI/해상도 조합을 대신 검증한 것은 아니다.
 
 - 1장 추가 현지화: [J1 복원](j1_localization_status.md), [서재 조사](inner_library_localization_status.md), [시계망·B4·J2](clock_localization_status.md)의 단서와 표시 ID·저장 재개를 연결했다. 시계 배치 검사의 동적 오류 등 일부 1장 문구와 2장 이후 본문은 남는다. 정답과 저장 원문은 유지하며 전체 영어 완주 완료로 판정하지 않는다.
 - 재준비 조건: 시계망·거울은 성공 영구 정보 확보 후 실패용 준비를 닫는다. [거울 검증](mirror_shortcut_validation.md), [지하창고 검증](basement_shortcut_validation.md)을 따른다. 지하창고는 정상 리셋 뒤 성공한 접근 경로로 다시 여는 기능을 별도로 유지한다.
-- 공통 확인창: 제목·버튼 읽기 배율과 표시 중인 컨트롤의 Tab 순환을 적용했다. [입력 검증](support_input_validation.md)은 Godot 입력 이벤트·일부 화면 캡처의 범위이며 전편 OS 입력 완료가 아니다.
+- 공통 확인창: 제목·버튼 읽기 배율과 표시 중인 컨트롤의 Tab 순환을 적용했다. [입력 검증](validation/input/support_input_validation.md)은 Godot 입력 이벤트·일부 화면 캡처의 범위이며 전편 OS 입력 완료가 아니다.
 - 음향: 재생 수명 관리, 음량·음소거 저장, 타이틀·플레이 중 설정과 초기 cue 요청 기반을 구현했다. [음향 런타임](audio_runtime_status.md)을 따른다. 현재 등록 cue는 PLANNED이고 게임 음원 파일이 없어 실제 청취 품질과 최종 리소스 완료는 미입증이다.
 
 - 대화 기록: 프롤로그와 후속 챕터의 공통 대화창, 프롤로그 선택 및 다섯 관계·엔딩 확인 선택창에서 실제 표시·선택 기록을 보존한다. 엔딩 완료 후에는 읽기 전용 열람을 제공한다. 아직 연결하지 않은 선택 UI와 별도 본문 패널, 원문 ID 기반 재번역과 대화 커서 재개는 남아 있다. [대화 기록 적용 범위와 검증](dialogue_history_integration_status.md)을 따른다.

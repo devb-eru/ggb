@@ -67,7 +67,7 @@
 
 **근거**
 
-- [기존 개별 이슈](../ideas/md/v04/issues/items/GGB-CNF-2026-0018_외부서고_B3_시계와_기록내실_시계_ID_충돌.md)가 `OPEN · READY · P1`이다.
+- [기존 개별 이슈](../../ideas/md/v04/issues/items/GGB-CNF-2026-0018_외부서고_B3_시계와_기록내실_시계_ID_충돌.md)가 `OPEN · READY · P1`이다.
 - B3 외부 서고 시계와 `M1_LIBRARY_INNER` 기록 시계가 `OBJ_LIBRARY_RECORD_CLOCK`을 공유하면 위치·아트·상호작용 resolver가 같은 물체로 오인한다.
 - 현재 외부 서고 시계는 정본 export에서 격리되어 있어 즉시 런타임 오염은 없지만 버티컬 슬라이스 제작 전에는 닫아야 한다.
 
@@ -89,10 +89,10 @@
 
 **근거**
 
-- [마일스톤](milestones.md)의 `TECH_01_FOUNDATION` 목표일은 2026-08-21이며 상태는 여전히 `PROVISIONAL`이다.
+- [마일스톤](../milestones.md)의 `TECH_01_FOUNDATION` 목표일은 2026-08-21이며 상태는 여전히 `PROVISIONAL`이다.
 - `game/project.godot`의 앱 이름은 `임시`, main scene은 `res://signal_practice.tscn`이다.
 - 추적된 제품 기반은 연습 씬 1개와 GDScript 5개이며 production main scene, autoload 구현, 사건 Resource, 저장 fixture와 Windows export preset이 없다.
-- [검증 계획](validation_plan.md)의 `V1~V5`는 모두 `NOT_IMPLEMENTED`다.
+- [검증 계획](../validation_plan.md)의 `V1~V5`는 모두 `NOT_IMPLEMENTED`다.
 
 **영향**
 
@@ -102,7 +102,7 @@
 
 1. `TECH_01_FOUNDATION`을 현재 증거 기준 `AT_RISK`로 표시하고 실제 capacity를 반영한 새 목표일을 기록한다.
 2. `production bootstrap → GameState/EventManager/StateWriter → 입력·포커스 → 저장 schema 1 → locale → Windows debug export` 순으로 최소 기반선을 만든다.
-3. 각 단계는 [제작 전환 백로그](production_backlog.md)와 [Godot 규칙](godot_conventions.md)의 완료 조건으로 검증한다.
+3. 각 단계는 [제작 전환 백로그](../production_backlog.md)와 [Godot 규칙](../godot_conventions.md)의 완료 조건으로 검증한다.
 4. 기술 기반선이 버티컬 슬라이스 일정을 침범하면 `PROD_01_VERTICAL_SLICE`도 같은 날 재산정한다.
 
 **완료 증거**
@@ -118,9 +118,9 @@
 **근거**
 
 - `OPS_01_COLLABORATION_BASELINE`은 2026-08-04 목표에 `IN_PROGRESS`, `STEAM_01_ONBOARDING`은 2026-08-14 목표에 `PLANNED`, `TECH_01_FOUNDATION`은 2026-08-21 목표에 `PROVISIONAL`로 남아 있다.
-- [창작 잠금 일정](creative_lock_schedule.md)의 정식명, 태그라인, 주인공 화면명·연령대, 마라 이름, 마라 2 외형 연령 결정은 2026-08-14~21 필요일을 지났지만 현재 값은 가칭·미정·임시명이다.
+- [창작 잠금 일정](../creative_lock_schedule.md)의 정식명, 태그라인, 주인공 화면명·연령대, 마라 이름, 마라 2 외형 연령 결정은 2026-08-14~21 필요일을 지났지만 현재 값은 가칭·미정·임시명이다.
 - 같은 문서는 기한 경과 시 연결 마일스톤을 `AT_RISK`로 갱신하라고 규정한다.
-- [Steam 계획](steam_release_plan.md)은 게임명·소개만 `AT_RISK`로 표시하지만 마일스톤 표와 다른 잠금에는 반영되지 않았다.
+- [Steam 계획](../steam_release_plan.md)은 게임명·소개만 `AT_RISK`로 표시하지만 마일스톤 표와 다른 잠금에는 반영되지 않았다.
 
 **영향**
 
@@ -139,8 +139,8 @@
 
 **근거**
 
-- [제작 전환 백로그](production_backlog.md)는 2026-07-31 HTTP 403과 무효한 로컬 token을 근거로 `PB-003=BLOCKED_GITHUB_AUTH`라고 기록한다.
-- [다음 작업 계획](next_work_plan.md)은 이후 실제 GitHub Issues #15, #17, #19, #22, #24, #26과 Project 구성을 기록한다.
+- [제작 전환 백로그](../production_backlog.md)는 2026-07-31 HTTP 403과 무효한 로컬 token을 근거로 `PB-003=BLOCKED_GITHUB_AUTH`라고 기록한다.
+- [다음 작업 계획](../next_work_plan.md)은 이후 실제 GitHub Issues #15, #17, #19, #22, #24, #26과 Project 구성을 기록한다.
 - 따라서 “모든 Issue 쓰기 경로가 차단됨”은 현재 상태 설명으로 사용할 수 없다. 다만 제작 PB 항목이 실제로 등록됐다는 증거도 없다.
 
 **해결안**
@@ -156,9 +156,9 @@
 
 **근거**
 
-- [의뢰 대장](requests/request_register.csv)의 10건이 모두 `READY_FOR_ACCEPTANCE`다.
+- [의뢰 대장](../requests/request_register.csv)의 10건이 모두 `READY_FOR_ACCEPTANCE`다.
 - 각 의뢰서의 수락 범위·제외 범위·공수 회신은 비어 있다.
-- [에셋 manifest](asset_manifest.csv)의 329행은 모두 `PLANNED`, `is_placeholder=true`다.
+- [에셋 manifest](../asset_manifest.csv)의 329행은 모두 `PLANNED`, `is_placeholder=true`다.
 - 팀 의뢰에 포함되지 않은 4행은 `beru` 소유 기술 셰이더이며 의도된 내부 구현 범위다. 누락으로 판정하지 않는다.
 
 **영향**
@@ -194,7 +194,7 @@
 
 **원인**
 
-[상태·데이터 문서](../ideas/md/v04/17_상태변수_이벤트ID_Godot데이터구조.md)의 ID 규칙 예시가 정본에 없는 `SERVANT_OBJ_EDGAR`를 사용했다. 실제 canonical ID는 `SERVANT_OBJ_EDGAR_LOCK_PORT`다.
+[상태·데이터 문서](../../ideas/md/v04/17_상태변수_이벤트ID_Godot데이터구조.md)의 ID 규칙 예시가 정본에 없는 `SERVANT_OBJ_EDGAR`를 사용했다. 실제 canonical ID는 `SERVANT_OBJ_EDGAR_LOCK_PORT`다.
 
 **처리**
 
@@ -216,7 +216,7 @@
 
 **처리**
 
-[검증 스크립트](../scripts/validate_docs.ps1)와 [검증 계획](validation_plan.md)에 위 규칙을 추가했다. 2026-08-29 현재 19개 마일스톤, 63개 오브젝트, 330개 에셋, 10개 의뢰와 36개 개별 이슈가 새 검사까지 통과한다.
+[검증 스크립트](../../scripts/validate_docs.ps1)와 [검증 계획](../validation_plan.md)에 위 규칙을 추가했다. 2026-08-29 현재 19개 마일스톤, 63개 오브젝트, 330개 에셋, 10개 의뢰와 36개 개별 이슈가 새 검사까지 통과한다.
 
 **상태**: `RESOLVED_IN_AUDIT`
 
@@ -224,9 +224,9 @@
 
 **근거**
 
-- [작업 현황 대시보드](work_status_dashboard.md)는 GitHub Project를 현재 상태 정본으로 규정한다.
-- [다음 작업 계획](next_work_plan.md)은 8월 2~4일의 `IN_PROGRESS/PLANNED` 상태를 현재형으로 보존한다.
-- [마일스톤](milestones.md)도 같은 운영 기반선을 8월 4일 목표 `IN_PROGRESS`로 유지한다.
+- [작업 현황 대시보드](../work_status_dashboard.md)는 GitHub Project를 현재 상태 정본으로 규정한다.
+- [다음 작업 계획](../next_work_plan.md)은 8월 2~4일의 `IN_PROGRESS/PLANNED` 상태를 현재형으로 보존한다.
+- [마일스톤](../milestones.md)도 같은 운영 기반선을 8월 4일 목표 `IN_PROGRESS`로 유지한다.
 
 저장소만으로 GitHub Project의 실제 현재 상태를 판정할 수 없으므로 미완료로 단정하지 않는다. 문제는 로컬 문서가 “언제 조회한 스냅숏인지” 표시하지 않아 정본처럼 읽힌다는 점이다.
 
@@ -243,7 +243,7 @@
 **근거**
 
 - Discord 알림 workflow와 전용 문서는 Node.js 24를 사용한다.
-- 기존 [개발 환경](dev_environment.md)은 Godot·Git·Git LFS만 적어 운영 담당자의 로컬 테스트 전제조건이 빠져 있었다.
+- 기존 [개발 환경](../dev_environment.md)은 Godot·Git·Git LFS만 적어 운영 담당자의 로컬 테스트 전제조건이 빠져 있었다.
 - 감사 환경에는 `node`가 없어 `node --test scripts/discord_notifications.test.mjs`를 실행하지 못했다.
 
 **처리**
@@ -288,4 +288,4 @@ git lfs ls-files
 node --test scripts/discord_notifications.test.mjs
 ```
 
-마지막 명령은 Node.js 24 환경에서만 실행한다. Godot `V1~V5`는 production bootstrap과 해당 fixture가 생긴 뒤 [검증 계획](validation_plan.md)에 따라 활성화한다.
+마지막 명령은 Node.js 24 환경에서만 실행한다. Godot `V1~V5`는 production bootstrap과 해당 fixture가 생긴 뒤 [검증 계획](../validation_plan.md)에 따라 활성화한다.

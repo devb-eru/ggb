@@ -33,9 +33,9 @@
 
 **발생 위치**
 
-- [의뢰 운영 README](requests/README.md)는 `BATCH-VS01`만 수락 완료로 쓰고, 데모·본편 배치는 이후 수락이라고 적었다.
+- [의뢰 운영 README](../requests/README.md)는 `BATCH-VS01`만 수락 완료로 쓰고, 데모·본편 배치는 이후 수락이라고 적었다.
 - 같은 문서의 상태표는 `ACCEPTED`를 단순히 “제작 가능”으로 표시했다.
-- [의뢰 대장](requests/request_register.csv)의 ART 4건, AUD 3건, CNT 3건은 모두 `ACCEPTED`다.
+- [의뢰 대장](../requests/request_register.csv)의 ART 4건, AUD 3건, CNT 3건은 모두 `ACCEPTED`다.
 - 상세 의뢰서의 미체크된 요청별 배분·첫 검토일 조건이 “팀 수락 조건”으로 남아 팀 패키지 수락과 착수 준비를 혼용했다.
 
 **영향**
@@ -51,15 +51,15 @@
 
 **완료 증거**
 
-- [의뢰 운영 README §3·§5](requests/README.md)
+- [의뢰 운영 README §3·§5](../requests/README.md)
 - `REQUEST_ACCEPTED_DOC_STATUS`, `REQUEST_START_GATE`, `REQUEST_ACCEPTED_BRIEF` 검사 통과
 
 ### GGB-REV-2026-0044: 버티컬 슬라이스 아트 제외 수량 회귀
 
 **발생 위치**
 
-- 외부 서고 시계 추가로 [버티컬 슬라이스 아트 의뢰](requests/REQ-ART-2026-0001_버티컬슬라이스.md)는 29종이 됐다.
-- [데모 잔여 아트 의뢰](requests/REQ-ART-2026-0002_공개데모잔여.md)는 배타적 목록 115종과 전체 합산은 맞지만, 설명 두 곳이 VS 28종 제외로 남았다.
+- 외부 서고 시계 추가로 [버티컬 슬라이스 아트 의뢰](../requests/REQ-ART-2026-0001_버티컬슬라이스.md)는 29종이 됐다.
+- [데모 잔여 아트 의뢰](../requests/REQ-ART-2026-0002_공개데모잔여.md)는 배타적 목록 115종과 전체 합산은 맞지만, 설명 두 곳이 VS 28종 제외로 남았다.
 
 **영향**
 
@@ -86,7 +86,7 @@ UNKNOWN=0
 
 **발생 위치**
 
-[검증 스크립트](../scripts/validate_docs.ps1)는 루트 `README.md`, `docs/`, `ideas/`만 검사해 `CONTRIBUTING.md`, `THIRD_PARTY_NOTICES.md`, `game/README.md`를 검사하지 않았다. [검증 계획](validation_plan.md)은 모든 현행 Markdown의 UTF-8·H1·fence·링크를 검사한다고 설명했다.
+[검증 스크립트](../../scripts/validate_docs.ps1)는 루트 `README.md`, `docs/`, `ideas/`만 검사해 `CONTRIBUTING.md`, `THIRD_PARTY_NOTICES.md`, `game/README.md`를 검사하지 않았다. [검증 계획](../validation_plan.md)은 모든 현행 Markdown의 UTF-8·H1·fence·링크를 검사한다고 설명했다.
 
 **영향**
 
@@ -96,7 +96,7 @@ UNKNOWN=0
 
 - 루트 운영 문서와 `game/`을 Markdown 검사 대상에 추가했다.
 - 현재 186개 Markdown의 strict UTF-8, H1, fence와 로컬 링크 검사가 통과한다.
-- [검증 계획 §4](validation_plan.md)의 실제 범위를 동기화했다.
+- [검증 계획 §4](../validation_plan.md)의 실제 범위를 동기화했다.
 
 ### GGB-REV-2026-0046: GitHub Action 참조 고정 불일치
 
@@ -111,7 +111,7 @@ UNKNOWN=0
 
 **처리**
 
-- [문서 검증 워크플로](../.github/workflows/validate-docs.yml)의 checkout을 기존 사용 중인 `de0fac2e4500dabe0009e67214ff5f5447ce83dd`로 고정했다.
+- [문서 검증 워크플로](../../.github/workflows/validate-docs.yml)의 checkout을 기존 사용 중인 `de0fac2e4500dabe0009e67214ff5f5447ce83dd`로 고정했다.
 - 모든 워크플로의 외부 `uses:` 참조가 40자리 SHA인지 `ACTION_REF_NOT_PINNED`으로 검사한다.
 
 ## 4. 남아 있는 운영·구현 위험
@@ -120,11 +120,11 @@ UNKNOWN=0
 
 **발생 위치**
 
-- 최초 감사 시 [Godot 프로젝트](../game/project.godot)의 앱 이름은 `임시`, 기본 씬은 `res://signal_practice.tscn`이었다.
+- 최초 감사 시 [Godot 프로젝트](../../game/project.godot)의 앱 이름은 `임시`, 기본 씬은 `res://signal_practice.tscn`이었다.
 - 최초 감사 시 production main scene, autoload, 사건 Resource, 저장 fixture와 export preset이 모두 없었다.
 - 최초 감사 시 `key.gd`는 클릭 뒤 `key_clicked=1`만 쓰고 버튼을 숨기거나 비활성화하지 않았으며 인벤토리 이동도 구현하지 않았다.
 - 현재 셸에서는 Godot 실행 파일을 찾지 못해 headless import와 GDScript parse를 수행할 수 없었다.
-- [검증 계획](validation_plan.md)의 `V1~V5`는 모두 `NOT_IMPLEMENTED`다.
+- [검증 계획](../validation_plan.md)의 `V1~V5`는 모두 `NOT_IMPLEMENTED`다.
 
 **영향**
 
@@ -208,8 +208,8 @@ UNKNOWN=0
 
 **발생 위치**
 
-- [마일스톤](milestones.md)의 운영, Steam 온보딩, 기술 기반선, 버티컬 슬라이스, 상점 공개 5개가 `AT_RISK`다.
-- [창작 잠금](creative_lock_schedule.md)의 정식명, 태그라인, 주인공 화면명·연령대, 마라 이름, 마라 2 외형 연령 6개가 `OPEN · AT_RISK · REBASELINE_REQUIRED`다.
+- [마일스톤](../milestones.md)의 운영, Steam 온보딩, 기술 기반선, 버티컬 슬라이스, 상점 공개 5개가 `AT_RISK`다.
+- [창작 잠금](../creative_lock_schedule.md)의 정식명, 태그라인, 주인공 화면명·연령대, 마라 이름, 마라 2 외형 연령 6개가 `OPEN · AT_RISK · REBASELINE_REQUIRED`다.
 
 **영향**
 

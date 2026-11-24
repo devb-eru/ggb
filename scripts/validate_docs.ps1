@@ -142,6 +142,10 @@ else {
 $objectContractFiles = @(
     Get-ChildItem -LiteralPath (Join-Path $repoRoot "docs") -File -Filter "*.md" |
         Where-Object { $_.Name -notlike "project_review_*.md" }
+    $inputValidationRoot = Join-Path $repoRoot "docs/validation/input"
+    if (Test-Path -LiteralPath $inputValidationRoot -PathType Container) {
+        Get-ChildItem -LiteralPath $inputValidationRoot -File -Filter "*.md"
+    }
     Get-ChildItem -LiteralPath (Join-Path $repoRoot "ideas/md/v04") -File -Filter "*.md"
 )
 foreach ($file in $objectContractFiles) {
@@ -690,7 +694,7 @@ if (Test-Path -LiteralPath $creditsPath) {
 foreach ($root in $currentContractFiles) {
     foreach ($file in Get-ChildItem -LiteralPath $root -Recurse -File -Filter "*.md") {
         $relativePath = Get-RepoRelativePath $file.FullName
-        if ($relativePath -like "ideas/md/v04/issues/*" -or $relativePath -eq "docs/project_review_2026-07-31.md") {
+        if ($relativePath -like "ideas/md/v04/issues/*" -or $relativePath -eq "docs/reviews/project_review_2026-07-31.md") {
             continue
         }
         $text = [System.IO.File]::ReadAllText($file.FullName, $utf8)
