@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://h3yumfubyav8" path="res://assets/ui/design_2026_10/speaker_nameplate__r01.png" id="6_nameplate"]
 [ext_resource type="PackedScene" uid="uid://eku6tov7vo5w" path="res://scenes/ui/choice_window.tscn" id="8_choices"]
 [ext_resource type="Texture2D" path="res://assets/ui/dialogue_editor/menu_icon.res" id="9_menu"]
-[ext_resource type="Texture2D" path="res://assets/ui/dialogue_editor/notebook_icon.res" id="notebook_icon"]
+[ext_resource type="Texture2D" uid="uid://cfdiqpvhiy82q" path="res://assets/ui/dialogue_editor/notebook_icon.res" id="notebook_icon"]
 
 [sub_resource type="Gradient" id="Gradient_shadow"]
 colors = PackedColorArray(0.025, 0.02, 0.035, 0, 0.025, 0.02, 0.035, 0.96)
@@ -41,7 +41,6 @@ Button/styles/hover = SubResource("Style_empty")
 Button/styles/hover_pressed = SubResource("Style_empty")
 Button/styles/normal = SubResource("Style_empty")
 Button/styles/pressed = SubResource("Style_empty")
-
 
 [node name="DialogueLayer" type="Control" unique_id=2002771939]
 clip_contents = true

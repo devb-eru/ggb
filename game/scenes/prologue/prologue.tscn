@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cie6y0vph22cx"]
 
-[ext_resource type="Script" path="res://scripts/prologue/prologue_controller.gd" id="1_controller"]
+[ext_resource type="Script" uid="uid://b7ta8xw3bc06c" path="res://scripts/prologue/prologue_controller.gd" id="1_controller"]
 
-[node name="Prologue" type="Control"]
+[node name="Prologue" type="Control" unique_id=1368828719]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

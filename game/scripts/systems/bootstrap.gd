@@ -861,7 +861,6 @@ func _run_foundation_smoke() -> void:
 
 func _run_presentation_view_smoke() -> void:
 	var result: Dictionary = await preload("res://scripts/tests/presentation_view_smoke.gd").new().run(get_tree())
-	print("PRESENTATION_VIEW_SMOKE: ", "PASS" if result.ok else result)
 	get_tree().quit(0 if result.ok else 1)
 
 
