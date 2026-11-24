@@ -36,6 +36,7 @@ GGB는 포인트 앤 클릭 어드벤처 게임 프로젝트의 작업 저장소
 - GitHub Issue·Project 운영: [`docs/github_project.md`](docs/github_project.md)
 - 작업 현황 대시보드: [`docs/work_status_dashboard.md`](docs/work_status_dashboard.md)
 - 다음 작업 계획: [`docs/next_work_plan.md`](docs/next_work_plan.md)
+- AI 작업·선택 검증 운영 기획: [`docs/ggb_operations_plan.md`](docs/ggb_operations_plan.md)
 - 제작 전환 백로그: [`docs/production_backlog.md`](docs/production_backlog.md)
 - 팀별 제작 의뢰와 배치 대장: [`docs/requests/`](docs/requests/)
 - 에셋 BOM·승인 레지스트리: [`docs/asset_manifest.md`](docs/asset_manifest.md)
