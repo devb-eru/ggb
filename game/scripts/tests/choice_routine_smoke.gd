@@ -28,6 +28,7 @@ func run(tree: SceneTree) -> Dictionary:
 	expect(view.session.sleep().ok, "real sleep")
 	view._render_room()
 	expect(view._hotspot_layer.has_node("AS_ROUTINE"), "routine returns next day")
+	await _exercise_menu_reuse(tree, view)
 	for locale in ["ko-KR", "en-US"]:
 		TranslationServer.set_locale(locale)
 		for count in [1, 2, 3, 4, 8]:
@@ -61,3 +62,34 @@ func run(tree: SceneTree) -> Dictionary:
 	SaveManager.delete_test_slot(SLOT)
 	TranslationServer.set_locale("ko-KR")
 	return {"ok": errors.is_empty(), "errors": errors}
+
+
+func _exercise_menu_reuse(tree: SceneTree, view: ChapterOneController) -> void:
+	view._open_menu()
+	await tree.process_frame
+	var title := view._modal_body.get_child(0)
+	var scroll := view._modal_body.get_child(2) as ScrollContainer
+	var continue_button := view._modal_body.get_child(3) as Button
+	var history_button := view._modal_body.get_child(4) as Button
+	continue_button.pressed.emit()
+	view._open_menu()
+	await tree.process_frame
+	expect(view._modal_body.get_child(0) == title and view._modal_body.get_child(2) == scroll, "menu reopens with the same title and scroll")
+	expect(view._modal_body.get_child(3) == continue_button and continue_button.has_focus(), "menu reopens with the same focused Continue button")
+	scroll.custom_minimum_size.y = 430
+	var handled: Array[String] = []
+	view._show_modal("Confirm", "Body", [{"label": "OK", "action": func(): handled.append("previous")}])
+	expect(view._modal_body.get_child(0) == title and view._modal_body.get_child(2) == scroll and scroll.custom_minimum_size.y == 100, "confirmation reuses the body and resets its minimum height")
+	view._show_modal("Next", "Body", [{"label": "OK", "action": func(): handled.append("current")}])
+	var confirm_button := view._modal_body.get_child(3) as Button
+	expect(confirm_button == continue_button, "replacement confirmation reuses the first action button")
+	expect(history_button.get_parent() != view._modal_body, "unused menu action leaves the active controls")
+	history_button.pressed.emit()
+	expect(view._modal_active and handled.is_empty(), "inactive menu button cannot change the confirmation")
+	confirm_button.pressed.emit()
+	expect(handled == ["current"], "reused action button dispatches only the current confirmation")
+	view._show_history_result({"ok": true, "entries": []})
+	expect(view._modal_body.has_node("HistoryTranscriptScroll") and scroll.get_parent() != view._modal_body, "legacy history gets its own scroll")
+	view._open_menu()
+	expect(view._modal_body.get_child(0) == title and view._modal_body.get_child(2) == scroll and view._modal_body.get_child(3) == continue_button, "returning from history restores the menu controls")
+	continue_button.pressed.emit()

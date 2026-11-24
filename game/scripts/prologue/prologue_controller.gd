@@ -3690,7 +3690,7 @@ func _show_modal(title: String, body: String, actions: Array) -> void:
 func _clear_modal_contents(keep: Array) -> void:
 	for child in _modal_body.get_children():
 		if child in keep: continue
-		if child == _modal_text_scroll or child in _modal_buttons:
+		if child == _modal_text_scroll or (child is Button and child in _modal_buttons):
 			child.reparent(_modal_cache, false)
 		else:
 			_modal_body.remove_child(child)
