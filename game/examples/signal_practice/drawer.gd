@@ -6,8 +6,8 @@ const OPEN_INDEX := 0
 const CLOSED_INDEX := 1
 
 var drawer_list: Array[Texture2D] = [
-	preload("res://drawer_open.png"),
-	preload("res://drawer_close.png")
+	preload("res://examples/signal_practice/drawer_open.png"),
+	preload("res://examples/signal_practice/drawer_close.png")
 ]
 
 var drawer_index := CLOSED_INDEX

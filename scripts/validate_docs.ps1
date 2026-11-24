@@ -916,15 +916,17 @@ foreach ($file in $godotSourceFiles) {
     }
 }
 
-$practiceScenePath = Join-Path $gameRoot "signal_practice.tscn"
+$practiceRelativeRoot = "examples/signal_practice"
+$practiceRoot = Join-Path $gameRoot $practiceRelativeRoot
+$practiceScenePath = Join-Path $practiceRoot "signal_practice.tscn"
 if (Test-Path -LiteralPath $practiceScenePath -PathType Leaf) {
     $practiceSceneText = [System.IO.File]::ReadAllText($practiceScenePath, $utf8)
     if ($practiceSceneText -match 'signal="button_down"|method="_on_button_down"') {
-        Add-ValidationError "PRACTICE_INPUT" "game/signal_practice.tscn" "use confirmed pressed signals"
+        Add-ValidationError "PRACTICE_INPUT" "game/$practiceRelativeRoot/signal_practice.tscn" "use confirmed pressed signals"
     }
 }
 
-$practiceKeyPath = Join-Path $gameRoot "key.gd"
+$practiceKeyPath = Join-Path $practiceRoot "key.gd"
 if (Test-Path -LiteralPath $practiceKeyPath -PathType Leaf) {
     $practiceKeyText = [System.IO.File]::ReadAllText($practiceKeyPath, $utf8)
     if (
@@ -932,32 +934,32 @@ if (Test-Path -LiteralPath $practiceKeyPath -PathType Leaf) {
         $practiceKeyText -notmatch 'disabled\s*=\s*true' -or
         $practiceKeyText -notmatch '\.add_item\('
     ) {
-        Add-ValidationError "PRACTICE_KEY_ACQUIRE" "game/key.gd" "acquisition must write inventory, hide, and disable the key"
+        Add-ValidationError "PRACTICE_KEY_ACQUIRE" "game/$practiceRelativeRoot/key.gd" "acquisition must write inventory, hide, and disable the key"
     }
 }
 
 $practiceFiles = @("background.gd", "drawer.gd", "key.gd", "lock.gd")
 foreach ($practiceFile in $practiceFiles) {
-    $practicePath = Join-Path $gameRoot $practiceFile
+    $practicePath = Join-Path $practiceRoot $practiceFile
     if (Test-Path -LiteralPath $practicePath -PathType Leaf) {
         $practiceText = [System.IO.File]::ReadAllText($practicePath, $utf8)
         if ($practiceText -match '\$["'']?\.\./') {
-            Add-ValidationError "PRACTICE_SIBLING_NODEPATH" "game/$practiceFile" "direct sibling NodePath remains"
+            Add-ValidationError "PRACTICE_SIBLING_NODEPATH" "game/$practiceRelativeRoot/$practiceFile" "direct sibling NodePath remains"
         }
     }
 }
 
-$practiceControllerPath = Join-Path $gameRoot "practice_scene_controller.gd"
+$practiceControllerPath = Join-Path $practiceRoot "practice_scene_controller.gd"
 if (Test-Path -LiteralPath $practiceControllerPath -PathType Leaf) {
     $practiceControllerText = [System.IO.File]::ReadAllText($practiceControllerPath, $utf8)
     foreach ($token in @("@export_node_path", "_apply_background_snapshot", "_key.apply_snapshot")) {
         if ($practiceControllerText -notmatch [regex]::Escape($token)) {
-            Add-ValidationError "PRACTICE_CONTROLLER" "game/practice_scene_controller.gd" $token
+            Add-ValidationError "PRACTICE_CONTROLLER" "game/$practiceRelativeRoot/practice_scene_controller.gd" $token
         }
     }
 }
 else {
-    Add-ValidationError "PRACTICE_CONTROLLER" "game/practice_scene_controller.gd" "file is missing"
+    Add-ValidationError "PRACTICE_CONTROLLER" "game/$practiceRelativeRoot/practice_scene_controller.gd" "file is missing"
 }
 
 $productionRoots = @(

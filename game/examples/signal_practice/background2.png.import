@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3c4rsmbtbju2"
-path="res://.godot/imported/drawer_open.png-bf7d1a4727c615b26c0fd81070a12bb2.ctex"
+uid="uid://bs64bsrw4jnur"
+path="res://.godot/imported/background2.png-98c0b6b6deda1ebaaf6431c809c20b8e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://drawer_open.png"
-dest_files=["res://.godot/imported/drawer_open.png-bf7d1a4727c615b26c0fd81070a12bb2.ctex"]
+source_file="res://examples/signal_practice/background2.png"
+dest_files=["res://.godot/imported/background2.png-98c0b6b6deda1ebaaf6431c809c20b8e.ctex"]
 
 [params]
 

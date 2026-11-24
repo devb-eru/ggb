@@ -1,6 +1,6 @@
 extends SceneTree
 
-const PRACTICE_SCENE := preload("res://signal_practice.tscn")
+const PRACTICE_SCENE := preload("res://examples/signal_practice/signal_practice.tscn")
 
 
 func _initialize() -> void:

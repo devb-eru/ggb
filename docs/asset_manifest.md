@@ -81,7 +81,7 @@ manifest 한 행은 독립적으로 검토·승인할 수 있는 **deliverable u
 
 ### 3.2 기존 연습 씬 자산
 
-`game/background1.png`~`background3.png`, `drawer_close.png`, `drawer_open.png`, `key.png`, `lock.png`은 현재 `signal_practice.tscn`용 로컬 연습 자산이다. 이 7개 파일은 v0.4 production BOM에 포함되지 않으며 존재만으로 `APPROVED` 또는 `INTEGRATED`가 아니다.
+`game/examples/signal_practice/background1.png`~`background3.png`, `drawer_close.png`, `drawer_open.png`, `key.png`, `lock.png`은 현재 `signal_practice.tscn`용 로컬 연습 자산이다. 이 7개 파일은 v0.4 production BOM에 포함되지 않으며 존재만으로 `APPROVED` 또는 `INTEGRATED`가 아니다.
 
 - 제작자, source 파일, 권리 범위와 `rights_ref`가 저장소에서 검증되지 않았다.
 - production에서 재사용하려면 새 canonical `asset_id`로 접수하고 실제 event/location, owner, reviewer, license와 evidence를 채운다.

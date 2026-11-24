@@ -2,9 +2,9 @@ class_name PracticeBackground
 extends Sprite2D
 
 var background_list: Array[Texture2D] = [
-	preload("res://background1.png"), 
-	preload("res://background2.png"), 
-	preload("res://background3.png") 
+	preload("res://examples/signal_practice/background1.png"),
+	preload("res://examples/signal_practice/background2.png"),
+	preload("res://examples/signal_practice/background3.png")
 	]
 	
 var background_index: int = 1

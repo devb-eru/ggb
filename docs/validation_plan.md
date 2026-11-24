@@ -61,7 +61,7 @@ node --test scripts/discord_notifications.test.mjs
 - `game/` 실제 파일 트리에 이름에 `tmp`가 든 중단 저장 파일이 남지 않는다.
 - `game/project.godot`은 임시 앱 이름이나 연습 씬을 기본 실행점으로 사용하지 않고, `res://scenes/main/` 아래에 존재하는 bootstrap 씬을 가리킨다.
 - `.gd`, `.tscn`, `.tres`, `project.godot`에 기록된 모든 `res://` 참조가 실제 파일을 가리킨다.
-- 격리된 `signal_practice.tscn`은 확정 입력에 `pressed`를 사용하며, 열쇠 획득은 연습용 인벤토리 기록·숨김·입력 비활성화를 함께 수행한다.
+- 격리된 `game/examples/signal_practice/signal_practice.tscn`은 확정 입력에 `pressed`를 사용하며, 열쇠 획득은 연습용 인벤토리 기록·숨김·입력 비활성화를 함께 수행한다.
 
 역사 기록인 `ideas/md/v04/issues/`와 검토 보고서는 구식 표기 검사에서 제외한다. 해당 파일의 과거 근거를 현재 계약으로 오인하지 않는다.
 
