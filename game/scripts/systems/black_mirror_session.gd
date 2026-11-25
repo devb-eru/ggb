@@ -185,6 +185,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 				loop["location_id"] = "M1_KITCHEN"
 				loop["event_local_states"][LOCAL_KEY] = local_state(state)
 				loop["event_local_states"][LOCAL_KEY]["routine_done"] = true
+				loop["event_local_states"][LOCAL_KEY]["routine_completed_normally"] = false
 				local["path"] = meta["failure_knowledge"]["C4"].get("verified_prefix", []).duplicate()
 			elif room != "M1_KITCHEN": return _reject("주방 조합대에서 재료를 준비한다.")
 			local["materials_ready"] = true

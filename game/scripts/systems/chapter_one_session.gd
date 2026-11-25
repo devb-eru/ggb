@@ -56,7 +56,7 @@ func snapshot() -> Dictionary:
 func local_state(state: Dictionary = {}) -> Dictionary:
 	var source := snapshot() if state.is_empty() else state
 	var stored: Dictionary = source["loop_state"]["event_local_states"].get(LOCAL_KEY, {})
-	var result := {"routine_done": false, "rubbed": [], "clock_locked": false, "board": CLOCK.default_board(), "roles": {}, "phase": "0", "layout_attempts": 0, "attention": 0, "inspected": [], "edgar_state": "absent", "edgar_visit_done": false, "signal_generated": false, "j1_order": [], "j1_front": [false, false, false], "wave_rotation": 90}
+	var result := {"routine_done": false, "routine_completed_normally": false, "rubbed": [], "clock_locked": false, "board": CLOCK.default_board(), "roles": {}, "phase": "0", "layout_attempts": 0, "attention": 0, "inspected": [], "edgar_state": "absent", "edgar_visit_done": false, "signal_generated": false, "j1_order": [], "j1_front": [false, false, false], "wave_rotation": 90}
 	result.merge(stored, true)
 	return result
 
@@ -185,6 +185,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			if not knowledge.has("self_authored_mark"):
 				return _reject("다음 아침과 비교할 표식을 먼저 남긴다.")
 			local["routine_done"] = true
+			local["routine_completed_normally"] = true
 			loop["time_block"] = "evening_free"
 			text = NOTEBOOK_FEEDBACK.FIXED.ROUTINE
 			notebook_id = "ROUTINE"
@@ -378,6 +379,7 @@ func act(action: String, value: Variant = null) -> Dictionary:
 			if not can_prepare_clock_shortcut():
 				return _reject("리셋 뒤 검증한 배치와 아직 해결되지 않은 실패 기록이 필요하다. 이미 신호를 만들었거나 파형을 기록했다면 그 결과를 이어서 조사한다.", "CH1_BSHORT_UNAVAILABLE")
 			local["routine_done"] = true
+			local["routine_completed_normally"] = false
 			local["rubbed"] = CLOCK.CLOCKS.duplicate()
 			local["board"] = knowledge["clock_verified_board"].duplicate(true)
 			local["roles"] = meta["failure_knowledge"]["B3_B"]["verified_roles"].duplicate(true)
@@ -525,6 +527,10 @@ func finish_sheet_conversation(node_ids: Array) -> Dictionary:
 		var applied := preload("res://scripts/systems/sheet_dialogue_effects.gd").apply(state, node_ids)
 		if not applied.get("ok", false): return applied
 	# Mark the Edgar side story complete only after its final narrated line.
+	if "IRS01_SCENE_029" in node_ids:
+		var iris_flags: Dictionary = state.meta_progress.get("flags", {}).duplicate(true)
+		iris_flags["iris_sub_01_completed"] = true
+		state.meta_progress["flags"] = iris_flags
 	if "EDS01_COMMON_017" in node_ids:
 		var substory_flags: Dictionary = state.meta_progress.get("flags", {}).duplicate(true)
 		substory_flags["edgar_sub_01_completed"] = true

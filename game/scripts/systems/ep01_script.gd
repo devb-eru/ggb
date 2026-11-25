@@ -3,12 +3,17 @@ extends RefCounted
 
 const SOURCE := "res://data/dialogue/chapter_one/ep01_runtime.json"
 const EDGAR_SUB_SOURCE := "res://data/dialogue/substories/edgar_sub_01.json"
+const IRIS_SUB_SOURCE := "res://data/dialogue/substories/iris_sub_01.json"
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 static var _source: Dictionary = {}
 static var _edgar_sub_source: Dictionary = {}
 static var _edgar_sub_nodes: Dictionary = {}
 static var _edgar_sub_routes: Dictionary = {}
 static var _edgar_sub_predicates: Dictionary = {}
+static var _iris_sub_source: Dictionary = {}
+static var _iris_sub_nodes: Dictionary = {}
+static var _iris_sub_routes: Dictionary = {}
+static var _iris_sub_predicates: Dictionary = {}
 static var _nodes: Dictionary = {}
 static var _routes: Dictionary = {}
 static var _predicates: Dictionary = {}
@@ -19,6 +24,18 @@ static var _ep02_predicates: Dictionary = {}
 
 
 static func source(package: String = "EP01") -> Dictionary:
+	if package == "IRS01":
+		if _iris_sub_source.is_empty():
+			var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(IRIS_SUB_SOURCE))
+			if not parsed is Dictionary or parsed.get("schema_version") != 1: return {}
+			_iris_sub_source = parsed
+			for row in parsed.nodes: _iris_sub_nodes[row.node_id] = row
+			for row in parsed.predicates: _iris_sub_predicates[row.predicate_id] = row
+			for row in parsed.edges:
+				if not _iris_sub_routes.has(row.route_id): _iris_sub_routes[row.route_id] = []
+				_iris_sub_routes[row.route_id].append(row)
+			for route in _iris_sub_routes: _iris_sub_routes[route].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.edge_order) < int(b.edge_order))
+		return _iris_sub_source
 	if package == "EDS01":
 		if _edgar_sub_source.is_empty():
 			var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(EDGAR_SUB_SOURCE))
@@ -57,6 +74,9 @@ static func source(package: String = "EP01") -> Dictionary:
 
 
 static func node(id: String) -> Dictionary:
+	if id.begins_with("IRS01_"):
+		source("IRS01")
+		return _iris_sub_nodes.get(id, {}).duplicate(true)
 	if id.begins_with("EDS01_"):
 		source("EDS01")
 		return _edgar_sub_nodes.get(id, {}).duplicate(true)
@@ -68,6 +88,9 @@ static func node(id: String) -> Dictionary:
 
 
 static func edges(route: String) -> Array:
+	if route.begins_with("IRS01_"):
+		source("IRS01")
+		return _iris_sub_routes.get(route, []).duplicate(true)
 	if route.begins_with("EDS01_"):
 		source("EDS01")
 		return _edgar_sub_routes.get(route, []).duplicate(true)
@@ -144,7 +167,7 @@ static func line(id: String, state: Dictionary, locale: String = "ko-KR", variab
 
 static func notebook_version(content_id: String) -> int:
 	var ep02 := content_id.begins_with("NB_EP02_")
-	var package := "EP02" if ep02 else "EDS01" if content_id.begins_with("NB_EDS01_") else "EP01"
+	var package := "EP02" if ep02 else "EDS01" if content_id.begins_with("NB_EDS01_") else "IRS01" if content_id.begins_with("NB_IRS01_") else "EP01"
 	var version := int(source(package).get("notebook_versions", {}).get(content_id, 1))
 	return CONTENT.latest_version(content_id, version) if ep02 else version
 
@@ -208,7 +231,7 @@ static func resolve(route: String, state: Dictionary, cases: Dictionary = {}) ->
 		if String(edge.is_fallback) == "TRUE":
 			fallback = edge
 			continue
-		var predicate_source: Dictionary = _ep02_predicates if route.begins_with("EP02_") else _edgar_sub_predicates if route.begins_with("EDS01_") else _predicates
+		var predicate_source: Dictionary = _ep02_predicates if route.begins_with("EP02_") else _edgar_sub_predicates if route.begins_with("EDS01_") else _iris_sub_predicates if route.begins_with("IRS01_") else _predicates
 		var predicate: Dictionary = predicate_source.get(edge.predicate_id, {})
 		if predicate.get("comparator") == "contains":
 			var value: Variant = _path(state, predicate.state_path)

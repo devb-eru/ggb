@@ -1,0 +1,1223 @@
+{
+  "format_version": 1,
+  "contents": {
+	"NB_IRS01_SCENE_001": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_001",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_001"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_001:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "온실 문을 열자, 이리스의 모습이 보인다."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "온실 문을 열자, 이리스의 모습이 보인다."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_002": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_002",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_002"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_002:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "평소와 다를 것 없이 미소지은 채로 꽃에게 물을 주고 있다."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "평소와 다를 것 없이 미소지은 채로 꽃에게 물을 주고 있다."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_003": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_003",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_003"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_003:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "나른한 음색이 온실을 가득 채우자 살벌하게 생긴 식물들이 바람을 타고 살랑살랑 흔들린다."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "나른한 음색이 온실을 가득 채우자 살벌하게 생긴 식물들이 바람을 타고 살랑살랑 흔들린다."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_004": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_004",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_004"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_004:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "그런데, 온실에 바람이 불던가······?"
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "그런데, 온실에 바람이 불던가······?"
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_005": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_005",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_005"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_005:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "앗."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "앗."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_006": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_006",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_006"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_006:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "생각에 잠기기도 전 이리스와 눈이 마주친다."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "생각에 잠기기도 전 이리스와 눈이 마주친다."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_007": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_007",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_007"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_007:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "나",
+			"body": "이 시간에 뭐해?"
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Me",
+			"body": "이 시간에 뭐해?"
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_008": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_008",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_008"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_008:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "꽃을 돌보고 있지요."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "꽃을 돌보고 있지요."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_009": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_009",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_009"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_009:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "나",
+			"body": "왜?"
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Me",
+			"body": "왜?"
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_010": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_010",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_010"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_010:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "그들을 죽게 둘 수는 없으니까요."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "그들을 죽게 둘 수는 없으니까요."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_011": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_011",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_011"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_011:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "그리고, 생생하게 살아있는 편이 더 아름답지 않나요? 후후."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "그리고, 생생하게 살아있는 편이 더 아름답지 않나요? 후후."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_012": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_012",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_012"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_012:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "나",
+			"body": "뭐, 아무래도."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Me",
+			"body": "뭐, 아무래도."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_013": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_013",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_013"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_013:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "나",
+			"body": "일하면서 기분이 좋나 봐?"
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Me",
+			"body": "일하면서 기분이 좋나 봐?"
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_014": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_014",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_014"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_014:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "화단을 가꾸는 건 일처럼 느껴지지 않아요."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "화단을 가꾸는 건 일처럼 느껴지지 않아요."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_015": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_015",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_015"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_015:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "아가씨도 그런 생각 하지 않나요?"
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "아가씨도 그런 생각 하지 않나요?"
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_016": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_016",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_016"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_016:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "아가씨가 아주 아주 좋아하는 인형이 산처럼 쌓인 방이라던가···."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "아가씨가 아주 아주 좋아하는 인형이 산처럼 쌓인 방이라던가···."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_017": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_017",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_017"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_017:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "나",
+			"body": "난 인형을 좋아하는 게 아니라 아빠를 좋아하는 거야?"
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Me",
+			"body": "난 인형을 좋아하는 게 아니라 아빠를 좋아하는 거야?"
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_018": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_018",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_018"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_018:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "아하."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "아하."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_019": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_019",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_019"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_019:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "후후··· 정말 화목한 가정이네요."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "후후··· 정말 화목한 가정이네요."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_020": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_020",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_020"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_020:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "나",
+			"body": "넌 아빠 없어?"
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Me",
+			"body": "넌 아빠 없어?"
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_021": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_021",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_021"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_021:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "있을 수도, 없을 수도 있지요."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "있을 수도, 없을 수도 있지요."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_022": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_022",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_022"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_022:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "나",
+			"body": "있으면 있는 거지. 뭐가 그렇게 아리송해?"
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Me",
+			"body": "있으면 있는 거지. 뭐가 그렇게 아리송해?"
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_023": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_023",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_023"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_023:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "······."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "······."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_024": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_024",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_024"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_024:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "어머? 아가씨, 주무실 시간이에요."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "어머? 아가씨, 주무실 시간이에요."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_025": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_025",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_025"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_025:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "이만 돌아가시겠어요?"
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "이만 돌아가시겠어요?"
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_026": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_026",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_026"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SUBJECT",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_026:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "나",
+			"body": "나 아직 대답 못 들었——"
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Me",
+			"body": "나 아직 대답 못 들었——"
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_027": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_027",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_027"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SERVANT_IRIS",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_027:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "이리스",
+			"body": "그럼 이만."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "Iris",
+			"body": "그럼 이만."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_028": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_028",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_028"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_028:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "그렇게 온실에서 쫓겨났다······."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "그렇게 온실에서 쫓겨났다······."
+		  }
+		}
+	  }
+	},
+	"NB_IRS01_SCENE_029": {
+	  "1": {
+		"producer_id": "IRS01_SHEET",
+		"source_file": "data/dialogue/substories/iris_sub_01.json",
+		"source_symbol": "IRS01_SCENE_029",
+		"event_id": "IRS01_SCENE_01",
+		"node_ids": [
+          "IRS01_SCENE_029"
+		],
+		"action_or_variant": "sheet_line",
+		"speaker_id": "SYSTEM",
+		"location_source": "history_context:actual_room",
+		"entry_kind": "dialogue",
+		"disclosure_owner": "actual_display_or_choice_press",
+		"mapping_status": "AUTHORED_ID",
+		"owner": "development/content",
+		"visible_segment_ids": [
+          "body"
+		],
+		"protection_reasons": [],
+		"variables": {
+		  "body": {}
+		},
+		"localization_keys": {
+		  "body": "NB_IRS01_SCENE_029:body"
+		},
+		"locales": {
+		  "ko-KR": {
+			"title": "이리스 서브스토리",
+			"summary": "확인한 말과 기록",
+			"speaker": "SYSTEM",
+			"body": "다른 날에 다시 한 번 찾아와 보자."
+		  },
+		  "en-US": {
+			"title": "Iris substory",
+			"summary": "Observed words and records",
+			"speaker": "SYSTEM",
+			"body": "다른 날에 다시 한 번 찾아와 보자."
+		  }
+		}
+	  }
+	}
+  }
+}

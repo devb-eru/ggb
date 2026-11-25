@@ -773,6 +773,7 @@ func _finish_action(action: String, value: Variant, show_text: bool, before_shee
 	if result.get("ok", false):
 		_set_status("")
 	_render_room()
+	if action == "move" and result.get("ok", false) and _maybe_start_iris_sub_01(before_sheet): return
 	if not show_text and action == "move" and get_script().resource_path.ends_with("/chapter_one_controller.gd") and _ep01_action_feedback(action, value, result, before_sheet): return
 	if show_text:
 		if get_script().resource_path.ends_with("/chapter_one_controller.gd") and _ep01_action_feedback(action, value, result, before_sheet): return
@@ -785,6 +786,22 @@ func _finish_action(action: String, value: Variant, show_text: bool, before_shee
 		var text_id := String(result.get("text_id", ""))
 		var fallback := String(result.get("text", str(result.get("error_ids", []))))
 		_set_status(_dialogue_ui_text(text_id) if not text_id.is_empty() else _display_feedback(fallback))
+
+
+func _maybe_start_iris_sub_01(before: Dictionary) -> bool:
+	if session == null or before.is_empty(): return false
+	var state: Dictionary = session.snapshot()
+	var loop: Dictionary = state.get("loop_state", {})
+	var previous_loop: Dictionary = before.get("loop_state", {})
+	# Trigger on actual entry, on the third loop only; never on a skip/shortcut day.
+	if int(loop.get("day_index", -1)) != 3: return false
+	if String(previous_loop.get("location_id", "")) == "M1_GREENHOUSE": return false
+	if String(loop.get("location_id", "")) != "M1_GREENHOUSE": return false
+	var local: Dictionary = session.local_state(state)
+	if not local.get("routine_done", false) or not local.get("routine_completed_normally", false): return false
+	if state.get("meta_progress", {}).get("flags", {}).get("iris_sub_01_completed", false): return false
+	_ep01_play("IRS01_SCENE_001")
+	return true
 
 
 func _feedback(result: Dictionary) -> void:
@@ -1548,6 +1565,14 @@ func _ep01_action_feedback(action: String, value: Variant, result: Dictionary, b
 			"confirm_mark":
 				var mark: String = before.meta_progress.knowledge_entries.get("self_authored_mark", {}).get("type", "sentence")
 				start = {"sentence": "EP01_A2_SENTENCE_001", "house_glyph": "EP01_A2_GLYPH_001", "ink_corner": "EP01_A2_INK_001"}.get(mark, "EP01_A2_SENTENCE_001")
+				var prelude := EP01.segment("EP01_A1_REACTION_001", session.snapshot(), TranslationServer.get_locale())
+				if not prelude.ok: return false
+				var lines := [EP01.line(start, session.snapshot(), TranslationServer.get_locale())]
+				lines.append_array(prelude.lines)
+				var ids: Array = [start]
+				ids.append_array(prelude.ids)
+				_show_dialogue(lines, _ep01_continue.bind({"start": "EP01_A2_001", "finish": {}, "stops": [], "cases": {}, "ids": ids}))
+				return true
 			"routine": start = "EP01_AS_CAP_001"; stops = ["EP01_COMMON_SLEEP_LOOP"]
 			"read_schedule":
 				var prefix: String = {"edgar": "EP01_DOC_WORK_", "luca": "EP01_DOC_DELIVERY_", "mara1": "EP01_DOC_CLEAN_", "mara2": "EP01_DOC_EXPORT_"}.get(String(value), "")
@@ -1599,7 +1624,7 @@ func _ep01_action_feedback(action: String, value: Variant, result: Dictionary, b
 				# Third-loop Edgar side story happens at the OUTER library, before the daily routine.
 				# The inner library is unlocked only after routine_done, so it cannot host this trigger.
 				if value == "M1_LIBRARY_OUTER" and before.loop_state.location_id != "M1_LIBRARY_OUTER" \
-					and int(before.loop_state.day_index) == 2 \
+					and int(before.loop_state.day_index) == 3 \
 					and String(before.loop_state.time_block) == "morning" \
 					and not session.local_state().routine_done \
 					and not session.snapshot().meta_progress.get("flags", {}).get("edgar_sub_01_completed", false):
