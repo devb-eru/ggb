@@ -1,0 +1,2881 @@
+{
+  "format_version": 1,
+  "contents": {
+    "NB_LCS01_PRE_001": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_PRE_001",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_PRE_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_PRE_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "주방에서 고소한 향기가 흘러온다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "주방에서 고소한 향기가 흘러온다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_PRE_002": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_PRE_002",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_PRE_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_PRE_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "일과도 끝났는데 한 번 가볼까···?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "일과도 끝났는데 한 번 가볼까···?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_001": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_001",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "언제나 주방은 분주하다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "언제나 주방은 분주하다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_002": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_002",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "주전자에서 물이 끓고, 과자 굽는 냄새와 버터 향이 은은하게 퍼진다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "주전자에서 물이 끓고, 과자 굽는 냄새와 버터 향이 은은하게 퍼진다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_003": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_003",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "그리고 이곳은, 항상 루카가 바쁘게 움직이고 있다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "그리고 이곳은, 항상 루카가 바쁘게 움직이고 있다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_004": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_004",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "루카!"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "루카!"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_005": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_005",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "으, 우앗, 아가씨···?!"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "으, 우앗, 아가씨···?!"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_006": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_006",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "오··· 오늘 일과는 다 끝났는데 무슨 일로 오셨어요··?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "오··· 오늘 일과는 다 끝났는데 무슨 일로 오셨어요··?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_007": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_007",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_007"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_007:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "밖에서 되게 고소한 냄새가 나길래."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "밖에서 되게 고소한 냄새가 나길래."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_008": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_008",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_008"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_008:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "과자라도 굽고 있었나?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "과자라도 굽고 있었나?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_009": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_009",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_009"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_009:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "헤헤··· 맞아요···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "헤헤··· 맞아요···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_010": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_010",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_010"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_010:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "차랑 먹으면 좋을 거 같아서···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "차랑 먹으면 좋을 거 같아서···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_011": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_011",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_011"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_011:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "은은하게 웃으면서 루카는 찻주전자를 들어올렸다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "은은하게 웃으면서 루카는 찻주전자를 들어올렸다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_012": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_012",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_012"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_012:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "차랑 과자···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "차랑 과자···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_013": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_013",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_013"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_013:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "그러고 보니 다른 애들은?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "그러고 보니 다른 애들은?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_014": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_014",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_014"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_014:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "다른 사용인분들 이야기인가요?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "다른 사용인분들 이야기인가요?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_015": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_015",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_015"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_015:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "헤헤··· 다들 의외로 차를 자주 마신답니다···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "헤헤··· 다들 의외로 차를 자주 마신답니다···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_016": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_016",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_016"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_016:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "뭣!"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "뭣!"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_017": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_017",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_017"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_017:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "그건 좀 상상이 안 가네···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "그건 좀 상상이 안 가네···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_018": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_018",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_018"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_018:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "취향도 확고하신 걸요······."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "취향도 확고하신 걸요······."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_019": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_019",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_019"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_019:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "에드가 씨는 달달한 과자에 재스민 차를 즐기세요."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "에드가 씨는 달달한 과자에 재스민 차를 즐기세요."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_020": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_020",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_020"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_020:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "달콤한 과자는 쓴 맛을 지워주고, 쓴 맛은 달콤함을 눌러주거든요···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "달콤한 과자는 쓴 맛을 지워주고, 쓴 맛은 달콤함을 눌러주거든요···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_021": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_021",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_021"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_021:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "아니, 그 전에 에드가가 차를 마신다는 게 놀라운 거야."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "아니, 그 전에 에드가가 차를 마신다는 게 놀라운 거야."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_022": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_022",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_022"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_022:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "마라는? 이리스는?? 설마 비피도 차를 마셔?!"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "마라는? 이리스는?? 설마 비피도 차를 마셔?!"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_023": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_023",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_023"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_023:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "마라 씨는 쓴 차를 싫어하셔서 우유와 설탕을 잔뜩 챙겨드려요···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "마라 씨는 쓴 차를 싫어하셔서 우유와 설탕을 잔뜩 챙겨드려요···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_024": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_024",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_024"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_024:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "부, 분명 많이 챙겨드린 것 같은데도 부족하다며 다시 찾아오시지만요···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "부, 분명 많이 챙겨드린 것 같은데도 부족하다며 다시 찾아오시지만요···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_025": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_025",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_025"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_025:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "그럼 핫초코를 마시면 되는 거 아니야?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "그럼 핫초코를 마시면 되는 거 아니야?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_026": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_026",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_026"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_026:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "차의 향은 핫초코와 다르니까요."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "차의 향은 핫초코와 다르니까요."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_027": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_027",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_027"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_027:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "으음··· 차는 고유의 향이 있잖아요. 그런 거죠."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "으음··· 차는 고유의 향이 있잖아요. 그런 거죠."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_028": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_028",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_028"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_028:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "난 모르겠는데. 차를 안 좋아해서."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "난 모르겠는데. 차를 안 좋아해서."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_029": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_029",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_029"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_029:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "앗, 그럼 비피랑 잘 맞으시겠네요···!"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "앗, 그럼 비피랑 잘 맞으시겠네요···!"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_030": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_030",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_030"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_030:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "비피?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "비피?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_031": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_031",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_031"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_031:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "네, 네에. 비피는 차를 잘 안 마시거든요."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "네, 네에. 비피는 차를 잘 안 마시거든요."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_032": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_032",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_032"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_032:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "그런데 과자를 구우면 와서 한아름 가져가요···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "그런데 과자를 구우면 와서 한아름 가져가요···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_033": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_033",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_033"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_033:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "과자를 잔뜩 만들어두는 것도 비피가 몰래 가져가는 탓이라······."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "과자를 잔뜩 만들어두는 것도 비피가 몰래 가져가는 탓이라······."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_034": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_034",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_034"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_034:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "그거 마음에 드네! 나도 먹어야겠다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "그거 마음에 드네! 나도 먹어야겠다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_035": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_035",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_035"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_035:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "차에 대해 떠들다 보니 루카에게선 보기 힘든 미소가 번지고 있었다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "차에 대해 떠들다 보니 루카에게선 보기 힘든 미소가 번지고 있었다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_036": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_036",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_036"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_036:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "그럼 이리스는? 이리스는 차를 자주 마실 것 같은데?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "그럼 이리스는? 이리스는 차를 자주 마실 것 같은데?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_037": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_037",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_037"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_037:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "아···그게···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "아···그게···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_038": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_038",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_038"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_038:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "이리스 씨는 제 차를 별로 안 좋아하세요."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "이리스 씨는 제 차를 별로 안 좋아하세요."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_039": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_039",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_039"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_039:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "자기가 직접 만드는 게 나을 것 같다고 하시면서···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "자기가 직접 만드는 게 나을 것 같다고 하시면서···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_040": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_040",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_040"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_040:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "하긴··· 그, 제 실력은 형편없으니까요······."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "하긴··· 그, 제 실력은 형편없으니까요······."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_041": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_041",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_041"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_041:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "만면에 가득했던 미소는 온데간데 없이 사라지고 다시 그림자가 지기 시작한다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "만면에 가득했던 미소는 온데간데 없이 사라지고 다시 그림자가 지기 시작한다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_SCENE_042": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_SCENE_042",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_SCENE_042"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_SCENE_042:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "루카가 많이 슬퍼보여···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "루카가 많이 슬퍼보여···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_COMFORT_001": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_COMFORT_001",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_COMFORT_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_COMFORT_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "에이! 이리스도 다시 네 차를 맛보면 좋아할걸?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "에이! 이리스도 다시 네 차를 맛보면 좋아할걸?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_COMFORT_002": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_COMFORT_002",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_COMFORT_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_COMFORT_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "저, 정말 그럴까요···?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "저, 정말 그럴까요···?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_COMFORT_003": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_COMFORT_003",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_COMFORT_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_COMFORT_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "그럼! 나중에 모두 모여서 다과회라도 하면 즐거울 텐데."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "그럼! 나중에 모두 모여서 다과회라도 하면 즐거울 텐데."
+          }
+        }
+      }
+    },
+    "NB_LCS01_COMFORT_004": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_COMFORT_004",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_COMFORT_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_COMFORT_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "헤헤··· 그런 날이 오면 좋겠네요."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "헤헤··· 그런 날이 오면 좋겠네요."
+          }
+        }
+      }
+    },
+    "NB_LCS01_COMFORT_005": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_COMFORT_005",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_COMFORT_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_COMFORT_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "루카와의 대화를 마치고 주방에서 나왔다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "루카와의 대화를 마치고 주방에서 나왔다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_COMFORT_006": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_COMFORT_006",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_COMFORT_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_COMFORT_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "포근한 빵 냄새만큼 기분 좋게 잠들 수 있을 것 같다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "포근한 빵 냄새만큼 기분 좋게 잠들 수 있을 것 같다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_001": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_001",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "야, 우냐?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "야, 우냐?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_002": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_002",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "······!!"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "······!!"
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_003": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_003",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "직접 만든 차를 이리스가 안 마셔서 운대요—!"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "직접 만든 차를 이리스가 안 마셔서 운대요—!"
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_004": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_004",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "아, 아가씨이······!!!"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "아, 아가씨이······!!!"
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_005": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_005",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "루카의 눈에서 눈물이 뚝뚝 흘러내리기 시작했다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "루카의 눈에서 눈물이 뚝뚝 흘러내리기 시작했다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_006": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_006",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "어라, 좀 심했나···?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "어라, 좀 심했나···?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_007": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_007",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_007"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_007:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "이만 나, 나가주세요···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "이만 나, 나가주세요···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_008": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_008",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_008"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_008:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "아니, 잠깐—"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "아니, 잠깐—"
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_009": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_009",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_009"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_LUCA",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_009:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "루카",
+            "body": "나가요······!!"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Luca",
+            "body": "나가요······!!"
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_010": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_010",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_010"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_010:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "루카가 언성을 높이며 주방에서 나를 쫓아냈다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "루카가 언성을 높이며 주방에서 나를 쫓아냈다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_011": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_011",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_011"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_011:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "······괜찮겠지?"
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "······괜찮겠지?"
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_012": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_012",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_012"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_012:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "엎지른 물은 다시 주워담을 수 없는 법."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "엎지른 물은 다시 주워담을 수 없는 법."
+          }
+        }
+      }
+    },
+    "NB_LCS01_MOCK_013": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_MOCK_013",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_MOCK_013"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_MOCK_013:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "일단 자러 가자···."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "일단 자러 가자···."
+          }
+        }
+      }
+    },
+    "NB_LCS01_CHOICE_CH01": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_CHOICE_CH01",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_CHOICE_CH01"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_CHOICE_CH01:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "선택한 답변",
+            "speaker": "주인공",
+            "body": "위로한다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Selected response",
+            "speaker": "Protagonist",
+            "body": "위로한다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_CHOICE_CH02": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_CHOICE_CH02",
+        "event_id": "LCS01_SCENE_01",
+        "node_ids": [
+          "LCS01_CHOICE_CH02"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_CHOICE_CH02:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "선택한 답변",
+            "speaker": "주인공",
+            "body": "조롱한다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Selected response",
+            "speaker": "Protagonist",
+            "body": "조롱한다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_CHOICE_RESPONSE": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_CHOICE_RESPONSE",
+        "event_id": "LCS01_CHOICE_RESPONSE",
+        "node_ids": [
+          "LCS01_CHOICE_RESPONSE"
+        ],
+        "action_or_variant": "options",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "options_presented",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "option_0",
+          "option_1"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "option_0": {},
+          "option_1": {}
+        },
+        "localization_keys": {
+          "option_0": "NB_LCS01_CHOICE_RESPONSE:option_0",
+          "option_1": "NB_LCS01_CHOICE_RESPONSE:option_1"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "표시된 선택지",
+            "option_0": "위로한다.",
+            "option_1": "조롱한다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Displayed choices",
+            "option_0": "위로한다.",
+            "option_1": "조롱한다."
+          }
+        },
+        "choices": [
+          {
+            "content_id": "NB_LCS01_CHOICE_RESPONSE_SELECT_0",
+            "kind": "confirm"
+          },
+          {
+            "content_id": "NB_LCS01_CHOICE_RESPONSE_SELECT_1",
+            "kind": "confirm"
+          }
+        ],
+        "default_segments": [
+          "option_0",
+          "option_1"
+        ],
+        "cancel_index": -1
+      }
+    },
+    "NB_LCS01_CHOICE_RESPONSE_SELECT_0": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_CHOICE_RESPONSE_SELECT_0",
+        "event_id": "LCS01_CHOICE_RESPONSE",
+        "node_ids": [
+          "LCS01_CHOICE_RESPONSE"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "choice_confirmed",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_CHOICE_RESPONSE_SELECT_0:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "선택한 문구",
+            "body": "위로한다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Selected option",
+            "body": "위로한다."
+          }
+        }
+      }
+    },
+    "NB_LCS01_CHOICE_RESPONSE_SELECT_1": {
+      "1": {
+        "producer_id": "LCS01_SHEET",
+        "source_file": "data/dialogue/substories/luca_sub_01.json",
+        "source_symbol": "LCS01_CHOICE_RESPONSE_SELECT_1",
+        "event_id": "LCS01_CHOICE_RESPONSE",
+        "node_ids": [
+          "LCS01_CHOICE_RESPONSE"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "choice_confirmed",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_LCS01_CHOICE_RESPONSE_SELECT_1:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "루카 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "선택한 문구",
+            "body": "조롱한다."
+          },
+          "en-US": {
+            "title": "Luca substory",
+            "summary": "Observed words and records",
+            "speaker": "Selected option",
+            "body": "조롱한다."
+          }
+        }
+      }
+    }
+  }
+}

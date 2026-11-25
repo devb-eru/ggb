@@ -31,6 +31,7 @@ var _utility_restoring := false
 var _notebook_surfaces := preload("res://scripts/systems/notebook_surface_capture.gd").new()
 var use_async_room_saves := false
 var _room_save_request: Dictionary = {}
+var _luca_entry_intro_pending := false
 
 
 class CampaignSleepTask extends RefCounted:
@@ -739,6 +740,14 @@ func _do(action: String, value: Variant = null, show_text: bool = true) -> void:
 	if action == "edgar_talk" and show_text and get_script().resource_path.ends_with("/chapter_one_controller.gd") and session.local_state().edgar_state == "entering":
 		_ep01_play("EP01_B2_CAUGHT_001")
 		return
+	# Show the two pre-entry lines only on a qualified kitchen visit.
+	if action == "move" and String(value) == "M1_KITCHEN" and _luca_entry_eligible():
+		if _luca_entry_intro_pending:
+			_luca_entry_intro_pending = false
+		else:
+			_luca_entry_intro_pending = true
+			_ep01_play("LCS01_PRE_001", {"method": "_do", "args": ["move", "M1_KITCHEN", false]})
+			return
 	var before_sheet := session.snapshot()
 	if not show_text and _presentation_enabled():
 		var completion := PRESENTATION.completion_for_action(before_sheet, PRESENTATION.family(self), action, value)
@@ -774,6 +783,7 @@ func _finish_action(action: String, value: Variant, show_text: bool, before_shee
 		_set_status("")
 	_render_room()
 	if action == "move" and result.get("ok", false) and _maybe_start_iris_sub_01(before_sheet): return
+	if action == "move" and result.get("ok", false) and _maybe_start_luca_sub_01(before_sheet): return
 	if not show_text and action == "move" and get_script().resource_path.ends_with("/chapter_one_controller.gd") and _ep01_action_feedback(action, value, result, before_sheet): return
 	if show_text:
 		if get_script().resource_path.ends_with("/chapter_one_controller.gd") and _ep01_action_feedback(action, value, result, before_sheet): return
@@ -786,6 +796,31 @@ func _finish_action(action: String, value: Variant, show_text: bool, before_shee
 		var text_id := String(result.get("text_id", ""))
 		var fallback := String(result.get("text", str(result.get("error_ids", []))))
 		_set_status(_dialogue_ui_text(text_id) if not text_id.is_empty() else _display_feedback(fallback))
+
+
+func _luca_entry_eligible() -> bool:
+	if session == null: return false
+	var state: Dictionary = session.snapshot()
+	var loop: Dictionary = state.get("loop_state", {})
+	var local: Dictionary = session.local_state(state)
+	return int(loop.get("day_index", -1)) == 3 \
+		and String(loop.get("location_id", "")) != "M1_KITCHEN" \
+		and local.get("routine_done", false) and local.get("routine_completed_normally", false) \
+		and not state.get("meta_progress", {}).get("flags", {}).get("luca_sub_01_completed", false)
+
+
+func _maybe_start_luca_sub_01(before: Dictionary) -> bool:
+	if not session or before.is_empty(): return false
+	var state: Dictionary = session.snapshot()
+	var loop: Dictionary = state.get("loop_state", {})
+	if int(loop.get("day_index", -1)) != 3: return false
+	if String(before.get("loop_state", {}).get("location_id", "")) == "M1_KITCHEN": return false
+	if String(loop.get("location_id", "")) != "M1_KITCHEN": return false
+	var local: Dictionary = session.local_state(state)
+	if not local.get("routine_done", false) or not local.get("routine_completed_normally", false): return false
+	if state.get("meta_progress", {}).get("flags", {}).get("luca_sub_01_completed", false): return false
+	_ep01_play("LCS01_SCENE_001")
+	return true
 
 
 func _maybe_start_iris_sub_01(before: Dictionary) -> bool:
@@ -908,6 +943,8 @@ func _render_room() -> void:
 			var destinations := ["M1_SERVANT_COMMON", "M1_PARLOR", "M1_LIBRARY_OUTER", "M1_GREAT_CLOCK", "M1_NORTH_ARCHIVE_HALL", "M2_BEDROOM"]
 			for index in range(destinations.size()):
 				_action("GO_" + destinations[index], DISPLAY_TEXTS.location_name(destinations[index], locale), Rect2(240 + (index % 3) * 490, 230 + (index / 3) * 210, 410, 140), "move", destinations[index], false)
+			if get_script().resource_path.ends_with("/chapter_one_controller.gd") and _luca_entry_eligible():
+				_action("LCS01_KITCHEN", "주방", Rect2(1200, 770, 400, 100), "move", "M1_KITCHEN", false)
 			if session.stage() == "AS" and get_script().resource_path.ends_with("/chapter_one_controller.gd"):
 				_add_hotspot("EP01_DAILY_HALL", EP01.text("EP01_DLG_HALL_EDGAR_CH01", locale), Rect2(560, 775, 650, 100), _ep01_play.bind("EP01_HUB_DAILY_HALL"))
 		"M1_SERVANT_COMMON":
@@ -925,6 +962,8 @@ func _render_room() -> void:
 					var owner: String = owners[index]
 					var name_key := "LUKA" if owner == "LUCA" else owner
 					_add_hotspot("EP01_TALK_" + owner, _dialogue_ui_text("UI_SPEAKER_" + name_key), Rect2(140 + index * 325, 775, 300, 100), _ep01_talk.bind(owner, session.stage() == "AS"))
+		"M1_KITCHEN":
+			_board_label("버터와 갓 구운 과자의 향이 남아 있다.", Rect2(390, 380, 1100, 180))
 		"M1_LIBRARY_OUTER":
 			_action("INNER_DOOR", DISPLAY_TEXTS.ui("inner_door", locale), Rect2(1180, 230, 350, 390), "move", "M1_LIBRARY_INNER", false)
 			_queue_chapter_surface(CHAPTER_SURFACES.surface("INNER_DOOR"), DISPLAY_TEXTS.ui("inner_door", locale))

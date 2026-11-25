@@ -499,7 +499,12 @@ func _wake_feedback(_post_rest: bool) -> Dictionary:
 
 
 func available_rooms() -> Array:
-	return ROOMS
+	var rooms := ROOMS.duplicate()
+	var state := snapshot()
+	var local := local_state(state)
+	if int(state.loop_state.day_index) == 3 and local.get("routine_done", false) and local.get("routine_completed_normally", false):
+		rooms.append("M1_KITCHEN")
+	return rooms
 
 
 static func prepare_move(previous: Dictionary, target: String) -> Dictionary:
@@ -527,6 +532,10 @@ func finish_sheet_conversation(node_ids: Array) -> Dictionary:
 		var applied := preload("res://scripts/systems/sheet_dialogue_effects.gd").apply(state, node_ids)
 		if not applied.get("ok", false): return applied
 	# Mark the Edgar side story complete only after its final narrated line.
+	if "LCS01_COMFORT_006" in node_ids or "LCS01_MOCK_013" in node_ids:
+		var luca_flags: Dictionary = state.meta_progress.get("flags", {}).duplicate(true)
+		luca_flags["luca_sub_01_completed"] = true
+		state.meta_progress["flags"] = luca_flags
 	if "IRS01_SCENE_029" in node_ids:
 		var iris_flags: Dictionary = state.meta_progress.get("flags", {}).duplicate(true)
 		iris_flags["iris_sub_01_completed"] = true
