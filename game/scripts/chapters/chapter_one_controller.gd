@@ -663,11 +663,13 @@ func _record_modal_options(context: Dictionary) -> bool:
 	if _presentation_enabled():
 		var cursor := _modal_cursor(context, "choosing")
 		if not cursor.ok:
+			push_error("비피 선택지 커서 생성 실패: " + str(cursor))
 			_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 			return false
 		frozen.presentation_cursor = cursor.value
 	var result := session.record_viewed_line(context.options_speaker, String(context["text"]), context.locale, frozen)
 	if not result.get("ok", false):
+		push_error("비피 선택지 목록 저장 실패: " + str(result))
 		_set_status(_dialogue_ui_text("CH1_HISTORY_SAVE_ERROR"))
 		return false
 	context["recorded"] = true
@@ -785,6 +787,7 @@ func _finish_action(action: String, value: Variant, show_text: bool, before_shee
 	if action == "move" and result.get("ok", false) and _maybe_start_iris_sub_01(before_sheet): return
 	if action == "move" and result.get("ok", false) and _maybe_start_luca_sub_01(before_sheet): return
 	if action == "move" and result.get("ok", false) and _maybe_start_mara_sub_01(before_sheet): return
+	if action == "move" and result.get("ok", false) and _maybe_start_bifi_sub_01(before_sheet): return
 	if not show_text and action == "move" and get_script().resource_path.ends_with("/chapter_one_controller.gd") and _ep01_action_feedback(action, value, result, before_sheet): return
 	if show_text:
 		if get_script().resource_path.ends_with("/chapter_one_controller.gd") and _ep01_action_feedback(action, value, result, before_sheet): return
@@ -821,6 +824,19 @@ func _maybe_start_luca_sub_01(before: Dictionary) -> bool:
 	if not local.get("routine_done", false) or not local.get("routine_completed_normally", false): return false
 	if state.get("meta_progress", {}).get("flags", {}).get("luca_sub_01_completed", false): return false
 	_ep01_play("LCS01_SCENE_001")
+	return true
+
+
+func _maybe_start_bifi_sub_01(before: Dictionary) -> bool:
+	if session == null or before.is_empty(): return false
+	var state: Dictionary = session.snapshot()
+	var loop: Dictionary = state.get("loop_state", {})
+	if int(loop.get("day_index", -1)) != 3: return false
+	if String(before.get("loop_state", {}).get("location_id", "")) == "M1_NORTH_ARCHIVE_HALL": return false
+	if String(loop.get("location_id", "")) != "M1_NORTH_ARCHIVE_HALL": return false
+	if session.local_state(state).get("routine_done", false): return false
+	if state.get("meta_progress", {}).get("flags", {}).get("bifi_sub_01_completed", false): return false
+	_ep01_play("BPS01_SCENE_001")
 	return true
 
 
@@ -1514,7 +1530,7 @@ func _ep01_select(context: Dictionary, selected: String) -> void:
 	if _modal_active: return
 	_render_room()
 	var next := context.duplicate(true)
-	if (selected.begins_with("EP02_") or selected.begins_with("MRS01_")) and selected not in next.ids: next.ids.append(selected)
+	if (selected.begins_with("EP02_") or selected.begins_with("MRS01_") or selected.begins_with("BPS01_")) and selected not in next.ids: next.ids.append(selected)
 	next.start = choice.next_id
 	if selected == "EP02_CF_SLEEP_CH02": next.finish = {"method": "_sleep_now", "args": []}
 	if selected == "EP02_C4_COMMIT_CH02": next.finish = {"method": "_show_sheet_c4_cancel", "args": []}

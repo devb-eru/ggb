@@ -534,6 +534,10 @@ func finish_sheet_conversation(node_ids: Array) -> Dictionary:
 		var applied := preload("res://scripts/systems/sheet_dialogue_effects.gd").apply(state, node_ids)
 		if not applied.get("ok", false): return applied
 	# Mark the Edgar side story complete only after its final narrated line.
+	if "BPS01_COMMON_010" in node_ids:
+		var bifi_flags: Dictionary = state.meta_progress.get("flags", {}).duplicate(true)
+		bifi_flags["bifi_sub_01_completed"] = true
+		state.meta_progress["flags"] = bifi_flags
 	if "MRS01_COMMON_017" in node_ids:
 		var mara_flags: Dictionary = state.meta_progress.get("flags", {}).duplicate(true)
 		mara_flags["mara_sub_01_completed"] = true

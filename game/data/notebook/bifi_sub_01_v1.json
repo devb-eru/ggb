@@ -1,0 +1,2309 @@
+{
+  "format_version": 1,
+  "contents": {
+    "NB_BPS01_SCENE_001": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_001",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "어? 아가씨! 시간 있어?"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "어? 아가씨! 시간 있어?"
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_002": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_002",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "이 저택에서 시간이 없을 이유가 있겠어?"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "이 저택에서 시간이 없을 이유가 있겠어?"
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_003": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_003",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "뭘 그렇게 쏘아붙이고 그런담."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "뭘 그렇게 쏘아붙이고 그런담."
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_004": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_004",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "좋아! 그럼 나랑 내기 하나 하자."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "좋아! 그럼 나랑 내기 하나 하자."
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_005": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_005",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "뭘 걸고?"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "뭘 걸고?"
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_006": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_006",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "그런 건 중요하지 않아."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "그런 건 중요하지 않아."
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_007": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_007",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_007"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_007:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "난 중요한데."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "난 중요한데."
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_008": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_008",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_008"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_008:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "이래서 아가씨가 어린 아이 취급받는 거야."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "이래서 아가씨가 어린 아이 취급받는 거야."
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_009": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_009",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_009"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_009:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "(꼬라본다)"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "(꼬라본다)"
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_010": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_010",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_010"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_010:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "자, 자! 아무튼, 아주 간단한 내기지."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "자, 자! 아무튼, 아주 간단한 내기지."
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_011": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_011",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_011"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_011:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "내가 오늘 점심으로 무엇을 먹었게?"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "내가 오늘 점심으로 무엇을 먹었게?"
+          }
+        }
+      }
+    },
+    "NB_BPS01_SCENE_012": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_SCENE_012",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_SCENE_012"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_SCENE_012:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "내 생각엔······."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "내 생각엔······."
+          }
+        }
+      }
+    },
+    "NB_BPS01_STICK_001": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_STICK_001",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_STICK_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_STICK_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "초콜릿이 묻어 있는 막대과자!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "초콜릿이 묻어 있는 막대과자!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_STICK_002": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_STICK_002",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_STICK_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_STICK_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "땡! 틀렸어."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "땡! 틀렸어."
+          }
+        }
+      }
+    },
+    "NB_BPS01_STICK_003": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_STICK_003",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_STICK_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_STICK_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "거짓말! 너 매일 먹고 다니잖아."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "거짓말! 너 매일 먹고 다니잖아."
+          }
+        }
+      }
+    },
+    "NB_BPS01_STICK_004": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_STICK_004",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_STICK_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_STICK_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "내가 언제? 아가씨는 본 적 없잖아."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "내가 언제? 아가씨는 본 적 없잖아."
+          }
+        }
+      }
+    },
+    "NB_BPS01_STICK_005": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_STICK_005",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_STICK_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_STICK_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "그건 그렇지만 넌 단 걸 좋아하니까!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "그건 그렇지만 넌 단 걸 좋아하니까!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_STICK_006": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_STICK_006",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_STICK_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_STICK_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "뭐, 사실이긴 하지. 하지만 오늘은 아니거든!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "뭐, 사실이긴 하지. 하지만 오늘은 아니거든!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_RICE_001": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_RICE_001",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_RICE_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_RICE_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "안에 꿀이 한가득 들어있는 구운 떡!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "안에 꿀이 한가득 들어있는 구운 떡!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_RICE_002": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_RICE_002",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_RICE_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_RICE_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "아~니거든!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "아~니거든!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_RICE_003": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_RICE_003",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_RICE_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_RICE_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "그럴 리가 없어!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "그럴 리가 없어!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_RICE_004": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_RICE_004",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_RICE_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_RICE_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "왜 그렇게 생각하는데?"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "왜 그렇게 생각하는데?"
+          }
+        }
+      }
+    },
+    "NB_BPS01_RICE_005": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_RICE_005",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_RICE_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_RICE_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "내가 틀릴 리 없으니까."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "내가 틀릴 리 없으니까."
+          }
+        }
+      }
+    },
+    "NB_BPS01_RICE_006": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_RICE_006",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_RICE_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_RICE_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "와아."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "와아."
+          }
+        }
+      }
+    },
+    "NB_BPS01_RICE_007": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_RICE_007",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_RICE_007"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_RICE_007:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "좋아, 그렇다면 틀리는 날도 있다는 걸 오늘 배웠겠네!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "좋아, 그렇다면 틀리는 날도 있다는 걸 오늘 배웠겠네!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_RICE_008": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_RICE_008",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_RICE_008"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_RICE_008:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "앞으로 날 비피 선생님이라고 불러."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "앞으로 날 비피 선생님이라고 불러."
+          }
+        }
+      }
+    },
+    "NB_BPS01_RICE_009": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_RICE_009",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_RICE_009"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_RICE_009:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "흥··· 그럼 정답이 뭔데?"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "흥··· 그럼 정답이 뭔데?"
+          }
+        }
+      }
+    },
+    "NB_BPS01_BLOOD_001": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_BLOOD_001",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_BLOOD_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_BLOOD_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "혈액팩이겠지!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "혈액팩이겠지!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_BLOOD_002": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_BLOOD_002",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_BLOOD_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_BLOOD_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "······엥?"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "······엥?"
+          }
+        }
+      }
+    },
+    "NB_BPS01_BLOOD_003": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_BLOOD_003",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_BLOOD_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_BLOOD_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "잠깐, 그러니까 내가 피를 먹을 거라고 생각한 거야?"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "잠깐, 그러니까 내가 피를 먹을 거라고 생각한 거야?"
+          }
+        }
+      }
+    },
+    "NB_BPS01_BLOOD_004": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_BLOOD_004",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_BLOOD_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_BLOOD_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "아니야?"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "아니야?"
+          }
+        }
+      }
+    },
+    "NB_BPS01_BLOOD_005": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_BLOOD_005",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_BLOOD_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_BLOOD_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "···."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "···."
+          }
+        }
+      }
+    },
+    "NB_BPS01_BLOOD_006": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_BLOOD_006",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_BLOOD_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_BLOOD_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "비피?"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "비피?"
+          }
+        }
+      }
+    },
+    "NB_BPS01_BLOOD_007": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_BLOOD_007",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_BLOOD_007"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_BLOOD_007:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "······."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "······."
+          }
+        }
+      }
+    },
+    "NB_BPS01_BLOOD_008": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_BLOOD_008",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_BLOOD_008"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_BLOOD_008:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "어, 어어! 내 피는 맛 없어!!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "어, 어어! 내 피는 맛 없어!!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_BLOOD_009": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_BLOOD_009",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_BLOOD_009"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_BLOOD_009:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "꺄하하! 농담이양."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "꺄하하! 농담이양."
+          }
+        }
+      }
+    },
+    "NB_BPS01_BLOOD_010": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_BLOOD_010",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_BLOOD_010"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_BLOOD_010:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "난 피 같은 거 안 먹거든!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "난 피 같은 거 안 먹거든!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_COMMON_001": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_COMMON_001",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_COMMON_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_COMMON_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "정답은 아무것도 먹지 않았다!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "정답은 아무것도 먹지 않았다!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_COMMON_002": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_COMMON_002",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_COMMON_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_COMMON_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "꺄아~ 내가 이긴 거야!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "꺄아~ 내가 이긴 거야!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_COMMON_003": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_COMMON_003",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_COMMON_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_COMMON_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "반칙쟁이."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "반칙쟁이."
+          }
+        }
+      }
+    },
+    "NB_BPS01_COMMON_004": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_COMMON_004",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_COMMON_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_COMMON_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "어쨌거나 이긴 건 나니까, 자. 벌칙은——"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "어쨌거나 이긴 건 나니까, 자. 벌칙은——"
+          }
+        }
+      }
+    },
+    "NB_BPS01_COMMON_005": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_COMMON_005",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_COMMON_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_COMMON_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "그 때, 멀리서 목소리가 들려온다."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "그 때, 멀리서 목소리가 들려온다."
+          }
+        }
+      }
+    },
+    "NB_BPS01_COMMON_006": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_COMMON_006",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_COMMON_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_COMMON_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "비피! 너 또 뭔 짓을 하고 있는 거야?! 비피!!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "비피! 너 또 뭔 짓을 하고 있는 거야?! 비피!!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_COMMON_007": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_COMMON_007",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_COMMON_007"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_COMMON_007:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "일어났으면 정리를 제대로 하라고!!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "일어났으면 정리를 제대로 하라고!!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_COMMON_008": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_COMMON_008",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_COMMON_008"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_COMMON_008:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "마라가 부르는 것 같은데."
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "마라가 부르는 것 같은데."
+          }
+        }
+      }
+    },
+    "NB_BPS01_COMMON_009": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_COMMON_009",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_COMMON_009"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_COMMON_009:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "이렇게 중요한 순간에!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "이렇게 중요한 순간에!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_COMMON_010": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_COMMON_010",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_COMMON_010"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA2",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_COMMON_010:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "비피",
+            "body": "뭐, 벌칙은 나중에 생각해볼까. 이따 봐, 아가씨!"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Bifi",
+            "body": "뭐, 벌칙은 나중에 생각해볼까. 이따 봐, 아가씨!"
+          }
+        }
+      }
+    },
+    "NB_BPS01_CHOICE_CH01": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_CHOICE_CH01",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_CHOICE_CH01"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_CHOICE_CH01:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "얇고 가느다랗고 긴 과자"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "얇고 가느다랗고 긴 과자"
+          }
+        }
+      }
+    },
+    "NB_BPS01_CHOICE_CH02": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_CHOICE_CH02",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_CHOICE_CH02"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_CHOICE_CH02:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "넓적하고 둥근 떡"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "넓적하고 둥근 떡"
+          }
+        }
+      }
+    },
+    "NB_BPS01_CHOICE_CH03": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_CHOICE_CH03",
+        "event_id": "BPS01_SCENE_01",
+        "node_ids": [
+          "BPS01_CHOICE_CH03"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_CHOICE_CH03:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "혈액팩"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "혈액팩"
+          }
+        }
+      }
+    },
+    "NB_BPS01_CHOICE_LUNCH": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_CHOICE_LUNCH",
+        "event_id": "BPS01_CHOICE_LUNCH",
+        "node_ids": [
+          "BPS01_CHOICE_LUNCH"
+        ],
+        "action_or_variant": "options",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "options_presented",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "prompt",
+          "option_0",
+          "option_1",
+          "option_2"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "option_0": {},
+          "option_1": {},
+          "option_2": {},
+          "prompt": {}
+        },
+        "localization_keys": {
+          "option_0": "NB_BPS01_CHOICE_LUNCH:option_0",
+          "option_1": "NB_BPS01_CHOICE_LUNCH:option_1",
+          "option_2": "NB_BPS01_CHOICE_LUNCH:option_2",
+          "prompt": "NB_BPS01_CHOICE_LUNCH:prompt"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "표시된 선택지",
+            "option_0": "얇고 가느다랗고 긴 과자",
+            "option_1": "넓적하고 둥근 떡",
+            "prompt": "내 생각엔······.",
+            "option_2": "혈액팩"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Displayed choices",
+            "option_0": "얇고 가느다랗고 긴 과자",
+            "option_1": "넓적하고 둥근 떡",
+            "prompt": "내 생각엔······.",
+            "option_2": "혈액팩"
+          }
+        },
+        "choices": [
+          {
+            "content_id": "NB_BPS01_CHOICE_LUNCH_SELECT_0",
+            "kind": "confirm"
+          },
+          {
+            "content_id": "NB_BPS01_CHOICE_LUNCH_SELECT_1",
+            "kind": "confirm"
+          },
+          {
+            "content_id": "NB_BPS01_CHOICE_LUNCH_SELECT_2",
+            "kind": "confirm"
+          }
+        ],
+        "default_segments": [
+          "prompt",
+          "option_0",
+          "option_1",
+          "option_2"
+        ],
+        "cancel_index": -1
+      }
+    },
+    "NB_BPS01_CHOICE_LUNCH_SELECT_0": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_CHOICE_LUNCH_SELECT_0",
+        "event_id": "BPS01_CHOICE_LUNCH",
+        "node_ids": [
+          "BPS01_CHOICE_LUNCH"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "choice_confirmed",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_CHOICE_LUNCH_SELECT_0:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "선택한 문구",
+            "body": "얇고 가느다랗고 긴 과자"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Selected option",
+            "body": "얇고 가느다랗고 긴 과자"
+          }
+        }
+      }
+    },
+    "NB_BPS01_CHOICE_LUNCH_SELECT_1": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_CHOICE_LUNCH_SELECT_1",
+        "event_id": "BPS01_CHOICE_LUNCH",
+        "node_ids": [
+          "BPS01_CHOICE_LUNCH"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "choice_confirmed",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_CHOICE_LUNCH_SELECT_1:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "선택한 문구",
+            "body": "넓적하고 둥근 떡"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Selected option",
+            "body": "넓적하고 둥근 떡"
+          }
+        }
+      }
+    },
+    "NB_BPS01_CHOICE_LUNCH_SELECT_2": {
+      "1": {
+        "producer_id": "BPS01_SHEET",
+        "source_file": "data/dialogue/substories/bifi_sub_01.json",
+        "source_symbol": "BPS01_CHOICE_LUNCH_SELECT_2",
+        "event_id": "BPS01_CHOICE_LUNCH",
+        "node_ids": [
+          "BPS01_CHOICE_LUNCH"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "choice_confirmed",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_BPS01_CHOICE_LUNCH_SELECT_2:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "비피 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "선택한 문구",
+            "body": "혈액팩"
+          },
+          "en-US": {
+            "title": "Bifi substory",
+            "summary": "Observed words and records",
+            "speaker": "Selected option",
+            "body": "혈액팩"
+          }
+        }
+      }
+    }
+  }
+}
