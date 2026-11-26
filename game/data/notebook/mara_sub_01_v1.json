@@ -1,0 +1,2335 @@
+{
+  "format_version": 1,
+  "contents": {
+    "NB_MRS01_SCENE_001": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_SCENE_001",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_SCENE_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_SCENE_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "대응접실, 들어서자마자 부품 부딪히는 소리와 함께 마라가 보인다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "대응접실, 들어서자마자 부품 부딪히는 소리와 함께 마라가 보인다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_SCENE_002": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_SCENE_002",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_SCENE_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_SCENE_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "자기 전에 대응접실로 가서···."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "자기 전에 대응접실로 가서···."
+          }
+        }
+      }
+    },
+    "NB_MRS01_SCENE_003": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_SCENE_003",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_SCENE_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_SCENE_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "이걸 A홈에 조이고··· C나사를 연결하면···."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "이걸 A홈에 조이고··· C나사를 연결하면···."
+          }
+        }
+      }
+    },
+    "NB_MRS01_SCENE_004": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_SCENE_004",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_SCENE_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_SCENE_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "어라? 이게 왜 안 들어가지···."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "어라? 이게 왜 안 들어가지···."
+          }
+        }
+      }
+    },
+    "NB_MRS01_SCENE_005": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_SCENE_005",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_SCENE_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_SCENE_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "바닥에 부품과 공구를 펼쳐두고 마라가 무언갈 열심히 조립하고 있다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "바닥에 부품과 공구를 펼쳐두고 마라가 무언갈 열심히 조립하고 있다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_SCENE_006": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_SCENE_006",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_SCENE_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_SCENE_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "그의 손 사이로 보이는 것은 커다란 상자, 아니면 오르골처럼 보이기도 한다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "그의 손 사이로 보이는 것은 커다란 상자, 아니면 오르골처럼 보이기도 한다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_SCENE_007": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_SCENE_007",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_SCENE_007"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_SCENE_007:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "기계를 만지는 데에 집중한 마라는 들어오는 소리조차 못 들은 듯 하다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "기계를 만지는 데에 집중한 마라는 들어오는 소리조차 못 들은 듯 하다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_SCENE_008": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_SCENE_008",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_SCENE_008"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_SCENE_008:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "어떻게 할까?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "어떻게 할까?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_001": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_001",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "까치발을 들고 벽에 몸을 붙였다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "까치발을 들고 벽에 몸을 붙였다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_002": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_002",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "그리고 벽을 통해 크게 돌아서···."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "그리고 벽을 통해 크게 돌아서···."
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_003": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_003",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "마라의 뒤에서 어깨를 건드렸다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "마라의 뒤에서 어깨를 건드렸다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_004": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_004",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "으와앗!?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "으와앗!?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_005": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_005",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "손을 꼼지락거리던 마라는 화들짝 놀라 내 쪽을 돌아보았다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "손을 꼼지락거리던 마라는 화들짝 놀라 내 쪽을 돌아보았다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_006": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_006",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "몰래 다가오는 것도 눈치 못 챌 정도라니, 뭐하고 있던거야?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "몰래 다가오는 것도 눈치 못 챌 정도라니, 뭐하고 있던거야?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_007": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_007",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_007"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_007:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "아가씨였슴까··· 깜짝 놀랐슴다···."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "아가씨였슴까··· 깜짝 놀랐슴다···."
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_008": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_008",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_008"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_008:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "아, 이거 말씀임까?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "아, 이거 말씀임까?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_009": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_009",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_009"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_009:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "마라가 살짝 피한 자리엔 오르골 손잡이가 달린 상자가 있었다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "마라가 살짝 피한 자리엔 오르골 손잡이가 달린 상자가 있었다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_010": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_010",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_010"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_010:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "차가워보이는 금속 재질에··· 금방이라도 소리를 내며 빠질듯한 나사가 지탱하고 있는···."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "차가워보이는 금속 재질에··· 금방이라도 소리를 내며 빠질듯한 나사가 지탱하고 있는···."
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_011": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_011",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_011"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_011:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "아가씨한테 먼저 소개하겠슴다, 빨래 잘해 1호~"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "아가씨한테 먼저 소개하겠슴다, 빨래 잘해 1호~"
+          }
+        }
+      }
+    },
+    "NB_MRS01_QUIET_012": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_QUIET_012",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_QUIET_012"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_QUIET_012:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "이상한 걸 만들었다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "이상한 걸 만들었다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_001": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_001",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "마라!!!"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "마라!!!"
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_002": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_002",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "으엣?!"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "으엣?!"
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_003": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_003",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "마라는 그제서야 내 쪽을 쳐다보며 정신을 차렸다는 듯 일어섰다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "마라는 그제서야 내 쪽을 쳐다보며 정신을 차렸다는 듯 일어섰다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_004": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_004",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "들어올 때 인사도 안 해주고."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "들어올 때 인사도 안 해주고."
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_005": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_005",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "몰래 재밌는 거 하고 있던 거 아니야?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "몰래 재밌는 거 하고 있던 거 아니야?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_006": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_006",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "에이, 그럴 리가 있겠슴까?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "에이, 그럴 리가 있겠슴까?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_007": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_007",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_007"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_007:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "저한텐 항상 아가씨 뿐임다~."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "저한텐 항상 아가씨 뿐임다~."
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_008": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_008",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_008"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_008:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "그렇게 말하는 마라의 눈길은 내려놓았던 상자에 고정되어 있었다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "그렇게 말하는 마라의 눈길은 내려놓았던 상자에 고정되어 있었다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_009": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_009",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_009"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_009:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "치이··· 그래, 그래서 그 상잔 뭐야? 처음보는데."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "치이··· 그래, 그래서 그 상잔 뭐야? 처음보는데."
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_010": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_010",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_010"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_010:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "아가씨! 한 번 구경해보시겠슴까?!"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "아가씨! 한 번 구경해보시겠슴까?!"
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_011": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_011",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_011"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_011:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "제가 만든 천 세탁 기계, 빨래 잘해 1호임다!!"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "제가 만든 천 세탁 기계, 빨래 잘해 1호임다!!"
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_012": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_012",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_012"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_012:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "음."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "음."
+          }
+        }
+      }
+    },
+    "NB_MRS01_LOUD_013": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_LOUD_013",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_LOUD_013"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_LOUD_013:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "바로 침실로 갈 걸."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "바로 침실로 갈 걸."
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_001": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_001",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_001"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_001:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "그래··· 빨래 잘해 1호···?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "그래··· 빨래 잘해 1호···?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_002": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_002",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_002"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_002:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "걔는 뭐 하는 앤데···?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "걔는 뭐 하는 앤데···?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_003": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_003",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_003"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_003:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "아가씨, 창문을 닦고 나면 천이 너무 지저분하지 않슴까?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "아가씨, 창문을 닦고 나면 천이 너무 지저분하지 않슴까?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_004": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_004",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_004"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_004:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "아무래도 그렇지···."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "아무래도 그렇지···."
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_005": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_005",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_005"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_005:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "그 귀찮은 천 빨래를 대신 해주는 기특한 아이임다!"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "그 귀찮은 천 빨래를 대신 해주는 기특한 아이임다!"
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_006": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_006",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_006"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_006:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "어떻게 작동하는지도 알려드림까!?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "어떻게 작동하는지도 알려드림까!?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_007": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_007",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_007"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_007:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "마라는 잔뜩 신난 표정으로 기계를··· 아니 빨래 잘해 1호를 설명하기 시작했다···."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "마라는 잔뜩 신난 표정으로 기계를··· 아니 빨래 잘해 1호를 설명하기 시작했다···."
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_008": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_008",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_008"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_008:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "여기 보이는 손잡이를 시계방향으로 돌리면 안에 있는 기어가 회전하고, 그럼 이 바닥에 있는 통 보이심까?"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "여기 보이는 손잡이를 시계방향으로 돌리면 안에 있는 기어가 회전하고, 그럼 이 바닥에 있는 통 보이심까?"
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_009": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_009",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_009"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_009:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "아니··· 마라, 나 작동하는 건 안 궁금한데···."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "아니··· 마라, 나 작동하는 건 안 궁금한데···."
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_010": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_010",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_010"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_010:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "근데 이 홈 조이는 게 너무 힘든 거 아니겠슴까? C 나사가 어찌나 안 들어가던지~."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "근데 이 홈 조이는 게 너무 힘든 거 아니겠슴까? C 나사가 어찌나 안 들어가던지~."
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_011": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_011",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_011"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_011:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "아무튼 연결부를 지나서 회전이 끝나면!!!"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "아무튼 연결부를 지나서 회전이 끝나면!!!"
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_012": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_012",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_012"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_012:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "이 대응접실을 벗어나지 않으면 빨래 잘해 2호의 계획안까지 듣고 말 것이다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "이 대응접실을 벗어나지 않으면 빨래 잘해 2호의 계획안까지 듣고 말 것이다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_013": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_013",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_013"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_013:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "···아, 일찍 잔다는 걸 깜빡했네~."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "···아, 일찍 잔다는 걸 깜빡했네~."
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_014": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_014",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_014"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_014:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "난 가봐야겠다!"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "난 가봐야겠다!"
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_015": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_015",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_015"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SERVANT_MARA1",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_015:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "마라",
+            "body": "아가씨, 아직 실제 작동하는 걸 못 보셨는—"
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Mara",
+            "body": "아가씨, 아직 실제 작동하는 걸 못 보셨는—"
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_016": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_016",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_016"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_016:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "마라의 마지막 말이 끝나기 전에 대응접실에서 빠져나왔다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "마라의 마지막 말이 끝나기 전에 대응접실에서 빠져나왔다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_COMMON_017": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_COMMON_017",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_COMMON_017"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_COMMON_017:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "SYSTEM",
+            "body": "오늘은 어쩐지 꿈에서 하루종일 손잡이를 돌릴 것 같은 기분이 든다···."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "SYSTEM",
+            "body": "오늘은 어쩐지 꿈에서 하루종일 손잡이를 돌릴 것 같은 기분이 든다···."
+          }
+        }
+      }
+    },
+    "NB_MRS01_CHOICE_CH01": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_CHOICE_CH01",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_CHOICE_CH01"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_CHOICE_CH01:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "조용히 다가간다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "조용히 다가간다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_CHOICE_CH02": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_CHOICE_CH02",
+        "event_id": "MRS01_SCENE_01",
+        "node_ids": [
+          "MRS01_CHOICE_CH02"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "dialogue",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_CHOICE_CH02:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "주인공",
+            "body": "큰 목소리로 부른다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Protagonist",
+            "body": "큰 목소리로 부른다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_CHOICE_APPROACH": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_CHOICE_APPROACH",
+        "event_id": "MRS01_CHOICE_APPROACH",
+        "node_ids": [
+          "MRS01_CHOICE_APPROACH"
+        ],
+        "action_or_variant": "options",
+        "speaker_id": "SYSTEM",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "options_presented",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "option_0",
+          "option_1"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "option_0": {},
+          "option_1": {}
+        },
+        "localization_keys": {
+          "option_0": "NB_MRS01_CHOICE_APPROACH:option_0",
+          "option_1": "NB_MRS01_CHOICE_APPROACH:option_1"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "표시된 선택지",
+            "option_0": "조용히 다가간다.",
+            "option_1": "큰 목소리로 부른다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Displayed choices",
+            "option_0": "조용히 다가간다.",
+            "option_1": "큰 목소리로 부른다."
+          }
+        },
+        "choices": [
+          {
+            "content_id": "NB_MRS01_CHOICE_APPROACH_SELECT_0",
+            "kind": "confirm"
+          },
+          {
+            "content_id": "NB_MRS01_CHOICE_APPROACH_SELECT_1",
+            "kind": "confirm"
+          }
+        ],
+        "default_segments": [
+          "option_0",
+          "option_1"
+        ],
+        "cancel_index": -1
+      }
+    },
+    "NB_MRS01_CHOICE_APPROACH_SELECT_0": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_CHOICE_APPROACH_SELECT_0",
+        "event_id": "MRS01_CHOICE_APPROACH",
+        "node_ids": [
+          "MRS01_CHOICE_APPROACH"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "choice_confirmed",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_CHOICE_APPROACH_SELECT_0:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "선택한 문구",
+            "body": "조용히 다가간다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Selected option",
+            "body": "조용히 다가간다."
+          }
+        }
+      }
+    },
+    "NB_MRS01_CHOICE_APPROACH_SELECT_1": {
+      "1": {
+        "producer_id": "MRS01_SHEET",
+        "source_file": "data/dialogue/substories/mara_sub_01.json",
+        "source_symbol": "MRS01_CHOICE_APPROACH_SELECT_1",
+        "event_id": "MRS01_CHOICE_APPROACH",
+        "node_ids": [
+          "MRS01_CHOICE_APPROACH"
+        ],
+        "action_or_variant": "sheet_line",
+        "speaker_id": "SUBJECT",
+        "location_source": "history_context:actual_room",
+        "entry_kind": "choice_confirmed",
+        "disclosure_owner": "actual_display_or_choice_press",
+        "mapping_status": "AUTHORED_ID",
+        "owner": "development/content",
+        "visible_segment_ids": [
+          "body"
+        ],
+        "protection_reasons": [],
+        "variables": {
+          "body": {}
+        },
+        "localization_keys": {
+          "body": "NB_MRS01_CHOICE_APPROACH_SELECT_1:body"
+        },
+        "locales": {
+          "ko-KR": {
+            "title": "마라 서브스토리",
+            "summary": "확인한 말과 기록",
+            "speaker": "선택한 문구",
+            "body": "큰 목소리로 부른다."
+          },
+          "en-US": {
+            "title": "Mara substory",
+            "summary": "Observed words and records",
+            "speaker": "Selected option",
+            "body": "큰 목소리로 부른다."
+          }
+        }
+      }
+    }
+  }
+}
