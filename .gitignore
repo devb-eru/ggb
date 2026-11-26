@@ -26,6 +26,11 @@ __pycache__/
 /game/.godot/
 /game/android/
 
+# Local Godot editor integrations
+/game/addons/auto_reload/
+/game/addons/godot_mcp_editor/
+/game/addons/godot_mcp_runtime/
+
 # Local build/export outputs
 /builds/*
 !/builds/.gitkeep
@@ -37,18 +42,8 @@ __pycache__/
 /game/output/playtest/*.zip
 /GGB.html
 
-# Local test runs and reproducible EP01 test files
-/output/ggb_batch_*/
-/output/ggb_frame_probe_*/
-/output/ggb_map_ui/
-/output/ggb_reuse_*/
-/output/ggb_save_trace_*/
-/output/ggb_thumbnail_*/
-/output/ggb_*_latest.txt
-/output/ep01-godot-sync/project/
-/output/ep01-godot-sync/userdata/
-/output/ep01-godot-sync/godot-validation.exe
-/output/ep01-godot-sync/*.log
+# Local sheet backups and legacy test outputs
+/output/
 
 # Local auxiliary worktrees
 /.worktrees/
