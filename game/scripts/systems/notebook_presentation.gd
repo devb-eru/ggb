@@ -11,7 +11,7 @@ const PROLOGUE_ROUTES := ["_show_p1_objective", "_return_to_hall_after_dialogue"
 const PROLOGUE_CHOICES := {"p3_journal": ["author", "locked", "silent"], "p4_father": ["father_tea", "mansion_age", "luca_tenure"], "P1_EXIT": ["confirm", "cancel"], "P6_SLEEP": ["confirm", "cancel"], "ep01_sleep": ["confirm", "cancel"], "ep01_morning": ["same", "date", "quiet"]}
 const CONTENT := preload("res://scripts/systems/notebook_content.gd")
 const MODAL := preload("res://scripts/systems/notebook_modal_presentation.gd")
-const LINE_KEYS := ["speaker", "text", "portrait", "portrait_position", "portrait_state", "history_context", "presentation_token", "notebook_content", "observed_fact_ids", "audio_cue", "d5_focus_allowed", "d4_reaction_owner", "cup_pose", "p4_pulse"]
+const LINE_KEYS := ["speaker", "text", "portrait", "portrait_position", "portrait_state", "history_context", "presentation_token", "notebook_content", "observed_fact_ids", "audio_cue", "d5_focus_allowed", "d4_reaction_owner", "cup_pose", "p4_pulse", "text_fx", "standing_fx", "screen_fx"]
 
 
 static func read(state: Dictionary) -> Dictionary:
@@ -130,6 +130,8 @@ static func valid(value: Variant) -> bool:
 		if not line is Dictionary or not _json(line): return false
 		for key in line:
 			if key not in LINE_KEYS: return false
+		for field in ["text_fx", "standing_fx", "screen_fx"]:
+			if line.has(field) and not line[field] is Dictionary: return false
 		if not line.get("speaker") is String or not line.get("text") is String or not _hex(line.get("presentation_token"), 32): return false
 		for field in ["portrait", "audio_cue", "d4_reaction_owner", "cup_pose", "p4_pulse"]:
 			if line.has(field) and not line[field] is String: return false

@@ -1,7 +1,10 @@
 @tool
 extends Control
 ## Layout, textures and base typography belong to dialogue_hud.tscn.
-## Only reading accessibility and the invisible click region are adapted here.
+
+const TEXT_EFFECTS := preload("res://scripts/ui/dialogue_text_effects.gd")
+const STANDING_EFFECTS := preload("res://scripts/ui/dialogue_standing_effects.gd")
+const SCREEN_EFFECTS := preload("res://scripts/ui/dialogue_screen_effects.gd")
 
 @export_group("Reading accessibility")
 @export_range(0.0, 400.0, 1.0) var enlarged_reading_extra_height := 170.0
@@ -13,9 +16,18 @@ var _base_fonts: Dictionary = {}
 var _base_tops: Dictionary = {}
 var _base_rule_bottom := 0.0
 var _reading_scale := 1.0
+var text_effects := TEXT_EFFECTS.new() if not Engine.is_editor_hint() else null
+var standing_effects := STANDING_EFFECTS.new() if not Engine.is_editor_hint() else null
+var screen_effects := SCREEN_EFFECTS.new() if not Engine.is_editor_hint() else null
+var effects_blocked: Callable
+var _effects_suspended := false
 
 func _ready() -> void:
 	if Engine.is_editor_hint(): return
+	add_child(text_effects)
+	add_child(standing_effects)
+	add_child(screen_effects)
+	visibility_changed.connect(_on_visibility_changed)
 	for path in ["DialogueBacking/Margin/Body/SpeakerLabel", "DialogueBacking/Margin/Body/DialogueScroll/DialogueText", "DialogueChoicePanel/Margin/Choices/DialogueChoice1", "DialogueChoicePanel/Margin/Choices/DialogueChoice2", "DialogueChoicePanel/Margin/Choices/DialogueChoice3"]:
 		var control: Control = get_node(path)
 		_base_fonts[path] = control.get_theme_font_size("font_size")
@@ -26,6 +38,27 @@ func _ready() -> void:
 	get_node("DialogueBacking/Margin/Body/SpeakerLabel").resized.connect(_sync_reading_regions.call_deferred)
 	get_node("DialogueBacking/Margin/Body/DialogueScroll").resized.connect(_sync_reading_regions.call_deferred)
 	_sync_reading_regions.call_deferred()
+
+
+func _process(_delta: float) -> void:
+	if Engine.is_editor_hint() or not effects_blocked.is_valid(): return
+	var blocked := effects_blocked.call() as bool
+	if blocked == _effects_suspended: return
+	_effects_suspended = blocked
+	text_effects.set_suspended(blocked)
+	standing_effects.set_suspended(blocked)
+	screen_effects.set_suspended(blocked)
+
+
+func reset_effects() -> void:
+	text_effects.reset()
+	standing_effects.reset()
+	screen_effects.reset()
+
+
+func _on_visibility_changed() -> void:
+	if not visible:
+		reset_effects()
 
 func prepare_for_gameplay() -> void:
 	get_node("PreviewBackground").hide()
