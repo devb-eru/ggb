@@ -159,7 +159,6 @@ var _inventory_slots: Array[Button] = []
 var _menu_button: Button
 var _dialogue_layer: Control
 var _dialogue_motion_mode := "standard"
-var _recorded_choice_text := preload("res://scripts/ui/dialogue_text_effects.gd").new()
 var _portrait: TextureRect
 var _other_portrait: TextureRect
 const SPEAKER_BRIGHTNESS := 0.45
@@ -815,7 +814,6 @@ func _build_dialogue_ui() -> void:
 	_dialogue_layer = dialogue_hud_scene.instantiate()
 	add_child(_dialogue_layer)
 	_dialogue_layer.effects_blocked = _dialogue_effects_blocked
-	add_child(_recorded_choice_text)
 	_portrait = _dialogue_layer.get_node("StandingPortrait")
 	
 	_other_portrait = _portrait.duplicate() as TextureRect
@@ -855,7 +853,7 @@ func _build_dialogue_ui() -> void:
 	_dialogue_history_button.pressed.connect(_open_dialogue_history)
 	for index in range(3):
 		var button: Button = choices.get_node("DialogueChoice%d" % (index + 1))
-		button.pressed.connect(_request_dialogue_choice.bind(index))
+		button.pressed.connect(_on_dialogue_choice_pressed.bind(index))
 		button.focus_entered.connect(_on_dialogue_choice_focused.bind(index))
 		button.mouse_entered.connect(_focus_dialogue_choice.bind(index))
 		_dialogue_choice_buttons.append(button)
@@ -863,7 +861,6 @@ func _build_dialogue_ui() -> void:
 
 
 func _dialogue_effects_blocked() -> bool:
-	_recorded_choice_text.set_suspended(_notebook_is_open())
 	return _modal_active or _notebook_is_open()
 
 
@@ -871,12 +868,6 @@ func _request_dialogue_advance() -> void:
 	if _dialogue_effects_blocked(): return
 	if _dialogue_active and _dialogue_layer.text_effects.finish(): return
 	_advance_dialogue()
-
-
-func _request_dialogue_choice(index: int) -> void:
-	if _dialogue_effects_blocked(): return
-	if _dialogue_choice_active and _dialogue_layer.text_effects.finish(): return
-	_on_dialogue_choice_pressed(index)
 
 
 func _on_dialogue_body_input(event: InputEvent) -> void:
@@ -1017,7 +1008,6 @@ func _apply_accessibility_profile() -> void:
 		_dialogue_layer.screen_effects.reset()
 	if _dialogue_motion_mode == "static":
 		_dialogue_layer.text_effects.finish()
-		_recorded_choice_text.finish()
 	var scale := float(profile.get("text_scale", 1.0))
 	var ui_theme := DESIGN.make_theme()
 	ui_theme.default_font_size = int(round(19.0 * scale))
@@ -1622,8 +1612,8 @@ func _show_dialogue_choice_set(
 	_dialogue_choice_panel.visible = true
 	_dialogue_next.visible = false
 	_dialogue_choice_header_text = header
-	_dialogue_layer.text_effects.present(_speaker_label, _localized_speaker(speaker), {}, _dialogue_motion_mode)
-	_dialogue_layer.text_effects.present(_dialogue_label, prompt, {}, _dialogue_motion_mode)
+	_speaker_label.text = _localized_speaker(speaker)
+	_dialogue_label.text = prompt
 	_dialogue_scroll.scroll_vertical = 0
 	var speaker_id := _portrait_id_from_line({"speaker": speaker})
 	var display_id := speaker_id if not speaker_id.is_empty() else portrait_id.to_upper()
@@ -1656,9 +1646,6 @@ func _show_dialogue_choice_set(
 		_choice_selected_tokens = _prologue_choice_capture.tokens.duplicate()
 		initial_index = int(_prologue_choice_capture.focus)
 	_focus_dialogue_choice(initial_index)
-	for button in _dialogue_choice_buttons:
-		if button.visible:
-			_dialogue_layer.text_effects.present_button(button, _dialogue_motion_mode)
 	_record_choice_history()
 
 
@@ -2629,9 +2616,7 @@ func _present_dialogue_line() -> void:
 		if cup != null:
 			var profile: Dictionary = AccessibilityProfileStore.new().load_profile().get("profile", {})
 			cup.show_angle(TAU if line["cup_pose"] == "turned" else PI, String(profile.get("motion_mode", "standard")) != "standard")
-	var speaker := _localized_speaker(String(line.get("speaker", "SYSTEM")))
-	if _speaker_label.text != speaker:
-		_dialogue_layer.text_effects.present(_speaker_label, speaker, {}, _dialogue_motion_mode)
+	_speaker_label.text = _localized_speaker(String(line.get("speaker", "SYSTEM")))
 	_dialogue_layer.text_effects.present(_dialogue_label, String(line.get("text", "")), line.get("text_fx", {}), _dialogue_motion_mode)
 	_dialogue_scroll.scroll_vertical = 0
 	var portrait_id := String(line.get("portrait", "")).to_upper()
@@ -3250,7 +3235,7 @@ func _on_dialogue_choice_focused(index: int) -> void:
 
 func _on_dialogue_choice_pressed(index: int) -> void:
 	if not _prologue_async_request.is_empty(): return
-	if _notebook_is_open(): return
+	if _dialogue_effects_blocked(): return
 	if _prologue_cursor_enabled() and _prologue_cursor_scope != _notebook_event_scope(): return
 	if not _dialogue_choice_active or index < 0 or index >= _dialogue_choice_buttons.size():
 		return
@@ -3715,7 +3700,6 @@ func _cancel_prologue_modal() -> void:
 
 
 func _show_modal(title: String, body: String, actions: Array) -> void:
-	_recorded_choice_text.reset()
 	if is_instance_valid(_map_panel): _map_panel.hide()
 	if is_instance_valid(_prologue_surface_retry): _prologue_surface_retry.hide()
 	_prologue_confirmation = {}
@@ -3783,7 +3767,6 @@ func _press_modal_action(index: int) -> void:
 	if index >= _modal_actions.size(): return
 	var button := _modal_buttons[index]
 	if _modal_active and button.get_parent() == _modal_body and button.is_visible_in_tree() and not button.disabled and not _notebook_is_open():
-		if _recorded_choice_text.finish(): return
 		_modal_actions[index].call()
 
 
@@ -3834,7 +3817,6 @@ func _close_modal() -> void:
 	if _notebook_is_open():
 		_notebook_host.request_close()
 		return
-	_recorded_choice_text.reset()
 	_prologue_confirmation = {}
 	_remember_history_scroll()
 	_history_generation += 1
@@ -4207,14 +4189,12 @@ func run_smoke_scenario() -> PackedStringArray:
 		if author_button == null or locked_button == null or silent_button == null:
 			errors.append("P3 journal choice button unavailable")
 			return errors
-		_dialogue_layer.text_effects.finish()
 		author_button.pressed.emit()
 		if not _dialogue_active or _dialogue_label.text != _dialogue_ui_text("P3_A_AUTHOR"):
 			errors.append("P3 journal selected answer was not presented")
 		await _drain_smoke_dialogue(errors)
 		if not _dialogue_choice_active or bool(_progress.get("P3_complete", false)):
 			errors.append("P3 author answer did not return to choices")
-		_dialogue_layer.text_effects.finish()
 		locked_button.pressed.emit()
 		if not _dialogue_active or _dialogue_label.text != _dialogue_ui_text("P3_A_LOCKED"):
 			errors.append("P3 journal locked answer was not presented")
@@ -4224,7 +4204,6 @@ func run_smoke_scenario() -> PackedStringArray:
 		var asked_questions: Array = _progress.get("p3_journal_questions_asked", [])
 		if "author" not in asked_questions or "locked" not in asked_questions:
 			errors.append("P3 asked question history missing")
-		_dialogue_layer.text_effects.finish()
 		silent_button.pressed.emit()
 		if _dialogue_choice_active:
 			errors.append("P3 silent choice did not close choice list")
@@ -4295,7 +4274,6 @@ func run_smoke_scenario() -> PackedStringArray:
 		if String(P4_FATHER_CHOICES[expected_choice_id]["response"]) != _dialogue_texts.get_text(String(expected_p4_choice_ids[expected_choice_id][1]), "ko-KR"):
 			errors.append("P4 father answer text mismatch: %s" % expected_choice_id)
 	var tenure_button := _dialogue_choice_buttons[2]
-	_dialogue_layer.text_effects.finish()
 	tenure_button.pressed.emit()
 	if not _dialogue_active or _dialogue_lines.size() != 3 or String(_dialogue_lines[0].get("text", "")) != _dialogue_ui_text("P4_A_LUCA_TENURE"):
 		errors.append("P4 Luca tenure answer or topic-change beat is missing")
@@ -4335,7 +4313,6 @@ func _run_p3_silent_close_smoke(errors: PackedStringArray) -> void:
 	if silent_button == null:
 		errors.append("P3 silent close test could not find choice button")
 	else:
-		_dialogue_layer.text_effects.finish()
 		silent_button.pressed.emit()
 		if _dialogue_layer.visible or _dialogue_choice_active:
 			errors.append("P3 silent choice left dialogue UI visible before book sorting completed")

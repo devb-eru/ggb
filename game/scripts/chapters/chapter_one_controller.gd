@@ -544,10 +544,6 @@ func _present_recorded_modal(context: Dictionary) -> void:
 		wrapped.append(action)
 	context.text = "\n".join(visible_text)
 	_show_modal(context.title, context.body, wrapped)
-	_recorded_choice_text.present(_modal_title, context.title, {}, _dialogue_motion_mode)
-	_recorded_choice_text.present(_modal_text, context.body, {}, _dialogue_motion_mode)
-	for index in range(wrapped.size()):
-		_recorded_choice_text.present_button(_modal_buttons[index], _dialogue_motion_mode)
 	_recorded_modal_request = context
 	_restore_recorded_modal_extras(context.view)
 	var buttons: Array = _modal_body.get_children().filter(func(child: Node) -> bool: return child is Button)

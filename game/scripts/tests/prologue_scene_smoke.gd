@@ -606,7 +606,6 @@ func _validate_reset_integration(tree: SceneTree, errors: PackedStringArray) -> 
 	var shown_choices: Array = GameState.get_value(&"meta_progress.dialogue_history.entries", [])
 	_expect(shown_choices.size() == choice_start + 1 and _history_text(shown_choices.back()).contains(shown_label) and not _history_text(shown_choices.back()).contains(hidden_label), "Choice history includes only displayed options", errors)
 	_reject_save(prologue, controlled, true, "../invalid_choice_history")
-	prologue._dialogue_layer.text_effects.finish()
 	prologue._dialogue_choice_buttons[0].pressed.emit()
 	_expect(prologue._dialogue_choice_active and GameState.get_value(&"meta_progress.dialogue_history.entries", []).size() == choice_start + 1, "Failed selected-option save keeps choices open", errors)
 	_reject_save(prologue, controlled, false)

@@ -1,8 +1,5 @@
 extends Node
 
-const FONT_COLORS := [&"font_color", &"font_pressed_color", &"font_hover_color",
-	&"font_focus_color", &"font_hover_pressed_color", &"font_disabled_color", &"font_outline_color"]
-
 var _reveals: Dictionary = {}
 var _suspended := false
 
@@ -25,45 +22,6 @@ func present(label: Label, content: String, effect: Dictionary = {}, motion_mode
 	if content.is_empty() or effect.get("kind") == "instant" or motion_mode == "static":
 		_complete(label, reveal)
 		return
-	_set_visible(reveal, 0)
-	set_process(true)
-
-
-func present_button(button: Button, motion_mode: String = "standard") -> void:
-	_clear(button)
-	if motion_mode == "static" or button.text.is_empty():
-		return
-	var caption := Label.new()
-	caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	caption.accessibility_name = ""
-	caption.text = button.text
-	caption.horizontal_alignment = button.alignment
-	caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	caption.autowrap_mode = button.autowrap_mode
-	caption.text_direction = button.text_direction
-	caption.language = button.language
-	caption.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
-	caption.add_theme_font_override("font", button.get_theme_font("font"))
-	caption.add_theme_font_size_override("font_size", button.get_theme_font_size("font_size"))
-	caption.add_theme_constant_override("outline_size", button.get_theme_constant("outline_size"))
-	caption.add_theme_color_override("font_outline_color", button.get_theme_color("font_outline_color"))
-	button.add_child(caption, false, Node.INTERNAL_MODE_BACK)
-	caption.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var style := button.get_theme_stylebox("normal")
-	caption.offset_left = style.get_margin(SIDE_LEFT)
-	caption.offset_right = -style.get_margin(SIDE_RIGHT)
-	caption.offset_top = style.get_margin(SIDE_TOP)
-	caption.offset_bottom = -style.get_margin(SIDE_BOTTOM)
-	var reveal := _plan(button.text, {})
-	reveal.label = caption
-	reveal.caption = caption
-	reveal.colors = {}
-	for name: StringName in FONT_COLORS:
-		if button.has_theme_color_override(name):
-			reveal.colors[name] = button.get_theme_color(name)
-		button.add_theme_color_override(name, Color.TRANSPARENT)
-	_reveals[button] = reveal
-	_update_button_color(button, reveal)
 	_set_visible(reveal, 0)
 	set_process(true)
 
@@ -172,40 +130,17 @@ func _style_emphasis(reveal: Dictionary, brightness: float) -> void:
 	rich.add_text(source.substr(start + emphasis.length()))
 
 
-func _update_button_color(button: Button, reveal: Dictionary) -> void:
-	var name := &"font_color"
-	match button.get_draw_mode():
-		BaseButton.DRAW_PRESSED: name = &"font_pressed_color"
-		BaseButton.DRAW_HOVER: name = &"font_hover_color"
-		BaseButton.DRAW_HOVER_PRESSED: name = &"font_hover_pressed_color"
-		BaseButton.DRAW_DISABLED: name = &"font_disabled_color"
-		_:
-			if button.has_focus(): name = &"font_focus_color"
-	if reveal.get("font_state") == name and reveal.get("theme_type") == button.theme_type_variation:
-		return
-	reveal.font_state = name
-	reveal.theme_type = button.theme_type_variation
-	var color: Color = reveal.colors.get(name, Color.WHITE)
-	if not reveal.colors.has(name):
-		button.remove_theme_color_override(name)
-		color = button.get_theme_color(name)
-		button.add_theme_color_override(name, Color.TRANSPARENT)
-	reveal.caption.add_theme_color_override("font_color", color)
-
-
 func _set_visible(reveal: Dictionary, amount: int) -> void:
 	reveal.label.visible_characters = amount
 	if reveal.has("rich"):
 		reveal.rich.visible_characters = amount
 
 
-func _complete(target: Control, reveal: Dictionary) -> void:
+func _complete(target: Label, reveal: Dictionary) -> void:
 	reveal.finished = true
 	_set_visible(reveal, -1)
 	if reveal.has("rich"):
 		_style_emphasis(reveal, 0.0)
-	elif reveal.has("caption"):
-		_clear(target)
 	else:
 		_reveals.erase(target)
 
@@ -219,16 +154,7 @@ func _clear(target: Variant) -> void:
 		reveal.rich.hide()
 		reveal.rich.queue_free()
 		target.self_modulate = reveal.tint
-	if reveal.has("caption"):
-		reveal.caption.hide()
-		reveal.caption.queue_free()
-		for name: StringName in FONT_COLORS:
-			if reveal.colors.has(name):
-				target.add_theme_color_override(name, reveal.colors[name])
-			else:
-				target.remove_theme_color_override(name)
-	elif target is Label:
-		target.visible_characters = -1
+	target.visible_characters = -1
 
 
 func _process(delta: float) -> void:
@@ -248,8 +174,6 @@ func _process(delta: float) -> void:
 			if reveal.get("animate_emphasis", false) and amount > reveal.emphasis_start and not reveal.has("emphasis_time"):
 				reveal.emphasis_time = reveal.elapsed
 			_set_visible(reveal, amount)
-		if reveal.has("caption"):
-			_update_button_color(target, reveal)
 		var pulse := 0.0
 		if reveal.has("emphasis_time"):
 			pulse = maxf(0.0, 1.0 - (reveal.elapsed - reveal.emphasis_time) / 0.18)
