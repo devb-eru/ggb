@@ -1,0 +1,99 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://development/dialogue_effects/preview.gd" id="1"]
+
+[sub_resource type="Theme" id="Theme_preview"]
+default_font_size = 22
+
+[node name="DialogueEffectsPreview" type="VBoxContainer"]
+theme = SubResource("Theme_preview")
+theme_override_constants/separation = 12
+script = ExtResource("1")
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "대화 효과 테스트"
+
+[node name="Back" type="Button" parent="Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(145, 48)
+layout_mode = 2
+text = "시점 목록"
+
+[node name="Stage" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="World" type="SubViewport" parent="Stage"]
+unique_name_in_owner = true
+disable_3d = true
+gui_disable_input = true
+size = Vector2i(1920, 1080)
+
+[node name="Options" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TextEffect" type="OptionButton" parent="Options"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StandingEffect" type="OptionButton" parent="Options"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScreenEffect" type="OptionButton" parent="Options"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Motion" type="OptionButton" parent="Options"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Playback" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Sample" type="LineEdit" parent="Playback"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "잠깐… 지금 뭐라고 했죠? 다시 한 번 말해 주세요."
+placeholder_text = "미리 볼 대사"
+max_length = 200
+
+[node name="Protection" type="CheckButton" parent="Playback"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "광과민 보호"
+
+[node name="Play" type="Button" parent="Playback"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 48)
+layout_mode = 2
+text = "재생"
+
+[node name="Reset" type="Button" parent="Playback"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 48)
+layout_mode = 2
+text = "초기화"

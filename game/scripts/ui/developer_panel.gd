@@ -5,6 +5,8 @@ signal resume_requested
 signal menu_opened
 signal menu_closed
 
+const DIALOGUE_PREVIEW_PATH := "res://development/dialogue_effects/preview.tscn"
+
 var launch_button: Button
 var panel: PanelContainer
 var blocker: ColorRect
@@ -16,6 +18,9 @@ var rows: Array[Dictionary] = []
 var filtered: Array[Dictionary] = []
 var selected_id := ""
 var _previous_focus: WeakRef
+var _checkpoint_column: VBoxContainer
+var _dialogue_preview_button: Button
+var _dialogue_preview: Control
 
 
 func _ready() -> void:
@@ -54,6 +59,7 @@ func _ready() -> void:
 	style.set_content_margin_all(28)
 	panel.add_theme_stylebox_override("panel", style)
 	var column := VBoxContainer.new()
+	_checkpoint_column = column
 	column.add_theme_constant_override("separation", 16)
 	column.add_theme_font_size_override("font_size", 24)
 	panel.add_child(column)
@@ -85,8 +91,12 @@ func _ready() -> void:
 	column.add_child(buttons)
 	jump_button = _button(buttons, "선택한 시점에서 새 테스트", _jump)
 	var resume := _button(buttons, "마지막 개발 테스트 이어하기", func(): resume_requested.emit())
+	var controls: Array[Control] = [search, list, jump_button, resume]
+	if ResourceLoader.exists(DIALOGUE_PREVIEW_PATH, "PackedScene"):
+		_dialogue_preview_button = _button(buttons, "대화 효과 테스트", _open_dialogue_preview)
+		controls.append(_dialogue_preview_button)
 	var cancel := _button(buttons, "닫기 · Esc", close)
-	var controls: Array[Control] = [search, list, jump_button, resume, cancel]
+	controls.append(cancel)
 	for index in range(controls.size()):
 		controls[index].focus_next = controls[index].get_path_to(controls[(index + 1) % controls.size()])
 		controls[index].focus_previous = controls[index].get_path_to(controls[posmod(index - 1, controls.size())])
@@ -123,9 +133,30 @@ func close() -> void:
 	if not panel.visible: return
 	panel.hide()
 	blocker.hide()
+	_close_dialogue_preview()
 	menu_closed.emit()
 	var previous = _previous_focus.get_ref() if _previous_focus != null else null
 	if is_instance_valid(previous) and previous.is_visible_in_tree(): previous.grab_focus()
+
+
+func _open_dialogue_preview() -> void:
+	if not panel.visible or is_instance_valid(_dialogue_preview): return
+	var scene := load(DIALOGUE_PREVIEW_PATH) as PackedScene
+	if scene == null: return
+	_dialogue_preview = scene.instantiate() as Control
+	_dialogue_preview.back_requested.connect(_close_dialogue_preview)
+	_checkpoint_column.hide()
+	panel.add_child(_dialogue_preview)
+
+
+func _close_dialogue_preview() -> void:
+	if not is_instance_valid(_dialogue_preview): return
+	_dialogue_preview.hide()
+	_dialogue_preview.queue_free()
+	_dialogue_preview = null
+	_checkpoint_column.show()
+	if panel.visible:
+		_dialogue_preview_button.grab_focus()
 
 
 func _input(event: InputEvent) -> void:
