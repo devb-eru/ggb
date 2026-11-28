@@ -61,6 +61,32 @@
 
 스크립트가 찾는 노드 이름·트리 경로는 유지한다. 디자인 수정에는 이름 변경이 필요하지 않다. 실제 대사 내용은 게임 데이터에서 정하므로 이 씬의 샘플 문구만 바꿔도 실제 이야기 대사가 바뀌지는 않는다.
 
+## 대화 효과
+
+`PrologueController`와 이를 상속하는 챕터 컨트롤러에서 `_show_dialogue()`에 넘기는 줄에 효과를 붙인다. 효과를 지정하지 않은 줄의 본문은 초당 30자씩 표시된다. 화자명이 바뀔 때 이름도 순차 표시하며, 대화 선택지의 안내와 항목에도 타이핑이 적용된다. 입력 한 번으로 현재 텍스트를 완성하고, 다음 입력으로 진행하거나 선택한다. 움직임 설정이 `static`이면 텍스트를 즉시 표시한다.
+
+```gdscript
+_show_dialogue([
+	{"speaker": "주인공", "text": "마라도 들었지?"},
+	{
+		"speaker": "마라 1",
+		"portrait": "MARA1",
+		"text": "아가씨… 어떤 소리는 못 들은 척하는 편이 좋습니다.",
+		"text_fx": {"cps": 26, "pause_after": {"…": 0.3}, "emphasis": "못 들은 척"},
+		"standing_fx": {"kind": "shake", "target": "speaker"},
+		"screen_fx": {"kind": "shake", "pixels": 3.0, "duration": 0.25},
+	}
+])
+```
+
+| 키 | 값과 동작 |
+| --- | --- |
+| `text_fx` | `kind`는 `typewriter`, `chunks`, `instant`. `cps`는 초당 글자 수, `chunk_words`는 한 묶음의 어절 수, `pause_after`는 해당 문자열 뒤에 멈추는 초, `emphasis`는 처음 일치하는 구절의 강조에 사용한다. |
+| `standing_fx` | `kind`는 `bounce`, `shake`, `flinch`, `enter`, `exit`, `expression`. `target`은 `speaker`, `partner` 또는 화면에 있는 인물 ID다. `duration`, `pixels`, `direction`(-1 왼쪽, 1 오른쪽)을 선택적으로 준다. `expression`에는 실제 CG의 `texture_path`를 지정한다. 두 인물이 화면에 있을 때 화자 밝기 전환은 자동 적용된다. |
+| `screen_fx` | `kind`는 `shake`, `flicker`, `fade`, `vignette`. `duration`은 초다. `shake`는 `pixels`로 이동 폭을 정한다. `flicker`는 `rect`에 화면 비율 `[x, y, 너비, 높이]`를 주고 `strength`로 밝기를 정한다. 기본 보호 연출은 윤곽이 나타나며, `photosensitivity_protection: false`를 명시한 일반 모드에서는 짧은 국소 펄스가 재생된다. `fade`와 `vignette`는 `from`, `to` 불투명도를 받는다. |
+
+`{"text_fx": {"kind": "instant"}}`는 특정 줄의 **본문**을 즉시 표시하는 예다. 화면 FX는 줄마다 하나이며 다음 줄이나 대화 종료 시 정리된다. 화면 흔들림 중에도 대사, 인벤토리, 버튼의 위치가 고정된다. 효과 사전은 현재 대사 저장 형식으로 함께 보관되므로, 표정 이미지를 지정할 때는 `Texture2D` 객체 대신 `res://` 경로 문자열을 사용한다.
+
 ## 검증 기록
 
 - `dialogue_scene_edit_smoke.tscn`: Inspector에 해당하는 속성을 수정하고 씬 파일로 저장·재로드한 뒤 게임에 연결했다. 폰트·색·위치·불투명도 적용, 100%→200%→100% 복원, 이동한 본문과 클릭 영역 일치를 확인했다. 오류 0.
